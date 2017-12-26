@@ -1,0 +1,64 @@
+<resources>
+    <color name="colorPrimary">#202E3B</color>
+    <color name="colorPrimaryDark">#18222C</color>
+    <color name="colorAccent">#FFAB40</color>
+
+    <color name="youtubeColor">#FFF44336</color>
+
+    <!--LIGHT THEME-->
+    <color name="primaryTextColor">#DE000000</color>
+    <color name="secondaryTextColor">#8A000000</color>
+    <color name="disabledHintTextColor">#61000000</color>
+    <color name="dividerColor">#1F000000</color>
+    <color name="iconActiveColor">#8A000000</color>
+    <color name="iconInactiveColor">#61000000</color>
+    <color name="statusBarColor">#E0E0E0</color>
+    <color name="appBarColor">#F5F5F5</color>
+    <color name="backgroundColor">#FFF0F0F0</color>
+    <color name="foregroundColor">#FFFFFFFF</color>
+
+    <color name="switch_thumbOn">#FF4CAF50</color>
+    <color name="switch_trackOn">#804CAF50</color>
+    <color name="switch_thumbOff">#FFFAFAFA</color>
+    <color name="switch_trackOff">#61000000</color>
+    <color name="switch_thumbDisabled">#FFBDBDBD</color>
+    <color name="switch_trackDisabled">#1F000000</color>
+
+    <!--NIGHT THEME-->
+    <color name="night_primaryTextColor">#FFFFFFFF</color>
+    <color name="night_secondaryTextColor">#B3FFFFFF</color>
+    <color name="night_disabledHintTextColor">#80FFFFFF</color>
+    <color name="night_dividerColor">#1FFFFFFF</color>
+    <color name="night_iconActiveColor">#FFFFFFFF</color>
+    <color name="night_iconInactiveColor">#80FFFFFF</color>
+    <color name="night_statusBarColor">#000000</color>
+    <color name="night_appBarColor">#212121</color>
+    <color name="night_backgroundColor">#303030</color>
+    <color name="night_foregroundColor">#424242</color>
+
+    <color name="night_switch_thumbOn">#FFA5D6A7</color>
+    <color name="night_switch_trackOn">#80A5D6A7</color>
+    <color name="night_switch_thumbOff">#FFBDBDBD</color>
+    <color name="night_switch_trackOff">#4DFFFFFF</color>
+    <color name="night_switch_thumbDisabled">#FF424242</color>
+    <color name="night_switch_trackDisabled">#1AFFFFFF</color>
+
+    <!--NIGHT BLUE THEME-->
+    <color name="night_blue_primaryTextColor">#FFFFFFFF</color>
+    <color name="night_blue_secondaryTextColor">#B3FFFFFF</color>
+    <color name="night_blue_disabledHintTextColor">#80FFFFFF</color>
+    <color name="night_blue_dividerColor">#1FFFFFFF</color>
+    <color name="night_blue_iconActiveColor">#FFFFFFFF</color>
+    <color name="night_blue_iconInactiveColor">#80FFFFFF</color>
+    <color name="night_blue_statusBarColor">#000000</color>
+    <color name="night_blue_appBarColor">#212121</color>
+    <color name="night_blue_backgroundColor">#FF151D26</color>
+    <color name="night_blue_foregroundColor">#FF1C2732</color>
+
+    <color name="night_blue_switch_thumbOn">#FFCC80</color>
+    <color name="night_blue_switch_trackOn">#80FFCC80</color>
+    <color name="night_blue_switch_thumbOff">#FFBDBDBD</color>
+    <color name="night_blue_switch_trackOff">#4DFFFFFF</color>
+    <color name="night_blue_switch_thumbDisabled">#FF424242</color>
+    <color name="night_blue_switch_trackDisabled">#1AFFFFFF</color>
+</resources>

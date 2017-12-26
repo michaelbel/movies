@@ -1,0 +1,46 @@
+<resources>
+    <style name="AppThemeLight" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppThemeDark" parent="ThemeOverlay.AppCompat">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="AppTheme.Start" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <!--AlertDialog-->
+    <style name="AlertLight" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">@color/foregroundColor</item>
+    </style>
+
+    <style name="AlertNight" parent="Theme.AppCompat.Dialog.Alert">
+        <item name="android:background">@color/night_foregroundColor</item>
+    </style>
+
+    <style name="TitleExpanded" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textColor">@color/foregroundColor</item>
+        <item name="android:ellipsize">none</item>
+        <item name="android:visibility">invisible</item>
+    </style>
+
+    <style name="TitleCollapsed" parent="@android:style/TextAppearance.Medium">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">@color/foregroundColor</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="AppThemeLight.Tabs" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorAccent">@color/foregroundColor</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+    </style>
+</resources>
