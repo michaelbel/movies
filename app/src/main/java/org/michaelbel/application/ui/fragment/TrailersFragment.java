@@ -12,49 +12,47 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import org.michaelbel.application.R;
-import org.michaelbel.application.moviemade.ApiFactory;
+import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
-import org.michaelbel.application.moviemade.Url;
-import org.michaelbel.application.rest.api.MOVIES;
+import org.michaelbel.application.rest.model.Movie;
 import org.michaelbel.application.rest.model.Trailer;
-import org.michaelbel.application.rest.response.VideoResponse;
 import org.michaelbel.application.ui.TrailersActivity;
 import org.michaelbel.application.ui.adapter.Holder;
-import org.michaelbel.application.ui.view.widget.PaddingItemDecoration;
 import org.michaelbel.application.ui.view.trailer.TrailerCompatView;
+import org.michaelbel.application.ui.view.widget.PaddingItemDecoration;
 import org.michaelbel.application.ui.view.widget.RecyclerListView;
-import org.michaelbel.application.util.AppUtils;
+import org.michaelbel.application.util.AndroidUtils;
 import org.michaelbel.application.util.NetworkUtils;
 import org.michaelbel.application.util.ScreenUtils;
 
 import java.util.ArrayList;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
+@SuppressWarnings("all")
 public class TrailersFragment extends Fragment {
 
-    private int movieId;
+    private Movie currentMovie;
+    private ArrayList<Trailer> trailersList;
 
-    private TrailersActivity activity;
     private VideosAdapter adapter;
+    private TrailersActivity activity;
     private GridLayoutManager layoutManager;
-    private ArrayList<Trailer> trailerList = new ArrayList<>();
 
     private TextView emptyView;
-    private SwipeRefreshLayout refreshLayout;
+    private SwipeRefreshLayout fragmentView;
 
-    public static TrailersFragment newInstance(int movieId, String movieTitle) {
+    public static TrailersFragment newInstance(Movie movie, ArrayList<Trailer> list) {
         Bundle args = new Bundle();
-        args.putInt("movieId", movieId);
-        args.putString("movieTitle", movieTitle);
+        args.putSerializable("movie", movie);
+        args.putSerializable("list", list);
 
         TrailersFragment fragment = new TrailersFragment();
         fragment.setArguments(args);
@@ -66,58 +64,66 @@ public class TrailersFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (TrailersActivity) getActivity();
 
-        View fragmentView = inflater.inflate(R.layout.fragment_videos, container, false);
-        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
-
         activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         activity.toolbar.setNavigationOnClickListener(view -> activity.finish());
+        activity.titleView.setTitle(R.string.Trailers);
 
-        activity.titleView.setTitle("Trailers");
-        if (getArguments() != null) {
-            activity.titleView.setSubtitle(getArguments().getString("movieTitle"));
-        }
-
-        emptyView = fragmentView.findViewById(R.id.empty_view);
-
-        refreshLayout = fragmentView.findViewById(R.id.swipe_refresh_layout);
-        refreshLayout.setColorSchemeResources(Theme.accentColor());
-        refreshLayout.setRefreshing(true);
-        refreshLayout.setOnRefreshListener(() -> {
+        fragmentView = new SwipeRefreshLayout(activity);
+        fragmentView.setRefreshing(trailersList.isEmpty());
+        fragmentView.setColorSchemeResources(Theme.accentColor());
+        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
+        fragmentView.setOnRefreshListener(() -> {
             if (NetworkUtils.getNetworkStatus() == NetworkUtils.TYPE_NOT_CONNECTED) {
                 onLoadError();
             } else {
-                if (trailerList.isEmpty()) {
+                if (trailersList.isEmpty()) {
                     loadVideos();
                 } else {
-                    refreshLayout.setRefreshing(false);
+                    fragmentView.setRefreshing(false);
                 }
             }
         });
 
+        FrameLayout contentLayout = new FrameLayout(activity);
+        contentLayout.setLayoutParams(LayoutHelper.makeSwipeRefresh(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        fragmentView.addView(contentLayout);
+
+        emptyView = new TextView(activity);
+        emptyView.setGravity(Gravity.CENTER);
+        emptyView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        emptyView.setTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
+        emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
+        contentLayout.addView(emptyView);
+
         adapter = new VideosAdapter();
-        layoutManager = new GridLayoutManager(activity, AppUtils.getColumnsForVideos());
+        layoutManager = new GridLayoutManager(activity, AndroidUtils.getColumnsForVideos());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        RecyclerListView recyclerView = fragmentView.findViewById(R.id.recycler_view);
+        RecyclerListView recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setEmptyView(emptyView);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(new PaddingItemDecoration(ScreenUtils.dp(4)));
+        recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
-            Trailer trailer = trailerList.get(position);
+            Trailer trailer = trailersList.get(position);
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailer.key)));
         });
-
+        contentLayout.addView(recyclerView);
         return fragmentView;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         if (getArguments() != null) {
-            movieId = getArguments().getInt("movieId");
+            currentMovie = (Movie) getArguments().getSerializable("movie");
+            trailersList = (ArrayList<Trailer>) getArguments().getSerializable("list");
         }
+
+        activity.titleView.setSubtitle(currentMovie.title);
 
         if (NetworkUtils.getNetworkStatus() == NetworkUtils.TYPE_NOT_CONNECTED) {
             onLoadError();
@@ -129,44 +135,28 @@ public class TrailersFragment extends Fragment {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        layoutManager.setSpanCount(AppUtils.getColumnsForVideos());
+        layoutManager.setSpanCount(AndroidUtils.getColumnsForVideos());
     }
 
     private void loadVideos() {
-        MOVIES service = ApiFactory.getRetrofit().create(MOVIES.class);
-        Call<VideoResponse> call = service.getVideos(movieId, Url.TMDB_API_KEY, Url.en_US);
-        call.enqueue(new Callback<VideoResponse>() {
-            @Override
-            public void onResponse(Call<VideoResponse> call, Response<VideoResponse> response) {
-                if (response.isSuccessful()) {
-                    trailerList.addAll(response.body().trailersList);
-                    adapter.notifyDataSetChanged();
-
-                    if (trailerList.isEmpty()) {
-                        emptyView.setText(R.string.NoVideos);
-                    }
-
-                    onLoadSuccessful();
-                } else {
-                    //FirebaseCrash.report(new Error("Server not found"));
-                    onLoadError();
-                }
+        if (trailersList != null) {
+            if (!trailersList.isEmpty()) {
+                adapter.notifyDataSetChanged();
+            } else {
+                emptyView.setText(R.string.NoTrailers);
             }
-
-            @Override
-            public void onFailure(Call<VideoResponse> call, Throwable t) {
-                //FirebaseCrash.report(t);
-                onLoadError();
-            }
-        });
+            onLoadSuccessful();
+        } else {
+            onLoadError();
+        }
     }
 
     private void onLoadSuccessful() {
-        refreshLayout.setRefreshing(false);
+        fragmentView.setRefreshing(false);
     }
 
     private void onLoadError() {
-        refreshLayout.setRefreshing(false);
+        fragmentView.setRefreshing(false);
         emptyView.setText(R.string.NoConnection);
     }
 
@@ -179,7 +169,7 @@ public class TrailersFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-            Trailer trailer = trailerList.get(position);
+            Trailer trailer = trailersList.get(position);
 
             TrailerCompatView view = (TrailerCompatView) holder.itemView;
             view.setTitle(trailer.name)
@@ -190,7 +180,7 @@ public class TrailersFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return trailerList != null ? trailerList.size() : 0;
+            return trailersList != null ? trailersList.size() : 0;
         }
     }
 }
