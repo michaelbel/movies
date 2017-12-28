@@ -1,8 +1,5 @@
 package org.michaelbel.application.ui.fragment;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -26,18 +23,19 @@ import org.michaelbel.application.ui.AboutActivity;
 import org.michaelbel.application.ui.adapter.Holder;
 import org.michaelbel.application.ui.view.cell.TextDetailCell;
 import org.michaelbel.application.ui.view.widget.RecyclerListView;
+import org.michaelbel.application.util.AndroidUtils;
 import org.michaelbel.application.util.ScreenUtils;
 import org.michaelbel.bottomsheet.BottomSheet;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("all")
 public class LibsFragment extends Fragment {
 
-    private ListAdapter adapter;
     private AboutActivity activity;
     private LinearLayoutManager layoutManager;
-    private List<Source> list = new ArrayList<>();
+    private List<Source> sourcesList = new ArrayList<>();
 
     private RecyclerListView recyclerView;
 
@@ -47,7 +45,7 @@ public class LibsFragment extends Fragment {
         public String name;
         public String license;
 
-        public Source(String name, String url, String license) {
+        Source(String name, String url, String license) {
             this.url = url;
             this.name = name;
             this.license = license;
@@ -59,55 +57,51 @@ public class LibsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (AboutActivity) getActivity();
 
-        FrameLayout fragmentView = new FrameLayout(activity);
-        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
-
         activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         activity.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
         activity.toolbarTextView.setText(R.string.OpenSourceLibs);
 
-        list.add(new Source("BottomSheet", "https://github.com/michaelbel/bottomsheet","Apache License v2.0"));
-        list.add(new Source("Retrofit", "https://square.github.io/retrofit","Apache License v2.0"));
-        list.add(new Source("RxJava", "https://github.com/reactivex/rxjava","Apache License v2.0"));
-        list.add(new Source("RxAndroid", "https://github.com/reactivex/rxjava","Apache License v2.0"));
-        list.add(new Source("Realm Java", "https://github.com/realm/realm-java", "Apache License v2.0"));
-        list.add(new Source("Glide", "https://bumptech.github.io/glide/","BSD, MIT and Apache License v2.0"));
+        FrameLayout fragmentView = new FrameLayout(activity);
+        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
 
-        adapter = new ListAdapter();
+        sourcesList.add(new Source("BottomSheet", "https://github.com/michaelbel/bottomsheet","Apache License v2.0"));
+        sourcesList.add(new Source("Retrofit", "https://square.github.io/retrofit","Apache License v2.0"));
+        sourcesList.add(new Source("RxJava", "https://github.com/reactivex/rxjava","Apache License v2.0"));
+        sourcesList.add(new Source("RxAndroid", "https://github.com/reactivex/rxjava","Apache License v2.0"));
+        sourcesList.add(new Source("Picasso", "https://square.github.io/picasso","Apache License v2.0"));
+        sourcesList.add(new Source("Realm Java", "https://github.com/realm/realm-java", "Apache License v2.0"));
+        sourcesList.add(new Source("Realm Android Adapters", "https://github.com/realm/realm-android-adapters", "Apache License v2.0"));
+        sourcesList.add(new Source("GestureViews", "https://github.com/alexvasilkov/gestureviews", "Apache License v2.0"));
+        sourcesList.add(new Source("ExpandableTextView", "https://github.com/blogcat/android-expandabletextview", "Apache License v2.0"));
+
         layoutManager = new LinearLayoutManager(activity);
 
         recyclerView = new RecyclerListView(activity);
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(new ListAdapter());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        recyclerView.setOnItemClickListener((view1, position) -> {
-            Browser.openUrl(activity, list.get(position).url);
-        });
+        recyclerView.setOnItemClickListener((view, position) ->
+                Browser.openUrl(activity, sourcesList.get(position).url)
+        );
         recyclerView.setOnItemLongClickListener((view, position) -> {
             BottomSheet.Builder builder = new BottomSheet.Builder(activity);
-            builder.setTitle(list.get(position).url);
+            builder.setTitle(sourcesList.get(position).url);
+            builder.setCellHeight(ScreenUtils.dp(52));
             builder.setTitleTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
             builder.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
             builder.setItemTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
-            builder.setCellHeight(ScreenUtils.dp(52));
             builder.setItems(new int[] { R.string.Open, R.string.CopyLink }, (dialogInterface, i) -> {
                 if (i == 0) {
-                    Browser.openUrl(activity, list.get(position).url);
+                    Browser.openUrl(activity, sourcesList.get(position).url);
                 } else if (i == 1) {
-                    ClipboardManager clipboard = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clip = ClipData.newPlainText("Link", list.get(position).url);
-                    if (clipboard != null) {
-                        clipboard.setPrimaryClip(clip);
-                    }
-
-                    Toast.makeText(activity, R.string.LinkCopied, Toast.LENGTH_SHORT).show();
+                    AndroidUtils.addToClipboard("Link", sourcesList.get(position).url);
+                    Toast.makeText(activity, getString(R.string.ClipboardCopied, getString(R.string.Link)), Toast.LENGTH_SHORT).show();
                 }
             });
             builder.show();
             return true;
         });
         fragmentView.addView(recyclerView);
-
         return fragmentView;
     }
 
@@ -129,18 +123,17 @@ public class LibsFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            Source source = list.get(position);
+            Source source = sourcesList.get(position);
 
             TextDetailCell cell = (TextDetailCell) holder.itemView;
-            cell.changeLayoutParams();
-            cell.setText(source.name);
-            cell.setValue(source.license);
-            cell.setDivider(position != list.size() - 1);
+            cell.setText(source.name)
+                .setValue(source.license)
+                .setDivider(position != sourcesList.size() - 1);
         }
 
         @Override
         public int getItemCount() {
-            return list != null ? list.size() : 0;
+            return sourcesList != null ? sourcesList.size() : 0;
         }
     }
 }

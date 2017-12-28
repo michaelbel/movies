@@ -15,17 +15,20 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.michaelbel.application.R;
 import org.michaelbel.application.moviemade.LayoutHelper;
+import org.michaelbel.application.moviemade.Moviemade;
 import org.michaelbel.application.moviemade.Theme;
 import org.michaelbel.application.moviemade.browser.Browser;
 import org.michaelbel.application.ui.AboutActivity;
@@ -35,6 +38,7 @@ import org.michaelbel.application.ui.view.cell.TextCell;
 import org.michaelbel.application.ui.view.widget.RecyclerListView;
 import org.michaelbel.application.util.ScreenUtils;
 
+@SuppressWarnings("all")
 public class AboutFragment extends Fragment {
 
     private int rowCount;
@@ -45,14 +49,6 @@ public class AboutFragment extends Fragment {
     private int feedbackRow;
     private int emptyRow;
 
-    /*private int rateGooglePlayRow;
-    private int shareFriendsRow;
-    private int supportDevRow;
-    private int translationsRow;
-    private int analyticsInfoRow;
-    private int analyticsRow;*/
-
-    private AboutAdapter adapter;
     private AboutActivity activity;
     private LinearLayoutManager layoutManager;
 
@@ -63,13 +59,12 @@ public class AboutFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (AboutActivity) getActivity();
 
-        View fragmentView = inflater.inflate(R.layout.fragment_about, container, false);
-        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
-        setHasOptionsMenu(true);
-
         activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         activity.toolbar.setNavigationOnClickListener(view -> activity.finish());
         activity.toolbarTextView.setText(R.string.About);
+
+        FrameLayout fragmentView = new FrameLayout(activity);
+        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
 
         rowCount = 0;
         infoRow = rowCount++;
@@ -79,38 +74,38 @@ public class AboutFragment extends Fragment {
         feedbackRow = rowCount++;
         emptyRow = rowCount++;
 
-        adapter = new AboutAdapter();
         layoutManager = new LinearLayoutManager(activity);
 
-        recyclerView = fragmentView.findViewById(R.id.recycler_view);
-        recyclerView.setAdapter(adapter);
+        recyclerView = new RecyclerListView(activity);
+        recyclerView.setAdapter(new AboutAdapter());
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
             if (position == forkGithubRow) {
-                Browser.openUrl(activity, "https://github.com/michaelbel/moviemade");
+                Browser.openUrl(activity, Moviemade.GITHUB_URL);
             } else if (position == feedbackRow) {
                 try {
                     PackageManager packageManager = activity.getPackageManager();
                     PackageInfo packageInfo = packageManager.getPackageInfo("org.telegram.messenger", 0);
                     if (packageInfo != null) {
-                        Intent telegram = new Intent(Intent.ACTION_VIEW , Uri.parse("https://t.me/michaelbel"));
+                        Intent telegram = new Intent(Intent.ACTION_VIEW , Uri.parse(Moviemade.TELEGRAM_URL));
                         startActivity(telegram);
                     } else {
                         Intent intent = new Intent(Intent.ACTION_SEND);
                         intent.setType("text/plain");
-                        intent.putExtra(Intent.EXTRA_EMAIL, "michael-bel@outlook.com");
-                        intent.putExtra(Intent.EXTRA_SUBJECT, "Subject");
+                        intent.putExtra(Intent.EXTRA_EMAIL, Moviemade.EMAIL);
+                        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.Subject));
                         intent.putExtra(Intent.EXTRA_TEXT, "");
-                        startActivity(Intent.createChooser(intent, "Feedback"));
+                        startActivity(Intent.createChooser(intent, getString(R.string.Feedback)));
                     }
                 } catch (PackageManager.NameNotFoundException e) {
-
+                    // todo Error
                 }
             } else if (position == libsRow) {
                 activity.startFragment(new LibsFragment(), "libsFragment");
             }
         });
-
+        fragmentView.addView(recyclerView);
         return fragmentView;
     }
 
@@ -150,24 +145,26 @@ public class AboutFragment extends Fragment {
 
                 if (position == helpRow) {
                     cell.setMode(EmptyCell.MODE_TEXT);
-                    cell.setText(getString(R.string.ProjectInfo, getString(R.string.AppName)));
+                    cell.setText(Html.fromHtml(getString(R.string.ProjectInfo, getString(R.string.AppName))));
                 } else if (position == emptyRow) {
                     cell.setMode(EmptyCell.MODE_DEFAULT);
                     cell.setHeight(ScreenUtils.dp(12));
                 }
             } else if (type == 2) {
                 TextCell cell = (TextCell) holder.itemView;
-                cell.changeLayoutParams();
+                cell.setMode(TextCell.MODE_ICON)
+                    .setHeight(ScreenUtils.dp(52));
 
                 if (position == forkGithubRow) {
-                    cell.setText(R.string.ForkGithub);
-                    cell.setDivider(true);
+                    cell.setIcon(R.drawable.ic_github)
+                        .setText(R.string.ForkGithub)
+                        .setDivider(true);
                 } else if (position == libsRow) {
-                    cell.setHeight(ScreenUtils.dp(52));
-                    cell.setText(R.string.OpenSourceLibs);
+                    cell.setIcon(R.drawable.ic_library)
+                        .setText(R.string.OpenSourceLibs);
                 }  else if (position == feedbackRow) {
-                    cell.setHeight(ScreenUtils.dp(52));
-                    cell.setText(R.string.Feedback);
+                    cell.setIcon(R.drawable.ic_mail)
+                        .setText(R.string.Feedback);
                 }
             }
         }
@@ -203,22 +200,20 @@ public class AboutFragment extends Fragment {
 
             iconImageView = new ImageView(context);
             iconImageView.setImageResource(R.mipmap.ic_launcher);
-            iconImageView.setLayoutParams(LayoutHelper.makeLinear(110, 110, Gravity.CENTER_HORIZONTAL));
+            iconImageView.setLayoutParams(LayoutHelper.makeLinear(120, 120, Gravity.CENTER_HORIZONTAL));
             addView(iconImageView);
 
             nameTextView = new TextView(context);
             nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-            nameTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
             nameTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-            nameTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT,
-                    LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 0, 5, 0, 0));
+            nameTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+            nameTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 0, 5, 0, 0));
             addView(nameTextView);
 
             versionTextView = new TextView(context);
             versionTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
             versionTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-            versionTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT,
-                    LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 0, 4, 0, 0));
+            versionTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 0, 4, 0, 0));
             addView(versionTextView);
 
             setVersion();
@@ -226,9 +221,8 @@ public class AboutFragment extends Fragment {
 
         private void setVersion() {
             try {
-                PackageInfo packageInfo = getContext().getPackageManager()
-                        .getPackageInfo(getContext().getPackageName(), 0);
-                nameTextView.setText(getString(R.string.AppNameForAndroid, getString(R.string.AppName)));
+                PackageInfo packageInfo = getContext().getPackageManager().getPackageInfo(getContext().getPackageName(), 0);
+                nameTextView.setText(getString(R.string.AppForAndroid, getString(R.string.AppName)));
                 versionTextView.setText(getString(R.string.VersionBuild, packageInfo.versionName, packageInfo.versionCode));
             } catch (Exception e) {
                 // todo report
