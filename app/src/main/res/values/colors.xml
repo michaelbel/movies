@@ -4,6 +4,7 @@
     <color name="colorAccent">#FFAB40</color>
 
     <color name="youtubeColor">#FFF44336</color>
+    <color name="cursorColor">#FFFFFFFF</color>
 
     <!--LIGHT THEME-->
     <color name="primaryTextColor">#DE000000</color>
@@ -44,21 +45,21 @@
     <color name="night_switch_trackDisabled">#1AFFFFFF</color>
 
     <!--NIGHT BLUE THEME-->
-    <color name="night_blue_primaryTextColor">#FFFFFFFF</color>
+    <color name="night_blue_primaryTextColor">#FFFFFF</color>
     <color name="night_blue_secondaryTextColor">#B3FFFFFF</color>
     <color name="night_blue_disabledHintTextColor">#80FFFFFF</color>
     <color name="night_blue_dividerColor">#1FFFFFFF</color>
-    <color name="night_blue_iconActiveColor">#FFFFFFFF</color>
+    <color name="night_blue_iconActiveColor">#FFFFFF</color>
     <color name="night_blue_iconInactiveColor">#80FFFFFF</color>
     <color name="night_blue_statusBarColor">#000000</color>
     <color name="night_blue_appBarColor">#212121</color>
-    <color name="night_blue_backgroundColor">#FF151D26</color>
-    <color name="night_blue_foregroundColor">#FF1C2732</color>
+    <color name="night_blue_backgroundColor">#151D26</color>
+    <color name="night_blue_foregroundColor">#1C2732</color>
 
     <color name="night_blue_switch_thumbOn">#FFCC80</color>
     <color name="night_blue_switch_trackOn">#80FFCC80</color>
-    <color name="night_blue_switch_thumbOff">#FFBDBDBD</color>
+    <color name="night_blue_switch_thumbOff">#BDBDBD</color>
     <color name="night_blue_switch_trackOff">#4DFFFFFF</color>
-    <color name="night_blue_switch_thumbDisabled">#FF424242</color>
+    <color name="night_blue_switch_thumbDisabled">#424242</color>
     <color name="night_blue_switch_trackDisabled">#1AFFFFFF</color>
 </resources>

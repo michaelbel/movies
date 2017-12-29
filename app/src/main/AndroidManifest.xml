@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.BIND_VOICE_INTERACTION"/>
 
     <application
-        android:name="org.michaelbel.application.moviemade.AppLoader"
+        android:name="org.michaelbel.application.moviemade.Moviemade"
         android:allowBackup="true"
         android:supportsRtl="true"
         android:icon="@mipmap/ic_launcher"
@@ -74,6 +74,16 @@
 
         <activity
             android:name=".ui.SearchActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
+
+        <activity
+            android:name=".ui.GenresActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
+
+        <activity
+            android:name=".ui.PopularPeopleActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize"/>
 

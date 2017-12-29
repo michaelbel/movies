@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 27
@@ -24,9 +25,13 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    dataBinding {
-        enabled true
+    realm {
+        syncEnabled = true
     }
+
+    /*dataBinding {
+        enabled true
+    }*/
 }
 
 dependencies {
@@ -35,17 +40,23 @@ dependencies {
     implementation 'com.android.support:design:27.0.2'
     implementation 'com.android.support:customtabs:27.0.2'
 
+    implementation 'io.realm:android-adapters:2.1.1'
+
     implementation 'io.reactivex.rxjava2:rxjava:2.1.7'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
+    implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
     implementation 'org.michaelbel:bottomsheet:1.1.0'
-    implementation 'com.github.bumptech.glide:glide:4.4.0'
 
+    implementation 'at.blogc:expandabletextview:1.0.5'
+
+    implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7'
+
+    implementation 'com.alexvasilkov:events:1.0.0'
     implementation 'com.alexvasilkov:gesture-views:2.4.0'
     implementation 'com.alexvasilkov:android-commons:2.0.2'
-    implementation 'com.alexvasilkov:events:1.0.0'
 }

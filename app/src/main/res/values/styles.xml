@@ -43,4 +43,12 @@
         <item name="colorAccent">@color/foregroundColor</item>
         <item name="colorPrimary">@color/colorPrimary</item>
     </style>
+
+    <style name="TabText" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="SwipeRefreshStyle" parent="Theme.AppCompat">
+        <item name="android:background">@color/night_blue_foregroundColor</item>
+    </style>
 </resources>
