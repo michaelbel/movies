@@ -2,8 +2,12 @@ package org.michaelbel.application.rest.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
+import io.realm.RealmObject;
+
 @SuppressWarnings("all")
-public class Poster {
+public class Poster extends RealmObject implements Serializable {
 
     @SerializedName("aspect_ratio")
     public float aspectRatio;

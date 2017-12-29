@@ -2,10 +2,14 @@ package org.michaelbel.application.rest.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+
 @SuppressWarnings("all")
-public class Person {
+public class Person extends RealmObject implements Serializable {
 
     @SerializedName("birthday")
     public String birthday;
@@ -19,6 +23,7 @@ public class Person {
     @SerializedName("name")
     public String name;
 
+    @Ignore
     @SerializedName("also_known_as")
     public List<String> names;
 

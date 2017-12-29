@@ -5,8 +5,15 @@ import com.google.gson.annotations.SerializedName;
 import java.io.Serializable;
 import java.util.List;
 
+import io.realm.RealmObject;
+import io.realm.annotations.Ignore;
+
 @SuppressWarnings("all")
-public class Movie {
+public class Movie extends RealmObject implements Serializable {
+
+    public boolean favorite;
+
+    public boolean watchlist;
 
     @SerializedName("adult")
     public boolean adult;
@@ -68,18 +75,23 @@ public class Movie {
     @SerializedName("vote_count")
     public int voteCount;
 
+    @Ignore
     @SerializedName("genres")
     public List<Genre> genresList;
 
+    @Ignore
     @SerializedName("production_companies")
     public List<Companies> companiesList;
 
+    @Ignore
     @SerializedName("production_countries")
     public List<Countries> countriesList;
 
+    @Ignore
     @SerializedName("spoken_languages")
     public List<Languages> languagesList;
 
+    @Ignore
     @SerializedName("belongs_to_collection")
     public BelongsToCollection belongsToCollection;
 

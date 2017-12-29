@@ -2,8 +2,12 @@ package org.michaelbel.application.rest.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
+import io.realm.RealmObject;
+
 @SuppressWarnings("all")
-public class Crew {
+public class Crew extends RealmObject implements Serializable {
 
     @SerializedName("credit_id")
     public String creditId;

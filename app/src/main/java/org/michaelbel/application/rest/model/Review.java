@@ -2,8 +2,10 @@ package org.michaelbel.application.rest.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 @SuppressWarnings("all")
-public class Review {
+public class Review implements Serializable {
 
     @SerializedName("id")
     public String id;

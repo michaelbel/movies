@@ -1,6 +1,7 @@
 package org.michaelbel.application.rest.api;
 
 import org.michaelbel.application.rest.model.Person;
+import org.michaelbel.application.rest.response.PeopleResponce;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -75,7 +76,7 @@ public interface PEOPLE {
     );
 
     @GET("person/popular?")
-    Call<?> getLatest(
+    Call<PeopleResponce> getPopular(
             @Query("api_key") String apiKey,
             @Query("language") String language,
             @Query("page") int page
