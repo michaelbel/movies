@@ -16,4 +16,9 @@ public class AndroidUtilsDev {
         SharedPreferences prefs = getContext().getSharedPreferences("devconfig", Context.MODE_PRIVATE);
         return prefs.getBoolean("scrollbars", true);
     }
+
+    public static boolean hamburgerIcon() {
+        SharedPreferences prefs = getContext().getSharedPreferences("devconfig", Context.MODE_PRIVATE);
+        return prefs.getBoolean("burger", false);
+    }
 }
