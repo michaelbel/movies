@@ -31,6 +31,7 @@ import org.michaelbel.application.ui.view.trailer.TrailerCompatView;
 import org.michaelbel.application.ui.view.widget.PaddingItemDecoration;
 import org.michaelbel.application.ui.view.widget.RecyclerListView;
 import org.michaelbel.application.util.AndroidUtils;
+import org.michaelbel.application.util.AndroidUtilsDev;
 import org.michaelbel.application.util.NetworkUtils;
 import org.michaelbel.application.util.ScreenUtils;
 
@@ -69,7 +70,8 @@ public class TrailersFragment extends Fragment {
         activity.titleView.setTitle(R.string.Trailers);
 
         fragmentView = new SwipeRefreshLayout(activity);
-        fragmentView.setRefreshing(trailersList.isEmpty());
+        fragmentView.setRefreshing(true);
+        //fragmentView.setRefreshing(trailersList.isEmpty()); //  null object
         fragmentView.setColorSchemeResources(Theme.accentColor());
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
         fragmentView.setOnRefreshListener(() -> {
@@ -104,7 +106,8 @@ public class TrailersFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setEmptyView(emptyView);
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.addItemDecoration(new PaddingItemDecoration(ScreenUtils.dp(4)));
+        recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbarsEnabled());
+        recyclerView.addItemDecoration(new PaddingItemDecoration(ScreenUtils.dp(2)));
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
             Trailer trailer = trailersList.get(position);
@@ -175,7 +178,8 @@ public class TrailersFragment extends Fragment {
             view.setTitle(trailer.name)
                 .setQuality(trailer.size)
                 .setSite(trailer.site)
-                .setTrailerImage(trailer.key);
+                .setTrailerImage(trailer.key)
+                .changeLayoutParams();
         }
 
         @Override

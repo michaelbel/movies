@@ -24,6 +24,7 @@ import org.michaelbel.application.ui.adapter.Holder;
 import org.michaelbel.application.ui.view.cell.TextDetailCell;
 import org.michaelbel.application.ui.view.widget.RecyclerListView;
 import org.michaelbel.application.util.AndroidUtils;
+import org.michaelbel.application.util.AndroidUtilsDev;
 import org.michaelbel.application.util.ScreenUtils;
 import org.michaelbel.bottomsheet.BottomSheet;
 
@@ -72,6 +73,7 @@ public class LibsFragment extends Fragment {
         sourcesList.add(new Source("Realm Java", "https://github.com/realm/realm-java", "Apache License v2.0"));
         sourcesList.add(new Source("Realm Android Adapters", "https://github.com/realm/realm-android-adapters", "Apache License v2.0"));
         sourcesList.add(new Source("GestureViews", "https://github.com/alexvasilkov/gestureviews", "Apache License v2.0"));
+        sourcesList.add(new Source("ChipsLayoutManager", "https://github.com/beloos/chipslayoutmanager", "Apache License v2.0"));
         sourcesList.add(new Source("ExpandableTextView", "https://github.com/blogcat/android-expandabletextview", "Apache License v2.0"));
 
         layoutManager = new LinearLayoutManager(activity);
@@ -79,6 +81,7 @@ public class LibsFragment extends Fragment {
         recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(new ListAdapter());
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbarsEnabled());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) ->
                 Browser.openUrl(activity, sourcesList.get(position).url)

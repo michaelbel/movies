@@ -15,8 +15,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 
 import org.michaelbel.application.R;
+import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
 import org.michaelbel.application.ui.SettingsActivity;
 import org.michaelbel.application.ui.adapter.Holder;
@@ -47,12 +49,12 @@ public class ImageQualityFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (SettingsActivity) getActivity();
 
-        View fragmentView = inflater.inflate(R.layout.fragment_about, container, false);
-        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
-
         activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         activity.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
         activity.toolbarTextView.setText(R.string.ImageQuality);
+
+        FrameLayout fragmentView = new FrameLayout(activity);
+        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
 
         rowCount = 0;
         backdropRow = rowCount++;
@@ -65,9 +67,10 @@ public class ImageQualityFragment extends Fragment {
         layoutManager = new LinearLayoutManager(activity);
         prefs = activity.getSharedPreferences("main_config", Context.MODE_PRIVATE);
 
-        recyclerView = fragmentView.findViewById(R.id.recycler_view);
+        recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
@@ -153,10 +156,10 @@ public class ImageQualityFragment extends Fragment {
                 });
             }
 
-            builder.setNegativeButton(R.string.Cancel, null);
+            builder.setNegativeButton("Cancel", null);
             builder.show();
         });
-
+        fragmentView.addView(recyclerView);
         return fragmentView;
     }
 

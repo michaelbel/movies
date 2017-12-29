@@ -18,7 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import org.michaelbel.application.R;
 import org.michaelbel.application.moviemade.ApiFactory;
@@ -26,6 +26,7 @@ import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
 import org.michaelbel.application.moviemade.Url;
 import org.michaelbel.application.rest.api.PEOPLE;
+import org.michaelbel.application.rest.model.Cast;
 import org.michaelbel.application.rest.model.Person;
 import org.michaelbel.application.ui.PersonActivity;
 import org.michaelbel.application.ui.view.EmptyView;
@@ -35,12 +36,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+@SuppressWarnings("all")
 public class PersonFragment extends Fragment {
 
-    private int personId;
-    private String personName;
+    private Cast currentPerson;
+    private Person loadedPerson;
 
-    private Person currentPerson;
     private PersonActivity activity;
 
     private EmptyView emptyView;
@@ -51,10 +52,9 @@ public class PersonFragment extends Fragment {
     private TextView bornTextView;
     private TextView bioTextView;
 
-    public static PersonFragment newInstance(int personId, String personName) {
+    public static PersonFragment newInstance(Cast person) {
         Bundle args = new Bundle();
-        args.putInt("personId", personId);
-        args.putString("personName", personName);
+        args.putSerializable("person", person);
 
         PersonFragment fragment = new PersonFragment();
         fragment.setArguments(args);
@@ -70,26 +70,19 @@ public class PersonFragment extends Fragment {
         View fragmentView = inflater.inflate(R.layout.fragment_person, container, false);
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
 
-        if (getArguments() != null) {
-            personId = getArguments().getInt("personId");
-            personName = getArguments().getString("personName");
-        }
-
         FrameLayout topLayout = fragmentView.findViewById(R.id.top_layout);
         topLayout.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
 
         posterImageView = new ImageView(activity);
         posterImageView.setScaleType(ImageView.ScaleType.CENTER);
         posterImageView.setImageResource(R.drawable.movie_placeholder);
-        posterImageView.setLayoutParams(LayoutHelper.makeFrame(110, 180,
-                Gravity.START | Gravity.TOP, 16, 16, 0, 16));
+        posterImageView.setLayoutParams(LayoutHelper.makeFrame(110, 180, Gravity.START | Gravity.TOP, 16, 16, 0, 16));
         topLayout.addView(posterImageView);
 
         LinearLayout bornLayout = new LinearLayout(activity);
         bornLayout.setOrientation(LinearLayout.VERTICAL);
         bornLayout.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
-        bornLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                Gravity.BOTTOM, 110 + 16 + 16, 0, 16, 16));
+        bornLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM, 110 + 16 + 16, 0, 16, 16));
         topLayout.addView(bornLayout);
 
         TextView bornTitle = new TextView(activity);
@@ -100,8 +93,7 @@ public class PersonFragment extends Fragment {
 
         bornTextView = new TextView(activity);
         bornTextView.setTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
-        bornTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT,
-                LayoutHelper.WRAP_CONTENT, 0, 0, 0, 0));
+        bornTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, 0));
         bornLayout.addView(bornTextView);
 
         LinearLayout bioLayout = fragmentView.findViewById(R.id.bio_layout);
@@ -111,8 +103,7 @@ public class PersonFragment extends Fragment {
         bioTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         bioTextView.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
         bioTextView.setTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
-        bioTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT,
-                LayoutHelper.WRAP_CONTENT, 16, 16, 16, 16));
+        bioTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 16, 16, 16));
         bioLayout.addView(bioTextView);
 
         nestedScrollView = fragmentView.findViewById(R.id.nested_scroll);
@@ -130,43 +121,48 @@ public class PersonFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        if (getArguments() != null) {
+            currentPerson = (Cast) getArguments().getSerializable("person");
+        }
+
         if (NetworkUtils.getNetworkStatus() == NetworkUtils.TYPE_NOT_CONNECTED) {
             progressBar.setVisibility(View.INVISIBLE);
             nestedScrollView.setVisibility(View.INVISIBLE);
             emptyView.setVisibility(View.VISIBLE);
         } else {
-            loadPersonDetails(personId);
+            loadPersonDetails();
         }
     }
 
-    private void loadPersonDetails(int personId) {
+    private void loadPersonDetails() {
         PEOPLE service = ApiFactory.getRetrofit().create(PEOPLE.class);
-        Call<Person> call = service.getDetails(personId, Url.TMDB_API_KEY, Url.en_US, null);
+        Call<Person> call = service.getDetails(currentPerson.id, Url.TMDB_API_KEY, Url.en_US, null);
         call.enqueue(new Callback<Person>() {
             @Override
-            public void onResponse(Call<Person> call, Response<Person> response) {
+            public void onResponse(@NonNull Call<Person> call, @NonNull Response<Person> response) {
                 if (response.isSuccessful()) {
-                    currentPerson = response.body();
-                    startPerson(currentPerson);
+                    loadedPerson = response.body();
+                    startPerson();
                 } else {
                     onLoadError();
                 }
             }
 
             @Override
-            public void onFailure(Call<Person> call, Throwable t) {
+            public void onFailure(@NonNull Call<Person> call, @NonNull Throwable t) {
                 onLoadError();
             }
         });
     }
 
-    private void startPerson(Person person) {
-        Glide.with(activity)
-                .load("http://image.tmdb.org/t/p/w500/" + person.profilePath)
-                .into(posterImageView);
+    private void startPerson() {
+        Picasso.with(activity)
+               .load(Url.getImage(currentPerson.profilePath, "w500"))
+               .placeholder(R.drawable.people_placeholder)
+               .into(posterImageView);
 
-        bornTextView.setText(person.birthday + ", " + person.birthPlace);
-        bioTextView.setText(person.bio);
+        bornTextView.setText(loadedPerson.birthday + ", " + loadedPerson.birthPlace);
+        bioTextView.setText(loadedPerson.bio);
 
         onLoadSuccessful();
     }

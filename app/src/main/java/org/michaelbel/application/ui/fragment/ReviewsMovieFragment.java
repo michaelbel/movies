@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.view.ContextThemeWrapper;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -29,6 +30,7 @@ import org.michaelbel.application.ui.MovieActivity;
 import org.michaelbel.application.ui.adapter.Holder;
 import org.michaelbel.application.ui.view.ReviewView;
 import org.michaelbel.application.ui.view.widget.RecyclerListView;
+import org.michaelbel.application.util.AndroidUtilsDev;
 import org.michaelbel.application.util.NetworkUtils;
 
 import java.util.ArrayList;
@@ -62,7 +64,9 @@ public class ReviewsMovieFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (MovieActivity) getActivity();
 
-        fragmentView = new SwipeRefreshLayout(activity);
+        ContextThemeWrapper theme = new ContextThemeWrapper(activity, R.style.SwipeRefreshStyle);
+
+        fragmentView = new SwipeRefreshLayout(theme);
         fragmentView.setRefreshing(reviewsList.isEmpty());
         fragmentView.setColorSchemeResources(Theme.accentColor());
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
@@ -96,6 +100,7 @@ public class ReviewsMovieFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setEmptyView(emptyView);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbarsEnabled());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
             Review review = reviewsList.get(position);

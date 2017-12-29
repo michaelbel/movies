@@ -1,7 +1,6 @@
 package org.michaelbel.application.ui.fragment;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -14,33 +13,36 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import org.michaelbel.application.R;
-import org.michaelbel.application.moviemade.AppLoader;
 import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
 import org.michaelbel.application.rest.model.Movie;
 import org.michaelbel.application.sqlite.DatabaseHelper;
 import org.michaelbel.application.ui.FavsActivity;
 import org.michaelbel.application.ui.adapter.Holder;
-import org.michaelbel.application.ui.view.widget.PaddingItemDecoration;
 import org.michaelbel.application.ui.view.movie.MovieViewCard;
 import org.michaelbel.application.ui.view.movie.MovieViewPoster;
+import org.michaelbel.application.ui.view.widget.PaddingItemDecoration;
 import org.michaelbel.application.ui.view.widget.RecyclerListView;
-import org.michaelbel.application.util.AppUtils;
+import org.michaelbel.application.util.AndroidUtils;
 import org.michaelbel.application.util.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+@SuppressWarnings("all")
 public class FavoriteMoviesFragment extends Fragment {
 
     private FavsActivity activity;
@@ -51,51 +53,56 @@ public class FavoriteMoviesFragment extends Fragment {
 
     private TextView emptyView;
     private RecyclerListView recyclerView;
-    private SwipeRefreshLayout refreshLayout;
+    private SwipeRefreshLayout fragmentView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (FavsActivity) getActivity();
-
-        View fragmentView = inflater.inflate(R.layout.fragment_favs, container, false);
-        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
         setHasOptionsMenu(true);
 
-        emptyView = fragmentView.findViewById(R.id.empty_view);
+        fragmentView = new SwipeRefreshLayout(getContext());
+        fragmentView.setColorSchemeResources(Theme.accentColor());
+        fragmentView.setOnRefreshListener(this :: loadMovies);
+        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
 
-        refreshLayout = fragmentView.findViewById(R.id.swipe_refresh_layout);
-        refreshLayout.setColorSchemeResources(Theme.accentColor());
-        refreshLayout.setOnRefreshListener(this :: loadMovies);
+        FrameLayout contentLayout = new FrameLayout(activity);
+        contentLayout.setLayoutParams(LayoutHelper.makeSwipeRefresh(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        fragmentView.addView(contentLayout);
 
-        SharedPreferences prefs = activity.getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
-        int type = prefs.getInt("view_type", 0);
+        emptyView = new TextView(activity);
+        emptyView.setGravity(Gravity.CENTER);
+        emptyView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        emptyView.setTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
+        emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
+        contentLayout.addView(emptyView);
 
         adapter = new MovieAdapter();
         layoutManager = new GridLayoutManager(activity, getLayoutColumns());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         itemDecoration = new PaddingItemDecoration();
-        if (type == 0) {
+        if (AndroidUtils.viewType() == 0) {
             itemDecoration.setOffset(ScreenUtils.dp(2));
         } else {
             itemDecoration.setOffset(ScreenUtils.dp(1));
         }
 
-        recyclerView = fragmentView.findViewById(R.id.recycler_view);
+        recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setEmptyView(emptyView);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.addItemDecoration(itemDecoration);
-        if (type == 0) {
+        if (AndroidUtils.viewType() == 0) {
             recyclerView.setPadding(ScreenUtils.dp(4), 0, ScreenUtils.dp(4), 0);
         }
+        recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
                 Movie movie = movieList.get(position);
-                activity.startMovie(movie.id, movie.title);
+                activity.startMovie(movie);
         });
-
+        contentLayout.addView(recyclerView);
         return fragmentView;
     }
 
@@ -109,27 +116,18 @@ public class FavoriteMoviesFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         MenuItem viewItem = menu.add(R.string.ChangeViewType);
         viewItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-
-        SharedPreferences prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
-        int viewType = prefs.getInt("view_type", 0);
-
-        if (viewType == 0) {
-            viewItem.setIcon(R.drawable.ic_view_default);
-        } else if (viewType == 1) {
-            viewItem.setIcon(R.drawable.ic_view_compat);
-        }
+        viewItem.setIcon(R.drawable.ic_view_default);
 
         viewItem.setOnMenuItemClickListener(item -> {
-            int newType = prefs.getInt("view_type", 0);
+            int newType = AndroidUtils.viewType();
 
             if (newType == 0) {
-                viewItem.setIcon(R.drawable.ic_view_compat);
                 newType = 1;
             } else if (newType == 1) {
-                viewItem.setIcon(R.drawable.ic_view_default);
                 newType = 0;
             }
 
+            SharedPreferences prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
             SharedPreferences.Editor editor = prefs.edit();
             editor.putInt("view_type", newType);
             editor.apply();
@@ -142,7 +140,7 @@ public class FavoriteMoviesFragment extends Fragment {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        layoutManager.setSpanCount(AppUtils.getColumns());
+        layoutManager.setSpanCount(AndroidUtils.getColumns());
     }
 
     private void loadMovies() {
@@ -164,22 +162,19 @@ public class FavoriteMoviesFragment extends Fragment {
 
     private void onLoadError() {
         emptyView.setText(R.string.NoMovies);
-        refreshLayout.setRefreshing(false);
+        fragmentView.setRefreshing(false);
     }
 
     private void onLoadSuccessful() {
-        refreshLayout.setRefreshing(false);
+        fragmentView.setRefreshing(false);
     }
 
     private void refreshLayout() {
-        SharedPreferences prefs = activity.getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
-        int type = prefs.getInt("view_type", 0);
-
         Parcelable state = layoutManager.onSaveInstanceState();
         layoutManager = new GridLayoutManager(activity, getLayoutColumns());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.removeItemDecoration(itemDecoration);
-        if (type == 0) {
+        if (AndroidUtils.viewType() == 0) {
             itemDecoration.setOffset(ScreenUtils.dp(2));
             recyclerView.addItemDecoration(itemDecoration);
             recyclerView.setPadding(ScreenUtils.dp(4), 0, ScreenUtils.dp(4), 0);
@@ -192,10 +187,7 @@ public class FavoriteMoviesFragment extends Fragment {
     }
 
     public int getLayoutColumns() {
-        SharedPreferences prefs = AppLoader.AppContext.getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
-        int viewType = prefs.getInt("view_type", 0);
-
-        if (viewType == 0) {
+        if (AndroidUtils.viewType() == 0) {
             return ScreenUtils.isPortrait() ? 3 : 5;
         } else {
             return ScreenUtils.isPortrait() ? 2 : 3;
@@ -240,8 +232,7 @@ public class FavoriteMoviesFragment extends Fragment {
 
         @Override
         public int getItemViewType(int position) {
-            SharedPreferences prefs = activity.getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
-            return prefs.getInt("view_type", 0);
+            return AndroidUtils.viewType();
         }
     }
 }

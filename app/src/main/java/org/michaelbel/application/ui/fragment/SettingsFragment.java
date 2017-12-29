@@ -12,6 +12,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -28,7 +31,10 @@ import org.michaelbel.application.ui.view.widget.RecyclerListView;
 import org.michaelbel.application.util.ScreenUtils;
 import org.michaelbel.bottomsheet.BottomSheet;
 
+@SuppressWarnings("all")
 public class SettingsFragment extends Fragment {
+
+    private int asc = 0;
 
     private int rowCount;
     private int imageQualityRow;
@@ -36,7 +42,6 @@ public class SettingsFragment extends Fragment {
     private int adultRow;
     private int emptyRow;
 
-    private ListAdapter adapter;
     private SharedPreferences prefs;
     private SettingsActivity activity;
     private LinearLayoutManager layoutManager;
@@ -47,6 +52,7 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (SettingsActivity) getActivity();
+        setHasOptionsMenu(true);
 
         FrameLayout fragmentView = new FrameLayout(activity);
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
@@ -61,12 +67,11 @@ public class SettingsFragment extends Fragment {
         inAppBrowserRow = rowCount++;
         emptyRow = rowCount++;
 
-        adapter = new ListAdapter();
         layoutManager = new LinearLayoutManager(activity);
         prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
 
         recyclerView = new RecyclerListView(activity);
-        recyclerView.setAdapter(adapter);
+        recyclerView.setAdapter(new ListAdapter());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
@@ -105,8 +110,8 @@ public class SettingsFragment extends Fragment {
 
                         imageQualityBackdrop = "w1280";
                         imageQualityLogo = "w500";
-                        imageQualityPoster = "w780";
-                        imageQualityProfile = "w632";
+                        imageQualityPoster = "w780"; /* w632 ? */
+                        imageQualityProfile = "w185";
                         imageQualityStill = "w300";
                     } else {
                         imageQuality = getString(R.string.ImageQualityOriginal);
@@ -158,6 +163,21 @@ public class SettingsFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, final MenuInflater inflater) {
+        menu.add("")
+                .setIcon(Theme.getIcon(R.drawable.ic_chevron_right, ContextCompat.getColor(activity, Theme.primaryColor())))
+                .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+                .setOnMenuItemClickListener(menuItem -> {
+                    asc++;
+                    if (asc == 5) {
+                        activity.startFragment(new SettingsAdvancedFragment(), "settingsAdvancedFragment");
+                        asc = 0;
+                    }
+                    return true;
+                });
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         Parcelable state = layoutManager.onSaveInstanceState();
@@ -206,7 +226,7 @@ public class SettingsFragment extends Fragment {
                 } else if (position == adultRow) {
                     cell.setMode(TextDetailCell.MODE_SWITCH);
                     cell.setText(getString(R.string.IncludeAdult));
-                    cell.setValue("Toggle the inclusion of adult content");
+                    cell.setValue(R.string.IncludeAdultInfo);
                     cell.setChecked(prefs.getBoolean("adult", true));
                     cell.setDivider(true);
                 } else if (position == imageQualityRow) {
@@ -214,7 +234,7 @@ public class SettingsFragment extends Fragment {
                     boolean customSettings = prefs.getBoolean("image_quality_settings_customize", false);
 
                     cell.setText(getString(R.string.ImageQuality));
-                    cell.setValue(customSettings ? getString(R.string.Custom) : imageQuality);
+                    cell.setValue(customSettings ? "Custom" : imageQuality);
                     cell.setDivider(true);
                 }
             }

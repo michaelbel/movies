@@ -21,14 +21,14 @@ import org.michaelbel.application.moviemade.ApiFactory;
 import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
 import org.michaelbel.application.moviemade.Url;
-import org.michaelbel.application.rest.api.MOVIES;
-import org.michaelbel.application.rest.model.Cast;
-import org.michaelbel.application.rest.model.Movie;
-import org.michaelbel.application.rest.response.CreditResponse;
-import org.michaelbel.application.ui.MovieActivity;
+import org.michaelbel.application.rest.api.PEOPLE;
+import org.michaelbel.application.rest.model.People;
+import org.michaelbel.application.rest.response.PeopleResponce;
+import org.michaelbel.application.ui.PopularPeopleActivity;
 import org.michaelbel.application.ui.adapter.Holder;
 import org.michaelbel.application.ui.view.CastView;
 import org.michaelbel.application.ui.view.widget.RecyclerListView;
+import org.michaelbel.application.util.AndroidUtils;
 import org.michaelbel.application.util.AndroidUtilsDev;
 import org.michaelbel.application.util.NetworkUtils;
 
@@ -40,24 +40,26 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 @SuppressWarnings("all")
-public class CastMovieFragment extends Fragment {
+public class PopularPeopleFragment extends Fragment {
 
-    private Movie currentMovie;
+    private final int TOTAL_PAGES = 1000;
 
-    private CastAdapter adapter;
-    private MovieActivity activity;
+    private int page;
+    private boolean isLoading;
+
+    private PeopleAdapter adapter;
+    private PopularPeopleActivity activity;
     private LinearLayoutManager layoutManager;
-    private List<Cast> list = new ArrayList<>();
+    private List<People> peopleList = new ArrayList<>();
 
     private TextView emptyView;
     private ProgressBar progressBar;
     private RecyclerListView recyclerView;
 
-    public static CastMovieFragment newInstance(Movie movie) {
+    public static PopularPeopleFragment newInstance() {
         Bundle args = new Bundle();
-        args.putSerializable("movie", movie);
 
-        CastMovieFragment fragment = new CastMovieFragment();
+        PopularPeopleFragment fragment = new PopularPeopleFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -65,7 +67,7 @@ public class CastMovieFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity = (MovieActivity) getActivity();
+        activity = (PopularPeopleActivity) getActivity();
 
         FrameLayout fragmentView = new FrameLayout(activity);
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
@@ -81,7 +83,8 @@ public class CastMovieFragment extends Fragment {
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
         fragmentView.addView(emptyView);
 
-        adapter = new CastAdapter();
+        page = 1;
+        adapter = new PeopleAdapter();
         layoutManager = new LinearLayoutManager(activity);
 
         recyclerView = new RecyclerListView(activity);
@@ -91,12 +94,22 @@ public class CastMovieFragment extends Fragment {
         recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbarsEnabled());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
-            Cast cast = list.get(position);
-            activity.startPerson(cast);
+            //Cast cast = peopleList.get(position);
+            //activity.startPerson(cast);
         });
         recyclerView.setOnItemLongClickListener((view, position) -> {
-
             return true;
+        });
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (layoutManager.findLastVisibleItemPosition() == peopleList.size() - 1 && !isLoading) {
+                    if (page < TOTAL_PAGES) {
+                        loadPopularPeople();
+                    }
+                }
+            }
         });
         fragmentView.addView(recyclerView);
         return fragmentView;
@@ -106,43 +119,53 @@ public class CastMovieFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (getArguments() != null) {
-            currentMovie = (Movie) getArguments().getSerializable("movie");
-        }
-
         if (NetworkUtils.getNetworkStatus() == NetworkUtils.TYPE_NOT_CONNECTED) {
             onLoadError();
         } else {
-            loadCredits();
+            loadPopularPeople();
         }
     }
 
-    private void loadCredits() {
-        MOVIES service = ApiFactory.getRetrofit().create(MOVIES.class);
-        Call<CreditResponse> call = service.getCredits(currentMovie.id, Url.TMDB_API_KEY);
-        call.enqueue(new Callback<CreditResponse>() {
+    private void loadPopularPeople() {
+        PEOPLE service = ApiFactory.getRetrofit().create(PEOPLE.class);
+        Call<PeopleResponce> call = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page);
+        call.enqueue(new Callback<PeopleResponce>() {
             @Override
-            public void onResponse(Call<CreditResponse> call, Response<CreditResponse> response) {
+            public void onResponse(Call<PeopleResponce> call, Response<PeopleResponce> response) {
                 if (response.isSuccessful()) {
-                    if (!list.isEmpty()) {
-                        list.clear();
+                    if (AndroidUtils.includeAdult()) {
+                        peopleList.addAll(response.body().peopleList);
+                    } else {
+                        for (People people : response.body().peopleList) {
+                            if (!people.adult) {
+                                peopleList.add(people);
+                            }
+                        }
                     }
-                    list.addAll(response.body().castList);
+
                     adapter.notifyDataSetChanged();
 
-                    if (list.isEmpty()) {
-
+                    if (peopleList.isEmpty()) {
+                        emptyView.setText(R.string.NoPeople);
+                    } else {
+                        page++;
+                        isLoading = false;
                     }
+
+                    onLoadSuccessful();
                 } else {
-                    // todo Error
+                    onLoadError();
                 }
             }
 
             @Override
-            public void onFailure(Call<CreditResponse> call, Throwable t) {
-                // todo Error
+            public void onFailure(Call<PeopleResponce> call, Throwable t) {
+                onLoadError();
+                isLoading = false;
             }
         });
+
+        isLoading = true;
     }
 
     private void onLoadSuccessful() {
@@ -154,7 +177,7 @@ public class CastMovieFragment extends Fragment {
         emptyView.setText(R.string.NoConnection);
     }
 
-    private class CastAdapter extends RecyclerView.Adapter {
+    private class PeopleAdapter extends RecyclerView.Adapter {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -163,18 +186,18 @@ public class CastMovieFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-            Cast cast = list.get(position);
+            People people = peopleList.get(position);
 
             CastView view = (CastView) holder.itemView;
-            view.setName(cast.name)
-                .setCharacter(cast.character)
-                .setProfileImage(cast.profilePath)
-                .setDivider(position != list.size() - 1);
+            view.setName(people.name)
+                .setCharacter(String.valueOf(people.popularity))
+                .setProfileImage(people.profilePath)
+                .setDivider(position != peopleList.size() - 1);
         }
 
         @Override
         public int getItemCount() {
-            return list != null ? list.size() : 0;
+            return peopleList != null ? peopleList.size() : 0;
         }
     }
 }
