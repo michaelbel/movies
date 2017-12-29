@@ -28,7 +28,9 @@
                     android:layout_height="match_parent"
                     android:layout_marginEnd="16dp"
                     android:theme="@style/AppThemeLight.Tabs"
-                    app:tabTextAppearance="@style/TabText"/>
+                    app:tabTextAppearance="@style/TabText"
+                    app:tabIndicatorColor="@color/colorAccent"
+                    app:tabSelectedTextColor="@color/colorAccent"/>
 
             </android.support.v7.widget.Toolbar>
 

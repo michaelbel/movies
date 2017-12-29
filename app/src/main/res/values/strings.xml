@@ -35,6 +35,14 @@
     <string name="IncludeAdultInfo">Toggle the inclusion of adult content</string>
     <string name="InAppBrowser">In-App Browser</string>
     <string name="InAppBrowserInfo">Open external links within the app</string>
+    <string name="AdvancedSettings">Advanced Settings</string>
+    <string name="StorageUsage">Storage Usage</string>
+    <string name="KeepMedia">Keep Media</string>
+    <string name="KeepFewDays">3 days</string>
+    <string name="KeepOneWeek">1 week</string>
+    <string name="KeepOneMonth">1 month</string>
+    <string name="KeepForever">Forever</string>
+    <string name="LocalDatabase">Local Database</string>
     <!--About-->
     <string name="About">About</string>
     <string name="AppForAndroid">%1$s for Android</string>
