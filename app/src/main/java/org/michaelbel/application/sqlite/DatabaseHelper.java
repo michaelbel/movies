@@ -13,7 +13,7 @@ import org.michaelbel.application.rest.model.Movie;
 import java.util.ArrayList;
 import java.util.List;
 
-@Beta
+@SuppressWarnings("all")
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final int DATABASE_VERSION = 9;
@@ -113,8 +113,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public boolean isMovieExist(int tmdbId) {
         SQLiteDatabase database = this.getReadableDatabase();
-        Cursor cursor = database.rawQuery("SELECT * FROM " + MOVIES_TABLE + " WHERE " +
-                KEY_MOVIE_TMDB_ID + " = ?", new String[]{String.valueOf(tmdbId)});
+        Cursor cursor = database.rawQuery("SELECT * FROM " + MOVIES_TABLE + " WHERE " + KEY_MOVIE_TMDB_ID + " = ?", new String[]{String.valueOf(tmdbId)});
         boolean isExist = cursor.getCount() > 0;
         cursor.close();
         return isExist;
@@ -134,8 +133,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Movie getMovie(int tmdbId) {
         SQLiteDatabase database = this.getReadableDatabase();
 
-        Cursor cursor = database.rawQuery("SELECT * FROM " + MOVIES_TABLE + " WHERE " +
-                KEY_MOVIE_TMDB_ID + " = ?", new String[]{String.valueOf(tmdbId)});
+        Cursor cursor = database.rawQuery("SELECT * FROM " + MOVIES_TABLE + " WHERE " + KEY_MOVIE_TMDB_ID + " = ?", new String[]{String.valueOf(tmdbId)});
         cursor.moveToFirst();
 
         Movie movie = new Movie();
