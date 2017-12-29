@@ -1,0 +1,18 @@
+SharedPreferences files:
+ - mainconfig
+ - devconfig
+
+mainconfig:
+ - theme                  (int)
+ - in_app_browser         (bool)
+ - adult                  (bool)
+ - image_quality          (string)
+ - image_quality_custom   (bool)
+ - image_quality_backdrop (string)
+ - image_quality_logo     (string)
+ - image_quality_poster   (string)
+ - image_quality_profile  (string)
+ - image_quality_still    (string)
+
+devconfig:
+ - scrollbars (bool)
