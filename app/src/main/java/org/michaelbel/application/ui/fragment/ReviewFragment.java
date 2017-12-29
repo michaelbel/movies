@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.NestedScrollView;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -20,6 +19,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -73,17 +73,16 @@ public class ReviewFragment extends Fragment {
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         fragmentView.addView(progressBar);
 
-        NestedScrollView reviewLayout = new NestedScrollView(activity);
-        reviewLayout.setScrollbarFadingEnabled(true);
-        // todo ScrollBar
-        //reviewLayout.setVerticalScrollBarEnabled(true);
-        reviewLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        fragmentView.addView(reviewLayout);
+        ScrollView reviewScrollLayout = new ScrollView(activity);
+        // todo ScrollBard don't showed
+        reviewScrollLayout.setVerticalScrollBarEnabled(true);
+        reviewScrollLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        fragmentView.addView(reviewScrollLayout);
 
         LinearLayout contentLayout = new LinearLayout(activity);
         contentLayout.setOrientation(LinearLayout.VERTICAL);
         contentLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 16, 16, 16));
-        reviewLayout.addView(contentLayout);
+        reviewScrollLayout.addView(contentLayout);
 
         LinearLayout mediaLayout = new LinearLayout(activity);
         mediaLayout.setOrientation(LinearLayout.HORIZONTAL);
@@ -99,6 +98,7 @@ public class ReviewFragment extends Fragment {
         mediaTitleText.setLines(1);
         mediaTitleText.setMaxLines(1);
         mediaTitleText.setSingleLine();
+        // todo check many rows
         //mediaTitleText.setEllipsize(TextUtils.TruncateAt.END);
         mediaTitleText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         mediaTitleText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));

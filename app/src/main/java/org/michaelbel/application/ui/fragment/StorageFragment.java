@@ -25,16 +25,24 @@ import org.michaelbel.application.ui.view.cell.EmptyCell;
 import org.michaelbel.application.ui.view.cell.TextCell;
 import org.michaelbel.application.ui.view.cell.TextDetailCell;
 import org.michaelbel.application.ui.view.widget.RecyclerListView;
-import org.michaelbel.application.util.AndroidUtilsDev;
 import org.michaelbel.application.util.ScreenUtils;
+import org.michaelbel.bottomsheet.BottomSheet;
 
 @SuppressWarnings("all")
-public class SettingsAdvancedFragment extends Fragment {
+public class StorageFragment extends Fragment {
 
     private int rowCount;
-    private int scrollbarsRow;
+    private int keepMediaRow;
     private int emptyRow1;
-    private int burgerRow;
+    private int localDatabaseRow;
+    private int emptyRow2;
+
+    private int[] keepMedia = new int[] {
+            R.string.KeepFewDays,
+            R.string.KeepOneWeek,
+            R.string.KeepOneMonth,
+            R.string.KeepForever
+    };
 
     private SettingsActivity activity;
     private LinearLayoutManager layoutManager;
@@ -51,12 +59,12 @@ public class SettingsAdvancedFragment extends Fragment {
 
         activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         activity.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
-        activity.toolbarTextView.setText(R.string.AdvancedSettings);
+        activity.toolbarTextView.setText(R.string.StorageUsage);
 
         rowCount = 0;
-        scrollbarsRow = rowCount++;
+        keepMediaRow = rowCount++;
         emptyRow1 = rowCount++;
-        burgerRow = rowCount++;
+        localDatabaseRow = rowCount++;
 
         layoutManager = new LinearLayoutManager(activity);
 
@@ -65,24 +73,24 @@ public class SettingsAdvancedFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
-            if (position == scrollbarsRow) {
-                SharedPreferences prefs = activity.getSharedPreferences("devconfig", Activity.MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-                boolean enable = prefs.getBoolean("scrollbars", true);
-                editor.putBoolean("scrollbars", !enable);
-                editor.apply();
-                if (view instanceof TextDetailCell) {
-                    ((TextDetailCell) view).setChecked(!enable);
-                }
-            } else if (position == burgerRow) {
-                SharedPreferences prefs = activity.getSharedPreferences("devconfig", Activity.MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-                boolean enable = prefs.getBoolean("burger", false);
-                editor.putBoolean("burger", !enable);
-                editor.apply();
-                if (view instanceof TextDetailCell) {
-                    ((TextDetailCell) view).setChecked(!enable);
-                }
+            if (position == keepMediaRow) {
+                BottomSheet.Builder builder = new BottomSheet.Builder(activity);
+                builder.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
+                builder.setItemTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
+                builder.setCellHeight(ScreenUtils.dp(52));
+                builder.setItems(keepMedia, (dialogInterface, i) -> {
+                    SharedPreferences prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putInt("keep_media", i);
+                    editor.apply();
+
+                    if (view instanceof TextDetailCell) {
+                        ((TextDetailCell) view).setValue(keepMedia[i]);
+                    }
+                });
+                builder.show();
+            } else if (position == localDatabaseRow) {
+
             }
         });
         fragmentView.addView(recyclerView);
@@ -130,16 +138,14 @@ public class SettingsAdvancedFragment extends Fragment {
                 TextDetailCell cell = (TextDetailCell) holder.itemView;
                 cell.changeLayoutParams();
 
-                if (position == scrollbarsRow) {
-                    cell.setMode(TextDetailCell.MODE_SWITCH);
-                    cell.setText("Enable Scrollbars");
-                    cell.setValue("Enable all scrollbars in the app");
-                    cell.setChecked(AndroidUtilsDev.scrollbarsEnabled());
-                } else if (position == burgerRow) {
-                    cell.setMode(TextDetailCell.MODE_SWITCH);
-                    cell.setText("Enable Hamburger");
-                    cell.setValue("Set hamburger menu icon");
-                    cell.setChecked(AndroidUtilsDev.hamburgerIcon());
+                if (position == keepMediaRow) {
+                    SharedPreferences prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
+
+                    cell.setText(R.string.KeepMedia);
+                    cell.setValue(keepMedia[prefs.getInt("keep_media", 3)]);
+                } else if (position == localDatabaseRow) {
+                    cell.setText(R.string.LocalDatabase);
+                    cell.setValue("45.6 MB");
                 }
             }
         }

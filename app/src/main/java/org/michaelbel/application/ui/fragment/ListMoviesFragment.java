@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,10 +24,14 @@ import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
 import org.michaelbel.application.moviemade.Url;
 import org.michaelbel.application.rest.api.MOVIES;
+import org.michaelbel.application.rest.api.PEOPLE;
+import org.michaelbel.application.rest.model.Cast;
 import org.michaelbel.application.rest.model.Movie;
+import org.michaelbel.application.rest.response.MoviePeopleResponse;
 import org.michaelbel.application.rest.response.MovieResponse;
 import org.michaelbel.application.ui.MainActivity;
 import org.michaelbel.application.ui.MovieActivity;
+import org.michaelbel.application.ui.PersonActivity;
 import org.michaelbel.application.ui.adapter.MoviesListAdapter;
 import org.michaelbel.application.ui.view.widget.PaddingItemDecoration;
 import org.michaelbel.application.ui.view.widget.RecyclerListView;
@@ -53,6 +56,7 @@ public class ListMoviesFragment extends Fragment {
     public static final int LIST_UPCOMING = 4;
     public static final int LIST_SIMILAR = 5;
     public static final int LIST_RELATED = 6;
+    public static final int LIST_BY_PERSON = 7;
 
     private final int TOTAL_PAGES = 1000;
 
@@ -60,6 +64,7 @@ public class ListMoviesFragment extends Fragment {
     private boolean isLoading;
     private int currentMovieList;
     private Movie currentMovie;
+    private Cast currentPerson;
 
     private TextView emptyView;
     private SwipeRefreshLayout fragmentView;
@@ -87,50 +92,57 @@ public class ListMoviesFragment extends Fragment {
         return fragment;
     }
 
+    public static ListMoviesFragment newInstance(int list, Cast person) {
+        Bundle args = new Bundle();
+        args.putInt("list", list);
+        args.putSerializable("person", person);
+
+        ListMoviesFragment fragment = new ListMoviesFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        AppCompatActivity activity;
-        if (getArguments().getSerializable("movie") != null) {
-            activity = (MovieActivity) getActivity();
-        } else {
-            activity = (MainActivity) getActivity();
-        }
-
-        fragmentView = new SwipeRefreshLayout(activity);
+        fragmentView = new SwipeRefreshLayout(getContext());
         fragmentView.setRefreshing(movieList.isEmpty());
         fragmentView.setColorSchemeResources(Theme.accentColor());
-        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
+        fragmentView.setBackgroundColor(ContextCompat.getColor(getContext(), Theme.backgroundColor()));
         fragmentView.setOnRefreshListener(() -> {
             if (NetworkUtils.getNetworkStatus() == NetworkUtils.TYPE_NOT_CONNECTED) {
                 onLoadError();
             } else {
                 if (movieList.isEmpty()) {
-                    loadList();
+                    if (currentMovieList == LIST_BY_PERSON) {
+                        loadPersonMovies();
+                    } else {
+                        loadList();
+                    }
                 } else {
                     fragmentView.setRefreshing(false);
                 }
             }
         });
 
-        FrameLayout contentLayout = new FrameLayout(activity);
+        FrameLayout contentLayout = new FrameLayout(getContext());
         contentLayout.setLayoutParams(LayoutHelper.makeSwipeRefresh(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         fragmentView.addView(contentLayout);
 
-        emptyView = new TextView(activity);
+        emptyView = new TextView(getContext());
         emptyView.setGravity(Gravity.CENTER);
         emptyView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        emptyView.setTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
+        emptyView.setTextColor(ContextCompat.getColor(getContext(), Theme.secondaryTextColor()));
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
         contentLayout.addView(emptyView);
 
         page = 1;
-        adapter = new MoviesListAdapter(activity, movieList);
+        adapter = new MoviesListAdapter(getContext(), movieList);
 
-        layoutManager = new GridLayoutManager(activity, AndroidUtils.getColumns());
+        layoutManager = new GridLayoutManager(getContext(), AndroidUtils.getColumns());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        RecyclerListView recyclerView = new RecyclerListView(activity);
+        RecyclerListView recyclerView = new RecyclerListView(getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setEmptyView(emptyView);
@@ -141,8 +153,11 @@ public class ListMoviesFragment extends Fragment {
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
             Movie movie = movieList.get(position);
+
             if (getArguments().getSerializable("movie") != null) {
                 ((MovieActivity) getActivity()).startMovie(movie);
+            } else if (getArguments().getSerializable("person") != null) {
+                ((PersonActivity) getActivity()).startMovie(movie);
             } else {
                 ((MainActivity) getActivity()).startMovie(movie);
             }
@@ -152,8 +167,10 @@ public class ListMoviesFragment extends Fragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (layoutManager.findLastVisibleItemPosition() == movieList.size() - 1 && !isLoading) {
-                    if (page < TOTAL_PAGES) {
-                        loadList();
+                    if (currentMovieList != LIST_BY_PERSON) {
+                        if (page < TOTAL_PAGES) {
+                            loadList();
+                        }
                     }
                 }
             }
@@ -172,12 +189,20 @@ public class ListMoviesFragment extends Fragment {
             if (getArguments().getSerializable("movie") != null) {
                 currentMovie = (Movie) getArguments().getSerializable("movie");
             }
+
+            if (getArguments().getSerializable("person") != null) {
+                currentPerson = (Cast) getArguments().getSerializable("person");
+            }
         }
 
         if (NetworkUtils.getNetworkStatus() == NetworkUtils.TYPE_NOT_CONNECTED) {
             onLoadError();
         } else {
-            loadList();
+            if (currentMovieList == LIST_BY_PERSON) {
+                loadPersonMovies();
+            } else {
+                loadList();
+            }
         }
     }
 
@@ -455,6 +480,52 @@ public class ListMoviesFragment extends Fragment {
                 });
 
         isLoading = true;
+    }
+
+    private void loadPersonMovies() {
+        PEOPLE service = ApiFactory.getRetrofit().create(PEOPLE.class);
+        Call<MoviePeopleResponse> call = service.getMovieCredits(currentPerson.castId, Url.TMDB_API_KEY, Url.en_US);
+        call.enqueue(new Callback<MoviePeopleResponse>() {
+            @Override
+            public void onResponse(Call<MoviePeopleResponse> call, Response<MoviePeopleResponse> response) {
+                if (response.isSuccessful()) {
+                    List<Movie> crewMovies = response.body().crewMovieList;
+                    List<Movie> castMovies = response.body().castMovieList;
+
+                    if (AndroidUtils.includeAdult()) {
+                        movieList.addAll(crewMovies);
+                        movieList.addAll(castMovies);
+                    } else {
+                        for (Movie movie : crewMovies) {
+                            if (!movie.adult) {
+                                movieList.add(movie);
+                            }
+                        }
+
+                        for (Movie movie : castMovies) {
+                            if (!movie.adult) {
+                                movieList.add(movie);
+                            }
+                        }
+                    }
+
+                    adapter.notifyDataSetChanged();
+
+                    if (movieList.isEmpty()) {
+                        emptyView.setText(R.string.NoMovies);
+                    }
+
+                    onLoadSuccessful();
+                } else {
+                    // todo Error.
+                }
+            }
+
+            @Override
+            public void onFailure(Call<MoviePeopleResponse> call, Throwable t) {
+                // todo Error.
+            }
+        });
     }
 
     private void onLoadSuccessful() {

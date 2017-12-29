@@ -6,7 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.NestedScrollView;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,8 +15,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.michaelbel.application.R;
@@ -29,14 +30,13 @@ import org.michaelbel.application.rest.api.PEOPLE;
 import org.michaelbel.application.rest.model.Cast;
 import org.michaelbel.application.rest.model.Person;
 import org.michaelbel.application.ui.PersonActivity;
-import org.michaelbel.application.ui.view.EmptyView;
 import org.michaelbel.application.util.NetworkUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-@SuppressWarnings("all")
+//@SuppressWarnings("all")
 public class PersonFragment extends Fragment {
 
     private Cast currentPerson;
@@ -44,10 +44,8 @@ public class PersonFragment extends Fragment {
 
     private PersonActivity activity;
 
-    private EmptyView emptyView;
+    private TextView emptyView;
     private ProgressBar progressBar;
-    private NestedScrollView nestedScrollView;
-
     private ImageView posterImageView;
     private TextView bornTextView;
     private TextView bioTextView;
@@ -67,11 +65,31 @@ public class PersonFragment extends Fragment {
         activity = (PersonActivity) getActivity();
         setHasOptionsMenu(true);
 
-        View fragmentView = inflater.inflate(R.layout.fragment_person, container, false);
+        FrameLayout fragmentView = new FrameLayout(activity);
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
 
-        FrameLayout topLayout = fragmentView.findViewById(R.id.top_layout);
+        progressBar = new ProgressBar(activity);
+        progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
+        fragmentView.addView(progressBar);
+
+        emptyView = new TextView(activity);
+        emptyView.setGravity(Gravity.CENTER);
+        emptyView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        emptyView.setTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
+        emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
+        fragmentView.addView(emptyView);
+
+        ScrollView scrollView = new ScrollView(activity);
+        scrollView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        fragmentView.addView(scrollView);
+
+        LinearLayout contentLayout = new LinearLayout(activity);
+        contentLayout.setOrientation(LinearLayout.VERTICAL);
+        scrollView.addView(contentLayout);
+
+        FrameLayout topLayout = new FrameLayout(activity);
         topLayout.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
+        contentLayout.addView(topLayout);
 
         posterImageView = new ImageView(activity);
         posterImageView.setScaleType(ImageView.ScaleType.CENTER);
@@ -96,8 +114,9 @@ public class PersonFragment extends Fragment {
         bornTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, 0));
         bornLayout.addView(bornTextView);
 
-        LinearLayout bioLayout = fragmentView.findViewById(R.id.bio_layout);
+        LinearLayout bioLayout = new LinearLayout(activity);
         bioLayout.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
+        contentLayout.addView(bioLayout);
 
         bioTextView = new TextView(activity);
         bioTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
@@ -105,14 +124,6 @@ public class PersonFragment extends Fragment {
         bioTextView.setTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
         bioTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 16, 16, 16));
         bioLayout.addView(bioTextView);
-
-        nestedScrollView = fragmentView.findViewById(R.id.nested_scroll);
-        nestedScrollView.setVisibility(View.INVISIBLE);
-
-        progressBar = fragmentView.findViewById(R.id.progress_bar);
-
-        emptyView = fragmentView.findViewById(R.id.empty_view);
-        emptyView.setVisibility(View.INVISIBLE);
 
         return fragmentView;
     }
@@ -127,7 +138,7 @@ public class PersonFragment extends Fragment {
 
         if (NetworkUtils.getNetworkStatus() == NetworkUtils.TYPE_NOT_CONNECTED) {
             progressBar.setVisibility(View.INVISIBLE);
-            nestedScrollView.setVisibility(View.INVISIBLE);
+            //nestedScrollView.setVisibility(View.INVISIBLE);
             emptyView.setVisibility(View.VISIBLE);
         } else {
             loadPersonDetails();
@@ -159,6 +170,7 @@ public class PersonFragment extends Fragment {
         Picasso.with(activity)
                .load(Url.getImage(currentPerson.profilePath, "w500"))
                .placeholder(R.drawable.people_placeholder)
+               .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                .into(posterImageView);
 
         bornTextView.setText(loadedPerson.birthday + ", " + loadedPerson.birthPlace);
@@ -169,12 +181,12 @@ public class PersonFragment extends Fragment {
 
     private void onLoadSuccessful() {
         progressBar.setVisibility(View.INVISIBLE);
-        nestedScrollView.setVisibility(View.VISIBLE);
+        //nestedScrollView.setVisibility(View.VISIBLE);
     }
 
     private void onLoadError() {
         progressBar.setVisibility(View.INVISIBLE);
-        nestedScrollView.setVisibility(View.INVISIBLE);
+        //nestedScrollView.setVisibility(View.INVISIBLE);
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setText(R.string.NoConnection);
     }

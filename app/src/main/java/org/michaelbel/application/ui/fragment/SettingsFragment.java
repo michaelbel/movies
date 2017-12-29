@@ -37,10 +37,12 @@ public class SettingsFragment extends Fragment {
     private int asc = 0;
 
     private int rowCount;
+    private int storageUsageRow;
+    private int emptyRow1;
     private int imageQualityRow;
     private int inAppBrowserRow;
     private int adultRow;
-    private int emptyRow;
+    private int emptyRow2;
 
     private SharedPreferences prefs;
     private SettingsActivity activity;
@@ -62,10 +64,12 @@ public class SettingsFragment extends Fragment {
         activity.toolbarTextView.setText(R.string.Settings);
 
         rowCount = 0;
+        storageUsageRow = rowCount++;
+        emptyRow1 = rowCount++;
         imageQualityRow = rowCount++;
         adultRow = rowCount++;
         inAppBrowserRow = rowCount++;
-        emptyRow = rowCount++;
+        emptyRow2 = rowCount++;
 
         layoutManager = new LinearLayoutManager(activity);
         prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
@@ -75,12 +79,14 @@ public class SettingsFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
-            if (position == imageQualityRow) {
+            if (position == storageUsageRow) {
+                activity.startFragment(new StorageFragment(), "storageFragment");
+            } else if (position == imageQualityRow) {
                 BottomSheet.Builder builder = new BottomSheet.Builder(activity);
                 builder.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
                 builder.setItemTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
                 builder.setCellHeight(ScreenUtils.dp(52));
-                builder.setItems(new int[] { R.string.ImageQualityLow, R.string.ImageQualityMedium, R.string.ImageQualityHigh, R.string.ImageQualityOriginal}, (dialogInterface, i) -> {
+                builder.setItems(new int[] { R.string.ImageQualityLow, R.string.ImageQualityMedium, R.string.ImageQualityHigh, R.string.ImageQualityOriginal }, (dialogInterface, i) -> {
                     String imageQualityBackdrop;
                     String imageQualityLogo;
                     String imageQualityPoster;
@@ -164,17 +170,17 @@ public class SettingsFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, final MenuInflater inflater) {
-        menu.add("")
-                .setIcon(Theme.getIcon(R.drawable.ic_chevron_right, ContextCompat.getColor(activity, Theme.primaryColor())))
-                .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
-                .setOnMenuItemClickListener(menuItem -> {
-                    asc++;
-                    if (asc == 5) {
-                        activity.startFragment(new SettingsAdvancedFragment(), "settingsAdvancedFragment");
-                        asc = 0;
-                    }
-                    return true;
-                });
+        menu.add(null)
+            .setIcon(Theme.getIcon(R.drawable.ic_chevron_right, ContextCompat.getColor(activity, Theme.primaryColor())))
+            .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            .setOnMenuItemClickListener(menuItem -> {
+                asc++;
+                if (asc == 5) {
+                    activity.startFragment(new SettingsAdvancedFragment(), "settingsAdvancedFragment");
+                    asc = 0;
+                }
+                return true;
+            });
     }
 
     @Override
@@ -211,7 +217,7 @@ public class SettingsFragment extends Fragment {
                 EmptyCell cell = (EmptyCell) holder.itemView;
                 cell.setMode(EmptyCell.MODE_DEFAULT);
 
-                if (position == emptyRow) {
+                if (position == emptyRow2) {
                     cell.setHeight(ScreenUtils.dp(12));
                 }
             } else if (type == 2) {
@@ -237,6 +243,13 @@ public class SettingsFragment extends Fragment {
                     cell.setValue(customSettings ? "Custom" : imageQuality);
                     cell.setDivider(true);
                 }
+            } else {
+                TextCell cell = (TextCell) holder.itemView;
+                cell.changeLayoutParams();
+
+                if (position == storageUsageRow) {
+                    cell.setText(R.string.StorageUsage);
+                }
             }
         }
 
@@ -247,7 +260,7 @@ public class SettingsFragment extends Fragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == emptyRow) {
+            if (position == emptyRow1 || position == emptyRow2) {
                 return 1;
             } else if (position == inAppBrowserRow || position == imageQualityRow || position == adultRow) {
                 return 2;

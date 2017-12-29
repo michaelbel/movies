@@ -1,6 +1,5 @@
 package org.michaelbel.application.ui.fragment;
 
-import android.Manifest;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -10,7 +9,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.NestedScrollView;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -19,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,8 +39,7 @@ import org.michaelbel.application.rest.response.CreditResponse;
 import org.michaelbel.application.rest.response.ImageResponse;
 import org.michaelbel.application.rest.response.VideoResponse;
 import org.michaelbel.application.ui.MovieActivity;
-import org.michaelbel.application.ui.view.FavButton;
-import org.michaelbel.application.ui.view.MovieInfoLayout2;
+import org.michaelbel.application.ui.view.CheckedButton;
 import org.michaelbel.application.ui.view.MovieInfoLayout1;
 import org.michaelbel.application.util.AndroidUtils;
 
@@ -68,8 +66,8 @@ public class MovieFragment extends Fragment {
 
     private TextView emptyView;
     private ProgressBar progressBar;
-    private MovieInfoLayout2 movieView;
-    private MovieInfoLayout1 movieView2;
+    private MovieInfoLayout1 movieViewTop;
+    //private MovieInfoLayout2 movieViewBottom;
 
     public static MovieFragment newInstance(Movie movie) {
         Bundle args = new Bundle();
@@ -86,7 +84,7 @@ public class MovieFragment extends Fragment {
         activity = (MovieActivity) getActivity();
         setHasOptionsMenu(true);
 
-        NestedScrollView fragmentView = new NestedScrollView(activity);
+        ScrollView fragmentView = new ScrollView(activity);
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
 
         FrameLayout frameLayout = new FrameLayout(activity);
@@ -94,8 +92,8 @@ public class MovieFragment extends Fragment {
         fragmentView.addView(frameLayout);
 
         emptyView = new TextView(activity);
-        emptyView.setGravity(Gravity.CENTER);
         emptyView.setText(R.string.NoConnection);
+        emptyView.setGravity(Gravity.CENTER);
         emptyView.setVisibility(View.INVISIBLE);
         emptyView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         emptyView.setTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
@@ -111,24 +109,17 @@ public class MovieFragment extends Fragment {
         movieLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         frameLayout.addView(movieLayout);
 
-        movieView2 = new MovieInfoLayout1(activity);
-        movieView2.setListener(new MovieInfoLayout1.InfoMovieListener() {
+        movieViewTop = new MovieInfoLayout1(activity);
+        movieViewTop.setListener(new MovieInfoLayout1.InfoMovieListener() {
             @Override
             public boolean onOverviewLongClick(View view) {
                 AndroidUtils.addToClipboard("Overview", currentMovie.overview);
                 Toast.makeText(activity, getString(R.string.ClipboardCopied, getString(R.string.Overview)), Toast.LENGTH_SHORT).show();
-
-                if (AndroidUtils.isPermissionGranted(Manifest.permission_group.STORAGE)) {
-                    AndroidUtils.createCacheDirectory();
-                } else {
-                    AndroidUtils.requestPermission(Manifest.permission_group.STORAGE, activity, PERMISSION_REQUEST_CODE);
-                }
-
                 return true;
             }
 
             @Override
-            public void onFavButtonClick(View view) {
+            public void onFavoriteButtonClick(View view) {
                 /*DatabaseHelper database = DatabaseHelper.getInstance(activity);
                 boolean isExist = database.isMovieExist(currentMovie.id);
 
@@ -155,9 +146,8 @@ public class MovieFragment extends Fragment {
                     realm.commitTransaction();
 
                     Movie mr2 = realm.where(Movie.class).equalTo("id", currentMovie.id).findFirst();
-                    if (view instanceof FavButton) {
-                        ((FavButton) view).setIcon(mr2.favorite ? R.drawable.ic_heart : R.drawable.ic_heart_outline);
-                        ((FavButton) view).setText(mr2.favorite ? R.string.Remove : R.string.Add);
+                    if (view instanceof CheckedButton) {
+                        ((CheckedButton) view).setChecked(mr2.favorite);
                     }
                 } else {
                     realm.beginTransaction();
@@ -165,26 +155,51 @@ public class MovieFragment extends Fragment {
                     realm.commitTransaction();
 
                     Movie movieRealm3 = realm.where(Movie.class).equalTo("id", currentMovie.id).findFirst();
-                    if (view instanceof FavButton) {
-                        ((FavButton) view).setIcon(movieRealm3.favorite ? R.drawable.ic_heart : R.drawable.ic_heart_outline);
-                        ((FavButton) view).setText(movieRealm3.favorite ? R.string.Remove : R.string.Add);
+                    if (view instanceof CheckedButton) {
+                        ((CheckedButton) view).setChecked(movieRealm3.favorite);
                     }
                 }
+            }
 
+            @Override
+            public void onWatchingButtonClick(View view) {
 
             }
+
+            @Override
+            public void onTrailersSectionClick(View view) {
+                activity.startTrailers(currentMovie, trailersList);
+            }
+
+            @Override
+            public void onTrailerClick(View view, String trailerKey) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailerKey)));
+            }
+
+            @Override
+            public boolean onTrailerLongClick(View view, String trailerKey) {
+                return true;
+            }
+
+            @Override
+            public void onMovieUrlClick(View view, int position) {
+                if (position == 1) {
+                    Browser.openUrl(activity, Url.TMDB_MOVIE + currentMovie.id);
+                } else if (position == 2) {
+                    Browser.openUrl(activity, Url.IMDB_MOVIE + currentMovie.imdbId);
+                } else if (position == 3) {
+                    Browser.openUrl(activity, currentMovie.homepage);
+                }
+            }
         });
-        movieView2.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        movieLayout.addView(movieView2);
+        movieViewTop.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        movieLayout.addView(movieViewTop);
 
+        /*movieViewBottom = new MovieInfoLayout2(getContext());
+        movieViewBottom.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        movieLayout.addView(movieViewBottom);
 
-
-
-        movieView = new MovieInfoLayout2(getContext());
-        movieView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        movieLayout.addView(movieView);
-
-        movieView.setListener(new MovieInfoLayout2.InfoMovieListener() {
+        movieViewBottom.setListener(new MovieInfoLayout2.InfoMovieListener() {
             @Override
             public void onTrailersSectionClick(View view) {
                 activity.startTrailers(currentMovie, trailersList);
@@ -211,7 +226,7 @@ public class MovieFragment extends Fragment {
                 }
             }
 
-        });
+        });*/
         return fragmentView;
     }
 
@@ -233,6 +248,22 @@ public class MovieFragment extends Fragment {
         }
 
         load();
+    }
+
+    private void load() {
+        movieViewTop.setPoster(currentMovie.posterPath)
+                    .setTitle(currentMovie.title)
+                    .setOverview(currentMovie.overview)
+                    .setDate(currentMovie.releaseDate)
+                    .setVoteAverage(currentMovie.voteAverage)
+                    .setVoteCount(currentMovie.voteCount)
+                    .setFavoriteButton(currentMovie.id)
+                    .setWatchingButton(currentMovie.id)
+                    .setOriginalTitle(currentMovie.originalTitle)
+                    .setOriginalLang(currentMovie.originalLanguage);
+
+        addMovieToRealm(currentMovie);
+        loadMovieDetails(currentMovie.id);
     }
 
     private void loadMovieDetails(int movieId) {
@@ -257,43 +288,27 @@ public class MovieFragment extends Fragment {
     }
 
     private void displayMovie() {
-        movieView2.setRuntime(loadedMovie.runtime);
-        movieView2.setCountries(loadedMovie.countriesList);
-        movieView2.setTagline(loadedMovie.tagline);
-
-        movieView.setGenres(loadedMovie.genresList); // Improve with genres ids
-        movieView.setStatus(loadedMovie.status);
-        movieView.setBudget(loadedMovie.budget);
-        movieView.setRevenue(loadedMovie.revenue);
-        movieView.setCompanies(loadedMovie.companiesList);
-        movieView.setHomePage(loadedMovie.homepage);
+        movieViewTop.setRuntime(loadedMovie.runtime)
+                    .setCountries(loadedMovie.countriesList)
+                    .setTagline(loadedMovie.tagline)
+                    .setGenres(loadedMovie.genresList)
+                    .setStatus(loadedMovie.status)
+                    .setBudget(loadedMovie.budget)
+                    .setRevenue(loadedMovie.revenue)
+                    .setCompanies(loadedMovie.companiesList)
+                    .setHomePage(loadedMovie.homepage);
 
         //loadImages(loadedMovie.id);
         loadCredits(currentMovie.id);
         loadTrailers(currentMovie.id);
 
-        cashMovie();
+        addMovieToRealm(loadedMovie);
     }
 
     private void cashMovie() {
         Picasso.with(getContext())
                 .load(Url.getImage(currentMovie.posterPath, "original"))
                 .into(target);
-    }
-
-    private void load() {
-        movieView2.setPoster(currentMovie.posterPath)
-                   .setTitle(currentMovie.title)
-                   .setOverview(currentMovie.overview)
-                   .setDate(currentMovie.releaseDate)
-                   .setVoteAverage(currentMovie.voteAverage)
-                   .setVoteCount(currentMovie.voteCount);
-        // setfavbutton
-
-        movieView.setOriginalTitle(currentMovie.originalTitle)
-                 .setOriginalLang(currentMovie.originalLanguage);
-
-        loadMovieDetails(currentMovie.id);
     }
 
     private Target target = new Target() {
@@ -329,7 +344,7 @@ public class MovieFragment extends Fragment {
             public void onResponse(@NonNull Call<VideoResponse> call, @NonNull Response<VideoResponse> response) {
                 if (response.isSuccessful()) {
                     trailersList.addAll(response.body().trailersList);
-                    movieView.setTrailers(trailersList);
+                    movieViewTop.setTrailers(trailersList);
                 } else {
                     // todo Error
                 }
@@ -352,7 +367,7 @@ public class MovieFragment extends Fragment {
                     List<Poster> posterList = response.body().postersList;
                     List<Backdrop> backdropList = response.body().backdropsList;
 
-                    movieView.setImages(currentMovie.posterPath, currentMovie.backdropPath, posterList.size(), backdropList.size());
+                    movieViewTop.setImages(currentMovie.posterPath, currentMovie.backdropPath, posterList.size(), backdropList.size());
                 } else {
                     // todo Error.
                 }
@@ -372,7 +387,7 @@ public class MovieFragment extends Fragment {
             @Override
             public void onResponse(Call<CreditResponse> call, Response<CreditResponse> response) {
                 if (response.isSuccessful()) {
-                    movieView.setCrew(response.body().crewList);
+                    movieViewTop.setCrew(response.body().crewList);
                 } else {
                     // todo Error.
                 }
@@ -383,5 +398,29 @@ public class MovieFragment extends Fragment {
                 // todo Error.
             }
         });
+    }
+
+    Movie realmMovie;
+
+    private void addMovieToRealm(Movie movie) {
+        Realm realm = Realm.getDefaultInstance();
+        realmMovie = realm.where(Movie.class).equalTo("id", movie.id).findFirstAsync();
+        if (realmMovie == null) {
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    Movie newMovie = realm.createObject(Movie.class);
+                    newMovie = movie;
+                }
+            });
+        } else {
+            realm.executeTransaction(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realmMovie = movie;
+                }
+            });
+        }
+        realm.close();
     }
 }
