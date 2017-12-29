@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.michaelbel.application.R;
@@ -52,6 +53,7 @@ public class MovieViewPoster extends FrameLayout {
         Picasso.with(getContext())
                .load(Url.getImage(posterPath, size))
                .placeholder(R.drawable.movie_placeholder)
+               .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                .into(posterImageView);
         return this;
     }
