@@ -1,5 +1,6 @@
 package org.michaelbel.application.moviemade;
 
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -151,5 +152,9 @@ public class LayoutHelper {
         params.rightMargin = getSize(end);
         params.bottomMargin = getSize(bottom);
         return params;
+    }
+
+    public static SwipeRefreshLayout.LayoutParams makeSwipeRefresh(int width, int height) {
+        return new SwipeRefreshLayout.LayoutParams(getSize(width), getSize(height));
     }
 }

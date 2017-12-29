@@ -29,7 +29,7 @@ public class Theme {
     public static final int NIGHT_BLUE_THEME = 2;
 
     private static Context getContext() {
-        return AppLoader.AppContext;
+        return Moviemade.AppContext;
     }
 
     public static int getAppTheme() {
@@ -339,9 +339,7 @@ public class Theme {
             Field mCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
             mCursorDrawableRes.setAccessible(true);
             mCursorDrawableRes.setInt(editText, 0);
-        } catch (Exception e) {
-
-        }
+        } catch (Exception e) {}
     }
 
     public static int getAttrColor(@NonNull Context context, @AttrRes int colorAttr) {
@@ -354,9 +352,7 @@ public class Theme {
             TypedArray typedArray = context.obtainStyledAttributes(attrs);
             color = typedArray.getColor(0, 0);
             typedArray.recycle();
-        } catch (Exception e) {
-
-        }
+        } catch (Exception e) {}
 
         return color;
     }
