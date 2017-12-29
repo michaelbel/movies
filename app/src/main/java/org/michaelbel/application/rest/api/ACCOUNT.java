@@ -78,7 +78,7 @@ public interface ACCOUNT {
             @Query("sort_by") String sort
     );
 
-    @GET("account/{account_id}/watchlist/movies?")
+    @GET("account/{account_id}/watching/movies?")
     Call<MovieResponse> getMovieWatchlist(
             @Path("account_id") int id,
             @Query("api_key") String apiKey,
@@ -87,7 +87,7 @@ public interface ACCOUNT {
             @Query("sort_by") String sort
     );
 
-    @GET("account/{account_id}/watchlist/tv?")
+    @GET("account/{account_id}/watching/tv?")
     Call<MovieResponse> getTVShowsWatchlist(
             @Path("account_id") int id,
             @Query("api_key") String apiKey,
@@ -96,7 +96,7 @@ public interface ACCOUNT {
             @Query("sort_by") String sort
     );
 
-    @POST("account/{account_id}/watchlist?")
+    @POST("account/{account_id}/watching?")
     Call<?> addToWatchlist(
             @Path("account_id") int id,
             @Query("api_key") String apiKey,

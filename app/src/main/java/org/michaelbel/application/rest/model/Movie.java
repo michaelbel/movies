@@ -12,8 +12,7 @@ import io.realm.annotations.Ignore;
 public class Movie extends RealmObject implements Serializable {
 
     public boolean favorite;
-
-    public boolean watchlist;
+    public boolean watching;
 
     @SerializedName("adult")
     public boolean adult;

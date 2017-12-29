@@ -6,6 +6,7 @@ mainconfig:
  - theme                  (int)
  - in_app_browser         (bool)
  - adult                  (bool)
+ - keep_media             (int)
  - image_quality          (string)
  - image_quality_custom   (bool)
  - image_quality_backdrop (string)
@@ -16,3 +17,4 @@ mainconfig:
 
 devconfig:
  - scrollbars (bool)
+ - burger     (bool)

@@ -48,6 +48,11 @@ public class AndroidUtils {
         return prefs.getBoolean("adult", true);
     }
 
+    public static int viewType() {
+        SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
+        return prefs.getInt("view_type", 0);
+    }
+
     public static void addToClipboard(CharSequence label, CharSequence text) {
         try {
             ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);

@@ -1,6 +1,7 @@
 package org.michaelbel.application.rest.api;
 
 import org.michaelbel.application.rest.model.Person;
+import org.michaelbel.application.rest.response.MoviePeopleResponse;
 import org.michaelbel.application.rest.response.PeopleResponce;
 
 import retrofit2.Call;
@@ -20,7 +21,7 @@ public interface PEOPLE {
     );
 
     @GET("person/{person_id}/movie_credits?")
-    Call<?> getMovieCredits(
+    Call<MoviePeopleResponse> getMovieCredits(
             @Path("person_id") int id,
             @Query("api_key") String apiKey,
             @Query("language") String language
