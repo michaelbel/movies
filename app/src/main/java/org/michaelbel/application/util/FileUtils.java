@@ -2,8 +2,6 @@ package org.michaelbel.application.util;
 
 import android.support.annotation.NonNull;
 
-import org.michaelbel.application.moviemade.AppLoader;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -42,14 +40,5 @@ public class FileUtils {
                 }
             }
         }
-    }
-
-    private static boolean createCacheDirectory(@NonNull String directoryName) {
-        File directory = new File(AppLoader.AppContext.getCacheDir(), directoryName);
-        if (!directory.exists()) {
-            return directory.mkdir();
-        }
-
-        return directory.exists();
     }
 }

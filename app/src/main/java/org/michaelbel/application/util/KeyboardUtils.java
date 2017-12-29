@@ -8,15 +8,12 @@ import android.view.inputmethod.InputMethodManager;
 @SuppressWarnings("all")
 public class KeyboardUtils {
 
-    private static final String TAG = KeyboardUtils.class.getSimpleName();
-
     public static void showKeyboard(@NonNull View view) {
         try {
             InputMethodManager inputManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         } catch (Exception e) {
-            //FirebaseCrash.logcat(Log.ERROR, "e_message", "Show keyboard error");
-            //FirebaseCrash.report(e);
+            // todo Error
         }
     }
 
@@ -25,8 +22,7 @@ public class KeyboardUtils {
             InputMethodManager inputManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             return inputManager.isActive(view);
         } catch (Exception e) {
-            //FirebaseCrash.logcat(Log.ERROR, "e_message", "Is keyboard showed keyboard");
-            //FirebaseCrash.report(e);
+            // todo Error
         }
 
         return false;
@@ -40,8 +36,7 @@ public class KeyboardUtils {
             }
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         } catch (Exception e) {
-            //FirebaseCrash.logcat(Log.ERROR, "e_message", "Hide keyboard error");
-            //FirebaseCrash.report(e);
+            // todo Error
         }
     }
 }

@@ -1,8 +1,6 @@
 package org.michaelbel.application.util;
 
 import android.Manifest;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -12,8 +10,6 @@ import android.os.BatteryManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresPermission;
-
-import org.michaelbel.application.moviemade.AppLoader;
 
 @SuppressWarnings("all")
 public class DeviceUtils {
@@ -27,8 +23,7 @@ public class DeviceUtils {
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
             macAddress = wifiInfo.getMacAddress();
         } catch (Exception e) {
-            //FirebaseCrash.logcat(Log.ERROR, "e_message", "Get macaddress error");
-            //FirebaseCrash.report(e);
+            // todo Error.
         }
 
         return macAddress;
@@ -58,17 +53,5 @@ public class DeviceUtils {
 
         percent = (level * 100) / scale;
         return String.valueOf(percent) + "%";
-    }
-
-    public static void addToClipboard(CharSequence text) {
-        try {
-            ClipboardManager clipboardManager = (ClipboardManager)
-                    AppLoader.AppContext.getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clipData = ClipData.newPlainText("label", text);
-            clipboardManager.setPrimaryClip(clipData);
-        } catch (Exception e) {
-            //FirebaseCrash.logcat(Log.ERROR, "e_message", "Add to clipboard error");
-            //FirebaseCrash.report(e);
-        }
     }
 }

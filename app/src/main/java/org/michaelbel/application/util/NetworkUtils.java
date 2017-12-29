@@ -4,7 +4,7 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import org.michaelbel.application.moviemade.AppLoader;
+import org.michaelbel.application.moviemade.Moviemade;
 
 @SuppressWarnings("all")
 public class NetworkUtils {
@@ -15,10 +15,9 @@ public class NetworkUtils {
     public static final int TYPE_NOT_CONNECTED = 0;
 
     public static int getNetworkStatus() {
-        ConnectivityManager connectivityManager = (ConnectivityManager)
-                AppLoader.AppContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-
+        ConnectivityManager connectivityManager = (ConnectivityManager) Moviemade.AppContext.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
         if (networkInfo != null) {
             if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
                 return TYPE_WIFI;
