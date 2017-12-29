@@ -15,6 +15,7 @@ import org.michaelbel.application.R;
 import org.michaelbel.application.moviemade.Theme;
 import org.michaelbel.application.rest.model.Cast;
 import org.michaelbel.application.rest.model.Movie;
+import org.michaelbel.application.ui.fragment.ListMoviesFragment;
 import org.michaelbel.application.ui.fragment.PersonFragment;
 import org.michaelbel.application.ui.view.widget.FragmentsPagerAdapter;
 
@@ -46,6 +47,7 @@ public class PersonActivity extends AppCompatActivity {
 
         FragmentsPagerAdapter adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
         adapter.addFragment(PersonFragment.newInstance(person), R.string.Info);
+        adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_BY_PERSON, person), R.string.Movies);
 
         viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(adapter);

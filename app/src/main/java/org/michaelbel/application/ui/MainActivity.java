@@ -25,6 +25,7 @@ import org.michaelbel.application.rest.model.Movie;
 import org.michaelbel.application.ui.fragment.ListMoviesFragment;
 import org.michaelbel.application.ui.view.NavigationView;
 import org.michaelbel.application.ui.view.widget.FragmentsPagerAdapter;
+import org.michaelbel.application.util.AndroidUtilsDev;
 import org.michaelbel.application.util.KeyboardUtils;
 
 @SuppressWarnings("all")
@@ -52,8 +53,7 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(0x33000000);
 
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_menu);
-        //toolbar.setNavigationIcon(R.drawable.ic_hamburger);
+        toolbar.setNavigationIcon(AndroidUtilsDev.hamburgerIcon() ? R.drawable.ic_hamburger : R.drawable.ic_menu);
         setSupportActionBar(toolbar);
 
         drawerLayout = findViewById(R.id.drawer);
