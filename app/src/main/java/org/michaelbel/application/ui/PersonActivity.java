@@ -11,15 +11,17 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import org.michaelbel.application.ui.view.widget.FragmentsPagerAdapter;
 import org.michaelbel.application.R;
 import org.michaelbel.application.moviemade.Theme;
+import org.michaelbel.application.rest.model.Cast;
+import org.michaelbel.application.rest.model.Movie;
 import org.michaelbel.application.ui.fragment.PersonFragment;
+import org.michaelbel.application.ui.view.widget.FragmentsPagerAdapter;
 
+@SuppressWarnings("all")
 public class PersonActivity extends AppCompatActivity {
 
-    private int personId;
-    private String personName;
+    private Cast person;
 
     public Toolbar toolbar;
     public TextView toolbarTextView;
@@ -32,8 +34,7 @@ public class PersonActivity extends AppCompatActivity {
         setContentView(R.layout.activity_person);
 
         if (savedInstanceState == null) {
-            personId = getIntent().getIntExtra("personId", 0);
-            personName = getIntent().getStringExtra("personName");
+            person = (Cast) getIntent().getSerializableExtra("person");
         }
 
         toolbar = findViewById(R.id.toolbar);
@@ -41,10 +42,10 @@ public class PersonActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         toolbarTextView = findViewById(R.id.toolbar_title);
-        toolbarTextView.setText(personName);
+        toolbarTextView.setText(person.name);
 
         FragmentsPagerAdapter adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
-        adapter.addFragment(PersonFragment.newInstance(personId, personName), R.string.Info);
+        adapter.addFragment(PersonFragment.newInstance(person), R.string.Info);
 
         viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(adapter);
@@ -65,10 +66,9 @@ public class PersonActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void startMovie(int movieId, String movieTitle) {
+    public void startMovie(Movie movie) {
         Intent intent = new Intent(this, MovieActivity.class);
-        intent.putExtra("movieId", movieId);
-        intent.putExtra("movieTitle", movieTitle);
+        intent.putExtra("movie", movie);
         startActivity(intent);
     }
 }

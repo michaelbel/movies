@@ -6,8 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import org.michaelbel.application.R;
+import org.michaelbel.application.rest.model.Movie;
+import org.michaelbel.application.rest.model.Trailer;
 import org.michaelbel.application.ui.fragment.TrailersFragment;
 import org.michaelbel.application.ui.view.TitleView;
+
+import java.util.ArrayList;
 
 public class TrailersActivity extends AppCompatActivity {
 
@@ -25,9 +29,10 @@ public class TrailersActivity extends AppCompatActivity {
         titleView = findViewById(R.id.toolbar_title);
 
         if (savedInstanceState == null) {
-            int movieId = getIntent().getIntExtra("movieId", 0);
-            String title = getIntent().getStringExtra("movieTitle");
-            startFragment(TrailersFragment.newInstance(movieId, title));
+            ArrayList<Trailer> list = (ArrayList<Trailer>) getIntent().getSerializableExtra("list");
+            Movie movie = (Movie) getIntent().getSerializableExtra("movie");
+
+            startFragment(TrailersFragment.newInstance(movie, list));
         }
     }
 

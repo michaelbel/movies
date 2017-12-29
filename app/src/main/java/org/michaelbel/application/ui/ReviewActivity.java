@@ -8,8 +8,11 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import org.michaelbel.application.R;
-import org.michaelbel.application.ui.fragment.ReviewDetailsFragment;
+import org.michaelbel.application.rest.model.Movie;
+import org.michaelbel.application.rest.model.Review;
+import org.michaelbel.application.ui.fragment.ReviewFragment;
 
+@SuppressWarnings("all")
 public class ReviewActivity extends AppCompatActivity {
 
     public Toolbar toolbar;
@@ -26,8 +29,10 @@ public class ReviewActivity extends AppCompatActivity {
         toolbarTextView = findViewById(R.id.toolbar_title);
 
         if (savedInstanceState == null) {
-            String reviewId = getIntent().getStringExtra("reviewId");
-            setRootFragment(ReviewDetailsFragment.newInstance(reviewId));
+            Review review = (Review) getIntent().getSerializableExtra("review");
+            Movie movie = (Movie) getIntent().getSerializableExtra("movie");
+
+            setRootFragment(ReviewFragment.newInstance(review, movie));
         }
     }
 

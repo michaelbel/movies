@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -15,27 +14,31 @@ import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import org.michaelbel.application.ui.view.widget.FragmentsPagerAdapter;
 import org.michaelbel.application.R;
 import org.michaelbel.application.moviemade.Theme;
 import org.michaelbel.application.moviemade.Url;
+import org.michaelbel.application.rest.model.Cast;
+import org.michaelbel.application.rest.model.Movie;
+import org.michaelbel.application.rest.model.Review;
+import org.michaelbel.application.rest.model.Trailer;
 import org.michaelbel.application.ui.fragment.CastMovieFragment;
+import org.michaelbel.application.ui.fragment.ListMoviesFragment;
 import org.michaelbel.application.ui.fragment.MovieFragment;
-import org.michaelbel.application.ui.fragment.RelatedMovieFragment;
 import org.michaelbel.application.ui.fragment.ReviewsMovieFragment;
-import org.michaelbel.application.ui.fragment.SimilarMoviesFragment;
+import org.michaelbel.application.ui.view.widget.FragmentsPagerAdapter;
 
+import java.util.ArrayList;
+
+@SuppressWarnings("all")
 public class MovieActivity extends AppCompatActivity {
 
-    private int movieId;
-    private String movieTitle;
+    public Movie movie;
 
     public Toolbar toolbar;
     public ViewPager viewPager;
     public TabLayout tabLayout;
     public TextView toolbarTextView;
     public AppBarLayout appBarLayout;
-    public FloatingActionButton fabButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,8 +50,7 @@ public class MovieActivity extends AppCompatActivity {
         getWindow().setStatusBarColor(0x33000000);
 
         if (savedInstanceState == null) {
-            movieId = getIntent().getIntExtra("movieId", 0);
-            movieTitle = getIntent().getStringExtra("movieTitle");
+            movie = (Movie) getIntent().getSerializableExtra("movie");
         }
 
         toolbar = findViewById(R.id.toolbar);
@@ -56,18 +58,17 @@ public class MovieActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         toolbarTextView = findViewById(R.id.toolbar_title);
-        toolbarTextView.setText(movieTitle);
+        toolbarTextView.setText(movie.title);
 
         appBarLayout = findViewById(R.id.app_bar);
-        fabButton = findViewById(R.id.fab_button);
         viewPager = findViewById(R.id.view_pager);
 
         FragmentsPagerAdapter adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
-        adapter.addFragment(MovieFragment.newInstance(movieId), "Info");
-        adapter.addFragment(CastMovieFragment.newInstance(movieId), "Cast");
-        adapter.addFragment(ReviewsMovieFragment.newInstance(movieId), "Reviews");
-        adapter.addFragment(SimilarMoviesFragment.newInstance(movieId), "Similar");
-        adapter.addFragment(RelatedMovieFragment.newInstance(movieId), "Related");
+        adapter.addFragment(MovieFragment.newInstance(movie), R.string.Info);
+        adapter.addFragment(CastMovieFragment.newInstance(movie), R.string.Cast);
+        adapter.addFragment(ReviewsMovieFragment.newInstance(movie), R.string.Reviews);
+        adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_SIMILAR, movie), R.string.Similar);
+        adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_RELATED, movie), R.string.Related);
         viewPager.setAdapter(adapter);
 
         tabLayout = findViewById(R.id.tab_layout);
@@ -86,11 +87,10 @@ public class MovieActivity extends AppCompatActivity {
                     try {
                         Intent intent = new Intent(Intent.ACTION_SEND);
                         intent.setType("text/plain");
-                        intent.putExtra(Intent.EXTRA_TEXT, Url.TMDB_MOVIE + movieId);
+                        intent.putExtra(Intent.EXTRA_TEXT, Url.TMDB_MOVIE + movie.id);
                         startActivity(Intent.createChooser(intent, getString(R.string.ShareVia)));
                         return true;
                     } catch (Exception e) {
-                        //FirebaseCrash.report(e);
                         return false;
                     }
                 });
@@ -107,23 +107,29 @@ public class MovieActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void startMovie(int movieId, String movieTitle) {
+    public void startMovie(Movie movie) {
         Intent intent = new Intent(this, MovieActivity.class);
-        intent.putExtra("movieId", movieId);
-        intent.putExtra("movieTitle", movieTitle);
+        intent.putExtra("movie", movie);
         startActivity(intent);
     }
 
-    public void startPerson(int personId, String personName) {
+    public void startPerson(Cast person) {
         Intent intent = new Intent(this, PersonActivity.class);
-        intent.putExtra("personId", personId);
-        intent.putExtra("personName", personName);
+        intent.putExtra("person", person);
         startActivity(intent);
     }
 
-    public void startReview(String reviewId) {
+    public void startReview(Review review, Movie movie) {
         Intent intent = new Intent(this, ReviewActivity.class);
-        intent.putExtra("reviewId", reviewId);
+        intent.putExtra("review", review);
+        intent.putExtra("movie", movie);
+        startActivity(intent);
+    }
+
+    public void startTrailers(Movie movie, ArrayList<Trailer> list) {
+        Intent intent = new Intent(this, TrailersActivity.class);
+        intent.putExtra("movie", movie);
+        intent.putExtra("list", list);
         startActivity(intent);
     }
 }

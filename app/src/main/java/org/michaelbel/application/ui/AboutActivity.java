@@ -3,7 +3,6 @@ package org.michaelbel.application.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
@@ -11,6 +10,7 @@ import android.widget.TextView;
 import org.michaelbel.application.R;
 import org.michaelbel.application.ui.fragment.AboutFragment;
 
+@SuppressWarnings("all")
 public class AboutActivity extends AppCompatActivity {
 
     public Toolbar toolbar;
@@ -39,7 +39,6 @@ public class AboutActivity extends AppCompatActivity {
     public void startFragment(Fragment fragment, String tag) {
         getSupportFragmentManager()
                 .beginTransaction()
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.fragment_layout, fragment)
                 .addToBackStack(tag)
                 .commit();

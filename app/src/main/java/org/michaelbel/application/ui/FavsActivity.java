@@ -11,17 +11,19 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.michaelbel.application.rest.model.Movie;
 import org.michaelbel.application.ui.view.widget.FragmentsPagerAdapter;
 import org.michaelbel.application.R;
 import org.michaelbel.application.moviemade.Theme;
 import org.michaelbel.application.ui.fragment.FavoriteMoviesFragment;
 
+@SuppressWarnings("all")
 public class FavsActivity extends AppCompatActivity {
 
     public Toolbar toolbar;
-    public TextView toolbarTextView;
     public ViewPager viewPager;
     public TabLayout tabLayout;
+    public TextView toolbarTextView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -57,10 +59,9 @@ public class FavsActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void startMovie(int movieId, String movieTitle) {
+    public void startMovie(Movie movie) {
         Intent intent = new Intent(this, MovieActivity.class);
-        intent.putExtra("movieId", movieId);
-        intent.putExtra("movieTitle", movieTitle);
+        intent.putExtra("movie", movie);
         startActivity(intent);
     }
 }
