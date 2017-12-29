@@ -13,21 +13,20 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import org.michaelbel.application.R;
 import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
 import org.michaelbel.application.util.ScreenUtils;
 
+@SuppressWarnings("all")
 public class TrailerView extends FrameLayout {
 
     private ImageView trailerImageView;
     private ImageView playerImageView;
     private TextView titleTextView;
     private TextView qualityTextView;
-
-    /*private Rect rect = new Rect();*/
 
     public TrailerView(Context context) {
         super(context);
@@ -36,8 +35,7 @@ public class TrailerView extends FrameLayout {
         setBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
 
         FrameLayout imageLayout = new FrameLayout(context);
-        imageLayout.setLayoutParams(LayoutHelper.makeFrame(180, 100,
-                Gravity.TOP, 8, 8, 8, 0));
+        imageLayout.setLayoutParams(LayoutHelper.makeFrame(180, 100, Gravity.TOP, 8, 8, 8, 0));
         addView(imageLayout);
 
         trailerImageView = new ImageView(context);
@@ -47,8 +45,7 @@ public class TrailerView extends FrameLayout {
 
         ImageView playImageView = new ImageView(context);
         playImageView.setImageResource(R.drawable.ic_button_play);
-        playImageView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-                Gravity.CENTER));
+        playImageView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         imageLayout.addView(playImageView);
 
         qualityTextView = new TextView(context);
@@ -56,20 +53,17 @@ public class TrailerView extends FrameLayout {
         qualityTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryColor()));
         qualityTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         qualityTextView.setBackground(ContextCompat.getDrawable(context, R.drawable.rect_quality_mini));
-        qualityTextView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-                Gravity.END | Gravity.BOTTOM, 0, 0, 5, 5));
+        qualityTextView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.END | Gravity.BOTTOM, 0, 0, 5, 5));
         imageLayout.addView(qualityTextView);
 
         LinearLayout titleLayout = new LinearLayout(context);
         titleLayout.setOrientation(LinearLayout.HORIZONTAL);
-        titleLayout.setLayoutParams(LayoutHelper.makeFrame(180, LayoutHelper.WRAP_CONTENT,
-                Gravity.TOP, 8, 112, 8, 0));
+        titleLayout.setLayoutParams(LayoutHelper.makeFrame(180, LayoutHelper.WRAP_CONTENT, Gravity.TOP, 8, 112, 8, 0));
         addView(titleLayout);
 
         playerImageView = new ImageView(context);
         playerImageView.setImageDrawable(Theme.getIcon(R.drawable.ic_youtube, 0xFFF44336));
-        playerImageView.setLayoutParams(LayoutHelper.makeLinear(24, 24,
-                Gravity.START | Gravity.TOP, 0, 2, 0, 0));
+        playerImageView.setLayoutParams(LayoutHelper.makeLinear(24, 24, Gravity.START | Gravity.TOP, 0, 2, 0, 0));
         titleLayout.addView(playerImageView);
 
         titleTextView = new TextView(context);
@@ -78,15 +72,14 @@ public class TrailerView extends FrameLayout {
         titleTextView.setEllipsize(TextUtils.TruncateAt.END);
         titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         titleTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        titleTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-                Gravity.START | Gravity.TOP, 5, 5, 0, 0));
+        titleTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 5, 5, 0, 0));
         titleLayout.addView(titleTextView);
     }
 
     public TrailerView setTrailerImage(@NonNull String trailerKey) {
-        Glide.with(getContext())
-                .load("http://img.youtube.com/vi/" + trailerKey + "/0.jpg")
-                .into(trailerImageView);
+        Picasso.with(getContext())
+               .load("http://img.youtube.com/vi/" + trailerKey + "/0.jpg")
+               .into(trailerImageView);
         return this;
     }
 
@@ -95,8 +88,8 @@ public class TrailerView extends FrameLayout {
         return this;
     }
 
-    public TrailerView setQuality(@NonNull String quality) {
-        qualityTextView.setText(quality + "p");
+    public TrailerView setQuality(@NonNull String size) {
+        qualityTextView.setText(getContext().getString(R.string.VideoSize, size));
         return this;
     }
 
@@ -123,28 +116,11 @@ public class TrailerView extends FrameLayout {
         setLayoutParams(params);
     }
 
-    /*@Override
-    public boolean onTouchEvent(MotionEvent event) {
-        if (getForeground() != null) {
-            if (rect.contains((int) event.getX(), (int) event.getY())) {
-                return true;
-            }
-
-            if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
-                getForeground().setHotspot(event.getX(), event.getY());
-            }
-        }
-
-        return super.onTouchEvent(event);
-    }*/
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
         int width = getMeasuredWidth();
         int height = getMeasuredHeight();
-
         setMeasuredDimension(width, height);
     }
 }

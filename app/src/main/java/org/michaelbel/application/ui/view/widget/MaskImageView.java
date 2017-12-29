@@ -15,6 +15,7 @@ import android.support.v7.widget.AppCompatImageView;
 
 import org.michaelbel.application.R;
 
+@SuppressWarnings("all")
 public class MaskImageView extends AppCompatImageView {
 
     private Paint mMaskedPaint;

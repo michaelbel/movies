@@ -17,17 +17,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
+import org.michaelbel.application.R;
 import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
+import org.michaelbel.application.moviemade.Url;
 import org.michaelbel.application.ui.view.RatingView;
 
 import static android.widget.LinearLayout.HORIZONTAL;
 
+@SuppressWarnings("all")
 public class MovieViewList extends FrameLayout {
-
-    public int movieId;
 
     private ImageView posterImageView;
     private TextView titleTextView;
@@ -53,14 +54,12 @@ public class MovieViewList extends FrameLayout {
 
         posterImageView = new ImageView(context);
         posterImageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        posterImageView.setLayoutParams(LayoutHelper.makeFrame(60, 90,
-                Gravity.START, 8, 8, 0, 8));
+        posterImageView.setLayoutParams(LayoutHelper.makeFrame(60, 90, Gravity.START, 8, 8, 0, 8));
         addView(posterImageView);
 
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-        linearLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT,
-                72, 0, 0, 0));
+        linearLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, 72, 0, 0, 0));
         addView(linearLayout);
 
         titleTextView = new TextView(context);
@@ -70,8 +69,7 @@ public class MovieViewList extends FrameLayout {
         titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
         titleTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         titleTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-        titleTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                Gravity.START | Gravity.TOP, 16, 16, 16, 0));
+        titleTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 16, 16, 16, 0));
         linearLayout.addView(titleTextView);
 
         yearTextView = new TextView(context);
@@ -81,36 +79,33 @@ public class MovieViewList extends FrameLayout {
         yearTextView.setEllipsize(TextUtils.TruncateAt.END);
         yearTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         yearTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        yearTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                Gravity.START | Gravity.TOP, 16, 0, 12, 0));
+        yearTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 16, 0, 12, 0));
         linearLayout.addView(yearTextView);
 
         LinearLayout ratingLayout = new LinearLayout(context);
         ratingLayout.setOrientation(HORIZONTAL);
-        ratingLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                16, 0, 16, 0));
+        ratingLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
         linearLayout.addView(ratingLayout);
 
         ratingView = new RatingView(context);
-        ratingView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-                Gravity.START | Gravity.CENTER_VERTICAL));
+        ratingView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL));
         //ratingLayout.addView(ratingView);
 
         ratingTextView = new TextView(context);
         ratingTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
         ratingTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
         ratingTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-        ratingTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-                Gravity.START | Gravity.CENTER_VERTICAL, /*12*/ 0, 0, 0, 0));
+        ratingTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, /*12*/ 0, 0, 0, 0));
         ratingLayout.addView(ratingTextView);
     }
 
     public MovieViewList setPoster(@NonNull String posterPath) {
-        SharedPreferences prefs = getContext().getSharedPreferences("main_config", Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
         String size = prefs.getString("image_quality_poster", "w342");
 
-        Glide.with(getContext())
-                .load("http://image.tmdb.org/t/p/" + size +"/" + posterPath)
+        Picasso.with(getContext())
+                .load(Url.getImage(posterPath, size))
+                .placeholder(R.drawable.movie_placeholder)
                 .into(posterImageView);
         return this;
     }

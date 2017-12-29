@@ -14,7 +14,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 
 
-import org.michaelbel.application.util.AppUtils;
+import org.michaelbel.application.util.AndroidUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -77,7 +77,7 @@ public class RecyclerListView extends RecyclerView {
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 if (newState != SCROLL_STATE_IDLE && currentChildView != null) {
                     if (selectChildRunnable != null) {
-                        AppUtils.cancelRunOnUIThread(selectChildRunnable);
+                        AndroidUtils.cancelRunOnUIThread(selectChildRunnable);
                         selectChildRunnable = null;
                     }
 
@@ -136,7 +136,7 @@ public class RecyclerListView extends RecyclerView {
                             onItemClickListener.onItemClick(view, currentChildPosition);
                         }
 
-                        AppUtils.runOnUIThread(clickRunnable = new Runnable() {
+                        AndroidUtils.runOnUIThread(clickRunnable = new Runnable() {
                             @Override
                             public void run() {
                                 if (this == clickRunnable) {
@@ -156,7 +156,7 @@ public class RecyclerListView extends RecyclerView {
                         }, ViewConfiguration.getPressedStateDuration());
 
                         if (selectChildRunnable != null) {
-                            AppUtils.cancelRunOnUIThread(selectChildRunnable);
+                            AndroidUtils.cancelRunOnUIThread(selectChildRunnable);
                             selectChildRunnable = null;
                             currentChildView = null;
                             interceptedByChild = false;
@@ -231,11 +231,11 @@ public class RecyclerListView extends RecyclerView {
                         }
                     };
 
-                    AppUtils.runOnUIThread(selectChildRunnable, ViewConfiguration.getTapTimeout());
+                    AndroidUtils.runOnUIThread(selectChildRunnable, ViewConfiguration.getTapTimeout());
                 }
             } else if (currentChildView != null && (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_POINTER_UP || action == MotionEvent.ACTION_CANCEL || !isScrollIdle)) {
                 if (selectChildRunnable != null) {
-                    AppUtils.cancelRunOnUIThread(selectChildRunnable);
+                    AndroidUtils.cancelRunOnUIThread(selectChildRunnable);
                     selectChildRunnable = null;
                 }
 
@@ -258,7 +258,7 @@ public class RecyclerListView extends RecyclerView {
 
     public void cancelClickRunnables(boolean uncheck) {
         if (selectChildRunnable != null) {
-            AppUtils.cancelRunOnUIThread(selectChildRunnable);
+            AndroidUtils.cancelRunOnUIThread(selectChildRunnable);
             selectChildRunnable = null;
         }
 
@@ -271,7 +271,7 @@ public class RecyclerListView extends RecyclerView {
         }
 
         if (clickRunnable != null) {
-            AppUtils.cancelRunOnUIThread(clickRunnable);
+            AndroidUtils.cancelRunOnUIThread(clickRunnable);
             clickRunnable = null;
         }
 

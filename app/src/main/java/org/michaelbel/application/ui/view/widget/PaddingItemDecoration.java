@@ -4,6 +4,7 @@ import android.graphics.Rect;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+@SuppressWarnings("all")
 public class PaddingItemDecoration extends RecyclerView.ItemDecoration {
 
     private int itemOffset;

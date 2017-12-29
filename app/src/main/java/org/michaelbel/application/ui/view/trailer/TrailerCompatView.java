@@ -15,13 +15,14 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import org.michaelbel.application.R;
 import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
 import org.michaelbel.application.util.ScreenUtils;
 
+@SuppressWarnings("all")
 public class TrailerCompatView extends FrameLayout {
 
     private CardView cardView;
@@ -40,8 +41,7 @@ public class TrailerCompatView extends FrameLayout {
         cardView.setPreventCornerOverlap(false);
         cardView.setForeground(Theme.selectableItemBackgroundBorderlessDrawable());
         cardView.setCardBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
-        cardView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT,
-                LayoutHelper.MATCH_PARENT));
+        cardView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         addView(cardView);
 
         trailerImage = new ImageView(context);
@@ -51,8 +51,7 @@ public class TrailerCompatView extends FrameLayout {
 
         ImageView playImageView = new ImageView(context);
         playImageView.setImageResource(R.drawable.ic_button_play);
-        playImageView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT,
-                LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 0, 0, 0, 24));
+        playImageView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 0, 0, 0, 24));
         cardView.addView(playImageView);
 
         FrameLayout layout = new FrameLayout(context);
@@ -70,8 +69,7 @@ public class TrailerCompatView extends FrameLayout {
         titleText.setEllipsize(TextUtils.TruncateAt.END);
         titleText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
         titleText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        titleText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT,
-                LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 12, 0, 12, 0));
+        titleText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 12, 0, 12, 0));
         layout.addView(titleText);
 
         qualityText = new TextView(context);
@@ -79,8 +77,7 @@ public class TrailerCompatView extends FrameLayout {
         qualityText.setTextColor(ContextCompat.getColor(context, Theme.primaryColor()));
         qualityText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         qualityText.setBackground(ContextCompat.getDrawable(context, R.drawable.rect_quality));
-        qualityText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-                Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 12, 0));
+        qualityText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 12, 0));
         layout.addView(qualityText);
     }
 
@@ -89,8 +86,8 @@ public class TrailerCompatView extends FrameLayout {
         return this;
     }
 
-    public TrailerCompatView setQuality(@NonNull String quality) {
-        qualityText.setText(quality + "p");
+    public TrailerCompatView setQuality(@NonNull String size) {
+        qualityText.setText(getContext().getString(R.string.VideoSize, size));
         return this;
     }
 
@@ -98,43 +95,32 @@ public class TrailerCompatView extends FrameLayout {
         if (site != null) {
             if (site.equals("YouTube")) {
                 playerImage.setVisibility(VISIBLE);
-                titleText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT,
-                        LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 48, 0, 64, 0));
+                titleText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 48, 0, 64, 0));
             } else {
                 playerImage.setVisibility(INVISIBLE);
-                titleText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT,
-                        LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 12, 0, 50, 0));
+                titleText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 12, 0, 50, 0));
             }
         } else {
             playerImage.setVisibility(INVISIBLE);
-            titleText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT,
-                    LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 12, 0, 50, 0));
+            titleText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 12, 0, 50, 0));
         }
         return this;
     }
 
     public TrailerCompatView setTrailerImage(@NonNull String trailerKey) {
-        try {
-            Glide.with(getContext())
-                    .load("http://img.youtube.com/vi/" + trailerKey + "/0.jpg")
-                    .into(trailerImage);
-        } catch (Exception e) {
-            //FirebaseCrash.report(e);
-        }
+        Picasso.with(getContext())
+               .load("http://img.youtube.com/vi/" + trailerKey + "/0.jpg")
+               .into(trailerImage);
         return this;
     }
 
-    public TrailerCompatView changeLayoutParams(boolean gravity) {
+    public TrailerCompatView changeLayoutParams() {
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
         );
 
-        if (gravity) {
-            params.leftMargin = ScreenUtils.dp(3F);
-        } else {
-            params.rightMargin = ScreenUtils.dp(3F);
-        }
-
+        params.leftMargin = ScreenUtils.dp(4F);
+        params.rightMargin = ScreenUtils.dp(4F);
         setLayoutParams(params);
         return this;
     }

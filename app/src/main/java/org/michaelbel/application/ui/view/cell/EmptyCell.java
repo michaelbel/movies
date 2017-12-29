@@ -16,13 +16,18 @@ import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
 import org.michaelbel.application.util.ScreenUtils;
 
+@SuppressWarnings("all")
 public class EmptyCell extends FrameLayout {
 
     public static final int MODE_DEFAULT = 10;
     public static final int MODE_TEXT = 11;
     public static final int MODE_LOADING = 12;
 
-    @IntDef({ MODE_DEFAULT, MODE_TEXT, MODE_LOADING })
+    @IntDef({
+            MODE_DEFAULT,
+            MODE_TEXT,
+            MODE_LOADING
+    })
     private @interface Mode {}
 
     private int mHeight = 8;
@@ -46,26 +51,31 @@ public class EmptyCell extends FrameLayout {
         progressBar.setVisibility(INVISIBLE);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         addView(progressBar);
+
+        setMode(MODE_DEFAULT);
     }
 
-    public void setHeight(int height) {
+    public EmptyCell setHeight(int height) {
         if (currentMode == MODE_DEFAULT) {
             mHeight = height;
             requestLayout();
         }
+        return this;
     }
 
-    public void setText(@NonNull CharSequence text) {
+    public EmptyCell setText(@NonNull CharSequence text) {
         if (currentMode == MODE_TEXT) {
             textView.setText(text);
         }
+        return this;
     }
 
-    public void setText(@StringRes int textId) {
+    public EmptyCell setText(@StringRes int textId) {
         setText(getContext().getText(textId));
+        return this;
     }
 
-    public void setMode(@Mode int mode) {
+    public EmptyCell setMode(@Mode int mode) {
         currentMode = mode;
 
         if (currentMode == MODE_DEFAULT) {
@@ -78,9 +88,10 @@ public class EmptyCell extends FrameLayout {
             progressBar.setVisibility(VISIBLE);
             textView.setVisibility(GONE);
         }
+        return this;
     }
 
-    public void changeLayoutParams() {
+    public EmptyCell changeLayoutParams() {
         LayoutParams params = new LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         );
@@ -91,6 +102,7 @@ public class EmptyCell extends FrameLayout {
         }
 
         setLayoutParams(params);
+        return this;
     }
 
     @Override

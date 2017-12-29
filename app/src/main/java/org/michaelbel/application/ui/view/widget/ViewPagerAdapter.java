@@ -10,6 +10,7 @@ import android.widget.FrameLayout;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("all")
 public class ViewPagerAdapter extends PagerAdapter {
 
     private Context context;

@@ -17,12 +17,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
+import org.michaelbel.application.R;
 import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
+import org.michaelbel.application.moviemade.Url;
 import org.michaelbel.application.util.ScreenUtils;
 
+@SuppressWarnings("all")
 public class MovieViewCard extends FrameLayout {
 
     private CardView cardView;
@@ -61,8 +64,7 @@ public class MovieViewCard extends FrameLayout {
         titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
         titleTextView.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
         titleTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        titleTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                Gravity.START, 8, 6, 8, 0));
+        titleTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.START, 8, 6, 8, 0));
         linearLayout.addView(titleTextView);
 
         yearTextView = new TextView(context);
@@ -72,8 +74,7 @@ public class MovieViewCard extends FrameLayout {
         yearTextView.setEllipsize(TextUtils.TruncateAt.END);
         yearTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         yearTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        yearTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                Gravity.START, 8, 0, 8, 6));
+        yearTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.START, 8, 0, 8, 6));
         linearLayout.addView(yearTextView);
     }
 
@@ -82,12 +83,13 @@ public class MovieViewCard extends FrameLayout {
     }
 
     public MovieViewCard setPoster(@NonNull String posterPath) {
-        SharedPreferences prefs = getContext().getSharedPreferences("main_config", Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
         String size = prefs.getString("image_quality_poster", "w342");
 
-        Glide.with(getContext())
-                .load("http://image.tmdb.org/t/p/" + size + "/" + posterPath)
-                .into(posterImageView);
+        Picasso.with(getContext())
+               .load(Url.getImage(posterPath, size))
+               .placeholder(R.drawable.movie_placeholder)
+               .into(posterImageView);
         return this;
     }
 

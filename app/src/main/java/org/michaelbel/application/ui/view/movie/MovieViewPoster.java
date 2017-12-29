@@ -10,12 +10,15 @@ import android.view.MotionEvent;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
+import org.michaelbel.application.R;
 import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
+import org.michaelbel.application.moviemade.Url;
 import org.michaelbel.application.util.ScreenUtils;
 
+@SuppressWarnings("all")
 public class MovieViewPoster extends FrameLayout {
 
     private CardView cardView;
@@ -43,12 +46,13 @@ public class MovieViewPoster extends FrameLayout {
     }
 
     public MovieViewPoster setPoster(@NonNull String posterPath) {
-        SharedPreferences prefs = getContext().getSharedPreferences("main_config", Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
         String size = prefs.getString("image_quality_poster", "w342");
 
-        Glide.with(getContext())
-                .load("http://image.tmdb.org/t/p/" + size +"/" + posterPath)
-                .into(posterImageView);
+        Picasso.with(getContext())
+               .load(Url.getImage(posterPath, size))
+               .placeholder(R.drawable.movie_placeholder)
+               .into(posterImageView);
         return this;
     }
 

@@ -23,6 +23,7 @@ import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
 import org.michaelbel.application.util.ScreenUtils;
 
+@SuppressWarnings("all")
 public class TextDetailCell extends FrameLayout {
 
     public static final int MODE_DEFAULT = 100;
@@ -66,8 +67,7 @@ public class TextDetailCell extends FrameLayout {
         textView.setSingleLine();
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         textView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        textView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT,
-                LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 16, 10, 16, 0));
+        textView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 16, 10, 16, 0));
         addView(textView);
 
         valueText = new TextView(context);
@@ -76,55 +76,57 @@ public class TextDetailCell extends FrameLayout {
         valueText.setSingleLine();
         valueText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
         valueText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        valueText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT,
-                LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 16, 35, 16, 0));
+        valueText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 16, 35, 16, 0));
         addView(valueText);
 
         switchCompat = new SwitchCompat(context); // Theme.switchTheme()
         switchCompat.setClickable(false);
         switchCompat.setFocusable(false);
         switchCompat.setVisibility(INVISIBLE);
-        switchCompat.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT,
-                LayoutHelper.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 16, 0));
+        switchCompat.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 16, 0));
         addView(switchCompat);
 
         checkBox = new AppCompatCheckBox(context);
         checkBox.setClickable(false);
         checkBox.setFocusable(false);
         checkBox.setVisibility(INVISIBLE);
-        checkBox.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT,
-                LayoutHelper.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 16, 0));
+        checkBox.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 16, 0));
         addView(checkBox);
 
         changeSwitchTheme();
         setMode(currentMode);
     }
 
-    public void setText(@NonNull String text) {
+    public TextDetailCell setText(@NonNull String text) {
         textView.setText(text);
+        return this;
     }
 
-    public void setText(@StringRes int textId) {
+    public TextDetailCell setText(@StringRes int textId) {
         textView.setText(getContext().getText(textId));
+        return this;
     }
 
-    public void setValue(@NonNull String text) {
+    public TextDetailCell setValue(@NonNull String text) {
         valueText.setText(text);
+        return this;
     }
 
-    public void setValue(@StringRes int textId) {
+    public TextDetailCell setValue(@StringRes int textId) {
         valueText.setText(getContext().getText(textId));
+        return this;
     }
 
-    public void setChecked(boolean value) {
+    public TextDetailCell setChecked(boolean value) {
         if (currentMode == MODE_SWITCH) {
             switchCompat.setChecked(value);
         } else if (currentMode == MODE_CHECKBOX) {
             checkBox.setChecked(value);
         }
+        return this;
     }
 
-    public void setMode(int mode) {
+    public TextDetailCell setMode(int mode) {
         currentMode = mode;
 
         if (currentMode == MODE_DEFAULT) {
@@ -140,14 +142,16 @@ public class TextDetailCell extends FrameLayout {
             checkBox.setVisibility(VISIBLE);
             switchCompat.setVisibility(INVISIBLE);
         }
+        return this;
     }
 
-    public void setDivider(boolean divider) {
+    public TextDetailCell setDivider(boolean divider) {
         this.divider = divider;
         setWillNotDraw(!divider);
+        return this;
     }
 
-    public void setMultiline(boolean value) {
+    /*public void setMultiline(boolean value) {
         multiline = value;
 
         if (value) {
@@ -161,9 +165,9 @@ public class TextDetailCell extends FrameLayout {
             valueText.setSingleLine();
             valueText.setPadding(0, 0, 0, 0);
         }
-    }
+    }*/
 
-    public void changeLayoutParams() {
+    public TextDetailCell changeLayoutParams() {
         LayoutParams params = new LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
         );
@@ -174,9 +178,10 @@ public class TextDetailCell extends FrameLayout {
         }
 
         setLayoutParams(params);
+        return this;
     }
 
-    public void changeSwitchTheme() {
+    private void changeSwitchTheme() {
         int thumbOn = ContextCompat.getColor(getContext(), Theme.thumbOnColor());
         int thumbOff = ContextCompat.getColor(getContext(), Theme.thumbOffColor());
 

@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("all")
 public class FragmentsPagerAdapter extends FragmentPagerAdapter {
 
     private Context mContext;

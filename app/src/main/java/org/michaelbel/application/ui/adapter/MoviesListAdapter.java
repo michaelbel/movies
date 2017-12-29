@@ -7,16 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.michaelbel.application.moviemade.LayoutHelper;
-import org.michaelbel.application.moviemade.annotation.Beta;
 import org.michaelbel.application.rest.model.Movie;
 import org.michaelbel.application.ui.view.LoadingView;
-import org.michaelbel.application.ui.view.movie.MovieViewCard;
 import org.michaelbel.application.ui.view.MovieViewCompat;
+import org.michaelbel.application.ui.view.movie.MovieViewCard;
 import org.michaelbel.application.ui.view.movie.MovieViewList;
 
 import java.util.List;
 
-@Beta
+@SuppressWarnings("all")
 public class MoviesListAdapter extends RecyclerView.Adapter {
 
     private Context context;
@@ -46,22 +45,18 @@ public class MoviesListAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        int type = getItemViewType(position);
         Movie movie = list.get(position);
 
-        if (getItemViewType(position) == 0) {
+        if (type == 0) {
             MovieViewCard view = (MovieViewCard) holder.itemView;
             view.getPosterImage().setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, 150));
             view.setPoster(movie.posterPath)
                 .setTitle(movie.title)
                 .setYear(movie.releaseDate);
-        } else if (getItemViewType(position) == 1) {
-            //MovieViewList view = (MovieViewList) holder.itemView;
-            //view.setMovie(movie);
-        } else if (getItemViewType(position) == 2) {
+        } else if (type == 2) {
             MovieViewCompat view = (MovieViewCompat) holder.itemView;
             view.setMovie(movie);
-        } else {
-            LoadingView view = (LoadingView) holder.itemView;
         }
     }
 
@@ -72,7 +67,7 @@ public class MoviesListAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        SharedPreferences preferences = context.getSharedPreferences("main_config", Context.MODE_PRIVATE);
+        SharedPreferences preferences = context.getSharedPreferences("mainconfig2", Context.MODE_PRIVATE);
         int viewType = preferences.getInt("view_type", 0);
 
         if (viewType == 0) {
