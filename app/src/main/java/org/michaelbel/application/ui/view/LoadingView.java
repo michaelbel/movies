@@ -6,19 +6,15 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import org.michaelbel.application.moviemade.LayoutHelper;
-import org.michaelbel.application.moviemade.annotation.Beta;
 
-@Beta
+@SuppressWarnings("all")
 public class LoadingView extends FrameLayout {
-
-    private ProgressBar progressBar;
 
     public LoadingView(Context context) {
         super(context);
 
-        progressBar = new ProgressBar(context);
-        progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT,
-                LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
+        ProgressBar progressBar = new ProgressBar(context);
+        progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         addView(progressBar);
     }
 }

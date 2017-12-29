@@ -18,20 +18,21 @@ import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
 import org.michaelbel.application.util.ScreenUtils;
 
-public class CardButton extends FrameLayout {
+@SuppressWarnings("all")
+public class GenreChip extends FrameLayout {
 
     private CardView cardView;
     private TextView textText;
 
     private Rect rect = new Rect();
 
-    public CardButton(Context context) {
+    public GenreChip(Context context) {
         super(context);
 
         cardView = new CardView(context);
         cardView.setCardElevation(0);
         cardView.setUseCompatPadding(true);
-        cardView.setRadius(ScreenUtils.dp(16));
+        cardView.setRadius(ScreenUtils.dp(15));
         cardView.setPreventCornerOverlap(false);
         cardView.setForeground(Theme.selectableItemBackgroundBorderlessDrawable());
         cardView.setCardBackgroundColor(ContextCompat.getColor(context, Theme.accentColor()));
@@ -40,36 +41,33 @@ public class CardButton extends FrameLayout {
 
         textText = new TextView(context);
         textText.setMaxLines(1);
-        textText.setTextColor(0xFFFFFFFF);
+        textText.setTextColor(ContextCompat.getColor(context, Theme.foregroundColor()));
         textText.setGravity(Gravity.CENTER_VERTICAL);
         textText.setEllipsize(TextUtils.TruncateAt.END);
         textText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         textText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-        textText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT,
-                LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL, 16, 8, 16, 8));
+        textText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL, 14, 6, 14, 6));
         cardView.addView(textText);
     }
 
-    public void setText(@StringRes int textId) {
+    public GenreChip setText(String text) {
+        textText.setText(text);
+        return this;
+    }
+
+    public GenreChip setText(@StringRes int textId) {
         textText.setText(getContext().getText(textId).toString().toUpperCase());
+        return this;
     }
 
-    public void setCardRadius(float radius) {
-        cardView.setRadius(radius);
-    }
-
-    public void changeLayoutParams(boolean gravity) {
+    public GenreChip changeLayoutParams() {
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
         );
 
-        if (gravity) {
-            params.leftMargin = ScreenUtils.dp(3F);
-        } else {
-            params.rightMargin = ScreenUtils.dp(3F);
-        }
-
+        params.rightMargin = ScreenUtils.dp(2F);
         setLayoutParams(params);
+        return this;
     }
 
     @Override

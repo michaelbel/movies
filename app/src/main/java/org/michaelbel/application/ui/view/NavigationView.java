@@ -8,19 +8,20 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.NonNull;
+import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import org.michaelbel.application.R;
@@ -30,25 +31,28 @@ import org.michaelbel.application.moviemade.Theme;
 import org.michaelbel.application.moviemade.Url;
 import org.michaelbel.application.rest.api.ACCOUNT;
 import org.michaelbel.application.rest.model.Account;
+import org.michaelbel.application.ui.adapter.Holder;
 import org.michaelbel.application.ui.view.cell.EmptyCell;
+import org.michaelbel.application.ui.view.widget.RecyclerListView;
 import org.michaelbel.application.util.ScreenUtils;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+@SuppressWarnings("all")
 public class NavigationView extends FrameLayout {
 
     private int rowCount;
     private int headerRow;
     private int emptyRow1;
     private int moviesRow;
-    private int mostPopularRow;
-    private int topRatedRow;
-    private int upComingRow;
+    private int showsRow;
+    private int peopleRow;
+    private int genresRow;
     private int dividerRow1;
-    private int watchlistRow;
     private int favoritesRow;
+    private int watchlistRow;
     private int dividerRow2;
     private int settingsRow;
     private int aboutRow;
@@ -59,7 +63,6 @@ public class NavigationView extends FrameLayout {
     private Rect tempRect = new Rect();
     private Drawable insetForeground = new ColorDrawable(0x33000000);
     private OnNavigationItemSelectedListener onNavigationItemSelectedListener;
-    private OnNavigationHeaderClickListener onNavigationHeaderClick;
 
     public interface OnNavigationItemSelectedListener {
         void onNavigationItemSelected(View view, int position);
@@ -83,24 +86,29 @@ public class NavigationView extends FrameLayout {
         rowCount = 0;
         headerRow = rowCount++;
         emptyRow1 = rowCount++;
+        moviesRow = rowCount++;
+        //showsRow = rowCount++;
+        genresRow = rowCount++;
+        peopleRow = rowCount++;
+        dividerRow1 = rowCount++;
         favoritesRow = rowCount++;
+        watchlistRow = rowCount++;
         dividerRow2 = rowCount++;
         settingsRow = rowCount++;
         aboutRow = rowCount++;
         emptyRow2 = rowCount++;
 
-        ListView listView = new ListView(context);
-        listView.setDividerHeight(0);
-        listView.setDrawSelectorOnTop(true);
-        listView.setVerticalScrollBarEnabled(false);
-        listView.setAdapter(new NavigationViewAdapter());
-        listView.setBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
-        listView.setOnItemClickListener((parent, view, position, id) -> {
+        RecyclerListView recyclerView = new RecyclerListView(context);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(new NavigationViewAdapter());
+        recyclerView.setBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
+        recyclerView.setOnItemClickListener((view, position) -> {
             if (onNavigationItemSelectedListener != null) {
                 onNavigationItemSelectedListener.onNavigationItemSelected(view, position);
             }
         });
-        addView(listView);
+        recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        addView(recyclerView);
     }
 
     @Override
@@ -173,13 +181,10 @@ public class NavigationView extends FrameLayout {
         }
 
         int viewportMin = Math.min(viewportWidth, viewportHeight);
-
         TypedValue typedValue = new TypedValue();
         getContext().getTheme().resolveAttribute(R.attr.actionBarSize, typedValue, true);
         int actionBarSize = TypedValue.complexToDimensionPixelSize(typedValue.data, getResources().getDisplayMetrics());
-
         int width = viewportMin - actionBarSize;
-
         getLayoutParams().width = Math.min(width, drawerMaxWidth);
     }
 
@@ -187,113 +192,79 @@ public class NavigationView extends FrameLayout {
         onNavigationItemSelectedListener = listener;
     }
 
-    public void setOnNavigationHeaderClick(OnNavigationHeaderClickListener listener) {
-        onNavigationHeaderClick = listener;
-    }
-
-    private class NavigationViewAdapter extends BaseAdapter {
+    private class NavigationViewAdapter extends RecyclerView.Adapter {
 
         @Override
-        public boolean isEnabled(int i) {
-            return !(i == emptyRow1 || i == emptyRow2 || i == dividerRow1 || i == dividerRow2);
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
+            View view;
+
+            if (type == 0) {
+                view = new DrawerHeaderCell(getContext());
+            } else if (type == 1) {
+                view = new EmptyCell(getContext());
+            } else if (type == 2) {
+                view = new DividerCell(getContext());
+            } else {
+                view = new DrawerActionCell(getContext());
+            }
+
+            return new Holder(view);
         }
 
         @Override
-        public int getCount() {
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            int type = getItemViewType(position);
+
+            if (type == 1) {
+                EmptyCell cell = (EmptyCell) holder.itemView;
+                cell.setMode(EmptyCell.MODE_DEFAULT);
+                cell.setHeight(ScreenUtils.dp(8));
+            } else if (type == 3) {
+                DrawerActionCell cell = (DrawerActionCell) holder.itemView;
+
+                if (position == moviesRow) {
+                    cell.setIcon(Theme.getIcon(R.drawable.ic_movie, ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
+                    cell.setText(R.string.Movies);
+                } else if (position == showsRow) {
+
+                } else if (position == peopleRow) {
+                    cell.setIcon(Theme.getIcon(R.drawable.ic_account_multiple, ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
+                    cell.setText(R.string.PopularPeople);
+                } else if (position == genresRow) {
+                    cell.setIcon(Theme.getIcon(R.drawable.ic_view_list, ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
+                    cell.setText(R.string.Genres);
+                } else if (position == favoritesRow) {
+                    cell.setIcon(Theme.getIcon(R.drawable.ic_favorite, ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
+                    cell.setText(R.string.Favorites);
+                } else if (position == watchlistRow) {
+                    cell.setIcon(Theme.getIcon(R.drawable.ic_bookmark, ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
+                    cell.setText(R.string.Watchlist);
+                } else if (position == settingsRow) {
+                    cell.setIcon(Theme.getIcon(R.drawable.ic_settings, ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
+                    cell.setText(R.string.Settings);
+                } else if (position == aboutRow) {
+                    cell.setIcon(Theme.getIcon(R.drawable.ic_about, ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
+                    cell.setText(R.string.About);
+                }
+            }
+        }
+
+        @Override
+        public int getItemCount() {
             return rowCount;
         }
 
         @Override
-        public Object getItem(int position) {
-            return null;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View view, ViewGroup parent) {
-            int type = getItemViewType(position);
-
-            if (type == 0) {
-                if (view == null) {
-                    view = new DrawerHeaderCell(getContext());
-                }
-            } else if (type == 1) {
-                if (view == null) {
-                    view = new DrawerActionCell(getContext());
-                }
-
-                DrawerActionCell cell = (DrawerActionCell) view;
-
-                if (position == moviesRow) {
-                    cell.setIcon(Theme.getIcon(R.drawable.ic_movie, 0xFFF44336));
-                    cell.setText(getContext().getString(R.string.Movies));
-                } else if (position == mostPopularRow) {
-                    cell.setIcon(Theme.getIcon(R.drawable.ic_whatshot, 0xFFFF9800));
-                    cell.setText(getContext().getString(R.string.Popular));
-                } else if (position == topRatedRow) {
-                    cell.setIcon(Theme.getIcon(R.drawable.ic_star_circle, 0xFF4CAF50));
-                    cell.setText(getContext().getString(R.string.TopRated));
-                } else if (position == upComingRow) {
-                    cell.setIcon(Theme.getIcon(R.drawable.ic_movie_cadr, 0xFF2196F3));
-                    cell.setText(getContext().getString(R.string.Upcoming));
-                } else if (position == watchlistRow) {
-                    cell.setIcon(Theme.getIcon(R.drawable.ic_watch,
-                            ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
-                    cell.setText(getContext().getString(R.string.Watchlist));
-                } else if (position == favoritesRow) {
-                    cell.setIcon(Theme.getIcon(R.drawable.ic_favorite,
-                            ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
-                    cell.setText(getContext().getString(R.string.Favorites));
-                } else if (position == settingsRow) {
-                    cell.setIcon(Theme.getIcon(R.drawable.ic_settings,
-                            ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
-                    cell.setText(getContext().getString(R.string.Settings));
-                } else if (position == aboutRow) {
-                    cell.setIcon(Theme.getIcon(R.drawable.ic_about,
-                            ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
-                    cell.setText(getContext().getString(R.string.About));
-                }
-            } else if (type == 2) {
-                if (view == null) {
-                    view = new EmptyCell(getContext());
-                }
-
-                EmptyCell cell = (EmptyCell) view;
-                cell.setMode(EmptyCell.MODE_DEFAULT);
-                cell.setHeight(ScreenUtils.dp(8));
-            } else if (type == 3) {
-                if (view == null) {
-                    view = new DividerCell(getContext());
-                }
-            }
-
-            return view;
-        }
-
-        @Override
-        public int getItemViewType(int i) {
-            if (i == headerRow) {
+        public int getItemViewType(int position) {
+            if (position == headerRow) {
                 return 0;
-            } else if (i == moviesRow || i == mostPopularRow || i == settingsRow ||
-                    i == aboutRow || i == watchlistRow || i == favoritesRow || i == topRatedRow ||
-                    i == upComingRow) {
+            } else if (position == emptyRow1 || position == emptyRow2) {
                 return 1;
-            } else if (i == emptyRow1 || i == emptyRow2) {
+            } else if (position == dividerRow1 || position == dividerRow2) {
                 return 2;
-            } else if (i == dividerRow1 || i == dividerRow2) {
+            } else {
                 return 3;
             }
-
-            return -1;
-        }
-
-        @Override
-        public int getViewTypeCount() {
-            return 4;
         }
     }
 
@@ -306,11 +277,6 @@ public class NavigationView extends FrameLayout {
             super(context);
 
             setBackground(context.getDrawable(R.drawable.drawer_header));
-            setOnClickListener(view -> {
-                if (onNavigationHeaderClick != null) {
-                    onNavigationHeaderClick.onHeaderClick(view);
-                }
-            });
 
             avatarImageView = new ImageView(context);
             avatarImageView.setBackground(context.getDrawable(R.drawable.tmdb_icon));
@@ -383,9 +349,12 @@ public class NavigationView extends FrameLayout {
 
         private TextView textView;
         private ImageView imageView;
+        private Rect rect = new Rect();
 
         public DrawerActionCell(Context context) {
             super(context);
+
+            setForeground(Theme.selectableItemBackgroundDrawable());
 
             imageView = new ImageView(context);
             imageView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT,
@@ -405,20 +374,34 @@ public class NavigationView extends FrameLayout {
             addView(textView);
         }
 
-        public void setIcon(@NonNull Drawable resId) {
+        public void setIcon(Drawable resId) {
             imageView.setImageDrawable(resId);
         }
 
-        public void setText(@NonNull String text) {
-            textView.setText(text);
+        public void setText(@StringRes int textId) {
+            textView.setText(getContext().getText(textId));
         }
 
         @Override
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-            int width = getMeasuredWidth();
+            int width = MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY);
             int height = ScreenUtils.dp(48);
             setMeasuredDimension(width, height);
+        }
+
+        @Override
+        public boolean onTouchEvent(MotionEvent event) {
+            if (getForeground() != null) {
+                if (rect.contains((int) event.getX(), (int) event.getY())) {
+                    return true;
+                }
+
+                if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
+                    getForeground().setHotspot(event.getX(), event.getY());
+                }
+            }
+            return super.onTouchEvent(event);
         }
     }
 

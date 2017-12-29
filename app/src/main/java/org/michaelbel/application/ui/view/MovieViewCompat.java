@@ -16,8 +16,9 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
+import org.michaelbel.application.R;
 import org.michaelbel.application.moviemade.ApiFactory;
 import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
@@ -30,6 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+@SuppressWarnings("all")
 public class MovieViewCompat extends FrameLayout {
 
     public int movieId;
@@ -64,8 +66,7 @@ public class MovieViewCompat extends FrameLayout {
 
         layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT,
-                110, 0, 0, 0));
+        layout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, 110, 0, 0, 0));
         cardView.addView(layout);
 
         titleText = new TextView(context);
@@ -75,8 +76,7 @@ public class MovieViewCompat extends FrameLayout {
         titleText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         titleText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         titleText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        titleText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT,
-                LayoutHelper.WRAP_CONTENT, 12, 12, 12, 0));
+        titleText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 12, 12, 12, 0));
         layout.addView(titleText);
 
         yearAndGenresText = new TextView(context);
@@ -84,26 +84,24 @@ public class MovieViewCompat extends FrameLayout {
         yearAndGenresText.setMaxLines(1);
         yearAndGenresText.setSingleLine(true);
         yearAndGenresText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        yearAndGenresText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT,
-                LayoutHelper.WRAP_CONTENT, 12, 4, 12, 0));
+        yearAndGenresText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 12, 4, 12, 0));
         layout.addView(yearAndGenresText);
 
         overviewText = new TextView(context);
         overviewText.setMaxLines(4);
         overviewText.setEllipsize(TextUtils.TruncateAt.END);
         overviewText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-        overviewText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT,
-                LayoutHelper.WRAP_CONTENT, 12, 4, 12, 12));
+        overviewText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 12, 4, 12, 12));
         layout.addView(overviewText);
     }
 
     public void setMovie(@NonNull Movie movie) {
         movieId = movie.id;
 
-        Glide.with(getContext())
-                .load("http://image.tmdb.org/t/p/w1280/" + movie.posterPath)
-                //.placeholder(R.drawable.movie_placeholder)
-                .into(posterImage);
+        Picasso.with(getContext())
+               .load(Url.getImage(movie.posterPath, "w1280"))
+               .placeholder(R.drawable.movie_placeholder)
+               .into(posterImage);
 
         titleText.setText(movie.title != null ? movie.title : null);
 

@@ -20,6 +20,7 @@ import org.michaelbel.application.R;
 import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
 
+@SuppressWarnings("all")
 public class ReviewView extends FrameLayout {
 
     private TextView authorTextView;
@@ -43,11 +44,8 @@ public class ReviewView extends FrameLayout {
 
         LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT,
-                LayoutHelper.MATCH_PARENT, 12, 12, 12, 12));
+        layout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, 12, 12, 12, 12));
         addView(layout);
-
-//--------------------------------------------------------------------------------------------------
 
         LinearLayout layout1 = new LinearLayout(context);
         layout1.setOrientation(LinearLayout.HORIZONTAL);
@@ -55,8 +53,7 @@ public class ReviewView extends FrameLayout {
 
         ImageView userImageView = new ImageView(context);
         userImageView.setImageDrawable(Theme.getIcon(R.drawable.ic_account, ContextCompat.getColor(context, Theme.iconActiveColor())));
-        userImageView.setLayoutParams(LayoutHelper.makeLinear(18, 18,
-                Gravity.START | Gravity.CENTER_VERTICAL));
+        userImageView.setLayoutParams(LayoutHelper.makeLinear(18, 18, Gravity.START | Gravity.CENTER_VERTICAL));
         layout1.addView(userImageView);
 
         authorTextView = new TextView(context);
@@ -65,19 +62,15 @@ public class ReviewView extends FrameLayout {
         authorTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         authorTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         authorTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        authorTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-                Gravity.START | Gravity.CENTER_VERTICAL, 4, 0, 0, 0));
+        authorTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 4, 0, 0, 0));
         layout1.addView(authorTextView);
-
-//--------------------------------------------------------------------------------------------------
 
         contentTextView = new TextView(context);
         contentTextView.setMaxLines(5);
         contentTextView.setEllipsize(TextUtils.TruncateAt.END);
         contentTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         contentTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        contentTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-                Gravity.START | Gravity.TOP, 0, 2, 0, 0));
+        contentTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 0, 2, 0, 0));
         layout.addView(contentTextView);
     }
 
@@ -100,10 +93,8 @@ public class ReviewView extends FrameLayout {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
         int width = MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY);
         int height = getMeasuredHeight() + (divider ? 1 : 0);
-
         setMeasuredDimension(width, height);
     }
 

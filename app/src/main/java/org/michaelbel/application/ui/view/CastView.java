@@ -1,7 +1,6 @@
 package org.michaelbel.application.ui.view;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -16,14 +15,16 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.squareup.picasso.Picasso;
 
 import org.michaelbel.application.R;
 import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
+import org.michaelbel.application.moviemade.Url;
 import org.michaelbel.application.ui.view.widget.MaskImageView;
 import org.michaelbel.application.util.ScreenUtils;
 
+@SuppressWarnings("all")
 public class CastView extends FrameLayout {
 
     public TextView nameTextView;
@@ -49,8 +50,7 @@ public class CastView extends FrameLayout {
         profileImageView = new MaskImageView(context);
         profileImageView.setShapeDrawable(MaskImageView.CIRCLE);
         profileImageView.setScaleType(ImageView.ScaleType.CENTER);
-        profileImageView.setLayoutParams(LayoutHelper.makeFrame(62, 62,
-                Gravity.START, 8, 8, 0, 8));
+        profileImageView.setLayoutParams(LayoutHelper.makeFrame(62, 62, Gravity.START, 8, 8, 0, 8));
         addView(profileImageView);
 
         nameTextView = new TextView(context);
@@ -61,8 +61,7 @@ public class CastView extends FrameLayout {
         nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
         nameTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         nameTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-        nameTextView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-                Gravity.START | Gravity.TOP, 88, 18, 16, 0));
+        nameTextView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 88, 18, 16, 0));
         addView(nameTextView);
 
         characterTextView = new TextView(context);
@@ -73,23 +72,20 @@ public class CastView extends FrameLayout {
         characterTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         characterTextView.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
         characterTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        characterTextView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-                Gravity.START | Gravity.BOTTOM, 88, 0, 16, 18));
+        characterTextView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.BOTTOM, 88, 0, 16, 18));
         addView(characterTextView);
     }
 
     public CastView setProfileImage(@NonNull String profilePath) {
-        SharedPreferences prefs = getContext().getSharedPreferences("main_config", Context.MODE_PRIVATE);
-        String size = prefs.getString("image_quality_profile", "w185");
+        // todo Get real sizes
+        //SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
+        //String size = prefs.getString("image_quality_profile", "w185");
+        String size = "w185";
 
-        if (profilePath == null) {
-            profileImageView.setImageResource(R.drawable.book_user);
-        } else {
-            Glide.with(getContext())
-                    //.load("http://image.tmdb.org/t/p/" + size + profilePath)
-                    .load("http://image.tmdb.org/t/p/w185/" + profilePath)
-                    .into(profileImageView);
-        }
+        Picasso.with(getContext())
+               .load(Url.getImage(profilePath, size))
+               .placeholder(R.drawable.people_placeholder)
+               .into(profileImageView);
 
         return this;
     }
@@ -132,10 +128,12 @@ public class CastView extends FrameLayout {
             if (rect.contains((int) event.getX(), (int) event.getY())) {
                 return true;
             }
+
             if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
                 getForeground().setHotspot(event.getX(), event.getY());
             }
         }
+
         return super.onTouchEvent(event);
     }
 }

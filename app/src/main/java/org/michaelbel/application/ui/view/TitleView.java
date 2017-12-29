@@ -36,8 +36,7 @@ public class TitleView extends FrameLayout {
         titleTextView.setEllipsize(TextUtils.TruncateAt.END);
         titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
         titleTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-        titleTextView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT,
-                LayoutHelper.WRAP_CONTENT, Gravity.TOP, 0, 8, 0, 0));
+        titleTextView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP, 0, 8, 0, 0));
         addView(titleTextView);
 
         subtitleTextView = new TextView(context);
@@ -45,8 +44,7 @@ public class TitleView extends FrameLayout {
         subtitleTextView.setTextColor(0xFFD5E8F7);
         subtitleTextView.setEllipsize(TextUtils.TruncateAt.END);
         subtitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-        subtitleTextView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT,
-                LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM, 0, 0, 0, 8));
+        subtitleTextView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM, 0, 0, 0, 8));
         addView(subtitleTextView);
     }
 

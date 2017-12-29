@@ -18,10 +18,10 @@ import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
 import org.michaelbel.application.util.ScreenUtils;
 
+@SuppressWarnings("all")
 public class FavButton extends FrameLayout {
 
     private CardView cardView;
-
     private ImageView iconView;
     private TextView textText;
 
@@ -41,8 +41,7 @@ public class FavButton extends FrameLayout {
         addView(cardView);
 
         iconView = new ImageView(context);
-        iconView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-                Gravity.START | Gravity.CENTER_VERTICAL, 12, 6, 0, 6));
+        iconView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 12, 6, 0, 6));
         cardView.addView(iconView);
 
         textText = new TextView(context);
@@ -54,8 +53,7 @@ public class FavButton extends FrameLayout {
         textText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
         textText.setTextColor(ContextCompat.getColor(context, Theme.foregroundColor()));
         textText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-        textText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT,
-                LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL, 24 + 12 + 10, 0, 12, 0));
+        textText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL, 24 + 12 + 10, 0, 12, 0));
         cardView.addView(textText);
     }
 

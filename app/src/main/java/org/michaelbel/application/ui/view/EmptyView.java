@@ -12,9 +12,8 @@ import android.widget.TextView;
 
 import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
-import org.michaelbel.application.moviemade.annotation.Beta;
 
-@Beta
+@SuppressWarnings("all")
 public class EmptyView extends LinearLayout {
 
     private TextView emptyText;
@@ -22,37 +21,37 @@ public class EmptyView extends LinearLayout {
 
     public EmptyView(Context context) {
         super(context);
-        initialize(context);
+        initialize();
     }
 
     public EmptyView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        initialize(context);
+        initialize();
     }
 
-    private void initialize(Context context) {
+    private void initialize() {
         setOrientation(VERTICAL);
         setGravity(Gravity.CENTER);
 
         emptyImage = new ImageView(getContext());
-        emptyImage.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT,
-                LayoutHelper.WRAP_CONTENT));
+        emptyImage.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
         addView(emptyImage);
 
         emptyText = new TextView(getContext());
         emptyText.setGravity(Gravity.CENTER);
         emptyText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
         emptyText.setTextColor(ContextCompat.getColor(getContext(), Theme.secondaryTextColor()));
-        emptyText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT,
-                LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 16, 24, 0));
+        emptyText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 16, 24, 0));
         addView(emptyText);
     }
 
-    public void setText(@StringRes int textId) {
+    public EmptyView setText(@StringRes int textId) {
         emptyText.setText(getContext().getText(textId));
+        return this;
     }
 
-    public void setImage(int resId) {
+    public EmptyView setImage(int resId) {
         emptyImage.setImageResource(resId);
+        return this;
     }
 }
