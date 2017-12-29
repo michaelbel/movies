@@ -9,15 +9,12 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
-import android.util.Log;
 
 import org.michaelbel.application.R;
 import org.michaelbel.application.moviemade.Theme;
 
 @SuppressWarnings("all")
 public class Browser {
-
-    private static final String TAG = Browser.class.getSimpleName();
 
     public static void openUrl(@NonNull Context context, @NonNull String url) {
         SharedPreferences prefs = context.getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
@@ -49,7 +46,7 @@ public class Browser {
             intent.putExtra(android.provider.Browser.EXTRA_APPLICATION_ID, context.getPackageName());
             context.startActivity(intent);
         } catch (Exception e) {
-            Log.e(TAG, e.getMessage());
+            // todo Error.
         }
     }
 
