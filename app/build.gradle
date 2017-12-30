@@ -50,7 +50,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
-    implementation 'org.michaelbel:bottomsheet:1.1.0'
+    implementation 'org.michaelbel:bottomsheet:1.1.1'
 
     implementation 'at.blogc:expandabletextview:1.0.5'
 
