@@ -83,6 +83,10 @@
     <string name="Posters">%1$d Posters</string>
     <string name="Backdrops">%1$d Backdrops</string>
     <string name="Images">Images</string>
+    <string name="Loading">Loading…</string>
+    <string name="LoadingCountries">Loading countries…</string>
+    <string name="LoadingTagline">Loading tagline…</string>
+    <string name="MoneyCount">&amp; %1$s</string>
     <!--Reviews-->
     <string name="Reviews">Reviews</string>
     <string name="NoReviews">No Reviews</string>
@@ -92,7 +96,7 @@
     <!--Trailers-->
     <string name="Trailers">Trailers</string>
     <string name="NoTrailers">No trailers</string>
-    <string name="VideoSize">%1$s p</string>
+    <string name="VideoSize">%1$sp</string>
     <!--Search-->
     <string name="Search">Search</string>
     <string name="NoResults">No results</string>

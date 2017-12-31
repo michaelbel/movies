@@ -17,6 +17,7 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <FrameLayout
+                android:id="@+id/toolbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -26,7 +27,6 @@
                     android:layout_height="match_parent"
                     android:theme="@style/AppThemeLight.Tabs"
                     app:tabTextAppearance="@style/TabText"
-                    app:tabIndicatorColor="@color/colorAccent"
                     app:tabSelectedTextColor="@color/colorAccent"/>
 
                 <TextView
@@ -44,11 +44,18 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/view_pager"
+    <FrameLayout
+        android:id="@+id/content_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/night_blue_backgroundColor"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+        android:layout_marginTop="56dp">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    </FrameLayout>
 
 </android.support.design.widget.CoordinatorLayout>
