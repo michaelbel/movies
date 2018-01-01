@@ -52,7 +52,7 @@ public class ReviewView extends FrameLayout {
         layout.addView(layout1);
 
         ImageView userImageView = new ImageView(context);
-        userImageView.setImageDrawable(Theme.getIcon(R.drawable.ic_account, ContextCompat.getColor(context, Theme.iconActiveColor())));
+        userImageView.setImageDrawable(Theme.getIcon(R.drawable.ic_account, ContextCompat.getColor(context, Theme.primaryTextColor())));
         userImageView.setLayoutParams(LayoutHelper.makeLinear(18, 18, Gravity.START | Gravity.CENTER_VERTICAL));
         layout1.addView(userImageView);
 

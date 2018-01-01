@@ -7,16 +7,15 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.MemoryPolicy;
@@ -30,9 +29,9 @@ import org.michaelbel.application.rest.model.Crew;
 import org.michaelbel.application.rest.model.Genre;
 import org.michaelbel.application.rest.model.Movie;
 import org.michaelbel.application.rest.model.Trailer;
-import org.michaelbel.application.ui.adapter.Holder;
-import org.michaelbel.application.ui.view.trailer.TrailerView;
-import org.michaelbel.application.util.ScreenUtils;
+import org.michaelbel.application.ui.view.section.GenresSectionView;
+import org.michaelbel.application.ui.view.section.ImagesSectionView;
+import org.michaelbel.application.ui.view.section.TrailersSectionView;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -46,7 +45,7 @@ import java.util.Objects;
 import at.blogc.android.views.ExpandableTextView;
 import io.realm.Realm;
 
-public class MovieInfoLayout1 extends LinearLayout {
+public class MovieInfoLayout extends LinearLayout {
 
     private ImageView posterImageView;
 
@@ -56,8 +55,10 @@ public class MovieInfoLayout1 extends LinearLayout {
 
     private TextView dateTextView;
 
+    private LinearLayout runtimeLayout;
     private TextView runtimeTextView;
 
+    private LinearLayout countriesLayout;
     private TextView countriesTextView;
 
     private CheckedButton favoriteButton;
@@ -71,28 +72,43 @@ public class MovieInfoLayout1 extends LinearLayout {
     private ExpandableTextView overviewTextView;
 
     private TrailersSectionView trailersView;
-    private TrailersAdapter trailersAdapter;
-    private List<Trailer> trailersList = new ArrayList<>();
 
     private ImagesSectionView imagesView;
 
     private LinearLayout crewLayout;
-    private TextView directorsTitleTextView;
+    private ProgressBar crewProgressBar;
+
+    private TextView directorsTitle;
     private TextView directorsTextView;
-    private TextView writersTitleTextView;
+
+    private TextView writersTitle;
     private TextView writersTextView;
-    private TextView producersTitleTextView;
+
+    private TextView producersTitle;
     private TextView producersTextView;
 
+    private LinearLayout infoLayout;
+    private ProgressBar progressBar;
+
+    private TextView originalTitleTitle; // it's fucking name, i know it.
     private TextView originalTitleTextView;
+
+    private TextView originalLangTitle;
     private TextView originalLangTextView;
+
+    private TextView statusTitle;
     private TextView statusTextView;
+
+    private TextView budgetTitle;
     private TextView budgetTextView;
+
+    private TextView revenueTitle;
     private TextView revenueTextView;
-    private TextView genresTextView;
+
+    private TextView companiesTitle;
     private TextView companiesTextView;
 
-    private GenresSectionView chipsView;
+    private GenresSectionView genresView;
 
     private LinearLayout linksLayout;
     private MoviePageView linkTmdbView;
@@ -110,14 +126,15 @@ public class MovieInfoLayout1 extends LinearLayout {
         void onTrailerClick(View view, String trailerKey);
         boolean onTrailerLongClick(View view, String trailerKey);
         void onMovieUrlClick(View view, int position);
+        void onGenreButtonClick(View view, int genreId);
     }
 
-    public MovieInfoLayout1(Context context) {
+    public MovieInfoLayout(Context context) {
         super(context);
         initialize(context);
     }
 
-    public MovieInfoLayout1(Context context, AttributeSet attrs) {
+    public MovieInfoLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
         initialize(context);
     }
@@ -176,70 +193,70 @@ public class MovieInfoLayout1 extends LinearLayout {
         layout6.addView(voteCountTextView);
 
         ImageView voteCountIcon = new ImageView(context);
-        voteCountIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_account_multiple, ContextCompat.getColor(context, Theme.iconActiveColor())));
+        voteCountIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_account_multiple, ContextCompat.getColor(context, Theme.primaryTextColor())));
         voteCountIcon.setLayoutParams(LayoutHelper.makeLinear(12, 12, Gravity.START | Gravity.BOTTOM, 2, 0, 0, 1));
         layout6.addView(voteCountIcon);
 
 //------DATE VIEW-----------------------------------------------------------------------------------
 
-        LinearLayout layout2 = new LinearLayout(context);
-        layout2.setOrientation(HORIZONTAL);
-        layout2.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START, 0, 12, 0, 0));
-        layout1.addView(layout2);
+        LinearLayout dateLayout = new LinearLayout(context);
+        dateLayout.setOrientation(HORIZONTAL);
+        dateLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START, 0, 12, 0, 0));
+        layout1.addView(dateLayout);
 
         ImageView dateIcon = new ImageView(context);
         dateIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_calendar, ContextCompat.getColor(context, Theme.iconActiveColor())));
         dateIcon.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL));
-        layout2.addView(dateIcon);
+        dateLayout.addView(dateIcon);
 
         dateTextView = new TextView(context);
         dateTextView.setMaxLines(1);
-        dateTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         dateTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+        dateTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         dateTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         dateTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL,6, 0, 0, 0));
-        layout2.addView(dateTextView);
+        dateLayout.addView(dateTextView);
 
 //------RUNTIME VIEW--------------------------------------------------------------------------------
 
-        LinearLayout layout3 = new LinearLayout(context);
-        layout3.setOrientation(HORIZONTAL);
-        layout3.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START, 0, 12, 0, 0));
-        layout1.addView(layout3);
+        runtimeLayout = new LinearLayout(context);
+        runtimeLayout.setOrientation(HORIZONTAL);
+        runtimeLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START, 0, 12, 0, 0));
+        layout1.addView(runtimeLayout);
 
         ImageView clockIcon = new ImageView(context);
         clockIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_clock, ContextCompat.getColor(context, Theme.iconActiveColor())));
         clockIcon.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL));
-        layout3.addView(clockIcon);
+        runtimeLayout.addView(clockIcon);
 
         runtimeTextView = new TextView(context);
         runtimeTextView.setMaxLines(1);
-        runtimeTextView.setText("Loading...");
-        runtimeTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        runtimeTextView.setText(R.string.Loading);
         runtimeTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+        runtimeTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         runtimeTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         runtimeTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL,6, 0, 0, 0));
-        layout3.addView(runtimeTextView);
+        runtimeLayout.addView(runtimeTextView);
 
-//------COUNTRY VIEW--------------------------------------------------------------------------------
+//------COUNTRIES VIEW------------------------------------------------------------------------------
 
-        LinearLayout layout4 = new LinearLayout(context);
-        layout4.setOrientation(HORIZONTAL);
-        layout4.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START, 0, 12, 0, 0));
-        layout1.addView(layout4);
+        countriesLayout = new LinearLayout(context);
+        countriesLayout.setOrientation(HORIZONTAL);
+        countriesLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START, 0, 12, 0, 0));
+        layout1.addView(countriesLayout);
 
         ImageView countriesIcon = new ImageView(context);
         countriesIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_earth, ContextCompat.getColor(context, Theme.iconActiveColor())));
         countriesIcon.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START));
-        layout4.addView(countriesIcon);
+        countriesLayout.addView(countriesIcon);
 
         countriesTextView = new TextView(context);
-        countriesTextView.setText("Loading countries...");
+        countriesTextView.setText(R.string.LoadingCountries);
         countriesTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         countriesTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
         countriesTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         countriesTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL,6, 0, 0, 0));
-        layout4.addView(countriesTextView);
+        countriesLayout.addView(countriesTextView);
 
 //------FAVORITE AND WATCHLIST BUTTONS-----------------------------------------------------------------------------
 
@@ -247,16 +264,6 @@ public class MovieInfoLayout1 extends LinearLayout {
         buttonsLayout.setOrientation(HORIZONTAL);
         buttonsLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.END, 0, 16 + 180 - 36 - 4, 16, 0));
         topLayout.addView(buttonsLayout);
-
-        watchingButton = new CheckedButton(context);
-        watchingButton.setStyle(CheckedButton.WATCHING);
-        watchingButton.setOnClickListener(view -> {
-            if (infoMovieListener != null) {
-                infoMovieListener.onWatchingButtonClick(view);
-            }
-        });
-        watchingButton.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
-        buttonsLayout.addView(watchingButton);
 
         favoriteButton = new CheckedButton(context);
         favoriteButton.setStyle(CheckedButton.FAVORITE);
@@ -267,6 +274,16 @@ public class MovieInfoLayout1 extends LinearLayout {
         });
         favoriteButton.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
         buttonsLayout.addView(favoriteButton);
+
+        watchingButton = new CheckedButton(context);
+        watchingButton.setStyle(CheckedButton.WATCHING);
+        watchingButton.setOnClickListener(view -> {
+            if (infoMovieListener != null) {
+                infoMovieListener.onWatchingButtonClick(view);
+            }
+        });
+        watchingButton.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
+        buttonsLayout.addView(watchingButton);
 
 //------TITLE and TAGLINE---------------------------------------------------------------------------
 
@@ -283,7 +300,7 @@ public class MovieInfoLayout1 extends LinearLayout {
 
         taglineTextView = new TextView(context);
         taglineTextView.setLines(1);
-        taglineTextView.setText("Loading tagline...");
+        taglineTextView.setText(R.string.LoadingTagline);
         taglineTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
         taglineTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
         titleTaglineLayout.addView(taglineTextView);
@@ -318,21 +335,23 @@ public class MovieInfoLayout1 extends LinearLayout {
         });
         overviewLayout.addView(overviewTextView);
 
-        //------IMAGES SECTION VIEW-------------------------------------------------------------------------
+//------IMAGES SECTION VIEW-------------------------------------------------------------------------
 
         imagesView = new ImagesSectionView(context);
-        imagesView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                0, 6, 0, 0));
+        imagesView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0));
         //addView(imagesView);
 
-//------CREW VIEW--------------------------------------------------------------------------------------------
+//------CREW VIEW-----------------------------------------------------------------------------------
 
         crewLayout = new LinearLayout(context);
         crewLayout.setOrientation(VERTICAL);
         crewLayout.setBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
-        crewLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                0, 6, 0, 0));
+        crewLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0));
         addView(crewLayout);
+
+        FrameLayout crewTitleLayout = new FrameLayout(context);
+        crewTitleLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, 48, 16, 0, 16, 0));
+        crewLayout.addView(crewTitleLayout);
 
         TextView crewTitle = new TextView(context);
         crewTitle.setLines(1);
@@ -343,61 +362,53 @@ public class MovieInfoLayout1 extends LinearLayout {
         crewTitle.setGravity(Gravity.CENTER_VERTICAL);
         crewTitle.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         crewTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        crewTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, 48,
-                16, 0, 16, 0));
-        crewLayout.addView(crewTitle);
+        crewTitle.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL));
+        crewTitleLayout.addView(crewTitle);
 
-        directorsTitleTextView = new TextView(context);
-        directorsTitleTextView.setText(context.getString(R.string.Directors));
-        directorsTitleTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        directorsTitleTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-                16, 0, 16, 0));
-        crewLayout.addView(directorsTitleTextView);
+        crewProgressBar = new ProgressBar(context);
+        crewProgressBar.setLayoutParams(LayoutHelper.makeFrame(24, 24, Gravity.END | Gravity.CENTER_VERTICAL));
+        crewTitleLayout.addView(crewProgressBar);
+
+        directorsTitle = new TextView(context);
+        directorsTitle.setText(context.getString(R.string.Directors));
+        directorsTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        directorsTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
+        crewLayout.addView(directorsTitle);
 
         directorsTextView = new TextView(context);
-        directorsTextView.setText("Loading...");
+        directorsTextView.setText(R.string.Loading);
         directorsTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        directorsTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                16, 0, 16, 16));
+        directorsTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
         crewLayout.addView(directorsTextView);
 
-        writersTitleTextView = new TextView(context);
-        writersTitleTextView.setText(context.getString(R.string.Writers));
-        writersTitleTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        writersTitleTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT,
-                LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
-        crewLayout.addView(writersTitleTextView);
+        writersTitle = new TextView(context);
+        writersTitle.setText(context.getString(R.string.Writers));
+        writersTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        writersTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
+        crewLayout.addView(writersTitle);
 
         writersTextView = new TextView(context);
-        writersTextView.setText("Loading...");
+        writersTextView.setText(R.string.Loading);
         writersTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        writersTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                16, 0, 16, 16));
+        writersTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
         crewLayout.addView(writersTextView);
 
-        producersTitleTextView = new TextView(context);
-        producersTitleTextView.setText(context.getString(R.string.Producers));
-        producersTitleTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        producersTitleTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-                16, 0, 16, 0));
-        crewLayout.addView(producersTitleTextView);
+        producersTitle = new TextView(context);
+        producersTitle.setText(context.getString(R.string.Producers));
+        producersTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        producersTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
+        crewLayout.addView(producersTitle);
 
         producersTextView = new TextView(context);
-        producersTextView.setText("Loading..");
+        producersTextView.setText(R.string.Loading);
         producersTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        producersTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                16, 0, 16, 16));
+        producersTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
         crewLayout.addView(producersTextView);
 
 //------TRAILERS SECTION VIEW-----------------------------------------------------------------------
 
-        trailersAdapter = new TrailersAdapter();
-
         trailersView = new TrailersSectionView(context);
-        trailersView.setPadding(0, 0, 0, ScreenUtils.dp(4));
-        trailersView.setAdapter(trailersAdapter);
-        trailersView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                0, 6, 0, 0));
+        trailersView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0));
         trailersView.setOnClickListener(view -> {
             if (infoMovieListener != null) {
                 infoMovieListener.onTrailersSectionClick(view);
@@ -405,18 +416,16 @@ public class MovieInfoLayout1 extends LinearLayout {
         });
         trailersView.setListener(new TrailersSectionView.SectionTrailersListener() {
             @Override
-            public void onTrailerClick(View view, int position) {
+            public void onTrailerClick(View view, String trailerKey) {
                 if (infoMovieListener != null) {
-                    Trailer trailer = trailersList.get(position);
-                    infoMovieListener.onTrailerClick(view, trailer.key);
+                    infoMovieListener.onTrailerClick(view, trailerKey);
                 }
             }
 
             @Override
-            public boolean onTrailerLongClick(View view, int position) {
+            public boolean onTrailerLongClick(View view, String trailerKey) {
                 if (infoMovieListener != null) {
-                    Trailer trailer = trailersList.get(position);
-                    infoMovieListener.onTrailerLongClick(view, trailer.key);
+                    infoMovieListener.onTrailerLongClick(view, trailerKey);
                     return true;
                 }
                 return false;
@@ -426,153 +435,115 @@ public class MovieInfoLayout1 extends LinearLayout {
 
 //------INFO VIEW--------------------------------------------------------------------------------------------
 
-        LinearLayout infoLayout = new LinearLayout(context);
+        infoLayout = new LinearLayout(context);
         infoLayout.setOrientation(VERTICAL);
         infoLayout.setBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
-        infoLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                0, 6, 0, 0));
+        infoLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0));
         addView(infoLayout);
+
+        FrameLayout layout = new FrameLayout(context);
+        layout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, 48, 16, 0, 16, 0));
+        infoLayout.addView(layout);
 
         TextView infoTitle = new TextView(context);
         infoTitle.setLines(1);
         infoTitle.setMaxLines(1);
         infoTitle.setSingleLine();
         infoTitle.setText(context.getString(R.string.Info));
-        infoTitle.setGravity(Gravity.CENTER_VERTICAL);
         infoTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        infoTitle.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         infoTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        infoTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, 48,
-                16, 0, 16, 0));
-        infoLayout.addView(infoTitle);
+        infoTitle.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        infoTitle.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL));
+        layout.addView(infoTitle);
 
-        TextView originalTitle = new TextView(context);
-        originalTitle.setText(context.getString(R.string.OriginalTitle));
-        originalTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        originalTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-                16, 0, 16, 0));
-        infoLayout.addView(originalTitle);
+        progressBar = new ProgressBar(context);
+        progressBar.setLayoutParams(LayoutHelper.makeFrame(24, 24, Gravity.END | Gravity.CENTER_VERTICAL));
+        layout.addView(progressBar);
+
+        originalTitleTitle = new TextView(context);
+        originalTitleTitle.setText(context.getString(R.string.OriginalTitle));
+        originalTitleTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        originalTitleTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
+        infoLayout.addView(originalTitleTitle);
 
         originalTitleTextView = new TextView(context);
         originalTitleTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        originalTitleTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                16, 0, 16, 0));
+        originalTitleTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
         infoLayout.addView(originalTitleTextView);
 
-        TextView originalLang = new TextView(context);
-        originalLang.setText(context.getString(R.string.OriginalLang));
-        originalLang.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        originalLang.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-                16, 16, 16, 0));
-        infoLayout.addView(originalLang);
+        originalLangTitle = new TextView(context);
+        originalLangTitle.setText(context.getString(R.string.OriginalLang));
+        originalLangTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        originalLangTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 16, 16, 16, 0));
+        infoLayout.addView(originalLangTitle);
 
         originalLangTextView = new TextView(context);
         originalLangTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        originalLangTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                16, 0, 16, 0));
+        originalLangTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
         infoLayout.addView(originalLangTextView);
 
-        TextView statusTitle = new TextView(context);
+        statusTitle = new TextView(context);
         statusTitle.setText(context.getString(R.string.Status));
         statusTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        statusTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-                16, 16, 16, 0));
+        statusTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 16, 16, 16, 0));
         infoLayout.addView(statusTitle);
 
         statusTextView = new TextView(context);
-        statusTextView.setText("Loading...");
+        statusTextView.setText(R.string.Loading);
         statusTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        statusTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                16, 0, 16, 0));
+        statusTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
         infoLayout.addView(statusTextView);
 
-        TextView budgetTitle = new TextView(context);
+        budgetTitle = new TextView(context);
         budgetTitle.setText(context.getString(R.string.Budget));
         budgetTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        budgetTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-                16, 16, 16, 0));
+        budgetTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 16, 16, 16, 0));
         infoLayout.addView(budgetTitle);
 
         budgetTextView = new TextView(context);
-        budgetTextView.setText("Loading...");
+        budgetTextView.setText(R.string.Loading);
         budgetTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        budgetTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                16, 0, 16, 0));
+        budgetTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
         infoLayout.addView(budgetTextView);
 
-        TextView revenueTitle = new TextView(context);
+        revenueTitle = new TextView(context);
         revenueTitle.setText(context.getString(R.string.Revenue));
         revenueTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        revenueTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-                16, 16, 16, 0));
+        revenueTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 16, 16, 16, 0));
         infoLayout.addView(revenueTitle);
 
         revenueTextView = new TextView(context);
-        revenueTextView.setText("Loading...");
+        revenueTextView.setText(R.string.Loading);
         revenueTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        revenueTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                16, 0, 16, 0));
+        revenueTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
         infoLayout.addView(revenueTextView);
 
 //--------------------------------------------------------------------------------------------------
 
-        /*TextView genresTitle = new TextView(context);
-        genresTitle.setText(context.getString(R.string.Genres));
-        genresTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        genresTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-                16, 16, 16, 0));
-        infoLayout.addView(genresTitle);
-
-        genresTextView = new TextView(context);
-        genresTextView.setText("Loading...");
-        genresTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        genresTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                16, 0, 16, 0));
-        infoLayout.addView(genresTextView);*/
-
-//--------------------------------------------------------------------------------------------------
-
-        TextView companiesTitle = new TextView(context);
+        companiesTitle = new TextView(context);
         companiesTitle.setText(context.getString(R.string.ProductionCompanies));
         companiesTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        companiesTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT,
-                16, 16, 16, 0));
+        companiesTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 16, 16, 16, 0));
         infoLayout.addView(companiesTitle);
 
         companiesTextView = new TextView(context);
-        companiesTextView.setText("Loading...");
+        companiesTextView.setText(R.string.Loading);
         companiesTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        companiesTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT,
-                LayoutHelper.WRAP_CONTENT, 16, 0, 16, 12));
+        companiesTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 12));
         infoLayout.addView(companiesTextView);
 
-//------GENRES--------------------------------------------------------------------------------------------
+//------GENRES--------------------------------------------------------------------------------------
 
-        LinearLayout genresLayout = new LinearLayout(context);
-        genresLayout.setOrientation(VERTICAL);
-        genresLayout.setBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
-        genresLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT,
-                0, 6, 0, 0));
-        addView(genresLayout);
+        genresView = new GenresSectionView(context);
+        genresView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0));
+        genresView.setListener((view, genreId) -> {
+            if (infoMovieListener != null) {
+                infoMovieListener.onGenreButtonClick(view, genreId);
+            }
+        });
+        addView(genresView);
 
-        TextView genresTitle = new TextView(context);
-        genresTitle.setLines(1);
-        genresTitle.setMaxLines(1);
-        genresTitle.setSingleLine();
-        genresTitle.setText(context.getString(R.string.Genres));
-        genresTitle.setGravity(Gravity.CENTER_VERTICAL);
-        genresTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        genresTitle.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-        genresTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        genresTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, 48,
-                16, 0, 16, 0));
-        genresLayout.addView(genresTitle);
-
-        chipsView = new GenresSectionView(context);
-        chipsView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16 - 2, 0, 16, 12));
-        genresLayout.addView(chipsView);
-
-//------WEB LINKS--------------------------------------------------------------------------------------------
+//------WEB LINKS-----------------------------------------------------------------------------------
 
         linksLayout = new LinearLayout(context);
         linksLayout.setOrientation(VERTICAL);
@@ -615,7 +586,7 @@ public class MovieInfoLayout1 extends LinearLayout {
 
 //--------------------------------------------------------------------------------------------------
 
-    public MovieInfoLayout1 setPoster(@NonNull String posterPath) {
+    public MovieInfoLayout setPoster(@NonNull String posterPath) {
         SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
         String size = prefs.getString("image_quality_poster", "w342");
 
@@ -628,7 +599,7 @@ public class MovieInfoLayout1 extends LinearLayout {
         return this;
     }
 
-    public MovieInfoLayout1 setFavoriteButton(int movieId) {
+    public MovieInfoLayout setFavoriteButton(int movieId) {
         /*DatabaseHelper database = DatabaseHelper.getInstance(getContext());
         boolean isExist = database.isMovieExist(movieId);
 
@@ -650,7 +621,7 @@ public class MovieInfoLayout1 extends LinearLayout {
         return this;
     }
 
-    public MovieInfoLayout1 setWatchingButton(int movieId) {
+    public MovieInfoLayout setWatchingButton(int movieId) {
         Realm realm = Realm.getDefaultInstance();
         Movie movieRealm = realm.where(Movie.class).equalTo("id", movieId).findFirst();
         if (movieRealm != null) {
@@ -659,12 +630,12 @@ public class MovieInfoLayout1 extends LinearLayout {
         return this;
     }
 
-    public MovieInfoLayout1 setTitle(@NonNull String movieTitle) {
+    public MovieInfoLayout setTitle(@NonNull String movieTitle) {
         titleTextView.setText(movieTitle.isEmpty() ? "-" : movieTitle);
         return this;
     }
 
-    public MovieInfoLayout1 setDate(@NonNull String releaseDate) {
+    public MovieInfoLayout setDate(@NonNull String releaseDate) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         SimpleDateFormat newFormat = new SimpleDateFormat("dd.MM.yyyy", Locale.getDefault());
 
@@ -672,148 +643,185 @@ public class MovieInfoLayout1 extends LinearLayout {
         try {
             date = format.parse(releaseDate);
         } catch (ParseException e) {
-            //FirebaseCrash.report(e);
+            // todo Error.
         }
 
         dateTextView.setText(releaseDate.isEmpty() ? "-" : newFormat.format(date));
         return this;
     }
 
-    public MovieInfoLayout1 setRuntime(int runTime) {
-        SimpleDateFormat formatMin = new SimpleDateFormat("m", Locale.getDefault());
-        SimpleDateFormat formatHours = new SimpleDateFormat("H:m", Locale.getDefault());
+    public MovieInfoLayout setRuntime(int runTime) {
+        if (runTime == -1) {
+            removeView(runtimeLayout);
+        } else {
+            SimpleDateFormat formatMin = new SimpleDateFormat("m", Locale.getDefault());
+            SimpleDateFormat formatHours = new SimpleDateFormat("H:m", Locale.getDefault());
 
-        Date date;
-        String str = null;
+            Date date;
+            String str = null;
 
-        try {
-            date = formatMin.parse(String.valueOf(runTime));
-            str = formatHours.format(date);
-        } catch (ParseException e) {
-            //FirebaseCrash.report(e);
+            try {
+                date = formatMin.parse(String.valueOf(runTime));
+                str = formatHours.format(date);
+            } catch (ParseException e) {
+                // todo Error.
+            }
+
+            runtimeTextView.setText(runTime == 0 ? "-" : getContext().getString(R.string.RuntimeMin, runTime) + " / " + str);
         }
 
-        runtimeTextView.setText(runTime == 0 ? "-" : getContext().getString(R.string.RuntimeMin, runTime) + " / " + str);
         return this;
     }
 
-    public MovieInfoLayout1 setCountries(@NonNull List<Movie.Countries> countriesList) {
-        StringBuilder text = new StringBuilder();
-        for (Movie.Countries country : countriesList) {
-            if (country.name.equals("United States of America")) {
-                country.name = "USA";
-            } else if (country.name.equals("United Kingdom")) {
-                country.name = "UK";
+    public MovieInfoLayout setCountries(@NonNull List<Movie.Countries> countriesList) {
+        if (countriesList == null || countriesList.isEmpty()) {
+            removeView(countriesLayout);
+        } else {
+            StringBuilder text = new StringBuilder();
+            for (Movie.Countries country : countriesList) {
+                if (country.name.equals("United States of America")) {
+                    country.name = "USA";
+                } else if (country.name.equals("United Kingdom")) {
+                    country.name = "UK";
+                }
+
+                text.append(country.name);
+                if (country != countriesList.get(countriesList.size() - 1)) {
+                    text.append(", ");
+                }
             }
 
-            text.append(country.name);
-            if (country != countriesList.get(countriesList.size() - 1)) {
-                text.append(", ");
-            }
+            countriesTextView.setText(text);
         }
 
-        countriesTextView.setText(countriesList.isEmpty() ? "-" : text);
         return this;
     }
 
-    public MovieInfoLayout1 setTagline(@NonNull String tagline) {
-        if (tagline.isEmpty()) {
+    public MovieInfoLayout setTagline(@NonNull String tagline) {
+        if (tagline == null || tagline.isEmpty()) {
             titleTaglineLayout.removeView(taglineTextView);
         } else {
             taglineTextView.setText(tagline);
         }
+
         return this;
     }
 
-    public MovieInfoLayout1 setVoteAverage(float voteAverage) {
+    public MovieInfoLayout setVoteAverage(float voteAverage) {
         ratingView.setRating(voteAverage);
         ratingTextView.setText(String.valueOf(voteAverage));
         return this;
     }
 
-    public MovieInfoLayout1 setVoteCount(int voteCount) {
+    public MovieInfoLayout setVoteCount(int voteCount) {
         voteCountTextView.setText(String.valueOf(voteCount));
         return this;
     }
 
-    public MovieInfoLayout1 setOverview (@NonNull String overview) {
-        if (overview.isEmpty()) {
+    public MovieInfoLayout setOverview(@NonNull String overview) {
+        if (overview == null || overview.isEmpty()) {
             removeView(overviewLayout);
         } else {
             overviewTextView.setText(overview);
         }
+
         return this;
     }
 
-    public MovieInfoLayout1 setGenres(@NonNull List<Genre> genresList) {
-        chipsView.setGenresList(genresList);
+    public MovieInfoLayout setStatus(@NonNull String status) {
+        if (status == null || status.isEmpty()) {
+            infoLayout.removeView(statusTitle);
+            infoLayout.removeView(statusTextView);
+        } else {
+            statusTextView.setText(status);
+        }
+
+        onInfoLoad();
         return this;
     }
 
-    public MovieInfoLayout1 setStatus(@NonNull String status) {
-        statusTextView.setText(status.isEmpty() ? "-" : status);
-        return this;
-    }
-
-    public MovieInfoLayout1 setBudget(int budget) {
+    public MovieInfoLayout setBudget(int budget) {
         if (budget == 0) {
-            // delete views
-            budgetTextView.setText("-");
+            infoLayout.removeView(budgetTitle);
+            infoLayout.removeView(budgetTextView);
         } else {
-            NumberFormat formatter = NumberFormat.getInstance(Locale.getDefault());
-            budgetTextView.setText("$ " + formatter.format(budget));
+            NumberFormat formatter = NumberFormat.getInstance(Locale.US);
+            budgetTextView.setText(getContext().getString(R.string.MoneyCount, formatter.format(budget)));
         }
+
+        onInfoLoad();
         return this;
     }
 
-    public MovieInfoLayout1 setRevenue(int revenue) {
+    public MovieInfoLayout setRevenue(int revenue) {
         if (revenue == 0) {
-            // delete views
-            revenueTextView.setText("-");
+            infoLayout.removeView(revenueTitle);
+            infoLayout.removeView(revenueTextView);
         } else {
             NumberFormat formatter = NumberFormat.getInstance(Locale.getDefault());
-            revenueTextView.setText("$ " + formatter.format(revenue));
+            revenueTextView.setText(getContext().getString(R.string.MoneyCount, formatter.format(revenue)));
         }
+
+        onInfoLoad();
         return this;
     }
 
-    public MovieInfoLayout1 setOriginalTitle(@NonNull String originalTitle) {
-        originalTitleTextView.setText(originalTitle.isEmpty() ? "-" : originalTitle);
-        return this;
-    }
-
-    public MovieInfoLayout1 setOriginalLang(@Nullable String originalLang) {
-        if (originalLang != null) {
-            originalLangTextView.setText(originalLang.isEmpty() ? "-" : originalLang);
+    public MovieInfoLayout setOriginalTitle(@NonNull String originalTitle) {
+        if (originalTitle == null || originalTitle.isEmpty()) {
+            infoLayout.removeView(originalTitleTitle);
+            infoLayout.removeView(originalTitleTextView);
         } else {
-            originalLangTextView.setText("-");
+            originalTitleTextView.setText(originalTitle);
         }
 
         return this;
     }
 
-    public MovieInfoLayout1 setCompanies(@NonNull List<Movie.Companies> companiesList) {
-        StringBuilder text = new StringBuilder();
-        for (Movie.Companies company : companiesList) {
-            text.append(company.name);
-            if (company != companiesList.get(companiesList.size() - 1)) {
-                text.append(", ");
+    public MovieInfoLayout setOriginalLanguage(@Nullable String lang) {
+        if (lang == null || lang.isEmpty()) {
+            infoLayout.removeView(originalLangTitle);
+            infoLayout.removeView(originalLangTextView);
+        } else {
+            if (Objects.equals(lang, "en")) {
+                lang = "English";
             }
+
+            originalLangTextView.setText(lang);
         }
 
-        companiesTextView.setText(companiesList.isEmpty() ? "-" : text);
         return this;
     }
 
-    public MovieInfoLayout1 setHomePage(@NonNull String homePage) {
-        if (homePage.isEmpty()) {
-            linkImdbView.setDivider(false);
+    public MovieInfoLayout setCompanies(@NonNull List<Movie.Companies> companiesList) {
+        if (companiesList == null || companiesList.isEmpty()) {
+            infoLayout.removeView(companiesTitle);
+            infoLayout.removeView(companiesTextView);
+        } else {
+            StringBuilder text = new StringBuilder();
+            for (Movie.Companies company : companiesList) {
+                text.append(company.name);
+                if (company != companiesList.get(companiesList.size() - 1)) {
+                    text.append(", ");
+                }
+            }
+
+            companiesTextView.setText(text);
+        }
+
+        onInfoLoad();
+        return this;
+    }
+
+    public MovieInfoLayout setHomePage(@NonNull String homePage) {
+        if (homePage == null || homePage.isEmpty()) {
             linksLayout.removeView(linkHomeView);
+            linkImdbView.setDivider(false);
         }
+
         return this;
     }
 
-    public MovieInfoLayout1 setCrew(@NonNull List<Crew> crewList) {
+    public MovieInfoLayout setCrew(@NonNull List<Crew> crewList) {
         List<String> directors = new ArrayList<>();
         List<String> writers = new ArrayList<>();
         List<String> producers = new ArrayList<>();
@@ -843,7 +851,7 @@ public class MovieInfoLayout1 extends LinearLayout {
         if (!text1.toString().isEmpty()) {
             directorsTextView.setText(text1.toString());
         } else {
-            crewLayout.removeView(directorsTitleTextView);
+            crewLayout.removeView(directorsTitle);
             crewLayout.removeView(directorsTextView);
         }
 
@@ -858,7 +866,7 @@ public class MovieInfoLayout1 extends LinearLayout {
         if (!text2.toString().isEmpty()) {
             writersTextView.setText(text2.toString());
         } else {
-            crewLayout.removeView(writersTitleTextView);
+            crewLayout.removeView(writersTitle);
             crewLayout.removeView(writersTextView);
         }
 
@@ -873,31 +881,42 @@ public class MovieInfoLayout1 extends LinearLayout {
         if (!text3.toString().isEmpty()) {
             producersTextView.setText(text3.toString());
         } else {
-            crewLayout.removeView(producersTitleTextView);
+            crewLayout.removeView(producersTitle);
             crewLayout.removeView(producersTextView);
         }
 
         if (text1.toString().isEmpty() && text2.toString().isEmpty() && text3.toString().isEmpty()) {
             removeView(crewLayout);
+        } else {
+            crewProgressBar.setVisibility(INVISIBLE);
         }
+
         return this;
     }
 
-    public MovieInfoLayout1 setTrailers(@NonNull List<Trailer> list) {
+    public MovieInfoLayout setTrailers(@NonNull List<Trailer> list) {
         if (list.isEmpty()) {
             removeView(trailersView);
         } else {
-            trailersList.addAll(list);
-            trailersAdapter.notifyDataSetChanged();
-
-            trailersView.setClickable(true);
+            trailersView.setTrailersList(list);
             trailersView.getProgressBar().setVisibility(INVISIBLE);
         }
 
         return this;
     }
 
-    public MovieInfoLayout1 setImages(@NonNull String poster, @NonNull String backdrop, int postersCount, int backdropsCount) {
+    public MovieInfoLayout setGenres(@NonNull List<Genre> genresList) {
+        if (genresList.isEmpty()) {
+            removeView(genresView);
+        } else {
+            genresView.setGenresList(genresList);
+            genresView.getProgressBar().setVisibility(INVISIBLE);
+        }
+
+        return this;
+    }
+
+    public MovieInfoLayout setImages(@NonNull String poster, @NonNull String backdrop, int postersCount, int backdropsCount) {
         imagesView.setPoster(poster);
         imagesView.setBackdrop(backdrop);
         imagesView.setPostersCount(postersCount);
@@ -909,35 +928,14 @@ public class MovieInfoLayout1 extends LinearLayout {
         infoMovieListener = listener;
     }
 
-    public class TrailersAdapter extends RecyclerView.Adapter {
-
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new Holder(new TrailerView(getContext()));
-        }
-
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-            Trailer trailer = trailersList.get(position);
-
-            TrailerView view = (TrailerView) holder.itemView;
-            view.setTitle(trailer.name)
-                    .setQuality(trailer.size)
-                    .setSite(trailer.site)
-                    .setTrailerImage(trailer.key);
-
-            if (position == 0) {
-                view.changeLayoutParams(true);
-            }
-
-            if (position == trailersList.size() - 1) {
-                view.changeLayoutParams(false);
-            }
-        }
-
-        @Override
-        public int getItemCount() {
-            return trailersList != null ? trailersList.size() : 0;
+    private void onInfoLoad() {
+        if (statusTextView.getText().toString().equals("Loading...") ||
+                budgetTextView.getText().toString().equals("Loading...") ||
+                revenueTextView.getText().toString().equals("Loading...") ||
+                companiesTextView.getText().toString().equals("Loading...")) {
+            progressBar.setVisibility(VISIBLE);
+        } else {
+            progressBar.setVisibility(INVISIBLE);
         }
     }
 }

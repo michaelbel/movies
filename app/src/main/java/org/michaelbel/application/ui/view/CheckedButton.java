@@ -64,11 +64,12 @@ public class CheckedButton extends FrameLayout {
 
     public CheckedButton setStyle(int style) {
         this.style = style;
+        iconView.setImageDrawable(Theme.getIcon(style == FAVORITE ? R.drawable.ic_heart_outline : R.drawable.ic_bookmark_outline, ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
         return this;
     }
 
     public CheckedButton setChecked(boolean state) {
-        int color = state ? Theme.accentColor() : Theme.primaryTextColor();
+        int color = state ? Theme.accentColor() : Theme.iconActiveColor();
         int icon = state ?
                 style == FAVORITE ? R.drawable.ic_heart : R.drawable.ic_bookmark :
                 style == FAVORITE ? R.drawable.ic_heart_outline : R.drawable.ic_bookmark_outline;

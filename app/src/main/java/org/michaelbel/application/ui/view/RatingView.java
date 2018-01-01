@@ -3,6 +3,7 @@ package org.michaelbel.application.ui.view;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.AppCompatImageView;
 import android.widget.LinearLayout;
 
 import org.michaelbel.application.R;
@@ -31,7 +32,7 @@ public class RatingView extends LinearLayout {
     public void setRating(float rating) {
         float myRating = rating / 2;
 
-        int a = (int) myRating; // 3
+        int a = (int) myRating;
         int b = (int) (10 * (myRating - a));
         int c;
         c = (b >= 5) ? 5 : 0;
@@ -158,7 +159,7 @@ public class RatingView extends LinearLayout {
         }*/
     }
 
-    public class StarView extends android.support.v7.widget.AppCompatImageView {
+    public class StarView extends AppCompatImageView {
 
         public static final int ICON_STAR = 0;
         public static final int ICON_STAR_HALF = 1;
@@ -169,17 +170,17 @@ public class RatingView extends LinearLayout {
         public StarView(Context context) {
             super(context);
 
-            icon = Theme.getIcon(R.drawable.ic_star, ContextCompat.getColor(context, Theme.iconActiveColor()));
+            //icon = Theme.getIcon(R.drawable.ic_star, ContextCompat.getColor(context, Theme.iconActiveColor()));
             setImageDrawable(icon);
         }
 
         public void setIcon(int style) {
             if (style == ICON_STAR) {
-                icon = Theme.getIcon(R.drawable.ic_star, ContextCompat.getColor(getContext(), Theme.iconActiveColor()));
+                icon = Theme.getIcon(R.drawable.ic_star, ContextCompat.getColor(getContext(), Theme.accentColor()));
             } else if (style == ICON_STAR_HALF) {
-                icon = Theme.getIcon(R.drawable.ic_star_half, ContextCompat.getColor(getContext(), Theme.iconActiveColor()));
+                icon = Theme.getIcon(R.drawable.ic_star_half, ContextCompat.getColor(getContext(), Theme.accentColor()));
             } else if (style == ICON_STAR_BORDER) {
-                icon = Theme.getIcon(R.drawable.ic_star_border, ContextCompat.getColor(getContext(), Theme.iconActiveColor()));
+                icon = Theme.getIcon(R.drawable.ic_star_border, ContextCompat.getColor(getContext(), Theme.accentColor()));
             }
 
             setImageDrawable(icon);
