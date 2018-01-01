@@ -16,5 +16,16 @@ mainconfig:
  - image_quality_still    (string)
 
 devconfig:
- - scrollbars (bool)
- - burger     (bool)
+ - scrollbars           (bool)
+ - floating_toolbar     (bool)
+ - hamburger_menu       (bool)
+ - scroll_to_top        (bool)
+ - search_results_count (bool)
+ - full_overview        (bool)
+
+ - scrollbars_rating           (int)
+ - floating_toolbar_rating     (int)
+ - hamburger_menu_rating       (int)
+ - scroll_to_top_rating        (int)
+ - search_results_count_rating (int)
+ - full_overview_rating        (int)
