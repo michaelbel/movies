@@ -41,7 +41,7 @@ import java.util.ArrayList;
 public class TrailersFragment extends Fragment {
 
     private Movie currentMovie;
-    private ArrayList<Trailer> trailersList;
+    private ArrayList<Trailer> trailersList = new ArrayList<>();
 
     private VideosAdapter adapter;
     private TrailersActivity activity;
@@ -71,11 +71,12 @@ public class TrailersFragment extends Fragment {
 
         fragmentView = new SwipeRefreshLayout(activity);
         fragmentView.setRefreshing(true);
-        //fragmentView.setRefreshing(trailersList.isEmpty()); //  null object
+        fragmentView.setRefreshing(trailersList.isEmpty());
         fragmentView.setColorSchemeResources(Theme.accentColor());
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
+        fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(getContext(), Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
-            if (NetworkUtils.getNetworkStatus() == NetworkUtils.TYPE_NOT_CONNECTED) {
+            if (NetworkUtils.notConnected()) {
                 onLoadError();
             } else {
                 if (trailersList.isEmpty()) {
@@ -123,12 +124,12 @@ public class TrailersFragment extends Fragment {
 
         if (getArguments() != null) {
             currentMovie = (Movie) getArguments().getSerializable("movie");
-            trailersList = (ArrayList<Trailer>) getArguments().getSerializable("list");
+            trailersList.addAll((ArrayList<Trailer>) getArguments().getSerializable("list"));
         }
 
         activity.titleView.setSubtitle(currentMovie.title);
 
-        if (NetworkUtils.getNetworkStatus() == NetworkUtils.TYPE_NOT_CONNECTED) {
+        if (NetworkUtils.notConnected()) {
             onLoadError();
         } else {
             loadVideos();

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -44,6 +45,7 @@ import org.michaelbel.application.ui.adapter.Holder;
 import org.michaelbel.application.ui.view.movie.MovieViewList;
 import org.michaelbel.application.ui.view.widget.RecyclerListView;
 import org.michaelbel.application.util.AndroidUtils;
+import org.michaelbel.application.util.AndroidUtilsDev;
 import org.michaelbel.application.util.KeyboardUtils;
 import org.michaelbel.application.util.NetworkUtils;
 
@@ -75,6 +77,7 @@ public class SearchFragment extends Fragment {
     private TextView emptyView;
     private ProgressBar progressBar;
     private EditText searchEditText;
+    private RecyclerListView recyclerView;
 
     @Nullable
     @Override
@@ -83,6 +86,25 @@ public class SearchFragment extends Fragment {
         setHasOptionsMenu(true);
 
         iconActionMode = MODE_ACTION_VOICE;
+
+        activity.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                if (AndroidUtilsDev.scrollToTop()) {
+                    recyclerView.smoothScrollToPosition(0);
+                }
+            }
+        });
 
         FrameLayout toolbarLayout = new FrameLayout(activity);
         toolbarLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
@@ -152,7 +174,7 @@ public class SearchFragment extends Fragment {
 
         adapter = new SearchMovieAdapter();
 
-        RecyclerListView recyclerView = new RecyclerListView(activity);
+        recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setEmptyView(emptyView);
@@ -208,7 +230,7 @@ public class SearchFragment extends Fragment {
 
         actionMenu.add(null)
             .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
-            .setIcon(Theme.getIcon(R.drawable.ic_voice, ContextCompat.getColor(activity, Theme.iconActiveColor())))
+            .setIcon(R.drawable.ic_voice)
             .setOnMenuItemClickListener(item -> {
                 if (iconActionMode == MODE_ACTION_VOICE) {
                     Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -230,10 +252,10 @@ public class SearchFragment extends Fragment {
         if (actionMenu != null) {
             if (searchEditText.getText().toString().trim().isEmpty()) {
                 iconActionMode = MODE_ACTION_VOICE;
-                actionMenu.getItem(0).setIcon(Theme.getIcon(R.drawable.ic_voice, ContextCompat.getColor(activity, Theme.iconActiveColor())));
+                actionMenu.getItem(0).setIcon(Theme.getIcon(R.drawable.ic_voice, ContextCompat.getColor(activity, Theme.primaryTextColor())));
             } else {
                 iconActionMode = MODE_ACTION_CLEAR;
-                actionMenu.getItem(0).setIcon(Theme.getIcon(R.drawable.ic_clear, ContextCompat.getColor(activity, Theme.iconActiveColor())));
+                actionMenu.getItem(0).setIcon(Theme.getIcon(R.drawable.ic_clear, ContextCompat.getColor(activity, Theme.primaryTextColor())));
             }
         }
     }
@@ -243,7 +265,7 @@ public class SearchFragment extends Fragment {
         emptyView.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.VISIBLE);
 
-        if (NetworkUtils.getNetworkStatus() == NetworkUtils.TYPE_NOT_CONNECTED) {
+        if (NetworkUtils.notConnected()) {
             onLoadError();
         } else {
             performSearch(query);
@@ -272,6 +294,9 @@ public class SearchFragment extends Fragment {
 
                     if (searchResults.isEmpty()) {
                         emptyView.setText(R.string.NoResults);
+                    } else {
+                        TabLayout.Tab tab = activity.tabLayout.getTabAt(0);
+                        tab.setText(searchResults.size() + " Movies");
                     }
 
                     onLoadSuccessful();
@@ -293,6 +318,7 @@ public class SearchFragment extends Fragment {
 
     private void onLoadError() {
         progressBar.setVisibility(View.INVISIBLE);
+        emptyView.setVisibility(View.VISIBLE);
         emptyView.setText(R.string.NoConnection);
     }
 

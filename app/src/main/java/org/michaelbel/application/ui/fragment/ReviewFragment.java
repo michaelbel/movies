@@ -30,7 +30,7 @@ import org.michaelbel.application.moviemade.browser.Browser;
 import org.michaelbel.application.rest.model.Movie;
 import org.michaelbel.application.rest.model.Review;
 import org.michaelbel.application.ui.ReviewActivity;
-import org.michaelbel.application.ui.view.widget.GestureTextView;
+import org.michaelbel.application.util.AndroidUtilsDev;
 
 @SuppressWarnings("all")
 public class ReviewFragment extends Fragment {
@@ -44,7 +44,8 @@ public class ReviewFragment extends Fragment {
     private ProgressBar progressBar;
     private TextView mediaTitleText;
     private TextView authorTextView;
-    private GestureTextView reviewTextView;
+    private TextView reviewTextView;
+    /*private GestureTextView reviewTextView;*/
 
     public static ReviewFragment newInstance(Review review, Movie movie) {
         Bundle args = new Bundle();
@@ -74,8 +75,7 @@ public class ReviewFragment extends Fragment {
         fragmentView.addView(progressBar);
 
         ScrollView reviewScrollLayout = new ScrollView(activity);
-        // todo ScrollBard don't showed
-        reviewScrollLayout.setVerticalScrollBarEnabled(true);
+        reviewScrollLayout.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbarsEnabled());
         reviewScrollLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         fragmentView.addView(reviewScrollLayout);
 
@@ -125,10 +125,11 @@ public class ReviewFragment extends Fragment {
         authorTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 6, 0, 0, 0));
         authorLayout.addView(authorTextView);
 
-        reviewTextView = new GestureTextView(activity);
-        reviewTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        /*reviewTextView = new GestureTextView(activity);*/
+        reviewTextView = new TextView(activity);
+        reviewTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         reviewTextView.setTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
-        reviewTextView.getController().getSettings().setMaxZoom(2.0F);
+        /*reviewTextView.getController().getSettings().setMaxZoom(2.0F);*/
         reviewTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 16, 0, 16));
         contentLayout.addView(reviewTextView);
         return fragmentView;

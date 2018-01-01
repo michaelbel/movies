@@ -136,7 +136,7 @@ public class PersonFragment extends Fragment {
             currentPerson = (Cast) getArguments().getSerializable("person");
         }
 
-        if (NetworkUtils.getNetworkStatus() == NetworkUtils.TYPE_NOT_CONNECTED) {
+        if (NetworkUtils.notConnected()) {
             progressBar.setVisibility(View.INVISIBLE);
             //nestedScrollView.setVisibility(View.INVISIBLE);
             emptyView.setVisibility(View.VISIBLE);

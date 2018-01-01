@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -55,6 +56,7 @@ public class PopularPeopleFragment extends Fragment {
     private TextView emptyView;
     private ProgressBar progressBar;
     private RecyclerListView recyclerView;
+    private SwipeRefreshLayout fragmentView;
 
     public static PopularPeopleFragment newInstance() {
         Bundle args = new Bundle();
@@ -69,8 +71,27 @@ public class PopularPeopleFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (PopularPeopleActivity) getActivity();
 
-        FrameLayout fragmentView = new FrameLayout(activity);
-        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
+        fragmentView = new SwipeRefreshLayout(getContext());
+        fragmentView.setRefreshing(false);
+        fragmentView.setColorSchemeResources(Theme.accentColor());
+        fragmentView.setBackgroundColor(ContextCompat.getColor(getContext(), Theme.backgroundColor()));
+        fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(getContext(), Theme.primaryColor()));
+        fragmentView.setOnRefreshListener(() -> {
+            if (NetworkUtils.notConnected()) {
+                onLoadError();
+            } else {
+                if (peopleList.isEmpty()) {
+                    loadPopularPeople();
+                } else {
+                    fragmentView.setRefreshing(false);
+                }
+            }
+        });
+
+        FrameLayout fragmentContent = new FrameLayout(activity);
+        fragmentContent.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
+        fragmentContent.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        fragmentView.addView(fragmentContent);
 
         progressBar = new ProgressBar(activity);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
@@ -81,7 +102,7 @@ public class PopularPeopleFragment extends Fragment {
         emptyView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         emptyView.setTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
-        fragmentView.addView(emptyView);
+        fragmentContent.addView(emptyView);
 
         page = 1;
         adapter = new PeopleAdapter();
@@ -111,7 +132,7 @@ public class PopularPeopleFragment extends Fragment {
                 }
             }
         });
-        fragmentView.addView(recyclerView);
+        fragmentContent.addView(recyclerView);
         return fragmentView;
     }
 
@@ -119,7 +140,7 @@ public class PopularPeopleFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (NetworkUtils.getNetworkStatus() == NetworkUtils.TYPE_NOT_CONNECTED) {
+        if (NetworkUtils.notConnected()) {
             onLoadError();
         } else {
             loadPopularPeople();
@@ -170,10 +191,12 @@ public class PopularPeopleFragment extends Fragment {
 
     private void onLoadSuccessful() {
         progressBar.setVisibility(View.INVISIBLE);
+        fragmentView.setRefreshing(false);
     }
 
     private void onLoadError() {
         progressBar.setVisibility(View.INVISIBLE);
+        fragmentView.setRefreshing(false);
         emptyView.setText(R.string.NoConnection);
     }
 

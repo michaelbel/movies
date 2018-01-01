@@ -1,6 +1,7 @@
 package org.michaelbel.application.ui.fragment;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -24,17 +25,26 @@ import org.michaelbel.application.ui.adapter.Holder;
 import org.michaelbel.application.ui.view.cell.EmptyCell;
 import org.michaelbel.application.ui.view.cell.TextCell;
 import org.michaelbel.application.ui.view.cell.TextDetailCell;
+import org.michaelbel.application.ui.view.cell.TextDetailCellDev;
 import org.michaelbel.application.ui.view.widget.RecyclerListView;
 import org.michaelbel.application.util.AndroidUtilsDev;
 import org.michaelbel.application.util.ScreenUtils;
+import org.michaelbel.bottomsheet.BottomSheet;
 
 @SuppressWarnings("all")
 public class SettingsAdvancedFragment extends Fragment {
 
     private int rowCount;
+    private int infoRow;
     private int scrollbarsRow;
+    private int floatingToolbarRow;
+    private int scrollToTopRow;
+    private int searchResultsCounterRow;
+    private int hamburgerMenuRow;
+    private int fullOverviewRow;
     private int emptyRow1;
-    private int burgerRow;
+    private int deleteRatingsRow;
+    private int emptyRow2;
 
     private SettingsActivity activity;
     private LinearLayoutManager layoutManager;
@@ -54,9 +64,16 @@ public class SettingsAdvancedFragment extends Fragment {
         activity.toolbarTextView.setText(R.string.AdvancedSettings);
 
         rowCount = 0;
+        infoRow = rowCount++;
         scrollbarsRow = rowCount++;
+        floatingToolbarRow = rowCount++;
+        scrollToTopRow = rowCount++;
+        searchResultsCounterRow = rowCount++;
+        hamburgerMenuRow = rowCount++;
+        fullOverviewRow = rowCount++;
         emptyRow1 = rowCount++;
-        burgerRow = rowCount++;
+        deleteRatingsRow = rowCount++;
+        emptyRow2 = rowCount++;
 
         layoutManager = new LinearLayoutManager(activity);
 
@@ -71,22 +88,118 @@ public class SettingsAdvancedFragment extends Fragment {
                 boolean enable = prefs.getBoolean("scrollbars", true);
                 editor.putBoolean("scrollbars", !enable);
                 editor.apply();
-                if (view instanceof TextDetailCell) {
-                    ((TextDetailCell) view).setChecked(!enable);
+                if (view instanceof TextDetailCellDev) {
+                    ((TextDetailCellDev) view).setChecked(!enable);
                 }
-            } else if (position == burgerRow) {
+            } else if (position == floatingToolbarRow) {
+                SharedPreferences prefs = activity.getSharedPreferences("devconfig", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                boolean enable = prefs.getBoolean("scroll_appbar", false);
+                editor.putBoolean("scroll_appbar", !enable);
+                editor.apply();
+                if (view instanceof TextDetailCellDev) {
+                    ((TextDetailCellDev) view).setChecked(!enable);
+                }
+            } else if (position == scrollToTopRow) {
+                SharedPreferences prefs = activity.getSharedPreferences("devconfig", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                boolean enable = prefs.getBoolean("scroll_to_top", false);
+                editor.putBoolean("scroll_to_top", !enable);
+                editor.apply();
+                if (view instanceof TextDetailCellDev) {
+                    ((TextDetailCellDev) view).setChecked(!enable);
+                }
+            } else if (position == searchResultsCounterRow) {
+                SharedPreferences prefs = activity.getSharedPreferences("devconfig", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                boolean enable = prefs.getBoolean("search_results_count", false);
+                editor.putBoolean("search_results_count", !enable);
+                editor.apply();
+                if (view instanceof TextDetailCellDev) {
+                    ((TextDetailCellDev) view).setChecked(!enable);
+                }
+            } else if (position == hamburgerMenuRow) {
                 SharedPreferences prefs = activity.getSharedPreferences("devconfig", Activity.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 boolean enable = prefs.getBoolean("burger", false);
                 editor.putBoolean("burger", !enable);
                 editor.apply();
-                if (view instanceof TextDetailCell) {
-                    ((TextDetailCell) view).setChecked(!enable);
+                if (view instanceof TextDetailCellDev) {
+                    ((TextDetailCellDev) view).setChecked(!enable);
                 }
+            } else if (position == fullOverviewRow) {
+                SharedPreferences prefs = activity.getSharedPreferences("devconfig", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                boolean enable = prefs.getBoolean("full_overview", false);
+                editor.putBoolean("full_overview", !enable);
+                editor.apply();
+                if (view instanceof TextDetailCellDev) {
+                    ((TextDetailCellDev) view).setChecked(!enable);
+                }
+            } else if (position == deleteRatingsRow) {
+
+            }
+        });
+        recyclerView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemClick(View view, int position) {
+                if (position == scrollbarsRow || position == floatingToolbarRow || position == scrollToTopRow || position == searchResultsCounterRow || position == hamburgerMenuRow || position == fullOverviewRow) {
+                    rateFeachure(view, position);
+                    return true;
+                }
+
+                return false;
             }
         });
         fragmentView.addView(recyclerView);
         return fragmentView;
+    }
+
+    private void rateFeachure(View view, int position) {
+        String feachureName = ((TextDetailCellDev) view).getTitleText();
+
+        BottomSheet.Builder builder = new BottomSheet.Builder(activity, false);
+        builder.setTitle(feachureName);
+        builder.setTitleMultiline(true);
+        builder.setTitleTextColor(ContextCompat.getColor(activity, Theme.accentColor()));
+        builder.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
+        builder.setItemTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
+        builder.setItems(new CharSequence[] { "5 stars", "4 stars", "3 stars", "2 stars", "1 star" }, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SharedPreferences prefs = activity.getSharedPreferences("devconfig", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+
+                int rating = 0;
+
+                if (which == 0) rating = 5;
+                if (which == 1) rating = 4;
+                if (which == 2) rating = 3;
+                if (which == 3) rating = 2;
+                if (which == 4) rating = 1;
+
+                if (position == scrollbarsRow) {
+                    editor.putInt("scrollbars_rating", rating);
+                } else if (position == floatingToolbarRow) {
+                    editor.putInt("floating_toolbar_rating", rating);
+                } else if (position == scrollToTopRow) {
+                    editor.putInt("hamburger_menu_rating", rating);
+                } else if (position == searchResultsCounterRow) {
+                    editor.putInt("scroll_to_top_rating", rating);
+                } else if (position == hamburgerMenuRow) {
+                    editor.putInt("search_results_count_rating", rating);
+                } else if (position == fullOverviewRow) {
+                    editor.putInt("full_overview_rating", rating);
+                }
+
+                editor.apply();
+
+                if (view instanceof TextDetailCellDev) {
+                    ((TextDetailCellDev) view).setRating(rating);
+                }
+            }
+        });
+        builder.show();
     }
 
     @Override
@@ -109,7 +222,7 @@ public class SettingsAdvancedFragment extends Fragment {
             } else if (type == 2) {
                 cell = new TextCell(activity);
             } else {
-                cell = new TextDetailCell(activity);
+                cell = new TextDetailCellDev(activity);
             }
 
             return new Holder(cell);
@@ -121,25 +234,65 @@ public class SettingsAdvancedFragment extends Fragment {
 
             if (type == 1) {
                 EmptyCell cell = (EmptyCell) holder.itemView;
-                cell.setMode(EmptyCell.MODE_DEFAULT);
 
-                if (position == emptyRow1) {
+                if (position == infoRow) {
+                    cell.setMode(EmptyCell.MODE_TEXT);
+                    cell.setText("Раз уж Вам удалось проникнуть в раздел с этими настройками, то смело используйте их для лучшей кастомизации приложения. Некоторые настройки могут работать не стабильно или активироваться после перезапуска приложения. Если долго нажимать на фичу, можно поставить ей рейтинг. Это полностью анонимно.");
+                } else if (position == emptyRow1 || position == emptyRow2) {
+                    cell.setMode(EmptyCell.MODE_DEFAULT);
                     cell.setHeight(ScreenUtils.dp(12));
                 }
+            } else if (type == 2) {
+              TextCell cell = (TextCell) holder.itemView;
+              cell.changeLayoutParams();
+
+              if (position == deleteRatingsRow) {
+                  cell.setText("Delete all ratings");
+                  cell.setHeight(ScreenUtils.dp(52));
+                  cell.getTextView().setTextColor(0xFFFF5252);
+              }
             } else if (type == 3) {
-                TextDetailCell cell = (TextDetailCell) holder.itemView;
+                SharedPreferences prefs = activity.getSharedPreferences("devconfig", Activity.MODE_PRIVATE);
+
+                TextDetailCellDev cell = (TextDetailCellDev) holder.itemView;
+                cell.setMode(TextDetailCell.MODE_SWITCH);
                 cell.changeLayoutParams();
 
                 if (position == scrollbarsRow) {
-                    cell.setMode(TextDetailCell.MODE_SWITCH);
-                    cell.setText("Enable Scrollbars");
+                    cell.setText(R.string.Scrollbars);
                     cell.setValue("Enable all scrollbars in the app");
                     cell.setChecked(AndroidUtilsDev.scrollbarsEnabled());
-                } else if (position == burgerRow) {
-                    cell.setMode(TextDetailCell.MODE_SWITCH);
-                    cell.setText("Enable Hamburger");
+                    cell.setRating(prefs.getInt("scrollbars_rating", 0));
+                    cell.setDivider(true);
+                } else if (position == floatingToolbarRow) {
+                    cell.setText(R.string.FloatingToolbar);
+                    cell.setValue("Enable to scrollable toolbar");
+                    cell.setChecked(AndroidUtilsDev.floatingToolbar());
+                    cell.setRating(prefs.getInt("floating_toolbar_rating", 0));
+                    cell.setDivider(true);
+                } else if (position == scrollToTopRow) {
+                    cell.setText(R.string.ScrollToTop);
+                    cell.setValue("Scroll list to top when tab click");
+                    cell.setChecked(AndroidUtilsDev.scrollToTop());
+                    cell.setRating(prefs.getInt("scroll_to_top_rating", 0));
+                    cell.setDivider(true);
+                } else if (position == searchResultsCounterRow) {
+                    cell.setText(R.string.SearchResultsCounter);
+                    cell.setValue("Show count of results in search tab");
+                    cell.setChecked(AndroidUtilsDev.searchResultsCount());
+                    cell.setRating(prefs.getInt("search_results_count_rating", 0));
+                    cell.setDivider(true);
+                } else if (position == hamburgerMenuRow) {
+                    cell.setText(R.string.HamburgerMenu);
                     cell.setValue("Set hamburger menu icon");
                     cell.setChecked(AndroidUtilsDev.hamburgerIcon());
+                    cell.setRating(prefs.getInt("hamburger_menu_rating", 0));
+                    cell.setDivider(true);
+                } else if (position == fullOverviewRow) {
+                    cell.setText(R.string.FullOverview);
+                    cell.setValue("Display overview fully");
+                    cell.setChecked(AndroidUtilsDev.hamburgerIcon());
+                    cell.setRating(prefs.getInt("full_overview_rating", 0));
                 }
             }
         }
@@ -151,9 +304,9 @@ public class SettingsAdvancedFragment extends Fragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == emptyRow1) {
+            if (position == infoRow || position == emptyRow1 || position == emptyRow2) {
                 return 1;
-            } else if (position == 999) {
+            } else if (position == deleteRatingsRow) {
                 return 2;
             } else {
                 return 3;

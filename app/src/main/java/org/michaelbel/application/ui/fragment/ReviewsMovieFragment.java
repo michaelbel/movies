@@ -70,8 +70,9 @@ public class ReviewsMovieFragment extends Fragment {
         fragmentView.setRefreshing(reviewsList.isEmpty());
         fragmentView.setColorSchemeResources(Theme.accentColor());
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
+        fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(getContext(), Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
-            if (NetworkUtils.getNetworkStatus() == NetworkUtils.TYPE_NOT_CONNECTED) {
+            if (NetworkUtils.notConnected()) {
                 onLoadError();
             } else {
                 if (reviewsList.isEmpty()) {
@@ -117,7 +118,7 @@ public class ReviewsMovieFragment extends Fragment {
             currentMovie = (Movie) getArguments().getSerializable("movie");
         }
 
-        if (NetworkUtils.getNetworkStatus() == NetworkUtils.TYPE_NOT_CONNECTED) {
+        if (NetworkUtils.notConnected()) {
             onLoadError();
         } else {
             loadReviews();

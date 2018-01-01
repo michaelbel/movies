@@ -65,6 +65,7 @@ public class FavoriteMoviesFragment extends Fragment {
         fragmentView.setColorSchemeResources(Theme.accentColor());
         fragmentView.setOnRefreshListener(this :: loadMovies);
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
+        fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(getContext(), Theme.primaryColor()));
 
         FrameLayout contentLayout = new FrameLayout(activity);
         contentLayout.setLayoutParams(LayoutHelper.makeSwipeRefresh(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));

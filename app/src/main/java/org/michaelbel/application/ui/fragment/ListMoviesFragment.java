@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.michaelbel.application.R;
@@ -67,6 +68,7 @@ public class ListMoviesFragment extends Fragment {
     private Cast currentPerson;
 
     private TextView emptyView;
+    private ProgressBar progressBar;
     private SwipeRefreshLayout fragmentView;
 
     private MoviesListAdapter adapter;
@@ -106,11 +108,12 @@ public class ListMoviesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         fragmentView = new SwipeRefreshLayout(getContext());
-        fragmentView.setRefreshing(movieList.isEmpty());
+        fragmentView.setRefreshing(false);
         fragmentView.setColorSchemeResources(Theme.accentColor());
         fragmentView.setBackgroundColor(ContextCompat.getColor(getContext(), Theme.backgroundColor()));
+        fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(getContext(), Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
-            if (NetworkUtils.getNetworkStatus() == NetworkUtils.TYPE_NOT_CONNECTED) {
+            if (NetworkUtils.notConnected()) {
                 onLoadError();
             } else {
                 if (movieList.isEmpty()) {
@@ -128,6 +131,10 @@ public class ListMoviesFragment extends Fragment {
         FrameLayout contentLayout = new FrameLayout(getContext());
         contentLayout.setLayoutParams(LayoutHelper.makeSwipeRefresh(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         fragmentView.addView(contentLayout);
+
+        progressBar = new ProgressBar(getContext());
+        progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
+        contentLayout.addView(progressBar);
 
         emptyView = new TextView(getContext());
         emptyView.setGravity(Gravity.CENTER);
@@ -195,7 +202,7 @@ public class ListMoviesFragment extends Fragment {
             }
         }
 
-        if (NetworkUtils.getNetworkStatus() == NetworkUtils.TYPE_NOT_CONNECTED) {
+        if (NetworkUtils.notConnected()) {
             onLoadError();
         } else {
             if (currentMovieList == LIST_BY_PERSON) {
@@ -529,10 +536,12 @@ public class ListMoviesFragment extends Fragment {
     }
 
     private void onLoadSuccessful() {
+        progressBar.setVisibility(View.INVISIBLE);
         fragmentView.setRefreshing(false);
     }
 
     private void onLoadError() {
+        progressBar.setVisibility(View.INVISIBLE);
         fragmentView.setRefreshing(false);
         emptyView.setText(R.string.NoConnection);
     }

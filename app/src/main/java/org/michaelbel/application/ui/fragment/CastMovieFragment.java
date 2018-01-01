@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.TypedValue;
@@ -47,11 +48,12 @@ public class CastMovieFragment extends Fragment {
     private CastAdapter adapter;
     private MovieActivity activity;
     private LinearLayoutManager layoutManager;
-    private List<Cast> list = new ArrayList<>();
+    private List<Cast> personList = new ArrayList<>();
 
     private TextView emptyView;
     private ProgressBar progressBar;
     private RecyclerListView recyclerView;
+    private SwipeRefreshLayout fragmentView;
 
     public static CastMovieFragment newInstance(Movie movie) {
         Bundle args = new Bundle();
@@ -67,19 +69,38 @@ public class CastMovieFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (MovieActivity) getActivity();
 
-        FrameLayout fragmentView = new FrameLayout(activity);
-        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
+        fragmentView = new SwipeRefreshLayout(getContext());
+        fragmentView.setRefreshing(false);
+        fragmentView.setColorSchemeResources(Theme.accentColor());
+        fragmentView.setBackgroundColor(ContextCompat.getColor(getContext(), Theme.backgroundColor()));
+        fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(getContext(), Theme.primaryColor()));
+        fragmentView.setOnRefreshListener(() -> {
+            if (NetworkUtils.notConnected()) {
+                onLoadError();
+            } else {
+                if (personList.isEmpty()) {
+                    loadCredits();
+                } else {
+                    fragmentView.setRefreshing(false);
+                }
+            }
+        });
+
+        FrameLayout contentLayout = new FrameLayout(activity);
+        contentLayout.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
+        contentLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        fragmentView.addView(contentLayout);
 
         progressBar = new ProgressBar(activity);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
-        fragmentView.addView(progressBar);
+        contentLayout.addView(progressBar);
 
         emptyView = new TextView(activity);
         emptyView.setGravity(Gravity.CENTER);
         emptyView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         emptyView.setTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
-        fragmentView.addView(emptyView);
+        contentLayout.addView(emptyView);
 
         adapter = new CastAdapter();
         layoutManager = new LinearLayoutManager(activity);
@@ -91,15 +112,15 @@ public class CastMovieFragment extends Fragment {
         recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbarsEnabled());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
-            Cast cast = list.get(position);
+            Cast cast = personList.get(position);
             activity.startPerson(cast);
         });
         recyclerView.setOnItemLongClickListener((view, position) -> {
 
             return true;
         });
-        fragmentView.addView(recyclerView);
-        return fragmentView;
+        contentLayout.addView(recyclerView);
+        return contentLayout;
     }
 
     @Override
@@ -110,7 +131,7 @@ public class CastMovieFragment extends Fragment {
             currentMovie = (Movie) getArguments().getSerializable("movie");
         }
 
-        if (NetworkUtils.getNetworkStatus() == NetworkUtils.TYPE_NOT_CONNECTED) {
+        if (NetworkUtils.notConnected()) {
             onLoadError();
         } else {
             loadCredits();
@@ -124,13 +145,13 @@ public class CastMovieFragment extends Fragment {
             @Override
             public void onResponse(Call<CreditResponse> call, Response<CreditResponse> response) {
                 if (response.isSuccessful()) {
-                    if (!list.isEmpty()) {
-                        list.clear();
+                    if (!personList.isEmpty()) {
+                        personList.clear();
                     }
-                    list.addAll(response.body().castList);
+                    personList.addAll(response.body().castList);
                     adapter.notifyDataSetChanged();
 
-                    if (list.isEmpty()) {
+                    if (personList.isEmpty()) {
 
                     }
                 } else {
@@ -147,10 +168,12 @@ public class CastMovieFragment extends Fragment {
 
     private void onLoadSuccessful() {
         progressBar.setVisibility(View.INVISIBLE);
+        fragmentView.setRefreshing(false);
     }
 
     private void onLoadError() {
         progressBar.setVisibility(View.INVISIBLE);
+        fragmentView.setRefreshing(false);
         emptyView.setText(R.string.NoConnection);
     }
 
@@ -163,18 +186,18 @@ public class CastMovieFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-            Cast cast = list.get(position);
+            Cast cast = personList.get(position);
 
             CastView view = (CastView) holder.itemView;
             view.setName(cast.name)
                 .setCharacter(cast.character)
                 .setProfileImage(cast.profilePath)
-                .setDivider(position != list.size() - 1);
+                .setDivider(position != personList.size() - 1);
         }
 
         @Override
         public int getItemCount() {
-            return list != null ? list.size() : 0;
+            return personList != null ? personList.size() : 0;
         }
     }
 }

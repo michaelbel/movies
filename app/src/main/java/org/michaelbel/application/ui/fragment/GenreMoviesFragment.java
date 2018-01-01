@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -16,6 +17,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.michaelbel.application.R;
@@ -31,6 +33,7 @@ import org.michaelbel.application.ui.adapter.MoviesListAdapter;
 import org.michaelbel.application.ui.view.widget.PaddingItemDecoration;
 import org.michaelbel.application.ui.view.widget.RecyclerListView;
 import org.michaelbel.application.util.AndroidUtils;
+import org.michaelbel.application.util.AndroidUtilsDev;
 import org.michaelbel.application.util.NetworkUtils;
 import org.michaelbel.application.util.ScreenUtils;
 
@@ -50,13 +53,15 @@ public class GenreMoviesFragment extends Fragment {
     private boolean isLoading;
     private int currentGenreId;
 
-    private TextView emptyView;
-    private SwipeRefreshLayout fragmentView;
-
     private GenresActivity activity;
     private MoviesListAdapter adapter;
     private GridLayoutManager layoutManager;
     private List<Movie> movieList = new ArrayList<>();
+
+    private TextView emptyView;
+    private ProgressBar progressBar;
+    private RecyclerListView recyclerView;
+    private SwipeRefreshLayout fragmentView;
 
     public static GenreMoviesFragment newInstance(int genreId) {
         Bundle args = new Bundle();
@@ -72,12 +77,32 @@ public class GenreMoviesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (GenresActivity) getActivity();
 
+        activity.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                if (AndroidUtilsDev.scrollToTop()) {
+                    recyclerView.smoothScrollToPosition(0);
+                }
+            }
+        });
+
         fragmentView = new SwipeRefreshLayout(activity);
-        fragmentView.setRefreshing(movieList.isEmpty());
+        fragmentView.setRefreshing(false);
         fragmentView.setColorSchemeResources(Theme.accentColor());
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
+        fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(getContext(), Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
-            if (NetworkUtils.getNetworkStatus() == NetworkUtils.TYPE_NOT_CONNECTED) {
+            if (NetworkUtils.notConnected()) {
                 onLoadError();
             } else {
                 if (movieList.isEmpty()) {
@@ -92,6 +117,10 @@ public class GenreMoviesFragment extends Fragment {
         contentLayout.setLayoutParams(LayoutHelper.makeSwipeRefresh(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         fragmentView.addView(contentLayout);
 
+        progressBar = new ProgressBar(getContext());
+        progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
+        contentLayout.addView(progressBar);
+
         emptyView = new TextView(activity);
         emptyView.setGravity(Gravity.CENTER);
         emptyView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
@@ -105,7 +134,7 @@ public class GenreMoviesFragment extends Fragment {
         layoutManager = new GridLayoutManager(activity, AndroidUtils.getColumns());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        RecyclerListView recyclerView = new RecyclerListView(activity);
+        recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setEmptyView(emptyView);
@@ -140,7 +169,7 @@ public class GenreMoviesFragment extends Fragment {
             currentGenreId = getArguments().getInt("genreId");
         }
 
-        if (NetworkUtils.getNetworkStatus() == NetworkUtils.TYPE_NOT_CONNECTED) {
+        if (NetworkUtils.notConnected()) {
             onLoadError();
         } else {
             loadMoviesByGenre();
@@ -186,10 +215,12 @@ public class GenreMoviesFragment extends Fragment {
     }
 
     private void onLoadSuccessful() {
+        progressBar.setVisibility(View.INVISIBLE);
         fragmentView.setRefreshing(false);
     }
 
     private void onLoadError() {
+        progressBar.setVisibility(View.INVISIBLE);
         fragmentView.setRefreshing(false);
         emptyView.setText(R.string.NoConnection);
     }

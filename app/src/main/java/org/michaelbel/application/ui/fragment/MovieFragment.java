@@ -9,16 +9,11 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.TypedValue;
-import android.view.Gravity;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.ScrollView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.squareup.picasso.Picasso;
@@ -40,8 +35,9 @@ import org.michaelbel.application.rest.response.ImageResponse;
 import org.michaelbel.application.rest.response.VideoResponse;
 import org.michaelbel.application.ui.MovieActivity;
 import org.michaelbel.application.ui.view.CheckedButton;
-import org.michaelbel.application.ui.view.MovieInfoLayout1;
+import org.michaelbel.application.ui.view.MovieInfoLayout;
 import org.michaelbel.application.util.AndroidUtils;
+import org.michaelbel.application.util.NetworkUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -64,10 +60,8 @@ public class MovieFragment extends Fragment {
 
     private ArrayList<Trailer> trailersList = new ArrayList<>();
 
-    private TextView emptyView;
-    private ProgressBar progressBar;
-    private MovieInfoLayout1 movieViewTop;
-    //private MovieInfoLayout2 movieViewBottom;
+    private MovieInfoLayout movieView;
+    private SwipeRefreshLayout fragmentView;
 
     public static MovieFragment newInstance(Movie movie) {
         Bundle args = new Bundle();
@@ -84,33 +78,23 @@ public class MovieFragment extends Fragment {
         activity = (MovieActivity) getActivity();
         setHasOptionsMenu(true);
 
-        ScrollView fragmentView = new ScrollView(activity);
-        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
+        fragmentView = new SwipeRefreshLayout(getContext());
+        fragmentView.setRefreshing(false);
+        fragmentView.setColorSchemeResources(Theme.accentColor());
+        fragmentView.setBackgroundColor(ContextCompat.getColor(getContext(), Theme.backgroundColor()));
+        fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(getContext(), Theme.primaryColor()));
+        fragmentView.setOnRefreshListener(() -> {
+            fragmentView.setRefreshing(false);
+        });
 
-        FrameLayout frameLayout = new FrameLayout(activity);
-        frameLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        fragmentView.addView(frameLayout);
+        ScrollView scrollView = new ScrollView(activity);
+        scrollView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
+        scrollView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        fragmentView.addView(scrollView);
 
-        emptyView = new TextView(activity);
-        emptyView.setText(R.string.NoConnection);
-        emptyView.setGravity(Gravity.CENTER);
-        emptyView.setVisibility(View.INVISIBLE);
-        emptyView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        emptyView.setTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
-        emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
-        frameLayout.addView(emptyView);
-
-        progressBar = new ProgressBar(activity);
-        progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM, 0, 0, 0, 36));
-        frameLayout.addView(progressBar);
-
-        LinearLayout movieLayout = new LinearLayout(activity);
-        movieLayout.setOrientation(LinearLayout.VERTICAL);
-        movieLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        frameLayout.addView(movieLayout);
-
-        movieViewTop = new MovieInfoLayout1(activity);
-        movieViewTop.setListener(new MovieInfoLayout1.InfoMovieListener() {
+        movieView = new MovieInfoLayout(activity);
+        movieView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        movieView.setListener(new MovieInfoLayout.InfoMovieListener() {
             @Override
             public boolean onOverviewLongClick(View view) {
                 AndroidUtils.addToClipboard("Overview", currentMovie.overview);
@@ -168,7 +152,9 @@ public class MovieFragment extends Fragment {
 
             @Override
             public void onTrailersSectionClick(View view) {
-                activity.startTrailers(currentMovie, trailersList);
+                if (!trailersList.isEmpty()) {
+                    activity.startTrailers(currentMovie, trailersList);
+                }
             }
 
             @Override
@@ -188,46 +174,19 @@ public class MovieFragment extends Fragment {
                 } else if (position == 2) {
                     Browser.openUrl(activity, Url.IMDB_MOVIE + currentMovie.imdbId);
                 } else if (position == 3) {
-                    Browser.openUrl(activity, currentMovie.homepage);
+                    if (loadedMovie != null) {
+                        Browser.openUrl(activity, loadedMovie.homepage);
+                    }
                 }
+            }
+
+            @Override
+            public void onGenreButtonClick(View view, int genreId) {
+
             }
         });
-        movieViewTop.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        movieLayout.addView(movieViewTop);
-
-        /*movieViewBottom = new MovieInfoLayout2(getContext());
-        movieViewBottom.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        movieLayout.addView(movieViewBottom);
-
-        movieViewBottom.setListener(new MovieInfoLayout2.InfoMovieListener() {
-            @Override
-            public void onTrailersSectionClick(View view) {
-                activity.startTrailers(currentMovie, trailersList);
-            }
-
-            @Override
-            public void onTrailerClick(View view, String trailerKey) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailerKey)));
-            }
-
-            @Override
-            public boolean onTrailerLongClick(View view, String trailerKey) {
-                return true;
-            }
-
-            @Override
-            public void onMovieUrlClick(View view, int position) {
-                if (position == 1) {
-                    Browser.openUrl(activity, Url.TMDB_MOVIE + currentMovie.id);
-                } else if (position == 2) {
-                    Browser.openUrl(activity, Url.IMDB_MOVIE + currentMovie.imdbId);
-                } else if (position == 3) {
-                    Browser.openUrl(activity, currentMovie.homepage);
-                }
-            }
-
-        });*/
-        return fragmentView;
+        scrollView.addView(movieView);
+        return scrollView;
     }
 
     @Override
@@ -247,11 +206,11 @@ public class MovieFragment extends Fragment {
             currentMovie = (Movie) getArguments().getSerializable("movie");
         }
 
-        load();
+        loadFromExtras();
     }
 
-    private void load() {
-        movieViewTop.setPoster(currentMovie.posterPath)
+    private void loadFromExtras() {
+        movieView.setPoster(currentMovie.posterPath)
                     .setTitle(currentMovie.title)
                     .setOverview(currentMovie.overview)
                     .setDate(currentMovie.releaseDate)
@@ -260,10 +219,15 @@ public class MovieFragment extends Fragment {
                     .setFavoriteButton(currentMovie.id)
                     .setWatchingButton(currentMovie.id)
                     .setOriginalTitle(currentMovie.originalTitle)
-                    .setOriginalLang(currentMovie.originalLanguage);
+                    .setOriginalLanguage(currentMovie.originalLanguage);
 
         addMovieToRealm(currentMovie);
-        loadMovieDetails(currentMovie.id);
+
+        if (NetworkUtils.notConnected()) {
+            displayMovie();
+        } else {
+            loadMovieDetails(currentMovie.id);
+        }
     }
 
     private void loadMovieDetails(int movieId) {
@@ -288,15 +252,15 @@ public class MovieFragment extends Fragment {
     }
 
     private void displayMovie() {
-        movieViewTop.setRuntime(loadedMovie.runtime)
-                    .setCountries(loadedMovie.countriesList)
-                    .setTagline(loadedMovie.tagline)
-                    .setGenres(loadedMovie.genresList)
-                    .setStatus(loadedMovie.status)
-                    .setBudget(loadedMovie.budget)
-                    .setRevenue(loadedMovie.revenue)
-                    .setCompanies(loadedMovie.companiesList)
-                    .setHomePage(loadedMovie.homepage);
+        movieView.setRuntime(NetworkUtils.notConnected() ? -1 : loadedMovie.runtime)
+                    .setCountries(NetworkUtils.notConnected() ? null : loadedMovie.countriesList)
+                    .setTagline(NetworkUtils.notConnected() ? null : loadedMovie.tagline)
+                    .setStatus(NetworkUtils.notConnected() ? null : loadedMovie.status)
+                    .setBudget(NetworkUtils.notConnected() ? 0 : loadedMovie.budget)
+                    .setRevenue(NetworkUtils.notConnected() ? 0 : loadedMovie.revenue)
+                    .setCompanies(NetworkUtils.notConnected() ? null : loadedMovie.companiesList)
+                    .setGenres(NetworkUtils.notConnected() ? null : loadedMovie.genresList)
+                    .setHomePage(NetworkUtils.notConnected() ? null : loadedMovie.homepage);
 
         //loadImages(loadedMovie.id);
         loadCredits(currentMovie.id);
@@ -344,7 +308,7 @@ public class MovieFragment extends Fragment {
             public void onResponse(@NonNull Call<VideoResponse> call, @NonNull Response<VideoResponse> response) {
                 if (response.isSuccessful()) {
                     trailersList.addAll(response.body().trailersList);
-                    movieViewTop.setTrailers(trailersList);
+                    movieView.setTrailers(trailersList);
                 } else {
                     // todo Error
                 }
@@ -367,7 +331,7 @@ public class MovieFragment extends Fragment {
                     List<Poster> posterList = response.body().postersList;
                     List<Backdrop> backdropList = response.body().backdropsList;
 
-                    movieViewTop.setImages(currentMovie.posterPath, currentMovie.backdropPath, posterList.size(), backdropList.size());
+                    movieView.setImages(currentMovie.posterPath, currentMovie.backdropPath, posterList.size(), backdropList.size());
                 } else {
                     // todo Error.
                 }
@@ -387,7 +351,7 @@ public class MovieFragment extends Fragment {
             @Override
             public void onResponse(Call<CreditResponse> call, Response<CreditResponse> response) {
                 if (response.isSuccessful()) {
-                    movieViewTop.setCrew(response.body().crewList);
+                    movieView.setCrew(response.body().crewList);
                 } else {
                     // todo Error.
                 }
@@ -410,7 +374,11 @@ public class MovieFragment extends Fragment {
                 @Override
                 public void execute(Realm realm) {
                     Movie newMovie = realm.createObject(Movie.class);
-                    newMovie = movie;
+                    newMovie.title = movie.title;
+                    newMovie.originalTitle = movie.originalTitle;
+                    newMovie.releaseDate = movie.releaseDate;
+                    newMovie.originalLanguage = movie.originalLanguage;
+                    newMovie.posterPath = movie.posterPath;
                 }
             });
         } else {

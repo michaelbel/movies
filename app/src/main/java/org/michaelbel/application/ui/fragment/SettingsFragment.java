@@ -171,7 +171,7 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, final MenuInflater inflater) {
         menu.add(null)
-            .setIcon(Theme.getIcon(R.drawable.ic_chevron_right, ContextCompat.getColor(activity, Theme.primaryColor())))
+            .setIcon(Theme.getIcon(R.drawable.ic_settings, ContextCompat.getColor(activity, Theme.primaryColor())))
             .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             .setOnMenuItemClickListener(menuItem -> {
                 asc++;
@@ -216,10 +216,7 @@ public class SettingsFragment extends Fragment {
             if (type == 1) {
                 EmptyCell cell = (EmptyCell) holder.itemView;
                 cell.setMode(EmptyCell.MODE_DEFAULT);
-
-                if (position == emptyRow2) {
-                    cell.setHeight(ScreenUtils.dp(12));
-                }
+                cell.setHeight(ScreenUtils.dp(10));
             } else if (type == 2) {
                 TextDetailCell cell = (TextDetailCell) holder.itemView;
                 cell.changeLayoutParams();

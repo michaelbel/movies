@@ -66,6 +66,7 @@ public class LibsFragment extends Fragment {
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
 
         sourcesList.add(new Source("BottomSheet", "https://github.com/michaelbel/bottomsheet","Apache License v2.0"));
+        sourcesList.add(new Source("Gson", "https://github.com/google/gson","Apache License v2.0"));
         sourcesList.add(new Source("Retrofit", "https://square.github.io/retrofit","Apache License v2.0"));
         sourcesList.add(new Source("RxJava", "https://github.com/reactivex/rxjava","Apache License v2.0"));
         sourcesList.add(new Source("RxAndroid", "https://github.com/reactivex/rxjava","Apache License v2.0"));
@@ -89,6 +90,7 @@ public class LibsFragment extends Fragment {
         recyclerView.setOnItemLongClickListener((view, position) -> {
             BottomSheet.Builder builder = new BottomSheet.Builder(activity);
             builder.setTitle(sourcesList.get(position).url);
+            builder.setTitleMultiline(true);
             builder.setCellHeight(ScreenUtils.dp(52));
             builder.setTitleTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
             builder.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
