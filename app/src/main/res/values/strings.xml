@@ -35,7 +35,6 @@
     <string name="IncludeAdultInfo">Toggle the inclusion of adult content</string>
     <string name="InAppBrowser">In-App Browser</string>
     <string name="InAppBrowserInfo">Open external links within the app</string>
-    <string name="AdvancedSettings">Advanced Settings</string>
     <string name="StorageUsage">Storage Usage</string>
     <string name="KeepMedia">Keep Media</string>
     <string name="KeepFewDays">3 days</string>
@@ -43,6 +42,18 @@
     <string name="KeepOneMonth">1 month</string>
     <string name="KeepForever">Forever</string>
     <string name="LocalDatabase">Local Database</string>
+    <string name="CachedMovies">Cached Movies</string>
+    <string name="CachedImages">Cached Images</string>
+    <string name="CountMovies">%1$d Movies</string>
+    <string name="CountImages">%1$d Images</string>
+
+    <string name="AdvancedSettings">Advanced Settings</string>
+    <string name="Scrollbars">Scrollbars</string>
+    <string name="ScrollToTop">Scroll to Top</string>
+    <string name="FloatingToolbar">Floating Toolbar</string>
+    <string name="SearchResultsCounter">Search Results Counter</string>
+    <string name="HamburgerMenu">Hamburger Menu</string>
+    <string name="FullOverview">Full Overview</string>
     <!--About-->
     <string name="About">About</string>
     <string name="AppForAndroid">%1$s for Android</string>
@@ -86,7 +97,7 @@
     <string name="Loading">Loading…</string>
     <string name="LoadingCountries">Loading countries…</string>
     <string name="LoadingTagline">Loading tagline…</string>
-    <string name="MoneyCount">&amp; %1$s</string>
+    <string name="MoneyCount">$ %1$s</string>
     <!--Reviews-->
     <string name="Reviews">Reviews</string>
     <string name="NoReviews">No Reviews</string>
