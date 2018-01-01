@@ -6,17 +6,21 @@ import android.net.NetworkInfo;
 
 import org.michaelbel.application.moviemade.Moviemade;
 
-@SuppressWarnings("all")
+//@SuppressWarnings("all")
 public class NetworkUtils {
 
-    public static final int TYPE_WIFI = 1;
-    public static final int TYPE_MOBILE = 2;
-    public static final int TYPE_VPN = 3;
-    public static final int TYPE_NOT_CONNECTED = 0;
+    private static final int TYPE_WIFI = 1;
+    private static final int TYPE_MOBILE = 2;
+    private static final int TYPE_VPN = 3;
+    private static final int TYPE_BLUETOOTH = 4;
+    private static final int TYPE_NOT_CONNECTED = 0;
 
-    public static int getNetworkStatus() {
+    private static int getNetworkStatus() {
         ConnectivityManager connectivityManager = (ConnectivityManager) Moviemade.AppContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        NetworkInfo networkInfo = null;
+        if (connectivityManager != null) {
+            networkInfo = connectivityManager.getActiveNetworkInfo();
+        }
 
         if (networkInfo != null) {
             if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
@@ -25,9 +29,31 @@ public class NetworkUtils {
                 return TYPE_MOBILE;
             } else if (networkInfo.getType() == ConnectivityManager.TYPE_VPN) {
                 return TYPE_VPN;
-            }
+            } /*else if (networkInfo.getType() == ConnectivityManager.TYPE_BLUETOOTH) {
+                return TYPE_BLUETOOTH;
+            }*/
         }
 
         return TYPE_NOT_CONNECTED;
+    }
+
+    public static boolean wifiConnected() {
+        return getNetworkStatus() == TYPE_WIFI;
+    }
+
+    public static boolean mobileConnected() {
+        return getNetworkStatus() == TYPE_MOBILE;
+    }
+
+    public static boolean vpnConnected() {
+        return getNetworkStatus() == TYPE_VPN;
+    }
+
+    public static boolean bluetoothConnected() {
+        return getNetworkStatus() == TYPE_BLUETOOTH;
+    }
+
+    public static boolean notConnected() {
+        return getNetworkStatus() == TYPE_NOT_CONNECTED;
     }
 }
