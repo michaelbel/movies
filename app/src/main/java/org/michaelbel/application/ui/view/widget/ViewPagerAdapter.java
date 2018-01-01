@@ -21,6 +21,10 @@ public class ViewPagerAdapter extends PagerAdapter {
         this.context = context;
     }
 
+    public void addLayout(View view) {
+        layouts.add(view);
+    }
+
     public void addLayout(View view, CharSequence title) {
         layouts.add(view);
         titles.add(title);
