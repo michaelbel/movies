@@ -1,4 +1,4 @@
-package org.michaelbel.application.ui.view;
+package org.michaelbel.application.ui.view.section;
 
 import android.content.Context;
 import android.content.SharedPreferences;

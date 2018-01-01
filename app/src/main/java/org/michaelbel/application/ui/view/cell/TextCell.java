@@ -5,7 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
@@ -214,9 +213,8 @@ public class TextCell extends FrameLayout {
         return this;
     }
 
-    public TextCell setTextColor(@ColorRes int color) {
-        textView.setTextColor(ContextCompat.getColor(getContext(), color));
-        return this;
+    public TextView getTextView() {
+        return textView;
     }
 
     public TextCell setIconColor(@ColorInt int color) {

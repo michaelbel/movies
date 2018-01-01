@@ -90,7 +90,7 @@ public class MovieViewCard extends FrameLayout {
         Picasso.with(getContext())
                .load(Url.getImage(posterPath, size))
                .placeholder(R.drawable.movie_placeholder)
-               .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+               .memoryPolicy(/*MemoryPolicy.NO_CACHE, */MemoryPolicy.NO_STORE)
                .into(posterImageView);
         return this;
     }

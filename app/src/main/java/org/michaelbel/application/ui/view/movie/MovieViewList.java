@@ -113,14 +113,20 @@ public class MovieViewList extends FrameLayout {
     }
 
     public MovieViewList setTitle(@NonNull String title) {
-        titleTextView.setText(title);
+        if (title != null) {
+            titleTextView.setText(title);
+        }
+
         return this;
     }
 
     public MovieViewList setYear(@NonNull String date) {
-        if (date.length() >= 4) {
-            yearTextView.setText(date.substring(0, 4));
+        if (date != null) {
+            if (date.length() >= 4) {
+                yearTextView.setText(date.substring(0, 4));
+            }
         }
+
         return this;
     }
 
