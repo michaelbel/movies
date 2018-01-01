@@ -21,9 +21,9 @@ import org.michaelbel.application.ui.fragment.SearchFragment;
 public class SearchActivity extends AppCompatActivity {
 
     public Toolbar toolbar;
-    public TextView toolbarTextView;
     public ViewPager viewPager;
     public TabLayout tabLayout;
+    public TextView toolbarTextView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

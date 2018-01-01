@@ -2,6 +2,7 @@ package org.michaelbel.application.ui;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import org.michaelbel.application.R;
 import org.michaelbel.application.ui.fragment.PopularPeopleFragment;
+import org.michaelbel.application.util.AndroidUtilsDev;
 
 @SuppressWarnings("all")
 public class PopularPeopleActivity extends AppCompatActivity {
@@ -25,6 +27,10 @@ public class PopularPeopleActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(toolbar);
+
+        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        params.setScrollFlags(AndroidUtilsDev.floatingToolbar() ? AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS | AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP : 0);
+        toolbar.setLayoutParams(params);
 
         toolbarTextView = findViewById(R.id.toolbar_title);
         toolbarTextView.setText(R.string.PopularPeople);

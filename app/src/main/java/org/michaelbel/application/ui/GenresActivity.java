@@ -8,12 +8,17 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.michaelbel.application.R;
 import org.michaelbel.application.moviemade.ApiFactory;
+import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
 import org.michaelbel.application.moviemade.Url;
 import org.michaelbel.application.rest.api.GENRES;
@@ -30,10 +35,15 @@ import retrofit2.Response;
 @SuppressWarnings("all")
 public class GenresActivity extends AppCompatActivity {
 
-    public Toolbar toolbar;
+    public TextView emptyView;
     public ViewPager viewPager;
     public TabLayout tabLayout;
+    public FrameLayout contentLayout;
+
+    public Toolbar toolbar;
+    public ProgressBar progressBar;
     public TextView toolbarTextView;
+    public FrameLayout toolbarLayout;
 
     public FragmentsPagerAdapter adapter;
 
@@ -46,22 +56,41 @@ public class GenresActivity extends AppCompatActivity {
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(toolbar);
 
+        toolbarLayout = findViewById(R.id.toolbar_layout);
+
         toolbarTextView = findViewById(R.id.toolbar_title);
         toolbarTextView.setText(R.string.LoadingGenres);
 
+        progressBar = new ProgressBar(this);
+        progressBar.setLayoutParams(LayoutHelper.makeFrame(24, 24, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 16, 0));
+        toolbarLayout.addView(progressBar);
+
         adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
+
+        contentLayout = findViewById(R.id.content_layout);
+
+        emptyView = new TextView(this);
+        emptyView.setGravity(Gravity.CENTER);
+        emptyView.setVisibility(View.INVISIBLE);
+        emptyView.setText(R.string.NoConnection);
+        emptyView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        emptyView.setTextColor(ContextCompat.getColor(this, Theme.secondaryTextColor()));
+        emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
+        contentLayout.addView(emptyView);
 
         viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(adapter);
+        viewPager.setBackgroundColor(ContextCompat.getColor(this, Theme.backgroundColor()));
 
         tabLayout = findViewById(R.id.tab_layout);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
+        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
         tabLayout.setVisibility(View.INVISIBLE);
 
-        fillAdapter();
+        loadGenres();
     }
 
     @Override
@@ -73,7 +102,7 @@ public class GenresActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void fillAdapter() {
+    public void loadGenres() {
         GENRES service = ApiFactory.getRetrofit().create(GENRES.class);
         Call<MovieGenresResponse> call = service.getMovieList(Url.TMDB_API_KEY, Url.en_US);
         call.enqueue(new Callback<MovieGenresResponse>() {
@@ -86,13 +115,13 @@ public class GenresActivity extends AppCompatActivity {
 
                     onLoadSuccessful();
                 } else {
-                    // todo Error
+                    onLoadError();
                 }
             }
 
             @Override
             public void onFailure(Call<MovieGenresResponse> call, Throwable t) {
-                // todo Error.
+                onLoadError();
             }
         });
     }
@@ -101,8 +130,15 @@ public class GenresActivity extends AppCompatActivity {
         // todo it is necessary?
         adapter.notifyDataSetChanged();
 
+        toolbarLayout.removeView(progressBar);
         toolbarTextView.setVisibility(View.INVISIBLE);
         tabLayout.setVisibility(View.VISIBLE);
+    }
+
+    private void onLoadError() {
+        emptyView.setVisibility(View.VISIBLE);
+        toolbarLayout.removeView(progressBar);
+        toolbarTextView.setText(R.string.Genres);
     }
 
     public void startMovie(Movie movie) {

@@ -26,6 +26,7 @@ import org.michaelbel.application.ui.fragment.ListMoviesFragment;
 import org.michaelbel.application.ui.fragment.MovieFragment;
 import org.michaelbel.application.ui.fragment.ReviewsMovieFragment;
 import org.michaelbel.application.ui.view.widget.FragmentsPagerAdapter;
+import org.michaelbel.application.util.AndroidUtilsDev;
 
 import java.util.ArrayList;
 
@@ -56,6 +57,10 @@ public class MovieActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(toolbar);
+
+        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        params.setScrollFlags(AndroidUtilsDev.floatingToolbar() ? AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS | AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP : 0);
+        toolbar.setLayoutParams(params);
 
         toolbarTextView = findViewById(R.id.toolbar_title);
         toolbarTextView.setText(movie.title);

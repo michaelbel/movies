@@ -3,6 +3,7 @@ package org.michaelbel.application.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -16,6 +17,7 @@ import org.michaelbel.application.ui.view.widget.FragmentsPagerAdapter;
 import org.michaelbel.application.R;
 import org.michaelbel.application.moviemade.Theme;
 import org.michaelbel.application.ui.fragment.FavoriteMoviesFragment;
+import org.michaelbel.application.util.AndroidUtilsDev;
 
 @SuppressWarnings("all")
 public class FavsActivity extends AppCompatActivity {
@@ -33,6 +35,10 @@ public class FavsActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(toolbar);
+
+        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        params.setScrollFlags(AndroidUtilsDev.floatingToolbar() ? AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS | AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP : 0);
+        toolbar.setLayoutParams(params);
 
         toolbarTextView = findViewById(R.id.toolbar_title);
         toolbarTextView.setText(R.string.MyFavorites);
