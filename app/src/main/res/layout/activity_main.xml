@@ -1,7 +1,9 @@
-<android.support.v4.widget.DrawerLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/drawer"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <android.support.v4.widget.DrawerLayout
+    android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -29,7 +31,6 @@
                     android:layout_marginEnd="16dp"
                     android:theme="@style/AppThemeLight.Tabs"
                     app:tabTextAppearance="@style/TabText"
-                    app:tabIndicatorColor="@color/colorAccent"
                     app:tabSelectedTextColor="@color/colorAccent"/>
 
             </android.support.v7.widget.Toolbar>
@@ -52,3 +53,4 @@
         android:fitsSystemWindows="true"/>
 
 </android.support.v4.widget.DrawerLayout>
+</layout>
