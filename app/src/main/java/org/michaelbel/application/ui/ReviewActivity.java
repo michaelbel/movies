@@ -1,51 +1,50 @@
 package org.michaelbel.application.ui;
 
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.widget.TextView;
 
 import org.michaelbel.application.R;
+import org.michaelbel.application.databinding.ActivityReviewBinding;
 import org.michaelbel.application.rest.model.Movie;
 import org.michaelbel.application.rest.model.Review;
+import org.michaelbel.application.ui.base.BaseActivity;
+import org.michaelbel.application.ui.base.BaseActivityModel;
+import org.michaelbel.application.ui.base.BasePresenter;
 import org.michaelbel.application.ui.fragment.ReviewFragment;
 import org.michaelbel.application.util.AndroidUtilsDev;
 
 @SuppressWarnings("all")
-public class ReviewActivity extends AppCompatActivity {
+public class ReviewActivity extends BaseActivity implements BaseActivityModel {
 
-    public Toolbar toolbar;
-    public TextView toolbarTextView;
+    public ActivityReviewBinding binding;
+    private BasePresenter<BaseActivityModel> presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_review);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_review);
+        presenter = new BasePresenter<>();
+        presenter.attachView(this);
 
-        toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) binding.toolbar.getLayoutParams();
         params.setScrollFlags(AndroidUtilsDev.floatingToolbar() ? AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS | AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP : 0);
-        toolbar.setLayoutParams(params);
 
-        toolbarTextView = findViewById(R.id.toolbar_title);
+        binding.toolbar.setLayoutParams(params);
+        setSupportActionBar(binding.toolbar);
 
         if (savedInstanceState == null) {
-            Review review = (Review) getIntent().getSerializableExtra("review");
+            Review review = (Review) getIntent().getParcelableExtra("review");
             Movie movie = (Movie) getIntent().getSerializableExtra("movie");
 
-            setRootFragment(ReviewFragment.newInstance(review, movie));
+            startFragment(ReviewFragment.newInstance(review, movie), binding.fragmentLayout);
         }
     }
 
-    public void setRootFragment(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragment_layout, fragment)
-                .commit();
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
     }
 }

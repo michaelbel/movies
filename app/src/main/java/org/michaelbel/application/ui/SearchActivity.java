@@ -1,54 +1,90 @@
 package org.michaelbel.application.ui;
 
+import android.content.Context;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.text.InputType;
+import android.text.TextUtils;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 
-import org.michaelbel.application.rest.model.Movie;
-import org.michaelbel.application.ui.view.widget.FragmentsPagerAdapter;
 import org.michaelbel.application.R;
+import org.michaelbel.application.databinding.ActivitySearchBinding;
+import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
+import org.michaelbel.application.rest.model.Movie;
+import org.michaelbel.application.ui.base.BaseActivity;
+import org.michaelbel.application.ui.base.BaseActivityModel;
+import org.michaelbel.application.ui.base.BasePresenter;
 import org.michaelbel.application.ui.fragment.SearchFragment;
+import org.michaelbel.application.ui.view.widget.FragmentsPagerAdapter;
 
 @SuppressWarnings("all")
-public class SearchActivity extends AppCompatActivity {
+public class SearchActivity extends BaseActivity implements BaseActivityModel {
 
-    public Toolbar toolbar;
-    public ViewPager viewPager;
-    public TabLayout tabLayout;
-    public TextView toolbarTextView;
+    public EditText searchEditText;
+    public ActivitySearchBinding binding;
+    private BasePresenter<BaseActivityModel> presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_search);
+        presenter = new BasePresenter<>();
+        presenter.attachView(this);
 
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        setSupportActionBar(toolbar);
+        binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        setSupportActionBar(binding.toolbar);
 
-        toolbarTextView = findViewById(R.id.toolbar_title);
+        FrameLayout toolbarLayout = new FrameLayout(this);
+        toolbarLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        binding.toolbar.addView(toolbarLayout);
 
-        SearchFragment fragment = new SearchFragment();
+        searchEditText = new EditText(this);
+        searchEditText.setLines(1);
+        searchEditText.setMaxLines(1);
+        searchEditText.setSingleLine();
+        searchEditText.setHint(R.string.Search);
+        searchEditText.setBackgroundDrawable(null);
+        searchEditText.setTypeface(Typeface.DEFAULT);
+        searchEditText.setEllipsize(TextUtils.TruncateAt.END);
+        searchEditText.setInputType(InputType.TYPE_CLASS_TEXT);
+        searchEditText.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
+        searchEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        searchEditText.setTextColor(ContextCompat.getColor(this, Theme.primaryTextColor()));
+        searchEditText.setHintTextColor(ContextCompat.getColor(this, Theme.hindTextColor()));
+        searchEditText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL));
+        toolbarLayout.addView(searchEditText);
+        Theme.clearCursorDrawable(searchEditText);
 
         FragmentsPagerAdapter adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
-        adapter.addFragment(fragment, R.string.Movies);
+        adapter.addFragment(new SearchFragment(), R.string.Movies);
 
-        viewPager = findViewById(R.id.view_pager);
-        viewPager.setAdapter(adapter);
+        binding.viewPager.setAdapter(adapter);
 
-        tabLayout = findViewById(R.id.tab_layout);
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
-        tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
+        binding.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        binding.tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+        binding.tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.showSoftInput(searchEditText, InputMethodManager.SHOW_IMPLICIT);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
     }
 
     @Override

@@ -1,62 +1,64 @@
 package org.michaelbel.application.ui;
 
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.TextView;
 
 import org.michaelbel.application.R;
+import org.michaelbel.application.databinding.ActivityPersonBinding;
 import org.michaelbel.application.moviemade.Theme;
 import org.michaelbel.application.rest.model.Cast;
 import org.michaelbel.application.rest.model.Movie;
+import org.michaelbel.application.ui.base.BaseActivity;
+import org.michaelbel.application.ui.base.BaseActivityModel;
+import org.michaelbel.application.ui.base.BasePresenter;
 import org.michaelbel.application.ui.fragment.ListMoviesFragment;
 import org.michaelbel.application.ui.fragment.PersonFragment;
 import org.michaelbel.application.ui.view.widget.FragmentsPagerAdapter;
 
 @SuppressWarnings("all")
-public class PersonActivity extends AppCompatActivity {
+public class PersonActivity extends BaseActivity implements BaseActivityModel {
 
     private Cast person;
-
-    public Toolbar toolbar;
-    public TextView toolbarTextView;
-    public ViewPager viewPager;
-    public TabLayout tabLayout;
+    public ActivityPersonBinding binding;
+    private BasePresenter<BaseActivityModel> presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_person);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_person);
+        presenter = new BasePresenter<>();
+        presenter.attachView(this);
 
         if (savedInstanceState == null) {
             person = (Cast) getIntent().getSerializableExtra("person");
         }
 
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        setSupportActionBar(toolbar);
+        binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        setSupportActionBar(binding.toolbar);
 
-        toolbarTextView = findViewById(R.id.toolbar_title);
-        toolbarTextView.setText(person.name);
+        binding.toolbarTitle.setText(person.name);
 
         FragmentsPagerAdapter adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
         adapter.addFragment(PersonFragment.newInstance(person), R.string.Info);
         adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_BY_PERSON, person), R.string.Movies);
 
-        viewPager = findViewById(R.id.view_pager);
-        viewPager.setAdapter(adapter);
+        binding.viewPager.setAdapter(adapter);
 
-        tabLayout = findViewById(R.id.tab_layout);
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
-        tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
+        binding.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        binding.tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+        binding.tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
     }
 
     @Override

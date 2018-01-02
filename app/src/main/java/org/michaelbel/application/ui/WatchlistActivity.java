@@ -1,29 +1,35 @@
 package org.michaelbel.application.ui;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.TabLayout;
+import android.support.v4.content.ContextCompat;
 import android.view.MenuItem;
 
 import org.michaelbel.application.R;
-import org.michaelbel.application.databinding.ActivityPopularPeopleBinding;
+import org.michaelbel.application.databinding.ActivityWatchlistBinding;
+import org.michaelbel.application.moviemade.Theme;
+import org.michaelbel.application.rest.model.Movie;
 import org.michaelbel.application.ui.base.BaseActivity;
 import org.michaelbel.application.ui.base.BaseActivityModel;
 import org.michaelbel.application.ui.base.BasePresenter;
-import org.michaelbel.application.ui.fragment.PopularPeopleFragment;
+import org.michaelbel.application.ui.fragment.WatchlistMoviesFragment;
+import org.michaelbel.application.ui.view.widget.FragmentsPagerAdapter;
 import org.michaelbel.application.util.AndroidUtilsDev;
 
 @SuppressWarnings("all")
-public class PopularPeopleActivity extends BaseActivity implements BaseActivityModel {
+public class WatchlistActivity extends BaseActivity implements BaseActivityModel {
 
-    public ActivityPopularPeopleBinding binding;
+    public ActivityWatchlistBinding binding;
     private BasePresenter<BaseActivityModel> presenter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_popular_people);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_watchlist);
         presenter = new BasePresenter<>();
         presenter.attachView(this);
 
@@ -34,9 +40,17 @@ public class PopularPeopleActivity extends BaseActivity implements BaseActivityM
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(binding.toolbar);
 
-        binding.toolbarTitle.setText(R.string.PopularPeople);
+        binding.toolbarTitle.setText(R.string.Watchlist);
 
-        startFragment(PopularPeopleFragment.newInstance(), binding.fragmentLayout);
+        FragmentsPagerAdapter adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
+        adapter.addFragment(new WatchlistMoviesFragment(), R.string.Movies);
+
+        binding.viewPager.setAdapter(adapter);
+
+        binding.tabLayout.setupWithViewPager(binding.viewPager);
+        binding.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        binding.tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+        binding.tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
     }
 
     @Override
@@ -52,5 +66,11 @@ public class PopularPeopleActivity extends BaseActivity implements BaseActivityM
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void startMovie(Movie movie) {
+        Intent intent = new Intent(this, MovieActivity.class);
+        intent.putExtra("movie", movie);
+        startActivity(intent);
     }
 }
