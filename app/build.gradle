@@ -29,9 +29,9 @@ android {
         syncEnabled = true
     }
 
-    /*dataBinding {
+    dataBinding {
         enabled true
-    }*/
+    }
 }
 
 dependencies {
@@ -59,4 +59,9 @@ dependencies {
     implementation 'com.alexvasilkov:events:1.0.0'
     implementation 'com.alexvasilkov:gesture-views:2.4.0'
     implementation 'com.alexvasilkov:android-commons:2.0.2'
+
+    //implementation 'com.google.dagger:dagger-android:2.14.1'
+    //implementation 'com.google.dagger:dagger-android-support:2.14.1'
+    //annotationProcessor 'com.google.dagger:dagger-compiler:2.14.1'
+    //annotationProcessor 'com.google.dagger:dagger-android-processor:2.14.1'
 }
