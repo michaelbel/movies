@@ -3,12 +3,9 @@ package org.michaelbel.application.moviemade.eventbus;
 @SuppressWarnings("all")
 public class Events {
 
-    public static class Listener {
+    public static class MovieListUpdateAdult {}
 
-        public CharSequence query;
+    public static class MovieListUpdateImageQuality {}
 
-        public Listener(CharSequence query) {
-            this.query = query;
-        }
-    }
+    public static class MovieListRefreshLayout {}
 }
