@@ -5,7 +5,7 @@ import org.michaelbel.application.rest.response.CreditResponse;
 import org.michaelbel.application.rest.response.ImageResponse;
 import org.michaelbel.application.rest.response.MovieResponse;
 import org.michaelbel.application.rest.response.ReviewResponse;
-import org.michaelbel.application.rest.response.VideoResponse;
+import org.michaelbel.application.rest.response.TrailersResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -73,7 +73,7 @@ public interface MOVIES {
     );
 
     @GET("movie/{movie_id}/videos?")
-    Call<VideoResponse> getVideos(
+    Call<TrailersResponse> getVideos(
             @Path("movie_id") int id,
             @Query("api_key") String apiKey,
             @Query("language") String lang
