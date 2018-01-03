@@ -13,7 +13,7 @@ public class PeopleResponce {
     public int page;
 
     @SerializedName("results")
-    public List<People> peopleList;
+    public List<People> people;
 
     @SerializedName("total_pages")
     public int totalPages;

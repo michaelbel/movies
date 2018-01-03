@@ -11,8 +11,46 @@ import io.realm.annotations.Ignore;
 @SuppressWarnings("all")
 public class Movie extends RealmObject implements Serializable {
 
+    @SerializedName("id")
+    public int id;
+
+    @SerializedName("title")
+    public String title;
+
+    @SerializedName("poster_path")
+    public String posterPath;
+
+    @SerializedName("release_date")
+    public String releaseDate;
+
+    @SerializedName("original_title")
+    public String originalTitle;
+
+    @SerializedName("original_language")
+    public String originalLanguage;
+
+    @SerializedName("overview")
+    public String overview;
+
     public boolean favorite;
+
     public boolean watching;
+
+    public String addedDate;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     @SerializedName("adult")
     public boolean adult;
@@ -26,29 +64,11 @@ public class Movie extends RealmObject implements Serializable {
     @SerializedName("homepage")
     public String homepage;
 
-    @SerializedName("id")
-    public int id;
-
     @SerializedName("imdb_id")
     public String imdbId;
 
-    @SerializedName("original_language")
-    public String originalLanguage;
-
-    @SerializedName("original_title")
-    public String originalTitle;
-
-    @SerializedName("overview")
-    public String overview;
-
     @SerializedName("popularity")
     public double popularity;
-
-    @SerializedName("poster_path")
-    public String posterPath;
-
-    @SerializedName("release_date")
-    public String releaseDate;
 
     @SerializedName("revenue")
     public int revenue;
@@ -62,9 +82,6 @@ public class Movie extends RealmObject implements Serializable {
     @SerializedName("tagline")
     public String tagline;
 
-    @SerializedName("title")
-    public String title;
-
     @SerializedName("video")
     public boolean video;
 
@@ -76,65 +93,23 @@ public class Movie extends RealmObject implements Serializable {
 
     @Ignore
     @SerializedName("genres")
-    public List<Genre> genresList;
+    public List<Genre> genres;
 
     @Ignore
     @SerializedName("production_companies")
-    public List<Companies> companiesList;
+    public List<Company> companies;
 
     @Ignore
     @SerializedName("production_countries")
-    public List<Countries> countriesList;
+    public List<Country> countries;
 
     @Ignore
     @SerializedName("spoken_languages")
-    public List<Languages> languagesList;
+    public List<Language> languages;
 
     @Ignore
     @SerializedName("belongs_to_collection")
     public BelongsToCollection belongsToCollection;
-
-    public class Companies implements Serializable {
-
-        @SerializedName("id")
-        public int id;
-
-        @SerializedName("name")
-        public String name;
-    }
-
-    public class Countries implements Serializable {
-
-        @SerializedName("iso_3166_1")
-        public String country;
-
-        @SerializedName("name")
-        public String name;
-    }
-
-    public class Languages implements Serializable {
-
-        @SerializedName("iso_639_1")
-        public String language;
-
-        @SerializedName("name")
-        public String name;
-    }
-
-    public class BelongsToCollection implements Serializable {
-
-        @SerializedName("id")
-        public int id;
-
-        @SerializedName("name")
-        public String name;
-
-        @SerializedName("poster_path")
-        public String posterPath;
-
-        @SerializedName("backdrop_path")
-        public String backdropPath;
-    }
 
     public Movie() {}
 }

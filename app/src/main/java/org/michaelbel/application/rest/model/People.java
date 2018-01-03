@@ -28,5 +28,5 @@ public class People extends RealmObject implements Serializable {
 
     @Ignore
     @SerializedName("known_for")
-    public List<Movie> movieList;
+    public List<Movie> movies;
 }

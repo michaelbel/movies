@@ -10,10 +10,10 @@ import java.util.List;
 public class MoviePeopleResponse {
 
     @SerializedName("cast")
-    public List<Movie> castMovieList;
+    public List<Movie> castMovies;
 
     @SerializedName("crew")
-    public List<Movie> crewMovieList;
+    public List<Movie> crewMovies;
 
     @SerializedName("id")
     public int peopleId;

@@ -14,8 +14,8 @@ public class CreditResponse {
     public int id;
 
     @SerializedName("cast")
-    public List<Cast> castList;
+    public List<Cast> casts;
 
     @SerializedName("crew")
-    public List<Crew> crewList;
+    public List<Crew> crews;
 }

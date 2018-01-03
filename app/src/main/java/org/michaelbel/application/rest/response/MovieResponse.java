@@ -10,7 +10,7 @@ import java.util.List;
 public class MovieResponse {
 
     @SerializedName("results")
-    public List<Movie> movieList;
+    public List<Movie> movies;
 
     @SerializedName("page")
     public int page;

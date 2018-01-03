@@ -14,8 +14,8 @@ public class ImageResponse {
     public int id;
 
     @SerializedName("backdrops")
-    public List<Backdrop> backdropsList;
+    public List<Backdrop> backdrops;
 
     @SerializedName("posters")
-    public List<Poster> postersList;
+    public List<Poster> posters;
 }

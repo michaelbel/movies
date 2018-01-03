@@ -7,11 +7,11 @@ import org.michaelbel.application.rest.model.Trailer;
 import java.util.List;
 
 @SuppressWarnings("all")
-public class VideoResponse {
+public class TrailersResponse {
 
     @SerializedName("id")
     public int id;
 
     @SerializedName("results")
-    public List<Trailer> trailersList;
+    public List<Trailer> trailers;
 }

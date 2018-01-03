@@ -22,5 +22,5 @@ public class ReviewResponse {
     public int totalResults;
 
     @SerializedName("results")
-    public List<Review> reviewList;
+    public List<Review> reviews;
 }

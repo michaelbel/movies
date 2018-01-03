@@ -16,7 +16,7 @@ public class GenreResponse {
     public int page;
 
     @SerializedName("results")
-    public List<Movie> movieList;
+    public List<Movie> movies;
 
     @SerializedName("total_pages")
     public int totalPages;

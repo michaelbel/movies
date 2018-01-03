@@ -10,6 +10,6 @@ import java.util.List;
 public class MovieGenresResponse {
 
     @SerializedName("genres")
-    public List<Genre> genresList;
+    public List<Genre> genres;
 
 }
