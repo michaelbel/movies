@@ -24,25 +24,25 @@ import java.lang.reflect.Field;
 @SuppressWarnings("all")
 public class Theme {
 
-    public static final int LIGHT_THEME = 0;
-    public static final int NIGHT_THEME = 1;
-    public static final int NIGHT_BLUE_THEME = 2;
+    private static final int THEME_LIGHT = 0;
+    private static final int THEME_NIGHT = 1;
+    private static final int THEME_NIGHT_BLUE = 2;
 
     private static Context getContext() {
         return Moviemade.AppContext;
     }
 
-    public static int getAppTheme() {
+    public static int getTheme() {
         SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
         return prefs.getInt("theme", 2);
     }
 
     public static int primaryColor() {
-        if (Theme.getAppTheme() == LIGHT_THEME) {
+        if (Theme.getTheme() == THEME_LIGHT) {
             return R.color.colorPrimary;
-        } else if (Theme.getAppTheme() == NIGHT_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT) {
             return R.color.colorPrimary;
-        } else if (Theme.getAppTheme() == NIGHT_BLUE_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return R.color.colorPrimary;
         }
 
@@ -50,11 +50,11 @@ public class Theme {
     }
 
     public static int primaryDarkColor() {
-        if (Theme.getAppTheme() == LIGHT_THEME) {
+        if (Theme.getTheme() == THEME_LIGHT) {
             return R.color.colorPrimaryDark;
-        } else if (Theme.getAppTheme() == NIGHT_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT) {
             return R.color.colorPrimaryDark;
-        } else if (Theme.getAppTheme() == NIGHT_BLUE_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return R.color.colorPrimaryDark;
         }
 
@@ -62,11 +62,11 @@ public class Theme {
     }
 
     public static int accentColor() {
-        if (Theme.getAppTheme() == LIGHT_THEME) {
+        if (Theme.getTheme() == THEME_LIGHT) {
             return R.color.colorAccent;
-        } else if (Theme.getAppTheme() == NIGHT_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT) {
             return R.color.colorAccent;
-        } else if (Theme.getAppTheme() == NIGHT_BLUE_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return R.color.colorAccent;
         }
 
@@ -74,11 +74,11 @@ public class Theme {
     }
 
     public static int primaryTextColor() {
-        if (Theme.getAppTheme() == LIGHT_THEME) {
+        if (Theme.getTheme() == THEME_LIGHT) {
             return R.color.primaryTextColor;
-        } else if (Theme.getAppTheme() == NIGHT_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT) {
             return R.color.night_primaryTextColor;
-        } else if (Theme.getAppTheme() == NIGHT_BLUE_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return R.color.night_blue_primaryTextColor;
         }
 
@@ -86,11 +86,11 @@ public class Theme {
     }
 
     public static int secondaryTextColor() {
-        if (Theme.getAppTheme() == LIGHT_THEME) {
+        if (Theme.getTheme() == THEME_LIGHT) {
             return R.color.secondaryTextColor;
-        } else if (Theme.getAppTheme() == NIGHT_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT) {
             return R.color.night_secondaryTextColor;
-        } else if (Theme.getAppTheme() == NIGHT_BLUE_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return R.color.night_blue_secondaryTextColor;
         }
 
@@ -98,11 +98,11 @@ public class Theme {
     }
 
     public static int hindTextColor() {
-        if (Theme.getAppTheme() == LIGHT_THEME) {
+        if (Theme.getTheme() == THEME_LIGHT) {
             return R.color.disabledHintTextColor;
-        } else if (Theme.getAppTheme() == NIGHT_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT) {
             return R.color.night_disabledHintTextColor;
-        } else if (Theme.getAppTheme() == NIGHT_BLUE_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return R.color.night_blue_disabledHintTextColor;
         }
 
@@ -110,11 +110,11 @@ public class Theme {
     }
 
     public static int dividerColor() {
-        if (Theme.getAppTheme() == LIGHT_THEME) {
+        if (Theme.getTheme() == THEME_LIGHT) {
             return R.color.dividerColor;
-        } else if (Theme.getAppTheme() == NIGHT_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT) {
             return R.color.night_dividerColor;
-        } else if (Theme.getAppTheme() == NIGHT_BLUE_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return R.color.night_blue_dividerColor;
         }
 
@@ -122,11 +122,11 @@ public class Theme {
     }
 
     public static int iconActiveColor() {
-        if (Theme.getAppTheme() == LIGHT_THEME) {
+        if (Theme.getTheme() == THEME_LIGHT) {
             return R.color.iconActiveColor;
-        } else if (Theme.getAppTheme() == NIGHT_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT) {
             return R.color.night_iconActiveColor;
-        } else if (Theme.getAppTheme() == NIGHT_BLUE_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return R.color.night_blue_iconActiveColor;
         }
 
@@ -134,11 +134,11 @@ public class Theme {
     }
 
     public static int iconInactiveColor() {
-        if (Theme.getAppTheme() == LIGHT_THEME) {
+        if (Theme.getTheme() == THEME_LIGHT) {
             return R.color.iconInactiveColor;
-        } else if (Theme.getAppTheme() == NIGHT_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT) {
             return R.color.night_iconInactiveColor;
-        } else if (Theme.getAppTheme() == NIGHT_BLUE_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return R.color.night_blue_iconInactiveColor;
         }
 
@@ -146,11 +146,11 @@ public class Theme {
     }
 
     public static int statusBarColor() {
-        if (Theme.getAppTheme() == LIGHT_THEME) {
+        if (Theme.getTheme() == THEME_LIGHT) {
             return R.color.statusBarColor;
-        } else if (Theme.getAppTheme() == NIGHT_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT) {
             return R.color.night_statusBarColor;
-        } else if (Theme.getAppTheme() == NIGHT_BLUE_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return R.color.night_blue_statusBarColor;
         }
 
@@ -158,11 +158,11 @@ public class Theme {
     }
 
     public static int appBarColor() {
-        if (Theme.getAppTheme() == LIGHT_THEME) {
+        if (Theme.getTheme() == THEME_LIGHT) {
             return R.color.appBarColor;
-        } else if (Theme.getAppTheme() == NIGHT_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT) {
             return R.color.night_appBarColor;
-        } else if (Theme.getAppTheme() == NIGHT_BLUE_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return R.color.night_blue_appBarColor;
         }
 
@@ -170,11 +170,11 @@ public class Theme {
     }
 
     public static int backgroundColor() {
-        if (Theme.getAppTheme() == LIGHT_THEME) {
+        if (Theme.getTheme() == THEME_LIGHT) {
             return R.color.backgroundColor;
-        } else if (Theme.getAppTheme() == NIGHT_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT) {
             return R.color.night_backgroundColor;
-        } else if (Theme.getAppTheme() == NIGHT_BLUE_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return R.color.night_blue_backgroundColor;
         }
 
@@ -182,11 +182,11 @@ public class Theme {
     }
 
     public static int foregroundColor() {
-        if (Theme.getAppTheme() == LIGHT_THEME) {
+        if (Theme.getTheme() == THEME_LIGHT) {
             return R.color.foregroundColor;
-        } else if (Theme.getAppTheme() == NIGHT_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT) {
             return R.color.night_foregroundColor;
-        } else if (Theme.getAppTheme() == NIGHT_BLUE_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return R.color.night_blue_foregroundColor;
         }
 
@@ -194,11 +194,11 @@ public class Theme {
     }
 
     public static int thumbOnColor() {
-        if (Theme.getAppTheme() == LIGHT_THEME) {
+        if (Theme.getTheme() == THEME_LIGHT) {
             return R.color.switch_thumbOn;
-        } else if (Theme.getAppTheme() == NIGHT_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT) {
             return R.color.night_switch_thumbOn;
-        } else if (Theme.getAppTheme() == NIGHT_BLUE_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return R.color.night_blue_switch_thumbOn;
         }
 
@@ -206,11 +206,11 @@ public class Theme {
     }
 
     public static int thumbOffColor() {
-        if (Theme.getAppTheme() == LIGHT_THEME) {
+        if (Theme.getTheme() == THEME_LIGHT) {
             return R.color.switch_thumbOff;
-        } else if (Theme.getAppTheme() == NIGHT_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT) {
             return R.color.night_switch_thumbOff;
-        } else if (Theme.getAppTheme() == NIGHT_BLUE_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return R.color.night_blue_switch_thumbOff;
         }
 
@@ -218,11 +218,11 @@ public class Theme {
     }
 
     public static int trackOnColor() {
-        if (Theme.getAppTheme() == LIGHT_THEME) {
+        if (Theme.getTheme() == THEME_LIGHT) {
             return R.color.switch_trackOn;
-        } else if (Theme.getAppTheme() == NIGHT_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT) {
             return R.color.night_switch_trackOn;
-        } else if (Theme.getAppTheme() == NIGHT_BLUE_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return R.color.night_blue_switch_trackOn;
         }
 
@@ -230,11 +230,11 @@ public class Theme {
     }
 
     public static int trackOffColor() {
-        if (Theme.getAppTheme() == LIGHT_THEME) {
+        if (Theme.getTheme() == THEME_LIGHT) {
             return R.color.switch_trackOff;
-        } else if (Theme.getAppTheme() == NIGHT_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT) {
             return R.color.night_switch_trackOff;
-        } else if (Theme.getAppTheme() == NIGHT_BLUE_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return R.color.night_blue_switch_trackOff;
         }
 
@@ -244,11 +244,11 @@ public class Theme {
     // STYLES
 
     public static int popupTheme() {
-        if (Theme.getAppTheme() == LIGHT_THEME) {
+        if (Theme.getTheme() == THEME_LIGHT) {
             return R.style.ThemeOverlay_AppCompat_Light;
-        } else if (Theme.getAppTheme() == NIGHT_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT) {
             return R.style.ThemeOverlay_AppCompat;
-        } else if (Theme.getAppTheme() == NIGHT_BLUE_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return -1;
         }
 
@@ -256,11 +256,11 @@ public class Theme {
     }
 
     public static int alertTheme() {
-        if (Theme.getAppTheme() == LIGHT_THEME) {
+        if (Theme.getTheme() == THEME_LIGHT) {
             return R.style.AlertLight;
-        } else if (Theme.getAppTheme() == NIGHT_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT) {
             return R.style.AlertNight;
-        } else if (Theme.getAppTheme() == NIGHT_BLUE_THEME) {
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return -1;
         }
 
@@ -339,7 +339,9 @@ public class Theme {
             Field mCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
             mCursorDrawableRes.setAccessible(true);
             mCursorDrawableRes.setInt(editText, 0);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            // todo Error.
+        }
     }
 
     public static int getAttrColor(@NonNull Context context, @AttrRes int colorAttr) {
@@ -352,7 +354,9 @@ public class Theme {
             TypedArray typedArray = context.obtainStyledAttributes(attrs);
             color = typedArray.getColor(0, 0);
             typedArray.recycle();
-        } catch (Exception e) {}
+        } catch (Exception e) {
+            // todo Error.
+        }
 
         return color;
     }

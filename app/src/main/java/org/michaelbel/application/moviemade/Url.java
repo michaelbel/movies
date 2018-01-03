@@ -4,6 +4,7 @@ import org.michaelbel.application.util.AndroidUtils;
 
 @SuppressWarnings("all")
 public class Url {
+
     public static final String GSON_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
 
     public static final String IMDB_MOVIE = "http://imdb.com/title/";

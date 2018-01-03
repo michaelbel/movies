@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @SuppressWarnings("all")
 public class ApiFactory {
 
-    public static Gson GSON = new GsonBuilder().setDateFormat(Url.GSON_DATE_FORMAT).create();
+    private static Gson GSON = new GsonBuilder().setDateFormat(Url.GSON_DATE_FORMAT).create();
 
     @NonNull
     public static Retrofit getRetrofit() {
