@@ -11,17 +11,12 @@
     <string name="Upcoming">Upcoming</string>
     <string name="NoMovies">No movies</string>
     <string name="NoConnection">No connection</string>
-    <!--Genres-->
     <string name="Genres">Genres</string>
     <string name="LoadingGenres">Loading genres…</string>
-    <!--Favorites-->
     <string name="Favorites">Favorites</string>
-    <string name="MyFavorites">My Favorites</string>
     <string name="Movies">Movies</string>
     <string name="ChangeViewType">Change View Type</string>
-    <!--Watchlist-->
     <string name="Watchlist">Watchlist</string>
-    <!--Popular People-->
     <string name="PopularPeople">Popular People</string>
     <string name="NoPeople">No people</string>
     <!--Settings-->
@@ -42,14 +37,30 @@
     <string name="KeepOneMonth">1 month</string>
     <string name="KeepForever">Forever</string>
     <string name="LocalDatabase">Local Database</string>
+    <plurals name="Movies">
+        <item quantity="zero">%1$d Movies</item>
+        <item quantity="one">%1$d Movie</item>
+        <item quantity="two">%1$d Movies</item>
+        <item quantity="few">%1$d Movies</item>
+        <item quantity="many">%1$d Movies</item>
+        <item quantity="other">%1$d Movies</item>
+    </plurals>
+    <plurals name="Images">
+        <item quantity="zero">%1$d Images</item>
+        <item quantity="one">%1$d Image</item>
+        <item quantity="two">%1$d Images</item>
+        <item quantity="few">%1$d Images</item>
+        <item quantity="many">%1$d Images</item>
+        <item quantity="other">%1$d Images</item>
+    </plurals>
     <string name="CachedMovies">Cached Movies</string>
     <string name="CachedImages">Cached Images</string>
-    <string name="CountMovies">%1$d Movies</string>
-    <string name="CountImages">%1$d Images</string>
+    <string name="ScrollToTop">Scroll to Top</string>
+    <string name="ScrollToTopInfo">Scroll to top by click on current tab</string>
+    <string name="CurrentDateAndTime">%1$s at %2$s</string>
 
     <string name="AdvancedSettings">Advanced Settings</string>
     <string name="Scrollbars">Scrollbars</string>
-    <string name="ScrollToTop">Scroll to Top</string>
     <string name="FloatingToolbar">Floating Toolbar</string>
     <string name="SearchResultsCounter">Search Results Counter</string>
     <string name="HamburgerMenu">Hamburger Menu</string>
@@ -60,13 +71,15 @@
     <string name="VersionBuild">Version %1$s (Build %2$d)</string>
     <string name="ForkGithub">Fork on Github</string>
     <string name="OpenSourceLibs">Open-source Libraries</string>
-    <string name="ProjectInfo"><b>%1$s</b> is an open source project maintained by <b>one</b> develop. You can help improve the project in one of the following ways:</string>
+    <string name="ProjectInfo"><![CDATA[<b>]]>Moviemade<![CDATA[</b>]]> is an open source project maintained by <b>one</b> develop. You can help improve the project in one of the following ways:</string>
     <string name="Feedback">Feedback</string>
     <string name="Open">Open</string>
     <string name="CopyLink">Copy link</string>
     <string name="Link">Link</string>
     <string name="ClipboardCopied">%1$s copied to clipboard</string>
     <string name="Subject">Subject</string>
+    <string name="RateGooglePlay">Rate on Google Play</string>
+    <string name="OtherDeveloperApps">Other Developer Apps</string>
     <!--Movie Info-->
     <string name="Info">Info</string>
     <string name="Add">Add</string>
@@ -91,8 +104,22 @@
     <string name="RuntimeMin">%1$d min</string>
     <string name="Share">Share</string>
     <string name="Overview">Overview</string>
-    <string name="Posters">%1$d Posters</string>
-    <string name="Backdrops">%1$d Backdrops</string>
+    <plurals name="Posters">
+        <item quantity="zero">%1$d Posters</item>
+        <item quantity="one">%1$d Poster</item>
+        <item quantity="two">%1$d Posters</item>
+        <item quantity="few">%1$d Posters</item>
+        <item quantity="many">%1$d Posters</item>
+        <item quantity="other">%1$d Posters</item>
+    </plurals>
+    <plurals name="Backdrops">
+        <item quantity="zero">%1$d Backdrops</item>
+        <item quantity="one">%1$d Backdrop</item>
+        <item quantity="two">%1$d Backdrops</item>
+        <item quantity="few">%1$d Backdrops</item>
+        <item quantity="many">%1$d Backdrops</item>
+        <item quantity="other">%1$d Backdrops</item>
+    </plurals>
     <string name="Images">Images</string>
     <string name="Loading">Loading…</string>
     <string name="LoadingCountries">Loading countries…</string>

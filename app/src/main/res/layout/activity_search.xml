@@ -4,7 +4,8 @@
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/night_blue_backgroundColor">
 
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
@@ -30,6 +31,7 @@
             android:id="@+id/view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:background="@color/night_blue_backgroundColor"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     </android.support.design.widget.CoordinatorLayout>

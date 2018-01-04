@@ -19,6 +19,7 @@
         <activity
             android:name=".ui.MainActivity"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize">
 
             <intent-filter>
@@ -63,7 +64,7 @@
             android:configChanges="orientation|screenSize"/>
 
         <activity
-            android:name=".ui.FavsActivity"
+            android:name=".ui.FavoriteActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize"/>
 
@@ -72,10 +73,22 @@
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize"/>
 
-        <activity
+        <!--<activity
             android:name=".ui.SearchActivity"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize"/>
+            android:windowSoftInputMode="adjustPan"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"/>-->
+
+        <!--<activity
+            android:name=".ui.SearchActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"/>-->
+
+        <activity
+            android:name=".ui.SearchActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"/>
 
         <activity
             android:name=".ui.GenresActivity"
@@ -84,6 +97,11 @@
 
         <activity
             android:name=".ui.PopularPeopleActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
+
+        <activity
+            android:name=".ui.WatchlistActivity"
             android:screenOrientation="portrait"
             android:configChanges="orientation|screenSize"/>
 
