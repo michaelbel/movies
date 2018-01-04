@@ -86,13 +86,13 @@ public class NavigationView extends FrameLayout {
         rowCount = 0;
         headerRow = rowCount++;
         emptyRow1 = rowCount++;
-        moviesRow = rowCount++;
+        //moviesRow = rowCount++;
         //showsRow = rowCount++;
         genresRow = rowCount++;
         peopleRow = rowCount++;
         dividerRow1 = rowCount++;
-        favoritesRow = rowCount++;
         watchlistRow = rowCount++;
+        favoritesRow = rowCount++;
         dividerRow2 = rowCount++;
         settingsRow = rowCount++;
         aboutRow = rowCount++;

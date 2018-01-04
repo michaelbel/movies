@@ -61,10 +61,7 @@ public class GenreChip extends FrameLayout {
     }
 
     public GenreChip changeLayoutParams() {
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
-        );
-
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.rightMargin = ScreenUtils.dp(2F);
         setLayoutParams(params);
         return this;

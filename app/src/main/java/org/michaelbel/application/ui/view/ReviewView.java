@@ -51,10 +51,10 @@ public class ReviewView extends FrameLayout {
         layout1.setOrientation(LinearLayout.HORIZONTAL);
         layout.addView(layout1);
 
-        ImageView userImageView = new ImageView(context);
-        userImageView.setImageDrawable(Theme.getIcon(R.drawable.ic_account, ContextCompat.getColor(context, Theme.primaryTextColor())));
-        userImageView.setLayoutParams(LayoutHelper.makeLinear(18, 18, Gravity.START | Gravity.CENTER_VERTICAL));
-        layout1.addView(userImageView);
+        ImageView userIcon = new ImageView(context);
+        userIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_account, ContextCompat.getColor(context, Theme.primaryTextColor())));
+        userIcon.setLayoutParams(LayoutHelper.makeLinear(18, 18, Gravity.START | Gravity.CENTER_VERTICAL));
+        layout1.addView(userIcon);
 
         authorTextView = new TextView(context);
         authorTextView.setMaxLines(1);

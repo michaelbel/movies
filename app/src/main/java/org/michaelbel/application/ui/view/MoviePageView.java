@@ -3,7 +3,6 @@ package org.michaelbel.application.ui.view;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
@@ -23,7 +22,6 @@ import org.michaelbel.application.util.ScreenUtils;
 public class MoviePageView extends FrameLayout {
 
     private TextView textView;
-    private ImageView iconView;
 
     private Paint paint;
     private boolean divider;
@@ -40,11 +38,6 @@ public class MoviePageView extends FrameLayout {
             paint.setColor(ContextCompat.getColor(context, Theme.dividerColor()));
         }
 
-        iconView = new ImageView(context);
-        iconView.setScaleType(ImageView.ScaleType.FIT_XY);
-        iconView.setLayoutParams(LayoutHelper.makeFrame(24, 24, Gravity.START | Gravity.CENTER_VERTICAL, 16, 0, 0, 0));
-        //addView(iconView);
-
         textView = new AppCompatTextView(context);
         textView.setLines(1);
         textView.setMaxLines(1);
@@ -54,10 +47,10 @@ public class MoviePageView extends FrameLayout {
         textView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 16, 0, 56, 0));
         addView(textView);
 
-        ImageView iconView2 = new ImageView(context);
-        iconView2.setImageDrawable(Theme.getIcon(R.drawable.ic_chevron_right, ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
-        iconView2.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 12, 0));
-        addView(iconView2);
+        ImageView iconView = new ImageView(context);
+        iconView.setImageDrawable(Theme.getIcon(R.drawable.ic_chevron_right, ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
+        iconView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 12, 0));
+        addView(iconView);
     }
 
     public MoviePageView setText(@StringRes int textId) {
@@ -67,11 +60,6 @@ public class MoviePageView extends FrameLayout {
 
     public MoviePageView setText(@NonNull String text) {
         textView.setText(text);
-        return this;
-    }
-
-    public MoviePageView setIcon(@NonNull Drawable icon) {
-        iconView.setImageDrawable(icon);
         return this;
     }
 

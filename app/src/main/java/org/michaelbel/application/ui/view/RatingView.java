@@ -2,6 +2,7 @@ package org.michaelbel.application.ui.view;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.IntDef;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.AppCompatImageView;
 import android.widget.LinearLayout;
@@ -117,64 +118,28 @@ public class RatingView extends LinearLayout {
                     break;
             }
         }
-
-        /*for(StarView star: stars) {
-            for (int i = 0; i < a; i++) {
-                star.setIcon(StarView.ICON_STAR);
-            }
-
-            if (c == 5) {
-                star.setIcon(StarView.ICON_STAR_HALF);
-            } else {
-                star.setIcon(StarView.ICON_STAR_BORDER);
-            }
-
-            star.setIcon(StarView.ICON_STAR_BORDER);
-        }*/
-
-        /*Log.e("Проверочка", "Число перед запятой: " + a); // 3
-        Log.e("Проверочка", "Число после запятой: " + b); // 9
-
-        for (int i = 0; i < stars.length; i++) {
-            for (int j = 0; j < a; j++) {
-                stars[i].setIcon(StarView.ICON_STAR);
-            }
-
-            if (b == 0) {
-                c = 5 - a;
-                for (int k = 0; k < c; k++) {
-                    stars[i].setIcon(StarView.ICON_STAR_BORDER);
-                }
-            } else {
-                if (b <= 5) {
-                    c = 5 - a;
-                    for (int k = 0; k < c; k++) {
-                        stars[i].setIcon(StarView.ICON_STAR_BORDER);
-                    }
-                } else {
-                    stars[i].setIcon(StarView.ICON_STAR_HALF);
-
-                }
-            }
-        }*/
     }
 
-    public class StarView extends AppCompatImageView {
+    public static class StarView extends AppCompatImageView {
 
         public static final int ICON_STAR = 0;
         public static final int ICON_STAR_HALF = 1;
         public static final int ICON_STAR_BORDER = 2;
 
+        @IntDef({
+                ICON_STAR,
+                ICON_STAR_HALF,
+                ICON_STAR_BORDER
+        })
+        private @interface Style {}
+
         private Drawable icon;
 
         public StarView(Context context) {
             super(context);
-
-            //icon = Theme.getIcon(R.drawable.ic_star, ContextCompat.getColor(context, Theme.iconActiveColor()));
-            setImageDrawable(icon);
         }
 
-        public void setIcon(int style) {
+        public void setIcon(@Style int style) {
             if (style == ICON_STAR) {
                 icon = Theme.getIcon(R.drawable.ic_star, ContextCompat.getColor(getContext(), Theme.accentColor()));
             } else if (style == ICON_STAR_HALF) {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -12,12 +13,13 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import org.michaelbel.application.moviemade.LayoutHelper;
+import org.michaelbel.application.moviemade.Theme;
 
 @SuppressWarnings("all")
 public class TitleView extends FrameLayout {
 
-    public TextView titleTextView;
-    public TextView subtitleTextView;
+    public TextView titleText;
+    public TextView subtitleText;
 
     public TitleView(Context context) {
         super(context);
@@ -30,26 +32,27 @@ public class TitleView extends FrameLayout {
     }
 
     public void initialize(Context context) {
-        titleTextView = new TextView(context);
-        titleTextView.setSingleLine();
-        titleTextView.setTextColor(0xFFFFFFFF);
-        titleTextView.setEllipsize(TextUtils.TruncateAt.END);
-        titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        titleTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-        titleTextView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP, 0, 8, 0, 0));
-        addView(titleTextView);
+        titleText = new TextView(context);
+        titleText.setSingleLine();
+        titleText.setEllipsize(TextUtils.TruncateAt.END);
+        titleText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+        titleText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        titleText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        titleText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP, 0, 8, 0, 0));
+        addView(titleText);
 
-        subtitleTextView = new TextView(context);
-        subtitleTextView.setSingleLine();
-        subtitleTextView.setTextColor(0xFFD5E8F7);
-        subtitleTextView.setEllipsize(TextUtils.TruncateAt.END);
-        subtitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-        subtitleTextView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM, 0, 0, 0, 8));
-        addView(subtitleTextView);
+        subtitleText = new TextView(context);
+        subtitleText.setSingleLine();
+        //subtitleText.setTextColor(0xFFD5E8F7);
+        subtitleText.setEllipsize(TextUtils.TruncateAt.END);
+        subtitleText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+        subtitleText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
+        subtitleText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM, 0, 0, 0, 8));
+        addView(subtitleText);
     }
 
     public void setTitle(@NonNull CharSequence title) {
-        titleTextView.setText(title);
+        titleText.setText(title);
     }
 
     public void setTitle(@StringRes int textId) {
@@ -57,7 +60,7 @@ public class TitleView extends FrameLayout {
     }
 
     public void setSubtitle(@NonNull CharSequence subtitle) {
-        subtitleTextView.setText(subtitle);
+        subtitleText.setText(subtitle);
     }
 
     public void setSubtitle(@StringRes int textId) {
