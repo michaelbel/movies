@@ -99,6 +99,7 @@ public class TrailerView extends FrameLayout {
         } else {
             playerImageView.setVisibility(INVISIBLE);
         }
+
         return this;
     }
 

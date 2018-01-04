@@ -28,12 +28,12 @@ import org.michaelbel.application.util.ScreenUtils;
 @SuppressWarnings("all")
 public class TextCell extends FrameLayout {
 
-    public static final int MODE_DEFAULT = 100;
-    public static final int MODE_VALUE_TEXT = 200;
-    public static final int MODE_SWITCH = 300;
-    public static final int MODE_CHECKBOX = 400;
-    public static final int MODE_COLOR = 500;
-    public static final int MODE_ICON = 600;
+    public static final int MODE_DEFAULT = 0;
+    public static final int MODE_VALUE_TEXT = 1;
+    public static final int MODE_SWITCH = 2;
+    public static final int MODE_CHECKBOX = 3;
+    public static final int MODE_COLOR = 4;
+    public static final int MODE_ICON = 5;
 
     @IntDef({
             MODE_DEFAULT,
@@ -51,13 +51,13 @@ public class TextCell extends FrameLayout {
     private SwitchCompat switchCompat;
     private AppCompatCheckBox checkBox;
 
+    private int iconColor;
+    private int cellHeight;
+
     private Paint paint;
     private boolean divider;
     private Rect rect = new Rect();
     private int currentMode = MODE_DEFAULT;
-
-    private int iconColor;
-    private int cellHeight;
 
     public TextCell(Context context) {
         super(context);
@@ -253,6 +253,7 @@ public class TextCell extends FrameLayout {
                 getForeground().setHotspot(event.getX(), event.getY());
             }
         }
+
         return super.onTouchEvent(event);
     }
 }

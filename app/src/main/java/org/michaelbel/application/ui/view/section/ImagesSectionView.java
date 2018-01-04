@@ -115,12 +115,12 @@ public class ImagesSectionView extends FrameLayout {
     }
 
     public ImagesSectionView setPostersCount(int count) {
-        postersCountTextView.setText(getContext().getString(R.string.Posters, count));
+        postersCountTextView.setText(getResources().getQuantityString(R.plurals.Posters, count));
         return this;
     }
 
     public ImagesSectionView setBackdropsCount(int count) {
-        backdropsCountTextView.setText(getContext().getString(R.string.Backdrops, count));
+        backdropsCountTextView.setText(getResources().getQuantityString(R.plurals.Backdrops, count));
         return this;
     }
 }

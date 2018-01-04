@@ -22,7 +22,6 @@ import org.michaelbel.application.rest.model.Genre;
 import org.michaelbel.application.ui.adapter.Holder;
 import org.michaelbel.application.ui.view.GenreChip;
 import org.michaelbel.application.ui.view.widget.RecyclerListView;
-import org.michaelbel.application.util.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,13 +30,13 @@ import java.util.List;
 public class GenresSectionView extends FrameLayout {
 
     private GenresAdapter adapter;
-    private List<Genre> genresList = new ArrayList<>();
+    private List<Genre> genres = new ArrayList<>();
     private GenresSectionListener genresSectionListener;
 
     private ProgressBar progressBar;
 
     public interface GenresSectionListener {
-        void onGenreButtonClick(View view, int genreId);
+        void onGenreButtonClick(View view, Genre genre);
     }
 
     public GenresSectionView(@NonNull Context context) {
@@ -45,7 +44,7 @@ public class GenresSectionView extends FrameLayout {
 
         setBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
 
-        ChipsLayoutManager manager = ChipsLayoutManager.newBuilder(context)
+        ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(context)
                 .setChildGravity(Gravity.START)
                 .setScrollingEnabled(false)
                 .setOrientation(ChipsLayoutManager.HORIZONTAL)
@@ -73,20 +72,19 @@ public class GenresSectionView extends FrameLayout {
 
         RecyclerListView recyclerView = new RecyclerListView(context);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setPadding(0, 0, 0, ScreenUtils.dp(12));
-        recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 14, 48, 14, /*12*/ 0));
+        recyclerView.setLayoutManager(chipsLayoutManager);
+        recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 13.5F, 48, 13.5F, 12));
         recyclerView.setOnItemClickListener((view, position) -> {
-            int genreId = genresList.get(position).id;
+            Genre genre = genres.get(position);
             if (genresSectionListener != null) {
-                genresSectionListener.onGenreButtonClick(view, genreId);
+                genresSectionListener.onGenreButtonClick(view, genre);
             }
         });
         addView(recyclerView);
     }
 
-    public GenresSectionView setGenresList(List<Genre> list) {
-        genresList.addAll(list);
+    public GenresSectionView setGenres(List<Genre> list) {
+        genres.addAll(list);
         adapter.notifyDataSetChanged();
         return this;
     }
@@ -109,7 +107,7 @@ public class GenresSectionView extends FrameLayout {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-            Genre genre = genresList.get(position);
+            Genre genre = genres.get(position);
 
             GenreChip view = (GenreChip) holder.itemView;
             view.setText(genre.name)
@@ -118,7 +116,7 @@ public class GenresSectionView extends FrameLayout {
 
         @Override
         public int getItemCount() {
-            return genresList != null ? genresList.size() : 0;
+            return genres != null ? genres.size() : 0;
         }
     }
 }

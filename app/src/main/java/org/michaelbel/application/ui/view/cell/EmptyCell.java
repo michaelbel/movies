@@ -19,9 +19,9 @@ import org.michaelbel.application.util.ScreenUtils;
 @SuppressWarnings("all")
 public class EmptyCell extends FrameLayout {
 
-    public static final int MODE_DEFAULT = 10;
-    public static final int MODE_TEXT = 11;
-    public static final int MODE_LOADING = 12;
+    public static final int MODE_DEFAULT = 0;
+    public static final int MODE_TEXT = 1;
+    public static final int MODE_LOADING = 2;
 
     @IntDef({
             MODE_DEFAULT,
@@ -33,8 +33,8 @@ public class EmptyCell extends FrameLayout {
     private int mHeight = 8;
     private int currentMode = MODE_DEFAULT;
 
-    private ProgressBar progressBar;
     private TextView textView;
+    private ProgressBar progressBar;
 
     public EmptyCell(Context context) {
         super(context);
@@ -60,6 +60,7 @@ public class EmptyCell extends FrameLayout {
             mHeight = height;
             requestLayout();
         }
+
         return this;
     }
 
@@ -67,6 +68,7 @@ public class EmptyCell extends FrameLayout {
         if (currentMode == MODE_TEXT) {
             textView.setText(text);
         }
+
         return this;
     }
 

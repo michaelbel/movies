@@ -22,6 +22,10 @@ public class FragmentsPagerAdapter extends FragmentPagerAdapter {
         mContext = context;
     }
 
+    public void addFragment(Fragment fragment) {
+        mFragments.add(fragment);
+    }
+
     public void addFragment(Fragment fragment, CharSequence title) {
         mFragments.add(fragment);
         mTitles.add(title);
@@ -29,6 +33,10 @@ public class FragmentsPagerAdapter extends FragmentPagerAdapter {
 
     public void addFragment(Fragment fragment, @StringRes int stringId) {
         addFragment(fragment, mContext.getText(stringId));
+    }
+
+    public List<Fragment> getFragmentList() {
+        return mFragments;
     }
 
     @Override
@@ -44,6 +52,6 @@ public class FragmentsPagerAdapter extends FragmentPagerAdapter {
     @Nullable
     @Override
     public CharSequence getPageTitle(int position) {
-        return mTitles.get(position);
+        return mTitles.isEmpty() ? null : mTitles.get(position);
     }
 }

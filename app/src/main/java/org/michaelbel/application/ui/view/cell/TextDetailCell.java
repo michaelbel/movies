@@ -26,9 +26,9 @@ import org.michaelbel.application.util.ScreenUtils;
 @SuppressWarnings("all")
 public class TextDetailCell extends FrameLayout {
 
-    public static final int MODE_DEFAULT = 100;
-    public static final int MODE_SWITCH = 200;
-    public static final int MODE_CHECKBOX = 300;
+    public static final int MODE_DEFAULT = 0;
+    public static final int MODE_SWITCH = 1;
+    public static final int MODE_CHECKBOX = 2;
 
     @IntDef({
             MODE_DEFAULT,
@@ -37,8 +37,8 @@ public class TextDetailCell extends FrameLayout {
     })
     private @interface Mode {}
 
-    private TextView textView;
-    private TextView valueText;
+    protected TextView textView;
+    protected TextView valueText;
     private SwitchCompat switchCompat;
     private AppCompatCheckBox checkBox;
 
@@ -126,6 +126,7 @@ public class TextDetailCell extends FrameLayout {
         return this;
     }
 
+
     public TextDetailCell setMode(int mode) {
         currentMode = mode;
 
@@ -142,6 +143,7 @@ public class TextDetailCell extends FrameLayout {
             checkBox.setVisibility(VISIBLE);
             switchCompat.setVisibility(INVISIBLE);
         }
+
         return this;
     }
 

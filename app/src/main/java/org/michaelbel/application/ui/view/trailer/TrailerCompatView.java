@@ -104,6 +104,7 @@ public class TrailerCompatView extends FrameLayout {
             playerImage.setVisibility(INVISIBLE);
             titleText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 12, 0, 50, 0));
         }
+
         return this;
     }
 
@@ -115,10 +116,7 @@ public class TrailerCompatView extends FrameLayout {
     }
 
     public TrailerCompatView changeLayoutParams() {
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
-        );
-
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.leftMargin = ScreenUtils.dp(4F);
         params.rightMargin = ScreenUtils.dp(4F);
         setLayoutParams(params);

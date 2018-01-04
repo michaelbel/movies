@@ -29,7 +29,7 @@ import java.util.List;
 public class TrailersSectionView extends FrameLayout {
 
     private TrailersAdapter adapter;
-    private List<Trailer> trailersList = new ArrayList<>();
+    private List<Trailer> trailers = new ArrayList<>();
     private SectionTrailersListener sectionTrailersListener;
 
     private ProgressBar progressBar;
@@ -64,23 +64,23 @@ public class TrailersSectionView extends FrameLayout {
 
         adapter = new TrailersAdapter();
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
-        layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(context);
+        linearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
 
         recyclerView = new RecyclerListView(context);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 0, 48, 0, 0));
         recyclerView.setOnItemClickListener((view, position) -> {
             if (sectionTrailersListener != null) {
-                Trailer trailer = trailersList.get(position);
+                Trailer trailer = trailers.get(position);
                 sectionTrailersListener.onTrailerClick(view, trailer.key);
             }
         });
         recyclerView.setOnItemLongClickListener((view, position) -> {
             if (sectionTrailersListener != null) {
-                Trailer trailer = trailersList.get(position);
+                Trailer trailer = trailers.get(position);
                 sectionTrailersListener.onTrailerLongClick(view, trailer.key);
                 return true;
             }
@@ -99,8 +99,8 @@ public class TrailersSectionView extends FrameLayout {
         return this;
     }
 
-    public TrailersSectionView setTrailersList(List<Trailer> list) {
-        trailersList.addAll(list);
+    public TrailersSectionView setTrailers(List<Trailer> list) {
+        trailers.addAll(list);
         adapter.notifyDataSetChanged();
         return this;
     }
@@ -122,7 +122,7 @@ public class TrailersSectionView extends FrameLayout {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-            Trailer trailer = trailersList.get(position);
+            Trailer trailer = trailers.get(position);
 
             TrailerView view = (TrailerView) holder.itemView;
             view.setTitle(trailer.name)
@@ -134,14 +134,14 @@ public class TrailersSectionView extends FrameLayout {
                 view.changeLayoutParams(true);
             }
 
-            if (position == trailersList.size() - 1) {
+            if (position == trailers.size() - 1) {
                 view.changeLayoutParams(false);
             }
         }
 
         @Override
         public int getItemCount() {
-            return trailersList != null ? trailersList.size() : 0;
+            return trailers != null ? trailers.size() : 0;
         }
     }
 }

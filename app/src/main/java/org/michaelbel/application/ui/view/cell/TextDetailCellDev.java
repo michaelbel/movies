@@ -28,9 +28,9 @@ import org.michaelbel.application.util.ScreenUtils;
 @SuppressWarnings("all")
 public class TextDetailCellDev extends LinearLayout {
 
-    public static final int MODE_DEFAULT = 100;
-    public static final int MODE_SWITCH = 200;
-    public static final int MODE_CHECKBOX = 300;
+    public static final int MODE_DEFAULT = 0;
+    public static final int MODE_SWITCH = 1;
+    public static final int MODE_CHECKBOX = 2;
 
     @IntDef({
             MODE_DEFAULT,
