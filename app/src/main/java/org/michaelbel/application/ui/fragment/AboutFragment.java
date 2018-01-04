@@ -15,7 +15,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -36,6 +35,7 @@ import org.michaelbel.application.ui.adapter.Holder;
 import org.michaelbel.application.ui.view.cell.EmptyCell;
 import org.michaelbel.application.ui.view.cell.TextCell;
 import org.michaelbel.application.ui.view.widget.RecyclerListView;
+import org.michaelbel.application.util.AndroidUtils;
 import org.michaelbel.application.util.ScreenUtils;
 
 @SuppressWarnings("all")
@@ -44,13 +44,15 @@ public class AboutFragment extends Fragment {
     private int rowCount;
     private int infoRow;
     private int forkGithubRow;
+    private int rateGooglePlay;
+    private int otherAppsRow;
     private int libsRow;
     private int helpRow;
     private int feedbackRow;
     private int emptyRow;
 
     private AboutActivity activity;
-    private LinearLayoutManager layoutManager;
+    private LinearLayoutManager linearLayoutManager;
 
     private RecyclerListView recyclerView;
 
@@ -59,26 +61,29 @@ public class AboutFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (AboutActivity) getActivity();
 
-        activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        activity.toolbar.setNavigationOnClickListener(view -> activity.finish());
-        activity.toolbarTextView.setText(R.string.About);
+        activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        activity.binding.toolbar.setNavigationOnClickListener(view -> activity.finish());
+        activity.binding.toolbarTitle.setText(R.string.About);
 
         FrameLayout fragmentView = new FrameLayout(activity);
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
 
         rowCount = 0;
         infoRow = rowCount++;
+        rateGooglePlay = rowCount++;
         forkGithubRow = rowCount++;
         libsRow = rowCount++;
+        otherAppsRow = rowCount++;
         helpRow = rowCount++;
         feedbackRow = rowCount++;
         emptyRow = rowCount++;
 
-        layoutManager = new LinearLayoutManager(activity);
+        linearLayoutManager = new LinearLayoutManager(activity);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(new AboutAdapter());
-        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
             if (position == forkGithubRow) {
@@ -101,8 +106,18 @@ public class AboutFragment extends Fragment {
                 } catch (PackageManager.NameNotFoundException e) {
                     // todo Error
                 }
+            } else if (position == rateGooglePlay) {
+
+            } else if (position == otherAppsRow) {
+                try {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(Moviemade.ACCOUNT_MARKET));
+                    startActivity(intent);
+                } catch (Exception e) {
+                    Browser.openUrl(activity, Moviemade.ACCOUNT_WEB);
+                }
             } else if (position == libsRow) {
-                activity.startFragment(new LibsFragment(), "libsFragment");
+                activity.startFragment(new LibsFragment(), activity.binding.fragmentLayout, "libsFragment");
             }
         });
         fragmentView.addView(recyclerView);
@@ -112,10 +127,10 @@ public class AboutFragment extends Fragment {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        Parcelable state = layoutManager.onSaveInstanceState();
-        layoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(layoutManager);
-        layoutManager.onRestoreInstanceState(state);
+        Parcelable state = linearLayoutManager.onSaveInstanceState();
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        linearLayoutManager.onRestoreInstanceState(state);
     }
 
     private class AboutAdapter extends RecyclerView.Adapter {
@@ -145,24 +160,33 @@ public class AboutFragment extends Fragment {
 
                 if (position == helpRow) {
                     cell.setMode(EmptyCell.MODE_TEXT);
-                    cell.setText(Html.fromHtml(getString(R.string.ProjectInfo, getString(R.string.AppName))));
+                    cell.setText(AndroidUtils.replaceTags(getString(R.string.ProjectInfo, getString(R.string.AppName))));
                 } else if (position == emptyRow) {
                     cell.setMode(EmptyCell.MODE_DEFAULT);
                     cell.setHeight(ScreenUtils.dp(12));
                 }
             } else if (type == 2) {
                 TextCell cell = (TextCell) holder.itemView;
-                cell.setMode(TextCell.MODE_ICON)
+                cell.changeLayoutParams()
+                    .setMode(TextCell.MODE_ICON)
                     .setHeight(ScreenUtils.dp(52));
 
-                if (position == forkGithubRow) {
+                if (position == rateGooglePlay) {
+                    cell.setIcon(R.drawable.ic_google_play)
+                        .setText(R.string.RateGooglePlay)
+                        .setDivider(true);
+                } else if (position == forkGithubRow) {
                     cell.setIcon(R.drawable.ic_github)
                         .setText(R.string.ForkGithub)
                         .setDivider(true);
                 } else if (position == libsRow) {
-                    cell.setIcon(R.drawable.ic_library)
-                        .setText(R.string.OpenSourceLibs);
-                }  else if (position == feedbackRow) {
+                    cell.setIcon(R.drawable.ic_storage)
+                        .setText(R.string.OpenSourceLibs)
+                        .setDivider(true);
+                } else if (position == otherAppsRow) {
+                    cell.setIcon(R.drawable.ic_shop)
+                        .setText(R.string.OtherDeveloperApps);
+                } else if (position == feedbackRow) {
                     cell.setIcon(R.drawable.ic_mail)
                         .setText(R.string.Feedback);
                 }
