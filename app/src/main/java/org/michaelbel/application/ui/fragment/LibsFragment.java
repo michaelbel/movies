@@ -35,8 +35,8 @@ import java.util.List;
 public class LibsFragment extends Fragment {
 
     private AboutActivity activity;
-    private LinearLayoutManager layoutManager;
-    private List<Source> sourcesList = new ArrayList<>();
+    private LinearLayoutManager linearLayoutManager;
+    private List<Source> sources = new ArrayList<>();
 
     private RecyclerListView recyclerView;
 
@@ -58,38 +58,41 @@ public class LibsFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (AboutActivity) getActivity();
 
-        activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        activity.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
-        activity.toolbarTextView.setText(R.string.OpenSourceLibs);
+        activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        activity.binding.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
+        activity.binding.toolbarTitle.setText(R.string.OpenSourceLibs);
 
         FrameLayout fragmentView = new FrameLayout(activity);
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
 
-        sourcesList.add(new Source("BottomSheet", "https://github.com/michaelbel/bottomsheet","Apache License v2.0"));
-        sourcesList.add(new Source("Gson", "https://github.com/google/gson","Apache License v2.0"));
-        sourcesList.add(new Source("Retrofit", "https://square.github.io/retrofit","Apache License v2.0"));
-        sourcesList.add(new Source("RxJava", "https://github.com/reactivex/rxjava","Apache License v2.0"));
-        sourcesList.add(new Source("RxAndroid", "https://github.com/reactivex/rxjava","Apache License v2.0"));
-        sourcesList.add(new Source("Picasso", "https://square.github.io/picasso","Apache License v2.0"));
-        sourcesList.add(new Source("Realm Java", "https://github.com/realm/realm-java", "Apache License v2.0"));
-        sourcesList.add(new Source("Realm Android Adapters", "https://github.com/realm/realm-android-adapters", "Apache License v2.0"));
-        sourcesList.add(new Source("GestureViews", "https://github.com/alexvasilkov/gestureviews", "Apache License v2.0"));
-        sourcesList.add(new Source("ChipsLayoutManager", "https://github.com/beloos/chipslayoutmanager", "Apache License v2.0"));
-        sourcesList.add(new Source("ExpandableTextView", "https://github.com/blogcat/android-expandabletextview", "Apache License v2.0"));
+        sources.add(new Source("BottomSheet", "https://github.com/michaelbel/bottomsheet","Apache License v2.0"));
+        sources.add(new Source("Gson", "https://github.com/google/gson","Apache License v2.0"));
+        sources.add(new Source("Retrofit", "https://square.github.io/retrofit","Apache License v2.0"));
+        sources.add(new Source("RxJava", "https://github.com/reactivex/rxjava","Apache License v2.0"));
+        sources.add(new Source("RxAndroid", "https://github.com/reactivex/rxjava","Apache License v2.0"));
+        sources.add(new Source("Picasso", "https://square.github.io/picasso","Apache License v2.0"));
+        sources.add(new Source("Dagger 2", "https://github.com/google/dagger", "Apache License v2.0"));
+        sources.add(new Source("Realm Java", "https://github.com/realm/realm-java", "Apache License v2.0"));
+        sources.add(new Source("Realm Android Adapters", "https://github.com/realm/realm-android-adapters", "Apache License v2.0"));
+        sources.add(new Source("GestureViews", "https://github.com/alexvasilkov/gestureviews", "Apache License v2.0"));
+        sources.add(new Source("CircleIndicator", "https://github.com/ongakuer/circleindicator", "Apache License v2.0"));
+        sources.add(new Source("ChipsLayoutManager", "https://github.com/beloos/chipslayoutmanager", "Apache License v2.0"));
+        sources.add(new Source("ExpandableTextView", "https://github.com/blogcat/android-expandabletextview", "Apache License v2.0"));
 
-        layoutManager = new LinearLayoutManager(activity);
+        linearLayoutManager = new LinearLayoutManager(activity);
+        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         recyclerView = new RecyclerListView(activity);
-        recyclerView.setAdapter(new ListAdapter());
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbarsEnabled());
+        recyclerView.setAdapter(new LibsAdapter());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) ->
-                Browser.openUrl(activity, sourcesList.get(position).url)
+                Browser.openUrl(activity, sources.get(position).url)
         );
         recyclerView.setOnItemLongClickListener((view, position) -> {
             BottomSheet.Builder builder = new BottomSheet.Builder(activity);
-            builder.setTitle(sourcesList.get(position).url);
+            builder.setTitle(sources.get(position).url);
             builder.setTitleMultiline(true);
             builder.setCellHeight(ScreenUtils.dp(52));
             builder.setTitleTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
@@ -97,9 +100,9 @@ public class LibsFragment extends Fragment {
             builder.setItemTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
             builder.setItems(new int[] { R.string.Open, R.string.CopyLink }, (dialogInterface, i) -> {
                 if (i == 0) {
-                    Browser.openUrl(activity, sourcesList.get(position).url);
+                    Browser.openUrl(activity, sources.get(position).url);
                 } else if (i == 1) {
-                    AndroidUtils.addToClipboard("Link", sourcesList.get(position).url);
+                    AndroidUtils.addToClipboard("Link", sources.get(position).url);
                     Toast.makeText(activity, getString(R.string.ClipboardCopied, getString(R.string.Link)), Toast.LENGTH_SHORT).show();
                 }
             });
@@ -113,13 +116,13 @@ public class LibsFragment extends Fragment {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        Parcelable state = layoutManager.onSaveInstanceState();
-        layoutManager = new LinearLayoutManager(activity);
-        recyclerView.setLayoutManager(layoutManager);
-        layoutManager.onRestoreInstanceState(state);
+        Parcelable state = linearLayoutManager.onSaveInstanceState();
+        linearLayoutManager = new LinearLayoutManager(activity);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        linearLayoutManager.onRestoreInstanceState(state);
     }
 
-    public class ListAdapter extends RecyclerView.Adapter {
+    public class LibsAdapter extends RecyclerView.Adapter {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
@@ -128,17 +131,18 @@ public class LibsFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            Source source = sourcesList.get(position);
+            Source source = sources.get(position);
 
             TextDetailCell cell = (TextDetailCell) holder.itemView;
-            cell.setText(source.name)
+            cell.changeLayoutParams()
+                .setText(source.name)
                 .setValue(source.license)
-                .setDivider(position != sourcesList.size() - 1);
+                .setDivider(position != sources.size() - 1);
         }
 
         @Override
         public int getItemCount() {
-            return sourcesList != null ? sourcesList.size() : 0;
+            return sources != null ? sources.size() : 0;
         }
     }
 }
