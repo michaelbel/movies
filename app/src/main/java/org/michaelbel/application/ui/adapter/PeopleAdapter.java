@@ -8,6 +8,7 @@ import org.michaelbel.application.ui.view.CastView;
 
 import java.util.List;
 
+@SuppressWarnings("all")
 public class PeopleAdapter extends RecyclerView.Adapter {
 
     private List<People> people;
@@ -30,7 +31,6 @@ public class PeopleAdapter extends RecyclerView.Adapter {
             .setCharacter(String.valueOf(p.popularity))
             .setProfileImage(p.profilePath)
             .setDivider(true);
-            //.setDivider(position != people.size() - 1);
     }
 
     @Override

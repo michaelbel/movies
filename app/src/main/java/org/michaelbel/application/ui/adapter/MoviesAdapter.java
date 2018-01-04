@@ -1,22 +1,17 @@
 package org.michaelbel.application.ui.adapter;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.michaelbel.application.moviemade.LayoutHelper;
-import org.michaelbel.application.moviemade.Moviemade;
 import org.michaelbel.application.rest.model.Movie;
-import org.michaelbel.application.ui.view.LoadingView;
-import org.michaelbel.application.ui.view.MovieViewCompat;
-import org.michaelbel.application.ui.view.movie.MovieViewCard;
-import org.michaelbel.application.ui.view.movie.MovieViewList;
+import org.michaelbel.application.ui.view.movie.MovieViewListBig;
+import org.michaelbel.application.ui.view.movie.MovieViewPoster;
+import org.michaelbel.application.util.AndroidUtils;
 
 import java.util.List;
 
-//@SuppressWarnings("all")
+@SuppressWarnings("all")
 public class MoviesAdapter extends RecyclerView.Adapter {
 
     private List<Movie> movies;
@@ -27,16 +22,12 @@ public class MoviesAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
-        View view;
+        View view = null;
 
         if (type == 0) {
-            view = new MovieViewCard(parent.getContext());
+            view = new MovieViewListBig(parent.getContext());
         } else if (type == 1) {
-            view = new MovieViewList(parent.getContext());
-        } else if (type == 2) {
-            view = new MovieViewCompat(parent.getContext());
-        } else {
-            view = new LoadingView(parent.getContext());
+            view = new MovieViewPoster(parent.getContext());
         }
 
         return new Holder(view);
@@ -48,21 +39,17 @@ public class MoviesAdapter extends RecyclerView.Adapter {
         Movie movie = movies.get(position);
 
         if (type == 0) {
-            MovieViewCard view = (MovieViewCard) holder.itemView;
-            view.getPosterImage().setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, 150));
+            MovieViewListBig view = (MovieViewListBig) holder.itemView;
             view.setPoster(movie.posterPath)
                 .setTitle(movie.title)
-                .setYear(movie.releaseDate);
+                .setRating(String.valueOf(movie.voteAverage))
+                .setVoteCount(String.valueOf(movie.voteCount))
+                .setReleaseDate(movie.releaseDate)
+                .setOverview(movie.overview)
+                .setDivider(true);
         } else if (type == 1) {
-            MovieViewList view = (MovieViewList) holder.itemView;
-            view.setPoster(movie.posterPath)
-                .setTitle(movie.title)
-                .setVoteAverage(movie.voteAverage)
-                .setYear(movie.releaseDate)
-                .setDivider(position != movies.size() - 1);
-        } else if (type == 2) {
-            MovieViewCompat view = (MovieViewCompat) holder.itemView;
-            view.setMovie(movie);
+            MovieViewPoster view = (MovieViewPoster) holder.itemView;
+            view.setPoster(movie.posterPath);
         }
     }
 
@@ -73,17 +60,6 @@ public class MoviesAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        SharedPreferences preferences = Moviemade.AppContext.getSharedPreferences("mainconfig2", Context.MODE_PRIVATE);
-        int viewType = preferences.getInt("view_type", 1);
-
-        if (viewType == 0) {
-            return 0;
-        } else if (viewType == 1) {
-            return 1;
-        } else if (viewType == 2) {
-            return 2;
-        } else {
-            return 3;
-        }
+        return AndroidUtils.viewType();
     }
 }
