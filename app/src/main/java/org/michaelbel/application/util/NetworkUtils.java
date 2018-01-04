@@ -6,7 +6,7 @@ import android.net.NetworkInfo;
 
 import org.michaelbel.application.moviemade.Moviemade;
 
-//@SuppressWarnings("all")
+@SuppressWarnings("all")
 public class NetworkUtils {
 
     private static final int TYPE_WIFI = 1;

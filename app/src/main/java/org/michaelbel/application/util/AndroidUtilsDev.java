@@ -12,7 +12,7 @@ public class AndroidUtilsDev {
         return Moviemade.AppContext;
     }
 
-    public static boolean scrollbarsEnabled() {
+    public static boolean scrollbars() {
         SharedPreferences prefs = getContext().getSharedPreferences("devconfig", Context.MODE_PRIVATE);
         return prefs.getBoolean("scrollbars", true);
     }
@@ -20,11 +20,6 @@ public class AndroidUtilsDev {
     public static boolean floatingToolbar() {
         SharedPreferences prefs = getContext().getSharedPreferences("devconfig", Context.MODE_PRIVATE);
         return prefs.getBoolean("floating_toolbar", false);
-    }
-
-    public static boolean scrollToTop() {
-        SharedPreferences prefs = getContext().getSharedPreferences("devconfig", Context.MODE_PRIVATE);
-        return prefs.getBoolean("scroll_to_top", false);
     }
 
     public static boolean hamburgerIcon() {
