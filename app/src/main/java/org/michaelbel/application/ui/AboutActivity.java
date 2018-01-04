@@ -3,14 +3,12 @@ package org.michaelbel.application.ui;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
-import android.widget.TextView;
 
 import org.michaelbel.application.R;
 import org.michaelbel.application.databinding.ActivityAboutBinding;
-import org.michaelbel.application.ui.base.BaseActivity;
-import org.michaelbel.application.ui.base.BaseActivityModel;
-import org.michaelbel.application.ui.base.BasePresenter;
+import org.michaelbel.application.ui.mvp.BaseActivity;
+import org.michaelbel.application.ui.mvp.BaseActivityModel;
+import org.michaelbel.application.ui.mvp.BasePresenter;
 import org.michaelbel.application.ui.fragment.AboutFragment;
 
 @SuppressWarnings("all")

@@ -19,9 +19,9 @@ import org.michaelbel.application.rest.api.GENRES;
 import org.michaelbel.application.rest.model.Genre;
 import org.michaelbel.application.rest.model.Movie;
 import org.michaelbel.application.rest.response.MovieGenresResponse;
-import org.michaelbel.application.ui.base.BaseActivity;
-import org.michaelbel.application.ui.base.BaseActivityModel;
-import org.michaelbel.application.ui.base.BasePresenter;
+import org.michaelbel.application.ui.mvp.BaseActivity;
+import org.michaelbel.application.ui.mvp.BaseActivityModel;
+import org.michaelbel.application.ui.mvp.BasePresenter;
 import org.michaelbel.application.ui.fragment.GenreMoviesFragment;
 import org.michaelbel.application.ui.view.widget.FragmentsPagerAdapter;
 
@@ -33,6 +33,8 @@ import retrofit2.Response;
 
 @SuppressWarnings("all")
 public class GenresActivity extends BaseActivity implements BaseActivityModel {
+
+    private ArrayList<Genre> genres;
 
     public FragmentsPagerAdapter adapter;
 
@@ -59,7 +61,6 @@ public class GenresActivity extends BaseActivity implements BaseActivityModel {
         binding.contentLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.backgroundColor()));
 
         binding.viewPager.setAdapter(adapter);
-        //binding.viewPager.setBackgroundColor(ContextCompat.getColor(this, Theme.backgroundColor()));
 
         binding.tabLayout.setupWithViewPager(binding.viewPager);
         binding.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -69,16 +70,22 @@ public class GenresActivity extends BaseActivity implements BaseActivityModel {
         binding.tabLayout.setVisibility(View.INVISIBLE);
 
         Genre genre = (Genre) getIntent().getSerializableExtra("genre");
-        ArrayList<Genre> genresList = (ArrayList<Genre>) getIntent().getSerializableExtra("list");
+
+        if (genres != null) {
+            if (!genres.isEmpty()) {
+                genres.clear();
+            }
+        }
+        genres = ((ArrayList<Genre>) getIntent().getSerializableExtra("list"));
 
         if (genre != null) {
             binding.progressBar.setVisibility(View.INVISIBLE);
             binding.toolbarTitle.setText(genre.name);
             adapter.addFragment(GenreMoviesFragment.newInstance(genre.id));
             adapter.notifyDataSetChanged();
-        } else if (genresList != null) {
+        } else if (genres != null) {
             binding.toolbarTitle.setText(R.string.LoadingGenres);
-            loadExtraGenres(genresList);
+            loadExtraGenres();
         } else {
             binding.toolbarTitle.setText(R.string.LoadingGenres);
             loadGenres();
@@ -146,10 +153,10 @@ public class GenresActivity extends BaseActivity implements BaseActivityModel {
         });*/
     }
 
-    public void loadExtraGenres(ArrayList<Genre> list) {
-        adapter.getFragmentList().clear();
+    public void loadExtraGenres() {
+        //adapter.getFragmentList().clear();
 
-        for (Genre genre : list) {
+        for (Genre genre : genres) {
             adapter.addFragment(GenreMoviesFragment.newInstance(genre.id), genre.name);
             onLoadSuccessful();
         }

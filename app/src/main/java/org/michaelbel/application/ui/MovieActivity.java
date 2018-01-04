@@ -19,9 +19,9 @@ import org.michaelbel.application.rest.model.Genre;
 import org.michaelbel.application.rest.model.Movie;
 import org.michaelbel.application.rest.model.Review;
 import org.michaelbel.application.rest.model.Trailer;
-import org.michaelbel.application.ui.base.BaseActivity;
-import org.michaelbel.application.ui.base.BaseActivityModel;
-import org.michaelbel.application.ui.base.BasePresenter;
+import org.michaelbel.application.ui.mvp.BaseActivity;
+import org.michaelbel.application.ui.mvp.BaseActivityModel;
+import org.michaelbel.application.ui.mvp.BasePresenter;
 import org.michaelbel.application.ui.fragment.CastMovieFragment;
 import org.michaelbel.application.ui.fragment.ListMoviesFragment;
 import org.michaelbel.application.ui.fragment.MovieFragment;
@@ -31,7 +31,7 @@ import org.michaelbel.application.util.AndroidUtilsDev;
 
 import java.util.ArrayList;
 
-//@SuppressWarnings("all")
+@SuppressWarnings("all")
 public class MovieActivity extends BaseActivity implements BaseActivityModel {
 
     public Movie movie;

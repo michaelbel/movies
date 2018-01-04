@@ -1,6 +1,5 @@
 package org.michaelbel.application.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
@@ -14,7 +13,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
@@ -23,9 +21,9 @@ import org.michaelbel.application.databinding.ActivitySearchBinding;
 import org.michaelbel.application.moviemade.LayoutHelper;
 import org.michaelbel.application.moviemade.Theme;
 import org.michaelbel.application.rest.model.Movie;
-import org.michaelbel.application.ui.base.BaseActivity;
-import org.michaelbel.application.ui.base.BaseActivityModel;
-import org.michaelbel.application.ui.base.BasePresenter;
+import org.michaelbel.application.ui.mvp.BaseActivity;
+import org.michaelbel.application.ui.mvp.BaseActivityModel;
+import org.michaelbel.application.ui.mvp.BasePresenter;
 import org.michaelbel.application.ui.fragment.SearchFragment;
 import org.michaelbel.application.ui.view.widget.FragmentsPagerAdapter;
 
@@ -67,8 +65,10 @@ public class SearchActivity extends BaseActivity implements BaseActivityModel {
         toolbarLayout.addView(searchEditText);
         Theme.clearCursorDrawable(searchEditText);
 
+        String query = getIntent().getStringExtra("query");
+
         FragmentsPagerAdapter adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
-        adapter.addFragment(new SearchFragment(), R.string.Movies);
+        adapter.addFragment(SearchFragment.newInstance(query), R.string.Movies);
 
         binding.viewPager.setAdapter(adapter);
 
@@ -76,9 +76,6 @@ public class SearchActivity extends BaseActivity implements BaseActivityModel {
         binding.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         binding.tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
-
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.showSoftInput(searchEditText, InputMethodManager.SHOW_IMPLICIT);
     }
 
     @Override

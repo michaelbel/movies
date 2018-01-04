@@ -9,9 +9,9 @@ import org.michaelbel.application.R;
 import org.michaelbel.application.databinding.ActivityReviewBinding;
 import org.michaelbel.application.rest.model.Movie;
 import org.michaelbel.application.rest.model.Review;
-import org.michaelbel.application.ui.base.BaseActivity;
-import org.michaelbel.application.ui.base.BaseActivityModel;
-import org.michaelbel.application.ui.base.BasePresenter;
+import org.michaelbel.application.ui.mvp.BaseActivity;
+import org.michaelbel.application.ui.mvp.BaseActivityModel;
+import org.michaelbel.application.ui.mvp.BasePresenter;
 import org.michaelbel.application.ui.fragment.ReviewFragment;
 import org.michaelbel.application.util.AndroidUtilsDev;
 
