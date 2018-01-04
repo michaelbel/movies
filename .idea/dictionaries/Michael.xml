@@ -3,6 +3,7 @@
     <words>
       <w>customconfig</w>
       <w>devconfig</w>
+      <w>eventbus</w>
       <w>expandabletextview</w>
       <w>favs</w>
       <w>firebase</w>
