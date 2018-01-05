@@ -50,7 +50,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
-    implementation 'org.michaelbel:bottomsheet:1.1.1'
+    implementation 'org.michaelbel:bottomsheet:1.1.2'
 
     implementation 'at.blogc:expandabletextview:1.0.5'
 
@@ -60,8 +60,13 @@ dependencies {
     implementation 'com.alexvasilkov:gesture-views:2.4.0'
     implementation 'com.alexvasilkov:android-commons:2.0.2'
 
-    //implementation 'com.google.dagger:dagger-android:2.14.1'
-    //implementation 'com.google.dagger:dagger-android-support:2.14.1'
-    //annotationProcessor 'com.google.dagger:dagger-compiler:2.14.1'
-    //annotationProcessor 'com.google.dagger:dagger-android-processor:2.14.1'
+    implementation 'com.arello-mobile:moxy:1.5.3'
+    implementation 'com.arello-mobile:moxy-android:1.5.3'
+    implementation 'com.arello-mobile:moxy-app-compat:1.5.3'
+    annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
+
+    implementation 'com.google.dagger:dagger-android:2.14.1'
+    implementation 'com.google.dagger:dagger-android-support:2.14.1'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.14.1'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.14.1'
 }
