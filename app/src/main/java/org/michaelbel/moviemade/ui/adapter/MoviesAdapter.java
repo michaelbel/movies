@@ -1,17 +1,17 @@
-package org.michaelbel.application.ui.adapter;
+package org.michaelbel.moviemade.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.michaelbel.application.rest.model.Movie;
-import org.michaelbel.application.ui.view.movie.MovieViewListBig;
-import org.michaelbel.application.ui.view.movie.MovieViewPoster;
-import org.michaelbel.application.util.AndroidUtils;
+import org.michaelbel.moviemade.rest.model.Movie;
+import org.michaelbel.moviemade.ui.view.movie.MovieViewListBig;
+import org.michaelbel.moviemade.ui.view.movie.MovieViewPoster;
+import org.michaelbel.moviemade.util.AndroidUtils;
+import org.michaelbel.moviemade.util.DateUtils;
 
 import java.util.List;
 
-@SuppressWarnings("all")
 public class MoviesAdapter extends RecyclerView.Adapter {
 
     private List<Movie> movies;
@@ -44,7 +44,7 @@ public class MoviesAdapter extends RecyclerView.Adapter {
                 .setTitle(movie.title)
                 .setRating(String.valueOf(movie.voteAverage))
                 .setVoteCount(String.valueOf(movie.voteCount))
-                .setReleaseDate(movie.releaseDate)
+                .setReleaseDate(DateUtils.getMovieReleaseDate(movie.releaseDate))
                 .setOverview(movie.overview)
                 .setDivider(true);
         } else if (type == 1) {

@@ -1,14 +1,13 @@
-package org.michaelbel.application.ui.adapter;
+package org.michaelbel.moviemade.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import org.michaelbel.application.rest.model.Trailer;
-import org.michaelbel.application.ui.view.trailer.TrailerCompatView;
+import org.michaelbel.moviemade.rest.model.Trailer;
+import org.michaelbel.moviemade.ui.view.trailer.TrailerCompatView;
 
 import java.util.ArrayList;
 
-@SuppressWarnings("all")
 public class TrailersAdapter extends RecyclerView.Adapter {
 
     private ArrayList<Trailer> trailers;

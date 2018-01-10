@@ -1,14 +1,13 @@
-package org.michaelbel.application.ui.adapter;
+package org.michaelbel.moviemade.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import org.michaelbel.application.rest.model.People;
-import org.michaelbel.application.ui.view.CastView;
+import org.michaelbel.moviemade.rest.model.People;
+import org.michaelbel.moviemade.ui.view.CastView;
 
 import java.util.List;
 
-@SuppressWarnings("all")
 public class PeopleAdapter extends RecyclerView.Adapter {
 
     private List<People> people;
@@ -29,7 +28,7 @@ public class PeopleAdapter extends RecyclerView.Adapter {
         CastView view = (CastView) holder.itemView;
         view.setName(p.name)
             .setCharacter(String.valueOf(p.popularity))
-            .setProfileImage(p.profilePath)
+            .setProfile(p.profilePath)
             .setDivider(true);
     }
 

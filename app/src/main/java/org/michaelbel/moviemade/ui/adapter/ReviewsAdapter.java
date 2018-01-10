@@ -1,14 +1,13 @@
-package org.michaelbel.application.ui.adapter;
+package org.michaelbel.moviemade.ui.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import org.michaelbel.application.rest.model.Review;
-import org.michaelbel.application.ui.view.ReviewView;
+import org.michaelbel.moviemade.rest.model.v3.Review;
+import org.michaelbel.moviemade.ui.view.ReviewView;
 
 import java.util.List;
 
-@SuppressWarnings("all")
 public class ReviewsAdapter extends RecyclerView.Adapter {
 
     private List<Review> reviews;
