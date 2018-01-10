@@ -1,7 +1,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="oval">
-            <solid android:color="#FFFFFF"/>
+            <solid android:color="@color/night_blue_iconActiveColor"/>
         </shape>
     </item>
 </selector>
