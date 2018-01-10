@@ -1,6 +1,6 @@
 <resources>
     <string name="AppName">Moviemade</string>
-    <string name="AppNameBeta">Moviemade</string>
+    <string name="AppNameBeta">Moviemade Beta</string>
     <string name="LanguageName">English</string>
     <string name="LanguageNameInEnglish">English</string>
     <string name="LanguageCode">en</string>
@@ -46,18 +46,21 @@
         <item quantity="other">%1$d Movies</item>
     </plurals>
     <plurals name="Images">
-        <item quantity="zero">%1$d Images</item>
-        <item quantity="one">%1$d Image</item>
-        <item quantity="two">%1$d Images</item>
-        <item quantity="few">%1$d Images</item>
-        <item quantity="many">%1$d Images</item>
-        <item quantity="other">%1$d Images</item>
+        <item quantity="zero">%1$s Images</item>
+        <item quantity="one">%1$s Image</item>
+        <item quantity="two">%1$s Images</item>
+        <item quantity="few">%1$s Images</item>
+        <item quantity="many">%1$s Images</item>
+        <item quantity="other">%1$s Images</item>
     </plurals>
     <string name="CachedMovies">Cached Movies</string>
     <string name="CachedImages">Cached Images</string>
     <string name="ScrollToTop">Scroll to Top</string>
     <string name="ScrollToTopInfo">Scroll to top by click on current tab</string>
     <string name="CurrentDateAndTime">%1$s at %2$s</string>
+    <string name="SearchHistoryEmpty">Your search history is empty</string>
+    <string name="SearchHistory">Search History</string>
+    <string name="ViewType">View Type</string>
 
     <string name="AdvancedSettings">Advanced Settings</string>
     <string name="Scrollbars">Scrollbars</string>
@@ -68,10 +71,10 @@
     <!--About-->
     <string name="About">About</string>
     <string name="AppForAndroid">%1$s for Android</string>
-    <string name="VersionBuild">Version %1$s (Build %2$d)</string>
+    <string name="VersionBuildDate">Version %1$s (Build %2$d) of %3$s</string>
     <string name="ForkGithub">Fork on Github</string>
     <string name="OpenSourceLibs">Open-source Libraries</string>
-    <string name="ProjectInfo"><![CDATA[<b>]]>Moviemade<![CDATA[</b>]]> is an open source project maintained by <b>one</b> develop. You can help improve the project in one of the following ways:</string>
+    <string name="ProjectInfo"><![CDATA[<b>]]>Moviemade<![CDATA[</b>]]> is an open source project maintained by one develop. You can help improve the project in one of the following ways:</string>
     <string name="Feedback">Feedback</string>
     <string name="Open">Open</string>
     <string name="CopyLink">Copy link</string>
@@ -80,6 +83,7 @@
     <string name="Subject">Subject</string>
     <string name="RateGooglePlay">Rate on Google Play</string>
     <string name="OtherDeveloperApps">Other Developer Apps</string>
+    <string name="ShareWithFriends">Share with Friends</string>
     <!--Movie Info-->
     <string name="Info">Info</string>
     <string name="Add">Add</string>
@@ -90,7 +94,7 @@
     <string name="Writers">Writers</string>
     <string name="Producers">Producers</string>
     <string name="OriginalTitle">Original Title</string>
-    <string name="OriginalLang">Original Language</string>
+    <string name="CountriesTitle">Countries</string>
     <string name="Status">Status</string>
     <string name="Budget">Budget</string>
     <string name="Revenue">Revenue</string>
@@ -101,30 +105,30 @@
     <string name="Cast">Cast</string>
     <string name="Similar">Similar</string>
     <string name="Related">Related</string>
-    <string name="RuntimeMin">%1$d min</string>
+    <string name="MovieRuntime">%1$d min / %2$s</string>
     <string name="Share">Share</string>
     <string name="Overview">Overview</string>
     <plurals name="Posters">
-        <item quantity="zero">%1$d Posters</item>
-        <item quantity="one">%1$d Poster</item>
-        <item quantity="two">%1$d Posters</item>
-        <item quantity="few">%1$d Posters</item>
-        <item quantity="many">%1$d Posters</item>
-        <item quantity="other">%1$d Posters</item>
+        <item quantity="zero">Posters</item>
+        <item quantity="one">%d Poster</item>
+        <item quantity="two">%d Posters</item>
+        <item quantity="few">%d Posters</item>
+        <item quantity="many">%d Posters</item>
+        <item quantity="other">%d Posters</item>
     </plurals>
     <plurals name="Backdrops">
-        <item quantity="zero">%1$d Backdrops</item>
-        <item quantity="one">%1$d Backdrop</item>
-        <item quantity="two">%1$d Backdrops</item>
-        <item quantity="few">%1$d Backdrops</item>
-        <item quantity="many">%1$d Backdrops</item>
-        <item quantity="other">%1$d Backdrops</item>
+        <item quantity="zero">Backdrops</item>
+        <item quantity="one">%d Backdrop</item>
+        <item quantity="two">%d Backdrops</item>
+        <item quantity="few">%d Backdrops</item>
+        <item quantity="many">%d Backdrops</item>
+        <item quantity="other">%d Backdrops</item>
     </plurals>
     <string name="Images">Images</string>
     <string name="Loading">Loading…</string>
     <string name="LoadingCountries">Loading countries…</string>
     <string name="LoadingTagline">Loading tagline…</string>
-    <string name="MoneyCount">$ %1$s</string>
+    <string name="CurrencyCount">$ %1$s</string>
     <!--Reviews-->
     <string name="Reviews">Reviews</string>
     <string name="NoReviews">No Reviews</string>
@@ -140,4 +144,10 @@
     <string name="NoResults">No results</string>
     <string name="SpeakNow">Speak now</string>
     <string name="ReviewSourceUnavailable">Review source unavailable</string>
+    <string name="People">People</string>
+    <string name="All">All</string>
+    <!--Person-->
+    <string name="Birthday">Birthday: %s</string>
+    <string name="Deathday">Deathday: %s</string>
+    <string name="BirthPlace">Birthplace: %s</string>
 </resources>
