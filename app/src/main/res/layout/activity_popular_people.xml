@@ -34,7 +34,7 @@
         </android.support.design.widget.AppBarLayout>
 
         <FrameLayout
-            android:id="@+id/fragment_layout"
+            android:id="@+id/fragment_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="56dp"/>

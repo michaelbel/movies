@@ -3,14 +3,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v4.widget.NestedScrollView
+    <ScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <LinearLayout
@@ -22,7 +23,7 @@
                 android:layout_marginEnd="16dp"
                 android:orientation="vertical"/>
 
-            <org.michaelbel.application.ui.view.widget.GestureTextView
+            <org.michaelbel.moviemade.ui.view.widget.GestureTextView
                 android:id="@+id/review_text"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
@@ -33,6 +34,6 @@
 
         </LinearLayout>
 
-    </android.support.v4.widget.NestedScrollView>
+    </ScrollView>
 
 </FrameLayout>

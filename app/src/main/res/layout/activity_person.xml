@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.design.widget.CoordinatorLayout
+        android:background="@color/night_blue_backgroundColor"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -18,22 +19,16 @@
                 android:layout_height="56dp"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-                <TextView
-                    android:id="@+id/toolbar_title"
+                <android.support.design.widget.TabLayout
+                    android:id="@+id/tab_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="?attr/actionBarSize"
-                    android:gravity="center_vertical"
-                    android:maxLines="1"
-                    android:textSize="20sp"
-                    style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+                    android:layout_height="match_parent"
+                    android:layout_marginEnd="16dp"
+                    android:theme="@style/AppThemeLight.Tabs"
+                    app:tabTextAppearance="@style/TabText"
+                    app:tabSelectedTextColor="@color/night_blue_primaryTextColor"/>
 
             </android.support.v7.widget.Toolbar>
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tab_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/AppThemeLight.Tabs"/>
 
         </android.support.design.widget.AppBarLayout>
 

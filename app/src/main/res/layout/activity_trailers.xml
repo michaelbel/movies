@@ -18,7 +18,7 @@
                 android:layout_height="56dp"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-                <org.michaelbel.application.ui.view.TitleView
+                <org.michaelbel.moviemade.ui.view.TitleView
                     android:id="@+id/toolbar_title"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
@@ -28,7 +28,7 @@
         </android.support.design.widget.AppBarLayout>
 
         <FrameLayout
-            android:id="@+id/fragment_layout"
+            android:id="@+id/fragment_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>

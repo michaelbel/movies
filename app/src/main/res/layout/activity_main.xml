@@ -45,7 +45,7 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
-    <org.michaelbel.application.ui.view.NavigationView
+    <org.michaelbel.moviemade.ui.view.NavigationView
         android:id="@+id/navigation_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
