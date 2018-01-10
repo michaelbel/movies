@@ -9,14 +9,43 @@ android {
         applicationId "org.michaelbel.moviemade"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 1
-        versionName "1.0.0"
+        versionCode 5
+        versionName "0.1.1"
+        buildConfigField "String", "VERSION_DATE", '"Jan 10, 2018"'
+        project.ext.set("archivesBaseName", "moviemade-v" + defaultConfig.versionName)
     }
 
+    /*signingConfigs {
+        debug {
+            debuggable true
+            jniDebuggable true
+            signingConfig signingConfigs.debug
+            applicationIdSuffix ".beta"
+        }
+
+        release {
+            debuggable false
+            jniDebuggable false
+            signingConfig signingConfigs.release
+            minifyEnabled false
+            shrinkResources false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }*/
+
     buildTypes {
+        /*debug {
+            applicationIdSuffix ".debug"
+            versionNameSuffix "-debug"
+            resValue "string", "app_name", "Moviemade (debug)"
+        }*/
+
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            //shrinkResources true
+            //signingConfig signingConfig.release
+            //resValue "string", "app_name", "Moviemade"
         }
     }
 
