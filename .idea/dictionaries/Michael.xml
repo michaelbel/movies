@@ -2,6 +2,7 @@
   <dictionary name="Michael">
     <words>
       <w>customconfig</w>
+      <w>deathday</w>
       <w>devconfig</w>
       <w>eventbus</w>
       <w>expandabletextview</w>
@@ -9,12 +10,14 @@
       <w>firebase</w>
       <w>gson</w>
       <w>halfbit</w>
+      <w>imdbpage</w>
       <w>interactor</w>
       <w>moviemade</w>
       <w>moxy</w>
       <w>sergej</w>
       <w>shafarenka</w>
       <w>tagline</w>
+      <w>webpage</w>
     </words>
   </dictionary>
 </component>
