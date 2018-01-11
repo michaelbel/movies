@@ -10,7 +10,6 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 
-@SuppressWarnings("all")
 public class RatingViewDev extends LinearLayout {
 
     private StarView[] stars = new StarView[5];

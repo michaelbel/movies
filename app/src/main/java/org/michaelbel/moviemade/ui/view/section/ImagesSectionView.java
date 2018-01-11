@@ -24,8 +24,8 @@ import java.util.Locale;
 
 public class ImagesSectionView extends FrameLayout {
 
-    private ImageView posterImageView;
-    private ImageView backdropImageView;
+    private ImageView posterImage;
+    private ImageView backdropImage;
     private TextView postersCountText;
     private TextView backdropsCountText;
 
@@ -64,10 +64,10 @@ public class ImagesSectionView extends FrameLayout {
         postersLayout.setLayoutParams(LayoutHelper.makeLinear(0, LayoutHelper.MATCH_PARENT, Gravity.CENTER, 1F));
         imagesLayout.addView(postersLayout);
 
-        posterImageView = new ImageView(context);
-        posterImageView.setScaleType(ImageView.ScaleType.CENTER);
-        posterImageView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        postersLayout.addView(posterImageView);
+        posterImage = new ImageView(context);
+        posterImage.setScaleType(ImageView.ScaleType.CENTER);
+        posterImage.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        postersLayout.addView(posterImage);
 
         FrameLayout postersTitleLayout = new FrameLayout(context);
         postersTitleLayout.setBackgroundColor(0x99000000);
@@ -91,10 +91,10 @@ public class ImagesSectionView extends FrameLayout {
         backdropsLayout.setLayoutParams(LayoutHelper.makeLinear(0, LayoutHelper.MATCH_PARENT, Gravity.CENTER,2F, 12, 0, 0, 0));
         imagesLayout.addView(backdropsLayout);
 
-        backdropImageView = new ImageView(context);
-        backdropImageView.setScaleType(ImageView.ScaleType.CENTER);
-        backdropImageView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        backdropsLayout.addView(backdropImageView);
+        backdropImage = new ImageView(context);
+        backdropImage.setScaleType(ImageView.ScaleType.CENTER);
+        backdropImage.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        backdropsLayout.addView(backdropImage);
 
         FrameLayout backdropsTitleLayout = new FrameLayout(context);
         backdropsTitleLayout.setBackgroundColor(0x99000000);
@@ -116,7 +116,7 @@ public class ImagesSectionView extends FrameLayout {
         Picasso.with(getContext())
                .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.posterSize(), posterPath))
                .placeholder(R.drawable.movie_placeholder_old)
-               .into(posterImageView);
+               .into(posterImage);
 
         return this;
     }
@@ -125,7 +125,7 @@ public class ImagesSectionView extends FrameLayout {
         Picasso.with(getContext())
                .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.backdropSize(), backdropPath))
                .placeholder(R.drawable.movie_placeholder_old)
-               .into(backdropImageView);
+               .into(backdropImage);
 
         return this;
     }

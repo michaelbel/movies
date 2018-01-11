@@ -16,7 +16,6 @@ import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.util.ScreenUtils;
 
-@SuppressWarnings("all")
 public class EmptyCell extends FrameLayout {
 
     public static final int MODE_DEFAULT = 0;
@@ -90,13 +89,12 @@ public class EmptyCell extends FrameLayout {
             progressBar.setVisibility(VISIBLE);
             textView.setVisibility(GONE);
         }
+
         return this;
     }
 
     public EmptyCell changeLayoutParams() {
-        LayoutParams params = new LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
-        );
+        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         if (ScreenUtils.isLandscape()) {
             params.leftMargin = ScreenUtils.dp(56);

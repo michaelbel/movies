@@ -9,14 +9,12 @@ import android.view.Gravity;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.util.ScreenUtils;
 
-@SuppressWarnings("all")
 public class CheckedButton extends FrameLayout {
 
     public static final int FAVORITE = 0;
@@ -30,7 +28,6 @@ public class CheckedButton extends FrameLayout {
 
     private CardView cardView;
     private ImageView iconView;
-    private TextView textText;
 
     private int style = FAVORITE;
     private Rect rect = new Rect();

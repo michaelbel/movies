@@ -26,7 +26,6 @@ import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("all")
 public class GenresSectionView extends FrameLayout {
 
     private GenresAdapter adapter;

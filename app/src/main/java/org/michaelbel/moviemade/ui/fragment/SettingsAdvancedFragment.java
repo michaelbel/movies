@@ -16,10 +16,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import org.michaelbel.bottomsheetdialog.BottomSheet;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.SettingsActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.moviemade.app.Moviemade;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.ui.adapter.Holder;
 import org.michaelbel.moviemade.ui.view.cell.EmptyCell;
@@ -28,6 +32,7 @@ import org.michaelbel.moviemade.ui.view.cell.TextDetailCell;
 import org.michaelbel.moviemade.ui.view.cell.TextDetailCellDev;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
+import org.michaelbel.moviemade.util.DateUtils;
 import org.michaelbel.moviemade.util.ScreenUtils;
 
 public class SettingsAdvancedFragment extends Fragment {
@@ -35,13 +40,15 @@ public class SettingsAdvancedFragment extends Fragment {
     private int rowCount;
     private int infoRow;
     private int scrollbarsRow;
+    private int zoomReviewRow;
+    private int emptyRow2;
+
     private int floatingToolbarRow;
     private int searchResultsCounterRow;
     private int hamburgerMenuRow;
     private int fullOverviewRow;
     private int emptyRow1;
     private int deleteRatingsRow;
-    private int emptyRow2;
 
     private SettingsActivity activity;
     private LinearLayoutManager linearLayoutManager;
@@ -63,13 +70,15 @@ public class SettingsAdvancedFragment extends Fragment {
         rowCount = 0;
         infoRow = rowCount++;
         scrollbarsRow = rowCount++;
-        floatingToolbarRow = rowCount++;
-        searchResultsCounterRow = rowCount++;
-        hamburgerMenuRow = rowCount++;
-        fullOverviewRow = rowCount++;
-        emptyRow1 = rowCount++;
-        deleteRatingsRow = rowCount++;
+        zoomReviewRow = rowCount++;
         emptyRow2 = rowCount++;
+
+        //floatingToolbarRow = rowCount++;
+        //searchResultsCounterRow = rowCount++;
+        //hamburgerMenuRow = rowCount++;
+        //fullOverviewRow = rowCount++;
+        //emptyRow1 = rowCount++;
+        //deleteRatingsRow = rowCount++;
 
         linearLayoutManager = new LinearLayoutManager(activity);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -84,6 +93,15 @@ public class SettingsAdvancedFragment extends Fragment {
                 SharedPreferences.Editor editor = prefs.edit();
                 boolean enable = prefs.getBoolean("scrollbars", true);
                 editor.putBoolean("scrollbars", !enable);
+                editor.apply();
+                if (view instanceof TextDetailCellDev) {
+                    ((TextDetailCellDev) view).setChecked(!enable);
+                }
+            } else if (position == zoomReviewRow) {
+                SharedPreferences prefs = activity.getSharedPreferences("devconfig", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                boolean enable = prefs.getBoolean("zoom_review", true);
+                editor.putBoolean("zoom_review", !enable);
                 editor.apply();
                 if (view instanceof TextDetailCellDev) {
                     ((TextDetailCellDev) view).setChecked(!enable);
@@ -138,16 +156,13 @@ public class SettingsAdvancedFragment extends Fragment {
                 recyclerView.invalidateViews();
             }
         });
-        recyclerView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemClick(View view, int position) {
-                if (position == scrollbarsRow || position == floatingToolbarRow || position == searchResultsCounterRow || position == hamburgerMenuRow || position == fullOverviewRow) {
-                    rateFeature(view, position);
-                    return true;
-                }
-
-                return false;
+        recyclerView.setOnItemLongClickListener((view, position) -> {
+            if (position == scrollbarsRow || position == zoomReviewRow || position == floatingToolbarRow || position == searchResultsCounterRow || position == hamburgerMenuRow || position == fullOverviewRow) {
+                rateFeature(view, position);
+                return true;
             }
+
+            return false;
         });
         fragmentView.addView(recyclerView);
         return fragmentView;
@@ -176,7 +191,13 @@ public class SettingsAdvancedFragment extends Fragment {
 
             if (position == scrollbarsRow) {
                 editor.putInt("scrollbars_rating", rating);
-            } else if (position == floatingToolbarRow) {
+                sendAnalytics("Scrollbars", rating);
+            } else if (position == zoomReviewRow) {
+                editor.putInt("zoom_review_rating", rating);
+                sendAnalytics("Zoom Review", rating);
+            }
+
+            if (position == floatingToolbarRow) {
                 editor.putInt("floating_toolbar_rating", rating);
             } else if (position == searchResultsCounterRow) {
                 editor.putInt("search_results_count_rating", rating);
@@ -191,6 +212,14 @@ public class SettingsAdvancedFragment extends Fragment {
             ((TextDetailCellDev) view).setRating(rating);
         });
         builder.show();
+    }
+
+    private void sendAnalytics(String option, int stars) {
+        Tracker tracker = ((Moviemade) getActivity().getApplication()).getDefaultTracker();
+        tracker.send(new HitBuilders.EventBuilder()
+                .setCategory("Advanced Settings")
+                .setAction("Rated option: " + option + " with " + stars + " stars. Time: " + DateUtils.getCurrentDateAndTime())
+                .build());
     }
 
     @Override
@@ -225,10 +254,11 @@ public class SettingsAdvancedFragment extends Fragment {
 
             if (type == 1) {
                 EmptyCell cell = (EmptyCell) holder.itemView;
+                cell.changeLayoutParams();
 
                 if (position == infoRow) {
                     cell.setMode(EmptyCell.MODE_TEXT);
-                    cell.setText("Раз уж Вам удалось проникнуть в раздел с этими настройками, то смело используйте их для лучшей кастомизации приложения. Некоторые настройки могут работать не стабильно или активироваться после перезапуска приложения. Если долго нажимать на фичу, можно поставить ей рейтинг. Это полностью анонимно.");
+                    cell.setText("Advanced settings are experimental, they can work unstable or after restarting this app.");
                 } else if (position == emptyRow1 || position == emptyRow2) {
                     cell.setMode(EmptyCell.MODE_DEFAULT);
                     cell.setHeight(ScreenUtils.dp(12));
@@ -251,11 +281,18 @@ public class SettingsAdvancedFragment extends Fragment {
 
                 if (position == scrollbarsRow) {
                     cell.setText(R.string.Scrollbars);
-                    cell.setValue("Enable all scrollbars in the app");
+                    cell.setValue(R.string.ScrollbarsInfo);
                     cell.setChecked(AndroidUtilsDev.scrollbars());
                     cell.setRating(prefs.getInt("scrollbars_rating", 0));
                     cell.setDivider(true);
-                } else if (position == floatingToolbarRow) {
+                } else if (position == zoomReviewRow) {
+                    cell.setText("Zoom Review");
+                    cell.setValue("Enable review gestures control");
+                    cell.setChecked(AndroidUtilsDev.zoomReview());
+                    cell.setRating(prefs.getInt("zoom_review_rating", 0));
+                }
+
+                if (position == floatingToolbarRow) {
                     cell.setText(R.string.FloatingToolbar);
                     cell.setValue("Enable to scrollable toolbar");
                     cell.setChecked(AndroidUtilsDev.floatingToolbar());

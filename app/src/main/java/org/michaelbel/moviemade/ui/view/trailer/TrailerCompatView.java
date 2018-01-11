@@ -15,14 +15,17 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
+import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.util.ScreenUtils;
 
-@SuppressWarnings("all")
+import java.util.Locale;
+
 public class TrailerCompatView extends FrameLayout {
 
     private CardView cardView;
@@ -110,7 +113,8 @@ public class TrailerCompatView extends FrameLayout {
 
     public TrailerCompatView setTrailerImage(@NonNull String trailerKey) {
         Picasso.with(getContext())
-               .load("http://img.youtube.com/vi/" + trailerKey + "/0.jpg")
+               .load(String.format(Locale.US, Url.YOUTUBE_IMAGE, trailerKey))
+               .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                .into(trailerImage);
         return this;
     }

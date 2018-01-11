@@ -23,7 +23,6 @@ import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.util.ScreenUtils;
 
-@SuppressWarnings("all")
 public class TextDetailCell extends FrameLayout {
 
     public static final int MODE_DEFAULT = 0;
@@ -127,7 +126,7 @@ public class TextDetailCell extends FrameLayout {
     }
 
 
-    public TextDetailCell setMode(int mode) {
+    public TextDetailCell setMode(@Mode int mode) {
         currentMode = mode;
 
         if (currentMode == MODE_DEFAULT) {
@@ -170,9 +169,7 @@ public class TextDetailCell extends FrameLayout {
     }*/
 
     public TextDetailCell changeLayoutParams() {
-        LayoutParams params = new LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
-        );
+        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         if (ScreenUtils.isLandscape()) {
             params.leftMargin = ScreenUtils.dp(56);

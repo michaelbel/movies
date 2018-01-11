@@ -7,6 +7,7 @@ public class Url {
     public static final String GSON_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
 
     public static final String IMDB_MOVIE = "http://imdb.com/title/%s";
+    public static final String YOUTUBE_IMAGE = "http://img.youtube.com/vi/%s/0.jpg";
 
     public static final String TMDB_API_KEY = AndroidUtils.loadProperty("TMDbApiKey");
     public static final String TMDB_API_TOKEN = AndroidUtils.loadProperty("TMDbApiToken");

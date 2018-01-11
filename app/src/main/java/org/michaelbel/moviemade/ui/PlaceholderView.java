@@ -15,11 +15,23 @@ public class PlaceholderView extends FrameLayout {
         setBackgroundColor(ContextCompat.getColor(context, Theme.backgroundColor()));
     }
 
+    public void show() {
+        setVisibility(VISIBLE);
+    }
+
     public void hide() {
         setVisibility(INVISIBLE);
     }
 
-    public void show() {
-        setVisibility(VISIBLE);
+    public void gone() {
+        setVisibility(GONE);
+    }
+
+    public void showColor() {
+        setBackgroundColor(ContextCompat.getColor(getContext(), Theme.backgroundColor()));
+    }
+
+    public void hideColor() {
+        setBackgroundColor(ContextCompat.getColor(getContext(), Theme.foregroundColor()));
     }
 }

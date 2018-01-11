@@ -4,6 +4,10 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.Tracker;
+
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.eventbus.RxBus;
 
 import io.realm.Realm;
@@ -18,10 +22,13 @@ public class Moviemade extends Application {
     public static final String ACCOUNT_MARKET = "market://developer?id=Michael+Bel";
     public static final String APP_WEB = "https://play.google.com/store/apps/details?id=org.michaelbel.moviemade";
     public static final String APP_MARKET = "market://details?id=org.michaelbel.moviemade";
+    public static final String PAYPAL_ME = "https://paypal.me/michaelbel";
 
     public RxBus rxBus;
     public static volatile Context AppContext;
     public static volatile Handler AppHandler;
+
+    public Tracker tracker;
 
     @Override
     public void onCreate() {
@@ -37,6 +44,15 @@ public class Moviemade extends Application {
                 .name("Moviemade0.realm")
                 .build();
         Realm.setDefaultConfiguration(config);
+    }
+
+    synchronized public Tracker getDefaultTracker() {
+        if (tracker == null) {
+            GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+            tracker = analytics.newTracker(R.xml.analytics);
+        }
+
+        return tracker;
     }
 
     public RxBus eventBus() {

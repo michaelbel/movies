@@ -50,6 +50,7 @@ public class AboutFragment extends Fragment {
     private int helpRow;
     private int feedbackRow;
     private int shareFriendsRow;
+    private int donatePaypalRow;
     private int emptyRow;
 
     private AboutActivity activity;
@@ -78,6 +79,7 @@ public class AboutFragment extends Fragment {
         helpRow = rowCount++;
         feedbackRow = rowCount++;
         shareFriendsRow = rowCount++;
+        donatePaypalRow = rowCount++;
         emptyRow = rowCount++;
 
         linearLayoutManager = new LinearLayoutManager(activity);
@@ -131,6 +133,8 @@ public class AboutFragment extends Fragment {
                 intent.setType("text/plain");
                 intent.putExtra(Intent.EXTRA_TEXT, Moviemade.APP_WEB);
                 startActivity(Intent.createChooser(intent, getString(R.string.ShareVia)));
+            } else if (position == donatePaypalRow) {
+                Browser.openUrl(activity, Moviemade.PAYPAL_ME);
             }
         });
         fragmentView.addView(recyclerView);
@@ -205,7 +209,11 @@ public class AboutFragment extends Fragment {
                         .setDivider(true);
                 } else if (position == shareFriendsRow) {
                     cell.setIcon(R.drawable.ic_share)
-                        .setText(R.string.ShareWithFriends);
+                        .setText(R.string.ShareWithFriends)
+                        .setDivider(true);
+                } else if (position == donatePaypalRow) {
+                    cell.setIcon(R.drawable.ic_cash_usd)
+                        .setText("Donate PayPal");
                 }
             }
         }

@@ -71,7 +71,7 @@ public class SettingsFragment extends Fragment {
             .setOnMenuItemClickListener(menuItem -> {
                 asc++;
                 if (asc == 5) {
-                    //activity.startFragment(new SettingsAdvancedFragment(), activity.binding.fragmentView, "settingsAdvancedFragment");
+                    activity.startFragment(new SettingsAdvancedFragment(), activity.binding.fragmentView, "settingsAdvancedFragment");
                     asc = 0;
                 }
                 return true;

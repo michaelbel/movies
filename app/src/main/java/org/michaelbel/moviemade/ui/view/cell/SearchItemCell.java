@@ -9,7 +9,6 @@ import android.widget.ImageView;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.LayoutHelper;
 
-@SuppressWarnings("all")
 public class SearchItemCell extends TextDetailCell {
 
     private DeleteIconClick deleteIconClick;

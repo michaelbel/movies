@@ -25,7 +25,6 @@ import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.ui.view.RatingViewDev;
 import org.michaelbel.moviemade.util.ScreenUtils;
 
-@SuppressWarnings("all")
 public class TextDetailCellDev extends LinearLayout {
 
     public static final int MODE_DEFAULT = 0;

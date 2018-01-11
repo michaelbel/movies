@@ -31,6 +31,7 @@ import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.rest.model.v3.Review;
 import org.michaelbel.moviemade.ui.view.widget.GestureTextView;
 import org.michaelbel.moviemade.util.AndroidUtils;
+import org.michaelbel.moviemade.util.AndroidUtilsDev;
 
 public class ReviewFragment extends Fragment {
 
@@ -135,6 +136,12 @@ public class ReviewFragment extends Fragment {
         reviewTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         reviewTextView.setTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
         reviewTextView.getController().getSettings().setMaxZoom(2.0F);
+        if (AndroidUtilsDev.zoomReview()) {
+            reviewTextView.getController().getSettings().enableGestures();
+        } else {
+            reviewTextView.getController().getSettings().disableGestures();
+        }
+
         return fragmentView;
     }
 

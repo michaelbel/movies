@@ -21,11 +21,10 @@ import org.michaelbel.moviemade.util.ScreenUtils;
 
 import java.util.Locale;
 
-@SuppressWarnings("all")
 public class MovieViewPoster extends FrameLayout {
 
     private CardView cardView;
-    private ImageView posterImageView;
+    private ImageView posterImage;
 
     private Rect rect = new Rect();
 
@@ -42,10 +41,10 @@ public class MovieViewPoster extends FrameLayout {
         cardView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, 260));
         addView(cardView);
 
-        posterImageView = new ImageView(context);
-        posterImageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        posterImageView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        cardView.addView(posterImageView);
+        posterImage = new ImageView(context);
+        posterImage.setScaleType(ImageView.ScaleType.FIT_XY);
+        posterImage.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        cardView.addView(posterImage);
     }
 
     public MovieViewPoster setPoster(@NonNull String posterPath) {
@@ -53,7 +52,7 @@ public class MovieViewPoster extends FrameLayout {
                .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.posterSize(), posterPath))
                .placeholder(R.drawable.movie_placeholder_old)
                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-               .into(posterImageView);
+               .into(posterImage);
 
         return this;
     }

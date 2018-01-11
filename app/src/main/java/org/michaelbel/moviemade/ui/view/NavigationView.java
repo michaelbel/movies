@@ -40,7 +40,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-@SuppressWarnings("all")
 public class NavigationView extends FrameLayout {
 
     private int rowCount;
@@ -287,7 +286,6 @@ public class NavigationView extends FrameLayout {
             nameTextView.setMaxLines(1);
             nameTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
             nameTextView.setGravity(Gravity.START);
-            //nameText.setText("Link your TMDb account");
             nameTextView.setText(R.string.AppNameBeta);
             nameTextView.setEllipsize(TextUtils.TruncateAt.END);
             nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
@@ -330,7 +328,7 @@ public class NavigationView extends FrameLayout {
 
                     @Override
                     public void onFailure(Call<Account> call, Throwable t) {
-                        //FirebaseCrash.report(t);
+
                     }
                 });
             }

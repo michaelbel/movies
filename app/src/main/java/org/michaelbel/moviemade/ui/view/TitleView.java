@@ -15,7 +15,6 @@ import android.widget.TextView;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 
-@SuppressWarnings("all")
 public class TitleView extends FrameLayout {
 
     public TextView titleText;

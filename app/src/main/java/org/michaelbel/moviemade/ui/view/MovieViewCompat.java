@@ -34,7 +34,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-@SuppressWarnings("all")
 public class MovieViewCompat extends FrameLayout {
 
     public int movieId;
@@ -43,7 +42,6 @@ public class MovieViewCompat extends FrameLayout {
     private ImageView posterImage;
     private TextView titleText;
 
-    private LinearLayout layout;
     private TextView yearAndGenresText;
     private TextView overviewText;
 
@@ -67,7 +65,7 @@ public class MovieViewCompat extends FrameLayout {
         posterImage.setLayoutParams(LayoutHelper.makeFrame(110, 180, Gravity.START));
         cardView.addView(posterImage);
 
-        layout = new LinearLayout(context);
+        LinearLayout layout = new LinearLayout(context);
         layout.setOrientation(LinearLayout.VERTICAL);
         layout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, 110, 0, 0, 0));
         cardView.addView(layout);

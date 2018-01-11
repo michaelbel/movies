@@ -72,7 +72,6 @@ public class PersonViewLayout extends LinearLayout {
 
         profileImage = new ImageView(context);
         profileImage.setScaleType(ImageView.ScaleType.FIT_XY);
-        //profileImage.setImageResource(R.drawable.movi_placeholder_old);
         profileImage.setLayoutParams(LayoutHelper.makeFrame(120, 180, Gravity.START | Gravity.TOP, 16, 16, 0, 0));
         topLayout.addView(profileImage);
 

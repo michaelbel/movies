@@ -18,7 +18,6 @@ import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.util.ScreenUtils;
 
-@SuppressWarnings("all")
 public class WebpageView extends FrameLayout {
 
     private TextView textView;

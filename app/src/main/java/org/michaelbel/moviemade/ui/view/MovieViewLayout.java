@@ -38,22 +38,26 @@ import java.util.Objects;
 
 public class MovieViewLayout extends LinearLayout {
 
-    private PlaceholderView phPoster;
-    private ImageView posterImageView;
+    private PlaceholderView posterPh;
+    private ImageView posterImage;
 
     private LinearLayout shortInfoLayout;
+
     private RatingView ratingView;
     private TextView ratingTextView;
 
     private LinearLayout voteCountLayout;
-    private TextView voteCountTextView;
+    private TextView voteCountText;
 
+    private PlaceholderView releaseDatePh;
     private LinearLayout releaseDateLayout;
     private TextView releaseDateText;
 
+    private PlaceholderView runtimePh;
     private LinearLayout runtimeLayout;
     private TextView runtimeText;
 
+    private PlaceholderView langPh;
     private LinearLayout langLayout;
     private TextView originalLanguageText;
 
@@ -61,7 +65,11 @@ public class MovieViewLayout extends LinearLayout {
     private CheckedButton watchingButton;
 
     private LinearLayout titleTaglineLayout;
+
+    private PlaceholderView titlePh;
     private TextView titleText;
+
+    private PlaceholderView taglinePh;
     private TextView taglineTextView;
 
     private LinearLayout overviewLayout;
@@ -75,7 +83,7 @@ public class MovieViewLayout extends LinearLayout {
     private ProgressBar crewProgressBar;
 
     private TextView directorsTitle;
-    private TextView directorsTextView;
+    private TextView directorsText;
 
     private TextView writersTitle;
     private TextView writersTextView;
@@ -89,8 +97,8 @@ public class MovieViewLayout extends LinearLayout {
     private TextView originalTitleTitle;
     private TextView originalTitleTextView;
 
-    private TextView contriesTitle;
-    private TextView contriesText;
+    private TextView countriesTitle;
+    private TextView countriesText;
 
     private TextView statusTitle;
     private TextView statusTextView;
@@ -140,17 +148,17 @@ public class MovieViewLayout extends LinearLayout {
 
 //------POSTER IMAGE--------------------------------------------------------------------------------
 
-        phPoster = new PlaceholderView(context);
-        phPoster.show();
-        phPoster.setLayoutParams(LayoutHelper.makeFrame(120, 180, Gravity.START | Gravity.TOP, 16, 16, 0, 0));
-        topLayout.addView(phPoster);
+        posterPh = new PlaceholderView(context);
+        posterPh.show();
+        posterPh.setLayoutParams(LayoutHelper.makeFrame(120, 180, Gravity.START | Gravity.TOP, 16, 16, 0, 0));
+        topLayout.addView(posterPh);
 
-        posterImageView = new ImageView(context);
-        posterImageView.setVisibility(INVISIBLE);
-        posterImageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        posterImageView.setImageResource(R.drawable.movie_placeholder_old);
-        posterImageView.setLayoutParams(LayoutHelper.makeFrame(120, 180, Gravity.START | Gravity.TOP, 16, 16, 0, 0));
-        topLayout.addView(posterImageView);
+        posterImage = new ImageView(context);
+        posterImage.setVisibility(INVISIBLE);
+        posterImage.setScaleType(ImageView.ScaleType.FIT_XY);
+        posterImage.setImageResource(R.drawable.movie_placeholder_old);
+        posterImage.setLayoutParams(LayoutHelper.makeFrame(120, 180, Gravity.START | Gravity.TOP, 16, 16, 0, 0));
+        topLayout.addView(posterImage);
 
 //--------------------------------------------------------------------------------------------------
 
@@ -182,12 +190,12 @@ public class MovieViewLayout extends LinearLayout {
         voteCountLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 12, 0, 0, 0));
         layout0.addView(voteCountLayout);
 
-        voteCountTextView = new TextView(context);
-        voteCountTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        voteCountTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-        voteCountTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-        voteCountTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.BOTTOM));
-        voteCountLayout.addView(voteCountTextView);
+        voteCountText = new TextView(context);
+        voteCountText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        voteCountText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+        voteCountText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        voteCountText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.BOTTOM));
+        voteCountLayout.addView(voteCountText);
 
         ImageView voteCountIcon = new ImageView(context);
         voteCountIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_account_multiple, ContextCompat.getColor(context, Theme.primaryTextColor())));
@@ -196,10 +204,15 @@ public class MovieViewLayout extends LinearLayout {
 
 //------DATE VIEW-----------------------------------------------------------------------------------
 
+        releaseDatePh = new PlaceholderView(context);
+        releaseDatePh.showColor();
+        releaseDatePh.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START, 0, 12, 0, 0));
+        shortInfoLayout.addView(releaseDatePh);
+
         releaseDateLayout = new LinearLayout(context);
         releaseDateLayout.setOrientation(HORIZONTAL);
         releaseDateLayout.setVisibility(INVISIBLE);
-        releaseDateLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START, 0, 12, 0, 0));
+        releaseDateLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START, 0, 12, 0, 0));
         shortInfoLayout.addView(releaseDateLayout);
 
         ImageView dateIcon = new ImageView(context);
@@ -209,7 +222,7 @@ public class MovieViewLayout extends LinearLayout {
 
         releaseDateText = new TextView(context);
         releaseDateText.setMaxLines(1);
-        releaseDateText.setText("Loading...");
+        //releaseDateText.setText("Loading...");
         releaseDateText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
         releaseDateText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         releaseDateText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
@@ -295,12 +308,18 @@ public class MovieViewLayout extends LinearLayout {
         titleTaglineLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START | Gravity.TOP, 16, 202, 16, 12));
         topLayout.addView(titleTaglineLayout);
 
+        titlePh = new PlaceholderView(context);
+        titlePh.showColor();
+        titlePh.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        titleTaglineLayout.addView(titlePh);
+
         titleText = new TextView(context);
         titleText.setVisibility(INVISIBLE);
         titleText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
         titleText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         titleText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-        titleTaglineLayout.addView(titleText);
+        //titleTaglineLayout.addView(titleText);
+        titlePh.addView(titleText);
 
         taglineTextView = new TextView(context);
         taglineTextView.setLines(1);
@@ -373,11 +392,11 @@ public class MovieViewLayout extends LinearLayout {
         directorsTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
         crewLayout.addView(directorsTitle);
 
-        directorsTextView = new TextView(context);
-        directorsTextView.setText(R.string.Loading);
-        directorsTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        directorsTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
-        crewLayout.addView(directorsTextView);
+        directorsText = new TextView(context);
+        directorsText.setText(R.string.Loading);
+        directorsText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
+        directorsText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
+        crewLayout.addView(directorsText);
 
         writersTitle = new TextView(context);
         writersTitle.setText(context.getString(R.string.Writers));
@@ -477,16 +496,16 @@ public class MovieViewLayout extends LinearLayout {
         originalTitleTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
         infoLayout.addView(originalTitleTextView);
 
-        contriesTitle = new TextView(context);
-        contriesTitle.setText(context.getString(R.string.CountriesTitle));
-        contriesTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        contriesTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
-        infoLayout.addView(contriesTitle);
+        countriesTitle = new TextView(context);
+        countriesTitle.setText(context.getString(R.string.CountriesTitle));
+        countriesTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        countriesTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
+        infoLayout.addView(countriesTitle);
 
-        contriesText = new TextView(context);
-        contriesText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        contriesText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
-        infoLayout.addView(contriesText);
+        countriesText = new TextView(context);
+        countriesText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
+        countriesText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
+        infoLayout.addView(countriesText);
 
         statusTitle = new TextView(context);
         statusTitle.setText(context.getString(R.string.Status));
@@ -602,10 +621,10 @@ public class MovieViewLayout extends LinearLayout {
     }
 
     public void addPoster(String posterPath) {
-        posterImageView.setImageResource(R.drawable.movie_placeholder_old);
+        posterImage.setImageResource(R.drawable.movie_placeholder_old);
 
         if (posterPath == null || posterPath.isEmpty()) {
-            posterImageView.setImageResource(R.drawable.movie_placeholder_old);
+            posterImage.setImageResource(R.drawable.movie_placeholder_old);
             return;
         }
 
@@ -613,10 +632,10 @@ public class MovieViewLayout extends LinearLayout {
                 .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.posterSize(), posterPath))
                 .placeholder(R.drawable.movie_placeholder_old)
                 .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                .into(posterImageView);
+                .into(posterImage);
 
-        phPoster.hide();
-        posterImageView.setVisibility(VISIBLE);
+        posterPh.hide();
+        posterImage.setVisibility(VISIBLE);
     }
 
     public void addTitle(String title) {
@@ -627,6 +646,7 @@ public class MovieViewLayout extends LinearLayout {
 
         titleText.setText(title);
         titleText.setVisibility(VISIBLE);
+        titlePh.hideColor();
     }
 
     public void addTagline(String tagline) {
@@ -656,6 +676,7 @@ public class MovieViewLayout extends LinearLayout {
 
         releaseDateText.setText(releaseDate);
         releaseDateLayout.setVisibility(VISIBLE);
+        releaseDatePh.hideColor();
     }
 
     public void addVoteAverage(float voteAverage) {
@@ -664,7 +685,7 @@ public class MovieViewLayout extends LinearLayout {
     }
 
     public void addVoteCount(int voteCount) {
-        voteCountTextView.setText(String.valueOf(voteCount));
+        voteCountText.setText(String.valueOf(voteCount));
         voteCountLayout.setVisibility(VISIBLE);
     }
 
@@ -757,12 +778,12 @@ public class MovieViewLayout extends LinearLayout {
 
     public void addCountries(String countries) {
         if (countries == null || countries.isEmpty()) {
-            infoLayout.removeView(contriesTitle);
-            infoLayout.removeView(contriesText);
+            infoLayout.removeView(countriesTitle);
+            infoLayout.removeView(countriesText);
             return;
         }
 
-        contriesText.setText(countries);
+        countriesText.setText(countries);
     }
 
     public void addCompanies(String companies) {
@@ -851,10 +872,10 @@ public class MovieViewLayout extends LinearLayout {
         }
 
         if (!text1.toString().isEmpty()) {
-            directorsTextView.setText(text1.toString());
+            directorsText.setText(text1.toString());
         } else {
             crewLayout.removeView(directorsTitle);
-            crewLayout.removeView(directorsTextView);
+            crewLayout.removeView(directorsText);
         }
 
         StringBuilder text2 = new StringBuilder();

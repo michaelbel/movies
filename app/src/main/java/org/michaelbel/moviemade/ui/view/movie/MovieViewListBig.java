@@ -33,7 +33,6 @@ public class MovieViewListBig extends FrameLayout {
     private ImageView posterImage;
     private TextView titleText;
     private TextView ratingText;
-    private TextView popularityText;
     private TextView voteCountText;
     private TextView releaseDateText;
     private TextView overviewText;
@@ -154,7 +153,7 @@ public class MovieViewListBig extends FrameLayout {
         return this;
     }
 
-    public MovieViewListBig setTitle(@NonNull String title) {
+    public MovieViewListBig setTitle(String title) {
         if (title != null) {
             titleText.setText(title);
         }
@@ -199,7 +198,6 @@ public class MovieViewListBig extends FrameLayout {
     @Override
     protected void onDraw(Canvas canvas) {
         if (divider) {
-            //canvas.drawLine(ScreenUtils.dp(100 + 10), getHeight() - 1, getWidth() - getPaddingRight(), getHeight() - 1, paint);
             canvas.drawLine(getPaddingLeft(), getHeight() - 1, getWidth() - getPaddingRight(), getHeight() - 1, paint);
         }
     }

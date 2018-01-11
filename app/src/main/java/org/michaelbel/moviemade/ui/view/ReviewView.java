@@ -20,11 +20,10 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 
-@SuppressWarnings("all")
 public class ReviewView extends FrameLayout {
 
-    private TextView authorTextView;
-    private TextView contentTextView;
+    private TextView authorText;
+    private TextView contentText;
 
     private Paint paint;
     private boolean divider;
@@ -56,31 +55,31 @@ public class ReviewView extends FrameLayout {
         userIcon.setLayoutParams(LayoutHelper.makeLinear(18, 18, Gravity.START | Gravity.CENTER_VERTICAL));
         layout1.addView(userIcon);
 
-        authorTextView = new TextView(context);
-        authorTextView.setMaxLines(1);
-        authorTextView.setEllipsize(TextUtils.TruncateAt.END);
-        authorTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        authorTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-        authorTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        authorTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 4, 0, 0, 0));
-        layout1.addView(authorTextView);
+        authorText = new TextView(context);
+        authorText.setMaxLines(1);
+        authorText.setEllipsize(TextUtils.TruncateAt.END);
+        authorText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        authorText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        authorText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        authorText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 4, 0, 0, 0));
+        layout1.addView(authorText);
 
-        contentTextView = new TextView(context);
-        contentTextView.setMaxLines(5);
-        contentTextView.setEllipsize(TextUtils.TruncateAt.END);
-        contentTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-        contentTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        contentTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 0, 2, 0, 0));
-        layout.addView(contentTextView);
+        contentText = new TextView(context);
+        contentText.setMaxLines(5);
+        contentText.setEllipsize(TextUtils.TruncateAt.END);
+        contentText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        contentText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
+        contentText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 0, 2, 0, 0));
+        layout.addView(contentText);
     }
 
     public ReviewView setAuthor(@NonNull String name) {
-        authorTextView.setText(name);
+        authorText.setText(name);
         return this;
     }
 
     public ReviewView setContent(@NonNull String text) {
-        contentTextView.setText(text);
+        contentText.setText(text);
         return this;
     }
 

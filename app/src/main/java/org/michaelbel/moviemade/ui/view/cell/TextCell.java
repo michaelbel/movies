@@ -25,7 +25,6 @@ import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.util.ScreenUtils;
 
-@SuppressWarnings("all")
 public class TextCell extends FrameLayout {
 
     public static final int MODE_DEFAULT = 0;
@@ -101,14 +100,12 @@ public class TextCell extends FrameLayout {
 
         switchCompat = new SwitchCompat(context);
         switchCompat.setClickable(false);
-        switchCompat.setFocusable(false);
         switchCompat.setVisibility(INVISIBLE);
         switchCompat.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 16, 0));
         addView(switchCompat);
 
         checkBox = new AppCompatCheckBox(context);
         checkBox.setClickable(false);
-        checkBox.setFocusable(false);
         checkBox.setVisibility(INVISIBLE);
         checkBox.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 16, 0));
         addView(checkBox);
@@ -122,6 +119,7 @@ public class TextCell extends FrameLayout {
         if (currentMode == MODE_ICON) {
             textView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 56, 0, 16, 0));
         }
+
         return this;
     }
 
@@ -143,6 +141,7 @@ public class TextCell extends FrameLayout {
         if (currentMode == MODE_CHECKBOX) {
             checkBox.setChecked(value);
         }
+
         return this;
     }
 
@@ -190,6 +189,7 @@ public class TextCell extends FrameLayout {
             switchCompat.setVisibility(INVISIBLE);
             checkBox.setVisibility(INVISIBLE);
         }
+
         return this;
     }
 
@@ -200,9 +200,7 @@ public class TextCell extends FrameLayout {
     }
 
     public TextCell changeLayoutParams() {
-        LayoutParams params = new LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
-        );
+        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
         if (ScreenUtils.isLandscape()) {
             params.leftMargin = ScreenUtils.dp(56);

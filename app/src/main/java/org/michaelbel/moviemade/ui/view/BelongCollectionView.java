@@ -56,6 +56,6 @@ public class BelongCollectionView extends FrameLayout {
     }
 
     public void addName(String name) {
-        nameText.setText("Part of the " + name);
+        nameText.setText(getContext().getString(R.string.PartOfCollection, name));
     }
 }
