@@ -23,7 +23,7 @@
 [![Paypal][paypal-badge]][paypal-url]
 [![Playstore][googleplay-badge]][googleplay-url]
 
-Moviemde - quick and easy way to discover popular movies.
+Moviemade - quick and easy way to discover popular movies.
 
 ## Libraries
 
