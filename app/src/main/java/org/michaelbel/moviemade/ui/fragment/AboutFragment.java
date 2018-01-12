@@ -82,8 +82,7 @@ public class AboutFragment extends Fragment {
         donatePaypalRow = rowCount++;
         emptyRow = rowCount++;
 
-        linearLayoutManager = new LinearLayoutManager(activity);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
         recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(new AboutAdapter());
@@ -213,7 +212,7 @@ public class AboutFragment extends Fragment {
                         .setDivider(true);
                 } else if (position == donatePaypalRow) {
                     cell.setIcon(R.drawable.ic_cash_usd)
-                        .setText("Donate PayPal");
+                        .setText(R.string.DonatePaypal);
                 }
             }
         }
@@ -274,7 +273,7 @@ public class AboutFragment extends Fragment {
                 String versionName = BuildConfig.VERSION_NAME;
                 String versionDate = BuildConfig.VERSION_DATE;
 
-                appNameText.setText(getString(R.string.AppForAndroid, getString(R.string.AppNameBeta)));
+                appNameText.setText(getString(R.string.AppForAndroid, getString(R.string.AppName)));
                 versionText.setText(getString(R.string.VersionBuildDate, versionName, versionCode, versionDate));
             } catch (Exception e) {
                 // todo Error

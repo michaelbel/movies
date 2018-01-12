@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade.rest.api;
 
 import org.michaelbel.moviemade.rest.response.MovieResponse;
-import org.michaelbel.moviemade.rest.response.PeopleResponce;
+import org.michaelbel.moviemade.rest.response.PeopleResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -34,7 +34,7 @@ public interface SEARCH {
     Call<?> searchMulti();
 
     @GET("search/people?")
-    Call<PeopleResponce> searchPeople(
+    Call<PeopleResponse> searchPeople(
             @Query("api_key") String apiKey,
             @Query("language") String lang,
             @Query("query") String query,

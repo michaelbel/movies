@@ -72,6 +72,7 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (MovieActivity) getActivity();
+
         activity.binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -184,29 +185,30 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment {
         call.enqueue(new Callback<ReviewResponse>() {
             @Override
             public void onResponse(@NonNull Call<ReviewResponse> call, @NonNull Response<ReviewResponse> response) {
-                if (response.isSuccessful()) {
-                    if (totalPages == 0) {
-                        totalPages = response.body().totalPages;
-                    }
-
-                    List<Review> newReviews = new ArrayList<>();
-                    newReviews.addAll(response.body().reviews);
-
-                    reviews.clear(); // todo: Адский костыль
-                    reviews.addAll(newReviews);
-                    adapter.notifyItemRangeInserted(reviews.size() + 1, newReviews.size());
-
-                    if (reviews.isEmpty()) {
-                        emptyView.setMode(EmptyView.MODE_NO_REVIEWS);
-                    } else {
-                        page++;
-                        isLoading = false;
-                    }
-
-                    onLoadSuccessful();
-                } else {
+                if (!response.isSuccessful()) {
                     onLoadError();
+                    return;
                 }
+
+                if (totalPages == 0) {
+                    totalPages = response.body().totalPages;
+                }
+
+                List<Review> newReviews = new ArrayList<>();
+                newReviews.addAll(response.body().reviews);
+
+                reviews.clear(); // todo: Адский костыль
+                reviews.addAll(newReviews);
+                adapter.notifyItemRangeInserted(reviews.size() + 1, newReviews.size());
+
+                if (reviews.isEmpty()) {
+                    emptyView.setMode(EmptyView.MODE_NO_REVIEWS);
+                } else {
+                    page++;
+                    isLoading = false;
+                }
+
+                onLoadSuccessful();
             }
 
             @Override

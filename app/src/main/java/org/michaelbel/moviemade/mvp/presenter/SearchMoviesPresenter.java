@@ -68,16 +68,7 @@ public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView> {
                 totalPages = response.body().totalPages;
 
                 List<Movie> newMovies = new ArrayList<>();
-
-                if (AndroidUtils.includeAdult()) {
-                    newMovies.addAll(response.body().movies);
-                } else {
-                    for (Movie movie : response.body().movies) {
-                        if (!movie.adult) {
-                            newMovies.add(movie);
-                        }
-                    }
-                }
+                newMovies.addAll(response.body().movies);
 
                 if (newMovies.isEmpty()) {
                     getViewState().searchNoResults();
@@ -107,16 +98,7 @@ public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView> {
                 }
 
                 List<Movie> newMovies = new ArrayList<>();
-
-                if (AndroidUtils.includeAdult()) {
-                    newMovies.addAll(response.body().movies);
-                } else {
-                    for (Movie movie : response.body().movies) {
-                        if (!movie.adult) {
-                            newMovies.add(movie);
-                        }
-                    }
-                }
+                newMovies.addAll(response.body().movies);
 
                 if (newMovies.isEmpty()) {
                     return;

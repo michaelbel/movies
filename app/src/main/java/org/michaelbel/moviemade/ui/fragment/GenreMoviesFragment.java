@@ -44,8 +44,6 @@ import retrofit2.Response;
 
 public class GenreMoviesFragment extends Fragment {
 
-    private final int TOTAL_PAGES = 1000;
-
     private int page;
     private int totalPages;
     private boolean isLoading;
@@ -206,43 +204,44 @@ public class GenreMoviesFragment extends Fragment {
         call.enqueue(new Callback<GenreResponse>() {
             @Override
             public void onResponse(@NonNull Call<GenreResponse> call, @NonNull Response<GenreResponse> response) {
-                if (response.isSuccessful()) {
-                    if (totalPages == 0) {
-                        totalPages = response.body().totalPages;
-                    }
+                if (!response.isSuccessful()) {
+                    onLoadError();
+                    return;
+                }
 
-                    List<Movie> newMovies = new ArrayList<>();
+                if (totalPages == 0) {
+                    totalPages = response.body().totalPages;
+                }
 
-                    if (AndroidUtils.includeAdult()) {
-                        newMovies.addAll(response.body().movies);
-                    } else {
-                        for (Movie movie : response.body().movies) {
-                            if (!movie.adult) {
-                                newMovies.add(movie);
-                            }
+                List<Movie> newMovies = new ArrayList<>();
+
+                if (AndroidUtils.includeAdult()) {
+                    newMovies.addAll(response.body().movies);
+                } else {
+                    for (Movie movie : response.body().movies) {
+                        if (!movie.adult) {
+                            newMovies.add(movie);
                         }
                     }
-
-                    movies.addAll(newMovies);
-                    adapter.notifyItemRangeInserted(movies.size() + 1, newMovies.size());
-
-                    if (movies.isEmpty()) {
-                        emptyView.setMode(EmptyView.MODE_NO_MOVIES);
-                    } else {
-                        page++;
-                        isLoading = false;
-                    }
-
-                    onLoadSuccessful();
-                } else {
-                    onLoadError();
                 }
+
+                movies.addAll(newMovies);
+                adapter.notifyItemRangeInserted(movies.size() + 1, newMovies.size());
+
+                if (movies.isEmpty()) {
+                    emptyView.setMode(EmptyView.MODE_NO_MOVIES);
+                } else {
+                    page++;
+                    isLoading = false;
+                }
+
+                onLoadSuccessful();
             }
 
             @Override
             public void onFailure(@NonNull Call<GenreResponse> call, @NonNull Throwable t) {
-                onLoadError();
                 isLoading = false;
+                onLoadError();
             }
         });
 

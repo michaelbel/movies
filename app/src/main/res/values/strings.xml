@@ -85,7 +85,8 @@
     <string name="RateGooglePlay">Rate on Google Play</string>
     <string name="OtherDeveloperApps">Other Developer Apps</string>
     <string name="ShareWithFriends">Share with Friends</string>
-    <!--Movie Info-->
+    <string name="DonatePaypal">Donate PayPal</string>
+    <!--Movie View-->
     <string name="Info">Info</string>
     <string name="Add">Add</string>
     <string name="Remove">Remove</string>
@@ -148,6 +149,23 @@
     <string name="ReviewSourceUnavailable">Review source unavailable</string>
     <string name="People">People</string>
     <string name="All">All</string>
+    <plurals name="MoviesTotalResults">
+        <item quantity="zero">Movies</item>
+        <item quantity="one">%d Movie</item>
+        <item quantity="two">%d Movies</item>
+        <item quantity="few">%d Movies</item>
+        <item quantity="many">%d Movies</item>
+        <item quantity="other">%d Movies</item>
+    </plurals>
+
+    <plurals name="PeopleTotalResults">
+        <item quantity="zero">People</item>
+        <item quantity="one">%d People</item>
+        <item quantity="two">%d People</item>
+        <item quantity="few">%d People</item>
+        <item quantity="many">%d People</item>
+        <item quantity="other">%d People</item>
+    </plurals>
     <!--Person-->
     <string name="Birthday">Birthday: %s</string>
     <string name="Deathday">Deathday: %s</string>

@@ -44,10 +44,10 @@ public class CastMovieFragment extends Fragment {
 
     private Movie currentMovie;
 
-    private CastAdapter adapter;
+    private CastMovieAdapter adapter;
     private MovieActivity activity;
     private LinearLayoutManager linearLayoutManager;
-    private List<Cast> persons = new ArrayList<>();
+    private List<Cast> casts = new ArrayList<>();
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
@@ -67,6 +67,7 @@ public class CastMovieFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (MovieActivity) getActivity();
+
         activity.binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -95,7 +96,7 @@ public class CastMovieFragment extends Fragment {
             if (NetworkUtils.notConnected()) {
                 onLoadError();
             } else {
-                if (persons.isEmpty()) {
+                if (casts.isEmpty()) {
                     loadCredits();
                 } else {
                     fragmentView.setRefreshing(false);
@@ -108,7 +109,7 @@ public class CastMovieFragment extends Fragment {
         fragmentView.addView(contentLayout);
 
         progressBar = new ProgressBar(activity);
-        progressBar.setVisibility(persons.isEmpty() ? View.VISIBLE : View.INVISIBLE);
+        progressBar.setVisibility(casts.isEmpty() ? View.VISIBLE : View.INVISIBLE);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         contentLayout.addView(progressBar);
 
@@ -116,7 +117,7 @@ public class CastMovieFragment extends Fragment {
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
         contentLayout.addView(emptyView);
 
-        adapter = new CastAdapter();
+        adapter = new CastMovieAdapter();
         linearLayoutManager = new LinearLayoutManager(activity);
 
         recyclerView = new RecyclerListView(activity);
@@ -126,12 +127,12 @@ public class CastMovieFragment extends Fragment {
         recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
-            Cast cast = persons.get(position);
+            Cast cast = casts.get(position);
             //activity.startPerson(cast);
         });
-        recyclerView.setOnItemLongClickListener((view, position) -> {
-            return true;
-        });
+        //recyclerView.setOnItemLongClickListener((view, position) -> {
+        //    return true;
+        //});
         contentLayout.addView(recyclerView);
         return fragmentView;
     }
@@ -157,22 +158,23 @@ public class CastMovieFragment extends Fragment {
         call.enqueue(new Callback<CreditResponse>() {
             @Override
             public void onResponse(@NonNull Call<CreditResponse> call, @NonNull Response<CreditResponse> response) {
-                if (response.isSuccessful()) {
-                    List<Cast> newPersons = new ArrayList<>();
-                    newPersons.addAll(response.body().casts);
-
-                    persons.clear();
-                    persons.addAll(newPersons);
-                    adapter.notifyItemRangeInserted(persons.size() + 1, newPersons.size());
-
-                    if (!persons.isEmpty()) {
-                        emptyView.setMode(EmptyView.MODE_NO_PEOPLE);
-                    }
-
-                    onLoadSuccessful();
-                } else {
+                if (!response.isSuccessful()) {
                     onLoadError();
+                    return;
                 }
+
+                List<Cast> newPersons = new ArrayList<>();
+                newPersons.addAll(response.body().casts);
+
+                casts.clear();
+                casts.addAll(newPersons);
+                adapter.notifyItemRangeInserted(casts.size() + 1, newPersons.size());
+
+                if (!casts.isEmpty()) {
+                    emptyView.setMode(EmptyView.MODE_NO_PEOPLE);
+                }
+
+                onLoadSuccessful();
             }
 
             @Override
@@ -193,7 +195,7 @@ public class CastMovieFragment extends Fragment {
         emptyView.setMode(EmptyView.MODE_NO_CONNECTION);
     }
 
-    private class CastAdapter extends RecyclerView.Adapter {
+    private class CastMovieAdapter extends RecyclerView.Adapter {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -202,18 +204,18 @@ public class CastMovieFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-            Cast cast = persons.get(position);
+            Cast cast = casts.get(position);
 
             CastView view = (CastView) holder.itemView;
             view.setName(cast.name)
                 .setCharacter(cast.character)
                 .setProfile(cast.profilePath)
-                .setDivider(position != persons.size() - 1);
+                .setDivider(position != casts.size() - 1);
         }
 
         @Override
         public int getItemCount() {
-            return persons != null ? persons.size() : 0;
+            return casts != null ? casts.size() : 0;
         }
     }
 }

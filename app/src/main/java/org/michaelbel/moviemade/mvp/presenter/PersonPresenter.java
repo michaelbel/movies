@@ -33,12 +33,13 @@ public class PersonPresenter extends MvpPresenter<MvpPersonView> {
         call.enqueue(new Callback<Person>() {
             @Override
             public void onResponse(@NonNull Call<Person> call, @NonNull Response<Person> response) {
-                if (response.isSuccessful()) {
-                    getViewState().showPerson(response.body());
-                    getViewState().showComplete();
-                } else {
+                if (!response.isSuccessful()) {
                     getViewState().showError();
+                    return;
                 }
+
+                getViewState().showPerson(response.body());
+                getViewState().showComplete();
             }
 
             @Override

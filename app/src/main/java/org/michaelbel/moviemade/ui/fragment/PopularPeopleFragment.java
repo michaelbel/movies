@@ -22,7 +22,7 @@ import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.rest.api.PEOPLE;
 import org.michaelbel.moviemade.rest.model.People;
-import org.michaelbel.moviemade.rest.response.PeopleResponce;
+import org.michaelbel.moviemade.rest.response.PeopleResponse;
 import org.michaelbel.moviemade.PopularPeopleActivity;
 import org.michaelbel.moviemade.ui.adapter.PeopleAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
@@ -66,6 +66,7 @@ public class PopularPeopleFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (PopularPeopleActivity) getActivity();
+
         activity.binding.toolbarTitle.setOnClickListener(v -> {
             if (AndroidUtils.scrollToTop()) {
                 recyclerView.smoothScrollToPosition(0);
@@ -118,9 +119,9 @@ public class PopularPeopleFragment extends Fragment {
             People p = (People) people.get(position);
             //activity.startPerson(cast);
         });
-        recyclerView.setOnItemLongClickListener((view, position) -> {
-            return true;
-        });
+        //recyclerView.setOnItemLongClickListener((view, position) -> {
+        //    return true;
+        //});
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -149,45 +150,46 @@ public class PopularPeopleFragment extends Fragment {
 
     private void loadPopularPeople() {
         PEOPLE service = ApiFactory.getRetrofit().create(PEOPLE.class);
-        Call<PeopleResponce> call = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page);
-        call.enqueue(new Callback<PeopleResponce>() {
+        Call<PeopleResponse> call = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page);
+        call.enqueue(new Callback<PeopleResponse>() {
             @Override
-            public void onResponse(@NonNull Call<PeopleResponce> call, @NonNull Response<PeopleResponce> response) {
-                if (response.isSuccessful()) {
-                    if (totalPages == 0) {
-                        totalPages = response.body().totalPages;
-                    }
+            public void onResponse(@NonNull Call<PeopleResponse> call, @NonNull Response<PeopleResponse> response) {
+                if (!response.isSuccessful()) {
+                    onLoadError();
+                    return;
+                }
 
-                    List<People> newPeople = new ArrayList<>();
+                if (totalPages == 0) {
+                    totalPages = response.body().totalPages;
+                }
 
-                    if (AndroidUtils.includeAdult()) {
-                        newPeople.addAll(response.body().people);
-                    } else {
-                        for (People people : response.body().people) {
-                            if (!people.adult) {
-                                newPeople.add(people);
-                            }
+                List<People> newPeople = new ArrayList<>();
+
+                if (AndroidUtils.includeAdult()) {
+                    newPeople.addAll(response.body().people);
+                } else {
+                    for (People people : response.body().people) {
+                        if (!people.adult) {
+                            newPeople.add(people);
                         }
                     }
-
-                    people.addAll(newPeople);
-                    adapter.notifyItemRangeInserted(people.size() + 1, newPeople.size());
-
-                    if (people.isEmpty()) {
-                        emptyView.setMode(EmptyView.MODE_NO_PEOPLE);
-                    } else {
-                        page++;
-                        isLoading = false;
-                    }
-
-                    onLoadSuccessful();
-                } else {
-                    onLoadError();
                 }
+
+                people.addAll(newPeople);
+                adapter.notifyItemRangeInserted(people.size() + 1, newPeople.size());
+
+                if (people.isEmpty()) {
+                    emptyView.setMode(EmptyView.MODE_NO_PEOPLE);
+                } else {
+                    page++;
+                    isLoading = false;
+                }
+
+                onLoadSuccessful();
             }
 
             @Override
-            public void onFailure(@NonNull Call<PeopleResponce> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<PeopleResponse> call, @NonNull Throwable t) {
                 isLoading = false;
                 onLoadError();
             }

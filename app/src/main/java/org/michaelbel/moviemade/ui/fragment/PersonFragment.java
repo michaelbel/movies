@@ -36,9 +36,6 @@ import java.util.Locale;
 
 public class PersonFragment extends MvpAppCompatFragment implements MvpPersonView, PersonViewListener {
 
-    @InjectPresenter
-    public PersonPresenter presenter;
-
     private Cast extraPerson;
     private Person loadedPerson;
 
@@ -49,6 +46,9 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
     private PersonViewLayout personView;
     private ScrollView scrollView;
     private SwipeRefreshLayout fragmentView;
+
+    @InjectPresenter
+    public PersonPresenter presenter;
 
     public static PersonFragment newInstance(Cast person) {
         Bundle args = new Bundle();

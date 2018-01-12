@@ -2,7 +2,7 @@ package org.michaelbel.moviemade.rest.api;
 
 import org.michaelbel.moviemade.rest.model.Person;
 import org.michaelbel.moviemade.rest.response.MoviePeopleResponse;
-import org.michaelbel.moviemade.rest.response.PeopleResponce;
+import org.michaelbel.moviemade.rest.response.PeopleResponse;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -77,7 +77,7 @@ public interface PEOPLE {
     );
 
     @GET("person/popular?")
-    Call<PeopleResponce> getPopular(
+    Call<PeopleResponse> getPopular(
             @Query("api_key") String apiKey,
             @Query("language") String language,
             @Query("page") int page

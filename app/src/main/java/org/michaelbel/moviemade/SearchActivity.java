@@ -15,9 +15,9 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
-import org.michaelbel.moviemade.databinding.ActivitySearchBinding;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
+import org.michaelbel.moviemade.databinding.ActivitySearchBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.ui.fragment.SearchMoviesFragment;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
@@ -59,7 +59,6 @@ public class SearchActivity extends BaseActivity {
         String query = getIntent().getStringExtra("query");
 
         FragmentsPagerAdapter adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
-        //adapter.addFragment(SearchMultiFragment.newInstance(query), R.string.All);
         adapter.addFragment(SearchMoviesFragment.newInstance(query), R.string.Movies);
         //adapter.addFragment(SearchPeopleFragment.newInstance(query), R.string.People);
 

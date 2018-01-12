@@ -29,7 +29,7 @@ public class SearchPeopleAdapter extends RecyclerView.Adapter {
         view.setProfile(people.profilePath)
             .setName(people.name)
             .setCharacter(String.valueOf(people.popularity))
-            .setDivider(position != searches.size() - 1);
+            .setDivider(true);
     }
 
     @Override

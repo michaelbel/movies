@@ -29,7 +29,6 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
 
     public void loadMovie(Movie movie) {
         if (NetworkUtils.notConnected()) {
-            //getViewState().showMovieFromExtra(movie);
             getViewState().showMovie(movie, false);
         } else {
             loadMovieDetails(movie.id);
@@ -42,12 +41,12 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         call.enqueue(new Callback<Movie>() {
             @Override
             public void onResponse(@NonNull Call<Movie> call, @NonNull Response<Movie> response) {
-                if (response.isSuccessful()) {
-                    Movie movie = response.body();
-                    getViewState().showMovie(movie, true);
-                } else {
+                if (!response.isSuccessful()) {
                     getViewState().showError();
+                    return;
                 }
+
+                getViewState().showMovie(response.body(), true);
             }
 
             @Override
@@ -69,11 +68,12 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         call.enqueue(new Callback<TrailersResponse>() {
             @Override
             public void onResponse(@NonNull Call<TrailersResponse> call, @NonNull Response<TrailersResponse> response) {
-                if (response.isSuccessful()) {
-                    getViewState().showTrailers(response.body().trailers);
-                } else {
+                if (!response.isSuccessful()) {
                     getViewState().showTrailers(trailers);
+                    return;
                 }
+
+                getViewState().showTrailers(response.body().trailers);
             }
 
             @Override
@@ -93,16 +93,17 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         call.enqueue(new Callback<ImageResponse>() {
             @Override
             public void onResponse(@NonNull Call<ImageResponse> call, @NonNull Response<ImageResponse> response) {
-                if (response.isSuccessful()) {
-                    getViewState().showImages(response.body().posters.size(), response.body().backdrops.size());
-                } else {
-
+                if (!response.isSuccessful()) {
+                    // todo Error
+                    return;
                 }
+
+                getViewState().showImages(response.body().posters.size(), response.body().backdrops.size());
             }
 
             @Override
             public void onFailure(@NonNull Call<ImageResponse> call, @NonNull Throwable t) {
-
+                // todo Error
             }
         });
     }
@@ -119,11 +120,12 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         call.enqueue(new Callback<CreditResponse>() {
             @Override
             public void onResponse(@NonNull Call<CreditResponse> call, @NonNull Response<CreditResponse> response) {
-                if (response.isSuccessful()) {
-                    getViewState().showCrew(response.body().crews);
-                } else {
+                if (!response.isSuccessful()) {
                     getViewState().showCrew(crews);
+                    return;
                 }
+
+                getViewState().showCrew(response.body().crews);
             }
 
             @Override
