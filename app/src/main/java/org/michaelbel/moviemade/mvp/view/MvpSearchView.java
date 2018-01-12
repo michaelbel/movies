@@ -12,7 +12,9 @@ public interface MvpSearchView extends MvpView {
 
     void searchNoResults();
 
-    void searchComplete(List<Movie> movies);
+    void searchComplete(List<Movie> movies, int totalResults);
+
+    void nextPageLoaded(List<Movie> newMovies);
 
     void showError();
 }

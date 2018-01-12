@@ -14,18 +14,20 @@ mainconfig:
  - image_quality_poster   (string)
  - image_quality_profile  (string)
  - image_quality_still    (string)
+ - scroll_to_top          (bool)
 
 devconfig:
- - scrollbars           (bool)
+ - scrollbars                  (bool)
+ - scrollbars_rating           (int)
+ - zoom_review                 (bool)
+ - zoom_review_rating          (int)
+ - search_results_count        (bool)
+ - search_results_count_rating (int)
+
+
  - floating_toolbar     (bool)
  - hamburger_menu       (bool)
- - scroll_to_top        (bool)
- - search_results_count (bool)
  - full_overview        (bool)
-
- - scrollbars_rating           (int)
  - floating_toolbar_rating     (int)
  - hamburger_menu_rating       (int)
- - scroll_to_top_rating        (int)
- - search_results_count_rating (int)
  - full_overview_rating        (int)

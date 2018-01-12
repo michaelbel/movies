@@ -1,23 +1,19 @@
 package org.michaelbel.moviemade.ui.view;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -25,20 +21,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.ApiFactory;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.app.Url;
-import org.michaelbel.moviemade.rest.api.ACCOUNT;
-import org.michaelbel.moviemade.rest.model.Account;
 import org.michaelbel.moviemade.ui.adapter.Holder;
+import org.michaelbel.moviemade.ui.view.cell.DividerCell;
+import org.michaelbel.moviemade.ui.view.cell.DrawerActionCell;
 import org.michaelbel.moviemade.ui.view.cell.EmptyCell;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.ScreenUtils;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class NavigationView extends FrameLayout {
 
@@ -65,10 +55,6 @@ public class NavigationView extends FrameLayout {
 
     public interface OnNavigationItemSelectedListener {
         void onNavigationItemSelected(View view, int position);
-    }
-
-    public interface OnNavigationHeaderClickListener {
-        void onHeaderClick(View view);
     }
 
     public NavigationView(Context context) {
@@ -269,7 +255,7 @@ public class NavigationView extends FrameLayout {
 
     public class DrawerHeaderCell extends FrameLayout {
 
-        private ImageView avatarImageView;
+        private ImageView avatarImage;
         private TextView nameTextView;
 
         public DrawerHeaderCell(Context context) {
@@ -277,25 +263,24 @@ public class NavigationView extends FrameLayout {
 
             setBackground(context.getDrawable(R.drawable.drawer_header));
 
-            avatarImageView = new ImageView(context);
-            avatarImageView.setBackground(context.getDrawable(R.drawable.tmdb_icon));
-            avatarImageView.setLayoutParams(LayoutHelper.makeFrame(64, 64, Gravity.START | Gravity.BOTTOM, 16, 0, 0, 56));
-            addView(avatarImageView);
+            avatarImage = new ImageView(context);
+            avatarImage.setBackground(context.getDrawable(R.drawable.tmdb_icon));
+            avatarImage.setLayoutParams(LayoutHelper.makeFrame(64, 64, Gravity.START | Gravity.BOTTOM, 16, 0, 0, 56));
+            addView(avatarImage);
 
             nameTextView = new TextView(context);
             nameTextView.setMaxLines(1);
-            nameTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
             nameTextView.setGravity(Gravity.START);
-            nameTextView.setText(R.string.AppNameBeta);
+            nameTextView.setText(R.string.AppName);
             nameTextView.setEllipsize(TextUtils.TruncateAt.END);
             nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+            nameTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
             nameTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-            nameTextView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT,
-                    LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.BOTTOM, 16, 0, 16, 16));
+            nameTextView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.BOTTOM, 16, 0, 16, 16));
             addView(nameTextView);
         }
 
-        private void setHeader() {
+        /*private void setHeader() {
             SharedPreferences preferences = getContext().getSharedPreferences("user_config", Context.MODE_PRIVATE);
             String sessionId = preferences.getString("session_id", null);
 
@@ -304,13 +289,13 @@ public class NavigationView extends FrameLayout {
 
             if (sessionId == null) {
                 nameTextView.setText("Link your TMDb account");
-                avatarImageView.setImageResource(R.drawable.tmdb_icon);
+                avatarImage.setImageResource(R.drawable.tmdb_icon);
             } else {
                 ACCOUNT service = ApiFactory.getRetrofit().create(ACCOUNT.class);
                 Call<Account> call = service.getDetails(Url.TMDB_API_KEY, sessionId);
                 call.enqueue(new Callback<Account>() {
                     @Override
-                    public void onResponse(Call<Account> call, Response<Account> response) {
+                    public void onResponse(@NonNull Call<Account> call, @NonNull Response<Account> response) {
                         if (response.isSuccessful()) {
                             Account account = response.body();
 
@@ -327,12 +312,12 @@ public class NavigationView extends FrameLayout {
                     }
 
                     @Override
-                    public void onFailure(Call<Account> call, Throwable t) {
-
+                    public void onFailure(@NonNull Call<Account> call, @NonNull Throwable t) {
+                        // todo Error
                     }
                 });
             }
-        }
+        }*/
 
         @Override
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -340,84 +325,6 @@ public class NavigationView extends FrameLayout {
             int width = getMeasuredWidth();
             int height = ScreenUtils.dp(148) + ScreenUtils.getStatusBarHeight();
             setMeasuredDimension(width, height);
-        }
-    }
-
-    public class DrawerActionCell extends FrameLayout {
-
-        private TextView textView;
-        private ImageView imageView;
-        private Rect rect = new Rect();
-
-        public DrawerActionCell(Context context) {
-            super(context);
-
-            setForeground(Theme.selectableItemBackgroundDrawable());
-
-            imageView = new ImageView(context);
-            imageView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT,
-                    LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 16, 0, 0, 0));
-            addView(imageView);
-
-            textView = new TextView(context);
-            textView.setLines(1);
-            textView.setMaxLines(1);
-            textView.setSingleLine();
-            textView.setEllipsize(TextUtils.TruncateAt.END);
-            textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-            textView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-            textView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-            textView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT,
-                    LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 72, 0, 16, 0));
-            addView(textView);
-        }
-
-        public void setIcon(Drawable resId) {
-            imageView.setImageDrawable(resId);
-        }
-
-        public void setText(@StringRes int textId) {
-            textView.setText(getContext().getText(textId));
-        }
-
-        @Override
-        protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-            int width = MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY);
-            int height = ScreenUtils.dp(48);
-            setMeasuredDimension(width, height);
-        }
-
-        @Override
-        public boolean onTouchEvent(MotionEvent event) {
-            if (getForeground() != null) {
-                if (rect.contains((int) event.getX(), (int) event.getY())) {
-                    return true;
-                }
-
-                if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
-                    getForeground().setHotspot(event.getX(), event.getY());
-                }
-            }
-            return super.onTouchEvent(event);
-        }
-    }
-
-    public class DividerCell extends FrameLayout {
-
-        public DividerCell(Context context) {
-            super(context);
-
-            FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT, 1
-            );
-            params.topMargin = ScreenUtils.dp(8);
-            params.bottomMargin = ScreenUtils.dp(8);
-
-            View view = new View(context);
-            view.setBackgroundColor(ContextCompat.getColor(context, Theme.dividerColor()));
-            view.setLayoutParams(params);
-            addView(view);
         }
     }
 }

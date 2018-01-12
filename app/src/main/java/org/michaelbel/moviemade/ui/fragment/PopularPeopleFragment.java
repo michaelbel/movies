@@ -72,10 +72,10 @@ public class PopularPeopleFragment extends Fragment {
             }
         });
 
-        fragmentView = new SwipeRefreshLayout(getContext());
+        fragmentView = new SwipeRefreshLayout(activity);
         fragmentView.setRefreshing(false);
         fragmentView.setColorSchemeResources(Theme.accentColor());
-        fragmentView.setBackgroundColor(ContextCompat.getColor(getContext(), Theme.backgroundColor()));
+        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
         fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(getContext(), Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
             if (NetworkUtils.notConnected()) {
@@ -152,7 +152,7 @@ public class PopularPeopleFragment extends Fragment {
         Call<PeopleResponce> call = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page);
         call.enqueue(new Callback<PeopleResponce>() {
             @Override
-            public void onResponse(Call<PeopleResponce> call, Response<PeopleResponce> response) {
+            public void onResponse(@NonNull Call<PeopleResponce> call, @NonNull Response<PeopleResponce> response) {
                 if (response.isSuccessful()) {
                     if (totalPages == 0) {
                         totalPages = response.body().totalPages;
@@ -187,7 +187,7 @@ public class PopularPeopleFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<PeopleResponce> call, Throwable t) {
+            public void onFailure(@NonNull Call<PeopleResponce> call, @NonNull Throwable t) {
                 isLoading = false;
                 onLoadError();
             }

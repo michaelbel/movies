@@ -41,10 +41,10 @@ public class SettingsAdvancedFragment extends Fragment {
     private int infoRow;
     private int scrollbarsRow;
     private int zoomReviewRow;
+    private int searchResultsCounterRow;
     private int emptyRow2;
 
     private int floatingToolbarRow;
-    private int searchResultsCounterRow;
     private int hamburgerMenuRow;
     private int fullOverviewRow;
     private int emptyRow1;
@@ -71,17 +71,16 @@ public class SettingsAdvancedFragment extends Fragment {
         infoRow = rowCount++;
         scrollbarsRow = rowCount++;
         zoomReviewRow = rowCount++;
+        searchResultsCounterRow = rowCount++;
         emptyRow2 = rowCount++;
 
         //floatingToolbarRow = rowCount++;
-        //searchResultsCounterRow = rowCount++;
         //hamburgerMenuRow = rowCount++;
         //fullOverviewRow = rowCount++;
         //emptyRow1 = rowCount++;
         //deleteRatingsRow = rowCount++;
 
-        linearLayoutManager = new LinearLayoutManager(activity);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
         recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(new SettingsAdvancedAdapter());
@@ -195,12 +194,13 @@ public class SettingsAdvancedFragment extends Fragment {
             } else if (position == zoomReviewRow) {
                 editor.putInt("zoom_review_rating", rating);
                 sendAnalytics("Zoom Review", rating);
+            } else if (position == searchResultsCounterRow) {
+                editor.putInt("search_results_count_rating", rating);
+                sendAnalytics("Search Results Counter", rating);
             }
 
             if (position == floatingToolbarRow) {
                 editor.putInt("floating_toolbar_rating", rating);
-            } else if (position == searchResultsCounterRow) {
-                editor.putInt("search_results_count_rating", rating);
             } else if (position == hamburgerMenuRow) {
                 editor.putInt("hamburger_menu_rating", rating);
             } else if (position == fullOverviewRow) {
@@ -290,6 +290,12 @@ public class SettingsAdvancedFragment extends Fragment {
                     cell.setValue("Enable review gestures control");
                     cell.setChecked(AndroidUtilsDev.zoomReview());
                     cell.setRating(prefs.getInt("zoom_review_rating", 0));
+                    cell.setDivider(true);
+                } else if (position == searchResultsCounterRow) {
+                    cell.setText(R.string.SearchResultsCounter);
+                    cell.setValue("Show total results in search tab");
+                    cell.setChecked(AndroidUtilsDev.searchResultsCount());
+                    cell.setRating(prefs.getInt("search_results_count_rating", 0));
                 }
 
                 if (position == floatingToolbarRow) {
@@ -297,12 +303,6 @@ public class SettingsAdvancedFragment extends Fragment {
                     cell.setValue("Enable to scrollable toolbar");
                     cell.setChecked(AndroidUtilsDev.floatingToolbar());
                     cell.setRating(prefs.getInt("floating_toolbar_rating", 0));
-                    cell.setDivider(true);
-                } else if (position == searchResultsCounterRow) {
-                    cell.setText(R.string.SearchResultsCounter);
-                    cell.setValue("Show count of results in search tab");
-                    cell.setChecked(AndroidUtilsDev.searchResultsCount());
-                    cell.setRating(prefs.getInt("search_results_count_rating", 0));
                     cell.setDivider(true);
                 } else if (position == hamburgerMenuRow) {
                     cell.setText(R.string.HamburgerMenu);

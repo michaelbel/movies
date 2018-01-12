@@ -40,6 +40,7 @@ import org.michaelbel.moviemade.ui.adapter.SearchMoviesAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.AndroidUtils;
+import org.michaelbel.moviemade.util.AndroidUtilsDev;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +61,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
     private Menu actionMenu;
     private SearchActivity activity;
     private SearchMoviesAdapter adapter;
+    private LinearLayoutManager linearLayoutManager;
     private List<Movie> searches = new ArrayList<>();
 
     private EmptyView emptyView;
@@ -114,6 +116,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity = (SearchActivity) getActivity();
+
         activity.binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -174,13 +177,14 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
         fragmentView.addView(progressBar);
 
         adapter = new SearchMoviesAdapter(searches);
+        linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
         recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setEmptyView(emptyView);
         recyclerView.setVerticalScrollBarEnabled(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
             Movie movie = searches.get(position);
@@ -190,7 +194,11 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                //AndroidUtils.hideKeyboard(activity.searchEditText);
+                if (linearLayoutManager.findLastVisibleItemPosition() == searches.size() - 1 && !presenter.isLoading() && !presenter.isLoadingLocked()) {
+                    if (presenter.getPage() < presenter.getTotalPages()) {
+                        presenter.loadResults();
+                    }
+                }
             }
         });
         fragmentView.addView(recyclerView);
@@ -263,10 +271,23 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
     }
 
     @Override
-    public void searchComplete(List<Movie> newMovies) {
+    public void searchComplete(List<Movie> newMovies, int totalResults) {
         searches.addAll(newMovies);
         adapter.notifyItemRangeInserted(searches.size() + 1, newMovies.size());
         progressBar.setVisibility(View.GONE);
+
+        if (AndroidUtilsDev.searchResultsCount()) {
+            TabLayout.Tab tab = activity.binding.tabLayout.getTabAt(0);
+            if (tab != null) {
+                tab.setText(getResources().getQuantityString(R.plurals.MoviesTotalResults, totalResults, totalResults));
+            }
+        }
+    }
+
+    @Override
+    public void nextPageLoaded(List<Movie> newMovies) {
+        searches.addAll(newMovies);
+        adapter.notifyItemRangeInserted(searches.size() + 1, newMovies.size());
     }
 
     @Override
@@ -274,6 +295,11 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
         progressBar.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(EmptyView.MODE_NO_RESULTS);
+
+        TabLayout.Tab tab = activity.binding.tabLayout.getTabAt(0);
+        if (tab != null) {
+            tab.setText(R.string.Movies);
+        }
     }
 
     @Override

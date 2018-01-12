@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.rest.model.Movie;
-import org.michaelbel.moviemade.ui.view.movie.MovieViewList;
+import org.michaelbel.moviemade.ui.view.movie.MovieViewListBig;
 
 import java.util.List;
 
@@ -18,19 +18,21 @@ public class SearchMoviesAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
-        return new Holder(new MovieViewList(parent.getContext()));
+        return new Holder(new MovieViewListBig(parent.getContext()));
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Movie movie = searches.get(position);
 
-        MovieViewList view = (MovieViewList) holder.itemView;
+        MovieViewListBig view = (MovieViewListBig) holder.itemView;
         view.setPoster(movie.posterPath)
             .setTitle(movie.title)
-            .setYear(movie.releaseDate)
-            .setVoteAverage(movie.voteAverage)
-            .setDivider(position != searches.size() - 1);
+            .setRating(String.valueOf(movie.voteAverage))
+            .setVoteCount(String.valueOf(movie.voteCount))
+            //.setReleaseDate(DateUtils.getMovieReleaseDate(movie.releaseDate))
+            .setOverview(movie.overview)
+            .setDivider(true);
     }
 
     @Override

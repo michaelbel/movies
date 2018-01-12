@@ -60,6 +60,8 @@ public class MovieActivity extends BaseActivity {
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         binding.tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
         binding.tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
+        // todo Check, if true - implement everywhere
+        binding.tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
     }
 
     @Override
