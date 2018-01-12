@@ -1,7 +1,7 @@
 [github-url]:     https://github.com/michaelbel/moviemade
 [paypal-url]:     https://paypal.me/michaelbel
 [licence-url]:    http://www.apache.org/licenses/LICENSE-2.0
-[googleplay-url]: https://play.google.com/store/apps/details?id=org.michaelbel.bottomsheetdialog
+[googleplay-url]: https://play.google.com/store/apps/details?id=org.michaelbel.moviemade
 
 [launcher-path]: ../master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
 
