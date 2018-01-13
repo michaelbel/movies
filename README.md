@@ -30,6 +30,7 @@ Moviemade - quick and easy way to discover popular movies.
  * BottomSheet - https://github.com/michaelbel/BottomSheet
  * Gson - https://github.com/google/gson
  * Retrofit - https://github.com/square/retrofit
+ * Picasso - https://github.com/square/picasso
  * Moxy - https://github.com/Arello-Mobile/Moxy
 
 ## License
