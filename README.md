@@ -32,6 +32,7 @@ Moviemade - quick and easy way to discover popular movies.
  * Retrofit - https://github.com/square/retrofit
  * Picasso - https://github.com/square/picasso
  * Moxy - https://github.com/Arello-Mobile/Moxy
+ * ChipsLayoutManager - https://github.com/BelooS/ChipsLayoutManager
 
 ## License
 
