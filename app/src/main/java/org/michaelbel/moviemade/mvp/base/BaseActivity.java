@@ -12,6 +12,7 @@ import org.michaelbel.moviemade.MovieActivity;
 import org.michaelbel.moviemade.PersonActivity;
 import org.michaelbel.moviemade.ReviewActivity;
 import org.michaelbel.moviemade.TrailersActivity;
+import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.rest.model.Cast;
 import org.michaelbel.moviemade.rest.model.Genre;
 import org.michaelbel.moviemade.rest.model.Movie;
@@ -70,6 +71,13 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseModel, Med
     }
 
     @Override
+    public void startMovie(MovieRealm movie) {
+        Intent intent = new Intent(this, MovieActivity.class);
+        intent.putExtra("movieRealm", movie);
+        startActivity(intent);
+    }
+
+    @Override
     public void startPerson(Cast person) {
         Intent intent = new Intent(this, PersonActivity.class);
         intent.putExtra("person", person);
@@ -81,6 +89,14 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseModel, Med
         Intent intent = new Intent(this, ReviewActivity.class);
         intent.putExtra("review", review);
         intent.putExtra("movie", movie);
+        startActivity(intent);
+    }
+
+    @Override
+    public void startReview(Review review, MovieRealm movie) {
+        Intent intent = new Intent(this, ReviewActivity.class);
+        intent.putExtra("review", review);
+        intent.putExtra("movieRealm", movie);
         startActivity(intent);
     }
 

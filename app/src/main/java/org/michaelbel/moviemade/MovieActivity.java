@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.databinding.ActivityMovieBinding;
+import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.ui.fragment.CastMovieFragment;
@@ -27,6 +28,7 @@ import java.util.Locale;
 public class MovieActivity extends BaseActivity {
 
     public Movie movie;
+    public MovieRealm movieRealm;
     public ActivityMovieBinding binding;
 
     @Override
@@ -36,6 +38,7 @@ public class MovieActivity extends BaseActivity {
 
         if (savedInstanceState == null) {
             movie = (Movie) getIntent().getSerializableExtra("movie");
+            movieRealm = (MovieRealm) getIntent().getParcelableExtra("movieRealm");
         }
 
         AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) binding.toolbar.getLayoutParams();
@@ -45,14 +48,26 @@ public class MovieActivity extends BaseActivity {
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(binding.toolbar);
 
-        binding.toolbarTitle.setText(movie.title);
+        //binding.toolbarTitle.setText(movie.title);
 
         FragmentsPagerAdapter adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
-        adapter.addFragment(MovieFragment.newInstance(movie), R.string.Info);
-        adapter.addFragment(CastMovieFragment.newInstance(movie), R.string.Cast);
-        adapter.addFragment(ReviewsMovieFragment.newInstance(movie), R.string.Reviews);
-        adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_SIMILAR, movie), R.string.Similar);
-        adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_RELATED, movie), R.string.Related);
+        if (movie != null) {
+            binding.toolbarTitle.setText(movie.title);
+
+            adapter.addFragment(MovieFragment.newInstance(movie), R.string.Info);
+            adapter.addFragment(CastMovieFragment.newInstance(movie), R.string.Cast);
+            adapter.addFragment(ReviewsMovieFragment.newInstance(movie), R.string.Reviews);
+            adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_SIMILAR, movie), R.string.Similar);
+            adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_RELATED, movie), R.string.Related);
+        } else if (movieRealm != null) {
+            binding.toolbarTitle.setText(movieRealm.title);
+
+            adapter.addFragment(MovieFragment.newInstance(movieRealm), R.string.Info);
+            adapter.addFragment(CastMovieFragment.newInstance(movieRealm), R.string.Cast);
+            adapter.addFragment(ReviewsMovieFragment.newInstance(movieRealm), R.string.Reviews);
+            adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_SIMILAR, movieRealm), R.string.Similar);
+            adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_RELATED, movieRealm), R.string.Related);
+        }
         binding.viewPager.setAdapter(adapter);
 
         binding.tabLayout.setupWithViewPager(binding.viewPager);

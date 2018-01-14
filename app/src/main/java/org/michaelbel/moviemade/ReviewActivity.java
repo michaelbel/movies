@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
 
 import org.michaelbel.moviemade.databinding.ActivityReviewBinding;
+import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.rest.model.v3.Review;
@@ -30,8 +31,13 @@ public class ReviewActivity extends BaseActivity {
         if (savedInstanceState == null) {
             Review review = getIntent().getParcelableExtra("review");
             Movie movie = (Movie) getIntent().getSerializableExtra("movie");
+            MovieRealm movieRealm = getIntent().getParcelableExtra("movieRealm");
 
-            startFragment(ReviewFragment.newInstance(review, movie), binding.fragmentView);
+            if (movieRealm != null) {
+                startFragment(ReviewFragment.newInstance(review, movieRealm), binding.fragmentView);
+            } else {
+                startFragment(ReviewFragment.newInstance(review, movie), binding.fragmentView);
+            }
         }
     }
 }

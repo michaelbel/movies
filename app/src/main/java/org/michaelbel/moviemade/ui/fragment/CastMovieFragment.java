@@ -16,7 +16,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import org.michaelbel.moviemade.app.ApiFactory;
+import org.michaelbel.moviemade.model.MovieRealm;
+import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
@@ -42,7 +43,10 @@ import retrofit2.Response;
 
 public class CastMovieFragment extends Fragment {
 
+    private int movieId;
+
     private Movie currentMovie;
+    private MovieRealm currentMovieRealm;
 
     private CastMovieAdapter adapter;
     private MovieActivity activity;
@@ -57,6 +61,15 @@ public class CastMovieFragment extends Fragment {
     public static CastMovieFragment newInstance(Movie movie) {
         Bundle args = new Bundle();
         args.putSerializable("movie", movie);
+
+        CastMovieFragment fragment = new CastMovieFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static CastMovieFragment newInstance(MovieRealm movie) {
+        Bundle args = new Bundle();
+        args.putParcelable("movieRealm", movie);
 
         CastMovieFragment fragment = new CastMovieFragment();
         fragment.setArguments(args);
@@ -97,7 +110,7 @@ public class CastMovieFragment extends Fragment {
                 onLoadError();
             } else {
                 if (casts.isEmpty()) {
-                    loadCredits();
+                    loadCredits(movieId);
                 } else {
                     fragmentView.setRefreshing(false);
                 }
@@ -141,20 +154,29 @@ public class CastMovieFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (getArguments() != null) {
-            currentMovie = (Movie) getArguments().getSerializable("movie");
+        if (getArguments() == null) {
+            return;
         }
+
+        currentMovie = (Movie) getArguments().getSerializable("movie");
+        currentMovieRealm = (MovieRealm) getArguments().getParcelable("movieRealm");
 
         if (NetworkUtils.notConnected()) {
             onLoadError();
         } else {
-            loadCredits();
+            if (currentMovie != null) {
+                movieId = currentMovie.id;
+                loadCredits(currentMovie.id);
+            } else {
+                movieId = currentMovieRealm.id;
+                loadCredits(currentMovieRealm.id);
+            }
         }
     }
 
-    private void loadCredits() {
-        MOVIES service = ApiFactory.getRetrofit().create(MOVIES.class);
-        Call<CreditResponse> call = service.getCredits(currentMovie.id, Url.TMDB_API_KEY);
+    private void loadCredits(int movieId) {
+        MOVIES service = ApiFactory.createService(MOVIES.class);
+        Call<CreditResponse> call = service.getCredits(movieId, Url.TMDB_API_KEY);
         call.enqueue(new Callback<CreditResponse>() {
             @Override
             public void onResponse(@NonNull Call<CreditResponse> call, @NonNull Response<CreditResponse> response) {

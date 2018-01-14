@@ -21,6 +21,7 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
+import org.michaelbel.moviemade.app.annotation.Beta;
 import org.michaelbel.moviemade.rest.model.BelongsToCollection;
 import org.michaelbel.moviemade.rest.model.Crew;
 import org.michaelbel.moviemade.rest.model.Genre;
@@ -125,8 +126,8 @@ public class MovieViewLayout extends LinearLayout {
 
     public interface MovieViewListener {
         boolean onOverviewLongClick(View view);
-        //void onFavoriteButtonClick(View view);
-        //void onWatchingButtonClick(View view);
+        void onFavoriteButtonClick(View view);
+        void onWatchingButtonClick(View view);
         void onTrailerClick(View view, String trailerKey);
         //boolean onTrailerLongClick(View view, String trailerKey);
         void onTrailersSectionClick(View view);
@@ -283,9 +284,9 @@ public class MovieViewLayout extends LinearLayout {
         favoriteButton.setVisibility(INVISIBLE);
         favoriteButton.setStyle(CheckedButton.FAVORITE);
         favoriteButton.setOnClickListener(view -> {
-            /*if (movieViewListener != null) {
+            if (movieViewListener != null) {
                 movieViewListener.onFavoriteButtonClick(view);
-            }*/
+            }
         });
         favoriteButton.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
         buttonsLayout.addView(favoriteButton);
@@ -294,9 +295,9 @@ public class MovieViewLayout extends LinearLayout {
         watchingButton.setVisibility(INVISIBLE);
         watchingButton.setStyle(CheckedButton.WATCHING);
         watchingButton.setOnClickListener(view -> {
-            /*if (movieViewListener != null) {
+            if (movieViewListener != null) {
                 movieViewListener.onWatchingButtonClick(view);
-            }*/
+            }
         });
         watchingButton.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
         buttonsLayout.addView(watchingButton);
@@ -732,6 +733,16 @@ public class MovieViewLayout extends LinearLayout {
         runtimeLayout.setVisibility(VISIBLE);
     }
 
+    public void addRuntime(String runtime) {
+        if (runtime == null || runtime.isEmpty()) {
+            shortInfoLayout.removeView(runtimeLayout);
+            return;
+        }
+
+        runtimeText.setText(runtime);
+        runtimeLayout.setVisibility(VISIBLE);
+    }
+
     public void addStatus(String status) {
         if (status == null || status.isEmpty()) {
             infoLayout.removeView(statusTitle);
@@ -752,6 +763,16 @@ public class MovieViewLayout extends LinearLayout {
         budgetText.setText(AndroidUtils.formatCurrency(budget));
     }
 
+    public void addBudget(String budget) {
+        if (budget == null || budget.isEmpty()) {
+            infoLayout.removeView(budgetTitle);
+            infoLayout.removeView(budgetText);
+            return;
+        }
+
+        budgetText.setText(budget);
+    }
+
     public void addRevenue(int revenue) {
         if (revenue == 0) {
             infoLayout.removeView(revenueTitle);
@@ -760,6 +781,16 @@ public class MovieViewLayout extends LinearLayout {
         }
 
         revenueText.setText(AndroidUtils.formatCurrency(revenue));
+    }
+
+    public void addRevenue(String revenue) {
+        if (revenue == null || revenue.isEmpty()) {
+            infoLayout.removeView(revenueTitle);
+            infoLayout.removeView(revenueText);
+            return;
+        }
+
+        revenueText.setText(revenue);
     }
 
     public void addImdbpage(String imdbpage) {
@@ -804,10 +835,12 @@ public class MovieViewLayout extends LinearLayout {
         watchingButton.setVisibility(visibility);
     }
 
+    @Beta
     public void setFavoriteButton(boolean favorite) {
         favoriteButton.setChecked(favorite);
     }
 
+    @Beta
     public void setWatchingButton(boolean watching) {
         watchingButton.setChecked(watching);
     }

@@ -17,6 +17,7 @@ import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 
+import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.rest.api.MOVIES;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.rest.model.v3.Review;
@@ -25,7 +26,7 @@ import org.michaelbel.moviemade.ui.adapter.ReviewsAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.MovieActivity;
-import org.michaelbel.moviemade.app.ApiFactory;
+import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
@@ -45,7 +46,10 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment {
     private int page;
     private int totalPages;
     private boolean isLoading;
+
+    private int movieId;
     private Movie currentMovie;
+    private MovieRealm currentMovieRealm;
 
     private ReviewsAdapter adapter;
     private MovieActivity activity;
@@ -63,6 +67,15 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment {
     public static ReviewsMovieFragment newInstance(Movie movie) {
         Bundle args = new Bundle();
         args.putSerializable("movie", movie);
+
+        ReviewsMovieFragment fragment = new ReviewsMovieFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static ReviewsMovieFragment newInstance(MovieRealm movie) {
+        Bundle args = new Bundle();
+        args.putParcelable("movieRealm", movie);
 
         ReviewsMovieFragment fragment = new ReviewsMovieFragment();
         fragment.setArguments(args);
@@ -136,7 +149,11 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment {
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
             Review review = reviews.get(position);
-            activity.startReview(review, currentMovie);
+            if (currentMovie != null) {
+                activity.startReview(review, currentMovie);
+            } else {
+                activity.startReview(review, currentMovieRealm);
+            }
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -156,14 +173,24 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (getArguments() != null) {
-            currentMovie = (Movie) getArguments().getSerializable("movie");
+
+        if (getArguments() == null) {
+            return;
         }
+
+        currentMovie = (Movie) getArguments().getSerializable("movie");
+        currentMovieRealm = getArguments().getParcelable("movieRealm");
 
         if (savedInstanceState == null) {
             if (NetworkUtils.notConnected()) {
                 onLoadError();
             } else {
+                if (currentMovie != null) {
+                    movieId = currentMovie.id;
+                } else {
+                    movieId = currentMovieRealm.id;
+                }
+
                 loadReviews();
             }
         } else {
@@ -180,12 +207,17 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment {
     }
 
     private void loadReviews() {
-        MOVIES service = ApiFactory.getRetrofit().create(MOVIES.class);
-        Call<ReviewResponse> call = service.getReviews(currentMovie.id, Url.TMDB_API_KEY, Url.en_US, page);
+        MOVIES service = ApiFactory.createService(MOVIES.class);
+        Call<ReviewResponse> call = service.getReviews(movieId, Url.TMDB_API_KEY, Url.en_US, page);
         call.enqueue(new Callback<ReviewResponse>() {
             @Override
             public void onResponse(@NonNull Call<ReviewResponse> call, @NonNull Response<ReviewResponse> response) {
                 if (!response.isSuccessful()) {
+                    onLoadError();
+                    return;
+                }
+
+                if (response.body() == null) {
                     onLoadError();
                     return;
                 }

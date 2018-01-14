@@ -48,7 +48,7 @@ import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 
-public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSearchView {
+public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSearchView.SearchMovies {
 
     private final int MENU_ITEM_INDEX = 0;
     private final int MODE_ACTION_CLEAR = 1;

@@ -2,8 +2,9 @@
 
     <uses-permission android:name="android.permission.INTERNET"/><!--For access to API-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/><!--For Google Analytics-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/><!--For caching movies-->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/><!--For caching movies-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/><!--For local db-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/><!--For local db-->
+    <uses-permission android:name="android.permission.BODY_SENSORS"/><!--For review gesture control-->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.BIND_VOICE_INTERACTION"/>
 

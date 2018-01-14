@@ -28,10 +28,10 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.WatchlistActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.rest.model.Movie;
+import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.ui.adapter.Holder;
 import org.michaelbel.moviemade.ui.view.EmptyView;
-import org.michaelbel.moviemade.ui.view.movie.MovieViewCard;
+import org.michaelbel.moviemade.ui.view.movie.MovieViewListBig;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewPoster;
 import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
@@ -47,11 +47,11 @@ import io.realm.RealmResults;
 
 public class WatchlistMoviesFragment extends Fragment {
 
-    private WatchlistActivity activity;
     private MovieAdapter adapter;
+    private WatchlistActivity activity;
     private GridLayoutManager gridLayoutManager;
     private PaddingItemDecoration itemDecoration;
-    private List<Movie> movies = new ArrayList<>();
+    private List<MovieRealm> movies = new ArrayList<>();
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
@@ -61,7 +61,7 @@ public class WatchlistMoviesFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        //setHasOptionsMenu(true);
     }
 
     @Override
@@ -133,12 +133,12 @@ public class WatchlistMoviesFragment extends Fragment {
         contentLayout.addView(emptyView);
 
         adapter = new MovieAdapter();
-        gridLayoutManager = new GridLayoutManager(activity, getLayoutColumns());
+        gridLayoutManager = new GridLayoutManager(activity, AndroidUtils.getSpanForMovies());
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         itemDecoration = new PaddingItemDecoration();
         if (AndroidUtils.viewType() == 0) {
-            itemDecoration.setOffset(ScreenUtils.dp(2));
+            itemDecoration.setOffset(0);
         } else {
             itemDecoration.setOffset(ScreenUtils.dp(1));
         }
@@ -147,15 +147,15 @@ public class WatchlistMoviesFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setEmptyView(emptyView);
-        recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.addItemDecoration(itemDecoration);
-        if (AndroidUtils.viewType() == 0) {
-            recyclerView.setPadding(ScreenUtils.dp(4), 0, ScreenUtils.dp(4), 0);
-        }
+        recyclerView.setLayoutManager(gridLayoutManager);
+        //if (AndroidUtils.viewType() == 0) {
+        //    recyclerView.setPadding(ScreenUtils.dp(4), 0, ScreenUtils.dp(4), 0);
+        //}
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
-                Movie movie = movies.get(position);
-                //activity.startMovie(movie);
+                MovieRealm movie = movies.get(position);
+                activity.startMovie(movie);
         });
         contentLayout.addView(recyclerView);
         return fragmentView;
@@ -179,7 +179,7 @@ public class WatchlistMoviesFragment extends Fragment {
         }
 
         Realm realm = Realm.getDefaultInstance();
-        RealmResults<Movie> results = realm.where(Movie.class).equalTo("watching", true).findAll();
+        RealmResults<MovieRealm> results = realm.where(MovieRealm.class).equalTo("watching", true).findAll();
         if (results.isEmpty()) {
             onLoadError();
         } else {
@@ -189,18 +189,6 @@ public class WatchlistMoviesFragment extends Fragment {
         }
 
         adapter.notifyDataSetChanged();
-        //realm.close();
-
-        /*DatabaseHelper database = DatabaseHelper.getInstance(activity);
-        if (database.getMoviesList().isEmpty()) {
-            onLoadError();
-        } else {
-            movies.addAll(database.getMoviesList());
-            Collections.reverse(movies);
-            onLoadSuccessful();
-        }
-        adapter.notifyDataSetChanged();
-        database.close();*/
     }
 
     private void onLoadError() {
@@ -243,12 +231,12 @@ public class WatchlistMoviesFragment extends Fragment {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
-            View view;
+            View view = null;
 
             if (type == 0) {
-                view = new MovieViewCard(activity);
-            } else {
-                view = new MovieViewPoster(activity);
+                view = new MovieViewListBig(parent.getContext());
+            } else if (type == 1) {
+                view = new MovieViewPoster(parent.getContext());
             }
 
             return new Holder(view);
@@ -256,15 +244,19 @@ public class WatchlistMoviesFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            Movie movie = movies.get(position);
+            int type = getItemViewType(position);
+            MovieRealm movie = movies.get(position);
 
-            if (getItemViewType(position) == 0) {
-                MovieViewCard view = (MovieViewCard) holder.itemView;
-                view.getPosterImage().setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, 150));
+            if (type == 0) {
+                MovieViewListBig view = (MovieViewListBig) holder.itemView;
                 view.setPoster(movie.posterPath)
                     .setTitle(movie.title)
-                    .setYear(movie.releaseDate);
-            } else {
+                    .setRating(String.valueOf(movie.voteAverage))
+                    .setVoteCount(String.valueOf(movie.voteCount))
+                    .setReleaseDate(movie.releaseDate)
+                    .setOverview(movie.overview)
+                    .setDivider(position != movies.size() - 1);
+            } else if (type == 1) {
                 MovieViewPoster view = (MovieViewPoster) holder.itemView;
                 view.setPoster(movie.posterPath);
             }

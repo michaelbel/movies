@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 import io.realm.RealmObject;
 
-@SuppressWarnings("all")
 public class Genre extends RealmObject implements Serializable {
 
     @SerializedName("id")

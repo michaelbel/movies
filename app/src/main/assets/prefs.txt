@@ -24,7 +24,6 @@ devconfig:
  - search_results_count        (bool)
  - search_results_count_rating (int)
 
-
  - floating_toolbar     (bool)
  - hamburger_menu       (bool)
  - full_overview        (bool)

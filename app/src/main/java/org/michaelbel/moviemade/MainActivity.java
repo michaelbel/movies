@@ -41,19 +41,15 @@ public class MainActivity extends BaseActivity {
         binding.navigationView.setOnNavigationItemSelectedListener((view, position) -> {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
 
-            if (position == -1) {
-                // Movies
-            } else if (position == -200) {
-                startActivity(new Intent(this, GenresActivity.class));
-            } else if (position == 2) {
+            if (position == 2) {
                 startActivity(new Intent(this, PopularPeopleActivity.class));
-            } else if (position == -2) {
-                //startActivity(new Intent(this, WatchlistActivity.class));
-            } else if (position == -3) {
-                //startActivity(new Intent(this, FavoriteActivity.class));
             } else if (position == 4) {
-                startActivity(new Intent(this, SettingsActivity.class));
+                startActivity(new Intent(this, WatchlistActivity.class));
             } else if (position == 5) {
+                startActivity(new Intent(this, FavoriteActivity.class));
+            } else if (position == 7) {
+                startActivity(new Intent(this, SettingsActivity.class));
+            } else if (position == 8) {
                 startActivity(new Intent(this, AboutActivity.class));
             }
         });

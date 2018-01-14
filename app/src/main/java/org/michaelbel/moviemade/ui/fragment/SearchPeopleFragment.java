@@ -34,7 +34,7 @@ import org.michaelbel.moviemade.SearchActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.mvp.presenter.SearchPeoplePresenter;
-import org.michaelbel.moviemade.mvp.view.MvpSearchPeopleView;
+import org.michaelbel.moviemade.mvp.view.MvpSearchView;
 import org.michaelbel.moviemade.rest.model.People;
 import org.michaelbel.moviemade.ui.adapter.SearchPeopleAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
@@ -48,7 +48,7 @@ import java.util.Locale;
 
 import static android.app.Activity.RESULT_OK;
 
-public class SearchPeopleFragment extends MvpAppCompatFragment implements MvpSearchPeopleView {
+public class SearchPeopleFragment extends MvpAppCompatFragment implements MvpSearchView.SearchPeople {
 
     private final int MENU_ITEM_INDEX = 0;
     private final int MODE_ACTION_CLEAR = 1;

@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.ApiFactory;
+import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
@@ -110,7 +110,7 @@ public class MovieViewCompat extends FrameLayout {
             yearAndGenresText.setText(movie.releaseDate.substring(0, 4));
         }
 
-        MOVIES service = ApiFactory.getRetrofit().create(MOVIES.class);
+        MOVIES service = ApiFactory.createService(MOVIES.class);
         Call<Movie> call = service.getDetails(movieId, Url.TMDB_API_KEY, Url.en_US, null);
         call.enqueue(new Callback<Movie>() {
             @Override

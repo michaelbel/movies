@@ -16,10 +16,7 @@ public class NetworkUtils {
 
     private static int getNetworkStatus() {
         ConnectivityManager connectivityManager = (ConnectivityManager) Moviemade.AppContext.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = null;
-        if (connectivityManager != null) {
-            networkInfo = connectivityManager.getActiveNetworkInfo();
-        }
+        NetworkInfo networkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
 
         if (networkInfo != null) {
             if (networkInfo.getType() == ConnectivityManager.TYPE_WIFI) {
@@ -54,5 +51,11 @@ public class NetworkUtils {
 
     public static boolean notConnected() {
         return getNetworkStatus() == TYPE_NOT_CONNECTED;
+    }
+
+    public static boolean isConnecting() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) Moviemade.AppContext.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
+        return networkInfo != null && networkInfo.isConnected();
     }
 }

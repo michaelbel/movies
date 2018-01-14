@@ -19,7 +19,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import org.michaelbel.moviemade.app.ApiFactory;
+import org.michaelbel.moviemade.model.MovieRealm;
+import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Moviemade;
 import org.michaelbel.moviemade.app.Theme;
@@ -70,6 +71,9 @@ public class ListMoviesFragment extends Fragment {
     private Movie currentMovie;
     private Cast currentPerson;
 
+    private int movieId;
+    private MovieRealm currentMovieRealm;
+
     private EmptyView emptyView;
     private ProgressBar progressBar;
     private RecyclerListView recyclerView;
@@ -94,6 +98,16 @@ public class ListMoviesFragment extends Fragment {
         Bundle args = new Bundle();
         args.putInt("list", list);
         args.putSerializable("movie", movie);
+
+        ListMoviesFragment fragment = new ListMoviesFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static ListMoviesFragment newInstance(int list, MovieRealm movie) {
+        Bundle args = new Bundle();
+        args.putInt("list", list);
+        args.putParcelable("movieRealm", movie);
 
         ListMoviesFragment fragment = new ListMoviesFragment();
         fragment.setArguments(args);
@@ -235,7 +249,11 @@ public class ListMoviesFragment extends Fragment {
             } else if (getArguments().getSerializable("person") != null) {
                 ((PersonActivity) getActivity()).startMovie(movie);
             } else {
-                ((MainActivity) getActivity()).startMovie(movie);
+                if (getActivity() instanceof MainActivity) {
+                    ((MainActivity) getActivity()).startMovie(movie);
+                } else if (getActivity() instanceof MovieActivity) {
+                    ((MovieActivity) getActivity()).startMovie(movie);
+                }
             }
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -259,16 +277,22 @@ public class ListMoviesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (getArguments() != null) {
-            currentMovieList = getArguments().getInt("list");
+        if (getArguments() == null) {
+            return;
+        }
 
-            if (getArguments().getSerializable("movie") != null) {
-                currentMovie = (Movie) getArguments().getSerializable("movie");
-            }
+        currentMovieList = getArguments().getInt("list");
+        currentMovie = (Movie) getArguments().getSerializable("movie");
+        currentMovieRealm = (MovieRealm) getArguments().getParcelable("movieRealm");
 
-            if (getArguments().getSerializable("person") != null) {
-                currentPerson = (Cast) getArguments().getSerializable("person");
-            }
+        if (currentMovie != null) {
+            movieId = currentMovie.id;
+        } else if (currentMovieRealm != null) {
+            movieId = currentMovieRealm.id;
+        }
+
+        if (getArguments().getSerializable("person") != null) {
+            currentPerson = (Cast) getArguments().getSerializable("person");
         }
 
         if (NetworkUtils.notConnected()) {
@@ -343,7 +367,7 @@ public class ListMoviesFragment extends Fragment {
     }
 
     private void loadNowPlayingMovies() {
-        MOVIES service = ApiFactory.getRetrofit().create(MOVIES.class);
+        MOVIES service = ApiFactory.createService(MOVIES.class);
         Call<MovieResponse> call = service.getNowPlaying(Url.TMDB_API_KEY, Url.en_US, page);
         call.enqueue(new Callback<MovieResponse>() {
             @Override
@@ -393,7 +417,7 @@ public class ListMoviesFragment extends Fragment {
     }
 
     private void loadPopularMovies() {
-        MOVIES service = ApiFactory.getRetrofit().create(MOVIES.class);
+        MOVIES service = ApiFactory.createService(MOVIES.class);
         Call<MovieResponse> call = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page);
         call.enqueue(new Callback<MovieResponse>() {
             @Override
@@ -443,7 +467,7 @@ public class ListMoviesFragment extends Fragment {
     }
 
     private void loadTopRatedMovies() {
-        MOVIES service = ApiFactory.getRetrofit().create(MOVIES.class);
+        MOVIES service = ApiFactory.createService(MOVIES.class);
         Call<MovieResponse> call = service.getTopRated(Url.TMDB_API_KEY, Url.en_US, page);
         call.enqueue(new Callback<MovieResponse>() {
             @Override
@@ -493,7 +517,7 @@ public class ListMoviesFragment extends Fragment {
     }
 
     private void loadUpcomingMovies() {
-        MOVIES service = ApiFactory.getRetrofit().create(MOVIES.class);
+        MOVIES service = ApiFactory.createService(MOVIES.class);
         Call<MovieResponse> call = service.getUpcoming(Url.TMDB_API_KEY, Url.en_US, page);
         call.enqueue(new Callback<MovieResponse>() {
             @Override
@@ -544,8 +568,8 @@ public class ListMoviesFragment extends Fragment {
     }
 
     private void loadSimilarMovies() {
-        MOVIES service = ApiFactory.getRetrofit().create(MOVIES.class);
-        service.getSimilarMovies(currentMovie.id, Url.TMDB_API_KEY, Url.en_US, 1)
+        MOVIES service = ApiFactory.createService(MOVIES.class);
+        service.getSimilarMovies(movieId, Url.TMDB_API_KEY, Url.en_US, 1)
                 .enqueue(new Callback<MovieResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
@@ -595,8 +619,8 @@ public class ListMoviesFragment extends Fragment {
     }
 
     private void loadRelatedMovies() {
-        MOVIES service = ApiFactory.getRetrofit().create(MOVIES.class);
-        service.getRecommendations(currentMovie.id, Url.TMDB_API_KEY, Url.en_US, 1)
+        MOVIES service = ApiFactory.createService(MOVIES.class);
+        service.getRecommendations(movieId, Url.TMDB_API_KEY, Url.en_US, 1)
                 .enqueue(new Callback<MovieResponse>() {
                     @Override
                     public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
@@ -646,7 +670,7 @@ public class ListMoviesFragment extends Fragment {
     }
 
     private void loadPersonMovies() {
-        PEOPLE service = ApiFactory.getRetrofit().create(PEOPLE.class);
+        PEOPLE service = ApiFactory.createService(PEOPLE.class);
         Call<MoviePeopleResponse> call = service.getMovieCredits(currentPerson.castId, Url.TMDB_API_KEY, Url.en_US);
         call.enqueue(new Callback<MoviePeopleResponse>() {
             @Override

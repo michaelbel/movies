@@ -23,6 +23,7 @@ import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.app.browser.Browser;
+import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.presenter.MoviePresenter;
 import org.michaelbel.moviemade.mvp.view.MvpMovieView;
 import org.michaelbel.moviemade.rest.model.Crew;
@@ -40,10 +41,13 @@ import java.util.Locale;
 
 public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView, MovieViewLayout.MovieViewListener, ImageSectionListener {
 
-    private final int PERMISSION_REQUEST_CODE = 100;
+    //private final int PERMISSION_REQUEST_CODE = 100;
+
+    private boolean loadFromRealm;
 
     private Movie extraMovie;
     private Movie loadedMovie;
+    private MovieRealm extraMovieRealm;
     private MovieActivity activity;
 
     private ArrayList<Genre> genres = new ArrayList<>();
@@ -59,6 +63,15 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     public static MovieFragment newInstance(Movie movie) {
         Bundle args = new Bundle();
         args.putSerializable("movie", movie);
+
+        MovieFragment fragment = new MovieFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static MovieFragment newInstance(MovieRealm movie) {
+        Bundle args = new Bundle();
+        args.putParcelable("movieRealm", movie);
 
         MovieFragment fragment = new MovieFragment();
         fragment.setArguments(args);
@@ -162,13 +175,22 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (getArguments() != null) {
-            if (getArguments().getSerializable("movie") != null) {
-                extraMovie = (Movie) getArguments().getSerializable("movie");
-            }
+        if (getArguments() == null) {
+            return;
         }
 
-        presenter.loadMovie(extraMovie);
+        //if (getArguments().getSerializable("movie") == null) {
+        //    return;
+        //}
+
+        extraMovie = (Movie) getArguments().getSerializable("movie");
+        extraMovieRealm = getArguments().getParcelable("movieRealm");
+
+        if (extraMovie != null) {
+            presenter.loadMovie(extraMovie);
+        } else {
+            presenter.loadMovieFromRealm(extraMovieRealm.id);
+        }
     }
 
     @Override
@@ -199,12 +221,54 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         movieView.setGenres(movie.genres);
         movieView.addBelongCollection(movie.belongsToCollection);
 
-        movieView.favoriteButtonVisibility(movie.favorite ? View.VISIBLE : View.GONE);
-        movieView.watchingButtonVisibility(movie.watching ? View.VISIBLE : View.GONE);
+        movieView.favoriteButtonVisibility(loaded ? View.VISIBLE : View.INVISIBLE);
+        movieView.watchingButtonVisibility(loaded ? View.VISIBLE : View.INVISIBLE);
+
+        movieView.setFavoriteButton(presenter.isMovieFavorite(extraMovie.id));
+        movieView.setWatchingButton(presenter.isMovieWatching(extraMovie.id));
 
         presenter.loadTrailers(movie.id);
         presenter.loadImages(movie.id);
         presenter.loadCredits(movie.id);
+    }
+
+    @Override
+    public void showMovieRealm(MovieRealm movie) {
+        loadFromRealm = true;
+
+        movieView.addPoster(movie.posterPath);
+        movieView.addTitle(movie.title);
+        movieView.addOverview(movie.overview);
+        movieView.addReleaseDate(movie.releaseDate);
+        movieView.addVoteAverage(movie.voteAverage);
+        movieView.addVoteCount(movie.voteCount);
+        movieView.addOriginalTitle(movie.originalTitle);
+        movieView.addOriginalLanguage(movie.originalLanguage);
+        // todo Add postersCount and BackdropCount to movierealm
+        movieView.addImages(movie.posterPath, movie.backdropPath, 0, 0);
+
+        movieView.addTagline(movie.tagline);
+        movieView.addRuntime(movie.runtime);
+        movieView.addStatus(movie.status);
+        movieView.addBudget(movie.budget);
+        movieView.addRevenue(movie.revenue);
+        movieView.addImdbpage(movie.imdbId);
+        movieView.addHomepage(movie.homepage);
+
+        movieView.addCompanies(null);
+        movieView.addCountries(null);
+        movieView.setGenres(null);
+        //movieView.addBelongCollection();
+
+        movieView.favoriteButtonVisibility(View.VISIBLE);
+        movieView.watchingButtonVisibility(View.VISIBLE);
+
+        movieView.setFavoriteButton(movie.favorite);
+        movieView.setWatchingButton(movie.watching);
+
+        movieView.addImages(null, null, 0, 0);
+        movieView.addTrailers(null);
+        movieView.setCrew(null);
     }
 
     @Override
@@ -213,10 +277,12 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     }
 
     @Override
-    public void showTrailers(List<Trailer> trailers) {
+    public void showTrailers(List<Trailer> newTrailers) {
+        this.trailers.clear();
+        this.trailers.addAll(newTrailers);
+
         movieView.addTrailers(trailers);
         movieView.getTrailersView().setClickable(true);
-        this.trailers.addAll(trailers);
     }
 
     @Override
@@ -230,25 +296,72 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     }
 
     @Override
+    public void realmAdded() {
+
+    }
+
+    @Override
+    public void onFavoriteButtonClick(View view) {
+        if (loadedMovie != null) {
+            presenter.setMovieFavorite(loadedMovie);
+        } else if (extraMovieRealm != null) {
+            presenter.setMovieFavorite(extraMovieRealm);
+        }
+    }
+
+    @Override
+    public void favoriteButtonState(boolean state) {
+        movieView.setFavoriteButton(state);
+    }
+
+    @Override
+    public void onWatchingButtonClick(View view) {
+        if (loadedMovie != null) {
+            presenter.setMovieWatching(loadedMovie);
+        } else if (extraMovieRealm != null) {
+            presenter.setMovieWatching(extraMovieRealm);
+        }
+    }
+
+    @Override
+    public void watchingButtonState(boolean state) {
+        movieView.setWatchingButton(state);
+    }
+
+    @Override
     public boolean onOverviewLongClick(View view) {
-        AndroidUtils.addToClipboard("Overview", extraMovie.overview);
+        if (extraMovieRealm != null) {
+            AndroidUtils.copyToClipboard(extraMovieRealm.overview);
+        } else {
+            AndroidUtils.copyToClipboard(extraMovie.overview);
+        }
+
         Toast.makeText(getContext(), getString(R.string.ClipboardCopied, getString(R.string.Overview)), Toast.LENGTH_SHORT).show();
         return true;
     }
 
     @Override
     public void onTrailerClick(View view, String trailerKey) {
+        // todo Open in browser
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailerKey)));
     }
 
     @Override
     public void onTrailersSectionClick(View view) {
-        //activity.startTrailers(extraMovie, trailers);
+        activity.startTrailers(extraMovie, trailers);
     }
 
     @Override
     public void onMovieUrlClick(View view, int position) {
-        if (position == 1) {
+        if (extraMovieRealm != null) {
+            if (position == 1) {
+                Browser.openUrl(activity, String.format(Locale.US, Url.TMDB_MOVIE, extraMovieRealm.id));
+            } else if (position == 2) {
+                Browser.openUrl(activity, String.format(Locale.US, Url.IMDB_MOVIE, extraMovieRealm.imdbId));
+            } else if (position == 3) {
+                Browser.openUrl(activity, extraMovieRealm.homepage);
+            }
+        } else if (position == 1) {
             Browser.openUrl(activity, String.format(Locale.US, Url.TMDB_MOVIE, extraMovie.id));
         } else if (position == 2) {
             Browser.openUrl(activity, String.format(Locale.US, Url.IMDB_MOVIE, loadedMovie.imdbId));

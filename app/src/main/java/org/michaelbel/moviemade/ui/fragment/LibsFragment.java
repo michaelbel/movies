@@ -102,7 +102,7 @@ public class LibsFragment extends Fragment {
                 if (i == 0) {
                     Browser.openUrl(activity, sources.get(position).url);
                 } else if (i == 1) {
-                    AndroidUtils.addToClipboard("Link", sources.get(position).url);
+                    AndroidUtils.copyToClipboard(sources.get(position).url);
                     Toast.makeText(activity, getString(R.string.ClipboardCopied, getString(R.string.Link)), Toast.LENGTH_SHORT).show();
                 }
             });

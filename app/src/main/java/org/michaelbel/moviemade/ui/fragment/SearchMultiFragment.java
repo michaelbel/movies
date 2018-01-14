@@ -29,7 +29,7 @@ import android.widget.ProgressBar;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.SearchActivity;
-import org.michaelbel.moviemade.app.ApiFactory;
+import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.model.SearchItem;
@@ -269,7 +269,7 @@ public class SearchMultiFragment extends Fragment {
     }
 
     private void performSearch(String query) {
-        SEARCH service = ApiFactory.getRetrofit().create(SEARCH.class);
+        SEARCH service = ApiFactory.createService(SEARCH.class);
         //Call<PeopleResponce> call = service.searchPeople();
         //call.enqueue();
 

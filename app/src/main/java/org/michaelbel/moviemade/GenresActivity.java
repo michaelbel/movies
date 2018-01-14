@@ -2,6 +2,7 @@ package org.michaelbel.moviemade;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
@@ -10,7 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import org.michaelbel.moviemade.databinding.ActivityGenresBinding;
-import org.michaelbel.moviemade.app.ApiFactory;
+import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
@@ -106,11 +107,11 @@ public class GenresActivity extends BaseActivity {
     public void loadGenres() {
         emptyView.setVisibility(View.INVISIBLE);
 
-        GENRES service = ApiFactory.getRetrofit().create(GENRES.class);
+        GENRES service = ApiFactory.createService(GENRES.class);
         Call<MovieGenresResponse> call = service.getMovieList(Url.TMDB_API_KEY, Url.en_US);
         call.enqueue(new Callback<MovieGenresResponse>() {
             @Override
-            public void onResponse(Call<MovieGenresResponse> call, Response<MovieGenresResponse> response) {
+            public void onResponse(@NonNull Call<MovieGenresResponse> call, @NonNull Response<MovieGenresResponse> response) {
                 if (response.isSuccessful()) {
                     for (Genre genre : response.body().genres) {
                         adapter.addFragment(GenreMoviesFragment.newInstance(genre.id), genre.name);
@@ -123,7 +124,7 @@ public class GenresActivity extends BaseActivity {
             }
 
             @Override
-            public void onFailure(Call<MovieGenresResponse> call, Throwable t) {
+            public void onFailure(@NonNull Call<MovieGenresResponse> call, @NonNull Throwable t) {
                 onLoadError();
             }
         });

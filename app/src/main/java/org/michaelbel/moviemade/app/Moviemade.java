@@ -41,7 +41,9 @@ public class Moviemade extends Application {
 
         Realm.init(this);
         RealmConfiguration config = new RealmConfiguration.Builder()
-                .name("Moviemade0.realm")
+                //.schemaVersion(1)
+                //.migration()
+                .name("Moviemade5.realm")
                 .build();
         Realm.setDefaultConfiguration(config);
     }

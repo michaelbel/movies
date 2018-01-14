@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import org.michaelbel.moviemade.app.ApiFactory;
+import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
@@ -149,7 +149,7 @@ public class PopularPeopleFragment extends Fragment {
     }
 
     private void loadPopularPeople() {
-        PEOPLE service = ApiFactory.getRetrofit().create(PEOPLE.class);
+        PEOPLE service = ApiFactory.createService(PEOPLE.class);
         Call<PeopleResponse> call = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page);
         call.enqueue(new Callback<PeopleResponse>() {
             @Override

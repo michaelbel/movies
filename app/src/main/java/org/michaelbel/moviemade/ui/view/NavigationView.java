@@ -69,18 +69,18 @@ public class NavigationView extends FrameLayout {
 
     public void initialize(Context context) {
         rowCount = 0;
-        headerRow = rowCount++;
+        headerRow = rowCount++;   // 0
         emptyRow1 = rowCount++;
         //moviesRow = rowCount++;
         //showsRow = rowCount++;
         //genresRow = rowCount++;
-        peopleRow = rowCount++;
+        peopleRow = rowCount++;    // 2
         dividerRow1 = rowCount++;
-        //watchlistRow = rowCount++;
-        //favoritesRow = rowCount++;
-        //dividerRow2 = rowCount++;
-        settingsRow = rowCount++;
-        aboutRow = rowCount++;
+        watchlistRow = rowCount++; // 4
+        favoritesRow = rowCount++; // 5
+        dividerRow2 = rowCount++;
+        settingsRow = rowCount++;  // 7
+        aboutRow = rowCount++;     // 8
         emptyRow2 = rowCount++;
 
         RecyclerListView recyclerView = new RecyclerListView(context);

@@ -146,15 +146,11 @@ public class AndroidUtils {
         }
     }
 
-    public static void addToClipboard(@NonNull CharSequence label, @NonNull CharSequence text) {
-        try {
-            ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-            ClipData clipData = ClipData.newPlainText(label, text);
-            if (clipboard != null) {
-                clipboard.setPrimaryClip(clipData);
-            }
-        } catch (Exception e) {
-            // todo Error
+    public static void copyToClipboard(@NonNull CharSequence text) {
+        ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clipData = ClipData.newPlainText(text, text);
+        if (clipboard != null) {
+            clipboard.setPrimaryClip(clipData);
         }
     }
 

@@ -19,7 +19,7 @@ import android.widget.ProgressBar;
 
 import org.michaelbel.moviemade.GenreActivity;
 import org.michaelbel.moviemade.GenresActivity;
-import org.michaelbel.moviemade.app.ApiFactory;
+import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
@@ -50,8 +50,8 @@ public class GenreMoviesFragment extends Fragment {
     private int currentGenreId;
 
     private MoviesAdapter adapter;
-    private PaddingItemDecoration itemDecoration;
     private GridLayoutManager gridLayoutManager;
+    private PaddingItemDecoration itemDecoration;
     private List<Movie> movies = new ArrayList<>();
 
     private EmptyView emptyView;
@@ -181,9 +181,11 @@ public class GenreMoviesFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (getArguments() != null) {
-            currentGenreId = getArguments().getInt("genreId");
+        if (getArguments() == null) {
+            return;
         }
+
+        currentGenreId = getArguments().getInt("genreId");
 
         if (NetworkUtils.notConnected()) {
             onLoadError();
@@ -199,7 +201,7 @@ public class GenreMoviesFragment extends Fragment {
     }*/
 
     private void loadMoviesByGenre() {
-        GENRES service = ApiFactory.getRetrofit().create(GENRES.class);
+        GENRES service = ApiFactory.createService(GENRES.class);
         Call<GenreResponse> call =  service.getMovies(currentGenreId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page);
         call.enqueue(new Callback<GenreResponse>() {
             @Override

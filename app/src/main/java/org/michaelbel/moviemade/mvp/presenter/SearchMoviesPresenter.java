@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import org.michaelbel.moviemade.app.ApiFactory;
+import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.model.SearchItem;
 import org.michaelbel.moviemade.mvp.view.MvpSearchView;
@@ -25,7 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 @InjectViewState
-public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView> {
+public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView.SearchMovies> {
 
     private int page;
     private int totalPages;
@@ -48,7 +48,7 @@ public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView> {
             return;
         }
 
-        SEARCH service = ApiFactory.getRetrofit().create(SEARCH.class);
+        SEARCH service = ApiFactory.createService(SEARCH.class);
         Call<MovieResponse> call = service.searchMovies(Url.TMDB_API_KEY, Url.en_US, query, page, AndroidUtils.includeAdult(), null);
         call.enqueue(new Callback<MovieResponse>() {
             @Override
@@ -87,7 +87,7 @@ public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView> {
     }
 
     public void loadResults() {
-        SEARCH service = ApiFactory.getRetrofit().create(SEARCH.class);
+        SEARCH service = ApiFactory.createService(SEARCH.class);
         Call<MovieResponse> call = service.searchMovies(Url.TMDB_API_KEY, Url.en_US, currentQuery, page, AndroidUtils.includeAdult(), null);
         call.enqueue(new Callback<MovieResponse>() {
             @Override

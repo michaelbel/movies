@@ -5,7 +5,7 @@ import android.support.annotation.NonNull;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import org.michaelbel.moviemade.app.ApiFactory;
+import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.mvp.view.MvpPersonView;
 import org.michaelbel.moviemade.rest.api.PEOPLE;
@@ -28,7 +28,7 @@ public class PersonPresenter extends MvpPresenter<MvpPersonView> {
     }
 
     private void loadPersonDetails(int personId) {
-        PEOPLE service = ApiFactory.getRetrofit().create(PEOPLE.class);
+        PEOPLE service = ApiFactory.createService(PEOPLE.class);
         Call<Person> call = service.getDetails(personId, Url.TMDB_API_KEY, Url.en_US, null);
         call.enqueue(new Callback<Person>() {
             @Override

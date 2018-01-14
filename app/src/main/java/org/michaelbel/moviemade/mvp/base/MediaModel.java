@@ -1,5 +1,6 @@
 package org.michaelbel.moviemade.mvp.base;
 
+import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.rest.model.Cast;
 import org.michaelbel.moviemade.rest.model.Genre;
 import org.michaelbel.moviemade.rest.model.Movie;
@@ -12,9 +13,13 @@ public interface MediaModel {
 
     void startMovie(Movie movie);
 
+    void startMovie(MovieRealm movie);
+
     void startPerson(Cast person);
 
     void startReview(Review review, Movie movie);
+
+    void startReview(Review review, MovieRealm movie);
 
     void startTrailers(Movie movie, ArrayList<Trailer> list);
 
