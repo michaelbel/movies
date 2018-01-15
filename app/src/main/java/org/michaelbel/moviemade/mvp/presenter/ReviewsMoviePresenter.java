@@ -6,6 +6,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.app.Url;
+import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.mvp.view.MvpReviewsView;
 import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.rest.api.MOVIES;
@@ -34,12 +35,12 @@ public class ReviewsMoviePresenter extends MvpPresenter<MvpReviewsView> {
         this.movieId = movieId;
 
         if (movieId == 0) {
-            getViewState().showNoResults();
+            getViewState().showError(EmptyViewMode.MODE_NO_REVIEWS);
             return;
         }
 
         if (NetworkUtils.notConnected()) {
-            getViewState().showNoConnection();
+            getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
             return;
         }
 
@@ -54,12 +55,12 @@ public class ReviewsMoviePresenter extends MvpPresenter<MvpReviewsView> {
             @Override
             public void onResponse(@NonNull Call<ReviewResponse> call, @NonNull Response<ReviewResponse> response) {
                 if (!response.isSuccessful()) {
-                    getViewState().showNoResults();
+                    getViewState().showError(EmptyViewMode.MODE_NO_REVIEWS);
                     return;
                 }
 
                 if (response.body() == null) {
-                    getViewState().showNoResults();
+                    getViewState().showError(EmptyViewMode.MODE_NO_REVIEWS);
                     return;
                 }
 
@@ -69,7 +70,7 @@ public class ReviewsMoviePresenter extends MvpPresenter<MvpReviewsView> {
                 newReviews.addAll(response.body().reviews);
 
                 if (newReviews.isEmpty()) {
-                    getViewState().showNoResults();
+                    getViewState().showError(EmptyViewMode.MODE_NO_REVIEWS);
                     return;
                 }
 
@@ -79,7 +80,7 @@ public class ReviewsMoviePresenter extends MvpPresenter<MvpReviewsView> {
 
             @Override
             public void onFailure(@NonNull Call<ReviewResponse> call, @NonNull Throwable t) {
-                getViewState().showNoConnection();
+                getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
             }
         });
     }

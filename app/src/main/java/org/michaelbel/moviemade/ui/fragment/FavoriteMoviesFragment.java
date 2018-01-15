@@ -28,6 +28,7 @@ import org.michaelbel.moviemade.FavoriteActivity;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
+import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.ui.adapter.Holder;
 import org.michaelbel.moviemade.ui.view.EmptyView;
@@ -111,12 +112,12 @@ public class FavoriteMoviesFragment extends Fragment {
             }
         });
 
-        fragmentView = new SwipeRefreshLayout(getContext());
+        fragmentView = new SwipeRefreshLayout(activity);
         fragmentView.setRefreshing(false);
         fragmentView.setOnRefreshListener(this :: loadMovies);
         fragmentView.setColorSchemeResources(Theme.accentColor());
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
-        fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(getContext(), Theme.primaryColor()));
+        fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.primaryColor()));
 
         FrameLayout contentLayout = new FrameLayout(activity);
         contentLayout.setLayoutParams(LayoutHelper.makeSwipeRefresh(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
@@ -151,7 +152,7 @@ public class FavoriteMoviesFragment extends Fragment {
         //    recyclerView.setPadding(ScreenUtils.dp(4), 0, ScreenUtils.dp(4), 0);
         //}
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        recyclerView.setOnItemClickListener((view1, position) -> {
+        recyclerView.setOnItemClickListener((view, position) -> {
                 MovieRealm movie = movies.get(position);
                 activity.startMovie(movie);
         });
@@ -192,7 +193,7 @@ public class FavoriteMoviesFragment extends Fragment {
     private void onLoadError() {
         fragmentView.setRefreshing(false);
         progressBar.setVisibility(View.INVISIBLE);
-        emptyView.setMode(EmptyView.MODE_NO_MOVIES);
+        emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
     }
 
     private void onLoadSuccessful() {

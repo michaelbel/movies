@@ -74,9 +74,10 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpPo
         fragmentView.setRefreshing(false);
         fragmentView.setColorSchemeResources(Theme.accentColor());
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
-        fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(getContext(), Theme.primaryColor()));
+        fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
-            fragmentView.setRefreshing(false);
+            people.clear();
+            presenter.loadPeople();
         });
 
         FrameLayout fragmentContent = new FrameLayout(activity);
@@ -95,7 +96,6 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpPo
 
         adapter = new PeopleAdapter(people);
         linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(adapter);
@@ -140,17 +140,10 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpPo
     }
 
     @Override
-    public void showNoResults() {
-        progressBar.setVisibility(View.INVISIBLE);
+    public void showError(int mode) {
         fragmentView.setRefreshing(false);
-        emptyView.setMode(EmptyView.MODE_NO_PEOPLE);
-    }
-
-    @Override
-    public void showNoConnection() {
-        progressBar.setVisibility(View.INVISIBLE);
-        fragmentView.setRefreshing(false);
-        emptyView.setMode(EmptyView.MODE_NO_CONNECTION);
+        progressBar.setVisibility(View.GONE);
+        emptyView.setMode(mode);
     }
 
     /*private void loadPopularPeople() {

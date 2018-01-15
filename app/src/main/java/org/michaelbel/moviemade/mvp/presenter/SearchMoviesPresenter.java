@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
+import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.model.SearchItem;
@@ -44,7 +45,7 @@ public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView.SearchMovi
         getViewState().searchStart();
 
         if (NetworkUtils.notConnected()) {
-            getViewState().showNoConnection();
+            getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
             return;
         }
 
@@ -54,12 +55,12 @@ public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView.SearchMovi
             @Override
             public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
                 if (!response.isSuccessful()) {
-                    getViewState().showNoResults();
+                    getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
                     return;
                 }
 
                 if (response.body() == null) {
-                    getViewState().showNoResults();
+                    getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
                     return;
                 }
 
@@ -71,7 +72,7 @@ public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView.SearchMovi
                 newMovies.addAll(response.body().movies);
 
                 if (newMovies.isEmpty()) {
-                    getViewState().showNoResults();
+                    getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
                     return;
                 }
 
@@ -81,7 +82,7 @@ public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView.SearchMovi
 
             @Override
             public void onFailure(@NonNull Call<MovieResponse> call, @NonNull Throwable t) {
-                getViewState().showNoConnection();
+                getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
             }
         });
     }

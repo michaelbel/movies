@@ -22,6 +22,7 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.TrailersActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
+import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.rest.model.Trailer;
 import org.michaelbel.moviemade.ui.adapter.TrailersAdapter;
@@ -59,10 +60,15 @@ public class TrailersFragment extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activity = (TrailersActivity) getActivity();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity = (TrailersActivity) getActivity();
         activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         activity.binding.toolbar.setNavigationOnClickListener(view -> activity.finish());
         activity.binding.toolbarTitle.setTitle(R.string.Trailers);
@@ -148,7 +154,7 @@ public class TrailersFragment extends Fragment {
 
     private void loadVideos() {
         if (trailers == null || trailers.isEmpty()) {
-            emptyView.setMode(EmptyView.MODE_NO_TRAILERS);
+            emptyView.setMode(EmptyViewMode.MODE_NO_TRAILERS);
             onLoadError();
             return;
         }
@@ -165,6 +171,6 @@ public class TrailersFragment extends Fragment {
     private void onLoadError() {
         progressBar.setVisibility(View.INVISIBLE);
         fragmentView.setRefreshing(false);
-        emptyView.setMode(EmptyView.MODE_NO_CONNECTION);
+        emptyView.setMode(EmptyViewMode.MODE_NO_CONNECTION);
     }
 }

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,32 +15,28 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import org.michaelbel.moviemade.model.MovieRealm;
-import org.michaelbel.moviemade.rest.ApiFactory;
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+
+import org.michaelbel.moviemade.MovieActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.app.Url;
-import org.michaelbel.moviemade.rest.api.MOVIES;
+import org.michaelbel.moviemade.model.MovieRealm;
+import org.michaelbel.moviemade.mvp.presenter.CastMoviePresenter;
+import org.michaelbel.moviemade.mvp.view.MvpCastMovieView;
 import org.michaelbel.moviemade.rest.model.Cast;
 import org.michaelbel.moviemade.rest.model.Movie;
-import org.michaelbel.moviemade.rest.response.CreditResponse;
-import org.michaelbel.moviemade.MovieActivity;
 import org.michaelbel.moviemade.ui.adapter.Holder;
 import org.michaelbel.moviemade.ui.view.CastView;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
-import org.michaelbel.moviemade.util.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class CastMovieFragment extends Fragment {
+public class CastMovieFragment extends MvpAppCompatFragment implements MvpCastMovieView {
 
     private int movieId;
 
@@ -57,6 +52,9 @@ public class CastMovieFragment extends Fragment {
     private ProgressBar progressBar;
     private RecyclerListView recyclerView;
     private SwipeRefreshLayout fragmentView;
+
+    @InjectPresenter
+    public CastMoviePresenter presenter;
 
     public static CastMovieFragment newInstance(Movie movie) {
         Bundle args = new Bundle();
@@ -110,15 +108,8 @@ public class CastMovieFragment extends Fragment {
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
         fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
-            if (NetworkUtils.notConnected()) {
-                onLoadError();
-            } else {
-                if (casts.isEmpty()) {
-                    loadCredits(movieId);
-                } else {
-                    fragmentView.setRefreshing(false);
-                }
-            }
+            casts.clear();
+            presenter.loadCredits(movieId);
         });
 
         FrameLayout contentLayout = new FrameLayout(activity);
@@ -135,7 +126,7 @@ public class CastMovieFragment extends Fragment {
         contentLayout.addView(emptyView);
 
         adapter = new CastMovieAdapter();
-        linearLayoutManager = new LinearLayoutManager(activity);
+        linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
         recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(adapter);
@@ -160,62 +151,32 @@ public class CastMovieFragment extends Fragment {
         }
 
         currentMovie = (Movie) getArguments().getSerializable("movie");
-        currentMovieRealm = (MovieRealm) getArguments().getParcelable("movieRealm");
+        currentMovieRealm = getArguments().getParcelable("movieRealm");
 
-        if (NetworkUtils.notConnected()) {
-            onLoadError();
+        if (currentMovie != null) {
+            movieId = currentMovie.id;
         } else {
-            if (currentMovie != null) {
-                movieId = currentMovie.id;
-                loadCredits(currentMovie.id);
-            } else {
-                movieId = currentMovieRealm.id;
-                loadCredits(currentMovieRealm.id);
-            }
+            movieId = currentMovieRealm.id;
         }
+
+        casts.clear();
+        presenter.loadCredits(movieId);
     }
 
-    private void loadCredits(int movieId) {
-        MOVIES service = ApiFactory.createService(MOVIES.class);
-        Call<CreditResponse> call = service.getCredits(movieId, Url.TMDB_API_KEY);
-        call.enqueue(new Callback<CreditResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<CreditResponse> call, @NonNull Response<CreditResponse> response) {
-                if (!response.isSuccessful()) {
-                    onLoadError();
-                    return;
-                }
+    @Override
+    public void showResults(List<Cast> newCasts) {
+        casts.addAll(newCasts);
+        adapter.notifyItemRangeInserted(casts.size() + 1, newCasts.size());
 
-                List<Cast> newPersons = new ArrayList<>();
-                newPersons.addAll(response.body().casts);
-
-                casts.clear();
-                casts.addAll(newPersons);
-                adapter.notifyItemRangeInserted(casts.size() + 1, newPersons.size());
-
-                if (!casts.isEmpty()) {
-                    emptyView.setMode(EmptyView.MODE_NO_PEOPLE);
-                }
-
-                onLoadSuccessful();
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<CreditResponse> call, @NonNull Throwable t) {
-                onLoadError();
-            }
-        });
-    }
-
-    private void onLoadSuccessful() {
-        progressBar.setVisibility(View.INVISIBLE);
         fragmentView.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
     }
 
-    private void onLoadError() {
-        progressBar.setVisibility(View.INVISIBLE);
+    @Override
+    public void showError(int mode) {
         fragmentView.setRefreshing(false);
-        emptyView.setMode(EmptyView.MODE_NO_CONNECTION);
+        progressBar.setVisibility(View.GONE);
+        emptyView.setMode(mode);
     }
 
     private class CastMovieAdapter extends RecyclerView.Adapter {

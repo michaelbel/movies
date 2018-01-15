@@ -43,11 +43,15 @@ public class ImageQualityFragment extends Fragment {
 
     private RecyclerListView recyclerView;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activity = (SettingsActivity) getActivity();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity = (SettingsActivity) getActivity();
-
         activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         activity.binding.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
         activity.binding.toolbarTitle.setText(R.string.ImageQuality);
@@ -63,7 +67,7 @@ public class ImageQualityFragment extends Fragment {
         stillRow = rowCount++;
 
         adapter = new ListAdapter();
-        layoutManager = new LinearLayoutManager(activity);
+        layoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         prefs = activity.getSharedPreferences("main_config", Context.MODE_PRIVATE);
 
         recyclerView = new RecyclerListView(activity);

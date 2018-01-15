@@ -33,6 +33,7 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.SearchActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
+import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.mvp.presenter.SearchMoviesPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpSearchView;
 import org.michaelbel.moviemade.rest.model.Movie;
@@ -166,7 +167,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
 
         emptyView = new EmptyView(activity);
-        emptyView.setMode(EmptyView.MODE_NO_RESULTS);
+        emptyView.setMode(EmptyViewMode.MODE_NO_RESULTS);
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
         fragmentView.addView(emptyView);
 
@@ -290,21 +291,14 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
     }
 
     @Override
-    public void showNoResults() {
+    public void showError(int mode) {
         progressBar.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
-        emptyView.setMode(EmptyView.MODE_NO_RESULTS);
+        emptyView.setMode(mode);
 
         TabLayout.Tab tab = activity.binding.tabLayout.getTabAt(0);
         if (tab != null) {
             tab.setText(R.string.Movies);
         }
-    }
-
-    @Override
-    public void showNoConnection() {
-        progressBar.setVisibility(View.GONE);
-        emptyView.setVisibility(View.VISIBLE);
-        emptyView.setMode(EmptyView.MODE_NO_CONNECTION);
     }
 }

@@ -3,11 +3,13 @@ package org.michaelbel.moviemade.mvp.view;
 import com.arellomobile.mvp.MvpView;
 
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
-import org.michaelbel.moviemade.rest.model.Person;
+import org.michaelbel.moviemade.rest.model.Cast;
 
-public interface MvpPersonView extends MvpView {
+import java.util.List;
 
-    void showPerson(Person person);
+public interface MvpCastMovieView extends MvpView {
+
+    void showResults(List<Cast> newCasts);
 
     void showError(@EmptyViewMode int mode);
 }

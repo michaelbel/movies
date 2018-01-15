@@ -61,6 +61,7 @@ public class SettingsFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        activity = (SettingsActivity) getActivity();
     }
 
     @Override
@@ -81,8 +82,6 @@ public class SettingsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity = (SettingsActivity) getActivity();
-
         activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         activity.binding.toolbar.setNavigationOnClickListener(view -> activity.finish());
         activity.binding.toolbarTitle.setText(R.string.Settings);
@@ -101,9 +100,8 @@ public class SettingsFragment extends Fragment {
         scrollToTopRow = rowCount++;
         emptyRow2 = rowCount++;
 
-        linearLayoutManager = new LinearLayoutManager(activity);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
+        linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
         recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(new SettingsAdapter());

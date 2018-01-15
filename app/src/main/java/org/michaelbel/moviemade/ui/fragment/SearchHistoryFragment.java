@@ -19,6 +19,7 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.SettingsActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
+import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.model.SearchItem;
 import org.michaelbel.moviemade.ui.adapter.Holder;
 import org.michaelbel.moviemade.ui.view.EmptyView;
@@ -43,11 +44,15 @@ public class SearchHistoryFragment extends Fragment {
     private EmptyView emptyView;
     private RecyclerListView recyclerView;
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activity = (SettingsActivity) getActivity();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity = (SettingsActivity) getActivity();
-
         activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         activity.binding.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
         activity.binding.toolbarTitle.setText(R.string.SearchHistory);
@@ -56,13 +61,12 @@ public class SearchHistoryFragment extends Fragment {
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
 
         emptyView = new EmptyView(activity);
-        emptyView.setMode(EmptyView.MODE_NO_HISTORY);
+        emptyView.setMode(EmptyViewMode.MODE_NO_HISTORY);
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
         fragmentView.addView(emptyView);
 
         adapter = new SearchHistoryAdapter(searches);
-        linearLayoutManager = new LinearLayoutManager(activity);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
         recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(adapter);

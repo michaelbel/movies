@@ -6,6 +6,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.app.Url;
+import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.mvp.view.MvpPopularPeopleView;
 import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.rest.api.PEOPLE;
@@ -31,7 +32,7 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpPopularPeopleView> {
 
     public void loadPeople() {
         if (NetworkUtils.notConnected()) {
-            getViewState().showNoConnection();
+            getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
             return;
         }
 
@@ -46,12 +47,12 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpPopularPeopleView> {
             @Override
             public void onResponse(@NonNull Call<PeopleResponse> call, @NonNull Response<PeopleResponse> response) {
                 if (!response.isSuccessful()) {
-                    getViewState().showNoResults();
+                    getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
                     return;
                 }
 
                 if (response.body() == null) {
-                    getViewState().showNoResults();
+                    getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
                     return;
                 }
 
@@ -70,7 +71,7 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpPopularPeopleView> {
                 }
 
                 if (newPeople.isEmpty()) {
-                    getViewState().showNoResults();
+                    getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
                     return;
                 }
 
@@ -80,7 +81,7 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpPopularPeopleView> {
 
             @Override
             public void onFailure(@NonNull Call<PeopleResponse> call, @NonNull Throwable t) {
-                getViewState().showNoConnection();
+                getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
             }
         });
     }

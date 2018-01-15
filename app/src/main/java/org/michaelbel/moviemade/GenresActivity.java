@@ -6,16 +6,16 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MenuItem;
 import android.view.View;
 
-import org.michaelbel.moviemade.app.annotation.Beta;
-import org.michaelbel.moviemade.databinding.ActivityGenresBinding;
-import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
+import org.michaelbel.moviemade.app.annotation.Beta;
+import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
+import org.michaelbel.moviemade.databinding.ActivityGenresBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
+import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.rest.api.GENRES;
 import org.michaelbel.moviemade.rest.model.Genre;
 import org.michaelbel.moviemade.rest.response.MovieGenresResponse;
@@ -49,17 +49,14 @@ public class GenresActivity extends BaseActivity {
         binding.swipeRefreshLayout.setColorSchemeResources(Theme.accentColor());
         binding.swipeRefreshLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.backgroundColor()));
         binding.swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(this, Theme.primaryColor()));
-        binding.swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                binding.toolbarTitle.setText(R.string.LoadingGenres);
-                loadGenres();
-            }
+        binding.swipeRefreshLayout.setOnRefreshListener(() -> {
+            binding.toolbarTitle.setText(R.string.LoadingGenres);
+            loadGenres();
         });
 
         emptyView = new EmptyView(this);
         emptyView.setVisibility(View.GONE);
-        emptyView.setMode(EmptyView.MODE_NO_CONNECTION);
+        emptyView.setMode(EmptyViewMode.MODE_NO_CONNECTION);
         binding.contentLayout.addView(emptyView);
 
         adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());

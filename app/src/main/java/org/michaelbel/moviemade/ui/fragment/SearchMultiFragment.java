@@ -29,6 +29,7 @@ import android.widget.ProgressBar;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.SearchActivity;
+import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
@@ -82,6 +83,7 @@ public class SearchMultiFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        activity = (SearchActivity) getActivity();
     }
 
     @Override
@@ -113,7 +115,6 @@ public class SearchMultiFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity = (SearchActivity) getActivity();
         activity.binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -164,7 +165,7 @@ public class SearchMultiFragment extends Fragment {
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
 
         emptyView = new EmptyView(activity);
-        emptyView.setMode(EmptyView.MODE_NO_RESULTS);
+        emptyView.setMode(EmptyViewMode.MODE_NO_RESULTS);
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
         fragmentView.addView(emptyView);
 
@@ -330,6 +331,6 @@ public class SearchMultiFragment extends Fragment {
     private void onLoadError() {
         progressBar.setVisibility(View.INVISIBLE);
         emptyView.setVisibility(View.VISIBLE);
-        emptyView.setMode(EmptyView.MODE_NO_CONNECTION);
+        emptyView.setMode(EmptyViewMode.MODE_NO_CONNECTION);
     }
 }

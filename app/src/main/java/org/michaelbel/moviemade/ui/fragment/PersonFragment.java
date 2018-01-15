@@ -147,21 +147,18 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
         personView.addDeathday(getString(R.string.Deathday, person.deathday));
 
         //personView.addCareer("Actor, Writing, Crew");
-    }
 
-    @Override
-    public void showError() {
-        emptyView.setVisibility(View.VISIBLE);
-        emptyView.setMode(EmptyView.MODE_NO_CONNECTION);
-        progressBar.setVisibility(View.GONE);
-        fragmentView.setRefreshing(false);
-    }
-
-    @Override
-    public void showComplete() {
         progressBar.setVisibility(View.GONE);
         fragmentView.setVisibility(View.GONE);
         emptyView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showError(int mode) {
+        fragmentView.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
+        emptyView.setMode(mode);
     }
 
     @Override

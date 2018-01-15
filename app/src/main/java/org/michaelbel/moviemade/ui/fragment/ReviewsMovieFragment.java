@@ -31,13 +31,13 @@ import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
-import org.michaelbel.moviemade.util.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpReviewsView {
 
+    private int movieId;
     private Movie currentMovie;
     private MovieRealm currentMovieRealm;
 
@@ -105,15 +105,8 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpRev
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
         fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
-            if (NetworkUtils.notConnected()) {
-                fragmentView.setRefreshing(false);
-            } else {
-                if (reviews.isEmpty()) {
-                    fragmentView.setRefreshing(false);
-                } else {
-                    fragmentView.setRefreshing(false);
-                }
-            }
+            reviews.clear();
+            presenter.loadReviews(movieId);
         });
 
         FrameLayout contentLayout = new FrameLayout(activity);
@@ -172,9 +165,16 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpRev
 
         currentMovie = (Movie) getArguments().getSerializable("movie");
         currentMovieRealm = getArguments().getParcelable("movieRealm");
+        if (currentMovie != null) {
+            movieId = currentMovie.id;
+        } else if (currentMovieRealm != null) {
+            movieId = currentMovieRealm.id;
+        } else {
+            movieId = 0;
+        }
 
         reviews.clear();
-        presenter.loadReviews(currentMovie != null ? currentMovie.id : currentMovieRealm != null ? currentMovieRealm.id : 0);
+        presenter.loadReviews(movieId);
     }
 
     @Override
@@ -187,16 +187,9 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpRev
     }
 
     @Override
-    public void showNoResults() {
-        progressBar.setVisibility(View.INVISIBLE);
+    public void showError(int mode) {
         fragmentView.setRefreshing(false);
-        emptyView.setMode(EmptyView.MODE_NO_REVIEWS);
-    }
-
-    @Override
-    public void showNoConnection() {
-        progressBar.setVisibility(View.INVISIBLE);
-        fragmentView.setRefreshing(false);
-        emptyView.setMode(EmptyView.MODE_NO_CONNECTION);
+        progressBar.setVisibility(View.GONE);
+        emptyView.setMode(mode);
     }
 }

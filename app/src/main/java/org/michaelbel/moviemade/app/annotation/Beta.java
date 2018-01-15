@@ -14,6 +14,4 @@ import java.lang.annotation.Target;
         ElementType.METHOD,
         ElementType.TYPE })
 @Documented
-@Beta
-public @interface Beta {
-}
+public @interface Beta {}

@@ -6,6 +6,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.app.Url;
+import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.model.SearchItem;
 import org.michaelbel.moviemade.mvp.view.MvpSearchView;
 import org.michaelbel.moviemade.rest.ApiFactory;
@@ -44,7 +45,7 @@ public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView.SearchPeop
         getViewState().searchStart();
 
         if (NetworkUtils.notConnected()) {
-            getViewState().showNoConnection();
+            getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
             return;
         }
 
@@ -54,7 +55,7 @@ public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView.SearchPeop
             @Override
             public void onResponse(@NonNull Call<PeopleResponse> call, @NonNull Response<PeopleResponse> response) {
                 if (!response.isSuccessful()) {
-                    getViewState().showNoResults();
+                    getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
                     return;
                 }
 
@@ -71,7 +72,7 @@ public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView.SearchPeop
                 newPeople.addAll(response.body().people);
 
                 if (newPeople.isEmpty()) {
-                    getViewState().showNoResults();
+                    getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
                     return;
                 }
 
@@ -81,7 +82,7 @@ public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView.SearchPeop
 
             @Override
             public void onFailure(@NonNull Call<PeopleResponse> call, @NonNull Throwable t) {
-                getViewState().showNoConnection();
+                getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
             }
         });
     }

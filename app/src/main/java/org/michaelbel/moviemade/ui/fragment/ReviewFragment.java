@@ -72,6 +72,7 @@ public class ReviewFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        activity = (ReviewActivity) getActivity();
     }
 
     @Override
@@ -93,8 +94,6 @@ public class ReviewFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity = (ReviewActivity) getActivity();
-
         activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         activity.binding.toolbar.setNavigationOnClickListener(view -> activity.finish());
         activity.binding.toolbarTitle.setText(R.string.MovieReview);

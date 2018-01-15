@@ -6,7 +6,6 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -19,22 +18,28 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import org.michaelbel.moviemade.model.MovieRealm;
-import org.michaelbel.moviemade.rest.ApiFactory;
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+
+import org.michaelbel.moviemade.MainActivity;
+import org.michaelbel.moviemade.MovieActivity;
+import org.michaelbel.moviemade.PersonActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Moviemade;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
+import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.app.eventbus.Events;
+import org.michaelbel.moviemade.model.MovieRealm;
+import org.michaelbel.moviemade.mvp.presenter.ListMoviesPresenter;
+import org.michaelbel.moviemade.mvp.view.MvpListMoviesView;
+import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.rest.api.MOVIES;
 import org.michaelbel.moviemade.rest.api.PEOPLE;
 import org.michaelbel.moviemade.rest.model.Cast;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.rest.response.MoviePeopleResponse;
 import org.michaelbel.moviemade.rest.response.MovieResponse;
-import org.michaelbel.moviemade.MainActivity;
-import org.michaelbel.moviemade.MovieActivity;
-import org.michaelbel.moviemade.PersonActivity;
 import org.michaelbel.moviemade.ui.adapter.MoviesAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
@@ -52,7 +57,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import rx.functions.Action1;
 
-public class ListMoviesFragment extends Fragment {
+public class ListMoviesFragment extends MvpAppCompatFragment implements MvpListMoviesView {
 
     public static final int LIST_NOW_PLAYING = 1;
     public static final int LIST_POPULAR = 2;
@@ -82,8 +87,10 @@ public class ListMoviesFragment extends Fragment {
     private MoviesAdapter adapter;
     private PaddingItemDecoration itemDecoration;
     private GridLayoutManager gridLayoutManager;
-    private LinearLayoutManager linearLayoutManager;
     private List<Movie> movies = new ArrayList<>();
+
+    @InjectPresenter
+    public ListMoviesPresenter presenter;
 
     public static ListMoviesFragment newInstance(int list) {
         Bundle args = new Bundle();
@@ -283,7 +290,7 @@ public class ListMoviesFragment extends Fragment {
 
         currentMovieList = getArguments().getInt("list");
         currentMovie = (Movie) getArguments().getSerializable("movie");
-        currentMovieRealm = (MovieRealm) getArguments().getParcelable("movieRealm");
+        currentMovieRealm = getArguments().getParcelable("movieRealm");
 
         if (currentMovie != null) {
             movieId = currentMovie.id;
@@ -304,6 +311,12 @@ public class ListMoviesFragment extends Fragment {
                 loadList();
             }
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        gridLayoutManager.setSpanCount(1);
     }
 
     @Override
@@ -345,10 +358,24 @@ public class ListMoviesFragment extends Fragment {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        gridLayoutManager.setSpanCount(1);
+    public void showResults(List<Movie> newMovies) {
+        movies.addAll(newMovies);
+        adapter.notifyItemRangeInserted(movies.size() + 1, newMovies.size());
+
+        fragmentView.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
     }
+
+    @Override
+    public void showError(int mode) {
+        fragmentView.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
+        emptyView.setMode(mode);
+    }
+
+
+
+
 
     private void loadList() {
         if (currentMovieList == LIST_NOW_PLAYING) {
@@ -397,7 +424,7 @@ public class ListMoviesFragment extends Fragment {
                 adapter.notifyItemRangeInserted(movies.size() + 1, newMovies.size());
 
                 if (movies.isEmpty()) {
-                    emptyView.setMode(EmptyView.MODE_NO_MOVIES);
+                    emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
                 } else {
                     page++;
                     isLoading = false;
@@ -447,7 +474,7 @@ public class ListMoviesFragment extends Fragment {
                 adapter.notifyItemRangeInserted(movies.size() + 1, newMovies.size());
 
                 if (movies.isEmpty()) {
-                    emptyView.setMode(EmptyView.MODE_NO_MOVIES);
+                    emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
                 } else {
                     page++;
                     isLoading = false;
@@ -497,7 +524,7 @@ public class ListMoviesFragment extends Fragment {
                 adapter.notifyItemRangeInserted(movies.size() + 1, newMovies.size());
 
                 if (movies.isEmpty()) {
-                    emptyView.setMode(EmptyView.MODE_NO_MOVIES);
+                    emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
                 } else {
                     page++;
                     isLoading = false;
@@ -547,7 +574,7 @@ public class ListMoviesFragment extends Fragment {
                 adapter.notifyItemRangeInserted(movies.size() + 1, newMovies.size());
 
                 if (movies.isEmpty()) {
-                    emptyView.setMode(EmptyView.MODE_NO_MOVIES);
+                    emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
                 } else {
                     page++;
                     isLoading = false;
@@ -599,7 +626,7 @@ public class ListMoviesFragment extends Fragment {
                         adapter.notifyItemRangeInserted(movies.size() + 1, newMovies.size());
 
                         if (movies.isEmpty()) {
-                            emptyView.setMode(EmptyView.MODE_NO_MOVIES);
+                            emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
                         } else {
                             page++;
                             isLoading = false;
@@ -650,7 +677,7 @@ public class ListMoviesFragment extends Fragment {
                         adapter.notifyItemRangeInserted(movies.size() + 1, newMovies.size());
 
                         if (movies.isEmpty()) {
-                            emptyView.setMode(EmptyView.MODE_NO_MOVIES);
+                            emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
                         } else {
                             page++;
                             isLoading = false;
@@ -703,7 +730,7 @@ public class ListMoviesFragment extends Fragment {
                 adapter.notifyDataSetChanged();
 
                 if (movies.isEmpty()) {
-                    emptyView.setMode(EmptyView.MODE_NO_MOVIES);
+                    emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
                 }
 
                 onLoadSuccessful();
@@ -724,7 +751,7 @@ public class ListMoviesFragment extends Fragment {
     private void onLoadError() {
         progressBar.setVisibility(View.INVISIBLE);
         fragmentView.setRefreshing(false);
-        emptyView.setMode(EmptyView.MODE_NO_CONNECTION);
+        emptyView.setMode(EmptyViewMode.MODE_NO_CONNECTION);
     }
 
     private void refreshLayout() {

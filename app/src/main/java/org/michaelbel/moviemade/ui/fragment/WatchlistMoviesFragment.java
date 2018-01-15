@@ -28,6 +28,7 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.WatchlistActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
+import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.ui.adapter.Holder;
 import org.michaelbel.moviemade.ui.view.EmptyView;
@@ -62,6 +63,7 @@ public class WatchlistMoviesFragment extends Fragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setHasOptionsMenu(true);
+        activity = (WatchlistActivity) getActivity();
     }
 
     @Override
@@ -92,8 +94,6 @@ public class WatchlistMoviesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity = (WatchlistActivity) getActivity();
-
         activity.binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -194,7 +194,7 @@ public class WatchlistMoviesFragment extends Fragment {
     private void onLoadError() {
         fragmentView.setRefreshing(false);
         progressBar.setVisibility(View.INVISIBLE);
-        emptyView.setMode(EmptyView.MODE_NO_MOVIES);
+        emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
     }
 
     private void onLoadSuccessful() {
