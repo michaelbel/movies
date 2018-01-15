@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.MenuItem;
 import android.view.View;
 
+import org.michaelbel.moviemade.app.annotation.Beta;
 import org.michaelbel.moviemade.databinding.ActivityGenresBinding;
 import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.app.Theme;
@@ -70,6 +71,7 @@ public class GenresActivity extends BaseActivity {
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         binding.tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
         binding.tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
+        binding.tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
         binding.tabLayout.setVisibility(View.INVISIBLE);
 
         Genre genre = (Genre) getIntent().getSerializableExtra("genre");
@@ -104,6 +106,7 @@ public class GenresActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Beta
     public void loadGenres() {
         emptyView.setVisibility(View.INVISIBLE);
 
@@ -152,6 +155,7 @@ public class GenresActivity extends BaseActivity {
         });*/
     }
 
+    @Beta
     public void loadExtraGenres() {
         //adapter.getFragmentList().clear();
 
@@ -161,6 +165,7 @@ public class GenresActivity extends BaseActivity {
         }
     }
 
+    @Beta
     private void onLoadSuccessful() {
         adapter.notifyDataSetChanged();
 
@@ -170,6 +175,7 @@ public class GenresActivity extends BaseActivity {
         binding.tabLayout.setVisibility(View.VISIBLE);
     }
 
+    @Beta
     private void onLoadError() {
         binding.swipeRefreshLayout.setRefreshing(false);
         emptyView.setVisibility(View.VISIBLE);

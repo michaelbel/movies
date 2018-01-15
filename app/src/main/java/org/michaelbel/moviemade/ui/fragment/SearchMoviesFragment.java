@@ -84,6 +84,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        activity = (SearchActivity) getActivity();
     }
 
     @Override
@@ -115,8 +116,6 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity = (SearchActivity) getActivity();
-
         activity.binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -194,8 +193,8 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (linearLayoutManager.findLastVisibleItemPosition() == searches.size() - 1 && !presenter.isLoading() && !presenter.isLoadingLocked()) {
-                    if (presenter.getPage() < presenter.getTotalPages()) {
+                if (linearLayoutManager.findLastVisibleItemPosition() == searches.size() - 1 && !presenter.loading && !presenter.loadingLocked) {
+                    if (presenter.page < presenter.totalPages) {
                         presenter.loadResults();
                     }
                 }
@@ -291,7 +290,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
     }
 
     @Override
-    public void searchNoResults() {
+    public void showNoResults() {
         progressBar.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(EmptyView.MODE_NO_RESULTS);
@@ -303,7 +302,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
     }
 
     @Override
-    public void showError() {
+    public void showNoConnection() {
         progressBar.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(EmptyView.MODE_NO_CONNECTION);

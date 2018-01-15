@@ -2,13 +2,13 @@ package org.michaelbel.moviemade.mvp.view;
 
 import com.arellomobile.mvp.MvpView;
 
-import org.michaelbel.moviemade.rest.model.v3.Review;
+import org.michaelbel.moviemade.rest.model.People;
 
 import java.util.List;
 
-public interface MvpReviewsView extends MvpView {
+public interface MvpPopularPeopleView extends MvpView {
 
-    void showResults(List<Review> newReviews);
+    void showResults(List<People> newPeople);
 
     void showNoResults();
 

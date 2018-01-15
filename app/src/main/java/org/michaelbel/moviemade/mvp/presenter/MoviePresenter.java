@@ -378,7 +378,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         if (movie != null) {
             getViewState().showMovie(movie);
         } else {
-            getViewState().showError();
+            getViewState().showNoConnection();
         }
     }*/
 

@@ -97,7 +97,7 @@ public class ReviewFragment extends Fragment {
 
         activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         activity.binding.toolbar.setNavigationOnClickListener(view -> activity.finish());
-        activity.binding.toolbarTitle.setText(R.string.ReviewDetails);
+        activity.binding.toolbarTitle.setText(R.string.MovieReview);
         activity.binding.toolbarTitle.setOnClickListener(v -> {
             if (AndroidUtils.scrollToTop()) {
                 scrollView.fullScroll(ScrollView.FOCUS_UP);

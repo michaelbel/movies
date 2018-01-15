@@ -27,9 +27,7 @@
                         android:id="@+id/tab_layout"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:theme="@style/AppThemeLight.Tabs"
-                        app:tabTextAppearance="@style/TabText"
-                        app:tabSelectedTextColor="@color/colorAccent"/>
+                        app:tabTextAppearance="@style/TabText"/>
 
                     <TextView
                         android:id="@+id/toolbar_title"

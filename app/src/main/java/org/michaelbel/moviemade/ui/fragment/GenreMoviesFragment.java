@@ -72,12 +72,9 @@ public class GenreMoviesFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (getActivity() instanceof GenreActivity) {
-            ((GenreActivity) getActivity()).binding.toolbarTitle.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (AndroidUtils.scrollToTop()) {
-                        recyclerView.smoothScrollToPosition(0);
-                    }
+            ((GenreActivity) getActivity()).binding.toolbarTitle.setOnClickListener(v -> {
+                if (AndroidUtils.scrollToTop()) {
+                    recyclerView.smoothScrollToPosition(0);
                 }
             });
         } else if (getActivity() instanceof GenresActivity) {

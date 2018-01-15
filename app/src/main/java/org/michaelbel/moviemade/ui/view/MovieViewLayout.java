@@ -26,7 +26,6 @@ import org.michaelbel.moviemade.rest.model.BelongsToCollection;
 import org.michaelbel.moviemade.rest.model.Crew;
 import org.michaelbel.moviemade.rest.model.Genre;
 import org.michaelbel.moviemade.rest.model.Trailer;
-import org.michaelbel.moviemade.ui.PlaceholderView;
 import org.michaelbel.moviemade.ui.view.section.GenresSectionView;
 import org.michaelbel.moviemade.ui.view.section.ImagesSectionView;
 import org.michaelbel.moviemade.ui.view.section.TrailersSectionView;

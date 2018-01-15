@@ -6,50 +6,42 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.app.Url;
-import org.michaelbel.moviemade.model.SearchItem;
-import org.michaelbel.moviemade.mvp.view.MvpSearchView;
+import org.michaelbel.moviemade.mvp.view.MvpPopularPeopleView;
 import org.michaelbel.moviemade.rest.ApiFactory;
-import org.michaelbel.moviemade.rest.api.SEARCH;
+import org.michaelbel.moviemade.rest.api.PEOPLE;
 import org.michaelbel.moviemade.rest.model.People;
 import org.michaelbel.moviemade.rest.response.PeopleResponse;
 import org.michaelbel.moviemade.util.AndroidUtils;
-import org.michaelbel.moviemade.util.DateUtils;
 import org.michaelbel.moviemade.util.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.realm.Realm;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 @InjectViewState
-public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView.SearchPeople> {
+public class PopularPeoplePresenter extends MvpPresenter<MvpPopularPeopleView> {
 
     public int page;
     public int totalPages;
     public boolean loading;
     public boolean loadingLocked;
 
-    private String currentQuery;
-
-    public void search(String query) {
-        page = 1;
-        totalPages = 0;
-        loading = false;
-        loadingLocked = false;
-        currentQuery = query;
-
-        getViewState().searchStart();
-
+    public void loadPeople() {
         if (NetworkUtils.notConnected()) {
             getViewState().showNoConnection();
             return;
         }
 
-        SEARCH service = ApiFactory.createService(SEARCH.class);
-        Call<PeopleResponse> call = service.searchPeople(Url.TMDB_API_KEY, Url.en_US, query, page, AndroidUtils.includeAdult(), null);
+        page = 1;
+        totalPages = 0;
+        loading = false;
+        loadingLocked = false;
+
+        PEOPLE service = ApiFactory.createService(PEOPLE.class);
+        Call<PeopleResponse> call = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page);
         call.enqueue(new Callback<PeopleResponse>() {
             @Override
             public void onResponse(@NonNull Call<PeopleResponse> call, @NonNull Response<PeopleResponse> response) {
@@ -58,24 +50,31 @@ public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView.SearchPeop
                     return;
                 }
 
-                //if (response.body() == null) {
-                //    getViewState().showNoResults();
-                //    return;
-                //}
-
-                addToSearchHistory(query);
+                if (response.body() == null) {
+                    getViewState().showNoResults();
+                    return;
+                }
 
                 totalPages = response.body().totalPages;
 
                 List<People> newPeople = new ArrayList<>();
-                newPeople.addAll(response.body().people);
+
+                if (AndroidUtils.includeAdult()) {
+                    newPeople.addAll(response.body().people);
+                } else {
+                    for (People people : response.body().people) {
+                        if (!people.adult) {
+                            newPeople.add(people);
+                        }
+                    }
+                }
 
                 if (newPeople.isEmpty()) {
                     getViewState().showNoResults();
                     return;
                 }
 
-                getViewState().searchComplete(newPeople, response.body().totalResults);
+                getViewState().showResults(newPeople);
                 page++;
             }
 
@@ -87,8 +86,8 @@ public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView.SearchPeop
     }
 
     public void loadResults() {
-        SEARCH service = ApiFactory.createService(SEARCH.class);
-        Call<PeopleResponse> call = service.searchPeople(Url.TMDB_API_KEY, Url.en_US, currentQuery, page, AndroidUtils.includeAdult(), null);
+        PEOPLE service = ApiFactory.createService(PEOPLE.class);
+        Call<PeopleResponse> call = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page);
         call.enqueue(new Callback<PeopleResponse>() {
             @Override
             public void onResponse(@NonNull Call<PeopleResponse> call, @NonNull Response<PeopleResponse> response) {
@@ -98,13 +97,22 @@ public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView.SearchPeop
                 }
 
                 List<People> newPeople = new ArrayList<>();
-                newPeople.addAll(response.body().people);
+
+                if (AndroidUtils.includeAdult()) {
+                    newPeople.addAll(response.body().people);
+                } else {
+                    for (People people : response.body().people) {
+                        if (!people.adult) {
+                            newPeople.add(people);
+                        }
+                    }
+                }
 
                 if (newPeople.isEmpty()) {
                     return;
                 }
 
-                getViewState().nextPageLoaded(newPeople);
+                getViewState().showResults(newPeople);
                 page++;
                 loading = false;
             }
@@ -117,14 +125,5 @@ public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView.SearchPeop
         });
 
         loading = true;
-    }
-
-    private void addToSearchHistory(String query) {
-        Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(realm1 -> {
-            SearchItem item = realm1.createObject(SearchItem.class);
-            item.queryTitle = query;
-            item.queryDate = DateUtils.getCurrentDateAndTimeWithMilliseconds();
-        });
     }
 }

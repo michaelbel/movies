@@ -16,20 +16,19 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import org.michaelbel.moviemade.MovieActivity;
+import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.model.MovieRealm;
-import org.michaelbel.moviemade.rest.api.MOVIES;
+import org.michaelbel.moviemade.mvp.presenter.ReviewsMoviePresenter;
+import org.michaelbel.moviemade.mvp.view.MvpReviewsView;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.rest.model.v3.Review;
-import org.michaelbel.moviemade.rest.response.ReviewResponse;
 import org.michaelbel.moviemade.ui.adapter.ReviewsAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
-import org.michaelbel.moviemade.MovieActivity;
-import org.michaelbel.moviemade.rest.ApiFactory;
-import org.michaelbel.moviemade.app.LayoutHelper;
-import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
 import org.michaelbel.moviemade.util.NetworkUtils;
@@ -37,17 +36,8 @@ import org.michaelbel.moviemade.util.NetworkUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpReviewsView {
 
-public class ReviewsMovieFragment extends MvpAppCompatFragment {
-
-    private int page;
-    private int totalPages;
-    private boolean isLoading;
-
-    private int movieId;
     private Movie currentMovie;
     private MovieRealm currentMovieRealm;
 
@@ -61,8 +51,8 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment {
     private RecyclerListView recyclerView;
     private SwipeRefreshLayout fragmentView;
 
-    //@InjectPresenter
-    //public ReviewsMoviePresenter presenter;
+    @InjectPresenter
+    public ReviewsMoviePresenter presenter;
 
     public static ReviewsMovieFragment newInstance(Movie movie) {
         Bundle args = new Bundle();
@@ -83,9 +73,13 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         activity = (MovieActivity) getActivity();
+    }
 
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity.binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -112,10 +106,10 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment {
         fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
             if (NetworkUtils.notConnected()) {
-                onLoadError();
+                fragmentView.setRefreshing(false);
             } else {
                 if (reviews.isEmpty()) {
-                    loadReviews();
+                    fragmentView.setRefreshing(false);
                 } else {
                     fragmentView.setRefreshing(false);
                 }
@@ -135,10 +129,8 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment {
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         contentLayout.addView(emptyView);
 
-        page = 1;
         adapter = new ReviewsAdapter(reviews);
-        linearLayoutManager = new LinearLayoutManager(activity);
-        linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
         recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(adapter);
@@ -159,9 +151,9 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (linearLayoutManager.findLastVisibleItemPosition() == reviews.size() - 1 && !isLoading) {
-                    if (page < totalPages) {
-                        loadReviews();
+                if (linearLayoutManager.findLastVisibleItemPosition() == reviews.size() - 1 && !presenter.loading && !presenter.loadingLocked) {
+                    if (presenter.page < presenter.totalPages) {
+                        presenter.loadResults();
                     }
                 }
             }
@@ -181,84 +173,28 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment {
         currentMovie = (Movie) getArguments().getSerializable("movie");
         currentMovieRealm = getArguments().getParcelable("movieRealm");
 
-        if (savedInstanceState == null) {
-            if (NetworkUtils.notConnected()) {
-                onLoadError();
-            } else {
-                if (currentMovie != null) {
-                    movieId = currentMovie.id;
-                } else {
-                    movieId = currentMovieRealm.id;
-                }
-
-                loadReviews();
-            }
-        } else {
-            reviews.clear();
-            reviews.addAll(savedInstanceState.getParcelableArrayList("reviews"));
-            onLoadSuccessful();
-        }
+        reviews.clear();
+        presenter.loadReviews(currentMovie != null ? currentMovie.id : currentMovieRealm != null ? currentMovieRealm.id : 0);
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList("reviews", reviews);
-    }
+    public void showResults(List<Review> newReviews) {
+        reviews.addAll(newReviews);
+        adapter.notifyItemRangeInserted(reviews.size() + 1, newReviews.size());
 
-    private void loadReviews() {
-        MOVIES service = ApiFactory.createService(MOVIES.class);
-        Call<ReviewResponse> call = service.getReviews(movieId, Url.TMDB_API_KEY, Url.en_US, page);
-        call.enqueue(new Callback<ReviewResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<ReviewResponse> call, @NonNull Response<ReviewResponse> response) {
-                if (!response.isSuccessful()) {
-                    onLoadError();
-                    return;
-                }
-
-                if (response.body() == null) {
-                    onLoadError();
-                    return;
-                }
-
-                if (totalPages == 0) {
-                    totalPages = response.body().totalPages;
-                }
-
-                List<Review> newReviews = new ArrayList<>();
-                newReviews.addAll(response.body().reviews);
-
-                reviews.clear(); // todo: Адский костыль
-                reviews.addAll(newReviews);
-                adapter.notifyItemRangeInserted(reviews.size() + 1, newReviews.size());
-
-                if (reviews.isEmpty()) {
-                    emptyView.setMode(EmptyView.MODE_NO_REVIEWS);
-                } else {
-                    page++;
-                    isLoading = false;
-                }
-
-                onLoadSuccessful();
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ReviewResponse> call, @NonNull Throwable t) {
-                isLoading = false;
-                onLoadError();
-            }
-        });
-
-        isLoading = true;
-    }
-
-    private void onLoadSuccessful() {
         progressBar.setVisibility(View.INVISIBLE);
         fragmentView.setRefreshing(false);
     }
 
-    private void onLoadError() {
+    @Override
+    public void showNoResults() {
+        progressBar.setVisibility(View.INVISIBLE);
+        fragmentView.setRefreshing(false);
+        emptyView.setMode(EmptyView.MODE_NO_REVIEWS);
+    }
+
+    @Override
+    public void showNoConnection() {
         progressBar.setVisibility(View.INVISIBLE);
         fragmentView.setRefreshing(false);
         emptyView.setMode(EmptyView.MODE_NO_CONNECTION);

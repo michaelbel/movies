@@ -42,6 +42,8 @@ public class WatchlistActivity extends BaseActivity {
         binding.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         binding.tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
+        binding.tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
+        binding.tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
     }
 
     @Override

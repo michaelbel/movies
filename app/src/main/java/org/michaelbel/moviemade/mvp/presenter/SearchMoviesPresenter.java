@@ -27,10 +27,10 @@ import retrofit2.Response;
 @InjectViewState
 public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView.SearchMovies> {
 
-    private int page;
-    private int totalPages;
-    private boolean loading;
-    private boolean loadingLocked;
+    public int page;
+    public int totalPages;
+    public boolean loading;
+    public boolean loadingLocked;
 
     private String currentQuery;
 
@@ -44,7 +44,7 @@ public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView.SearchMovi
         getViewState().searchStart();
 
         if (NetworkUtils.notConnected()) {
-            getViewState().showError();
+            getViewState().showNoConnection();
             return;
         }
 
@@ -54,14 +54,14 @@ public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView.SearchMovi
             @Override
             public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
                 if (!response.isSuccessful()) {
-                    getViewState().searchNoResults();
+                    getViewState().showNoResults();
                     return;
                 }
 
-                //if (response.body() == null) {
-                //    getViewState().searchNoResults();
-                //    return;
-                //}
+                if (response.body() == null) {
+                    getViewState().showNoResults();
+                    return;
+                }
 
                 addToSearchHistory(query);
 
@@ -71,7 +71,7 @@ public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView.SearchMovi
                 newMovies.addAll(response.body().movies);
 
                 if (newMovies.isEmpty()) {
-                    getViewState().searchNoResults();
+                    getViewState().showNoResults();
                     return;
                 }
 
@@ -81,7 +81,7 @@ public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView.SearchMovi
 
             @Override
             public void onFailure(@NonNull Call<MovieResponse> call, @NonNull Throwable t) {
-                getViewState().showError();
+                getViewState().showNoConnection();
             }
         });
     }
@@ -126,23 +126,5 @@ public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView.SearchMovi
             item.queryTitle = query;
             item.queryDate = DateUtils.getCurrentDateAndTimeWithMilliseconds();
         });
-    }
-
-    // Getters
-
-    public int getPage() {
-        return page;
-    }
-
-    public int getTotalPages() {
-        return totalPages;
-    }
-
-    public boolean isLoading() {
-        return loading;
-    }
-
-    public boolean isLoadingLocked() {
-        return loadingLocked;
     }
 }

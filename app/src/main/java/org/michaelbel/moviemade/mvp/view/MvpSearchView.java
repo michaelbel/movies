@@ -13,25 +13,25 @@ public interface MvpSearchView {
 
         void searchStart();
 
-        void searchNoResults();
+        void showNoResults();
 
         void searchComplete(List<Movie> movies, int totalResults);
 
         void nextPageLoaded(List<Movie> newMovies);
 
-        void showError();
+        void showNoConnection();
     }
 
     interface SearchPeople extends MvpView {
 
         void searchStart();
 
-        void searchNoResults();
+        void showNoResults();
 
         void searchComplete(List<People> people, int totalResults);
 
         void nextPageLoaded(List<People> newPeople);
 
-        void showError();
+        void showNoConnection();
     }
 }

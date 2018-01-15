@@ -8,7 +8,7 @@
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
 
-    <android.support.design.widget.CoordinatorLayout
+        <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -29,9 +29,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginEnd="16dp"
-                    android:theme="@style/AppThemeLight.Tabs"
-                    app:tabTextAppearance="@style/TabText"
-                    app:tabSelectedTextColor="@color/colorAccent"/>
+                    app:tabTextAppearance="@style/TabText"/>
 
             </android.support.v7.widget.Toolbar>
 
@@ -45,12 +43,13 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
-    <org.michaelbel.moviemade.ui.view.NavigationView
-        android:id="@+id/navigation_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:fitsSystemWindows="true"/>
+        <org.michaelbel.moviemade.ui.view.NavigationView
+            android:id="@+id/navigation_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:fitsSystemWindows="true"/>
 
     </android.support.v4.widget.DrawerLayout>
+
 </layout>

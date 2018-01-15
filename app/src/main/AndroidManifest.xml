@@ -1,12 +1,14 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.michaelbel.moviemade">
 
-    <uses-permission android:name="android.permission.INTERNET"/><!--For access to API-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/><!--For Google Analytics-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/><!--For local db-->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/><!--For local db-->
-    <uses-permission android:name="android.permission.BODY_SENSORS"/><!--For review gesture control-->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.BIND_VOICE_INTERACTION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>               <!--Access to API-->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>   <!--Google Analytics-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> <!--Local Database-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>  <!--Local Database-->
+    <uses-permission android:name="android.permission.BODY_SENSORS"/>           <!--Review gesture control-->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>      <!--?-->
+    <uses-permission android:name="android.permission.BIND_VOICE_INTERACTION"/> <!--?-->
+    
+    <uses-permission android:name="com.samsung.permission.SSENSOR"/>            <!--Review gesture control-->
 
     <application
         android:name="org.michaelbel.moviemade.app.Moviemade"
@@ -15,17 +17,7 @@
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/AppName"
-        android:theme="@style/AppTheme.Start">
-
-        <activity
-            android:name="org.michaelbel.moviemade.SettingsActivity"
-            android:configChanges="orientation|screenSize"/>
-
-        <activity
-            android:name="org.michaelbel.moviemade.AboutActivity"
-            android:configChanges="orientation|screenSize"/>
-
-        <!---->
+        android:theme="@style/AppTheme">
 
         <activity
             android:name="org.michaelbel.moviemade.MainActivity"
@@ -50,29 +42,72 @@
         </activity>
 
         <activity
+            android:name="org.michaelbel.moviemade.SettingsActivity"
+            android:screenOrientation="user"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
+
+        <activity
+            android:name="org.michaelbel.moviemade.AboutActivity"
+            android:screenOrientation="user"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
+
+        <activity
             android:name="org.michaelbel.moviemade.MovieActivity"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="keyboardHidden|orientation|screenSize">
+
+            <!--<intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/movie/"/> &lt;!&ndash;https://www.themoviedb.org/movie/&ndash;&gt;
+                <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/movie"/>  &lt;!&ndash;https://www.themoviedb.org/movie&ndash;&gt;
+                <data android:scheme="https" android:host="themoviedb.org" android:pathPrefix="/movie/"/>     &lt;!&ndash;https://themoviedb.org/movie/&ndash;&gt;
+                <data android:scheme="https" android:host="themoviedb.org" android:pathPrefix="/movie"/>      &lt;!&ndash;https://themoviedb.org/movie&ndash;&gt;
+            </intent-filter>-->
+
+        </activity>
+
+        <activity
+            android:name="org.michaelbel.moviemade.PopularPeopleActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize">
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+
+                <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/person/"/> <!--https://www.themoviedb.org/person/-->
+                <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/person"/>  <!--https://www.themoviedb.org/person-->
+                <data android:scheme="https" android:host="themoviedb.org" android:pathPrefix="/person/"/>     <!--https://themoviedb.org/person/-->
+                <data android:scheme="https" android:host="themoviedb.org" android:pathPrefix="/person"/>      <!--https://themoviedb.org/person-->
+            </intent-filter>
+
+        </activity>
 
         <activity
             android:name="org.michaelbel.moviemade.ReviewActivity"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity
             android:name="org.michaelbel.moviemade.TrailersActivity"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity
             android:name="org.michaelbel.moviemade.FavoriteActivity"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity
             android:name="org.michaelbel.moviemade.PersonActivity"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity
             android:name="org.michaelbel.moviemade.SearchActivity"
@@ -83,27 +118,22 @@
         <activity
             android:name="org.michaelbel.moviemade.GenresActivity"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity
             android:name="org.michaelbel.moviemade.GenreActivity"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize"/>
-
-        <activity
-            android:name="org.michaelbel.moviemade.PopularPeopleActivity"
-            android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity
             android:name="org.michaelbel.moviemade.WatchlistActivity"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
         <activity
             android:name="org.michaelbel.moviemade.CollectionActivity"
             android:screenOrientation="portrait"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
 
     </application>
 

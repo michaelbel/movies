@@ -2,6 +2,7 @@ package org.michaelbel.moviemade;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.AppBarLayout;
@@ -27,6 +28,7 @@ import java.util.Locale;
 
 public class MovieActivity extends BaseActivity {
 
+    public int movieId;
     public Movie movie;
     public MovieRealm movieRealm;
     public ActivityMovieBinding binding;
@@ -37,8 +39,24 @@ public class MovieActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movie);
 
         if (savedInstanceState == null) {
+            Uri data = getIntent().getData();
+            String sMovieId;
+
+            // Loading from deep link.
+            if (data != null) {
+                String[] parts = data.toString().split("/");
+                sMovieId = parts[parts.length - 1];
+                if (sMovieId == "movie") {
+                    int dashPosition = sMovieId.indexOf("-");
+                    if (dashPosition != -1) {
+                        sMovieId = sMovieId.substring(0, dashPosition);
+                    }
+                    movieId = Integer.parseInt(sMovieId);
+                }
+            }
+
             movie = (Movie) getIntent().getSerializableExtra("movie");
-            movieRealm = (MovieRealm) getIntent().getParcelableExtra("movieRealm");
+            movieRealm = getIntent().getParcelableExtra("movieRealm");
         }
 
         AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) binding.toolbar.getLayoutParams();
@@ -47,8 +65,6 @@ public class MovieActivity extends BaseActivity {
         binding.toolbar.setLayoutParams(params);
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(binding.toolbar);
-
-        //binding.toolbarTitle.setText(movie.title);
 
         FragmentsPagerAdapter adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
         if (movie != null) {
@@ -67,7 +83,16 @@ public class MovieActivity extends BaseActivity {
             adapter.addFragment(ReviewsMovieFragment.newInstance(movieRealm), R.string.Reviews);
             adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_SIMILAR, movieRealm), R.string.Similar);
             adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_RELATED, movieRealm), R.string.Related);
+        } else {
+            //binding.toolbarTitle.setText("Movie Info: " + sMovieId);
+
+            //adapter.addFragment(MovieFragment.newInstance(movieId), R.string.Info);
+            //adapter.addFragment(CastMovieFragment.newInstance(movieId), R.string.Cast);
+            //adapter.addFragment(ReviewsMovieFragment.newInstance(movieId), R.string.Reviews);
+            //adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_SIMILAR, movieId), R.string.Similar);
+            //adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_RELATED, movieId), R.string.Related);
         }
+
         binding.viewPager.setAdapter(adapter);
 
         binding.tabLayout.setupWithViewPager(binding.viewPager);
@@ -75,7 +100,6 @@ public class MovieActivity extends BaseActivity {
         binding.tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         binding.tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
         binding.tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
-        // todo Check, if true - implement everywhere
         binding.tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
     }
 

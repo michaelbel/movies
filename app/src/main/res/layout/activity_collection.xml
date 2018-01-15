@@ -51,4 +51,5 @@
             android:layout_height="match_parent"/>
 
     </android.support.design.widget.CoordinatorLayout>
+
 </layout>

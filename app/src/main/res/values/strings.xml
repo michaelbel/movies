@@ -132,16 +132,15 @@
     <string name="LoadingTagline">Loading tagline…</string>
     <string name="CurrencyCount">$ %1$s</string>
     <string name="PartOfCollection">Part of the %s</string>
+    <string name="Trailers">Trailers</string>
+    <string name="NoTrailers">No trailers</string>
+    <string name="VideoSize">%1$sp</string>
     <!--Reviews-->
     <string name="Reviews">Reviews</string>
     <string name="NoReviews">No Reviews</string>
     <string name="ReviewAuthor">Review by %1$s</string>
     <string name="OpenReviewUrl">Open Review url</string>
-    <string name="ReviewDetails">Review details</string>
-    <!--Trailers-->
-    <string name="Trailers">Trailers</string>
-    <string name="NoTrailers">No trailers</string>
-    <string name="VideoSize">%1$sp</string>
+    <string name="MovieReview">Movie review</string>
     <!--Search-->
     <string name="Search">Search</string>
     <string name="NoResults">No results</string>

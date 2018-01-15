@@ -194,8 +194,8 @@ public class SearchPeopleFragment extends MvpAppCompatFragment implements MvpSea
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (linearLayoutManager.findLastVisibleItemPosition() == searches.size() - 1 && !presenter.isLoading() && !presenter.isLoadingLocked()) {
-                    if (presenter.getPage() < presenter.getTotalPages()) {
+                if (linearLayoutManager.findLastVisibleItemPosition() == searches.size() - 1 && !presenter.loading && !presenter.loadingLocked) {
+                    if (presenter.page < presenter.totalPages) {
                         presenter.loadResults();
                     }
                 }
@@ -291,7 +291,7 @@ public class SearchPeopleFragment extends MvpAppCompatFragment implements MvpSea
     }
 
     @Override
-    public void searchNoResults() {
+    public void showNoResults() {
         progressBar.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(EmptyView.MODE_NO_RESULTS);
@@ -303,7 +303,7 @@ public class SearchPeopleFragment extends MvpAppCompatFragment implements MvpSea
     }
 
     @Override
-    public void showError() {
+    public void showNoConnection() {
         progressBar.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(EmptyView.MODE_NO_CONNECTION);

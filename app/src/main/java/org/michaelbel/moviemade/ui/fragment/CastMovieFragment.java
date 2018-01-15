@@ -76,11 +76,15 @@ public class CastMovieFragment extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activity = (MovieActivity) getActivity();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity = (MovieActivity) getActivity();
-
         activity.binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -143,9 +147,6 @@ public class CastMovieFragment extends Fragment {
             Cast cast = casts.get(position);
             //activity.startPerson(cast);
         });
-        //recyclerView.setOnItemLongClickListener((view, position) -> {
-        //    return true;
-        //});
         contentLayout.addView(recyclerView);
         return fragmentView;
     }

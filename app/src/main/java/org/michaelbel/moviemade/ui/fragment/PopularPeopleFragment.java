@@ -3,10 +3,8 @@ package org.michaelbel.moviemade.ui.fragment;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -16,33 +14,25 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import org.michaelbel.moviemade.rest.ApiFactory;
+import com.arellomobile.mvp.MvpAppCompatFragment;
+import com.arellomobile.mvp.presenter.InjectPresenter;
+
+import org.michaelbel.moviemade.PopularPeopleActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.app.Url;
-import org.michaelbel.moviemade.rest.api.PEOPLE;
+import org.michaelbel.moviemade.mvp.presenter.PopularPeoplePresenter;
+import org.michaelbel.moviemade.mvp.view.MvpPopularPeopleView;
 import org.michaelbel.moviemade.rest.model.People;
-import org.michaelbel.moviemade.rest.response.PeopleResponse;
-import org.michaelbel.moviemade.PopularPeopleActivity;
 import org.michaelbel.moviemade.ui.adapter.PeopleAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
-import org.michaelbel.moviemade.util.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class PopularPeopleFragment extends Fragment {
-
-    private int page;
-    private int totalPages;
-    private boolean isLoading;
+public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpPopularPeopleView {
 
     private PeopleAdapter adapter;
     private PopularPeopleActivity activity;
@@ -54,6 +44,9 @@ public class PopularPeopleFragment extends Fragment {
     private RecyclerListView recyclerView;
     private SwipeRefreshLayout fragmentView;
 
+    @InjectPresenter
+    public PopularPeoplePresenter presenter;
+
     public static PopularPeopleFragment newInstance() {
         Bundle args = new Bundle();
 
@@ -62,11 +55,15 @@ public class PopularPeopleFragment extends Fragment {
         return fragment;
     }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        activity = (PopularPeopleActivity) getActivity();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity = (PopularPeopleActivity) getActivity();
-
         activity.binding.toolbarTitle.setOnClickListener(v -> {
             if (AndroidUtils.scrollToTop()) {
                 recyclerView.smoothScrollToPosition(0);
@@ -79,15 +76,7 @@ public class PopularPeopleFragment extends Fragment {
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
         fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(getContext(), Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
-            if (NetworkUtils.notConnected()) {
-                onLoadError();
-            } else {
-                if (people.isEmpty()) {
-                    loadPopularPeople();
-                } else {
-                    fragmentView.setRefreshing(false);
-                }
-            }
+            fragmentView.setRefreshing(false);
         });
 
         FrameLayout fragmentContent = new FrameLayout(activity);
@@ -104,9 +93,8 @@ public class PopularPeopleFragment extends Fragment {
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
         fragmentContent.addView(emptyView);
 
-        page = 1;
         adapter = new PeopleAdapter(people);
-        linearLayoutManager = new LinearLayoutManager(activity);
+        linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         linearLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         recyclerView = new RecyclerListView(activity);
@@ -119,16 +107,13 @@ public class PopularPeopleFragment extends Fragment {
             People p = (People) people.get(position);
             //activity.startPerson(cast);
         });
-        //recyclerView.setOnItemLongClickListener((view, position) -> {
-        //    return true;
-        //});
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (linearLayoutManager.findLastVisibleItemPosition() == people.size() - 1 && !isLoading) {
-                    if (page < totalPages) {
-                        loadPopularPeople();
+                if (linearLayoutManager.findLastVisibleItemPosition() == people.size() - 1 && !presenter.loading && !presenter.loadingLocked) {
+                    if (presenter.page < presenter.totalPages) {
+                        presenter.loadResults();
                     }
                 }
             }
@@ -141,14 +126,34 @@ public class PopularPeopleFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (NetworkUtils.notConnected()) {
-            onLoadError();
-        } else {
-            loadPopularPeople();
-        }
+        people.clear();
+        presenter.loadPeople();
     }
 
-    private void loadPopularPeople() {
+    @Override
+    public void showResults(List<People> newPeople) {
+        people.addAll(newPeople);
+        adapter.notifyItemRangeInserted(people.size() + 1, newPeople.size());
+
+        progressBar.setVisibility(View.INVISIBLE);
+        fragmentView.setRefreshing(false);
+    }
+
+    @Override
+    public void showNoResults() {
+        progressBar.setVisibility(View.INVISIBLE);
+        fragmentView.setRefreshing(false);
+        emptyView.setMode(EmptyView.MODE_NO_PEOPLE);
+    }
+
+    @Override
+    public void showNoConnection() {
+        progressBar.setVisibility(View.INVISIBLE);
+        fragmentView.setRefreshing(false);
+        emptyView.setMode(EmptyView.MODE_NO_CONNECTION);
+    }
+
+    /*private void loadPopularPeople() {
         PEOPLE service = ApiFactory.createService(PEOPLE.class);
         Call<PeopleResponse> call = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page);
         call.enqueue(new Callback<PeopleResponse>() {
@@ -196,7 +201,7 @@ public class PopularPeopleFragment extends Fragment {
         });
 
         isLoading = true;
-    }
+    }*/
 
     /*private void updateList(List<People> newPeople) {
         PeopleDiffutilCallback callback = new PeopleDiffutilCallback(this.people, newPeople);
@@ -205,18 +210,18 @@ public class PopularPeopleFragment extends Fragment {
         peopleDiffResults.dispatchUpdatesTo(adapter);
     }*/
 
-    private void onLoadSuccessful() {
+    /*private void onLoadSuccessful() {
         progressBar.setVisibility(View.INVISIBLE);
         fragmentView.setRefreshing(false);
-    }
+    }*/
 
-    private void onLoadError() {
+    /*private void onLoadError() {
         progressBar.setVisibility(View.INVISIBLE);
         fragmentView.setRefreshing(false);
         emptyView.setMode(EmptyView.MODE_NO_CONNECTION);
-    }
+    }*/
 
-    private class PeopleDiffutilCallback extends DiffUtil.Callback {
+    /*private class PeopleDiffutilCallback extends DiffUtil.Callback {
 
         private final List<People> oldPeople;
         private final List<People> newPeople;
@@ -255,5 +260,5 @@ public class PopularPeopleFragment extends Fragment {
         public Object getChangePayload(int oldItemPosition, int newItemPosition) {
             return super.getChangePayload(oldItemPosition, newItemPosition);
         }
-    }
+    }*/
 }

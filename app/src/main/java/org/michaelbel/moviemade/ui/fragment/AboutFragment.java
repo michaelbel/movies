@@ -1,11 +1,9 @@
 package org.michaelbel.moviemade.ui.fragment;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -15,15 +13,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import org.michaelbel.moviemade.AboutActivity;
 import org.michaelbel.moviemade.BuildConfig;
@@ -33,6 +26,7 @@ import org.michaelbel.moviemade.app.Moviemade;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.browser.Browser;
 import org.michaelbel.moviemade.ui.adapter.Holder;
+import org.michaelbel.moviemade.ui.view.AboutView;
 import org.michaelbel.moviemade.ui.view.cell.EmptyCell;
 import org.michaelbel.moviemade.ui.view.cell.TextCell;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
@@ -170,7 +164,11 @@ public class AboutFragment extends Fragment {
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             int type = getItemViewType(position);
 
-            if (type == 1) {
+            if (type == 0) {
+                AboutView view = (AboutView) holder.itemView;
+                view.addName(getString(R.string.AppForAndroid, getString(R.string.AppName)));
+                view.addVersion(BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE, BuildConfig.VERSION_DATE);
+            } else if (type == 1) {
                 EmptyCell cell = (EmptyCell) holder.itemView;
                 cell.changeLayoutParams();
 
@@ -212,7 +210,8 @@ public class AboutFragment extends Fragment {
                         .setDivider(true);
                 } else if (position == donatePaypalRow) {
                     cell.setIcon(R.drawable.ic_cash_usd)
-                        .setText(R.string.DonatePaypal);
+                        .setText(R.string.DonatePaypal)
+                        .setDivider(false);
                 }
             }
         }
@@ -231,61 +230,6 @@ public class AboutFragment extends Fragment {
             } else {
                 return 2;
             }
-        }
-    }
-
-    public class AboutView extends LinearLayout {
-
-        private ImageView launcherIcon;
-        private TextView appNameText;
-        private TextView versionText;
-
-        public AboutView(Context context) {
-            super(context);
-
-            setOrientation(VERTICAL);
-            setPadding(ScreenUtils.dp(24), ScreenUtils.dp(24), ScreenUtils.dp(24), ScreenUtils.dp(24));
-
-            launcherIcon = new ImageView(context);
-            launcherIcon.setImageResource(R.mipmap.ic_launcher);
-            launcherIcon.setLayoutParams(LayoutHelper.makeLinear(120, 120, Gravity.CENTER_HORIZONTAL));
-            addView(launcherIcon);
-
-            appNameText = new TextView(context);
-            appNameText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
-            appNameText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-            appNameText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-            appNameText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 0, 5, 0, 0));
-            addView(appNameText);
-
-            versionText = new TextView(context);
-            versionText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-            versionText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-            versionText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 0, 4, 0, 0));
-            addView(versionText);
-
-            setVersion();
-        }
-
-        private void setVersion() {
-            try {
-                int versionCode = BuildConfig.VERSION_CODE;
-                String versionName = BuildConfig.VERSION_NAME;
-                String versionDate = BuildConfig.VERSION_DATE;
-
-                appNameText.setText(getString(R.string.AppForAndroid, getString(R.string.AppName)));
-                versionText.setText(getString(R.string.VersionBuildDate, versionName, versionCode, versionDate));
-            } catch (Exception e) {
-                // todo Error
-            }
-        }
-
-        @Override
-        protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-            int width = MeasureSpec.makeMeasureSpec(widthMeasureSpec, MeasureSpec.EXACTLY);
-            int height = getMeasuredHeight();
-            setMeasuredDimension(width, height);
         }
     }
 }

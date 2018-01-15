@@ -43,8 +43,6 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
 
     //private final int PERMISSION_REQUEST_CODE = 100;
 
-    private boolean loadFromRealm;
-
     private Movie extraMovie;
     private Movie loadedMovie;
     private MovieRealm extraMovieRealm;
@@ -234,8 +232,6 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
 
     @Override
     public void showMovieRealm(MovieRealm movie) {
-        loadFromRealm = true;
-
         movieView.addPoster(movie.posterPath);
         movieView.addTitle(movie.title);
         movieView.addOverview(movie.overview);
