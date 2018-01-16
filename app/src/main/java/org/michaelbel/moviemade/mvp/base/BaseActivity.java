@@ -21,6 +21,7 @@ import org.michaelbel.moviemade.rest.model.Trailer;
 
 import java.util.ArrayList;
 
+@SuppressWarnings("registered")
 public class BaseActivity extends MvpAppCompatActivity implements BaseModel, MediaModel {
 
     @Override

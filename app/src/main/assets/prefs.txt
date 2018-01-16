@@ -23,10 +23,5 @@ devconfig:
  - zoom_review_rating          (int)
  - search_results_count        (bool)
  - search_results_count_rating (int)
-
- - floating_toolbar     (bool)
- - hamburger_menu       (bool)
- - full_overview        (bool)
+ - floating_toolbar            (bool)
  - floating_toolbar_rating     (int)
- - hamburger_menu_rating       (int)
- - full_overview_rating        (int)

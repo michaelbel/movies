@@ -16,7 +16,6 @@ import org.michaelbel.moviemade.databinding.ActivityMainBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.ui.fragment.ListMoviesFragment;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
-import org.michaelbel.moviemade.util.AndroidUtilsDev;
 
 public class MainActivity extends BaseActivity {
 
@@ -25,7 +24,6 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setTheme(R.style.AppThemeLight);
-        // todo setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
 
@@ -33,7 +31,7 @@ public class MainActivity extends BaseActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         getWindow().setStatusBarColor(0x33000000);
 
-        binding.toolbar.setNavigationIcon(AndroidUtilsDev.hamburgerIcon() ? R.drawable.ic_hamburger : R.drawable.ic_menu);
+        binding.toolbar.setNavigationIcon(R.drawable.ic_menu);
         setSupportActionBar(binding.toolbar);
 
         binding.navigationView.setOnNavigationItemSelectedListener((view, position) -> {
@@ -42,15 +40,18 @@ public class MainActivity extends BaseActivity {
             if (position == 2) {
                 // MainActivity
             } else if (position == 3) {
+                startActivity(new Intent(this, GenresActivity.class));
+                this.finish();
+            } else if (position == 4) {
                 startActivity(new Intent(this, PopularPeopleActivity.class));
                 this.finish();
-            } else if (position == 5) {
-                startActivity(new Intent(this, WatchlistActivity.class));
             } else if (position == 6) {
+                startActivity(new Intent(this, WatchlistActivity.class));
+            } else if (position == 7) {
                 startActivity(new Intent(this, FavoriteActivity.class));
-            } else if (position == 8) {
-                startActivity(new Intent(this, SettingsActivity.class));
             } else if (position == 9) {
+                startActivity(new Intent(this, SettingsActivity.class));
+            } else if (position == 10) {
                 startActivity(new Intent(this, AboutActivity.class));
             }
         });

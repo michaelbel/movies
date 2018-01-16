@@ -64,10 +64,9 @@
     <string name="AdvancedSettings">Advanced Settings</string>
     <string name="Scrollbars">Scrollbars</string>
     <string name="ScrollbarsInfo">Enable all scrollbars in app</string>
-
-    <string name="FloatingToolbar">Floating Toolbar</string>
     <string name="SearchResultsCounter">Search Results Counter</string>
-    <string name="HamburgerMenu">Hamburger Menu</string>
+    <string name="FloatingToolbar">Floating Toolbar</string>
+
     <string name="FullOverview">Full Overview</string>
     <!--About-->
     <string name="About">About</string>

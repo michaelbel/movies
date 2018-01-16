@@ -44,6 +44,10 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         }
     }
 
+    public void loadMovie(MovieRealm movie) {
+        loadMovieDetails(movie.id);
+    }
+
     private void loadMovieDetails(int movieId) {
         MOVIES service = ApiFactory.createService(MOVIES.class);
         Call<Movie> call = service.getDetails(movieId, Url.TMDB_API_KEY, Url.en_US, null);

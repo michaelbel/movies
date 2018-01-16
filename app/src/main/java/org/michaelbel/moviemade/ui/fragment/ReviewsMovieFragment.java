@@ -105,7 +105,7 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpRev
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
         fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
-            reviews.clear();
+            adapter.getReviews().clear();
             presenter.loadReviews(movieId);
         });
 
@@ -173,7 +173,7 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpRev
             movieId = 0;
         }
 
-        reviews.clear();
+        adapter.getReviews().clear();
         presenter.loadReviews(movieId);
     }
 

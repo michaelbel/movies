@@ -33,7 +33,9 @@ import org.michaelbel.moviemade.rest.model.Trailer;
 import org.michaelbel.moviemade.ui.interfaces.ImageSectionListener;
 import org.michaelbel.moviemade.ui.view.MovieViewLayout;
 import org.michaelbel.moviemade.util.AndroidUtils;
+import org.michaelbel.moviemade.util.AndroidUtilsDev;
 import org.michaelbel.moviemade.util.DateUtils;
+import org.michaelbel.moviemade.util.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,6 +120,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         });
 
         scrollView = new ScrollView(activity);
+        scrollView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         scrollView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
         scrollView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         fragmentView.addView(scrollView);
@@ -181,17 +184,17 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
             return;
         }
 
-        //if (getArguments().getSerializable("movie") == null) {
-        //    return;
-        //}
-
         extraMovie = (Movie) getArguments().getSerializable("movie");
         extraMovieRealm = getArguments().getParcelable("movieRealm");
 
         if (extraMovie != null) {
             presenter.loadMovie(extraMovie);
         } else {
-            presenter.loadMovieFromRealm(extraMovieRealm.id);
+            if (NetworkUtils.notConnected()) {
+                presenter.loadMovieFromRealm(extraMovieRealm.id);
+            } else {
+                presenter.loadMovie(extraMovieRealm); // todo ???
+            }
         }
     }
 
@@ -209,7 +212,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         movieView.addVoteCount(movie.voteCount);
         movieView.addOriginalTitle(movie.originalTitle);
         movieView.addOriginalLanguage(AndroidUtils.formatOriginalLanguage(movie.originalLanguage));
-        movieView.addImages(extraMovie.posterPath, extraMovie.backdropPath, 0, 0);
+        movieView.addImages(movie.posterPath, movie.backdropPath, 0, 0);
 
         movieView.addTagline(movie.tagline);
         movieView.addRuntime(movie.runtime);
@@ -232,6 +235,10 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         presenter.loadTrailers(movie.id);
         presenter.loadImages(movie.id);
         presenter.loadCredits(movie.id);
+
+        genres.clear();
+        genres.addAll(movie.genres);
+        movieView.getGenresView().setClickable(true);
     }
 
     @Override
@@ -278,8 +285,8 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
 
     @Override
     public void showTrailers(List<Trailer> newTrailers) {
-        this.trailers.clear();
-        this.trailers.addAll(newTrailers);
+        trailers.clear();
+        trailers.addAll(newTrailers);
 
         movieView.addTrailers(trailers);
         movieView.getTrailersView().setClickable(true);
@@ -329,7 +336,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     }
 
     @Override
-    public boolean onOverviewLongClick(View view) {
+    public void onOverviewLongClick(View view) {
         if (extraMovieRealm != null) {
             AndroidUtils.copyToClipboard(extraMovieRealm.overview);
         } else {
@@ -337,7 +344,6 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         }
 
         Toast.makeText(getContext(), getString(R.string.ClipboardCopied, getString(R.string.Overview)), Toast.LENGTH_SHORT).show();
-        return true;
     }
 
     @Override
@@ -349,6 +355,11 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     @Override
     public void onTrailersSectionClick(View view) {
         activity.startTrailers(extraMovie, trailers);
+    }
+
+    @Override
+    public void onGenresSectionClick(View view) {
+        activity.startGenres(genres);
     }
 
     @Override

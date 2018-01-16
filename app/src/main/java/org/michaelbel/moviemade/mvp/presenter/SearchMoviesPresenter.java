@@ -64,7 +64,7 @@ public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView.SearchMovi
                     return;
                 }
 
-                addToSearchHistory(query);
+                //addToSearchHistory(query);
 
                 totalPages = response.body().totalPages;
 

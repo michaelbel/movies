@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 import android.support.v4.view.GravityCompat;
 import android.view.MenuItem;
 import android.view.WindowManager;
@@ -12,7 +11,6 @@ import android.view.WindowManager;
 import org.michaelbel.moviemade.databinding.ActivityPopularPeopleBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.ui.fragment.PopularPeopleFragment;
-import org.michaelbel.moviemade.util.AndroidUtilsDev;
 
 public class PopularPeopleActivity extends BaseActivity {
 
@@ -27,10 +25,7 @@ public class PopularPeopleActivity extends BaseActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         getWindow().setStatusBarColor(0x33000000);
 
-        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) binding.toolbar.getLayoutParams();
-        params.setScrollFlags(AndroidUtilsDev.floatingToolbar() ? AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS | AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP : 0);
-
-        binding.toolbar.setLayoutParams(params);
+        //binding.toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(binding.toolbar));
         binding.toolbar.setNavigationIcon(R.drawable.ic_menu);
         setSupportActionBar(binding.toolbar);
 
@@ -43,14 +38,17 @@ public class PopularPeopleActivity extends BaseActivity {
                 startActivity(new Intent(this, MainActivity.class));
                 this.finish();
             } else if (position == 3) {
+                startActivity(new Intent(this, GenresActivity.class));
+                this.finish();
+            } else if (position == 4) {
                 // PopularPeopleActivity
-            } else if (position == 5) {
-                startActivity(new Intent(this, WatchlistActivity.class));
             } else if (position == 6) {
+                startActivity(new Intent(this, WatchlistActivity.class));
+            } else if (position == 7) {
                 startActivity(new Intent(this, FavoriteActivity.class));
-            } else if (position == 8) {
-                startActivity(new Intent(this, SettingsActivity.class));
             } else if (position == 9) {
+                startActivity(new Intent(this, SettingsActivity.class));
+            } else if (position == 10) {
                 startActivity(new Intent(this, AboutActivity.class));
             }
         });
@@ -76,7 +74,7 @@ public class PopularPeopleActivity extends BaseActivity {
         super.onBackPressed();
     }
 
-    /*@Override
+    /*@Override // todo Why it does not work?
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_MENU) {
             if (!binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {

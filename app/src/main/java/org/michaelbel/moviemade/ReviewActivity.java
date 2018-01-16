@@ -3,7 +3,6 @@ package org.michaelbel.moviemade;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.AppBarLayout;
 
 import org.michaelbel.moviemade.databinding.ActivityReviewBinding;
 import org.michaelbel.moviemade.model.MovieRealm;
@@ -22,10 +21,7 @@ public class ReviewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_review);
 
-        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) binding.toolbar.getLayoutParams();
-        params.setScrollFlags(AndroidUtilsDev.floatingToolbar() ? AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS | AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP : 0);
-
-        binding.toolbar.setLayoutParams(params);
+        binding.toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(binding.toolbar));
         setSupportActionBar(binding.toolbar);
 
         if (savedInstanceState == null) {

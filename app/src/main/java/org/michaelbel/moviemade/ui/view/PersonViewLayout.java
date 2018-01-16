@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.squareup.picasso.MemoryPolicy;
@@ -55,6 +56,8 @@ public class PersonViewLayout extends LinearLayout {
     private WebpageView imdbPageView;
     private WebpageView homePageView;
 
+    private ProgressBar progressBar;
+
     private PersonViewListener personViewListener;
 
     public PersonViewLayout(Context context) {
@@ -71,6 +74,7 @@ public class PersonViewLayout extends LinearLayout {
 //------PROFILE IMAGE-------------------------------------------------------------------------------
 
         profileImage = new ImageView(context);
+        profileImage.setVisibility(INVISIBLE);
         profileImage.setScaleType(ImageView.ScaleType.FIT_XY);
         profileImage.setLayoutParams(LayoutHelper.makeFrame(120, 180, Gravity.START | Gravity.TOP, 16, 16, 0, 0));
         topLayout.addView(profileImage);
@@ -100,13 +104,14 @@ public class PersonViewLayout extends LinearLayout {
 //------BIRTHDAY------------------------------------------------------------------------------------
 
         birthdayLayout = new LinearLayout(context);
+        birthdayLayout.setVisibility(INVISIBLE);
         birthdayLayout.setOrientation(HORIZONTAL);
         birthdayLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START, 0, 12, 0, 0));
         shortInfoLayout.addView(birthdayLayout);
 
         ImageView birthdayIcon = new ImageView(context);
         birthdayIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_cake, ContextCompat.getColor(context, Theme.iconActiveColor())));
-        birthdayIcon.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL));
+        birthdayIcon.setLayoutParams(LayoutHelper.makeLinear(20, 20, Gravity.START | Gravity.CENTER_VERTICAL));
         birthdayLayout.addView(birthdayIcon);
 
         birthdayText = new TextView(context);
@@ -120,13 +125,14 @@ public class PersonViewLayout extends LinearLayout {
 //------DEATHDAY------------------------------------------------------------------------------------
 
         deathdayLayout = new LinearLayout(context);
+        deathdayLayout.setVisibility(INVISIBLE);
         deathdayLayout.setOrientation(HORIZONTAL);
         deathdayLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START, 0, 12, 0, 0));
         shortInfoLayout.addView(deathdayLayout);
 
         ImageView deathdayIcon = new ImageView(context);
         deathdayIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_calendar, ContextCompat.getColor(context, Theme.iconActiveColor())));
-        deathdayIcon.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL));
+        deathdayIcon.setLayoutParams(LayoutHelper.makeLinear(20, 20, Gravity.START | Gravity.CENTER_VERTICAL));
         deathdayLayout.addView(deathdayIcon);
 
         deathdayText = new TextView(context);
@@ -141,13 +147,14 @@ public class PersonViewLayout extends LinearLayout {
 //------BIRTHPLACE----------------------------------------------------------------------------------
 
         birthPlaceLayout = new LinearLayout(context);
+        birthPlaceLayout.setVisibility(INVISIBLE);
         birthPlaceLayout.setOrientation(HORIZONTAL);
         birthPlaceLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START, 0, 12, 0, 0));
         shortInfoLayout.addView(birthPlaceLayout);
 
         ImageView birthplaceIcon = new ImageView(context);
         birthplaceIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_home, ContextCompat.getColor(context, Theme.iconActiveColor())));
-        birthplaceIcon.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START));
+        birthplaceIcon.setLayoutParams(LayoutHelper.makeLinear(20, 20, Gravity.START));
         birthPlaceLayout.addView(birthplaceIcon);
 
         birthPlaceText = new TextView(context);
@@ -181,6 +188,7 @@ public class PersonViewLayout extends LinearLayout {
         topLayout.addView(nameCareerLayout);
 
         nameText = new TextView(context);
+        nameText.setVisibility(INVISIBLE);
         nameText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
         nameText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         nameText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
@@ -193,11 +201,18 @@ public class PersonViewLayout extends LinearLayout {
         //nameCareerLayout.addView(careerText);
 
         otherNamesText = new TextView(context);
-        otherNamesText.setLines(1);
+        otherNamesText.setVisibility(INVISIBLE);
         otherNamesText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         otherNamesText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        otherNamesText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 0, 8, 0, 0));
+        otherNamesText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 0, 2, 0, 0));
         nameCareerLayout.addView(otherNamesText);
+
+//------PROGRESS BAR--------------------------------------------------------------------------------
+
+        progressBar = new ProgressBar(context);
+        progressBar.setVisibility(VISIBLE);
+        progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
+        topLayout.addView(progressBar);
 
 //------BIO-----------------------------------------------------------------------------------------
 
@@ -291,7 +306,7 @@ public class PersonViewLayout extends LinearLayout {
             return;
         }
 
-        deathdayText.setText(deathday);
+        deathdayText.setText(getContext().getString(R.string.Deathday, deathday));
     }
 
     public void addBirthPlace(String birthPlace) {
@@ -328,6 +343,17 @@ public class PersonViewLayout extends LinearLayout {
         }
 
         otherNamesText.setText(names);
+    }
+
+    public void loadedSuccess() {
+        progressBar.setVisibility(INVISIBLE);
+
+        profileImage.setVisibility(VISIBLE);
+        nameText.setVisibility(VISIBLE);
+        otherNamesText.setVisibility(VISIBLE);
+        birthdayLayout.setVisibility(VISIBLE);
+        deathdayLayout.setVisibility(VISIBLE);
+        birthPlaceLayout.setVisibility(VISIBLE);
     }
 
     public void addBio(String bio) {

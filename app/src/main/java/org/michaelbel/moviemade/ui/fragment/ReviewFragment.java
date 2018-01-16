@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +29,6 @@ import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.rest.model.v3.Review;
 import org.michaelbel.moviemade.ui.view.widget.GestureTextView;
-import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
 import org.michaelbel.moviemade.util.ScreenUtils;
 
@@ -96,29 +94,31 @@ public class ReviewFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         activity.binding.toolbar.setNavigationOnClickListener(view -> activity.finish());
-        activity.binding.toolbarTitle.setText(R.string.MovieReview);
-        activity.binding.toolbarTitle.setOnClickListener(v -> {
-            if (AndroidUtils.scrollToTop()) {
-                scrollView.fullScroll(ScrollView.FOCUS_UP);
-            }
-        });
+        //activity.binding.toolbarTitle.setText(R.string.MovieReview);
+        //activity.binding.toolbarTitle.setOnClickListener(v -> {
+        //    if (AndroidUtils.scrollToTop()) {
+        //        scrollView.fullScroll(ScrollView.FOCUS_UP);
+        //    }
+        //});
 
         View fragmentView = inflater.inflate(R.layout.fragment_review, container, false);
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
 
         scrollView = fragmentView.findViewById(R.id.scroll_view);
+        scrollView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
 
-        LinearLayout linearLayout = fragmentView.findViewById(R.id.headers_layout);
-        linearLayout.setPadding(0, 1, 0, 0);
+        //LinearLayout linearLayout = fragmentView.findViewById(R.id.headers_layout);
+        //linearLayout.setPadding(0, 1, 0, 0);
 
         FrameLayout mediaTitleLayout = new FrameLayout(activity);
-        mediaTitleLayout.setPadding(ScreenUtils.dp(16), ScreenUtils.dp(12), ScreenUtils.dp(16), ScreenUtils.dp(12));
+        mediaTitleLayout.setPadding(ScreenUtils.dp(0), ScreenUtils.dp(12), ScreenUtils.dp(16), ScreenUtils.dp(12));
         mediaTitleLayout.setBackgroundColor(ContextCompat.getColor(activity, Theme.primaryColor()));
         mediaTitleLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        linearLayout.addView(mediaTitleLayout);
+        //linearLayout.addView(mediaTitleLayout);
+        activity.binding.authorLayout.addView(mediaTitleLayout);
 
         ImageView mediaIcon = new ImageView(activity);
-        mediaIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_movie, ContextCompat.getColor(activity, Theme.primaryTextColor())));
+        mediaIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_movieroll, ContextCompat.getColor(activity, Theme.iconActiveColor())));
         mediaIcon.setLayoutParams(LayoutHelper.makeFrame(22, 22, Gravity.START | Gravity.TOP, 0, 1, 0, 0));
         mediaTitleLayout.addView(mediaIcon);
 
@@ -131,12 +131,13 @@ public class ReviewFragment extends Fragment {
 
         FrameLayout authorLayout = new FrameLayout(activity);
         authorLayout.setBackgroundColor(ContextCompat.getColor(activity, Theme.primaryColor()));
-        authorLayout.setPadding(ScreenUtils.dp(16), ScreenUtils.dp(12), ScreenUtils.dp(16), ScreenUtils.dp(12));
+        authorLayout.setPadding(ScreenUtils.dp(0), ScreenUtils.dp(0), ScreenUtils.dp(16), ScreenUtils.dp(12));
         authorLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, 0));
-        linearLayout.addView(authorLayout);
+        //linearLayout.addView(authorLayout);
+        activity.binding.authorLayout.addView(authorLayout);
 
         ImageView authorIconView = new ImageView(activity);
-        authorIconView.setImageDrawable(Theme.getIcon(R.drawable.ic_account, ContextCompat.getColor(activity, Theme.primaryTextColor())));
+        authorIconView.setImageDrawable(Theme.getIcon(R.drawable.ic_account_circle, ContextCompat.getColor(activity, Theme.iconActiveColor())));
         authorIconView.setLayoutParams(LayoutHelper.makeFrame(22, 22, Gravity.START | Gravity.TOP, 0, 1, 0, 0));
         authorLayout.addView(authorIconView);
 

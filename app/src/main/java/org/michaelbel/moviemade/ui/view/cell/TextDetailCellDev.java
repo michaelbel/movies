@@ -97,10 +97,15 @@ public class TextDetailCellDev extends LinearLayout {
 
         switchCompat = new SwitchCompat(context);
         switchCompat.setClickable(false);
-        switchCompat.setFocusable(false);
         switchCompat.setVisibility(INVISIBLE);
         switchCompat.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 16, 0));
         frameLayout.addView(switchCompat);
+
+        switchCompat.setFocusableInTouchMode(false);
+        switchCompat.clearFocus();
+
+        //this.setFocusableInTouchMode(true);
+        //this.requestFocus();
 
         checkBox = new AppCompatCheckBox(context);
         checkBox.setClickable(false);

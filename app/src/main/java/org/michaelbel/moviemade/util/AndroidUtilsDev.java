@@ -2,9 +2,10 @@ package org.michaelbel.moviemade.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.design.widget.AppBarLayout;
+import android.view.View;
 
 import org.michaelbel.moviemade.app.Moviemade;
-import org.michaelbel.moviemade.app.annotation.Beta;
 
 public class AndroidUtilsDev {
 
@@ -12,31 +13,29 @@ public class AndroidUtilsDev {
         return Moviemade.AppContext;
     }
 
-    @Beta
     public static boolean scrollbars() {
         SharedPreferences prefs = getContext().getSharedPreferences("devconfig", Context.MODE_PRIVATE);
         return prefs.getBoolean("scrollbars", true);
     }
 
-    @Beta
     public static boolean zoomReview() {
         SharedPreferences prefs = getContext().getSharedPreferences("devconfig", Context.MODE_PRIVATE);
         return prefs.getBoolean("zoom_review", true);
     }
-
 
     public static boolean floatingToolbar() {
         SharedPreferences prefs = getContext().getSharedPreferences("devconfig", Context.MODE_PRIVATE);
         return prefs.getBoolean("floating_toolbar", false);
     }
 
-    public static boolean hamburgerIcon() {
-        SharedPreferences prefs = getContext().getSharedPreferences("devconfig", Context.MODE_PRIVATE);
-        return prefs.getBoolean("burger", false);
-    }
-
     public static boolean searchResultsCount() {
         SharedPreferences prefs = getContext().getSharedPreferences("devconfig", Context.MODE_PRIVATE);
         return prefs.getBoolean("search_results_count", false);
+    }
+
+    public static AppBarLayout.LayoutParams getLayoutParams(View view) {
+        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) view.getLayoutParams();
+        params.setScrollFlags(AndroidUtilsDev.floatingToolbar() ? AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS | AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP : 0);
+        return params;
     }
 }

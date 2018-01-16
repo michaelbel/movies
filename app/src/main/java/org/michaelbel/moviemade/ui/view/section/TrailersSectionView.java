@@ -36,7 +36,7 @@ public class TrailersSectionView extends FrameLayout {
 
     public interface SectionTrailersListener {
         void onTrailerClick(View view, String trailerKey);
-        boolean onTrailerLongClick(View view, String trailerKey);
+        void onTrailerLongClick(View view, String trailerKey);
     }
 
     public TrailersSectionView(Context context) {

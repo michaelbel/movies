@@ -39,4 +39,8 @@ public class SearchMoviesAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
         return searches != null ? searches.size() : 0;
     }
+
+    public List<Movie> getMovies() {
+        return searches;
+    }
 }

@@ -10,7 +10,6 @@ import android.support.v4.app.FragmentPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("all")
 public class FragmentsPagerAdapter extends FragmentPagerAdapter {
 
     private Context mContext;
@@ -31,12 +30,18 @@ public class FragmentsPagerAdapter extends FragmentPagerAdapter {
         mTitles.add(title);
     }
 
+    public void addFragments(List<Fragment> fragments, List<CharSequence> titles) {
+        mFragments.addAll(fragments);
+        mTitles.addAll(titles);
+    }
+
     public void addFragment(Fragment fragment, @StringRes int stringId) {
         addFragment(fragment, mContext.getText(stringId));
     }
 
-    public List<Fragment> getFragmentList() {
-        return mFragments;
+    public void clear() {
+        mFragments.clear();
+        mTitles.clear();
     }
 
     @Override

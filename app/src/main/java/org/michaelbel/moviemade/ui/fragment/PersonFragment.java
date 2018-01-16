@@ -31,6 +31,7 @@ import org.michaelbel.moviemade.ui.interfaces.PersonViewListener;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.PersonViewLayout;
 import org.michaelbel.moviemade.util.AndroidUtils;
+import org.michaelbel.moviemade.util.AndroidUtilsDev;
 
 import java.util.Locale;
 
@@ -109,6 +110,7 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
         contentLayout.addView(emptyView);
 
         scrollView = new ScrollView(activity);
+        scrollView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         scrollView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         contentLayout.addView(scrollView);
 
@@ -144,8 +146,9 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
         personView.addHomepage(person.homepage);
         personView.addBirthPlace(getString(R.string.BirthPlace, person.birthPlace));
         personView.addBirthday(getString(R.string.Birthday, person.birthday));
-        personView.addDeathday(getString(R.string.Deathday, person.deathday));
+        personView.addDeathday(person.deathday);
 
+        personView.loadedSuccess();
         //personView.addCareer("Actor, Writing, Crew");
 
         progressBar.setVisibility(View.GONE);

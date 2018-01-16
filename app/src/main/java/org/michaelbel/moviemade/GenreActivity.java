@@ -10,6 +10,7 @@ import org.michaelbel.moviemade.databinding.ActivityGenreBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.Genre;
 import org.michaelbel.moviemade.ui.fragment.GenreMoviesFragment;
+import org.michaelbel.moviemade.util.AndroidUtilsDev;
 
 public class GenreActivity extends BaseActivity {
 
@@ -20,6 +21,7 @@ public class GenreActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_genre);
 
+        binding.toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(binding.toolbar));
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(binding.toolbar);
 

@@ -34,4 +34,5 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
     </android.support.design.widget.CoordinatorLayout>
+
 </layout>

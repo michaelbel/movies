@@ -124,15 +124,14 @@ public class MovieViewLayout extends LinearLayout {
     private MovieViewListener movieViewListener;
 
     public interface MovieViewListener {
-        boolean onOverviewLongClick(View view);
+        void onOverviewLongClick(View view);
         void onFavoriteButtonClick(View view);
         void onWatchingButtonClick(View view);
         void onTrailerClick(View view, String trailerKey);
-        //boolean onTrailerLongClick(View view, String trailerKey);
         void onTrailersSectionClick(View view);
         void onMovieUrlClick(View view, int position);
         void onGenreSelected(View view, Genre genre);
-        //void onGenresSectionClick(View view);
+        void onGenresSectionClick(View view);
     }
 
     public MovieViewLayout(Context context) {
@@ -217,7 +216,7 @@ public class MovieViewLayout extends LinearLayout {
 
         ImageView dateIcon = new ImageView(context);
         dateIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_calendar, ContextCompat.getColor(context, Theme.iconActiveColor())));
-        dateIcon.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL));
+        dateIcon.setLayoutParams(LayoutHelper.makeLinear(20, 20, Gravity.START | Gravity.CENTER_VERTICAL));
         releaseDateLayout.addView(dateIcon);
 
         releaseDateText = new TextView(context);
@@ -239,7 +238,7 @@ public class MovieViewLayout extends LinearLayout {
 
         ImageView clockIcon = new ImageView(context);
         clockIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_clock, ContextCompat.getColor(context, Theme.iconActiveColor())));
-        clockIcon.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL));
+        clockIcon.setLayoutParams(LayoutHelper.makeLinear(20, 20, Gravity.START | Gravity.CENTER_VERTICAL));
         runtimeLayout.addView(clockIcon);
 
         runtimeText = new TextView(context);
@@ -261,7 +260,7 @@ public class MovieViewLayout extends LinearLayout {
 
         ImageView countriesIcon = new ImageView(context);
         countriesIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_earth, ContextCompat.getColor(context, Theme.iconActiveColor())));
-        countriesIcon.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START));
+        countriesIcon.setLayoutParams(LayoutHelper.makeLinear(20, 20, Gravity.START));
         langLayout.addView(countriesIcon);
 
         originalLanguageText = new TextView(context);
@@ -441,12 +440,11 @@ public class MovieViewLayout extends LinearLayout {
             }
 
             @Override
-            public boolean onTrailerLongClick(View view, String trailerKey) {
+            public void onTrailerLongClick(View view, String trailerKey) {
                 /*if (movieViewListener != null) {
                     movieViewListener.onTrailerLongClick(view, trailerKey);
                     return true;
                 }*/
-                return false;
             }
         });
         addView(trailersView);
@@ -561,11 +559,11 @@ public class MovieViewLayout extends LinearLayout {
 
         genresView = new GenresSectionView(context);
         genresView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0));
-        /*genresView.setOnClickListener(v -> {
+        genresView.setOnClickListener(view -> {
             if (movieViewListener != null) {
-                movieViewListener.onGenresSectionClick(v);
+                movieViewListener.onGenresSectionClick(view);
             }
-        });*/
+        });
         genresView.setListener((view, genre) -> {
             if (movieViewListener != null) {
                 movieViewListener.onGenreSelected(view, genre);
@@ -867,6 +865,10 @@ public class MovieViewLayout extends LinearLayout {
 
     public TrailersSectionView getTrailersView() {
         return trailersView;
+    }
+
+    public GenresSectionView getGenresView() {
+        return genresView;
     }
 
 //--------------------------------------------------------------------------------------------------

@@ -45,8 +45,8 @@ public class CastMovieFragment extends MvpAppCompatFragment implements MvpCastMo
 
     private CastMovieAdapter adapter;
     private MovieActivity activity;
-    private LinearLayoutManager linearLayoutManager;
     private List<Cast> casts = new ArrayList<>();
+    private LinearLayoutManager linearLayoutManager;
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
@@ -136,7 +136,7 @@ public class CastMovieFragment extends MvpAppCompatFragment implements MvpCastMo
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
             Cast cast = casts.get(position);
-            //activity.startPerson(cast);
+            activity.startPerson(cast);
         });
         contentLayout.addView(recyclerView);
         return fragmentView;

@@ -35,4 +35,8 @@ public class ReviewsAdapter extends RecyclerView.Adapter {
     public int getItemCount() {
         return reviews != null ? reviews.size() : 0;
     }
+
+    public List<Review> getReviews() {
+        return reviews;
+    }
 }

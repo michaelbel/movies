@@ -41,6 +41,7 @@ public class GenresSectionView extends FrameLayout {
     public GenresSectionView(@NonNull Context context) {
         super(context);
 
+        setClickable(false);
         setBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
 
         ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(context)

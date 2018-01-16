@@ -23,6 +23,7 @@ import java.util.Locale;
 public class PersonActivity extends BaseActivity {
 
     private Cast person;
+
     public ActivityPersonBinding binding;
 
     @Override
