@@ -30,12 +30,13 @@ Moviemade - quick and easy way to discover popular movies.
 Take a look at [assets/config.properties][config-properties] and fill it with [your own][tmdb-introduction] correct values.
 
 ## Libraries
- * BottomSheet - https://github.com/michaelbel/BottomSheet
- * Gson - https://github.com/google/gson
- * Retrofit - https://github.com/square/retrofit
- * Picasso - https://github.com/square/picasso
- * Moxy - https://github.com/Arello-Mobile/Moxy
- * ChipsLayoutManager - https://github.com/BelooS/ChipsLayoutManager
+ * [BottomSheet](https://github.com/michaelbel/BottomSheet)
+ * [Gson](https://github.com/google/gson)
+ * [Retrofit](https://github.com/square/retrofit)
+ * [Picasso](https://github.com/square/picasso)
+ * [Moxy](https://github.com/Arello-Mobile/Moxy)
+ * [GestureViews](https://github.com/alexvasilkov/GestureViews)
+ * [ChipsLayoutManager](https://github.com/BelooS/ChipsLayoutManager)
 
 ## License
     Copyright 2017-2018 Michael Bel
