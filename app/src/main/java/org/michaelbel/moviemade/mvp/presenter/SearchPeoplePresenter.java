@@ -1,6 +1,7 @@
 package org.michaelbel.moviemade.mvp.presenter;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
@@ -56,20 +57,24 @@ public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView.SearchPeop
             public void onResponse(@NonNull Call<PeopleResponse> call, @NonNull Response<PeopleResponse> response) {
                 if (!response.isSuccessful()) {
                     getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
+                    Log.e("tagger", "response is successful = error");
                     return;
                 }
 
-                //if (response.body() == null) {
-                //    getViewState().showNoResults();
-                //    return;
-                //}
+                if (response.body() == null) {
+                    getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
+                    Log.e("tagger", "response body = null");
+                    return;
+                }
 
-                addToSearchHistory(query);
+                //addToSearchHistory(query);
 
                 totalPages = response.body().totalPages;
+                Log.e("tagger", "total pages = " + totalPages);
 
                 List<People> newPeople = new ArrayList<>();
                 newPeople.addAll(response.body().people);
+                Log.e("tagger", "SIZE: " + newPeople.size());
 
                 if (newPeople.isEmpty()) {
                     getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);

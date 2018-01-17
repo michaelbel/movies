@@ -14,6 +14,7 @@ import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.databinding.ActivityPersonBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.Cast;
+import org.michaelbel.moviemade.rest.model.People;
 import org.michaelbel.moviemade.ui.fragment.ListMoviesFragment;
 import org.michaelbel.moviemade.ui.fragment.PersonFragment;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
@@ -22,7 +23,8 @@ import java.util.Locale;
 
 public class PersonActivity extends BaseActivity {
 
-    private Cast person;
+    private Cast castPerson;
+    private People peoplePerson;
 
     public ActivityPersonBinding binding;
 
@@ -31,16 +33,22 @@ public class PersonActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_person);
 
-        if (savedInstanceState == null) {
-            person = (Cast) getIntent().getSerializableExtra("person");
-        }
+        //if (savedInstanceState == null) {
+            castPerson = (Cast) getIntent().getSerializableExtra("cast_person");
+            peoplePerson = (People) getIntent().getSerializableExtra("people_person");
+        //}
 
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(binding.toolbar);
 
         FragmentsPagerAdapter adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
-        adapter.addFragment(PersonFragment.newInstance(person), R.string.Info);
-        adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_BY_PERSON, person), R.string.Movies);
+        if (castPerson != null) {
+            adapter.addFragment(PersonFragment.newInstance(castPerson), R.string.Info);
+            adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_BY_PERSON, castPerson), R.string.Movies);
+        } else if (peoplePerson != null) {
+            adapter.addFragment(PersonFragment.newInstance(peoplePerson), R.string.Info);
+            //adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_BY_PERSON, peoplePerson), R.string.Movies);
+        }
 
         binding.viewPager.setAdapter(adapter);
 
@@ -61,7 +69,7 @@ public class PersonActivity extends BaseActivity {
                 try {
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     intent.setType("text/plain");
-                    intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, Url.TMDB_PERSON, person.id));
+                    intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, Url.TMDB_PERSON, castPerson.id));
                     startActivity(Intent.createChooser(intent, getString(R.string.ShareVia)));
                     return true;
                 } catch (Exception e) {

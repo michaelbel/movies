@@ -26,6 +26,7 @@ import org.michaelbel.moviemade.app.browser.Browser;
 import org.michaelbel.moviemade.mvp.presenter.PersonPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpPersonView;
 import org.michaelbel.moviemade.rest.model.Cast;
+import org.michaelbel.moviemade.rest.model.People;
 import org.michaelbel.moviemade.rest.model.Person;
 import org.michaelbel.moviemade.ui.interfaces.PersonViewListener;
 import org.michaelbel.moviemade.ui.view.EmptyView;
@@ -37,8 +38,11 @@ import java.util.Locale;
 
 public class PersonFragment extends MvpAppCompatFragment implements MvpPersonView, PersonViewListener {
 
-    private Cast extraPerson;
+    private Cast extraCastPerson;
+    private People extraPeoplePerson;
     private Person loadedPerson;
+
+    private int id;
 
     private PersonActivity activity;
 
@@ -53,7 +57,16 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
 
     public static PersonFragment newInstance(Cast person) {
         Bundle args = new Bundle();
-        args.putSerializable("person", person);
+        args.putSerializable("cast_person", person);
+
+        PersonFragment fragment = new PersonFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static PersonFragment newInstance(People person) {
+        Bundle args = new Bundle();
+        args.putSerializable("people_person", person);
 
         PersonFragment fragment = new PersonFragment();
         fragment.setArguments(args);
@@ -126,11 +139,20 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (getArguments() != null) {
-            extraPerson = (Cast) getArguments().getSerializable("person");
+        if (getArguments() == null) {
+            return;
         }
 
-        presenter.loadPerson(extraPerson.id);
+        extraCastPerson = (Cast) getArguments().getSerializable("cast_person");
+        extraPeoplePerson = (People) getArguments().getSerializable("people_person");
+
+        if (extraCastPerson != null) {
+            id = extraCastPerson.id;
+        } else if (extraPeoplePerson != null) {
+            id = extraPeoplePerson.id;
+        }
+
+        presenter.loadPerson(id);
     }
 
     @Override
@@ -167,9 +189,9 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
     @Override
     public void onWebpageClick(View view, int position) {
         if (position == 0) {
-            Browser.openUrl(activity, String.format(Locale.US, Url.TMDB_PERSON, extraPerson.id));
+            Browser.openUrl(activity, String.format(Locale.US, Url.TMDB_PERSON, id));
         } else if (position == 1) {
-            // todo: Browser.openUrl(activity, String.format(Locale.US, Url.IMDB_MOVIE, loadedPerson.imdbId));
+            Browser.openUrl(activity, String.format(Locale.US, Url.IMDB_MOVIE, loadedPerson.imdbId));
         } else if (position == 2) {
             Browser.openUrl(activity, loadedPerson.homepage);
         }

@@ -6,7 +6,6 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
-@SuppressWarnings("all")
 public interface AUTHENTICATION {
 
     @GET("authentication/token/new?")

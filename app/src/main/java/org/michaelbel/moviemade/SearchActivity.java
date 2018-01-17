@@ -9,12 +9,14 @@ import android.speech.RecognizerIntent;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
@@ -27,18 +29,25 @@ import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.databinding.ActivitySearchBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.ui.fragment.SearchMoviesFragment;
+import org.michaelbel.moviemade.ui.fragment.SearchPeopleFragment;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
+import org.michaelbel.moviemade.util.AndroidUtils;
 
 import java.util.List;
 import java.util.Locale;
 
 public class SearchActivity extends BaseActivity {
 
-    private final int MENU_ITEM_INDEX = 0;
+    public static final int TAB_DEFAULT = 0;
+    public static final int TAB_MOVIES = 0;
+    public static final int TAB_PEOPLE = 1;
+
+    private static final int MENU_ITEM_INDEX = 0;
     private final int MODE_ACTION_CLEAR = 1;
     private final int MODE_ACTION_VOICE = 2;
     private final int SPEECH_REQUEST_CODE = 101;
 
+    private int tab;
     private int iconActionMode;
 
     public Menu actionMenu;
@@ -52,6 +61,8 @@ public class SearchActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search);
+
+        tab = getIntent().getIntExtra("search_tab", TAB_DEFAULT);
 
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(binding.toolbar);
@@ -92,6 +103,23 @@ public class SearchActivity extends BaseActivity {
 
             }
         });
+        searchEditText.setOnEditorActionListener((view, actionId, event) -> {
+            if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_SEARCH)) {
+                SearchMoviesFragment moviesFragment = (SearchMoviesFragment) adapter.getItem(TAB_MOVIES);
+                SearchPeopleFragment peopleFragment = (SearchPeopleFragment) adapter.getItem(TAB_PEOPLE);
+
+                if (binding.viewPager.getCurrentItem() == 0) {
+                    moviesFragment.presenter.search(view.getText().toString().trim());
+                } else if (binding.viewPager.getCurrentItem() == 1) {
+                    peopleFragment.presenter.search(view.getText().toString().trim());
+                }
+
+                AndroidUtils.hideKeyboard(searchEditText);
+                return true;
+            }
+
+            return false;
+        });
         toolbarLayout.addView(searchEditText);
         Theme.clearCursorDrawable(searchEditText);
 
@@ -99,10 +127,41 @@ public class SearchActivity extends BaseActivity {
 
         adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
         adapter.addFragment(SearchMoviesFragment.newInstance(query), R.string.Movies);
-        //adapter.addFragment(SearchPeopleFragment.newInstance(query), R.string.People);
+        adapter.addFragment(SearchPeopleFragment.newInstance(query), R.string.People);
 
         binding.viewPager.setAdapter(adapter);
+        binding.viewPager.setCurrentItem(tab);
         binding.viewPager.setBackgroundColor(ContextCompat.getColor(this, Theme.backgroundColor()));
+        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (position == TAB_MOVIES) {
+                    SearchMoviesFragment moviesFragment = (SearchMoviesFragment) adapter.getItem(TAB_MOVIES);
+                    if (moviesFragment.empty()) {
+                        if (!searchEditText.getText().toString().isEmpty()) {
+                            moviesFragment.presenter.search(searchEditText.getText().toString().trim());
+                        }
+                    }
+                } else if (position == TAB_PEOPLE) {
+                    SearchPeopleFragment peopleFragment = (SearchPeopleFragment) adapter.getItem(TAB_PEOPLE);
+                    if (peopleFragment.empty()) {
+                        if (!searchEditText.getText().toString().isEmpty()) {
+                            peopleFragment.presenter.search(searchEditText.getText().toString().trim());
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         binding.tabLayout.setupWithViewPager(binding.viewPager);
         binding.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -116,7 +175,7 @@ public class SearchActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         actionMenu = menu;
 
-        menu.add("")
+        menu.add(null)
             .setIcon(R.drawable.ic_voice)
             .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             .setOnMenuItemClickListener(menuItem -> {
@@ -154,8 +213,14 @@ public class SearchActivity extends BaseActivity {
                             searchEditText.setSelection(searchEditText.getText().length());
                             changeActionIcon();
 
-                            SearchMoviesFragment fragment = (SearchMoviesFragment) adapter.getItem(0);
-                            fragment.presenter.search(textResults);
+                            SearchMoviesFragment moviesFragment = (SearchMoviesFragment) adapter.getItem(TAB_MOVIES);
+                            SearchPeopleFragment peopleFragment = (SearchPeopleFragment) adapter.getItem(TAB_PEOPLE);
+
+                            if (binding.viewPager.getCurrentItem() == TAB_MOVIES) {
+                                moviesFragment.presenter.search(textResults);
+                            } else if (binding.viewPager.getCurrentItem() == TAB_PEOPLE) {
+                                peopleFragment.presenter.search(textResults);
+                            }
                         }
                     }
                 }

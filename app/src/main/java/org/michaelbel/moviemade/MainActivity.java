@@ -77,7 +77,9 @@ public class MainActivity extends BaseActivity {
             .setIcon(R.drawable.ic_search)
             .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             .setOnMenuItemClickListener(item -> {
-                startActivity(new Intent(MainActivity.this, SearchActivity.class));
+                Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                intent.putExtra("search_tab", SearchActivity.TAB_MOVIES);
+                startActivity(intent);
                 return true;
             });
 

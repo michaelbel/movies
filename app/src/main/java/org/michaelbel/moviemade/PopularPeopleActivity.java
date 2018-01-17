@@ -5,6 +5,7 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.GravityCompat;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
@@ -54,6 +55,21 @@ public class PopularPeopleActivity extends BaseActivity {
         });
 
         startFragment(PopularPeopleFragment.newInstance(), binding.fragmentView);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        menu.add(R.string.Search)
+                .setIcon(R.drawable.ic_search)
+                .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+                .setOnMenuItemClickListener(item -> {
+                    Intent intent = new Intent(PopularPeopleActivity.this, SearchActivity.class);
+                    intent.putExtra("search_tab", SearchActivity.TAB_PEOPLE);
+                    startActivity(intent);
+                    return true;
+                });
+
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override

@@ -16,6 +16,7 @@ import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.rest.model.Cast;
 import org.michaelbel.moviemade.rest.model.Genre;
 import org.michaelbel.moviemade.rest.model.Movie;
+import org.michaelbel.moviemade.rest.model.People;
 import org.michaelbel.moviemade.rest.model.v3.Review;
 import org.michaelbel.moviemade.rest.model.Trailer;
 
@@ -81,7 +82,14 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseModel, Med
     @Override
     public void startPerson(Cast person) {
         Intent intent = new Intent(this, PersonActivity.class);
-        intent.putExtra("person", person);
+        intent.putExtra("cast_person", person);
+        startActivity(intent);
+    }
+
+    @Override
+    public void startPerson(People person) {
+        Intent intent = new Intent(this, PersonActivity.class);
+        intent.putExtra("people_person", person);
         startActivity(intent);
     }
 

@@ -33,7 +33,7 @@ public interface SEARCH {
     @GET("")
     Call<?> searchMulti();
 
-    @GET("search/people?")
+    @GET("search/person?")
     Call<PeopleResponse> searchPeople(
             @Query("api_key") String apiKey,
             @Query("language") String lang,

@@ -8,11 +8,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
@@ -64,7 +62,6 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
         activity = (SearchActivity) getActivity();
     }
 
@@ -88,15 +85,6 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
                     recyclerView.smoothScrollToPosition(0);
                 }
             }
-        });
-
-        activity.searchEditText.setOnEditorActionListener((textView, actionId, event) -> {
-            if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_SEARCH)) {
-                presenter.search(textView.getText().toString().trim());
-                AndroidUtils.hideKeyboard(activity.searchEditText);
-                return true;
-            }
-            return false;
         });
 
         FrameLayout fragmentView = new FrameLayout(activity);
@@ -176,7 +164,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
         progressBar.setVisibility(View.GONE);
 
         if (AndroidUtilsDev.searchResultsCount()) {
-            TabLayout.Tab tab = activity.binding.tabLayout.getTabAt(0);
+            TabLayout.Tab tab = activity.binding.tabLayout.getTabAt(SearchActivity.TAB_MOVIES);
             if (tab != null) {
                 tab.setText(getResources().getQuantityString(R.plurals.MoviesTotalResults, totalResults, totalResults));
             }
@@ -195,9 +183,13 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(mode);
 
-        TabLayout.Tab tab = activity.binding.tabLayout.getTabAt(0);
+        TabLayout.Tab tab = activity.binding.tabLayout.getTabAt(SearchActivity.TAB_MOVIES);
         if (tab != null) {
             tab.setText(R.string.Movies);
         }
+    }
+
+    public boolean empty() {
+        return adapter.getMovies().isEmpty();
     }
 }

@@ -104,8 +104,8 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpPo
         recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
-            People p = (People) people.get(position);
-            //activity.startPerson(cast);
+            People person = people.get(position);
+            activity.startPerson(person);
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

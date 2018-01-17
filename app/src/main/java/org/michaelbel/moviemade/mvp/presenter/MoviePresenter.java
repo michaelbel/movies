@@ -112,7 +112,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
                     return;
                 }
 
-                getViewState().showImages(response.body().posters.size(), response.body().backdrops.size());
+                getViewState().showImages(response.body().posters.get(0).filePath, response.body().backdrops.get(0).filePath, response.body().posters.size(), response.body().backdrops.size());
             }
 
             @Override

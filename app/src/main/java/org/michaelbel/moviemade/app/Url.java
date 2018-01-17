@@ -5,6 +5,8 @@ import org.michaelbel.moviemade.util.AndroidUtils;
 public class Url {
 
     public static final String IMDB_MOVIE = "http://imdb.com/title/%s";
+    public static final String IMDB_PERSON = "http://imdb.com/name/%s";
+
     public static final String YOUTUBE_IMAGE = "http://img.youtube.com/vi/%s/0.jpg";
 
     public static final String TMDB_API_KEY = AndroidUtils.loadProperty("TMDbApiKey");

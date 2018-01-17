@@ -19,7 +19,7 @@ public interface MvpMovieView extends MvpView {
 
     void showTrailers(List<Trailer> newTrailers);
 
-    void showImages(int postersCount, int backdropsCount);
+    void showImages(String posterPath, String backdropPath, int postersCount, int backdropsCount);
 
     void showCrew(List<Crew> crews);
 

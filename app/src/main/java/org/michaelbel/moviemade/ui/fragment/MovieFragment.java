@@ -229,8 +229,8 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         movieView.favoriteButtonVisibility(loaded ? View.VISIBLE : View.INVISIBLE);
         movieView.watchingButtonVisibility(loaded ? View.VISIBLE : View.INVISIBLE);
 
-        movieView.setFavoriteButton(presenter.isMovieFavorite(extraMovie.id));
-        movieView.setWatchingButton(presenter.isMovieWatching(extraMovie.id));
+        movieView.setFavoriteButton(presenter.isMovieFavorite(movie.id));
+        movieView.setWatchingButton(presenter.isMovieWatching(movie.id));
 
         presenter.loadTrailers(movie.id);
         presenter.loadImages(movie.id);
@@ -293,8 +293,8 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     }
 
     @Override
-    public void showImages(int postersCount, int backdropsCount) {
-        movieView.addImages(extraMovie.posterPath, extraMovie.backdropPath, postersCount, backdropsCount);
+    public void showImages(String posterPath, String backdropPath, int postersCount, int backdropsCount) {
+        movieView.addImages(posterPath, backdropPath, postersCount, backdropsCount);
     }
 
     @Override
