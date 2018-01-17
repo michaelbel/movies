@@ -1,7 +1,9 @@
-[github-url]:     https://github.com/michaelbel/moviemade
-[paypal-url]:     https://paypal.me/michaelbel
-[licence-url]:    http://www.apache.org/licenses/LICENSE-2.0
-[googleplay-url]: https://play.google.com/store/apps/details?id=org.michaelbel.moviemade
+[github-url]:        https://github.com/michaelbel/moviemade
+[paypal-url]:        https://paypal.me/michaelbel
+[licence-url]:       http://www.apache.org/licenses/LICENSE-2.0
+[googleplay-url]:    https://play.google.com/store/apps/details?id=org.michaelbel.moviemade
+[config-properties]: https://github.com/michaelbel/Moviemade/blob/master/app/src/main/assets/config.properties
+[tmdb-introduction]: https://developers.themoviedb.org/3/getting-started/introduction
 
 [launcher-path]: ../master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
 
@@ -10,13 +12,12 @@
 [license-badge]:    https://img.shields.io/badge/License-Apache_v2.0-F3745F.svg
 [googleplay-badge]: https://img.shields.io/badge/Google_Play-Demo-F3745F.svg
 
-<!---------------------------------------------------------------------------------------------------->
+<!--------------------------------------------------------------------------------------------------------------->
 
 <p align="center">
   <img src="../master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"/>
 </p>
 
-<!-- [![Launcher][launcher-path]][github-url] -->
 # Moviemade
 [![Platform][platform-badge]][github-url]
 [![License][license-badge]][licence-url]
@@ -25,8 +26,10 @@
 
 Moviemade - quick and easy way to discover popular movies.
 
-## Libraries
+## Build
+Take a look at [assets/config.properties][config-properties] and fill it with [your own][tmdb-introduction] correct values.
 
+## Libraries
  * BottomSheet - https://github.com/michaelbel/BottomSheet
  * Gson - https://github.com/google/gson
  * Retrofit - https://github.com/square/retrofit
@@ -35,7 +38,6 @@ Moviemade - quick and easy way to discover popular movies.
  * ChipsLayoutManager - https://github.com/BelooS/ChipsLayoutManager
 
 ## License
-
     Copyright 2017-2018 Michael Bel
 
     Licensed under the Apache License, Version 2.0 (the "License");
