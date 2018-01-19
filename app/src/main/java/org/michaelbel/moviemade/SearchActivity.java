@@ -28,6 +28,9 @@ import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.databinding.ActivitySearchBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
+import org.michaelbel.moviemade.ui.fragment.SearchCollectionsFragment;
+import org.michaelbel.moviemade.ui.fragment.SearchCompaniesFragment;
+import org.michaelbel.moviemade.ui.fragment.SearchKeywordsFragment;
 import org.michaelbel.moviemade.ui.fragment.SearchMoviesFragment;
 import org.michaelbel.moviemade.ui.fragment.SearchPeopleFragment;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
@@ -38,9 +41,11 @@ import java.util.Locale;
 
 public class SearchActivity extends BaseActivity {
 
-    public static final int TAB_DEFAULT = 0;
     public static final int TAB_MOVIES = 0;
     public static final int TAB_PEOPLE = 1;
+    public static final int TAB_KEYWORDS = 2;
+    public static final int TAB_COLLECTIONS = 3;
+    public static final int TAB_COMPANIES = 4;
 
     private static final int MENU_ITEM_INDEX = 0;
     private final int MODE_ACTION_CLEAR = 1;
@@ -62,7 +67,7 @@ public class SearchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search);
 
-        tab = getIntent().getIntExtra("search_tab", TAB_DEFAULT);
+        tab = getIntent().getIntExtra("search_tab", TAB_MOVIES);
 
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(binding.toolbar);
@@ -105,15 +110,7 @@ public class SearchActivity extends BaseActivity {
         });
         searchEditText.setOnEditorActionListener((view, actionId, event) -> {
             if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_SEARCH)) {
-                SearchMoviesFragment moviesFragment = (SearchMoviesFragment) adapter.getItem(TAB_MOVIES);
-                SearchPeopleFragment peopleFragment = (SearchPeopleFragment) adapter.getItem(TAB_PEOPLE);
-
-                if (binding.viewPager.getCurrentItem() == 0) {
-                    moviesFragment.presenter.search(view.getText().toString().trim());
-                } else if (binding.viewPager.getCurrentItem() == 1) {
-                    peopleFragment.presenter.search(view.getText().toString().trim());
-                }
-
+                searchInFragment(binding.viewPager.getCurrentItem(), view.getText().toString().trim());
                 AndroidUtils.hideKeyboard(searchEditText);
                 return true;
             }
@@ -128,6 +125,9 @@ public class SearchActivity extends BaseActivity {
         adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
         adapter.addFragment(SearchMoviesFragment.newInstance(query), R.string.Movies);
         adapter.addFragment(SearchPeopleFragment.newInstance(query), R.string.People);
+        adapter.addFragment(SearchKeywordsFragment.newInstance(query), "Keywords");
+        adapter.addFragment(SearchCollectionsFragment.newInstance(query), "Collections");
+        adapter.addFragment(SearchCompaniesFragment.newInstance(query), "Companies");
 
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.setCurrentItem(tab);
@@ -141,17 +141,38 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void onPageSelected(int position) {
                 if (position == TAB_MOVIES) {
-                    SearchMoviesFragment moviesFragment = (SearchMoviesFragment) adapter.getItem(TAB_MOVIES);
-                    if (moviesFragment.empty()) {
+                    SearchMoviesFragment fragment = (SearchMoviesFragment) adapter.getItem(TAB_MOVIES);
+                    if (fragment.empty()) {
                         if (!searchEditText.getText().toString().isEmpty()) {
-                            moviesFragment.presenter.search(searchEditText.getText().toString().trim());
+                            fragment.presenter.search(searchEditText.getText().toString().trim());
                         }
                     }
                 } else if (position == TAB_PEOPLE) {
-                    SearchPeopleFragment peopleFragment = (SearchPeopleFragment) adapter.getItem(TAB_PEOPLE);
-                    if (peopleFragment.empty()) {
+                    SearchPeopleFragment fragment = (SearchPeopleFragment) adapter.getItem(TAB_PEOPLE);
+                    if (fragment.empty()) {
                         if (!searchEditText.getText().toString().isEmpty()) {
-                            peopleFragment.presenter.search(searchEditText.getText().toString().trim());
+                            fragment.presenter.search(searchEditText.getText().toString().trim());
+                        }
+                    }
+                } else if (position == TAB_KEYWORDS) {
+                    SearchKeywordsFragment fragment = (SearchKeywordsFragment) adapter.getItem(TAB_KEYWORDS);
+                    if (fragment.empty()) {
+                        if (!searchEditText.getText().toString().isEmpty()) {
+                            fragment.presenter.search(searchEditText.getText().toString().trim());
+                        }
+                    }
+                } else if (position == TAB_COLLECTIONS) {
+                    SearchCollectionsFragment fragment = (SearchCollectionsFragment) adapter.getItem(TAB_COLLECTIONS);
+                    if (fragment.empty()) {
+                        if (!searchEditText.getText().toString().isEmpty()) {
+                            fragment.presenter.search(searchEditText.getText().toString().trim());
+                        }
+                    }
+                } else if (position == TAB_COMPANIES) {
+                    SearchCompaniesFragment fragment = (SearchCompaniesFragment) adapter.getItem(TAB_COMPANIES);
+                    if (fragment.empty()) {
+                        if (!searchEditText.getText().toString().isEmpty()) {
+                            fragment.presenter.search(searchEditText.getText().toString().trim());
                         }
                     }
                 }
@@ -212,15 +233,7 @@ public class SearchActivity extends BaseActivity {
                             searchEditText.setText(textResults);
                             searchEditText.setSelection(searchEditText.getText().length());
                             changeActionIcon();
-
-                            SearchMoviesFragment moviesFragment = (SearchMoviesFragment) adapter.getItem(TAB_MOVIES);
-                            SearchPeopleFragment peopleFragment = (SearchPeopleFragment) adapter.getItem(TAB_PEOPLE);
-
-                            if (binding.viewPager.getCurrentItem() == TAB_MOVIES) {
-                                moviesFragment.presenter.search(textResults);
-                            } else if (binding.viewPager.getCurrentItem() == TAB_PEOPLE) {
-                                peopleFragment.presenter.search(textResults);
-                            }
+                            searchInFragment(binding.viewPager.getCurrentItem(), textResults);
                         }
                     }
                 }
@@ -230,11 +243,32 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
+    }
 
-        return super.onOptionsItemSelected(item);
+    private void searchInFragment(int position, String query) {
+        if (position == TAB_MOVIES) {
+            SearchMoviesFragment fragment = (SearchMoviesFragment) adapter.getItem(position);
+            fragment.presenter.search(query);
+        } else if (position == TAB_PEOPLE) {
+            SearchPeopleFragment fragment = (SearchPeopleFragment) adapter.getItem(position);
+            fragment.presenter.search(query);
+        } else if (position == TAB_KEYWORDS) {
+            SearchKeywordsFragment fragment = (SearchKeywordsFragment) adapter.getItem(position);
+            fragment.presenter.search(query);
+        } else if (position == TAB_COLLECTIONS) {
+            SearchCollectionsFragment fragment = (SearchCollectionsFragment) adapter.getItem(position);
+            fragment.presenter.search(query);
+        } else if (position == TAB_COMPANIES) {
+            SearchCompaniesFragment fragment = (SearchCompaniesFragment) adapter.getItem(TAB_COMPANIES);
+            fragment.presenter.search(query);
+        }
     }
 
     private void changeActionIcon() {

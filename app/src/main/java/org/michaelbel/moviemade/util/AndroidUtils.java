@@ -41,10 +41,10 @@ import java.util.Properties;
 
 public class AndroidUtils {
 
-    public static final int FLAG_TAG_BR = 1;
-    public static final int FLAG_TAG_BOLD = 2;
-    public static final int FLAG_TAG_COLOR = 4;
-    public static final int FLAG_TAG_ALL = FLAG_TAG_BR | FLAG_TAG_BOLD;
+    private static final int FLAG_TAG_BR = 1;
+    private static final int FLAG_TAG_BOLD = 2;
+    private static final int FLAG_TAG_COLOR = 4;
+    private static final int FLAG_TAG_ALL = FLAG_TAG_BR | FLAG_TAG_BOLD;
 
     private static Context getContext() {
         return Moviemade.AppContext;
@@ -238,6 +238,7 @@ public class AndroidUtils {
         return getContext().getString(R.string.MovieRuntime, runtime, formatHours.format(date));
     }
 
+    @Deprecated
     public static String formatCompanies(List<Company> companies) {
         if (companies == null) {
             return "";
@@ -254,6 +255,7 @@ public class AndroidUtils {
         return text.toString();
     }
 
+    @Deprecated
     public static String formatCountries(List<Country> countries) {
         if (countries == null) {
             return "";
@@ -278,6 +280,7 @@ public class AndroidUtils {
         return text.toString();
     }
 
+    @Deprecated
     public static String formatGenres(List<Genre> genres) {
         if (genres == null) {
             return "";
@@ -311,8 +314,6 @@ public class AndroidUtils {
     }
 
 //--------------------------------------------------------------------------------------------------
-
-
 
     public static void createCacheDirectory() {
         File cacheDir = new File(Environment.getExternalStorageDirectory(), "Moviemade");

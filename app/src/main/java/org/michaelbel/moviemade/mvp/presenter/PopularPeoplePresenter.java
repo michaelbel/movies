@@ -7,8 +7,9 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
-import org.michaelbel.moviemade.mvp.view.MvpPopularPeopleView;
+import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.ApiFactory;
+import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.PEOPLE;
 import org.michaelbel.moviemade.rest.model.People;
 import org.michaelbel.moviemade.rest.response.PeopleResponse;
@@ -23,7 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 @InjectViewState
-public class PopularPeoplePresenter extends MvpPresenter<MvpPopularPeopleView> {
+public class PopularPeoplePresenter extends MvpPresenter<MvpResultsView> {
 
     public int page;
     public int totalPages;
@@ -42,8 +43,7 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpPopularPeopleView> {
         loadingLocked = false;
 
         PEOPLE service = ApiFactory.createService(PEOPLE.class);
-        Call<PeopleResponse> call = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page);
-        call.enqueue(new Callback<PeopleResponse>() {
+        service.getPopular(Url.TMDB_API_KEY, Url.en_US, page).enqueue(new Callback<PeopleResponse>() {
             @Override
             public void onResponse(@NonNull Call<PeopleResponse> call, @NonNull Response<PeopleResponse> response) {
                 if (!response.isSuccessful()) {
@@ -58,24 +58,24 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpPopularPeopleView> {
 
                 totalPages = response.body().totalPages;
 
-                List<People> newPeople = new ArrayList<>();
+                List<TmdbObject> results = new ArrayList<>();
 
                 if (AndroidUtils.includeAdult()) {
-                    newPeople.addAll(response.body().people);
+                    results.addAll(response.body().people);
                 } else {
                     for (People people : response.body().people) {
                         if (!people.adult) {
-                            newPeople.add(people);
+                            results.add(people);
                         }
                     }
                 }
 
-                if (newPeople.isEmpty()) {
+                if (results.isEmpty()) {
                     getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
                     return;
                 }
 
-                getViewState().showResults(newPeople);
+                getViewState().showResults(results);
                 page++;
             }
 
@@ -88,8 +88,7 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpPopularPeopleView> {
 
     public void loadResults() {
         PEOPLE service = ApiFactory.createService(PEOPLE.class);
-        Call<PeopleResponse> call = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page);
-        call.enqueue(new Callback<PeopleResponse>() {
+        service.getPopular(Url.TMDB_API_KEY, Url.en_US, page).enqueue(new Callback<PeopleResponse>() {
             @Override
             public void onResponse(@NonNull Call<PeopleResponse> call, @NonNull Response<PeopleResponse> response) {
                 if (!response.isSuccessful()) {
@@ -97,23 +96,23 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpPopularPeopleView> {
                     return;
                 }
 
-                List<People> newPeople = new ArrayList<>();
+                List<TmdbObject> results = new ArrayList<>();
 
                 if (AndroidUtils.includeAdult()) {
-                    newPeople.addAll(response.body().people);
+                    results.addAll(response.body().people);
                 } else {
                     for (People people : response.body().people) {
                         if (!people.adult) {
-                            newPeople.add(people);
+                            results.add(people);
                         }
                     }
                 }
 
-                if (newPeople.isEmpty()) {
+                if (results.isEmpty()) {
                     return;
                 }
 
-                getViewState().showResults(newPeople);
+                getViewState().showResults(results);
                 page++;
                 loading = false;
             }

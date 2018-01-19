@@ -127,7 +127,7 @@
     </plurals>
     <string name="Images">Images</string>
     <string name="Loading">Loading…</string>
-    <string name="LoadingCountries">Loading countries…</string>
+    <string name="LoadingCountries">Loading companies…</string>
     <string name="LoadingTagline">Loading tagline…</string>
     <string name="CurrencyCount">$ %1$s</string>
     <string name="PartOfCollection">Part of the %s</string>

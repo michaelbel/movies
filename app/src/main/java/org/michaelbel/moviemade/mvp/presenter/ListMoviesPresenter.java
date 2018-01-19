@@ -7,8 +7,9 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
-import org.michaelbel.moviemade.mvp.view.MvpListMoviesView;
+import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.ApiFactory;
+import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.MOVIES;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.rest.response.MovieResponse;
@@ -23,7 +24,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 @InjectViewState
-public class ListMoviesPresenter extends MvpPresenter<MvpListMoviesView> {
+public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
 
     public int page;
     public int totalPages;
@@ -46,8 +47,7 @@ public class ListMoviesPresenter extends MvpPresenter<MvpListMoviesView> {
         }
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        Call<MovieResponse> call = service.getNowPlaying(Url.TMDB_API_KEY, Url.en_US, page);
-        call.enqueue(new Callback<MovieResponse>() {
+        service.getNowPlaying(Url.TMDB_API_KEY, Url.en_US, page).enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
                 if (!response.isSuccessful()) {
@@ -69,19 +69,19 @@ public class ListMoviesPresenter extends MvpPresenter<MvpListMoviesView> {
                     totalPages = response.body().totalPages;
                 }
 
-                List<Movie> newMovies = new ArrayList<>();
+                List<TmdbObject> results = new ArrayList<>();
 
                 if (AndroidUtils.includeAdult()) {
-                    newMovies.addAll(response.body().movies);
+                    results.addAll(response.body().movies);
                 } else {
                     for (Movie movie : response.body().movies) {
                         if (!movie.adult) {
-                            newMovies.add(movie);
+                            results.add(movie);
                         }
                     }
                 }
 
-                if (newMovies.isEmpty()) {
+                if (results.isEmpty()) {
                     if (firstpage) {
                         getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
                     }
@@ -89,7 +89,7 @@ public class ListMoviesPresenter extends MvpPresenter<MvpListMoviesView> {
                     return;
                 }
 
-                getViewState().showResults(newMovies);
+                getViewState().showResults(results);
                 page++;
 
                 if (!firstpage) {

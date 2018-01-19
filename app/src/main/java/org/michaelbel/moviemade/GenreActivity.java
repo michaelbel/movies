@@ -21,25 +21,26 @@ public class GenreActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_genre);
 
+        Genre genre = (Genre) getIntent().getSerializableExtra("genre");
+
         binding.toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(binding.toolbar));
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(binding.toolbar);
 
-        binding.progressBar.setVisibility(View.GONE);
-
-        Genre genre = (Genre) getIntent().getSerializableExtra("genre");
-
         binding.toolbarTitle.setText(genre.name);
+        binding.progressBar.setVisibility(View.GONE);
 
         startFragment(GenreMoviesFragment.newInstance(genre.id), binding.fragmentView);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }

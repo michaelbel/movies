@@ -22,6 +22,7 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.SettingsActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
+import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.ui.adapter.Holder;
 import org.michaelbel.moviemade.ui.view.cell.EmptyCell;
@@ -37,7 +38,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 
 public class StorageFragment extends Fragment {
 
@@ -110,7 +110,7 @@ public class StorageFragment extends Fragment {
 
     private int getCachedMoviesCount() {
         Realm realm = Realm.getDefaultInstance();
-        long moviesCount = realm.where(Movie.class).count();
+        long moviesCount = realm.where(MovieRealm.class).count();
         return (int) moviesCount;
     }
 
@@ -259,8 +259,8 @@ public class StorageFragment extends Fragment {
 
         private void loadCachedMovies() {
             Realm realm = Realm.getDefaultInstance();
-            RealmResults<Movie> results = realm.where(Movie.class).findAll();
-            cachedMoviesList.addAll(results);
+            //RealmResults<Movie> results = realm.where(MovieRealm.class).findAll();
+            //cachedMoviesList.addAll(results);
             adapter.notifyDataSetChanged();
         }
 
@@ -279,7 +279,6 @@ public class StorageFragment extends Fragment {
                 view.setPoster(movie.posterPath)
                     .setTitle(movie.title)
                     .setYear(movie.releaseDate)
-                    .setAddedDate(movie.addedDate)
                     .setDivider(position != cachedMoviesList.size() - 1);
             }
 

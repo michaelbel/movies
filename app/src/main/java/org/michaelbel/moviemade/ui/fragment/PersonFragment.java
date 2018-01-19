@@ -191,7 +191,7 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
         if (position == 0) {
             Browser.openUrl(activity, String.format(Locale.US, Url.TMDB_PERSON, id));
         } else if (position == 1) {
-            Browser.openUrl(activity, String.format(Locale.US, Url.IMDB_MOVIE, loadedPerson.imdbId));
+            Browser.openUrl(activity, String.format(Locale.US, Url.IMDB_PERSON, loadedPerson.imdbId));
         } else if (position == 2) {
             Browser.openUrl(activity, loadedPerson.homepage);
         }

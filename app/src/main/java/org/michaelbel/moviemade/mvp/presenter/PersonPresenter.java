@@ -27,8 +27,7 @@ public class PersonPresenter extends MvpPresenter<MvpPersonView> {
         }
 
         PEOPLE service = ApiFactory.createService(PEOPLE.class);
-        Call<Person> call = service.getDetails(personId, Url.TMDB_API_KEY, Url.en_US, null);
-        call.enqueue(new Callback<Person>() {
+        service.getDetails(personId, Url.TMDB_API_KEY, Url.en_US, null).enqueue(new Callback<Person>() {
             @Override
             public void onResponse(@NonNull Call<Person> call, @NonNull Response<Person> response) {
                 if (!response.isSuccessful()) {

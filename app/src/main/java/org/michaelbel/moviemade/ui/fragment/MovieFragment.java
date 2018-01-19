@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,9 @@ import org.michaelbel.moviemade.app.browser.Browser;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.presenter.MoviePresenter;
 import org.michaelbel.moviemade.mvp.view.MvpMovieView;
+import org.michaelbel.moviemade.rest.model.Company;
+import org.michaelbel.moviemade.rest.model.Country;
+import org.michaelbel.moviemade.rest.model.Keyword;
 import org.michaelbel.moviemade.rest.model.Crew;
 import org.michaelbel.moviemade.rest.model.Genre;
 import org.michaelbel.moviemade.rest.model.Movie;
@@ -52,6 +56,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
 
     private ArrayList<Genre> genres = new ArrayList<>();
     private ArrayList<Trailer> trailers = new ArrayList<>();
+    private ArrayList<Keyword> keywords = new ArrayList<>();
 
     private ScrollView scrollView;
     private MovieViewLayout movieView;
@@ -221,10 +226,10 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         movieView.addRevenue(movie.revenue);
         movieView.addImdbpage(movie.imdbId);
         movieView.addHomepage(movie.homepage);
-        movieView.addCompanies(AndroidUtils.formatCompanies(movie.companies));
+        movieView.addCompanies(movie.companies);
         movieView.addCountries(AndroidUtils.formatCountries(movie.countries));
-        movieView.setGenres(movie.genres);
-        movieView.addBelongCollection(movie.belongsToCollection);
+        movieView.addGenres(movie.genres);
+        movieView.addCollection(movie.belongsToCollection);
 
         movieView.favoriteButtonVisibility(loaded ? View.VISIBLE : View.INVISIBLE);
         movieView.watchingButtonVisibility(loaded ? View.VISIBLE : View.INVISIBLE);
@@ -235,6 +240,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         presenter.loadTrailers(movie.id);
         presenter.loadImages(movie.id);
         presenter.loadCredits(movie.id);
+        presenter.loadKeywords(movie.id);
 
         genres.clear();
         genres.addAll(movie.genres);
@@ -264,8 +270,8 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
 
         movieView.addCompanies(null);
         movieView.addCountries(null);
-        movieView.setGenres(null);
-        //movieView.addBelongCollection();
+        movieView.addGenres(null);
+        //movieView.addCollection();
 
         movieView.favoriteButtonVisibility(View.VISIBLE);
         movieView.watchingButtonVisibility(View.VISIBLE);
@@ -284,11 +290,11 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     }
 
     @Override
-    public void showTrailers(List<Trailer> newTrailers) {
-        trailers.clear();
-        trailers.addAll(newTrailers);
+    public void showTrailers(List<Trailer> trailers) {
+        this.trailers.clear();
+        this.trailers.addAll(trailers);
 
-        movieView.addTrailers(trailers);
+        movieView.addTrailers(this.trailers);
         movieView.getTrailersView().setClickable(true);
     }
 
@@ -388,11 +394,56 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
 
     @Override
     public void onPostersClick(View view) {
-        Browser.openUrl(activity, String.format(Locale.US, Url.TMDB_MOVIE_POSTERS, extraMovie.id));
+        if (extraMovie != null) {
+            Browser.openUrl(activity, String.format(Locale.US, Url.TMDB_MOVIE_POSTERS, extraMovie.id));
+        } else if (extraMovieRealm != null) {
+            Browser.openUrl(activity, String.format(Locale.US, Url.TMDB_MOVIE_POSTERS, extraMovieRealm.id));
+        }
     }
 
     @Override
     public void onBackdropClick(View view) {
-        Browser.openUrl(activity, String.format(Locale.US, Url.TMDB_MOVIE_BACKDROPS, extraMovie.id));
+        if (extraMovie != null) {
+            Browser.openUrl(activity, String.format(Locale.US, Url.TMDB_MOVIE_BACKDROPS, extraMovie.id));
+        } else if (extraMovieRealm != null) {
+            Browser.openUrl(activity, String.format(Locale.US, Url.TMDB_MOVIE_BACKDROPS, extraMovieRealm.id));
+        }
+    }
+
+    @Override
+    public void onKeywordClick(View view, Keyword keyword) {
+        activity.startKeyword(keyword);
+    }
+
+    @Override
+    public void onKeywordsSectionClick(View view) {
+
+    }
+
+    @Override
+    public void showKeywords(List<Keyword> keywords) {
+        this.keywords.clear();
+        this.keywords.addAll(keywords);
+
+        movieView.addKeywords(this.keywords);
+        //movieView.getKeywordsView().setClickable(true);
+    }
+
+    @Override
+    public void onCollectionClick(View view) {
+        Log.e("tag2", "1. Id: " + loadedMovie.belongsToCollection.id);
+        Log.e("tag2", "1. Name: " + loadedMovie.belongsToCollection.name);
+
+        activity.startCollection(loadedMovie.belongsToCollection);
+    }
+
+    @Override
+    public void onCountryClick(View view, Country country) {
+
+    }
+
+    @Override
+    public void onCompanyClick(View view, Company company) {
+        activity.startCompany(company);
     }
 }

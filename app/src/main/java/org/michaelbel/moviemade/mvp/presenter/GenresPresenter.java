@@ -7,18 +7,22 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
-import org.michaelbel.moviemade.mvp.view.MvpGenresView;
+import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.ApiFactory;
+import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.GENRES;
 import org.michaelbel.moviemade.rest.response.MovieGenresResponse;
 import org.michaelbel.moviemade.util.NetworkUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 @InjectViewState
-public class GenresPresenter extends MvpPresenter<MvpGenresView> {
+public class GenresPresenter extends MvpPresenter<MvpResultsView> {
 
     public void loadGenres() {
         if (NetworkUtils.notConnected()) {
@@ -27,8 +31,7 @@ public class GenresPresenter extends MvpPresenter<MvpGenresView> {
         }
 
         GENRES service = ApiFactory.createService(GENRES.class);
-        Call<MovieGenresResponse> call = service.getMovieList(Url.TMDB_API_KEY, Url.en_US);
-        call.enqueue(new Callback<MovieGenresResponse>() {
+        service.getMovieList(Url.TMDB_API_KEY, Url.en_US).enqueue(new Callback<MovieGenresResponse>() {
             @Override
             public void onResponse(@NonNull Call<MovieGenresResponse> call, @NonNull Response<MovieGenresResponse> response) {
                 if (!response.isSuccessful()) {
@@ -36,7 +39,10 @@ public class GenresPresenter extends MvpPresenter<MvpGenresView> {
                     return;
                 }
 
-                getViewState().showResults(response.body().genres);
+                List<TmdbObject> results = new ArrayList<>();
+                results.addAll(response.body().genres);
+
+                getViewState().showResults(results);
             }
 
             @Override

@@ -18,7 +18,8 @@ import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.databinding.ActivityGenresBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.mvp.presenter.GenresPresenter;
-import org.michaelbel.moviemade.mvp.view.MvpGenresView;
+import org.michaelbel.moviemade.mvp.view.MvpResultsView;
+import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Genre;
 import org.michaelbel.moviemade.ui.fragment.GenreMoviesFragment;
 import org.michaelbel.moviemade.ui.view.EmptyView;
@@ -27,9 +28,9 @@ import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenresActivity extends BaseActivity implements MvpGenresView {
+public class GenresActivity extends BaseActivity implements MvpResultsView {
 
-    private ArrayList<Genre> genres;
+    private ArrayList<TmdbObject> genres;
 
     public FragmentsPagerAdapter adapter;
     public ActivityGenresBinding binding;
@@ -48,7 +49,7 @@ public class GenresActivity extends BaseActivity implements MvpGenresView {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         getWindow().setStatusBarColor(0x33000000);
 
-        genres = (ArrayList<Genre>) getIntent().getSerializableExtra("list");
+        genres = (ArrayList<TmdbObject>) getIntent().getSerializableExtra("list");
 
         binding.toolbar.setNavigationIcon(isExtras() ? R.drawable.ic_arrow_back : R.drawable.ic_menu);
         setSupportActionBar(binding.toolbar);
@@ -108,15 +109,17 @@ public class GenresActivity extends BaseActivity implements MvpGenresView {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            if (isExtras()) {
-                finish();
-            } else {
-                binding.drawerLayout.openDrawer(GravityCompat.START);
-            }
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                if (isExtras()) {
+                    finish();
+                } else {
+                    binding.drawerLayout.openDrawer(GravityCompat.START);
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -129,9 +132,9 @@ public class GenresActivity extends BaseActivity implements MvpGenresView {
     }
 
     @Override
-    public void showResults(List<Genre> genres) {
-        for (Genre genre : genres) {
-            adapter.addFragment(GenreMoviesFragment.newInstance(genre.id), genre.name);
+    public void showResults(List<TmdbObject> results) {
+        for (TmdbObject genre : results) {
+            adapter.addFragment(GenreMoviesFragment.newInstance(((Genre) genre).id), ((Genre) genre).name);
         }
 
         adapter.notifyDataSetChanged();
@@ -153,8 +156,8 @@ public class GenresActivity extends BaseActivity implements MvpGenresView {
     }
 
     private void showFromExtra() {
-        for (Genre genre : genres) {
-            adapter.addFragment(GenreMoviesFragment.newInstance(genre.id), genre.name);
+        for (TmdbObject genre : genres) {
+            adapter.addFragment(GenreMoviesFragment.newInstance(((Genre) genre).id), ((Genre) genre).name);
         }
 
         adapter.notifyDataSetChanged();

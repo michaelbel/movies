@@ -7,10 +7,10 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
-import org.michaelbel.moviemade.mvp.view.MvpReviewsView;
+import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.ApiFactory;
+import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.MOVIES;
-import org.michaelbel.moviemade.rest.model.v3.Review;
 import org.michaelbel.moviemade.rest.response.ReviewResponse;
 import org.michaelbel.moviemade.util.NetworkUtils;
 
@@ -22,7 +22,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 @InjectViewState
-public class ReviewsMoviePresenter extends MvpPresenter<MvpReviewsView> {
+public class ReviewsMoviePresenter extends MvpPresenter<MvpResultsView> {
 
     public int page;
     public int totalPages;
@@ -50,8 +50,7 @@ public class ReviewsMoviePresenter extends MvpPresenter<MvpReviewsView> {
         loadingLocked = false;
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        Call<ReviewResponse> call = service.getReviews(movieId, Url.TMDB_API_KEY, Url.en_US, page);
-        call.enqueue(new Callback<ReviewResponse>() {
+        service.getReviews(movieId, Url.TMDB_API_KEY, Url.en_US, page).enqueue(new Callback<ReviewResponse>() {
             @Override
             public void onResponse(@NonNull Call<ReviewResponse> call, @NonNull Response<ReviewResponse> response) {
                 if (!response.isSuccessful()) {
@@ -66,7 +65,7 @@ public class ReviewsMoviePresenter extends MvpPresenter<MvpReviewsView> {
 
                 totalPages = response.body().totalPages;
 
-                List<Review> newReviews = new ArrayList<>();
+                List<TmdbObject> newReviews = new ArrayList<>();
                 newReviews.addAll(response.body().reviews);
 
                 if (newReviews.isEmpty()) {
@@ -87,8 +86,7 @@ public class ReviewsMoviePresenter extends MvpPresenter<MvpReviewsView> {
 
     public void loadResults() {
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        Call<ReviewResponse> call = service.getReviews(movieId, Url.TMDB_API_KEY, Url.en_US, page);
-        call.enqueue(new Callback<ReviewResponse>() {
+        service.getReviews(movieId, Url.TMDB_API_KEY, Url.en_US, page).enqueue(new Callback<ReviewResponse>() {
             @Override
             public void onResponse(@NonNull Call<ReviewResponse> call, @NonNull Response<ReviewResponse> response) {
                 if (!response.isSuccessful()) {
@@ -96,7 +94,7 @@ public class ReviewsMoviePresenter extends MvpPresenter<MvpReviewsView> {
                     return;
                 }
 
-                List<Review> newReviews = new ArrayList<>();
+                List<TmdbObject> newReviews = new ArrayList<>();
                 newReviews.addAll(response.body().reviews);
 
                 if (newReviews.isEmpty()) {

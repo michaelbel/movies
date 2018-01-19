@@ -2,12 +2,11 @@ package org.michaelbel.moviemade.rest.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.michaelbel.moviemade.rest.TmdbObject;
+
 import java.io.Serializable;
 
-import io.realm.RealmObject;
-
-@SuppressWarnings("all")
-public class Cast extends RealmObject implements Serializable {
+public class Cast extends TmdbObject implements Serializable {
 
     @SerializedName("cast_id")
     public int castId;

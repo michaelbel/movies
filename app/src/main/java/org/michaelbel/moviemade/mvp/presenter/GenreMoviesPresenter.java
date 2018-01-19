@@ -7,11 +7,11 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
-import org.michaelbel.moviemade.mvp.view.MvpGenreMoviesView;
+import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.ApiFactory;
+import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.GENRES;
-import org.michaelbel.moviemade.rest.model.Movie;
-import org.michaelbel.moviemade.rest.response.GenreResponse;
+import org.michaelbel.moviemade.rest.response.MoviesResponse;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.NetworkUtils;
 
@@ -23,7 +23,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 @InjectViewState
-public class GenreMoviesPresenter extends MvpPresenter<MvpGenreMoviesView> {
+public class GenreMoviesPresenter extends MvpPresenter<MvpResultsView> {
 
     public int page;
     public int totalPages;
@@ -51,10 +51,9 @@ public class GenreMoviesPresenter extends MvpPresenter<MvpGenreMoviesView> {
         loadingLocked = false;
 
         GENRES service = ApiFactory.createService(GENRES.class);
-        Call<GenreResponse> call =  service.getMovies(genreId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page);
-        call.enqueue(new Callback<GenreResponse>() {
+        service.getMovies(genreId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).enqueue(new Callback<MoviesResponse>() {
             @Override
-            public void onResponse(@NonNull Call<GenreResponse> call, @NonNull Response<GenreResponse> response) {
+            public void onResponse(@NonNull Call<MoviesResponse> call, @NonNull Response<MoviesResponse> response) {
                 if (!response.isSuccessful()) {
                     getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
                     return;
@@ -72,15 +71,15 @@ public class GenreMoviesPresenter extends MvpPresenter<MvpGenreMoviesView> {
 
                 totalPages = response.body().totalPages;
 
-                List<Movie> newMovies = new ArrayList<>();
-                newMovies.addAll(response.body().movies);
+                List<TmdbObject> results = new ArrayList<>();
+                results.addAll(response.body().movies);
 
-                getViewState().showResults(newMovies);
+                getViewState().showResults(results);
                 page++;
             }
 
             @Override
-            public void onFailure(@NonNull Call<GenreResponse> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<MoviesResponse> call, @NonNull Throwable t) {
                 getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
             }
         });
@@ -88,10 +87,9 @@ public class GenreMoviesPresenter extends MvpPresenter<MvpGenreMoviesView> {
 
     public void loadResults() {
         GENRES service = ApiFactory.createService(GENRES.class);
-        Call<GenreResponse> call =  service.getMovies(genreId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page);
-        call.enqueue(new Callback<GenreResponse>() {
+        service.getMovies(genreId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).enqueue(new Callback<MoviesResponse>() {
             @Override
-            public void onResponse(@NonNull Call<GenreResponse> call, @NonNull Response<GenreResponse> response) {
+            public void onResponse(@NonNull Call<MoviesResponse> call, @NonNull Response<MoviesResponse> response) {
                 if (!response.isSuccessful()) {
                     loadingLocked = true;
                     return;
@@ -101,16 +99,16 @@ public class GenreMoviesPresenter extends MvpPresenter<MvpGenreMoviesView> {
                     return;
                 }
 
-                List<Movie> newMovies = new ArrayList<>();
-                newMovies.addAll(response.body().movies);
+                List<TmdbObject> results = new ArrayList<>();
+                results.addAll(response.body().movies);
 
-                getViewState().showResults(newMovies);
+                getViewState().showResults(results);
                 page++;
                 loading = false;
             }
 
             @Override
-            public void onFailure(@NonNull Call<GenreResponse> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<MoviesResponse> call, @NonNull Throwable t) {
                 loadingLocked = true;
                 loading = false;
             }

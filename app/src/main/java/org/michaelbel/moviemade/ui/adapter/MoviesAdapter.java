@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewListBig;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewPoster;
@@ -14,9 +15,9 @@ import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter {
 
-    private List<Movie> movies;
+    private List<TmdbObject> movies;
 
-    public MoviesAdapter(List<Movie> movies) {
+    public MoviesAdapter(List<TmdbObject> movies) {
         this.movies = movies;
     }
 
@@ -36,7 +37,7 @@ public class MoviesAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         int type = getItemViewType(position);
-        Movie movie = movies.get(position);
+        Movie movie = (Movie) movies.get(position);
 
         if (type == 0) {
             MovieViewListBig view = (MovieViewListBig) holder.itemView;

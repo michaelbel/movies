@@ -5,7 +5,9 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Review implements Parcelable {
+import org.michaelbel.moviemade.rest.TmdbObject;
+
+public class Review extends TmdbObject implements Parcelable {
 
     @SerializedName("id")
     public String id;

@@ -32,8 +32,9 @@ import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.app.eventbus.Events;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.presenter.ListMoviesPresenter;
-import org.michaelbel.moviemade.mvp.view.MvpListMoviesView;
+import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.ApiFactory;
+import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.MOVIES;
 import org.michaelbel.moviemade.rest.api.PEOPLE;
 import org.michaelbel.moviemade.rest.model.Cast;
@@ -57,7 +58,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import rx.functions.Action1;
 
-public class ListMoviesFragment extends MvpAppCompatFragment implements MvpListMoviesView {
+public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResultsView {
 
     public static final int LIST_NOW_PLAYING = 1;
     public static final int LIST_POPULAR = 2;
@@ -87,7 +88,7 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpListM
     private MoviesAdapter adapter;
     private PaddingItemDecoration itemDecoration;
     private GridLayoutManager gridLayoutManager;
-    private List<Movie> movies = new ArrayList<>();
+    private List<TmdbObject> movies = new ArrayList<>();
 
     @InjectPresenter
     public ListMoviesPresenter presenter;
@@ -249,7 +250,7 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpListM
         recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
-            Movie movie = movies.get(position);
+            Movie movie = (Movie) movies.get(position);
 
             if (getArguments().getSerializable("movie") != null) {
                 ((MovieActivity) getActivity()).startMovie(movie);
@@ -358,9 +359,9 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpListM
     }
 
     @Override
-    public void showResults(List<Movie> newMovies) {
-        movies.addAll(newMovies);
-        adapter.notifyItemRangeInserted(movies.size() + 1, newMovies.size());
+    public void showResults(List<TmdbObject> results) {
+        movies.addAll(results);
+        adapter.notifyItemRangeInserted(movies.size() + 1, results.size());
 
         fragmentView.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
@@ -495,8 +496,7 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpListM
 
     private void loadTopRatedMovies() {
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        Call<MovieResponse> call = service.getTopRated(Url.TMDB_API_KEY, Url.en_US, page);
-        call.enqueue(new Callback<MovieResponse>() {
+        service.getTopRated(Url.TMDB_API_KEY, Url.en_US, page).enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
                 if (!response.isSuccessful()) {
@@ -545,8 +545,7 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpListM
 
     private void loadUpcomingMovies() {
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        Call<MovieResponse> call = service.getUpcoming(Url.TMDB_API_KEY, Url.en_US, page);
-        call.enqueue(new Callback<MovieResponse>() {
+        service.getUpcoming(Url.TMDB_API_KEY, Url.en_US, page).enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
                 if (!response.isSuccessful()) {
@@ -647,59 +646,57 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpListM
 
     private void loadRelatedMovies() {
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getRecommendations(movieId, Url.TMDB_API_KEY, Url.en_US, 1)
-                .enqueue(new Callback<MovieResponse>() {
-                    @Override
-                    public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
-                        if (!response.isSuccessful()) {
-                            onLoadError();
-                            return;
+        service.getRecommendations(movieId, Url.TMDB_API_KEY, Url.en_US, 1).enqueue(new Callback<MovieResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
+                if (!response.isSuccessful()) {
+                    onLoadError();
+                    return;
+                }
+
+                if (totalPages == 0) {
+                    totalPages = response.body().totalPages;
+                }
+
+                List<Movie> newMovies = new ArrayList<>();
+
+                if (AndroidUtils.includeAdult()) {
+                    newMovies.addAll(response.body().movies);
+                } else {
+                    for (Movie movie : response.body().movies) {
+                        if (!movie.adult) {
+                            newMovies.add(movie);
                         }
-
-                        if (totalPages == 0) {
-                            totalPages = response.body().totalPages;
-                        }
-
-                        List<Movie> newMovies = new ArrayList<>();
-
-                        if (AndroidUtils.includeAdult()) {
-                            newMovies.addAll(response.body().movies);
-                        } else {
-                            for (Movie movie : response.body().movies) {
-                                if (!movie.adult) {
-                                    newMovies.add(movie);
-                                }
-                            }
-                        }
-
-                        movies.clear();
-                        movies.addAll(newMovies);
-                        adapter.notifyItemRangeInserted(movies.size() + 1, newMovies.size());
-
-                        if (movies.isEmpty()) {
-                            emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
-                        } else {
-                            page++;
-                            isLoading = false;
-                        }
-
-                        onLoadSuccessful();
                     }
+                }
 
-                    @Override
-                    public void onFailure(@NonNull Call<MovieResponse> call, @NonNull Throwable t) {
-                        isLoading = false;
-                        onLoadError();
-                    }
-                });
+                movies.clear();
+                movies.addAll(newMovies);
+                adapter.notifyItemRangeInserted(movies.size() + 1, newMovies.size());
+
+                if (movies.isEmpty()) {
+                    emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
+                } else {
+                    page++;
+                    isLoading = false;
+                }
+
+                onLoadSuccessful();
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MovieResponse> call, @NonNull Throwable t) {
+                isLoading = false;
+                onLoadError();
+            }
+        });
 
         isLoading = true;
     }
 
     private void loadPersonMovies() {
         PEOPLE service = ApiFactory.createService(PEOPLE.class);
-        Call<MoviePeopleResponse> call = service.getMovieCredits(currentPerson.castId, Url.TMDB_API_KEY, Url.en_US);
-        call.enqueue(new Callback<MoviePeopleResponse>() {
+        service.getMovieCredits(currentPerson.castId, Url.TMDB_API_KEY, Url.en_US).enqueue(new Callback<MoviePeopleResponse>() {
             @Override
             public void onResponse(@NonNull Call<MoviePeopleResponse> call, @NonNull Response<MoviePeopleResponse> response) {
                 if (!response.isSuccessful()) {

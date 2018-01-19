@@ -10,6 +10,8 @@ import org.michaelbel.moviemade.app.annotation.Beta;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.view.MvpMovieView;
 import org.michaelbel.moviemade.rest.ApiFactory;
+import org.michaelbel.moviemade.rest.model.Keyword;
+import org.michaelbel.moviemade.rest.response.KeywordResponse;
 import org.michaelbel.moviemade.rest.api.MOVIES;
 import org.michaelbel.moviemade.rest.model.Crew;
 import org.michaelbel.moviemade.rest.model.Movie;
@@ -50,8 +52,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
 
     private void loadMovieDetails(int movieId) {
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        Call<Movie> call = service.getDetails(movieId, Url.TMDB_API_KEY, Url.en_US, null);
-        call.enqueue(new Callback<Movie>() {
+        service.getDetails(movieId, Url.TMDB_API_KEY, Url.en_US, null).enqueue(new Callback<Movie>() {
             @Override
             public void onResponse(@NonNull Call<Movie> call, @NonNull Response<Movie> response) {
                 if (!response.isSuccessful()) {
@@ -75,11 +76,11 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
 
         if (NetworkUtils.notConnected()) {
             getViewState().showTrailers(trailers);
+            return;
         }
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        Call<TrailersResponse> call = service.getVideos(movieId, Url.TMDB_API_KEY, Url.en_US);
-        call.enqueue(new Callback<TrailersResponse>() {
+        service.getVideos(movieId, Url.TMDB_API_KEY, Url.en_US).enqueue(new Callback<TrailersResponse>() {
             @Override
             public void onResponse(@NonNull Call<TrailersResponse> call, @NonNull Response<TrailersResponse> response) {
                 if (!response.isSuccessful()) {
@@ -97,14 +98,40 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         });
     }
 
+    public void loadKeywords(int movieId) {
+        List<Keyword> keywords = new ArrayList<>();
+
+        if (NetworkUtils.notConnected()) {
+            getViewState().showKeywords(keywords);
+            return;
+        }
+
+        MOVIES service = ApiFactory.createService(MOVIES.class);
+        service.getKeywords(movieId, Url.TMDB_API_KEY).enqueue(new Callback<KeywordResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<KeywordResponse> call, @NonNull Response<KeywordResponse> response) {
+                if (!response.isSuccessful()) {
+                    getViewState().showKeywords(keywords);
+                    return;
+                }
+
+                getViewState().showKeywords(response.body().keywords);
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<KeywordResponse> call, @NonNull Throwable t) {
+                getViewState().showKeywords(keywords);
+            }
+        });
+    }
+
     public void loadImages(int movieId) {
         if (NetworkUtils.notConnected()) {
             return;
         }
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        Call<ImageResponse> call = service.getImages(movieId, Url.TMDB_API_KEY, null);
-        call.enqueue(new Callback<ImageResponse>() {
+        service.getImages(movieId, Url.TMDB_API_KEY, null).enqueue(new Callback<ImageResponse>() {
             @Override
             public void onResponse(@NonNull Call<ImageResponse> call, @NonNull Response<ImageResponse> response) {
                 if (!response.isSuccessful()) {
@@ -130,8 +157,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         }
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        Call<CreditResponse> call = service.getCredits(movieId, Url.TMDB_API_KEY);
-        call.enqueue(new Callback<CreditResponse>() {
+        service.getCredits(movieId, Url.TMDB_API_KEY).enqueue(new Callback<CreditResponse>() {
             @Override
             public void onResponse(@NonNull Call<CreditResponse> call, @NonNull Response<CreditResponse> response) {
                 if (!response.isSuccessful()) {
@@ -311,9 +337,9 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
                 movieRealm.runtime = AndroidUtils.formatRuntime(movie.runtime);
                 movieRealm.voteAverage = movie.voteAverage;
                 movieRealm.voteCount = movie.voteCount;
-                movieRealm.countries = AndroidUtils.formatCountries(movie.countries);
-                movieRealm.companies = AndroidUtils.formatCompanies(movie.companies);
-                movieRealm.genres = AndroidUtils.formatGenres(movie.genres);
+                //movieRealm.countries = AndroidUtils.formatCountries(movie.countries);
+                //movieRealm.companies = AndroidUtils.formatCompanies(movie.companies);
+                //movieRealm.genres = AndroidUtils.formatGenres(movie.genres);
                 realm.commitTransaction();
             }
         });

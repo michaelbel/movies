@@ -546,8 +546,7 @@ public class MovieViewLayout extends LinearLayout {
         infoLayout.addView(companiesTitle);
 
         companiesView = new CompaniesSection(context);
-        companiesView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 12.0F, 2, 12.0F, 12));
-        companiesView.setListener((view, company) -> movieViewListener.onCompanyClick(view, company));
+        companiesView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 10F, 2, 12.0F, 12)); // todo
         infoLayout.addView(companiesView);
 
 //------GENRES--------------------------------------------------------------------------------------
@@ -570,7 +569,7 @@ public class MovieViewLayout extends LinearLayout {
 
         collectionView = new CollectionView(context);
         collectionView.setOnClickListener(view -> movieViewListener.onCollectionClick(view));
-        collectionView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0));
+        collectionView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, 6));
         //addView(collectionView);
 
 //------WEB LINKS-----------------------------------------------------------------------------------

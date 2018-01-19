@@ -1,8 +1,8 @@
 package org.michaelbel.moviemade.rest.api;
 
-import org.michaelbel.moviemade.rest.response.KeywordsResponse;
 import org.michaelbel.moviemade.rest.response.CollectionResponse;
 import org.michaelbel.moviemade.rest.response.CompanyResponse;
+import org.michaelbel.moviemade.rest.response.KeywordsResponse;
 import org.michaelbel.moviemade.rest.response.MovieResponse;
 import org.michaelbel.moviemade.rest.response.PeopleResponse;
 

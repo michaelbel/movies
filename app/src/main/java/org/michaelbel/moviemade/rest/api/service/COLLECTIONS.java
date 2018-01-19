@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.rest.api.service;
 
-import org.michaelbel.moviemade.rest.TmdbService;
 import org.michaelbel.moviemade.rest.model.v3.Collection;
 import org.michaelbel.moviemade.rest.model.v3.CollectionImages;
 
@@ -9,7 +8,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface COLLECTIONS extends TmdbService {
+public interface COLLECTIONS {
 
     @GET("collection/{collection_id}?")
     Call<Collection> getDetails(

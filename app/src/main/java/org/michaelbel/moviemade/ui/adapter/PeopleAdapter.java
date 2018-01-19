@@ -3,6 +3,7 @@ package org.michaelbel.moviemade.ui.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.People;
 import org.michaelbel.moviemade.ui.view.CastView;
 
@@ -10,9 +11,9 @@ import java.util.List;
 
 public class PeopleAdapter extends RecyclerView.Adapter {
 
-    private List<People> people;
+    private List<TmdbObject> people;
 
-    public PeopleAdapter(List<People> people) {
+    public PeopleAdapter(List<TmdbObject> people) {
         this.people = people;
     }
 
@@ -23,7 +24,7 @@ public class PeopleAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-        People p = people.get(position);
+        People p = (People) people.get(position);
 
         CastView view = (CastView) holder.itemView;
         view.setName(p.name)

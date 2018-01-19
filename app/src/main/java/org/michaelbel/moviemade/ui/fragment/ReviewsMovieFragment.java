@@ -23,7 +23,8 @@ import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.presenter.ReviewsMoviePresenter;
-import org.michaelbel.moviemade.mvp.view.MvpReviewsView;
+import org.michaelbel.moviemade.mvp.view.MvpResultsView;
+import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.rest.model.v3.Review;
 import org.michaelbel.moviemade.ui.adapter.ReviewsAdapter;
@@ -35,7 +36,7 @@ import org.michaelbel.moviemade.util.AndroidUtilsDev;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpReviewsView {
+public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpResultsView {
 
     private int movieId;
     private Movie currentMovie;
@@ -44,7 +45,7 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpRev
     private ReviewsAdapter adapter;
     private MovieActivity activity;
     private LinearLayoutManager linearLayoutManager;
-    private ArrayList<Review> reviews = new ArrayList<>();
+    private ArrayList<TmdbObject> reviews = new ArrayList<>();
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
@@ -133,7 +134,7 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpRev
         recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
-            Review review = reviews.get(position);
+            Review review = (Review) reviews.get(position);
             if (currentMovie != null) {
                 activity.startReview(review, currentMovie);
             } else {
@@ -178,9 +179,9 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpRev
     }
 
     @Override
-    public void showResults(List<Review> newReviews) {
-        reviews.addAll(newReviews);
-        adapter.notifyItemRangeInserted(reviews.size() + 1, newReviews.size());
+    public void showResults(List<TmdbObject> results) {
+        reviews.addAll(results);
+        adapter.notifyItemRangeInserted(reviews.size() + 1, results.size());
 
         progressBar.setVisibility(View.INVISIBLE);
         fragmentView.setRefreshing(false);

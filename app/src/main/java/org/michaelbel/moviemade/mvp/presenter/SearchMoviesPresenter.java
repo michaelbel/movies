@@ -5,13 +5,13 @@ import android.support.annotation.NonNull;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
-import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.app.Url;
+import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.model.SearchItem;
 import org.michaelbel.moviemade.mvp.view.MvpSearchView;
+import org.michaelbel.moviemade.rest.ApiFactory;
+import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.SEARCH;
-import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.rest.response.MovieResponse;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.DateUtils;
@@ -26,7 +26,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 @InjectViewState
-public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView.SearchMovies> {
+public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView> {
 
     public int page;
     public int totalPages;
@@ -50,8 +50,7 @@ public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView.SearchMovi
         }
 
         SEARCH service = ApiFactory.createService(SEARCH.class);
-        Call<MovieResponse> call = service.searchMovies(Url.TMDB_API_KEY, Url.en_US, query, page, AndroidUtils.includeAdult(), null);
-        call.enqueue(new Callback<MovieResponse>() {
+        service.searchMovies(Url.TMDB_API_KEY, Url.en_US, query, page, AndroidUtils.includeAdult(), null).enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
                 if (!response.isSuccessful()) {
@@ -68,15 +67,15 @@ public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView.SearchMovi
 
                 totalPages = response.body().totalPages;
 
-                List<Movie> newMovies = new ArrayList<>();
-                newMovies.addAll(response.body().movies);
+                List<TmdbObject> results = new ArrayList<>();
+                results.addAll(response.body().movies);
 
-                if (newMovies.isEmpty()) {
+                if (results.isEmpty()) {
                     getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
                     return;
                 }
 
-                getViewState().searchComplete(newMovies, response.body().totalResults);
+                getViewState().searchComplete(results, response.body().totalResults);
                 page++;
             }
 
@@ -89,8 +88,7 @@ public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView.SearchMovi
 
     public void loadResults() {
         SEARCH service = ApiFactory.createService(SEARCH.class);
-        Call<MovieResponse> call = service.searchMovies(Url.TMDB_API_KEY, Url.en_US, currentQuery, page, AndroidUtils.includeAdult(), null);
-        call.enqueue(new Callback<MovieResponse>() {
+        service.searchMovies(Url.TMDB_API_KEY, Url.en_US, currentQuery, page, AndroidUtils.includeAdult(), null).enqueue(new Callback<MovieResponse>() {
             @Override
             public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
                 if (!response.isSuccessful()) {
@@ -98,14 +96,14 @@ public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView.SearchMovi
                     return;
                 }
 
-                List<Movie> newMovies = new ArrayList<>();
-                newMovies.addAll(response.body().movies);
+                List<TmdbObject> results = new ArrayList<>();
+                results.addAll(response.body().movies);
 
-                if (newMovies.isEmpty()) {
+                if (results.isEmpty()) {
                     return;
                 }
 
-                getViewState().nextPageLoaded(newMovies);
+                getViewState().nextPageLoaded(results);
                 page++;
                 loading = false;
             }

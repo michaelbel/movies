@@ -43,9 +43,14 @@ public class Moviemade extends Application {
         RealmConfiguration config = new RealmConfiguration.Builder()
                 //.schemaVersion(1)
                 //.migration()
-                .name("Moviemade7.realm")
+                .name("Moviemade9.realm")
                 .build();
         Realm.setDefaultConfiguration(config);
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
     }
 
     synchronized public Tracker getDefaultTracker() {

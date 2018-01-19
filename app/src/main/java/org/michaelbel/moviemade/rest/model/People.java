@@ -2,14 +2,12 @@ package org.michaelbel.moviemade.rest.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.michaelbel.moviemade.rest.TmdbObject;
+
 import java.io.Serializable;
 import java.util.List;
 
-import io.realm.RealmObject;
-import io.realm.annotations.Ignore;
-
-@SuppressWarnings("all")
-public class People extends RealmObject implements Serializable {
+public class People extends TmdbObject implements Serializable {
 
     @SerializedName("profile_path")
     public String profilePath;
@@ -26,7 +24,6 @@ public class People extends RealmObject implements Serializable {
     @SerializedName("name")
     public String name;
 
-    @Ignore
     @SerializedName("known_for")
     public List<Movie> movies;
 }

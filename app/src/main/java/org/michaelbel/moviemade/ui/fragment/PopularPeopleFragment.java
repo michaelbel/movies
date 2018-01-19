@@ -21,7 +21,8 @@ import org.michaelbel.moviemade.PopularPeopleActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.mvp.presenter.PopularPeoplePresenter;
-import org.michaelbel.moviemade.mvp.view.MvpPopularPeopleView;
+import org.michaelbel.moviemade.mvp.view.MvpResultsView;
+import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.People;
 import org.michaelbel.moviemade.ui.adapter.PeopleAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
@@ -32,12 +33,12 @@ import org.michaelbel.moviemade.util.AndroidUtilsDev;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpPopularPeopleView {
+public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpResultsView {
 
     private PeopleAdapter adapter;
     private PopularPeopleActivity activity;
     private LinearLayoutManager linearLayoutManager;
-    private List<People> people = new ArrayList<>();
+    private List<TmdbObject> people = new ArrayList<>();
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
@@ -104,7 +105,7 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpPo
         recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
-            People person = people.get(position);
+            People person = (People) people.get(position);
             activity.startPerson(person);
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -131,9 +132,9 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpPo
     }
 
     @Override
-    public void showResults(List<People> newPeople) {
-        people.addAll(newPeople);
-        adapter.notifyItemRangeInserted(people.size() + 1, newPeople.size());
+    public void showResults(List<TmdbObject> results) {
+        people.addAll(results);
+        adapter.notifyItemRangeInserted(people.size() + 1, results.size());
 
         progressBar.setVisibility(View.INVISIBLE);
         fragmentView.setRefreshing(false);

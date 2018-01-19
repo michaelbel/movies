@@ -3,6 +3,7 @@ package org.michaelbel.moviemade.ui.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.People;
 import org.michaelbel.moviemade.ui.view.CastView;
 
@@ -10,9 +11,9 @@ import java.util.List;
 
 public class SearchPeopleAdapter extends RecyclerView.Adapter {
 
-    private List<People> searches;
+    private List<TmdbObject> searches;
 
-    public SearchPeopleAdapter(List<People> searches) {
+    public SearchPeopleAdapter(List<TmdbObject> searches) {
         this.searches = searches;
     }
 
@@ -23,7 +24,7 @@ public class SearchPeopleAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        People people = searches.get(position);
+        People people = (People) searches.get(position);
 
         CastView view = (CastView) holder.itemView;
         view.setProfile(people.profilePath)
@@ -37,7 +38,7 @@ public class SearchPeopleAdapter extends RecyclerView.Adapter {
         return searches != null ? searches.size() : 0;
     }
 
-    public List<People> getPeople() {
+    public List<TmdbObject> getPeople() {
         return searches;
     }
 }

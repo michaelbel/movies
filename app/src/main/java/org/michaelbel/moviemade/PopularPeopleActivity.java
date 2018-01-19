@@ -74,11 +74,13 @@ public class PopularPeopleActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            binding.drawerLayout.openDrawer(GravityCompat.START);
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                binding.drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 
     @Override

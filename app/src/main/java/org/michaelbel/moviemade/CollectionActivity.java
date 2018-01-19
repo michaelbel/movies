@@ -9,7 +9,7 @@ import android.view.View;
 import org.michaelbel.moviemade.databinding.ActivityCollectionBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.v3.Collection;
-import org.michaelbel.moviemade.ui.fragment.GenreMoviesFragment;
+import org.michaelbel.moviemade.ui.fragment.CollectionMoviesFragment;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
 
 public class CollectionActivity extends BaseActivity {
@@ -21,22 +21,26 @@ public class CollectionActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_collection);
 
+        Collection collection = (Collection) getIntent().getSerializableExtra("collection");
+
         binding.toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(binding.toolbar));
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(binding.toolbar);
 
+        binding.toolbarTitle.setText(collection.name);
         binding.progressBar.setVisibility(View.GONE);
 
-        Collection collection = (Collection) getIntent().getSerializableExtra("collection");
-        startFragment(GenreMoviesFragment.newInstance(collection.id), binding.fragmentView);
+        startFragment(CollectionMoviesFragment.newInstance(collection.id), binding.fragmentView);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }

@@ -3,6 +3,7 @@ package org.michaelbel.moviemade.ui.adapter;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
+import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewListBig;
 
@@ -10,9 +11,9 @@ import java.util.List;
 
 public class SearchMoviesAdapter extends RecyclerView.Adapter {
 
-    private List<Movie> searches;
+    private List<TmdbObject> searches;
 
-    public SearchMoviesAdapter(List<Movie> searchResults) {
+    public SearchMoviesAdapter(List<TmdbObject> searchResults) {
         this.searches = searchResults;
     }
 
@@ -23,7 +24,7 @@ public class SearchMoviesAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Movie movie = searches.get(position);
+        Movie movie = (Movie) searches.get(position);
 
         MovieViewListBig view = (MovieViewListBig) holder.itemView;
         view.setPoster(movie.posterPath)
@@ -40,7 +41,7 @@ public class SearchMoviesAdapter extends RecyclerView.Adapter {
         return searches != null ? searches.size() : 0;
     }
 
-    public List<Movie> getMovies() {
+    public List<TmdbObject> getMovies() {
         return searches;
     }
 }

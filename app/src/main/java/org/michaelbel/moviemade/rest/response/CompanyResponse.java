@@ -6,6 +6,7 @@ import org.michaelbel.moviemade.rest.model.Company;
 
 import java.util.List;
 
+@Deprecated
 public class CompanyResponse {
 
     @SerializedName("results")

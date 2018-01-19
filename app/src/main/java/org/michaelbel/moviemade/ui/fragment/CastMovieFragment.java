@@ -7,7 +7,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,11 +22,11 @@ import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.presenter.CastMoviePresenter;
-import org.michaelbel.moviemade.mvp.view.MvpCastMovieView;
+import org.michaelbel.moviemade.mvp.view.MvpResultsView;
+import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Cast;
 import org.michaelbel.moviemade.rest.model.Movie;
-import org.michaelbel.moviemade.ui.adapter.Holder;
-import org.michaelbel.moviemade.ui.view.CastView;
+import org.michaelbel.moviemade.ui.adapter.CastMoviesAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.AndroidUtils;
@@ -36,16 +35,16 @@ import org.michaelbel.moviemade.util.AndroidUtilsDev;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CastMovieFragment extends MvpAppCompatFragment implements MvpCastMovieView {
+public class CastMovieFragment extends MvpAppCompatFragment implements MvpResultsView {
 
     private int movieId;
 
     private Movie currentMovie;
     private MovieRealm currentMovieRealm;
 
-    private CastMovieAdapter adapter;
     private MovieActivity activity;
-    private List<Cast> casts = new ArrayList<>();
+    private CastMoviesAdapter adapter;
+    private List<TmdbObject> casts = new ArrayList<>();
     private LinearLayoutManager linearLayoutManager;
 
     private EmptyView emptyView;
@@ -125,7 +124,7 @@ public class CastMovieFragment extends MvpAppCompatFragment implements MvpCastMo
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
         contentLayout.addView(emptyView);
 
-        adapter = new CastMovieAdapter();
+        adapter = new CastMoviesAdapter(casts);
         linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
         recyclerView = new RecyclerListView(activity);
@@ -134,8 +133,8 @@ public class CastMovieFragment extends MvpAppCompatFragment implements MvpCastMo
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        recyclerView.setOnItemClickListener((view1, position) -> {
-            Cast cast = casts.get(position);
+        recyclerView.setOnItemClickListener((view, position) -> {
+            Cast cast = (Cast) casts.get(position);
             activity.startPerson(cast);
         });
         contentLayout.addView(recyclerView);
@@ -164,9 +163,9 @@ public class CastMovieFragment extends MvpAppCompatFragment implements MvpCastMo
     }
 
     @Override
-    public void showResults(List<Cast> newCasts) {
-        casts.addAll(newCasts);
-        adapter.notifyItemRangeInserted(casts.size() + 1, newCasts.size());
+    public void showResults(List<TmdbObject> results) {
+        casts.addAll(results);
+        adapter.notifyItemRangeInserted(casts.size() + 1, results.size());
 
         fragmentView.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
@@ -177,29 +176,5 @@ public class CastMovieFragment extends MvpAppCompatFragment implements MvpCastMo
         fragmentView.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
         emptyView.setMode(mode);
-    }
-
-    private class CastMovieAdapter extends RecyclerView.Adapter {
-
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new Holder(new CastView(activity));
-        }
-
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
-            Cast cast = casts.get(position);
-
-            CastView view = (CastView) holder.itemView;
-            view.setName(cast.name)
-                .setCharacter(cast.character)
-                .setProfile(cast.profilePath)
-                .setDivider(position != casts.size() - 1);
-        }
-
-        @Override
-        public int getItemCount() {
-            return casts != null ? casts.size() : 0;
-        }
     }
 }

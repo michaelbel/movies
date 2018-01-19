@@ -24,7 +24,8 @@ import org.michaelbel.moviemade.GenresActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.mvp.presenter.GenreMoviesPresenter;
-import org.michaelbel.moviemade.mvp.view.MvpGenreMoviesView;
+import org.michaelbel.moviemade.mvp.view.MvpResultsView;
+import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.ui.adapter.MoviesAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
@@ -37,14 +38,14 @@ import org.michaelbel.moviemade.util.ScreenUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenreMoviesFragment extends MvpAppCompatFragment implements MvpGenreMoviesView {
+public class GenreMoviesFragment extends MvpAppCompatFragment implements MvpResultsView {
 
     private int currentGenreId;
 
     private MoviesAdapter adapter;
     private GridLayoutManager gridLayoutManager;
     private PaddingItemDecoration itemDecoration;
-    private List<Movie> movies = new ArrayList<>();
+    private List<TmdbObject> movies = new ArrayList<>();
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
@@ -137,7 +138,7 @@ public class GenreMoviesFragment extends MvpAppCompatFragment implements MvpGenr
         recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
-            Movie movie = movies.get(position);
+            Movie movie = (Movie) movies.get(position);
             if (getActivity() instanceof GenresActivity) {
                 ((GenresActivity) getActivity()).startMovie(movie);
             } else if (getActivity() instanceof GenreActivity) {
@@ -172,9 +173,9 @@ public class GenreMoviesFragment extends MvpAppCompatFragment implements MvpGenr
     }
 
     @Override
-    public void showResults(List<Movie> newMovies) {
-        movies.addAll(newMovies);
-        adapter.notifyItemRangeInserted(movies.size() + 1, newMovies.size());
+    public void showResults(List<TmdbObject> results) {
+        movies.addAll(results);
+        adapter.notifyItemRangeInserted(movies.size() + 1, results.size());
 
         fragmentView.setRefreshing(false);
         progressBar.setVisibility(View.GONE);

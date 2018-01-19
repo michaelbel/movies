@@ -24,6 +24,7 @@ import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.mvp.presenter.SearchMoviesPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpSearchView;
+import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.ui.adapter.SearchMoviesAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
@@ -34,14 +35,14 @@ import org.michaelbel.moviemade.util.AndroidUtilsDev;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSearchView.SearchMovies {
+public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSearchView {
 
     private String readyQuery;
 
     private SearchActivity activity;
     private SearchMoviesAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
-    private List<Movie> searches = new ArrayList<>();
+    private List<TmdbObject> searches = new ArrayList<>();
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
@@ -111,7 +112,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
-            Movie movie = searches.get(position);
+            Movie movie = (Movie) searches.get(position);
             activity.startMovie(movie);
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -158,9 +159,9 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
     }
 
     @Override
-    public void searchComplete(List<Movie> newMovies, int totalResults) {
-        searches.addAll(newMovies);
-        adapter.notifyItemRangeInserted(searches.size() + 1, newMovies.size());
+    public void searchComplete(List<TmdbObject> results, int totalResults) {
+        searches.addAll(results);
+        adapter.notifyItemRangeInserted(searches.size() + 1, results.size());
         progressBar.setVisibility(View.GONE);
 
         if (AndroidUtilsDev.searchResultsCount()) {
@@ -172,9 +173,9 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
     }
 
     @Override
-    public void nextPageLoaded(List<Movie> newMovies) {
-        searches.addAll(newMovies);
-        adapter.notifyItemRangeInserted(searches.size() + 1, newMovies.size());
+    public void nextPageLoaded(List<TmdbObject> results) {
+        searches.addAll(results);
+        adapter.notifyItemRangeInserted(searches.size() + 1, results.size());
     }
 
     @Override
