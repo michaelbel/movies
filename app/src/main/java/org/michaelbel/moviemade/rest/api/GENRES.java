@@ -1,6 +1,6 @@
 package org.michaelbel.moviemade.rest.api;
 
-import org.michaelbel.moviemade.rest.response.GenreResponse;
+import org.michaelbel.moviemade.rest.response.MoviesResponse;
 import org.michaelbel.moviemade.rest.response.MovieGenresResponse;
 
 import retrofit2.Call;
@@ -23,7 +23,7 @@ public interface GENRES {
     );
 
     @GET("genre/{genre_id}/movies?")
-    Call<GenreResponse> getMovies(
+    Call<MoviesResponse> getMovies(
             @Path("genre_id") int id,
             @Query("api_key") String apiKey,
             @Query("language") String language,

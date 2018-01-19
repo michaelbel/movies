@@ -1,5 +1,6 @@
 package org.michaelbel.moviemade.rest.api;
 
+import org.michaelbel.moviemade.rest.response.KeywordResponse;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.rest.response.CreditResponse;
 import org.michaelbel.moviemade.rest.response.ImageResponse;
@@ -60,7 +61,7 @@ public interface MOVIES {
     );
 
     @GET("movie/{movie_id}/keywords?")
-    Call<?> getKeywords(
+    Call<KeywordResponse> getKeywords(
             @Path("movie_id") int id,
             @Query("api_key") String apiKey
     );

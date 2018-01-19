@@ -1,5 +1,8 @@
 package org.michaelbel.moviemade.rest.api;
 
+import org.michaelbel.moviemade.rest.response.KeywordsResponse;
+import org.michaelbel.moviemade.rest.response.CollectionResponse;
+import org.michaelbel.moviemade.rest.response.CompanyResponse;
 import org.michaelbel.moviemade.rest.response.MovieResponse;
 import org.michaelbel.moviemade.rest.response.PeopleResponse;
 
@@ -9,14 +12,8 @@ import retrofit2.http.Query;
 
 public interface SEARCH {
 
-    @GET("")
-    Call<?> searchCompanies();
-
-    @GET("")
-    Call<?> searchCollections();
-
-    @GET("")
-    Call<?> searchKeywords();
+    @GET("search/multi?")
+    Call<?> searchMulti();
 
     @GET("search/movie?")
     Call<MovieResponse> searchMovies(
@@ -30,8 +27,8 @@ public interface SEARCH {
             //@Query("primary_release_year") int primaryReleaseYear
     );
 
-    @GET("")
-    Call<?> searchMulti();
+    @GET("search/tv?")
+    Call<?> searchTvShows();
 
     @GET("search/person?")
     Call<PeopleResponse> searchPeople(
@@ -43,6 +40,25 @@ public interface SEARCH {
             @Query("region") String region
     );
 
-    @GET("")
-    Call<?> searchTvShows();
+    @GET("search/keyword?")
+    Call<KeywordsResponse> searchKeywords(
+            @Query("api_key") String apiKey,
+            @Query("query") String query,
+            @Query("page") int page
+    );
+
+    @GET("search/collection?")
+    Call<CollectionResponse> searchCollections(
+        @Query("api_key") String apiKey,
+        @Query("language") String lang,
+        @Query("query") String query,
+        @Query("page") int page
+    );
+
+    @GET("search/company?")
+    Call<CompanyResponse> searchCompanies(
+        @Query("api_key") String apiKey,
+        @Query("query") String query,
+        @Query("page") int page
+    );
 }
