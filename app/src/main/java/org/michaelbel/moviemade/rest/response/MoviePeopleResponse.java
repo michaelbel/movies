@@ -6,15 +6,14 @@ import org.michaelbel.moviemade.rest.model.Movie;
 
 import java.util.List;
 
-@SuppressWarnings("all")
 public class MoviePeopleResponse {
+
+    @SerializedName("id")
+    public int peopleId;
 
     @SerializedName("cast")
     public List<Movie> castMovies;
 
     @SerializedName("crew")
     public List<Movie> crewMovies;
-
-    @SerializedName("id")
-    public int peopleId;
 }

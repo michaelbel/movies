@@ -2,14 +2,14 @@ package org.michaelbel.moviemade.rest.response;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.michaelbel.moviemade.rest.model.People;
+import org.michaelbel.moviemade.rest.model.v3.Collection;
 
 import java.util.List;
 
-public class PeopleResponse {
+public class CollectionResponse {
 
     @SerializedName("results")
-    public List<People> people;
+    public List<Collection> collections;
 
     @SerializedName("page")
     public int page;

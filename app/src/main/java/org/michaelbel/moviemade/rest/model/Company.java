@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 import io.realm.RealmObject;
 
-@SuppressWarnings("all")
 public class Company extends RealmObject implements Serializable {
 
     @SerializedName("id")
@@ -14,4 +13,16 @@ public class Company extends RealmObject implements Serializable {
 
     @SerializedName("name")
     public String name;
+
+    @SerializedName("description")
+    public String description;
+
+    @SerializedName("headquarters")
+    public String headquarters;
+
+    @SerializedName("logo_path")
+    public String logoPath;
+
+    @SerializedName("parent_company")
+    public String parentCompany;
 }

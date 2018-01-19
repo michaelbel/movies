@@ -2,13 +2,14 @@ package org.michaelbel.moviemade.rest.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.michaelbel.moviemade.rest.model.v3.Collection;
+
 import java.io.Serializable;
 import java.util.List;
 
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 
-@SuppressWarnings("all")
 public class Movie extends RealmObject implements Serializable {
 
     @SerializedName("id")
@@ -85,20 +86,11 @@ public class Movie extends RealmObject implements Serializable {
 
     @Ignore
     @SerializedName("belongs_to_collection")
-    public BelongsToCollection belongsToCollection;
-
-    public Movie() {}
-
-
-
-
-
-
-    public boolean favorite;
-    public boolean watching;
-    public String addedDate;
+    public Collection belongsToCollection;
 
     @Ignore
     @SerializedName("spoken_languages")
     public List<Language> languages;
+
+    public Movie() {}
 }

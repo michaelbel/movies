@@ -6,17 +6,16 @@ import org.michaelbel.moviemade.rest.model.Movie;
 
 import java.util.List;
 
-@SuppressWarnings("all")
-public class GenreResponse {
+public class MoviesResponse {
+
+    @SerializedName("results")
+    public List<Movie> movies;
 
     @SerializedName("id")
     public int id;
 
     @SerializedName("page")
     public int page;
-
-    @SerializedName("results")
-    public List<Movie> movies;
 
     @SerializedName("total_pages")
     public int totalPages;

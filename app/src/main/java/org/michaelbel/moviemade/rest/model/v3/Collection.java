@@ -4,12 +4,13 @@ import com.google.gson.annotations.SerializedName;
 
 import org.michaelbel.moviemade.rest.model.Movie;
 
+import java.io.Serializable;
 import java.util.List;
 
 import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 
-public class Collection extends RealmObject {
+public class Collection extends RealmObject implements Serializable {
 
     @SerializedName("id")
     public int id;

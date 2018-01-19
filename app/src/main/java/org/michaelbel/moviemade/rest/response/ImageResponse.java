@@ -7,7 +7,6 @@ import org.michaelbel.moviemade.rest.model.Poster;
 
 import java.util.List;
 
-@SuppressWarnings("all")
 public class ImageResponse {
 
     @SerializedName("id")

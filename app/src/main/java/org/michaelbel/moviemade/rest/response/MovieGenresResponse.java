@@ -6,7 +6,6 @@ import org.michaelbel.moviemade.rest.model.Genre;
 
 import java.util.List;
 
-@SuppressWarnings("all")
 public class MovieGenresResponse {
 
     @SerializedName("genres")

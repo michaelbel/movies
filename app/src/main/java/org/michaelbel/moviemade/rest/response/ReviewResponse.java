@@ -6,7 +6,6 @@ import org.michaelbel.moviemade.rest.model.v3.Review;
 
 import java.util.List;
 
-@SuppressWarnings("all")
 public class ReviewResponse {
 
     @SerializedName("id")

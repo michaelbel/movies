@@ -7,7 +7,6 @@ import org.michaelbel.moviemade.rest.model.Crew;
 
 import java.util.List;
 
-@SuppressWarnings("all")
 public class CreditResponse {
 
     @SerializedName("id")
