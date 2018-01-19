@@ -27,35 +27,24 @@ import org.michaelbel.moviemade.PersonActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Moviemade;
 import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.app.Url;
-import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.app.eventbus.Events;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.presenter.ListMoviesPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
-import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.rest.TmdbObject;
-import org.michaelbel.moviemade.rest.api.MOVIES;
-import org.michaelbel.moviemade.rest.api.PEOPLE;
 import org.michaelbel.moviemade.rest.model.Cast;
 import org.michaelbel.moviemade.rest.model.Movie;
-import org.michaelbel.moviemade.rest.response.MoviePeopleResponse;
-import org.michaelbel.moviemade.rest.response.MovieResponse;
 import org.michaelbel.moviemade.ui.adapter.MoviesAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
-import org.michaelbel.moviemade.util.NetworkUtils;
 import org.michaelbel.moviemade.util.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 import rx.functions.Action1;
 
 public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResultsView {
@@ -68,11 +57,6 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
     public static final int LIST_RELATED = 6;
     public static final int LIST_BY_PERSON = 7;
 
-    private final int TOTAL_PAGES = 1000;
-
-    private int page;
-    private int totalPages;
-    private boolean isLoading;
     private int currentMovieList;
     private Movie currentMovie;
     private Cast currentPerson;
@@ -200,7 +184,7 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
         fragmentView.setBackgroundColor(ContextCompat.getColor(getContext(), Theme.backgroundColor()));
         fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(getContext(), Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
-            if (NetworkUtils.notConnected()) {
+            /*if (NetworkUtils.notConnected()) {
                 onLoadError();
             } else {
                 if (movies.isEmpty()) {
@@ -212,7 +196,8 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
                 } else {
                     fragmentView.setRefreshing(false);
                 }
-            }
+            }*/
+            fragmentView.setRefreshing(false);
         });
 
         FrameLayout contentLayout = new FrameLayout(getContext());
@@ -228,7 +213,6 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
         contentLayout.addView(emptyView);
 
-        page = 1;
         adapter = new MoviesAdapter(movies);
 
         itemDecoration = new PaddingItemDecoration();
@@ -268,23 +252,13 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                /*if (currentMovieList == LIST_BY_PERSON) {
+                if (currentMovieList != LIST_BY_PERSON) {
                     if (gridLayoutManager.findLastVisibleItemPosition() == movies.size() - 1 && !presenter.loading && !presenter.loadingLocked) {
                         if (presenter.page < presenter.totalPages) {
-                            presenter.loadNowPlayingMovies(false);
+                            loadNextPage();
                         }
                     }
-                } else {*/
-                    if (gridLayoutManager.findLastVisibleItemPosition() == movies.size() - 1 && !isLoading) {
-                        if (currentMovieList != LIST_BY_PERSON) {
-                            if (page < TOTAL_PAGES) {
-                                loadList();
-                            }
-                        }
-                    }
-                //}
-
-
+                }
             }
         });
         contentLayout.addView(recyclerView);
@@ -313,14 +287,10 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
             currentPerson = (Cast) getArguments().getSerializable("person");
         }
 
-        if (NetworkUtils.notConnected()) {
-            onLoadError();
+        if (currentMovieList == LIST_BY_PERSON) {
+            presenter.loadPersonMovies(currentPerson.id);
         } else {
-            if (currentMovieList == LIST_BY_PERSON) {
-                loadPersonMovies();
-            } else {
-                loadList();
-            }
+            loadList();
         }
     }
 
@@ -337,7 +307,7 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
         ((Moviemade) getActivity().getApplication()).eventBus().toObservable().subscribe(new Action1<Object>() {
             @Override
             public void call(Object object) {
-                if (object instanceof Events.MovieListUpdateAdult) {
+                /*if (object instanceof Events.MovieListUpdateAdult) {
                     if (!NetworkUtils.notConnected()) {
                         if (!movies.isEmpty()) {
                             movies.clear();
@@ -361,7 +331,7 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
                             loadList();
                         }
                     }
-                } else if (object instanceof Events.MovieListRefreshLayout) {
+                } else*/ if (object instanceof Events.MovieListRefreshLayout) {
                     refreshLayout();
                 }
             }
@@ -384,382 +354,42 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
         emptyView.setMode(mode);
     }
 
-
-
-
-
     private void loadList() {
         if (currentMovieList == LIST_NOW_PLAYING) {
-            loadNowPlayingMovies();
-            //presenter.loadNowPlayingMovies(true);
+            //loadNowPlayingMovies();
+            presenter.loadNowPlayingMovies();
         } else if (currentMovieList == LIST_POPULAR) {
-            loadPopularMovies();
+            //loadPopularMovies();
+            presenter.loadPopularMovies();
         } else if (currentMovieList == LIST_TOP_RATED) {
-            loadTopRatedMovies();
+            //loadTopRatedMovies();
+            presenter.loadTopRatedMovies();
         } else if (currentMovieList == LIST_UPCOMING) {
-            loadUpcomingMovies();
+            //loadUpcomingMovies();
+            presenter.loadUpcomingMovies();
         } else if (currentMovieList == LIST_SIMILAR) {
-            loadSimilarMovies();
+            //loadSimilarMovies();
+            presenter.loadSimilarMovies(movieId);
         } else if (currentMovieList == LIST_RELATED) {
-            loadRelatedMovies();
+            //loadRelatedMovies();
+            presenter.loadRelatedMovies(movieId);
         }
     }
 
-    private void loadNowPlayingMovies() {
-        MOVIES service = ApiFactory.createService(MOVIES.class);
-        Call<MovieResponse> call = service.getNowPlaying(Url.TMDB_API_KEY, Url.en_US, page);
-        call.enqueue(new Callback<MovieResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
-                if (!response.isSuccessful()) {
-                    onLoadError();
-                    return;
-                }
-
-                if (totalPages == 0) {
-                    totalPages = response.body().totalPages;
-                }
-
-                List<Movie> newMovies = new ArrayList<>();
-
-                if (AndroidUtils.includeAdult()) {
-                    newMovies.addAll(response.body().movies);
-                } else {
-                    for (Movie movie : response.body().movies) {
-                        if (!movie.adult) {
-                            newMovies.add(movie);
-                        }
-                    }
-                }
-
-                movies.addAll(newMovies);
-                adapter.notifyItemRangeInserted(movies.size() + 1, newMovies.size());
-
-                if (movies.isEmpty()) {
-                    emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
-                } else {
-                    page++;
-                    isLoading = false;
-                }
-
-                onLoadSuccessful();
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<MovieResponse> call, @NonNull Throwable t) {
-                isLoading = false;
-                onLoadError();
-            }
-        });
-
-        isLoading = true;
-    }
-
-    private void loadPopularMovies() {
-        MOVIES service = ApiFactory.createService(MOVIES.class);
-        Call<MovieResponse> call = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page);
-        call.enqueue(new Callback<MovieResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
-                if (!response.isSuccessful()) {
-                    onLoadError();
-                    return;
-                }
-
-                if (totalPages == 0) {
-                    totalPages = response.body().totalPages;
-                }
-
-                List<Movie> newMovies = new ArrayList<>();
-
-                if (AndroidUtils.includeAdult()) {
-                    newMovies.addAll(response.body().movies);
-                } else {
-                    for (Movie movie : response.body().movies) {
-                        if (!movie.adult) {
-                            newMovies.add(movie);
-                        }
-                    }
-                }
-
-                movies.addAll(newMovies);
-                adapter.notifyItemRangeInserted(movies.size() + 1, newMovies.size());
-
-                if (movies.isEmpty()) {
-                    emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
-                } else {
-                    page++;
-                    isLoading = false;
-                }
-
-                onLoadSuccessful();
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<MovieResponse> call, @NonNull Throwable t) {
-                isLoading = false;
-                onLoadError();
-            }
-        });
-
-        isLoading = true;
-    }
-
-    private void loadTopRatedMovies() {
-        MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getTopRated(Url.TMDB_API_KEY, Url.en_US, page).enqueue(new Callback<MovieResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
-                if (!response.isSuccessful()) {
-                    onLoadError();
-                    return;
-                }
-
-                if (totalPages == 0) {
-                    totalPages = response.body().totalPages;
-                }
-
-                List<Movie> newMovies = new ArrayList<>();
-
-                if (AndroidUtils.includeAdult()) {
-                    newMovies.addAll(response.body().movies);
-                } else {
-                    for(Movie movie : response.body().movies) {
-                        if (!movie.adult) {
-                            newMovies.add(movie);
-                        }
-                    }
-                }
-
-                movies.addAll(newMovies);
-                adapter.notifyItemRangeInserted(movies.size() + 1, newMovies.size());
-
-                if (movies.isEmpty()) {
-                    emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
-                } else {
-                    page++;
-                    isLoading = false;
-                }
-
-                onLoadSuccessful();
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<MovieResponse> call, @NonNull Throwable t) {
-                isLoading = false;
-                onLoadError();
-            }
-        });
-
-        isLoading = true;
-    }
-
-    private void loadUpcomingMovies() {
-        MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getUpcoming(Url.TMDB_API_KEY, Url.en_US, page).enqueue(new Callback<MovieResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
-                if (!response.isSuccessful()) {
-                    onLoadError();
-                    return;
-                }
-
-                if (totalPages == 0) {
-                    totalPages = response.body().totalPages;
-                }
-
-                List<Movie> newMovies = new ArrayList<>();
-
-                if (AndroidUtils.includeAdult()) {
-                    newMovies.addAll(response.body().movies);
-                } else {
-                    for (Movie movie : response.body().movies) {
-                        if (!movie.adult) {
-                            newMovies.add(movie);
-                        }
-                    }
-                }
-
-                movies.addAll(newMovies);
-                adapter.notifyItemRangeInserted(movies.size() + 1, newMovies.size());
-
-                if (movies.isEmpty()) {
-                    emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
-                } else {
-                    page++;
-                    isLoading = false;
-                }
-
-                onLoadSuccessful();
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<MovieResponse> call, @NonNull Throwable t) {
-                isLoading = false;
-                onLoadError();
-
-            }
-        });
-
-        isLoading = true;
-    }
-
-    private void loadSimilarMovies() {
-        MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getSimilarMovies(movieId, Url.TMDB_API_KEY, Url.en_US, 1)
-                .enqueue(new Callback<MovieResponse>() {
-                    @Override
-                    public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
-                        if (!response.isSuccessful()) {
-                            onLoadError();
-                            return;
-                        }
-
-                        if (totalPages == 0) {
-                            totalPages = response.body().totalPages;
-                        }
-
-                        List<Movie> newMovies = new ArrayList<>();
-
-                        if (AndroidUtils.includeAdult()) {
-                            newMovies.addAll(response.body().movies);
-                        } else {
-                            for (Movie movie : response.body().movies) {
-                                if (!movie.adult) {
-                                    newMovies.add(movie);
-                                }
-                            }
-                        }
-
-                        movies.clear();
-                        movies.addAll(newMovies);
-                        adapter.notifyItemRangeInserted(movies.size() + 1, newMovies.size());
-
-                        if (movies.isEmpty()) {
-                            emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
-                        } else {
-                            page++;
-                            isLoading = false;
-                        }
-
-                        onLoadSuccessful();
-                    }
-
-                    @Override
-                    public void onFailure(@NonNull Call<MovieResponse> call, @NonNull Throwable t) {
-                        isLoading = false;
-                        onLoadError();
-                    }
-                });
-
-        isLoading = true;
-    }
-
-    private void loadRelatedMovies() {
-        MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getRecommendations(movieId, Url.TMDB_API_KEY, Url.en_US, 1).enqueue(new Callback<MovieResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<MovieResponse> call, @NonNull Response<MovieResponse> response) {
-                if (!response.isSuccessful()) {
-                    onLoadError();
-                    return;
-                }
-
-                if (totalPages == 0) {
-                    totalPages = response.body().totalPages;
-                }
-
-                List<Movie> newMovies = new ArrayList<>();
-
-                if (AndroidUtils.includeAdult()) {
-                    newMovies.addAll(response.body().movies);
-                } else {
-                    for (Movie movie : response.body().movies) {
-                        if (!movie.adult) {
-                            newMovies.add(movie);
-                        }
-                    }
-                }
-
-                movies.clear();
-                movies.addAll(newMovies);
-                adapter.notifyItemRangeInserted(movies.size() + 1, newMovies.size());
-
-                if (movies.isEmpty()) {
-                    emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
-                } else {
-                    page++;
-                    isLoading = false;
-                }
-
-                onLoadSuccessful();
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<MovieResponse> call, @NonNull Throwable t) {
-                isLoading = false;
-                onLoadError();
-            }
-        });
-
-        isLoading = true;
-    }
-
-    private void loadPersonMovies() {
-        PEOPLE service = ApiFactory.createService(PEOPLE.class);
-        service.getMovieCredits(currentPerson.castId, Url.TMDB_API_KEY, Url.en_US).enqueue(new Callback<MoviePeopleResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<MoviePeopleResponse> call, @NonNull Response<MoviePeopleResponse> response) {
-                if (!response.isSuccessful()) {
-                    // todo Error
-                    return;
-                }
-
-                List<Movie> crewMovies = response.body().crewMovies;
-                List<Movie> castMovies = response.body().castMovies;
-
-                if (AndroidUtils.includeAdult()) {
-                    movies.addAll(crewMovies);
-                    movies.addAll(castMovies);
-                } else {
-                    for (Movie movie : crewMovies) {
-                        if (!movie.adult) {
-                            movies.add(movie);
-                        }
-                    }
-
-                    for (Movie movie : castMovies) {
-                        if (!movie.adult) {
-                            movies.add(movie);
-                        }
-                    }
-                }
-
-                adapter.notifyDataSetChanged();
-
-                if (movies.isEmpty()) {
-                    emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
-                }
-
-                onLoadSuccessful();
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<MoviePeopleResponse> call, @NonNull Throwable t) {
-                // todo Error.
-            }
-        });
-    }
-
-    private void onLoadSuccessful() {
-        progressBar.setVisibility(View.INVISIBLE);
-        fragmentView.setRefreshing(false);
-    }
-
-    private void onLoadError() {
-        progressBar.setVisibility(View.INVISIBLE);
-        fragmentView.setRefreshing(false);
-        emptyView.setMode(EmptyViewMode.MODE_NO_CONNECTION);
+    private void loadNextPage() {
+        if (currentMovieList == LIST_NOW_PLAYING) {
+            presenter.loadNowPlayingNextMovies();
+        } else if (currentMovieList == LIST_POPULAR) {
+            presenter.loadPopularNextMovies();
+        } else if (currentMovieList == LIST_TOP_RATED) {
+            presenter.loadTopRatedNextMovies();
+        } else if (currentMovieList == LIST_UPCOMING) {
+            presenter.loadUpcomingNextMovies();
+        } else if (currentMovieList == LIST_SIMILAR) {
+            presenter.loadSimilarNextMovies(movieId);
+        } else if (currentMovieList == LIST_RELATED) {
+            presenter.loadRelatedNextMovies(movieId);
+        }
     }
 
     private void refreshLayout() {

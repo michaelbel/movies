@@ -113,8 +113,8 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpResultsView> {
                 }
 
                 getViewState().showResults(results);
-                page++;
                 loading = false;
+                page++;
             }
 
             @Override
