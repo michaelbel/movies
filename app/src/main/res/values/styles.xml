@@ -49,4 +49,23 @@
     <style name="TabText" parent="TextAppearance.Design.Tab">
         <item name="android:textSize">14sp</item>
     </style>
+
+
+
+
+    <style name="App" />
+
+    <style name="App.Toolbar">
+        <item name="android:id">@id/toolbar</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">?attr/actionBarSize</item>
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+        <item name="android:theme">@style/ThemeOverlay.AppCompat.Dark.ActionBar</item>
+        <item name="popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
+    </style>
+
+    <style name="App.Toolbar.Transparent">
+        <item name="android:background">@android:color/transparent</item>
+    </style>
 </resources>

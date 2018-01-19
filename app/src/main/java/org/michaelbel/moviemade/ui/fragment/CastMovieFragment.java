@@ -44,8 +44,8 @@ public class CastMovieFragment extends MvpAppCompatFragment implements MvpResult
 
     private MovieActivity activity;
     private CastMoviesAdapter adapter;
-    private List<TmdbObject> casts = new ArrayList<>();
     private LinearLayoutManager linearLayoutManager;
+    private List<TmdbObject> casts = new ArrayList<>();
 
     private EmptyView emptyView;
     private ProgressBar progressBar;

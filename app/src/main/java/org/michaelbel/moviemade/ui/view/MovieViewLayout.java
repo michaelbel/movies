@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.alexvasilkov.gestures.views.GestureImageView;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -22,7 +23,6 @@ import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.rest.model.Company;
-import org.michaelbel.moviemade.rest.model.Country;
 import org.michaelbel.moviemade.rest.model.Crew;
 import org.michaelbel.moviemade.rest.model.Genre;
 import org.michaelbel.moviemade.rest.model.Keyword;
@@ -43,7 +43,7 @@ import java.util.Objects;
 public class MovieViewLayout extends LinearLayout {
 
     private PlaceholderView posterPh;
-    private ImageView posterImage;
+    private GestureImageView posterImage;
 
     private LinearLayout shortInfoLayout;
 
@@ -144,7 +144,7 @@ public class MovieViewLayout extends LinearLayout {
 
         void onCollectionClick(View view);
 
-        void onCountryClick(View view, Country country);
+        void onPosterClick(View view);
 
         void onCompanyClick(View view, Company company);
     }
@@ -167,10 +167,11 @@ public class MovieViewLayout extends LinearLayout {
         posterPh.setLayoutParams(LayoutHelper.makeFrame(120, 180, Gravity.START | Gravity.TOP, 16, 16, 0, 0));
         topLayout.addView(posterPh);
 
-        posterImage = new ImageView(context);
+        posterImage = new GestureImageView(context);
         posterImage.setVisibility(INVISIBLE);
         posterImage.setScaleType(ImageView.ScaleType.FIT_XY);
         posterImage.setImageResource(R.drawable.movie_placeholder_old);
+        posterImage.setOnClickListener(view -> movieViewListener.onPosterClick(view));
         posterImage.setLayoutParams(LayoutHelper.makeFrame(120, 180, Gravity.START | Gravity.TOP, 16, 16, 0, 0));
         topLayout.addView(posterImage);
 
@@ -546,6 +547,7 @@ public class MovieViewLayout extends LinearLayout {
         infoLayout.addView(companiesTitle);
 
         companiesView = new CompaniesSection(context);
+        companiesView.setListener((view, company) -> movieViewListener.onCompanyClick(view, company));
         companiesView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 10F, 2, 12.0F, 12)); // todo
         infoLayout.addView(companiesView);
 
@@ -876,6 +878,10 @@ public class MovieViewLayout extends LinearLayout {
 
     public KeywordsSection getKeywordsView() {
         return keywordsView;
+    }
+
+    public GestureImageView getPoster() {
+        return posterImage;
     }
 
 //--------------------------------------------------------------------------------------------------

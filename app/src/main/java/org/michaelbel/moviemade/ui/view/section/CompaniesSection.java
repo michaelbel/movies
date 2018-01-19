@@ -76,8 +76,7 @@ public class CompaniesSection extends FrameLayout {
             Company company = companies.get(position);
 
             ChipView2 view = (ChipView2) holder.itemView;
-            view.setText(company.name)
-                .changeLayoutParams();
+            view.setText(company.name).changeLayoutParams();
         }
 
         @Override

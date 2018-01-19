@@ -24,22 +24,22 @@ public class RecyclerListView extends RecyclerView {
 
     private static final String TAG = RecyclerListView.class.getSimpleName();
 
+    private RecyclerView.OnScrollListener onScrollListener;
     private RecyclerListView.OnItemClickListener onItemClickListener;
     private RecyclerListView.OnItemLongClickListener onItemLongClickListener;
-    private RecyclerView.OnScrollListener onScrollListener;
     private RecyclerListView.OnInterceptTouchListener onInterceptTouchListener;
 
-    private View emptyView;
-    private Runnable selectChildRunnable;
-
-    private GestureDetector mGestureDetector;
-    private View currentChildView;
     private int currentChildPosition;
     private boolean interceptedByChild;
     private boolean wasPressed;
     private boolean disallowInterceptTouchEvents;
     private boolean instantClick;
+
+    private View emptyView;
+    private View currentChildView;
     private Runnable clickRunnable;
+    private Runnable selectChildRunnable;
+    private GestureDetector mGestureDetector;
 
     private static int[] attributes;
     private static boolean gotAttributes;

@@ -108,8 +108,8 @@ public class SearchCompaniesFragment extends MvpAppCompatFragment implements Mvp
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setEmptyView(emptyView);
-        recyclerView.setVerticalScrollBarEnabled(true);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
             Company company = (Company) searches.get(position);

@@ -268,13 +268,23 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (gridLayoutManager.findLastVisibleItemPosition() == movies.size() - 1 && !isLoading) {
-                    if (currentMovieList != LIST_BY_PERSON) {
-                        if (page < TOTAL_PAGES) {
-                            loadList();
+                /*if (currentMovieList == LIST_BY_PERSON) {
+                    if (gridLayoutManager.findLastVisibleItemPosition() == movies.size() - 1 && !presenter.loading && !presenter.loadingLocked) {
+                        if (presenter.page < presenter.totalPages) {
+                            presenter.loadNowPlayingMovies(false);
                         }
                     }
-                }
+                } else {*/
+                    if (gridLayoutManager.findLastVisibleItemPosition() == movies.size() - 1 && !isLoading) {
+                        if (currentMovieList != LIST_BY_PERSON) {
+                            if (page < TOTAL_PAGES) {
+                                loadList();
+                            }
+                        }
+                    }
+                //}
+
+
             }
         });
         contentLayout.addView(recyclerView);
@@ -381,6 +391,7 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
     private void loadList() {
         if (currentMovieList == LIST_NOW_PLAYING) {
             loadNowPlayingMovies();
+            //presenter.loadNowPlayingMovies(true);
         } else if (currentMovieList == LIST_POPULAR) {
             loadPopularMovies();
         } else if (currentMovieList == LIST_TOP_RATED) {

@@ -108,8 +108,8 @@ public class SearchPeopleFragment extends MvpAppCompatFragment implements MvpSea
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setEmptyView(emptyView);
-        recyclerView.setVerticalScrollBarEnabled(true);
         recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
             People person = (People) searches.get(position);

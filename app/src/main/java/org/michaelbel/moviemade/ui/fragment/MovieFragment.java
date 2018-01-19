@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.Toast;
 
+import com.alexvasilkov.gestures.transition.GestureTransitions;
+import com.alexvasilkov.gestures.transition.ViewsTransitionAnimator;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
@@ -28,10 +30,9 @@ import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.presenter.MoviePresenter;
 import org.michaelbel.moviemade.mvp.view.MvpMovieView;
 import org.michaelbel.moviemade.rest.model.Company;
-import org.michaelbel.moviemade.rest.model.Country;
-import org.michaelbel.moviemade.rest.model.Keyword;
 import org.michaelbel.moviemade.rest.model.Crew;
 import org.michaelbel.moviemade.rest.model.Genre;
+import org.michaelbel.moviemade.rest.model.Keyword;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.rest.model.Trailer;
 import org.michaelbel.moviemade.ui.interfaces.ImageSectionListener;
@@ -64,6 +65,9 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
 
     @InjectPresenter
     public MoviePresenter presenter;
+
+    // test
+    private ViewsTransitionAnimator imageAnimator;
 
     public static MovieFragment newInstance(Movie movie) {
         Bundle args = new Bundle();
@@ -169,6 +173,8 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
             }
         });*/
         scrollView.addView(movieView);
+        init();
+
         return fragmentView;
     }
 
@@ -431,15 +437,28 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
 
     @Override
     public void onCollectionClick(View view) {
-        Log.e("tag2", "1. Id: " + loadedMovie.belongsToCollection.id);
-        Log.e("tag2", "1. Name: " + loadedMovie.belongsToCollection.name);
-
         activity.startCollection(loadedMovie.belongsToCollection);
     }
 
-    @Override
-    public void onCountryClick(View view, Country country) {
+    void init() {
+        imageAnimator = GestureTransitions.from(movieView.getPoster()).into(activity.binding.posterFull);
+        imageAnimator.addPositionUpdateListener(this::applyFullImageState);
+    }
 
+    private void applyFullImageState(float position, boolean isLeaving) {
+        activity.binding.demoFullBackground.setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
+        activity.binding.demoFullBackground.setAlpha(position);
+
+        activity.binding.demoFullImageToolbar.setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
+        activity.binding.demoFullImageToolbar.setAlpha(position);
+
+        activity.binding.posterFull.setVisibility(position == 0f && isLeaving ? View.INVISIBLE : View.VISIBLE);
+    }
+
+    @Override
+    public void onPosterClick(View view) {
+        //activity.getSettingsController().apply(activity.binding.posterFull);
+        //imageAnimator.enterSingle(true);
     }
 
     @Override

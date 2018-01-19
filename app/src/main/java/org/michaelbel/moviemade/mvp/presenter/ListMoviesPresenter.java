@@ -31,9 +31,7 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
     public boolean loading;
     public boolean loadingLocked;
 
-    private int movieId;
-
-    public void loadNowPlayingMovies(boolean firstpage) {
+    public void loadNowPlayingMovies(boolean firstpage)     {
         if (NetworkUtils.notConnected()) {
             getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
             return;

@@ -29,6 +29,7 @@ import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.rest.model.v3.Review;
 import org.michaelbel.moviemade.ui.view.widget.GestureTextView;
+import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
 import org.michaelbel.moviemade.util.ScreenUtils;
 
@@ -94,12 +95,11 @@ public class ReviewFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         activity.binding.toolbar.setNavigationOnClickListener(view -> activity.finish());
-        //activity.binding.toolbarTitle.setText(R.string.MovieReview);
-        //activity.binding.toolbarTitle.setOnClickListener(v -> {
-        //    if (AndroidUtils.scrollToTop()) {
-        //        scrollView.fullScroll(ScrollView.FOCUS_UP);
-        //    }
-        //});
+        activity.binding.authorLayout.setOnClickListener(v -> {
+            if (AndroidUtils.scrollToTop()) {
+                scrollView.fullScroll(ScrollView.FOCUS_UP);
+            }
+        });
 
         View fragmentView = inflater.inflate(R.layout.fragment_review, container, false);
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
@@ -107,14 +107,10 @@ public class ReviewFragment extends Fragment {
         scrollView = fragmentView.findViewById(R.id.scroll_view);
         scrollView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
 
-        //LinearLayout linearLayout = fragmentView.findViewById(R.id.headers_layout);
-        //linearLayout.setPadding(0, 1, 0, 0);
-
         FrameLayout mediaTitleLayout = new FrameLayout(activity);
         mediaTitleLayout.setPadding(ScreenUtils.dp(0), ScreenUtils.dp(12), ScreenUtils.dp(16), ScreenUtils.dp(12));
         mediaTitleLayout.setBackgroundColor(ContextCompat.getColor(activity, Theme.primaryColor()));
         mediaTitleLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        //linearLayout.addView(mediaTitleLayout);
         activity.binding.authorLayout.addView(mediaTitleLayout);
 
         ImageView mediaIcon = new ImageView(activity);
@@ -133,7 +129,6 @@ public class ReviewFragment extends Fragment {
         authorLayout.setBackgroundColor(ContextCompat.getColor(activity, Theme.primaryColor()));
         authorLayout.setPadding(ScreenUtils.dp(0), ScreenUtils.dp(0), ScreenUtils.dp(16), ScreenUtils.dp(12));
         authorLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, 0));
-        //linearLayout.addView(authorLayout);
         activity.binding.authorLayout.addView(authorLayout);
 
         ImageView authorIconView = new ImageView(activity);

@@ -16,6 +16,8 @@ import org.michaelbel.moviemade.databinding.ActivityMovieBinding;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.Movie;
+import org.michaelbel.moviemade.ui.SettingsController;
+import org.michaelbel.moviemade.ui.SettingsMenu;
 import org.michaelbel.moviemade.ui.fragment.CastMovieFragment;
 import org.michaelbel.moviemade.ui.fragment.ListMoviesFragment;
 import org.michaelbel.moviemade.ui.fragment.MovieFragment;
@@ -32,6 +34,8 @@ public class MovieActivity extends BaseActivity {
     public MovieRealm movieRealm;
 
     public ActivityMovieBinding binding;
+
+    private final SettingsMenu settingsMenu = new SettingsMenu();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -98,7 +102,15 @@ public class MovieActivity extends BaseActivity {
         binding.tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
         binding.tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
         binding.tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
+
+        settingsMenu.onRestoreInstanceState(savedInstanceState);
     }
+
+    /*@Override
+    protected void onSaveInstanceState(Bundle outState) {
+        settingsMenu.onSaveInstanceState(outState);
+        super.onSaveInstanceState(outState);
+    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -129,5 +141,14 @@ public class MovieActivity extends BaseActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    public SettingsController getSettingsController() {
+        return settingsMenu;
     }
 }

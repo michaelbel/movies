@@ -41,7 +41,7 @@ public class EmptyView extends LinearLayout {
 
         emptyText = new TextView(getContext());
         emptyText.setGravity(Gravity.CENTER);
-        emptyText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        emptyText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
         emptyText.setTextColor(ContextCompat.getColor(getContext(), Theme.iconActiveColor()));
         emptyText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         emptyText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 10, 24, 0));

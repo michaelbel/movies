@@ -31,7 +31,7 @@ public class CollectionView extends FrameLayout {
 
         imageView = new ImageView(context);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        imageView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, 180));
+        imageView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, 200));
         addView(imageView);
 
         FrameLayout imageLayout = new FrameLayout(context);
