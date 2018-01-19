@@ -6,19 +6,25 @@ import android.view.View;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 
+import org.michaelbel.moviemade.CollectionActivity;
+import org.michaelbel.moviemade.CompanyActivity;
 import org.michaelbel.moviemade.GenreActivity;
 import org.michaelbel.moviemade.GenresActivity;
+import org.michaelbel.moviemade.KeywordActivity;
 import org.michaelbel.moviemade.MovieActivity;
 import org.michaelbel.moviemade.PersonActivity;
 import org.michaelbel.moviemade.ReviewActivity;
 import org.michaelbel.moviemade.TrailersActivity;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.rest.model.Cast;
+import org.michaelbel.moviemade.rest.model.Company;
 import org.michaelbel.moviemade.rest.model.Genre;
+import org.michaelbel.moviemade.rest.model.Keyword;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.rest.model.People;
-import org.michaelbel.moviemade.rest.model.v3.Review;
 import org.michaelbel.moviemade.rest.model.Trailer;
+import org.michaelbel.moviemade.rest.model.v3.Collection;
+import org.michaelbel.moviemade.rest.model.v3.Review;
 
 import java.util.ArrayList;
 
@@ -128,6 +134,27 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseModel, Med
     public void startGenres(ArrayList<Genre> list) {
         Intent intent = new Intent(this, GenresActivity.class);
         intent.putExtra("list", list);
+        startActivity(intent);
+    }
+
+    @Override
+    public void startKeyword(Keyword keyword) {
+        Intent intent = new Intent(this, KeywordActivity.class);
+        intent.putExtra("keyword", keyword);
+        startActivity(intent);
+    }
+
+    @Override
+    public void startCollection(Collection collection) {
+        Intent intent = new Intent(this, CollectionActivity.class);
+        intent.putExtra("collection", collection);
+        startActivity(intent);
+    }
+
+    @Override
+    public void startCompany(Company company) {
+        Intent intent = new Intent(this, CompanyActivity.class);
+        intent.putExtra("company", company);
         startActivity(intent);
     }
 }
