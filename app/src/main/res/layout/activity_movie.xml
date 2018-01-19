@@ -57,21 +57,31 @@
             android:id="@+id/demo_full_background"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#000000"
-            android:visibility="invisible" />
+            android:background="@color/photoViewerBackgroundColor"
+            android:visibility="invisible"/>
 
-        <com.alexvasilkov.gestures.commons.circle.CircleGestureImageView
-            android:id="@+id/poster_full"
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:visibility="invisible"
-            app:gest_doubleTapZoom="3"
-            app:gest_maxZoom="10" />
+            android:fitsSystemWindows="true">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/demo_full_image_toolbar"
-            style="@style/App.Toolbar.Transparent"
-            android:visibility="invisible" />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/image_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:visibility="invisible"
+                style="@style/App.Toolbar.Transparent"/>
+
+            <com.alexvasilkov.gestures.views.GestureImageView
+                android:id="@+id/poster_full"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="56dp"
+                android:visibility="invisible"
+                app:gest_doubleTapZoom="3"
+                app:gest_maxZoom="10" />
+
+        </android.support.design.widget.CoordinatorLayout>
 
     </merge>
 

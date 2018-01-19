@@ -71,6 +71,7 @@ public class SearchActivity extends BaseActivity {
 
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(binding.toolbar);
+        binding.toolbar.setNavigationOnClickListener(view -> finish());
 
         iconActionMode = MODE_ACTION_VOICE;
 
@@ -238,17 +239,6 @@ public class SearchActivity extends BaseActivity {
                     }
                 }
             }
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
     }
 

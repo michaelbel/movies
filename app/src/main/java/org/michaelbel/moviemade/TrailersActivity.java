@@ -23,6 +23,9 @@ public class TrailersActivity extends BaseActivity {
 
         binding.toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(binding.toolbar));
         setSupportActionBar(binding.toolbar);
+        binding.toolbar.setNavigationOnClickListener(view -> finish());
+
+        binding.toolbarTitle.setTitle(R.string.Trailers);
 
         ArrayList<Trailer> list = (ArrayList<Trailer>) getIntent().getSerializableExtra("list");
         Movie movie = (Movie) getIntent().getSerializableExtra("movie");

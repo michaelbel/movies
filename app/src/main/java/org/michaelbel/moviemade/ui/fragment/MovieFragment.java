@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,12 +61,10 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     private ScrollView scrollView;
     private MovieViewLayout movieView;
     private SwipeRefreshLayout fragmentView;
+    private ViewsTransitionAnimator imageAnimator;
 
     @InjectPresenter
     public MoviePresenter presenter;
-
-    // test
-    private ViewsTransitionAnimator imageAnimator;
 
     public static MovieFragment newInstance(Movie movie) {
         Bundle args = new Bundle();
@@ -138,42 +135,21 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         movieView.addMovieViewListener(this);
         movieView.getImagesView().addImageSectionListener(this);
         movieView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-
-        /*movieView.addMovieViewListener(new MovieInfoLayout.MovieViewListener() {
-            @Override
-            public void onFavoriteButtonClick(View view) {
-                boolean state = presenter.isMovieFavorite(extraMovie.id);
-                presenter.setMovieFavorite(extraMovie.id, !state);
-
-                if (view instanceof CheckedButton) {
-                    ((CheckedButton) view).setChecked(!state);
-                }
-            }
-
-            @Override
-            public void onWatchingButtonClick(View view) {
-                boolean state = presenter.isMovieWatching(extraMovie.id);
-                presenter.setMovieWatching(extraMovie.id, !state);
-
-                if (view instanceof CheckedButton) {
-                    ((CheckedButton) view).setChecked(!state);
-                }
-            }
-
-            @Override
-            public void onGenresSectionClick(View view) {
-                if (loadedMovie != null) {
-                    if (loadedMovie.genres != null) {
-                        if (!loadedMovie.genres.isEmpty()) {
-                            genres.addAll(loadedMovie.genres);
-                            activity.startGenres(genres);
-                        }
-                    }
-                }
-            }
-        });*/
         scrollView.addView(movieView);
-        init();
+
+        imageAnimator = GestureTransitions.from(movieView.getPoster()).into(activity.binding.posterFull);
+        imageAnimator.addPositionUpdateListener((position, isLeaving) -> {
+            activity.binding.demoFullBackground.setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
+            activity.binding.demoFullBackground.setAlpha(position);
+
+            activity.binding.imageToolbar.setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
+            activity.binding.imageToolbar.setAlpha(position);
+
+            activity.binding.posterFull.setVisibility(position == 0f && isLeaving ? View.INVISIBLE : View.VISIBLE);
+        });
+
+        activity.binding.imageToolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        activity.binding.imageToolbar.setNavigationOnClickListener(view -> exitImage());
 
         return fragmentView;
     }
@@ -440,29 +416,24 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         activity.startCollection(loadedMovie.belongsToCollection);
     }
 
-    void init() {
-        imageAnimator = GestureTransitions.from(movieView.getPoster()).into(activity.binding.posterFull);
-        imageAnimator.addPositionUpdateListener(this::applyFullImageState);
-    }
-
-    private void applyFullImageState(float position, boolean isLeaving) {
-        activity.binding.demoFullBackground.setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
-        activity.binding.demoFullBackground.setAlpha(position);
-
-        activity.binding.demoFullImageToolbar.setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
-        activity.binding.demoFullImageToolbar.setAlpha(position);
-
-        activity.binding.posterFull.setVisibility(position == 0f && isLeaving ? View.INVISIBLE : View.VISIBLE);
+    @Override
+    public void onCompanyClick(View view, Company company) {
+        activity.startCompany(company);
     }
 
     @Override
     public void onPosterClick(View view) {
-        //activity.getSettingsController().apply(activity.binding.posterFull);
-        //imageAnimator.enterSingle(true);
+        activity.getSettingsController().apply(activity.binding.posterFull);
+        imageAnimator.enterSingle(true);
     }
 
-    @Override
-    public void onCompanyClick(View view, Company company) {
-        activity.startCompany(company);
+    /*public boolean isImageOpen() {
+        return !imageAnimator.isLeaving();
+    }*/
+
+    public void exitImage() {
+        if (!imageAnimator.isLeaving()) {
+            imageAnimator.exit(true);
+        }
     }
 }

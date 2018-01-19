@@ -5,6 +5,7 @@
 
     <color name="youtubeColor">#F44336</color>
     <color name="cursorColor">#FFFFFF</color>
+    <color name="photoViewerBackgroundColor">#FF000000</color>
 
     <!--LIGHT THEME-->
     <color name="primaryTextColor">#DE000000</color>

@@ -23,6 +23,7 @@ public class ReviewActivity extends BaseActivity {
 
         binding.toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(binding.toolbar));
         setSupportActionBar(binding.toolbar);
+        binding.toolbar.setNavigationOnClickListener(view -> finish());
 
         if (savedInstanceState == null) {
             Review review = getIntent().getParcelableExtra("review");

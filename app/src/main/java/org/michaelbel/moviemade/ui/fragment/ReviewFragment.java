@@ -94,7 +94,6 @@ public class ReviewFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        activity.binding.toolbar.setNavigationOnClickListener(view -> activity.finish());
         activity.binding.authorLayout.setOnClickListener(v -> {
             if (AndroidUtils.scrollToTop()) {
                 scrollView.fullScroll(ScrollView.FOCUS_UP);

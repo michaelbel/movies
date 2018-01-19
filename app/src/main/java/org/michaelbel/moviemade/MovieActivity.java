@@ -35,6 +35,8 @@ public class MovieActivity extends BaseActivity {
 
     public ActivityMovieBinding binding;
 
+    private FragmentsPagerAdapter adapter;
+
     private final SettingsMenu settingsMenu = new SettingsMenu();
 
     @Override
@@ -66,8 +68,9 @@ public class MovieActivity extends BaseActivity {
         binding.toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(binding.toolbar));
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(binding.toolbar);
+        binding.toolbar.setNavigationOnClickListener(view -> finish());
 
-        FragmentsPagerAdapter adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
+        adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
         if (movie != null) {
             binding.toolbarTitle.setText(movie.title);
 
@@ -102,15 +105,7 @@ public class MovieActivity extends BaseActivity {
         binding.tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
         binding.tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
         binding.tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
-
-        settingsMenu.onRestoreInstanceState(savedInstanceState);
     }
-
-    /*@Override
-    protected void onSaveInstanceState(Bundle outState) {
-        settingsMenu.onSaveInstanceState(outState);
-        super.onSaveInstanceState(outState);
-    }*/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -133,19 +128,13 @@ public class MovieActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Override
     public void onBackPressed() {
-        super.onBackPressed();
+        if (binding.viewPager.getCurrentItem() == 0) {
+            MovieFragment fragment = (MovieFragment) adapter.getItem(0);
+            fragment.exitImage();
+        } else {
+            super.onBackPressed();
+        }
     }
 
     public SettingsController getSettingsController() {

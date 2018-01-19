@@ -3,7 +3,6 @@ package org.michaelbel.moviemade;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.MenuItem;
 import android.view.View;
 
 import org.michaelbel.moviemade.databinding.ActivityGenreBinding;
@@ -26,21 +25,11 @@ public class GenreActivity extends BaseActivity {
         binding.toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(binding.toolbar));
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(binding.toolbar);
+        binding.toolbar.setNavigationOnClickListener(view -> finish());
 
         binding.toolbarTitle.setText(genre.name);
         binding.progressBar.setVisibility(View.GONE);
 
         startFragment(GenreMoviesFragment.newInstance(genre.id), binding.fragmentView);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }

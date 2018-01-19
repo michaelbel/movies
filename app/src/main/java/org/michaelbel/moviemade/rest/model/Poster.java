@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 import io.realm.RealmObject;
 
-@SuppressWarnings("all")
 public class Poster extends RealmObject implements Serializable {
 
     @SerializedName("aspect_ratio")
@@ -24,7 +23,7 @@ public class Poster extends RealmObject implements Serializable {
     @SerializedName("iso_639_1")
     public String code;
 
-    @SerializedName("vote_averahe")
+    @SerializedName("vote_average")
     public float voteAverage;
 
     @SerializedName("vote_count")
