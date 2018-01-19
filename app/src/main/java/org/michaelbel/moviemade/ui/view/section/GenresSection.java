@@ -20,17 +20,17 @@ import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.rest.model.Genre;
 import org.michaelbel.moviemade.ui.adapter.Holder;
-import org.michaelbel.moviemade.ui.view.GenreChip;
+import org.michaelbel.moviemade.ui.view.ChipView;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenresSectionView extends FrameLayout {
+public class GenresSection extends FrameLayout {
 
     private GenresAdapter adapter;
+    private GenresSectionListener sectionListener;
     private List<Genre> genres = new ArrayList<>();
-    private GenresSectionListener genresSectionListener;
 
     private ProgressBar progressBar;
 
@@ -38,7 +38,7 @@ public class GenresSectionView extends FrameLayout {
         void onGenreButtonClick(View view, Genre genre);
     }
 
-    public GenresSectionView(@NonNull Context context) {
+    public GenresSection(@NonNull Context context) {
         super(context);
 
         setClickable(false);
@@ -76,22 +76,20 @@ public class GenresSectionView extends FrameLayout {
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 13.5F, 48, 13.5F, 12));
         recyclerView.setOnItemClickListener((view, position) -> {
             Genre genre = genres.get(position);
-            if (genresSectionListener != null) {
-                genresSectionListener.onGenreButtonClick(view, genre);
-            }
+            sectionListener.onGenreButtonClick(view, genre);
         });
         addView(recyclerView);
     }
 
-    public GenresSectionView setGenres(List<Genre> list) {
+    public GenresSection setGenres(List<Genre> list) {
         genres.clear();
         genres.addAll(list);
         adapter.notifyDataSetChanged();
         return this;
     }
 
-    public GenresSectionView setListener(GenresSectionListener listener) {
-        genresSectionListener = listener;
+    public GenresSection setListener(GenresSectionListener listener) {
+        sectionListener = listener;
         return this;
     }
 
@@ -103,14 +101,14 @@ public class GenresSectionView extends FrameLayout {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new Holder(new GenreChip(getContext()));
+            return new Holder(new ChipView(getContext()));
         }
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
             Genre genre = genres.get(position);
 
-            GenreChip view = (GenreChip) holder.itemView;
+            ChipView view = (ChipView) holder.itemView;
             view.setText(genre.name)
                 .changeLayoutParams();
         }

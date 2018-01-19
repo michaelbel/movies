@@ -18,49 +18,49 @@ import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.util.ScreenUtils;
 
-public class GenreChip extends FrameLayout {
+public class ChipView2 extends FrameLayout {
 
     private CardView cardView;
     private TextView textText;
 
     private Rect rect = new Rect();
 
-    public GenreChip(Context context) {
+    public ChipView2(Context context) {
         super(context);
 
         cardView = new CardView(context);
         cardView.setCardElevation(0);
         cardView.setUseCompatPadding(true);
-        cardView.setRadius(ScreenUtils.dp(15));
         cardView.setPreventCornerOverlap(false);
+        cardView.setRadius(ScreenUtils.dp(10));
         cardView.setForeground(Theme.selectableItemBackgroundBorderlessDrawable());
-        cardView.setCardBackgroundColor(ContextCompat.getColor(context, Theme.accentColor()));
+        cardView.setCardBackgroundColor(ContextCompat.getColor(context, Theme.backgroundColor()));
         cardView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         addView(cardView);
 
         textText = new TextView(context);
         textText.setMaxLines(1);
-        textText.setTextColor(ContextCompat.getColor(context, Theme.foregroundColor()));
         textText.setGravity(Gravity.CENTER_VERTICAL);
         textText.setEllipsize(TextUtils.TruncateAt.END);
         textText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        textText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
         textText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         textText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL, 14, 6, 14, 6));
         cardView.addView(textText);
     }
 
-    public GenreChip setText(String text) {
+    public ChipView2 setText(String text) {
         textText.setText(text);
         return this;
     }
 
-    public GenreChip setText(@StringRes int textId) {
+    public ChipView2 setText(@StringRes int textId) {
         textText.setText(getContext().getText(textId).toString().toUpperCase());
         return this;
     }
 
-    public GenreChip changeLayoutParams() {
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+    public ChipView2 changeLayoutParams() {
+        LayoutParams params = new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         params.rightMargin = ScreenUtils.dp(2F);
         setLayoutParams(params);
         return this;

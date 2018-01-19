@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.SwitchCompat;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -66,6 +67,7 @@ public class TextDetailCell extends FrameLayout {
         textView.setLines(1);
         textView.setMaxLines(1);
         textView.setSingleLine();
+        textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         textView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         textView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 16, 10, 16, 0));
@@ -75,6 +77,7 @@ public class TextDetailCell extends FrameLayout {
         valueText.setLines(1);
         valueText.setMaxLines(1);
         valueText.setSingleLine();
+        valueText.setEllipsize(TextUtils.TruncateAt.END);
         valueText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
         valueText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
         valueText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 16, 35, 16, 0));

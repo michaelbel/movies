@@ -25,11 +25,11 @@ import org.michaelbel.moviemade.util.ScreenUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TrailersSectionView extends FrameLayout {
+public class TrailersSection extends FrameLayout {
 
     private TrailersAdapter adapter;
+    private SectionTrailersListener sectionListener;
     private List<Trailer> trailers = new ArrayList<>();
-    private SectionTrailersListener sectionTrailersListener;
 
     private ProgressBar progressBar;
     private RecyclerListView recyclerView;
@@ -39,7 +39,7 @@ public class TrailersSectionView extends FrameLayout {
         void onTrailerLongClick(View view, String trailerKey);
     }
 
-    public TrailersSectionView(Context context) {
+    public TrailersSection(Context context) {
         super(context);
 
         setClickable(false);
@@ -73,33 +73,28 @@ public class TrailersSectionView extends FrameLayout {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 0, 48, 0, 0));
         recyclerView.setOnItemClickListener((view, position) -> {
-            if (sectionTrailersListener != null) {
-                Trailer trailer = trailers.get(position);
-                sectionTrailersListener.onTrailerClick(view, trailer.key);
-            }
+            Trailer trailer = trailers.get(position);
+            sectionListener.onTrailerClick(view, trailer.key);
         });
         recyclerView.setOnItemLongClickListener((view, position) -> {
-            if (sectionTrailersListener != null) {
-                Trailer trailer = trailers.get(position);
-                sectionTrailersListener.onTrailerLongClick(view, trailer.key);
-                return true;
-            }
-            return false;
+            Trailer trailer = trailers.get(position);
+            sectionListener.onTrailerLongClick(view, trailer.key);
+            return true;
         });
         addView(recyclerView);
     }
 
-    public TrailersSectionView setListener(SectionTrailersListener listener) {
-        sectionTrailersListener = listener;
+    public TrailersSection setListener(SectionTrailersListener listener) {
+        sectionListener = listener;
         return this;
     }
 
-    public TrailersSectionView setAdapter(RecyclerView.Adapter adapter) {
+    public TrailersSection setAdapter(RecyclerView.Adapter adapter) {
         recyclerView.setAdapter(adapter);
         return this;
     }
 
-    public TrailersSectionView setTrailers(List<Trailer> list) {
+    public TrailersSection setTrailers(List<Trailer> list) {
         trailers.clear();
         trailers.addAll(list);
         adapter.notifyDataSetChanged();

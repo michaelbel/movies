@@ -28,7 +28,6 @@ import org.michaelbel.moviemade.util.ScreenUtils;
 
 import java.util.Locale;
 
-@SuppressWarnings("all")
 public class MovieViewCard extends FrameLayout {
 
     private CardView cardView;

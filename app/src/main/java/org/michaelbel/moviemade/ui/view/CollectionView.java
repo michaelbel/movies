@@ -21,12 +21,12 @@ import org.michaelbel.moviemade.util.ScreenUtils;
 
 import java.util.Locale;
 
-public class BelongCollectionView extends FrameLayout {
+public class CollectionView extends FrameLayout {
 
-    private ImageView imageView;
     private TextView nameText;
+    private ImageView imageView;
 
-    public BelongCollectionView(@NonNull Context context) {
+    public CollectionView(@NonNull Context context) {
         super(context);
 
         imageView = new ImageView(context);
@@ -48,14 +48,21 @@ public class BelongCollectionView extends FrameLayout {
         imageLayout.addView(nameText);
     }
 
-    public void addImage(String imagePath) {
-        Picasso.with(getContext())
-               .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.backdropSize(), imagePath))
-               .placeholder(R.drawable.movie_placeholder_old)
-               .into(imageView);
+    public void addName(String name) {
+        nameText.setText(name);
     }
 
-    public void addName(String name) {
-        nameText.setText(getContext().getString(R.string.PartOfCollection, name));
+    public void addImage(String imagePath) {
+        if (imagePath == null || imagePath.isEmpty()) {
+            imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            imageView.setImageResource(R.drawable.movie_placeholder_old);
+            return;
+        }
+
+        Picasso.with(getContext())
+               .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.backdropSize(), imagePath))
+               .into(imageView);
+
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
     }
 }

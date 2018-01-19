@@ -21,14 +21,18 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
-import org.michaelbel.moviemade.app.annotation.Beta;
-import org.michaelbel.moviemade.rest.model.BelongsToCollection;
+import org.michaelbel.moviemade.rest.model.Company;
+import org.michaelbel.moviemade.rest.model.Country;
 import org.michaelbel.moviemade.rest.model.Crew;
 import org.michaelbel.moviemade.rest.model.Genre;
+import org.michaelbel.moviemade.rest.model.Keyword;
 import org.michaelbel.moviemade.rest.model.Trailer;
-import org.michaelbel.moviemade.ui.view.section.GenresSectionView;
-import org.michaelbel.moviemade.ui.view.section.ImagesSectionView;
-import org.michaelbel.moviemade.ui.view.section.TrailersSectionView;
+import org.michaelbel.moviemade.rest.model.v3.Collection;
+import org.michaelbel.moviemade.ui.view.section.CompaniesSection;
+import org.michaelbel.moviemade.ui.view.section.GenresSection;
+import org.michaelbel.moviemade.ui.view.section.ImagesSection;
+import org.michaelbel.moviemade.ui.view.section.KeywordsSection;
+import org.michaelbel.moviemade.ui.view.section.TrailersSection;
 import org.michaelbel.moviemade.util.AndroidUtils;
 
 import java.util.ArrayList;
@@ -75,9 +79,9 @@ public class MovieViewLayout extends LinearLayout {
     private LinearLayout overviewLayout;
     private TextView overviewTextView;
 
-    private TrailersSectionView trailersView;
+    private TrailersSection trailersView;
 
-    private ImagesSectionView imagesView;
+    private ImagesSection imagesView;
 
     private LinearLayout crewLayout;
     private ProgressBar crewProgressBar;
@@ -92,13 +96,10 @@ public class MovieViewLayout extends LinearLayout {
     private TextView producersTextView;
 
     private LinearLayout infoLayout;
-    private ProgressBar progressBar;
+    //private ProgressBar progressBar;
 
-    private TextView originalTitleTitle;
-    private TextView originalTitleTextView;
-
-    private TextView countriesTitle;
-    private TextView countriesText;
+    private TextView originalTitle;
+    private TextView originalTitleText;
 
     private TextView statusTitle;
     private TextView statusTextView;
@@ -109,12 +110,17 @@ public class MovieViewLayout extends LinearLayout {
     private TextView revenueTitle;
     private TextView revenueText;
 
+    private TextView countriesTitle;
+    private TextView countriesText;
+
     private TextView companiesTitle;
-    private TextView companiesTextView;
+    private CompaniesSection companiesView;
 
-    private GenresSectionView genresView;
+    private GenresSection genresView;
 
-    private BelongCollectionView collectionView;
+    private KeywordsSection keywordsView;
+
+    private CollectionView collectionView;
 
     private LinearLayout linksLayout;
     private WebpageView linkTmdbView;
@@ -132,6 +138,15 @@ public class MovieViewLayout extends LinearLayout {
         void onMovieUrlClick(View view, int position);
         void onGenreSelected(View view, Genre genre);
         void onGenresSectionClick(View view);
+
+        void onKeywordClick(View view, Keyword keyword);
+        void onKeywordsSectionClick(View view);
+
+        void onCollectionClick(View view);
+
+        void onCountryClick(View view, Country country);
+
+        void onCompanyClick(View view, Company company);
     }
 
     public MovieViewLayout(Context context) {
@@ -281,22 +296,14 @@ public class MovieViewLayout extends LinearLayout {
         favoriteButton = new CheckedButton(context);
         favoriteButton.setVisibility(INVISIBLE);
         favoriteButton.setStyle(CheckedButton.FAVORITE);
-        favoriteButton.setOnClickListener(view -> {
-            if (movieViewListener != null) {
-                movieViewListener.onFavoriteButtonClick(view);
-            }
-        });
+        favoriteButton.setOnClickListener(view -> movieViewListener.onFavoriteButtonClick(view));
         favoriteButton.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
         buttonsLayout.addView(favoriteButton);
 
         watchingButton = new CheckedButton(context);
         watchingButton.setVisibility(INVISIBLE);
         watchingButton.setStyle(CheckedButton.WATCHING);
-        watchingButton.setOnClickListener(view -> {
-            if (movieViewListener != null) {
-                movieViewListener.onWatchingButtonClick(view);
-            }
-        });
+        watchingButton.setOnClickListener(view -> movieViewListener.onWatchingButtonClick(view));
         watchingButton.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
         buttonsLayout.addView(watchingButton);
 
@@ -349,11 +356,8 @@ public class MovieViewLayout extends LinearLayout {
         //    }
         //});
         overviewTextView.setOnLongClickListener(v -> {
-            if (movieViewListener != null) {
-                movieViewListener.onOverviewLongClick(v);
-                return true;
-            }
-            return false;
+            movieViewListener.onOverviewLongClick(v);
+            return true;
         });
         overviewLayout.addView(overviewTextView);
 
@@ -423,20 +427,14 @@ public class MovieViewLayout extends LinearLayout {
 
 //------TRAILERS SECTION VIEW-----------------------------------------------------------------------
 
-        trailersView = new TrailersSectionView(context);
+        trailersView = new TrailersSection(context);
         trailersView.setVisibility(INVISIBLE);
         trailersView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0));
-        trailersView.setOnClickListener(view -> {
-            if (movieViewListener != null) {
-                movieViewListener.onTrailersSectionClick(view);
-            }
-        });
-        trailersView.setListener(new TrailersSectionView.SectionTrailersListener() {
+        trailersView.setOnClickListener(view -> movieViewListener.onTrailersSectionClick(view));
+        trailersView.setListener(new TrailersSection.SectionTrailersListener() {
             @Override
             public void onTrailerClick(View view, String trailerKey) {
-                if (movieViewListener != null) {
-                    movieViewListener.onTrailerClick(view, trailerKey);
-                }
+                movieViewListener.onTrailerClick(view, trailerKey);
             }
 
             @Override
@@ -451,7 +449,7 @@ public class MovieViewLayout extends LinearLayout {
 
 //------IMAGES SECTION VIEW-------------------------------------------------------------------------
 
-        imagesView = new ImagesSectionView(context);
+        imagesView = new ImagesSection(context);
         imagesView.setVisibility(INVISIBLE);
         imagesView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0));
         addView(imagesView);
@@ -479,31 +477,20 @@ public class MovieViewLayout extends LinearLayout {
         infoTitle.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL));
         layout.addView(infoTitle);
 
-        progressBar = new ProgressBar(context);
-        progressBar.setLayoutParams(LayoutHelper.makeFrame(24, 24, Gravity.END | Gravity.CENTER_VERTICAL));
+        //progressBar = new ProgressBar(context);
+        //progressBar.setLayoutParams(LayoutHelper.makeFrame(24, 24, Gravity.END | Gravity.CENTER_VERTICAL));
         //layout.addView(progressBar);
 
-        originalTitleTitle = new TextView(context);
-        originalTitleTitle.setText(context.getString(R.string.OriginalTitle));
-        originalTitleTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        originalTitleTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
-        infoLayout.addView(originalTitleTitle);
+        originalTitle = new TextView(context);
+        originalTitle.setText(context.getString(R.string.OriginalTitle));
+        originalTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        originalTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
+        infoLayout.addView(originalTitle);
 
-        originalTitleTextView = new TextView(context);
-        originalTitleTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        originalTitleTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
-        infoLayout.addView(originalTitleTextView);
-
-        countriesTitle = new TextView(context);
-        countriesTitle.setText(context.getString(R.string.CountriesTitle));
-        countriesTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        countriesTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
-        infoLayout.addView(countriesTitle);
-
-        countriesText = new TextView(context);
-        countriesText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        countriesText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
-        infoLayout.addView(countriesText);
+        originalTitleText = new TextView(context);
+        originalTitleText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
+        originalTitleText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
+        infoLayout.addView(originalTitleText);
 
         statusTitle = new TextView(context);
         statusTitle.setText(context.getString(R.string.Status));
@@ -541,7 +528,16 @@ public class MovieViewLayout extends LinearLayout {
         revenueText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
         infoLayout.addView(revenueText);
 
-//--------------------------------------------------------------------------------------------------
+        countriesTitle = new TextView(context);
+        countriesTitle.setText(context.getString(R.string.CountriesTitle));
+        countriesTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        countriesTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
+        infoLayout.addView(countriesTitle);
+
+        countriesText = new TextView(context);
+        countriesText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
+        countriesText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
+        infoLayout.addView(countriesText);
 
         companiesTitle = new TextView(context);
         companiesTitle.setText(context.getString(R.string.ProductionCompanies));
@@ -549,31 +545,31 @@ public class MovieViewLayout extends LinearLayout {
         companiesTitle.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 0));
         infoLayout.addView(companiesTitle);
 
-        companiesTextView = new TextView(context);
-        companiesTextView.setText(R.string.Loading);
-        companiesTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        companiesTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 12));
-        infoLayout.addView(companiesTextView);
+        companiesView = new CompaniesSection(context);
+        companiesView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 12.0F, 2, 12.0F, 12));
+        companiesView.setListener((view, company) -> movieViewListener.onCompanyClick(view, company));
+        infoLayout.addView(companiesView);
 
 //------GENRES--------------------------------------------------------------------------------------
 
-        genresView = new GenresSectionView(context);
+        genresView = new GenresSection(context);
         genresView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0));
-        genresView.setOnClickListener(view -> {
-            if (movieViewListener != null) {
-                movieViewListener.onGenresSectionClick(view);
-            }
-        });
-        genresView.setListener((view, genre) -> {
-            if (movieViewListener != null) {
-                movieViewListener.onGenreSelected(view, genre);
-            }
-        });
+        genresView.setOnClickListener(view -> movieViewListener.onGenresSectionClick(view));
+        genresView.setListener((view, genre) -> movieViewListener.onGenreSelected(view, genre));
         addView(genresView);
 
-//------BELONG COLLECTION---------------------------------------------------------------------------
+//------KEYWORDS------------------------------------------------------------------------------------
 
-        collectionView = new BelongCollectionView(context);
+        keywordsView = new KeywordsSection(context);
+        keywordsView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0));
+        keywordsView.setOnClickListener(view -> movieViewListener.onKeywordsSectionClick(view));
+        keywordsView.setListener((view, keyword) -> movieViewListener.onKeywordClick(view, keyword));
+        addView(keywordsView);
+
+//------COLLECTION VIEW-----------------------------------------------------------------------------
+
+        collectionView = new CollectionView(context);
+        collectionView.setOnClickListener(view -> movieViewListener.onCollectionClick(view));
         collectionView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0));
         //addView(collectionView);
 
@@ -588,34 +584,24 @@ public class MovieViewLayout extends LinearLayout {
         linkTmdbView = new WebpageView(context);
         linkTmdbView.setText(R.string.ViewOnTMDb);
         linkTmdbView.setDivider(true);
+        linkTmdbView.setOnClickListener(view -> movieViewListener.onMovieUrlClick(view, 1));
         linkTmdbView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        linkTmdbView.setOnClickListener(view -> {
-            if (movieViewListener != null) {
-                movieViewListener.onMovieUrlClick(view, 1);
-            }
-        });
         linksLayout.addView(linkTmdbView);
 
         linkImdbView = new WebpageView(context);
         linkImdbView.setText(R.string.ViewOnIMDb);
         linkImdbView.setDivider(true);
         linkImdbView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        linkImdbView.setOnClickListener(view -> {
-            if (movieViewListener != null) {
-                movieViewListener.onMovieUrlClick(view, 2);
-            }
-        });
+        linkImdbView.setOnClickListener(view -> movieViewListener.onMovieUrlClick(view, 2));
         linksLayout.addView(linkImdbView);
 
         linkHomeView = new WebpageView(context);
         linkHomeView.setText(R.string.ViewHomepage);
         linkHomeView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        linkHomeView.setOnClickListener(view -> {
-            if (movieViewListener != null) {
-                movieViewListener.onMovieUrlClick(view, 3);
-            }
-        });
+        linkHomeView.setOnClickListener(view -> movieViewListener.onMovieUrlClick(view, 3));
         linksLayout.addView(linkHomeView);
+
+        addView(collectionView);
     }
 
     public void addPoster(String posterPath) {
@@ -689,12 +675,12 @@ public class MovieViewLayout extends LinearLayout {
 
     public void addOriginalTitle(String title) {
         if (title == null || title.isEmpty()) {
-            infoLayout.removeView(originalTitleTitle);
-            infoLayout.removeView(originalTitleTextView);
+            infoLayout.removeView(originalTitle);
+            infoLayout.removeView(originalTitleText);
             return;
         }
 
-        originalTitleTextView.setText(title);
+        originalTitleText.setText(title);
     }
 
     public void addOriginalLanguage(String origLang) {
@@ -814,14 +800,14 @@ public class MovieViewLayout extends LinearLayout {
         countriesText.setText(countries);
     }
 
-    public void addCompanies(String companies) {
+    public void addCompanies(List<Company> companies) {
         if (companies == null || companies.isEmpty()) {
             infoLayout.removeView(companiesTitle);
-            infoLayout.removeView(companiesTextView);
+            infoLayout.removeView(companiesView);
             return;
         }
 
-        companiesTextView.setText(companies);
+        companiesView.setCompanies(companies);
     }
 
     public void favoriteButtonVisibility(int visibility) {
@@ -832,12 +818,10 @@ public class MovieViewLayout extends LinearLayout {
         watchingButton.setVisibility(visibility);
     }
 
-    @Beta
     public void setFavoriteButton(boolean favorite) {
         favoriteButton.setChecked(favorite);
     }
 
-    @Beta
     public void setWatchingButton(boolean watching) {
         watchingButton.setChecked(watching);
     }
@@ -857,18 +841,42 @@ public class MovieViewLayout extends LinearLayout {
         movieViewListener = listener;
     }
 
+    public void addGenres(List<Genre> genres) {
+        if (genres == null || genres.isEmpty()) {
+            removeView(genresView);
+            return;
+        }
+
+        genresView.setGenres(genres);
+        genresView.getProgressBar().setVisibility(INVISIBLE);
+    }
+
+    public void addKeywords(List<Keyword> keywords) {
+        if (keywords == null || keywords.isEmpty()) {
+            removeView(keywordsView);
+            return;
+        }
+
+        keywordsView.setKeywords(keywords);
+        keywordsView.getProgressBar().setVisibility(GONE);
+    }
+
     // GETTERS
 
-    public ImagesSectionView getImagesView() {
+    public ImagesSection getImagesView() {
         return imagesView;
     }
 
-    public TrailersSectionView getTrailersView() {
+    public TrailersSection getTrailersView() {
         return trailersView;
     }
 
-    public GenresSectionView getGenresView() {
+    public GenresSection getGenresView() {
         return genresView;
+    }
+
+    public KeywordsSection getKeywordsView() {
+        return keywordsView;
     }
 
 //--------------------------------------------------------------------------------------------------
@@ -951,24 +959,13 @@ public class MovieViewLayout extends LinearLayout {
         return this;
     }
 
-    public MovieViewLayout setGenres(List<Genre> genres) {
-        if (genres == null || genres.isEmpty()) {
-            removeView(genresView);
-        } else {
-            genresView.setGenres(genres);
-            genresView.getProgressBar().setVisibility(INVISIBLE);
-        }
-
-        return this;
-    }
-
-    public void addBelongCollection(BelongsToCollection collection) {
+    public void addCollection(Collection collection) {
         if (collection == null) {
             removeView(collectionView);
             return;
         }
 
-        collectionView.addName(collection.name);
+        collectionView.addName(getContext().getString(R.string.PartOfCollection, collection.name));
         collectionView.addImage(collection.backdropPath);
     }
 }

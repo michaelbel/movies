@@ -22,7 +22,7 @@ import org.michaelbel.moviemade.util.AndroidUtils;
 
 import java.util.Locale;
 
-public class ImagesSectionView extends FrameLayout {
+public class ImagesSection extends FrameLayout {
 
     private ImageView posterImage;
     private ImageView backdropImage;
@@ -31,7 +31,7 @@ public class ImagesSectionView extends FrameLayout {
 
     private ImageSectionListener imageSectionListener;
 
-    public ImagesSectionView(Context context) {
+    public ImagesSection(Context context) {
         super(context);
 
         setBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
@@ -56,11 +56,7 @@ public class ImagesSectionView extends FrameLayout {
 //------POSTERS-------------------------------------------------------------------------------------
 
         FrameLayout postersLayout = new FrameLayout(context);
-        postersLayout.setOnClickListener(v -> {
-            if (imageSectionListener != null) {
-                imageSectionListener.onPostersClick(v);
-            }
-        });
+        postersLayout.setOnClickListener(view -> imageSectionListener.onPostersClick(view));
         postersLayout.setLayoutParams(LayoutHelper.makeLinear(0, LayoutHelper.MATCH_PARENT, Gravity.CENTER, 1F));
         imagesLayout.addView(postersLayout);
 
@@ -83,11 +79,7 @@ public class ImagesSectionView extends FrameLayout {
 //------BACKDROPS-----------------------------------------------------------------------------------
 
         FrameLayout backdropsLayout = new FrameLayout(context);
-        backdropsLayout.setOnClickListener(v -> {
-            if (imageSectionListener != null) {
-                imageSectionListener.onBackdropClick(v);
-            }
-        });
+        backdropsLayout.setOnClickListener(view -> imageSectionListener.onBackdropClick(view));
         backdropsLayout.setLayoutParams(LayoutHelper.makeLinear(0, LayoutHelper.MATCH_PARENT, Gravity.CENTER,2F, 12, 0, 0, 0));
         imagesLayout.addView(backdropsLayout);
 
@@ -112,7 +104,7 @@ public class ImagesSectionView extends FrameLayout {
         this.imageSectionListener = listener;
     }
 
-    public ImagesSectionView setPoster(@NonNull String posterPath) {
+    public ImagesSection setPoster(@NonNull String posterPath) {
         Picasso.with(getContext())
                .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.posterSize(), posterPath))
                .placeholder(R.drawable.movie_placeholder_old)
@@ -121,7 +113,7 @@ public class ImagesSectionView extends FrameLayout {
         return this;
     }
 
-    public ImagesSectionView setBackdrop(@NonNull String backdropPath) {
+    public ImagesSection setBackdrop(@NonNull String backdropPath) {
         Picasso.with(getContext())
                .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.backdropSize(), backdropPath))
                .placeholder(R.drawable.movie_placeholder_old)
@@ -130,12 +122,12 @@ public class ImagesSectionView extends FrameLayout {
         return this;
     }
 
-    public ImagesSectionView setPostersCount(int count) {
+    public ImagesSection setPostersCount(int count) {
         postersCountText.setText(getResources().getQuantityString(R.plurals.Posters, count, count));
         return this;
     }
 
-    public ImagesSectionView setBackdropsCount(int count) {
+    public ImagesSection setBackdropsCount(int count) {
         backdropsCountText.setText(getResources().getQuantityString(R.plurals.Backdrops, count, count));
         return this;
     }

@@ -30,7 +30,6 @@ import java.util.Locale;
 
 import static android.widget.LinearLayout.HORIZONTAL;
 
-@SuppressWarnings("all")
 public class MovieViewList extends FrameLayout {
 
     private ImageView posterImageView;
