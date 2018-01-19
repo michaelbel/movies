@@ -8,11 +8,11 @@ import java.util.List;
 
 public class MoviesResponse {
 
-    @SerializedName("results")
-    public List<Movie> movies;
-
     @SerializedName("id")
     public int id;
+
+    @SerializedName("results")
+    public List<Movie> movies;
 
     @SerializedName("page")
     public int page;

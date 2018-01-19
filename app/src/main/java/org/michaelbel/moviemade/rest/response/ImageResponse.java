@@ -12,9 +12,9 @@ public class ImageResponse {
     @SerializedName("id")
     public int id;
 
-    @SerializedName("backdrops")
-    public List<Backdrop> backdrops;
-
     @SerializedName("posters")
     public List<Poster> posters;
+
+    @SerializedName("backdrops")
+    public List<Backdrop> backdrops;
 }

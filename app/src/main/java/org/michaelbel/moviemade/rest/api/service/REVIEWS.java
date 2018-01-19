@@ -1,6 +1,6 @@
 package org.michaelbel.moviemade.rest.api.service;
 
-import org.michaelbel.moviemade.rest.base.TmdbService;
+import org.michaelbel.moviemade.rest.TmdbService;
 import org.michaelbel.moviemade.rest.model.v3.Review;
 
 import retrofit2.Call;
