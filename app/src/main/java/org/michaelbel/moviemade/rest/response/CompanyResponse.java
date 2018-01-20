@@ -2,11 +2,10 @@ package org.michaelbel.moviemade.rest.response;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.michaelbel.moviemade.rest.model.Company;
+import org.michaelbel.moviemade.rest.model.v3.Company;
 
 import java.util.List;
 
-@Deprecated
 public class CompanyResponse {
 
     @SerializedName("results")

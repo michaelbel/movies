@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 
 import org.michaelbel.moviemade.app.LayoutHelper;
-import org.michaelbel.moviemade.rest.model.Company;
+import org.michaelbel.moviemade.rest.model.v3.Company;
 import org.michaelbel.moviemade.ui.adapter.Holder;
 import org.michaelbel.moviemade.ui.view.ChipView2;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
@@ -62,6 +62,10 @@ public class CompaniesSection extends FrameLayout {
     public CompaniesSection setListener(CompaniesSectionListener listener) {
         companiesListener = listener;
         return this;
+    }
+
+    public List<Company> getCompanies() {
+        return companies;
     }
 
     private class CompaniesAdapter extends RecyclerView.Adapter {

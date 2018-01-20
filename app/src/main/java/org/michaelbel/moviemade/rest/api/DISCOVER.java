@@ -1,8 +1,17 @@
 package org.michaelbel.moviemade.rest.api;
 
+import retrofit2.Call;
+import retrofit2.http.GET;
+
 public interface DISCOVER {
 
-    // movieDiscover
+    @GET("discover/movie?")
+    Call<?> movieDiscover(
 
-    // tvDiscover
+    );
+
+    @GET("discover/tv?")
+    Call<?> tvDiscover(
+
+    );
 }

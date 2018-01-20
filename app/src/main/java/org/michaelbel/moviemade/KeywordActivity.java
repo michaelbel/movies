@@ -7,7 +7,7 @@ import android.view.View;
 
 import org.michaelbel.moviemade.databinding.ActivityKeywordBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
-import org.michaelbel.moviemade.rest.model.Keyword;
+import org.michaelbel.moviemade.rest.model.v3.Keyword;
 import org.michaelbel.moviemade.ui.fragment.KeywordMoviesFragment;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
 
@@ -20,7 +20,7 @@ public class KeywordActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_keyword);
 
-        Keyword keyword = (Keyword) getIntent().getSerializableExtra("keyword");
+        Keyword keyword = getIntent().getParcelableExtra("keyword");
 
         binding.toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(binding.toolbar));
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);

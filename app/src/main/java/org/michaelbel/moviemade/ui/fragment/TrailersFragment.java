@@ -23,8 +23,7 @@ import org.michaelbel.moviemade.TrailersActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
-import org.michaelbel.moviemade.rest.model.Movie;
-import org.michaelbel.moviemade.rest.model.Trailer;
+import org.michaelbel.moviemade.rest.model.v3.Trailer;
 import org.michaelbel.moviemade.ui.adapter.TrailersAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
@@ -38,22 +37,19 @@ import java.util.ArrayList;
 
 public class TrailersFragment extends Fragment {
 
-    private Movie currentMovie;
-    private ArrayList<Trailer> trailers = new ArrayList<>();
-
     private TrailersAdapter adapter;
     private TrailersActivity activity;
     private GridLayoutManager gridLayoutManager;
+    private ArrayList<Trailer> trailers = new ArrayList<>();
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
     private RecyclerListView recyclerView;
     private SwipeRefreshLayout fragmentView;
 
-    public static TrailersFragment newInstance(Movie movie, ArrayList<Trailer> list) {
+    public static TrailersFragment newInstance(ArrayList<Trailer> list) {
         Bundle args = new Bundle();
-        args.putSerializable("movie", movie);
-        args.putSerializable("list", list);
+        args.putParcelableArrayList("list", list);
 
         TrailersFragment fragment = new TrailersFragment();
         fragment.setArguments(args);
@@ -70,7 +66,7 @@ public class TrailersFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        activity.binding.toolbarTitle.setOnClickListener(v -> {
+        activity.binding.toolbarTitle.setOnClickListener(view -> {
             if (AndroidUtils.scrollToTop()) {
                 recyclerView.smoothScrollToPosition(0);
             }
@@ -83,10 +79,10 @@ public class TrailersFragment extends Fragment {
         fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
             if (NetworkUtils.notConnected()) {
-                onLoadError();
+                onLoadError(EmptyViewMode.MODE_NO_CONNECTION);
             } else {
                 if (trailers.isEmpty()) {
-                    loadVideos();
+                    onLoadError(EmptyViewMode.MODE_NO_TRAILERS);
                 } else {
                     fragmentView.setRefreshing(false);
                 }
@@ -130,18 +126,15 @@ public class TrailersFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (getArguments() != null) {
-            currentMovie = (Movie) getArguments().getSerializable("movie");
-            trailers.addAll((ArrayList<Trailer>) getArguments().getSerializable("list"));
+        if (getArguments() == null) {
+            return;
         }
 
-        activity.binding.toolbarTitle.setSubtitle(currentMovie.title);
+        trailers.addAll(getArguments().getParcelable("list"));
+        adapter.notifyDataSetChanged();
 
-        if (NetworkUtils.notConnected()) {
-            onLoadError();
-        } else {
-            loadVideos();
-        }
+        fragmentView.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -150,25 +143,9 @@ public class TrailersFragment extends Fragment {
         gridLayoutManager.setSpanCount(AndroidUtils.getColumnsForVideos());
     }
 
-    private void loadVideos() {
-        if (trailers == null || trailers.isEmpty()) {
-            emptyView.setMode(EmptyViewMode.MODE_NO_TRAILERS);
-            onLoadError();
-            return;
-        }
-
-        adapter.notifyDataSetChanged();
-        onLoadSuccessful();
-    }
-
-    private void onLoadSuccessful() {
-        progressBar.setVisibility(View.INVISIBLE);
+    private void onLoadError(int mode) {
         fragmentView.setRefreshing(false);
-    }
-
-    private void onLoadError() {
-        progressBar.setVisibility(View.INVISIBLE);
-        fragmentView.setRefreshing(false);
-        emptyView.setMode(EmptyViewMode.MODE_NO_CONNECTION);
+        progressBar.setVisibility(View.GONE);
+        emptyView.setMode(mode);
     }
 }

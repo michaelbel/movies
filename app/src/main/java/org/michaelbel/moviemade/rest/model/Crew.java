@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 import io.realm.RealmObject;
 
-@SuppressWarnings("all")
 public class Crew extends RealmObject implements Serializable {
 
     @SerializedName("credit_id")

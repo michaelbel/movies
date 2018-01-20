@@ -126,9 +126,9 @@ public class SearchActivity extends BaseActivity {
         adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
         adapter.addFragment(SearchMoviesFragment.newInstance(query), R.string.Movies);
         adapter.addFragment(SearchPeopleFragment.newInstance(query), R.string.People);
-        adapter.addFragment(SearchKeywordsFragment.newInstance(query), "Keywords");
-        adapter.addFragment(SearchCollectionsFragment.newInstance(query), "Collections");
-        adapter.addFragment(SearchCompaniesFragment.newInstance(query), "Companies");
+        adapter.addFragment(SearchKeywordsFragment.newInstance(query), R.string.Keywords);
+        adapter.addFragment(SearchCollectionsFragment.newInstance(query), R.string.Collections);
+        adapter.addFragment(SearchCompaniesFragment.newInstance(query), R.string.Companies);
 
         binding.viewPager.setAdapter(adapter);
         binding.viewPager.setCurrentItem(tab);

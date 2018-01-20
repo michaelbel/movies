@@ -11,34 +11,34 @@ import org.michaelbel.moviemade.rest.model.Movie;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Collection extends TmdbObject implements Parcelable {
+public class People extends TmdbObject implements Parcelable {
+
+    @SerializedName("profile_path")
+    public String profilePath;
+
+    @SerializedName("adult")
+    public boolean adult;
 
     @SerializedName("id")
     public int id;
 
+    @SerializedName("popularity")
+    public double popularity;
+
     @SerializedName("name")
     public String name;
 
-    @SerializedName("overview")
-    public String overview;
-
-    @SerializedName("poster_path")
-    public String posterPath;
-
-    @SerializedName("backdrop_path")
-    public String backdropPath;
-
-    @SerializedName("parts")
+    @SerializedName("known_for")
     public List<Movie> movies;
 
-    protected Collection(Parcel in) {
+    protected People(Parcel in) {
+        profilePath = in.readString();
+        adult = in.readByte() != 0x00;
         id = in.readInt();
+        popularity = in.readDouble();
         name = in.readString();
-        overview = in.readString();
-        posterPath = in.readString();
-        backdropPath = in.readString();
         if (in.readByte() == 0x01) {
-            movies = new ArrayList<>();
+            movies = new ArrayList<Movie>();
             in.readList(movies, Movie.class.getClassLoader());
         } else {
             movies = null;
@@ -52,11 +52,11 @@ public class Collection extends TmdbObject implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(profilePath);
+        dest.writeByte((byte) (adult ? 0x01 : 0x00));
         dest.writeInt(id);
+        dest.writeDouble(popularity);
         dest.writeString(name);
-        dest.writeString(overview);
-        dest.writeString(posterPath);
-        dest.writeString(backdropPath);
         if (movies == null) {
             dest.writeByte((byte) (0x00));
         } else {
@@ -66,15 +66,15 @@ public class Collection extends TmdbObject implements Parcelable {
     }
 
     @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Collection> CREATOR = new Parcelable.Creator<Collection>() {
+    public static final Parcelable.Creator<People> CREATOR = new Parcelable.Creator<People>() {
         @Override
-        public Collection createFromParcel(Parcel in) {
-            return new Collection(in);
+        public People createFromParcel(Parcel in) {
+            return new People(in);
         }
 
         @Override
-        public Collection[] newArray(int size) {
-            return new Collection[size];
+        public People[] newArray(int size) {
+            return new People[size];
         }
     };
 }

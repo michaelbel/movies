@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.rest.TmdbObject;
-import org.michaelbel.moviemade.rest.model.Keyword;
+import org.michaelbel.moviemade.rest.model.v3.Keyword;
 import org.michaelbel.moviemade.ui.view.cell.TextCell;
 
 import java.util.List;

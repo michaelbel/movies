@@ -11,7 +11,7 @@ import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.PEOPLE;
-import org.michaelbel.moviemade.rest.model.People;
+import org.michaelbel.moviemade.rest.model.v3.People;
 import org.michaelbel.moviemade.rest.response.PeopleResponse;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.NetworkUtils;

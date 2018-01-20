@@ -20,7 +20,7 @@ import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.mvp.presenter.GenresPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.TmdbObject;
-import org.michaelbel.moviemade.rest.model.Genre;
+import org.michaelbel.moviemade.rest.model.v3.Genre;
 import org.michaelbel.moviemade.ui.fragment.GenreMoviesFragment;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
@@ -49,7 +49,7 @@ public class GenresActivity extends BaseActivity implements MvpResultsView {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         getWindow().setStatusBarColor(0x33000000);
 
-        genres = (ArrayList<TmdbObject>) getIntent().getSerializableExtra("list");
+        genres = getIntent().getParcelableExtra("list");
 
         binding.toolbar.setNavigationIcon(isExtras() ? R.drawable.ic_arrow_back : R.drawable.ic_menu);
         setSupportActionBar(binding.toolbar);

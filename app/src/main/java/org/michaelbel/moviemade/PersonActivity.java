@@ -14,7 +14,7 @@ import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.databinding.ActivityPersonBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.Cast;
-import org.michaelbel.moviemade.rest.model.People;
+import org.michaelbel.moviemade.rest.model.v3.People;
 import org.michaelbel.moviemade.ui.fragment.ListMoviesFragment;
 import org.michaelbel.moviemade.ui.fragment.PersonFragment;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
@@ -33,10 +33,8 @@ public class PersonActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_person);
 
-        //if (savedInstanceState == null) {
-            castPerson = (Cast) getIntent().getSerializableExtra("cast_person");
-            peoplePerson = (People) getIntent().getSerializableExtra("people_person");
-        //}
+        castPerson = (Cast) getIntent().getSerializableExtra("cast_person");
+        peoplePerson = getIntent().getParcelableExtra("people_person");
 
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(binding.toolbar);

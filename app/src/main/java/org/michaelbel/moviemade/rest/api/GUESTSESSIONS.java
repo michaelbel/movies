@@ -1,10 +1,22 @@
 package org.michaelbel.moviemade.rest.api;
 
+import retrofit2.Call;
+import retrofit2.http.GET;
+
 public interface GUESTSESSIONS {
 
-    // getRatedMovies
+    @GET("guest_session/{guest_session_id}/rated/movies?")
+    Call<?> getRatedMovies(
 
-    // getRatedTVShows
+    );
 
-    // getRatedTVEpisodes
+    @GET("guest_session/{guest_session_id}/rated/tv?")
+    Call<?> getRatedTVShows(
+
+    );
+
+    @GET("guest_session/{guest_session_id}/rated/tv/episodes?")
+    Call<?> getRatedTVEpisodes(
+
+    );
 }

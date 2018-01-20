@@ -17,7 +17,7 @@ import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.rest.model.Keyword;
+import org.michaelbel.moviemade.rest.model.v3.Keyword;
 import org.michaelbel.moviemade.ui.adapter.Holder;
 import org.michaelbel.moviemade.ui.view.ChipView;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
@@ -93,6 +93,10 @@ public class KeywordsSection extends FrameLayout {
 
     public ProgressBar getProgressBar() {
         return progressBar;
+    }
+
+    public List<Keyword> getKeywords() {
+        return keywords;
     }
 
     private class KeywordsAdapter extends RecyclerView.Adapter {

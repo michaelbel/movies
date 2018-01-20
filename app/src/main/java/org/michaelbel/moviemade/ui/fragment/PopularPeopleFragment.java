@@ -23,7 +23,7 @@ import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.mvp.presenter.PopularPeoplePresenter;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.TmdbObject;
-import org.michaelbel.moviemade.rest.model.People;
+import org.michaelbel.moviemade.rest.model.v3.People;
 import org.michaelbel.moviemade.ui.adapter.PeopleAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;

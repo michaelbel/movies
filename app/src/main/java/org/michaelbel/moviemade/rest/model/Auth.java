@@ -2,7 +2,6 @@ package org.michaelbel.moviemade.rest.model;
 
 import com.google.gson.annotations.SerializedName;
 
-@SuppressWarnings("all")
 public class Auth {
 
     public class CreatedRequest {

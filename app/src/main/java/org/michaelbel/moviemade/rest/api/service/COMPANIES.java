@@ -1,6 +1,6 @@
 package org.michaelbel.moviemade.rest.api.service;
 
-import org.michaelbel.moviemade.rest.model.Company;
+import org.michaelbel.moviemade.rest.model.v3.Company;
 import org.michaelbel.moviemade.rest.response.MoviesResponse;
 
 import retrofit2.Call;

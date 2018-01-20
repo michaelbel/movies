@@ -16,7 +16,7 @@ import android.widget.TextView;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.rest.model.Trailer;
+import org.michaelbel.moviemade.rest.model.v3.Trailer;
 import org.michaelbel.moviemade.ui.adapter.Holder;
 import org.michaelbel.moviemade.ui.view.trailer.TrailerView;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;

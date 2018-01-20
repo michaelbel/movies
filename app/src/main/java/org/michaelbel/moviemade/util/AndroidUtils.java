@@ -23,9 +23,9 @@ import android.view.inputmethod.InputMethodManager;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Moviemade;
-import org.michaelbel.moviemade.rest.model.Company;
-import org.michaelbel.moviemade.rest.model.Country;
-import org.michaelbel.moviemade.rest.model.Genre;
+import org.michaelbel.moviemade.rest.model.v3.Company;
+import org.michaelbel.moviemade.rest.model.v3.Country;
+import org.michaelbel.moviemade.rest.model.v3.Genre;
 
 import java.io.File;
 import java.io.InputStream;

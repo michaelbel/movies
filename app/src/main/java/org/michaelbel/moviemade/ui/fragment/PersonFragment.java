@@ -26,7 +26,7 @@ import org.michaelbel.moviemade.app.browser.Browser;
 import org.michaelbel.moviemade.mvp.presenter.PersonPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpPersonView;
 import org.michaelbel.moviemade.rest.model.Cast;
-import org.michaelbel.moviemade.rest.model.People;
+import org.michaelbel.moviemade.rest.model.v3.People;
 import org.michaelbel.moviemade.rest.model.Person;
 import org.michaelbel.moviemade.ui.interfaces.PersonViewListener;
 import org.michaelbel.moviemade.ui.view.EmptyView;
@@ -66,7 +66,7 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
 
     public static PersonFragment newInstance(People person) {
         Bundle args = new Bundle();
-        args.putSerializable("people_person", person);
+        args.putParcelable("people_person", person);
 
         PersonFragment fragment = new PersonFragment();
         fragment.setArguments(args);
@@ -144,7 +144,7 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
         }
 
         extraCastPerson = (Cast) getArguments().getSerializable("cast_person");
-        extraPeoplePerson = (People) getArguments().getSerializable("people_person");
+        extraPeoplePerson = getArguments().getParcelable("people_person");
 
         if (extraCastPerson != null) {
             id = extraCastPerson.id;

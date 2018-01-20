@@ -2,8 +2,8 @@ package org.michaelbel.moviemade.rest.response;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.michaelbel.moviemade.rest.model.Backdrop;
-import org.michaelbel.moviemade.rest.model.Poster;
+import org.michaelbel.moviemade.rest.model.v3.Backdrop;
+import org.michaelbel.moviemade.rest.model.v3.Poster;
 
 import java.util.List;
 

@@ -2,32 +2,35 @@ package org.michaelbel.moviemade.ui.view.section;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.app.Url;
+import org.michaelbel.moviemade.rest.model.v3.Backdrop;
+import org.michaelbel.moviemade.rest.model.v3.Poster;
 import org.michaelbel.moviemade.ui.interfaces.ImageSectionListener;
-import org.michaelbel.moviemade.util.AndroidUtils;
+import org.michaelbel.moviemade.ui.view.ImagePageView;
+import org.michaelbel.moviemade.ui.view.widget.ViewPagerAdapter;
 
-import java.util.Locale;
+import java.util.List;
 
 public class ImagesSection extends FrameLayout {
 
-    private ImageView posterImage;
-    private ImageView backdropImage;
+    private ViewPager posterViewPager;
+    private ViewPager backdropViewPager;
+
     private TextView postersCountText;
     private TextView backdropsCountText;
+
+    private ViewPagerAdapter postersAdapter;
+    private ViewPagerAdapter backdropsAdapter;
 
     private ImageSectionListener imageSectionListener;
 
@@ -53,6 +56,10 @@ public class ImagesSection extends FrameLayout {
         imagesLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, 150, Gravity.TOP, 12, 48, 12, 12));
         addView(imagesLayout);
 
+        postersAdapter = new ViewPagerAdapter(context);
+
+        backdropsAdapter = new ViewPagerAdapter(context);
+
 //------POSTERS-------------------------------------------------------------------------------------
 
         FrameLayout postersLayout = new FrameLayout(context);
@@ -60,10 +67,10 @@ public class ImagesSection extends FrameLayout {
         postersLayout.setLayoutParams(LayoutHelper.makeLinear(0, LayoutHelper.MATCH_PARENT, Gravity.CENTER, 1F));
         imagesLayout.addView(postersLayout);
 
-        posterImage = new ImageView(context);
-        posterImage.setScaleType(ImageView.ScaleType.CENTER);
-        posterImage.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        postersLayout.addView(posterImage);
+        posterViewPager = new ViewPager(context);
+        posterViewPager.setAdapter(postersAdapter);
+        posterViewPager.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        postersLayout.addView(posterViewPager);
 
         FrameLayout postersTitleLayout = new FrameLayout(context);
         postersTitleLayout.setBackgroundColor(0x99000000);
@@ -83,10 +90,10 @@ public class ImagesSection extends FrameLayout {
         backdropsLayout.setLayoutParams(LayoutHelper.makeLinear(0, LayoutHelper.MATCH_PARENT, Gravity.CENTER,2F, 12, 0, 0, 0));
         imagesLayout.addView(backdropsLayout);
 
-        backdropImage = new ImageView(context);
-        backdropImage.setScaleType(ImageView.ScaleType.CENTER);
-        backdropImage.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        backdropsLayout.addView(backdropImage);
+        backdropViewPager = new ViewPager(context);
+        backdropViewPager.setAdapter(backdropsAdapter);
+        backdropViewPager.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        backdropsLayout.addView(backdropViewPager);
 
         FrameLayout backdropsTitleLayout = new FrameLayout(context);
         backdropsTitleLayout.setBackgroundColor(0x99000000);
@@ -100,26 +107,24 @@ public class ImagesSection extends FrameLayout {
         backdropsTitleLayout.addView(backdropsCountText);
     }
 
+    public void addPosters(List<Poster> posters) {
+        for (Poster poster : posters) {
+            postersAdapter.addLayout(new ImagePageView(getContext()).setImage(poster.filePath));
+        }
+
+        postersAdapter.notifyDataSetChanged();
+    }
+
+    public void addBackdrops(List<Backdrop> backdrops) {
+        for (Backdrop backdrop : backdrops) {
+            backdropsAdapter.addLayout(new ImagePageView(getContext()).setImage(backdrop.filePath));
+        }
+
+        backdropsAdapter.notifyDataSetChanged();
+    }
+
     public void addImageSectionListener(ImageSectionListener listener) {
         this.imageSectionListener = listener;
-    }
-
-    public ImagesSection setPoster(@NonNull String posterPath) {
-        Picasso.with(getContext())
-               .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.posterSize(), posterPath))
-               .placeholder(R.drawable.movie_placeholder_old)
-               .into(posterImage);
-
-        return this;
-    }
-
-    public ImagesSection setBackdrop(@NonNull String backdropPath) {
-        Picasso.with(getContext())
-               .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.backdropSize(), backdropPath))
-               .placeholder(R.drawable.movie_placeholder_old)
-               .into(backdropImage);
-
-        return this;
     }
 
     public ImagesSection setPostersCount(int count) {

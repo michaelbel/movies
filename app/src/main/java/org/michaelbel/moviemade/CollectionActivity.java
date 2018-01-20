@@ -20,7 +20,7 @@ public class CollectionActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_collection);
 
-        Collection collection = (Collection) getIntent().getSerializableExtra("collection");
+        Collection collection = getIntent().getParcelableExtra("collection");
 
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         binding.toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(binding.toolbar));

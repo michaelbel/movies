@@ -4,6 +4,9 @@ import com.google.gson.annotations.SerializedName;
 
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.v3.Collection;
+import org.michaelbel.moviemade.rest.model.v3.Company;
+import org.michaelbel.moviemade.rest.model.v3.Country;
+import org.michaelbel.moviemade.rest.model.v3.Genre;
 
 import java.io.Serializable;
 import java.util.List;

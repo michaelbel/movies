@@ -13,7 +13,6 @@ import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.SEARCH;
 import org.michaelbel.moviemade.rest.response.CollectionResponse;
-import org.michaelbel.moviemade.rest.response.KeywordsResponse;
 import org.michaelbel.moviemade.util.DateUtils;
 import org.michaelbel.moviemade.util.NetworkUtils;
 
@@ -112,18 +111,6 @@ public class SearchCollectionsPresenter extends MvpPresenter<MvpSearchView> {
             public void onFailure(@NonNull Call<CollectionResponse> call, @NonNull Throwable t) {
                 loadingLocked = true;
                 loading = false;
-            }
-        });
-
-        service.searchKeywords(Url.TMDB_API_KEY, currentQuery, page).enqueue(new Callback<KeywordsResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<KeywordsResponse> call, @NonNull Response<KeywordsResponse> response) {
-
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<KeywordsResponse> call, @NonNull Throwable t) {
-
             }
         });
 

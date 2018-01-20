@@ -25,7 +25,7 @@ import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.mvp.presenter.SearchKeywordsPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpSearchView;
 import org.michaelbel.moviemade.rest.TmdbObject;
-import org.michaelbel.moviemade.rest.model.Keyword;
+import org.michaelbel.moviemade.rest.model.v3.Keyword;
 import org.michaelbel.moviemade.ui.adapter.SearchKeywordsAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;

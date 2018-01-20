@@ -12,15 +12,15 @@ public interface COLLECTIONS {
 
     @GET("collection/{collection_id}?")
     Call<Collection> getDetails(
-            @Path("collection_id") int id,
-            @Query("api_key") String apiKey,
-            @Query("language") String language
+        @Path("collection_id") int id,
+        @Query("api_key") String apiKey,
+        @Query("language") String language
     );
 
     @GET("collection/{collection_id}/images?")
     Call<CollectionImages> getImages(
-            @Path("collection_id") int id,
-            @Query("api_key") String apiKey,
-            @Query("language") String language
+        @Path("collection_id") int id,
+        @Query("api_key") String apiKey,
+        @Query("language") String language
     );
 }

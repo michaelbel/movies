@@ -6,7 +6,7 @@ import android.os.Bundle;
 import org.michaelbel.moviemade.databinding.ActivityTrailersBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.Movie;
-import org.michaelbel.moviemade.rest.model.Trailer;
+import org.michaelbel.moviemade.rest.model.v3.Trailer;
 import org.michaelbel.moviemade.ui.fragment.TrailersFragment;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
 
@@ -21,14 +21,17 @@ public class TrailersActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_trailers);
 
+        Movie movie = (Movie) getIntent().getSerializableExtra("movie");
+
         binding.toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(binding.toolbar));
         setSupportActionBar(binding.toolbar);
         binding.toolbar.setNavigationOnClickListener(view -> finish());
 
         binding.toolbarTitle.setTitle(R.string.Trailers);
+        binding.toolbarTitle.setSubtitle(movie.title);
 
-        ArrayList<Trailer> list = (ArrayList<Trailer>) getIntent().getSerializableExtra("list");
-        Movie movie = (Movie) getIntent().getSerializableExtra("movie");
-        startFragment(TrailersFragment.newInstance(movie, list), binding.fragmentView);
+        ArrayList<Trailer> list = getIntent().getParcelableExtra("list");
+
+        startFragment(TrailersFragment.newInstance(list), binding.fragmentView);
     }
 }

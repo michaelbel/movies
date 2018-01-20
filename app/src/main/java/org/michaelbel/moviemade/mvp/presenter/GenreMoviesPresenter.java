@@ -10,7 +10,7 @@ import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.rest.TmdbObject;
-import org.michaelbel.moviemade.rest.api.GENRES;
+import org.michaelbel.moviemade.rest.api.service.GENRES;
 import org.michaelbel.moviemade.rest.response.MoviesResponse;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.NetworkUtils;

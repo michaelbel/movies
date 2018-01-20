@@ -6,7 +6,6 @@ import java.io.Serializable;
 
 import io.realm.RealmObject;
 
-@SuppressWarnings("all")
 public class Language extends RealmObject implements Serializable {
 
     @SerializedName("iso_639_1")

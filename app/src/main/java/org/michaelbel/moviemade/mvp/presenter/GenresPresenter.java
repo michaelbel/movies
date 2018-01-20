@@ -10,8 +10,8 @@ import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.rest.TmdbObject;
-import org.michaelbel.moviemade.rest.api.GENRES;
-import org.michaelbel.moviemade.rest.response.MovieGenresResponse;
+import org.michaelbel.moviemade.rest.api.service.GENRES;
+import org.michaelbel.moviemade.rest.response.GenresResponse;
 import org.michaelbel.moviemade.util.NetworkUtils;
 
 import java.util.ArrayList;
@@ -31,9 +31,9 @@ public class GenresPresenter extends MvpPresenter<MvpResultsView> {
         }
 
         GENRES service = ApiFactory.createService(GENRES.class);
-        service.getMovieList(Url.TMDB_API_KEY, Url.en_US).enqueue(new Callback<MovieGenresResponse>() {
+        service.getMovieList(Url.TMDB_API_KEY, Url.en_US).enqueue(new Callback<GenresResponse>() {
             @Override
-            public void onResponse(@NonNull Call<MovieGenresResponse> call, @NonNull Response<MovieGenresResponse> response) {
+            public void onResponse(@NonNull Call<GenresResponse> call, @NonNull Response<GenresResponse> response) {
                 if (!response.isSuccessful()) {
                     getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
                     return;
@@ -46,7 +46,7 @@ public class GenresPresenter extends MvpPresenter<MvpResultsView> {
             }
 
             @Override
-            public void onFailure(@NonNull Call<MovieGenresResponse> call, @NonNull Throwable t) {
+            public void onFailure(@NonNull Call<GenresResponse> call, @NonNull Throwable t) {
                 getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
             }
         });
