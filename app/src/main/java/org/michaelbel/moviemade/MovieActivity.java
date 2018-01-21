@@ -33,11 +33,10 @@ public class MovieActivity extends BaseActivity {
     public Movie movie;
     public MovieRealm movieRealm;
 
-    public ActivityMovieBinding binding;
-
     private FragmentsPagerAdapter adapter;
+    private SettingsMenu settingsMenu = new SettingsMenu();
 
-    private final SettingsMenu settingsMenu = new SettingsMenu();
+    public ActivityMovieBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -113,15 +112,11 @@ public class MovieActivity extends BaseActivity {
             .setIcon(R.drawable.ic_share)
             .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             .setOnMenuItemClickListener(menuItem -> {
-                try {
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setType("text/plain");
-                    intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, Url.TMDB_MOVIE, movie.id));
-                    startActivity(Intent.createChooser(intent, getString(R.string.ShareVia)));
-                    return true;
-                } catch (Exception e) {
-                    return false;
-                }
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, Url.TMDB_MOVIE, movie.id));
+                startActivity(Intent.createChooser(intent, getString(R.string.ShareVia)));
+                return true;
             });
 
         return super.onCreateOptionsMenu(menu);

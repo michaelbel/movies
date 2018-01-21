@@ -52,22 +52,21 @@ public class SearchActivity extends BaseActivity {
     private final int MODE_ACTION_VOICE = 2;
     private final int SPEECH_REQUEST_CODE = 101;
 
-    private int tab;
     private int iconActionMode;
 
-    public Menu actionMenu;
-
+    private Menu actionMenu;
     public EditText searchEditText;
-    public ActivitySearchBinding binding;
-
     private FragmentsPagerAdapter adapter;
+
+    public ActivitySearchBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_search);
 
-        tab = getIntent().getIntExtra("search_tab", TAB_MOVIES);
+        int tab = getIntent().getIntExtra("search_tab", TAB_MOVIES);
+        String query = getIntent().getStringExtra("query");
 
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(binding.toolbar);
@@ -120,8 +119,6 @@ public class SearchActivity extends BaseActivity {
         });
         toolbarLayout.addView(searchEditText);
         Theme.clearCursorDrawable(searchEditText);
-
-        String query = getIntent().getStringExtra("query");
 
         adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
         adapter.addFragment(SearchMoviesFragment.newInstance(query), R.string.Movies);

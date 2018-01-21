@@ -16,7 +16,6 @@ import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.rest.model.v3.Backdrop;
 import org.michaelbel.moviemade.rest.model.v3.Poster;
-import org.michaelbel.moviemade.ui.interfaces.ImageSectionListener;
 import org.michaelbel.moviemade.ui.view.ImagePageView;
 import org.michaelbel.moviemade.ui.view.ImagePagerAdapter;
 
@@ -33,8 +32,6 @@ public class ImagesSection extends FrameLayout {
 
     private ImagePagerAdapter postersAdapter;
     private ImagePagerAdapter backdropsAdapter;
-
-    private ImageSectionListener imageSectionListener;
 
     public ImagesSection(Context context) {
         super(context);
@@ -64,7 +61,6 @@ public class ImagesSection extends FrameLayout {
 //------POSTERS-------------------------------------------------------------------------------------
 
         FrameLayout postersLayout = new FrameLayout(context);
-        postersLayout.setOnClickListener(view -> imageSectionListener.onPostersClick(view));
         postersLayout.setLayoutParams(LayoutHelper.makeLinear(0, LayoutHelper.MATCH_PARENT, Gravity.CENTER, 1F));
         imagesLayout.addView(postersLayout);
 
@@ -87,7 +83,6 @@ public class ImagesSection extends FrameLayout {
 //------BACKDROPS-----------------------------------------------------------------------------------
 
         FrameLayout backdropsLayout = new FrameLayout(context);
-        backdropsLayout.setOnClickListener(view -> imageSectionListener.onBackdropClick(view));
         backdropsLayout.setLayoutParams(LayoutHelper.makeLinear(0, LayoutHelper.MATCH_PARENT, Gravity.CENTER,2F, 12, 0, 0, 0));
         imagesLayout.addView(backdropsLayout);
 
@@ -127,10 +122,9 @@ public class ImagesSection extends FrameLayout {
         for (Backdrop backdrop : backdrops) {
             ImagePageView view = new ImagePageView(getContext());
             view.setImage(backdrop.filePath);
-            view.getPosterImage().setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+            //view.getPosterImage().setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
             view.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
             view.getPosterImage().setAdjustViewBounds(true);
-            //view.getPosterImage().setScaleType(ImageView.ScaleType.FIT_XY);
             view.getPosterImage().setScaleType(ImageView.ScaleType.CENTER_CROP);
             views.add(view);
         }
@@ -140,18 +134,11 @@ public class ImagesSection extends FrameLayout {
         backdropsCountText.setText(getResources().getQuantityString(R.plurals.Backdrops, size, size));
     }
 
-    public void addImageSectionListener(ImageSectionListener listener) {
-        this.imageSectionListener = listener;
+    public ViewPager getPosterViewPager() {
+        return posterViewPager;
     }
 
-    @Deprecated
-    public ImagesSection setPostersCount(int count) {
-        postersCountText.setText(getResources().getQuantityString(R.plurals.Posters, count, count));
-        return this;
-    }
-
-    @Deprecated
-    public ImagesSection setBackdropsCount(int count) {
-        return this;
+    public ViewPager getBackdropViewPager() {
+        return backdropViewPager;
     }
 }

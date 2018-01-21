@@ -25,16 +25,14 @@ public class ReviewActivity extends BaseActivity {
         setSupportActionBar(binding.toolbar);
         binding.toolbar.setNavigationOnClickListener(view -> finish());
 
-        if (savedInstanceState == null) {
-            Review review = getIntent().getParcelableExtra("review");
-            Movie movie = (Movie) getIntent().getSerializableExtra("movie");
-            MovieRealm movieRealm = getIntent().getParcelableExtra("movieRealm");
+        Review review = getIntent().getParcelableExtra("review");
+        Movie movie = (Movie) getIntent().getSerializableExtra("movie");
+        MovieRealm movieRealm = getIntent().getParcelableExtra("movieRealm");
 
-            if (movieRealm != null) {
-                startFragment(ReviewFragment.newInstance(review, movieRealm), binding.fragmentView);
-            } else {
-                startFragment(ReviewFragment.newInstance(review, movie), binding.fragmentView);
-            }
+        if (movieRealm != null) {
+            startFragment(ReviewFragment.newInstance(review, movieRealm), binding.fragmentView);
+        } else {
+            startFragment(ReviewFragment.newInstance(review, movie), binding.fragmentView);
         }
     }
 }

@@ -132,22 +132,6 @@ public class MovieViewLayout extends LinearLayout {
 
     private MovieViewListener movieViewListener;
 
-    /*public interface MovieViewListener {
-        void onOverviewLongClick(View view);
-        void onFavoriteButtonClick(View view);
-        void onWatchingButtonClick(View view);
-        void onTrailerClick(View view, String trailerKey);
-        void onTrailersSectionClick(View view);
-        void onMovieUrlClick(View view, int position);
-        void onGenreSelected(View view, Genre genre);
-        void onGenresSectionClick(View view);
-        void onKeywordClick(View view, Keyword keyword);
-        void onKeywordsSectionClick(View view);
-        void onCollectionClick(View view);
-        void onPosterClick(View view);
-        void onCompanyClick(View view, Company company);
-    }*/
-
     public MovieViewLayout(Context context) {
         super(context);
 
@@ -279,9 +263,8 @@ public class MovieViewLayout extends LinearLayout {
         langLayout.addView(countriesIcon);
 
         originalLanguageText = new TextView(context);
-        originalLanguageText.setText("Loading...");
-        originalLanguageText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         originalLanguageText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+        originalLanguageText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         originalLanguageText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         originalLanguageText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL,6, 0, 0, 0));
         langLayout.addView(originalLanguageText);
@@ -451,10 +434,12 @@ public class MovieViewLayout extends LinearLayout {
 
         imagesView = new ImagesSection(context);
         imagesView.setVisibility(INVISIBLE);
+        imagesView.getPosterViewPager().setOnClickListener(view -> movieViewListener.onPostersClick(view));
+        imagesView.getBackdropViewPager().setOnClickListener(view -> movieViewListener.onBackdropsClick(view));
         imagesView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0));
         addView(imagesView);
 
-//------INFO VIEW--------------------------------------------------------------------------------------------
+//------INFO VIEW-----------------------------------------------------------------------------------
 
         infoLayout = new LinearLayout(context);
         infoLayout.setOrientation(VERTICAL);
@@ -555,7 +540,7 @@ public class MovieViewLayout extends LinearLayout {
         genresView = new GenresSection(context);
         genresView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0));
         genresView.setOnClickListener(view -> movieViewListener.onGenresSectionClick(view));
-        genresView.setListener((view, genre) -> movieViewListener.onGenreSelected(view, genre));
+        genresView.setListener((view, genre) -> movieViewListener.onGenreClick(view, genre));
         addView(genresView);
 
 //------KEYWORDS------------------------------------------------------------------------------------
@@ -947,9 +932,9 @@ public class MovieViewLayout extends LinearLayout {
 
     // Getters:
 
-    public ImagesSection getImagesView() {
+    /*public ImagesSection getImagesView() {
         return imagesView;
-    }
+    }*/
 
     public TrailersSection getTrailersView() {
         return trailersView;

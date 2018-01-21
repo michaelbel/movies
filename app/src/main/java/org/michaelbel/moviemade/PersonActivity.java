@@ -24,7 +24,6 @@ import java.util.Locale;
 public class PersonActivity extends BaseActivity {
 
     private Cast castPerson;
-    private People peoplePerson;
 
     public ActivityPersonBinding binding;
 
@@ -34,7 +33,7 @@ public class PersonActivity extends BaseActivity {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_person);
 
         castPerson = (Cast) getIntent().getSerializableExtra("cast_person");
-        peoplePerson = getIntent().getParcelableExtra("people_person");
+        People peoplePerson = getIntent().getParcelableExtra("people_person");
 
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(binding.toolbar);
@@ -65,15 +64,11 @@ public class PersonActivity extends BaseActivity {
             .setIcon(R.drawable.ic_share)
             .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             .setOnMenuItemClickListener(menuItem -> {
-                try {
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setType("text/plain");
-                    intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, Url.TMDB_PERSON, castPerson.id));
-                    startActivity(Intent.createChooser(intent, getString(R.string.ShareVia)));
-                    return true;
-                } catch (Exception e) {
-                    return false;
-                }
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                intent.setType("text/plain");
+                intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, Url.TMDB_PERSON, castPerson.id));
+                startActivity(Intent.createChooser(intent, getString(R.string.ShareVia)));
+                return true;
             });
 
         return super.onCreateOptionsMenu(menu);

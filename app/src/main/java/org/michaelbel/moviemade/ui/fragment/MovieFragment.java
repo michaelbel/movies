@@ -36,7 +36,6 @@ import org.michaelbel.moviemade.rest.model.v3.Genre;
 import org.michaelbel.moviemade.rest.model.v3.Keyword;
 import org.michaelbel.moviemade.rest.model.v3.Poster;
 import org.michaelbel.moviemade.rest.model.v3.Trailer;
-import org.michaelbel.moviemade.ui.interfaces.ImageSectionListener;
 import org.michaelbel.moviemade.ui.interfaces.MovieViewListener;
 import org.michaelbel.moviemade.ui.view.MovieViewLayout;
 import org.michaelbel.moviemade.util.AndroidUtils;
@@ -48,7 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView, MovieViewListener, ImageSectionListener {
+public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView, MovieViewListener {
 
     //private final int PERMISSION_REQUEST_CODE = 100;
 
@@ -136,7 +135,6 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
 
         movieView = new MovieViewLayout(activity);
         movieView.addMovieViewListener(this);
-        movieView.getImagesView().addImageSectionListener(this);
         movieView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         scrollView.addView(movieView);
 
@@ -374,7 +372,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     }
 
     @Override
-    public void onGenreSelected(View view, Genre genre) {
+    public void onGenreClick(View view, Genre genre) {
         activity.startGenre(genre);
     }
 
@@ -388,7 +386,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     }
 
     @Override
-    public void onBackdropClick(View view) {
+    public void onBackdropsClick(View view) {
         if (extraMovie != null) {
             Browser.openUrl(activity, String.format(Locale.US, Url.TMDB_MOVIE_BACKDROPS, extraMovie.id));
         } else if (extraMovieRealm != null) {

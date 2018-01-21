@@ -8,7 +8,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 
@@ -31,7 +30,8 @@ import java.util.List;
 public class GenresActivity extends BaseActivity implements MvpResultsView {
 
     private ArrayList<Genre> genres;
-    public FragmentsPagerAdapter adapter;
+    private FragmentsPagerAdapter adapter;
+
     public ActivityGenresBinding binding;
 
     private EmptyView emptyView;
@@ -48,18 +48,22 @@ public class GenresActivity extends BaseActivity implements MvpResultsView {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         getWindow().setStatusBarColor(0x33000000);
 
-        //genres = getIntent().getParcelableExtra("list");
         genres = getIntent().getParcelableArrayListExtra("list");
-
-        binding.toolbar.setNavigationIcon(isExtras() ? R.drawable.ic_arrow_back : R.drawable.ic_menu);
-        setSupportActionBar(binding.toolbar);
-
-        binding.toolbarTitle.setText(R.string.LoadingGenres);
-
-        if (isExtras()) {
+        if (genres != null) {
             binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         }
 
+        binding.toolbar.setNavigationIcon(genres != null ? R.drawable.ic_arrow_back : R.drawable.ic_menu);
+        setSupportActionBar(binding.toolbar);
+        binding.toolbar.setNavigationOnClickListener(v -> {
+            if (genres != null) {
+                finish();
+            } else {
+                binding.drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
+        binding.toolbarTitle.setText(R.string.LoadingGenres);
         binding.navigationView.setOnNavigationItemSelectedListener((view, position) -> {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
 
@@ -81,7 +85,6 @@ public class GenresActivity extends BaseActivity implements MvpResultsView {
                 startActivity(new Intent(this, AboutActivity.class));
             }
         });
-
         binding.contentLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.backgroundColor()));
 
         emptyView = new EmptyView(this);
@@ -100,25 +103,10 @@ public class GenresActivity extends BaseActivity implements MvpResultsView {
         binding.tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
         binding.tabLayout.setVisibility(View.INVISIBLE);
 
-        if (isExtras()) {
+        if (genres != null) {
             showFromExtra();
         } else {
             presenter.loadGenres();
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                if (isExtras()) {
-                    finish();
-                } else {
-                    binding.drawerLayout.openDrawer(GravityCompat.START);
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -139,10 +127,9 @@ public class GenresActivity extends BaseActivity implements MvpResultsView {
 
         adapter.notifyDataSetChanged();
 
-        binding.toolbarLayout.removeView(binding.progressBar);
-
         binding.toolbarTitle.setVisibility(View.GONE);
         binding.tabLayout.setVisibility(View.VISIBLE);
+        binding.toolbarLayout.removeView(binding.progressBar);
     }
 
     @Override
@@ -162,13 +149,8 @@ public class GenresActivity extends BaseActivity implements MvpResultsView {
 
         adapter.notifyDataSetChanged();
 
-        binding.toolbarLayout.removeView(binding.progressBar);
-
         binding.toolbarTitle.setVisibility(View.GONE);
         binding.tabLayout.setVisibility(View.VISIBLE);
-    }
-
-    private boolean isExtras() {
-        return genres != null;
+        binding.toolbarLayout.removeView(binding.progressBar);
     }
 }

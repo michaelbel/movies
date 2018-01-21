@@ -26,13 +26,11 @@ public class PopularPeopleActivity extends BaseActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         getWindow().setStatusBarColor(0x33000000);
 
-        //binding.toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(binding.toolbar));
         binding.toolbar.setNavigationIcon(R.drawable.ic_menu);
         setSupportActionBar(binding.toolbar);
         binding.toolbar.setNavigationOnClickListener(view -> binding.drawerLayout.openDrawer(GravityCompat.START));
 
         binding.toolbarTitle.setText(R.string.PopularPeople);
-
         binding.navigationView.setOnNavigationItemSelectedListener((view, position) -> {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
 
@@ -82,7 +80,7 @@ public class PopularPeopleActivity extends BaseActivity {
         super.onBackPressed();
     }
 
-    /*@Override // todo Why it does not work?
+    /*@Override
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_MENU) {
             if (!binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
