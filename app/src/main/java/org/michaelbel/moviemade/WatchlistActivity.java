@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
-import android.view.MenuItem;
 
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.databinding.ActivityWatchlistBinding;
@@ -26,6 +25,7 @@ public class WatchlistActivity extends BaseActivity {
         binding.toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(binding.toolbar));
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(binding.toolbar);
+        binding.toolbar.setNavigationOnClickListener(view -> finish());
 
         binding.toolbarTitle.setText(R.string.Watchlist);
 
@@ -40,16 +40,5 @@ public class WatchlistActivity extends BaseActivity {
         binding.tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
         binding.tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
         binding.tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 }

@@ -33,6 +33,7 @@ public class MainActivity extends BaseActivity {
 
         binding.toolbar.setNavigationIcon(R.drawable.ic_menu);
         setSupportActionBar(binding.toolbar);
+        binding.toolbar.setNavigationOnClickListener(view -> binding.drawerLayout.openDrawer(GravityCompat.START));
 
         binding.navigationView.setOnNavigationItemSelectedListener((view, position) -> {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
@@ -84,17 +85,6 @@ public class MainActivity extends BaseActivity {
             });
 
         return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                binding.drawerLayout.openDrawer(GravityCompat.START);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     @Override

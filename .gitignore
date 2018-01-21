@@ -12,3 +12,4 @@
 /app/google-services.json
 !/app/src/main/res/xml/analytics.xml
 /app/src/main/assets/config.properties
+!/hs_err_pid3668.log

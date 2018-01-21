@@ -10,12 +10,12 @@ import org.michaelbel.moviemade.app.annotation.Beta;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.view.MvpMovieView;
 import org.michaelbel.moviemade.rest.ApiFactory;
-import org.michaelbel.moviemade.rest.model.Keyword;
+import org.michaelbel.moviemade.rest.model.v3.Keyword;
 import org.michaelbel.moviemade.rest.response.KeywordResponse;
 import org.michaelbel.moviemade.rest.api.MOVIES;
 import org.michaelbel.moviemade.rest.model.Crew;
 import org.michaelbel.moviemade.rest.model.Movie;
-import org.michaelbel.moviemade.rest.model.Trailer;
+import org.michaelbel.moviemade.rest.model.v3.Trailer;
 import org.michaelbel.moviemade.rest.response.CreditResponse;
 import org.michaelbel.moviemade.rest.response.ImageResponse;
 import org.michaelbel.moviemade.rest.response.TrailersResponse;
@@ -139,7 +139,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
                     return;
                 }
 
-                getViewState().showImages(response.body().posters.get(0).filePath, response.body().backdrops.get(0).filePath, response.body().posters.size(), response.body().backdrops.size());
+                getViewState().showImages(response.body().posters, response.body().backdrops, response.body().posters.size(), response.body().backdrops.size());
             }
 
             @Override

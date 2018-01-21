@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -17,8 +18,9 @@ import org.michaelbel.moviemade.rest.model.v3.Backdrop;
 import org.michaelbel.moviemade.rest.model.v3.Poster;
 import org.michaelbel.moviemade.ui.interfaces.ImageSectionListener;
 import org.michaelbel.moviemade.ui.view.ImagePageView;
-import org.michaelbel.moviemade.ui.view.widget.ViewPagerAdapter;
+import org.michaelbel.moviemade.ui.view.ImagePagerAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ImagesSection extends FrameLayout {
@@ -29,8 +31,8 @@ public class ImagesSection extends FrameLayout {
     private TextView postersCountText;
     private TextView backdropsCountText;
 
-    private ViewPagerAdapter postersAdapter;
-    private ViewPagerAdapter backdropsAdapter;
+    private ImagePagerAdapter postersAdapter;
+    private ImagePagerAdapter backdropsAdapter;
 
     private ImageSectionListener imageSectionListener;
 
@@ -56,9 +58,8 @@ public class ImagesSection extends FrameLayout {
         imagesLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, 150, Gravity.TOP, 12, 48, 12, 12));
         addView(imagesLayout);
 
-        postersAdapter = new ViewPagerAdapter(context);
-
-        backdropsAdapter = new ViewPagerAdapter(context);
+        postersAdapter = new ImagePagerAdapter();
+        backdropsAdapter = new ImagePagerAdapter();
 
 //------POSTERS-------------------------------------------------------------------------------------
 
@@ -107,33 +108,50 @@ public class ImagesSection extends FrameLayout {
         backdropsTitleLayout.addView(backdropsCountText);
     }
 
-    public void addPosters(List<Poster> posters) {
+    public void addPosters(List<Poster> posters, int size) {
+        List<ImagePageView> views = new ArrayList<>();
         for (Poster poster : posters) {
-            postersAdapter.addLayout(new ImagePageView(getContext()).setImage(poster.filePath));
+            ImagePageView view = new ImagePageView(getContext());
+            view.setImage(poster.filePath);
+            view.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+            views.add(view);
         }
 
+        postersAdapter.addViews(views);
         postersAdapter.notifyDataSetChanged();
+        postersCountText.setText(getResources().getQuantityString(R.plurals.Posters, size, size));
     }
 
-    public void addBackdrops(List<Backdrop> backdrops) {
+    public void addBackdrops(List<Backdrop> backdrops, int size) {
+        List<ImagePageView> views = new ArrayList<>();
         for (Backdrop backdrop : backdrops) {
-            backdropsAdapter.addLayout(new ImagePageView(getContext()).setImage(backdrop.filePath));
+            ImagePageView view = new ImagePageView(getContext());
+            view.setImage(backdrop.filePath);
+            view.getPosterImage().setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+            view.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+            view.getPosterImage().setAdjustViewBounds(true);
+            //view.getPosterImage().setScaleType(ImageView.ScaleType.FIT_XY);
+            view.getPosterImage().setScaleType(ImageView.ScaleType.CENTER_CROP);
+            views.add(view);
         }
 
+        backdropsAdapter.addViews(views);
         backdropsAdapter.notifyDataSetChanged();
+        backdropsCountText.setText(getResources().getQuantityString(R.plurals.Backdrops, size, size));
     }
 
     public void addImageSectionListener(ImageSectionListener listener) {
         this.imageSectionListener = listener;
     }
 
+    @Deprecated
     public ImagesSection setPostersCount(int count) {
         postersCountText.setText(getResources().getQuantityString(R.plurals.Posters, count, count));
         return this;
     }
 
+    @Deprecated
     public ImagesSection setBackdropsCount(int count) {
-        backdropsCountText.setText(getResources().getQuantityString(R.plurals.Backdrops, count, count));
         return this;
     }
 }

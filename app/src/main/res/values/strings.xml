@@ -14,11 +14,96 @@
     <string name="Genres">Genres</string>
     <string name="LoadingGenres">Loading genres…</string>
     <string name="Favorites">Favorites</string>
+    <string name="Watchlist">Watchlist</string>
     <string name="Movies">Movies</string>
     <string name="ChangeViewType">Change View Type</string>
-    <string name="Watchlist">Watchlist</string>
     <string name="PopularPeople">Popular People</string>
     <string name="NoPeople">No people</string>
+    <!--Movie View-->
+    <string name="Info">Info</string>
+    <string name="Add">Add</string>
+    <string name="Remove">Remove</string>
+    <string name="ShareVia">Share via</string>
+    <string name="Crew">Crew</string>
+    <string name="Directors">Directors</string>
+    <string name="Writers">Writers</string>
+    <string name="Producers">Producers</string>
+    <string name="OriginalTitle">Original Title</string>
+    <string name="CountriesTitle">Countries</string>
+    <string name="Status">Status</string>
+    <string name="Budget">Budget</string>
+    <string name="Revenue">Revenue</string>
+    <string name="ProductionCompanies">Production Companies</string>
+    <string name="ViewOnTMDb">View on TMDb</string>
+    <string name="ViewOnIMDb">View on IMDb</string>
+    <string name="ViewHomepage">View Homepage</string>
+    <string name="Cast">Cast</string>
+    <string name="Similar">Similar</string>
+    <string name="Related">Related</string>
+    <string name="MovieRuntime">%1$d min / %2$s</string>
+    <string name="Share">Share</string>
+    <string name="Overview">Overview</string>
+    <plurals name="Posters">
+        <item quantity="zero">Posters</item>
+        <item quantity="one">%d Poster</item>
+        <item quantity="two">%d Posters</item>
+        <item quantity="few">%d Posters</item>
+        <item quantity="many">%d Posters</item>
+        <item quantity="other">%d Posters</item>
+    </plurals>
+    <plurals name="Backdrops">
+        <item quantity="zero">Backdrops</item>
+        <item quantity="one">%d Backdrop</item>
+        <item quantity="two">%d Backdrops</item>
+        <item quantity="few">%d Backdrops</item>
+        <item quantity="many">%d Backdrops</item>
+        <item quantity="other">%d Backdrops</item>
+    </plurals>
+    <string name="Images">Images</string>
+    <string name="Loading">Loading…</string>
+    <string name="LoadingCountries">Loading companies…</string>
+    <string name="LoadingTagline">Loading tagline…</string>
+    <string name="CurrencyCount">$ %1$s</string>
+    <string name="PartOfCollection">Part of the %s</string>
+    <string name="Trailers">Trailers</string>
+    <string name="NoTrailers">No trailers</string>
+    <string name="VideoSize">%1$sp</string>
+    <!--Reviews-->
+    <string name="Reviews">Reviews</string>
+    <string name="NoReviews">No Reviews</string>
+    <string name="ReviewAuthor">Review by %1$s</string>
+    <string name="OpenReviewUrl">Open Review url</string>
+    <string name="MovieReview">Movie review</string>
+    <string name="ReviewSourceUnavailable">Review source unavailable</string>
+    <!--Search-->
+    <string name="Search">Search</string>
+    <string name="NoResults">No results</string>
+    <string name="SpeakNow">Speak now</string>
+    <string name="People">People</string>
+    <string name="All">All</string>
+    <plurals name="MoviesTotalResults">
+        <item quantity="zero">Movies</item>
+        <item quantity="one">%d Movie</item>
+        <item quantity="two">%d Movies</item>
+        <item quantity="few">%d Movies</item>
+        <item quantity="many">%d Movies</item>
+        <item quantity="other">%d Movies</item>
+    </plurals>
+    <plurals name="PeopleTotalResults">
+        <item quantity="zero">People</item>
+        <item quantity="one">%d People</item>
+        <item quantity="two">%d People</item>
+        <item quantity="few">%d People</item>
+        <item quantity="many">%d People</item>
+        <item quantity="other">%d People</item>
+    </plurals>
+    <string name="Keywords">Keywords</string>
+    <string name="Collections">Collections</string>
+    <string name="Companies">Companies</string>
+    <!--Person-->
+    <string name="Birthday">Birthday: %s</string>
+    <string name="Deathday">Deathday: %s</string>
+    <string name="BirthPlace">Birthplace: %s</string>
     <!--Settings-->
     <string name="Settings">Settings</string>
     <string name="ImageQuality">Image Quality</string>
@@ -85,87 +170,4 @@
     <string name="OtherDeveloperApps">Other Developer Apps</string>
     <string name="ShareWithFriends">Share with Friends</string>
     <string name="DonatePaypal">Donate PayPal</string>
-    <!--Movie View-->
-    <string name="Info">Info</string>
-    <string name="Add">Add</string>
-    <string name="Remove">Remove</string>
-    <string name="ShareVia">Share via</string>
-    <string name="Crew">Crew</string>
-    <string name="Directors">Directors</string>
-    <string name="Writers">Writers</string>
-    <string name="Producers">Producers</string>
-    <string name="OriginalTitle">Original Title</string>
-    <string name="CountriesTitle">Countries</string>
-    <string name="Status">Status</string>
-    <string name="Budget">Budget</string>
-    <string name="Revenue">Revenue</string>
-    <string name="ProductionCompanies">Production Companies</string>
-    <string name="ViewOnTMDb">View on TMDb</string>
-    <string name="ViewOnIMDb">View on IMDb</string>
-    <string name="ViewHomepage">View Homepage</string>
-    <string name="Cast">Cast</string>
-    <string name="Similar">Similar</string>
-    <string name="Related">Related</string>
-    <string name="MovieRuntime">%1$d min / %2$s</string>
-    <string name="Share">Share</string>
-    <string name="Overview">Overview</string>
-    <plurals name="Posters">
-        <item quantity="zero">Posters</item>
-        <item quantity="one">%d Poster</item>
-        <item quantity="two">%d Posters</item>
-        <item quantity="few">%d Posters</item>
-        <item quantity="many">%d Posters</item>
-        <item quantity="other">%d Posters</item>
-    </plurals>
-    <plurals name="Backdrops">
-        <item quantity="zero">Backdrops</item>
-        <item quantity="one">%d Backdrop</item>
-        <item quantity="two">%d Backdrops</item>
-        <item quantity="few">%d Backdrops</item>
-        <item quantity="many">%d Backdrops</item>
-        <item quantity="other">%d Backdrops</item>
-    </plurals>
-    <string name="Images">Images</string>
-    <string name="Loading">Loading…</string>
-    <string name="LoadingCountries">Loading companies…</string>
-    <string name="LoadingTagline">Loading tagline…</string>
-    <string name="CurrencyCount">$ %1$s</string>
-    <string name="PartOfCollection">Part of the %s</string>
-    <string name="Trailers">Trailers</string>
-    <string name="NoTrailers">No trailers</string>
-    <string name="VideoSize">%1$sp</string>
-    <!--Reviews-->
-    <string name="Reviews">Reviews</string>
-    <string name="NoReviews">No Reviews</string>
-    <string name="ReviewAuthor">Review by %1$s</string>
-    <string name="OpenReviewUrl">Open Review url</string>
-    <string name="MovieReview">Movie review</string>
-    <!--Search-->
-    <string name="Search">Search</string>
-    <string name="NoResults">No results</string>
-    <string name="SpeakNow">Speak now</string>
-    <string name="ReviewSourceUnavailable">Review source unavailable</string>
-    <string name="People">People</string>
-    <string name="All">All</string>
-    <plurals name="MoviesTotalResults">
-        <item quantity="zero">Movies</item>
-        <item quantity="one">%d Movie</item>
-        <item quantity="two">%d Movies</item>
-        <item quantity="few">%d Movies</item>
-        <item quantity="many">%d Movies</item>
-        <item quantity="other">%d Movies</item>
-    </plurals>
-
-    <plurals name="PeopleTotalResults">
-        <item quantity="zero">People</item>
-        <item quantity="one">%d People</item>
-        <item quantity="two">%d People</item>
-        <item quantity="few">%d People</item>
-        <item quantity="many">%d People</item>
-        <item quantity="other">%d People</item>
-    </plurals>
-    <!--Person-->
-    <string name="Birthday">Birthday: %s</string>
-    <string name="Deathday">Deathday: %s</string>
-    <string name="BirthPlace">Birthplace: %s</string>
 </resources>

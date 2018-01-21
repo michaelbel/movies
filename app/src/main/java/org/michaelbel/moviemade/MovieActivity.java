@@ -131,7 +131,11 @@ public class MovieActivity extends BaseActivity {
     public void onBackPressed() {
         if (binding.viewPager.getCurrentItem() == 0) {
             MovieFragment fragment = (MovieFragment) adapter.getItem(0);
-            fragment.exitImage();
+            if (fragment.isOpenImage()) {
+                fragment.exitImage();
+            } else {
+                super.onBackPressed();
+            }
         } else {
             super.onBackPressed();
         }

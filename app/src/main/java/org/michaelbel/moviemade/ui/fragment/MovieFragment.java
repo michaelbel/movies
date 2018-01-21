@@ -28,13 +28,16 @@ import org.michaelbel.moviemade.app.browser.Browser;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.presenter.MoviePresenter;
 import org.michaelbel.moviemade.mvp.view.MvpMovieView;
-import org.michaelbel.moviemade.rest.model.Company;
 import org.michaelbel.moviemade.rest.model.Crew;
-import org.michaelbel.moviemade.rest.model.Genre;
-import org.michaelbel.moviemade.rest.model.Keyword;
 import org.michaelbel.moviemade.rest.model.Movie;
-import org.michaelbel.moviemade.rest.model.Trailer;
+import org.michaelbel.moviemade.rest.model.v3.Backdrop;
+import org.michaelbel.moviemade.rest.model.v3.Company;
+import org.michaelbel.moviemade.rest.model.v3.Genre;
+import org.michaelbel.moviemade.rest.model.v3.Keyword;
+import org.michaelbel.moviemade.rest.model.v3.Poster;
+import org.michaelbel.moviemade.rest.model.v3.Trailer;
 import org.michaelbel.moviemade.ui.interfaces.ImageSectionListener;
+import org.michaelbel.moviemade.ui.interfaces.MovieViewListener;
 import org.michaelbel.moviemade.ui.view.MovieViewLayout;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
@@ -45,7 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView, MovieViewLayout.MovieViewListener, ImageSectionListener {
+public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView, MovieViewListener, ImageSectionListener {
 
     //private final int PERMISSION_REQUEST_CODE = 100;
 
@@ -199,7 +202,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         movieView.addVoteCount(movie.voteCount);
         movieView.addOriginalTitle(movie.originalTitle);
         movieView.addOriginalLanguage(AndroidUtils.formatOriginalLanguage(movie.originalLanguage));
-        movieView.addImages(movie.posterPath, movie.backdropPath, 0, 0);
+        //movieView.addImages(null, null, 0, 0);
 
         movieView.addTagline(movie.tagline);
         movieView.addRuntime(movie.runtime);
@@ -208,7 +211,6 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         movieView.addRevenue(movie.revenue);
         movieView.addImdbpage(movie.imdbId);
         movieView.addHomepage(movie.homepage);
-        movieView.addCompanies(movie.companies);
         movieView.addCountries(AndroidUtils.formatCountries(movie.countries));
         movieView.addGenres(movie.genres);
         movieView.addCollection(movie.belongsToCollection);
@@ -218,6 +220,10 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
 
         movieView.setFavoriteButton(presenter.isMovieFavorite(movie.id));
         movieView.setWatchingButton(presenter.isMovieWatching(movie.id));
+
+        if (movieView.getCompanies().isEmpty()) {
+            movieView.addCompanies(movie.companies);
+        }
 
         presenter.loadTrailers(movie.id);
         presenter.loadImages(movie.id);
@@ -239,8 +245,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         movieView.addVoteCount(movie.voteCount);
         movieView.addOriginalTitle(movie.originalTitle);
         movieView.addOriginalLanguage(movie.originalLanguage);
-        // todo Add postersCount and BackdropCount to movierealm
-        movieView.addImages(movie.posterPath, movie.backdropPath, 0, 0);
+        movieView.addImages(null, null, 0, 0);
 
         movieView.addTagline(movie.tagline);
         movieView.addRuntime(movie.runtime);
@@ -261,7 +266,6 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         movieView.setFavoriteButton(movie.favorite);
         movieView.setWatchingButton(movie.watching);
 
-        movieView.addImages(null, null, 0, 0);
         movieView.addTrailers(null);
         movieView.setCrew(null);
     }
@@ -272,17 +276,17 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     }
 
     @Override
-    public void showTrailers(List<Trailer> trailers) {
-        this.trailers.clear();
-        this.trailers.addAll(trailers);
+    public void showTrailers(List<Trailer> results) {
+        trailers.clear();
+        trailers.addAll(results);
 
-        movieView.addTrailers(this.trailers);
+        movieView.addTrailers(trailers);
         movieView.getTrailersView().setClickable(true);
     }
 
     @Override
-    public void showImages(String posterPath, String backdropPath, int postersCount, int backdropsCount) {
-        movieView.addImages(posterPath, backdropPath, postersCount, backdropsCount);
+    public void showImages(List<Poster> posters, List<Backdrop> backdrops, int postersCount, int backdropsCount) {
+        movieView.addImages(posters, backdrops, postersCount, backdropsCount);
     }
 
     @Override
@@ -403,12 +407,13 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     }
 
     @Override
-    public void showKeywords(List<Keyword> keywords) {
-        this.keywords.clear();
-        this.keywords.addAll(keywords);
+    public void showKeywords(List<Keyword> results) {
+        keywords.clear();
+        keywords.addAll(results);
 
-        movieView.addKeywords(this.keywords);
-        //movieView.getKeywordsView().setClickable(true);
+        if (movieView.getKeywords().isEmpty()) {
+            movieView.addKeywords(keywords);
+        }
     }
 
     @Override
@@ -427,9 +432,9 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         imageAnimator.enterSingle(true);
     }
 
-    /*public boolean isImageOpen() {
+    public boolean isOpenImage() {
         return !imageAnimator.isLeaving();
-    }*/
+    }
 
     public void exitImage() {
         if (!imageAnimator.isLeaving()) {

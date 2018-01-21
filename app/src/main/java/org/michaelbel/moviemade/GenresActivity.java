@@ -30,8 +30,7 @@ import java.util.List;
 
 public class GenresActivity extends BaseActivity implements MvpResultsView {
 
-    private ArrayList<TmdbObject> genres;
-
+    private ArrayList<Genre> genres;
     public FragmentsPagerAdapter adapter;
     public ActivityGenresBinding binding;
 
@@ -49,7 +48,8 @@ public class GenresActivity extends BaseActivity implements MvpResultsView {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         getWindow().setStatusBarColor(0x33000000);
 
-        genres = getIntent().getParcelableExtra("list");
+        //genres = getIntent().getParcelableExtra("list");
+        genres = getIntent().getParcelableArrayListExtra("list");
 
         binding.toolbar.setNavigationIcon(isExtras() ? R.drawable.ic_arrow_back : R.drawable.ic_menu);
         setSupportActionBar(binding.toolbar);

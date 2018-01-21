@@ -22,12 +22,15 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
-import org.michaelbel.moviemade.rest.model.Company;
 import org.michaelbel.moviemade.rest.model.Crew;
-import org.michaelbel.moviemade.rest.model.Genre;
-import org.michaelbel.moviemade.rest.model.Keyword;
-import org.michaelbel.moviemade.rest.model.Trailer;
+import org.michaelbel.moviemade.rest.model.v3.Backdrop;
 import org.michaelbel.moviemade.rest.model.v3.Collection;
+import org.michaelbel.moviemade.rest.model.v3.Company;
+import org.michaelbel.moviemade.rest.model.v3.Genre;
+import org.michaelbel.moviemade.rest.model.v3.Keyword;
+import org.michaelbel.moviemade.rest.model.v3.Poster;
+import org.michaelbel.moviemade.rest.model.v3.Trailer;
+import org.michaelbel.moviemade.ui.interfaces.MovieViewListener;
 import org.michaelbel.moviemade.ui.view.section.CompaniesSection;
 import org.michaelbel.moviemade.ui.view.section.GenresSection;
 import org.michaelbel.moviemade.ui.view.section.ImagesSection;
@@ -129,7 +132,7 @@ public class MovieViewLayout extends LinearLayout {
 
     private MovieViewListener movieViewListener;
 
-    public interface MovieViewListener {
+    /*public interface MovieViewListener {
         void onOverviewLongClick(View view);
         void onFavoriteButtonClick(View view);
         void onWatchingButtonClick(View view);
@@ -138,16 +141,12 @@ public class MovieViewLayout extends LinearLayout {
         void onMovieUrlClick(View view, int position);
         void onGenreSelected(View view, Genre genre);
         void onGenresSectionClick(View view);
-
         void onKeywordClick(View view, Keyword keyword);
         void onKeywordsSectionClick(View view);
-
         void onCollectionClick(View view);
-
         void onPosterClick(View view);
-
         void onCompanyClick(View view, Company company);
-    }
+    }*/
 
     public MovieViewLayout(Context context) {
         super(context);
@@ -694,16 +693,14 @@ public class MovieViewLayout extends LinearLayout {
         langLayout.setVisibility(VISIBLE);
     }
 
-    public void addImages(String poster, String backdrop, int postersCount, int backdropsCount) {
-        if (poster == null || poster.isEmpty() || backdrop == null || backdrop.isEmpty()) {
+    public void addImages(List<Poster> posters, List<Backdrop> backdrops, int postersSize, int backdropsSize) {
+        if (posters == null || posters.isEmpty() || backdrops == null || backdrops.isEmpty()) {
             removeView(imagesView);
             return;
         }
 
-        imagesView.setPoster(poster);
-        imagesView.setBackdrop(backdrop);
-        imagesView.setPostersCount(postersCount);
-        imagesView.setBackdropsCount(backdropsCount);
+        imagesView.addPosters(posters, postersSize);
+        imagesView.addBackdrops(backdrops, backdropsSize);
         imagesView.setVisibility(VISIBLE);
     }
 
@@ -862,34 +859,10 @@ public class MovieViewLayout extends LinearLayout {
         keywordsView.getProgressBar().setVisibility(GONE);
     }
 
-    // GETTERS
-
-    public ImagesSection getImagesView() {
-        return imagesView;
-    }
-
-    public TrailersSection getTrailersView() {
-        return trailersView;
-    }
-
-    public GenresSection getGenresView() {
-        return genresView;
-    }
-
-    public KeywordsSection getKeywordsView() {
-        return keywordsView;
-    }
-
-    public GestureImageView getPoster() {
-        return posterImage;
-    }
-
-//--------------------------------------------------------------------------------------------------
-
-    public MovieViewLayout setCrew(List<Crew> crews) {
+    public void setCrew(List<Crew> crews) {
         if (crews == null) {
             removeView(crewLayout);
-            return this;
+            return;
         }
 
         List<String> directors = new ArrayList<>();
@@ -960,8 +933,6 @@ public class MovieViewLayout extends LinearLayout {
         } else {
             crewProgressBar.setVisibility(INVISIBLE);
         }
-
-        return this;
     }
 
     public void addCollection(Collection collection) {
@@ -972,5 +943,35 @@ public class MovieViewLayout extends LinearLayout {
 
         collectionView.addName(getContext().getString(R.string.PartOfCollection, collection.name));
         collectionView.addImage(collection.backdropPath);
+    }
+
+    // Getters:
+
+    public ImagesSection getImagesView() {
+        return imagesView;
+    }
+
+    public TrailersSection getTrailersView() {
+        return trailersView;
+    }
+
+    public GenresSection getGenresView() {
+        return genresView;
+    }
+
+    /*public KeywordsSection getKeywordsView() {
+        return keywordsView;
+    }*/
+
+    public GestureImageView getPoster() {
+        return posterImage;
+    }
+
+    public List<Keyword> getKeywords() {
+        return keywordsView.getKeywords();
+    }
+
+    public List<Company> getCompanies() {
+        return companiesView.getCompanies();
     }
 }

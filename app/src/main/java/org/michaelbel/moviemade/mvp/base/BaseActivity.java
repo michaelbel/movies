@@ -133,7 +133,7 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseModel, Med
     @Override
     public void startGenres(ArrayList<Genre> list) {
         Intent intent = new Intent(this, GenresActivity.class);
-        intent.putExtra("list", list);
+        intent.putParcelableArrayListExtra("list", list);
         startActivity(intent);
     }
 
