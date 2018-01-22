@@ -7,7 +7,6 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -19,20 +18,14 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
-import org.michaelbel.moviemade.rest.api.MOVIES;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.ScreenUtils;
 
 import java.util.Locale;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MovieViewCompat extends FrameLayout {
 
@@ -110,7 +103,7 @@ public class MovieViewCompat extends FrameLayout {
             yearAndGenresText.setText(movie.releaseDate.substring(0, 4));
         }
 
-        MOVIES service = ApiFactory.createService(MOVIES.class);
+        /*MOVIES service = ApiFactory.createService(MOVIES.class);
         Call<Movie> call = service.getDetails(movieId, Url.TMDB_API_KEY, Url.en_US, null);
         call.enqueue(new Callback<Movie>() {
             @Override
@@ -130,7 +123,7 @@ public class MovieViewCompat extends FrameLayout {
             public void onFailure(Call<Movie> call, Throwable t) {
                 Log.e("tag", t.toString());
             }
-        });
+        });*/
     }
 
     @Override
