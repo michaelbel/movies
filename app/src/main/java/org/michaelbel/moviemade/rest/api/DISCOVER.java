@@ -1,17 +1,17 @@
 package org.michaelbel.moviemade.rest.api;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 
 public interface DISCOVER {
 
     @GET("discover/movie?")
-    Call<?> movieDiscover(
+    Observable<?> movieDiscover(
 
     );
 
     @GET("discover/tv?")
-    Call<?> tvDiscover(
+    Observable<?> tvDiscover(
 
     );
 }

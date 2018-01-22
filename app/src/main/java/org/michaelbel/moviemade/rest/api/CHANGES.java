@@ -1,13 +1,13 @@
 package org.michaelbel.moviemade.rest.api;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface CHANGES {
 
     @GET("movie/changes?")
-    Call<?> getMovieChangeList(
+    Observable<?> getMovieChangeList(
         @Query("api_key") String apiKey,
         @Query("end_date") String endDate,
         @Query("start_date") String startDate,
@@ -15,7 +15,7 @@ public interface CHANGES {
     );
 
     @GET("tv/changes?")
-    Call<?> getTVChangeList(
+    Observable<?> getTVChangeList(
         @Query("api_key") String apiKey,
         @Query("end_date") String endDate,
         @Query("start_date") String startDate,
@@ -23,7 +23,7 @@ public interface CHANGES {
     );
 
     @GET("person/changes?")
-    Call<?> getPersonChangeList(
+    Observable<?> getPersonChangeList(
         @Query("api_key") String apiKey,
         @Query("end_date") String endDate,
         @Query("start_date") String startDate,

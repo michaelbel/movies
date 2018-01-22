@@ -1,37 +1,37 @@
 package org.michaelbel.moviemade.rest.api;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 
 public interface CONFIGURATIONS {
 
     @GET("configuration?")
-    Call<?> getApiConfiguration(
+    Observable<?> getApiConfiguration(
 
     );
 
     @GET("configuration/countries?")
-    Call<?> getCountries(
+    Observable<?> getCountries(
 
     );
 
     @GET("configuration/jobs?")
-    Call<?> getJobs(
+    Observable<?> getJobs(
 
     );
 
     @GET("configuration/languages?")
-    Call<?> getLanguages(
+    Observable<?> getLanguages(
 
     );
 
     @GET("configuration/primary_translations?")
-    Call<?> getPrimaryTranslations(
+    Observable<?> getPrimaryTranslations(
 
     );
 
     @GET("configuration/timezones?")
-    Call<?> getTimezones(
+    Observable<?> getTimezones(
 
     );
 }
