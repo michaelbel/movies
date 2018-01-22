@@ -1,7 +1,5 @@
 package org.michaelbel.moviemade.mvp.presenter;
 
-import android.support.annotation.NonNull;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -18,9 +16,10 @@ import org.michaelbel.moviemade.util.NetworkUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class KeywordMoviesPresenter extends MvpPresenter<MvpResultsView> {
@@ -51,69 +50,72 @@ public class KeywordMoviesPresenter extends MvpPresenter<MvpResultsView> {
         loadingLocked = false;
 
         KEYWORDS service = ApiFactory.createService(KEYWORDS.class);
-        service.getMovies(keywordId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).enqueue(new Callback<MoviesResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<MoviesResponse> call, @NonNull Response<MoviesResponse> response) {
-                if (!response.isSuccessful()) {
-                    getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                    return;
-                }
+        service.getMovies(keywordId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page)
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(new Observer<MoviesResponse>() {
+                   @Override
+                   public void onSubscribe(Disposable d) {
 
-                if (response.body() == null) {
-                    getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                    return;
-                }
+                   }
 
-                if (response.body().movies.isEmpty()) {
-                    getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                    return;
-                }
+                   @Override
+                   public void onNext(MoviesResponse response) {
+                       totalPages = response.totalPages;
 
-                totalPages = response.body().totalPages;
+                       List<TmdbObject> results = new ArrayList<>();
+                       results.addAll(response.movies);
 
-                List<TmdbObject> results = new ArrayList<>();
-                results.addAll(response.body().movies);
+                       getViewState().showResults(results);
+                       page++;
+                   }
 
-                getViewState().showResults(results);
-                page++;
-            }
+                   @Override
+                   public void onError(Throwable e) {
+                       getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                   }
 
-            @Override
-            public void onFailure(@NonNull Call<MoviesResponse> call, @NonNull Throwable t) {
-                getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
-            }
-        });
+                   @Override
+                   public void onComplete() {
+
+                   }
+               });
     }
 
     public void loadResults() {
         KEYWORDS service = ApiFactory.createService(KEYWORDS.class);
-        service.getMovies(keywordId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).enqueue(new Callback<MoviesResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<MoviesResponse> call, @NonNull Response<MoviesResponse> response) {
-                if (!response.isSuccessful()) {
-                    loadingLocked = true;
-                    return;
-                }
+        service.getMovies(keywordId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page)
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(new Observer<MoviesResponse>() {
+                   @Override
+                   public void onSubscribe(Disposable d) {
 
-                if (response.body().movies.isEmpty()) {
-                    return;
-                }
+                   }
 
-                List<TmdbObject> results = new ArrayList<>();
-                results.addAll(response.body().movies);
+                   @Override
+                   public void onNext(MoviesResponse response) {
+                       List<TmdbObject> results = new ArrayList<>();
+                       results.addAll(response.movies);
 
-                getViewState().showResults(results);
-                page++;
-                loading = false;
-            }
+                       getViewState().showResults(results);
+                       loading = false;
+                       page++;
+                   }
 
-            @Override
-            public void onFailure(@NonNull Call<MoviesResponse> call, @NonNull Throwable t) {
-                loadingLocked = true;
-                loading = false;
-            }
-        });
+                   @Override
+                   public void onError(Throwable e) {
+                       loadingLocked = true;
+                       loading = false;
+                   }
 
-        loading = true;
+                   @Override
+                   public void onComplete() {
+
+                   }
+               });
+
+        loading = true; // todo: this operator in onComplete.
+
     }
 }
