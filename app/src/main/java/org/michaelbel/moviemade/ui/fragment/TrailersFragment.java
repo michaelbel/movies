@@ -130,7 +130,7 @@ public class TrailersFragment extends Fragment {
             return;
         }
 
-        trailers.addAll(getArguments().getParcelable("list"));
+        trailers.addAll(getArguments().getParcelableArrayList("list"));
         adapter.notifyDataSetChanged();
 
         fragmentView.setRefreshing(false);
