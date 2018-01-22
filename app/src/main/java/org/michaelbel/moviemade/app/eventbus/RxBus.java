@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade.app.eventbus;
 
-import rx.Observable;
-import rx.subjects.PublishSubject;
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
 
 public class RxBus {
 
@@ -13,7 +13,7 @@ public class RxBus {
         publishSubject.onNext(object);
     }
 
-    public Observable <Object> toObservable() {
+    public Observable<Object> toObservable() {
         return publishSubject;
     }
 }
