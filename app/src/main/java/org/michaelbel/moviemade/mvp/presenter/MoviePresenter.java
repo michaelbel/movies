@@ -1,7 +1,5 @@
 package org.michaelbel.moviemade.mvp.presenter;
 
-import android.support.annotation.NonNull;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -10,14 +8,14 @@ import org.michaelbel.moviemade.app.annotation.Beta;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.view.MvpMovieView;
 import org.michaelbel.moviemade.rest.ApiFactory;
-import org.michaelbel.moviemade.rest.model.v3.Keyword;
-import org.michaelbel.moviemade.rest.response.KeywordResponse;
 import org.michaelbel.moviemade.rest.api.MOVIES;
 import org.michaelbel.moviemade.rest.model.Crew;
 import org.michaelbel.moviemade.rest.model.Movie;
+import org.michaelbel.moviemade.rest.model.v3.Keyword;
 import org.michaelbel.moviemade.rest.model.v3.Trailer;
 import org.michaelbel.moviemade.rest.response.CreditResponse;
 import org.michaelbel.moviemade.rest.response.ImageResponse;
+import org.michaelbel.moviemade.rest.response.KeywordResponse;
 import org.michaelbel.moviemade.rest.response.TrailersResponse;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.DateUtils;
@@ -26,10 +24,11 @@ import org.michaelbel.moviemade.util.NetworkUtils;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 @InjectViewState
 public class MoviePresenter extends MvpPresenter<MvpMovieView> {
@@ -52,23 +51,30 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
 
     private void loadMovieDetails(int movieId) {
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getDetails(movieId, Url.TMDB_API_KEY, Url.en_US, null).enqueue(new Callback<Movie>() {
-            @Override
-            public void onResponse(@NonNull Call<Movie> call, @NonNull Response<Movie> response) {
-                if (!response.isSuccessful()) {
-                    getViewState().showError();
-                    return;
-                }
+        service.getDetails(movieId, Url.TMDB_API_KEY, Url.en_US, null)
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(new Observer<Movie>() {
+                   @Override
+                   public void onSubscribe(Disposable d) {
 
-                getViewState().showMovie(response.body(), true);
-                //addMovieToRealm(response.body());
-            }
+                   }
 
-            @Override
-            public void onFailure(@NonNull Call<Movie> call, @NonNull Throwable t) {
-                getViewState().showError();
-            }
-        });
+                   @Override
+                   public void onNext(Movie movie) {
+                       getViewState().showMovie(movie, true);
+                   }
+
+                   @Override
+                   public void onError(Throwable e) {
+                       getViewState().showError();
+                   }
+
+                   @Override
+                   public void onComplete() {
+
+                   }
+               });
     }
 
     public void loadTrailers(int movieId) {
@@ -80,22 +86,30 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         }
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getVideos(movieId, Url.TMDB_API_KEY, Url.en_US).enqueue(new Callback<TrailersResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<TrailersResponse> call, @NonNull Response<TrailersResponse> response) {
-                if (!response.isSuccessful()) {
-                    getViewState().showTrailers(trailers);
-                    return;
-                }
+        service.getVideos(movieId, Url.TMDB_API_KEY, Url.en_US)
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(new Observer<TrailersResponse>() {
+                   @Override
+                   public void onSubscribe(Disposable d) {
 
-                getViewState().showTrailers(response.body().trailers);
-            }
+                   }
 
-            @Override
-            public void onFailure(@NonNull Call<TrailersResponse> call, @NonNull Throwable t) {
-                getViewState().showTrailers(trailers);
-            }
-        });
+                   @Override
+                   public void onNext(TrailersResponse response) {
+                       getViewState().showTrailers(response.trailers);
+                   }
+
+                   @Override
+                   public void onError(Throwable e) {
+                       getViewState().showTrailers(trailers);
+                   }
+
+                   @Override
+                   public void onComplete() {
+
+                   }
+               });
     }
 
     public void loadKeywords(int movieId) {
@@ -107,22 +121,30 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         }
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getKeywords(movieId, Url.TMDB_API_KEY).enqueue(new Callback<KeywordResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<KeywordResponse> call, @NonNull Response<KeywordResponse> response) {
-                if (!response.isSuccessful()) {
-                    getViewState().showKeywords(keywords);
-                    return;
-                }
+        service.getKeywords(movieId, Url.TMDB_API_KEY)
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(new Observer<KeywordResponse>() {
+                   @Override
+                   public void onSubscribe(Disposable d) {
 
-                getViewState().showKeywords(response.body().keywords);
-            }
+                   }
 
-            @Override
-            public void onFailure(@NonNull Call<KeywordResponse> call, @NonNull Throwable t) {
-                getViewState().showKeywords(keywords);
-            }
-        });
+                   @Override
+                   public void onNext(KeywordResponse response) {
+                       getViewState().showKeywords(response.keywords);
+                   }
+
+                   @Override
+                   public void onError(Throwable e) {
+                       getViewState().showKeywords(keywords);
+                   }
+
+                   @Override
+                   public void onComplete() {
+
+                   }
+               });
     }
 
     public void loadImages(int movieId) {
@@ -131,22 +153,30 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         }
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getImages(movieId, Url.TMDB_API_KEY, null).enqueue(new Callback<ImageResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<ImageResponse> call, @NonNull Response<ImageResponse> response) {
-                if (!response.isSuccessful()) {
-                    // todo Error
-                    return;
-                }
+        service.getImages(movieId, Url.TMDB_API_KEY, null)
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(new Observer<ImageResponse>() {
+                   @Override
+                   public void onSubscribe(Disposable d) {
 
-                getViewState().showImages(response.body().posters, response.body().backdrops, response.body().posters.size(), response.body().backdrops.size());
-            }
+                   }
 
-            @Override
-            public void onFailure(@NonNull Call<ImageResponse> call, @NonNull Throwable t) {
-                // todo Error
-            }
-        });
+                   @Override
+                   public void onNext(ImageResponse response) {
+                       getViewState().showImages(response.posters, response.backdrops, response.posters.size(), response.backdrops.size());
+                   }
+
+                   @Override
+                   public void onError(Throwable e) {
+                       // todo Error
+                   }
+
+                   @Override
+                   public void onComplete() {
+
+                   }
+               });
     }
 
     public void loadCredits(int movieId) {
@@ -157,22 +187,30 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         }
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getCredits(movieId, Url.TMDB_API_KEY).enqueue(new Callback<CreditResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<CreditResponse> call, @NonNull Response<CreditResponse> response) {
-                if (!response.isSuccessful()) {
-                    getViewState().showCrew(crews);
-                    return;
-                }
+        service.getCredits(movieId, Url.TMDB_API_KEY)
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(new Observer<CreditResponse>() {
+                   @Override
+                   public void onSubscribe(Disposable d) {
 
-                getViewState().showCrew(response.body().crews);
-            }
+                   }
 
-            @Override
-            public void onFailure(@NonNull Call<CreditResponse> call, @NonNull Throwable t) {
-                getViewState().showCrew(crews);
-            }
-        });
+                   @Override
+                   public void onNext(CreditResponse response) {
+                       getViewState().showCrew(response.crews);
+                   }
+
+                   @Override
+                   public void onError(Throwable e) {
+                       getViewState().showCrew(crews);
+                   }
+
+                   @Override
+                   public void onComplete() {
+
+                   }
+               });
     }
 
     @Beta

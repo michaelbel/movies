@@ -1,7 +1,5 @@
 package org.michaelbel.moviemade.mvp.presenter;
 
-import android.support.annotation.NonNull;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -19,9 +17,10 @@ import org.michaelbel.moviemade.util.NetworkUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class PopularPeoplePresenter extends MvpPresenter<MvpResultsView> {
@@ -43,86 +42,97 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpResultsView> {
         loadingLocked = false;
 
         PEOPLE service = ApiFactory.createService(PEOPLE.class);
-        service.getPopular(Url.TMDB_API_KEY, Url.en_US, page).enqueue(new Callback<PeopleResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<PeopleResponse> call, @NonNull Response<PeopleResponse> response) {
-                if (!response.isSuccessful()) {
-                    getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
-                    return;
-                }
+        service.getPopular(Url.TMDB_API_KEY, Url.en_US, page)
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(new Observer<PeopleResponse>() {
+                   @Override
+                   public void onSubscribe(Disposable d) {
 
-                if (response.body() == null) {
-                    getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
-                    return;
-                }
+                   }
 
-                totalPages = response.body().totalPages;
+                   @Override
+                   public void onNext(PeopleResponse response) {
+                       totalPages = response.totalPages;
 
-                List<TmdbObject> results = new ArrayList<>();
+                       List<TmdbObject> results = new ArrayList<>();
 
-                if (AndroidUtils.includeAdult()) {
-                    results.addAll(response.body().people);
-                } else {
-                    for (People people : response.body().people) {
-                        if (!people.adult) {
-                            results.add(people);
-                        }
-                    }
-                }
+                       if (AndroidUtils.includeAdult()) {
+                           results.addAll(response.people);
+                       } else {
+                           for (People people : response.people) {
+                               if (!people.adult) {
+                                   results.add(people);
+                               }
+                           }
+                       }
 
-                if (results.isEmpty()) {
-                    getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
-                    return;
-                }
+                       if (results.isEmpty()) {
+                           getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
+                           return;
+                       }
 
-                getViewState().showResults(results);
-                page++;
-            }
+                       getViewState().showResults(results);
+                       page++;
+                   }
 
-            @Override
-            public void onFailure(@NonNull Call<PeopleResponse> call, @NonNull Throwable t) {
-                getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
-            }
-        });
+                   @Override
+                   public void onError(Throwable e) {
+                       getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
+                   }
+
+                   @Override
+                   public void onComplete() {
+
+                   }
+               });
     }
 
     public void loadResults() {
         PEOPLE service = ApiFactory.createService(PEOPLE.class);
-        service.getPopular(Url.TMDB_API_KEY, Url.en_US, page).enqueue(new Callback<PeopleResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<PeopleResponse> call, @NonNull Response<PeopleResponse> response) {
-                if (!response.isSuccessful()) {
-                    loadingLocked = true;
-                    return;
-                }
+        service.getPopular(Url.TMDB_API_KEY, Url.en_US, page)
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(new Observer<PeopleResponse>() {
+                   @Override
+                   public void onSubscribe(Disposable d) {
 
-                List<TmdbObject> results = new ArrayList<>();
+                   }
 
-                if (AndroidUtils.includeAdult()) {
-                    results.addAll(response.body().people);
-                } else {
-                    for (People people : response.body().people) {
-                        if (!people.adult) {
-                            results.add(people);
-                        }
-                    }
-                }
+                   @Override
+                   public void onNext(PeopleResponse response) {
+                       List<TmdbObject> results = new ArrayList<>();
 
-                if (results.isEmpty()) {
-                    return;
-                }
+                       if (AndroidUtils.includeAdult()) {
+                           results.addAll(response.people);
+                       } else {
+                           for (People people : response.people) {
+                               if (!people.adult) {
+                                   results.add(people);
+                               }
+                           }
+                       }
 
-                getViewState().showResults(results);
-                loading = false;
-                page++;
-            }
+                       if (results.isEmpty()) {
+                           return;
+                       }
 
-            @Override
-            public void onFailure(@NonNull Call<PeopleResponse> call, @NonNull Throwable t) {
-                loadingLocked = true;
-                loading = false;
-            }
-        });
+                       getViewState().showResults(results);
+                       loading = false;
+                       page++;
+                   }
+
+                   @Override
+                   public void onError(Throwable e) {
+                       loadingLocked = true;
+                       loading = false;
+                   }
+
+                   @Override
+                   public void onComplete() {
+
+                   }
+               });
 
         loading = true;
     }

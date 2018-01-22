@@ -1,14 +1,14 @@
 package org.michaelbel.moviemade.rest.api;
 
-import org.michaelbel.moviemade.rest.response.KeywordResponse;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.rest.response.CreditResponse;
 import org.michaelbel.moviemade.rest.response.ImageResponse;
+import org.michaelbel.moviemade.rest.response.KeywordResponse;
 import org.michaelbel.moviemade.rest.response.MovieResponse;
 import org.michaelbel.moviemade.rest.response.ReviewResponse;
 import org.michaelbel.moviemade.rest.response.TrailersResponse;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -16,7 +16,7 @@ import retrofit2.http.Query;
 public interface MOVIES {
 
     @GET("movie/{movie_id}?")
-    Call<Movie> getDetails(
+    Observable<Movie> getDetails(
         @Path("movie_id") int id,
         @Query("api_key") String apiKey,
         @Query("language") String language,
@@ -24,7 +24,7 @@ public interface MOVIES {
     );
 
     @GET("movie/{movie_id}/account_states?")
-    Call<?> getAccountStates(
+    Observable<?> getAccountStates(
         @Path("movie_id") int id,
         @Query("api_key") String apiKey,
         @Query("session_id") String sessionId,
@@ -32,7 +32,7 @@ public interface MOVIES {
     );
 
     @GET("movie/{movie_id}/changes?")
-    Call<?> getChanges(
+    Observable<?> getChanges(
         @Path("movie_id") int id,
         @Query("api_key") String apiKey,
         @Query("start_date") String startDate,
@@ -41,52 +41,52 @@ public interface MOVIES {
     );
 
     @GET("movie/{movie_id}/alternative_titles?")
-    Call<?> getAlternativeTitles(
+    Observable<?> getAlternativeTitles(
         @Path("movie_id") int id,
         @Query("api_key") String apiKey,
         @Query("country") String country
     );
 
     @GET("movie/{movie_id}/credits?")
-    Call<CreditResponse> getCredits(
+    Observable<CreditResponse> getCredits(
         @Path("movie_id") int id,
         @Query("api_key") String apiKey
     );
 
     @GET("movie/{movie_id}/images?")
-    Call<ImageResponse> getImages(
+    Observable<ImageResponse> getImages(
         @Path("movie_id") int id,
         @Query("api_key") String apiKey,
         @Query("include_image_language") String lang
     );
 
     @GET("movie/{movie_id}/keywords?")
-    Call<KeywordResponse> getKeywords(
+    Observable<KeywordResponse> getKeywords(
         @Path("movie_id") int id,
         @Query("api_key") String apiKey
     );
 
     @GET("movie/{movie_id}/release_dates?")
-    Call<?> getReleaseDates(
+    Observable<?> getReleaseDates(
         @Path("movie_id") int id,
         @Query("api_key") String apiKey
     );
 
     @GET("movie/{movie_id}/videos?")
-    Call<TrailersResponse> getVideos(
+    Observable<TrailersResponse> getVideos(
         @Path("movie_id") int id,
         @Query("api_key") String apiKey,
         @Query("language") String lang
     );
 
     @GET("movie/{movie_id}/translations?")
-    Call<?> getTranslations(
+    Observable<?> getTranslations(
         @Query("api_key") String apiKey,
         @Query("language") String lang
     );
 
     @GET("movie/{movie_id}/recommendations?")
-    Call<MovieResponse> getRecommendations(
+    Observable<MovieResponse> getRecommendations(
         @Path("movie_id") int id,
         @Query("api_key") String apiKey,
         @Query("language") String language,
@@ -94,7 +94,7 @@ public interface MOVIES {
     );
 
     @GET("movie/{movie_id}/similar?")
-    Call<MovieResponse> getSimilar(
+    Observable<MovieResponse> getSimilar(
         @Path("movie_id") int id,
         @Query("api_key") String apiKey,
         @Query("language") String language,
@@ -102,7 +102,7 @@ public interface MOVIES {
     );
 
     @GET("movie/{movie_id}/reviews?")
-    Call<ReviewResponse> getReviews(
+    Observable<ReviewResponse> getReviews(
         @Path("movie_id") int id,
         @Query("api_key") String apiKey,
         @Query("language") String language,
@@ -110,7 +110,7 @@ public interface MOVIES {
     );
 
     @GET("movie/{movie_id}/lists?")
-    Call<MovieResponse> getLists(
+    Observable<MovieResponse> getLists(
         @Path("movie_id") String param,
         @Query("api_key") String apiKey,
         @Query("language") String language,
@@ -122,34 +122,34 @@ public interface MOVIES {
     // deleteRating
 
     @GET("movie/latest?")
-    Call<?> getLatest(
+    Observable<?> getLatest(
         @Query("api_key") String apiKey,
         @Query("language") String lang
     );
 
     @GET("movie/now_playing?")
-    Call<MovieResponse> getNowPlaying(
+    Observable<MovieResponse> getNowPlaying(
         @Query("api_key") String apiKey,
         @Query("language") String lang,
         @Query("page") int page
     );
 
     @GET("movie/popular?")
-    Call<MovieResponse> getPopular(
+    Observable<MovieResponse> getPopular(
         @Query("api_key") String apiKey,
         @Query("language") String lang,
         @Query("page") int page
     );
 
     @GET("movie/top_rated?")
-    Call<MovieResponse> getTopRated(
+    Observable<MovieResponse> getTopRated(
         @Query("api_key") String apiKey,
         @Query("language") String lang,
         @Query("page") int page
     );
 
     @GET("movie/upcoming?")
-    Call<MovieResponse> getUpcoming(
+    Observable<MovieResponse> getUpcoming(
         @Query("api_key") String apiKey,
         @Query("language") String lang,
         @Query("page") int page

@@ -1,7 +1,5 @@
 package org.michaelbel.moviemade.mvp.presenter;
 
-import android.support.annotation.NonNull;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -17,9 +15,10 @@ import org.michaelbel.moviemade.util.NetworkUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class ReviewsMoviePresenter extends MvpPresenter<MvpResultsView> {
@@ -50,68 +49,79 @@ public class ReviewsMoviePresenter extends MvpPresenter<MvpResultsView> {
         loadingLocked = false;
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getReviews(movieId, Url.TMDB_API_KEY, Url.en_US, page).enqueue(new Callback<ReviewResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<ReviewResponse> call, @NonNull Response<ReviewResponse> response) {
-                if (!response.isSuccessful()) {
-                    getViewState().showError(EmptyViewMode.MODE_NO_REVIEWS);
-                    return;
-                }
+        service.getReviews(movieId, Url.TMDB_API_KEY, Url.en_US, page)
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(new Observer<ReviewResponse>() {
+                   @Override
+                   public void onSubscribe(Disposable d) {
 
-                if (response.body() == null) {
-                    getViewState().showError(EmptyViewMode.MODE_NO_REVIEWS);
-                    return;
-                }
+                   }
 
-                totalPages = response.body().totalPages;
+                   @Override
+                   public void onNext(ReviewResponse response) {
+                       totalPages = response.totalPages;
 
-                List<TmdbObject> newReviews = new ArrayList<>();
-                newReviews.addAll(response.body().reviews);
+                       List<TmdbObject> results = new ArrayList<>();
+                       results.addAll(response.reviews);
 
-                if (newReviews.isEmpty()) {
-                    getViewState().showError(EmptyViewMode.MODE_NO_REVIEWS);
-                    return;
-                }
+                       if (results.isEmpty()) {
+                           getViewState().showError(EmptyViewMode.MODE_NO_REVIEWS);
+                           return;
+                       }
 
-                getViewState().showResults(newReviews);
-                page++;
-            }
+                       getViewState().showResults(results);
+                       page++;
+                   }
 
-            @Override
-            public void onFailure(@NonNull Call<ReviewResponse> call, @NonNull Throwable t) {
-                getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
-            }
-        });
+                   @Override
+                   public void onError(Throwable e) {
+                       getViewState().showError(EmptyViewMode.MODE_NO_REVIEWS);
+                   }
+
+                   @Override
+                   public void onComplete() {
+
+                   }
+               });
     }
 
     public void loadResults() {
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getReviews(movieId, Url.TMDB_API_KEY, Url.en_US, page).enqueue(new Callback<ReviewResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<ReviewResponse> call, @NonNull Response<ReviewResponse> response) {
-                if (!response.isSuccessful()) {
-                    loadingLocked = true;
-                    return;
-                }
+        service.getReviews(movieId, Url.TMDB_API_KEY, Url.en_US, page)
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(new Observer<ReviewResponse>() {
+                   @Override
+                   public void onSubscribe(Disposable d) {
 
-                List<TmdbObject> newReviews = new ArrayList<>();
-                newReviews.addAll(response.body().reviews);
+                   }
 
-                if (newReviews.isEmpty()) {
-                    return;
-                }
+                   @Override
+                   public void onNext(ReviewResponse response) {
+                       List<TmdbObject> results = new ArrayList<>();
+                       results.addAll(response.reviews);
 
-                getViewState().showResults(newReviews);
-                page++;
-                loading = false;
-            }
+                       if (results.isEmpty()) {
+                           return;
+                       }
 
-            @Override
-            public void onFailure(@NonNull Call<ReviewResponse> call, @NonNull Throwable t) {
-                loadingLocked = true;
-                loading = false;
-            }
-        });
+                       getViewState().showResults(results);
+                       loading = false;
+                       page++;
+                   }
+
+                   @Override
+                   public void onError(Throwable e) {
+                       loadingLocked = true;
+                       loading = false;
+                   }
+
+                   @Override
+                   public void onComplete() {
+
+                   }
+               });
 
         loading = true;
     }

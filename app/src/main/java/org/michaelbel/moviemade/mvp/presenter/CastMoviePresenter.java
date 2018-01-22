@@ -1,7 +1,5 @@
 package org.michaelbel.moviemade.mvp.presenter;
 
-import android.support.annotation.NonNull;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -17,9 +15,10 @@ import org.michaelbel.moviemade.util.NetworkUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class CastMoviePresenter extends MvpPresenter<MvpResultsView> {
@@ -30,35 +29,34 @@ public class CastMoviePresenter extends MvpPresenter<MvpResultsView> {
             return;
         }
 
+        // todo То, что этот метод вызывается 2 раза нехорошо, нужно вызывать его 1 раз и затем только передавать данные
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getCredits(movieId, Url.TMDB_API_KEY).enqueue(new Callback<CreditResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<CreditResponse> call, @NonNull Response<CreditResponse> response) {
-                if (!response.isSuccessful()) {
-                    getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
-                    return;
-                }
+        service.getCredits(movieId, Url.TMDB_API_KEY)
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(new Observer<CreditResponse>() {
+                   @Override
+                   public void onSubscribe(Disposable d) {
 
-                if (response.body() == null) {
-                    getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
-                    return;
-                }
+                   }
 
-                if (response.body().casts.isEmpty()) {
-                    getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
-                    return;
-                }
+                   @Override
+                   public void onNext(CreditResponse response) {
+                       List<TmdbObject> results = new ArrayList<>();
+                       results.addAll(response.casts);
 
-                List<TmdbObject> newCasts = new ArrayList<>();
-                newCasts.addAll(response.body().casts);
+                       getViewState().showResults(results);
+                   }
 
-                getViewState().showResults(newCasts);
-            }
+                   @Override
+                   public void onError(Throwable e) {
+                       getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
+                   }
 
-            @Override
-            public void onFailure(@NonNull Call<CreditResponse> call, @NonNull Throwable t) {
-                getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
-            }
-        });
+                   @Override
+                   public void onComplete() {
+
+                   }
+               });
     }
 }

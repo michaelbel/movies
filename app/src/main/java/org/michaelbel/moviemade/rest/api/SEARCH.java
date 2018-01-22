@@ -6,49 +6,52 @@ import org.michaelbel.moviemade.rest.response.KeywordsResponse;
 import org.michaelbel.moviemade.rest.response.MovieResponse;
 import org.michaelbel.moviemade.rest.response.PeopleResponse;
 
-import retrofit2.Call;
+import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 public interface SEARCH {
 
     @GET("search/multi?")
-    Call<?> searchMulti();
+    Observable<?> searchMulti();
 
     @GET("search/movie?")
-    Call<MovieResponse> searchMovies(
-            @Query("api_key") String apiKey,
-            @Query("language") String lang,
-            @Query("query") String query,
-            @Query("page") int page,
-            @Query("include_adult") boolean adult,
-            @Query("region") String region
-            //@Query("year") int year,
-            //@Query("primary_release_year") int primaryReleaseYear
+    Observable<MovieResponse> searchMovies(
+        @Query("api_key") String apiKey,
+        @Query("language") String lang,
+        @Query("query") String query,
+        @Query("page") int page,
+        @Query("include_adult") boolean adult,
+        @Query("region") String region
+        //@Query("year") int year,
+        //@Query("primary_release_year") int primaryReleaseYear
     );
 
     @GET("search/tv?")
-    Call<?> searchTvShows();
+    Observable<?> searchTvShows(
+
+    );
 
     @GET("search/person?")
-    Call<PeopleResponse> searchPeople(
-            @Query("api_key") String apiKey,
-            @Query("language") String lang,
-            @Query("query") String query,
-            @Query("page") int page,
-            @Query("include_adult") boolean adult,
-            @Query("region") String region
+    Observable<PeopleResponse> searchPeople(
+        @Query("api_key") String apiKey,
+        @Query("language") String lang,
+        @Query("query") String query,
+        @Query("page") int page,
+        @Query("include_adult") boolean adult,
+        @Query("region") String region
     );
 
     @GET("search/keyword?")
-    Call<KeywordsResponse> searchKeywords(
-            @Query("api_key") String apiKey,
-            @Query("query") String query,
-            @Query("page") int page
+    Observable<KeywordsResponse> searchKeywords(
+        @Query("api_key") String apiKey,
+        @Query("query") String query,
+        @Query("page") int page
     );
 
     @GET("search/collection?")
-    Call<CollectionResponse> searchCollections(
+    Observable<CollectionResponse> searchCollections(
         @Query("api_key") String apiKey,
         @Query("language") String lang,
         @Query("query") String query,
@@ -56,7 +59,7 @@ public interface SEARCH {
     );
 
     @GET("search/company?")
-    Call<CompanyResponse> searchCompanies(
+    Flowable<CompanyResponse> searchCompanies(
         @Query("api_key") String apiKey,
         @Query("query") String query,
         @Query("page") int page
