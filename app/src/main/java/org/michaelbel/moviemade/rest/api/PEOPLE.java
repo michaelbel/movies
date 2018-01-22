@@ -4,6 +4,7 @@ import org.michaelbel.moviemade.rest.model.Person;
 import org.michaelbel.moviemade.rest.response.MoviePeopleResponse;
 import org.michaelbel.moviemade.rest.response.PeopleResponse;
 
+import io.reactivex.Observable;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
@@ -12,11 +13,11 @@ import retrofit2.http.Query;
 public interface PEOPLE {
 
     @GET("person/{person_id}?")
-    Call<Person> getDetails(
+    Observable<Person> getDetails(
         @Path("person_id") int id,
         @Query("api_key") String apiKey,
         @Query("language") String language,
-        @Query("append_to_response") String responce
+        @Query("append_to_response") String response
     );
 
     @GET("person/{person_id}/movie_credits?")

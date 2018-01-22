@@ -1,9 +1,9 @@
 package org.michaelbel.moviemade.rest.api.service;
 
-import org.michaelbel.moviemade.rest.response.MoviesResponse;
 import org.michaelbel.moviemade.rest.response.GenresResponse;
+import org.michaelbel.moviemade.rest.response.MoviesResponse;
 
-import retrofit2.Call;
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -11,19 +11,19 @@ import retrofit2.http.Query;
 public interface GENRES {
 
     @GET("genre/movie/list?")
-    Call<GenresResponse> getMovieList(
+    Observable<GenresResponse> getMovieList(
         @Query("api_key") String apiKey,
         @Query("language") String language
     );
 
     @GET("genre/tv/list?")
-    Call<GenresResponse> getTVList(
+    Observable<GenresResponse> getTVList(
         @Query("api_key") String apiKey,
         @Query("language") String language
     );
 
     @GET("genre/{genre_id}/movies?")
-    Call<MoviesResponse> getMovies(
+    Observable<MoviesResponse> getMovies(
         @Path("genre_id") int id,
         @Query("api_key") String apiKey,
         @Query("language") String language,

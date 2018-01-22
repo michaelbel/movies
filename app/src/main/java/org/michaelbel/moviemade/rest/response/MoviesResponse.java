@@ -11,9 +11,6 @@ public class MoviesResponse {
     @SerializedName("id")
     public int id;
 
-    @SerializedName("results")
-    public List<Movie> movies;
-
     @SerializedName("page")
     public int page;
 
@@ -22,4 +19,7 @@ public class MoviesResponse {
 
     @SerializedName("total_results")
     public int totalResults;
+
+    @SerializedName("results")
+    public List<Movie> movies;
 }

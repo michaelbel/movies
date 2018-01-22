@@ -1,7 +1,5 @@
 package org.michaelbel.moviemade.mvp.presenter;
 
-import android.support.annotation.NonNull;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -17,9 +15,10 @@ import org.michaelbel.moviemade.util.NetworkUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class GenresPresenter extends MvpPresenter<MvpResultsView> {
@@ -31,24 +30,32 @@ public class GenresPresenter extends MvpPresenter<MvpResultsView> {
         }
 
         GENRES service = ApiFactory.createService(GENRES.class);
-        service.getMovieList(Url.TMDB_API_KEY, Url.en_US).enqueue(new Callback<GenresResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<GenresResponse> call, @NonNull Response<GenresResponse> response) {
-                if (!response.isSuccessful()) {
-                    getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
-                    return;
-                }
+        service.getMovieList(Url.TMDB_API_KEY, Url.en_US)
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(new Observer<GenresResponse>() {
+                   @Override
+                   public void onSubscribe(Disposable d) {
 
-                List<TmdbObject> results = new ArrayList<>();
-                results.addAll(response.body().genres);
+                   }
 
-                getViewState().showResults(results);
-            }
+                   @Override
+                   public void onNext(GenresResponse response) {
+                       List<TmdbObject> results = new ArrayList<>();
+                       results.addAll(response.genres);
 
-            @Override
-            public void onFailure(@NonNull Call<GenresResponse> call, @NonNull Throwable t) {
-                getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
-            }
-        });
+                       getViewState().showResults(results);
+                   }
+
+                   @Override
+                   public void onError(Throwable e) {
+                       getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
+                   }
+
+                   @Override
+                   public void onComplete() {
+
+                   }
+               });
     }
 }

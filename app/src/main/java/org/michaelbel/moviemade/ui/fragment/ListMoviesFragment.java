@@ -25,9 +25,7 @@ import org.michaelbel.moviemade.MainActivity;
 import org.michaelbel.moviemade.MovieActivity;
 import org.michaelbel.moviemade.PersonActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
-import org.michaelbel.moviemade.app.Moviemade;
 import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.app.eventbus.Events;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.presenter.ListMoviesPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
@@ -44,8 +42,6 @@ import org.michaelbel.moviemade.util.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import rx.functions.Action1;
 
 public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResultsView {
 
@@ -304,10 +300,10 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
     public void onResume() {
         super.onResume();
 
-        ((Moviemade) getActivity().getApplication()).eventBus().toObservable().subscribe(new Action1<Object>() {
+        /*((Moviemade) getActivity().getApplication()).eventBus().toObservable().subscribe(new Consumer<Object>() {
             @Override
             public void call(Object object) {
-                /*if (object instanceof Events.MovieListUpdateAdult) {
+                *//*if (object instanceof Events.MovieListUpdateAdult) {
                     if (!NetworkUtils.notConnected()) {
                         if (!movies.isEmpty()) {
                             movies.clear();
@@ -331,11 +327,11 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
                             loadList();
                         }
                     }
-                } else*/ if (object instanceof Events.MovieListRefreshLayout) {
+                } else*//* if (object instanceof Events.MovieListRefreshLayout) {
                     refreshLayout();
                 }
             }
-        });
+        });*/
     }
 
     @Override

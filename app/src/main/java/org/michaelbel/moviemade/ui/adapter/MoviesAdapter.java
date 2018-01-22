@@ -45,7 +45,7 @@ public class MoviesAdapter extends RecyclerView.Adapter {
                 .setTitle(movie.title)
                 .setRating(String.valueOf(movie.voteAverage))
                 .setVoteCount(String.valueOf(movie.voteCount))
-                .setReleaseDate(DateUtils.getMovieReleaseDate(movie.releaseDate))
+                .setReleaseDate(movie.releaseDate != null ? DateUtils.getMovieReleaseDate(movie.releaseDate) : "")
                 .setOverview(movie.overview)
                 .setDivider(true);
         } else if (type == 1) {

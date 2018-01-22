@@ -1,7 +1,5 @@
 package org.michaelbel.moviemade.mvp.presenter;
 
-import android.support.annotation.NonNull;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -17,9 +15,10 @@ import org.michaelbel.moviemade.util.NetworkUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
+import io.reactivex.Observer;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class CompanyMoviesPresenter extends MvpPresenter<MvpResultsView> {
@@ -36,34 +35,32 @@ public class CompanyMoviesPresenter extends MvpPresenter<MvpResultsView> {
         }
 
         COMPANIES service = ApiFactory.createService(COMPANIES.class);
-        service.getMovies(companyId, Url.TMDB_API_KEY, Url.en_US).enqueue(new Callback<MoviesResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<MoviesResponse> call, @NonNull Response<MoviesResponse> response) {
-                if (!response.isSuccessful()) {
-                    getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                    return;
-                }
+        service.getMovies(companyId, Url.TMDB_API_KEY, Url.en_US)
+               .subscribeOn(Schedulers.io())
+               .observeOn(AndroidSchedulers.mainThread())
+               .subscribe(new Observer<MoviesResponse>() {
+                   @Override
+                   public void onSubscribe(Disposable d) {
 
-                if (response.body() == null) {
-                    getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                    return;
-                }
+                   }
 
-                if (response.body().movies.isEmpty()) {
-                    getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                    return;
-                }
+                   @Override
+                   public void onNext(MoviesResponse response) {
+                       List<TmdbObject> results = new ArrayList<>();
+                       results.addAll(response.movies);
 
-                List<TmdbObject> results = new ArrayList<>();
-                results.addAll(response.body().movies);
+                       getViewState().showResults(results);
+                   }
 
-                getViewState().showResults(results);
-            }
+                   @Override
+                   public void onError(Throwable e) {
+                       getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                   }
 
-            @Override
-            public void onFailure(@NonNull Call<MoviesResponse> call, @NonNull Throwable t) {
-                getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
-            }
-        });
+                   @Override
+                   public void onComplete() {
+
+                   }
+               });
     }
 }
