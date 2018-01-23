@@ -5,16 +5,27 @@ import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Cast;
+import org.michaelbel.moviemade.ui.adapter.ViewHolder.Holder;
 import org.michaelbel.moviemade.ui.view.CastView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CastMoviesAdapter extends RecyclerView.Adapter {
 
     private List<TmdbObject> casts;
 
-    public CastMoviesAdapter(List<TmdbObject> casts) {
-        this.casts = casts;
+    public CastMoviesAdapter() {
+        casts = new ArrayList<>();
+    }
+
+    public void addCasts(List<TmdbObject> results) {
+        casts.addAll(results);
+        notifyItemRangeInserted(casts.size() + 1, results.size());
+    }
+
+    public List<TmdbObject> getCasts() {
+        return casts;
     }
 
     @Override
