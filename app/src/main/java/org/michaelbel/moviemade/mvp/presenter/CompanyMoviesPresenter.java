@@ -15,13 +15,16 @@ import org.michaelbel.moviemade.util.NetworkUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observer;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class CompanyMoviesPresenter extends MvpPresenter<MvpResultsView> {
+
+    private Disposable disposable;
 
     public void loadMovies(int companyId) {
         if (companyId == 0) {
@@ -35,32 +38,28 @@ public class CompanyMoviesPresenter extends MvpPresenter<MvpResultsView> {
         }
 
         COMPANIES service = ApiFactory.createService(COMPANIES.class);
-        service.getMovies(companyId, Url.TMDB_API_KEY, Url.en_US)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<MoviesResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<MoviesResponse> observable = service.getMovies(companyId, Url.TMDB_API_KEY, Url.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable = observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
+            @Override
+            public void onNext(MoviesResponse response) {
+                List<TmdbObject> results = new ArrayList<>(response.movies);
+                getViewState().showResults(results);
+            }
 
-                   }
+            @Override
+            public void onError(Throwable e) {
+                getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                e.printStackTrace();
+            }
 
-                   @Override
-                   public void onNext(MoviesResponse response) {
-                       List<TmdbObject> results = new ArrayList<>();
-                       results.addAll(response.movies);
+            @Override
+            public void onComplete() {}
+        });
+    }
 
-                       getViewState().showResults(results);
-                   }
-
-                   @Override
-                   public void onError(Throwable e) {
-                       getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        disposable.dispose();
     }
 }
