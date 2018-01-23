@@ -11,13 +11,16 @@ import org.michaelbel.moviemade.rest.api.PEOPLE;
 import org.michaelbel.moviemade.rest.model.Person;
 import org.michaelbel.moviemade.util.NetworkUtils;
 
-import io.reactivex.Observer;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class PersonPresenter extends MvpPresenter<MvpPersonView> {
+
+    private Disposable disposable;
 
     public void loadPerson(int personId) {
         if (NetworkUtils.notConnected()) {
@@ -26,29 +29,27 @@ public class PersonPresenter extends MvpPresenter<MvpPersonView> {
         }
 
         PEOPLE service = ApiFactory.createService(PEOPLE.class);
-        service.getDetails(personId, Url.TMDB_API_KEY, Url.en_US, null)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<Person>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<Person> observable = service.getDetails(personId, Url.TMDB_API_KEY, Url.en_US, null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable = observable.subscribeWith(new DisposableObserver<Person>() {
+            @Override
+            public void onNext(Person person) {
+                getViewState().showPerson(person);
+            }
 
-                   }
+            @Override
+            public void onError(Throwable e) {
+                getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
+                e.printStackTrace();
+            }
 
-                   @Override
-                   public void onNext(Person person) {
-                       getViewState().showPerson(person);
-                   }
+            @Override
+            public void onComplete() {}
+        });
+    }
 
-                   @Override
-                   public void onError(Throwable e) {
-                       getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        disposable.dispose();
     }
 }
