@@ -19,9 +19,10 @@ import org.michaelbel.moviemade.util.NetworkUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observer;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
@@ -31,6 +32,9 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
     public int totalPages;
     public boolean loading;
     public boolean loadingLocked;
+
+    private Disposable disposable1;
+    private Disposable disposable2;
 
     public void loadNowPlayingMovies() {
         if (NetworkUtils.notConnected()) {
@@ -44,99 +48,80 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
         loadingLocked = false;
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getNowPlaying(Url.TMDB_API_KEY, Url.en_US, page)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<MovieResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<MovieResponse> observable = service.getNowPlaying(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable1 = observable.subscribeWith(new DisposableObserver<MovieResponse>() {
+            @Override
+            public void onNext(MovieResponse response) {
+                totalPages = response.totalPages;
 
-                   }
+                List<TmdbObject> results = new ArrayList<>();
 
-                   @Override
-                   public void onNext(MovieResponse response) {
-                       totalPages = response.totalPages;
+                if (AndroidUtils.includeAdult()) {
+                    results.addAll(response.movies);
+                } else {
+                    for (Movie movie : response.movies) {
+                        if (!movie.adult) {
+                            results.add(movie);
+                        }
+                    }
+                }
 
-                       List<TmdbObject> results = new ArrayList<>();
+                if (results.isEmpty()) {
+                    getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                    return;
+                }
 
-                       if (AndroidUtils.includeAdult()) {
-                           results.addAll(response.movies);
-                       } else {
-                           for (Movie movie : response.movies) {
-                               if (!movie.adult) {
-                                   results.add(movie);
-                               }
-                           }
-                       }
+                getViewState().showResults(results);
+                page++;
+            }
 
-                       if (results.isEmpty()) {
-                           getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                           return;
-                       }
+            @Override
+            public void onError(Throwable e) {
+                getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                e.printStackTrace();
+            }
 
-                       getViewState().showResults(results);
-                       page++;
-                   }
-
-                   @Override
-                   public void onError(Throwable e) {
-                       getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
+            @Override
+            public void onComplete() {}
+        });
     }
 
     public void loadNowPlayingNextMovies() {
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getNowPlaying(Url.TMDB_API_KEY, Url.en_US, page)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<MovieResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<MovieResponse> observable = service.getNowPlaying(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable2 = observable.subscribeWith(new DisposableObserver<MovieResponse>() {
+            @Override
+            public void onNext(MovieResponse response) {
+                List<TmdbObject> results = new ArrayList<>();
 
-                   }
+                if (AndroidUtils.includeAdult()) {
+                    results.addAll(response.movies);
+                } else {
+                    for (Movie movie : response.movies) {
+                        if (!movie.adult) {
+                            results.add(movie);
+                        }
+                    }
+                }
 
-                   @Override
-                   public void onNext(MovieResponse response) {
-                       List<TmdbObject> results = new ArrayList<>();
+                getViewState().showResults(results);
+                loading = false;
+                page++;
+            }
 
-                       if (AndroidUtils.includeAdult()) {
-                           results.addAll(response.movies);
-                       } else {
-                           for (Movie movie : response.movies) {
-                               if (!movie.adult) {
-                                   results.add(movie);
-                               }
-                           }
-                       }
+            @Override
+            public void onError(Throwable e) {
+                loadingLocked = true;
+                loading = false;
+                e.printStackTrace();
+            }
 
-                       if (results.isEmpty()) {
-                           return;
-                       }
-
-                       getViewState().showResults(results);
-                       loading = false;
-                       page++;
-                   }
-
-                   @Override
-                   public void onError(Throwable e) {
-                       loadingLocked = true;
-                       loading = false;
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
-
-        loading = true;
+            @Override
+            public void onComplete() {
+                disposable1.dispose();
+                loading = true;
+            }
+        });
     }
 
     public void loadPopularMovies() {
@@ -151,99 +136,84 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
         loadingLocked = false;
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getPopular(Url.TMDB_API_KEY, Url.en_US, page)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<MovieResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<MovieResponse> observable = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable1 = observable.subscribeWith(new DisposableObserver<MovieResponse>() {
+            @Override
+            public void onNext(MovieResponse response) {
+                List<TmdbObject> results = new ArrayList<>();
 
-                   }
+                if (AndroidUtils.includeAdult()) {
+                    results.addAll(response.movies);
+                } else {
+                    for (Movie movie : response.movies) {
+                        if (!movie.adult) {
+                            results.add(movie);
+                        }
+                    }
+                }
 
-                   @Override
-                   public void onNext(MovieResponse response) {
-                       totalPages = response.totalPages;
+                if (results.isEmpty()) {
+                    getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                    return;
+                }
 
-                       List<TmdbObject> results = new ArrayList<>();
+                getViewState().showResults(results);
+                totalPages = response.totalPages;
+                page++;
+            }
 
-                       if (AndroidUtils.includeAdult()) {
-                           results.addAll(response.movies);
-                       } else {
-                           for (Movie movie : response.movies) {
-                               if (!movie.adult) {
-                                   results.add(movie);
-                               }
-                           }
-                       }
+            @Override
+            public void onError(Throwable e) {
+                getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                e.printStackTrace();
+            }
 
-                       if (results.isEmpty()) {
-                           getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                           return;
-                       }
-
-                       getViewState().showResults(results);
-                       page++;
-                   }
-
-                   @Override
-                   public void onError(Throwable e) {
-                       getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
+            @Override
+            public void onComplete() {}
+        });
     }
 
     public void loadPopularNextMovies() {
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getPopular(Url.TMDB_API_KEY, Url.en_US, page)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<MovieResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<MovieResponse> observable = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable2 = observable.subscribeWith(new DisposableObserver<MovieResponse>() {
+            @Override
+            public void onNext(MovieResponse response) {
+                List<TmdbObject> results = new ArrayList<>();
 
-                   }
+                if (AndroidUtils.includeAdult()) {
+                    results.addAll(response.movies);
+                } else {
+                    for (Movie movie : response.movies) {
+                        if (!movie.adult) {
+                            results.add(movie);
+                        }
+                    }
+                }
 
-                   @Override
-                   public void onNext(MovieResponse response) {
-                       List<TmdbObject> results = new ArrayList<>();
+                if (results.isEmpty()) {
+                    return;
+                }
 
-                       if (AndroidUtils.includeAdult()) {
-                           results.addAll(response.movies);
-                       } else {
-                           for (Movie movie : response.movies) {
-                               if (!movie.adult) {
-                                   results.add(movie);
-                               }
-                           }
-                       }
+                getViewState().showResults(results);
+                loading = false;
+                page++;
+            }
 
-                       if (results.isEmpty()) {
-                           return;
-                       }
+            @Override
+            public void onError(Throwable e) {
+                loadingLocked = true;
+                loading = false;
+                e.printStackTrace();
+            }
 
-                       getViewState().showResults(results);
-                       loading = false;
-                       page++;
-                   }
-
-                   @Override
-                   public void onError(Throwable e) {
-                       loadingLocked = true;
-                       loading = false;
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
-
-        loading = true;
+            @Override
+            public void onComplete() {
+                disposable1.dispose();
+                loading = true;
+            }
+        });
     }
 
     public void loadTopRatedMovies() {
@@ -258,99 +228,84 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
         loadingLocked = false;
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getTopRated(Url.TMDB_API_KEY, Url.en_US, page)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<MovieResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<MovieResponse> observable = service.getTopRated(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable1 = observable.subscribeWith(new DisposableObserver<MovieResponse>() {
+            @Override
+            public void onNext(MovieResponse response) {
+                List<TmdbObject> results = new ArrayList<>();
 
-                   }
+                if (AndroidUtils.includeAdult()) {
+                    results.addAll(response.movies);
+                } else {
+                    for (Movie movie : response.movies) {
+                        if (!movie.adult) {
+                            results.add(movie);
+                        }
+                    }
+                }
 
-                   @Override
-                   public void onNext(MovieResponse response) {
-                       totalPages = response.totalPages;
+                if (results.isEmpty()) {
+                    getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                    return;
+                }
 
-                       List<TmdbObject> results = new ArrayList<>();
+                getViewState().showResults(results);
+                totalPages = response.totalPages;
+                page++;
+            }
 
-                       if (AndroidUtils.includeAdult()) {
-                           results.addAll(response.movies);
-                       } else {
-                           for (Movie movie : response.movies) {
-                               if (!movie.adult) {
-                                   results.add(movie);
-                               }
-                           }
-                       }
+            @Override
+            public void onError(Throwable e) {
+                getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                e.printStackTrace();
+            }
 
-                       if (results.isEmpty()) {
-                           getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                           return;
-                       }
-
-                       getViewState().showResults(results);
-                       page++;
-                   }
-
-                   @Override
-                   public void onError(Throwable e) {
-                       getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
+            @Override
+            public void onComplete() {}
+        });
     }
 
     public void loadTopRatedNextMovies() {
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getTopRated(Url.TMDB_API_KEY, Url.en_US, page)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<MovieResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<MovieResponse> observable = service.getTopRated(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable2 = observable.subscribeWith(new DisposableObserver<MovieResponse>() {
+            @Override
+            public void onNext(MovieResponse response) {
+                List<TmdbObject> results = new ArrayList<>();
 
-                   }
+                if (AndroidUtils.includeAdult()) {
+                    results.addAll(response.movies);
+                } else {
+                    for (Movie movie : response.movies) {
+                        if (!movie.adult) {
+                            results.add(movie);
+                        }
+                    }
+                }
 
-                   @Override
-                   public void onNext(MovieResponse response) {
-                       List<TmdbObject> results = new ArrayList<>();
+                if (results.isEmpty()) {
+                    return;
+                }
 
-                       if (AndroidUtils.includeAdult()) {
-                           results.addAll(response.movies);
-                       } else {
-                           for (Movie movie : response.movies) {
-                               if (!movie.adult) {
-                                   results.add(movie);
-                               }
-                           }
-                       }
+                getViewState().showResults(results);
+                loading = false;
+                page++;
+            }
 
-                       if (results.isEmpty()) {
-                           return;
-                       }
+            @Override
+            public void onError(Throwable e) {
+                loadingLocked = true;
+                loading = false;
+                e.printStackTrace();
+            }
 
-                       getViewState().showResults(results);
-                       loading = false;
-                       page++;
-                   }
+            @Override
+            public void onComplete() {
+                disposable1.dispose();
+                loading = true;
+            }
+        });
 
-                   @Override
-                   public void onError(Throwable e) {
-                       loadingLocked = true;
-                       loading = false;
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
-
-        loading = true;
     }
 
     public void loadUpcomingMovies() {
@@ -365,99 +320,83 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
         loadingLocked = false;
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getUpcoming(Url.TMDB_API_KEY, Url.en_US, page)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<MovieResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<MovieResponse> observable = service.getUpcoming(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable1 = observable.subscribeWith(new DisposableObserver<MovieResponse>() {
+            @Override
+            public void onNext(MovieResponse response) {
+                List<TmdbObject> results = new ArrayList<>();
 
-                   }
+                if (AndroidUtils.includeAdult()) {
+                    results.addAll(response.movies);
+                } else {
+                    for (Movie movie : response.movies) {
+                        if (!movie.adult) {
+                            results.add(movie);
+                        }
+                    }
+                }
 
-                   @Override
-                   public void onNext(MovieResponse response) {
-                       totalPages = response.totalPages;
+                if (results.isEmpty()) {
+                    getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                    return;
+                }
 
-                       List<TmdbObject> results = new ArrayList<>();
+                getViewState().showResults(results);
+                totalPages = response.totalPages;
+                page++;
+            }
 
-                       if (AndroidUtils.includeAdult()) {
-                           results.addAll(response.movies);
-                       } else {
-                           for (Movie movie : response.movies) {
-                               if (!movie.adult) {
-                                   results.add(movie);
-                               }
-                           }
-                       }
+            @Override
+            public void onError(Throwable e) {
+                getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                e.printStackTrace();
+            }
 
-                       if (results.isEmpty()) {
-                           getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                           return;
-                       }
-
-                       getViewState().showResults(results);
-                       page++;
-                   }
-
-                   @Override
-                   public void onError(Throwable e) {
-                       getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
+            @Override
+            public void onComplete() {}
+        });
     }
 
     public void loadUpcomingNextMovies() {
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getUpcoming(Url.TMDB_API_KEY, Url.en_US, page)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<MovieResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<MovieResponse> observable = service.getUpcoming(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable2 = observable.subscribeWith(new DisposableObserver<MovieResponse>() {
+            @Override
+            public void onNext(MovieResponse response) {
+                List<TmdbObject> results = new ArrayList<>();
 
-                   }
+                if (AndroidUtils.includeAdult()) {
+                    results.addAll(response.movies);
+                } else {
+                    for (Movie movie : response.movies) {
+                        if (!movie.adult) {
+                            results.add(movie);
+                        }
+                    }
+                }
 
-                   @Override
-                   public void onNext(MovieResponse response) {
-                       List<TmdbObject> results = new ArrayList<>();
+                if (results.isEmpty()) {
+                    return;
+                }
 
-                       if (AndroidUtils.includeAdult()) {
-                           results.addAll(response.movies);
-                       } else {
-                           for (Movie movie : response.movies) {
-                               if (!movie.adult) {
-                                   results.add(movie);
-                               }
-                           }
-                       }
+                getViewState().showResults(results);
+                loading = false;
+                page++;
+            }
 
-                       if (results.isEmpty()) {
-                           return;
-                       }
+            @Override
+            public void onError(Throwable e) {
+                loadingLocked = true;
+                loading = false;
+                e.printStackTrace();
+            }
 
-                       getViewState().showResults(results);
-                       loading = false;
-                       page++;
-                   }
-
-                   @Override
-                   public void onError(Throwable e) {
-                       loadingLocked = true;
-                       loading = false;
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
-
-        loading = true;
+            @Override
+            public void onComplete() {
+                disposable1.dispose();
+                loading = true;
+            }
+        });
     }
 
     public void loadSimilarMovies(int movieId) {
@@ -472,99 +411,83 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
         loadingLocked = false;
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getSimilar(movieId, Url.TMDB_API_KEY, Url.en_US, page)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<MovieResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<MovieResponse> observable = service.getSimilar(movieId, Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable1 = observable.subscribeWith(new DisposableObserver<MovieResponse>() {
+            @Override
+            public void onNext(MovieResponse response) {
+                List<TmdbObject> results = new ArrayList<>();
 
-                   }
+                if (AndroidUtils.includeAdult()) {
+                    results.addAll(response.movies);
+                } else {
+                    for (Movie movie : response.movies) {
+                        if (!movie.adult) {
+                            results.add(movie);
+                        }
+                    }
+                }
 
-                   @Override
-                   public void onNext(MovieResponse response) {
-                       totalPages = response.totalPages;
+                if (results.isEmpty()) {
+                    getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                    return;
+                }
 
-                       List<TmdbObject> results = new ArrayList<>();
+                getViewState().showResults(results);
+                totalPages = response.totalPages;
+                page++;
+            }
 
-                       if (AndroidUtils.includeAdult()) {
-                           results.addAll(response.movies);
-                       } else {
-                           for (Movie movie : response.movies) {
-                               if (!movie.adult) {
-                                   results.add(movie);
-                               }
-                           }
-                       }
+            @Override
+            public void onError(Throwable e) {
+                getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                e.printStackTrace();
+            }
 
-                       if (results.isEmpty()) {
-                           getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                           return;
-                       }
-
-                       getViewState().showResults(results);
-                       page++;
-                   }
-
-                   @Override
-                   public void onError(Throwable e) {
-                       getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
+            @Override
+            public void onComplete() {}
+        });
     }
 
     public void loadSimilarNextMovies(int movieId) {
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getSimilar(movieId, Url.TMDB_API_KEY, Url.en_US, page)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<MovieResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<MovieResponse> observable = service.getSimilar(movieId, Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable2 = observable.subscribeWith(new DisposableObserver<MovieResponse>() {
+            @Override
+            public void onNext(MovieResponse response) {
+                List<TmdbObject> results = new ArrayList<>();
 
-                   }
+                if (AndroidUtils.includeAdult()) {
+                    results.addAll(response.movies);
+                } else {
+                    for (Movie movie : response.movies) {
+                        if (!movie.adult) {
+                            results.add(movie);
+                        }
+                    }
+                }
 
-                   @Override
-                   public void onNext(MovieResponse response) {
-                       List<TmdbObject> results = new ArrayList<>();
+                if (results.isEmpty()) {
+                    return;
+                }
 
-                       if (AndroidUtils.includeAdult()) {
-                           results.addAll(response.movies);
-                       } else {
-                           for (Movie movie : response.movies) {
-                               if (!movie.adult) {
-                                   results.add(movie);
-                               }
-                           }
-                       }
+                getViewState().showResults(results);
+                loading = false;
+                page++;
+            }
 
-                       if (results.isEmpty()) {
-                           return;
-                       }
+            @Override
+            public void onError(Throwable e) {
+                loadingLocked = true;
+                loading = false;
+                e.printStackTrace();
+            }
 
-                       getViewState().showResults(results);
-                       loading = false;
-                       page++;
-                   }
-
-                   @Override
-                   public void onError(Throwable e) {
-                       loadingLocked = true;
-                       loading = false;
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
-
-        loading = true;
+            @Override
+            public void onComplete() {
+                disposable1.dispose();
+                loading = true;
+            }
+        });
     }
 
     public void loadRelatedMovies(int movieId) {
@@ -579,100 +502,85 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
         loadingLocked = false;
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getRecommendations(movieId, Url.TMDB_API_KEY, Url.en_US, page)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<MovieResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<MovieResponse> observable = service.getRecommendations(movieId, Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable1 = observable.subscribeWith(new DisposableObserver<MovieResponse>() {
+            @Override
+            public void onNext(MovieResponse response) {
+                List<TmdbObject> results = new ArrayList<>();
 
-                   }
+                // todo Нужно избавиться от этих костылей перенести в адаптер
+                if (AndroidUtils.includeAdult()) {
+                    results.addAll(response.movies);
+                } else {
+                    for (Movie movie : response.movies) {
+                        if (!movie.adult) {
+                            results.add(movie);
+                        }
+                    }
+                }
 
-                   @Override
-                   public void onNext(MovieResponse response) {
-                       totalPages = response.totalPages;
+                if (results.isEmpty()) {
+                    getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                    return;
+                }
 
-                       List<TmdbObject> results = new ArrayList<>();
+                getViewState().showResults(results);
+                totalPages = response.totalPages;
+                page++;
+            }
 
-                       // todo Нужно избавиться от этих костылей
-                       if (AndroidUtils.includeAdult()) {
-                           results.addAll(response.movies);
-                       } else {
-                           for (Movie movie : response.movies) {
-                               if (!movie.adult) {
-                                   results.add(movie);
-                               }
-                           }
-                       }
+            @Override
+            public void onError(Throwable e) {
+                getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                e.printStackTrace();
+            }
 
-                       if (results.isEmpty()) {
-                           getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                           return;
-                       }
-
-                       getViewState().showResults(results);
-                       page++;
-                   }
-
-                   @Override
-                   public void onError(Throwable e) {
-                       getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
+            @Override
+            public void onComplete() {}
+        });
     }
 
     public void loadRelatedNextMovies(int movieId) {
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        service.getRecommendations(movieId, Url.TMDB_API_KEY, Url.en_US, page)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<MovieResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<MovieResponse> observable = service.getRecommendations(movieId, Url.TMDB_API_KEY, Url.en_US, page)
+                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable2 = observable.subscribeWith(new DisposableObserver<MovieResponse>() {
+            @Override
+            public void onNext(MovieResponse response) {
+                List<TmdbObject> results = new ArrayList<>();
 
-                   }
+                if (AndroidUtils.includeAdult()) {
+                    results.addAll(response.movies);
+                } else {
+                    for (Movie movie : response.movies) {
+                        if (!movie.adult) {
+                            results.add(movie);
+                        }
+                    }
+                }
 
-                   @Override
-                   public void onNext(MovieResponse response) {
-                       List<TmdbObject> results = new ArrayList<>();
+                if (results.isEmpty()) {
+                    return;
+                }
 
-                       if (AndroidUtils.includeAdult()) {
-                           results.addAll(response.movies);
-                       } else {
-                           for (Movie movie : response.movies) {
-                               if (!movie.adult) {
-                                   results.add(movie);
-                               }
-                           }
-                       }
+                getViewState().showResults(results);
+                loading = false;
+                page++;
+            }
 
-                       if (results.isEmpty()) {
-                           return;
-                       }
+            @Override
+            public void onError(Throwable e) {
+                loadingLocked = true;
+                loading = false;
+                e.printStackTrace();
+            }
 
-                       getViewState().showResults(results);
-                       loading = false;
-                       page++;
-                   }
-
-                   @Override
-                   public void onError(Throwable e) {
-                       loadingLocked = true;
-                       loading = false;
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
-
-        loading = true;
+            @Override
+            public void onComplete() {
+                disposable1.dispose();
+                loading = true;
+            }
+        });
     }
 
     public void loadPersonMovies(int castId) {
@@ -682,50 +590,49 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
         }
 
         PEOPLE service = ApiFactory.createService(PEOPLE.class);
-        service.getMovieCredits(castId, Url.TMDB_API_KEY, Url.en_US)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<MoviePeopleResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<MoviePeopleResponse> observable = service.getMovieCredits(castId, Url.TMDB_API_KEY, Url.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable1 = observable.subscribeWith(new DisposableObserver<MoviePeopleResponse>() {
+            @Override
+            public void onNext(MoviePeopleResponse response) {
+                //List<Movie> crewMovies = response.body().crewMovies;
+                List<TmdbObject> castMovies = new ArrayList<>();
+                //castMovies.addAll(response.body().castMovies);
 
-                   }
+                if (AndroidUtils.includeAdult()) {
+                    //movies.addAll(crewMovies);
+                    castMovies.addAll(response.castMovies);
+                } else {
+                    for (Movie movie : response.castMovies) {
+                        if (!movie.adult) {
+                            castMovies.add(movie);
+                        }
+                    }
+                }
 
-                   @Override
-                   public void onNext(MoviePeopleResponse response) {
-                       //List<Movie> crewMovies = response.body().crewMovies;
-                       List<TmdbObject> castMovies = new ArrayList<>();
-                       //castMovies.addAll(response.body().castMovies);
+                if (castMovies.isEmpty()) {
+                    getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                    return;
+                }
 
-                       if (AndroidUtils.includeAdult()) {
-                           //movies.addAll(crewMovies);
-                           castMovies.addAll(response.castMovies);
-                       } else {
-                           for (Movie movie : response.castMovies) {
-                               if (!movie.adult) {
-                                   castMovies.add(movie);
-                               }
-                           }
-                       }
+                getViewState().showResults(castMovies);
+                page++;
+            }
 
-                       if (castMovies.isEmpty()) {
-                           getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                           return;
-                       }
+            @Override
+            public void onError(Throwable e) {
+                getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                e.printStackTrace();
+            }
 
-                       getViewState().showResults(castMovies);
-                       page++;
-                   }
+            @Override
+            public void onComplete() {}
+        });
+    }
 
-                   @Override
-                   public void onError(Throwable e) {
-                       getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        disposable1.dispose();
+        disposable2.dispose();
     }
 }
