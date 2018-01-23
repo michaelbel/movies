@@ -1,5 +1,7 @@
 package org.michaelbel.moviemade.mvp.presenter;
 
+import android.util.Log;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -15,13 +17,16 @@ import org.michaelbel.moviemade.util.NetworkUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observer;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class GenresPresenter extends MvpPresenter<MvpResultsView> {
+
+    private Disposable disposable;
 
     public void loadGenres() {
         if (NetworkUtils.notConnected()) {
@@ -30,32 +35,29 @@ public class GenresPresenter extends MvpPresenter<MvpResultsView> {
         }
 
         GENRES service = ApiFactory.createService(GENRES.class);
-        service.getMovieList(Url.TMDB_API_KEY, Url.en_US)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<GenresResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<GenresResponse> observable = service.getMovieList(Url.TMDB_API_KEY, Url.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable = observable.subscribeWith(new DisposableObserver<GenresResponse>() {
+            @Override
+            public void onNext(GenresResponse response) {
+                List<TmdbObject> results = new ArrayList<>(response.genres);
+                getViewState().showResults(results);
+            }
 
-                   }
+            @Override
+            public void onError(Throwable e) {
+                getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
+                e.printStackTrace();
+            }
 
-                   @Override
-                   public void onNext(GenresResponse response) {
-                       List<TmdbObject> results = new ArrayList<>();
-                       results.addAll(response.genres);
+            @Override
+            public void onComplete() {}
+        });
+    }
 
-                       getViewState().showResults(results);
-                   }
-
-                   @Override
-                   public void onError(Throwable e) {
-                       getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        disposable.dispose();
+        Log.e("2580", "Disposable dispose"); // todo TEST
     }
 }
