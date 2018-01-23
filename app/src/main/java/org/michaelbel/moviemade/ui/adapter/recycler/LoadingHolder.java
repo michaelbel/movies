@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.ui.adapter.ViewHolder;
+package org.michaelbel.moviemade.ui.adapter.recycler;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
