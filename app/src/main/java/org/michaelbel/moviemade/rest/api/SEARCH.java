@@ -6,7 +6,6 @@ import org.michaelbel.moviemade.rest.response.KeywordsResponse;
 import org.michaelbel.moviemade.rest.response.MovieResponse;
 import org.michaelbel.moviemade.rest.response.PeopleResponse;
 
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -14,7 +13,9 @@ import retrofit2.http.Query;
 public interface SEARCH {
 
     @GET("search/multi?")
-    Observable<?> searchMulti();
+    Observable<?> searchMulti(
+
+    );
 
     @GET("search/movie?")
     Observable<MovieResponse> searchMovies(
@@ -59,7 +60,7 @@ public interface SEARCH {
     );
 
     @GET("search/company?")
-    Flowable<CompanyResponse> searchCompanies(
+    Observable<CompanyResponse> searchCompanies(
         @Query("api_key") String apiKey,
         @Query("query") String query,
         @Query("page") int page
