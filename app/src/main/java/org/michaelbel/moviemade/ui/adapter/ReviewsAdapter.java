@@ -5,7 +5,7 @@ import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.v3.Review;
-import org.michaelbel.moviemade.ui.adapter.ViewHolder.Holder;
+import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.ReviewView;
 
 import java.util.ArrayList;

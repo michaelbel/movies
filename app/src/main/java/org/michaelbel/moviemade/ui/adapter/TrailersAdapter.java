@@ -4,7 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.rest.model.v3.Trailer;
-import org.michaelbel.moviemade.ui.adapter.ViewHolder.Holder;
+import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.trailer.TrailerCompatView;
 
 import java.util.ArrayList;
@@ -14,11 +14,7 @@ public class TrailersAdapter extends RecyclerView.Adapter {
     private ArrayList<Trailer> trailers;
 
     public TrailersAdapter() {
-    }
-
-    @Deprecated
-    public TrailersAdapter(ArrayList<Trailer> trailers) {
-        this.trailers = trailers;
+        trailers = new ArrayList<>();
     }
 
     public void setTrailers(ArrayList<Trailer> results) {
