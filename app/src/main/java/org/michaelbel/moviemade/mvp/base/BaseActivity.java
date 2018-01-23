@@ -119,7 +119,7 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseModel, Med
     public void startTrailers(Movie movie, ArrayList<Trailer> list) {
         Intent intent = new Intent(this, TrailersActivity.class);
         intent.putExtra("movie", movie);
-        intent.putExtra("list", list);
+        intent.putParcelableArrayListExtra("list", list);
         startActivity(intent);
     }
 
