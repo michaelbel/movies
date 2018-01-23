@@ -17,9 +17,10 @@ import org.michaelbel.moviemade.util.NetworkUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observer;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
@@ -29,6 +30,9 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpResultsView> {
     public int totalPages;
     public boolean loading;
     public boolean loadingLocked;
+
+    private Disposable disposable1;
+    private Disposable disposable2;
 
     public void loadPeople() {
         if (NetworkUtils.notConnected()) {
@@ -42,98 +46,90 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpResultsView> {
         loadingLocked = false;
 
         PEOPLE service = ApiFactory.createService(PEOPLE.class);
-        service.getPopular(Url.TMDB_API_KEY, Url.en_US, page)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<PeopleResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<PeopleResponse> observable = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable1 = observable.subscribeWith(new DisposableObserver<PeopleResponse>() {
+            @Override
+            public void onNext(PeopleResponse response) {
+                totalPages = response.totalPages;
 
-                   }
+                List<TmdbObject> results = new ArrayList<>();
 
-                   @Override
-                   public void onNext(PeopleResponse response) {
-                       totalPages = response.totalPages;
+                if (AndroidUtils.includeAdult()) {
+                    results.addAll(response.people);
+                } else {
+                    for (People people : response.people) {
+                        if (!people.adult) {
+                            results.add(people);
+                        }
+                    }
+                }
 
-                       List<TmdbObject> results = new ArrayList<>();
+                if (results.isEmpty()) {
+                    getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
+                    return;
+                }
 
-                       if (AndroidUtils.includeAdult()) {
-                           results.addAll(response.people);
-                       } else {
-                           for (People people : response.people) {
-                               if (!people.adult) {
-                                   results.add(people);
-                               }
-                           }
-                       }
+                getViewState().showResults(results);
+                page++;
+            }
 
-                       if (results.isEmpty()) {
-                           getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
-                           return;
-                       }
+            @Override
+            public void onError(Throwable e) {
+                getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
+                e.printStackTrace();
+            }
 
-                       getViewState().showResults(results);
-                       page++;
-                   }
-
-                   @Override
-                   public void onError(Throwable e) {
-                       getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
+            @Override
+            public void onComplete() {}
+        });
     }
 
     public void loadResults() {
         PEOPLE service = ApiFactory.createService(PEOPLE.class);
-        service.getPopular(Url.TMDB_API_KEY, Url.en_US, page)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<PeopleResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<PeopleResponse> observable = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable2 = observable.subscribeWith(new DisposableObserver<PeopleResponse>() {
+            @Override
+            public void onNext(PeopleResponse response) {
+                List<TmdbObject> results = new ArrayList<>();
 
-                   }
+                if (AndroidUtils.includeAdult()) {
+                    results.addAll(response.people);
+                } else {
+                    for (People people : response.people) {
+                        if (!people.adult) {
+                            results.add(people);
+                        }
+                    }
+                }
 
-                   @Override
-                   public void onNext(PeopleResponse response) {
-                       List<TmdbObject> results = new ArrayList<>();
+                if (results.isEmpty()) {
+                    return;
+                }
 
-                       if (AndroidUtils.includeAdult()) {
-                           results.addAll(response.people);
-                       } else {
-                           for (People people : response.people) {
-                               if (!people.adult) {
-                                   results.add(people);
-                               }
-                           }
-                       }
+                getViewState().showResults(results);
+                loading = false;
+                page++;
+            }
 
-                       if (results.isEmpty()) {
-                           return;
-                       }
+            @Override
+            public void onError(Throwable e) {
+                loadingLocked = true;
+                loading = false;
+                e.printStackTrace();
+            }
 
-                       getViewState().showResults(results);
-                       loading = false;
-                       page++;
-                   }
+            @Override
+            public void onComplete() {
+                disposable1.dispose();
+                loading = true;
+            }
+        });
+    }
 
-                   @Override
-                   public void onError(Throwable e) {
-                       loadingLocked = true;
-                       loading = false;
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
-
-        loading = true;
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        disposable1.dispose();
+        disposable2.dispose();
     }
 }
