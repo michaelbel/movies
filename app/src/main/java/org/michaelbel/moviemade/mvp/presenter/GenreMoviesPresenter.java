@@ -105,6 +105,7 @@ public class GenreMoviesPresenter extends MvpPresenter<MvpResultsView> {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        disposable1.dispose();
         disposable2.dispose();
     }
 }
