@@ -16,9 +16,10 @@ import org.michaelbel.moviemade.util.NetworkUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observer;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
@@ -30,6 +31,9 @@ public class GenreMoviesPresenter extends MvpPresenter<MvpResultsView> {
     public boolean loadingLocked;
 
     private int genreId;
+
+    private Disposable disposable1;
+    private Disposable disposable2;
 
     public void loadMovies(int genreId) {
         this.genreId = genreId;
@@ -50,71 +54,57 @@ public class GenreMoviesPresenter extends MvpPresenter<MvpResultsView> {
         loadingLocked = false;
 
         GENRES service = ApiFactory.createService(GENRES.class);
-        service.getMovies(genreId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<MoviesResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<MoviesResponse> observable = service.getMovies(genreId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable1 = observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
+            @Override
+            public void onNext(MoviesResponse response) {
+                List<TmdbObject> results = new ArrayList<>(response.movies);
+                getViewState().showResults(results);
+                totalPages = response.totalPages;
+                page++;
+            }
 
-                   }
+            @Override
+            public void onError(Throwable e) {
+                getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                e.printStackTrace();
+            }
 
-                   @Override
-                   public void onNext(MoviesResponse response) {
-                       totalPages = response.totalPages;
-
-                       List<TmdbObject> results = new ArrayList<>();
-                       results.addAll(response.movies);
-
-                       getViewState().showResults(results);
-                       page++;
-                   }
-
-                   @Override
-                   public void onError(Throwable e) {
-                       getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
+            @Override
+            public void onComplete() {}
+        });
     }
 
     public void loadResults() {
         GENRES service = ApiFactory.createService(GENRES.class);
-        service.getMovies(genreId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<MoviesResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<MoviesResponse> observable = service.getMovies(genreId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable2 = observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
+            @Override
+            public void onNext(MoviesResponse response) {
+                List<TmdbObject> results = new ArrayList<>(response.movies);
+                getViewState().showResults(results);
+                loading = false;
+                page++;
+            }
 
-                   }
+            @Override
+            public void onError(Throwable e) {
+                loadingLocked = true;
+                loading = false;
+                e.printStackTrace();
+            }
 
-                   @Override
-                   public void onNext(MoviesResponse response) {
-                       List<TmdbObject> results = new ArrayList<>();
-                       results.addAll(response.movies);
+            @Override
+            public void onComplete() {
+                disposable1.dispose();
+                loading = true;
+            }
+        });
+    }
 
-                       getViewState().showResults(results);
-                       loading = false;
-                       page++;
-                   }
-
-                   @Override
-                   public void onError(Throwable e) {
-                       loadingLocked = true;
-                       loading = false;
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
-
-        loading = true;
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        disposable2.dispose();
     }
 }
