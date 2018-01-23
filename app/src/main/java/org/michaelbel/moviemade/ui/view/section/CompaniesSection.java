@@ -12,7 +12,7 @@ import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.rest.model.v3.Company;
-import org.michaelbel.moviemade.ui.adapter.Holder;
+import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.ChipView2;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 
