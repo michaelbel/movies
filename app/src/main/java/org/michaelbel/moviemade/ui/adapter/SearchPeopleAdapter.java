@@ -5,16 +5,27 @@ import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.v3.People;
+import org.michaelbel.moviemade.ui.adapter.ViewHolder.Holder;
 import org.michaelbel.moviemade.ui.view.CastView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SearchPeopleAdapter extends RecyclerView.Adapter {
 
     private List<TmdbObject> searches;
 
-    public SearchPeopleAdapter(List<TmdbObject> searches) {
-        this.searches = searches;
+    public SearchPeopleAdapter() {
+        searches = new ArrayList<>();
+    }
+
+    public void addSearches(List<TmdbObject> results) {
+        searches.addAll(results);
+        notifyItemRangeInserted(searches.size() + 1, results.size());
+    }
+
+    public List<TmdbObject> getSearches() {
+        return searches;
     }
 
     @Override
@@ -36,9 +47,5 @@ public class SearchPeopleAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemCount() {
         return searches != null ? searches.size() : 0;
-    }
-
-    public List<TmdbObject> getPeople() {
-        return searches;
     }
 }

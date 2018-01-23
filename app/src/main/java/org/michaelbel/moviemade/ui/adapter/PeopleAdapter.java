@@ -5,16 +5,27 @@ import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.v3.People;
+import org.michaelbel.moviemade.ui.adapter.ViewHolder.Holder;
 import org.michaelbel.moviemade.ui.view.CastView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PeopleAdapter extends RecyclerView.Adapter {
 
     private List<TmdbObject> people;
 
-    public PeopleAdapter(List<TmdbObject> people) {
-        this.people = people;
+    public PeopleAdapter() {
+        people = new ArrayList<>();
+    }
+
+    public void addPeople(List<TmdbObject> results) {
+        people.addAll(results);
+        notifyItemRangeInserted(people.size() + 1, results.size());
+    }
+
+    public List<TmdbObject> getPeople() {
+        return people;
     }
 
     @Override

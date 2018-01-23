@@ -6,19 +6,30 @@ import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Movie;
+import org.michaelbel.moviemade.ui.adapter.ViewHolder.Holder;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewListBig;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewPoster;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.DateUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MoviesAdapter extends RecyclerView.Adapter {
 
     private List<TmdbObject> movies;
 
-    public MoviesAdapter(List<TmdbObject> movies) {
-        this.movies = movies;
+    public MoviesAdapter() {
+        movies = new ArrayList<>();
+    }
+
+    public void addMovies(List<TmdbObject> results) {
+        movies.addAll(results);
+        notifyItemRangeInserted(movies.size() + 1, results.size());
+    }
+
+    public List<TmdbObject> getMovies() {
+        return movies;
     }
 
     @Override
