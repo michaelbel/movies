@@ -2,7 +2,6 @@ package org.michaelbel.moviemade;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -43,7 +42,10 @@ public class MovieActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movie);
 
-        if (savedInstanceState == null) {
+        movie = (Movie) getIntent().getSerializableExtra("movie");
+        movieRealm = getIntent().getParcelableExtra("movieRealm");
+
+        /*if (savedInstanceState == null) {
             Uri data = getIntent().getData();
             String sMovieId;
 
@@ -59,10 +61,7 @@ public class MovieActivity extends BaseActivity {
                     movieId = Integer.parseInt(sMovieId);
                 }
             }
-
-            movie = (Movie) getIntent().getSerializableExtra("movie");
-            movieRealm = getIntent().getParcelableExtra("movieRealm");
-        }
+        }*/
 
         binding.toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(binding.toolbar));
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);

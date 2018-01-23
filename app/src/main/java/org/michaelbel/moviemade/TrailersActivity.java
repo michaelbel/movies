@@ -30,7 +30,7 @@ public class TrailersActivity extends BaseActivity {
         binding.toolbarTitle.setTitle(R.string.Trailers);
         binding.toolbarTitle.setSubtitle(movie.title);
 
-        ArrayList<Trailer> list = getIntent().getParcelableExtra("list");
+        ArrayList<Trailer> list = getIntent().getParcelableArrayListExtra("list");
 
         startFragment(TrailersFragment.newInstance(list), binding.fragmentView);
     }
