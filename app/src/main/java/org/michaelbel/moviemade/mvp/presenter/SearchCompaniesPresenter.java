@@ -11,13 +11,14 @@ import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.SEARCH;
 import org.michaelbel.moviemade.rest.response.CompanyResponse;
 import org.michaelbel.moviemade.util.NetworkUtils;
-import org.reactivestreams.Subscription;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.FlowableSubscriber;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
@@ -29,6 +30,9 @@ public class SearchCompaniesPresenter extends MvpPresenter<MvpSearchView> {
     public boolean loadingLocked;
 
     private String currentQuery;
+
+    private Disposable disposable1;
+    private Disposable disposable2;
 
     public void search(String query) {
         page = 1;
@@ -45,81 +49,59 @@ public class SearchCompaniesPresenter extends MvpPresenter<MvpSearchView> {
         }
 
         SEARCH service = ApiFactory.createService(SEARCH.class);
-        service.searchCompanies(Url.TMDB_API_KEY, query, page)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new FlowableSubscriber<CompanyResponse>() {
-                   @Override
-                   public void onSubscribe(Subscription s) {
+        Observable<CompanyResponse> observable = service.searchCompanies(Url.TMDB_API_KEY, query, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable1 = observable.subscribeWith(new DisposableObserver<CompanyResponse>() {
+            @Override
+            public void onNext(CompanyResponse response) {
+                List<TmdbObject> results = new ArrayList<>(response.companies);
+                getViewState().searchComplete(results, response.totalResults);
+                totalPages = response.totalPages;
+                page++;
+            }
 
-                   }
+            @Override
+            public void onError(Throwable e) {
+                getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
+                e.printStackTrace();
+            }
 
-                   @Override
-                   public void onNext(CompanyResponse response) {
-                       totalPages = response.totalPages;
-
-                       List<TmdbObject> results = new ArrayList<>();
-                       results.addAll(response.companies);
-
-                       if (results.isEmpty()) {
-                           getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
-                           return;
-                       }
-
-                       getViewState().searchComplete(results, response.totalResults);
-                       page++;
-                   }
-
-                   @Override
-                   public void onError(Throwable t) {
-                       getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
+            @Override
+            public void onComplete() {}
+        });
     }
 
     public void loadResults() {
         SEARCH service = ApiFactory.createService(SEARCH.class);
-        service.searchCompanies(Url.TMDB_API_KEY, currentQuery, page)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new FlowableSubscriber<CompanyResponse>() {
-                   @Override
-                   public void onSubscribe(Subscription s) {
+        Observable<CompanyResponse> observable = service.searchCompanies(Url.TMDB_API_KEY, currentQuery, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable2 = observable.subscribeWith(new DisposableObserver<CompanyResponse>() {
+            @Override
+            public void onNext(CompanyResponse response) {
+                List<TmdbObject> results = new ArrayList<>(response.companies);
+                getViewState().nextPageLoaded(results);
+                loading = false;
+                page++;
+            }
 
-                   }
+            @Override
+            public void onError(Throwable e) {
+                loadingLocked = true;
+                loading = false;
+                e.printStackTrace();
+            }
 
-                   @Override
-                   public void onNext(CompanyResponse response) {
-                       List<TmdbObject> results = new ArrayList<>();
-                       results.addAll(response.companies);
+            @Override
+            public void onComplete() {
+                disposable1.dispose();
+                loading = true;
+            }
+        });
+    }
 
-                       if (results.isEmpty()) {
-                           return;
-                       }
-
-                       getViewState().nextPageLoaded(results);
-                       page++;
-                       loading = false;
-                   }
-
-                   @Override
-                   public void onError(Throwable t) {
-                       loadingLocked = true;
-                       loading = false;
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
-
-        loading = true;
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        disposable1.dispose();
+        disposable2.dispose();
     }
 
     /*private void addToSearchHistory(String query) {

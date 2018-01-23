@@ -16,9 +16,10 @@ import org.michaelbel.moviemade.util.NetworkUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observer;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
@@ -30,6 +31,9 @@ public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView> {
     public boolean loadingLocked;
 
     private String currentQuery;
+
+    private Disposable disposable1;
+    private Disposable disposable2;
 
     public void search(String query) {
         page = 1;
@@ -46,81 +50,59 @@ public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView> {
         }
 
         SEARCH service = ApiFactory.createService(SEARCH.class);
-        service.searchPeople(Url.TMDB_API_KEY, Url.en_US, query, page, AndroidUtils.includeAdult(), null)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<PeopleResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<PeopleResponse> observable = service.searchPeople(Url.TMDB_API_KEY, Url.en_US, query, page, AndroidUtils.includeAdult(), null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable1 = observable.subscribeWith(new DisposableObserver<PeopleResponse>() {
+            @Override
+            public void onNext(PeopleResponse response) {
+                List<TmdbObject> results = new ArrayList<>(response.people);
+                getViewState().searchComplete(results, response.totalResults);
+                totalPages = response.totalPages;
+                page++;
+            }
 
-                   }
+            @Override
+            public void onError(Throwable e) {
+                getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
+                e.printStackTrace();
+            }
 
-                   @Override
-                   public void onNext(PeopleResponse response) {
-                       totalPages = response.totalPages;
-
-                       List<TmdbObject> results = new ArrayList<>();
-                       results.addAll(response.people);
-
-                       if (results.isEmpty()) {
-                           getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
-                           return;
-                       }
-
-                       getViewState().searchComplete(results, response.totalResults);
-                       page++;
-                   }
-
-                   @Override
-                   public void onError(Throwable e) {
-                       getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
+            @Override
+            public void onComplete() {}
+        });
     }
 
     public void loadResults() {
         SEARCH service = ApiFactory.createService(SEARCH.class);
-        service.searchPeople(Url.TMDB_API_KEY, Url.en_US, currentQuery, page, AndroidUtils.includeAdult(), null)
-               .subscribeOn(Schedulers.io())
-               .observeOn(AndroidSchedulers.mainThread())
-               .subscribe(new Observer<PeopleResponse>() {
-                   @Override
-                   public void onSubscribe(Disposable d) {
+        Observable<PeopleResponse> observable = service.searchPeople(Url.TMDB_API_KEY, Url.en_US, currentQuery, page, AndroidUtils.includeAdult(), null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposable2 = observable.subscribeWith(new DisposableObserver<PeopleResponse>() {
+            @Override
+            public void onNext(PeopleResponse response) {
+                List<TmdbObject> results = new ArrayList<>(response.people);
+                getViewState().nextPageLoaded(results);
+                loading = false;
+                page++;
+            }
 
-                   }
+            @Override
+            public void onError(Throwable e) {
+                loadingLocked = true;
+                loading = false;
+                e.printStackTrace();
+            }
 
-                   @Override
-                   public void onNext(PeopleResponse response) {
-                       List<TmdbObject> results = new ArrayList<>();
-                       results.addAll(response.people);
+            @Override
+            public void onComplete() {
+                disposable1.dispose();
+                loading = true;
+            }
+        });
+    }
 
-                       if (results.isEmpty()) {
-                           return;
-                       }
-
-                       getViewState().nextPageLoaded(results);
-                       page++;
-                       loading = false;
-                   }
-
-                   @Override
-                   public void onError(Throwable e) {
-                       loadingLocked = true;
-                       loading = false;
-                   }
-
-                   @Override
-                   public void onComplete() {
-
-                   }
-               });
-
-        loading = true;
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        disposable1.dispose();
+        disposable2.dispose();
     }
 
     /*private void addToSearchHistory(String query) {
