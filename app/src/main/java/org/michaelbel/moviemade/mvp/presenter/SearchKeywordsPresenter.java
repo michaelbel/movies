@@ -92,16 +92,22 @@ public class SearchKeywordsPresenter extends MvpPresenter<MvpSearchView> {
             @Override
             public void onComplete() {
                 disposable1.dispose();
-                loading = true;
             }
         });
+        loading = true;
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        disposable1.dispose();
-        disposable2.dispose();
+
+        if (disposable1 != null && !disposable1.isDisposed()) {
+            disposable1.dispose();
+        }
+
+        if (disposable2 != null && !disposable2.isDisposed()) {
+            disposable2.dispose();
+        }
     }
 
     /*private void addToSearchHistory(String query) {

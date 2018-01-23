@@ -56,6 +56,9 @@ public class CastMoviePresenter extends MvpPresenter<MvpResultsView> {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        disposable.dispose();
+
+        if (disposable != null && !disposable.isDisposed()) {
+            disposable.dispose();
+        }
     }
 }

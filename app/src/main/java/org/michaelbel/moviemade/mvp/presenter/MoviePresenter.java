@@ -185,11 +185,25 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        disposable1.dispose();
-        disposable2.dispose();
-        disposable3.dispose();
-        disposable4.dispose();
-        disposable5.dispose();
+        if (disposable1 != null && !disposable1.isDisposed()) {
+            disposable1.dispose();
+        }
+
+        if (disposable2 != null && !disposable2.isDisposed()) {
+            disposable2.dispose();
+        }
+
+        if (disposable3 != null && !disposable3.isDisposed()) {
+            disposable3.dispose();
+        }
+
+        if (disposable4 != null && !disposable4.isDisposed()) {
+            disposable4.dispose();
+        }
+
+        if (disposable5 != null && !disposable5.isDisposed()) {
+            disposable5.dispose();
+        }
     }
 
 //--------------------------------------------------------------------------------------------------

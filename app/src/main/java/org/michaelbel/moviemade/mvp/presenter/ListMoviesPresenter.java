@@ -119,9 +119,9 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
             @Override
             public void onComplete() {
                 disposable1.dispose();
-                loading = true;
             }
         });
+        loading = true;
     }
 
     public void loadPopularMovies() {
@@ -211,9 +211,9 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
             @Override
             public void onComplete() {
                 disposable1.dispose();
-                loading = true;
             }
         });
+        loading = true;
     }
 
     public void loadTopRatedMovies() {
@@ -302,10 +302,9 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
             @Override
             public void onComplete() {
                 disposable1.dispose();
-                loading = true;
             }
         });
-
+        loading = true;
     }
 
     public void loadUpcomingMovies() {
@@ -394,9 +393,9 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
             @Override
             public void onComplete() {
                 disposable1.dispose();
-                loading = true;
             }
         });
+        loading = true;
     }
 
     public void loadSimilarMovies(int movieId) {
@@ -485,9 +484,9 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
             @Override
             public void onComplete() {
                 disposable1.dispose();
-                loading = true;
             }
         });
+        loading = true;
     }
 
     public void loadRelatedMovies(int movieId) {
@@ -542,8 +541,7 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
 
     public void loadRelatedNextMovies(int movieId) {
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        Observable<MovieResponse> observable = service.getRecommendations(movieId, Url.TMDB_API_KEY, Url.en_US, page)
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<MovieResponse> observable = service.getRecommendations(movieId, Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposable2 = observable.subscribeWith(new DisposableObserver<MovieResponse>() {
             @Override
             public void onNext(MovieResponse response) {
@@ -578,9 +576,9 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
             @Override
             public void onComplete() {
                 disposable1.dispose();
-                loading = true;
             }
         });
+        loading = true;
     }
 
     public void loadPersonMovies(int castId) {
@@ -632,7 +630,12 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        disposable1.dispose();
-        disposable2.dispose();
+        if (disposable1 != null && !disposable1.isDisposed()) {
+            disposable1.dispose();
+        }
+
+        if (disposable2 != null && !disposable2.isDisposed()) {
+            disposable2.dispose();
+        }
     }
 }

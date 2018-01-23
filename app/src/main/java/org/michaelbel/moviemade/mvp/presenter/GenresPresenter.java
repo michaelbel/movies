@@ -57,7 +57,10 @@ public class GenresPresenter extends MvpPresenter<MvpResultsView> {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        disposable.dispose();
-        Log.e("2580", "Disposable dispose"); // todo TEST
+
+        if (disposable != null && !disposable.isDisposed()) {
+            disposable.dispose();
+            Log.e("2580", "Disposable dispose"); // todo TEST
+        }
     }
 }
