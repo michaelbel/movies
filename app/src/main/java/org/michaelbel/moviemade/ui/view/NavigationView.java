@@ -23,7 +23,7 @@ import android.widget.TextView;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.ui.adapter.Holder;
+import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.cell.DividerCell;
 import org.michaelbel.moviemade.ui.view.cell.DrawerActionCell;
 import org.michaelbel.moviemade.ui.view.cell.EmptyCell;
@@ -313,7 +313,7 @@ public class NavigationView extends FrameLayout {
 
                     @Override
                     public void onFailure(@NonNull Call<Account> call, @NonNull Throwable t) {
-                        // todo Error
+
                     }
                 });
             }
