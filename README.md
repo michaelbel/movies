@@ -34,6 +34,7 @@ Take a look at [assets/config.properties][config-properties] and fill it with [y
  * [Gson](https://github.com/google/gson)
  * [Retrofit](https://github.com/square/retrofit)
  * [Picasso](https://github.com/square/picasso)
+ * [RxJava](https://github.com/ReactiveX/RxJava)
  * [Moxy](https://github.com/Arello-Mobile/Moxy)
  * [GestureViews](https://github.com/alexvasilkov/GestureViews)
  * [ChipsLayoutManager](https://github.com/BelooS/ChipsLayoutManager)
