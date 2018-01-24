@@ -1,9 +1,10 @@
-package org.michaelbel.moviemade;
+package org.michaelbel.moviemade.ui;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.databinding.ActivityAboutBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.ui.fragment.AboutFragment;

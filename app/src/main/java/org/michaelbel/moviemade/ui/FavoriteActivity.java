@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade;
+package org.michaelbel.moviemade.ui;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -6,31 +6,32 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.databinding.ActivityWatchlistBinding;
+import org.michaelbel.moviemade.databinding.ActivityFavoriteBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
-import org.michaelbel.moviemade.ui.fragment.WatchlistMoviesFragment;
+import org.michaelbel.moviemade.ui.fragment.FavoriteMoviesFragment;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
 
-public class WatchlistActivity extends BaseActivity {
+public class FavoriteActivity extends BaseActivity {
 
-    public ActivityWatchlistBinding binding;
+    public ActivityFavoriteBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_watchlist);
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_favorite);
 
         binding.toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(binding.toolbar));
         binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(binding.toolbar);
         binding.toolbar.setNavigationOnClickListener(view -> finish());
 
-        binding.toolbarTitle.setText(R.string.Watchlist);
+        binding.toolbarTitle.setText(R.string.Favorites);
 
         FragmentsPagerAdapter adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
-        adapter.addFragment(new WatchlistMoviesFragment(), R.string.Movies);
+        adapter.addFragment(new FavoriteMoviesFragment(), R.string.Movies);
 
         binding.viewPager.setAdapter(adapter);
 

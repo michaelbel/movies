@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade;
+package org.michaelbel.moviemade.ui;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -13,6 +13,7 @@ import android.view.WindowManager;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.databinding.ActivityGenresBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;

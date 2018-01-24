@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade;
+package org.michaelbel.moviemade.ui;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.databinding.ActivityPersonBinding;
