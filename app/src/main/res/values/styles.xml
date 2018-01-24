@@ -50,7 +50,9 @@
         <item name="android:textSize">14sp</item>
     </style>
 
-
+    <style name="WhiteProgressBar" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">@color/night_blue_backgroundColor</item>
+    </style>
 
 
     <style name="App" />
