@@ -4,29 +4,29 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.rest.TmdbObject;
-import org.michaelbel.moviemade.rest.model.v3.People;
+import org.michaelbel.moviemade.rest.model.v3.Collection;
 import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.adapter.recycler.LoadingHolder;
+import org.michaelbel.moviemade.ui.view.CollectionView;
 import org.michaelbel.moviemade.ui.view.LoadingView;
-import org.michaelbel.moviemade.ui.view.PersonView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaginationPeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PaginationCollectionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final int ITEM = 0;
     private final int LOADING = 1;
 
-    private List<TmdbObject> people;
+    private List<TmdbObject> collections;
     private boolean isLoadingAdded = false;
 
-    public PaginationPeopleAdapter() {
-        people = new ArrayList<>();
+    public PaginationCollectionsAdapter() {
+        collections = new ArrayList<>();
     }
 
-    public List<TmdbObject> getPeople() {
-        return people;
+    public List<TmdbObject> getCollections() {
+        return collections;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class PaginationPeopleAdapter extends RecyclerView.Adapter<RecyclerView.V
         RecyclerView.ViewHolder viewHolder = null;
 
         if (viewType == ITEM) {
-            viewHolder = new Holder(new PersonView(parent.getContext()));
+            viewHolder = new Holder(new CollectionView(parent.getContext()));
         } else if (viewType == LOADING) {
             viewHolder = new LoadingHolder(new LoadingView(parent.getContext()));
         }
@@ -44,45 +44,44 @@ public class PaginationPeopleAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        People p = (People) people.get(position);
+        Collection collection = (Collection) collections.get(position);
 
         if (getItemViewType(position) == ITEM) {
-            PersonView view = (PersonView) ((Holder) holder).itemView;
-            view.setName(p.name)
-                .setCharacter(String.valueOf(p.popularity))
-                .setProfile(p.profilePath)
-                .setDivider(true);
+            CollectionView view = (CollectionView) ((Holder) holder).itemView;
+            view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            view.addImage(collection.backdropPath);
+            view.addName(collection.name);
         }
     }
 
     @Override
     public int getItemCount() {
-        return people != null ? people.size() : 0;
+        return collections != null ? collections.size() : 0;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return (position == people.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
+        return (position == collections.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
     }
 
 //--------------------------------------------------------------------------------------------------
 
-    public void add(TmdbObject p) {
-        people.add(p);
-        notifyItemInserted(people.size() - 1);
+    public void add(TmdbObject collection) {
+        collections.add(collection);
+        notifyItemInserted(collections.size() - 1);
     }
 
-    public void addAll(List<TmdbObject> people) {
-        for (TmdbObject p : people) {
-            add(p);
+    public void addAll(List<TmdbObject> collections) {
+        for (TmdbObject collection : collections) {
+            add(collection);
         }
     }
 
-    public void remove(TmdbObject p) {
-        int position = people.indexOf(p);
+    public void remove(TmdbObject collection) {
+        int position = collections.indexOf(collection);
 
         if (position > -1) {
-            people.remove(position);
+            collections.remove(position);
             notifyItemRemoved(position);
         }
     }
@@ -101,22 +100,22 @@ public class PaginationPeopleAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     public void addLoadingFooter() {
         isLoadingAdded = true;
-        add(new People());
+        add(new Collection());
     }
 
     public void removeLoadingFooter() {
         isLoadingAdded = false;
 
-        int position = people.size() - 1;
+        int position = collections.size() - 1;
         TmdbObject result = getItem(position);
 
         if (result != null) {
-            people.remove(position);
+            collections.remove(position);
             notifyItemRemoved(position);
         }
     }
 
     public TmdbObject getItem(int position) {
-        return people.get(position);
+        return collections.get(position);
     }
 }
