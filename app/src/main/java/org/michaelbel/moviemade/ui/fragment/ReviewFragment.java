@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.ReviewActivity;
+import org.michaelbel.moviemade.ui.ReviewActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.browser.Browser;
