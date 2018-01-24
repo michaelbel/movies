@@ -31,6 +31,9 @@ public class People extends TmdbObject implements Parcelable {
     @SerializedName("known_for")
     public List<Movie> movies;
 
+    public People() {
+    }
+
     protected People(Parcel in) {
         profilePath = in.readString();
         adult = in.readByte() != 0x00;

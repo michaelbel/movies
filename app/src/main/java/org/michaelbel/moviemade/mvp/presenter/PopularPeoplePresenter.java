@@ -5,7 +5,7 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
-import org.michaelbel.moviemade.mvp.view.MvpResultsView;
+import org.michaelbel.moviemade.mvp.view.MvpResultsView2;
 import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.PEOPLE;
@@ -21,32 +21,25 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
-public class PopularPeoplePresenter extends MvpPresenter<MvpResultsView> {
+public class PopularPeoplePresenter extends MvpPresenter<MvpResultsView2> {
 
-    public int page;
+    public int page = 1;
     public int totalPages;
-    public boolean loading;
-    public boolean loadingLocked;
+    public boolean isLoading = false;
+    public boolean isLastPage = false;
 
-    private Disposable disposable1;
-    private Disposable disposable2;
+    private Disposable disposable1, disposable2;
 
-    public void loadPeople() {
+    public void loadFirstPage() {
         if (NetworkUtils.notConnected()) {
             getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
             return;
         }
 
-        page = 1;
-        totalPages = 0;
-        loading = false;
-        loadingLocked = false;
-
         PEOPLE service = ApiFactory.createService(PEOPLE.class);
-        Observable<PeopleResponse> observable = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<PeopleResponse> observable = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page).observeOn(AndroidSchedulers.mainThread());
         disposable1 = observable.subscribeWith(new DisposableObserver<PeopleResponse>() {
             @Override
             public void onNext(PeopleResponse response) {
@@ -69,8 +62,7 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpResultsView> {
                     return;
                 }
 
-                getViewState().showResults(results);
-                page++;
+                getViewState().showResults(results, true);
             }
 
             @Override
@@ -84,9 +76,9 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpResultsView> {
         });
     }
 
-    public void loadResults() {
+    public void loadNextPage() {
         PEOPLE service = ApiFactory.createService(PEOPLE.class);
-        Observable<PeopleResponse> observable = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<PeopleResponse> observable = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page).observeOn(AndroidSchedulers.mainThread());
         disposable2 = observable.subscribeWith(new DisposableObserver<PeopleResponse>() {
             @Override
             public void onNext(PeopleResponse response) {
@@ -106,15 +98,11 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpResultsView> {
                     return;
                 }
 
-                getViewState().showResults(results);
-                loading = false;
-                page++;
+                getViewState().showResults(results, false);
             }
 
             @Override
             public void onError(Throwable e) {
-                loadingLocked = true;
-                loading = false;
                 e.printStackTrace();
             }
 
@@ -123,7 +111,6 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpResultsView> {
                 disposable1.dispose();
             }
         });
-        loading = true;
     }
 
     @Override

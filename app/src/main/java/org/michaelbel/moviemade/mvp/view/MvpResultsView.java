@@ -7,6 +7,7 @@ import org.michaelbel.moviemade.rest.TmdbObject;
 
 import java.util.List;
 
+@Deprecated
 public interface MvpResultsView extends MvpView {
 
     void showResults(List<TmdbObject> results);

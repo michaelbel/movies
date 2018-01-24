@@ -19,19 +19,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import org.michaelbel.bottomsheetdialog.BottomSheet;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.SettingsActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Moviemade;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.eventbus.Events;
-import org.michaelbel.moviemade.ui.adapter.Holder;
+import org.michaelbel.moviemade.ui.SettingsActivity;
+import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.cell.EmptyCell;
 import org.michaelbel.moviemade.ui.view.cell.TextCell;
 import org.michaelbel.moviemade.ui.view.cell.TextDetailCell;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.AndroidUtils;
+import org.michaelbel.moviemade.util.AndroidUtilsDev;
 import org.michaelbel.moviemade.util.ScreenUtils;
 
 public class SettingsFragment extends Fragment {
@@ -42,11 +42,12 @@ public class SettingsFragment extends Fragment {
     //private int storageUsageRow;
     //private int searchHistoryRow;
     //private int emptyRow1;
-    private int viewTypeRow;
+    //private int viewTypeRow;
     //private int imageQualityRow;
     private int adultRow;
     private int inAppBrowserRow;
     private int scrollToTopRow;
+    private int zoomReviewRow;
     private int emptyRow2;
 
     private String[] viewType = new String[] { "List Big", "Posters" };
@@ -93,11 +94,12 @@ public class SettingsFragment extends Fragment {
         //storageUsageRow = rowCount++;
         //searchHistoryRow = rowCount++;
         //emptyRow1 = rowCount++;
-        viewTypeRow = rowCount++;
+        //viewTypeRow = rowCount++;
         //imageQualityRow = rowCount++;
         adultRow = rowCount++;
         inAppBrowserRow = rowCount++;
         scrollToTopRow = rowCount++;
+        zoomReviewRow = rowCount++;
         emptyRow2 = rowCount++;
 
         prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
@@ -112,7 +114,7 @@ public class SettingsFragment extends Fragment {
                 activity.startFragment(new StorageFragment(), activity.binding.fragmentView, "storageFragment");
             } else if (position == searchHistoryRow) {
                 activity.startFragment(new SearchHistoryFragment(), activity.binding.fragmentView, "searchHistoryFragment");
-            } else*/ if (position == viewTypeRow) {
+            } else if (position == viewTypeRow) {
                 BottomSheet.Builder builder = new BottomSheet.Builder(activity);
                 builder.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
                 builder.setItemTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
@@ -130,7 +132,7 @@ public class SettingsFragment extends Fragment {
                     ((Moviemade) activity.getApplication()).eventBus().send(new Events.MovieListRefreshLayout());
                 });
                 builder.show();
-            } /*else if (position == imageQualityRow) {
+            } else if (position == imageQualityRow) {
                 BottomSheet.Builder builder = new BottomSheet.Builder(activity);
                 builder.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
                 builder.setItemTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
@@ -196,7 +198,7 @@ public class SettingsFragment extends Fragment {
                     ((Moviemade) activity.getApplication()).eventBus().send(new Events.MovieListUpdateImageQuality());
                 });
                 builder.show();
-            }*/ else if (position == inAppBrowserRow) {
+            } else*/ if (position == inAppBrowserRow) {
                 SharedPreferences prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 boolean enable = prefs.getBoolean("in_app_browser", true);
@@ -219,6 +221,15 @@ public class SettingsFragment extends Fragment {
                 SharedPreferences.Editor editor = prefs.edit();
                 boolean enable = prefs.getBoolean("scroll_to_top", true);
                 editor.putBoolean("scroll_to_top", !enable);
+                editor.apply();
+                if (view instanceof TextDetailCell) {
+                    ((TextDetailCell) view).setChecked(!enable);
+                }
+            } else if (position == zoomReviewRow) {
+                SharedPreferences prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                boolean enable = prefs.getBoolean("zoom_review", true);
+                editor.putBoolean("zoom_review", !enable);
                 editor.apply();
                 if (view instanceof TextDetailCell) {
                     ((TextDetailCell) view).setChecked(!enable);
@@ -298,16 +309,23 @@ public class SettingsFragment extends Fragment {
                     cell.setText(getString(R.string.ImageQuality));
                     cell.setValue(customSettings ? "Custom" : imageQuality);
                     cell.setDivider(true);
-                }*/ else if (position == viewTypeRow) {
+                } else if (position == viewTypeRow) {
                     cell.setMode(TextDetailCell.MODE_DEFAULT);
                     cell.setText(R.string.ViewType);
                     cell.setValue(viewType[AndroidUtils.viewType()]);
                     cell.setDivider(true);
-                } else if (position == scrollToTopRow) {
+                }*/ else if (position == scrollToTopRow) {
                     cell.setMode(TextDetailCell.MODE_SWITCH);
                     cell.setText(R.string.ScrollToTop);
                     cell.setValue(R.string.ScrollToTopInfo);
                     cell.setChecked(AndroidUtils.scrollToTop());
+                    cell.setDivider(true);
+                }  else if (position == zoomReviewRow) {
+                    cell.setMode(TextDetailCell.MODE_SWITCH);
+                    cell.setText("Zoom Review");
+                    cell.setValue("Enable review gestures control");
+                    cell.setChecked(AndroidUtilsDev.zoomReview());
+                    cell.setDivider(false);
                 }
             }
         }
@@ -323,7 +341,7 @@ public class SettingsFragment extends Fragment {
                 return 1;
             } else if (/*position == storageUsageRow || position == searchHistoryRow*/ position == -100) {
                 return 2;
-            } else if (position == viewTypeRow || /*position == imageQualityRow || */position == adultRow || position == inAppBrowserRow || position == scrollToTopRow) {
+            } else if (/*position == viewTypeRow || position == imageQualityRow || */position == adultRow || position == inAppBrowserRow || position == scrollToTopRow || position == zoomReviewRow) {
                 return 3;
             } else {
                 return -1;

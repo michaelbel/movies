@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade;
+package org.michaelbel.moviemade.ui;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.databinding.ActivityPopularPeopleBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.ui.fragment.PopularPeopleFragment;

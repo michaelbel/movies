@@ -17,28 +17,27 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.moviemade.PopularPeopleActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.mvp.presenter.PopularPeoplePresenter;
-import org.michaelbel.moviemade.mvp.view.MvpResultsView;
+import org.michaelbel.moviemade.mvp.view.MvpResultsView2;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.v3.People;
-import org.michaelbel.moviemade.ui.adapter.PeopleAdapter;
+import org.michaelbel.moviemade.ui.PopularPeopleActivity;
+import org.michaelbel.moviemade.ui.adapter.pagination.PaginationPeopleAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
+import org.michaelbel.moviemade.ui.view.PersonView;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpResultsView {
+public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpResultsView2 {
 
-    private PeopleAdapter adapter;
+    private PaginationPeopleAdapter adapter;
     private PopularPeopleActivity activity;
     private LinearLayoutManager linearLayoutManager;
-    private List<TmdbObject> people = new ArrayList<>();
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
@@ -77,8 +76,11 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpRe
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
         fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
-            people.clear();
-            presenter.loadPeople();
+            if (adapter.getPeople().isEmpty()) {
+                presenter.loadFirstPage();
+            } else {
+                fragmentView.setRefreshing(false);
+            }
         });
 
         FrameLayout fragmentContent = new FrameLayout(activity);
@@ -87,7 +89,6 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpRe
         fragmentView.addView(fragmentContent);
 
         progressBar = new ProgressBar(activity);
-        progressBar.setVisibility(people.isEmpty() ? View.VISIBLE : View.INVISIBLE);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         fragmentContent.addView(progressBar);
 
@@ -95,7 +96,7 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpRe
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
         fragmentContent.addView(emptyView);
 
-        adapter = new PeopleAdapter(people);
+        adapter = new PaginationPeopleAdapter();
         linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
         recyclerView = new RecyclerListView(activity);
@@ -104,17 +105,26 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpRe
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        recyclerView.setOnItemClickListener((view1, position) -> {
-            People person = (People) people.get(position);
-            activity.startPerson(person);
+        recyclerView.setOnItemClickListener((view, position) -> {
+            if (view instanceof PersonView) {
+                People person = (People) adapter.getPeople().get(position);
+                activity.startPerson(person);
+            }
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (linearLayoutManager.findLastVisibleItemPosition() == people.size() - 1 && !presenter.loading && !presenter.loadingLocked) {
-                    if (presenter.page < presenter.totalPages) {
-                        presenter.loadResults();
+
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int visibleItemCount = linearLayoutManager.getChildCount();
+                int firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
+
+                if (!presenter.isLoading && !presenter.isLastPage) {
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0/* && totalItemCount >= presenter.totalPages*/) {
+                        presenter.isLoading = true;
+                        presenter.page++;
+                        presenter.loadNextPage();
                     }
                 }
             }
@@ -127,17 +137,33 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpRe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        people.clear();
-        presenter.loadPeople();
+        presenter.loadFirstPage();
     }
 
     @Override
-    public void showResults(List<TmdbObject> results) {
-        people.addAll(results);
-        adapter.notifyItemRangeInserted(people.size() + 1, results.size());
+    public void showResults(List<TmdbObject> results, boolean firstPage) {
+        if (firstPage) {
+            fragmentView.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
 
-        progressBar.setVisibility(View.INVISIBLE);
-        fragmentView.setRefreshing(false);
+            adapter.addAll(results);
+
+            if (presenter.page <= presenter.totalPages) {
+                adapter.addLoadingFooter();
+            } else {
+                presenter.isLastPage = true;
+            }
+        } else {
+            adapter.removeLoadingFooter();
+            presenter.isLoading = false;
+            adapter.addAll(results);
+
+            if (presenter.page != presenter.totalPages) {
+                adapter.addLoadingFooter();
+            } else {
+                presenter.isLastPage = true;
+            }
+        }
     }
 
     @Override
@@ -146,56 +172,6 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpRe
         progressBar.setVisibility(View.GONE);
         emptyView.setMode(mode);
     }
-
-    /*private void loadPopularPeople() {
-        PEOPLE service = ApiFactory.createService(PEOPLE.class);
-        Call<PeopleResponse> call = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page);
-        call.enqueue(new Callback<PeopleResponse>() {
-            @Override
-            public void onResponse(@NonNull Call<PeopleResponse> call, @NonNull Response<PeopleResponse> response) {
-                if (!response.isSuccessful()) {
-                    onLoadError();
-                    return;
-                }
-
-                if (totalPages == 0) {
-                    totalPages = response.body().totalPages;
-                }
-
-                List<People> newPeople = new ArrayList<>();
-
-                if (AndroidUtils.includeAdult()) {
-                    newPeople.addAll(response.body().people);
-                } else {
-                    for (People people : response.body().people) {
-                        if (!people.adult) {
-                            newPeople.add(people);
-                        }
-                    }
-                }
-
-                people.addAll(newPeople);
-                adapter.notifyItemRangeInserted(people.size() + 1, newPeople.size());
-
-                if (people.isEmpty()) {
-                    emptyView.setMode(EmptyView.MODE_NO_PEOPLE);
-                } else {
-                    page++;
-                    isLoading = false;
-                }
-
-                onLoadSuccessful();
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<PeopleResponse> call, @NonNull Throwable t) {
-                isLoading = false;
-                onLoadError();
-            }
-        });
-
-        isLoading = true;
-    }*/
 
     /*private void updateList(List<People> newPeople) {
         PeopleDiffutilCallback callback = new PeopleDiffutilCallback(this.people, newPeople);
