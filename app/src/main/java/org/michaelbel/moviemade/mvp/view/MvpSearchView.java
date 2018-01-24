@@ -11,9 +11,7 @@ public interface MvpSearchView extends MvpView {
 
     void searchStart();
 
-    void searchComplete(List<TmdbObject> results, int totalResults);
-
-    void nextPageLoaded(List<TmdbObject> results);
+    void showResults(List<TmdbObject> results, boolean firstPage);
 
     void showError(@EmptyViewMode int mode);
 }
