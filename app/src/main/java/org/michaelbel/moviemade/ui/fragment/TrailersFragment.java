@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,18 +20,17 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.TrailersActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.rest.model.v3.Trailer;
+import org.michaelbel.moviemade.ui.TrailersActivity;
 import org.michaelbel.moviemade.ui.adapter.TrailersAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
-import org.michaelbel.moviemade.util.NetworkUtils;
 import org.michaelbel.moviemade.util.ScreenUtils;
 
 import java.util.ArrayList;
@@ -40,7 +40,6 @@ public class TrailersFragment extends Fragment {
     private TrailersAdapter adapter;
     private TrailersActivity activity;
     private GridLayoutManager gridLayoutManager;
-    private ArrayList<Trailer> trailers = new ArrayList<>();
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
@@ -78,14 +77,10 @@ public class TrailersFragment extends Fragment {
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
         fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
-            if (NetworkUtils.notConnected()) {
-                onLoadError(EmptyViewMode.MODE_NO_CONNECTION);
+            if (adapter.getTrailers().isEmpty()) {
+                onLoadError(EmptyViewMode.MODE_NO_TRAILERS);
             } else {
-                if (trailers.isEmpty()) {
-                    onLoadError(EmptyViewMode.MODE_NO_TRAILERS);
-                } else {
-                    fragmentView.setRefreshing(false);
-                }
+                fragmentView.setRefreshing(false);
             }
         });
 
@@ -94,7 +89,6 @@ public class TrailersFragment extends Fragment {
         fragmentView.addView(contentLayout);
 
         progressBar = new ProgressBar(getContext());
-        progressBar.setVisibility(trailers.isEmpty() ? View.VISIBLE : View.INVISIBLE);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         contentLayout.addView(progressBar);
 
@@ -102,8 +96,8 @@ public class TrailersFragment extends Fragment {
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
         contentLayout.addView(emptyView);
 
-        adapter = new TrailersAdapter(trailers);
-        gridLayoutManager = new GridLayoutManager(activity, AndroidUtils.getColumnsForVideos());
+        adapter = new TrailersAdapter();
+        gridLayoutManager = new GridLayoutManager(activity, AndroidUtils.getSpanForTrailers());
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         recyclerView = new RecyclerListView(activity);
@@ -115,7 +109,7 @@ public class TrailersFragment extends Fragment {
         recyclerView.addItemDecoration(new PaddingItemDecoration(ScreenUtils.dp(2)));
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
-            Trailer trailer = trailers.get(position);
+            Trailer trailer = adapter.getTrailers().get(position);
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailer.key)));
         });
         contentLayout.addView(recyclerView);
@@ -130,8 +124,7 @@ public class TrailersFragment extends Fragment {
             return;
         }
 
-        trailers.addAll(getArguments().getParcelableArrayList("list"));
-        adapter.notifyDataSetChanged();
+        adapter.setTrailers(getArguments().getParcelableArrayList("list"));
 
         fragmentView.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
@@ -140,7 +133,11 @@ public class TrailersFragment extends Fragment {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        gridLayoutManager.setSpanCount(AndroidUtils.getColumnsForVideos());
+        Parcelable state = gridLayoutManager.onSaveInstanceState();
+        gridLayoutManager = new GridLayoutManager(activity, AndroidUtils.getSpanForTrailers());
+        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        gridLayoutManager.onRestoreInstanceState(state);
     }
 
     private void onLoadError(int mode) {

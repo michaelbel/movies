@@ -1,8 +1,9 @@
-package org.michaelbel.moviemade;
+package org.michaelbel.moviemade.ui;
 
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.databinding.ActivityTrailersBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.Movie;
