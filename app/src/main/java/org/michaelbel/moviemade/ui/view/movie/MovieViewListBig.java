@@ -9,14 +9,17 @@ import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.TypedValue;
+import android.view.ContextThemeWrapper;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
@@ -31,6 +34,8 @@ import java.util.Locale;
 public class MovieViewListBig extends FrameLayout {
 
     private ImageView posterImage;
+    private ProgressBar progressBar;
+
     private TextView titleText;
     private TextView ratingText;
     private TextView voteCountText;
@@ -53,10 +58,19 @@ public class MovieViewListBig extends FrameLayout {
             paint.setColor(ContextCompat.getColor(context, Theme.dividerColor()));
         }
 
+        FrameLayout posterLayout = new FrameLayout(context);
+        posterLayout.setLayoutParams(LayoutHelper.makeFrame(100, 150, Gravity.START, 3, 3, 0, 3));
+        addView(posterLayout);
+
         posterImage = new ImageView(context);
         posterImage.setScaleType(ImageView.ScaleType.FIT_XY);
-        posterImage.setLayoutParams(LayoutHelper.makeFrame(100, 150, Gravity.START, 3, 3, 0, 3));
-        addView(posterImage);
+        posterImage.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        posterLayout.addView(posterImage);
+
+        progressBar = new ProgressBar(new ContextThemeWrapper(context, R.style.WhiteProgressBar));
+        progressBar.setVisibility(VISIBLE);
+        progressBar.setLayoutParams(LayoutHelper.makeFrame(13, 13, Gravity.CENTER));
+        posterLayout.addView(progressBar);
 
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -148,7 +162,17 @@ public class MovieViewListBig extends FrameLayout {
                .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.posterSize(), posterPath))
                .placeholder(R.drawable.movie_placeholder_old)
                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-               .into(posterImage);
+               .into(posterImage, new Callback() {
+                   @Override
+                   public void onSuccess() {
+                       progressBar.setVisibility(GONE);
+                   }
+
+                   @Override
+                   public void onError() {
+                       progressBar.setVisibility(GONE);
+                   }
+               });
 
         return this;
     }
@@ -183,6 +207,13 @@ public class MovieViewListBig extends FrameLayout {
 
     public MovieViewListBig setDivider(boolean divider) {
         this.divider = divider;
+        setWillNotDraw(!divider);
+        return this;
+    }
+
+    public MovieViewListBig setDivider(boolean divider, int color) {
+        this.divider = divider;
+        paint.setColor(color);
         setWillNotDraw(!divider);
         return this;
     }

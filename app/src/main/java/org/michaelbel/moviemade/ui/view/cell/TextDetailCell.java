@@ -130,7 +130,6 @@ public class TextDetailCell extends FrameLayout {
         return this;
     }
 
-
     public TextDetailCell setMode(@Mode int mode) {
         currentMode = mode;
 

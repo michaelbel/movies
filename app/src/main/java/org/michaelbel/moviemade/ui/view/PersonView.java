@@ -26,7 +26,7 @@ import org.michaelbel.moviemade.util.ScreenUtils;
 
 import java.util.Locale;
 
-public class CastView extends FrameLayout {
+public class PersonView extends FrameLayout {
 
     public TextView nameText;
     public TextView characterText;
@@ -36,7 +36,7 @@ public class CastView extends FrameLayout {
     private boolean divider;
     private Rect rect = new Rect();
 
-    public CastView(Context context) {
+    public PersonView(Context context) {
         super(context);
 
         setForeground(Theme.selectableItemBackgroundDrawable());
@@ -77,7 +77,7 @@ public class CastView extends FrameLayout {
         addView(characterText);
     }
 
-    public CastView setProfile(@NonNull String profilePath) {
+    public PersonView setProfile(@NonNull String profilePath) {
         Picasso.with(getContext())
                .load(String.format(Locale.US, Url.TMDB_IMAGE, "w185", profilePath))
                .placeholder(R.drawable.people_placeholder_old)
@@ -86,17 +86,17 @@ public class CastView extends FrameLayout {
         return this;
     }
 
-    public CastView setName(@NonNull String name) {
+    public PersonView setName(@NonNull String name) {
         nameText.setText(name);
         return this;
     }
 
-    public CastView setCharacter(@NonNull String character) {
+    public PersonView setCharacter(@NonNull String character) {
         characterText.setText(character);
         return this;
     }
 
-    public CastView setDivider(boolean divider) {
+    public PersonView setDivider(boolean divider) {
         this.divider = divider;
         setWillNotDraw(!divider);
         return this;

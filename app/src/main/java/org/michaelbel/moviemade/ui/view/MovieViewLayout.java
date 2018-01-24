@@ -532,7 +532,7 @@ public class MovieViewLayout extends LinearLayout {
 
         companiesView = new CompaniesSection(context);
         companiesView.setListener((view, company) -> movieViewListener.onCompanyClick(view, company));
-        companiesView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 10F, 2, 12.0F, 12)); // todo
+        companiesView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 10F, 2, 12.0F, 12));
         infoLayout.addView(companiesView);
 
 //------GENRES--------------------------------------------------------------------------------------
