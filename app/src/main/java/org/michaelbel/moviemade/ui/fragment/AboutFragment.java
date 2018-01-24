@@ -18,14 +18,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import org.michaelbel.moviemade.AboutActivity;
+import org.michaelbel.moviemade.ui.AboutActivity;
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Moviemade;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.browser.Browser;
-import org.michaelbel.moviemade.ui.adapter.Holder;
+import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.AboutView;
 import org.michaelbel.moviemade.ui.view.cell.EmptyCell;
 import org.michaelbel.moviemade.ui.view.cell.TextCell;
@@ -123,7 +123,7 @@ public class AboutFragment extends Fragment {
                         startActivity(Intent.createChooser(intent, getString(R.string.Feedback)));
                     }
                 } catch (PackageManager.NameNotFoundException e) {
-                    // todo Error
+                    e.printStackTrace();
                 }
             } else if (position == shareFriendsRow) {
                 Intent intent = new Intent(Intent.ACTION_SEND);

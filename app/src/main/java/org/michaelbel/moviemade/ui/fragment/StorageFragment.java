@@ -19,12 +19,12 @@ import android.widget.FrameLayout;
 
 import org.michaelbel.bottomsheetdialog.BottomSheet;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.SettingsActivity;
+import org.michaelbel.moviemade.ui.SettingsActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.rest.model.Movie;
-import org.michaelbel.moviemade.ui.adapter.Holder;
+import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.cell.EmptyCell;
 import org.michaelbel.moviemade.ui.view.cell.TextCell;
 import org.michaelbel.moviemade.ui.view.cell.TextDetailCell;

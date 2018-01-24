@@ -16,7 +16,7 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import org.michaelbel.bottomsheetdialog.BottomSheet;
-import org.michaelbel.moviemade.AboutActivity;
+import org.michaelbel.moviemade.ui.AboutActivity;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
