@@ -14,6 +14,9 @@ import com.alexvasilkov.android.commons.state.InstanceStateManager;
 import com.alexvasilkov.gestures.Settings;
 import com.alexvasilkov.gestures.views.interfaces.GestureView;
 
+import org.michaelbel.moviemade.app.annotation.Beta;
+
+@Beta
 public class SettingsMenu implements SettingsController {
 
     private static final float OVERSCROLL = 32f;
