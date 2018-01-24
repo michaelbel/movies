@@ -6,15 +6,15 @@ import android.view.View;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 
-import org.michaelbel.moviemade.CollectionActivity;
-import org.michaelbel.moviemade.CompanyActivity;
-import org.michaelbel.moviemade.GenreActivity;
-import org.michaelbel.moviemade.GenresActivity;
-import org.michaelbel.moviemade.KeywordActivity;
-import org.michaelbel.moviemade.MovieActivity;
-import org.michaelbel.moviemade.PersonActivity;
-import org.michaelbel.moviemade.ReviewActivity;
-import org.michaelbel.moviemade.TrailersActivity;
+import org.michaelbel.moviemade.ui.CollectionActivity;
+import org.michaelbel.moviemade.ui.CompanyActivity;
+import org.michaelbel.moviemade.ui.GenreActivity;
+import org.michaelbel.moviemade.ui.GenresActivity;
+import org.michaelbel.moviemade.ui.KeywordActivity;
+import org.michaelbel.moviemade.ui.MovieActivity;
+import org.michaelbel.moviemade.ui.PersonActivity;
+import org.michaelbel.moviemade.ui.ReviewActivity;
+import org.michaelbel.moviemade.ui.TrailersActivity;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.rest.model.Cast;
 import org.michaelbel.moviemade.rest.model.v3.Company;
