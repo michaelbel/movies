@@ -23,6 +23,7 @@ import android.view.inputmethod.InputMethodManager;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Moviemade;
+import org.michaelbel.moviemade.app.annotation.Beta;
 import org.michaelbel.moviemade.rest.model.v3.Company;
 import org.michaelbel.moviemade.rest.model.v3.Country;
 import org.michaelbel.moviemade.rest.model.v3.Genre;
@@ -39,6 +40,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Properties;
 
+@Beta
 public class AndroidUtils {
 
     private static final int FLAG_TAG_BR = 1;
@@ -58,7 +60,7 @@ public class AndroidUtils {
             properties.load(inputStream);
             return properties.getProperty(key);
         } catch (Exception e) {
-            // todo Error retrieving file asset
+            e.printStackTrace();
         }
 
         return null;
@@ -73,7 +75,7 @@ public class AndroidUtils {
             InputMethodManager inputManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
         } catch (Exception e) {
-            // todo Error
+            e.printStackTrace();
         }
     }
 
@@ -86,7 +88,7 @@ public class AndroidUtils {
             InputMethodManager inputManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             return inputManager.isActive(view);
         } catch (Exception e) {
-            // todo Error
+            e.printStackTrace();
         }
 
         return false;
@@ -104,7 +106,7 @@ public class AndroidUtils {
             }
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         } catch (Exception e) {
-            // todo Error
+            e.printStackTrace();
         }
     }
 
@@ -144,6 +146,10 @@ public class AndroidUtils {
         } else {
             return 2;
         }
+    }
+
+    public static int getSpanForTrailers() {
+        return ScreenUtils.isPortrait() ? 1 : 2;
     }
 
     public static void copyToClipboard(@NonNull CharSequence text) {
@@ -199,7 +205,7 @@ public class AndroidUtils {
             }
             return spannableStringBuilder;
         } catch (Exception e) {
-            // todo Error
+            e.printStackTrace();
         }
 
         return new SpannableStringBuilder(str);
@@ -232,7 +238,7 @@ public class AndroidUtils {
         try {
             date = formatMin.parse(String.valueOf(runtime));
         } catch (ParseException e) {
-            // todo Error.
+            e.printStackTrace();
         }
 
         return getContext().getString(R.string.MovieRuntime, runtime, formatHours.format(date));
@@ -336,6 +342,7 @@ public class AndroidUtils {
         return directory.getPath();
     }
 
+    @Deprecated
     public static int getColumns() {
         SharedPreferences prefs = Moviemade.AppContext.getSharedPreferences("main_config", Context.MODE_PRIVATE);
         int type = prefs.getInt("view_type", 0);
@@ -347,10 +354,6 @@ public class AndroidUtils {
         } else {
             return ScreenUtils.isTablet() ? ScreenUtils.isPortrait() ? 2 : 4 : ScreenUtils.isPortrait() ? 1 : 2;
         }
-    }
-
-    public static int getColumnsForVideos() {
-        return ScreenUtils.isTablet() ? ScreenUtils.isPortrait() ? 2 : 4 : ScreenUtils.isPortrait() ? 1 : 2;
     }
 
     private static Point displaySize = new Point();
@@ -386,7 +389,7 @@ public class AndroidUtils {
                 }
             }
         } catch (Exception e) {
-            // todo Error.
+            e.printStackTrace();
         }
     }
 }
