@@ -21,8 +21,9 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.browser.Browser;
-import org.michaelbel.moviemade.ui.adapter.Holder;
-import org.michaelbel.moviemade.ui.view.cell.TextCell;
+import org.michaelbel.moviemade.model.Source;
+import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
+import org.michaelbel.moviemade.ui.view.cell.TextDetailCell;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
@@ -38,19 +39,6 @@ public class LibsFragment extends Fragment {
     private List<Source> sources = new ArrayList<>();
 
     private RecyclerListView recyclerView;
-
-    private class Source {
-
-        public String url;
-        public String name;
-        public String license;
-
-        Source(String name, String url, String license) {
-            this.url = url;
-            this.name = name;
-            this.license = license;
-        }
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,8 +65,8 @@ public class LibsFragment extends Fragment {
         //sources.add(new Source("Dagger 2", "https://github.com/google/dagger", "Apache License v2.0"));
         sources.add(new Source("Realm Java", "https://github.com/realm/realm-java", "Apache License v2.0"));
         //sources.add(new Source("Realm Android Adapters", "https://github.com/realm/realm-android-adapters", "Apache License v2.0"));
-        //sources.add(new Source("Moxy", "", ""));
-        //sources.add(new Source("GestureViews", "https://github.com/alexvasilkov/gestureviews", "Apache License v2.0"));
+        sources.add(new Source("Moxy", "https://github.com/arello-mobile/moxy", "The MIT License (MIT)"));
+        sources.add(new Source("GestureViews", "https://github.com/alexvasilkov/gestureviews", "Apache License v2.0"));
         //sources.add(new Source("CircleIndicator", "https://github.com/ongakuer/circleindicator", "Apache License v2.0"));
         sources.add(new Source("ChipsLayoutManager", "https://github.com/beloos/chipslayoutmanager", "Apache License v2.0"));
         //sources.add(new Source("ExpandableTextView", "https://github.com/blogcat/android-expandabletextview", "Apache License v2.0"));
@@ -90,9 +78,7 @@ public class LibsFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        recyclerView.setOnItemClickListener((view, position) ->
-                Browser.openUrl(activity, sources.get(position).url)
-        );
+        recyclerView.setOnItemClickListener((view, position) -> Browser.openUrl(activity, sources.get(position).url));
         recyclerView.setOnItemLongClickListener((view, position) -> {
             BottomSheet.Builder builder = new BottomSheet.Builder(activity);
             builder.setTitle(sources.get(position).url);
@@ -129,25 +115,25 @@ public class LibsFragment extends Fragment {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
-            //return new Holder(new TextDetailCell(activity));
-            return new Holder(new TextCell(activity));
+            return new Holder(new TextDetailCell(activity));
+            //return new Holder(new TextCell(activity));
         }
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             Source source = sources.get(position);
 
-            /*TextDetailCell cell = (TextDetailCell) holder.itemView;
+            TextDetailCell cell = (TextDetailCell) holder.itemView;
             cell.changeLayoutParams()
                 .setText(source.name)
                 .setValue(source.license)
-                .setDivider(position != sources.size() - 1);*/
+                .setDivider(position != sources.size() - 1);
 
-            TextCell cell = (TextCell) holder.itemView;
+            /*TextCell cell = (TextCell) holder.itemView;
             cell.changeLayoutParams()
                 .setHeight(ScreenUtils.dp(52))
                 .setText(source.name)
-                .setDivider(position != sources.size() - 1);
+                .setDivider(position != sources.size() - 1);*/
         }
 
         @Override
