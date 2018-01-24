@@ -32,10 +32,9 @@ public class KeywordMoviesPresenter extends MvpPresenter<MvpResultsView> {
 
     private int keywordId;
 
-    private Disposable disposable1;
-    private Disposable disposable2;
+    private Disposable disposable1, disposable2;
 
-    public void loadMovies(int keywordId) {
+    public void loadFirstPage(int keywordId) {
         this.keywordId = keywordId;
 
         if (keywordId == 0) {
@@ -54,7 +53,7 @@ public class KeywordMoviesPresenter extends MvpPresenter<MvpResultsView> {
         loadingLocked = false;
 
         KEYWORDS service = ApiFactory.createService(KEYWORDS.class);
-        Observable<MoviesResponse> observable = service.getMovies(keywordId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<MoviesResponse> observable = service.getMovies(keywordId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).observeOn(AndroidSchedulers.mainThread());
         disposable1 = observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override
             public void onNext(MoviesResponse response) {
@@ -75,7 +74,7 @@ public class KeywordMoviesPresenter extends MvpPresenter<MvpResultsView> {
         });
     }
 
-    public void loadResults() {
+    public void loadNextPage() {
         KEYWORDS service = ApiFactory.createService(KEYWORDS.class);
         Observable<MoviesResponse> observable = service.getMovies(keywordId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposable2 = observable.subscribeWith(new DisposableObserver<MoviesResponse>() {

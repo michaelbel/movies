@@ -18,7 +18,7 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.moviemade.KeywordActivity;
+import org.michaelbel.moviemade.ui.KeywordActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.mvp.presenter.KeywordMoviesPresenter;
@@ -33,17 +33,15 @@ import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
 import org.michaelbel.moviemade.util.ScreenUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class KeywordMoviesFragment extends MvpAppCompatFragment implements MvpResultsView {
 
-    private int currentKeywordId;
+    private int keywordId;
 
     private MoviesAdapter adapter;
     private GridLayoutManager gridLayoutManager;
     private PaddingItemDecoration itemDecoration;
-    private List<TmdbObject> movies = new ArrayList<>();
     private KeywordActivity activity;
 
     private EmptyView emptyView;
@@ -84,8 +82,11 @@ public class KeywordMoviesFragment extends MvpAppCompatFragment implements MvpRe
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
         fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
-            movies.clear();
-            presenter.loadMovies(currentKeywordId);
+            if (adapter.getMovies().isEmpty()) {
+                presenter.loadFirstPage(keywordId);
+            } else {
+                fragmentView.setRefreshing(false);
+            }
         });
 
         FrameLayout contentLayout = new FrameLayout(activity);
@@ -93,7 +94,6 @@ public class KeywordMoviesFragment extends MvpAppCompatFragment implements MvpRe
         fragmentView.addView(contentLayout);
 
         progressBar = new ProgressBar(getContext());
-        progressBar.setVisibility(movies.isEmpty() ? View.VISIBLE : View.INVISIBLE);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         contentLayout.addView(progressBar);
 
@@ -101,7 +101,7 @@ public class KeywordMoviesFragment extends MvpAppCompatFragment implements MvpRe
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
         contentLayout.addView(emptyView);
 
-        adapter = new MoviesAdapter(movies);
+        adapter = new MoviesAdapter();
 
         itemDecoration = new PaddingItemDecoration();
         if (AndroidUtils.viewType() == 0) {
@@ -122,16 +122,16 @@ public class KeywordMoviesFragment extends MvpAppCompatFragment implements MvpRe
         recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
-            Movie movie = (Movie) movies.get(position);
+            Movie movie = (Movie) adapter.getMovies().get(position);
             activity.startMovie(movie);
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (gridLayoutManager.findLastVisibleItemPosition() == movies.size() - 1 && !presenter.loading && !presenter.loadingLocked) {
+                if (gridLayoutManager.findLastVisibleItemPosition() == adapter.getMovies().size() - 1 && !presenter.loading && !presenter.loadingLocked) {
                     if (presenter.page < presenter.totalPages) {
-                        presenter.loadResults();
+                        presenter.loadNextPage();
                     }
                 }
             }
@@ -148,15 +148,13 @@ public class KeywordMoviesFragment extends MvpAppCompatFragment implements MvpRe
             return;
         }
 
-        currentKeywordId = getArguments().getInt("keywordId");
-        presenter.loadMovies(currentKeywordId);
+        keywordId = getArguments().getInt("keywordId");
+        presenter.loadFirstPage(keywordId);
     }
 
     @Override
     public void showResults(List<TmdbObject> results) {
-        movies.addAll(results);
-        adapter.notifyItemRangeInserted(movies.size() + 1, results.size());
-
+        adapter.addMovies(results);
         fragmentView.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
     }
