@@ -20,7 +20,7 @@ public class ApiFactory {
         return new Retrofit.Builder()
                 .baseUrl(TMDB_API_ENDPOINT)
                 .addConverterFactory(GsonConverterFactory.create(GSON))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
                 .build();
     }
 
