@@ -15,12 +15,11 @@ mainconfig:
  - image_quality_profile  (string)
  - image_quality_still    (string)
  - scroll_to_top          (bool)
+ - zoom_review            (bool)
 
 devconfig:
  - scrollbars                  (bool)
  - scrollbars_rating           (int)
- - zoom_review                 (bool)
- - zoom_review_rating          (int)
  - search_results_count        (bool)
  - search_results_count_rating (int)
  - floating_toolbar            (bool)
