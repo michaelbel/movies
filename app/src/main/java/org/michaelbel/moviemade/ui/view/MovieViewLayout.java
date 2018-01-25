@@ -45,7 +45,9 @@ import java.util.Objects;
 
 public class MovieViewLayout extends LinearLayout {
 
-    private PlaceholderView posterPh;
+    private ProgressBar topProgressBar;
+
+    //private PlaceholderView posterPh;
     private GestureImageView posterImage;
 
     private LinearLayout shortInfoLayout;
@@ -60,23 +62,24 @@ public class MovieViewLayout extends LinearLayout {
     private LinearLayout releaseDateLayout;
     private TextView releaseDateText;
 
-    private PlaceholderView runtimePh;
+    //private PlaceholderView runtimePh;
     private LinearLayout runtimeLayout;
     private TextView runtimeText;
 
-    private PlaceholderView langPh;
+    //private PlaceholderView langPh;
     private LinearLayout langLayout;
     private TextView originalLanguageText;
 
+    private LinearLayout buttonsLayout;
     private CheckedButton favoriteButton;
     private CheckedButton watchingButton;
 
     private LinearLayout titleTaglineLayout;
 
-    private PlaceholderView titlePh;
+    //private PlaceholderView titlePh;
     private TextView titleText;
 
-    private PlaceholderView taglinePh;
+    //private PlaceholderView taglinePh;
     private TextView taglineTextView;
 
     private LinearLayout overviewLayout;
@@ -87,7 +90,7 @@ public class MovieViewLayout extends LinearLayout {
     private ImagesSection imagesView;
 
     private LinearLayout crewLayout;
-    private ProgressBar crewProgressBar;
+    //private ProgressBar crewProgressBar;
 
     private TextView directorsTitle;
     private TextView directorsText;
@@ -99,7 +102,6 @@ public class MovieViewLayout extends LinearLayout {
     private TextView producersTextView;
 
     private LinearLayout infoLayout;
-    //private ProgressBar progressBar;
 
     private TextView originalTitle;
     private TextView originalTitleText;
@@ -143,12 +145,17 @@ public class MovieViewLayout extends LinearLayout {
         topLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         addView(topLayout);
 
+        topProgressBar = new ProgressBar(context);
+        topProgressBar.setVisibility(VISIBLE);
+        topProgressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
+        topLayout.addView(topProgressBar);
+
 //------POSTER IMAGE--------------------------------------------------------------------------------
 
-        posterPh = new PlaceholderView(context);
-        posterPh.show();
-        posterPh.setLayoutParams(LayoutHelper.makeFrame(120, 180, Gravity.START | Gravity.TOP, 16, 16, 0, 0));
-        topLayout.addView(posterPh);
+        //posterPh = new PlaceholderView(context);
+        //posterPh.show();
+        //posterPh.setLayoutParams(LayoutHelper.makeFrame(120, 180, Gravity.START | Gravity.TOP, 16, 16, 0, 0));
+        //topLayout.addView(posterPh);
 
         posterImage = new GestureImageView(context);
         posterImage.setVisibility(INVISIBLE);
@@ -162,6 +169,7 @@ public class MovieViewLayout extends LinearLayout {
 
         shortInfoLayout = new LinearLayout(context);
         shortInfoLayout.setOrientation(VERTICAL);
+        shortInfoLayout.setVisibility(INVISIBLE);
         shortInfoLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START | Gravity.TOP, 120 + 32, 16, 16, 0));
         topLayout.addView(shortInfoLayout);
 
@@ -271,8 +279,9 @@ public class MovieViewLayout extends LinearLayout {
 
 //------FAVORITE AND WATCHLIST BUTTONS-----------------------------------------------------------------------------
 
-        LinearLayout buttonsLayout = new LinearLayout(context);
+        buttonsLayout = new LinearLayout(context);
         buttonsLayout.setOrientation(HORIZONTAL);
+        buttonsLayout.setVisibility(INVISIBLE);
         buttonsLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.END, 0, 16 + 180 - 36 - 4, 16, 0));
         topLayout.addView(buttonsLayout);
 
@@ -294,21 +303,22 @@ public class MovieViewLayout extends LinearLayout {
 
         titleTaglineLayout = new LinearLayout(context);
         titleTaglineLayout.setOrientation(VERTICAL);
+        titleTaglineLayout.setVisibility(INVISIBLE);
         titleTaglineLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START | Gravity.TOP, 16, 202, 16, 12));
         topLayout.addView(titleTaglineLayout);
 
-        titlePh = new PlaceholderView(context);
-        titlePh.showColor();
-        titlePh.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        titleTaglineLayout.addView(titlePh);
+        //titlePh = new PlaceholderView(context);
+        //titlePh.showColor();
+        //titlePh.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        //titleTaglineLayout.addView(titlePh);
 
         titleText = new TextView(context);
         titleText.setVisibility(INVISIBLE);
         titleText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
         titleText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         titleText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-        //titleTaglineLayout.addView(titleText);
-        titlePh.addView(titleText);
+        titleTaglineLayout.addView(titleText);
+        //titlePh.addView(titleText);
 
         taglineTextView = new TextView(context);
         taglineTextView.setLines(1);
@@ -368,9 +378,9 @@ public class MovieViewLayout extends LinearLayout {
         crewTitle.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL));
         crewTitleLayout.addView(crewTitle);
 
-        crewProgressBar = new ProgressBar(context);
-        crewProgressBar.setLayoutParams(LayoutHelper.makeFrame(24, 24, Gravity.END | Gravity.CENTER_VERTICAL));
-        crewTitleLayout.addView(crewProgressBar);
+        //crewProgressBar = new ProgressBar(context);
+        //crewProgressBar.setLayoutParams(LayoutHelper.makeFrame(24, 24, Gravity.END | Gravity.CENTER_VERTICAL));
+        //crewTitleLayout.addView(crewProgressBar);
 
         directorsTitle = new TextView(context);
         directorsTitle.setText(context.getString(R.string.Directors));
@@ -434,8 +444,8 @@ public class MovieViewLayout extends LinearLayout {
 
         imagesView = new ImagesSection(context);
         imagesView.setVisibility(INVISIBLE);
-        imagesView.getPosterViewPager().setOnClickListener(view -> movieViewListener.onPostersClick(view));
-        imagesView.getBackdropViewPager().setOnClickListener(view -> movieViewListener.onBackdropsClick(view));
+        imagesView.getPostersLayout().setOnClickListener(view -> movieViewListener.onPostersClick(view));
+        imagesView.getBackdropsLayout().setOnClickListener(view -> movieViewListener.onBackdropsClick(view));
         imagesView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0));
         addView(imagesView);
 
@@ -461,10 +471,6 @@ public class MovieViewLayout extends LinearLayout {
         infoTitle.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         infoTitle.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL));
         layout.addView(infoTitle);
-
-        //progressBar = new ProgressBar(context);
-        //progressBar.setLayoutParams(LayoutHelper.makeFrame(24, 24, Gravity.END | Gravity.CENTER_VERTICAL));
-        //layout.addView(progressBar);
 
         originalTitle = new TextView(context);
         originalTitle.setText(context.getString(R.string.OriginalTitle));
@@ -551,13 +557,6 @@ public class MovieViewLayout extends LinearLayout {
         keywordsView.setListener((view, keyword) -> movieViewListener.onKeywordClick(view, keyword));
         addView(keywordsView);
 
-//------COLLECTION VIEW-----------------------------------------------------------------------------
-
-        collectionView = new CollectionView(context);
-        collectionView.setOnClickListener(view -> movieViewListener.onCollectionClick(view));
-        collectionView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, 6));
-        //addView(collectionView);
-
 //------WEB LINKS-----------------------------------------------------------------------------------
 
         linksLayout = new LinearLayout(context);
@@ -586,6 +585,11 @@ public class MovieViewLayout extends LinearLayout {
         linkHomeView.setOnClickListener(view -> movieViewListener.onMovieUrlClick(view, 3));
         linksLayout.addView(linkHomeView);
 
+//------COLLECTION VIEW-----------------------------------------------------------------------------
+
+        collectionView = new CollectionView(context);
+        collectionView.setOnClickListener(view -> movieViewListener.onCollectionClick(view));
+        collectionView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, 6));
         addView(collectionView);
     }
 
@@ -603,7 +607,7 @@ public class MovieViewLayout extends LinearLayout {
                 .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
                 .into(posterImage);
 
-        posterPh.hide();
+        //posterPh.hide();
         posterImage.setVisibility(VISIBLE);
     }
 
@@ -615,7 +619,7 @@ public class MovieViewLayout extends LinearLayout {
 
         titleText.setText(title);
         titleText.setVisibility(VISIBLE);
-        titlePh.hideColor();
+        //titlePh.hideColor();
     }
 
     public void addTagline(String tagline) {
@@ -915,9 +919,9 @@ public class MovieViewLayout extends LinearLayout {
 
         if (text1.toString().isEmpty() && text2.toString().isEmpty() && text3.toString().isEmpty()) {
             removeView(crewLayout);
-        } else {
+        } /*else {
             crewProgressBar.setVisibility(INVISIBLE);
-        }
+        }*/
     }
 
     public void addCollection(Collection collection) {
@@ -930,11 +934,20 @@ public class MovieViewLayout extends LinearLayout {
         collectionView.addImage(collection.backdropPath);
     }
 
+    public void topLayoutLoaded() {
+        topProgressBar.setVisibility(GONE);
+
+        posterImage.setVisibility(VISIBLE);
+        shortInfoLayout.setVisibility(VISIBLE);
+        buttonsLayout.setVisibility(VISIBLE);
+        titleTaglineLayout.setVisibility(VISIBLE);
+    }
+
     // Getters:
 
-    /*public ImagesSection getImagesView() {
+    public ImagesSection getImagesView() {
         return imagesView;
-    }*/
+    }
 
     public TrailersSection getTrailersView() {
         return trailersView;
