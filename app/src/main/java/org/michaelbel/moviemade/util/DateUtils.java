@@ -44,6 +44,10 @@ public class DateUtils {
     }
 
     public static String getMovieReleaseDate(String inputDate) {
+        if (inputDate == null || inputDate.isEmpty()) {
+            return "";
+        }
+
         String inputPattern = "yyyy-MM-dd";
         String newPattern = "d MMM yyyy";
 
