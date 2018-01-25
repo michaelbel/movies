@@ -16,6 +16,10 @@ public class ImagePagerAdapter extends PagerAdapter {
         this.views = views;
     }
 
+    public View getView(int position) {
+        return views.get(position);
+    }
+
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {

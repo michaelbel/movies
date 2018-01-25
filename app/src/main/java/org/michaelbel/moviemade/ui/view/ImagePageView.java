@@ -2,9 +2,13 @@ package org.michaelbel.moviemade.ui.view;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.view.ContextThemeWrapper;
+import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import org.michaelbel.moviemade.R;
@@ -17,18 +21,18 @@ import java.util.Locale;
 public class ImagePageView extends FrameLayout {
 
     private ImageView posterImage;
-    //private ProgressBar progressBar;
+    private ProgressBar progressBar;
 
     public ImagePageView(@NonNull Context context) {
         super(context);
 
-        //progressBar = new ProgressBar(context);
-        //progressBar.setVisibility(VISIBLE);
-        //progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
-        //addView(progressBar);
+        progressBar = new ProgressBar(new ContextThemeWrapper(context, R.style.WhiteProgressBar));
+        progressBar.setVisibility(VISIBLE);
+        progressBar.setLayoutParams(LayoutHelper.makeFrame(20, 20, Gravity.CENTER));
+        addView(progressBar);
 
         posterImage = new ImageView(context);
-        posterImage.setVisibility(INVISIBLE);
+        //posterImage.setVisibility(INVISIBLE);
         posterImage.setScaleType(ImageView.ScaleType.CENTER);
         posterImage.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         addView(posterImage);
@@ -38,10 +42,18 @@ public class ImagePageView extends FrameLayout {
         Picasso.with(getContext())
                .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.posterSize(), imagePath))
                .placeholder(R.drawable.movie_placeholder_old)
-               .into(posterImage);
+               .into(posterImage, new Callback() {
+                   @Override
+                   public void onSuccess() {
+                       progressBar.setVisibility(GONE);
+                   }
 
-        posterImage.setVisibility(VISIBLE);
-        //progressBar.setVisibility(INVISIBLE);
+                   @Override
+                   public void onError() {
+                       progressBar.setVisibility(GONE);
+                   }
+               });
+
         return this;
     }
 
