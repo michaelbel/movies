@@ -27,7 +27,7 @@ public interface MediaModel {
 
     void startReview(Review review, MovieRealm movie);
 
-    void startTrailers(Movie movie, ArrayList<Trailer> list);
+    void startTrailers(String title, ArrayList<Trailer> list);
 
     void startGenre(Genre genre);
 
