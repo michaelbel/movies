@@ -175,6 +175,8 @@
     <string name="ScrollbarsInfo">Enable all scrollbars in app</string>
     <string name="SearchResultsCounter">Search Results Counter</string>
     <string name="FloatingToolbar">Floating Toolbar</string>
+    <string name="ZoomReview">Zoom Review</string>
+    <string name="ZoomReviewInfo">Enable review gestures control</string>
 
     <string name="FullOverview">Full Overview</string>
     <!--About-->
