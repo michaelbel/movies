@@ -33,6 +33,9 @@ public class Review extends TmdbObject implements Parcelable {
     @SerializedName("url")
     public String url;
 
+    public Review() {
+    }
+
     protected Review(Parcel in) {
         id = in.readString();
         author = in.readString();

@@ -27,6 +27,8 @@ public class Company extends TmdbObject implements Parcelable {
     @SerializedName("parent_company")
     public String parentCompany;
 
+    public Company() {}
+
     protected Company(Parcel in) {
         id = in.readInt();
         name = in.readString();

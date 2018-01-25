@@ -15,6 +15,8 @@ public class Keyword extends TmdbObject implements Parcelable {
     @SerializedName("name")
     public String name;
 
+    public Keyword() {}
+
     protected Keyword(Parcel in) {
         id = in.readInt();
         name = in.readString();

@@ -31,6 +31,8 @@ public class Collection extends TmdbObject implements Parcelable {
     @SerializedName("parts")
     public List<Movie> movies;
 
+    public Collection() {}
+
     protected Collection(Parcel in) {
         id = in.readInt();
         name = in.readString();
