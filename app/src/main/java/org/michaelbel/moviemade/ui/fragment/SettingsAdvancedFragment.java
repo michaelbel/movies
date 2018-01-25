@@ -21,11 +21,11 @@ import com.google.android.gms.analytics.Tracker;
 
 import org.michaelbel.bottomsheetdialog.BottomSheet;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.SettingsActivity;
+import org.michaelbel.moviemade.ui.SettingsActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Moviemade;
 import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.ui.adapter.Holder;
+import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.cell.EmptyCell;
 import org.michaelbel.moviemade.ui.view.cell.TextCell;
 import org.michaelbel.moviemade.ui.view.cell.TextDetailCell;
@@ -40,7 +40,6 @@ public class SettingsAdvancedFragment extends Fragment {
     private int rowCount;
     private int infoRow;
     private int scrollbarsRow;
-    private int zoomReviewRow;
     private int searchResultsCounterRow;
     private int floatingToolbarRow;
     private int emptyRow1;
@@ -72,7 +71,6 @@ public class SettingsAdvancedFragment extends Fragment {
         rowCount = 0;
         infoRow = rowCount++;
         scrollbarsRow = rowCount++;
-        zoomReviewRow = rowCount++;
         searchResultsCounterRow = rowCount++;
         //floatingToolbarRow = rowCount++;
         emptyRow1 = rowCount++;
@@ -92,15 +90,6 @@ public class SettingsAdvancedFragment extends Fragment {
                 SharedPreferences.Editor editor = prefs.edit();
                 boolean enable = prefs.getBoolean("scrollbars", true);
                 editor.putBoolean("scrollbars", !enable);
-                editor.apply();
-                if (view instanceof TextDetailCellDev) {
-                    ((TextDetailCellDev) view).setChecked(!enable);
-                }
-            } else if (position == zoomReviewRow) {
-                SharedPreferences prefs = activity.getSharedPreferences("devconfig", Activity.MODE_PRIVATE);
-                SharedPreferences.Editor editor = prefs.edit();
-                boolean enable = prefs.getBoolean("zoom_review", true);
-                editor.putBoolean("zoom_review", !enable);
                 editor.apply();
                 if (view instanceof TextDetailCellDev) {
                     ((TextDetailCellDev) view).setChecked(!enable);
@@ -137,7 +126,6 @@ public class SettingsAdvancedFragment extends Fragment {
                 SharedPreferences.Editor editor = prefs.edit();
                 editor.putInt("scrollbars_rating", 0);
                 editor.putInt("floating_toolbar_rating", 0);
-                editor.putInt("scroll_to_top_rating", 0);
                 editor.putInt("search_results_count_rating", 0);
                 editor.putInt("full_overview_rating", 0);
                 editor.apply();
@@ -146,7 +134,7 @@ public class SettingsAdvancedFragment extends Fragment {
             }
         });
         recyclerView.setOnItemLongClickListener((view, position) -> {
-            if (position == scrollbarsRow || position == zoomReviewRow || position == floatingToolbarRow || position == searchResultsCounterRow || position == fullOverviewRow) {
+            if (position == scrollbarsRow || position == floatingToolbarRow || position == searchResultsCounterRow || position == fullOverviewRow) {
                 rateFeature(view, position);
                 return true;
             }
@@ -181,9 +169,6 @@ public class SettingsAdvancedFragment extends Fragment {
             if (position == scrollbarsRow) {
                 editor.putInt("scrollbars_rating", rating);
                 sendAnalytics("Scrollbars", rating);
-            } else if (position == zoomReviewRow) {
-                editor.putInt("zoom_review_rating", rating);
-                sendAnalytics("Zoom Review", rating);
             } else if (position == searchResultsCounterRow) {
                 editor.putInt("search_results_count_rating", rating);
                 sendAnalytics("Search Results Counter", rating);
@@ -273,12 +258,6 @@ public class SettingsAdvancedFragment extends Fragment {
                     cell.setValue(R.string.ScrollbarsInfo);
                     cell.setChecked(AndroidUtilsDev.scrollbars());
                     cell.setRating(prefs.getInt("scrollbars_rating", 0));
-                    cell.setDivider(true);
-                } else if (position == zoomReviewRow) {
-                    cell.setText("Zoom Review");
-                    cell.setValue("Enable review gestures control");
-                    cell.setChecked(AndroidUtilsDev.zoomReview());
-                    cell.setRating(prefs.getInt("zoom_review_rating", 0));
                     cell.setDivider(true);
                 } else if (position == searchResultsCounterRow) {
                     cell.setText(R.string.SearchResultsCounter);

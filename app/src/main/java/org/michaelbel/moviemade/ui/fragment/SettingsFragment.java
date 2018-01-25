@@ -74,7 +74,7 @@ public class SettingsFragment extends Fragment {
             .setOnMenuItemClickListener(menuItem -> {
                 asc++;
                 if (asc == 5) {
-                    activity.startFragment(new SettingsAdvancedFragment(), activity.binding.fragmentView, "settingsAdvancedFragment");
+                    //activity.startFragment(new SettingsAdvancedFragment(), activity.binding.fragmentView, "settingsAdvancedFragment");
                     asc = 0;
                 }
                 return true;
@@ -324,8 +324,8 @@ public class SettingsFragment extends Fragment {
                     cell.setDivider(true);
                 }  else if (position == zoomReviewRow) {
                     cell.setMode(TextDetailCell.MODE_SWITCH);
-                    cell.setText("Zoom Review");
-                    cell.setValue("Enable review gestures control");
+                    cell.setText(R.string.ZoomReview);
+                    cell.setValue(R.string.ZoomReviewInfo);
                     cell.setChecked(AndroidUtilsDev.zoomReview());
                     cell.setDivider(false);
                 }
