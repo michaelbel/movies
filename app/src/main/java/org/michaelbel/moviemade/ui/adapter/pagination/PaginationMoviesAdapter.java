@@ -9,6 +9,8 @@ import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.adapter.recycler.LoadingHolder;
 import org.michaelbel.moviemade.ui.view.LoadingView;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewListBig;
+import org.michaelbel.moviemade.ui.view.movie.MovieViewPoster;
+import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.DateUtils;
 
 import java.util.ArrayList;
@@ -17,7 +19,8 @@ import java.util.List;
 public class PaginationMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final int ITEM = 0;
-    private final int LOADING = 1;
+    private final int ITEM_POSTER = 1;
+    private final int LOADING = 2;
 
     private List<TmdbObject> movies;
     private boolean isLoadingAdded = false;
@@ -36,19 +39,11 @@ public class PaginationMoviesAdapter extends RecyclerView.Adapter<RecyclerView.V
 
         if (viewType == ITEM) {
             viewHolder = new Holder(new MovieViewListBig(parent.getContext()));
+        } else if (viewType == ITEM_POSTER) {
+            viewHolder = new Holder(new MovieViewPoster(parent.getContext()));
         } else if (viewType == LOADING) {
             viewHolder = new LoadingHolder(new LoadingView(parent.getContext()));
         }
-
-        // todo delete comments
-        /*switch (viewType) {
-            case ITEM:
-                viewHolder = new Holder(new MovieViewListBig(parent.getContext()));
-                break;
-            case LOADING:
-                viewHolder = new LoadingHolder(new LoadingView(parent.getContext()));
-                break;
-        }*/
 
         return viewHolder;
     }
@@ -58,33 +53,21 @@ public class PaginationMoviesAdapter extends RecyclerView.Adapter<RecyclerView.V
         Movie movie = (Movie) movies.get(position);
 
         if (getItemViewType(position) == ITEM) {
-            //Holder viewHolder = (Holder) holder;
-
             MovieViewListBig view = (MovieViewListBig) ((Holder) holder).itemView;
             view.setPoster(movie.posterPath)
-                    .setTitle(movie.title)
-                    .setRating(String.valueOf(movie.voteAverage))
-                    .setVoteCount(String.valueOf(movie.voteCount))
-                    .setReleaseDate(movie.releaseDate != null ? DateUtils.getMovieReleaseDate(movie.releaseDate) : "")
-                    .setOverview(movie.overview)
-                    .setDivider(true);
+                .setTitle(movie.title)
+                .setRating(String.valueOf(movie.voteAverage))
+                .setVoteCount(String.valueOf(movie.voteCount))
+                .setReleaseDate(movie.releaseDate != null ? DateUtils.getMovieReleaseDate(movie.releaseDate) : "")
+                .setOverview(movie.overview)
+                .setDivider(true);
+        } else if (getItemViewType(position) == ITEM_POSTER) {
+            MovieViewPoster view = (MovieViewPoster) ((Holder) holder).itemView;
+            view.setPoster(movie.posterPath);
+        } else if (getItemViewType(position) == LOADING) {
+            LoadingView view = (LoadingView) ((LoadingHolder) holder).itemView;
+            view.setMode(AndroidUtils.viewType());
         }
-
-        /*switch (getItemViewType(position)) {
-            case ITEM:
-                final Holder viewHolder = (Holder) holder;
-
-                MovieViewListBig view = (MovieViewListBig) viewHolder.itemView;
-                view.setPoster(movie.posterPath)
-                    .setTitle(movie.title)
-                    .setRating(String.valueOf(movie.voteAverage))
-                    .setVoteCount(String.valueOf(movie.voteCount))
-                    .setReleaseDate(movie.releaseDate != null ? DateUtils.getMovieReleaseDate(movie.releaseDate) : "")
-                    .setOverview(movie.overview)
-                    .setDivider(true);
-            case LOADING:
-                break;
-        }*/
     }
 
     @Override
@@ -94,7 +77,7 @@ public class PaginationMoviesAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     @Override
     public int getItemViewType(int position) {
-        return (position == movies.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
+        return (position == movies.size() - 1 && isLoadingAdded) ? LOADING : AndroidUtils.viewType() == 0 ? ITEM : ITEM_POSTER;
     }
 
 //--------------------------------------------------------------------------------------------------

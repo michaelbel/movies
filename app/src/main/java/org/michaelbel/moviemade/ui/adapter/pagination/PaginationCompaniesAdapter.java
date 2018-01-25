@@ -50,6 +50,9 @@ public class PaginationCompaniesAdapter extends RecyclerView.Adapter<RecyclerVie
             TextCell cell = (TextCell) ((Holder) holder).itemView;
             cell.setText(company.name);
             cell.setDivider(true);
+        } else if (getItemViewType(position) == LOADING) {
+            LoadingView view = (LoadingView) ((LoadingHolder) holder).itemView;
+            view.setMode(LoadingView.MODE_DEFAULT);
         }
     }
 

@@ -4,29 +4,29 @@ import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.rest.TmdbObject;
-import org.michaelbel.moviemade.rest.model.v3.Keyword;
+import org.michaelbel.moviemade.rest.model.v3.Review;
 import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.adapter.recycler.LoadingHolder;
 import org.michaelbel.moviemade.ui.view.LoadingView;
-import org.michaelbel.moviemade.ui.view.cell.TextCell;
+import org.michaelbel.moviemade.ui.view.ReviewView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaginationKeywordsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PaginationReviewsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final int ITEM = 0;
     private final int LOADING = 1;
 
-    private List<TmdbObject> keywords;
+    private List<TmdbObject> reviews;
     private boolean isLoadingAdded = false;
 
-    public PaginationKeywordsAdapter() {
-        keywords = new ArrayList<>();
+    public PaginationReviewsAdapter() {
+        reviews = new ArrayList<>();
     }
 
-    public List<TmdbObject> getKeywords() {
-        return keywords;
+    public List<TmdbObject> getReviews() {
+        return reviews;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class PaginationKeywordsAdapter extends RecyclerView.Adapter<RecyclerView
         RecyclerView.ViewHolder viewHolder = null;
 
         if (viewType == ITEM) {
-            viewHolder = new Holder(new TextCell(parent.getContext()));
+            viewHolder = new Holder(new ReviewView(parent.getContext()));
         } else if (viewType == LOADING) {
             viewHolder = new LoadingHolder(new LoadingView(parent.getContext()));
         }
@@ -44,12 +44,13 @@ public class PaginationKeywordsAdapter extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Keyword keyword = (Keyword) keywords.get(position);
+        Review review = (Review) reviews.get(position);
 
         if (getItemViewType(position) == ITEM) {
-            TextCell cell = (TextCell) ((Holder) holder).itemView;
-            cell.setText(keyword.name);
-            cell.setDivider(true);
+            ReviewView view = (ReviewView) ((Holder) holder).itemView;
+            view.setAuthor(review.author)
+                .setContent(review.content)
+                .setDivider(true);
         } else if (getItemViewType(position) == LOADING) {
             LoadingView view = (LoadingView) ((LoadingHolder) holder).itemView;
             view.setMode(LoadingView.MODE_DEFAULT);
@@ -58,32 +59,32 @@ public class PaginationKeywordsAdapter extends RecyclerView.Adapter<RecyclerView
 
     @Override
     public int getItemCount() {
-        return keywords != null ? keywords.size() : 0;
+        return reviews != null ? reviews.size() : 0;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return (position == keywords.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
+        return (position == reviews.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
     }
 
 //--------------------------------------------------------------------------------------------------
 
-    public void add(TmdbObject keyword) {
-        keywords.add(keyword);
-        notifyItemInserted(keywords.size() - 1);
+    public void add(TmdbObject review) {
+        reviews.add(review);
+        notifyItemInserted(reviews.size() - 1);
     }
 
-    public void addAll(List<TmdbObject> keywords) {
-        for (TmdbObject keyword : keywords) {
-            add(keyword);
+    public void addAll(List<TmdbObject> reviews) {
+        for (TmdbObject review : reviews) {
+            add(review);
         }
     }
 
-    public void remove(TmdbObject keyword) {
-        int position = keywords.indexOf(keyword);
+    public void remove(TmdbObject review) {
+        int position = reviews.indexOf(review);
 
         if (position > -1) {
-            keywords.remove(position);
+            reviews.remove(position);
             notifyItemRemoved(position);
         }
     }
@@ -102,22 +103,22 @@ public class PaginationKeywordsAdapter extends RecyclerView.Adapter<RecyclerView
 
     public void addLoadingFooter() {
         isLoadingAdded = true;
-        add(new Keyword());
+        add(new Review());
     }
 
     public void removeLoadingFooter() {
         isLoadingAdded = false;
 
-        int position = keywords.size() - 1;
+        int position = reviews.size() - 1;
         TmdbObject result = getItem(position);
 
         if (result != null) {
-            keywords.remove(position);
+            reviews.remove(position);
             notifyItemRemoved(position);
         }
     }
 
     public TmdbObject getItem(int position) {
-        return keywords.get(position);
+        return reviews.get(position);
     }
 }

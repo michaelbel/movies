@@ -51,6 +51,9 @@ public class PaginationCollectionsAdapter extends RecyclerView.Adapter<RecyclerV
             view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             view.addImage(collection.backdropPath);
             view.addName(collection.name);
+        } else if (getItemViewType(position) == LOADING) {
+            LoadingView view = (LoadingView) ((LoadingHolder) holder).itemView;
+            view.setMode(LoadingView.MODE_DEFAULT);
         }
     }
 

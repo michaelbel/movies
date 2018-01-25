@@ -52,6 +52,9 @@ public class PaginationPeopleAdapter extends RecyclerView.Adapter<RecyclerView.V
                 .setCharacter(String.valueOf(p.popularity))
                 .setProfile(p.profilePath)
                 .setDivider(true);
+        } else if (getItemViewType(position) == LOADING) {
+            LoadingView view = (LoadingView) ((LoadingHolder) holder).itemView;
+            view.setMode(LoadingView.MODE_DEFAULT);
         }
     }
 
