@@ -9,7 +9,7 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.databinding.ActivityKeywordBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.v3.Keyword;
-import org.michaelbel.moviemade.ui.fragment.KeywordMoviesFragment;
+import org.michaelbel.moviemade.ui.fragment.KeywordMoviesFragment2;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
 
 public class KeywordActivity extends BaseActivity {
@@ -31,6 +31,6 @@ public class KeywordActivity extends BaseActivity {
         binding.toolbarTitle.setText(keyword.name);
         binding.progressBar.setVisibility(View.GONE);
 
-        startFragment(KeywordMoviesFragment.newInstance(keyword.id), binding.fragmentView);
+        startFragment(KeywordMoviesFragment2.newInstance(keyword.id), binding.fragmentView);
     }
 }

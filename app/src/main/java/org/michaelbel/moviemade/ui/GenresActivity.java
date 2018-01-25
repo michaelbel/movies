@@ -121,7 +121,7 @@ public class GenresActivity extends BaseActivity implements MvpResultsView {
     }
 
     @Override
-    public void showResults(List<TmdbObject> results) {
+    public void showResults(List<TmdbObject> results, boolean firstPage) {
         for (TmdbObject genre : results) {
             adapter.addFragment(GenreMoviesFragment.newInstance(((Genre) genre).id), ((Genre) genre).name);
         }

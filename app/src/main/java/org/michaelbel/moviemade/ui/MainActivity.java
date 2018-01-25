@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade;
+package org.michaelbel.moviemade.ui;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -11,10 +11,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.databinding.ActivityMainBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.ui.fragment.ListMoviesFragment;
+import org.michaelbel.moviemade.ui.fragment.ListMoviesFragment2;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
 
 public class MainActivity extends BaseActivity {
@@ -58,10 +60,10 @@ public class MainActivity extends BaseActivity {
         });
 
         FragmentsPagerAdapter adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
-        adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_NOW_PLAYING), R.string.NowPlaying);
-        adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_POPULAR), R.string.Popular);
-        adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_TOP_RATED), R.string.TopRated);
-        adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_UPCOMING), R.string.Upcoming);
+        adapter.addFragment(ListMoviesFragment2.newInstance(ListMoviesFragment.LIST_NOW_PLAYING), R.string.NowPlaying);
+        adapter.addFragment(ListMoviesFragment2.newInstance(ListMoviesFragment.LIST_POPULAR), R.string.Popular);
+        adapter.addFragment(ListMoviesFragment2.newInstance(ListMoviesFragment.LIST_TOP_RATED), R.string.TopRated);
+        adapter.addFragment(ListMoviesFragment2.newInstance(ListMoviesFragment.LIST_UPCOMING), R.string.Upcoming);
         binding.viewPager.setAdapter(adapter);
 
         binding.tabLayout.setupWithViewPager(binding.viewPager);

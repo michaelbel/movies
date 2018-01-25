@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade;
+package org.michaelbel.moviemade.ui;
 
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
@@ -9,18 +9,18 @@ import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.databinding.ActivityMovieBinding;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.Movie;
-import org.michaelbel.moviemade.ui.SettingsController;
-import org.michaelbel.moviemade.ui.SettingsMenu;
 import org.michaelbel.moviemade.ui.fragment.CastMovieFragment;
 import org.michaelbel.moviemade.ui.fragment.ListMoviesFragment;
+import org.michaelbel.moviemade.ui.fragment.ListMoviesFragment2;
 import org.michaelbel.moviemade.ui.fragment.MovieFragment;
-import org.michaelbel.moviemade.ui.fragment.ReviewsMovieFragment;
+import org.michaelbel.moviemade.ui.fragment.ReviewsFragment;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
 
@@ -74,15 +74,15 @@ public class MovieActivity extends BaseActivity {
 
             adapter.addFragment(MovieFragment.newInstance(movie), R.string.Info);
             adapter.addFragment(CastMovieFragment.newInstance(movie), R.string.Cast);
-            adapter.addFragment(ReviewsMovieFragment.newInstance(movie), R.string.Reviews);
-            adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_SIMILAR, movie), R.string.Similar);
-            adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_RELATED, movie), R.string.Related);
+            adapter.addFragment(ReviewsFragment.newInstance(movie), R.string.Reviews);
+            adapter.addFragment(ListMoviesFragment2.newInstance(ListMoviesFragment.LIST_SIMILAR, movie), R.string.Similar);
+            adapter.addFragment(ListMoviesFragment2.newInstance(ListMoviesFragment.LIST_RELATED, movie), R.string.Related);
         } else if (movieRealm != null) {
             binding.toolbarTitle.setText(movieRealm.title);
 
             adapter.addFragment(MovieFragment.newInstance(movieRealm), R.string.Info);
             adapter.addFragment(CastMovieFragment.newInstance(movieRealm), R.string.Cast);
-            adapter.addFragment(ReviewsMovieFragment.newInstance(movieRealm), R.string.Reviews);
+            adapter.addFragment(ReviewsFragment.newInstance(movieRealm), R.string.Reviews);
             adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_SIMILAR, movieRealm), R.string.Similar);
             adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_RELATED, movieRealm), R.string.Related);
         } else {
