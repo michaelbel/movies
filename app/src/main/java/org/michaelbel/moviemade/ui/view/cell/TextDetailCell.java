@@ -51,8 +51,6 @@ public class TextDetailCell extends FrameLayout {
     public TextDetailCell(Context context) {
         super(context);
 
-        //this.setFocusableInTouchMode(true);
-
         setElevation(ScreenUtils.dp(1));
         setForeground(Theme.selectableItemBackgroundDrawable());
         setBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
