@@ -98,8 +98,32 @@
         <item quantity="other">%d People</item>
     </plurals>
     <string name="Keywords">Keywords</string>
+    <plurals name="KeywordsTotalResults">
+        <item quantity="zero">Keyword</item>
+        <item quantity="one">%d Keywords</item>
+        <item quantity="two">%d Keywords</item>
+        <item quantity="few">%d Keywords</item>
+        <item quantity="many">%d Keywords</item>
+        <item quantity="other">%d Keywords</item>
+    </plurals>
     <string name="Collections">Collections</string>
+    <plurals name="CollectionsTotalResults">
+        <item quantity="zero">Collection</item>
+        <item quantity="one">%d Collections</item>
+        <item quantity="two">%d Collections</item>
+        <item quantity="few">%d Collections</item>
+        <item quantity="many">%d Collections</item>
+        <item quantity="other">%d Collections</item>
+    </plurals>
     <string name="Companies">Companies</string>
+    <plurals name="CompaniesTotalResults">
+        <item quantity="zero">Company</item>
+        <item quantity="one">%d Companies</item>
+        <item quantity="two">%d Companies</item>
+        <item quantity="few">%d Companies</item>
+        <item quantity="many">%d Companies</item>
+        <item quantity="other">%d Companies</item>
+    </plurals>
     <!--Person-->
     <string name="Birthday">Birthday: %s</string>
     <string name="Deathday">Deathday: %s</string>
