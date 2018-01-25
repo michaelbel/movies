@@ -24,11 +24,11 @@ import java.util.List;
 
 public class ImagesSection extends FrameLayout {
 
-    private ViewPager posterViewPager;
-    private ViewPager backdropViewPager;
-
     private TextView postersCountText;
     private TextView backdropsCountText;
+
+    private FrameLayout postersTitleLayout;
+    private FrameLayout backdropsTitleLayout;
 
     private ImagePagerAdapter postersAdapter;
     private ImagePagerAdapter backdropsAdapter;
@@ -56,6 +56,7 @@ public class ImagesSection extends FrameLayout {
         addView(imagesLayout);
 
         postersAdapter = new ImagePagerAdapter();
+
         backdropsAdapter = new ImagePagerAdapter();
 
 //------POSTERS-------------------------------------------------------------------------------------
@@ -64,12 +65,12 @@ public class ImagesSection extends FrameLayout {
         postersLayout.setLayoutParams(LayoutHelper.makeLinear(0, LayoutHelper.MATCH_PARENT, Gravity.CENTER, 1F));
         imagesLayout.addView(postersLayout);
 
-        posterViewPager = new ViewPager(context);
+        ViewPager posterViewPager = new ViewPager(context);
         posterViewPager.setAdapter(postersAdapter);
         posterViewPager.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         postersLayout.addView(posterViewPager);
 
-        FrameLayout postersTitleLayout = new FrameLayout(context);
+        postersTitleLayout = new FrameLayout(context);
         postersTitleLayout.setBackgroundColor(0x99000000);
         postersTitleLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM));
         postersLayout.addView(postersTitleLayout);
@@ -86,12 +87,12 @@ public class ImagesSection extends FrameLayout {
         backdropsLayout.setLayoutParams(LayoutHelper.makeLinear(0, LayoutHelper.MATCH_PARENT, Gravity.CENTER,2F, 12, 0, 0, 0));
         imagesLayout.addView(backdropsLayout);
 
-        backdropViewPager = new ViewPager(context);
+        ViewPager backdropViewPager = new ViewPager(context);
         backdropViewPager.setAdapter(backdropsAdapter);
         backdropViewPager.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         backdropsLayout.addView(backdropViewPager);
 
-        FrameLayout backdropsTitleLayout = new FrameLayout(context);
+        backdropsTitleLayout = new FrameLayout(context);
         backdropsTitleLayout.setBackgroundColor(0x99000000);
         backdropsTitleLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM));
         backdropsLayout.addView(backdropsTitleLayout);
@@ -122,7 +123,6 @@ public class ImagesSection extends FrameLayout {
         for (Backdrop backdrop : backdrops) {
             ImagePageView view = new ImagePageView(getContext());
             view.setImage(backdrop.filePath);
-            //view.getPosterImage().setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
             view.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
             view.getPosterImage().setAdjustViewBounds(true);
             view.getPosterImage().setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -134,11 +134,11 @@ public class ImagesSection extends FrameLayout {
         backdropsCountText.setText(getResources().getQuantityString(R.plurals.Backdrops, size, size));
     }
 
-    public ViewPager getPosterViewPager() {
-        return posterViewPager;
+    public FrameLayout getPostersLayout() {
+        return postersTitleLayout;
     }
 
-    public ViewPager getBackdropViewPager() {
-        return backdropViewPager;
+    public FrameLayout getBackdropsLayout() {
+        return backdropsTitleLayout;
     }
 }
