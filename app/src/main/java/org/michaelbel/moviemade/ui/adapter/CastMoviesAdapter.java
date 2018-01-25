@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Cast;
 import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
-import org.michaelbel.moviemade.ui.view.CastView;
+import org.michaelbel.moviemade.ui.view.PersonView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,14 +30,14 @@ public class CastMoviesAdapter extends RecyclerView.Adapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new Holder(new CastView(parent.getContext()));
+        return new Holder(new PersonView(parent.getContext()));
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         Cast cast = (Cast) casts.get(position);
 
-        CastView view = (CastView) holder.itemView;
+        PersonView view = (PersonView) holder.itemView;
         view.setName(cast.name)
             .setCharacter(cast.character)
             .setProfile(cast.profilePath)
