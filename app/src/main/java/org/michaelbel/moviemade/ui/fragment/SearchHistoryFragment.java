@@ -16,12 +16,12 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.SettingsActivity;
+import org.michaelbel.moviemade.ui.SettingsActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.model.SearchItem;
-import org.michaelbel.moviemade.ui.adapter.Holder;
+import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.cell.SearchItemCell;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;

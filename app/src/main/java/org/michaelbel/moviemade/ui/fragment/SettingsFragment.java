@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import org.michaelbel.bottomsheetdialog.BottomSheet;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Moviemade;
@@ -42,7 +43,7 @@ public class SettingsFragment extends Fragment {
     //private int storageUsageRow;
     //private int searchHistoryRow;
     //private int emptyRow1;
-    //private int viewTypeRow;
+    private int viewTypeRow;
     //private int imageQualityRow;
     private int adultRow;
     private int inAppBrowserRow;
@@ -94,7 +95,7 @@ public class SettingsFragment extends Fragment {
         //storageUsageRow = rowCount++;
         //searchHistoryRow = rowCount++;
         //emptyRow1 = rowCount++;
-        //viewTypeRow = rowCount++;
+        viewTypeRow = rowCount++;
         //imageQualityRow = rowCount++;
         adultRow = rowCount++;
         inAppBrowserRow = rowCount++;
@@ -114,24 +115,6 @@ public class SettingsFragment extends Fragment {
                 activity.startFragment(new StorageFragment(), activity.binding.fragmentView, "storageFragment");
             } else if (position == searchHistoryRow) {
                 activity.startFragment(new SearchHistoryFragment(), activity.binding.fragmentView, "searchHistoryFragment");
-            } else if (position == viewTypeRow) {
-                BottomSheet.Builder builder = new BottomSheet.Builder(activity);
-                builder.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
-                builder.setItemTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
-                builder.setCellHeight(ScreenUtils.dp(52));
-                builder.setItems(viewType, (dialog, which) -> {
-                    SharedPreferences prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putInt("view_type", which);
-                    editor.apply();
-
-                    if (view instanceof TextDetailCell) {
-                        ((TextDetailCell) view).setValue(viewType[which]);
-                    }
-
-                    ((Moviemade) activity.getApplication()).eventBus().send(new Events.MovieListRefreshLayout());
-                });
-                builder.show();
             } else if (position == imageQualityRow) {
                 BottomSheet.Builder builder = new BottomSheet.Builder(activity);
                 builder.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
@@ -198,7 +181,26 @@ public class SettingsFragment extends Fragment {
                     ((Moviemade) activity.getApplication()).eventBus().send(new Events.MovieListUpdateImageQuality());
                 });
                 builder.show();
-            } else*/ if (position == inAppBrowserRow) {
+            } else*/
+            if (position == viewTypeRow) {
+                BottomSheet.Builder builder = new BottomSheet.Builder(activity);
+                builder.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
+                builder.setItemTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
+                builder.setCellHeight(ScreenUtils.dp(52));
+                builder.setItems(viewType, (dialog, which) -> {
+                    SharedPreferences prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putInt("view_type", which);
+                    editor.apply();
+
+                    if (view instanceof TextDetailCell) {
+                        ((TextDetailCell) view).setValue(viewType[which]);
+                    }
+
+                    ((Moviemade) activity.getApplication()).eventBus().send(new Events.MovieListRefreshLayout());
+                });
+                builder.show();
+            } else if (position == inAppBrowserRow) {
                 SharedPreferences prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 boolean enable = prefs.getBoolean("in_app_browser", true);
@@ -309,12 +311,12 @@ public class SettingsFragment extends Fragment {
                     cell.setText(getString(R.string.ImageQuality));
                     cell.setValue(customSettings ? "Custom" : imageQuality);
                     cell.setDivider(true);
-                } else if (position == viewTypeRow) {
+                }*/ else if (position == viewTypeRow) {
                     cell.setMode(TextDetailCell.MODE_DEFAULT);
                     cell.setText(R.string.ViewType);
                     cell.setValue(viewType[AndroidUtils.viewType()]);
                     cell.setDivider(true);
-                }*/ else if (position == scrollToTopRow) {
+                } else if (position == scrollToTopRow) {
                     cell.setMode(TextDetailCell.MODE_SWITCH);
                     cell.setText(R.string.ScrollToTop);
                     cell.setValue(R.string.ScrollToTopInfo);
@@ -341,7 +343,7 @@ public class SettingsFragment extends Fragment {
                 return 1;
             } else if (/*position == storageUsageRow || position == searchHistoryRow*/ position == -100) {
                 return 2;
-            } else if (/*position == viewTypeRow || position == imageQualityRow || */position == adultRow || position == inAppBrowserRow || position == scrollToTopRow || position == zoomReviewRow) {
+            } else if (position == viewTypeRow || /*position == imageQualityRow || */position == adultRow || position == inAppBrowserRow || position == scrollToTopRow || position == zoomReviewRow) {
                 return 3;
             } else {
                 return -1;

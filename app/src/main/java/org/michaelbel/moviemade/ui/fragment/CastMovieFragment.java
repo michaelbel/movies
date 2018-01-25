@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.moviemade.MovieActivity;
+import org.michaelbel.moviemade.ui.MovieActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.model.MovieRealm;
@@ -32,20 +32,15 @@ import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CastMovieFragment extends MvpAppCompatFragment implements MvpResultsView {
 
     private int movieId;
 
-    private Movie currentMovie;
-    private MovieRealm currentMovieRealm;
-
     private MovieActivity activity;
     private CastMoviesAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
-    private List<TmdbObject> casts = new ArrayList<>();
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
@@ -107,8 +102,11 @@ public class CastMovieFragment extends MvpAppCompatFragment implements MvpResult
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
         fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
-            casts.clear();
-            presenter.loadCredits(movieId);
+            if (adapter.getCasts().isEmpty()) {
+                presenter.loadCredits(movieId);
+            } else {
+                fragmentView.setRefreshing(false);
+            }
         });
 
         FrameLayout contentLayout = new FrameLayout(activity);
@@ -116,7 +114,6 @@ public class CastMovieFragment extends MvpAppCompatFragment implements MvpResult
         fragmentView.addView(contentLayout);
 
         progressBar = new ProgressBar(activity);
-        progressBar.setVisibility(casts.isEmpty() ? View.VISIBLE : View.INVISIBLE);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         contentLayout.addView(progressBar);
 
@@ -124,7 +121,7 @@ public class CastMovieFragment extends MvpAppCompatFragment implements MvpResult
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
         contentLayout.addView(emptyView);
 
-        adapter = new CastMoviesAdapter(casts);
+        adapter = new CastMoviesAdapter();
         linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
         recyclerView = new RecyclerListView(activity);
@@ -134,7 +131,7 @@ public class CastMovieFragment extends MvpAppCompatFragment implements MvpResult
         recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
-            Cast cast = (Cast) casts.get(position);
+            Cast cast = (Cast) adapter.getCasts().get(position);
             activity.startPerson(cast);
         });
         contentLayout.addView(recyclerView);
@@ -149,24 +146,23 @@ public class CastMovieFragment extends MvpAppCompatFragment implements MvpResult
             return;
         }
 
-        currentMovie = (Movie) getArguments().getSerializable("movie");
-        currentMovieRealm = getArguments().getParcelable("movieRealm");
+        Movie movie = (Movie) getArguments().getSerializable("movie");
+        MovieRealm movieRealm = getArguments().getParcelable("movieRealm");
 
-        if (currentMovie != null) {
-            movieId = currentMovie.id;
-        } else {
-            movieId = currentMovieRealm.id;
+        if (movie != null) {
+            movieId = movie.id;
+        } else if (movieRealm != null) {
+            movieId = movieRealm.id;
         }
 
-        casts.clear();
-        presenter.loadCredits(movieId);
+        if (savedInstanceState == null) {
+            presenter.loadCredits(movieId);
+        }
     }
 
     @Override
-    public void showResults(List<TmdbObject> results) {
-        casts.addAll(results);
-        adapter.notifyItemRangeInserted(casts.size() + 1, results.size());
-
+    public void showResults(List<TmdbObject> results, boolean firstPage) {
+        adapter.addCasts(results);
         fragmentView.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
     }

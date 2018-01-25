@@ -7,7 +7,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,7 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.moviemade.CollectionActivity;
+import org.michaelbel.moviemade.ui.CollectionActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.mvp.presenter.CollectionMoviesPresenter;
@@ -33,17 +32,15 @@ import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
 import org.michaelbel.moviemade.util.ScreenUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class CollectionMoviesFragment extends MvpAppCompatFragment implements MvpResultsView {
 
-    private int currentCollectionId;
+    private int collectionId;
 
     private MoviesAdapter adapter;
     private GridLayoutManager gridLayoutManager;
     private PaddingItemDecoration itemDecoration;
-    private List<TmdbObject> movies = new ArrayList<>();
     private CollectionActivity activity;
 
     private EmptyView emptyView;
@@ -84,8 +81,11 @@ public class CollectionMoviesFragment extends MvpAppCompatFragment implements Mv
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
         fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
-            movies.clear();
-            presenter.loadMovies(currentCollectionId);
+            if (adapter.getMovies().isEmpty()) {
+                presenter.loadMovies(collectionId);
+            } else {
+                fragmentView.setRefreshing(false);
+            }
         });
 
         FrameLayout contentLayout = new FrameLayout(activity);
@@ -93,15 +93,12 @@ public class CollectionMoviesFragment extends MvpAppCompatFragment implements Mv
         fragmentView.addView(contentLayout);
 
         progressBar = new ProgressBar(getContext());
-        progressBar.setVisibility(movies.isEmpty() ? View.VISIBLE : View.INVISIBLE);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         contentLayout.addView(progressBar);
 
         emptyView = new EmptyView(getContext());
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
         contentLayout.addView(emptyView);
-
-        adapter = new MoviesAdapter(movies);
 
         itemDecoration = new PaddingItemDecoration();
         if (AndroidUtils.viewType() == 0) {
@@ -110,6 +107,7 @@ public class CollectionMoviesFragment extends MvpAppCompatFragment implements Mv
             itemDecoration.setOffset(ScreenUtils.dp(1));
         }
 
+        adapter = new MoviesAdapter();
         gridLayoutManager = new GridLayoutManager(getContext(), AndroidUtils.getSpanForMovies());
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
@@ -122,7 +120,7 @@ public class CollectionMoviesFragment extends MvpAppCompatFragment implements Mv
         recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
-            Movie movie = (Movie) movies.get(position);
+            Movie movie = (Movie) adapter.getMovies().get(position);
             activity.startMovie(movie);
         });
         contentLayout.addView(recyclerView);
@@ -137,16 +135,16 @@ public class CollectionMoviesFragment extends MvpAppCompatFragment implements Mv
             return;
         }
 
-        currentCollectionId = getArguments().getInt("collectionId");
-        Log.e("tag0", "id = " + currentCollectionId);
-        presenter.loadMovies(currentCollectionId);
+        collectionId = getArguments().getInt("collectionId");
+
+        if (savedInstanceState == null) {
+            presenter.loadMovies(collectionId);
+        }
     }
 
     @Override
-    public void showResults(List<TmdbObject> results) {
-        movies.addAll(results);
-        adapter.notifyItemRangeInserted(movies.size() + 1, results.size());
-
+    public void showResults(List<TmdbObject> results, boolean firstPage) {
+        adapter.addMovies(results);
         fragmentView.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
     }

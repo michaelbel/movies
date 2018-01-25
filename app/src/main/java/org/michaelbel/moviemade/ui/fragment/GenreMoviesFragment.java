@@ -7,6 +7,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
@@ -19,29 +20,33 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.moviemade.mvp.presenter.GenreMoviesPresenter;
-import org.michaelbel.moviemade.ui.GenreActivity;
-import org.michaelbel.moviemade.ui.GenresActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.mvp.view.MvpResultsView2;
+import org.michaelbel.moviemade.mvp.presenter.GenreMoviesPresenter;
+import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Movie;
+import org.michaelbel.moviemade.ui.GenreActivity;
+import org.michaelbel.moviemade.ui.GenresActivity;
 import org.michaelbel.moviemade.ui.adapter.pagination.PaginationMoviesAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewListBig;
+import org.michaelbel.moviemade.ui.view.movie.MovieViewPoster;
+import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
+import org.michaelbel.moviemade.util.ScreenUtils;
 
 import java.util.List;
 
-public class GenreMoviesFragment extends MvpAppCompatFragment implements MvpResultsView2 {
+public class GenreMoviesFragment extends MvpAppCompatFragment implements MvpResultsView {
 
     private int genreId;
 
     private PaginationMoviesAdapter adapter;
-    private LinearLayoutManager linearLayoutManager;
+    private GridLayoutManager gridLayoutManager;
+    private PaddingItemDecoration itemDecoration;
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
@@ -115,20 +120,24 @@ public class GenreMoviesFragment extends MvpAppCompatFragment implements MvpResu
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
         contentLayout.addView(emptyView);
 
+        itemDecoration = new PaddingItemDecoration();
+        itemDecoration.setOffset(AndroidUtils.viewType() == 0 ? 0 : ScreenUtils.dp(1));
+
         adapter = new PaginationMoviesAdapter();
-        linearLayoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false);
+        gridLayoutManager = new GridLayoutManager(getContext(), AndroidUtils.getSpanForMovies());
+        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
         recyclerView = new RecyclerListView(getContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setEmptyView(emptyView);
+        recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
             Movie movie = (Movie) adapter.getMovies().get(position);
-            if (view instanceof MovieViewListBig) {
+            if (view instanceof MovieViewListBig || view instanceof MovieViewPoster) {
                 if (getActivity() instanceof GenresActivity) {
                     ((GenresActivity) getActivity()).startMovie(movie);
                 } else if (getActivity() instanceof GenreActivity) {
@@ -141,9 +150,9 @@ public class GenreMoviesFragment extends MvpAppCompatFragment implements MvpResu
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                int totalItemCount = linearLayoutManager.getItemCount();
-                int visibleItemCount = linearLayoutManager.getChildCount();
-                int firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
+                int totalItemCount = gridLayoutManager.getItemCount();
+                int visibleItemCount = gridLayoutManager.getChildCount();
+                int firstVisibleItemPosition = gridLayoutManager.findFirstVisibleItemPosition();
 
                 if (!presenter.isLoading && !presenter.isLastPage) {
                     if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0/* && totalItemCount >= presenter.totalPages*/) {
@@ -167,7 +176,10 @@ public class GenreMoviesFragment extends MvpAppCompatFragment implements MvpResu
         }
 
         genreId = getArguments().getInt("genreId");
-        presenter.loadFirstPage(genreId);
+
+        if (savedInstanceState == null) {
+            presenter.loadFirstPage(genreId);
+        }
     }
 
     @Override
@@ -178,7 +190,7 @@ public class GenreMoviesFragment extends MvpAppCompatFragment implements MvpResu
 
             adapter.addAll(results);
 
-            if (presenter.page <= presenter.totalPages) {
+            if (presenter.page < presenter.totalPages) {
                 adapter.addLoadingFooter();
             } else {
                 presenter.isLastPage = true;

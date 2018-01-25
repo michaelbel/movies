@@ -27,7 +27,6 @@ import org.michaelbel.moviemade.ui.view.cell.TextCell;
 import org.michaelbel.moviemade.ui.view.cell.TextDetailCell;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 
-@Deprecated
 public class ImageQualityFragment extends Fragment {
 
     private int rowCount;

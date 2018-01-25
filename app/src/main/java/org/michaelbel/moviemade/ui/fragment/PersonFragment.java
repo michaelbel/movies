@@ -17,7 +17,7 @@ import android.widget.ScrollView;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.moviemade.PersonActivity;
+import org.michaelbel.moviemade.ui.PersonActivity;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
@@ -152,7 +152,9 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
             id = extraPeoplePerson.id;
         }
 
-        presenter.loadPerson(id);
+        if (savedInstanceState == null) {
+            presenter.loadPerson(id);
+        }
     }
 
     @Override

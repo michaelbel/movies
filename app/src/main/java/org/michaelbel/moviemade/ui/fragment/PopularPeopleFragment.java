@@ -20,7 +20,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.mvp.presenter.PopularPeoplePresenter;
-import org.michaelbel.moviemade.mvp.view.MvpResultsView2;
+import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.v3.People;
 import org.michaelbel.moviemade.ui.PopularPeopleActivity;
@@ -33,10 +33,10 @@ import org.michaelbel.moviemade.util.AndroidUtilsDev;
 
 import java.util.List;
 
-public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpResultsView2 {
+public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpResultsView {
 
-    private PaginationPeopleAdapter adapter;
     private PopularPeopleActivity activity;
+    private PaginationPeopleAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
 
     private EmptyView emptyView;
@@ -137,7 +137,9 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpRe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        presenter.loadFirstPage();
+        if (savedInstanceState == null) {
+            presenter.loadFirstPage();
+        }
     }
 
     @Override
