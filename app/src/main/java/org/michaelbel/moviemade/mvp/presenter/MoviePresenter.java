@@ -28,7 +28,6 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 
 @InjectViewState
@@ -58,7 +57,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
 
     private void loadMovieDetails(int movieId) {
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        Observable<Movie> observable = service.getDetails(movieId, Url.TMDB_API_KEY, Url.en_US, null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<Movie> observable = service.getDetails(movieId, Url.TMDB_API_KEY, Url.en_US, null).observeOn(AndroidSchedulers.mainThread());
         disposable1 = observable.subscribeWith(new DisposableObserver<Movie>() {
             @Override
             public void onNext(Movie movie) {
@@ -85,7 +84,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         }
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        Observable<TrailersResponse> observable = service.getVideos(movieId, Url.TMDB_API_KEY, Url.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<TrailersResponse> observable = service.getVideos(movieId, Url.TMDB_API_KEY, Url.en_US).observeOn(AndroidSchedulers.mainThread());
         disposable2 = observable.subscribeWith(new DisposableObserver<TrailersResponse>() {
             @Override
             public void onNext(TrailersResponse response) {
@@ -112,8 +111,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         }
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        Observable<KeywordResponse> observable = service.getKeywords(movieId, Url.TMDB_API_KEY)
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<KeywordResponse> observable = service.getKeywords(movieId, Url.TMDB_API_KEY).observeOn(AndroidSchedulers.mainThread());
         disposable3 = observable.subscribeWith(new DisposableObserver<KeywordResponse>() {
             @Override
             public void onNext(KeywordResponse response) {
@@ -137,8 +135,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         }
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        Observable<ImageResponse> observable = service.getImages(movieId, Url.TMDB_API_KEY, null)
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<ImageResponse> observable = service.getImages(movieId, Url.TMDB_API_KEY, null).observeOn(AndroidSchedulers.mainThread());
         disposable4 = observable.subscribeWith(new DisposableObserver<ImageResponse>() {
             @Override
             public void onNext(ImageResponse response) {
@@ -163,8 +160,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         }
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        Observable<CreditResponse> observable = service.getCredits(movieId, Url.TMDB_API_KEY)
-                .subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<CreditResponse> observable = service.getCredits(movieId, Url.TMDB_API_KEY).observeOn(AndroidSchedulers.mainThread());
         disposable5 = observable.subscribeWith(new DisposableObserver<CreditResponse>() {
             @Override
             public void onNext(CreditResponse response) {

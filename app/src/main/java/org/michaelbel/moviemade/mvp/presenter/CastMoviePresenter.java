@@ -19,7 +19,6 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class CastMoviePresenter extends MvpPresenter<MvpResultsView> {
@@ -34,12 +33,12 @@ public class CastMoviePresenter extends MvpPresenter<MvpResultsView> {
 
         // todo То, что этот метод вызывается 2 раза нехорошо, нужно вызывать его 1 раз и затем только передавать данные
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        Observable<CreditResponse> observable = service.getCredits(movieId, Url.TMDB_API_KEY).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<CreditResponse> observable = service.getCredits(movieId, Url.TMDB_API_KEY).observeOn(AndroidSchedulers.mainThread());
         disposable = observable.subscribeWith(new DisposableObserver<CreditResponse>() {
             @Override
             public void onNext(CreditResponse response) {
                 List<TmdbObject> results = new ArrayList<>(response.casts);
-                getViewState().showResults(results);
+                getViewState().showResults(results, true);
             }
 
             @Override

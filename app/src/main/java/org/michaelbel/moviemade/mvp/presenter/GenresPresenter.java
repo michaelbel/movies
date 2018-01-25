@@ -1,7 +1,5 @@
 package org.michaelbel.moviemade.mvp.presenter;
 
-import android.util.Log;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -21,7 +19,6 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class GenresPresenter extends MvpPresenter<MvpResultsView> {
@@ -35,12 +32,12 @@ public class GenresPresenter extends MvpPresenter<MvpResultsView> {
         }
 
         GENRES service = ApiFactory.createService(GENRES.class);
-        Observable<GenresResponse> observable = service.getMovieList(Url.TMDB_API_KEY, Url.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<GenresResponse> observable = service.getMovieList(Url.TMDB_API_KEY, Url.en_US).observeOn(AndroidSchedulers.mainThread());
         disposable = observable.subscribeWith(new DisposableObserver<GenresResponse>() {
             @Override
             public void onNext(GenresResponse response) {
                 List<TmdbObject> results = new ArrayList<>(response.genres);
-                getViewState().showResults(results);
+                getViewState().showResults(results, true);
             }
 
             @Override
@@ -60,7 +57,6 @@ public class GenresPresenter extends MvpPresenter<MvpResultsView> {
 
         if (disposable != null && !disposable.isDisposed()) {
             disposable.dispose();
-            Log.e("2580", "Disposable dispose"); // todo TEST
         }
     }
 }

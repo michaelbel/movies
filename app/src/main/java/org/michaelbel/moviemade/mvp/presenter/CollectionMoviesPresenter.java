@@ -19,7 +19,6 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class CollectionMoviesPresenter extends MvpPresenter<MvpResultsView> {
@@ -43,12 +42,15 @@ public class CollectionMoviesPresenter extends MvpPresenter<MvpResultsView> {
         }
 
         COLLECTIONS service = ApiFactory.createService(COLLECTIONS.class);
-        Observable<Collection> observable = service.getDetails(collectionId, Url.TMDB_API_KEY, Url.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<Collection> observable = service.getDetails(collectionId, Url.TMDB_API_KEY, Url.en_US).observeOn(AndroidSchedulers.mainThread());
         disposable = observable.subscribeWith(new DisposableObserver<Collection>() {
             @Override
             public void onNext(Collection collection) {
-                List<TmdbObject> movies = new ArrayList<>(collection.movies);
-                getViewState().showResults(movies);
+                List<TmdbObject> results = new ArrayList<>(collection.movies);
+                if (results.isEmpty()) {
+                    getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                }
+                getViewState().showResults(results, true);
             }
 
             @Override

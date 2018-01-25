@@ -15,7 +15,6 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class PersonPresenter extends MvpPresenter<MvpPersonView> {
@@ -29,7 +28,7 @@ public class PersonPresenter extends MvpPresenter<MvpPersonView> {
         }
 
         PEOPLE service = ApiFactory.createService(PEOPLE.class);
-        Observable<Person> observable = service.getDetails(personId, Url.TMDB_API_KEY, Url.en_US, null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<Person> observable = service.getDetails(personId, Url.TMDB_API_KEY, Url.en_US, null).observeOn(AndroidSchedulers.mainThread());
         disposable = observable.subscribeWith(new DisposableObserver<Person>() {
             @Override
             public void onNext(Person person) {
