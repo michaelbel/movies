@@ -5,12 +5,12 @@ import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class FragmentsPagerAdapter extends FragmentPagerAdapter {
+public class FragmentsPagerAdapter extends FragmentStatePagerAdapter {
 
     private Context mContext;
     private final List<Fragment> mFragments = new ArrayList<>();
