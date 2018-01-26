@@ -19,28 +19,21 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class SearchKeywordsPresenter extends MvpPresenter<MvpSearchView> {
 
-    public int page;
+    public int page = 1;
     public int totalPages;
-    public boolean loading;
-    public boolean loadingLocked;
+    public int totalResults;
+    public boolean isLoading = false;
+    public boolean isLastPage = false;
 
     private String currentQuery;
-
-    private Disposable disposable1;
-    private Disposable disposable2;
+    private Disposable disposable1, disposable2;
 
     public void search(String query) {
-        page = 1;
-        totalPages = 0;
-        loading = false;
-        loadingLocked = false;
         currentQuery = query;
-
         getViewState().searchStart();
 
         if (NetworkUtils.notConnected()) {
@@ -49,14 +42,14 @@ public class SearchKeywordsPresenter extends MvpPresenter<MvpSearchView> {
         }
 
         SEARCH service = ApiFactory.createService(SEARCH.class);
-        Observable<KeywordsResponse> observable = service.searchKeywords(Url.TMDB_API_KEY, query, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<KeywordsResponse> observable = service.searchKeywords(Url.TMDB_API_KEY, query, page).observeOn(AndroidSchedulers.mainThread());
         disposable1 = observable.subscribeWith(new DisposableObserver<KeywordsResponse>() {
             @Override
             public void onNext(KeywordsResponse response) {
-                List<TmdbObject> results = new ArrayList<>(response.keywords);
-                getViewState().searchComplete(results, response.totalResults);
                 totalPages = response.totalPages;
-                page++;
+                totalResults = response.totalResults;
+                List<TmdbObject> results = new ArrayList<>(response.keywords);
+                getViewState().showResults(results, true);
             }
 
             @Override
@@ -70,22 +63,18 @@ public class SearchKeywordsPresenter extends MvpPresenter<MvpSearchView> {
         });
     }
 
-    public void loadResults() {
+    public void loadNextPage() {
         SEARCH service = ApiFactory.createService(SEARCH.class);
-        Observable<KeywordsResponse> observable = service.searchKeywords(Url.TMDB_API_KEY, currentQuery, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<KeywordsResponse> observable = service.searchKeywords(Url.TMDB_API_KEY, currentQuery, page).observeOn(AndroidSchedulers.mainThread());
         disposable2 = observable.subscribeWith(new DisposableObserver<KeywordsResponse>() {
             @Override
             public void onNext(KeywordsResponse response) {
                 List<TmdbObject> results = new ArrayList<>(response.keywords);
-                getViewState().nextPageLoaded(results);
-                loading = false;
-                page++;
+                getViewState().showResults(results, false);
             }
 
             @Override
             public void onError(Throwable e) {
-                loadingLocked = true;
-                loading = false;
                 e.printStackTrace();
             }
 
@@ -94,7 +83,6 @@ public class SearchKeywordsPresenter extends MvpPresenter<MvpSearchView> {
                 disposable1.dispose();
             }
         });
-        loading = true;
     }
 
     @Override
@@ -109,13 +97,4 @@ public class SearchKeywordsPresenter extends MvpPresenter<MvpSearchView> {
             disposable2.dispose();
         }
     }
-
-    /*private void addToSearchHistory(String query) {
-        Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(realm1 -> {
-            SearchItem item = realm1.createObject(SearchItem.class);
-            item.queryTitle = query;
-            item.queryDate = DateUtils.getCurrentDateAndTimeWithMilliseconds();
-        });
-    }*/
 }

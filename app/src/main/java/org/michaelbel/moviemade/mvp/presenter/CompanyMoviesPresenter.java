@@ -42,6 +42,10 @@ public class CompanyMoviesPresenter extends MvpPresenter<MvpResultsView> {
             @Override
             public void onNext(MoviesResponse response) {
                 List<TmdbObject> results = new ArrayList<>(response.movies);
+                if (results.isEmpty()) {
+                    getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                    return;
+                }
                 getViewState().showResults(results, true);
             }
 

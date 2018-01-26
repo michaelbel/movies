@@ -20,28 +20,21 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView> {
 
-    public int page;
+    public int page = 1;
     public int totalPages;
-    public boolean loading;
-    public boolean loadingLocked;
+    public int totalResults;
+    public boolean isLoading = false;
+    public boolean isLastPage = false;
 
     private String currentQuery;
-
-    private Disposable disposable1;
-    private Disposable disposable2;
+    private Disposable disposable1, disposable2;
 
     public void search(String query) {
-        page = 1;
-        totalPages = 0;
-        loading = false;
-        loadingLocked = false;
         currentQuery = query;
-
         getViewState().searchStart();
 
         if (NetworkUtils.notConnected()) {
@@ -50,14 +43,14 @@ public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView> {
         }
 
         SEARCH service = ApiFactory.createService(SEARCH.class);
-        Observable<PeopleResponse> observable = service.searchPeople(Url.TMDB_API_KEY, Url.en_US, query, page, AndroidUtils.includeAdult(), null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<PeopleResponse> observable = service.searchPeople(Url.TMDB_API_KEY, Url.en_US, query, page, AndroidUtils.includeAdult(), null).observeOn(AndroidSchedulers.mainThread());
         disposable1 = observable.subscribeWith(new DisposableObserver<PeopleResponse>() {
             @Override
             public void onNext(PeopleResponse response) {
-                List<TmdbObject> results = new ArrayList<>(response.people);
-                getViewState().searchComplete(results, response.totalResults);
                 totalPages = response.totalPages;
-                page++;
+                totalResults = response.totalResults;
+                List<TmdbObject> results = new ArrayList<>(response.people);
+                getViewState().showResults(results, true);
             }
 
             @Override
@@ -71,22 +64,18 @@ public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView> {
         });
     }
 
-    public void loadResults() {
+    public void loadNextPage() {
         SEARCH service = ApiFactory.createService(SEARCH.class);
-        Observable<PeopleResponse> observable = service.searchPeople(Url.TMDB_API_KEY, Url.en_US, currentQuery, page, AndroidUtils.includeAdult(), null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<PeopleResponse> observable = service.searchPeople(Url.TMDB_API_KEY, Url.en_US, currentQuery, page, AndroidUtils.includeAdult(), null).observeOn(AndroidSchedulers.mainThread());
         disposable2 = observable.subscribeWith(new DisposableObserver<PeopleResponse>() {
             @Override
             public void onNext(PeopleResponse response) {
                 List<TmdbObject> results = new ArrayList<>(response.people);
-                getViewState().nextPageLoaded(results);
-                loading = false;
-                page++;
+                getViewState().showResults(results, false);
             }
 
             @Override
             public void onError(Throwable e) {
-                loadingLocked = true;
-                loading = false;
                 e.printStackTrace();
             }
 
@@ -95,7 +84,6 @@ public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView> {
                 disposable1.dispose();
             }
         });
-        loading = true;
     }
 
     @Override
@@ -110,13 +98,4 @@ public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView> {
             disposable2.dispose();
         }
     }
-
-    /*private void addToSearchHistory(String query) {
-        Realm realm = Realm.getDefaultInstance();
-        realm.executeTransaction(realm1 -> {
-            SearchItem item = realm1.createObject(SearchItem.class);
-            item.queryTitle = query;
-            item.queryDate = DateUtils.getCurrentDateAndTimeWithMilliseconds();
-        });
-    }*/
 }

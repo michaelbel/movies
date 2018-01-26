@@ -20,23 +20,18 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class KeywordMoviesPresenter extends MvpPresenter<MvpResultsView> {
 
-    public int page;
+    public int page = 1;
     public int totalPages;
-    public boolean loading;
-    public boolean loadingLocked;
-
-    private int keywordId;
+    public boolean isLoading = false;
+    public boolean isLastPage = false;
 
     private Disposable disposable1, disposable2;
 
     public void loadFirstPage(int keywordId) {
-        this.keywordId = keywordId;
-
         if (keywordId == 0) {
             getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
             return;
@@ -47,20 +42,18 @@ public class KeywordMoviesPresenter extends MvpPresenter<MvpResultsView> {
             return;
         }
 
-        page = 1;
-        totalPages = 0;
-        loading = false;
-        loadingLocked = false;
-
         KEYWORDS service = ApiFactory.createService(KEYWORDS.class);
         Observable<MoviesResponse> observable = service.getMovies(keywordId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).observeOn(AndroidSchedulers.mainThread());
         disposable1 = observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override
             public void onNext(MoviesResponse response) {
-                List<TmdbObject> results = new ArrayList<>(response.movies);
-                getViewState().showResults(results);
                 totalPages = response.totalPages;
-                page++;
+                List<TmdbObject> results = new ArrayList<>(response.movies);
+                if (results.isEmpty()) {
+                    getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                    return;
+                }
+                getViewState().showResults(results, true);
             }
 
             @Override
@@ -74,22 +67,18 @@ public class KeywordMoviesPresenter extends MvpPresenter<MvpResultsView> {
         });
     }
 
-    public void loadNextPage() {
+    public void loadNextPage(int keywordId) {
         KEYWORDS service = ApiFactory.createService(KEYWORDS.class);
-        Observable<MoviesResponse> observable = service.getMovies(keywordId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<MoviesResponse> observable = service.getMovies(keywordId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).observeOn(AndroidSchedulers.mainThread());
         disposable2 = observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override
             public void onNext(MoviesResponse response) {
                 List<TmdbObject> results = new ArrayList<>(response.movies);
-                getViewState().showResults(results);
-                loading = false;
-                page++;
+                getViewState().showResults(results, false);
             }
 
             @Override
             public void onError(Throwable e) {
-                loadingLocked = true;
-                loading = false;
                 e.printStackTrace();
             }
 
@@ -98,7 +87,6 @@ public class KeywordMoviesPresenter extends MvpPresenter<MvpResultsView> {
                 disposable1.dispose();
             }
         });
-        loading = true;
     }
 
     @Override

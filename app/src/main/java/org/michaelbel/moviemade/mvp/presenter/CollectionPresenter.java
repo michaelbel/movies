@@ -21,12 +21,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
 @InjectViewState
-public class CollectionMoviesPresenter extends MvpPresenter<MvpResultsView> {
-
-    public int page;
-    public int totalPages;
-    public boolean loading;
-    public boolean loadingLocked;
+public class CollectionPresenter extends MvpPresenter<MvpResultsView> {
 
     private Disposable disposable;
 
@@ -49,6 +44,7 @@ public class CollectionMoviesPresenter extends MvpPresenter<MvpResultsView> {
                 List<TmdbObject> results = new ArrayList<>(collection.movies);
                 if (results.isEmpty()) {
                     getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                    return;
                 }
                 getViewState().showResults(results, true);
             }

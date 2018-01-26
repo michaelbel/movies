@@ -21,7 +21,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 
 @InjectViewState
-public class CastMoviePresenter extends MvpPresenter<MvpResultsView> {
+public class MovieCastsPresenter extends MvpPresenter<MvpResultsView> {
 
     private Disposable disposable;
 
@@ -38,6 +38,9 @@ public class CastMoviePresenter extends MvpPresenter<MvpResultsView> {
             @Override
             public void onNext(CreditResponse response) {
                 List<TmdbObject> results = new ArrayList<>(response.casts);
+                if (results.isEmpty()) {
+                    getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
+                }
                 getViewState().showResults(results, true);
             }
 

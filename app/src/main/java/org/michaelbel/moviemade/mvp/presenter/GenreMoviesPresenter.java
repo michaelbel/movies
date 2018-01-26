@@ -44,6 +44,10 @@ public class GenreMoviesPresenter extends MvpPresenter<MvpResultsView> {
             public void onNext(MoviesResponse response) {
                 totalPages = response.totalPages;
                 List<TmdbObject> results = new ArrayList<>(response.movies);
+                if (results.isEmpty()) {
+                    getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                    return;
+                }
                 getViewState().showResults(results, true);
             }
 

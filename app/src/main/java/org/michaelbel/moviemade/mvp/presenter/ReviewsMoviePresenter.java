@@ -19,7 +19,6 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class ReviewsMoviePresenter extends MvpPresenter<MvpResultsView> {
@@ -31,10 +30,9 @@ public class ReviewsMoviePresenter extends MvpPresenter<MvpResultsView> {
 
     private int movieId;
 
-    private Disposable disposable1;
-    private Disposable disposable2;
+    private Disposable disposable1, disposable2;
 
-    public void loadReviews(int movieId) {
+    public void loadFirstPage(int movieId) {
         this.movieId = movieId;
 
         if (movieId == 0) {
@@ -53,12 +51,16 @@ public class ReviewsMoviePresenter extends MvpPresenter<MvpResultsView> {
         loadingLocked = false;
 
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        Observable<ReviewResponse> observable = service.getReviews(movieId, Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<ReviewResponse> observable = service.getReviews(movieId, Url.TMDB_API_KEY, Url.en_US, page).observeOn(AndroidSchedulers.mainThread());
         disposable1 = observable.subscribeWith(new DisposableObserver<ReviewResponse>() {
             @Override
             public void onNext(ReviewResponse response) {
                 List<TmdbObject> results = new ArrayList<>(response.reviews);
-                getViewState().showResults(results);
+                if (results.isEmpty()) {
+                    getViewState().showError(EmptyViewMode.MODE_NO_REVIEWS);
+                    return;
+                }
+                getViewState().showResults(results, true);
                 totalPages = response.totalPages;
                 page++;
             }
@@ -74,14 +76,14 @@ public class ReviewsMoviePresenter extends MvpPresenter<MvpResultsView> {
         });
     }
 
-    public void loadResults() {
+    public void loadNextPage() {
         MOVIES service = ApiFactory.createService(MOVIES.class);
-        Observable<ReviewResponse> observable = service.getReviews(movieId, Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<ReviewResponse> observable = service.getReviews(movieId, Url.TMDB_API_KEY, Url.en_US, page).observeOn(AndroidSchedulers.mainThread());
         disposable2 = observable.subscribeWith(new DisposableObserver<ReviewResponse>() {
             @Override
             public void onNext(ReviewResponse response) {
                 List<TmdbObject> results = new ArrayList<>(response.reviews);
-                getViewState().showResults(results);
+                getViewState().showResults(results, false);
                 loading = false;
                 page++;
             }
