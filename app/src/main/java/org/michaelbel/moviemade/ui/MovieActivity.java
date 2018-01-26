@@ -16,8 +16,7 @@ import org.michaelbel.moviemade.databinding.ActivityMovieBinding;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.Movie;
-import org.michaelbel.moviemade.ui.fragment.CastMovieFragment;
-import org.michaelbel.moviemade.ui.fragment.ListMoviesFragment;
+import org.michaelbel.moviemade.ui.fragment.MovieCastsFragment;
 import org.michaelbel.moviemade.ui.fragment.ListMoviesFragment2;
 import org.michaelbel.moviemade.ui.fragment.MovieFragment;
 import org.michaelbel.moviemade.ui.fragment.ReviewsFragment;
@@ -73,18 +72,18 @@ public class MovieActivity extends BaseActivity {
             binding.toolbarTitle.setText(movie.title);
 
             adapter.addFragment(MovieFragment.newInstance(movie), R.string.Info);
-            adapter.addFragment(CastMovieFragment.newInstance(movie), R.string.Cast);
+            adapter.addFragment(MovieCastsFragment.newInstance(movie), R.string.Cast);
             adapter.addFragment(ReviewsFragment.newInstance(movie), R.string.Reviews);
-            adapter.addFragment(ListMoviesFragment2.newInstance(ListMoviesFragment.LIST_SIMILAR, movie), R.string.Similar);
-            adapter.addFragment(ListMoviesFragment2.newInstance(ListMoviesFragment.LIST_RELATED, movie), R.string.Related);
+            adapter.addFragment(ListMoviesFragment2.newInstance(ListMoviesFragment2.LIST_SIMILAR, movie), R.string.Similar);
+            adapter.addFragment(ListMoviesFragment2.newInstance(ListMoviesFragment2.LIST_RELATED, movie), R.string.Related);
         } else if (movieRealm != null) {
             binding.toolbarTitle.setText(movieRealm.title);
 
             adapter.addFragment(MovieFragment.newInstance(movieRealm), R.string.Info);
-            adapter.addFragment(CastMovieFragment.newInstance(movieRealm), R.string.Cast);
+            adapter.addFragment(MovieCastsFragment.newInstance(movieRealm), R.string.Cast);
             adapter.addFragment(ReviewsFragment.newInstance(movieRealm), R.string.Reviews);
-            adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_SIMILAR, movieRealm), R.string.Similar);
-            adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_RELATED, movieRealm), R.string.Related);
+            adapter.addFragment(ListMoviesFragment2.newInstance(ListMoviesFragment2.LIST_SIMILAR, movieRealm), R.string.Similar);
+            adapter.addFragment(ListMoviesFragment2.newInstance(ListMoviesFragment2.LIST_RELATED, movieRealm), R.string.Related);
         } else {
             //binding.toolbarTitle.setText("Movie Info: " + sMovieId);
 
