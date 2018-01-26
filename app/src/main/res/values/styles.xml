@@ -35,14 +35,13 @@
 
     <style name="TitleExpanded" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">@color/foregroundColor</item>
+        <item name="android:textColor">@color/cursorColor</item>
         <item name="android:ellipsize">none</item>
-        <item name="android:visibility">invisible</item>
     </style>
 
     <style name="TitleCollapsed" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@color/foregroundColor</item>
+        <item name="android:textColor">@color/cursorColor</item>
         <item name="android:ellipsize">end</item>
     </style>
 

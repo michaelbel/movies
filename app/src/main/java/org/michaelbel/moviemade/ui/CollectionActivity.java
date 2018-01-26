@@ -52,7 +52,7 @@ public class CollectionActivity extends BaseActivity {
         setSupportActionBar(binding.toolbar);
         binding.toolbar.setNavigationOnClickListener(view -> finish());
 
-        //binding.toolbarTitle.setText(collection.name);
+        binding.toolbarTitle.setText(collection.name);
         //binding.collapsingLayout.setTitle(collection.name);
 
         startFragment(CollectionFragment.newInstance(collection), binding.fragmentView);

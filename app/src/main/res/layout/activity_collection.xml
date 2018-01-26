@@ -32,13 +32,6 @@
                         android:textSize="20sp"
                         style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
 
-                    <ProgressBar
-                        android:id="@+id/progress_bar"
-                        android:layout_width="24dp"
-                        android:layout_height="24dp"
-                        android:layout_gravity="end|center_vertical"
-                        android:layout_marginEnd="16dp"/>
-
                 </FrameLayout>
 
             </android.support.v7.widget.Toolbar>

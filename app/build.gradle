@@ -10,9 +10,9 @@ android {
         applicationId "org.michaelbel.moviemade"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 17
-        versionName "0.2.0"
-        buildConfigField "String", "VERSION_DATE", '"Jan 25, 2018"'
+        versionCode 19
+        versionName "0.2.1"
+        buildConfigField "String", "VERSION_DATE", '"Jan 26, 2018"'
         project.ext.set("archivesBaseName", "moviemade-v" + defaultConfig.versionName)
     }
 
