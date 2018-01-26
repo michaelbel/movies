@@ -9,9 +9,7 @@ import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.PEOPLE;
-import org.michaelbel.moviemade.rest.model.v3.People;
 import org.michaelbel.moviemade.rest.response.PeopleResponse;
-import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.NetworkUtils;
 
 import java.util.ArrayList;
@@ -44,24 +42,11 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpResultsView> {
             @Override
             public void onNext(PeopleResponse response) {
                 totalPages = response.totalPages;
-
-                List<TmdbObject> results = new ArrayList<>();
-
-                if (AndroidUtils.includeAdult()) {
-                    results.addAll(response.people);
-                } else {
-                    for (People people : response.people) {
-                        if (!people.adult) {
-                            results.add(people);
-                        }
-                    }
-                }
-
+                List<TmdbObject> results = new ArrayList<>(response.people);
                 if (results.isEmpty()) {
                     getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
                     return;
                 }
-
                 getViewState().showResults(results, true);
             }
 
@@ -82,22 +67,7 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpResultsView> {
         disposable2 = observable.subscribeWith(new DisposableObserver<PeopleResponse>() {
             @Override
             public void onNext(PeopleResponse response) {
-                List<TmdbObject> results = new ArrayList<>();
-
-                if (AndroidUtils.includeAdult()) {
-                    results.addAll(response.people);
-                } else {
-                    for (People people : response.people) {
-                        if (!people.adult) {
-                            results.add(people);
-                        }
-                    }
-                }
-
-                if (results.isEmpty()) {
-                    return;
-                }
-
+                List<TmdbObject> results = new ArrayList<>(response.people);
                 getViewState().showResults(results, false);
             }
 

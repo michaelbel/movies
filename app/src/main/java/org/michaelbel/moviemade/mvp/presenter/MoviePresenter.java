@@ -33,11 +33,7 @@ import io.realm.Realm;
 @InjectViewState
 public class MoviePresenter extends MvpPresenter<MvpMovieView> {
 
-    private Disposable disposable1;
-    private Disposable disposable2;
-    private Disposable disposable3;
-    private Disposable disposable4;
-    private Disposable disposable5;
+    private Disposable disposable1, disposable2, disposable3, disposable4, disposable5;
 
     public void loadMovie(Movie movie) {
         if (NetworkUtils.notConnected()) {
@@ -205,7 +201,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
 //--------------------------------------------------------------------------------------------------
 
     @Beta
-    public boolean isMovieRealm(int movieId) {
+    private boolean isMovieRealm(int movieId) {
         Realm realm = Realm.getDefaultInstance();
         MovieRealm movie = realm.where(MovieRealm.class).equalTo("id", movieId).findFirst();
         return movie != null;
@@ -336,7 +332,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
     }
 
     @Beta
-    public void updateMovieToRealm(Movie movie) {
+    private void updateMovieToRealm(Movie movie) {
         Realm realm = Realm.getDefaultInstance();
 
         realm.executeTransaction(new Realm.Transaction() {
