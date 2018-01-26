@@ -47,10 +47,9 @@ public class MoviesAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        int type = getItemViewType(position);
         Movie movie = (Movie) movies.get(position);
 
-        if (type == 0) {
+        if (getItemViewType(position) == 0) {
             MovieViewListBig view = (MovieViewListBig) holder.itemView;
             view.setPoster(movie.posterPath)
                 .setTitle(movie.title)
@@ -58,8 +57,8 @@ public class MoviesAdapter extends RecyclerView.Adapter {
                 .setVoteCount(String.valueOf(movie.voteCount))
                 .setReleaseDate(movie.releaseDate != null ? DateUtils.getMovieReleaseDate(movie.releaseDate) : "")
                 .setOverview(movie.overview)
-                .setDivider(true);
-        } else if (type == 1) {
+                .setDivider(position != movies.size() - 1);
+        } else if (getItemViewType(position) == 1) {
             MovieViewPoster view = (MovieViewPoster) holder.itemView;
             view.setPoster(movie.posterPath);
         }
