@@ -16,7 +16,7 @@ import org.michaelbel.moviemade.util.DateUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaginationMoviesAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PaginationMoviesAdapter extends RecyclerView.Adapter {
 
     private final int ITEM = 0;
     private final int ITEM_POSTER = 1;
@@ -89,7 +89,13 @@ public class PaginationMoviesAdapter extends RecyclerView.Adapter<RecyclerView.V
 
     public void addAll(List<TmdbObject> movies) {
         for (TmdbObject movie : movies) {
-            add(movie);
+            if (AndroidUtils.includeAdult()) {
+                add(movie);
+            } else {
+                if (!((Movie) movie).adult) {
+                    add(movie);
+                }
+            }
         }
     }
 
@@ -131,7 +137,7 @@ public class PaginationMoviesAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    public TmdbObject getItem(int position) {
+    private TmdbObject getItem(int position) {
         return movies.get(position);
     }
 }
