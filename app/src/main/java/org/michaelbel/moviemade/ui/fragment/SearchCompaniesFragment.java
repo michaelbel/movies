@@ -18,7 +18,6 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.SearchActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
@@ -26,13 +25,14 @@ import org.michaelbel.moviemade.mvp.presenter.SearchCompaniesPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpSearchView;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.v3.Company;
-import org.michaelbel.moviemade.ui.adapter.SearchCompaniesAdapter;
+import org.michaelbel.moviemade.ui.SearchActivity;
+import org.michaelbel.moviemade.ui.adapter.pagination.PaginationCompaniesAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
+import org.michaelbel.moviemade.ui.view.cell.TextCell;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class SearchCompaniesFragment extends MvpAppCompatFragment implements MvpSearchView {
@@ -40,9 +40,8 @@ public class SearchCompaniesFragment extends MvpAppCompatFragment implements Mvp
     private String readyQuery;
 
     private SearchActivity activity;
-    private SearchCompaniesAdapter adapter;
+    private PaginationCompaniesAdapter adapter;
     private LinearLayoutManager linearLayoutManager;
-    private List<TmdbObject> searches = new ArrayList<>();
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
@@ -101,7 +100,7 @@ public class SearchCompaniesFragment extends MvpAppCompatFragment implements Mvp
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         fragmentView.addView(progressBar);
 
-        adapter = new SearchCompaniesAdapter(searches);
+        adapter = new PaginationCompaniesAdapter();
         linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
         recyclerView = new RecyclerListView(activity);
@@ -111,17 +110,26 @@ public class SearchCompaniesFragment extends MvpAppCompatFragment implements Mvp
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        recyclerView.setOnItemClickListener((view1, position) -> {
-            Company company = (Company) searches.get(position);
-            activity.startCompany(company);
+        recyclerView.setOnItemClickListener((view, position) -> {
+            if (view instanceof TextCell) {
+                Company company = (Company) adapter.getCompanies().get(position);
+                activity.startCompany(company);
+            }
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (linearLayoutManager.findLastVisibleItemPosition() == searches.size() - 1 && !presenter.loading && !presenter.loadingLocked) {
-                    if (presenter.page < presenter.totalPages) {
-                        presenter.loadResults();
+
+                int totalItemCount = linearLayoutManager.getItemCount();
+                int visibleItemCount = linearLayoutManager.getChildCount();
+                int firstVisibleItemPosition = linearLayoutManager.findFirstVisibleItemPosition();
+
+                if (!presenter.isLoading && !presenter.isLastPage) {
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0/* && totalItemCount >= presenter.totalPages*/) {
+                        presenter.isLoading = true;
+                        presenter.page++;
+                        presenter.loadNextPage();
                     }
                 }
             }
@@ -159,23 +167,35 @@ public class SearchCompaniesFragment extends MvpAppCompatFragment implements Mvp
     }
 
     @Override
-    public void searchComplete(List<TmdbObject> results, int totalResults) {
-        searches.addAll(results);
-        adapter.notifyItemRangeInserted(searches.size() + 1, results.size());
-        progressBar.setVisibility(View.GONE);
+    public void showResults(List<TmdbObject> results, boolean firstPage) {
+        if (firstPage) {
+            progressBar.setVisibility(View.GONE);
 
-        if (AndroidUtilsDev.searchResultsCount()) {
-            TabLayout.Tab tab = activity.binding.tabLayout.getTabAt(SearchActivity.TAB_PEOPLE);
-            if (tab != null) {
-                tab.setText(getResources().getQuantityString(R.plurals.PeopleTotalResults, totalResults, totalResults));
+            adapter.addAll(results);
+
+            if (presenter.page < presenter.totalPages) {
+                adapter.addLoadingFooter();
+            } else {
+                presenter.isLastPage = true;
+            }
+
+            if (AndroidUtilsDev.searchResultsCount()) {
+                TabLayout.Tab tab = activity.binding.tabLayout.getTabAt(SearchActivity.TAB_COMPANIES);
+                if (tab != null) {
+                    tab.setText(getResources().getQuantityString(R.plurals.CompaniesTotalResults, presenter.totalResults, presenter.totalResults));
+                }
+            }
+        } else {
+            adapter.removeLoadingFooter();
+            presenter.isLoading = false;
+            adapter.addAll(results);
+
+            if (presenter.page != presenter.totalPages) {
+                adapter.addLoadingFooter();
+            } else {
+                presenter.isLastPage = true;
             }
         }
-    }
-
-    @Override
-    public void nextPageLoaded(List<TmdbObject> results) {
-        searches.addAll(results);
-        adapter.notifyItemRangeInserted(searches.size() + 1, results.size());
     }
 
     @Override

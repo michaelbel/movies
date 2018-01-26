@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,27 +22,32 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.moviemade.MainActivity;
-import org.michaelbel.moviemade.MovieActivity;
-import org.michaelbel.moviemade.PersonActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.moviemade.app.Moviemade;
 import org.michaelbel.moviemade.app.Theme;
+import org.michaelbel.moviemade.app.eventbus.Events;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.presenter.ListMoviesPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Cast;
 import org.michaelbel.moviemade.rest.model.Movie;
-import org.michaelbel.moviemade.ui.adapter.MoviesAdapter;
+import org.michaelbel.moviemade.ui.MainActivity;
+import org.michaelbel.moviemade.ui.MovieActivity;
+import org.michaelbel.moviemade.ui.PersonActivity;
+import org.michaelbel.moviemade.ui.adapter.pagination.PaginationMoviesAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
+import org.michaelbel.moviemade.ui.view.movie.MovieViewListBig;
+import org.michaelbel.moviemade.ui.view.movie.MovieViewPoster;
 import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
 import org.michaelbel.moviemade.util.ScreenUtils;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import io.reactivex.functions.Consumer;
 
 public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResultsView {
 
@@ -53,22 +59,22 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
     public static final int LIST_RELATED = 6;
     public static final int LIST_BY_PERSON = 7;
 
-    private int currentMovieList;
-    private Movie currentMovie;
-    private Cast currentPerson;
-
     private int movieId;
-    private MovieRealm currentMovieRealm;
+    private int personId;
+
+    private int movieList;
+    private Movie movie;
+    private MovieRealm movieRealm;
+    private Cast person;
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
     private RecyclerListView recyclerView;
     private SwipeRefreshLayout fragmentView;
 
-    private MoviesAdapter adapter;
-    private PaddingItemDecoration itemDecoration;
+    private PaginationMoviesAdapter adapter;
     private GridLayoutManager gridLayoutManager;
-    private List<TmdbObject> movies = new ArrayList<>();
+    private PaddingItemDecoration itemDecoration;
 
     @InjectPresenter
     public ListMoviesPresenter presenter;
@@ -180,20 +186,15 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
         fragmentView.setBackgroundColor(ContextCompat.getColor(getContext(), Theme.backgroundColor()));
         fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(getContext(), Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
-            /*if (NetworkUtils.notConnected()) {
-                onLoadError();
-            } else {
-                if (movies.isEmpty()) {
-                    if (currentMovieList == LIST_BY_PERSON) {
-                        loadPersonMovies();
-                    } else {
-                        loadList();
-                    }
+            if (adapter.getMovies().isEmpty()) {
+                if (movieList == LIST_BY_PERSON) {
+                    presenter.loadPersonMovies(personId);
                 } else {
-                    fragmentView.setRefreshing(false);
+                    loadList();
                 }
-            }*/
-            fragmentView.setRefreshing(false);
+            } else {
+                fragmentView.setRefreshing(false);
+            }
         });
 
         FrameLayout contentLayout = new FrameLayout(getContext());
@@ -201,15 +202,12 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
         fragmentView.addView(contentLayout);
 
         progressBar = new ProgressBar(getContext());
-        progressBar.setVisibility(movies.isEmpty() ? View.VISIBLE : View.INVISIBLE);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         contentLayout.addView(progressBar);
 
         emptyView = new EmptyView(getContext());
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
         contentLayout.addView(emptyView);
-
-        adapter = new MoviesAdapter(movies);
 
         itemDecoration = new PaddingItemDecoration();
         if (AndroidUtils.viewType() == 0) {
@@ -218,6 +216,7 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
             itemDecoration.setOffset(ScreenUtils.dp(1));
         }
 
+        adapter = new PaginationMoviesAdapter();
         gridLayoutManager = new GridLayoutManager(getContext(), AndroidUtils.getSpanForMovies());
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
@@ -227,20 +226,23 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
         recyclerView.setEmptyView(emptyView);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        recyclerView.setOnItemClickListener((view1, position) -> {
-            Movie movie = (Movie) movies.get(position);
+        recyclerView.setOnItemClickListener((view, position) -> {
+            if (view instanceof MovieViewListBig || view instanceof MovieViewPoster) {
+                Movie movie = (Movie) adapter.getMovies().get(position);
 
-            if (getArguments().getSerializable("movie") != null) {
-                ((MovieActivity) getActivity()).startMovie(movie);
-            } else if (getArguments().getSerializable("person") != null) {
-                ((PersonActivity) getActivity()).startMovie(movie);
-            } else {
-                if (getActivity() instanceof MainActivity) {
-                    ((MainActivity) getActivity()).startMovie(movie);
-                } else if (getActivity() instanceof MovieActivity) {
+                if (getArguments().getSerializable("movie") != null) {
                     ((MovieActivity) getActivity()).startMovie(movie);
+                } else if (getArguments().getSerializable("person") != null) {
+                    ((PersonActivity) getActivity()).startMovie(movie);
+                } else {
+                    if (getActivity() instanceof MainActivity) {
+                        ((MainActivity) getActivity()).startMovie(movie);
+                    } else if (getActivity() instanceof MovieActivity) {
+                        ((MovieActivity) getActivity()).startMovie(movie);
+                    }
                 }
             }
         });
@@ -248,11 +250,16 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (currentMovieList != LIST_BY_PERSON) {
-                    if (gridLayoutManager.findLastVisibleItemPosition() == movies.size() - 1 && !presenter.loading && !presenter.loadingLocked) {
-                        if (presenter.page < presenter.totalPages) {
-                            loadNextPage();
-                        }
+
+                int totalItemCount = gridLayoutManager.getItemCount();
+                int visibleItemCount = gridLayoutManager.getChildCount();
+                int firstVisibleItemPosition = gridLayoutManager.findFirstVisibleItemPosition();
+
+                if (!presenter.isLoading && !presenter.isLastPage) {
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0/* && totalItemCount >= presenter.totalPages*/) {
+                        presenter.isLoading = true;
+                        presenter.page++;
+                        loadNextPage();
                     }
                 }
             }
@@ -269,24 +276,25 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
             return;
         }
 
-        currentMovieList = getArguments().getInt("list");
-        currentMovie = (Movie) getArguments().getSerializable("movie");
-        currentMovieRealm = getArguments().getParcelable("movieRealm");
+        movieList = getArguments().getInt("list");
+        movie = (Movie) getArguments().getSerializable("movie");
+        movieRealm = getArguments().getParcelable("movieRealm");
+        person = (Cast) getArguments().getSerializable("person");
 
-        if (currentMovie != null) {
-            movieId = currentMovie.id;
-        } else if (currentMovieRealm != null) {
-            movieId = currentMovieRealm.id;
+        if (movie != null) {
+            movieId = movie.id;
+        } else if (movieRealm != null) {
+            movieId = movieRealm.id;
+        } else if (person != null) {
+            personId = person.id;
         }
 
-        if (getArguments().getSerializable("person") != null) {
-            currentPerson = (Cast) getArguments().getSerializable("person");
-        }
-
-        if (currentMovieList == LIST_BY_PERSON) {
-            presenter.loadPersonMovies(currentPerson.id);
-        } else {
-            loadList();
+        if (savedInstanceState == null) {
+            if (movieList == LIST_BY_PERSON) {
+                presenter.loadPersonMovies(personId);
+            } else {
+                loadList();
+            }
         }
     }
 
@@ -300,16 +308,24 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
     public void onResume() {
         super.onResume();
 
-        /*((Moviemade) getActivity().getApplication()).eventBus().toObservable().subscribe(new Consumer<Object>() {
+        ((Moviemade) getActivity().getApplication()).eventBus().toObservable().subscribe(new Consumer<Object>() {
             @Override
+            public void accept(Object o) throws Exception {
+                if (o instanceof Events.MovieListRefreshLayout) {
+                    refreshLayout();
+                }
+            }
+        });
+
+            /*@Override
             public void call(Object object) {
-                *//*if (object instanceof Events.MovieListUpdateAdult) {
+                if (object instanceof Events.MovieListUpdateAdult) {
                     if (!NetworkUtils.notConnected()) {
                         if (!movies.isEmpty()) {
                             movies.clear();
                         }
 
-                        if (currentMovieList == LIST_BY_PERSON) {
+                        if (movieList == LIST_BY_PERSON) {
                             loadPersonMovies();
                         } else {
                             loadList();
@@ -321,26 +337,44 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
                             movies.clear();
                         }
 
-                        if (currentMovieList == LIST_BY_PERSON) {
+                        if (movieList == LIST_BY_PERSON) {
                             loadPersonMovies();
                         } else {
                             loadList();
                         }
                     }
-                } else*//* if (object instanceof Events.MovieListRefreshLayout) {
+                } else if (object instanceof Events.MovieListRefreshLayout) {
                     refreshLayout();
                 }
-            }
-        });*/
+            }*/
     }
 
     @Override
-    public void showResults(List<TmdbObject> results) {
-        movies.addAll(results);
-        adapter.notifyItemRangeInserted(movies.size() + 1, results.size());
+    public void showResults(List<TmdbObject> results, boolean firstPage) {
+        if (firstPage) {
+            fragmentView.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
 
-        fragmentView.setRefreshing(false);
-        progressBar.setVisibility(View.GONE);
+            adapter.addAll(results);
+
+            if (movieList != LIST_RELATED) { // todo eto pizdez
+                if (presenter.page < presenter.totalPages) {
+                    adapter.addLoadingFooter();
+                } else {
+                    presenter.isLastPage = true;
+                }
+            }
+        } else {
+            adapter.removeLoadingFooter();
+            presenter.isLoading = false;
+            adapter.addAll(results);
+
+            if (presenter.page != presenter.totalPages) {
+                adapter.addLoadingFooter();
+            } else {
+                presenter.isLastPage = true;
+            }
+        }
     }
 
     @Override
@@ -351,40 +385,34 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
     }
 
     private void loadList() {
-        if (currentMovieList == LIST_NOW_PLAYING) {
-            //loadNowPlayingMovies();
+        if (movieList == LIST_NOW_PLAYING) {
             presenter.loadNowPlayingMovies();
-        } else if (currentMovieList == LIST_POPULAR) {
-            //loadPopularMovies();
+        } else if (movieList == LIST_POPULAR) {
             presenter.loadPopularMovies();
-        } else if (currentMovieList == LIST_TOP_RATED) {
-            //loadTopRatedMovies();
+        } else if (movieList == LIST_TOP_RATED) {
             presenter.loadTopRatedMovies();
-        } else if (currentMovieList == LIST_UPCOMING) {
-            //loadUpcomingMovies();
+        } else if (movieList == LIST_UPCOMING) {
             presenter.loadUpcomingMovies();
-        } else if (currentMovieList == LIST_SIMILAR) {
-            //loadSimilarMovies();
+        } else if (movieList == LIST_SIMILAR) {
             presenter.loadSimilarMovies(movieId);
-        } else if (currentMovieList == LIST_RELATED) {
-            //loadRelatedMovies();
+        } else if (movieList == LIST_RELATED) {
             presenter.loadRelatedMovies(movieId);
         }
     }
 
     private void loadNextPage() {
-        if (currentMovieList == LIST_NOW_PLAYING) {
+        if (movieList == LIST_NOW_PLAYING) {
             presenter.loadNowPlayingNextMovies();
-        } else if (currentMovieList == LIST_POPULAR) {
+        } else if (movieList == LIST_POPULAR) {
             presenter.loadPopularNextMovies();
-        } else if (currentMovieList == LIST_TOP_RATED) {
+        } else if (movieList == LIST_TOP_RATED) {
             presenter.loadTopRatedNextMovies();
-        } else if (currentMovieList == LIST_UPCOMING) {
+        } else if (movieList == LIST_UPCOMING) {
             presenter.loadUpcomingNextMovies();
-        } else if (currentMovieList == LIST_SIMILAR) {
+        } else if (movieList == LIST_SIMILAR) {
             presenter.loadSimilarNextMovies(movieId);
-        } else if (currentMovieList == LIST_RELATED) {
-            presenter.loadRelatedNextMovies(movieId);
+        } else if (movieList == LIST_RELATED) {
+            //presenter.loadRelatedNextMovies(movieId);
         }
     }
 
@@ -396,7 +424,7 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
         if (AndroidUtils.viewType() == 0) {
             itemDecoration.setOffset(0);
             recyclerView.addItemDecoration(itemDecoration);
-        } else {
+        } else if (AndroidUtils.viewType() == 1) {
             itemDecoration.setOffset(ScreenUtils.dp(1));
             recyclerView.addItemDecoration(itemDecoration);
         }

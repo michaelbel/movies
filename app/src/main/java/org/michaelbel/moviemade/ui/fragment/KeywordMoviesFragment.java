@@ -18,15 +18,17 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.moviemade.ui.KeywordActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.mvp.presenter.KeywordMoviesPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Movie;
-import org.michaelbel.moviemade.ui.adapter.MoviesAdapter;
+import org.michaelbel.moviemade.ui.KeywordActivity;
+import org.michaelbel.moviemade.ui.adapter.pagination.PaginationMoviesAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
+import org.michaelbel.moviemade.ui.view.movie.MovieViewListBig;
+import org.michaelbel.moviemade.ui.view.movie.MovieViewPoster;
 import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.AndroidUtils;
@@ -39,10 +41,10 @@ public class KeywordMoviesFragment extends MvpAppCompatFragment implements MvpRe
 
     private int keywordId;
 
-    private MoviesAdapter adapter;
+    private KeywordActivity activity;
+    private PaginationMoviesAdapter adapter;
     private GridLayoutManager gridLayoutManager;
     private PaddingItemDecoration itemDecoration;
-    private KeywordActivity activity;
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
@@ -101,8 +103,6 @@ public class KeywordMoviesFragment extends MvpAppCompatFragment implements MvpRe
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
         contentLayout.addView(emptyView);
 
-        adapter = new MoviesAdapter();
-
         itemDecoration = new PaddingItemDecoration();
         if (AndroidUtils.viewType() == 0) {
             itemDecoration.setOffset(0);
@@ -110,6 +110,7 @@ public class KeywordMoviesFragment extends MvpAppCompatFragment implements MvpRe
             itemDecoration.setOffset(ScreenUtils.dp(1));
         }
 
+        adapter = new PaginationMoviesAdapter();
         gridLayoutManager = new GridLayoutManager(getContext(), AndroidUtils.getSpanForMovies());
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
@@ -121,17 +122,26 @@ public class KeywordMoviesFragment extends MvpAppCompatFragment implements MvpRe
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        recyclerView.setOnItemClickListener((view1, position) -> {
-            Movie movie = (Movie) adapter.getMovies().get(position);
-            activity.startMovie(movie);
+        recyclerView.setOnItemClickListener((view, position) -> {
+            if (view instanceof MovieViewListBig || view instanceof MovieViewPoster) {
+                Movie movie = (Movie) adapter.getMovies().get(position);
+                activity.startMovie(movie);
+            }
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (gridLayoutManager.findLastVisibleItemPosition() == adapter.getMovies().size() - 1 && !presenter.loading && !presenter.loadingLocked) {
-                    if (presenter.page < presenter.totalPages) {
-                        presenter.loadNextPage();
+
+                int totalItemCount = gridLayoutManager.getItemCount();
+                int visibleItemCount = gridLayoutManager.getChildCount();
+                int firstVisibleItemPosition = gridLayoutManager.findFirstVisibleItemPosition();
+
+                if (!presenter.isLoading && !presenter.isLastPage) {
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0/* && totalItemCount >= presenter.totalPages*/) {
+                        presenter.isLoading = true;
+                        presenter.page++;
+                        presenter.loadNextPage(keywordId);
                     }
                 }
             }
@@ -149,14 +159,36 @@ public class KeywordMoviesFragment extends MvpAppCompatFragment implements MvpRe
         }
 
         keywordId = getArguments().getInt("keywordId");
-        presenter.loadFirstPage(keywordId);
+
+        if (savedInstanceState == null) {
+            presenter.loadFirstPage(keywordId);
+        }
     }
 
     @Override
-    public void showResults(List<TmdbObject> results) {
-        adapter.addMovies(results);
-        fragmentView.setRefreshing(false);
-        progressBar.setVisibility(View.GONE);
+    public void showResults(List<TmdbObject> results, boolean firstPage) {
+        if (firstPage) {
+            fragmentView.setRefreshing(false);
+            progressBar.setVisibility(View.GONE);
+
+            adapter.addAll(results);
+
+            if (presenter.page < presenter.totalPages) {
+                adapter.addLoadingFooter();
+            } else {
+                presenter.isLastPage = true;
+            }
+        } else {
+            adapter.removeLoadingFooter();
+            presenter.isLoading = false;
+            adapter.addAll(results);
+
+            if (presenter.page != presenter.totalPages) {
+                adapter.addLoadingFooter();
+            } else {
+                presenter.isLastPage = true;
+            }
+        }
     }
 
     @Override
