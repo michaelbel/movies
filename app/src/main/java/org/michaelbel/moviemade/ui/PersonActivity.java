@@ -16,7 +16,7 @@ import org.michaelbel.moviemade.databinding.ActivityPersonBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.Cast;
 import org.michaelbel.moviemade.rest.model.v3.People;
-import org.michaelbel.moviemade.ui.fragment.ListMoviesFragment2;
+import org.michaelbel.moviemade.ui.fragment.ListMoviesFragment;
 import org.michaelbel.moviemade.ui.fragment.PersonFragment;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
 
@@ -43,7 +43,7 @@ public class PersonActivity extends BaseActivity {
         FragmentsPagerAdapter adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
         if (castPerson != null) {
             adapter.addFragment(PersonFragment.newInstance(castPerson), R.string.Info);
-            adapter.addFragment(ListMoviesFragment2.newInstance(ListMoviesFragment2.LIST_BY_PERSON, castPerson), R.string.Movies);
+            adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_BY_PERSON, castPerson), R.string.Movies);
         } else if (peoplePerson != null) {
             adapter.addFragment(PersonFragment.newInstance(peoplePerson), R.string.Info);
             //adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_BY_PERSON, peoplePerson), R.string.Movies);

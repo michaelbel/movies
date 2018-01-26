@@ -15,7 +15,7 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.databinding.ActivityMainBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
-import org.michaelbel.moviemade.ui.fragment.ListMoviesFragment2;
+import org.michaelbel.moviemade.ui.fragment.ListMoviesFragment;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
 
 public class MainActivity extends BaseActivity {
@@ -59,10 +59,10 @@ public class MainActivity extends BaseActivity {
         });
 
         FragmentsPagerAdapter adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
-        adapter.addFragment(ListMoviesFragment2.newInstance(ListMoviesFragment2.LIST_NOW_PLAYING), R.string.NowPlaying);
-        adapter.addFragment(ListMoviesFragment2.newInstance(ListMoviesFragment2.LIST_POPULAR), R.string.Popular);
-        adapter.addFragment(ListMoviesFragment2.newInstance(ListMoviesFragment2.LIST_TOP_RATED), R.string.TopRated);
-        adapter.addFragment(ListMoviesFragment2.newInstance(ListMoviesFragment2.LIST_UPCOMING), R.string.Upcoming);
+        adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_NOW_PLAYING), R.string.NowPlaying);
+        adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_POPULAR), R.string.Popular);
+        adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_TOP_RATED), R.string.TopRated);
+        adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_UPCOMING), R.string.Upcoming);
         binding.viewPager.setAdapter(adapter);
 
         binding.tabLayout.setupWithViewPager(binding.viewPager);
