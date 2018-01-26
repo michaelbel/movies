@@ -17,11 +17,11 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import org.michaelbel.moviemade.mvp.presenter.MovieCastsPresenter;
 import org.michaelbel.moviemade.ui.MovieActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.model.MovieRealm;
-import org.michaelbel.moviemade.mvp.presenter.CastMoviePresenter;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Cast;
@@ -34,7 +34,7 @@ import org.michaelbel.moviemade.util.AndroidUtilsDev;
 
 import java.util.List;
 
-public class CastMovieFragment extends MvpAppCompatFragment implements MvpResultsView {
+public class MovieCastsFragment extends MvpAppCompatFragment implements MvpResultsView {
 
     private int movieId;
 
@@ -48,22 +48,22 @@ public class CastMovieFragment extends MvpAppCompatFragment implements MvpResult
     private SwipeRefreshLayout fragmentView;
 
     @InjectPresenter
-    public CastMoviePresenter presenter;
+    public MovieCastsPresenter presenter;
 
-    public static CastMovieFragment newInstance(Movie movie) {
+    public static MovieCastsFragment newInstance(Movie movie) {
         Bundle args = new Bundle();
         args.putSerializable("movie", movie);
 
-        CastMovieFragment fragment = new CastMovieFragment();
+        MovieCastsFragment fragment = new MovieCastsFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static CastMovieFragment newInstance(MovieRealm movie) {
+    public static MovieCastsFragment newInstance(MovieRealm movie) {
         Bundle args = new Bundle();
         args.putParcelable("movieRealm", movie);
 
-        CastMovieFragment fragment = new CastMovieFragment();
+        MovieCastsFragment fragment = new MovieCastsFragment();
         fragment.setArguments(args);
         return fragment;
     }
