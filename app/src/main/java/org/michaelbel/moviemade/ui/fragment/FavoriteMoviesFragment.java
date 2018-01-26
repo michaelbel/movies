@@ -226,7 +226,7 @@ public class FavoriteMoviesFragment extends Fragment {
         }
     }
 
-    public class MovieAdapter extends RecyclerView.Adapter {
+    private class MovieAdapter extends RecyclerView.Adapter {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int type) {

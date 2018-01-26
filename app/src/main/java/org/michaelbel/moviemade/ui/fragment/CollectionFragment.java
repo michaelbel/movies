@@ -13,19 +13,23 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.moviemade.ui.CollectionActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.mvp.presenter.CollectionMoviesPresenter;
+import org.michaelbel.moviemade.mvp.presenter.CollectionPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Movie;
+import org.michaelbel.moviemade.rest.model.v3.Collection;
+import org.michaelbel.moviemade.ui.CollectionActivity;
 import org.michaelbel.moviemade.ui.adapter.MoviesAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
+import org.michaelbel.moviemade.ui.view.movie.MovieViewListBig;
+import org.michaelbel.moviemade.ui.view.movie.MovieViewPoster;
 import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.AndroidUtils;
@@ -34,28 +38,29 @@ import org.michaelbel.moviemade.util.ScreenUtils;
 
 import java.util.List;
 
-public class CollectionMoviesFragment extends MvpAppCompatFragment implements MvpResultsView {
+public class CollectionFragment extends MvpAppCompatFragment implements MvpResultsView {
 
-    private int collectionId;
+    private Collection collection;
 
     private MoviesAdapter adapter;
+    private CollectionActivity activity;
     private GridLayoutManager gridLayoutManager;
     private PaddingItemDecoration itemDecoration;
-    private CollectionActivity activity;
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
     private RecyclerListView recyclerView;
     private SwipeRefreshLayout fragmentView;
+    private TextView overviewText;
 
     @InjectPresenter
-    public CollectionMoviesPresenter presenter;
+    public CollectionPresenter presenter;
 
-    public static CollectionMoviesFragment newInstance(int collectionId) {
+    public static CollectionFragment newInstance(Collection collection) {
         Bundle args = new Bundle();
-        args.putInt("collectionId", collectionId);
+        args.putParcelable("collection", collection);
 
-        CollectionMoviesFragment fragment = new CollectionMoviesFragment();
+        CollectionFragment fragment = new CollectionFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -82,15 +87,24 @@ public class CollectionMoviesFragment extends MvpAppCompatFragment implements Mv
         fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
             if (adapter.getMovies().isEmpty()) {
-                presenter.loadMovies(collectionId);
+                presenter.loadMovies(collection.id);
             } else {
                 fragmentView.setRefreshing(false);
             }
         });
 
+        //ScrollView scrollView = new ScrollView(activity);
+        //scrollView.setLayoutParams(LayoutHelper.makeSwipeRefresh(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        //fragmentView.addView(scrollView);
+
         FrameLayout contentLayout = new FrameLayout(activity);
         contentLayout.setLayoutParams(LayoutHelper.makeSwipeRefresh(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         fragmentView.addView(contentLayout);
+
+        //LinearLayout collectionViewLayout = new LinearLayout(activity);
+        //collectionViewLayout.setOrientation(LinearLayout.VERTICAL);
+        //collectionViewLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        //contentLayout.addView(collectionViewLayout);
 
         progressBar = new ProgressBar(getContext());
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
@@ -100,12 +114,14 @@ public class CollectionMoviesFragment extends MvpAppCompatFragment implements Mv
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
         contentLayout.addView(emptyView);
 
+        // Content
+
+        //overviewText = new TextView(activity);
+        //overviewText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 16, 16, 16));
+        //collectionViewLayout.addView(overviewText);
+
         itemDecoration = new PaddingItemDecoration();
-        if (AndroidUtils.viewType() == 0) {
-            itemDecoration.setOffset(0);
-        } else {
-            itemDecoration.setOffset(ScreenUtils.dp(1));
-        }
+        itemDecoration.setOffset(AndroidUtils.viewType() == 0 ? 0 : ScreenUtils.dp(1));
 
         adapter = new MoviesAdapter();
         gridLayoutManager = new GridLayoutManager(getContext(), AndroidUtils.getSpanForMovies());
@@ -119,9 +135,11 @@ public class CollectionMoviesFragment extends MvpAppCompatFragment implements Mv
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        recyclerView.setOnItemClickListener((view1, position) -> {
-            Movie movie = (Movie) adapter.getMovies().get(position);
-            activity.startMovie(movie);
+        recyclerView.setOnItemClickListener((view, position) -> {
+            if (view instanceof MovieViewListBig || view instanceof MovieViewPoster) {
+                Movie movie = (Movie) adapter.getMovies().get(position);
+                activity.startMovie(movie);
+            }
         });
         contentLayout.addView(recyclerView);
         return fragmentView;
@@ -135,10 +153,29 @@ public class CollectionMoviesFragment extends MvpAppCompatFragment implements Mv
             return;
         }
 
-        collectionId = getArguments().getInt("collectionId");
+        collection = getArguments().getParcelable("collection");
+
+        //overviewText.setText(collection.overview);
+        /*Picasso.with(getContext())
+                .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.backdropSize(), collection.backdropPath))
+                .placeholder(R.drawable.movie_placeholder_old)
+                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+                .into(activity.binding.backdropView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        //progressBar.setVisibility(GONE);
+                    }
+
+                    @Override
+                    public void onError() {
+                        //progressBar.setVisibility(GONE);
+                    }
+                });*/
+
+        //activity.binding.collapsingLayout.setTitle(collection.name);
 
         if (savedInstanceState == null) {
-            presenter.loadMovies(collectionId);
+            presenter.loadMovies(collection.id);
         }
     }
 

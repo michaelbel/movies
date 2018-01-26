@@ -18,7 +18,6 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.moviemade.MovieActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.model.MovieRealm;
@@ -27,16 +26,16 @@ import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.rest.model.v3.Review;
+import org.michaelbel.moviemade.ui.MovieActivity;
 import org.michaelbel.moviemade.ui.adapter.ReviewsAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.AndroidUtils;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpResultsView {
+public class ReviewsFragment extends MvpAppCompatFragment implements MvpResultsView {
 
     private int movieId;
     private Movie currentMovie;
@@ -45,7 +44,6 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpRes
     private ReviewsAdapter adapter;
     private MovieActivity activity;
     private LinearLayoutManager linearLayoutManager;
-    private ArrayList<TmdbObject> reviews = new ArrayList<>();
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
@@ -55,20 +53,20 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpRes
     @InjectPresenter
     public ReviewsMoviePresenter presenter;
 
-    public static ReviewsMovieFragment newInstance(Movie movie) {
+    public static ReviewsFragment newInstance(Movie movie) {
         Bundle args = new Bundle();
         args.putSerializable("movie", movie);
 
-        ReviewsMovieFragment fragment = new ReviewsMovieFragment();
+        ReviewsFragment fragment = new ReviewsFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
-    public static ReviewsMovieFragment newInstance(MovieRealm movie) {
+    public static ReviewsFragment newInstance(MovieRealm movie) {
         Bundle args = new Bundle();
         args.putParcelable("movieRealm", movie);
 
-        ReviewsMovieFragment fragment = new ReviewsMovieFragment();
+        ReviewsFragment fragment = new ReviewsFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -106,8 +104,11 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpRes
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
         fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
-            adapter.getReviews().clear();
-            presenter.loadReviews(movieId);
+            if (adapter.getReviews().isEmpty()) {
+                presenter.loadFirstPage(movieId);
+            } else {
+                fragmentView.setRefreshing(false);
+            }
         });
 
         FrameLayout contentLayout = new FrameLayout(activity);
@@ -115,7 +116,6 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpRes
         fragmentView.addView(contentLayout);
 
         progressBar = new ProgressBar(getContext());
-        progressBar.setVisibility(reviews.isEmpty() ? View.VISIBLE : View.INVISIBLE);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         contentLayout.addView(progressBar);
 
@@ -123,7 +123,7 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpRes
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         contentLayout.addView(emptyView);
 
-        adapter = new ReviewsAdapter(reviews);
+        adapter = new ReviewsAdapter();
         linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
         recyclerView = new RecyclerListView(activity);
@@ -134,7 +134,7 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpRes
         recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
-            Review review = (Review) reviews.get(position);
+            Review review = (Review) adapter.getReviews().get(position);
             if (currentMovie != null) {
                 activity.startReview(review, currentMovie);
             } else {
@@ -145,9 +145,9 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpRes
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-                if (linearLayoutManager.findLastVisibleItemPosition() == reviews.size() - 1 && !presenter.loading && !presenter.loadingLocked) {
+                if (linearLayoutManager.findLastVisibleItemPosition() == adapter.getReviews().size() - 1 && !presenter.loading && !presenter.loadingLocked) {
                     if (presenter.page < presenter.totalPages) {
-                        presenter.loadResults();
+                        presenter.loadNextPage();
                     }
                 }
             }
@@ -174,23 +174,23 @@ public class ReviewsMovieFragment extends MvpAppCompatFragment implements MvpRes
             movieId = 0;
         }
 
-        adapter.getReviews().clear();
-        presenter.loadReviews(movieId);
+        if (savedInstanceState == null) {
+            presenter.loadFirstPage(movieId);
+        }
     }
 
     @Override
-    public void showResults(List<TmdbObject> results) {
-        reviews.addAll(results);
-        adapter.notifyItemRangeInserted(reviews.size() + 1, results.size());
-
-        progressBar.setVisibility(View.INVISIBLE);
+    public void showResults(List<TmdbObject> results, boolean firstPage) {
+        adapter.addReviews(results);
         fragmentView.setRefreshing(false);
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void showError(int mode) {
         fragmentView.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
+        emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(mode);
     }
 }
