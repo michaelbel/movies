@@ -9,11 +9,12 @@ import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.adapter.recycler.LoadingHolder;
 import org.michaelbel.moviemade.ui.view.LoadingView;
 import org.michaelbel.moviemade.ui.view.PersonView;
+import org.michaelbel.moviemade.util.AndroidUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PaginationPeopleAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class PaginationPeopleAdapter extends RecyclerView.Adapter {
 
     private final int ITEM = 0;
     private final int LOADING = 1;
@@ -76,8 +77,14 @@ public class PaginationPeopleAdapter extends RecyclerView.Adapter<RecyclerView.V
     }
 
     public void addAll(List<TmdbObject> people) {
-        for (TmdbObject p : people) {
-            add(p);
+        for (TmdbObject person : people) {
+            if (AndroidUtils.includeAdult()) {
+                add(person);
+            } else {
+                if (!((People) person).adult) {
+                    add(person);
+                }
+            }
         }
     }
 
@@ -119,7 +126,7 @@ public class PaginationPeopleAdapter extends RecyclerView.Adapter<RecyclerView.V
         }
     }
 
-    public TmdbObject getItem(int position) {
+    private TmdbObject getItem(int position) {
         return people.get(position);
     }
 }
