@@ -22,6 +22,7 @@ import org.michaelbel.moviemade.rest.model.v3.Genre;
 import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.ChipView;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
+import org.michaelbel.moviemade.util.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -109,7 +110,10 @@ public class GenresSection extends FrameLayout {
             Genre genre = genres.get(position);
 
             ChipView view = (ChipView) holder.itemView;
-            view.setText(genre.name)
+            view.setRadius(ScreenUtils.dp(15))
+                .setTextColor(ContextCompat.getColor(getContext(), Theme.foregroundColor()))
+                .setColorBackground(ContextCompat.getColor(getContext(), Theme.accentColor()))
+                .setText(genre.name)
                 .changeLayoutParams();
         }
 

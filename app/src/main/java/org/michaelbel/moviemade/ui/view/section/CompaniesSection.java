@@ -2,6 +2,7 @@ package org.michaelbel.moviemade.ui.view.section;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.View;
@@ -11,10 +12,12 @@ import android.widget.FrameLayout;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 
 import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.rest.model.v3.Company;
 import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
-import org.michaelbel.moviemade.ui.view.ChipView2;
+import org.michaelbel.moviemade.ui.view.ChipView;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
+import org.michaelbel.moviemade.util.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,15 +75,19 @@ public class CompaniesSection extends FrameLayout {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new Holder(new ChipView2(getContext()));
+            return new Holder(new ChipView(parent.getContext()));
         }
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
             Company company = companies.get(position);
 
-            ChipView2 view = (ChipView2) holder.itemView;
-            view.setText(company.name).changeLayoutParams();
+            ChipView view = (ChipView) holder.itemView;
+            view.setRadius(ScreenUtils.dp(10))
+                .setTextColor(ContextCompat.getColor(getContext(), Theme.secondaryTextColor()))
+                .setColorBackground(ContextCompat.getColor(getContext(), Theme.backgroundColor()))
+                .setText(company.name)
+                .changeLayoutParams();
         }
 
         @Override

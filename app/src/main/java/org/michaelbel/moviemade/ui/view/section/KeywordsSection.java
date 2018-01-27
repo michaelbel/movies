@@ -21,6 +21,7 @@ import org.michaelbel.moviemade.rest.model.v3.Keyword;
 import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.ChipView;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
+import org.michaelbel.moviemade.util.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,7 +112,10 @@ public class KeywordsSection extends FrameLayout {
             Keyword keyword = keywords.get(position);
 
             ChipView view = (ChipView) holder.itemView;
-            view.setText(keyword.name)
+            view.setRadius(ScreenUtils.dp(15))
+                .setTextColor(ContextCompat.getColor(getContext(), Theme.foregroundColor()))
+                .setColorBackground(ContextCompat.getColor(holder.itemView.getContext(), Theme.accentColor()))
+                .setText(keyword.name)
                 .changeLayoutParams();
         }
 
