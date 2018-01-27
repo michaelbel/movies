@@ -156,9 +156,11 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (getArguments() != null) {
-            readyQuery = getArguments().getString("query");
+        if (getArguments() == null) {
+            return;
         }
+
+        readyQuery = getArguments().getString("query");
 
         if (readyQuery == null) {
             activity.searchEditText.setSelection(activity.searchEditText.getText().length());
