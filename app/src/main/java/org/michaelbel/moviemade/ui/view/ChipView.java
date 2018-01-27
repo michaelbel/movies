@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.support.annotation.StringRes;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -20,9 +19,8 @@ import org.michaelbel.moviemade.util.ScreenUtils;
 
 public class ChipView extends FrameLayout {
 
-    private CardView cardView;
     private TextView textText;
-
+    private CardView cardView;
     private Rect rect = new Rect();
 
     public ChipView(Context context) {
@@ -31,16 +29,14 @@ public class ChipView extends FrameLayout {
         cardView = new CardView(context);
         cardView.setCardElevation(0);
         cardView.setUseCompatPadding(true);
-        cardView.setRadius(ScreenUtils.dp(15));
         cardView.setPreventCornerOverlap(false);
         cardView.setForeground(Theme.selectableItemBackgroundBorderlessDrawable());
-        cardView.setCardBackgroundColor(ContextCompat.getColor(context, Theme.accentColor()));
         cardView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         addView(cardView);
 
         textText = new TextView(context);
+        textText.setLines(1);
         textText.setMaxLines(1);
-        textText.setTextColor(ContextCompat.getColor(context, Theme.foregroundColor()));
         textText.setGravity(Gravity.CENTER_VERTICAL);
         textText.setEllipsize(TextUtils.TruncateAt.END);
         textText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
@@ -56,6 +52,21 @@ public class ChipView extends FrameLayout {
 
     public ChipView setText(@StringRes int textId) {
         textText.setText(getContext().getText(textId).toString().toUpperCase());
+        return this;
+    }
+
+    public ChipView setRadius(float radius) {
+        cardView.setRadius(radius);
+        return this;
+    }
+
+    public ChipView setTextColor(int color) {
+        textText.setTextColor(color);
+        return this;
+    }
+
+    public ChipView setColorBackground(int color) {
+        cardView.setCardBackgroundColor(color);
         return this;
     }
 

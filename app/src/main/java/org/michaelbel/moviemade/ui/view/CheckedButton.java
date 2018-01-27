@@ -20,10 +20,7 @@ public class CheckedButton extends FrameLayout {
     public static final int FAVORITE = 0;
     public static final int WATCHING = 1;
 
-    @IntDef({
-            FAVORITE,
-            WATCHING
-    })
+    @IntDef({ FAVORITE, WATCHING })
     private @interface Style {}
 
     private CardView cardView;
