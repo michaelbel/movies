@@ -46,8 +46,6 @@ import java.util.Objects;
 public class MovieViewLayout extends LinearLayout {
 
     private ProgressBar topProgressBar;
-
-    //private PlaceholderView posterPh;
     private GestureImageView posterImage;
 
     private LinearLayout shortInfoLayout;
@@ -58,15 +56,13 @@ public class MovieViewLayout extends LinearLayout {
     private LinearLayout voteCountLayout;
     private TextView voteCountText;
 
-    private PlaceholderView releaseDatePh;
+    //private PlaceholderView releaseDatePh;
     private LinearLayout releaseDateLayout;
     private TextView releaseDateText;
 
-    //private PlaceholderView runtimePh;
     private LinearLayout runtimeLayout;
     private TextView runtimeText;
 
-    //private PlaceholderView langPh;
     private LinearLayout langLayout;
     private TextView originalLanguageText;
 
@@ -76,10 +72,8 @@ public class MovieViewLayout extends LinearLayout {
 
     private LinearLayout titleTaglineLayout;
 
-    //private PlaceholderView titlePh;
     private TextView titleText;
 
-    //private PlaceholderView taglinePh;
     private TextView taglineTextView;
 
     private LinearLayout overviewLayout;
@@ -90,7 +84,6 @@ public class MovieViewLayout extends LinearLayout {
     private ImagesSection imagesView;
 
     private LinearLayout crewLayout;
-    //private ProgressBar crewProgressBar;
 
     private TextView directorsTitle;
     private TextView directorsText;
@@ -152,11 +145,6 @@ public class MovieViewLayout extends LinearLayout {
 
 //------POSTER IMAGE--------------------------------------------------------------------------------
 
-        //posterPh = new PlaceholderView(context);
-        //posterPh.show();
-        //posterPh.setLayoutParams(LayoutHelper.makeFrame(120, 180, Gravity.START | Gravity.TOP, 16, 16, 0, 0));
-        //topLayout.addView(posterPh);
-
         posterImage = new GestureImageView(context);
         posterImage.setVisibility(INVISIBLE);
         posterImage.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -210,14 +198,9 @@ public class MovieViewLayout extends LinearLayout {
 
 //------DATE VIEW-----------------------------------------------------------------------------------
 
-        releaseDatePh = new PlaceholderView(context);
-        releaseDatePh.showColor();
-        releaseDatePh.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START, 0, 12, 0, 0));
-        shortInfoLayout.addView(releaseDatePh);
-
         releaseDateLayout = new LinearLayout(context);
-        releaseDateLayout.setOrientation(HORIZONTAL);
         releaseDateLayout.setVisibility(INVISIBLE);
+        releaseDateLayout.setOrientation(HORIZONTAL);
         releaseDateLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START, 0, 12, 0, 0));
         shortInfoLayout.addView(releaseDateLayout);
 
@@ -228,7 +211,6 @@ public class MovieViewLayout extends LinearLayout {
 
         releaseDateText = new TextView(context);
         releaseDateText.setMaxLines(1);
-        //releaseDateText.setText("Loading...");
         releaseDateText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
         releaseDateText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         releaseDateText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
@@ -238,8 +220,8 @@ public class MovieViewLayout extends LinearLayout {
 //------RUNTIME VIEW--------------------------------------------------------------------------------
 
         runtimeLayout = new LinearLayout(context);
-        runtimeLayout.setOrientation(HORIZONTAL);
         runtimeLayout.setVisibility(INVISIBLE);
+        runtimeLayout.setOrientation(HORIZONTAL);
         runtimeLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START, 0, 12, 0, 0));
         shortInfoLayout.addView(runtimeLayout);
 
@@ -260,8 +242,8 @@ public class MovieViewLayout extends LinearLayout {
 //------ORIGINAL LANGUAGE VIEW----------------------------------------------------------------------
 
         langLayout = new LinearLayout(context);
-        langLayout.setOrientation(HORIZONTAL);
         langLayout.setVisibility(INVISIBLE);
+        langLayout.setOrientation(HORIZONTAL);
         langLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START, 0, 12, 0, 0));
         shortInfoLayout.addView(langLayout);
 
@@ -277,11 +259,11 @@ public class MovieViewLayout extends LinearLayout {
         originalLanguageText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL,6, 0, 0, 0));
         langLayout.addView(originalLanguageText);
 
-//------FAVORITE AND WATCHLIST BUTTONS-----------------------------------------------------------------------------
+//------FAVORITE AND WATCHLIST BUTTONS--------------------------------------------------------------
 
         buttonsLayout = new LinearLayout(context);
-        buttonsLayout.setOrientation(HORIZONTAL);
         buttonsLayout.setVisibility(INVISIBLE);
+        buttonsLayout.setOrientation(HORIZONTAL);
         buttonsLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.END, 0, 16 + 180 - 36 - 4, 16, 0));
         topLayout.addView(buttonsLayout);
 
@@ -302,15 +284,10 @@ public class MovieViewLayout extends LinearLayout {
 //------TITLE and TAGLINE---------------------------------------------------------------------------
 
         titleTaglineLayout = new LinearLayout(context);
-        titleTaglineLayout.setOrientation(VERTICAL);
         titleTaglineLayout.setVisibility(INVISIBLE);
+        titleTaglineLayout.setOrientation(VERTICAL);
         titleTaglineLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START | Gravity.TOP, 16, 202, 16, 12));
         topLayout.addView(titleTaglineLayout);
-
-        //titlePh = new PlaceholderView(context);
-        //titlePh.showColor();
-        //titlePh.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        //titleTaglineLayout.addView(titlePh);
 
         titleText = new TextView(context);
         titleText.setVisibility(INVISIBLE);
@@ -318,7 +295,6 @@ public class MovieViewLayout extends LinearLayout {
         titleText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         titleText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         titleTaglineLayout.addView(titleText);
-        //titlePh.addView(titleText);
 
         taglineTextView = new TextView(context);
         taglineTextView.setLines(1);
@@ -377,10 +353,6 @@ public class MovieViewLayout extends LinearLayout {
         crewTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         crewTitle.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL));
         crewTitleLayout.addView(crewTitle);
-
-        //crewProgressBar = new ProgressBar(context);
-        //crewProgressBar.setLayoutParams(LayoutHelper.makeFrame(24, 24, Gravity.END | Gravity.CENTER_VERTICAL));
-        //crewTitleLayout.addView(crewProgressBar);
 
         directorsTitle = new TextView(context);
         directorsTitle.setText(context.getString(R.string.Directors));
@@ -602,12 +574,11 @@ public class MovieViewLayout extends LinearLayout {
         }
 
         Picasso.with(getContext())
-                .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.posterSize(), posterPath))
-                .placeholder(R.drawable.movie_placeholder_old)
-                .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-                .into(posterImage);
+               .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.posterSize(), posterPath))
+               .placeholder(R.drawable.movie_placeholder_old)
+               .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+               .into(posterImage);
 
-        //posterPh.hide();
         posterImage.setVisibility(VISIBLE);
     }
 
@@ -619,7 +590,6 @@ public class MovieViewLayout extends LinearLayout {
 
         titleText.setText(title);
         titleText.setVisibility(VISIBLE);
-        //titlePh.hideColor();
     }
 
     public void addTagline(String tagline) {
@@ -649,7 +619,6 @@ public class MovieViewLayout extends LinearLayout {
 
         releaseDateText.setText(releaseDate);
         releaseDateLayout.setVisibility(VISIBLE);
-        releaseDatePh.hideColor();
     }
 
     public void addVoteAverage(float voteAverage) {
@@ -945,9 +914,9 @@ public class MovieViewLayout extends LinearLayout {
 
     // Getters:
 
-    public ImagesSection getImagesView() {
+    /*public ImagesSection getImagesView() {
         return imagesView;
-    }
+    }*/
 
     public TrailersSection getTrailersView() {
         return trailersView;

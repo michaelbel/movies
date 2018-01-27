@@ -327,14 +327,14 @@ public class PersonViewLayout extends LinearLayout {
         nameText.setText(name);
     }
 
-    public void addCareer(String careers) {
+    /*public void addCareer(String careers) {
         if (careers == null || careers.isEmpty()) {
             nameCareerLayout.removeView(careerText);
             return;
         }
 
         careerText.setText(careers);
-    }
+    }*/
 
     public void addOtherNames(String names) {
         if (names == null || names.isEmpty()) {
