@@ -18,10 +18,10 @@ public class ApiFactory {
     @NonNull
     private static Retrofit getRetrofit() {
         return new Retrofit.Builder()
-                .baseUrl(TMDB_API_ENDPOINT)
-                .addConverterFactory(GsonConverterFactory.create(GSON))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
-                .build();
+            .baseUrl(TMDB_API_ENDPOINT)
+            .addConverterFactory(GsonConverterFactory.create(GSON))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
+            .build();
     }
 
     public static <S> S createService(Class<S> serviceClass) {
