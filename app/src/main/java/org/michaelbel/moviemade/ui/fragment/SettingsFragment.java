@@ -52,6 +52,7 @@ public class SettingsFragment extends Fragment {
     private int emptyRow2;
 
     private String[] viewType = new String[] { "List Big", "Posters" };
+    //private int viewType2 = R.array.MovieViewType;
 
     private SharedPreferences prefs;
     private SettingsActivity activity;
