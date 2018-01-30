@@ -11,6 +11,7 @@
 [paypal-badge]:     https://img.shields.io/badge/Donate-Paypal-F3745F.svg
 [license-badge]:    https://img.shields.io/badge/License-Apache_v2.0-F3745F.svg
 [googleplay-badge]: https://img.shields.io/badge/Google_Play-Demo-F3745F.svg
+[minsdk-badge]:     https://img.shields.io/badge/minSdkVersion-21-F3745F.svg
 
 <!--------------------------------------------------------------------------------------------------------------->
 
@@ -20,6 +21,7 @@
 
 # Moviemade
 [![Platform][platform-badge]][github-url]
+[![MinSdk][minsdk-badge]][github-url]
 [![License][license-badge]][licence-url]
 [![Paypal][paypal-badge]][paypal-url]
 [![Playstore][googleplay-badge]][googleplay-url]
