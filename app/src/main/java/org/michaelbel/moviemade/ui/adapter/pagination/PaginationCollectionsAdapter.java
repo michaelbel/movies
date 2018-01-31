@@ -118,7 +118,7 @@ public class PaginationCollectionsAdapter extends RecyclerView.Adapter<RecyclerV
         }
     }
 
-    public TmdbObject getItem(int position) {
+    private TmdbObject getItem(int position) {
         return collections.get(position);
     }
 }
