@@ -13,10 +13,10 @@
         <item name="android:windowBackground">@color/night_blue_backgroundColor</item>
     </style>
 
-    <style name="AppTheme.Launcher">
+    <!--<style name="AppTheme.Launcher">
         <item name="android:windowBackground">@drawable/splash_screen</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-    </style>
+    </style>-->
 
     <style name="AppThemeDark" parent="ThemeOverlay.AppCompat">
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -53,8 +53,8 @@
         <item name="colorAccent">@color/night_blue_backgroundColor</item>
     </style>
 
-
-    <style name="App" />
+    <!--GestureViews-->
+    <style name="App"/>
 
     <style name="App.Toolbar">
         <item name="android:id">@id/toolbar</item>
