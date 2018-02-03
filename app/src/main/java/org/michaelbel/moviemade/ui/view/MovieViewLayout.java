@@ -5,9 +5,12 @@ import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -43,6 +46,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
+import at.blogc.android.views.ExpandableTextView;
+
 public class MovieViewLayout extends LinearLayout {
 
     private ProgressBar topProgressBar;
@@ -56,7 +61,6 @@ public class MovieViewLayout extends LinearLayout {
     private LinearLayout voteCountLayout;
     private TextView voteCountText;
 
-    //private PlaceholderView releaseDatePh;
     private LinearLayout releaseDateLayout;
     private TextView releaseDateText;
 
@@ -77,7 +81,8 @@ public class MovieViewLayout extends LinearLayout {
     private TextView taglineTextView;
 
     private LinearLayout overviewLayout;
-    private TextView overviewTextView;
+    private ExpandableTextView overviewText;
+    //private TextView overviewTextView;
 
     private TrailersSection trailersView;
 
@@ -163,26 +168,26 @@ public class MovieViewLayout extends LinearLayout {
 
 //------RATING VIEW---------------------------------------------------------------------------------
 
-        LinearLayout layout0 = new LinearLayout(context);
-        layout0.setOrientation(HORIZONTAL);
-        shortInfoLayout.addView(layout0);
+        LinearLayout ratingLayout = new LinearLayout(context);
+        ratingLayout.setOrientation(HORIZONTAL);
+        shortInfoLayout.addView(ratingLayout);
 
         ratingView = new RatingView(context);
         ratingView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL));
-        layout0.addView(ratingView);
+        ratingLayout.addView(ratingView);
 
         ratingTextView = new TextView(context);
         ratingTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
         ratingTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         ratingTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         ratingTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 12, 0, 0, 0));
-        layout0.addView(ratingTextView);
+        ratingLayout.addView(ratingTextView);
 
         voteCountLayout = new LinearLayout(context);
         voteCountLayout.setOrientation(HORIZONTAL);
         voteCountLayout.setVisibility(INVISIBLE);
         voteCountLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 12, 0, 0, 0));
-        layout0.addView(voteCountLayout);
+        ratingLayout.addView(voteCountLayout);
 
         voteCountText = new TextView(context);
         voteCountText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
@@ -201,7 +206,7 @@ public class MovieViewLayout extends LinearLayout {
         releaseDateLayout = new LinearLayout(context);
         releaseDateLayout.setVisibility(INVISIBLE);
         releaseDateLayout.setOrientation(HORIZONTAL);
-        releaseDateLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START, 0, 12, 0, 0));
+        releaseDateLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START, 0, 12, 0, 0));
         shortInfoLayout.addView(releaseDateLayout);
 
         ImageView dateIcon = new ImageView(context);
@@ -311,24 +316,26 @@ public class MovieViewLayout extends LinearLayout {
         overviewLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0));
         addView(overviewLayout);
 
-        overviewTextView = new TextView(context);
-        //overviewTextView.setMaxLines(5);
-        //overviewTextView.setAnimationDuration(450L);
-        //overviewTextView.setEllipsize(TextUtils.TruncateAt.END);
-        overviewTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        overviewTextView.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
-        overviewTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        overviewTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 16, 16, 16));
-        //overviewTextView.setOnClickListener(v -> {
-        //    if (!overviewTextView.isExpanded()) {
-        //        overviewTextView.expand();
-        //    }
-        //});
-        overviewTextView.setOnLongClickListener(v -> {
-            movieViewListener.onOverviewLongClick(v);
+        overviewText = (ExpandableTextView) LayoutInflater.from(context).inflate(R.layout.item_overview, null);
+        overviewText.setMaxLines(5);
+        overviewText.setAnimationDuration(350L);
+        overviewText.setEllipsize(TextUtils.TruncateAt.END);
+        overviewText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        overviewText.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+        overviewText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
+        overviewText.setInterpolator(new OvershootInterpolator(0));
+        overviewText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 16, 16, 16));
+        overviewText.setOnClickListener(view -> overviewText.toggle());
+        overviewText.setOnLongClickListener(view -> {
+            movieViewListener.onOverviewLongClick(view);
             return true;
         });
-        overviewLayout.addView(overviewTextView);
+        overviewLayout.addView(overviewText);
+
+        if (AndroidUtils.fullOverview()) {
+            overviewText.setMaxLines(1000);
+            overviewText.setOnClickListener(null);
+        }
 
 //------CREW VIEW-----------------------------------------------------------------------------------
 
@@ -608,7 +615,7 @@ public class MovieViewLayout extends LinearLayout {
             return;
         }
 
-        overviewTextView.setText(overview);
+        overviewText.setText(overview);
     }
 
     public void addReleaseDate(String releaseDate) {
