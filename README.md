@@ -13,7 +13,7 @@
 [googleplay-badge]: https://img.shields.io/badge/Google_Play-Demo-F3745F.svg
 [minsdk-badge]:     https://img.shields.io/badge/minSdkVersion-21-F3745F.svg
 
-<!--------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------>
 
 <p align="center">
   <img src="../master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"/>
@@ -39,6 +39,7 @@ Take a look at [assets/config.properties][config-properties] and fill it with [y
  * [RxJava](https://github.com/ReactiveX/RxJava)
  * [Moxy](https://github.com/Arello-Mobile/Moxy)
  * [GestureViews](https://github.com/alexvasilkov/GestureViews)
+ * [ExpandableTextView](https://github.com/Blogcat/Android-ExpandableTextView)
  * [ChipsLayoutManager](https://github.com/BelooS/ChipsLayoutManager)
 
 ## License
