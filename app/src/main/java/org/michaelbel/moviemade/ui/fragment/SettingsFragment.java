@@ -32,7 +32,6 @@ import org.michaelbel.moviemade.ui.view.cell.TextCell;
 import org.michaelbel.moviemade.ui.view.cell.TextDetailCell;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.AndroidUtils;
-import org.michaelbel.moviemade.util.AndroidUtilsDev;
 import org.michaelbel.moviemade.util.ScreenUtils;
 
 public class SettingsFragment extends Fragment {
@@ -49,6 +48,8 @@ public class SettingsFragment extends Fragment {
     private int inAppBrowserRow;
     private int scrollToTopRow;
     private int zoomReviewRow;
+    private int fullOverviewRow;
+    private int scrollbarsRow;
     private int emptyRow2;
 
     private String[] viewType = new String[] { "List Big", "Posters" };
@@ -102,6 +103,8 @@ public class SettingsFragment extends Fragment {
         inAppBrowserRow = rowCount++;
         scrollToTopRow = rowCount++;
         zoomReviewRow = rowCount++;
+        fullOverviewRow = rowCount++;
+        scrollbarsRow = rowCount++;
         emptyRow2 = rowCount++;
 
         prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
@@ -237,6 +240,24 @@ public class SettingsFragment extends Fragment {
                 if (view instanceof TextDetailCell) {
                     ((TextDetailCell) view).setChecked(!enable);
                 }
+            } else if (position == scrollbarsRow) {
+                SharedPreferences prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                boolean enable = prefs.getBoolean("scrollbars", true);
+                editor.putBoolean("scrollbars", !enable);
+                editor.apply();
+                if (view instanceof TextDetailCell) {
+                    ((TextDetailCell) view).setChecked(!enable);
+                }
+            } else if (position == fullOverviewRow) {
+                SharedPreferences prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                boolean enable = prefs.getBoolean("full_overview", false);
+                editor.putBoolean("full_overview", !enable);
+                editor.apply();
+                if (view instanceof TextDetailCell) {
+                    ((TextDetailCell) view).setChecked(!enable);
+                }
             }
         });
         fragmentView.addView(recyclerView);
@@ -327,7 +348,19 @@ public class SettingsFragment extends Fragment {
                     cell.setMode(TextDetailCell.MODE_SWITCH);
                     cell.setText(R.string.ZoomReview);
                     cell.setValue(R.string.ZoomReviewInfo);
-                    cell.setChecked(AndroidUtilsDev.zoomReview());
+                    cell.setChecked(AndroidUtils.zoomReview());
+                    cell.setDivider(true);
+                } else if (position == fullOverviewRow) {
+                    cell.setMode(TextDetailCell.MODE_SWITCH);
+                    cell.setText(R.string.FullOverview);
+                    cell.setValue(R.string.FullOverviewInfo);
+                    cell.setChecked(AndroidUtils.fullOverview());
+                    cell.setDivider(true);
+                } else if (position == scrollbarsRow) {
+                    cell.setMode(TextDetailCell.MODE_SWITCH);
+                    cell.setText(R.string.Scrollbars);
+                    cell.setValue(R.string.ScrollbarsInfo);
+                    cell.setChecked(AndroidUtils.scrollbars());
                     cell.setDivider(false);
                 }
             }
@@ -344,7 +377,7 @@ public class SettingsFragment extends Fragment {
                 return 1;
             } else if (/*position == storageUsageRow || position == searchHistoryRow*/ position == -100) {
                 return 2;
-            } else if (position == viewTypeRow || /*position == imageQualityRow || */position == adultRow || position == inAppBrowserRow || position == scrollToTopRow || position == zoomReviewRow) {
+            } else if (position == viewTypeRow || /*position == imageQualityRow || */position == adultRow || position == inAppBrowserRow || position == scrollToTopRow || position == zoomReviewRow || position == fullOverviewRow || position == scrollbarsRow) {
                 return 3;
             } else {
                 return -1;
