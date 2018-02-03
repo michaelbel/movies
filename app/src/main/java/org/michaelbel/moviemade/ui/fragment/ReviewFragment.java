@@ -146,7 +146,7 @@ public class ReviewFragment extends Fragment {
         reviewTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         reviewTextView.setTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
         reviewTextView.getController().getSettings().setMaxZoom(2.0F);
-        if (AndroidUtilsDev.zoomReview()) {
+        if (AndroidUtils.zoomReview()) {
             reviewTextView.getController().getSettings().enableGestures();
         } else {
             reviewTextView.getController().getSettings().disableGestures();
