@@ -110,6 +110,8 @@ public class AndroidUtils {
         }
     }
 
+//--SHARED PREFERENCES------------------------------------------------------------------------------
+
     public static boolean includeAdult() {
         SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
         return prefs.getBoolean("adult", true);
@@ -118,6 +120,21 @@ public class AndroidUtils {
     public static boolean scrollToTop() {
         SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
         return prefs.getBoolean("scroll_to_top", true);
+    }
+
+    public static boolean scrollbars() {
+        SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
+        return prefs.getBoolean("scrollbars", true);
+    }
+
+    public static boolean zoomReview() {
+        SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
+        return prefs.getBoolean("zoom_review", true);
+    }
+
+    public static boolean fullOverview() {
+        SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
+        return prefs.getBoolean("full_overview", false);
     }
 
     public static int viewType() {
@@ -139,6 +156,22 @@ public class AndroidUtils {
         SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
         return prefs.getString("image_quality_profile", "w185");
     }
+
+//--------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public static int getSpanForMovies() {
         if (viewType() == 0) {
