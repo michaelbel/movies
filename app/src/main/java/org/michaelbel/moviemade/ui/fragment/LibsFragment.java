@@ -16,17 +16,16 @@ import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import org.michaelbel.bottomsheetdialog.BottomSheet;
-import org.michaelbel.moviemade.ui.AboutActivity;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.browser.Browser;
 import org.michaelbel.moviemade.model.Source;
+import org.michaelbel.moviemade.ui.AboutActivity;
 import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.cell.TextDetailCell;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.util.AndroidUtils;
-import org.michaelbel.moviemade.util.AndroidUtilsDev;
 import org.michaelbel.moviemade.util.ScreenUtils;
 
 import java.util.ArrayList;
@@ -56,27 +55,27 @@ public class LibsFragment extends Fragment {
         FrameLayout fragmentView = new FrameLayout(activity);
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
 
-        sources.add(new Source("BottomSheet", "https://github.com/michaelbel/bottomsheet","Apache License v2.0"));
-        sources.add(new Source("Gson", "https://github.com/google/gson","Apache License v2.0"));
-        sources.add(new Source("Retrofit", "https://square.github.io/retrofit","Apache License v2.0"));
-        sources.add(new Source("RxJava", "https://github.com/reactivex/rxjava","Apache License v2.0"));
-        //sources.add(new Source("RxAndroid", "https://github.com/reactivex/rxjava","Apache License v2.0"));
-        sources.add(new Source("Picasso", "https://square.github.io/picasso","Apache License v2.0"));
-        //sources.add(new Source("Dagger 2", "https://github.com/google/dagger", "Apache License v2.0"));
-        sources.add(new Source("Realm Java", "https://github.com/realm/realm-java", "Apache License v2.0"));
-        //sources.add(new Source("Realm Android Adapters", "https://github.com/realm/realm-android-adapters", "Apache License v2.0"));
+        sources.add(new Source("BottomSheet", "https://github.com/michaelbel/bottomsheet","Apache License 2.0"));
+        sources.add(new Source("Gson", "https://github.com/google/gson","Apache License 2.0"));
+        sources.add(new Source("Retrofit", "https://square.github.io/retrofit","Apache License 2.0"));
+        sources.add(new Source("RxJava", "https://github.com/reactivex/rxjava","Apache License 2.0"));
+        sources.add(new Source("Picasso", "https://square.github.io/picasso","Apache License 2.0"));
+        sources.add(new Source("Realm Java", "https://github.com/realm/realm-java", "Apache License 2.0"));
         sources.add(new Source("Moxy", "https://github.com/arello-mobile/moxy", "The MIT License (MIT)"));
-        sources.add(new Source("GestureViews", "https://github.com/alexvasilkov/gestureviews", "Apache License v2.0"));
-        //sources.add(new Source("CircleIndicator", "https://github.com/ongakuer/circleindicator", "Apache License v2.0"));
-        sources.add(new Source("ChipsLayoutManager", "https://github.com/beloos/chipslayoutmanager", "Apache License v2.0"));
-        //sources.add(new Source("ExpandableTextView", "https://github.com/blogcat/android-expandabletextview", "Apache License v2.0"));
+        sources.add(new Source("GestureViews", "https://github.com/alexvasilkov/gestureviews", "Apache License 2.0"));
+        sources.add(new Source("ChipsLayoutManager", "https://github.com/beloos/chipslayoutmanager", "Apache License 2.0"));
+        sources.add(new Source("ExpandableTextView", "https://github.com/blogcat/android-expandabletextview", "Apache License 2.0"));
+        //sources.add(new Source("Realm Android Adapters", "https://github.com/realm/realm-android-adapters", "Apache License 2.0"));
+        //sources.add(new Source("Dagger 2", "https://github.com/google/dagger", "Apache License v2.0"));
+        //sources.add(new Source("CircleIndicator", "https://github.com/ongakuer/circleindicator", "Apache License 2.0"));
+        //sources.add(new Source("RxAndroid", "https://github.com/reactivex/rxjava","Apache License 2.0"));
 
         linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
         recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(new LibsAdapter());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
+        recyclerView.setVerticalScrollBarEnabled(AndroidUtils.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> Browser.openUrl(activity, sources.get(position).url));
         recyclerView.setOnItemLongClickListener((view, position) -> {
@@ -111,7 +110,7 @@ public class LibsFragment extends Fragment {
         linearLayoutManager.onRestoreInstanceState(state);
     }
 
-    public class LibsAdapter extends RecyclerView.Adapter {
+    private class LibsAdapter extends RecyclerView.Adapter {
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
