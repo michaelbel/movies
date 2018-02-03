@@ -172,13 +172,13 @@
     <string name="ViewType">View Type</string>
     <string name="AdvancedSettings">Advanced Settings</string>
     <string name="Scrollbars">Scrollbars</string>
-    <string name="ScrollbarsInfo">Enable all scrollbars in app</string>
+    <string name="ScrollbarsInfo">Enable all scrollbars in the app</string>
     <string name="SearchResultsCounter">Search Results Counter</string>
     <string name="FloatingToolbar">Floating Toolbar</string>
     <string name="ZoomReview">Zoom Review</string>
     <string name="ZoomReviewInfo">Enable review gestures control</string>
-
     <string name="FullOverview">Full Overview</string>
+    <string name="FullOverviewInfo">Always display overview fully</string>
     <!--About-->
     <string name="About">About</string>
     <string name="AppForAndroid">%1$s for Android</string>
