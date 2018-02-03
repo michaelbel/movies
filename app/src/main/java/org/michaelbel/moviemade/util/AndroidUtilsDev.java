@@ -13,14 +13,10 @@ public class AndroidUtilsDev {
         return Moviemade.AppContext;
     }
 
+    @Deprecated
     public static boolean scrollbars() {
-        SharedPreferences prefs = getContext().getSharedPreferences("devconfig", Context.MODE_PRIVATE);
+        SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
         return prefs.getBoolean("scrollbars", true);
-    }
-
-    public static boolean zoomReview() {
-        SharedPreferences prefs = getContext().getSharedPreferences("devconfig", Context.MODE_PRIVATE);
-        return prefs.getBoolean("zoom_review", true);
     }
 
     public static boolean floatingToolbar() {
