@@ -7,6 +7,10 @@ mainconfig:
  - in_app_browser         (bool)
  - adult                  (bool)
  - keep_media             (int)
+ - scroll_to_top          (bool)
+ - zoom_review            (bool)
+ - scrollbars             (bool)
+ - full_overview          (bool)
  - image_quality          (string)
  - image_quality_custom   (bool)
  - image_quality_backdrop (string)
@@ -14,12 +18,8 @@ mainconfig:
  - image_quality_poster   (string)
  - image_quality_profile  (string)
  - image_quality_still    (string)
- - scroll_to_top          (bool)
- - zoom_review            (bool)
 
 devconfig:
- - scrollbars                  (bool)
- - scrollbars_rating           (int)
  - search_results_count        (bool)
  - search_results_count_rating (int)
  - floating_toolbar            (bool)
