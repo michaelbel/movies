@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.ui;
+package org.michaelbel.moviemade.ui.view;
 
 import android.content.Context;
 import android.os.Bundle;
