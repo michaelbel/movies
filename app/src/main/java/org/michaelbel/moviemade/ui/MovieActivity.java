@@ -20,6 +20,8 @@ import org.michaelbel.moviemade.ui.fragment.ListMoviesFragment;
 import org.michaelbel.moviemade.ui.fragment.MovieCastsFragment;
 import org.michaelbel.moviemade.ui.fragment.MovieFragment;
 import org.michaelbel.moviemade.ui.fragment.ReviewsFragment;
+import org.michaelbel.moviemade.ui.view.SettingsController;
+import org.michaelbel.moviemade.ui.view.SettingsMenu;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
 import org.michaelbel.moviemade.util.AndroidUtilsDev;
 
