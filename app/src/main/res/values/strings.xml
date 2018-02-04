@@ -68,6 +68,11 @@
     <string name="Trailers">Trailers</string>
     <string name="NoTrailers">No trailers</string>
     <string name="VideoSize">%1$sp</string>
+    <string-array name="ViewTypes">
+        <item>List</item>
+        <!--<item>Cards</item>-->
+        <item>Posters</item>
+    </string-array>
     <!--Reviews-->
     <string name="Reviews">Reviews</string>
     <string name="NoReviews">No Reviews</string>
