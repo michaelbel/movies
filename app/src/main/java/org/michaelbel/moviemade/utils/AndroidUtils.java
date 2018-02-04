@@ -90,6 +90,20 @@ public class AndroidUtils {
         }
     }
 
+    public static int getSpanForMovies() {
+        if (viewType() == 0) {
+            return 1;
+        } /*else if (viewType() == 1) {
+            return 3;
+        }*/ else {
+            return 2;
+        }
+    }
+
+    public static int getSpanForTrailers() {
+        return ScreenUtils.isPortrait() ? 1 : 2;
+    }
+
 //--KEYBOARD----------------------------------------------------------------------------------------
 
     public static void showKeyboard(View view) {
@@ -200,18 +214,6 @@ public class AndroidUtils {
     public static final int FLAG_TAG_BOLD = 2;
     public static final int FLAG_TAG_COLOR = 4;
     public static final int FLAG_TAG_ALL = FLAG_TAG_BR | FLAG_TAG_BOLD;
-
-    public static int getSpanForMovies() {
-        if (viewType() == 0) {
-            return 1;
-        } else {
-            return 2;
-        }
-    }
-
-    public static int getSpanForTrailers() {
-        return ScreenUtils.isPortrait() ? 1 : 2;
-    }
 
     public static SpannableStringBuilder replaceTags(String str) {
         return replaceTags(str, FLAG_TAG_ALL);
