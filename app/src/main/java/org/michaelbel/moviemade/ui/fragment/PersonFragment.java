@@ -47,9 +47,9 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
     private PersonActivity activity;
 
     private EmptyView emptyView;
+    private ScrollView scrollView;
     private ProgressBar progressBar;
     private PersonViewLayout personView;
-    private ScrollView scrollView;
     private SwipeRefreshLayout fragmentView;
 
     @InjectPresenter
@@ -169,6 +169,7 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
         personView.addImdb(person.imdbId);
         personView.addHomepage(person.homepage);
         personView.addBirthPlace(getString(R.string.BirthPlace, person.birthPlace));
+        //personView.addBirthPlace(AndroidUtils.replaceTags(getString(R.string.BirthPlace, person.birthPlace), AndroidUtils.FLAG_TAG_COLOR));
         personView.addBirthday(getString(R.string.Birthday, person.birthday));
         personView.addDeathday(person.deathday);
 

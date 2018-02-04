@@ -2,7 +2,6 @@ package org.michaelbel.moviemade.ui.view.cell;
 
 import android.content.Context;
 import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
@@ -63,7 +62,7 @@ public class EmptyCell extends FrameLayout {
         return this;
     }
 
-    public EmptyCell setText(@NonNull CharSequence text) {
+    public EmptyCell setText(CharSequence text) {
         if (currentMode == MODE_TEXT) {
             textView.setText(text);
         }

@@ -158,7 +158,6 @@ public class PersonViewLayout extends LinearLayout {
         birthPlaceLayout.addView(birthplaceIcon);
 
         birthPlaceText = new TextView(context);
-        birthPlaceText.setText("Loading...");
         birthPlaceText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         birthPlaceText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
         birthPlaceText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
@@ -309,8 +308,8 @@ public class PersonViewLayout extends LinearLayout {
         deathdayText.setText(getContext().getString(R.string.Deathday, deathday));
     }
 
-    public void addBirthPlace(String birthPlace) {
-        if (birthPlace == null || birthPlace.isEmpty()) {
+    public void addBirthPlace(CharSequence birthPlace) {
+        if (birthPlace == null || birthPlace.toString().isEmpty()) {
             shortInfoLayout.removeView(birthPlaceLayout);
             return;
         }

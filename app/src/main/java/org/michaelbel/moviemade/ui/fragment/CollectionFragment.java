@@ -33,7 +33,6 @@ import org.michaelbel.moviemade.ui.view.movie.MovieViewPoster;
 import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
 import java.util.List;
@@ -133,7 +132,7 @@ public class CollectionFragment extends MvpAppCompatFragment implements MvpResul
         recyclerView.setEmptyView(emptyView);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
+        recyclerView.setVerticalScrollBarEnabled(AndroidUtils.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
             if (view instanceof MovieViewListBig || view instanceof MovieViewPoster) {

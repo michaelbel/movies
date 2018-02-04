@@ -185,37 +185,22 @@ public class AboutFragment extends Fragment {
                 }
             } else if (type == 2) {
                 TextCell cell = (TextCell) holder.itemView;
-                cell.changeLayoutParams()
-                    .setMode(TextCell.MODE_ICON)
-                    .setHeight(ScreenUtils.dp(52));
+                cell.changeLayoutParams().setMode(TextCell.MODE_ICON).setHeight(ScreenUtils.dp(52));
 
                 if (position == rateGooglePlay) {
-                    cell.setIcon(R.drawable.ic_google_play)
-                        .setText(R.string.RateGooglePlay)
-                        .setDivider(true);
+                    cell.setIcon(R.drawable.ic_google_play).setText(R.string.RateGooglePlay).setDivider(true);
                 } else if (position == forkGithubRow) {
-                    cell.setIcon(R.drawable.ic_github)
-                        .setText(R.string.ForkGithub)
-                        .setDivider(true);
+                    cell.setIcon(R.drawable.ic_github).setText(R.string.ForkGithub).setDivider(true);
                 } else if (position == libsRow) {
-                    cell.setIcon(R.drawable.ic_storage)
-                        .setText(R.string.OpenSourceLibs)
-                        .setDivider(true);
+                    cell.setIcon(R.drawable.ic_storage).setText(R.string.OpenSourceLibs).setDivider(true);
                 } else if (position == otherAppsRow) {
-                    cell.setIcon(R.drawable.ic_shop)
-                        .setText(R.string.OtherDeveloperApps);
+                    cell.setIcon(R.drawable.ic_shop).setText(R.string.OtherDeveloperApps).setDivider(false);
                 } else if (position == feedbackRow) {
-                    cell.setIcon(R.drawable.ic_mail)
-                        .setText(R.string.Feedback)
-                        .setDivider(true);
+                    cell.setIcon(R.drawable.ic_mail).setText(R.string.Feedback).setDivider(true);
                 } else if (position == shareFriendsRow) {
-                    cell.setIcon(R.drawable.ic_share)
-                        .setText(R.string.ShareWithFriends)
-                        .setDivider(true);
+                    cell.setIcon(R.drawable.ic_share).setText(R.string.ShareWithFriends).setDivider(true);
                 } else if (position == donatePaypalRow) {
-                    cell.setIcon(R.drawable.ic_cash_usd)
-                        .setText(R.string.DonatePaypal)
-                        .setDivider(false);
+                    cell.setIcon(R.drawable.ic_cash_usd).setText(R.string.DonatePaypal).setDivider(false);
                 }
             }
         }

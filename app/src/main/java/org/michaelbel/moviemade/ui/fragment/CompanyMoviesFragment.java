@@ -17,19 +17,18 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.moviemade.ui.CompanyActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.mvp.presenter.CompanyMoviesPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Movie;
+import org.michaelbel.moviemade.ui.CompanyActivity;
 import org.michaelbel.moviemade.ui.adapter.MoviesAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
 import java.util.List;
@@ -118,7 +117,7 @@ public class CompanyMoviesFragment extends MvpAppCompatFragment implements MvpRe
         recyclerView.setEmptyView(emptyView);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
+        recyclerView.setVerticalScrollBarEnabled(AndroidUtils.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
             Movie movie = (Movie) adapter.getMovies().get(position);
