@@ -23,7 +23,6 @@ import android.view.inputmethod.InputMethodManager;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Moviemade;
-import org.michaelbel.moviemade.app.annotation.Beta;
 import org.michaelbel.moviemade.rest.model.v3.Company;
 import org.michaelbel.moviemade.rest.model.v3.Country;
 import org.michaelbel.moviemade.rest.model.v3.Genre;
@@ -40,13 +39,8 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Properties;
 
-@Beta
+@SuppressWarnings("all")
 public class AndroidUtils {
-
-    private static final int FLAG_TAG_BR = 1;
-    private static final int FLAG_TAG_BOLD = 2;
-    private static final int FLAG_TAG_COLOR = 4;
-    private static final int FLAG_TAG_ALL = FLAG_TAG_BR | FLAG_TAG_BOLD;
 
     private static Context getContext() {
         return Moviemade.AppContext;
@@ -66,6 +60,38 @@ public class AndroidUtils {
         return null;
     }
 
+    public static void copyToClipboard(@NonNull CharSequence text) {
+        ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clipData = ClipData.newPlainText(text, text);
+        if (clipboard != null) {
+            clipboard.setPrimaryClip(clipData);
+        }
+    }
+
+    public static String formatSize(long size) {
+        if (size < 1024) {
+            return String.format(Locale.getDefault(), "%d B", size);
+        } else if (size < Math.pow(1024, 2)) {
+            return String.format(Locale.getDefault(), "%.1f KB", size / 1024.0F);
+        } else if (size < Math.pow(1024, 3)) {
+            return String.format(Locale.getDefault(), "%.1f MB", size / Math.pow(1024.0F, 2));
+        } else if (size < Math.pow(1024, 4)) {
+            return String.format(Locale.getDefault(), "%.1f GB", size / Math.pow(1024.0F, 3));
+        } else if (size < Math.pow(1024, 5)) {
+            return String.format(Locale.getDefault(), "%.1f TB", size / Math.pow(1024.0F, 4));
+        } else if (size < Math.pow(1024, 6)) {
+            return String.format(Locale.getDefault(), "%.1f PB", size / Math.pow(1024.0F, 5));
+        } else if (size < Math.pow(1024, 7)) {
+            return String.format(Locale.getDefault(), "%.1f EB", size / Math.pow(1024.0F, 6));
+        } else if (size < Math.pow(1024, 8)) {
+            return String.format(Locale.getDefault(), "%.1f ZB", size / Math.pow(1024.0F, 7));
+        } else {
+            return String.format(Locale.getDefault(), "%.1f YB", size / Math.pow(1024.0F, 8));
+        }
+    }
+
+//--KEYBOARD----------------------------------------------------------------------------------------
+
     public static void showKeyboard(View view) {
         if (view == null) {
             return;
@@ -74,6 +100,22 @@ public class AndroidUtils {
         try {
             InputMethodManager inputManager = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
             inputManager.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void hideKeyboard(View view) {
+        if (view == null) {
+            return;
+        }
+
+        try {
+            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (!imm.isActive()) {
+                return;
+            }
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -92,22 +134,6 @@ public class AndroidUtils {
         }
 
         return false;
-    }
-
-    public static void hideKeyboard(View view) {
-        if (view == null) {
-            return;
-        }
-
-        try {
-            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (!imm.isActive()) {
-                return;
-            }
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
 //--SHARED PREFERENCES------------------------------------------------------------------------------
@@ -157,21 +183,23 @@ public class AndroidUtils {
         return prefs.getString("image_quality_profile", "w185");
     }
 
-//--------------------------------------------------------------------------------------------------
+//--PERMISSIONS-------------------------------------------------------------------------------------
 
+    public static void requestPermission(@NonNull String permission, Activity activity, int requestCode) {
+        ActivityCompat.requestPermissions(activity, new String[] { permission }, requestCode);
+    }
 
+    public static boolean isPermissionGranted(@NonNull String permissionName) {
+        int permission = ActivityCompat.checkSelfPermission(getContext(), permissionName);
+        return permission == PackageManager.PERMISSION_GRANTED;
+    }
 
+//--TODO--------------------------------------------------------------------------------------------
 
-
-
-
-
-
-
-
-
-
-
+    public static final int FLAG_TAG_BR = 1;
+    public static final int FLAG_TAG_BOLD = 2;
+    public static final int FLAG_TAG_COLOR = 4;
+    public static final int FLAG_TAG_ALL = FLAG_TAG_BR | FLAG_TAG_BOLD;
 
     public static int getSpanForMovies() {
         if (viewType() == 0) {
@@ -183,23 +211,6 @@ public class AndroidUtils {
 
     public static int getSpanForTrailers() {
         return ScreenUtils.isPortrait() ? 1 : 2;
-    }
-
-    public static void copyToClipboard(@NonNull CharSequence text) {
-        ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-        ClipData clipData = ClipData.newPlainText(text, text);
-        if (clipboard != null) {
-            clipboard.setPrimaryClip(clipData);
-        }
-    }
-
-    public static boolean isPermissionGranted(@NonNull String permissionName) {
-        int permission = ActivityCompat.checkSelfPermission(getContext(), permissionName);
-        return permission == PackageManager.PERMISSION_GRANTED;
-    }
-
-    public static void requestPermission(@NonNull String permission, Activity activity, int requestCode) {
-        ActivityCompat.requestPermissions(activity, new String[] { permission }, requestCode);
     }
 
     public static SpannableStringBuilder replaceTags(String str) {
@@ -351,8 +362,6 @@ public class AndroidUtils {
 
         return text.toString();
     }
-
-//--------------------------------------------------------------------------------------------------
 
     public static void createCacheDirectory() {
         File cacheDir = new File(Environment.getExternalStorageDirectory(), "Moviemade");

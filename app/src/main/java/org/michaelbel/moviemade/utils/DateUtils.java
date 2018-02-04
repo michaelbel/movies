@@ -64,9 +64,6 @@ public class DateUtils {
         return newFormat.format(date);
     }
 
-
-
-
     //private static final String DEFAULT_DATE_FORMAT = "MMMM yyyy";
 
     /*public static String getYesterdayDate() {
