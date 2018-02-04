@@ -3,7 +3,6 @@ package org.michaelbel.moviemade.ui;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.databinding.ActivityKeywordBinding;
@@ -29,7 +28,6 @@ public class KeywordActivity extends BaseActivity {
         binding.toolbar.setNavigationOnClickListener(view -> finish());
 
         binding.toolbarTitle.setText(keyword.name);
-        binding.progressBar.setVisibility(View.GONE);
 
         startFragment(KeywordMoviesFragment.newInstance(keyword.id), binding.fragmentView);
     }
