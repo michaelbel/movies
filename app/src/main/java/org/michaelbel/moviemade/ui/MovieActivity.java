@@ -23,7 +23,7 @@ import org.michaelbel.moviemade.ui.fragment.ReviewsFragment;
 import org.michaelbel.moviemade.ui.view.SettingsController;
 import org.michaelbel.moviemade.ui.view.SettingsMenu;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
-import org.michaelbel.moviemade.util.AndroidUtilsDev;
+import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 
 import java.util.Locale;
 

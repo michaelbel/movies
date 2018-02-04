@@ -35,7 +35,7 @@ import org.michaelbel.moviemade.ui.fragment.SearchKeywordsFragment;
 import org.michaelbel.moviemade.ui.fragment.SearchMoviesFragment;
 import org.michaelbel.moviemade.ui.fragment.SearchPeopleFragment;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
-import org.michaelbel.moviemade.util.AndroidUtils;
+import org.michaelbel.moviemade.utils.AndroidUtils;
 
 import java.util.List;
 import java.util.Locale;

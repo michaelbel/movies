@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.util;
+package org.michaelbel.moviemade.utils;
 
 import android.app.Activity;
 import android.content.ClipData;

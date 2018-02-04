@@ -28,7 +28,7 @@ import org.michaelbel.moviemade.ui.view.cell.DividerCell;
 import org.michaelbel.moviemade.ui.view.cell.DrawerActionCell;
 import org.michaelbel.moviemade.ui.view.cell.EmptyCell;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
-import org.michaelbel.moviemade.util.ScreenUtils;
+import org.michaelbel.moviemade.utils.ScreenUtils;
 
 public class NavigationView extends FrameLayout {
 

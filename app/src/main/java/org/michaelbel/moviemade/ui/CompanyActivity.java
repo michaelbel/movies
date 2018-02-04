@@ -10,7 +10,7 @@ import org.michaelbel.moviemade.databinding.ActivityCompanyBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.v3.Company;
 import org.michaelbel.moviemade.ui.fragment.CompanyMoviesFragment;
-import org.michaelbel.moviemade.util.AndroidUtilsDev;
+import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 
 public class CompanyActivity extends BaseActivity {
 

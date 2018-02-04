@@ -30,8 +30,8 @@ import org.michaelbel.moviemade.ui.adapter.pagination.PaginationCollectionsAdapt
 import org.michaelbel.moviemade.ui.view.CollectionView;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
-import org.michaelbel.moviemade.util.AndroidUtils;
-import org.michaelbel.moviemade.util.AndroidUtilsDev;
+import org.michaelbel.moviemade.utils.AndroidUtils;
+import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 
 import java.util.List;
 

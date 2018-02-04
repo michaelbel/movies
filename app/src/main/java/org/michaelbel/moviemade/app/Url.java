@@ -1,6 +1,6 @@
 package org.michaelbel.moviemade.app;
 
-import org.michaelbel.moviemade.util.AndroidUtils;
+import org.michaelbel.moviemade.utils.AndroidUtils;
 
 public class Url {
 

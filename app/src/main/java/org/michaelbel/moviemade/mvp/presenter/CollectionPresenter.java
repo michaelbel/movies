@@ -10,7 +10,7 @@ import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.service.COLLECTIONS;
 import org.michaelbel.moviemade.rest.model.v3.Collection;
-import org.michaelbel.moviemade.util.NetworkUtils;
+import org.michaelbel.moviemade.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;

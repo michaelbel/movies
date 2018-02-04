@@ -25,7 +25,7 @@ import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.cell.SearchItemCell;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
-import org.michaelbel.moviemade.util.AndroidUtilsDev;
+import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 
 import java.util.ArrayList;
 import java.util.Collections;

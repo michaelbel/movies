@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.util;
+package org.michaelbel.moviemade.utils;
 
 import android.annotation.TargetApi;
 import android.app.KeyguardManager;

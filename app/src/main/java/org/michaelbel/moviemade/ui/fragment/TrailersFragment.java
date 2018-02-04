@@ -29,8 +29,8 @@ import org.michaelbel.moviemade.ui.adapter.TrailersAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
-import org.michaelbel.moviemade.util.AndroidUtils;
-import org.michaelbel.moviemade.util.ScreenUtils;
+import org.michaelbel.moviemade.utils.AndroidUtils;
+import org.michaelbel.moviemade.utils.ScreenUtils;
 
 import java.util.ArrayList;
 

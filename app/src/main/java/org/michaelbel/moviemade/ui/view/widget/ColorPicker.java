@@ -14,7 +14,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-import org.michaelbel.moviemade.util.ScreenUtils;
+import org.michaelbel.moviemade.utils.ScreenUtils;
 
 @SuppressWarnings("all")
 public class ColorPicker extends View {

@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.util;
+package org.michaelbel.moviemade.utils;
 
 import java.util.Locale;
 

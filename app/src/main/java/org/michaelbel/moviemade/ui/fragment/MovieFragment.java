@@ -39,10 +39,10 @@ import org.michaelbel.moviemade.rest.model.v3.Trailer;
 import org.michaelbel.moviemade.ui.MovieActivity;
 import org.michaelbel.moviemade.ui.interfaces.MovieViewListener;
 import org.michaelbel.moviemade.ui.view.MovieViewLayout;
-import org.michaelbel.moviemade.util.AndroidUtils;
-import org.michaelbel.moviemade.util.AndroidUtilsDev;
-import org.michaelbel.moviemade.util.DateUtils;
-import org.michaelbel.moviemade.util.NetworkUtils;
+import org.michaelbel.moviemade.utils.AndroidUtils;
+import org.michaelbel.moviemade.utils.AndroidUtilsDev;
+import org.michaelbel.moviemade.utils.DateUtils;
+import org.michaelbel.moviemade.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;

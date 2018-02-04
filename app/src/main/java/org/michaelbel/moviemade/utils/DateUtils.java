@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.util;
+package org.michaelbel.moviemade.utils;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Moviemade;

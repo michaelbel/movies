@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.util;
+package org.michaelbel.moviemade.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

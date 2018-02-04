@@ -17,9 +17,9 @@ import org.michaelbel.moviemade.rest.response.CreditResponse;
 import org.michaelbel.moviemade.rest.response.ImageResponse;
 import org.michaelbel.moviemade.rest.response.KeywordResponse;
 import org.michaelbel.moviemade.rest.response.TrailersResponse;
-import org.michaelbel.moviemade.util.AndroidUtils;
-import org.michaelbel.moviemade.util.DateUtils;
-import org.michaelbel.moviemade.util.NetworkUtils;
+import org.michaelbel.moviemade.utils.AndroidUtils;
+import org.michaelbel.moviemade.utils.DateUtils;
+import org.michaelbel.moviemade.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;

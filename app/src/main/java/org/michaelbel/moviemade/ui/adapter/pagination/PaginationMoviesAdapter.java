@@ -10,8 +10,8 @@ import org.michaelbel.moviemade.ui.adapter.recycler.LoadingHolder;
 import org.michaelbel.moviemade.ui.view.LoadingView;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewListBig;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewPoster;
-import org.michaelbel.moviemade.util.AndroidUtils;
-import org.michaelbel.moviemade.util.DateUtils;
+import org.michaelbel.moviemade.utils.AndroidUtils;
+import org.michaelbel.moviemade.utils.DateUtils;
 
 import java.util.ArrayList;
 import java.util.List;

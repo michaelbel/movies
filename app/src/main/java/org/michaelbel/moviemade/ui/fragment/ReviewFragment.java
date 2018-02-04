@@ -29,9 +29,9 @@ import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.rest.model.v3.Review;
 import org.michaelbel.moviemade.ui.view.widget.GestureTextView;
-import org.michaelbel.moviemade.util.AndroidUtils;
-import org.michaelbel.moviemade.util.AndroidUtilsDev;
-import org.michaelbel.moviemade.util.ScreenUtils;
+import org.michaelbel.moviemade.utils.AndroidUtils;
+import org.michaelbel.moviemade.utils.AndroidUtilsDev;
+import org.michaelbel.moviemade.utils.ScreenUtils;
 
 public class ReviewFragment extends Fragment {
 

@@ -31,9 +31,9 @@ import org.michaelbel.moviemade.ui.view.cell.TextCell;
 import org.michaelbel.moviemade.ui.view.cell.TextDetailCell;
 import org.michaelbel.moviemade.ui.view.cell.TextDetailCellDev;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
-import org.michaelbel.moviemade.util.AndroidUtilsDev;
-import org.michaelbel.moviemade.util.DateUtils;
-import org.michaelbel.moviemade.util.ScreenUtils;
+import org.michaelbel.moviemade.utils.AndroidUtilsDev;
+import org.michaelbel.moviemade.utils.DateUtils;
+import org.michaelbel.moviemade.utils.ScreenUtils;
 
 public class SettingsAdvancedFragment extends Fragment {
 

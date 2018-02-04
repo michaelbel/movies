@@ -10,7 +10,7 @@ import org.michaelbel.moviemade.databinding.ActivityKeywordBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.v3.Keyword;
 import org.michaelbel.moviemade.ui.fragment.KeywordMoviesFragment;
-import org.michaelbel.moviemade.util.AndroidUtilsDev;
+import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 
 public class KeywordActivity extends BaseActivity {
 

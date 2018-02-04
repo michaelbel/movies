@@ -8,7 +8,7 @@ import org.michaelbel.moviemade.databinding.ActivityTrailersBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.v3.Trailer;
 import org.michaelbel.moviemade.ui.fragment.TrailersFragment;
-import org.michaelbel.moviemade.util.AndroidUtilsDev;
+import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 
 import java.util.ArrayList;
 

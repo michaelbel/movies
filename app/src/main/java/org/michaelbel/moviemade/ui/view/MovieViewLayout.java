@@ -39,7 +39,7 @@ import org.michaelbel.moviemade.ui.view.section.GenresSection;
 import org.michaelbel.moviemade.ui.view.section.ImagesSection;
 import org.michaelbel.moviemade.ui.view.section.KeywordsSection;
 import org.michaelbel.moviemade.ui.view.section.TrailersSection;
-import org.michaelbel.moviemade.util.AndroidUtils;
+import org.michaelbel.moviemade.utils.AndroidUtils;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.util.ScreenUtils;
+import org.michaelbel.moviemade.utils.ScreenUtils;
 
 public class DividerCell extends FrameLayout {
 

@@ -10,7 +10,7 @@ import org.michaelbel.moviemade.databinding.ActivityGenreBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.v3.Genre;
 import org.michaelbel.moviemade.ui.fragment.GenreMoviesFragment;
-import org.michaelbel.moviemade.util.AndroidUtilsDev;
+import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 
 public class GenreActivity extends BaseActivity {
 

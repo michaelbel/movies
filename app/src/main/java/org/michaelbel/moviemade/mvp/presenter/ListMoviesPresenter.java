@@ -12,7 +12,7 @@ import org.michaelbel.moviemade.rest.api.MOVIES;
 import org.michaelbel.moviemade.rest.api.PEOPLE;
 import org.michaelbel.moviemade.rest.response.MoviePeopleResponse;
 import org.michaelbel.moviemade.rest.response.MovieResponse;
-import org.michaelbel.moviemade.util.NetworkUtils;
+import org.michaelbel.moviemade.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;

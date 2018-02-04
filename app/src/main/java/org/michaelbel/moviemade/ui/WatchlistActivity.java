@@ -12,7 +12,7 @@ import org.michaelbel.moviemade.databinding.ActivityWatchlistBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.ui.fragment.WatchlistMoviesFragment;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
-import org.michaelbel.moviemade.util.AndroidUtilsDev;
+import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 
 public class WatchlistActivity extends BaseActivity {
 

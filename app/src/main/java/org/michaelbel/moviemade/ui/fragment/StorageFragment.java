@@ -32,7 +32,7 @@ import org.michaelbel.moviemade.ui.view.movie.MovieViewListCached;
 import org.michaelbel.moviemade.ui.view.widget.IndicatorView;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.ui.view.widget.ViewPagerAdapter;
-import org.michaelbel.moviemade.util.ScreenUtils;
+import org.michaelbel.moviemade.utils.ScreenUtils;
 
 import java.util.ArrayList;
 import java.util.List;

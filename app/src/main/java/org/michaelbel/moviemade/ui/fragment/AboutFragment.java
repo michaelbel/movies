@@ -30,8 +30,8 @@ import org.michaelbel.moviemade.ui.view.AboutView;
 import org.michaelbel.moviemade.ui.view.cell.EmptyCell;
 import org.michaelbel.moviemade.ui.view.cell.TextCell;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
-import org.michaelbel.moviemade.util.AndroidUtils;
-import org.michaelbel.moviemade.util.ScreenUtils;
+import org.michaelbel.moviemade.utils.AndroidUtils;
+import org.michaelbel.moviemade.utils.ScreenUtils;
 
 public class AboutFragment extends Fragment {
 

@@ -11,7 +11,7 @@ import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.rest.model.v3.Review;
 import org.michaelbel.moviemade.ui.fragment.ReviewFragment;
-import org.michaelbel.moviemade.util.AndroidUtilsDev;
+import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 
 public class ReviewActivity extends BaseActivity {
 

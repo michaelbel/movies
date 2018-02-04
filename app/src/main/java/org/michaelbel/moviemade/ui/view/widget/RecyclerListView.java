@@ -14,7 +14,7 @@ import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 
 
-import org.michaelbel.moviemade.util.AndroidUtils;
+import org.michaelbel.moviemade.utils.AndroidUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;

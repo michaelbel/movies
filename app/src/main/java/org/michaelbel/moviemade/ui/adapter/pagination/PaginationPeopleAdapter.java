@@ -9,7 +9,7 @@ import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.adapter.recycler.LoadingHolder;
 import org.michaelbel.moviemade.ui.view.LoadingView;
 import org.michaelbel.moviemade.ui.view.PersonView;
-import org.michaelbel.moviemade.util.AndroidUtils;
+import org.michaelbel.moviemade.utils.AndroidUtils;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -29,8 +29,8 @@ import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.ui.adapter.CastMoviesAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
-import org.michaelbel.moviemade.util.AndroidUtils;
-import org.michaelbel.moviemade.util.AndroidUtilsDev;
+import org.michaelbel.moviemade.utils.AndroidUtils;
+import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 
 import java.util.List;
 
