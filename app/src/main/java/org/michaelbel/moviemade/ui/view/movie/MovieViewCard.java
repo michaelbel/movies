@@ -31,9 +31,9 @@ import java.util.Locale;
 public class MovieViewCard extends FrameLayout {
 
     private CardView cardView;
-    private ImageView posterImageView;
-    private TextView titleTextView;
-    private TextView yearTextView;
+    private ImageView posterImage;
+    private TextView titleText;
+    private TextView yearText;
 
     private Rect rect = new Rect();
 
@@ -44,7 +44,7 @@ public class MovieViewCard extends FrameLayout {
         cardView.setUseCompatPadding(true);
         cardView.setPreventCornerOverlap(false);
         cardView.setRadius(ScreenUtils.dp(2));
-        cardView.setCardElevation(ScreenUtils.dp(1.5F));
+        cardView.setCardElevation(ScreenUtils.dp(1.0F));
         cardView.setForeground(Theme.selectableItemBackgroundBorderlessDrawable());
         cardView.setCardBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
         cardView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
@@ -54,63 +54,56 @@ public class MovieViewCard extends FrameLayout {
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         cardView.addView(linearLayout);
 
-        posterImageView = new ImageView(context);
-        posterImageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        posterImageView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        linearLayout.addView(posterImageView);
+        posterImage = new ImageView(context);
+        posterImage.setScaleType(ImageView.ScaleType.FIT_XY);
+        posterImage.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        linearLayout.addView(posterImage);
 
-        titleTextView = new TextView(context);
-        titleTextView.setLines(1);
-        titleTextView.setMaxLines(2);
-        titleTextView.setEllipsize(TextUtils.TruncateAt.END);
-        titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-        titleTextView.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
-        titleTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        titleTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.START, 8, 6, 8, 0));
-        linearLayout.addView(titleTextView);
+        titleText = new TextView(context);
+        titleText.setLines(1);
+        titleText.setMaxLines(2);
+        titleText.setEllipsize(TextUtils.TruncateAt.END);
+        titleText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+        titleText.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
+        titleText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        titleText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.START, 8, 6, 8, 6));
+        linearLayout.addView(titleText);
 
-        yearTextView = new TextView(context);
-        yearTextView.setLines(1);
-        yearTextView.setMaxLines(1);
-        yearTextView.setSingleLine();
-        yearTextView.setEllipsize(TextUtils.TruncateAt.END);
-        yearTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-        yearTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        yearTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.START, 8, 0, 8, 6));
-        linearLayout.addView(yearTextView);
-    }
-
-    public ImageView getPosterImage() {
-        return posterImageView;
+        yearText = new TextView(context);
+        yearText.setLines(1);
+        yearText.setMaxLines(1);
+        yearText.setSingleLine();
+        yearText.setEllipsize(TextUtils.TruncateAt.END);
+        yearText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        yearText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
+        yearText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.START, 8, 0, 8, 6));
+        //linearLayout.addView(yearText);
     }
 
     public MovieViewCard setPoster(@NonNull String posterPath) {
         Picasso.with(getContext())
                .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.posterSize(), posterPath))
                .placeholder(R.drawable.movie_placeholder_old)
-               .memoryPolicy(/*MemoryPolicy.NO_CACHE, */MemoryPolicy.NO_STORE)
-               .into(posterImageView);
+               .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
+               .into(posterImage);
 
         return this;
     }
 
     public MovieViewCard setTitle(@NonNull String title) {
-        titleTextView.setText(title.isEmpty() ? "" : title);
+        titleText.setText(title.isEmpty() ? "" : title);
         return this;
     }
 
-    public MovieViewCard setYear(@NonNull String releaseDate) {
+    /*public MovieViewCard setYear(@NonNull String releaseDate) {
         if (releaseDate.length() >= 4) {
-            yearTextView.setText(releaseDate.substring(0, 4));
+            yearText.setText(releaseDate.substring(0, 4));
         }
         return this;
-    }
+    }*/
 
     public MovieViewCard changeLayoutParams(boolean gravity) {
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT
-        );
-
+        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         if (gravity) {
             params.leftMargin = ScreenUtils.dp(3F);
         } else {
