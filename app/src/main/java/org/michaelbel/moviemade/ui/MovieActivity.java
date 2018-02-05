@@ -9,6 +9,8 @@ import android.support.v4.content.ContextCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.ads.MobileAds;
+
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
@@ -23,6 +25,7 @@ import org.michaelbel.moviemade.ui.fragment.ReviewsFragment;
 import org.michaelbel.moviemade.ui.view.SettingsController;
 import org.michaelbel.moviemade.ui.view.SettingsMenu;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
+import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 
 import java.util.Locale;
@@ -42,6 +45,8 @@ public class MovieActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movie);
+
+        MobileAds.initialize(this, AndroidUtils.loadProperty("appId", "admob.properties"));
 
         movie = (Movie) getIntent().getSerializableExtra("movie");
         movieRealm = getIntent().getParcelableExtra("movieRealm");
