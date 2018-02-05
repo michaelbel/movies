@@ -60,6 +60,20 @@ public class AndroidUtils {
         return null;
     }
 
+    public static String loadProperty(String key, String fileName) {
+        try {
+            Properties properties = new Properties();
+            AssetManager assetManager = getContext().getAssets();
+            InputStream inputStream = assetManager.open(fileName);
+            properties.load(inputStream);
+            return properties.getProperty(key);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
     public static void copyToClipboard(@NonNull CharSequence text) {
         ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clipData = ClipData.newPlainText(text, text);
