@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.gms.google-services'
 apply plugin: 'realm-android'
 
 android {
@@ -10,9 +9,9 @@ android {
         applicationId "org.michaelbel.moviemade"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 21
-        versionName "0.2.2"
-        buildConfigField "String", "VERSION_DATE", '"Feb 03, 2018"'
+        versionCode 22
+        versionName "0.2.3"
+        buildConfigField "String", "VERSION_DATE", '"Feb 5, 2018"'
         project.ext.set("archivesBaseName", "moviemade-v" + defaultConfig.versionName)
     }
 
@@ -70,13 +69,14 @@ dependencies {
     implementation 'com.android.support:cardview-v7:27.0.2'
     implementation 'com.android.support:appcompat-v7:27.0.2'
 
-    implementation 'com.google.android.gms:play-services-analytics:9.0.0'
-    // Dagger
+    implementation 'com.google.android.gms:play-services-ads:11.8.0'
+    implementation 'com.google.android.gms:play-services-analytics:11.8.0'
+
     implementation 'com.google.dagger:dagger-android:2.14.1'
     implementation 'com.google.dagger:dagger-android-support:2.14.1'
     annotationProcessor 'com.google.dagger:dagger-compiler:2.14.1'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.14.1'
-    // Moxy
+
     implementation 'com.arello-mobile:moxy:1.5.3'
     implementation 'com.arello-mobile:moxy-android:1.5.3'
     implementation 'com.arello-mobile:moxy-app-compat:1.5.3'
@@ -85,7 +85,7 @@ dependencies {
     implementation 'com.alexvasilkov:events:1.0.0'
     implementation 'com.alexvasilkov:gesture-views:2.4.0'
     implementation 'com.alexvasilkov:android-commons:2.0.2'
-    // GestureViews
+
     implementation 'io.reactivex.rxjava2:rxjava:2.1.7'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.1'
 
@@ -99,3 +99,5 @@ dependencies {
     implementation 'at.blogc:expandabletextview:1.0.5'
     implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7'
 }
+
+apply plugin: 'com.google.gms.google-services'
