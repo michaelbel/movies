@@ -2,15 +2,14 @@ package org.michaelbel.moviemade.ui.fragment;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,13 +24,14 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.ui.WatchlistActivity;
 import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.model.MovieRealm;
+import org.michaelbel.moviemade.ui.WatchlistActivity;
 import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.EmptyView;
+import org.michaelbel.moviemade.ui.view.movie.MovieViewCard;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewListBig;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewPoster;
 import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
@@ -86,7 +86,7 @@ public class WatchlistMoviesFragment extends Fragment {
             editor.putInt("view_type", newType);
             editor.apply();
 
-            refreshLayout();
+            //refreshLayout();
             return true;
         });
     }
@@ -113,12 +113,12 @@ public class WatchlistMoviesFragment extends Fragment {
             }
         });
 
-        fragmentView = new SwipeRefreshLayout(getContext());
+        fragmentView = new SwipeRefreshLayout(activity);
         fragmentView.setRefreshing(false);
         fragmentView.setOnRefreshListener(this :: loadMovies);
         fragmentView.setColorSchemeResources(Theme.accentColor());
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
-        fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(getContext(), Theme.primaryColor()));
+        fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.primaryColor()));
 
         FrameLayout contentLayout = new FrameLayout(activity);
         contentLayout.setLayoutParams(LayoutHelper.makeSwipeRefresh(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
@@ -139,7 +139,9 @@ public class WatchlistMoviesFragment extends Fragment {
         itemDecoration = new PaddingItemDecoration();
         if (AndroidUtils.viewType() == 0) {
             itemDecoration.setOffset(0);
-        } else {
+        } else if (AndroidUtils.viewType() == 1) {
+            itemDecoration.setOffset(ScreenUtils.dp(1));
+        } else if (AndroidUtils.viewType() == 2) {
             itemDecoration.setOffset(ScreenUtils.dp(1));
         }
 
@@ -149,11 +151,12 @@ public class WatchlistMoviesFragment extends Fragment {
         recyclerView.setEmptyView(emptyView);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
         //if (AndroidUtils.viewType() == 0) {
         //    recyclerView.setPadding(ScreenUtils.dp(4), 0, ScreenUtils.dp(4), 0);
         //}
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        recyclerView.setOnItemClickListener((view1, position) -> {
+        recyclerView.setOnItemClickListener((view, position) -> {
                 MovieRealm movie = movies.get(position);
                 activity.startMovie(movie);
         });
@@ -167,11 +170,11 @@ public class WatchlistMoviesFragment extends Fragment {
         loadMovies();
     }
 
-    @Override
+    /*@Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        gridLayoutManager.setSpanCount(AndroidUtils.getColumns());
-    }
+        gridLayoutManager.setSpanCount(AndroidUtils.getSpanForMovies());
+    }*/
 
     private void loadMovies() {
         if (!movies.isEmpty()) {
@@ -202,30 +205,26 @@ public class WatchlistMoviesFragment extends Fragment {
         fragmentView.setRefreshing(false);
     }
 
-    private void refreshLayout() {
+    /*private void refreshLayout() {
         Parcelable state = gridLayoutManager.onSaveInstanceState();
-        gridLayoutManager = new GridLayoutManager(activity, getLayoutColumns());
+        gridLayoutManager = new GridLayoutManager(activity, AndroidUtils.getSpanForMovies());
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.removeItemDecoration(itemDecoration);
         if (AndroidUtils.viewType() == 0) {
             itemDecoration.setOffset(ScreenUtils.dp(2));
             recyclerView.addItemDecoration(itemDecoration);
             recyclerView.setPadding(ScreenUtils.dp(4), 0, ScreenUtils.dp(4), 0);
+        } else if (AndroidUtils.viewType() == 1) {
+            itemDecoration.setOffset(ScreenUtils.dp(1.5F));
+            recyclerView.addItemDecoration(itemDecoration);
+            recyclerView.setPadding(0, 0, 0, 0);
         } else {
             itemDecoration.setOffset(ScreenUtils.dp(1));
             recyclerView.addItemDecoration(itemDecoration);
             recyclerView.setPadding(0, 0, 0, 0);
         }
         gridLayoutManager.onRestoreInstanceState(state);
-    }
-
-    public int getLayoutColumns() {
-        if (AndroidUtils.viewType() == 0) {
-            return ScreenUtils.isPortrait() ? 3 : 5;
-        } else {
-            return ScreenUtils.isPortrait() ? 2 : 3;
-        }
-    }
+    }*/
 
     public class MovieAdapter extends RecyclerView.Adapter {
 
@@ -236,6 +235,8 @@ public class WatchlistMoviesFragment extends Fragment {
             if (type == 0) {
                 view = new MovieViewListBig(parent.getContext());
             } else if (type == 1) {
+                view = new MovieViewCard(parent.getContext());
+            } else if (type == 2) {
                 view = new MovieViewPoster(parent.getContext());
             }
 
@@ -257,6 +258,9 @@ public class WatchlistMoviesFragment extends Fragment {
                     .setOverview(movie.overview)
                     .setDivider(position != movies.size() - 1);
             } else if (type == 1) {
+                MovieViewCard view = (MovieViewCard) holder.itemView;
+                view.setPoster(movie.posterPath).setTitle(movie.title);
+            } else if (type == 2) {
                 MovieViewPoster view = (MovieViewPoster) holder.itemView;
                 view.setPoster(movie.posterPath);
             }
