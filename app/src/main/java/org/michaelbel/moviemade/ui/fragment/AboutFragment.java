@@ -71,7 +71,7 @@ public class AboutFragment extends Fragment {
         rowCount = 0;
         infoRow = rowCount++;
         rateGooglePlay = rowCount++;
-        //forkGithubRow = rowCount++;
+        forkGithubRow = rowCount++;
         libsRow = rowCount++;
         otherAppsRow = rowCount++;
         helpRow = rowCount++;
@@ -88,7 +88,7 @@ public class AboutFragment extends Fragment {
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view1, position) -> {
             if (position == forkGithubRow) {
-                //Browser.openUrl(activity, Moviemade.GITHUB_URL);
+                Browser.openUrl(activity, Moviemade.GITHUB_URL);
             } else if (position == rateGooglePlay) {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
