@@ -52,8 +52,9 @@ public class SettingsFragment extends Fragment {
     private int scrollbarsRow;
     private int emptyRow2;
 
-    private String[] viewType = new String[] { "List Big", "Posters" };
-    //private int viewType2 = R.array.MovieViewType;
+    private String[] viewTypes;
+
+    //private String[] viewType = new String[] { "List Big", "Posters" };
 
     private SharedPreferences prefs;
     private SettingsActivity activity;
@@ -66,6 +67,7 @@ public class SettingsFragment extends Fragment {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         activity = (SettingsActivity) getActivity();
+        viewTypes = getResources().getStringArray(R.array.ViewTypes);
     }
 
     @Override
@@ -191,14 +193,14 @@ public class SettingsFragment extends Fragment {
                 builder.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
                 builder.setItemTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
                 builder.setCellHeight(ScreenUtils.dp(52));
-                builder.setItems(viewType, (dialog, which) -> {
+                builder.setItems(viewTypes, (dialog, i) -> {
                     SharedPreferences prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
                     SharedPreferences.Editor editor = prefs.edit();
-                    editor.putInt("view_type", which);
+                    editor.putInt("view_type", i);
                     editor.apply();
 
                     if (view instanceof TextDetailCell) {
-                        ((TextDetailCell) view).setValue(viewType[which]);
+                        ((TextDetailCell) view).setValue(viewTypes[i]);
                     }
 
                     ((Moviemade) activity.getApplication()).eventBus().send(new Events.MovieListRefreshLayout());
@@ -296,13 +298,10 @@ public class SettingsFragment extends Fragment {
 
             if (type == 1) {
                 EmptyCell cell = (EmptyCell) holder.itemView;
-                cell.changeLayoutParams()
-                    .setMode(EmptyCell.MODE_DEFAULT)
-                    .setHeight(ScreenUtils.dp(12));
+                cell.changeLayoutParams().setMode(EmptyCell.MODE_DEFAULT).setHeight(ScreenUtils.dp(12));
             } else if (type == 2) {
                 TextCell cell = (TextCell) holder.itemView;
-                cell.changeLayoutParams()
-                    .setHeight(ScreenUtils.dp(52));
+                cell.changeLayoutParams().setHeight(ScreenUtils.dp(52));
 
                 /*if (position == storageUsageRow) {
                     cell.setText(R.string.StorageUsage);
@@ -336,7 +335,7 @@ public class SettingsFragment extends Fragment {
                 }*/ else if (position == viewTypeRow) {
                     cell.setMode(TextDetailCell.MODE_DEFAULT);
                     cell.setText(R.string.ViewType);
-                    cell.setValue(viewType[AndroidUtils.viewType()]);
+                    cell.setValue(viewTypes[AndroidUtils.viewType()]);
                     cell.setDivider(true);
                 } else if (position == scrollToTopRow) {
                     cell.setMode(TextDetailCell.MODE_SWITCH);
