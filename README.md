@@ -24,7 +24,7 @@
 [![MinSdk][minsdk-badge]][github-url]
 [![License][license-badge]][licence-url]
 [![Paypal][paypal-badge]][paypal-url]
-[![Playstore][googleplay-badge]][googleplay-url]
+[![GooglePlay][googleplay-badge]][googleplay-url]
 
 Moviemade - quick and easy way to discover popular movies.
 
