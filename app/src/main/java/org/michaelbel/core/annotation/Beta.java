@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.app.annotation;
+package org.michaelbel.core.annotation;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
