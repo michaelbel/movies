@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
@@ -42,7 +42,7 @@ public class EmptyCell extends FrameLayout {
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         textView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
         textView.setPadding(ScreenUtils.dp(16), ScreenUtils.dp(12), ScreenUtils.dp(16), ScreenUtils.dp(12));
-        textView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        textView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START));
         addView(textView);
 
         progressBar = new ProgressBar(context);
@@ -90,6 +90,10 @@ public class EmptyCell extends FrameLayout {
         }
 
         return this;
+    }
+
+    public void setTextGravity(int gravity) {
+        textView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, gravity));
     }
 
     public EmptyCell changeLayoutParams() {
