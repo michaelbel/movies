@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
@@ -27,7 +27,7 @@ public class AboutView extends LinearLayout {
 
         ImageView launcherIcon = new ImageView(context);
         launcherIcon.setImageResource(R.mipmap.ic_launcher);
-        launcherIcon.setLayoutParams(LayoutHelper.makeLinear(120, 120, Gravity.CENTER_HORIZONTAL));
+        launcherIcon.setLayoutParams(LayoutHelper.makeLinear(125, 125, Gravity.CENTER_HORIZONTAL));
         addView(launcherIcon);
 
         appNameText = new TextView(context);
@@ -44,11 +44,11 @@ public class AboutView extends LinearLayout {
         addView(versionText);
     }
 
-    public void addName(String text) {
+    public void setName(String text) {
         appNameText.setText(text);
     }
 
-    public void addVersion(String versionName, int versionCode, String versionDate) {
+    public void setVersion(String versionName, int versionCode, String versionDate) {
         versionText.setText(getContext().getString(R.string.VersionBuildDate, versionName, versionCode, versionDate));
     }
 
