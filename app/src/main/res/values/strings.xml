@@ -133,6 +133,7 @@
     <string name="Birthday">Birthday: %s</string>
     <string name="Deathday">Deathday: %s</string>
     <string name="BirthPlace">Birthplace: %s</string>
+    <string name="KnownAs">Also known as: %s</string>
     <!--Settings-->
     <string name="Settings">Settings</string>
     <string name="ImageQuality">Image Quality</string>
@@ -184,6 +185,8 @@
     <string name="ZoomReviewInfo">Enable review gestures control</string>
     <string name="FullOverview">Full Overview</string>
     <string name="FullOverviewInfo">Always display overview fully</string>
+    <string name="TextSelectable">Text is Selectable</string>
+    <string name="TextSelectableInfo">Enable text select for all views</string>
     <!--About-->
     <string name="About">About</string>
     <string name="AppForAndroid">%1$s for Android</string>
@@ -191,6 +194,7 @@
     <string name="ForkGithub">Fork on Github</string>
     <string name="OpenSourceLibs">Open-source Libraries</string>
     <string name="ProjectInfo"><![CDATA[<b>]]>Moviemade<![CDATA[</b>]]> is an open source project maintained by one develop. You can help improve the project in one of the following ways:</string>
+    <string name="PoweredBy">Powered by <![CDATA[<b>]]>Themoviedb.org<![CDATA[</b>]]></string>
     <string name="Feedback">Feedback</string>
     <string name="Open">Open</string>
     <string name="CopyLink">Copy link</string>
