@@ -14,7 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
@@ -39,8 +39,8 @@ public class DrawerActionCell extends FrameLayout {
         textView.setSingleLine();
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-        textView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         textView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        textView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         textView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 72, 0, 16, 0));
         addView(textView);
     }
