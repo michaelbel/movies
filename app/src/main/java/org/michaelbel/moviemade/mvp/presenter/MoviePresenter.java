@@ -4,7 +4,7 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.app.Url;
-import org.michaelbel.moviemade.app.annotation.Beta;
+import org.michaelbel.core.annotation.Beta;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.view.MvpMovieView;
 import org.michaelbel.moviemade.rest.ApiFactory;
