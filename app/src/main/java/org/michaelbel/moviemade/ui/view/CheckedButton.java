@@ -11,14 +11,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
 public class CheckedButton extends FrameLayout {
 
-    public static final int FAVORITE = 0;
-    public static final int WATCHING = 1;
+    public static final int FAVORITE = 0, WATCHING = 1;
 
     @IntDef({ FAVORITE, WATCHING })
     private @interface Style {}
@@ -54,14 +53,13 @@ public class CheckedButton extends FrameLayout {
         return this;
     }
 
-    public CheckedButton setChecked(boolean state) {
+    public void setChecked(boolean state) {
         int color = state ? Theme.accentColor() : Theme.iconActiveColor();
         int icon = state ?
                 style == FAVORITE ? R.drawable.ic_heart : R.drawable.ic_bookmark :
                 style == FAVORITE ? R.drawable.ic_heart_outline : R.drawable.ic_bookmark_outline;
 
         iconView.setImageDrawable(Theme.getIcon(icon, ContextCompat.getColor(getContext(), color)));
-        return this;
     }
 
     @Override
