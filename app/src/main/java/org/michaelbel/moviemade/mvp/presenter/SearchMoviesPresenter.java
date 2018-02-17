@@ -50,6 +50,10 @@ public class SearchMoviesPresenter extends MvpPresenter<MvpSearchView> {
                 totalPages = response.totalPages;
                 totalResults = response.totalResults;
                 List<TmdbObject> results = new ArrayList<>(response.movies);
+                if (results.isEmpty()) {
+                    getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
+                    return;
+                }
                 getViewState().showResults(results, true);
             }
 

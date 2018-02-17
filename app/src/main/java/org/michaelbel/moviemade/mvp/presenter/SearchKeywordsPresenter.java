@@ -49,6 +49,10 @@ public class SearchKeywordsPresenter extends MvpPresenter<MvpSearchView> {
                 totalPages = response.totalPages;
                 totalResults = response.totalResults;
                 List<TmdbObject> results = new ArrayList<>(response.keywords);
+                if (results.isEmpty()) {
+                    getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
+                    return;
+                }
                 getViewState().showResults(results, true);
             }
 
