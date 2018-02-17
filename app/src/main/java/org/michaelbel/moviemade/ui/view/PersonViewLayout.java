@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.FrameLayout;
@@ -15,13 +16,15 @@ import android.widget.TextView;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.ui.interfaces.PersonViewListener;
+import org.michaelbel.moviemade.utils.AndroidUtils;
 
 import java.util.Locale;
+import java.util.Objects;
 
 public class PersonViewLayout extends LinearLayout {
 
@@ -188,6 +191,7 @@ public class PersonViewLayout extends LinearLayout {
 
         nameText = new TextView(context);
         nameText.setVisibility(INVISIBLE);
+        nameText.setTextIsSelectable(AndroidUtils.textSelect());
         nameText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
         nameText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         nameText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
@@ -222,6 +226,7 @@ public class PersonViewLayout extends LinearLayout {
         addView(bioLayout);
 
         bioText = new TextView(context);
+        bioText.setTextIsSelectable(AndroidUtils.textSelect());
         bioText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         bioText.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
         bioText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
@@ -314,7 +319,7 @@ public class PersonViewLayout extends LinearLayout {
             return;
         }
 
-        birthPlaceText.setText(birthPlace);
+        birthPlaceText.setText(getContext().getString(R.string.BirthPlace, birthPlace));
     }
 
     public void addName(String name) {
@@ -336,12 +341,13 @@ public class PersonViewLayout extends LinearLayout {
     }*/
 
     public void addOtherNames(String names) {
-        if (names == null || names.isEmpty()) {
+        if (names == null || names.isEmpty() || Objects.equals(names, "")) {
+            Log.e("2580", "OtherNamesField is Empty");
             nameCareerLayout.removeView(otherNamesText);
             return;
         }
 
-        otherNamesText.setText(names);
+        otherNamesText.setText(getContext().getString(R.string.KnownAs, names));
     }
 
     public void loadedSuccess() {
