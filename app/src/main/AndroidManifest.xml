@@ -78,17 +78,17 @@
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize">
 
-            <intent-filter>
+            <!--<intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
 
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
 
-                <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/person/"/> <!--https://www.themoviedb.org/person/-->
-                <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/person"/>  <!--https://www.themoviedb.org/person-->
-                <data android:scheme="https" android:host="themoviedb.org" android:pathPrefix="/person/"/>     <!--https://themoviedb.org/person/-->
-                <data android:scheme="https" android:host="themoviedb.org" android:pathPrefix="/person"/>      <!--https://themoviedb.org/person-->
-            </intent-filter>
+                <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/person/"/> &lt;!&ndash;https://www.themoviedb.org/person/&ndash;&gt;
+                <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/person"/>  &lt;!&ndash;https://www.themoviedb.org/person&ndash;&gt;
+                <data android:scheme="https" android:host="themoviedb.org" android:pathPrefix="/person/"/>     &lt;!&ndash;https://themoviedb.org/person/&ndash;&gt;
+                <data android:scheme="https" android:host="themoviedb.org" android:pathPrefix="/person"/>      &lt;!&ndash;https://themoviedb.org/person&ndash;&gt;
+            </intent-filter>-->
 
         </activity>
 
