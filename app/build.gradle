@@ -9,43 +9,16 @@ android {
         applicationId "org.michaelbel.moviemade"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 22
-        versionName "0.2.3"
-        buildConfigField "String", "VERSION_DATE", '"Feb 5, 2018"'
+        versionCode 26
+        versionName "0.2.4"
+        buildConfigField "String", "VERSION_DATE", '"Feb 17, 2018"'
         project.ext.set("archivesBaseName", "moviemade-v" + defaultConfig.versionName)
     }
 
-    /*signingConfigs {
-        debug {
-            debuggable true
-            jniDebuggable true
-            signingConfig signingConfigs.debug
-            applicationIdSuffix ".beta"
-        }
-
-        release {
-            debuggable false
-            jniDebuggable false
-            signingConfig signingConfigs.release
-            minifyEnabled false
-            shrinkResources false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }*/
-
     buildTypes {
-        /*debug {
-            applicationIdSuffix ".debug"
-            versionNameSuffix "-debug"
-            resValue "string", "app_name", "Moviemade (debug)"
-        }*/
-
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            //shrinkResources true
-            //signingConfig signingConfig.release
-            //resValue "string", "app_name", "Moviemade"
         }
     }
 
@@ -94,10 +67,12 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
-    implementation 'org.michaelbel:bottomsheet:1.1.2'
+    implementation 'org.michaelbel:bottomsheet:1.1.3'
     implementation 'io.realm:android-adapters:2.1.1'
     implementation 'at.blogc:expandabletextview:1.0.5'
     implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7'
+
+    //implementation 'org.solovyev.android:checkout:1.2.1'
 }
 
 apply plugin: 'com.google.gms.google-services'
