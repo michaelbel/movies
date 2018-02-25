@@ -17,14 +17,14 @@ import android.widget.Toast;
 
 import org.michaelbel.bottomsheetdialog.BottomSheet;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.browser.Browser;
 import org.michaelbel.moviemade.model.Source;
 import org.michaelbel.moviemade.ui.AboutActivity;
 import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.cell.TextDetailCell;
-import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
+import org.michaelbel.core.widget.RecyclerListView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
@@ -48,9 +48,13 @@ public class LibsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        activity.binding.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
-        activity.binding.toolbarTitle.setText(R.string.OpenSourceLibs);
+        //activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        //activity.binding.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
+        //activity.binding.toolbarTitle.setText(R.string.OpenSourceLibs);
+
+        activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        activity.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
+        activity.toolbarTitle.setText(R.string.OpenSourceLibs);
 
         FrameLayout fragmentView = new FrameLayout(activity);
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));

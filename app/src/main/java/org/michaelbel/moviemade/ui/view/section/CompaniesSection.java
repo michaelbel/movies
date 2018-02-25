@@ -11,12 +11,12 @@ import android.widget.FrameLayout;
 
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 
-import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.rest.model.v3.Company;
 import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.ChipView;
-import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
+import org.michaelbel.core.widget.RecyclerListView;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
 import java.util.ArrayList;

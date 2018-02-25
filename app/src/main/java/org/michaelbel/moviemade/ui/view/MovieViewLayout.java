@@ -25,10 +25,11 @@ import com.google.android.gms.ads.AdView;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
+import org.michaelbel.moviemade.app.extensions.AndroidExtensions;
 import org.michaelbel.moviemade.rest.model.Crew;
 import org.michaelbel.moviemade.rest.model.v3.Backdrop;
 import org.michaelbel.moviemade.rest.model.v3.Collection;
@@ -59,8 +60,8 @@ public class MovieViewLayout extends LinearLayout {
 
     private LinearLayout shortInfoLayout;
 
+    private TextView ratingText;
     private RatingView ratingView;
-    private TextView ratingTextView;
 
     private LinearLayout voteCountLayout;
     private TextView voteCountText;
@@ -81,12 +82,10 @@ public class MovieViewLayout extends LinearLayout {
     private LinearLayout titleTaglineLayout;
 
     private TextView titleText;
-
-    private TextView taglineTextView;
+    private TextView taglineText;
 
     private LinearLayout overviewLayout;
     private ExpandableTextView overviewText;
-    //private TextView overviewTextView;
 
     private TrailersSection trailersView;
 
@@ -180,12 +179,12 @@ public class MovieViewLayout extends LinearLayout {
         ratingView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL));
         ratingLayout.addView(ratingView);
 
-        ratingTextView = new TextView(context);
-        ratingTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-        ratingTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        ratingTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-        ratingTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 12, 0, 0, 0));
-        ratingLayout.addView(ratingTextView);
+        ratingText = new TextView(context);
+        ratingText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+        ratingText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        ratingText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        ratingText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 12, 0, 0, 0));
+        ratingLayout.addView(ratingText);
 
         voteCountLayout = new LinearLayout(context);
         voteCountLayout.setOrientation(HORIZONTAL);
@@ -300,17 +299,18 @@ public class MovieViewLayout extends LinearLayout {
 
         titleText = new TextView(context);
         titleText.setVisibility(INVISIBLE);
+        titleText.setTextIsSelectable(AndroidUtils.textSelect());
         titleText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
         titleText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         titleText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         titleTaglineLayout.addView(titleText);
 
-        taglineTextView = new TextView(context);
-        taglineTextView.setLines(1);
-        taglineTextView.setVisibility(INVISIBLE);
-        taglineTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-        taglineTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        titleTaglineLayout.addView(taglineTextView);
+        taglineText = new TextView(context);
+        taglineText.setVisibility(INVISIBLE);
+        taglineText.setTextIsSelectable(AndroidUtils.textSelect());
+        taglineText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+        taglineText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
+        titleTaglineLayout.addView(taglineText);
 
 //------OVERVIEW------------------------------------------------------------------------------------
 
@@ -323,17 +323,19 @@ public class MovieViewLayout extends LinearLayout {
         overviewText = (ExpandableTextView) LayoutInflater.from(context).inflate(R.layout.item_overview, null);
         overviewText.setMaxLines(5);
         overviewText.setAnimationDuration(350L);
+        overviewText.setTextIsSelectable(false);
         overviewText.setEllipsize(TextUtils.TruncateAt.END);
+        overviewText.setTextIsSelectable(AndroidUtils.textSelect());
         overviewText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        overviewText.setInterpolator(new OvershootInterpolator(0));
         overviewText.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
         overviewText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        overviewText.setInterpolator(new OvershootInterpolator(0));
         overviewText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 16, 16, 16));
         overviewText.setOnClickListener(view -> overviewText.toggle());
-        overviewText.setOnLongClickListener(view -> {
+        /*overviewText.setOnLongClickListener(view -> {
             movieViewListener.onOverviewLongClick(view);
             return true;
-        });
+        });*/
         overviewLayout.addView(overviewText);
 
         if (AndroidUtils.fullOverview()) {
@@ -360,8 +362,8 @@ public class MovieViewLayout extends LinearLayout {
         crewTitle.setText(context.getString(R.string.Crew));
         crewTitle.setGravity(Gravity.CENTER_VERTICAL);
         crewTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        crewTitle.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         crewTitle.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        crewTitle.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         crewTitle.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL));
         crewTitleLayout.addView(crewTitle);
 
@@ -373,6 +375,7 @@ public class MovieViewLayout extends LinearLayout {
 
         directorsText = new TextView(context);
         directorsText.setText(R.string.Loading);
+        directorsText.setTextIsSelectable(AndroidUtils.textSelect());
         directorsText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
         directorsText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
         crewLayout.addView(directorsText);
@@ -385,6 +388,7 @@ public class MovieViewLayout extends LinearLayout {
 
         writersTextView = new TextView(context);
         writersTextView.setText(R.string.Loading);
+        writersTextView.setTextIsSelectable(AndroidUtils.textSelect());
         writersTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
         writersTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
         crewLayout.addView(writersTextView);
@@ -397,6 +401,7 @@ public class MovieViewLayout extends LinearLayout {
 
         producersTextView = new TextView(context);
         producersTextView.setText(R.string.Loading);
+        producersTextView.setTextIsSelectable(AndroidUtils.textSelect());
         producersTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
         producersTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
         crewLayout.addView(producersTextView);
@@ -462,6 +467,7 @@ public class MovieViewLayout extends LinearLayout {
         infoLayout.addView(originalTitle);
 
         originalTitleText = new TextView(context);
+        originalTitleText.setTextIsSelectable(AndroidUtils.textSelect());
         originalTitleText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
         originalTitleText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
         infoLayout.addView(originalTitleText);
@@ -474,6 +480,7 @@ public class MovieViewLayout extends LinearLayout {
 
         statusTextView = new TextView(context);
         statusTextView.setText(R.string.Loading);
+        statusTextView.setTextIsSelectable(AndroidUtils.textSelect());
         statusTextView.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
         statusTextView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
         infoLayout.addView(statusTextView);
@@ -486,6 +493,7 @@ public class MovieViewLayout extends LinearLayout {
 
         budgetText = new TextView(context);
         budgetText.setText(R.string.Loading);
+        budgetText.setTextIsSelectable(AndroidUtils.textSelect());
         budgetText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
         budgetText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
         infoLayout.addView(budgetText);
@@ -498,6 +506,7 @@ public class MovieViewLayout extends LinearLayout {
 
         revenueText = new TextView(context);
         revenueText.setText(R.string.Loading);
+        revenueText.setTextIsSelectable(AndroidUtils.textSelect());
         revenueText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
         revenueText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
         infoLayout.addView(revenueText);
@@ -509,6 +518,7 @@ public class MovieViewLayout extends LinearLayout {
         infoLayout.addView(countriesTitle);
 
         countriesText = new TextView(context);
+        countriesText.setTextIsSelectable(AndroidUtils.textSelect());
         countriesText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
         countriesText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 16, 0, 16, 16));
         infoLayout.addView(countriesText);
@@ -654,12 +664,12 @@ public class MovieViewLayout extends LinearLayout {
 
     public void addTagline(String tagline) {
         if (tagline == null || tagline.isEmpty()) {
-            titleTaglineLayout.removeView(taglineTextView);
+            titleTaglineLayout.removeView(taglineText);
             return;
         }
 
-        taglineTextView.setText(tagline);
-        taglineTextView.setVisibility(VISIBLE);
+        taglineText.setText(tagline);
+        taglineText.setVisibility(VISIBLE);
     }
 
     public void addOverview(String overview) {
@@ -683,7 +693,7 @@ public class MovieViewLayout extends LinearLayout {
 
     public void addVoteAverage(float voteAverage) {
         ratingView.setRating(voteAverage);
-        ratingTextView.setText(String.valueOf(voteAverage));
+        ratingText.setText(String.valueOf(voteAverage));
     }
 
     public void addVoteCount(int voteCount) {
@@ -728,7 +738,7 @@ public class MovieViewLayout extends LinearLayout {
             return;
         }
 
-        runtimeText.setText(AndroidUtils.formatRuntime(runtime));
+        runtimeText.setText(AndroidExtensions.formatRuntime(runtime));
         runtimeLayout.setVisibility(VISIBLE);
     }
 

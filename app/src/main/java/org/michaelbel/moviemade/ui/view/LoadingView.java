@@ -6,7 +6,7 @@ import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.core.widget.LayoutHelper;
 
 public class LoadingView extends FrameLayout {
 

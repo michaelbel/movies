@@ -21,13 +21,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.cell.DividerCell;
 import org.michaelbel.moviemade.ui.view.cell.DrawerActionCell;
 import org.michaelbel.moviemade.ui.view.cell.EmptyCell;
-import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
+import org.michaelbel.core.widget.RecyclerListView;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
 public class NavigationView extends FrameLayout {

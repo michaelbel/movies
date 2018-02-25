@@ -16,14 +16,14 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 
 public class ReviewView extends FrameLayout {
 
     private TextView authorText;
-    private TextView contentText;
+    private TextView reviewText;
 
     private Paint paint;
     private boolean divider;
@@ -59,18 +59,18 @@ public class ReviewView extends FrameLayout {
         authorText.setMaxLines(1);
         authorText.setEllipsize(TextUtils.TruncateAt.END);
         authorText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        authorText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         authorText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        authorText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         authorText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 4, 0, 0, 0));
         layout1.addView(authorText);
 
-        contentText = new TextView(context);
-        contentText.setMaxLines(5);
-        contentText.setEllipsize(TextUtils.TruncateAt.END);
-        contentText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-        contentText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        contentText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 0, 2, 0, 0));
-        layout.addView(contentText);
+        reviewText = new TextView(context);
+        reviewText.setMaxLines(5);
+        reviewText.setEllipsize(TextUtils.TruncateAt.END);
+        reviewText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        reviewText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
+        reviewText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 0, 2, 0, 0));
+        layout.addView(reviewText);
     }
 
     public ReviewView setAuthor(@NonNull String name) {
@@ -79,7 +79,7 @@ public class ReviewView extends FrameLayout {
     }
 
     public ReviewView setContent(@NonNull String text) {
-        contentText.setText(text);
+        reviewText.setText(text);
         return this;
     }
 

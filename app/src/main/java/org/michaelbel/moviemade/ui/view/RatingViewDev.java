@@ -7,7 +7,7 @@ import android.support.v7.widget.AppCompatImageView;
 import android.widget.LinearLayout;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 
 public class RatingViewDev extends LinearLayout {
