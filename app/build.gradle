@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+//apply plugin: 'kotlin-android'
 apply plugin: 'realm-android'
 
 android {
@@ -9,7 +10,7 @@ android {
         applicationId "org.michaelbel.moviemade"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 26
+        versionCode 29
         versionName "0.2.4"
         buildConfigField "String", "VERSION_DATE", '"Feb 17, 2018"'
         project.ext.set("archivesBaseName", "moviemade-v" + defaultConfig.versionName)
@@ -31,9 +32,9 @@ android {
         syncEnabled = true
     }
 
-    dataBinding {
+    /*dataBinding {
         enabled true
-    }
+    }*/
 }
 
 dependencies {
@@ -72,7 +73,13 @@ dependencies {
     implementation 'at.blogc:expandabletextview:1.0.5'
     implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7'
 
+    //implementation 'androidx.core:core-ktx:0.1'
+    //implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.21"
     //implementation 'org.solovyev.android:checkout:1.2.1'
+}
+
+repositories {
+    mavenCentral()
 }
 
 apply plugin: 'com.google.gms.google-services'
