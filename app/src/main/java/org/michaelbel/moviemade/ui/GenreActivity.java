@@ -1,12 +1,12 @@
 package org.michaelbel.moviemade.ui;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.view.View;
+import android.support.v7.widget.Toolbar;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.databinding.ActivityGenreBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.v3.Genre;
 import org.michaelbel.moviemade.ui.fragment.GenreMoviesFragment;
@@ -14,23 +14,26 @@ import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 
 public class GenreActivity extends BaseActivity {
 
-    public ActivityGenreBinding binding;
+    public Toolbar toolbar;
+    public TextView toolbarTitle;
+    public ProgressBar progressBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_genre);
+        setContentView(R.layout.activity_favorite);
 
         Genre genre = getIntent().getParcelableExtra("genre");
 
-        binding.toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(binding.toolbar));
-        binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        setSupportActionBar(binding.toolbar);
-        binding.toolbar.setNavigationOnClickListener(view -> finish());
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(toolbar));
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(view -> finish());
 
-        binding.toolbarTitle.setText(genre.name);
-        binding.progressBar.setVisibility(View.GONE);
+        toolbarTitle = findViewById(R.id.toolbar_title);
+        toolbarTitle.setText(genre.name);
 
-        startFragment(GenreMoviesFragment.newInstance(genre.id), binding.fragmentView);
+        startFragment(GenreMoviesFragment.newInstance(genre.id), R.id.fragment_view);
     }
 }
