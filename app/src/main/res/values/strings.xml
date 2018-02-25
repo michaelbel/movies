@@ -73,6 +73,10 @@
         <!--<item>Cards</item>-->
         <item>Posters</item>
     </string-array>
+    <string name="AddToFavorites">Add to Favorites</string>
+    <string name="RemoveFromFavorites">Remove from Favorites</string>
+    <string name="AddToWatchlist">Add to Watchlist</string>
+    <string name="RemoveFromWatchList">Remove from Watchlist</string>
     <!--Reviews-->
     <string name="Reviews">Reviews</string>
     <string name="NoReviews">No Reviews</string>
