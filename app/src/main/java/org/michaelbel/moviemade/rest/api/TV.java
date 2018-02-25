@@ -18,7 +18,7 @@ public interface TV {
 
     // getImages
 
-    // getKeywords
+    // getList
 
     // getRecommendations
 

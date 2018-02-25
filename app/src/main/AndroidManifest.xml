@@ -54,6 +54,11 @@
             android:screenOrientation="user"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
+        <!--<activity
+            android:name="org.michaelbel.moviemade_kt.ui.AboutActivity"
+            android:screenOrientation="user"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>-->
+
         <activity
             android:name="org.michaelbel.moviemade.ui.MovieActivity"
             android:screenOrientation="portrait"

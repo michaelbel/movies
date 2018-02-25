@@ -545,9 +545,8 @@ public class MovieViewLayout extends LinearLayout {
 //------KEYWORDS------------------------------------------------------------------------------------
 
         keywordsView = new KeywordsSection(context);
-        keywordsView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0));
-        keywordsView.setOnClickListener(view -> movieViewListener.onKeywordsSectionClick(view));
         keywordsView.setListener((view, keyword) -> movieViewListener.onKeywordClick(view, keyword));
+        keywordsView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 6, 0, 0));
         addView(keywordsView);
 
 //------WEB LINKS-----------------------------------------------------------------------------------

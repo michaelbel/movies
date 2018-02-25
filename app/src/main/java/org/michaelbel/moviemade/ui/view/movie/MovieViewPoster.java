@@ -12,8 +12,9 @@ import android.widget.ImageView;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
-import org.michaelbel.moviemade.R;
+import org.michaelbel.core.extensions.Extensions;
 import org.michaelbel.core.widget.LayoutHelper;
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.utils.AndroidUtils;
@@ -36,7 +37,7 @@ public class MovieViewPoster extends FrameLayout {
         cardView.setPreventCornerOverlap(false);
         cardView.setRadius(ScreenUtils.dp(2));
         cardView.setCardElevation(ScreenUtils.dp(0));
-        cardView.setForeground(Theme.selectableItemBackgroundBorderlessDrawable());
+        cardView.setForeground(Extensions.selectableItemBackgroundBorderlessDrawable());
         cardView.setCardBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
         cardView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, 260));
         addView(cardView);

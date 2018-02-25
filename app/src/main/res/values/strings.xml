@@ -40,7 +40,7 @@
     <string name="Cast">Cast</string>
     <string name="Similar">Similar</string>
     <string name="Related">Related</string>
-    <string name="MovieRuntime">%1$d min / %2$s</string>
+    <string name="MovieRuntime">%1$s / %2$d min</string>
     <string name="Share">Share</string>
     <string name="Overview">Overview</string>
     <plurals name="Posters">
@@ -134,7 +134,7 @@
         <item quantity="other">%d Companies</item>
     </plurals>
     <!--Person-->
-    <string name="Birthday">Birthday: %s</string>
+    <string name="Birthday">Birthday: %s (%d)</string>
     <string name="Deathday">Deathday: %s</string>
     <string name="BirthPlace">Birthplace: %s</string>
     <string name="KnownAs">Also known as: %s</string>

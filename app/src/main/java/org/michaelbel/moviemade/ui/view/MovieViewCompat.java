@@ -1,32 +1,6 @@
 package org.michaelbel.moviemade.ui.view;
 
-import android.content.Context;
-import android.graphics.Rect;
-import android.graphics.Typeface;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.CardView;
-import android.text.TextUtils;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.MotionEvent;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.squareup.picasso.Picasso;
-
-import org.michaelbel.moviemade.R;
-import org.michaelbel.core.widget.LayoutHelper;
-import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.app.Url;
-import org.michaelbel.moviemade.rest.model.Movie;
-import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.ScreenUtils;
-
-import java.util.Locale;
-
+/*
 public class MovieViewCompat extends FrameLayout {
 
     public int movieId;
@@ -48,7 +22,7 @@ public class MovieViewCompat extends FrameLayout {
         cardView.setRadius(ScreenUtils.dp(2));
         cardView.setPreventCornerOverlap(false);
         cardView.setCardElevation(ScreenUtils.dp(1.5F));
-        cardView.setForeground(Theme.selectableItemBackgroundBorderlessDrawable());
+        cardView.setForeground(Extensions.selectableItemBackgroundBorderlessDrawable());
         cardView.setCardBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
         cardView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         addView(cardView);
@@ -103,7 +77,8 @@ public class MovieViewCompat extends FrameLayout {
             yearAndGenresText.setText(movie.releaseDate.substring(0, 4));
         }
 
-        /*MOVIES service = ApiFactory.createService(MOVIES.class);
+        */
+/*MOVIES service = ApiFactory.createService(MOVIES.class);
         Call<Movie> call = service.getDetails(movieId, Url.TMDB_API_KEY, Url.en_US, null);
         call.enqueue(new Callback<Movie>() {
             @Override
@@ -123,7 +98,8 @@ public class MovieViewCompat extends FrameLayout {
             public void onFailure(Call<Movie> call, Throwable t) {
                 Log.e("tag", t.toString());
             }
-        });*/
+        });*//*
+
     }
 
     @Override
@@ -148,4 +124,4 @@ public class MovieViewCompat extends FrameLayout {
         int height = getMeasuredHeight();
         setMeasuredDimension(width, height);
     }
-}
+}*/

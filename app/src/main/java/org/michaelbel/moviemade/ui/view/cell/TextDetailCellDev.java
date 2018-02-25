@@ -1,31 +1,6 @@
 package org.michaelbel.moviemade.ui.view.cell;
 
-import android.content.Context;
-import android.content.res.ColorStateList;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.support.annotation.IntDef;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.DrawableCompat;
-import android.support.v7.widget.AppCompatCheckBox;
-import android.support.v7.widget.SwitchCompat;
-import android.text.TextUtils;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.MotionEvent;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import org.michaelbel.moviemade.app.LayoutHelper;
-import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.ui.view.RatingViewDev;
-import org.michaelbel.moviemade.utils.ScreenUtils;
-
+/*
 public class TextDetailCellDev extends LinearLayout {
 
     public static final int MODE_DEFAULT = 0;
@@ -178,7 +153,8 @@ public class TextDetailCellDev extends LinearLayout {
         return this;
     }
 
-    /*public void setMultiline(boolean value) {
+    */
+/*public void setMultiline(boolean value) {
         multiline = value;
 
         if (value) {
@@ -192,7 +168,8 @@ public class TextDetailCellDev extends LinearLayout {
             valueText.setSingleLine();
             valueText.setPadding(0, 0, 0, 0);
         }
-    }*/
+    }*//*
+
 
     public TextDetailCellDev changeLayoutParams() {
         LayoutParams params = new LayoutParams(
@@ -295,4 +272,4 @@ public class TextDetailCellDev extends LinearLayout {
 
         return super.onTouchEvent(event);
     }
-}
+}*/

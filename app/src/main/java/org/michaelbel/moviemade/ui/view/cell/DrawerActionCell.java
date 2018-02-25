@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.michaelbel.core.extensions.Extensions;
 import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.utils.ScreenUtils;
@@ -27,7 +28,7 @@ public class DrawerActionCell extends FrameLayout {
     public DrawerActionCell(Context context) {
         super(context);
 
-        setForeground(Theme.selectableItemBackgroundDrawable());
+        setForeground(Extensions.selectableItemBackgroundDrawable());
 
         imageView = new ImageView(context);
         imageView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 16, 0, 0, 0));

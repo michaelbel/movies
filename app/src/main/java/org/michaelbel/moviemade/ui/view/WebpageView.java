@@ -13,8 +13,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.michaelbel.moviemade.R;
+import org.michaelbel.core.extensions.Extensions;
 import org.michaelbel.core.widget.LayoutHelper;
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
@@ -28,7 +29,7 @@ public class WebpageView extends FrameLayout {
     public WebpageView(Context context) {
         super(context);
 
-        setForeground(Theme.selectableItemBackgroundBorderlessDrawable());
+        setForeground(Extensions.selectableItemBackgroundBorderlessDrawable());
         setBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
 
         if (paint == null) {

@@ -18,8 +18,9 @@ import android.widget.TextView;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
-import org.michaelbel.moviemade.R;
+import org.michaelbel.core.extensions.Extensions;
 import org.michaelbel.core.widget.LayoutHelper;
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.utils.ScreenUtils;
@@ -42,7 +43,7 @@ public class TrailerCompatView extends FrameLayout {
         cardView = new CardView(context);
         cardView.setUseCompatPadding(true);
         cardView.setPreventCornerOverlap(false);
-        cardView.setForeground(Theme.selectableItemBackgroundBorderlessDrawable());
+        cardView.setForeground(Extensions.selectableItemBackgroundBorderlessDrawable());
         cardView.setCardBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
         cardView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         addView(cardView);

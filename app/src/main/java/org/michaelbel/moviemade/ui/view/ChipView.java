@@ -13,8 +13,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import org.michaelbel.core.extensions.Extensions;
 import org.michaelbel.core.widget.LayoutHelper;
-import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
 public class ChipView extends FrameLayout {
@@ -30,7 +30,7 @@ public class ChipView extends FrameLayout {
         cardView.setCardElevation(0);
         cardView.setUseCompatPadding(true);
         cardView.setPreventCornerOverlap(false);
-        cardView.setForeground(Theme.selectableItemBackgroundBorderlessDrawable());
+        cardView.setForeground(Extensions.selectableItemBackgroundBorderlessDrawable());
         cardView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         addView(cardView);
 

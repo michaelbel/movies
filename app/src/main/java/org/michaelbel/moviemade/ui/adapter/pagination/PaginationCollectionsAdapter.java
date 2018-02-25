@@ -5,29 +5,15 @@ import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.v3.Collection;
+import org.michaelbel.moviemade.ui.adapter.pagination.base.PaginationAdapter;
 import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.adapter.recycler.LoadingHolder;
 import org.michaelbel.moviemade.ui.view.CollectionView;
 import org.michaelbel.moviemade.ui.view.LoadingView;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class PaginationCollectionsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
-    private final int ITEM = 0;
-    private final int LOADING = 1;
-
-    private List<TmdbObject> collections;
-    private boolean isLoadingAdded = false;
-
-    public PaginationCollectionsAdapter() {
-        collections = new ArrayList<>();
-    }
-
-    public List<TmdbObject> getCollections() {
-        return collections;
-    }
+public class PaginationCollectionsAdapter extends PaginationAdapter {
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -44,7 +30,7 @@ public class PaginationCollectionsAdapter extends RecyclerView.Adapter<RecyclerV
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Collection collection = (Collection) collections.get(position);
+        Collection collection = (Collection) objectList.get(position);
 
         if (getItemViewType(position) == ITEM) {
             CollectionView view = (CollectionView) ((Holder) holder).itemView;
@@ -57,68 +43,14 @@ public class PaginationCollectionsAdapter extends RecyclerView.Adapter<RecyclerV
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return collections != null ? collections.size() : 0;
-    }
-
-    @Override
-    public int getItemViewType(int position) {
-        return (position == collections.size() - 1 && isLoadingAdded) ? LOADING : ITEM;
-    }
-
-//--------------------------------------------------------------------------------------------------
-
-    public void add(TmdbObject collection) {
-        collections.add(collection);
-        notifyItemInserted(collections.size() - 1);
-    }
-
-    public void addAll(List<TmdbObject> collections) {
-        for (TmdbObject collection : collections) {
-            add(collection);
+    public void addAll(List<TmdbObject> objects) {
+        for (TmdbObject object : objects) {
+            add(object);
         }
-    }
-
-    public void remove(TmdbObject collection) {
-        int position = collections.indexOf(collection);
-
-        if (position > -1) {
-            collections.remove(position);
-            notifyItemRemoved(position);
-        }
-    }
-
-    public void clear() {
-        isLoadingAdded = false;
-
-        while (getItemCount() > 0) {
-            remove(getItem(0));
-        }
-    }
-
-    public boolean isEmpty() {
-        return getItemCount() == 0;
     }
 
     public void addLoadingFooter() {
         isLoadingAdded = true;
         add(new Collection());
-    }
-
-    public void removeLoadingFooter() {
-        isLoadingAdded = false;
-
-        int position = collections.size() - 1;
-        TmdbObject result = getItem(position);
-
-        if (result != null) {
-            collections.remove(position);
-            notifyItemRemoved(position);
-        }
-    }
-
-    private TmdbObject getItem(int position) {
-        return collections.get(position);
     }
 }

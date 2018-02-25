@@ -16,8 +16,9 @@ import android.widget.TextView;
 import com.squareup.picasso.MemoryPolicy;
 import com.squareup.picasso.Picasso;
 
-import org.michaelbel.moviemade.R;
+import org.michaelbel.core.extensions.Extensions;
 import org.michaelbel.core.widget.LayoutHelper;
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.utils.ScreenUtils;
@@ -34,7 +35,7 @@ public class TrailerView extends FrameLayout {
     public TrailerView(Context context) {
         super(context);
 
-        setForeground(Theme.selectableItemBackgroundDrawable());
+        setForeground(Extensions.selectableItemBackgroundDrawable());
         setBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
 
         FrameLayout imageLayout = new FrameLayout(context);

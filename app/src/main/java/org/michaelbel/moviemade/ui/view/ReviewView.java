@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.michaelbel.core.extensions.Extensions;
 import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
@@ -32,7 +33,7 @@ public class ReviewView extends FrameLayout {
     public ReviewView(Context context) {
         super(context);
 
-        setForeground(Theme.selectableItemBackgroundDrawable());
+        setForeground(Extensions.selectableItemBackgroundDrawable());
         setBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
 
         if (paint == null) {

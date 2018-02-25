@@ -2,13 +2,14 @@ package org.michaelbel.moviemade.rest.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.michaelbel.moviemade.rest.TmdbObject;
+
 import java.io.Serializable;
 import java.util.List;
 
-import io.realm.RealmObject;
 import io.realm.annotations.Ignore;
 
-public class Person extends RealmObject implements Serializable {
+public class Person extends TmdbObject implements Serializable {
 
     @SerializedName("id")
     public int id;

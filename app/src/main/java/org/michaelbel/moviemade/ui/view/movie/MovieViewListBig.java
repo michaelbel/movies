@@ -49,7 +49,7 @@ public class MovieViewListBig extends FrameLayout {
     public MovieViewListBig(Context context) {
         super(context);
 
-        setForeground(Theme.selectableItemBackgroundDrawable());
+        setForeground(Extensions.selectableItemBackgroundDrawable());
         setBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
 
         if (paint == null) {

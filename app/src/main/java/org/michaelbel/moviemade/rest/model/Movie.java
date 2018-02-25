@@ -11,8 +11,6 @@ import org.michaelbel.moviemade.rest.model.v3.Genre;
 import java.io.Serializable;
 import java.util.List;
 
-import io.realm.annotations.Ignore;
-
 public class Movie extends TmdbObject implements Serializable {
 
     @SerializedName("id")
@@ -75,23 +73,18 @@ public class Movie extends TmdbObject implements Serializable {
     @SerializedName("vote_count")
     public int voteCount;
 
-    @Ignore
     @SerializedName("genres")
     public List<Genre> genres;
 
-    @Ignore
     @SerializedName("production_companies")
     public List<Company> companies;
 
-    @Ignore
     @SerializedName("production_countries")
     public List<Country> countries;
 
-    @Ignore
     @SerializedName("belongs_to_collection")
     public Collection belongsToCollection;
 
-    @Ignore
     @SerializedName("spoken_languages")
     public List<Language> languages;
 

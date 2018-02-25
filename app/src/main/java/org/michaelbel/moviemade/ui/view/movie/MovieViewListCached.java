@@ -1,34 +1,6 @@
 package org.michaelbel.moviemade.ui.view.movie;
 
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.Typeface;
-import android.support.annotation.NonNull;
-import android.support.v4.content.ContextCompat;
-import android.text.TextUtils;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.MotionEvent;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.squareup.picasso.MemoryPolicy;
-import com.squareup.picasso.Picasso;
-
-import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.LayoutHelper;
-import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.app.Url;
-import org.michaelbel.moviemade.ui.view.widget.MaskImageView;
-import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.ScreenUtils;
-
-import java.util.Locale;
-
+/*
 public class MovieViewListCached extends FrameLayout {
 
     private MaskImageView posterImage;
@@ -160,4 +132,4 @@ public class MovieViewListCached extends FrameLayout {
 
         return super.onTouchEvent(event);
     }
-}
+}*/

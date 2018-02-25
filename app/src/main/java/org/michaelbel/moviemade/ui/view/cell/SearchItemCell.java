@@ -1,14 +1,6 @@
 package org.michaelbel.moviemade.ui.view.cell;
 
-import android.content.Context;
-import android.view.Gravity;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ImageView;
-
-import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.LayoutHelper;
-
+/*
 public class SearchItemCell extends TextDetailCell {
 
     private DeleteIconClick deleteIconClick;
@@ -42,4 +34,4 @@ public class SearchItemCell extends TextDetailCell {
         deleteIconClick = listener;
         return this;
     }
-}
+}*/

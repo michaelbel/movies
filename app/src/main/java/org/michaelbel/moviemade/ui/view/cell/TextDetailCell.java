@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import org.michaelbel.core.extensions.Extensions;
 import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.utils.ScreenUtils;
@@ -52,7 +53,7 @@ public class TextDetailCell extends FrameLayout {
         super(context);
 
         setElevation(ScreenUtils.dp(1));
-        setForeground(Theme.selectableItemBackgroundDrawable());
+        setForeground(Extensions.selectableItemBackgroundDrawable());
         setBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
 
         if (paint == null) {

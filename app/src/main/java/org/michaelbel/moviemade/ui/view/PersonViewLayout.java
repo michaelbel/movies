@@ -4,6 +4,11 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.TextUtils;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.TypefaceSpan;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -20,6 +25,7 @@ import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
+import org.michaelbel.moviemade.app.extensions.AndroidExtensions;
 import org.michaelbel.moviemade.ui.interfaces.PersonViewListener;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 
@@ -114,14 +120,12 @@ public class PersonViewLayout extends LinearLayout {
 
         ImageView birthdayIcon = new ImageView(context);
         birthdayIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_cake, ContextCompat.getColor(context, Theme.iconActiveColor())));
-        birthdayIcon.setLayoutParams(LayoutHelper.makeLinear(20, 20, Gravity.START | Gravity.CENTER_VERTICAL));
+        birthdayIcon.setLayoutParams(LayoutHelper.makeLinear(20, 20, Gravity.START));
         birthdayLayout.addView(birthdayIcon);
 
         birthdayText = new TextView(context);
-        birthdayText.setMaxLines(1);
-        birthdayText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-        birthdayText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        birthdayText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        birthdayText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        birthdayText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
         birthdayText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL,6, 0, 0, 0));
         birthdayLayout.addView(birthdayText);
 
@@ -139,11 +143,9 @@ public class PersonViewLayout extends LinearLayout {
         deathdayLayout.addView(deathdayIcon);
 
         deathdayText = new TextView(context);
-        deathdayText.setMaxLines(1);
         deathdayText.setText(R.string.Loading);
-        deathdayText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-        deathdayText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        deathdayText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        deathdayText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        deathdayText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
         deathdayText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL,6, 0, 0, 0));
         deathdayLayout.addView(deathdayText);
 
@@ -152,6 +154,7 @@ public class PersonViewLayout extends LinearLayout {
         birthPlaceLayout = new LinearLayout(context);
         birthPlaceLayout.setVisibility(INVISIBLE);
         birthPlaceLayout.setOrientation(HORIZONTAL);
+        birthPlaceLayout.setOnClickListener(v -> personViewListener.onBirthPlaceClick(v));
         birthPlaceLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START, 0, 12, 0, 0));
         shortInfoLayout.addView(birthPlaceLayout);
 
@@ -161,9 +164,8 @@ public class PersonViewLayout extends LinearLayout {
         birthPlaceLayout.addView(birthplaceIcon);
 
         birthPlaceText = new TextView(context);
-        birthPlaceText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
-        birthPlaceText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
-        birthPlaceText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        birthPlaceText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+        birthPlaceText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
         birthPlaceText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL,6, 0, 0, 0));
         birthPlaceLayout.addView(birthPlaceText);
 
@@ -207,7 +209,7 @@ public class PersonViewLayout extends LinearLayout {
         otherNamesText.setVisibility(INVISIBLE);
         otherNamesText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         otherNamesText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
-        otherNamesText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 0, 2, 0, 0));
+        otherNamesText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
         nameCareerLayout.addView(otherNamesText);
 
 //------PROGRESS BAR--------------------------------------------------------------------------------
@@ -244,33 +246,21 @@ public class PersonViewLayout extends LinearLayout {
         tmdbPageView = new WebpageView(context);
         tmdbPageView.setText(R.string.ViewOnTMDb);
         tmdbPageView.setDivider(true);
+        tmdbPageView.setOnClickListener(view -> personViewListener.onWebpageClick(view, 0));
         tmdbPageView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        tmdbPageView.setOnClickListener(view -> {
-            if (personViewListener != null) {
-                personViewListener.onWebpageClick(view, 0);
-            }
-        });
         pagesLayout.addView(tmdbPageView);
 
         imdbPageView = new WebpageView(context);
         imdbPageView.setText(R.string.ViewOnIMDb);
         imdbPageView.setDivider(true);
+        imdbPageView.setOnClickListener(view -> personViewListener.onWebpageClick(view, 1));
         imdbPageView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        imdbPageView.setOnClickListener(view -> {
-            if (personViewListener != null) {
-                personViewListener.onWebpageClick(view, 1);
-            }
-        });
         pagesLayout.addView(imdbPageView);
 
         homePageView = new WebpageView(context);
         homePageView.setText(R.string.ViewHomepage);
+        homePageView.setOnClickListener(view -> personViewListener.onWebpageClick(view, 2));
         homePageView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        homePageView.setOnClickListener(view -> {
-            if (personViewListener != null) {
-                personViewListener.onWebpageClick(view, 2);
-            }
-        });
         pagesLayout.addView(homePageView);
     }
 
@@ -296,21 +286,35 @@ public class PersonViewLayout extends LinearLayout {
     }
 
     public void addBirthday(String birthday) {
-        if (birthday == null || birthday.isEmpty()) {
+        if (TextUtils.isEmpty(birthday)) {
             birthdayText.setText("-");
             return;
         }
 
-        birthdayText.setText(birthday);
+        String text = getContext().getString(R.string.Birthday, AndroidExtensions.formatBirthday(birthday), AndroidExtensions.getAge(birthday));
+        int pos = AndroidExtensions.formatBirthday(birthday).length() + 3 + (int)Math.ceil(Math.log10(AndroidExtensions.getAge(birthday))); // 3 is (1 space + 2 braces) and number of digits
+
+        SpannableStringBuilder spannable = new SpannableStringBuilder(text);
+        spannable.setSpan(new TypefaceSpan("sans-serif-medium"), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), Theme.primaryTextColor())), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        birthdayText.setText(spannable);
     }
 
     public void addDeathday(String deathday) {
-        if (deathday == null || deathday.isEmpty()) {
+        if (TextUtils.isEmpty(deathday)) {
             shortInfoLayout.removeView(deathdayLayout);
             return;
         }
 
-        deathdayText.setText(getContext().getString(R.string.Deathday, deathday));
+        String text = getContext().getString(R.string.Deathday, AndroidExtensions.formatBirthday(deathday));
+        int pos = AndroidExtensions.formatBirthday(deathday).length();
+
+        SpannableStringBuilder spannable = new SpannableStringBuilder(text);
+        spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), Theme.primaryTextColor())), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new TypefaceSpan("sans-serif-medium"),text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        deathdayText.setText(spannable);
     }
 
     public void addBirthPlace(CharSequence birthPlace) {
@@ -319,7 +323,14 @@ public class PersonViewLayout extends LinearLayout {
             return;
         }
 
-        birthPlaceText.setText(getContext().getString(R.string.BirthPlace, birthPlace));
+        String text = getContext().getString(R.string.BirthPlace, birthPlace);
+        int pos = birthPlace.length();
+
+        SpannableStringBuilder spannable = new SpannableStringBuilder(text);
+        spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), Theme.primaryTextColor())), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new TypefaceSpan("sans-serif-medium"), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        birthPlaceText.setText(spannable);
     }
 
     public void addName(String name) {

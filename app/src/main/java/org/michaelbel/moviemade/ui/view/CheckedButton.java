@@ -10,8 +10,9 @@ import android.view.MotionEvent;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import org.michaelbel.moviemade.R;
+import org.michaelbel.core.extensions.Extensions;
 import org.michaelbel.core.widget.LayoutHelper;
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
@@ -36,7 +37,7 @@ public class CheckedButton extends FrameLayout {
         cardView.setUseCompatPadding(true);
         cardView.setPreventCornerOverlap(false);
         cardView.setRadius(ScreenUtils.dp(8));
-        cardView.setForeground(Theme.selectableItemBackgroundBorderlessDrawable());
+        cardView.setForeground(Extensions.selectableItemBackgroundBorderlessDrawable());
         cardView.setCardBackgroundColor(ContextCompat.getColor(context, Theme.backgroundColor()));
         cardView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         addView(cardView);
