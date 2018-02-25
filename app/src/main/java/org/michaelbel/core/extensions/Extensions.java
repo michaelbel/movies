@@ -14,9 +14,9 @@ import org.michaelbel.moviemade.app.Moviemade;
  * @author Michael Bel
  */
 
-public class AndroidExtensions {
+public class Extensions {
 
-    private static Context getContext() {
+    public static Context getContext() {
         return Moviemade.AppContext;
     }
 
