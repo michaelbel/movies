@@ -21,7 +21,7 @@ import android.widget.FrameLayout;
 
 import org.michaelbel.bottomsheetdialog.BottomSheet;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.app.Moviemade;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.eventbus.Events;
@@ -30,7 +30,7 @@ import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.cell.EmptyCell;
 import org.michaelbel.moviemade.ui.view.cell.TextCell;
 import org.michaelbel.moviemade.ui.view.cell.TextDetailCell;
-import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
+import org.michaelbel.core.widget.RecyclerListView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
@@ -50,11 +50,11 @@ public class SettingsFragment extends Fragment {
     private int zoomReviewRow;
     private int fullOverviewRow;
     private int scrollbarsRow;
+    private int textSelectRow;
+    private int additionalOptionsRow;
     private int emptyRow2;
 
     private String[] viewTypes;
-
-    //private String[] viewType = new String[] { "List Big", "Posters" };
 
     private SharedPreferences prefs;
     private SettingsActivity activity;
@@ -88,9 +88,9 @@ public class SettingsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        activity.binding.toolbar.setNavigationOnClickListener(view -> activity.finish());
-        activity.binding.toolbarTitle.setText(R.string.Settings);
+        activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        activity.toolbar.setNavigationOnClickListener(view -> activity.finish());
+        activity.toolbarTitle.setText(R.string.Settings);
 
         FrameLayout fragmentView = new FrameLayout(activity);
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
@@ -107,6 +107,8 @@ public class SettingsFragment extends Fragment {
         zoomReviewRow = rowCount++;
         fullOverviewRow = rowCount++;
         scrollbarsRow = rowCount++;
+        textSelectRow = rowCount++;
+        additionalOptionsRow = rowCount++;
         emptyRow2 = rowCount++;
 
         prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
@@ -260,6 +262,24 @@ public class SettingsFragment extends Fragment {
                 if (view instanceof TextDetailCell) {
                     ((TextDetailCell) view).setChecked(!enable);
                 }
+            } else if (position == textSelectRow) {
+                SharedPreferences prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                boolean enable = prefs.getBoolean("text_select", false);
+                editor.putBoolean("text_select", !enable);
+                editor.apply();
+                if (view instanceof TextDetailCell) {
+                    ((TextDetailCell) view).setChecked(!enable);
+                }
+            } else if (position == additionalOptionsRow) {
+                SharedPreferences prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                boolean enable = prefs.getBoolean("additional_options", false);
+                editor.putBoolean("additional_options", !enable);
+                editor.apply();
+                if (view instanceof TextDetailCell) {
+                    ((TextDetailCell) view).setChecked(!enable);
+                }
             }
         });
         fragmentView.addView(recyclerView);
@@ -360,6 +380,18 @@ public class SettingsFragment extends Fragment {
                     cell.setText(R.string.Scrollbars);
                     cell.setValue(R.string.ScrollbarsInfo);
                     cell.setChecked(AndroidUtils.scrollbars());
+                    cell.setDivider(true);
+                } else if (position == textSelectRow) {
+                    cell.setMode(TextDetailCell.MODE_SWITCH);
+                    cell.setText(R.string.TextSelectable);
+                    cell.setValue(R.string.TextSelectableInfo);
+                    cell.setChecked(AndroidUtils.textSelect());
+                    cell.setDivider(true);
+                } else if (position == additionalOptionsRow) {
+                    cell.setMode(TextDetailCell.MODE_SWITCH);
+                    cell.setText("Movie Additional Options");
+                    cell.setValue("Tap and hold on movie to show options");
+                    cell.setChecked(AndroidUtils.additionalOptions());
                     cell.setDivider(false);
                 }
             }
@@ -376,7 +408,7 @@ public class SettingsFragment extends Fragment {
                 return 1;
             } else if (/*position == storageUsageRow || position == searchHistoryRow*/ position == -100) {
                 return 2;
-            } else if (position == viewTypeRow || /*position == imageQualityRow || */position == adultRow || position == inAppBrowserRow || position == scrollToTopRow || position == zoomReviewRow || position == fullOverviewRow || position == scrollbarsRow) {
+            } else if (position == viewTypeRow || /*position == imageQualityRow || */position == adultRow || position == inAppBrowserRow || position == scrollToTopRow || position == zoomReviewRow || position == fullOverviewRow || position == scrollbarsRow || position == textSelectRow || position == additionalOptionsRow) {
                 return 3;
             } else {
                 return -1;

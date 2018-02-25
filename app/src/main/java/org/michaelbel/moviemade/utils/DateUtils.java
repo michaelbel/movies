@@ -3,7 +3,6 @@ package org.michaelbel.moviemade.utils;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Moviemade;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -41,27 +40,6 @@ public class DateUtils {
         String formatTime = formatDate(timePattern, Calendar.getInstance().getTime());
 
         return Moviemade.AppContext.getString(R.string.CurrentDateAndTime, formatDate, formatTime);
-    }
-
-    public static String getMovieReleaseDate(String inputDate) {
-        if (inputDate == null || inputDate.isEmpty()) {
-            return "";
-        }
-
-        String inputPattern = "yyyy-MM-dd";
-        String newPattern = "d MMM yyyy";
-
-        SimpleDateFormat inputFormat = new SimpleDateFormat(inputPattern, Locale.getDefault());
-        SimpleDateFormat newFormat = new SimpleDateFormat(newPattern, Locale.US);
-
-        Date date = null;
-        try {
-            date = inputFormat.parse(inputDate);
-        } catch (ParseException e) {
-            // todo Error.
-        }
-
-        return newFormat.format(date);
     }
 
     //private static final String DEFAULT_DATE_FORMAT = "MMMM yyyy";

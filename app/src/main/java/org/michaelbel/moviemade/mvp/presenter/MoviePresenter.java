@@ -5,9 +5,10 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.core.annotation.Beta;
+import org.michaelbel.moviemade.app.extensions.AndroidExtensions;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.view.MvpMovieView;
-import org.michaelbel.moviemade.rest.ApiFactory;
+import org.michaelbel.moviemade.rest.ApiFactory2;
 import org.michaelbel.moviemade.rest.api.MOVIES;
 import org.michaelbel.moviemade.rest.model.Crew;
 import org.michaelbel.moviemade.rest.model.Movie;
@@ -52,7 +53,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
     }
 
     private void loadMovieDetails(int movieId) {
-        MOVIES service = ApiFactory.createService(MOVIES.class);
+        MOVIES service = ApiFactory2.createService(MOVIES.class);
         Observable<Movie> observable = service.getDetails(movieId, Url.TMDB_API_KEY, Url.en_US, null).observeOn(AndroidSchedulers.mainThread());
         disposable1 = observable.subscribeWith(new DisposableObserver<Movie>() {
             @Override
@@ -67,7 +68,9 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             }
 
             @Override
-            public void onComplete() {}
+            public void onComplete() {
+                dispose();
+            }
         });
     }
 
@@ -79,7 +82,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             return;
         }
 
-        MOVIES service = ApiFactory.createService(MOVIES.class);
+        MOVIES service = ApiFactory2.createService(MOVIES.class);
         Observable<TrailersResponse> observable = service.getVideos(movieId, Url.TMDB_API_KEY, Url.en_US).observeOn(AndroidSchedulers.mainThread());
         disposable2 = observable.subscribeWith(new DisposableObserver<TrailersResponse>() {
             @Override
@@ -94,7 +97,9 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             }
 
             @Override
-            public void onComplete() {}
+            public void onComplete() {
+                dispose();
+            }
         });
     }
 
@@ -106,7 +111,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             return;
         }
 
-        MOVIES service = ApiFactory.createService(MOVIES.class);
+        MOVIES service = ApiFactory2.createService(MOVIES.class);
         Observable<KeywordResponse> observable = service.getKeywords(movieId, Url.TMDB_API_KEY).observeOn(AndroidSchedulers.mainThread());
         disposable3 = observable.subscribeWith(new DisposableObserver<KeywordResponse>() {
             @Override
@@ -121,7 +126,9 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             }
 
             @Override
-            public void onComplete() {}
+            public void onComplete() {
+                dispose();
+            }
         });
     }
 
@@ -130,7 +137,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             return;
         }
 
-        MOVIES service = ApiFactory.createService(MOVIES.class);
+        MOVIES service = ApiFactory2.createService(MOVIES.class);
         Observable<ImageResponse> observable = service.getImages(movieId, Url.TMDB_API_KEY, null).observeOn(AndroidSchedulers.mainThread());
         disposable4 = observable.subscribeWith(new DisposableObserver<ImageResponse>() {
             @Override
@@ -144,7 +151,9 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             }
 
             @Override
-            public void onComplete() {}
+            public void onComplete() {
+                dispose();
+            }
         });
     }
 
@@ -155,7 +164,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             getViewState().showCrew(crews);
         }
 
-        MOVIES service = ApiFactory.createService(MOVIES.class);
+        MOVIES service = ApiFactory2.createService(MOVIES.class);
         Observable<CreditResponse> observable = service.getCredits(movieId, Url.TMDB_API_KEY).observeOn(AndroidSchedulers.mainThread());
         disposable5 = observable.subscribeWith(new DisposableObserver<CreditResponse>() {
             @Override
@@ -170,7 +179,9 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             }
 
             @Override
-            public void onComplete() {}
+            public void onComplete() {
+                dispose();
+            }
         });
     }
 
@@ -204,24 +215,33 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
     private boolean isMovieRealm(int movieId) {
         Realm realm = Realm.getDefaultInstance();
         MovieRealm movie = realm.where(MovieRealm.class).equalTo("id", movieId).findFirst();
+        //realm.close();
         return movie != null;
     }
 
     public boolean isMovieFavorite(int movieId) {
         Realm realm = Realm.getDefaultInstance();
         MovieRealm movie = realm.where(MovieRealm.class).equalTo("id", movieId).findFirst();
-        return movie != null && movie.isFavorite();
+        // Async query
+        /*realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+
+            }
+        });*/
+        //realm.close();
+        return movie != null && movie.favorite;
     }
 
     public boolean isMovieWatching(int movieId) {
         Realm realm = Realm.getDefaultInstance();
         MovieRealm movie = realm.where(MovieRealm.class).equalTo("id", movieId).findFirst();
-        return movie != null && movie.isWatching();
+        //realm.close();
+        return movie != null && movie.watching;
     }
 
     public void setMovieFavorite(Movie m) {
         Realm realm = Realm.getDefaultInstance();
-
         MovieRealm movie = realm.where(MovieRealm.class).equalTo("id", m.id).findFirst();
         if (movie == null) {
             realm.beginTransaction();
@@ -230,7 +250,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             newMovie.id = m.id;
             newMovie.title = m.title;
             newMovie.posterPath = m.posterPath;
-            newMovie.releaseDate = DateUtils.getMovieReleaseDate(m.releaseDate);
+            newMovie.releaseDate = AndroidExtensions.formatReleaseDate(m.releaseDate);
             newMovie.originalTitle = m.originalTitle;
             newMovie.originalLanguage = AndroidUtils.formatOriginalLanguage(m.originalLanguage);
             newMovie.overview = m.overview;
@@ -245,7 +265,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             newMovie.homepage = m.homepage;
             newMovie.popularity = m.popularity;
             newMovie.video = m.video;
-            newMovie.runtime = AndroidUtils.formatRuntime(m.runtime);
+            newMovie.runtime = AndroidExtensions.formatRuntime(m.runtime);
             newMovie.voteAverage = m.voteAverage;
             newMovie.voteCount = m.voteCount;
             newMovie.favorite = true;
@@ -253,13 +273,14 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             realm.commitTransaction();
             getViewState().favoriteButtonState(true);
         } else {
-            boolean state = movie.isFavorite();
+            boolean state = movie.favorite;
             realm.beginTransaction();
             MovieRealm movie2 = realm.where(MovieRealm.class).equalTo("id", m.id).findFirst();
             movie2.favorite = !state;
             getViewState().favoriteButtonState(!state);
             realm.commitTransaction();
         }
+        realm.close();
     }
 
     public void setMovieFavorite(MovieRealm mr) {
@@ -273,6 +294,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         movie2.favorite = !state;
         getViewState().favoriteButtonState(!state);
         realm.commitTransaction();
+        realm.close();
     }
 
     public void setMovieWatching(Movie m) {
@@ -286,7 +308,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             newMovie.id = m.id;
             newMovie.title = m.title;
             newMovie.posterPath = m.posterPath;
-            newMovie.releaseDate = DateUtils.getMovieReleaseDate(m.releaseDate);
+            newMovie.releaseDate = AndroidExtensions.formatReleaseDate(m.releaseDate);
             newMovie.originalTitle = m.originalTitle;
             newMovie.originalLanguage = AndroidUtils.formatOriginalLanguage(m.originalLanguage);
             newMovie.overview = m.overview;
@@ -301,7 +323,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             newMovie.homepage = m.homepage;
             newMovie.popularity = m.popularity;
             newMovie.video = m.video;
-            newMovie.runtime = AndroidUtils.formatRuntime(m.runtime);
+            newMovie.runtime = AndroidExtensions.formatRuntime(m.runtime);
             newMovie.voteAverage = m.voteAverage;
             newMovie.voteCount = m.voteCount;
             newMovie.watching = true;
@@ -316,6 +338,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             getViewState().watchingButtonState(!state);
             realm.commitTransaction();
         }
+        realm.close();
     }
 
     public void setMovieWatching(MovieRealm mr) {
@@ -329,53 +352,50 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         movie2.watching = !state;
         getViewState().watchingButtonState(!state);
         realm.commitTransaction();
+        realm.close();
     }
 
     @Beta
     private void updateMovieToRealm(Movie movie) {
         Realm realm = Realm.getDefaultInstance();
 
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                MovieRealm movieRealm = realm.where(MovieRealm.class).equalTo("id", movie.id).findFirst();
-                movieRealm.id = movie.id;
-                movieRealm.title = movie.title;
-                movieRealm.posterPath = movie.posterPath;
-                movieRealm.releaseDate = DateUtils.getMovieReleaseDate(movie.releaseDate);
-                movieRealm.originalTitle = movie.originalTitle;
-                movieRealm.originalLanguage = AndroidUtils.formatOriginalLanguage(movie.originalLanguage);
-                movieRealm.overview = movie.overview;
-                //movieRealm.favorite = isMovieFavorite(movie.id);
-                //movieRealm.watching = isMovieWatching(movie.id);
-                movieRealm.addedDate = DateUtils.getCurrentDateAndTimeWithMilliseconds();
-                movieRealm.adult = movie.adult;
-                movieRealm.backdropPath = movie.backdropPath;
-                movieRealm.budget = AndroidUtils.formatCurrency(movie.budget);
-                movieRealm.revenue = AndroidUtils.formatCurrency(movie.revenue);
-                movieRealm.status = movie.status;
-                movieRealm.tagline = movie.tagline;
-                movieRealm.imdbId = movie.imdbId;
-                movieRealm.homepage = movie.homepage;
-                movieRealm.popularity = movie.popularity;
-                movieRealm.video = movie.video;
-                movieRealm.runtime = AndroidUtils.formatRuntime(movie.runtime);
-                movieRealm.voteAverage = movie.voteAverage;
-                movieRealm.voteCount = movie.voteCount;
-                //movieRealm.countries = AndroidUtils.formatCountries(movie.countries);
-                //movieRealm.companies = AndroidUtils.formatCompanies(movie.companies);
-                //movieRealm.genres = AndroidUtils.formatGenres(movie.genres);
-                realm.commitTransaction();
-            }
+        realm.executeTransaction(realm1 -> {
+            MovieRealm movieRealm = realm1.where(MovieRealm.class).equalTo("id", movie.id).findFirst();
+            movieRealm.id = movie.id;
+            movieRealm.title = movie.title;
+            movieRealm.posterPath = movie.posterPath;
+            movieRealm.releaseDate = AndroidExtensions.formatReleaseDate(movie.releaseDate);
+            movieRealm.originalTitle = movie.originalTitle;
+            movieRealm.originalLanguage = AndroidUtils.formatOriginalLanguage(movie.originalLanguage);
+            movieRealm.overview = movie.overview;
+            //movieRealm.favorite = isMovieFavorite(movie.id);
+            //movieRealm.watching = isMovieWatching(movie.id);
+            movieRealm.addedDate = DateUtils.getCurrentDateAndTimeWithMilliseconds();
+            movieRealm.adult = movie.adult;
+            movieRealm.backdropPath = movie.backdropPath;
+            movieRealm.budget = AndroidUtils.formatCurrency(movie.budget);
+            movieRealm.revenue = AndroidUtils.formatCurrency(movie.revenue);
+            movieRealm.status = movie.status;
+            movieRealm.tagline = movie.tagline;
+            movieRealm.imdbId = movie.imdbId;
+            movieRealm.homepage = movie.homepage;
+            movieRealm.popularity = movie.popularity;
+            movieRealm.video = movie.video;
+            movieRealm.runtime = AndroidExtensions.formatRuntime(movie.runtime);
+            movieRealm.voteAverage = movie.voteAverage;
+            movieRealm.voteCount = movie.voteCount;
+            //movieRealm.countries = AndroidUtils.formatCountries(movie.countries);
+            //movieRealm.companies = AndroidUtils.formatCompanies(movie.companies);
+            //movieRealm.genres = AndroidUtils.formatGenres(movie.genres);
+            realm1.commitTransaction();
         });
-
+        realm.close();
         getViewState().realmAdded();
     }
 
-    @Beta
+    /*@Beta
     private void addMovieToRealm(Movie movie) {
         Realm realm = Realm.getDefaultInstance();
-
         MovieRealm movieRealm = realm.where(MovieRealm.class).equalTo("id", movie.id).findFirst();
 
         if (movieRealm != null) {
@@ -383,45 +403,44 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             return;
         }
 
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                MovieRealm newMovie = realm.createObject(MovieRealm.class);
-                newMovie.id = movie.id;
-                newMovie.title = movie.title;
-                newMovie.posterPath = movie.posterPath;
-                newMovie.releaseDate = DateUtils.getMovieReleaseDate(movie.releaseDate);
-                newMovie.originalTitle = movie.originalTitle;
-                newMovie.originalLanguage = AndroidUtils.formatOriginalLanguage(movie.originalLanguage);
-                newMovie.overview = movie.overview;
-                //newMovie.setFavorite(false);
-                //newMovie.setWatching(false);
-                newMovie.addedDate = DateUtils.getCurrentDateAndTimeWithMilliseconds();
-                newMovie.adult = movie.adult;
-                newMovie.backdropPath = movie.backdropPath;
-                newMovie.budget = AndroidUtils.formatCurrency(movie.budget);
-                newMovie.revenue = AndroidUtils.formatCurrency(movie.revenue);
-                newMovie.status = movie.status;
-                newMovie.tagline = movie.tagline;
-                newMovie.imdbId = movie.imdbId;
-                newMovie.homepage = movie.homepage;
-                newMovie.popularity = movie.popularity;
-                newMovie.video = movie.video;
-                newMovie.runtime = AndroidUtils.formatRuntime(movie.runtime);
-                newMovie.voteAverage = movie.voteAverage;
-                newMovie.voteCount = movie.voteCount;
-                //newMovie.countries = AndroidUtils.formatCountries(movie.countries);
-                //newMovie.companies = AndroidUtils.formatCompanies(movie.companies);
-                //newMovie.genres = AndroidUtils.formatGenres(movie.genres);
-                realm.commitTransaction();
-            }
+        realm.executeTransaction(realm1 -> {
+            MovieRealm newMovie = realm1.createObject(MovieRealm.class);
+            newMovie.id = movie.id;
+            newMovie.title = movie.title;
+            newMovie.posterPath = movie.posterPath;
+            newMovie.releaseDate = DateUtils.formatReleaseDate(movie.releaseDate);
+            newMovie.originalTitle = movie.originalTitle;
+            newMovie.originalLanguage = AndroidUtils.formatOriginalLanguage(movie.originalLanguage);
+            newMovie.overview = movie.overview;
+            //newMovie.setFavorite(false);
+            //newMovie.setWatching(false);
+            newMovie.addedDate = DateUtils.getCurrentDateAndTimeWithMilliseconds();
+            newMovie.adult = movie.adult;
+            newMovie.backdropPath = movie.backdropPath;
+            newMovie.budget = AndroidUtils.formatCurrency(movie.budget);
+            newMovie.revenue = AndroidUtils.formatCurrency(movie.revenue);
+            newMovie.status = movie.status;
+            newMovie.tagline = movie.tagline;
+            newMovie.imdbId = movie.imdbId;
+            newMovie.homepage = movie.homepage;
+            newMovie.popularity = movie.popularity;
+            newMovie.video = movie.video;
+            newMovie.runtime = AndroidUtils.formatRuntime(movie.runtime);
+            newMovie.voteAverage = movie.voteAverage;
+            newMovie.voteCount = movie.voteCount;
+            //newMovie.countries = AndroidUtils.formatCountries(movie.countries);
+            //newMovie.companies = AndroidUtils.formatCompanies(movie.companies);
+            //newMovie.genres = AndroidUtils.formatGenres(movie.genres);
+            realm1.commitTransaction();
         });
-    }
+        realm.close();
+    }*/
 
     @Beta
     public void loadMovieFromRealm(int movieId) {
         Realm realm = Realm.getDefaultInstance();
         MovieRealm movie = realm.where(MovieRealm.class).equalTo("id", movieId).findFirst();
+        realm.close();
         getViewState().showMovieRealm(movie);
     }
 

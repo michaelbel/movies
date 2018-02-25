@@ -6,7 +6,7 @@ import com.arellomobile.mvp.MvpPresenter;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
-import org.michaelbel.moviemade.rest.ApiFactory;
+import org.michaelbel.moviemade.rest.ApiFactory2;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.MOVIES;
 import org.michaelbel.moviemade.rest.response.ReviewResponse;
@@ -50,7 +50,7 @@ public class ReviewsMoviePresenter extends MvpPresenter<MvpResultsView> {
         loading = false;
         loadingLocked = false;
 
-        MOVIES service = ApiFactory.createService(MOVIES.class);
+        MOVIES service = ApiFactory2.createService(MOVIES.class);
         Observable<ReviewResponse> observable = service.getReviews(movieId, Url.TMDB_API_KEY, Url.en_US, page).observeOn(AndroidSchedulers.mainThread());
         disposable1 = observable.subscribeWith(new DisposableObserver<ReviewResponse>() {
             @Override
@@ -72,12 +72,14 @@ public class ReviewsMoviePresenter extends MvpPresenter<MvpResultsView> {
             }
 
             @Override
-            public void onComplete() {}
+            public void onComplete() {
+                dispose();
+            }
         });
     }
 
     public void loadNextPage() {
-        MOVIES service = ApiFactory.createService(MOVIES.class);
+        MOVIES service = ApiFactory2.createService(MOVIES.class);
         Observable<ReviewResponse> observable = service.getReviews(movieId, Url.TMDB_API_KEY, Url.en_US, page).observeOn(AndroidSchedulers.mainThread());
         disposable2 = observable.subscribeWith(new DisposableObserver<ReviewResponse>() {
             @Override
@@ -97,7 +99,8 @@ public class ReviewsMoviePresenter extends MvpPresenter<MvpResultsView> {
 
             @Override
             public void onComplete() {
-                disposable1.dispose();
+                //disposable1.dispose();
+                dispose();
             }
         });
         loading = true;

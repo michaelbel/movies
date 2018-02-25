@@ -9,7 +9,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class ApiFactory {
+public class ApiFactory2 {
 
     private static final String GSON_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ";
     private static final String TMDB_API_ENDPOINT = "https://api.themoviedb.org/3/";

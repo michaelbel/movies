@@ -6,7 +6,7 @@ import com.arellomobile.mvp.MvpPresenter;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
-import org.michaelbel.moviemade.rest.ApiFactory;
+import org.michaelbel.moviemade.rest.ApiFactory2;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.service.GENRES;
 import org.michaelbel.moviemade.rest.response.GenresResponse;
@@ -31,7 +31,7 @@ public class GenresPresenter extends MvpPresenter<MvpResultsView> {
             return;
         }
 
-        GENRES service = ApiFactory.createService(GENRES.class);
+        GENRES service = ApiFactory2.createService(GENRES.class);
         Observable<GenresResponse> observable = service.getMovieList(Url.TMDB_API_KEY, Url.en_US).observeOn(AndroidSchedulers.mainThread());
         disposable = observable.subscribeWith(new DisposableObserver<GenresResponse>() {
             @Override
@@ -47,7 +47,9 @@ public class GenresPresenter extends MvpPresenter<MvpResultsView> {
             }
 
             @Override
-            public void onComplete() {}
+            public void onComplete() {
+                dispose();
+            }
         });
     }
 

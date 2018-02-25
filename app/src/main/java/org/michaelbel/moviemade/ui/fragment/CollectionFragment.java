@@ -18,7 +18,10 @@ import android.widget.TextView;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.bottomsheet.BottomSheet;
+import org.michaelbel.core.widget.LayoutHelper;
+import org.michaelbel.core.widget.RecyclerListView;
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.mvp.presenter.CollectionPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
@@ -31,7 +34,6 @@ import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewListBig;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewPoster;
 import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
-import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
@@ -73,7 +75,7 @@ public class CollectionFragment extends MvpAppCompatFragment implements MvpResul
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity.binding.toolbarTitle.setOnClickListener(v -> {
+        activity.toolbarTitle.setOnClickListener(v -> {
             if (AndroidUtils.scrollToTop()) {
                 recyclerView.smoothScrollToPosition(0);
             }
@@ -139,6 +141,33 @@ public class CollectionFragment extends MvpAppCompatFragment implements MvpResul
                 Movie movie = (Movie) adapter.getMovies().get(position);
                 activity.startMovie(movie);
             }
+        });
+        recyclerView.setOnItemLongClickListener((view, position) -> {
+            Movie movie = (Movie) adapter.getMovies().get(position);
+            boolean favorite = presenter.isMovieFavorite(movie.id);
+            boolean watchlist = presenter.isMovieWatchlist(movie.id);
+
+            int favoriteIcon = favorite ? R.drawable.ic_heart : R.drawable.ic_heart_outline;
+            int watchlistIcon = watchlist ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline;
+            int favoriteText = favorite ? R.string.RemoveFromFavorites : R.string.AddToFavorites;
+            int watchlistText = watchlist ? R.string.RemoveFromWatchList : R.string.AddToWatchlist;
+
+            BottomSheet.Builder builder = new BottomSheet.Builder(activity);
+            builder.setCellHeight(ScreenUtils.dp(52));
+            builder.setIconColor(ContextCompat.getColor(activity, Theme.iconActiveColor()));
+            builder.setItemTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
+            builder.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
+            builder.setItems(new int[] { favoriteText, watchlistText }, new int[] { favoriteIcon, watchlistIcon }, (dialog, i) -> {
+                if (i == 0) {
+                    presenter.movieFavoritesChange(movie);
+                } else if (i == 1) {
+                    presenter.movieWatchlistChange(movie);
+                }
+            });
+            if (AndroidUtils.additionalOptions()) {
+                builder.show();
+            }
+            return true;
         });
         contentLayout.addView(recyclerView);
         return fragmentView;

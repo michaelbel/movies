@@ -13,18 +13,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
-import android.widget.Toast;
 
 import com.alexvasilkov.gestures.transition.GestureTransitions;
 import com.alexvasilkov.gestures.transition.ViewsTransitionAnimator;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.app.browser.Browser;
+import org.michaelbel.moviemade.app.extensions.AndroidExtensions;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.presenter.MoviePresenter;
 import org.michaelbel.moviemade.mvp.view.MvpMovieView;
@@ -41,7 +41,6 @@ import org.michaelbel.moviemade.ui.interfaces.MovieViewListener;
 import org.michaelbel.moviemade.ui.view.MovieViewLayout;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.AndroidUtilsDev;
-import org.michaelbel.moviemade.utils.DateUtils;
 import org.michaelbel.moviemade.utils.NetworkUtils;
 
 import java.util.ArrayList;
@@ -96,16 +95,12 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle args) {
-        activity.binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        activity.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-
-            }
+            public void onTabSelected(TabLayout.Tab tab) {}
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabUnselected(TabLayout.Tab tab) {}
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
@@ -129,7 +124,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         });
 
         scrollView = new ScrollView(activity);
-        scrollView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
+        scrollView.setVerticalScrollBarEnabled(AndroidUtils.scrollbars());
         scrollView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
         scrollView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         fragmentView.addView(scrollView);
@@ -139,19 +134,19 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         movieView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         scrollView.addView(movieView);
 
-        imageAnimator = GestureTransitions.from(movieView.getPoster()).into(activity.binding.posterFull);
+        imageAnimator = GestureTransitions.from(movieView.getPoster()).into(activity.posterFull);
         imageAnimator.addPositionUpdateListener((position, isLeaving) -> {
-            activity.binding.demoFullBackground.setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
-            activity.binding.demoFullBackground.setAlpha(position);
+            activity.fullBackground.setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
+            activity.fullBackground.setAlpha(position);
 
-            activity.binding.imageToolbar.setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
-            activity.binding.imageToolbar.setAlpha(position);
+            activity.imageToolbar.setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
+            activity.imageToolbar.setAlpha(position);
 
-            activity.binding.posterFull.setVisibility(position == 0f && isLeaving ? View.INVISIBLE : View.VISIBLE);
+            activity.posterFull.setVisibility(position == 0f && isLeaving ? View.INVISIBLE : View.VISIBLE);
         });
 
-        activity.binding.imageToolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        activity.binding.imageToolbar.setNavigationOnClickListener(view -> exitImage());
+        activity.imageToolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        activity.imageToolbar.setNavigationOnClickListener(view -> exitImage());
 
         return fragmentView;
     }
@@ -198,7 +193,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         movieView.addPoster(movie.posterPath); // from extra
         movieView.addVoteAverage(movie.voteAverage); // from extra
         movieView.addVoteCount(movie.voteCount); // from extra
-        movieView.addReleaseDate(DateUtils.getMovieReleaseDate(movie.releaseDate)); // from extra
+        movieView.addReleaseDate(AndroidExtensions.formatReleaseDate(movie.releaseDate)); // from extra
         movieView.addRuntime(movie.runtime);
         movieView.addOriginalLanguage(AndroidUtils.formatOriginalLanguage(movie.originalLanguage)); // from extra
         movieView.addTitle(movie.title); // from extra
@@ -354,17 +349,6 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     }
 
     @Override
-    public void onOverviewLongClick(View view) {
-        if (extraMovieRealm != null) {
-            AndroidUtils.copyToClipboard(extraMovieRealm.overview);
-        } else {
-            AndroidUtils.copyToClipboard(extraMovie.overview);
-        }
-
-        Toast.makeText(getContext(), getString(R.string.ClipboardCopied, getString(R.string.Overview)), Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
     public void onTrailerClick(View view, String trailerKey) {
         // todo Open in browser
         startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailerKey)));
@@ -430,11 +414,6 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     }
 
     @Override
-    public void onKeywordsSectionClick(View view) {
-
-    }
-
-    @Override
     public void showKeywords(List<Keyword> results) {
         keywords.clear();
         keywords.addAll(results);
@@ -456,7 +435,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
 
     @Override
     public void onPosterClick(View view) {
-        activity.getSettingsController().apply(activity.binding.posterFull);
+        activity.getSettingsController().apply(activity.posterFull);
         imageAnimator.enterSingle(true);
     }
 

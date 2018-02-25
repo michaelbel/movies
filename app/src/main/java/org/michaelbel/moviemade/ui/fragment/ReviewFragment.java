@@ -20,32 +20,31 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.ui.ReviewActivity;
-import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.browser.Browser;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.rest.model.v3.Review;
+import org.michaelbel.moviemade.ui.ReviewActivity;
 import org.michaelbel.moviemade.ui.view.widget.GestureTextView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
 public class ReviewFragment extends Fragment {
 
-    private Review currentReview;
-    private Movie currentMovie;
-    private MovieRealm currentMovieRealm;
+    private Review review;
+    private Movie movie;
+    private MovieRealm movieRealm;
 
-    private String reviewUrl;
+    private String url;
     private ReviewActivity activity;
 
     private ScrollView scrollView;
-    private TextView mediaTitleText;
-    private TextView authorTextView;
-    private GestureTextView reviewTextView;
+    private TextView mediaTitle;
+    private TextView authorText;
+    private GestureTextView reviewText;
 
     public static ReviewFragment newInstance(Review review, Movie movie) {
         Bundle args = new Bundle();
@@ -80,8 +79,8 @@ public class ReviewFragment extends Fragment {
             .setIcon(R.drawable.ic_redo)
             .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             .setOnMenuItemClickListener(menuItem -> {
-                if (reviewUrl != null) {
-                    Browser.openUrl(activity, reviewUrl);
+                if (url != null) {
+                    Browser.openUrl(activity, url);
                 } else {
                     Toast.makeText(getContext(), R.string.ReviewSourceUnavailable, Toast.LENGTH_SHORT).show();
                 }
@@ -93,8 +92,8 @@ public class ReviewFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        activity.binding.authorLayout.setOnClickListener(v -> {
+        activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        activity.authorLayout.setOnClickListener(v -> {
             if (AndroidUtils.scrollToTop()) {
                 scrollView.fullScroll(ScrollView.FOCUS_UP);
             }
@@ -104,52 +103,54 @@ public class ReviewFragment extends Fragment {
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
 
         scrollView = fragmentView.findViewById(R.id.scroll_view);
-        scrollView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
+        scrollView.setVerticalScrollBarEnabled(AndroidUtils.scrollbars());
 
         FrameLayout mediaTitleLayout = new FrameLayout(activity);
         mediaTitleLayout.setPadding(ScreenUtils.dp(0), ScreenUtils.dp(12), ScreenUtils.dp(16), ScreenUtils.dp(12));
         mediaTitleLayout.setBackgroundColor(ContextCompat.getColor(activity, Theme.primaryColor()));
         mediaTitleLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        activity.binding.authorLayout.addView(mediaTitleLayout);
+        activity.authorLayout.addView(mediaTitleLayout);
 
         ImageView mediaIcon = new ImageView(activity);
         mediaIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_movieroll, ContextCompat.getColor(activity, Theme.iconActiveColor())));
         mediaIcon.setLayoutParams(LayoutHelper.makeFrame(22, 22, Gravity.START | Gravity.TOP, 0, 1, 0, 0));
         mediaTitleLayout.addView(mediaIcon);
 
-        mediaTitleText = new TextView(activity);
-        mediaTitleText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        mediaTitleText.setTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
-        mediaTitleText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-        mediaTitleText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 24 + 6, 0, 0, 0));
-        mediaTitleLayout.addView(mediaTitleText);
+        mediaTitle = new TextView(activity);
+        mediaTitle.setTextIsSelectable(AndroidUtils.textSelect());
+        mediaTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        mediaTitle.setTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
+        mediaTitle.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        mediaTitle.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 24 + 6, 0, 0, 0));
+        mediaTitleLayout.addView(mediaTitle);
 
         FrameLayout authorLayout = new FrameLayout(activity);
         authorLayout.setBackgroundColor(ContextCompat.getColor(activity, Theme.primaryColor()));
         authorLayout.setPadding(ScreenUtils.dp(0), ScreenUtils.dp(0), ScreenUtils.dp(16), ScreenUtils.dp(12));
         authorLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, 0));
-        activity.binding.authorLayout.addView(authorLayout);
+        activity.authorLayout.addView(authorLayout);
 
         ImageView authorIconView = new ImageView(activity);
         authorIconView.setImageDrawable(Theme.getIcon(R.drawable.ic_account_circle, ContextCompat.getColor(activity, Theme.iconActiveColor())));
         authorIconView.setLayoutParams(LayoutHelper.makeFrame(22, 22, Gravity.START | Gravity.TOP, 0, 1, 0, 0));
         authorLayout.addView(authorIconView);
 
-        authorTextView = new TextView(activity);
-        authorTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        authorTextView.setTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
-        authorTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-        authorTextView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 24 + 6, 0, 0, 0));
-        authorLayout.addView(authorTextView);
+        authorText = new TextView(activity);
+        authorText.setTextIsSelectable(AndroidUtils.textSelect());
+        authorText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        authorText.setTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
+        authorText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+        authorText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 24 + 6, 0, 0, 0));
+        authorLayout.addView(authorText);
 
-        reviewTextView = fragmentView.findViewById(R.id.review_text);
-        reviewTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        reviewTextView.setTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
-        reviewTextView.getController().getSettings().setMaxZoom(2.0F);
+        reviewText = fragmentView.findViewById(R.id.review_text);
+        reviewText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        reviewText.setTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
+        reviewText.getController().getSettings().setMaxZoom(2.0F);
         if (AndroidUtils.zoomReview()) {
-            reviewTextView.getController().getSettings().enableGestures();
+            reviewText.getController().getSettings().enableGestures();
         } else {
-            reviewTextView.getController().getSettings().disableGestures();
+            reviewText.getController().getSettings().disableGestures();
         }
 
         return fragmentView;
@@ -163,22 +164,22 @@ public class ReviewFragment extends Fragment {
             return;
         }
 
-        currentReview = getArguments().getParcelable("review");
-        currentMovie = (Movie) getArguments().getSerializable("movie");
-        currentMovieRealm = getArguments().getParcelable("movieRealm");
+        review = getArguments().getParcelable("review");
+        movie = (Movie) getArguments().getSerializable("movie");
+        movieRealm = getArguments().getParcelable("movieRealm");
 
         load();
     }
 
     private void load() {
-        if (currentMovieRealm != null) {
-            mediaTitleText.setText(currentMovieRealm.title + " (" + currentMovieRealm.releaseDate + ")");
+        if (movieRealm != null) {
+            mediaTitle.setText(movieRealm.title + " (" + movieRealm.releaseDate + ")");
         } else {
-            mediaTitleText.setText(currentMovie.title + " (" + currentMovie.releaseDate.substring(0, 4) + ")");
+            mediaTitle.setText(movie.title + " (" + movie.releaseDate.substring(0, 4) + ")");
         }
 
-        authorTextView.setText(currentReview.author);
-        reviewTextView.setText(currentReview.content);
-        reviewUrl = currentReview.url;
+        authorText.setText(review.author);
+        reviewText.setText(review.content);
+        url = review.url;
     }
 }

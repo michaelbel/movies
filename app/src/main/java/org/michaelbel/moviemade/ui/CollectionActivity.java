@@ -1,24 +1,25 @@
 package org.michaelbel.moviemade.ui;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.Toolbar;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.databinding.ActivityCollectionBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.v3.Collection;
 import org.michaelbel.moviemade.ui.fragment.CollectionFragment;
 
 public class CollectionActivity extends BaseActivity {
 
-    public ActivityCollectionBinding binding;
+    public Toolbar toolbar;
+    public TextView toolbarTitle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_collection);
+        setContentView(R.layout.activity_collection);
 
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -47,14 +48,14 @@ public class CollectionActivity extends BaseActivity {
             ((AppBarLayoutBehavior) params.getBehavior()).setEnabled(true);
         }*/
 
-        binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        //binding.toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(binding.toolbar));
-        setSupportActionBar(binding.toolbar);
-        binding.toolbar.setNavigationOnClickListener(view -> finish());
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(view -> finish());
 
-        binding.toolbarTitle.setText(collection.name);
-        //binding.collapsingLayout.setTitle(collection.name);
+        toolbarTitle = findViewById(R.id.toolbar_title);
+        toolbarTitle.setText(collection.name);
 
-        startFragment(CollectionFragment.newInstance(collection), binding.fragmentView);
+        startFragment(CollectionFragment.newInstance(collection), R.id.fragment_view);
     }
 }

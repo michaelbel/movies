@@ -6,7 +6,7 @@ import com.arellomobile.mvp.MvpPresenter;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.mvp.view.MvpPersonView;
-import org.michaelbel.moviemade.rest.ApiFactory;
+import org.michaelbel.moviemade.rest.ApiFactory2;
 import org.michaelbel.moviemade.rest.api.PEOPLE;
 import org.michaelbel.moviemade.rest.model.Person;
 import org.michaelbel.moviemade.utils.NetworkUtils;
@@ -27,7 +27,7 @@ public class PersonPresenter extends MvpPresenter<MvpPersonView> {
             return;
         }
 
-        PEOPLE service = ApiFactory.createService(PEOPLE.class);
+        PEOPLE service = ApiFactory2.createService(PEOPLE.class);
         Observable<Person> observable = service.getDetails(personId, Url.TMDB_API_KEY, Url.en_US, null).observeOn(AndroidSchedulers.mainThread());
         disposable = observable.subscribeWith(new DisposableObserver<Person>() {
             @Override
@@ -42,7 +42,9 @@ public class PersonPresenter extends MvpPresenter<MvpPersonView> {
             }
 
             @Override
-            public void onComplete() {}
+            public void onComplete() {
+                dispose();
+            }
         });
     }
 

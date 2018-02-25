@@ -6,7 +6,7 @@ import com.arellomobile.mvp.MvpPresenter;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
-import org.michaelbel.moviemade.rest.ApiFactory;
+import org.michaelbel.moviemade.rest.ApiFactory2;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.PEOPLE;
 import org.michaelbel.moviemade.rest.response.PeopleResponse;
@@ -36,7 +36,7 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpResultsView> {
             return;
         }
 
-        PEOPLE service = ApiFactory.createService(PEOPLE.class);
+        PEOPLE service = ApiFactory2.createService(PEOPLE.class);
         Observable<PeopleResponse> observable = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page).observeOn(AndroidSchedulers.mainThread());
         disposable1 = observable.subscribeWith(new DisposableObserver<PeopleResponse>() {
             @Override
@@ -57,12 +57,14 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpResultsView> {
             }
 
             @Override
-            public void onComplete() {}
+            public void onComplete() {
+                dispose();
+            }
         });
     }
 
     public void loadNextPage() {
-        PEOPLE service = ApiFactory.createService(PEOPLE.class);
+        PEOPLE service = ApiFactory2.createService(PEOPLE.class);
         Observable<PeopleResponse> observable = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page).observeOn(AndroidSchedulers.mainThread());
         disposable2 = observable.subscribeWith(new DisposableObserver<PeopleResponse>() {
             @Override
@@ -78,7 +80,8 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpResultsView> {
 
             @Override
             public void onComplete() {
-                disposable1.dispose();
+                //disposable1.dispose();
+                dispose();
             }
         });
     }

@@ -1,43 +1,55 @@
 package org.michaelbel.moviemade.ui;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.databinding.ActivityMainBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.ui.fragment.ListMoviesFragment;
+import org.michaelbel.moviemade.ui.view.NavigationView;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
 
 public class MainActivity extends BaseActivity {
 
-    public ActivityMainBinding binding;
+    public Toolbar toolbar;
+    public ViewPager viewPager;
+    public TabLayout tabLayout;
+    public DrawerLayout drawerLayout;
+    public NavigationView navigationView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setTheme(R.style.AppThemeLight);
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main);
+        setContentView(R.layout.activity_main);
+
+        toolbar = findViewById(R.id.toolbar);
+        viewPager = findViewById(R.id.view_pager);
+        tabLayout = findViewById(R.id.tab_layout);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.navigation_view);
 
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         getWindow().setStatusBarColor(0x33000000);
 
-        binding.toolbar.setNavigationIcon(R.drawable.ic_menu);
-        setSupportActionBar(binding.toolbar);
-        binding.toolbar.setNavigationOnClickListener(view -> binding.drawerLayout.openDrawer(GravityCompat.START));
+        toolbar.setNavigationIcon(R.drawable.ic_menu);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(view -> drawerLayout.openDrawer(GravityCompat.START));
 
-        binding.navigationView.setOnNavigationItemSelectedListener((view, position) -> {
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        navigationView.setOnNavigationItemSelectedListener((view, position) -> {
+            drawerLayout.closeDrawer(GravityCompat.START);
 
             if (position == 2) {
                 // MainActivity
@@ -63,14 +75,14 @@ public class MainActivity extends BaseActivity {
         adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_POPULAR), R.string.Popular);
         adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_TOP_RATED), R.string.TopRated);
         adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_UPCOMING), R.string.Upcoming);
-        binding.viewPager.setAdapter(adapter);
+        viewPager.setAdapter(adapter);
 
-        binding.tabLayout.setupWithViewPager(binding.viewPager);
-        binding.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        binding.tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
-        binding.tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
-        binding.tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
-        binding.tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+        tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
+        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
+        tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
     }
 
     @Override
@@ -90,8 +102,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }

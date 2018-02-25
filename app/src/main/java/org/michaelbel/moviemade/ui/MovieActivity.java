@@ -1,20 +1,22 @@
 package org.michaelbel.moviemade.ui;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
-import com.google.android.gms.ads.MobileAds;
+import com.alexvasilkov.gestures.views.GestureImageView;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
-import org.michaelbel.moviemade.databinding.ActivityMovieBinding;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.Movie;
@@ -25,7 +27,6 @@ import org.michaelbel.moviemade.ui.fragment.ReviewsFragment;
 import org.michaelbel.moviemade.ui.view.SettingsController;
 import org.michaelbel.moviemade.ui.view.SettingsMenu;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
-import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 
 import java.util.Locale;
@@ -39,14 +40,30 @@ public class MovieActivity extends BaseActivity {
     private FragmentsPagerAdapter adapter;
     private SettingsMenu settingsMenu = new SettingsMenu();
 
-    public ActivityMovieBinding binding;
+    public Toolbar toolbar;
+    public TextView toolbarTitle;
+    public ViewPager viewPager;
+    public TabLayout tabLayout;
+
+    public Toolbar imageToolbar;
+    public View fullBackground;
+    public GestureImageView posterFull;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_movie);
+        setContentView(R.layout.activity_movie);
 
-        MobileAds.initialize(this, AndroidUtils.loadProperty("appId", "admob.properties"));
+        toolbar = findViewById(R.id.toolbar);
+        toolbarTitle = findViewById(R.id.toolbar_title);
+        viewPager = findViewById(R.id.view_pager);
+        tabLayout = findViewById(R.id.tab_layout);
+
+        imageToolbar = findViewById(R.id.image_toolbar);
+        fullBackground = findViewById(R.id.demo_full_background);
+        posterFull = findViewById(R.id.poster_full);
+
+        //MobileAds.initialize(this, AndroidUtils.loadProperty("appId", "admob.properties"));
 
         movie = (Movie) getIntent().getSerializableExtra("movie");
         movieRealm = getIntent().getParcelableExtra("movieRealm");
@@ -69,14 +86,14 @@ public class MovieActivity extends BaseActivity {
             }
         }*/
 
-        binding.toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(binding.toolbar));
-        binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        setSupportActionBar(binding.toolbar);
-        binding.toolbar.setNavigationOnClickListener(view -> finish());
+        toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(toolbar));
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(view -> finish());
 
         adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
         if (movie != null) {
-            binding.toolbarTitle.setText(movie.title);
+            toolbarTitle.setText(movie.title);
 
             adapter.addFragment(MovieFragment.newInstance(movie), R.string.Info);
             adapter.addFragment(MovieCastsFragment.newInstance(movie), R.string.Cast);
@@ -84,7 +101,7 @@ public class MovieActivity extends BaseActivity {
             adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_SIMILAR, movie), R.string.Similar);
             adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_RELATED, movie), R.string.Related);
         } else if (movieRealm != null) {
-            binding.toolbarTitle.setText(movieRealm.title);
+            toolbarTitle.setText(movieRealm.title);
 
             adapter.addFragment(MovieFragment.newInstance(movieRealm), R.string.Info);
             adapter.addFragment(MovieCastsFragment.newInstance(movieRealm), R.string.Cast);
@@ -101,14 +118,14 @@ public class MovieActivity extends BaseActivity {
             //adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_RELATED, movieId), R.string.Related);
         }
 
-        binding.viewPager.setAdapter(adapter);
+        viewPager.setAdapter(adapter);
 
-        binding.tabLayout.setupWithViewPager(binding.viewPager);
-        binding.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        binding.tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
-        binding.tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
-        binding.tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
-        binding.tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+        tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
+        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
+        tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
     }
 
     @Override
@@ -129,7 +146,7 @@ public class MovieActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (binding.viewPager.getCurrentItem() == 0) {
+        if (viewPager.getCurrentItem() == 0) {
             MovieFragment fragment = (MovieFragment) adapter.getItem(0);
             if (fragment.isOpenImage()) {
                 fragment.exitImage();

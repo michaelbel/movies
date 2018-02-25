@@ -18,7 +18,8 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.core.widget.LayoutHelper;
+import org.michaelbel.core.widget.RecyclerListView;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.presenter.ReviewsMoviePresenter;
@@ -29,9 +30,7 @@ import org.michaelbel.moviemade.rest.model.v3.Review;
 import org.michaelbel.moviemade.ui.MovieActivity;
 import org.michaelbel.moviemade.ui.adapter.ReviewsAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
-import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 
 import java.util.List;
 
@@ -79,7 +78,7 @@ public class ReviewsFragment extends MvpAppCompatFragment implements MvpResultsV
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity.binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        activity.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 
@@ -131,7 +130,7 @@ public class ReviewsFragment extends MvpAppCompatFragment implements MvpResultsV
         recyclerView.setHasFixedSize(true);
         recyclerView.setEmptyView(emptyView);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
+        recyclerView.setVerticalScrollBarEnabled(AndroidUtils.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
             Review review = (Review) adapter.getReviews().get(position);

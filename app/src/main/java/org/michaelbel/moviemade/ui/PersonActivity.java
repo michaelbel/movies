@@ -1,18 +1,19 @@
 package org.michaelbel.moviemade.ui;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
-import org.michaelbel.moviemade.databinding.ActivityPersonBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.Cast;
 import org.michaelbel.moviemade.rest.model.v3.People;
@@ -26,19 +27,27 @@ public class PersonActivity extends BaseActivity {
 
     private Cast castPerson;
 
-    public ActivityPersonBinding binding;
+    public Toolbar toolbar;
+    public TextView toolbarTitle;
+    public ViewPager viewPager;
+    public TabLayout tabLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_person);
+        setContentView(R.layout.activity_person);
 
         castPerson = (Cast) getIntent().getSerializableExtra("cast_person");
         People peoplePerson = getIntent().getParcelableExtra("people_person");
 
-        binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        setSupportActionBar(binding.toolbar);
-        binding.toolbar.setNavigationOnClickListener(view -> finish());
+        toolbar = findViewById(R.id.toolbar);
+        toolbarTitle = findViewById(R.id.toolbar_title);
+        viewPager = findViewById(R.id.view_pager);
+        tabLayout = findViewById(R.id.tab_layout);
+
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(view -> finish());
 
         FragmentsPagerAdapter adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
         if (castPerson != null) {
@@ -49,14 +58,14 @@ public class PersonActivity extends BaseActivity {
             //adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_BY_PERSON, peoplePerson), R.string.Movies);
         }
 
-        binding.viewPager.setAdapter(adapter);
+        viewPager.setAdapter(adapter);
 
-        binding.tabLayout.setupWithViewPager(binding.viewPager);
-        binding.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        binding.tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
-        binding.tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
-        binding.tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
-        binding.tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+        tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
+        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
+        tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
     }
 
     @Override

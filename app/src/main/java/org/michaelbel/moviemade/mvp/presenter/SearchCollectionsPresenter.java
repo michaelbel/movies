@@ -6,7 +6,7 @@ import com.arellomobile.mvp.MvpPresenter;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.mvp.view.MvpSearchView;
-import org.michaelbel.moviemade.rest.ApiFactory;
+import org.michaelbel.moviemade.rest.ApiFactory2;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.SEARCH;
 import org.michaelbel.moviemade.rest.response.CollectionResponse;
@@ -41,7 +41,7 @@ public class SearchCollectionsPresenter extends MvpPresenter<MvpSearchView> {
             return;
         }
 
-        SEARCH service = ApiFactory.createService(SEARCH.class);
+        SEARCH service = ApiFactory2.createService(SEARCH.class);
         Observable<CollectionResponse> observable = service.searchCollections(Url.TMDB_API_KEY, Url.en_US, query, page).observeOn(AndroidSchedulers.mainThread());
         disposable1 = observable.subscribeWith(new DisposableObserver<CollectionResponse>() {
             @Override
@@ -63,12 +63,14 @@ public class SearchCollectionsPresenter extends MvpPresenter<MvpSearchView> {
             }
 
             @Override
-            public void onComplete() {}
+            public void onComplete() {
+                dispose();
+            }
         });
     }
 
     public void loadNextPage() {
-        SEARCH service = ApiFactory.createService(SEARCH.class);
+        SEARCH service = ApiFactory2.createService(SEARCH.class);
         Observable<CollectionResponse> observable = service.searchCollections(Url.TMDB_API_KEY, Url.en_US, currentQuery, page).observeOn(AndroidSchedulers.mainThread());
         disposable2 = observable.subscribeWith(new DisposableObserver<CollectionResponse>() {
             @Override
@@ -84,7 +86,8 @@ public class SearchCollectionsPresenter extends MvpPresenter<MvpSearchView> {
 
             @Override
             public void onComplete() {
-                disposable1.dispose();
+                //disposable1.dispose();
+                dispose();
             }
         });
     }

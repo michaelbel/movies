@@ -24,7 +24,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.model.MovieRealm;
@@ -35,7 +35,7 @@ import org.michaelbel.moviemade.ui.view.movie.MovieViewCard;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewListBig;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewPoster;
 import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
-import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
+import org.michaelbel.core.widget.RecyclerListView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
@@ -94,7 +94,7 @@ public class WatchlistMoviesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity.binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        activity.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 

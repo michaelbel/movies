@@ -1,14 +1,15 @@
 package org.michaelbel.moviemade.ui;
 
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.databinding.ActivityFavoriteBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.ui.fragment.FavoriteMoviesFragment;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
@@ -16,30 +17,38 @@ import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 
 public class FavoriteActivity extends BaseActivity {
 
-    public ActivityFavoriteBinding binding;
+    public Toolbar toolbar;
+    public TextView toolbarTitle;
+    public ViewPager viewPager;
+    public TabLayout tabLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_favorite);
+        setContentView(R.layout.activity_favorite);
 
-        binding.toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(binding.toolbar));
-        binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        setSupportActionBar(binding.toolbar);
-        binding.toolbar.setNavigationOnClickListener(view -> finish());
+        toolbar = findViewById(R.id.toolbar);
+        toolbarTitle = findViewById(R.id.toolbar_title);
+        viewPager = findViewById(R.id.view_pager);
+        tabLayout = findViewById(R.id.tab_layout);
 
-        binding.toolbarTitle.setText(R.string.Favorites);
+        toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(toolbar));
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(view -> finish());
+
+        toolbarTitle.setText(R.string.Favorites);
 
         FragmentsPagerAdapter adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
         adapter.addFragment(new FavoriteMoviesFragment(), R.string.Movies);
 
-        binding.viewPager.setAdapter(adapter);
+        viewPager.setAdapter(adapter);
 
-        binding.tabLayout.setupWithViewPager(binding.viewPager);
-        binding.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        binding.tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
-        binding.tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
-        binding.tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
-        binding.tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+        tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
+        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
+        tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
     }
 }

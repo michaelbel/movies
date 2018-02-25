@@ -17,7 +17,8 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.core.widget.LayoutHelper;
+import org.michaelbel.core.widget.RecyclerListView;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.mvp.presenter.PopularPeoplePresenter;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
@@ -27,9 +28,7 @@ import org.michaelbel.moviemade.ui.PopularPeopleActivity;
 import org.michaelbel.moviemade.ui.adapter.pagination.PaginationPeopleAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.PersonView;
-import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 
 import java.util.List;
 
@@ -64,7 +63,7 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpRe
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity.binding.toolbarTitle.setOnClickListener(v -> {
+        activity.toolbarTitle.setOnClickListener(v -> {
             if (AndroidUtils.scrollToTop()) {
                 recyclerView.smoothScrollToPosition(0);
             }
@@ -76,7 +75,7 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpRe
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
         fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
-            if (adapter.getPeople().isEmpty()) {
+            if (adapter.getList().isEmpty()) {
                 presenter.loadFirstPage();
             } else {
                 fragmentView.setRefreshing(false);
@@ -103,11 +102,11 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpRe
         recyclerView.setAdapter(adapter);
         recyclerView.setEmptyView(emptyView);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
+        recyclerView.setVerticalScrollBarEnabled(AndroidUtils.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
             if (view instanceof PersonView) {
-                People person = (People) adapter.getPeople().get(position);
+                People person = (People) adapter.getList().get(position);
                 activity.startPerson(person);
             }
         });
@@ -137,9 +136,9 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpRe
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (savedInstanceState == null) {
+        //if (savedInstanceState == null) {
             presenter.loadFirstPage();
-        }
+        //}
     }
 
     @Override

@@ -6,7 +6,7 @@ import com.arellomobile.mvp.MvpPresenter;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
-import org.michaelbel.moviemade.rest.ApiFactory;
+import org.michaelbel.moviemade.rest.ApiFactory2;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.MOVIES;
 import org.michaelbel.moviemade.rest.response.CreditResponse;
@@ -32,7 +32,7 @@ public class MovieCastsPresenter extends MvpPresenter<MvpResultsView> {
         }
 
         // todo То, что этот метод вызывается 2 раза нехорошо, нужно вызывать его 1 раз и затем только передавать данные
-        MOVIES service = ApiFactory.createService(MOVIES.class);
+        MOVIES service = ApiFactory2.createService(MOVIES.class);
         Observable<CreditResponse> observable = service.getCredits(movieId, Url.TMDB_API_KEY).observeOn(AndroidSchedulers.mainThread());
         disposable = observable.subscribeWith(new DisposableObserver<CreditResponse>() {
             @Override
@@ -51,7 +51,9 @@ public class MovieCastsPresenter extends MvpPresenter<MvpResultsView> {
             }
 
             @Override
-            public void onComplete() {}
+            public void onComplete() {
+                dispose();
+            }
         });
     }
 

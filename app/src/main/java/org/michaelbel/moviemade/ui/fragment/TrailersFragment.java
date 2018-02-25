@@ -20,7 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.rest.model.v3.Trailer;
@@ -28,7 +28,7 @@ import org.michaelbel.moviemade.ui.TrailersActivity;
 import org.michaelbel.moviemade.ui.adapter.TrailersAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
-import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
+import org.michaelbel.core.widget.RecyclerListView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
@@ -63,8 +63,8 @@ public class TrailersFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        activity.binding.toolbarTitle.setOnClickListener(view -> {
+        activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        activity.toolbarTitle.setOnClickListener(view -> {
             if (AndroidUtils.scrollToTop()) {
                 recyclerView.smoothScrollToPosition(0);
             }

@@ -1,5 +1,7 @@
 package org.michaelbel.moviemade.ui.fragment;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,22 +19,20 @@ import android.widget.ScrollView;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.moviemade.ui.PersonActivity;
-import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.app.browser.Browser;
 import org.michaelbel.moviemade.mvp.presenter.PersonPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpPersonView;
 import org.michaelbel.moviemade.rest.model.Cast;
-import org.michaelbel.moviemade.rest.model.v3.People;
 import org.michaelbel.moviemade.rest.model.Person;
+import org.michaelbel.moviemade.rest.model.v3.People;
+import org.michaelbel.moviemade.ui.PersonActivity;
 import org.michaelbel.moviemade.ui.interfaces.PersonViewListener;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.PersonViewLayout;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 
 import java.util.Locale;
 
@@ -83,16 +83,12 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle args) {
-        activity.binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        activity.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-
-            }
+            public void onTabSelected(TabLayout.Tab tab) {}
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabUnselected(TabLayout.Tab tab) {}
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
@@ -123,7 +119,7 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
         contentLayout.addView(emptyView);
 
         scrollView = new ScrollView(activity);
-        scrollView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
+        scrollView.setVerticalScrollBarEnabled(AndroidUtils.scrollbars());
         scrollView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         contentLayout.addView(scrollView);
 
@@ -165,12 +161,12 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
         personView.addName(person.name);
         personView.addPopularity(String.valueOf(person.popularity));
         personView.addBio(person.bio);
-        personView.addOtherNames("Also known as: " + AndroidUtils.formatNames(person.names));
+        personView.addOtherNames(AndroidUtils.formatNames(person.names));
         personView.addImdb(person.imdbId);
         personView.addHomepage(person.homepage);
-        personView.addBirthPlace(getString(R.string.BirthPlace, person.birthPlace));
+        personView.addBirthPlace(person.birthPlace);
         //personView.addBirthPlace(AndroidUtils.replaceTags(getString(R.string.BirthPlace, person.birthPlace), AndroidUtils.FLAG_TAG_COLOR));
-        personView.addBirthday(getString(R.string.Birthday, person.birthday));
+        personView.addBirthday(person.birthday);
         personView.addDeathday(person.deathday);
 
         personView.loadedSuccess();
@@ -187,6 +183,13 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
         progressBar.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(mode);
+    }
+
+    @Override
+    public void onBirthPlaceClick(View view) {
+        Uri uri = Uri.parse(String.format("geo:0,0?q=%s", loadedPerson.birthPlace));
+        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+        startActivity(intent);
     }
 
     @Override

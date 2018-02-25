@@ -20,7 +20,10 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.bottomsheet.BottomSheet;
+import org.michaelbel.core.widget.LayoutHelper;
+import org.michaelbel.core.widget.RecyclerListView;
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.mvp.presenter.GenreMoviesPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
@@ -33,9 +36,7 @@ import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewListBig;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewPoster;
 import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
-import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
 import java.util.List;
@@ -69,13 +70,13 @@ public class GenreMoviesFragment extends MvpAppCompatFragment implements MvpResu
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (getActivity() instanceof GenreActivity) {
-            ((GenreActivity) getActivity()).binding.toolbarTitle.setOnClickListener(v -> {
+            ((GenreActivity) getActivity()).toolbarTitle.setOnClickListener(v -> {
                 if (AndroidUtils.scrollToTop()) {
                     recyclerView.smoothScrollToPosition(0);
                 }
             });
         } else if (getActivity() instanceof GenresActivity) {
-            ((GenresActivity) getActivity()).binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            ((GenresActivity) getActivity()).tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(TabLayout.Tab tab) {
 
@@ -101,7 +102,7 @@ public class GenreMoviesFragment extends MvpAppCompatFragment implements MvpResu
         fragmentView.setBackgroundColor(ContextCompat.getColor(getContext(), Theme.backgroundColor()));
         fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(getContext(), Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
-            if (adapter.getMovies().isEmpty()) {
+            if (adapter.getList().isEmpty()) {
                 presenter.loadFirstPage(genreId);
             } else {
                 fragmentView.setRefreshing(false);
@@ -133,10 +134,10 @@ public class GenreMoviesFragment extends MvpAppCompatFragment implements MvpResu
         recyclerView.setEmptyView(emptyView);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
+        recyclerView.setVerticalScrollBarEnabled(AndroidUtils.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
-            Movie movie = (Movie) adapter.getMovies().get(position);
+            Movie movie = (Movie) adapter.getList().get(position);
             if (view instanceof MovieViewListBig || view instanceof MovieViewPoster) {
                 if (getActivity() instanceof GenresActivity) {
                     ((GenresActivity) getActivity()).startMovie(movie);
@@ -144,6 +145,33 @@ public class GenreMoviesFragment extends MvpAppCompatFragment implements MvpResu
                     ((GenreActivity) getActivity()).startMovie(movie);
                 }
             }
+        });
+        recyclerView.setOnItemLongClickListener((view, position) -> {
+            Movie movie = (Movie) adapter.getList().get(position);
+            boolean favorite = presenter.isMovieFavorite(movie.id);
+            boolean watchlist = presenter.isMovieWatchlist(movie.id);
+
+            int favoriteIcon = favorite ? R.drawable.ic_heart : R.drawable.ic_heart_outline;
+            int watchlistIcon = watchlist ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline;
+            int favoriteText = favorite ? R.string.RemoveFromFavorites : R.string.AddToFavorites;
+            int watchlistText = watchlist ? R.string.RemoveFromWatchList : R.string.AddToWatchlist;
+
+            BottomSheet.Builder builder = new BottomSheet.Builder(getContext());
+            builder.setCellHeight(ScreenUtils.dp(52));
+            builder.setIconColor(ContextCompat.getColor(getContext(), Theme.iconActiveColor()));
+            builder.setItemTextColor(ContextCompat.getColor(getContext(), Theme.primaryTextColor()));
+            builder.setBackgroundColor(ContextCompat.getColor(getContext(), Theme.foregroundColor()));
+            builder.setItems(new int[] { favoriteText, watchlistText }, new int[] { favoriteIcon, watchlistIcon }, (dialog, i) -> {
+                if (i == 0) {
+                    presenter.movieFavoritesChange(movie);
+                } else if (i == 1) {
+                    presenter.movieWatchlistChange(movie);
+                }
+            });
+            if (AndroidUtils.additionalOptions()) {
+                builder.show();
+            }
+            return true;
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override

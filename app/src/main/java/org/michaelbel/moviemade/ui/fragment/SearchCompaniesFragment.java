@@ -18,7 +18,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.mvp.presenter.SearchCompaniesPresenter;
@@ -29,7 +29,7 @@ import org.michaelbel.moviemade.ui.SearchActivity;
 import org.michaelbel.moviemade.ui.adapter.pagination.PaginationCompaniesAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.cell.TextCell;
-import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
+import org.michaelbel.core.widget.RecyclerListView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 
@@ -68,7 +68,7 @@ public class SearchCompaniesFragment extends MvpAppCompatFragment implements Mvp
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity.binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        activity.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 
@@ -108,11 +108,11 @@ public class SearchCompaniesFragment extends MvpAppCompatFragment implements Mvp
         recyclerView.setHasFixedSize(true);
         recyclerView.setEmptyView(emptyView);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
+        recyclerView.setVerticalScrollBarEnabled(AndroidUtils.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
             if (view instanceof TextCell) {
-                Company company = (Company) adapter.getCompanies().get(position);
+                Company company = (Company) adapter.getList().get(position);
                 activity.startCompany(company);
             }
         });
@@ -161,7 +161,7 @@ public class SearchCompaniesFragment extends MvpAppCompatFragment implements Mvp
 
     @Override
     public void searchStart() {
-        adapter.getCompanies().clear();
+        adapter.getList().clear();
         adapter.notifyDataSetChanged();
 
         emptyView.setVisibility(View.GONE);
@@ -182,7 +182,7 @@ public class SearchCompaniesFragment extends MvpAppCompatFragment implements Mvp
             }
 
             if (AndroidUtilsDev.searchResultsCount()) {
-                TabLayout.Tab tab = activity.binding.tabLayout.getTabAt(SearchActivity.TAB_COMPANIES);
+                TabLayout.Tab tab = activity.tabLayout.getTabAt(SearchActivity.TAB_COMPANIES);
                 if (tab != null) {
                     tab.setText(getResources().getQuantityString(R.plurals.CompaniesTotalResults, presenter.totalResults, presenter.totalResults));
                 }
@@ -206,13 +206,13 @@ public class SearchCompaniesFragment extends MvpAppCompatFragment implements Mvp
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(mode);
 
-        TabLayout.Tab tab = activity.binding.tabLayout.getTabAt(SearchActivity.TAB_PEOPLE);
+        TabLayout.Tab tab = activity.tabLayout.getTabAt(SearchActivity.TAB_PEOPLE);
         if (tab != null) {
             tab.setText(R.string.People);
         }
     }
 
     public boolean empty() {
-        return adapter.getCompanies().isEmpty();
+        return adapter.getList().isEmpty();
     }
 }

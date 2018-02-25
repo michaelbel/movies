@@ -1,21 +1,24 @@
 package org.michaelbel.moviemade.ui;
 
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.databinding.ActivityGenresBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.mvp.presenter.GenresPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
@@ -23,6 +26,7 @@ import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.v3.Genre;
 import org.michaelbel.moviemade.ui.fragment.GenreMoviesFragment;
 import org.michaelbel.moviemade.ui.view.EmptyView;
+import org.michaelbel.moviemade.ui.view.NavigationView;
 import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
 
 import java.util.ArrayList;
@@ -33,7 +37,15 @@ public class GenresActivity extends BaseActivity implements MvpResultsView {
     private ArrayList<Genre> genres;
     private FragmentsPagerAdapter adapter;
 
-    public ActivityGenresBinding binding;
+    public Toolbar toolbar;
+    public TextView toolbarTitle;
+    public ProgressBar progressBar;
+    public DrawerLayout drawerLayout;
+    public NavigationView navigationView;
+    public FrameLayout contentLayout;
+    public ViewPager viewPager;
+    public TabLayout tabLayout;
+    public FrameLayout toolbarLayout;
 
     private EmptyView emptyView;
 
@@ -43,30 +55,40 @@ public class GenresActivity extends BaseActivity implements MvpResultsView {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_genres);
+        setContentView(R.layout.activity_genres);
 
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         getWindow().setStatusBarColor(0x33000000);
 
+        toolbar = findViewById(R.id.toolbar);
+        drawerLayout = findViewById(R.id.drawer_layout);
+        toolbarTitle = findViewById(R.id.toolbar_title);
+        toolbarLayout = findViewById(R.id.toolbar_layout);
+        contentLayout = findViewById(R.id.content_layout);
+        viewPager = findViewById(R.id.view_pager);
+        tabLayout = findViewById(R.id.tab_layout);
+        navigationView = findViewById(R.id.navigation_view);
+        progressBar = findViewById(R.id.progress_bar);
+
         genres = getIntent().getParcelableArrayListExtra("list");
         if (genres != null) {
-            binding.drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+            drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         }
 
-        binding.toolbar.setNavigationIcon(genres != null ? R.drawable.ic_arrow_back : R.drawable.ic_menu);
-        setSupportActionBar(binding.toolbar);
-        binding.toolbar.setNavigationOnClickListener(v -> {
+        toolbar.setNavigationIcon(genres != null ? R.drawable.ic_arrow_back : R.drawable.ic_menu);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(v -> {
             if (genres != null) {
                 finish();
             } else {
-                binding.drawerLayout.openDrawer(GravityCompat.START);
+                drawerLayout.openDrawer(GravityCompat.START);
             }
         });
 
-        binding.toolbarTitle.setText(R.string.LoadingGenres);
-        binding.navigationView.setOnNavigationItemSelectedListener((view, position) -> {
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        toolbarTitle.setText(R.string.LoadingGenres);
+        navigationView.setOnNavigationItemSelectedListener((view, position) -> {
+            drawerLayout.closeDrawer(GravityCompat.START);
 
             if (position == 2) {
                 startActivity(new Intent(this, MainActivity.class));
@@ -86,23 +108,25 @@ public class GenresActivity extends BaseActivity implements MvpResultsView {
                 startActivity(new Intent(this, AboutActivity.class));
             }
         });
-        binding.contentLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.backgroundColor()));
+
+        contentLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.backgroundColor()));
 
         emptyView = new EmptyView(this);
         emptyView.setVisibility(View.GONE);
-        binding.contentLayout.addView(emptyView);
+        contentLayout.addView(emptyView);
 
         adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
 
-        binding.viewPager.setAdapter(adapter);
 
-        binding.tabLayout.setupWithViewPager(binding.viewPager);
-        binding.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        binding.tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
-        binding.tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
-        binding.tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
-        binding.tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
-        binding.tabLayout.setVisibility(View.INVISIBLE);
+        viewPager.setAdapter(adapter);
+
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+        tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
+        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
+        tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
+        tabLayout.setVisibility(View.INVISIBLE);
 
         if (genres != null) {
             showFromExtra();
@@ -113,8 +137,8 @@ public class GenresActivity extends BaseActivity implements MvpResultsView {
 
     @Override
     public void onBackPressed() {
-        if (binding.drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            binding.drawerLayout.closeDrawer(GravityCompat.START);
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -128,19 +152,19 @@ public class GenresActivity extends BaseActivity implements MvpResultsView {
 
         adapter.notifyDataSetChanged();
 
-        binding.toolbarTitle.setVisibility(View.GONE);
-        binding.tabLayout.setVisibility(View.VISIBLE);
-        binding.toolbarLayout.removeView(binding.progressBar);
+        toolbarTitle.setVisibility(View.GONE);
+        tabLayout.setVisibility(View.VISIBLE);
+        toolbarLayout.removeView(progressBar);
     }
 
     @Override
     public void showError(int mode) {
-        binding.toolbarLayout.removeView(binding.progressBar);
+        toolbarLayout.removeView(progressBar);
 
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(mode);
 
-        binding.toolbarTitle.setText(R.string.Genres);
+        toolbarTitle.setText(R.string.Genres);
     }
 
     private void showFromExtra() {
@@ -150,8 +174,8 @@ public class GenresActivity extends BaseActivity implements MvpResultsView {
 
         adapter.notifyDataSetChanged();
 
-        binding.toolbarTitle.setVisibility(View.GONE);
-        binding.tabLayout.setVisibility(View.VISIBLE);
-        binding.toolbarLayout.removeView(binding.progressBar);
+        toolbarTitle.setVisibility(View.GONE);
+        tabLayout.setVisibility(View.VISIBLE);
+        toolbarLayout.removeView(progressBar);
     }
 }

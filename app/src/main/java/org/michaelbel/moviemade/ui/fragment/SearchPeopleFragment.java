@@ -18,7 +18,7 @@ import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.LayoutHelper;
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.mvp.presenter.SearchPeoplePresenter;
@@ -29,7 +29,7 @@ import org.michaelbel.moviemade.ui.SearchActivity;
 import org.michaelbel.moviemade.ui.adapter.pagination.PaginationPeopleAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.PersonView;
-import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
+import org.michaelbel.core.widget.RecyclerListView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 
@@ -68,7 +68,7 @@ public class SearchPeopleFragment extends MvpAppCompatFragment implements MvpSea
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity.binding.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+        activity.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
 
@@ -108,11 +108,11 @@ public class SearchPeopleFragment extends MvpAppCompatFragment implements MvpSea
         recyclerView.setHasFixedSize(true);
         recyclerView.setEmptyView(emptyView);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setVerticalScrollBarEnabled(AndroidUtilsDev.scrollbars());
+        recyclerView.setVerticalScrollBarEnabled(AndroidUtils.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
             if (view instanceof PersonView) {
-                People person = (People) adapter.getPeople().get(position);
+                People person = (People) adapter.getList().get(position);
                 activity.startPerson(person);
             }
         });
@@ -161,7 +161,7 @@ public class SearchPeopleFragment extends MvpAppCompatFragment implements MvpSea
 
     @Override
     public void searchStart() {
-        adapter.getPeople().clear();
+        adapter.getList().clear();
         adapter.notifyDataSetChanged();
 
         emptyView.setVisibility(View.GONE);
@@ -182,7 +182,7 @@ public class SearchPeopleFragment extends MvpAppCompatFragment implements MvpSea
             }
 
             if (AndroidUtilsDev.searchResultsCount()) {
-                TabLayout.Tab tab = activity.binding.tabLayout.getTabAt(SearchActivity.TAB_PEOPLE);
+                TabLayout.Tab tab = activity.tabLayout.getTabAt(SearchActivity.TAB_PEOPLE);
                 if (tab != null) {
                     tab.setText(getResources().getQuantityString(R.plurals.PeopleTotalResults, presenter.totalResults, presenter.totalResults));
                 }
@@ -206,13 +206,13 @@ public class SearchPeopleFragment extends MvpAppCompatFragment implements MvpSea
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(mode);
 
-        TabLayout.Tab tab = activity.binding.tabLayout.getTabAt(SearchActivity.TAB_PEOPLE);
+        TabLayout.Tab tab = activity.tabLayout.getTabAt(SearchActivity.TAB_PEOPLE);
         if (tab != null) {
             tab.setText(R.string.People);
         }
     }
 
     public boolean empty() {
-        return adapter.getPeople().isEmpty();
+        return adapter.getList().isEmpty();
     }
 }

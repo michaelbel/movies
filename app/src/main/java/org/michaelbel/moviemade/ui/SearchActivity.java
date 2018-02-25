@@ -2,7 +2,6 @@ package org.michaelbel.moviemade.ui;
 
 import android.content.Context;
 import android.content.Intent;
-import android.databinding.DataBindingUtil;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
@@ -10,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
@@ -23,11 +23,12 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
+import org.michaelbel.core.extensions.Extensions;
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.databinding.ActivitySearchBinding;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.ui.fragment.SearchCollectionsFragment;
 import org.michaelbel.moviemade.ui.fragment.SearchCompaniesFragment;
@@ -59,25 +60,33 @@ public class SearchActivity extends BaseActivity {
     public EditText searchEditText;
     private FragmentsPagerAdapter adapter;
 
-    public ActivitySearchBinding binding;
+    public Toolbar toolbar;
+    public TextView toolbarTitle;
+    public ViewPager viewPager;
+    public TabLayout tabLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_search);
+        setContentView(R.layout.activity_search);
 
         int tab = getIntent().getIntExtra("search_tab", TAB_MOVIES);
         String query = getIntent().getStringExtra("query");
 
-        binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        setSupportActionBar(binding.toolbar);
-        binding.toolbar.setNavigationOnClickListener(view -> finish());
+        toolbar = findViewById(R.id.toolbar);
+        toolbarTitle = findViewById(R.id.toolbar_title);
+        viewPager = findViewById(R.id.view_pager);
+        tabLayout = findViewById(R.id.tab_layout);
+
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationOnClickListener(view -> finish());
 
         iconActionMode = MODE_ACTION_VOICE;
 
         FrameLayout toolbarLayout = new FrameLayout(this);
         toolbarLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        binding.toolbar.addView(toolbarLayout);
+        toolbar.addView(toolbarLayout);
 
         searchEditText = new EditText(this);
         searchEditText.setLines(1);
@@ -107,7 +116,7 @@ public class SearchActivity extends BaseActivity {
         });
         searchEditText.setOnEditorActionListener((view, actionId, event) -> {
             if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_SEARCH)) {
-                searchInFragment(binding.viewPager.getCurrentItem(), view.getText().toString().trim());
+                searchInFragment(viewPager.getCurrentItem(), view.getText().toString().trim());
                 AndroidUtils.hideKeyboard(searchEditText);
                 return true;
             }
@@ -115,7 +124,7 @@ public class SearchActivity extends BaseActivity {
             return false;
         });
         toolbarLayout.addView(searchEditText);
-        Theme.clearCursorDrawable(searchEditText);
+        Extensions.clearCursorDrawable(searchEditText);
 
         adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
         adapter.addFragment(SearchMoviesFragment.newInstance(query), R.string.Movies);
@@ -124,10 +133,10 @@ public class SearchActivity extends BaseActivity {
         adapter.addFragment(SearchCollectionsFragment.newInstance(query), R.string.Collections);
         adapter.addFragment(SearchCompaniesFragment.newInstance(query), R.string.Companies);
 
-        binding.viewPager.setAdapter(adapter);
-        binding.viewPager.setCurrentItem(tab);
-        binding.viewPager.setBackgroundColor(ContextCompat.getColor(this, Theme.backgroundColor()));
-        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        viewPager.setAdapter(adapter);
+        viewPager.setCurrentItem(tab);
+        viewPager.setBackgroundColor(ContextCompat.getColor(this, Theme.backgroundColor()));
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
 
@@ -175,12 +184,12 @@ public class SearchActivity extends BaseActivity {
             public void onPageScrollStateChanged(int state) {}
         });
 
-        binding.tabLayout.setupWithViewPager(binding.viewPager);
-        binding.tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        binding.tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
-        binding.tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
-        binding.tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
-        binding.tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
+        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
+        tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
+        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
+        tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
     }
 
     @Override
@@ -224,7 +233,7 @@ public class SearchActivity extends BaseActivity {
                             searchEditText.setText(textResults);
                             searchEditText.setSelection(searchEditText.getText().length());
                             changeActionIcon();
-                            searchInFragment(binding.viewPager.getCurrentItem(), textResults);
+                            searchInFragment(viewPager.getCurrentItem(), textResults);
                         }
                     }
                 }

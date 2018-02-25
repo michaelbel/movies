@@ -30,10 +30,7 @@ import org.michaelbel.moviemade.rest.model.v3.Genre;
 import java.io.File;
 import java.io.InputStream;
 import java.text.NumberFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -191,6 +188,16 @@ public class AndroidUtils {
         return prefs.getBoolean("full_overview", false);
     }
 
+    public static boolean textSelect() {
+        SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
+        return prefs.getBoolean("text_select", false);
+    }
+
+    public static boolean additionalOptions() {
+        SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
+        return prefs.getBoolean("additional_options", true);
+    }
+
     public static int viewType() {
         SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
         return prefs.getInt("view_type", 0);
@@ -226,7 +233,6 @@ public class AndroidUtils {
 
     public static final int FLAG_TAG_BR = 1;
     public static final int FLAG_TAG_BOLD = 2;
-    public static final int FLAG_TAG_COLOR = 4;
     public static final int FLAG_TAG_ALL = FLAG_TAG_BR | FLAG_TAG_BOLD;
 
     public static SpannableStringBuilder replaceTags(String str) {
@@ -284,24 +290,6 @@ public class AndroidUtils {
     public static String formatCurrency(int currencyCount) {
         NumberFormat numberFormat = NumberFormat.getInstance(Locale.US);
         return getContext().getString(R.string.CurrencyCount, numberFormat.format(currencyCount));
-    }
-
-    public static String formatRuntime(int runtime) {
-        String patternMin = "mm";
-        String patternHours = "H:mm";
-
-        SimpleDateFormat formatMin = new SimpleDateFormat(patternMin, Locale.US);
-        SimpleDateFormat formatHours = new SimpleDateFormat(patternHours, Locale.US);
-
-        Date date = null;
-
-        try {
-            date = formatMin.parse(String.valueOf(runtime));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-
-        return getContext().getString(R.string.MovieRuntime, runtime, formatHours.format(date));
     }
 
     @Deprecated
