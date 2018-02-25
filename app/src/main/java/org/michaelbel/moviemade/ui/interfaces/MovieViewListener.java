@@ -13,8 +13,6 @@ public interface MovieViewListener {
     void onFavoriteButtonClick(View view);
     void onWatchingButtonClick(View view);
 
-    void onOverviewLongClick(View view);
-
     void onTrailerClick(View view, String trailerKey);
     void onTrailersSectionClick(View view);
 
@@ -24,7 +22,6 @@ public interface MovieViewListener {
     void onGenresSectionClick(View view);
 
     void onKeywordClick(View view, Keyword keyword);
-    void onKeywordsSectionClick(View view);
 
     void onCollectionClick(View view);
 
