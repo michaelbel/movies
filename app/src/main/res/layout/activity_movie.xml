@@ -1,88 +1,84 @@
-<layout
+<merge
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <merge
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
-        <android.support.design.widget.CoordinatorLayout
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true">
-
-            <android.support.design.widget.AppBarLayout
-                android:id="@+id/app_bar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-                app:elevation="0dp">
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    app:layout_collapseMode="pin"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
-                    <TextView
-                        android:id="@+id/toolbar_title"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:lines="1"
-                        android:maxLines="1"
-                        android:textSize="18sp"
-                        android:ellipsize="end"
-                        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
-
-                </android.support.v7.widget.Toolbar>
-
-                <android.support.design.widget.TabLayout
-                    android:id="@+id/tab_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-            </android.support.design.widget.AppBarLayout>
-
-            <android.support.v4.view.ViewPager
-                android:id="@+id/view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
-        </android.support.design.widget.CoordinatorLayout>
-
-        <View
-            android:id="@+id/demo_full_background"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/photoViewerBackgroundColor"
-            android:visibility="invisible"/>
-
-        <android.support.design.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:fitsSystemWindows="true">
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            app:elevation="0dp">
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/image_toolbar"
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
-                android:visibility="invisible"
-                style="@style/App.Toolbar.Transparent"/>
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-            <com.alexvasilkov.gestures.views.GestureImageView
-                android:id="@+id/poster_full"
+                <TextView
+                    android:id="@+id/toolbar_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:textSize="18sp"
+                    android:ellipsize="end"
+                    style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+
+            </android.support.v7.widget.Toolbar>
+
+            <android.support.design.widget.TabLayout
+                android:id="@+id/tab_layout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="56dp"
-                android:visibility="invisible"
-                app:gest_doubleTapZoom="3"
-                app:gest_maxZoom="10" />
+                android:layout_height="wrap_content"/>
 
-        </android.support.design.widget.CoordinatorLayout>
+        </android.support.design.widget.AppBarLayout>
 
-    </merge>
+        <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-</layout>
+    </android.support.design.widget.CoordinatorLayout>
+
+    <View
+        android:id="@+id/demo_full_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/photoViewerBackgroundColor"
+        android:visibility="invisible"/>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/image_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:visibility="invisible"
+            style="@style/App.Toolbar.Transparent"/>
+
+        <com.alexvasilkov.gestures.views.GestureImageView
+            android:id="@+id/poster_full"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="56dp"
+            android:visibility="invisible"
+            app:gest_doubleTapZoom="3"
+            app:gest_maxZoom="10" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</merge>

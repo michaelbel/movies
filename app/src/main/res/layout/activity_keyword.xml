@@ -1,5 +1,6 @@
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+<merge
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
@@ -19,7 +20,7 @@
 
                 <TextView
                     android:id="@+id/toolbar_title"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     android:gravity="center_vertical"
                     android:maxLines="1"
@@ -39,4 +40,4 @@
 
     </android.support.design.widget.CoordinatorLayout>
 
-</layout>
+</merge>
