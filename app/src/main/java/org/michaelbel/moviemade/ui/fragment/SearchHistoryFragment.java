@@ -1,39 +1,6 @@
 package org.michaelbel.moviemade.ui.fragment;
 
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-
-import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.ui.SettingsActivity;
-import org.michaelbel.moviemade.app.LayoutHelper;
-import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
-import org.michaelbel.moviemade.model.SearchItem;
-import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
-import org.michaelbel.moviemade.ui.view.EmptyView;
-import org.michaelbel.moviemade.ui.view.cell.SearchItemCell;
-import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
-import org.michaelbel.moviemade.utils.AndroidUtilsDev;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
-
+/*
 public class SearchHistoryFragment extends Fragment {
 
     private SearchHistoryAdapter adapter;
@@ -53,9 +20,9 @@ public class SearchHistoryFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        activity.binding.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
-        activity.binding.toolbarTitle.setText(R.string.SearchHistory);
+        activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        activity.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
+        activity.toolbarTitle.setText(R.string.SearchHistory);
 
         FrameLayout fragmentView = new FrameLayout(activity);
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
@@ -166,4 +133,4 @@ public class SearchHistoryFragment extends Fragment {
             return searches != null ? searches.size() : 0;
         }
     }
-}
+}*/

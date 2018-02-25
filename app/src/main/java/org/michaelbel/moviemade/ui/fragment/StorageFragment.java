@@ -1,44 +1,6 @@
 package org.michaelbel.moviemade.ui.fragment;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-
-import org.michaelbel.bottomsheetdialog.BottomSheet;
-import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.ui.SettingsActivity;
-import org.michaelbel.moviemade.app.LayoutHelper;
-import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.model.MovieRealm;
-import org.michaelbel.moviemade.rest.model.Movie;
-import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
-import org.michaelbel.moviemade.ui.view.cell.EmptyCell;
-import org.michaelbel.moviemade.ui.view.cell.TextCell;
-import org.michaelbel.moviemade.ui.view.cell.TextDetailCell;
-import org.michaelbel.moviemade.ui.view.movie.MovieViewListCached;
-import org.michaelbel.moviemade.ui.view.widget.IndicatorView;
-import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
-import org.michaelbel.moviemade.ui.view.widget.ViewPagerAdapter;
-import org.michaelbel.moviemade.utils.ScreenUtils;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import io.realm.Realm;
-
+/*
 public class StorageFragment extends Fragment {
 
     private SettingsActivity activity;
@@ -58,9 +20,9 @@ public class StorageFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        activity.binding.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
-        activity.binding.toolbarTitle.setText(R.string.StorageUsage);
+        activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        activity.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
+        activity.toolbarTitle.setText(R.string.StorageUsage);
 
         FrameLayout fragmentView = new FrameLayout(activity);
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
@@ -84,11 +46,11 @@ public class StorageFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 if (position == 0) {
-                    activity.binding.toolbarTitle.setText(R.string.StorageUsage);
+                    activity.toolbarTitle.setText(R.string.StorageUsage);
                 } else if (position == 1) {
-                    activity.binding.toolbarTitle.setText(R.string.CachedMovies);
+                    activity.toolbarTitle.setText(R.string.CachedMovies);
                 } else if (position == 2) {
-                    activity.binding.toolbarTitle.setText(R.string.CachedImages);
+                    activity.toolbarTitle.setText(R.string.CachedImages);
                 }
             }
 
@@ -288,4 +250,4 @@ public class StorageFragment extends Fragment {
             }
         }
     }
-}
+}*/

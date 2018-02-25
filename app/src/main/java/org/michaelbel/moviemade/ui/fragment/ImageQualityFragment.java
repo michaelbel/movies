@@ -1,32 +1,6 @@
 package org.michaelbel.moviemade.ui.fragment;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-
-import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.ui.SettingsActivity;
-import org.michaelbel.moviemade.app.LayoutHelper;
-import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
-import org.michaelbel.moviemade.ui.view.cell.EmptyCell;
-import org.michaelbel.moviemade.ui.view.cell.TextCell;
-import org.michaelbel.moviemade.ui.view.cell.TextDetailCell;
-import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
-
+/*
 public class ImageQualityFragment extends Fragment {
 
     private int rowCount;
@@ -52,9 +26,9 @@ public class ImageQualityFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        activity.binding.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
-        activity.binding.toolbarTitle.setText(R.string.ImageQuality);
+        activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        activity.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
+        activity.toolbarTitle.setText(R.string.ImageQuality);
 
         FrameLayout fragmentView = new FrameLayout(activity);
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
@@ -266,4 +240,4 @@ public class ImageQualityFragment extends Fragment {
             }
         }
     }
-}
+}*/

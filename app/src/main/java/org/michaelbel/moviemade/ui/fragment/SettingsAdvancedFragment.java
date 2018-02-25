@@ -1,40 +1,6 @@
 package org.michaelbel.moviemade.ui.fragment;
 
-import android.app.Activity;
-import android.content.SharedPreferences;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
-
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
-import org.michaelbel.bottomsheetdialog.BottomSheet;
-import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.ui.SettingsActivity;
-import org.michaelbel.moviemade.app.LayoutHelper;
-import org.michaelbel.moviemade.app.Moviemade;
-import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
-import org.michaelbel.moviemade.ui.view.cell.EmptyCell;
-import org.michaelbel.moviemade.ui.view.cell.TextCell;
-import org.michaelbel.moviemade.ui.view.cell.TextDetailCell;
-import org.michaelbel.moviemade.ui.view.cell.TextDetailCellDev;
-import org.michaelbel.moviemade.ui.view.widget.RecyclerListView;
-import org.michaelbel.moviemade.utils.AndroidUtilsDev;
-import org.michaelbel.moviemade.utils.DateUtils;
-import org.michaelbel.moviemade.utils.ScreenUtils;
-
+/*
 public class SettingsAdvancedFragment extends Fragment {
 
     private int rowCount;
@@ -61,9 +27,9 @@ public class SettingsAdvancedFragment extends Fragment {
         FrameLayout fragmentView = new FrameLayout(activity);
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
 
-        activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        activity.binding.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
-        activity.binding.toolbarTitle.setText(R.string.AdvancedSettings);
+        activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        activity.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
+        activity.toolbarTitle.setText(R.string.AdvancedSettings);
 
         rowCount = 0;
         infoRow = rowCount++;
@@ -254,4 +220,4 @@ public class SettingsAdvancedFragment extends Fragment {
             }
         }
     }
-}
+}*/
