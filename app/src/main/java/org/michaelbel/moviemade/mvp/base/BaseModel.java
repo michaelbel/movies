@@ -3,9 +3,7 @@ package org.michaelbel.moviemade.mvp.base;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import com.arellomobile.mvp.MvpView;
-
-public interface BaseModel extends MvpView {
+public interface BaseModel {
 
     void startFragment(Fragment fragment, View container);
 
