@@ -22,8 +22,9 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 
 @InjectViewState
@@ -34,7 +35,7 @@ public class GenreMoviesPresenter extends MvpPresenter<MvpResultsView> {
     public boolean isLoading = false;
     public boolean isLastPage = false;
 
-    private Disposable disposable1, disposable2;
+    private final CompositeDisposable disposables = new CompositeDisposable();
 
     public void loadFirstPage(int genreId) {
         if (NetworkUtils.notConnected()) {
@@ -42,9 +43,9 @@ public class GenreMoviesPresenter extends MvpPresenter<MvpResultsView> {
             return;
         }
 
-        GENRES service = ApiFactory.createService(GENRES.class);
-        Observable<MoviesResponse> observable = service.getMovies(genreId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).observeOn(AndroidSchedulers.mainThread());
-        disposable1 = observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
+        GENRES service = ApiFactory.getRetrofit2().create(GENRES.class);
+        Observable<MoviesResponse> observable = service.getMovies(genreId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override
             public void onNext(MoviesResponse response) {
                 totalPages = response.totalPages;
@@ -59,20 +60,17 @@ public class GenreMoviesPresenter extends MvpPresenter<MvpResultsView> {
             @Override
             public void onError(Throwable e) {
                 getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                e.printStackTrace();
             }
 
             @Override
-            public void onComplete() {
-                dispose();
-            }
-        });
+            public void onComplete() {}
+        }));
     }
 
     public void loadNextPage(int genreId) {
-        GENRES service = ApiFactory.createService(GENRES.class);
-        Observable<MoviesResponse> observable = service.getMovies(genreId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).observeOn(AndroidSchedulers.mainThread());
-        disposable2 = observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
+        GENRES service = ApiFactory.getRetrofit2().create(GENRES.class);
+        Observable<MoviesResponse> observable = service.getMovies(genreId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override
             public void onNext(MoviesResponse response) {
                 List<TmdbObject> results = new ArrayList<>(response.movies);
@@ -85,11 +83,8 @@ public class GenreMoviesPresenter extends MvpPresenter<MvpResultsView> {
             }
 
             @Override
-            public void onComplete() {
-                //disposable1.dispose();
-                dispose();
-            }
-        });
+            public void onComplete() {}
+        }));
     }
 
     public void movieFavoritesChange(Movie m) {
@@ -184,14 +179,7 @@ public class GenreMoviesPresenter extends MvpPresenter<MvpResultsView> {
 
     @Override
     public void onDestroy() {
-        if (disposable1 != null && !disposable1.isDisposed()) {
-            disposable1.dispose();
-        }
-
-        if (disposable2 != null && !disposable2.isDisposed()) {
-            disposable2.dispose();
-        }
-
+        disposables.dispose();
         super.onDestroy();
     }
 }
