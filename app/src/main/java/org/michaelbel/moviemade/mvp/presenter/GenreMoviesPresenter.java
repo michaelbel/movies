@@ -8,7 +8,7 @@ import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.app.extensions.AndroidExtensions;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
-import org.michaelbel.moviemade.rest.ApiFactory2;
+import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.service.GENRES;
 import org.michaelbel.moviemade.rest.model.Movie;
@@ -42,7 +42,7 @@ public class GenreMoviesPresenter extends MvpPresenter<MvpResultsView> {
             return;
         }
 
-        GENRES service = ApiFactory2.createService(GENRES.class);
+        GENRES service = ApiFactory.createService(GENRES.class);
         Observable<MoviesResponse> observable = service.getMovies(genreId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).observeOn(AndroidSchedulers.mainThread());
         disposable1 = observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override
@@ -70,7 +70,7 @@ public class GenreMoviesPresenter extends MvpPresenter<MvpResultsView> {
     }
 
     public void loadNextPage(int genreId) {
-        GENRES service = ApiFactory2.createService(GENRES.class);
+        GENRES service = ApiFactory.createService(GENRES.class);
         Observable<MoviesResponse> observable = service.getMovies(genreId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).observeOn(AndroidSchedulers.mainThread());
         disposable2 = observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override
@@ -184,8 +184,6 @@ public class GenreMoviesPresenter extends MvpPresenter<MvpResultsView> {
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
-
         if (disposable1 != null && !disposable1.isDisposed()) {
             disposable1.dispose();
         }
@@ -193,5 +191,7 @@ public class GenreMoviesPresenter extends MvpPresenter<MvpResultsView> {
         if (disposable2 != null && !disposable2.isDisposed()) {
             disposable2.dispose();
         }
+
+        super.onDestroy();
     }
 }
