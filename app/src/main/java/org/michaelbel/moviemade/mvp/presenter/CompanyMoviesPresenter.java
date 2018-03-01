@@ -8,7 +8,7 @@ import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.app.extensions.AndroidExtensions;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
-import org.michaelbel.moviemade.rest.ApiFactory2;
+import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.service.COMPANIES;
 import org.michaelbel.moviemade.rest.model.Movie;
@@ -42,7 +42,7 @@ public class CompanyMoviesPresenter extends MvpPresenter<MvpResultsView> {
             return;
         }
 
-        COMPANIES service = ApiFactory2.getRetrofit2().create(COMPANIES.class);
+        COMPANIES service = ApiFactory.getRetrofit2().create(COMPANIES.class);
         Observable<MoviesResponse> observable = service.getMovies(companyId, Url.TMDB_API_KEY, Url.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override
