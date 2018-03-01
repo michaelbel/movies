@@ -8,7 +8,7 @@ import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.app.extensions.AndroidExtensions;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
-import org.michaelbel.moviemade.rest.ApiFactory2;
+import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.service.KEYWORDS;
 import org.michaelbel.moviemade.rest.model.Movie;
@@ -22,8 +22,9 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 
 @InjectViewState
@@ -34,7 +35,7 @@ public class KeywordMoviesPresenter extends MvpPresenter<MvpResultsView> {
     public boolean isLoading = false;
     public boolean isLastPage = false;
 
-    private Disposable disposable1, disposable2;
+    private final CompositeDisposable disposables = new CompositeDisposable();
 
     public void loadFirstPage(int keywordId) {
         if (keywordId == 0) {
@@ -47,9 +48,9 @@ public class KeywordMoviesPresenter extends MvpPresenter<MvpResultsView> {
             return;
         }
 
-        KEYWORDS service = ApiFactory2.createService(KEYWORDS.class);
-        Observable<MoviesResponse> observable = service.getMovies(keywordId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).observeOn(AndroidSchedulers.mainThread());
-        disposable1 = observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
+        KEYWORDS service = ApiFactory.createService2(KEYWORDS.class);
+        Observable<MoviesResponse> observable = service.getMovies(keywordId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override
             public void onNext(MoviesResponse response) {
                 totalPages = response.totalPages;
@@ -64,20 +65,17 @@ public class KeywordMoviesPresenter extends MvpPresenter<MvpResultsView> {
             @Override
             public void onError(Throwable e) {
                 getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                e.printStackTrace();
             }
 
             @Override
-            public void onComplete() {
-                dispose();
-            }
-        });
+            public void onComplete() {}
+        }));
     }
 
     public void loadNextPage(int keywordId) {
-        KEYWORDS service = ApiFactory2.createService(KEYWORDS.class);
-        Observable<MoviesResponse> observable = service.getMovies(keywordId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).observeOn(AndroidSchedulers.mainThread());
-        disposable2 = observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
+        KEYWORDS service = ApiFactory.createService2(KEYWORDS.class);
+        Observable<MoviesResponse> observable = service.getMovies(keywordId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override
             public void onNext(MoviesResponse response) {
                 List<TmdbObject> results = new ArrayList<>(response.movies);
@@ -85,16 +83,11 @@ public class KeywordMoviesPresenter extends MvpPresenter<MvpResultsView> {
             }
 
             @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
+            public void onError(Throwable e) {}
 
             @Override
-            public void onComplete() {
-                //disposable1.dispose();
-                dispose();
-            }
-        });
+            public void onComplete() {}
+        }));
     }
 
     public void movieFavoritesChange(Movie m) {
@@ -189,14 +182,7 @@ public class KeywordMoviesPresenter extends MvpPresenter<MvpResultsView> {
 
     @Override
     public void onDestroy() {
+        disposables.dispose();
         super.onDestroy();
-
-        if (disposable1 != null && !disposable1.isDisposed()) {
-            disposable1.dispose();
-        }
-
-        if (disposable2 != null && !disposable2.isDisposed()) {
-            disposable2.dispose();
-        }
     }
 }
