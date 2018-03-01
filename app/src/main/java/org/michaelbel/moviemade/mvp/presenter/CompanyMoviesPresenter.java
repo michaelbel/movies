@@ -21,14 +21,15 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 
 @InjectViewState
 public class CompanyMoviesPresenter extends MvpPresenter<MvpResultsView> {
 
-    private Disposable disposable;
+    private final CompositeDisposable disposables = new CompositeDisposable();
 
     public void loadMovies(int companyId) {
         if (companyId == 0) {
@@ -41,9 +42,9 @@ public class CompanyMoviesPresenter extends MvpPresenter<MvpResultsView> {
             return;
         }
 
-        COMPANIES service = ApiFactory2.createService(COMPANIES.class);
-        Observable<MoviesResponse> observable = service.getMovies(companyId, Url.TMDB_API_KEY, Url.en_US).observeOn(AndroidSchedulers.mainThread());
-        disposable = observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
+        COMPANIES service = ApiFactory2.getRetrofit2().create(COMPANIES.class);
+        Observable<MoviesResponse> observable = service.getMovies(companyId, Url.TMDB_API_KEY, Url.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override
             public void onNext(MoviesResponse response) {
                 List<TmdbObject> results = new ArrayList<>(response.movies);
@@ -57,14 +58,11 @@ public class CompanyMoviesPresenter extends MvpPresenter<MvpResultsView> {
             @Override
             public void onError(Throwable e) {
                 getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
-                e.printStackTrace();
             }
 
             @Override
-            public void onComplete() {
-                dispose();
-            }
-        });
+            public void onComplete() {}
+        }));
     }
 
     public void movieFavoritesChange(Movie m) {
@@ -159,10 +157,7 @@ public class CompanyMoviesPresenter extends MvpPresenter<MvpResultsView> {
 
     @Override
     public void onDestroy() {
+        disposables.dispose();
         super.onDestroy();
-
-        if (disposable != null && !disposable.isDisposed()) {
-            disposable.dispose();
-        }
     }
 }
