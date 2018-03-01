@@ -6,7 +6,7 @@ import com.arellomobile.mvp.MvpPresenter;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.mvp.view.MvpSearchView;
-import org.michaelbel.moviemade.rest.ApiFactory2;
+import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.api.SEARCH;
 import org.michaelbel.moviemade.rest.response.PeopleResponse;
@@ -18,8 +18,9 @@ import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView> {
@@ -31,7 +32,7 @@ public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView> {
     public boolean isLastPage = false;
 
     private String currentQuery;
-    private Disposable disposable1, disposable2;
+    private final CompositeDisposable disposables = new CompositeDisposable();
 
     public void search(String query) {
         currentQuery = query;
@@ -42,9 +43,9 @@ public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView> {
             return;
         }
 
-        SEARCH service = ApiFactory2.createService(SEARCH.class);
-        Observable<PeopleResponse> observable = service.searchPeople(Url.TMDB_API_KEY, Url.en_US, query, page, AndroidUtils.includeAdult(), null).observeOn(AndroidSchedulers.mainThread());
-        disposable1 = observable.subscribeWith(new DisposableObserver<PeopleResponse>() {
+        SEARCH service = ApiFactory.createService2(SEARCH.class);
+        Observable<PeopleResponse> observable = service.searchPeople(Url.TMDB_API_KEY, Url.en_US, query, page, AndroidUtils.includeAdult(), null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposables.add(observable.subscribeWith(new DisposableObserver<PeopleResponse>() {
             @Override
             public void onNext(PeopleResponse response) {
                 totalPages = response.totalPages;
@@ -60,20 +61,17 @@ public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView> {
             @Override
             public void onError(Throwable e) {
                 getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
-                e.printStackTrace();
             }
 
             @Override
-            public void onComplete() {
-                dispose();
-            }
-        });
+            public void onComplete() {}
+        }));
     }
 
     public void loadNextPage() {
-        SEARCH service = ApiFactory2.createService(SEARCH.class);
-        Observable<PeopleResponse> observable = service.searchPeople(Url.TMDB_API_KEY, Url.en_US, currentQuery, page, AndroidUtils.includeAdult(), null).observeOn(AndroidSchedulers.mainThread());
-        disposable2 = observable.subscribeWith(new DisposableObserver<PeopleResponse>() {
+        SEARCH service = ApiFactory.createService2(SEARCH.class);
+        Observable<PeopleResponse> observable = service.searchPeople(Url.TMDB_API_KEY, Url.en_US, currentQuery, page, AndroidUtils.includeAdult(), null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposables.add(observable.subscribeWith(new DisposableObserver<PeopleResponse>() {
             @Override
             public void onNext(PeopleResponse response) {
                 List<TmdbObject> results = new ArrayList<>(response.people);
@@ -86,23 +84,13 @@ public class SearchPeoplePresenter extends MvpPresenter<MvpSearchView> {
             }
 
             @Override
-            public void onComplete() {
-                //disposable1.dispose();
-                dispose();
-            }
-        });
+            public void onComplete() {}
+        }));
     }
 
     @Override
     public void onDestroy() {
+        disposables.dispose();
         super.onDestroy();
-
-        if (disposable1 != null && !disposable1.isDisposed()) {
-            disposable1.dispose();
-        }
-
-        if (disposable2 != null && !disposable2.isDisposed()) {
-            disposable2.dispose();
-        }
     }
 }
