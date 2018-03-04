@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,7 +54,7 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
     private ScrollView scrollView;
     private ProgressBar progressBar;
     private PersonViewLayout personView;
-    private SwipeRefreshLayout fragmentView;
+    //private SwipeRefreshLayout fragmentView;
 
     @InjectPresenter
     public PersonPresenter presenter;
@@ -103,17 +102,19 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
             }
         });
 
-        fragmentView = new SwipeRefreshLayout(activity);
-        fragmentView.setRefreshing(false);
-        fragmentView.setColorSchemeResources(Theme.accentColor());
-        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
-        fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
-        fragmentView.setOnRefreshListener(() -> {
-            fragmentView.setRefreshing(false);
-        });
+        //fragmentView = new SwipeRefreshLayout(activity);
+        //fragmentView.setRefreshing(false);
+        //fragmentView.setColorSchemeResources(Theme.accentColor());
+        //fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
+        //fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
+        //fragmentView.setOnRefreshListener(() -> {
+        //    fragmentView.setRefreshing(false);
+        //});
 
         FrameLayout contentLayout = new FrameLayout(activity);
-        fragmentView.addView(contentLayout);
+        contentLayout.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
+        //contentLayout.setLayoutParams(LayoutHelper.makeSwipeRefresh(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        //fragmentView.addView(contentLayout);
 
         progressBar = new ProgressBar(activity);
         progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, Theme.accentColor()), PorterDuff.Mode.MULTIPLY);
@@ -126,12 +127,12 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
 
         scrollView = new ScrollView(activity);
         scrollView.setVerticalScrollBarEnabled(AndroidUtils.scrollbars());
-        scrollView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        scrollView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         contentLayout.addView(scrollView);
 
         personView = new PersonViewLayout(activity);
         personView.addListener(this);
-        personView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        personView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         scrollView.addView(personView);
 
         return contentLayout;
@@ -154,9 +155,7 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
             id = extraPeoplePerson.id;
         }
 
-        //if (savedInstanceState == null) {
         presenter.loadPerson(id);
-        //}
     }
 
     @Override
@@ -171,21 +170,19 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
         personView.addImdb(person.imdbId);
         personView.addHomepage(person.homepage);
         personView.addBirthPlace(person.birthPlace);
-        //personView.addBirthPlace(AndroidUtils.replaceTags(getString(R.string.BirthPlace, person.birthPlace), AndroidUtils.FLAG_TAG_COLOR));
-        personView.addBirthday(person.birthday);
-        personView.addDeathday(person.deathday);
+        personView.setDates(person.birthday, person.deathday);
 
         personView.loadedSuccess();
         //personView.addCareer("Actor, Writing, Crew");
 
+        //fragmentView.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
-        fragmentView.setVisibility(View.GONE);
         emptyView.setVisibility(View.GONE);
     }
 
     @Override
     public void showError(int mode) {
-        fragmentView.setRefreshing(false);
+        //fragmentView.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(mode);
