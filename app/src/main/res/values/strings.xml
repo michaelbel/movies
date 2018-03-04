@@ -134,13 +134,14 @@
         <item quantity="other">%d Companies</item>
     </plurals>
     <!--Person-->
-    <string name="Birthday">Birthday: %s (%d)</string>
-    <string name="Deathday">Deathday: %s</string>
+    <string name="Deathday">Deathday: %s (%d)</string>
+    <string name="Birthday">Birthday: %s</string>
+    <string name="BirthdayWithOld">Birthday: %s (%d)</string>
     <string name="BirthPlace">Birthplace: %s</string>
     <string name="KnownAs">Also known as: %s</string>
     <string name="Copy">Copy</string>
     <string name="Address">Address</string>
-    <string name="OpenAddress">Open address on map</string>
+    <string name="OpenAddress">Open address</string>
     <!--Settings-->
     <string name="Settings">Settings</string>
     <string name="ImageQuality">Image Quality</string>
