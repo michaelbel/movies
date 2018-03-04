@@ -65,6 +65,7 @@ public class LibsFragment extends Fragment {
         sources.add(new Source("GestureViews", "https://github.com/alexvasilkov/gestureviews", "Apache License 2.0"));
         sources.add(new Source("ChipsLayoutManager", "https://github.com/beloos/chipslayoutmanager", "Apache License 2.0"));
         sources.add(new Source("ExpandableTextView", "https://github.com/blogcat/android-expandabletextview", "Apache License 2.0"));
+        sources.add(new Source("Android Animated Menu Items", "https://github.com/adonixis/android-animated-menu-items", "Apache License 2.0"));
         //sources.add(new Source("Realm Android Adapters", "https://github.com/realm/realm-android-adapters", "Apache License 2.0"));
         //sources.add(new Source("Dagger 2", "https://github.com/google/dagger", "Apache License v2.0"));
         //sources.add(new Source("CircleIndicator", "https://github.com/ongakuer/circleindicator", "Apache License 2.0"));
