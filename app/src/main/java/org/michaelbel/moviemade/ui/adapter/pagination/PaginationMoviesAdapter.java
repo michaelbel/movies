@@ -1,5 +1,6 @@
 package org.michaelbel.moviemade.ui.adapter.pagination;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
@@ -20,8 +21,9 @@ public class PaginationMoviesAdapter extends PaginationAdapter {
 
     private final int ITEM_POSTER = 2;
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
 
         if (viewType == ITEM) {
@@ -36,7 +38,7 @@ public class PaginationMoviesAdapter extends PaginationAdapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Movie movie = (Movie) objectList.get(position);
 
         if (getItemViewType(position) == ITEM) {
@@ -55,6 +57,11 @@ public class PaginationMoviesAdapter extends PaginationAdapter {
             LoadingView view = (LoadingView) ((LoadingHolder) holder).itemView;
             view.setMode(AndroidUtils.viewType());
         }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (position == objectList.size() - 1 && isLoadingAdded) ? LOADING : AndroidUtils.viewType() == 0 ? ITEM : ITEM_POSTER;
     }
 
     public void addAll(List<TmdbObject> movies) {

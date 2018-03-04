@@ -1,5 +1,6 @@
 package org.michaelbel.moviemade.ui.adapter.pagination;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
@@ -15,8 +16,9 @@ import java.util.List;
 
 public class PaginationReviewsAdapter extends PaginationAdapter {
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         RecyclerView.ViewHolder viewHolder = null;
 
         if (viewType == ITEM) {
@@ -29,7 +31,7 @@ public class PaginationReviewsAdapter extends PaginationAdapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         Review review = (Review) objectList.get(position);
 
         if (getItemViewType(position) == ITEM) {
