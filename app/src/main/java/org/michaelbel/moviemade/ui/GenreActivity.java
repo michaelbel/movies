@@ -3,6 +3,7 @@ package org.michaelbel.moviemade.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -21,7 +22,7 @@ public class GenreActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_favorite);
+        setContentView(R.layout.activity_genre);
 
         Genre genre = getIntent().getParcelableExtra("genre");
 
@@ -33,6 +34,9 @@ public class GenreActivity extends BaseActivity {
 
         toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(genre.name);
+
+        progressBar = findViewById(R.id.progress_bar);
+        progressBar.setVisibility(View.INVISIBLE);
 
         startFragment(GenreMoviesFragment.newInstance(genre.id), R.id.fragment_view);
     }
