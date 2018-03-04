@@ -138,6 +138,9 @@
     <string name="Deathday">Deathday: %s</string>
     <string name="BirthPlace">Birthplace: %s</string>
     <string name="KnownAs">Also known as: %s</string>
+    <string name="Copy">Copy</string>
+    <string name="Address">Address</string>
+    <string name="OpenAddress">Open address on map</string>
     <!--Settings-->
     <string name="Settings">Settings</string>
     <string name="ImageQuality">Image Quality</string>
@@ -189,8 +192,14 @@
     <string name="ZoomReviewInfo">Enable review gestures control</string>
     <string name="FullOverview">Full Overview</string>
     <string name="FullOverviewInfo">Always display overview fully</string>
-    <string name="TextSelectable">Text is Selectable</string>
+    <string name="TextSelectable">Text Selection</string>
     <string name="TextSelectableInfo">Enable text select for all views</string>
+    <string name="Theme">Theme</string>
+    <string-array name="Themes">
+        <item>Light</item>
+        <item>Night</item>
+        <item>Night Blue</item>
+    </string-array>
     <!--About-->
     <string name="About">About</string>
     <string name="AppForAndroid">%1$s for Android</string>

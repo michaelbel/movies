@@ -1,7 +1,7 @@
 <resources>
     <color name="colorPrimary">#202E3B</color>
     <color name="colorPrimaryDark">#18222C</color>
-    <color name="colorAccent">#FFAB40</color>
+    <color name="colorAccent">#FFAB40</color> <!-- md orange A200 -->
 
     <color name="youtubeColor">#F44336</color>
     <color name="cursorColor">#FFFFFF</color>
@@ -19,14 +19,18 @@
     <color name="backgroundColor">#F0F0F0</color>
     <color name="foregroundColor">#FFFFFF</color>
 
-    <color name="switch_thumbOn">#FF4CAF50</color>
-    <color name="switch_trackOn">#804CAF50</color>
+    <color name="switch_thumbOn">#FFFF9800</color> <!-- md orange 500, Opacity 100% -->
+    <color name="switch_trackOn">#80FF9800</color> <!-- md orange 500, Opacity 50% -->
     <color name="switch_thumbOff">#FFFAFAFA</color>
     <color name="switch_trackOff">#61000000</color>
     <color name="switch_thumbDisabled">#FFBDBDBD</color>
     <color name="switch_trackDisabled">#1F000000</color>
 
     <!--NIGHT THEME-->
+    <color name="night_colorPrimary">#202E3B</color>
+    <color name="night_colorPrimaryDark">#18222C</color>
+    <color name="night_colorAccent">#FFAB40</color>
+
     <color name="night_primaryTextColor">#FFFFFF</color>
     <color name="night_secondaryTextColor">#B3FFFFFF</color>
     <color name="night_disabledHintTextColor">#80FFFFFF</color>
