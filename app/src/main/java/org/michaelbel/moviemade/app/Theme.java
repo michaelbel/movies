@@ -14,9 +14,9 @@ import org.michaelbel.moviemade.R;
 
 public class Theme {
 
-    private static final int THEME_LIGHT = 0;
-    private static final int THEME_NIGHT = 1;
-    private static final int THEME_NIGHT_BLUE = 2;
+    public static final int THEME_LIGHT = 0;
+    public static final int THEME_NIGHT = 1;
+    public static final int THEME_NIGHT_BLUE = 2;
 
     private static Context getContext() {
         return Moviemade.AppContext;
@@ -26,6 +26,8 @@ public class Theme {
         SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
         return prefs.getInt("theme", 2);
     }
+
+    // Base
 
     public static int primaryColor() {
         if (Theme.getTheme() == THEME_LIGHT) {
@@ -53,7 +55,7 @@ public class Theme {
 
     public static int accentColor() {
         if (Theme.getTheme() == THEME_LIGHT) {
-            return R.color.colorAccent;
+            return R.color.md_orange_500;
         } else if (Theme.getTheme() == THEME_NIGHT) {
             return R.color.colorAccent;
         } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
@@ -226,6 +228,32 @@ public class Theme {
             return R.color.night_switch_trackOff;
         } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return R.color.night_blue_switch_trackOff;
+        }
+
+        return 0;
+    }
+
+    // Custom
+
+    public static int selectedTabColor() {
+        if (Theme.getTheme() == THEME_LIGHT) {
+            return R.color.md_white;
+        } else if (Theme.getTheme() == THEME_NIGHT) {
+            return R.color.md_white;
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
+            return R.color.colorAccent;
+        }
+
+        return 0;
+    }
+
+    public static int unselectedTabColor() {
+        if (Theme.getTheme() == THEME_LIGHT) {
+            return R.color.night_blue_secondaryTextColor;
+        } else if (Theme.getTheme() == THEME_NIGHT) {
+            return R.color.night_secondaryTextColor;
+        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
+            return R.color.night_blue_secondaryTextColor;
         }
 
         return 0;
