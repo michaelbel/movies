@@ -7,6 +7,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -47,6 +48,8 @@ public class NavigationView extends FrameLayout {
     private int aboutRow;
     private int emptyRow2;
 
+    private RecyclerListView recyclerView;
+
     private Rect rect;
     private int drawerMaxWidth;
     private Rect tempRect = new Rect();
@@ -83,7 +86,7 @@ public class NavigationView extends FrameLayout {
         aboutRow = rowCount++;     // position = 10
         emptyRow2 = rowCount++;
 
-        RecyclerListView recyclerView = new RecyclerListView(context);
+        recyclerView = new RecyclerListView(context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(new NavigationViewAdapter());
         recyclerView.setBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
@@ -154,6 +157,11 @@ public class NavigationView extends FrameLayout {
         }
     }
 
+    public void updateTheme() {
+        recyclerView.setBackgroundColor(ContextCompat.getColor(getContext(), Theme.foregroundColor()));
+        recyclerView.setAdapter(new NavigationViewAdapter());
+    }
+
     private void updateWidth() {
         int viewportWidth = getContext().getResources().getDisplayMetrics().widthPixels;
         int viewportHeight = getContext().getResources().getDisplayMetrics().heightPixels;
@@ -179,25 +187,26 @@ public class NavigationView extends FrameLayout {
 
     private class NavigationViewAdapter extends RecyclerView.Adapter {
 
+        @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
             View view;
 
             if (type == 0) {
-                view = new DrawerHeaderCell(getContext());
+                view = new DrawerHeaderCell(parent.getContext());
             } else if (type == 1) {
-                view = new EmptyCell(getContext());
+                view = new EmptyCell(parent.getContext());
             } else if (type == 2) {
-                view = new DividerCell(getContext());
+                view = new DividerCell(parent.getContext());
             } else {
-                view = new DrawerActionCell(getContext());
+                view = new DrawerActionCell(parent.getContext());
             }
 
             return new Holder(view);
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             int type = getItemViewType(position);
 
             if (type == 1) {
@@ -210,9 +219,9 @@ public class NavigationView extends FrameLayout {
                 if (position == moviesRow) {
                     cell.setIcon(Theme.getIcon(R.drawable.ic_movie, ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
                     cell.setText(R.string.Movies);
-                } else if (position == showsRow) {
+                } /*else if (position == showsRow) {
 
-                } else if (position == peopleRow) {
+                }*/ else if (position == peopleRow) {
                     cell.setIcon(Theme.getIcon(R.drawable.ic_account_multiple, ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
                     cell.setText(R.string.PopularPeople);
                 } else if (position == genresRow) {
@@ -269,12 +278,13 @@ public class NavigationView extends FrameLayout {
             addView(avatarImage);
 
             nameTextView = new TextView(context);
+            nameTextView.setLines(1);
             nameTextView.setMaxLines(1);
-            nameTextView.setGravity(Gravity.START);
             nameTextView.setText(R.string.AppName);
+            nameTextView.setGravity(Gravity.START);
             nameTextView.setEllipsize(TextUtils.TruncateAt.END);
             nameTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-            nameTextView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+            nameTextView.setTextColor(ContextCompat.getColor(context, R.color.md_white));
             nameTextView.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
             nameTextView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.BOTTOM, 16, 0, 16, 16));
             addView(nameTextView);
