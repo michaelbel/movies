@@ -19,7 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import org.michaelbel.bottomsheetdialog.BottomSheet;
+import org.michaelbel.bottomsheet.BottomSheet;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.app.Moviemade;
@@ -39,10 +39,12 @@ public class SettingsFragment extends Fragment {
     private int asc = 0;
 
     private int rowCount;
+    private int themeRow;
+    private int emptyRow1;
+    private int emptyRow2;
+    private int viewTypeRow;
     //private int storageUsageRow;
     //private int searchHistoryRow;
-    //private int emptyRow1;
-    private int viewTypeRow;
     //private int imageQualityRow;
     private int adultRow;
     private int inAppBrowserRow;
@@ -50,10 +52,11 @@ public class SettingsFragment extends Fragment {
     private int zoomReviewRow;
     private int fullOverviewRow;
     private int scrollbarsRow;
-    private int textSelectRow;
+    private int textSelectionRow;
     private int additionalOptionsRow;
-    private int emptyRow2;
+    private int emptyRow3;
 
+    private String[] themes;
     private String[] viewTypes;
 
     private SharedPreferences prefs;
@@ -65,8 +68,10 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setHasOptionsMenu(true);
+        //setHasOptionsMenu(true);
         activity = (SettingsActivity) getActivity();
+
+        themes = getResources().getStringArray(R.array.Themes);
         viewTypes = getResources().getStringArray(R.array.ViewTypes);
     }
 
@@ -96,20 +101,22 @@ public class SettingsFragment extends Fragment {
         fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
 
         rowCount = 0;
+        themeRow = rowCount++;
+        emptyRow1 = rowCount++;
+        inAppBrowserRow = rowCount++;
+        scrollbarsRow = rowCount++;
+        textSelectionRow = rowCount++;
+        emptyRow2 = rowCount++;
+        viewTypeRow = rowCount++;
         //storageUsageRow = rowCount++;
         //searchHistoryRow = rowCount++;
-        //emptyRow1 = rowCount++;
-        viewTypeRow = rowCount++;
         //imageQualityRow = rowCount++;
         adultRow = rowCount++;
-        inAppBrowserRow = rowCount++;
         scrollToTopRow = rowCount++;
         zoomReviewRow = rowCount++;
         fullOverviewRow = rowCount++;
-        scrollbarsRow = rowCount++;
-        textSelectRow = rowCount++;
         additionalOptionsRow = rowCount++;
-        emptyRow2 = rowCount++;
+        emptyRow3 = rowCount++;
 
         prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
         linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
@@ -190,7 +197,9 @@ public class SettingsFragment extends Fragment {
                 });
                 builder.show();
             } else*/
-            if (position == viewTypeRow) {
+            if (position == themeRow) {
+                activity.startFragment(new ThemeFragment(), R.id.fragment_view, "themeFragment");
+            } else if (position == viewTypeRow) {
                 BottomSheet.Builder builder = new BottomSheet.Builder(activity);
                 builder.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
                 builder.setItemTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
@@ -214,8 +223,8 @@ public class SettingsFragment extends Fragment {
                 boolean enable = prefs.getBoolean("in_app_browser", true);
                 editor.putBoolean("in_app_browser", !enable);
                 editor.apply();
-                if (view instanceof TextDetailCell) {
-                    ((TextDetailCell) view).setChecked(!enable);
+                if (view instanceof TextCell) {
+                    ((TextCell) view).setChecked(!enable);
                 }
             } else if (position == adultRow) {
                 SharedPreferences.Editor editor = prefs.edit();
@@ -250,8 +259,8 @@ public class SettingsFragment extends Fragment {
                 boolean enable = prefs.getBoolean("scrollbars", true);
                 editor.putBoolean("scrollbars", !enable);
                 editor.apply();
-                if (view instanceof TextDetailCell) {
-                    ((TextDetailCell) view).setChecked(!enable);
+                if (view instanceof TextCell) {
+                    ((TextCell) view).setChecked(!enable);
                 }
             } else if (position == fullOverviewRow) {
                 SharedPreferences prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
@@ -262,14 +271,14 @@ public class SettingsFragment extends Fragment {
                 if (view instanceof TextDetailCell) {
                     ((TextDetailCell) view).setChecked(!enable);
                 }
-            } else if (position == textSelectRow) {
+            } else if (position == textSelectionRow) {
                 SharedPreferences prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
                 SharedPreferences.Editor editor = prefs.edit();
                 boolean enable = prefs.getBoolean("text_select", false);
                 editor.putBoolean("text_select", !enable);
                 editor.apply();
-                if (view instanceof TextDetailCell) {
-                    ((TextDetailCell) view).setChecked(!enable);
+                if (view instanceof TextCell) {
+                    ((TextCell) view).setChecked(!enable);
                 }
             } else if (position == additionalOptionsRow) {
                 SharedPreferences prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
@@ -295,10 +304,11 @@ public class SettingsFragment extends Fragment {
         linearLayoutManager.onRestoreInstanceState(state);
     }
 
-    public class SettingsAdapter extends RecyclerView.Adapter {
+    private class SettingsAdapter extends RecyclerView.Adapter {
 
+        @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
             View cell = null;
 
             if (type == 1) {
@@ -313,7 +323,7 @@ public class SettingsFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             int type = getItemViewType(position);
 
             if (type == 1) {
@@ -322,6 +332,28 @@ public class SettingsFragment extends Fragment {
             } else if (type == 2) {
                 TextCell cell = (TextCell) holder.itemView;
                 cell.changeLayoutParams().setHeight(ScreenUtils.dp(52));
+
+                if (position == themeRow) {
+                    cell.setMode(TextCell.MODE_VALUE_TEXT);
+                    cell.setText(R.string.Theme);
+                    cell.setValue(themes[Theme.getTheme()]);
+                    cell.setDivider(false);
+                } else if (position == inAppBrowserRow) {
+                    cell.setMode(TextCell.MODE_SWITCH);
+                    cell.setText(R.string.InAppBrowser);
+                    cell.setChecked(prefs.getBoolean("in_app_browser", true));
+                    cell.setDivider(true);
+                } else if (position == scrollbarsRow) {
+                    cell.setMode(TextCell.MODE_SWITCH);
+                    cell.setText(R.string.Scrollbars);
+                    cell.setChecked(AndroidUtils.scrollbars());
+                    cell.setDivider(true);
+                } else if (position == textSelectionRow) {
+                    cell.setMode(TextCell.MODE_SWITCH);
+                    cell.setText(R.string.TextSelectable);
+                    cell.setChecked(AndroidUtils.textSelect());
+                    cell.setDivider(false);
+                }
 
                 /*if (position == storageUsageRow) {
                     cell.setText(R.string.StorageUsage);
@@ -333,13 +365,7 @@ public class SettingsFragment extends Fragment {
                 TextDetailCell cell = (TextDetailCell) holder.itemView;
                 cell.changeLayoutParams();
 
-                if (position == inAppBrowserRow) {
-                    cell.setMode(TextDetailCell.MODE_SWITCH);
-                    cell.setText(R.string.InAppBrowser);
-                    cell.setValue(R.string.InAppBrowserInfo);
-                    cell.setChecked(prefs.getBoolean("in_app_browser", true));
-                    cell.setDivider(true);
-                } else if (position == adultRow) {
+                if (position == adultRow) {
                     cell.setMode(TextDetailCell.MODE_SWITCH);
                     cell.setText(getString(R.string.IncludeAdult));
                     cell.setValue(R.string.IncludeAdultInfo);
@@ -375,18 +401,6 @@ public class SettingsFragment extends Fragment {
                     cell.setValue(R.string.FullOverviewInfo);
                     cell.setChecked(AndroidUtils.fullOverview());
                     cell.setDivider(true);
-                } else if (position == scrollbarsRow) {
-                    cell.setMode(TextDetailCell.MODE_SWITCH);
-                    cell.setText(R.string.Scrollbars);
-                    cell.setValue(R.string.ScrollbarsInfo);
-                    cell.setChecked(AndroidUtils.scrollbars());
-                    cell.setDivider(true);
-                } else if (position == textSelectRow) {
-                    cell.setMode(TextDetailCell.MODE_SWITCH);
-                    cell.setText(R.string.TextSelectable);
-                    cell.setValue(R.string.TextSelectableInfo);
-                    cell.setChecked(AndroidUtils.textSelect());
-                    cell.setDivider(true);
                 } else if (position == additionalOptionsRow) {
                     cell.setMode(TextDetailCell.MODE_SWITCH);
                     cell.setText("Movie Additional Options");
@@ -404,11 +418,11 @@ public class SettingsFragment extends Fragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (/*position == emptyRow1 || */position == emptyRow2) {
+            if (position == emptyRow1 || position == emptyRow2 || position == emptyRow3) {
                 return 1;
-            } else if (/*position == storageUsageRow || position == searchHistoryRow*/ position == -100) {
+            } else if (/*position == storageUsageRow || position == searchHistoryRow*/ position == themeRow || position == inAppBrowserRow || position == scrollbarsRow || position == textSelectionRow) {
                 return 2;
-            } else if (position == viewTypeRow || /*position == imageQualityRow || */position == adultRow || position == inAppBrowserRow || position == scrollToTopRow || position == zoomReviewRow || position == fullOverviewRow || position == scrollbarsRow || position == textSelectRow || position == additionalOptionsRow) {
+            } else if (position == viewTypeRow || /*position == imageQualityRow || */position == adultRow || position == scrollToTopRow || position == zoomReviewRow || position == fullOverviewRow || position == additionalOptionsRow) {
                 return 3;
             } else {
                 return -1;
