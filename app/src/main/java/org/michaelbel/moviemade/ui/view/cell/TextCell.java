@@ -1,6 +1,7 @@
 package org.michaelbel.moviemade.ui.view.cell;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -10,6 +11,7 @@ import android.support.annotation.IntDef;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.AppCompatTextView;
 import android.support.v7.widget.SwitchCompat;
@@ -24,6 +26,7 @@ import android.widget.TextView;
 
 import org.michaelbel.core.extensions.Extensions;
 import org.michaelbel.core.widget.LayoutHelper;
+import org.michaelbel.material.annotation.New;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
@@ -104,6 +107,7 @@ public class TextCell extends FrameLayout {
 
         switchCompat = new SwitchCompat(context);
         switchCompat.setClickable(false);
+        switchCompat.setFocusable(false);
         switchCompat.setVisibility(INVISIBLE);
         switchCompat.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 16, 0));
         addView(switchCompat);
@@ -114,11 +118,15 @@ public class TextCell extends FrameLayout {
         checkBox.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 16, 0));
         addView(checkBox);
 
+        changeSwitchTheme();
         setMode(currentMode);
     }
 
     public TextCell setIcon(@DrawableRes int icon) {
-        iconView.setImageDrawable(Theme.getIcon(icon, ContextCompat.getColor(getContext(), iconColor)));
+        iconView.setVisibility(icon == 0 ? INVISIBLE : VISIBLE);
+        if (icon != 0) {
+            iconView.setImageDrawable(Theme.getIcon(icon, ContextCompat.getColor(getContext(), iconColor)));
+        }
 
         if (currentMode == MODE_ICON) {
             textView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 56, 0, 16, 0));
@@ -227,6 +235,43 @@ public class TextCell extends FrameLayout {
     public TextCell setHeight(int height) {
         cellHeight = height;
         return this;
+    }
+
+    private void changeSwitchTheme() {
+        int thumbOn = ContextCompat.getColor(getContext(), Theme.thumbOnColor());
+        int thumbOff = ContextCompat.getColor(getContext(), Theme.thumbOffColor());
+
+        int trackOn = ContextCompat.getColor(getContext(), Theme.trackOnColor());
+        int trackOff = ContextCompat.getColor(getContext(), Theme.trackOffColor());
+
+        DrawableCompat.setTintList(switchCompat.getThumbDrawable(), new ColorStateList(
+                new int[][]{
+                        new int[]{ android.R.attr.state_checked },
+                        new int[]{}
+                },
+                new int[]{
+                        thumbOn,
+                        thumbOff
+                }));
+
+        DrawableCompat.setTintList(switchCompat.getTrackDrawable(), new ColorStateList(
+                new int[][]{
+                        new int[]{ android.R.attr.state_checked  },
+                        new int[]{}
+                },
+                new int[]{
+                        trackOn,
+                        trackOff
+                }));
+    }
+
+    @New
+    public void changeTheme() {
+        setBackgroundColor(ContextCompat.getColor(getContext(), Theme.foregroundColor()));
+        textView.setTextColor(ContextCompat.getColor(getContext(), Theme.primaryTextColor()));
+        //radioButton.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), Theme.secondaryTextColor())));
+        paint.setColor(ContextCompat.getColor(getContext(), Theme.dividerColor()));
+        setWillNotDraw(false);
     }
 
     @Override
