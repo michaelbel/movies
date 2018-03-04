@@ -1,6 +1,7 @@
 package org.michaelbel.moviemade.ui.fragment;
 
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,11 +16,14 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import org.michaelbel.bottomsheet.BottomSheet;
 import org.michaelbel.core.widget.LayoutHelper;
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.app.browser.Browser;
@@ -33,6 +37,7 @@ import org.michaelbel.moviemade.ui.interfaces.PersonViewListener;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.PersonViewLayout;
 import org.michaelbel.moviemade.utils.AndroidUtils;
+import org.michaelbel.moviemade.utils.ScreenUtils;
 
 import java.util.Locale;
 
@@ -111,6 +116,7 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
         fragmentView.addView(contentLayout);
 
         progressBar = new ProgressBar(activity);
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, Theme.accentColor()), PorterDuff.Mode.MULTIPLY);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         contentLayout.addView(progressBar);
 
@@ -148,9 +154,9 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
             id = extraPeoplePerson.id;
         }
 
-        if (savedInstanceState == null) {
-            presenter.loadPerson(id);
-        }
+        //if (savedInstanceState == null) {
+        presenter.loadPerson(id);
+        //}
     }
 
     @Override
@@ -190,6 +196,24 @@ public class PersonFragment extends MvpAppCompatFragment implements MvpPersonVie
         Uri uri = Uri.parse(String.format("geo:0,0?q=%s", loadedPerson.birthPlace));
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
+    }
+
+    @Override
+    public void onBirthPlaceLongClick(View view) {
+        BottomSheet.Builder builder = new BottomSheet.Builder(activity);
+        builder.setCellHeight(ScreenUtils.dp(52));
+        builder.setTitleTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
+        builder.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
+        builder.setItemTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
+        builder.setItems(new int[] { R.string.OpenAddress, R.string.Copy }, (dialogInterface, i) -> {
+            if (i == 0) {
+                personView.getBirthPlaceLayout().performClick();
+            } else if (i == 1) {
+                AndroidUtils.copyToClipboard(loadedPerson.birthPlace);
+                Toast.makeText(activity, getString(R.string.ClipboardCopied, getString(R.string.Address)), Toast.LENGTH_SHORT).show();
+            }
+        });
+        builder.show();
     }
 
     @Override

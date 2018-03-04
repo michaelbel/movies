@@ -1,6 +1,8 @@
 package org.michaelbel.moviemade.ui.fragment;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -24,7 +26,9 @@ import org.michaelbel.bottomsheet.BottomSheet;
 import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.core.widget.RecyclerListView;
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.app.Moviemade;
 import org.michaelbel.moviemade.app.Theme;
+import org.michaelbel.moviemade.app.eventbus.Events;
 import org.michaelbel.moviemade.mvp.presenter.GenreMoviesPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.TmdbObject;
@@ -40,6 +44,8 @@ import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
 import java.util.List;
+
+import io.reactivex.functions.Consumer;
 
 public class GenreMoviesFragment extends MvpAppCompatFragment implements MvpResultsView {
 
@@ -78,14 +84,10 @@ public class GenreMoviesFragment extends MvpAppCompatFragment implements MvpResu
         } else if (getActivity() instanceof GenresActivity) {
             ((GenresActivity) getActivity()).tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
-                public void onTabSelected(TabLayout.Tab tab) {
-
-                }
+                public void onTabSelected(TabLayout.Tab tab) {}
 
                 @Override
-                public void onTabUnselected(TabLayout.Tab tab) {
-
-                }
+                public void onTabUnselected(TabLayout.Tab tab) {}
 
                 @Override
                 public void onTabReselected(TabLayout.Tab tab) {
@@ -114,6 +116,7 @@ public class GenreMoviesFragment extends MvpAppCompatFragment implements MvpResu
         fragmentView.addView(contentLayout);
 
         progressBar = new ProgressBar(getContext());
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(getContext(), Theme.accentColor()), PorterDuff.Mode.MULTIPLY);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         contentLayout.addView(progressBar);
 
@@ -211,6 +214,22 @@ public class GenreMoviesFragment extends MvpAppCompatFragment implements MvpResu
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+
+        ((Moviemade) getActivity().getApplication()).eventBus().toObservable().subscribe(new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                if (o instanceof Events.MovieListRefreshLayout) {
+                    refreshLayout();
+                } else if (o instanceof Events.ChangeTheme) {
+                    changeTheme();
+                }
+            }
+        });
+    }
+
+    @Override
     public void showResults(List<TmdbObject> results, boolean firstPage) {
         if (firstPage) {
             fragmentView.setRefreshing(false);
@@ -241,5 +260,26 @@ public class GenreMoviesFragment extends MvpAppCompatFragment implements MvpResu
         fragmentView.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
         emptyView.setMode(mode);
+    }
+
+    private void refreshLayout() {
+        Parcelable state = gridLayoutManager.onSaveInstanceState();
+        gridLayoutManager = new GridLayoutManager(getContext(), AndroidUtils.getSpanForMovies());
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.removeItemDecoration(itemDecoration);
+        if (AndroidUtils.viewType() == 0) {
+            itemDecoration.setOffset(0);
+            recyclerView.addItemDecoration(itemDecoration);
+        } else if (AndroidUtils.viewType() == 1) {
+            itemDecoration.setOffset(ScreenUtils.dp(1));
+            recyclerView.addItemDecoration(itemDecoration);
+        }
+        gridLayoutManager.onRestoreInstanceState(state);
+    }
+
+    private void changeTheme() {
+        //fragmentView.setBackgroundColor(ContextCompat.getColor(getContext(), Theme.backgroundColor()));
+        recyclerView.setAdapter(adapter);
+        recyclerView.invalidate();
     }
 }

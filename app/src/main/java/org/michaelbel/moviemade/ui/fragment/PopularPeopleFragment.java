@@ -1,5 +1,6 @@
 package org.michaelbel.moviemade.ui.fragment;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -19,7 +20,9 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.core.widget.RecyclerListView;
+import org.michaelbel.moviemade.app.Moviemade;
 import org.michaelbel.moviemade.app.Theme;
+import org.michaelbel.moviemade.app.eventbus.Events;
 import org.michaelbel.moviemade.mvp.presenter.PopularPeoplePresenter;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.TmdbObject;
@@ -31,6 +34,8 @@ import org.michaelbel.moviemade.ui.view.PersonView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 
 import java.util.List;
+
+import io.reactivex.functions.Consumer;
 
 public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpResultsView {
 
@@ -88,6 +93,7 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpRe
         fragmentView.addView(fragmentContent);
 
         progressBar = new ProgressBar(activity);
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, Theme.accentColor()), PorterDuff.Mode.MULTIPLY);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         fragmentContent.addView(progressBar);
 
@@ -172,6 +178,26 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements MvpRe
         fragmentView.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
         emptyView.setMode(mode);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        ((Moviemade) activity.getApplication()).eventBus().toObservable().subscribe(new Consumer<Object>() {
+            @Override
+            public void accept(Object o) throws Exception {
+                if (o instanceof Events.ChangeTheme) {
+                    changeTheme();
+                }
+            }
+        });
+    }
+
+    private void changeTheme() {
+        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
+        recyclerView.setAdapter(adapter);
+        recyclerView.invalidate();
     }
 
     /*private void updateList(List<People> newPeople) {

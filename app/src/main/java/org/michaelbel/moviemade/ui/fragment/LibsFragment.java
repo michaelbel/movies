@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import org.michaelbel.bottomsheetdialog.BottomSheet;
+import org.michaelbel.bottomsheet.BottomSheet;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.app.Theme;
@@ -48,10 +48,6 @@ public class LibsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        //activity.binding.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
-        //activity.binding.toolbarTitle.setText(R.string.OpenSourceLibs);
-
         activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         activity.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
         activity.toolbarTitle.setText(R.string.OpenSourceLibs);
@@ -84,9 +80,8 @@ public class LibsFragment extends Fragment {
         recyclerView.setOnItemClickListener((view, position) -> Browser.openUrl(activity, sources.get(position).url));
         recyclerView.setOnItemLongClickListener((view, position) -> {
             BottomSheet.Builder builder = new BottomSheet.Builder(activity);
-            builder.setTitle(sources.get(position).url);
-            builder.setTitleMultiline(true);
             builder.setCellHeight(ScreenUtils.dp(52));
+            builder.setTitle(sources.get(position).url).setTitleMultiline(true);
             builder.setTitleTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
             builder.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
             builder.setItemTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
@@ -116,14 +111,14 @@ public class LibsFragment extends Fragment {
 
     private class LibsAdapter extends RecyclerView.Adapter {
 
+        @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
             return new Holder(new TextDetailCell(activity));
-            //return new Holder(new TextCell(activity));
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             Source source = sources.get(position);
 
             TextDetailCell cell = (TextDetailCell) holder.itemView;
@@ -131,12 +126,6 @@ public class LibsFragment extends Fragment {
                 .setText(source.name)
                 .setValue(source.license)
                 .setDivider(position != sources.size() - 1);
-
-            /*TextCell cell = (TextCell) holder.itemView;
-            cell.changeLayoutParams()
-                .setHeight(ScreenUtils.dp(52))
-                .setText(source.name)
-                .setDivider(position != sources.size() - 1);*/
         }
 
         @Override

@@ -3,6 +3,7 @@ package org.michaelbel.moviemade.ui.fragment;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -24,18 +25,18 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import org.michaelbel.moviemade.ui.FavoriteActivity;
-import org.michaelbel.moviemade.R;
 import org.michaelbel.core.widget.LayoutHelper;
+import org.michaelbel.core.widget.RecyclerListView;
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.model.MovieRealm;
+import org.michaelbel.moviemade.ui.FavoriteActivity;
 import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewListBig;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewPoster;
 import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
-import org.michaelbel.core.widget.RecyclerListView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
@@ -95,14 +96,10 @@ public class FavoriteMoviesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-
-            }
+            public void onTabSelected(TabLayout.Tab tab) {}
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabUnselected(TabLayout.Tab tab) {}
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
@@ -124,6 +121,7 @@ public class FavoriteMoviesFragment extends Fragment {
         fragmentView.addView(contentLayout);
 
         progressBar = new ProgressBar(getContext());
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, Theme.accentColor()), PorterDuff.Mode.MULTIPLY);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         contentLayout.addView(progressBar);
 
@@ -169,7 +167,7 @@ public class FavoriteMoviesFragment extends Fragment {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        gridLayoutManager.setSpanCount(AndroidUtils.getColumns());
+        gridLayoutManager.setSpanCount(getLayoutColumns());
     }
 
     private void loadMovies() {
@@ -228,8 +226,9 @@ public class FavoriteMoviesFragment extends Fragment {
 
     private class MovieAdapter extends RecyclerView.Adapter {
 
+        @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
             View view = null;
 
             if (type == 0) {
@@ -242,7 +241,7 @@ public class FavoriteMoviesFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             int type = getItemViewType(position);
             MovieRealm movie = movies.get(position);
 

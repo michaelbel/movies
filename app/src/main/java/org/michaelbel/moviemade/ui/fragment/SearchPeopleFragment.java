@@ -1,5 +1,6 @@
 package org.michaelbel.moviemade.ui.fragment;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -17,8 +18,9 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.moviemade.R;
 import org.michaelbel.core.widget.LayoutHelper;
+import org.michaelbel.core.widget.RecyclerListView;
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.mvp.presenter.SearchPeoplePresenter;
@@ -29,7 +31,6 @@ import org.michaelbel.moviemade.ui.SearchActivity;
 import org.michaelbel.moviemade.ui.adapter.pagination.PaginationPeopleAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.PersonView;
-import org.michaelbel.core.widget.RecyclerListView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 
@@ -70,14 +71,10 @@ public class SearchPeopleFragment extends MvpAppCompatFragment implements MvpSea
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-
-            }
+            public void onTabSelected(TabLayout.Tab tab) {}
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabUnselected(TabLayout.Tab tab) {}
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
@@ -97,6 +94,7 @@ public class SearchPeopleFragment extends MvpAppCompatFragment implements MvpSea
 
         progressBar = new ProgressBar(activity);
         progressBar.setVisibility(View.INVISIBLE);
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, Theme.accentColor()), PorterDuff.Mode.MULTIPLY);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         fragmentView.addView(progressBar);
 

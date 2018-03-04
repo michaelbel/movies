@@ -1,5 +1,6 @@
 package org.michaelbel.moviemade.ui.fragment;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -107,7 +108,8 @@ public class CollectionFragment extends MvpAppCompatFragment implements MvpResul
         //collectionViewLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         //contentLayout.addView(collectionViewLayout);
 
-        progressBar = new ProgressBar(getContext());
+        progressBar = new ProgressBar(activity);
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, Theme.accentColor()), PorterDuff.Mode.MULTIPLY);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         contentLayout.addView(progressBar);
 

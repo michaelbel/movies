@@ -112,14 +112,14 @@ public class ReviewFragment extends Fragment {
         activity.authorLayout.addView(mediaTitleLayout);
 
         ImageView mediaIcon = new ImageView(activity);
-        mediaIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_movieroll, ContextCompat.getColor(activity, Theme.iconActiveColor())));
+        mediaIcon.setImageResource(R.drawable.ic_movieroll);
         mediaIcon.setLayoutParams(LayoutHelper.makeFrame(22, 22, Gravity.START | Gravity.TOP, 0, 1, 0, 0));
         mediaTitleLayout.addView(mediaIcon);
 
         mediaTitle = new TextView(activity);
         mediaTitle.setTextIsSelectable(AndroidUtils.textSelect());
         mediaTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        mediaTitle.setTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
+        mediaTitle.setTextColor(ContextCompat.getColor(activity, R.color.md_white));
         mediaTitle.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         mediaTitle.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 24 + 6, 0, 0, 0));
         mediaTitleLayout.addView(mediaTitle);
@@ -131,14 +131,14 @@ public class ReviewFragment extends Fragment {
         activity.authorLayout.addView(authorLayout);
 
         ImageView authorIconView = new ImageView(activity);
-        authorIconView.setImageDrawable(Theme.getIcon(R.drawable.ic_account_circle, ContextCompat.getColor(activity, Theme.iconActiveColor())));
+        authorIconView.setImageResource(R.drawable.ic_account_circle);
         authorIconView.setLayoutParams(LayoutHelper.makeFrame(22, 22, Gravity.START | Gravity.TOP, 0, 1, 0, 0));
         authorLayout.addView(authorIconView);
 
         authorText = new TextView(activity);
         authorText.setTextIsSelectable(AndroidUtils.textSelect());
         authorText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        authorText.setTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
+        authorText.setTextColor(ContextCompat.getColor(activity, R.color.md_white));
         authorText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         authorText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 24 + 6, 0, 0, 0));
         authorLayout.addView(authorText);

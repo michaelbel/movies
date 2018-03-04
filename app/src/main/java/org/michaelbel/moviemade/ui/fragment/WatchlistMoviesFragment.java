@@ -2,6 +2,7 @@ package org.michaelbel.moviemade.ui.fragment;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,19 +24,18 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-import org.michaelbel.moviemade.R;
 import org.michaelbel.core.widget.LayoutHelper;
+import org.michaelbel.core.widget.RecyclerListView;
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.ui.WatchlistActivity;
 import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.EmptyView;
-import org.michaelbel.moviemade.ui.view.movie.MovieViewCard;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewListBig;
 import org.michaelbel.moviemade.ui.view.movie.MovieViewPoster;
 import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
-import org.michaelbel.core.widget.RecyclerListView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
@@ -96,14 +96,10 @@ public class WatchlistMoviesFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-
-            }
+            public void onTabSelected(TabLayout.Tab tab) {}
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabUnselected(TabLayout.Tab tab) {}
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
@@ -124,7 +120,8 @@ public class WatchlistMoviesFragment extends Fragment {
         contentLayout.setLayoutParams(LayoutHelper.makeSwipeRefresh(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         fragmentView.addView(contentLayout);
 
-        progressBar = new ProgressBar(getContext());
+        progressBar = new ProgressBar(activity);
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, Theme.accentColor()), PorterDuff.Mode.MULTIPLY);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         contentLayout.addView(progressBar);
 
@@ -226,25 +223,26 @@ public class WatchlistMoviesFragment extends Fragment {
         gridLayoutManager.onRestoreInstanceState(state);
     }*/
 
-    public class MovieAdapter extends RecyclerView.Adapter {
+    private class MovieAdapter extends RecyclerView.Adapter {
 
+        @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
             View view = null;
 
             if (type == 0) {
                 view = new MovieViewListBig(parent.getContext());
             } else if (type == 1) {
-                view = new MovieViewCard(parent.getContext());
-            } else if (type == 2) {
                 view = new MovieViewPoster(parent.getContext());
-            }
+            } /*else if (type == 2) {
+                view = new MovieViewPoster(parent.getContext());
+            }*/
 
             return new Holder(view);
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             int type = getItemViewType(position);
             MovieRealm movie = movies.get(position);
 
@@ -258,12 +256,14 @@ public class WatchlistMoviesFragment extends Fragment {
                     .setOverview(movie.overview)
                     .setDivider(position != movies.size() - 1);
             } else if (type == 1) {
-                MovieViewCard view = (MovieViewCard) holder.itemView;
-                view.setPoster(movie.posterPath).setTitle(movie.title);
-            } else if (type == 2) {
+                /*MovieViewCard view = (MovieViewCard) holder.itemView;
+                view.setPoster(movie.posterPath).setTitle(movie.title);*/
                 MovieViewPoster view = (MovieViewPoster) holder.itemView;
                 view.setPoster(movie.posterPath);
-            }
+            } /*else if (type == 2) {
+                MovieViewPoster view = (MovieViewPoster) holder.itemView;
+                view.setPoster(movie.posterPath);
+            }*/
         }
 
         @Override

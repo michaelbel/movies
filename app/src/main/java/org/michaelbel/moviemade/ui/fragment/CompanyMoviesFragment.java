@@ -1,5 +1,6 @@
 package org.michaelbel.moviemade.ui.fragment;
 
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -93,11 +94,12 @@ public class CompanyMoviesFragment extends MvpAppCompatFragment implements MvpRe
         contentLayout.setLayoutParams(LayoutHelper.makeSwipeRefresh(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         fragmentView.addView(contentLayout);
 
-        progressBar = new ProgressBar(getContext());
+        progressBar = new ProgressBar(activity);
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, Theme.accentColor()), PorterDuff.Mode.MULTIPLY);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         contentLayout.addView(progressBar);
 
-        emptyView = new EmptyView(getContext());
+        emptyView = new EmptyView(activity);
         emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
         contentLayout.addView(emptyView);
 
@@ -110,10 +112,10 @@ public class CompanyMoviesFragment extends MvpAppCompatFragment implements MvpRe
             itemDecoration.setOffset(ScreenUtils.dp(1));
         }
 
-        gridLayoutManager = new GridLayoutManager(getContext(), AndroidUtils.getSpanForMovies());
+        gridLayoutManager = new GridLayoutManager(activity, AndroidUtils.getSpanForMovies());
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        recyclerView = new RecyclerListView(getContext());
+        recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setEmptyView(emptyView);
@@ -135,11 +137,11 @@ public class CompanyMoviesFragment extends MvpAppCompatFragment implements MvpRe
             int favoriteText = favorite ? R.string.RemoveFromFavorites : R.string.AddToFavorites;
             int watchlistText = watchlist ? R.string.RemoveFromWatchList : R.string.AddToWatchlist;
 
-            BottomSheet.Builder builder = new BottomSheet.Builder(getContext());
+            BottomSheet.Builder builder = new BottomSheet.Builder(activity);
             builder.setCellHeight(ScreenUtils.dp(52));
-            builder.setIconColor(ContextCompat.getColor(getContext(), Theme.iconActiveColor()));
-            builder.setItemTextColor(ContextCompat.getColor(getContext(), Theme.primaryTextColor()));
-            builder.setBackgroundColor(ContextCompat.getColor(getContext(), Theme.foregroundColor()));
+            builder.setIconColor(ContextCompat.getColor(activity, Theme.iconActiveColor()));
+            builder.setItemTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
+            builder.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
             builder.setItems(new int[] { favoriteText, watchlistText }, new int[] { favoriteIcon, watchlistIcon }, (dialog, i) -> {
                 if (i == 0) {
                     presenter.movieFavoritesChange(movie);

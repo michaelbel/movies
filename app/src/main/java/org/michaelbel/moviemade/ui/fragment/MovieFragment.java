@@ -40,7 +40,6 @@ import org.michaelbel.moviemade.ui.MovieActivity;
 import org.michaelbel.moviemade.ui.interfaces.MovieViewListener;
 import org.michaelbel.moviemade.ui.view.MovieViewLayout;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 import org.michaelbel.moviemade.utils.NetworkUtils;
 
 import java.util.ArrayList;

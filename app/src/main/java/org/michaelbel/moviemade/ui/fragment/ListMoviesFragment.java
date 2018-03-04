@@ -1,6 +1,7 @@
 package org.michaelbel.moviemade.ui.fragment;
 
 import android.content.res.Configuration;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -125,14 +126,10 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
         if (getActivity() instanceof MovieActivity) {
             ((MovieActivity) getActivity()).tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                 @Override
-                public void onTabSelected(TabLayout.Tab tab) {
-
-                }
+                public void onTabSelected(TabLayout.Tab tab) {}
 
                 @Override
-                public void onTabUnselected(TabLayout.Tab tab) {
-
-                }
+                public void onTabUnselected(TabLayout.Tab tab) {}
 
                 @Override
                 public void onTabReselected(TabLayout.Tab tab) {
@@ -195,6 +192,7 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
         fragmentView.addView(contentLayout);
 
         progressBar = new ProgressBar(getContext());
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(getContext(), Theme.accentColor()), PorterDuff.Mode.MULTIPLY);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         contentLayout.addView(progressBar);
 
@@ -333,6 +331,8 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
             public void accept(Object o) throws Exception {
                 if (o instanceof Events.MovieListRefreshLayout) {
                     refreshLayout();
+                } else if (o instanceof Events.ChangeTheme) {
+                    changeTheme();
                 }
             }
         });
@@ -449,5 +449,11 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements MvpResul
             recyclerView.addItemDecoration(itemDecoration);
         }
         gridLayoutManager.onRestoreInstanceState(state);
+    }
+
+    private void changeTheme() {
+        //fragmentView.setBackgroundColor(ContextCompat.getColor(getContext(), Theme.backgroundColor()));
+        recyclerView.setAdapter(adapter);
+        recyclerView.invalidate();
     }
 }

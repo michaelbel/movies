@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.ui.fragment;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -21,7 +20,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
-import org.json.JSONObject;
 import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.core.widget.RecyclerListView;
 import org.michaelbel.moviemade.BuildConfig;
@@ -29,7 +27,6 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Moviemade;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.browser.Browser;
-import org.michaelbel.moviemade.model.InAppProduct;
 import org.michaelbel.moviemade.ui.AboutActivity;
 import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.AboutView;
@@ -37,10 +34,6 @@ import org.michaelbel.moviemade.ui.view.cell.EmptyCell;
 import org.michaelbel.moviemade.ui.view.cell.TextCell;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.ScreenUtils;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 public class AboutFragment extends Fragment {
 
@@ -81,10 +74,6 @@ public class AboutFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        //activity.binding.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        //activity.binding.toolbar.setNavigationOnClickListener(view -> activity.finish());
-        //activity.binding.toolbarTitle.setText(R.string.About);
-
         activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         activity.toolbar.setNavigationOnClickListener(view -> activity.finish());
         activity.toolbarTitle.setText(R.string.About);
@@ -163,11 +152,11 @@ public class AboutFragment extends Fragment {
         return fragmentView;
     }
 
-    @Override
+    /*@Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //mCheckout.loadInventory(Inventory.Request.create().loadAllPurchases(), new InventoryCallback());
-    }
+    }*/
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
@@ -178,7 +167,7 @@ public class AboutFragment extends Fragment {
         linearLayoutManager.onRestoreInstanceState(state);
     }
 
-    public static final int REQUEST_CODE_BUY = 1234;
+    /*public static final int REQUEST_CODE_BUY = 1234;
     public static final int BILLING_RESPONSE_RESULT_OK = 0;
 
     private List<InAppProduct> getInAppPurchases(String type, String... productIds) throws Exception {
@@ -203,9 +192,9 @@ public class AboutFragment extends Fragment {
             results.add(product);
         }
         return results;
-    }
+    }*/
 
-    public void purchasingItem() throws Exception {
+    /*public void purchasingItem() throws Exception {
         //Bundle bundle = activity.billingService.getBuyIntent(3, activity.getPackageName(), "donation_id", "inapp", "ca-app-pub-3651393080934289/2751044208");
         //Bundle bundle = activity.billingService.getBuyIntent(3, activity.getPackageName(), "donation_id", "inapp", "ca-app-pub-3651393080934289~1447245983");
         List<InAppProduct> purchases = getInAppPurchases("inapp", "donation_id");
@@ -227,7 +216,7 @@ public class AboutFragment extends Fragment {
         PendingIntent pendingIntent = buyIntentBundle.getParcelable("BUY_INTENT");
 
         startIntentSenderForResult(pendingIntent.getIntentSender(), REQUEST_CODE_BUY, new Intent(), Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(0), null);
-    }
+    }*/
 
     /*private void purchaseProduct(InAppProduct product) throws Exception {
         String sku = product.getScu();
@@ -240,11 +229,11 @@ public class AboutFragment extends Fragment {
         startIntentSenderForResult(pendingIntent.getIntentSender(), REQUEST_CODE_BUY, new Intent(), Integer.valueOf(0), Integer.valueOf(0), Integer.valueOf(0), null);
     }*/
 
-    @Override
+    /*@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         //mCheckout.onActivityResult(requestCode, resultCode, data);
         super.onActivityResult(requestCode, resultCode, data);
-        /*if (requestCode == REQUEST_CODE_BUY) {
+        *//*if (requestCode == REQUEST_CODE_BUY) {
             int responseCode = data.getIntExtra("RESPONSE_CODE", -1);
 
             if (responseCode == BILLING_RESPONSE_RESULT_OK) {
@@ -253,7 +242,7 @@ public class AboutFragment extends Fragment {
                 readPurchase(purchaseData);
             }
 
-            *//*if (requestCode == RESULT_OK) {
+            *//**//*if (requestCode == RESULT_OK) {
                 try {
                     JSONObject jo = new JSONObject(purchaseData);
                     String sku = jo.getString("productId");
@@ -262,9 +251,9 @@ public class AboutFragment extends Fragment {
                     Log.e("2580", "Failed to parse purchase data");
                     e.printStackTrace();
                 }
-            }*//*
-        }*/
-    }
+            }*//**//*
+        }*//*
+    }*/
 
     /*private class PurchaseListener extends EmptyRequestListener<Purchase> {
         @Override
@@ -293,7 +282,7 @@ public class AboutFragment extends Fragment {
         }
     }*/
 
-    private void onPurchaseChanged() {
+    /*private void onPurchaseChanged() {
         //mBuyConsume.setText(mPurchase != null ? R.string.consume : R.string.buy);
     }
 
@@ -310,12 +299,13 @@ public class AboutFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
     private class AboutAdapter extends RecyclerView.Adapter {
 
+        @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int type) {
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
             View view;
 
             if (type == 0) {
@@ -330,7 +320,7 @@ public class AboutFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             int type = getItemViewType(position);
 
             if (type == 0) {
