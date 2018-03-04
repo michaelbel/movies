@@ -110,4 +110,36 @@ public class AndroidExtensions extends Extensions {
 
         return age;
     }
+
+    @Beta
+    public static int getAgeDeath(String dateOfBirth, String dateOfDeath) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+        Date date_birth = null;
+        Date date_death = null;
+        try {
+            date_birth = format.parse(dateOfBirth);
+            date_death = format.parse(dateOfDeath);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        Calendar birthDate = Calendar.getInstance();
+        Calendar deathDate = Calendar.getInstance();
+
+        int age;
+
+        birthDate.setTime(date_birth);
+        deathDate.setTime(date_death);
+        //if (birthDate.after(deathDate)) {
+        //    throw new IllegalArgumentException("Can't be born in the future");
+        //}
+
+        age = deathDate.get(Calendar.YEAR) - birthDate.get(Calendar.YEAR);
+        if (deathDate.get(Calendar.DAY_OF_YEAR) < birthDate.get(Calendar.DAY_OF_YEAR)) {
+            age--;
+        }
+
+        return age;
+    }
 }
