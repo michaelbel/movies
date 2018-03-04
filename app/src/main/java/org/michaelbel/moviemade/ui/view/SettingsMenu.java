@@ -10,7 +10,7 @@ import com.alexvasilkov.android.commons.state.InstanceStateManager;
 import com.alexvasilkov.gestures.Settings;
 import com.alexvasilkov.gestures.views.interfaces.GestureView;
 
-import org.michaelbel.core.annotation.Beta;
+import org.michaelbel.material.annotation.Beta;
 
 @Beta
 public class SettingsMenu implements SettingsController {
