@@ -1,6 +1,8 @@
 package org.michaelbel.moviemade.ui;
 
 import android.content.Intent;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -131,9 +133,14 @@ public class MovieActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         menu.add(R.string.Share)
-            .setIcon(R.drawable.ic_share)
+            .setIcon(R.drawable.avd_share)
             .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             .setOnMenuItemClickListener(menuItem -> {
+                Drawable icon = menu.getItem(0).getIcon();
+                if (icon instanceof Animatable) {
+                    ((Animatable) icon).start();
+                }
+
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
                 intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, Url.TMDB_MOVIE, movie.id));
