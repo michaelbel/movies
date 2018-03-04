@@ -1,6 +1,7 @@
 package org.michaelbel.moviemade.ui.view;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
@@ -148,6 +149,7 @@ public class MovieViewLayout extends LinearLayout {
 
         topProgressBar = new ProgressBar(context);
         topProgressBar.setVisibility(VISIBLE);
+        topProgressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(context, Theme.accentColor()), PorterDuff.Mode.MULTIPLY);
         topProgressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         topLayout.addView(topProgressBar);
 

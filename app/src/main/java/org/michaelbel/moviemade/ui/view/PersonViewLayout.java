@@ -35,6 +35,7 @@ import java.util.Objects;
 public class PersonViewLayout extends LinearLayout {
 
     private ImageView profileImage;
+    private FrameLayout profileImageEmpty;
 
     private LinearLayout nameCareerLayout;
     private TextView nameText;
@@ -87,6 +88,12 @@ public class PersonViewLayout extends LinearLayout {
         profileImage.setScaleType(ImageView.ScaleType.FIT_XY);
         profileImage.setLayoutParams(LayoutHelper.makeFrame(120, 180, Gravity.START | Gravity.TOP, 16, 16, 0, 0));
         topLayout.addView(profileImage);
+
+        profileImageEmpty = new FrameLayout(context);
+        profileImageEmpty.setBackgroundColor(ContextCompat.getColor(context, Theme.backgroundColor()));
+        profileImageEmpty.setLayoutParams(LayoutHelper.makeFrame(120, 180, Gravity.START | Gravity.TOP, 16, 16, 0, 0));
+        profileImageEmpty.setVisibility(INVISIBLE);
+        topLayout.addView(profileImageEmpty);
 
 //--------------------------------------------------------------------------------------------------
 
@@ -155,6 +162,10 @@ public class PersonViewLayout extends LinearLayout {
         birthPlaceLayout.setVisibility(INVISIBLE);
         birthPlaceLayout.setOrientation(HORIZONTAL);
         birthPlaceLayout.setOnClickListener(v -> personViewListener.onBirthPlaceClick(v));
+        birthPlaceLayout.setOnLongClickListener(v -> {
+            personViewListener.onBirthPlaceLongClick(v);
+            return true;
+        });
         birthPlaceLayout.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, GravityCompat.START, 0, 12, 0, 0));
         shortInfoLayout.addView(birthPlaceLayout);
 
@@ -266,9 +277,14 @@ public class PersonViewLayout extends LinearLayout {
 
     public void addProfileImage(String profilePath) {
         if (profilePath == null || profilePath.isEmpty()) {
-            profileImage.setImageResource(R.drawable.people_placeholder_old);
+            //profileImage.setImageResource(R.drawable.people_placeholder_old);
+            profileImage.setVisibility(INVISIBLE);
+            profileImageEmpty.setVisibility(VISIBLE);
             return;
         }
+
+        profileImage.setVisibility(VISIBLE);
+        profileImageEmpty.setVisibility(INVISIBLE);
 
         Picasso.with(getContext())
                .load(String.format(Locale.US, Url.TMDB_IMAGE, "w500", profilePath))
@@ -397,6 +413,10 @@ public class PersonViewLayout extends LinearLayout {
 
     public void addListener(PersonViewListener listener) {
         personViewListener = listener;
+    }
+
+    public LinearLayout getBirthPlaceLayout() {
+        return birthPlaceLayout;
     }
 
     @Deprecated
