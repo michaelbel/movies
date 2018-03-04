@@ -56,7 +56,6 @@ public class ImagesSection extends FrameLayout {
         addView(imagesLayout);
 
         postersAdapter = new ImagePagerAdapter();
-
         backdropsAdapter = new ImagePagerAdapter();
 
 //------POSTERS-------------------------------------------------------------------------------------
@@ -77,7 +76,7 @@ public class ImagesSection extends FrameLayout {
 
         postersCountText = new TextView(context);
         postersCountText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
-        postersCountText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        postersCountText.setTextColor(ContextCompat.getColor(context, R.color.md_white));
         postersCountText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 8, 6, 8, 6));
         postersTitleLayout.addView(postersCountText);
 
@@ -99,7 +98,7 @@ public class ImagesSection extends FrameLayout {
 
         backdropsCountText = new TextView(context);
         backdropsCountText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
-        backdropsCountText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        backdropsCountText.setTextColor(ContextCompat.getColor(context, R.color.md_white));
         backdropsCountText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 8, 6, 8, 6));
         backdropsTitleLayout.addView(backdropsCountText);
     }
