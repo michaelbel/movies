@@ -2,8 +2,8 @@ package org.michaelbel.moviemade.app.extensions;
 
 import android.text.TextUtils;
 
-import org.michaelbel.core.annotation.Beta;
 import org.michaelbel.core.extensions.Extensions;
+import org.michaelbel.material.annotation.Beta;
 import org.michaelbel.moviemade.R;
 
 import java.text.ParseException;
