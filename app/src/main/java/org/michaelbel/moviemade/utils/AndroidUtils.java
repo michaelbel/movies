@@ -104,9 +104,7 @@ public class AndroidUtils {
     public static int getSpanForMovies() {
         if (viewType() == 0) {
             return 1;
-        } /*else if (viewType() == 1) {
-            return 3;
-        }*/ else {
+        } else {
             return 2;
         }
     }
