@@ -1,5 +1,6 @@
 package org.michaelbel.moviemade.ui.view;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Rect;
 import android.support.annotation.IntDef;
@@ -63,6 +64,7 @@ public class CheckedButton extends FrameLayout {
         iconView.setImageDrawable(Theme.getIcon(icon, ContextCompat.getColor(getContext(), color)));
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (cardView.getForeground() != null) {
