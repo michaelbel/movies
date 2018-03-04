@@ -28,6 +28,7 @@ import java.util.Locale;
 public class PersonActivity extends BaseActivity {
 
     private Cast castPerson;
+    private People peoplePerson;
 
     public Toolbar toolbar;
     public TextView toolbarTitle;
@@ -40,7 +41,7 @@ public class PersonActivity extends BaseActivity {
         setContentView(R.layout.activity_person);
 
         castPerson = (Cast) getIntent().getSerializableExtra("cast_person");
-        People peoplePerson = getIntent().getParcelableExtra("people_person");
+        peoplePerson = getIntent().getParcelableExtra("people_person");
 
         toolbar = findViewById(R.id.toolbar);
         toolbarTitle = findViewById(R.id.toolbar_title);
@@ -66,8 +67,8 @@ public class PersonActivity extends BaseActivity {
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
-        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
-        tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
+        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.selectedTabColor()));
+        tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.unselectedTabColor()), ContextCompat.getColor(this, Theme.selectedTabColor()));
     }
 
     @Override
@@ -83,7 +84,7 @@ public class PersonActivity extends BaseActivity {
 
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, Url.TMDB_PERSON, castPerson.id));
+                intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, Url.TMDB_PERSON, castPerson != null ? castPerson.id : peoplePerson.id));
                 startActivity(Intent.createChooser(intent, getString(R.string.ShareVia)));
                 return true;
             });

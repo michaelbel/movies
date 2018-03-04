@@ -25,8 +25,8 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import org.michaelbel.core.extensions.Extensions;
 import org.michaelbel.core.widget.LayoutHelper;
+import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
@@ -43,27 +43,29 @@ import java.util.Locale;
 
 public class SearchActivity extends BaseActivity {
 
+    private static final int MENU_ITEM_INDEX = 0;
+
     public static final int TAB_MOVIES = 0;
     public static final int TAB_PEOPLE = 1;
     public static final int TAB_KEYWORDS = 2;
     public static final int TAB_COLLECTIONS = 3;
     public static final int TAB_COMPANIES = 4;
 
-    private static final int MENU_ITEM_INDEX = 0;
+    private final int SPEECH_REQUEST_CODE = 101;
+
     private final int MODE_ACTION_CLEAR = 1;
     private final int MODE_ACTION_VOICE = 2;
-    private final int SPEECH_REQUEST_CODE = 101;
 
     private int iconActionMode;
 
     private Menu actionMenu;
-    public EditText searchEditText;
     private FragmentsPagerAdapter adapter;
 
     public Toolbar toolbar;
     public TextView toolbarTitle;
     public ViewPager viewPager;
     public TabLayout tabLayout;
+    public EditText searchEditText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -99,8 +101,8 @@ public class SearchActivity extends BaseActivity {
         searchEditText.setInputType(InputType.TYPE_CLASS_TEXT);
         searchEditText.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
         searchEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        searchEditText.setTextColor(ContextCompat.getColor(this, Theme.primaryTextColor()));
-        searchEditText.setHintTextColor(ContextCompat.getColor(this, Theme.hindTextColor()));
+        searchEditText.setTextColor(ContextCompat.getColor(this, R.color.md_white));
+        searchEditText.setHintTextColor(ContextCompat.getColor(this, R.color.night_blue_disabledHintTextColor));
         searchEditText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL));
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -188,8 +190,8 @@ public class SearchActivity extends BaseActivity {
         tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
         tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
-        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.accentColor()));
-        tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.secondaryTextColor()), ContextCompat.getColor(this, Theme.accentColor()));
+        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.selectedTabColor()));
+        tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.unselectedTabColor()), ContextCompat.getColor(this, Theme.selectedTabColor()));
     }
 
     @Override
@@ -211,7 +213,9 @@ public class SearchActivity extends BaseActivity {
                     changeActionIcon();
 
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    imm.showSoftInput(searchEditText, InputMethodManager.SHOW_IMPLICIT);
+                    if (imm != null) {
+                        imm.showSoftInput(searchEditText, InputMethodManager.SHOW_IMPLICIT);
+                    }
                 }
                 return true;
             });
@@ -264,10 +268,10 @@ public class SearchActivity extends BaseActivity {
         if (actionMenu != null) {
             if (searchEditText.getText().toString().trim().isEmpty()) {
                 iconActionMode = MODE_ACTION_VOICE;
-                actionMenu.getItem(MENU_ITEM_INDEX).setIcon(Theme.getIcon(R.drawable.ic_voice, ContextCompat.getColor(this, Theme.primaryTextColor())));
+                actionMenu.getItem(MENU_ITEM_INDEX).setIcon(R.drawable.ic_voice);
             } else {
                 iconActionMode = MODE_ACTION_CLEAR;
-                actionMenu.getItem(MENU_ITEM_INDEX).setIcon(Theme.getIcon(R.drawable.ic_clear, ContextCompat.getColor(this, Theme.primaryTextColor())));
+                actionMenu.getItem(MENU_ITEM_INDEX).setIcon(R.drawable.ic_clear);
             }
         }
     }
