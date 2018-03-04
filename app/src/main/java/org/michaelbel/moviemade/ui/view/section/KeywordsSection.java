@@ -102,13 +102,14 @@ public class KeywordsSection extends FrameLayout {
 
     private class KeywordsAdapter extends RecyclerView.Adapter {
 
+        @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             return new Holder(new ChipView(getContext()));
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
             Keyword keyword = keywords.get(position);
 
             ChipView view = (ChipView) holder.itemView;

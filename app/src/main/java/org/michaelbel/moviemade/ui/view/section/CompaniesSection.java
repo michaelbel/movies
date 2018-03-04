@@ -73,13 +73,14 @@ public class CompaniesSection extends FrameLayout {
 
     private class CompaniesAdapter extends RecyclerView.Adapter {
 
+        @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             return new Holder(new ChipView(parent.getContext()));
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
             Company company = companies.get(position);
 
             ChipView view = (ChipView) holder.itemView;
