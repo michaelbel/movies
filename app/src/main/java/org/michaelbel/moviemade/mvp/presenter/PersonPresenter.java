@@ -28,7 +28,7 @@ public class PersonPresenter extends MvpPresenter<MvpPersonView> {
             return;
         }
 
-        PEOPLE service = ApiFactory.getRetrofit2().create(PEOPLE.class);
+        PEOPLE service = ApiFactory.createService2(PEOPLE.class);
         Observable<Person> observable = service.getDetails(personId, Url.TMDB_API_KEY, Url.en_US, null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<Person>() {
             @Override

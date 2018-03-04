@@ -32,7 +32,7 @@ public class GenresPresenter extends MvpPresenter<MvpResultsView> {
             return;
         }
 
-        GENRES service = ApiFactory.getRetrofit2().create(GENRES.class);
+        GENRES service = ApiFactory.createService2(GENRES.class);
         Observable<GenresResponse> observable = service.getMovieList(Url.TMDB_API_KEY, Url.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<GenresResponse>() {
             @Override

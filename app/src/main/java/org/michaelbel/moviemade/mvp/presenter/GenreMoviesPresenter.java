@@ -43,7 +43,7 @@ public class GenreMoviesPresenter extends MvpPresenter<MvpResultsView> {
             return;
         }
 
-        GENRES service = ApiFactory.getRetrofit2().create(GENRES.class);
+        GENRES service = ApiFactory.createService2(GENRES.class);
         Observable<MoviesResponse> observable = service.getMovies(genreId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override
@@ -68,7 +68,7 @@ public class GenreMoviesPresenter extends MvpPresenter<MvpResultsView> {
     }
 
     public void loadNextPage(int genreId) {
-        GENRES service = ApiFactory.getRetrofit2().create(GENRES.class);
+        GENRES service = ApiFactory.createService2(GENRES.class);
         Observable<MoviesResponse> observable = service.getMovies(genreId, Url.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override

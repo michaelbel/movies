@@ -42,7 +42,7 @@ public class CompanyMoviesPresenter extends MvpPresenter<MvpResultsView> {
             return;
         }
 
-        COMPANIES service = ApiFactory.getRetrofit2().create(COMPANIES.class);
+        COMPANIES service = ApiFactory.createService2(COMPANIES.class);
         Observable<MoviesResponse> observable = service.getMovies(companyId, Url.TMDB_API_KEY, Url.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override

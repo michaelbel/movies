@@ -33,7 +33,7 @@ public class MovieCastsPresenter extends MvpPresenter<MvpResultsView> {
         }
 
         // todo То, что этот метод вызывается 2 раза нехорошо, нужно вызывать его 1 раз и затем только передавать данные
-        MOVIES service = ApiFactory.getRetrofit2().create(MOVIES.class);
+        MOVIES service = ApiFactory.createService2(MOVIES.class);
         Observable<CreditResponse> observable = service.getCredits(movieId, Url.TMDB_API_KEY).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<CreditResponse>() {
             @Override

@@ -37,7 +37,7 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpResultsView> {
             return;
         }
 
-        PEOPLE service = ApiFactory.getRetrofit2().create(PEOPLE.class);
+        PEOPLE service = ApiFactory.createService2(PEOPLE.class);
         Observable<PeopleResponse> observable = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<PeopleResponse>() {
             @Override
@@ -62,8 +62,8 @@ public class PopularPeoplePresenter extends MvpPresenter<MvpResultsView> {
     }
 
     public void loadNextPage() {
-        PEOPLE service = ApiFactory.getRetrofit2().create(PEOPLE.class);
-        Observable<PeopleResponse> observable = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page).observeOn(AndroidSchedulers.mainThread());
+        PEOPLE service = ApiFactory.createService2(PEOPLE.class);
+        Observable<PeopleResponse> observable = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<PeopleResponse>() {
             @Override
             public void onNext(PeopleResponse response) {

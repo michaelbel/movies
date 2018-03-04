@@ -42,7 +42,7 @@ public class CollectionPresenter extends MvpPresenter<MvpResultsView> {
             return;
         }
 
-        COLLECTIONS service = ApiFactory.getRetrofit2().create(COLLECTIONS.class);
+        COLLECTIONS service = ApiFactory.createService2(COLLECTIONS.class);
         Observable<Collection> observable = service.getDetails(collectionId, Url.TMDB_API_KEY, Url.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<Collection>() {
             @Override
