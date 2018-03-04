@@ -124,7 +124,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
 
         scrollView = new ScrollView(activity);
         scrollView.setVerticalScrollBarEnabled(AndroidUtils.scrollbars());
-        scrollView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
+        //scrollView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
         scrollView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         fragmentView.addView(scrollView);
 
