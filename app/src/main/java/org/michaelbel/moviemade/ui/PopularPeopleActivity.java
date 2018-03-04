@@ -12,6 +12,8 @@ import android.view.WindowManager;
 import android.widget.TextView;
 
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.app.Moviemade;
+import org.michaelbel.moviemade.app.eventbus.Events;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.ui.fragment.PopularPeopleFragment;
 import org.michaelbel.moviemade.ui.view.NavigationView;
@@ -27,7 +29,6 @@ public class PopularPeopleActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popular_people);
-        //binding = DataBindingUtil.setContentView(this, R.layout.activity_popular_people);
 
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -82,6 +83,17 @@ public class PopularPeopleActivity extends BaseActivity {
             });
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        ((Moviemade) getApplication()).eventBus().toObservable().subscribe(o -> {
+            if (o instanceof Events.ChangeTheme) {
+                navigationView.updateTheme();
+            }
+        });
     }
 
     @Override
