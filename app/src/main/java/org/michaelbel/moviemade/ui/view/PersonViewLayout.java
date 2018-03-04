@@ -1,6 +1,7 @@
 package org.michaelbel.moviemade.ui.view;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.graphics.Typeface;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -150,7 +151,6 @@ public class PersonViewLayout extends LinearLayout {
         deathdayLayout.addView(deathdayIcon);
 
         deathdayText = new TextView(context);
-        deathdayText.setText(R.string.Loading);
         deathdayText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         deathdayText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
         deathdayText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL,6, 0, 0, 0));
@@ -227,6 +227,7 @@ public class PersonViewLayout extends LinearLayout {
 
         progressBar = new ProgressBar(context);
         progressBar.setVisibility(VISIBLE);
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(context, Theme.accentColor()), PorterDuff.Mode.MULTIPLY);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         topLayout.addView(progressBar);
 
@@ -301,37 +302,112 @@ public class PersonViewLayout extends LinearLayout {
         popularityText.setText(popularity);
     }
 
-    public void addBirthday(String birthday) {
-        if (TextUtils.isEmpty(birthday)) {
+    public void setDates(String birthDay, String deathDay) {
+        if (TextUtils.isEmpty(birthDay) && TextUtils.isEmpty(deathDay)) {
+            shortInfoLayout.removeView(deathdayLayout);
             birthdayText.setText("-");
             return;
         }
 
-        String text = getContext().getString(R.string.Birthday, AndroidExtensions.formatBirthday(birthday), AndroidExtensions.getAge(birthday));
-        int pos = AndroidExtensions.formatBirthday(birthday).length() + 3 + (int)Math.ceil(Math.log10(AndroidExtensions.getAge(birthday))); // 3 is (1 space + 2 braces) and number of digits
+        if (TextUtils.isEmpty(birthDay)) {
+            birthdayText.setText("-");
+            return;
+        }
 
-        SpannableStringBuilder spannable = new SpannableStringBuilder(text);
-        spannable.setSpan(new TypefaceSpan("sans-serif-medium"), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), Theme.primaryTextColor())), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        SpannableStringBuilder spannable;
+
+        if (TextUtils.isEmpty(deathDay)) {
+            shortInfoLayout.removeView(deathdayLayout);
+
+            int age = AndroidExtensions.getAge(birthDay);
+            String dateOfBirth = AndroidExtensions.formatBirthday(birthDay);
+
+            String text = getContext().getString(R.string.BirthdayWithOld, dateOfBirth, age); // Date of Birth + Age.
+            int pos = dateOfBirth.length() + 3 + (int) Math.ceil(Math.log10(age)); // 3 is (1 space + 2 braces) and number of digits
+
+            spannable = new SpannableStringBuilder(text);
+            spannable.setSpan(new TypefaceSpan("sans-serif-medium"), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), Theme.primaryTextColor())), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else {
+            String dateOfBirth = AndroidExtensions.formatBirthday(birthDay);
+
+            String text = getContext().getString(R.string.Birthday, dateOfBirth); // Date of Birth without age.
+            int pos = dateOfBirth.length();
+
+            spannable = new SpannableStringBuilder(text);
+            spannable.setSpan(new TypefaceSpan("sans-serif-medium"), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), Theme.primaryTextColor())), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
 
         birthdayText.setText(spannable);
+
+        if (!TextUtils.isEmpty(deathDay)) {
+            int age = AndroidExtensions.getAgeDeath(birthDay, deathDay);
+            String dateOfDeath = AndroidExtensions.formatBirthday(deathDay);
+
+            String text = getContext().getString(R.string.Deathday, dateOfDeath, age); // Date of Death + Age.
+            int pos = dateOfDeath.length() + 3 + (int) Math.ceil(Math.log10(age)); // 3 is (1 space + 2 braces) and number of digits
+
+            SpannableStringBuilder spannable2 = new SpannableStringBuilder(text);
+            spannable2.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), Theme.primaryTextColor())),text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable2.setSpan(new TypefaceSpan("sans-serif-medium"),text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+            deathdayText.setText(spannable2);
+        }
     }
 
-    public void addDeathday(String deathday) {
-        if (TextUtils.isEmpty(deathday)) {
+    /*@Deprecated
+    public void addBirthday(String birthDay) {
+        if (TextUtils.isEmpty(birthDay)) {
+            birthdayText.setText("-");
+            return;
+        }
+
+        SpannableStringBuilder spannable;
+
+        if (deathdayText.getText().toString().isEmpty()) {
+            int age = AndroidExtensions.getAge(birthDay);
+            String dateOfBirth = AndroidExtensions.formatBirthday(birthDay);
+
+            String text = getContext().getString(R.string.BirthdayWithOld, dateOfBirth, age); // Date of Birth + Age.
+            int pos = dateOfBirth.length() + 3 + (int) Math.ceil(Math.log10(age)); // 3 is (1 space + 2 braces) and number of digits
+
+            spannable = new SpannableStringBuilder(text);
+            spannable.setSpan(new TypefaceSpan("sans-serif-medium"), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), Theme.primaryTextColor())), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else {
+            String dateOfBirth = AndroidExtensions.formatBirthday(birthDay);
+
+            String text = getContext().getString(R.string.Birthday, dateOfBirth); // Date of Birth without age.
+            int pos = dateOfBirth.length();
+
+            spannable = new SpannableStringBuilder(text);
+            spannable.setSpan(new TypefaceSpan("sans-serif-medium"), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), Theme.primaryTextColor())), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+
+        birthdayText.setText(spannable);
+    }*/
+
+    /*@Deprecated
+    public void addDeathday(String deathDay) {
+        if (TextUtils.isEmpty(deathDay)) {
             shortInfoLayout.removeView(deathdayLayout);
             return;
         }
 
-        String text = getContext().getString(R.string.Deathday, AndroidExtensions.formatBirthday(deathday));
-        int pos = AndroidExtensions.formatBirthday(deathday).length();
+        int age = AndroidExtensions.getAge(deathDay);
+        String dateOfDeath = AndroidExtensions.formatBirthday(deathDay);
+
+        String text = getContext().getString(R.string.Deathday, dateOfDeath, age); // Date of Death + Age.
+        int pos = dateOfDeath.length() + 3 + (int) Math.ceil(Math.log10(age)); // 3 is (1 space + 2 braces) and number of digits
 
         SpannableStringBuilder spannable = new SpannableStringBuilder(text);
-        spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), Theme.primaryTextColor())), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), Theme.primaryTextColor())),text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannable.setSpan(new TypefaceSpan("sans-serif-medium"),text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         deathdayText.setText(spannable);
-    }
+    }*/
 
     public void addBirthPlace(CharSequence birthPlace) {
         if (birthPlace == null || birthPlace.toString().isEmpty()) {
