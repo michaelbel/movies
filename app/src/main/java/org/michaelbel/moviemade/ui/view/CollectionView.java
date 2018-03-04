@@ -12,9 +12,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import org.michaelbel.moviemade.R;
 import org.michaelbel.core.widget.LayoutHelper;
-import org.michaelbel.moviemade.app.Theme;
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.ScreenUtils;
@@ -42,7 +41,7 @@ public class CollectionView extends FrameLayout {
 
         nameText = new TextView(context);
         nameText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18.5F);
-        nameText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        nameText.setTextColor(ContextCompat.getColor(context, R.color.md_white));
         nameText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         nameText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
         imageLayout.addView(nameText);
