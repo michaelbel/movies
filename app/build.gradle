@@ -14,9 +14,9 @@ android {
         applicationId "org.michaelbel.moviemade"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 32
-        versionName "0.2.5"
-        buildConfigField "String", "VERSION_DATE", '"Feb 25, 2018"'
+        versionCode 33
+        versionName "0.2.6"
+        buildConfigField "String", "VERSION_DATE", '"Mar 5, 2018"'
         project.ext.set("archivesBaseName", "moviemade-v" + versionName)
     }
 
@@ -83,9 +83,5 @@ dependencies {
     //implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.2.21"
     //implementation 'org.solovyev.android:checkout:1.2.1'
 }
-
-/*repositories {
-    mavenCentral()
-}*/
 
 apply plugin: 'com.google.gms.google-services'
