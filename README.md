@@ -13,7 +13,7 @@
 [googleplay-badge]: https://img.shields.io/badge/Google_Play-Demo-F3745F.svg
 [minsdk-badge]:     https://img.shields.io/badge/minSdkVersion-21-F3745F.svg
 
-<!-------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------------------------------->
 
 <p align="center">
   <img src="../master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"/>
@@ -41,6 +41,7 @@ Take a look at [assets/config.properties][config-properties] and fill it with [y
  * [GestureViews](https://github.com/alexvasilkov/GestureViews)
  * [ExpandableTextView](https://github.com/Blogcat/Android-ExpandableTextView)
  * [ChipsLayoutManager](https://github.com/BelooS/ChipsLayoutManager)
+ * [AndroidAnimatedMenuItems](https://github.com/adonixis/android-animated-menu-items)
 
 ## License
     Copyright 2017-2018 Michael Bel
