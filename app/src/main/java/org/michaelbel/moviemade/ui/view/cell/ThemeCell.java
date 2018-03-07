@@ -1,5 +1,8 @@
 package org.michaelbel.moviemade.ui.view.cell;
 
+import android.animation.AnimatorSet;
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
 import android.view.Gravity;
@@ -39,5 +42,28 @@ public class ThemeCell extends TextCell {
 
     public void setIconChecked(boolean value) {
         iconCheckView.setVisibility(value ? VISIBLE : INVISIBLE);
+    }
+
+    public void changeTheme() {
+        ArgbEvaluator evaluator = new ArgbEvaluator();
+
+        ObjectAnimator foregroundAnimator = ObjectAnimator.ofObject(this, "backgroundColor", evaluator, 0, 0);
+        ObjectAnimator textColorAnimator = ObjectAnimator.ofObject(textView, "textColor", evaluator, 0, 0);
+        ObjectAnimator dividerColorAnimator = ObjectAnimator.ofObject(paint, "color", evaluator, 0, 0);
+
+        if (Theme.getTheme() == Theme.THEME_LIGHT) {
+            foregroundAnimator.setObjectValues(ContextCompat.getColor(getContext(), R.color.night_blue_foregroundColor), ContextCompat.getColor(getContext(), R.color.foregroundColor));
+            textColorAnimator.setObjectValues(ContextCompat.getColor(getContext(), R.color.night_blue_primaryTextColor), ContextCompat.getColor(getContext(), R.color.primaryTextColor));
+            dividerColorAnimator.setObjectValues(ContextCompat.getColor(getContext(), R.color.night_blue_dividerColor), ContextCompat.getColor(getContext(), R.color.dividerColor));
+        } else if (Theme.getTheme() == Theme.THEME_NIGHT_BLUE) {
+            foregroundAnimator.setObjectValues(ContextCompat.getColor(getContext(), R.color.foregroundColor), ContextCompat.getColor(getContext(), R.color.night_blue_foregroundColor));
+            textColorAnimator.setObjectValues(ContextCompat.getColor(getContext(), R.color.primaryTextColor), ContextCompat.getColor(getContext(), R.color.night_blue_primaryTextColor));
+            dividerColorAnimator.setObjectValues(ContextCompat.getColor(getContext(), R.color.dividerColor), ContextCompat.getColor(getContext(), R.color.night_blue_dividerColor));
+        }
+
+        AnimatorSet set = new AnimatorSet();
+        set.playTogether(foregroundAnimator, textColorAnimator, dividerColorAnimator);
+        set.setDuration(300);
+        set.start();
     }
 }
