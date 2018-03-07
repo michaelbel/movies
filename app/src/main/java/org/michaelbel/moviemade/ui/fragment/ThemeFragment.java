@@ -1,7 +1,10 @@
 package org.michaelbel.moviemade.ui.fragment;
 
+import android.animation.ArgbEvaluator;
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Moviemade;
 import org.michaelbel.moviemade.app.Theme;
@@ -31,10 +35,10 @@ public class ThemeFragment extends Fragment implements View.OnClickListener {
     private String[] themes;
     private SettingsActivity activity;
 
-    private LinearLayout fragmentView;
     private ThemeCell lightCell;
     private ThemeCell nightCell;
     private ThemeCell nightBlueCell;
+    private LinearLayout fragmentView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,21 +76,21 @@ public class ThemeFragment extends Fragment implements View.OnClickListener {
         nightBlueCell.setOnClickListener(this);
         fragmentView.addView(nightBlueCell);
 
-        if (Theme.getTheme() == Theme.THEME_LIGHT) {
-            lightCell.setIconChecked(true);
-            nightCell.setIconChecked(false);
-            nightBlueCell.setIconChecked(false);
-        } else if (Theme.getTheme() == Theme.THEME_NIGHT) {
-            nightCell.setIconChecked(true);
-            lightCell.setIconChecked(false);
-            nightBlueCell.setIconChecked(false);
-        } else if (Theme.getTheme() == Theme.THEME_NIGHT_BLUE) {
-            nightBlueCell.setIconChecked(true);
-            nightCell.setIconChecked(false);
-            lightCell.setIconChecked(false);
-        }
+        changeIcon();
 
         return fragmentView;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration configuration) {
+        super.onConfigurationChanged(configuration);
+        if (configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            lightCell.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 56, 0, 56, 0));
+            nightBlueCell.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 56, 0, 56, 0));
+        } else {
+            lightCell.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+            nightBlueCell.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        }
     }
 
     @Override
@@ -99,10 +103,7 @@ public class ThemeFragment extends Fragment implements View.OnClickListener {
                 editor.putInt("theme", Theme.THEME_LIGHT);
                 editor.apply();
 
-                lightCell.setIconChecked(true);
-                nightCell.setIconChecked(false);
-                nightBlueCell.setIconChecked(false);
-
+                changeIcon();
                 changeTheme();
             }
         } else if (view == nightCell) {
@@ -110,10 +111,7 @@ public class ThemeFragment extends Fragment implements View.OnClickListener {
                 editor.putInt("theme", Theme.THEME_NIGHT);
                 editor.apply();
 
-                nightCell.setIconChecked(true);
-                lightCell.setIconChecked(false);
-                nightBlueCell.setIconChecked(false);
-
+                changeIcon();
                 changeTheme();
             }
         } else if (view == nightBlueCell) {
@@ -121,24 +119,47 @@ public class ThemeFragment extends Fragment implements View.OnClickListener {
                 editor.putInt("theme", Theme.THEME_NIGHT_BLUE);
                 editor.apply();
 
-                nightBlueCell.setIconChecked(true);
-                nightCell.setIconChecked(false);
-                lightCell.setIconChecked(false);
-
+                changeIcon();
                 changeTheme();
             }
         }
     }
 
-    private void changeTheme() {
-        // Change Window status bar color here.
-        //activity.toolbar.setBackgroundColor(ContextCompat.getColor(activity, R.color.night_foregroundColor));
+    private void changeIcon() {
+        lightCell.setIconChecked(Theme.getTheme() == Theme.THEME_LIGHT);
+        nightCell.setIconChecked(Theme.getTheme() == Theme.THEME_NIGHT);
+        nightBlueCell.setIconChecked(Theme.getTheme() == Theme.THEME_NIGHT_BLUE);
+    }
 
-        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
+    private void changeTheme() {
+        // Change Window status bar color.
+        // activity.toolbar.setBackgroundColor(ContextCompat.getColor(activity, R.color.night_foregroundColor));
+
         lightCell.changeTheme();
         nightCell.changeTheme();
         nightBlueCell.changeTheme();
 
+        changeFragmentViewBackground();
+
         ((Moviemade) activity.getApplication()).eventBus().send(new Events.ChangeTheme());
+    }
+
+    private void changeFragmentViewBackground() {
+        ArgbEvaluator evaluator = new ArgbEvaluator();
+        ObjectAnimator fragmentBackgroundAnimator = ObjectAnimator.ofObject(fragmentView, "backgroundColor", evaluator, 0, 0);
+
+        int startColor = 0, endColor = 0;
+
+        if (Theme.getTheme() == Theme.THEME_LIGHT) {
+            startColor = ContextCompat.getColor(activity, R.color.night_blue_backgroundColor);
+            endColor = ContextCompat.getColor(activity, R.color.backgroundColor);
+        } else if (Theme.getTheme() == Theme.THEME_NIGHT_BLUE) {
+            startColor = ContextCompat.getColor(activity, R.color.backgroundColor);
+            endColor = ContextCompat.getColor(activity, R.color.night_blue_backgroundColor);
+        }
+
+        fragmentBackgroundAnimator.setObjectValues(startColor, endColor);
+        fragmentBackgroundAnimator.setDuration(300);
+        fragmentBackgroundAnimator.start();
     }
 }
