@@ -1,5 +1,6 @@
 package org.michaelbel.moviemade.ui.view.cell;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.graphics.Canvas;
@@ -26,7 +27,6 @@ import android.widget.TextView;
 
 import org.michaelbel.core.extensions.Extensions;
 import org.michaelbel.core.widget.LayoutHelper;
-import org.michaelbel.material.annotation.New;
 import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
@@ -49,7 +49,7 @@ public class TextCell extends FrameLayout {
     })
     private @interface Mode {}
 
-    private TextView textView;
+    protected TextView textView;
     private TextView valueText;
     private ImageView iconView;
     private SwitchCompat switchCompat;
@@ -58,7 +58,7 @@ public class TextCell extends FrameLayout {
     private int iconColor;
     private int cellHeight;
 
-    private Paint paint;
+    protected Paint paint;
     private boolean divider;
     private Rect rect = new Rect();
     private int currentMode = MODE_DEFAULT;
@@ -265,15 +265,6 @@ public class TextCell extends FrameLayout {
                 }));
     }
 
-    @New
-    public void changeTheme() {
-        setBackgroundColor(ContextCompat.getColor(getContext(), Theme.foregroundColor()));
-        textView.setTextColor(ContextCompat.getColor(getContext(), Theme.primaryTextColor()));
-        //radioButton.setButtonTintList(ColorStateList.valueOf(ContextCompat.getColor(getContext(), Theme.secondaryTextColor())));
-        paint.setColor(ContextCompat.getColor(getContext(), Theme.dividerColor()));
-        setWillNotDraw(false);
-    }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -289,6 +280,7 @@ public class TextCell extends FrameLayout {
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (getForeground() != null) {
