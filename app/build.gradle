@@ -13,7 +13,7 @@ android {
         applicationId "org.michaelbel.moviemade"
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 35
+        versionCode 37
         versionName "0.2.7"
         buildConfigField "String", "VERSION_DATE", '"Mar 7, 2018"'
         project.ext.set("archivesBaseName", "moviemade-v" + versionName)
@@ -71,8 +71,8 @@ dependencies {
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
 
-    implementation 'org.michaelbel:material:0.3.1'
-    implementation 'org.michaelbel:bottomsheet:1.1.9'
+    implementation 'org.michaelbel:material:0.3.2'
+    implementation 'org.michaelbel:bottomsheet:1.2.2'
 
     implementation 'io.realm:android-adapters:2.1.1'
     implementation 'at.blogc:expandabletextview:1.0.5'
