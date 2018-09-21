@@ -3,6 +3,7 @@ package org.michaelbel.moviemade.ui;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.view.WindowManager;
 import android.widget.TextView;
 
 import org.michaelbel.moviemade.R;
@@ -20,8 +21,11 @@ public class SettingsActivity extends BaseActivity {
         setContentView(R.layout.activity_settings);
 
         toolbar = findViewById(R.id.toolbar);
-        toolbarTitle = findViewById(R.id.toolbar_title);
         setSupportActionBar(toolbar);
-        startFragment(new SettingsFragment(), R.id.fragment_view);
+
+        toolbarTitle = findViewById(R.id.toolbar_title);
+
+        SettingsFragment fragment = new SettingsFragment();
+        startFragment(fragment, R.id.fragment_view);
     }
 }
