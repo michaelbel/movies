@@ -29,7 +29,7 @@
 Moviemade - quick and easy way to discover popular movies.
 
 ## Build
-Take a look at <b>local.properties</b> and fill it with [your own][tmdb-introduction] <b>tmdb_api_key</b>.
+Take a look at <b>`local.properties`</b> and fill it with [your own][tmdb-introduction] <b>tmdb_api_key</b>.
 
 ## Libraries
  * [BottomSheet](https://github.com/michaelbel/BottomSheet)
