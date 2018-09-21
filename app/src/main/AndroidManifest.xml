@@ -1,15 +1,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.michaelbel.moviemade">
 
-    <uses-permission android:name="android.permission.INTERNET"/>               <!--Access to API-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>   <!--Google Analytics-->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>      <!--Google Analytics-->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>  <!--Local Database-->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> <!--Local Database-->
-    <uses-permission android:name="android.permission.BODY_SENSORS"/>           <!--Review gesture control-->
-    <uses-permission android:name="android.permission.BIND_VOICE_INTERACTION"/> <!--Voice search-->
-    <uses-permission android:name="android.permission.VIBRATE"/>                <!---->
-    <uses-permission android:name="com.android.vending.BILLING"/>               <!--In-App Purchases-->
-    <uses-permission android:name="com.samsung.permission.SSENSOR"/>            <!--Review gesture control-->
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.BODY_SENSORS"/>
+    <!--uses-permission android:name="android.permission.BIND_VOICE_INTERACTION"/-->
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="com.android.vending.BILLING"/>
+    <uses-permission android:name="com.samsung.permission.SSENSOR"/>
 
     <application
         android:name="org.michaelbel.moviemade.app.Moviemade"
@@ -25,10 +25,12 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -38,6 +40,7 @@
                     android:host="auth_callback_anything"
                     android:scheme="anything"/>
             </intent-filter>
+
         </activity>
 
         <activity
@@ -54,11 +57,6 @@
             android:name="org.michaelbel.moviemade.ui.AboutActivity"
             android:screenOrientation="user"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
-
-        <!--<activity
-            android:name="org.michaelbel.moviemade_kt.ui.AboutActivity"
-            android:screenOrientation="user"
-            android:configChanges="keyboardHidden|orientation|screenSize"/>-->
 
         <activity
             android:name="org.michaelbel.moviemade.ui.MovieActivity"
@@ -146,6 +144,11 @@
 
         <activity
             android:name="org.michaelbel.moviemade.ui.KeywordActivity"
+            android:screenOrientation="portrait"
+            android:configChanges="keyboardHidden|orientation|screenSize"/>
+
+        <activity
+            android:name="org.michaelbel.moviemade.ui.RandomMovieActivity"
             android:screenOrientation="portrait"
             android:configChanges="keyboardHidden|orientation|screenSize"/>
 
