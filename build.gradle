@@ -1,5 +1,4 @@
 buildscript {
-
     repositories {
         mavenCentral()
         jcenter()
@@ -7,10 +6,9 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.1.2'
+        classpath 'com.android.tools.build:gradle:3.1.4'
         classpath 'com.google.gms:google-services:3.1.2'
-        classpath 'io.realm:realm-gradle-plugin:5.0.0'
-        //classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.21"
+        classpath 'io.realm:realm-gradle-plugin:5.3.0'
     }
 }
 
