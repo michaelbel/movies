@@ -44,7 +44,7 @@ class FixedBottomNavigationTab extends BottomNavigationTab {
         paddingTopInActive = (int) getResources().getDimension(R.dimen.fixed_height_top_padding_inactive);
 
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        View view = inflater.inflate(R.layout.fixed_bottom_navigation_item, this, true);
+        View view = inflater.inflate(R.layout.bnb_item, this, true);
         containerView = view.findViewById(R.id.fixed_bottom_navigation_container);
         labelView = view.findViewById(R.id.fixed_bottom_navigation_title);
         iconView = view.findViewById(R.id.fixed_bottom_navigation_icon);

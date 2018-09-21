@@ -46,7 +46,7 @@ class ShiftingBottomNavigationTab extends BottomNavigationTab {
         paddingTopInActive = (Extensions.dp(getContext(), 10));
 
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        View view = inflater.inflate(R.layout.shifting_bottom_navigation_item, this, true);
+        View view = inflater.inflate(R.layout.bnb_shifting_item, this, true);
         containerView = view.findViewById(R.id.shifting_bottom_navigation_container);
         labelView = view.findViewById(R.id.shifting_bottom_navigation_title);
         iconView = view.findViewById(R.id.shifting_bottom_navigation_icon);

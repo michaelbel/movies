@@ -31,7 +31,6 @@ import org.michaelbel.moviemade.R;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.security.cert.Extension;
 import java.util.ArrayList;
 
 /**
@@ -209,7 +208,7 @@ public class BottomNavigationBar extends FrameLayout {
         setLayoutParams(new ViewGroup.LayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)));
 
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        View parentView = inflater.inflate(R.layout.bottom_navigation_bar_container, this, true);
+        View parentView = inflater.inflate(R.layout.bnb_container, this, true);
         mBackgroundOverlay = parentView.findViewById(R.id.bottom_navigation_bar_overLay);
         mContainer = parentView.findViewById(R.id.bottom_navigation_bar_container);
         mTabContainer = parentView.findViewById(R.id.bottom_navigation_bar_item_container);
