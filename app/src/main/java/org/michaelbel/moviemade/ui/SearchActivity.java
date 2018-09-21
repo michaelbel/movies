@@ -45,12 +45,6 @@ public class SearchActivity extends BaseActivity {
 
     private static final int MENU_ITEM_INDEX = 0;
 
-    public static final int TAB_MOVIES = 0;
-    public static final int TAB_PEOPLE = 1;
-    public static final int TAB_KEYWORDS = 2;
-    public static final int TAB_COLLECTIONS = 3;
-    public static final int TAB_COMPANIES = 4;
-
     private final int SPEECH_REQUEST_CODE = 101;
 
     private final int MODE_ACTION_CLEAR = 1;
@@ -58,27 +52,24 @@ public class SearchActivity extends BaseActivity {
 
     private int iconActionMode;
 
-    private Menu actionMenu;
-    private FragmentsPagerAdapter adapter;
-
     public Toolbar toolbar;
     public TextView toolbarTitle;
-    public ViewPager viewPager;
-    public TabLayout tabLayout;
     public EditText searchEditText;
+
+    private Menu actionMenu;
+    private SearchMoviesFragment fragment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
-        int tab = getIntent().getIntExtra("search_tab", TAB_MOVIES);
         String query = getIntent().getStringExtra("query");
+        fragment = SearchMoviesFragment.newInstance(query);
+        startFragment(fragment, R.id.fragment_view);
 
         toolbar = findViewById(R.id.toolbar);
         toolbarTitle = findViewById(R.id.toolbar_title);
-        viewPager = findViewById(R.id.view_pager);
-        tabLayout = findViewById(R.id.tab_layout);
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(toolbar);
@@ -118,7 +109,7 @@ public class SearchActivity extends BaseActivity {
         });
         searchEditText.setOnEditorActionListener((view, actionId, event) -> {
             if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_SEARCH)) {
-                searchInFragment(viewPager.getCurrentItem(), view.getText().toString().trim());
+                fragment.presenter.search(view.getText().toString().trim());
                 AndroidUtils.hideKeyboard(searchEditText);
                 return true;
             }
@@ -127,71 +118,6 @@ public class SearchActivity extends BaseActivity {
         });
         toolbarLayout.addView(searchEditText);
         Extensions.clearCursorDrawable(searchEditText);
-
-        adapter = new FragmentsPagerAdapter(this, getSupportFragmentManager());
-        adapter.addFragment(SearchMoviesFragment.newInstance(query), R.string.Movies);
-        adapter.addFragment(SearchPeopleFragment.newInstance(query), R.string.People);
-        adapter.addFragment(SearchKeywordsFragment.newInstance(query), R.string.Keywords);
-        adapter.addFragment(SearchCollectionsFragment.newInstance(query), R.string.Collections);
-        adapter.addFragment(SearchCompaniesFragment.newInstance(query), R.string.Companies);
-
-        viewPager.setAdapter(adapter);
-        viewPager.setCurrentItem(tab);
-        viewPager.setBackgroundColor(ContextCompat.getColor(this, Theme.backgroundColor()));
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
-
-            @Override
-            public void onPageSelected(int position) {
-                if (position == TAB_MOVIES) {
-                    SearchMoviesFragment fragment = (SearchMoviesFragment) adapter.getItem(TAB_MOVIES);
-                    if (fragment.empty()) {
-                        if (!searchEditText.getText().toString().isEmpty()) {
-                            fragment.presenter.search(searchEditText.getText().toString().trim());
-                        }
-                    }
-                } else if (position == TAB_PEOPLE) {
-                    SearchPeopleFragment fragment = (SearchPeopleFragment) adapter.getItem(TAB_PEOPLE);
-                    if (fragment.empty()) {
-                        if (!searchEditText.getText().toString().isEmpty()) {
-                            fragment.presenter.search(searchEditText.getText().toString().trim());
-                        }
-                    }
-                } else if (position == TAB_KEYWORDS) {
-                    SearchKeywordsFragment fragment = (SearchKeywordsFragment) adapter.getItem(TAB_KEYWORDS);
-                    if (fragment.empty()) {
-                        if (!searchEditText.getText().toString().isEmpty()) {
-                            fragment.presenter.search(searchEditText.getText().toString().trim());
-                        }
-                    }
-                } else if (position == TAB_COLLECTIONS) {
-                    SearchCollectionsFragment fragment = (SearchCollectionsFragment) adapter.getItem(TAB_COLLECTIONS);
-                    if (fragment.empty()) {
-                        if (!searchEditText.getText().toString().isEmpty()) {
-                            fragment.presenter.search(searchEditText.getText().toString().trim());
-                        }
-                    }
-                } else if (position == TAB_COMPANIES) {
-                    SearchCompaniesFragment fragment = (SearchCompaniesFragment) adapter.getItem(TAB_COMPANIES);
-                    if (fragment.empty()) {
-                        if (!searchEditText.getText().toString().isEmpty()) {
-                            fragment.presenter.search(searchEditText.getText().toString().trim());
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {}
-        });
-
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
-        tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
-        tabLayout.setBackgroundColor(ContextCompat.getColor(this, Theme.primaryColor()));
-        tabLayout.setSelectedTabIndicatorColor(ContextCompat.getColor(this, Theme.selectedTabColor()));
-        tabLayout.setTabTextColors(ContextCompat.getColor(this, Theme.unselectedTabColor()), ContextCompat.getColor(this, Theme.selectedTabColor()));
     }
 
     @Override
@@ -237,30 +163,11 @@ public class SearchActivity extends BaseActivity {
                             searchEditText.setText(textResults);
                             searchEditText.setSelection(searchEditText.getText().length());
                             changeActionIcon();
-                            searchInFragment(viewPager.getCurrentItem(), textResults);
+                            fragment.presenter.search(textResults);
                         }
                     }
                 }
             }
-        }
-    }
-
-    private void searchInFragment(int position, String query) {
-        if (position == TAB_MOVIES) {
-            SearchMoviesFragment fragment = (SearchMoviesFragment) adapter.getItem(position);
-            fragment.presenter.search(query);
-        } else if (position == TAB_PEOPLE) {
-            SearchPeopleFragment fragment = (SearchPeopleFragment) adapter.getItem(position);
-            fragment.presenter.search(query);
-        } else if (position == TAB_KEYWORDS) {
-            SearchKeywordsFragment fragment = (SearchKeywordsFragment) adapter.getItem(position);
-            fragment.presenter.search(query);
-        } else if (position == TAB_COLLECTIONS) {
-            SearchCollectionsFragment fragment = (SearchCollectionsFragment) adapter.getItem(position);
-            fragment.presenter.search(query);
-        } else if (position == TAB_COMPANIES) {
-            SearchCompaniesFragment fragment = (SearchCompaniesFragment) adapter.getItem(TAB_COMPANIES);
-            fragment.presenter.search(query);
         }
     }
 

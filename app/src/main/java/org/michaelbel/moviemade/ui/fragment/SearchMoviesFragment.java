@@ -42,16 +42,12 @@ import java.util.List;
 
 public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSearchView {
 
-    private String readyQuery;
-
     private SearchActivity activity;
     private PaginationMoviesAdapter adapter;
     private GridLayoutManager gridLayoutManager;
-    private PaddingItemDecoration itemDecoration;
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
-    private RecyclerListView recyclerView;
 
     @InjectPresenter
     public SearchMoviesPresenter presenter;
@@ -74,23 +70,8 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {}
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                if (AndroidUtils.scrollToTop()) {
-                    recyclerView.smoothScrollToPosition(0);
-                }
-            }
-        });
-
         FrameLayout fragmentView = new FrameLayout(activity);
-        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
+        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, R.color.background));
 
         emptyView = new EmptyView(activity);
         emptyView.setMode(EmptyViewMode.MODE_NO_RESULTS);
@@ -99,11 +80,11 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
 
         progressBar = new ProgressBar(activity);
         progressBar.setVisibility(View.INVISIBLE);
-        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, Theme.accentColor()), PorterDuff.Mode.MULTIPLY);
+        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, R.color.accent), PorterDuff.Mode.MULTIPLY);
         progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
         fragmentView.addView(progressBar);
 
-        itemDecoration = new PaddingItemDecoration();
+        PaddingItemDecoration itemDecoration = new PaddingItemDecoration();
         if (AndroidUtils.viewType() == 0) {
             itemDecoration.setOffset(0);
         } else {
@@ -114,7 +95,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
         gridLayoutManager = new GridLayoutManager(getContext(), AndroidUtils.getSpanForMovies());
         gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        recyclerView = new RecyclerListView(activity);
+        RecyclerListView recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setEmptyView(emptyView);
@@ -158,7 +139,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
             return;
         }
 
-        readyQuery = getArguments().getString("query");
+        String readyQuery = getArguments().getString("query");
 
         if (readyQuery == null) {
             activity.searchEditText.setSelection(activity.searchEditText.getText().length());
@@ -188,24 +169,24 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
             adapter.addAll(results);
 
             if (presenter.page < presenter.totalPages) {
-                adapter.addLoadingFooter();
+                //adapter.addLoadingFooter();
             } else {
                 presenter.isLastPage = true;
             }
 
-            if (AndroidUtilsDev.searchResultsCount()) {
+            /*if (AndroidUtilsDev.searchResultsCount()) {
                 TabLayout.Tab tab = activity.tabLayout.getTabAt(SearchActivity.TAB_MOVIES);
                 if (tab != null) {
                     tab.setText(getResources().getQuantityString(R.plurals.MoviesTotalResults, presenter.totalResults, presenter.totalResults));
                 }
-            }
+            }*/
         } else {
             adapter.removeLoadingFooter();
             presenter.isLoading = false;
             adapter.addAll(results);
 
             if (presenter.page != presenter.totalPages) {
-                adapter.addLoadingFooter();
+                //adapter.addLoadingFooter();
             } else {
                 presenter.isLastPage = true;
             }
@@ -218,10 +199,10 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(mode);
 
-        TabLayout.Tab tab = activity.tabLayout.getTabAt(SearchActivity.TAB_MOVIES);
+        /*TabLayout.Tab tab = activity.tabLayout.getTabAt(SearchActivity.TAB_MOVIES);
         if (tab != null) {
             tab.setText(R.string.Movies);
-        }
+        }*/
     }
 
     public boolean empty() {
