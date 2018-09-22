@@ -1,10 +1,13 @@
 package org.michaelbel.moviemade.app.extensions;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 
-import org.michaelbel.core.extensions.Extensions;
 import org.michaelbel.material.annotation.Beta;
+import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.app.Moviemade;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -12,14 +15,13 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Date: Sun, Feb 25 2018
- * Time: 11:28 MSK
- *
- * @author Michael Bel
- */
-
 public class AndroidExtensions extends Extensions {
+
+    /*public static AppBarLayout.LayoutParams setScrollFlags(View view) {
+        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) view.getLayoutParams();
+        params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS | AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP);
+        return params;
+    }*/
 
     public static String formatRuntime(int runtime) {
         String patternMin = "mm";
@@ -36,7 +38,7 @@ public class AndroidExtensions extends Extensions {
             e.printStackTrace();
         }
 
-        return getContext().getString(R.string.MovieRuntime, formatHour.format(date), runtime);
+        return Moviemade.AppContext.getString(R.string.MovieRuntime, formatHour.format(date), runtime);
     }
 
     public static String formatReleaseDate(String releaseDate) {
@@ -141,5 +143,10 @@ public class AndroidExtensions extends Extensions {
         }
 
         return age;
+    }
+
+    public static int watchlistLayoutFilter() {
+        SharedPreferences prefs = Moviemade.AppContext.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
+        return prefs.getInt("watchlistFilter", 0);
     }
 }

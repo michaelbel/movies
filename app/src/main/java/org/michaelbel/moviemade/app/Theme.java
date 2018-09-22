@@ -2,13 +2,9 @@ package org.michaelbel.moviemade.app;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.TypedArray;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.ArrayRes;
-import android.support.annotation.AttrRes;
 import android.support.annotation.DrawableRes;
-import android.support.annotation.NonNull;
 
 import org.michaelbel.moviemade.R;
 
@@ -24,30 +20,16 @@ public class Theme {
 
     public static int getTheme() {
         SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
-        return prefs.getInt("theme", 2);
+        return prefs.getInt("theme", 0);
     }
-
-    // Base
 
     public static int primaryColor() {
         if (Theme.getTheme() == THEME_LIGHT) {
-            return R.color.colorPrimary;
+            return R.color.primary;
         } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.color.colorPrimary;
+            return R.color.primary;
         } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return R.color.colorPrimary;
-        }
-
-        return 0;
-    }
-
-    public static int primaryDarkColor() {
-        if (Theme.getTheme() == THEME_LIGHT) {
-            return R.color.colorPrimaryDark;
-        } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.color.colorPrimaryDark;
-        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return R.color.colorPrimaryDark;
+            return R.color.primary;
         }
 
         return 0;
@@ -55,11 +37,11 @@ public class Theme {
 
     public static int accentColor() {
         if (Theme.getTheme() == THEME_LIGHT) {
-            return R.color.md_orange_500;
+            return R.color.accent;
         } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.color.colorAccent;
+            return R.color.accent;
         } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return R.color.colorAccent;
+            return R.color.accent;
         }
 
         return 0;
@@ -67,11 +49,11 @@ public class Theme {
 
     public static int primaryTextColor() {
         if (Theme.getTheme() == THEME_LIGHT) {
-            return R.color.primaryTextColor;
+            return R.color.primaryText;
         } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.color.night_primaryTextColor;
+            return R.color.primaryText;
         } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return R.color.night_blue_primaryTextColor;
+            return R.color.primaryText;
         }
 
         return 0;
@@ -79,23 +61,11 @@ public class Theme {
 
     public static int secondaryTextColor() {
         if (Theme.getTheme() == THEME_LIGHT) {
-            return R.color.secondaryTextColor;
+            return R.color.secondaryText;
         } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.color.night_secondaryTextColor;
+            return R.color.secondaryText;
         } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return R.color.night_blue_secondaryTextColor;
-        }
-
-        return 0;
-    }
-
-    public static int hindTextColor() {
-        if (Theme.getTheme() == THEME_LIGHT) {
-            return R.color.disabledHintTextColor;
-        } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.color.night_disabledHintTextColor;
-        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return R.color.night_blue_disabledHintTextColor;
+            return R.color.secondaryText;
         }
 
         return 0;
@@ -103,11 +73,11 @@ public class Theme {
 
     public static int dividerColor() {
         if (Theme.getTheme() == THEME_LIGHT) {
-            return R.color.dividerColor;
+            return R.color.divider;
         } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.color.night_dividerColor;
+            return R.color.divider;
         } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return R.color.night_blue_dividerColor;
+            return R.color.divider;
         }
 
         return 0;
@@ -115,11 +85,11 @@ public class Theme {
 
     public static int iconActiveColor() {
         if (Theme.getTheme() == THEME_LIGHT) {
-            return R.color.iconActiveColor;
+            return R.color.iconActive;
         } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.color.night_iconActiveColor;
+            return R.color.iconActive;
         } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return R.color.night_blue_iconActiveColor;
+            return R.color.iconActive;
         }
 
         return 0;
@@ -127,35 +97,11 @@ public class Theme {
 
     public static int iconInactiveColor() {
         if (Theme.getTheme() == THEME_LIGHT) {
-            return R.color.iconInactiveColor;
+            return R.color.iconInactive;
         } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.color.night_iconInactiveColor;
+            return R.color.iconInactive;
         } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return R.color.night_blue_iconInactiveColor;
-        }
-
-        return 0;
-    }
-
-    public static int statusBarColor() {
-        if (Theme.getTheme() == THEME_LIGHT) {
-            return R.color.statusBarColor;
-        } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.color.night_statusBarColor;
-        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return R.color.night_blue_statusBarColor;
-        }
-
-        return 0;
-    }
-
-    public static int appBarColor() {
-        if (Theme.getTheme() == THEME_LIGHT) {
-            return R.color.appBarColor;
-        } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.color.night_appBarColor;
-        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return R.color.night_blue_appBarColor;
+            return R.color.iconInactive;
         }
 
         return 0;
@@ -163,11 +109,11 @@ public class Theme {
 
     public static int backgroundColor() {
         if (Theme.getTheme() == THEME_LIGHT) {
-            return R.color.backgroundColor;
+            return R.color.background;
         } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.color.night_backgroundColor;
+            return R.color.background;
         } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return R.color.night_blue_backgroundColor;
+            return R.color.background;
         }
 
         return 0;
@@ -175,73 +121,23 @@ public class Theme {
 
     public static int foregroundColor() {
         if (Theme.getTheme() == THEME_LIGHT) {
-            return R.color.foregroundColor;
+            return R.color.foreground;
         } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.color.night_foregroundColor;
+            return R.color.foreground;
         } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return R.color.night_blue_foregroundColor;
+            return R.color.foreground;
         }
 
         return 0;
     }
-
-    public static int thumbOnColor() {
-        if (Theme.getTheme() == THEME_LIGHT) {
-            return R.color.switch_thumbOn;
-        } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.color.night_switch_thumbOn;
-        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return R.color.night_blue_switch_thumbOn;
-        }
-
-        return 0;
-    }
-
-    public static int thumbOffColor() {
-        if (Theme.getTheme() == THEME_LIGHT) {
-            return R.color.switch_thumbOff;
-        } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.color.night_switch_thumbOff;
-        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return R.color.night_blue_switch_thumbOff;
-        }
-
-        return 0;
-    }
-
-    public static int trackOnColor() {
-        if (Theme.getTheme() == THEME_LIGHT) {
-            return R.color.switch_trackOn;
-        } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.color.night_switch_trackOn;
-        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return R.color.night_blue_switch_trackOn;
-        }
-
-        return 0;
-    }
-
-    public static int trackOffColor() {
-        if (Theme.getTheme() == THEME_LIGHT) {
-            return R.color.switch_trackOff;
-        } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.color.night_switch_trackOff;
-        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return R.color.night_blue_switch_trackOff;
-        }
-
-        return 0;
-    }
-
-    // Custom
 
     public static int selectedTabColor() {
         if (Theme.getTheme() == THEME_LIGHT) {
-            return R.color.md_white;
+            return R.color.accent;
         } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.color.md_white;
+            return R.color.accent;
         } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return R.color.colorAccent;
+            return R.color.accent;
         }
 
         return 0;
@@ -254,32 +150,6 @@ public class Theme {
             return R.color.night_secondaryTextColor;
         } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
             return R.color.night_blue_secondaryTextColor;
-        }
-
-        return 0;
-    }
-
-    // STYLES
-
-    public static int popupTheme() {
-        if (Theme.getTheme() == THEME_LIGHT) {
-            return R.style.ThemeOverlay_AppCompat_Light;
-        } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.style.ThemeOverlay_AppCompat;
-        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return -1;
-        }
-
-        return 0;
-    }
-
-    public static int alertTheme() {
-        if (Theme.getTheme() == THEME_LIGHT) {
-            return R.style.AlertLight;
-        } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.style.AlertNight;
-        } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return -1;
         }
 
         return 0;
@@ -298,38 +168,5 @@ public class Theme {
         }
 
         return iconDrawable;
-    }
-
-    public static int getAttrColor(@NonNull Context context, @AttrRes int colorAttr) {
-        int color = 0;
-        int[] attrs = new int[] {
-                colorAttr
-        };
-
-        try {
-            TypedArray typedArray = context.obtainStyledAttributes(attrs);
-            color = typedArray.getColor(0, 0);
-            typedArray.recycle();
-        } catch (Exception e) {
-            // todo Error.
-        }
-
-        return color;
-    }
-
-    public static int[] getColorArray(@NonNull Context context, @ArrayRes int arrayRes) {
-        if (arrayRes == 0) {
-            return null;
-        }
-
-        TypedArray ta = context.getResources().obtainTypedArray(arrayRes);
-        int[] colors = new int[ta.length()];
-
-        for (int i = 0; i < ta.length(); i++) {
-            colors[i] = ta.getColor(i, 0);
-        }
-
-        ta.recycle();
-        return colors;
     }
 }

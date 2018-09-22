@@ -10,8 +10,8 @@ import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
 
+import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.Theme;
 
 public class Browser {
 
@@ -28,7 +28,7 @@ public class Browser {
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             intent.putExtra("android.support.customtabs.extra.SESSION", (Parcelable) null);
-            intent.putExtra("android.support.customtabs.extra.TOOLBAR_COLOR", Theme.getAttrColor(context, R.attr.colorPrimary));
+            intent.putExtra("android.support.customtabs.extra.TOOLBAR_COLOR", Extensions.getAttrColor(context, R.attr.colorPrimary));
             intent.putExtra("android.support.customtabs.extra.TITLE_VISIBILITY", 1);
             Intent actionIntent = new Intent(Intent.ACTION_SEND);
             actionIntent.setType("text/plain");
@@ -45,7 +45,7 @@ public class Browser {
             intent.putExtra(android.provider.Browser.EXTRA_APPLICATION_ID, context.getPackageName());
             context.startActivity(intent);
         } catch (Exception e) {
-            // todo Error.
+            e.printStackTrace();
         }
     }
 
