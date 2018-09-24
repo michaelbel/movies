@@ -1,0 +1,257 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:id="@+id/top_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"/>
+
+            <ImageView
+                android:id="@+id/poster_image"
+                android:layout_width="120dp"
+                android:layout_height="180dp"
+                android:visibility="invisible"
+                android:scaleType="fitXY"
+                android:layout_gravity="start|top"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="@string/image_description"/>
+
+            <LinearLayout
+                android:id="@+id/short_info_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="start|top"
+                android:layout_marginStart="152dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:visibility="invisible">
+
+                <LinearLayout
+                    android:id="@+id/rating_layout"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <org.michaelbel.moviemade.ui.view.RatingView
+                        android:id="@+id/rating_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"/>
+
+                    <TextView
+                        android:id="@+id/rating_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:layout_marginStart="12dp"
+                        android:textSize="16sp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="sans-serif-medium"/>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_gravity="start|center_vertical"
+                        android:layout_marginStart="12dp">
+
+                        <TextView
+                            android:id="@+id/vote_count_text"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|bottom"
+                            android:textSize="14sp"
+                            android:textColor="@color/primaryText"
+                            android:fontFamily="sans-serif-medium"/>
+
+                        <ImageView
+                            android:id="@+id/vote_count_icon"
+                            android:layout_width="13dp"
+                            android:layout_height="13dp"
+                            android:layout_gravity="start|bottom"
+                            android:layout_marginStart="1dp"
+                            android:layout_marginBottom="1dp"
+                            android:contentDescription="@string/image_description"
+                            android:src="@drawable/ic_account_multiple"/>
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp">
+
+                    <ImageView
+                        android:id="@+id/release_date_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:contentDescription="@string/image_description"/>
+
+                    <TextView
+                        android:id="@+id/release_date_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="6dp"
+                        android:textSize="15sp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="sans-serif-medium"
+                        android:maxLines="1"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp">
+
+                    <ImageView
+                        android:id="@+id/runtime_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="center_vertical"
+                        android:contentDescription="@string/image_description"/>
+
+                    <TextView
+                        android:id="@+id/runtime_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="6dp"
+                        android:textSize="15sp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="sans-serif-medium"
+                        android:maxLines="1"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="12dp">
+
+                    <ImageView
+                        android:id="@+id/lang_icon"
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:layout_gravity="start|center_vertical"
+                        android:contentDescription="@string/image_description"/>
+
+                    <TextView
+                        android:id="@+id/lang_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="6dp"
+                        android:textSize="15sp"
+                        android:textColor="@color/primaryText"
+                        android:fontFamily="sans-serif-medium"
+                        android:maxLines="1"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/title_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="start|top"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="202dp"
+                android:layout_marginEnd="16dp"
+                android:visibility="invisible">
+
+                <TextView
+                    android:id="@+id/title_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="sans-serif-medium"
+                    android:textIsSelectable="true"/>
+
+                <TextView
+                    android:id="@+id/tagline_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="@color/secondaryText"
+                    android:fontFamily="sans-serif"
+                    android:textIsSelectable="true"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/buttons_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|end"
+                android:layout_marginTop="156dp"
+                android:layout_marginEnd="16dp"
+                android:orientation="horizontal"
+                android:visibility="invisible">
+
+                <org.michaelbel.moviemade.ui.view.CheckedButton
+                    android:id="@+id/watch_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+                <org.michaelbel.moviemade.ui.view.CheckedButton
+                    android:id="@+id/fave_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+
+            </LinearLayout>
+
+        </FrameLayout>
+
+        <View
+            android:id="@+id/divider_view"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:visibility="invisible"
+            android:background="@color/divider"/>
+
+        <TextView
+            android:id="@+id/overview_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:textSize="16sp"
+            android:textColor="@color/secondaryText"
+            android:fontFamily="sans-serif"
+            android:visibility="invisible"
+            android:textIsSelectable="true"/>
+
+    </LinearLayout>
+
+</ScrollView>
