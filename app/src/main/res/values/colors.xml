@@ -1,70 +1,27 @@
 <resources>
-    <color name="colorPrimary">#202E3B</color>
-    <color name="colorPrimaryDark">#18222C</color>
-    <color name="colorAccent">#FFAB40</color> <!-- md orange A200 -->
+    <color name="primary">#282828</color>
+    <color name="primaryDark">#202020</color>
+    <color name="accent">#ff5252</color>
 
-    <color name="youtubeColor">#F44336</color>
-    <color name="cursorColor">#FFFFFF</color>
-    <color name="photoViewerBackgroundColor">#FF000000</color>
+    <color name="primaryText">#ffffff</color>
+    <color name="secondaryText">#b3ffffff</color>
+    <color name="disabledHintText">#80ffffff</color>
+    <color name="divider">#1fffffff</color>
+    <color name="iconActive">#ffffff</color>
+    <color name="iconInactive">#80ffffff</color>
+    <color name="background">#131313</color>
+    <color name="foreground">#424242</color>
 
-    <!--LIGHT THEME-->
-    <color name="primaryTextColor">#DE000000</color>
-    <color name="secondaryTextColor">#8A000000</color>
-    <color name="disabledHintTextColor">#61000000</color>
-    <color name="dividerColor">#1F000000</color>
-    <color name="iconActiveColor">#8A000000</color>
-    <color name="iconInactiveColor">#61000000</color>
-    <color name="statusBarColor">#E0E0E0</color>
-    <color name="appBarColor">#F5F5F5</color>
-    <color name="backgroundColor">#F0F0F0</color>
-    <color name="foregroundColor">#FFFFFF</color>
+    <color name="youtubeColor">#f44336</color>
 
-    <color name="switch_thumbOn">#FFFF9800</color> <!-- md orange 500, Opacity 100% -->
-    <color name="switch_trackOn">#80FF9800</color> <!-- md orange 500, Opacity 50% -->
-    <color name="switch_thumbOff">#FFFAFAFA</color>
-    <color name="switch_trackOff">#61000000</color>
-    <color name="switch_thumbDisabled">#FFBDBDBD</color>
-    <color name="switch_trackDisabled">#1F000000</color>
-
-    <!--NIGHT THEME-->
-    <color name="night_colorPrimary">#202E3B</color>
-    <color name="night_colorPrimaryDark">#18222C</color>
-    <color name="night_colorAccent">#FFAB40</color>
-
-    <color name="night_primaryTextColor">#FFFFFF</color>
-    <color name="night_secondaryTextColor">#B3FFFFFF</color>
-    <color name="night_disabledHintTextColor">#80FFFFFF</color>
-    <color name="night_dividerColor">#1FFFFFFF</color>
-    <color name="night_iconActiveColor">#FFFFFF</color>
-    <color name="night_iconInactiveColor">#80FFFFFF</color>
-    <color name="night_statusBarColor">#000000</color>
-    <color name="night_appBarColor">#212121</color>
-    <color name="night_backgroundColor">#303030</color>
-    <color name="night_foregroundColor">#424242</color>
-
-    <color name="night_switch_thumbOn">#A5D6A7</color>
-    <color name="night_switch_trackOn">#80A5D6A7</color>
-    <color name="night_switch_thumbOff">#BDBDBD</color>
-    <color name="night_switch_trackOff">#4DFFFFFF</color>
-    <color name="night_switch_thumbDisabled">#424242</color>
-    <color name="night_switch_trackDisabled">#1AFFFFFF</color>
-
-    <!--NIGHT BLUE THEME-->
-    <color name="night_blue_primaryTextColor">#FFFFFF</color>
-    <color name="night_blue_secondaryTextColor">#B3FFFFFF</color> <!--7e8f97, 8b9ca4, 778890 be B3FFFFFF-->
-    <color name="night_blue_disabledHintTextColor">#80FFFFFF</color>
-    <color name="night_blue_dividerColor">#1FFFFFFF</color>
-    <color name="night_blue_iconActiveColor">#7C8F96</color>
-    <color name="night_blue_iconInactiveColor">#807C8F96</color>
-    <color name="night_blue_statusBarColor">#000000</color>
-    <color name="night_blue_appBarColor">#212121</color>
-    <color name="night_blue_backgroundColor">#151D26</color>
-    <color name="night_blue_foregroundColor">#1C2732</color>
-
-    <color name="night_blue_switch_thumbOn">#FFCC80</color>
-    <color name="night_blue_switch_trackOn">#80FFCC80</color>
-    <color name="night_blue_switch_thumbOff">#BDBDBD</color>
-    <color name="night_blue_switch_trackOff">#4DFFFFFF</color>
-    <color name="night_blue_switch_thumbDisabled">#424242</color>
-    <color name="night_blue_switch_trackDisabled">#1AFFFFFF</color>
+    <color name="transparent">#00000000</color>
+    <color name="transparent10">#1a000000</color><!--10% opacity-->
+    <color name="transparent20">#33000000</color><!--20% opacity-->
+    <color name="transparent30">#4d000000</color><!--30% opacity-->
+    <color name="transparent40">#66000000</color><!--40% opacity-->
+    <color name="transparent50">#80000000</color><!--50% opacity-->
+    <color name="transparent60">#99000000</color><!--60% opacity-->
+    <color name="transparent70">#b3000000</color><!--70% opacity-->
+    <color name="transparent80">#cc000000</color><!--80% opacity-->
+    <color name="transparent90">#e6000000</color><!--90% opacity-->
 </resources>
