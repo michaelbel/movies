@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.ui.fragment;
+package org.michaelbel.moviemade.ui_beta.fragment;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -10,28 +10,25 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
-import org.michaelbel.LayoutHelper;
-import org.michaelbel.RecyclerListView;
+import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.material.widget.Holder;
+import org.michaelbel.material.widget.RecyclerListView;
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Moviemade;
 import org.michaelbel.moviemade.app.browser.Browser;
-import org.michaelbel.moviemade.ui.AboutActivity;
 import org.michaelbel.moviemade.ui.view.AboutView;
 import org.michaelbel.moviemade.ui.view.cell.EmptyCell;
 import org.michaelbel.moviemade.ui.view.cell.TextCell;
+import org.michaelbel.moviemade.ui_beta.activity.AboutActivity;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.ScreenUtils;
 
 public class AboutFragment extends Fragment {
 
@@ -60,12 +57,11 @@ public class AboutFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        activity.toolbar.setNavigationOnClickListener(view -> activity.finish());
-        activity.toolbarTitle.setText(R.string.About);
+        View view = inflater.inflate(R.layout.fragment_about, container, false);
 
-        FrameLayout fragmentView = new FrameLayout(activity);
-        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, R.color.background));
+        activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        activity.toolbar.setNavigationOnClickListener(v -> activity.finish());
+        activity.toolbarTitle.setText(R.string.About);
 
         rowCount = 0;
         infoRow = rowCount++;
@@ -80,11 +76,10 @@ public class AboutFragment extends Fragment {
 
         linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
-        recyclerView = new RecyclerListView(activity);
+        recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(new AboutAdapter());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        recyclerView.setOnItemClickListener((view, position) -> {
+        recyclerView.setOnItemClickListener((v, position) -> {
             if (position == forkGithubRow) {
                 Browser.openUrl(activity, Moviemade.GITHUB_URL);
             } else if (position == rateGooglePlay) {
@@ -132,8 +127,8 @@ public class AboutFragment extends Fragment {
                 Browser.openUrl(activity, Moviemade.PAYPAL_ME);
             }
         });
-        fragmentView.addView(recyclerView);
-        return fragmentView;
+
+        return view;
     }
 
     @Override
@@ -182,7 +177,7 @@ public class AboutFragment extends Fragment {
                 }
             } else if (type == 2) {
                 TextCell cell = (TextCell) holder.itemView;
-                cell.changeLayoutParams().setMode(TextCell.MODE_ICON).setHeight(ScreenUtils.dp(52));
+                cell.changeLayoutParams().setMode(TextCell.MODE_ICON).setHeight(Extensions.dp(activity, 52));
 
                 if (position == rateGooglePlay) {
                     cell.setIcon(R.drawable.ic_google_play).setText(R.string.RateGooglePlay).setDivider(true);

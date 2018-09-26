@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.ui.fragment;
+package org.michaelbel.moviemade.ui_beta.fragment;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -6,27 +6,22 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import org.michaelbel.bottomsheet.BottomSheet;
+import org.michaelbel.material.extensions.Extensions;
+import org.michaelbel.material.widget.Holder;
+import org.michaelbel.material.widget.RecyclerListView;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.core.widget.LayoutHelper;
-import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.browser.Browser;
 import org.michaelbel.moviemade.model.Source;
-import org.michaelbel.moviemade.ui.AboutActivity;
-import org.michaelbel.moviemade.ui.adapter.recycler.Holder;
 import org.michaelbel.moviemade.ui.view.cell.TextDetailCell;
-import org.michaelbel.core.widget.RecyclerListView;
-import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.ScreenUtils;
+import org.michaelbel.moviemade.ui_beta.activity.AboutActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,12 +43,11 @@ public class LibsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        activity.toolbar.setNavigationOnClickListener(view -> activity.finishFragment());
-        activity.toolbarTitle.setText(R.string.OpenSourceLibs);
+        View view = inflater.inflate(R.layout.fragment_libs, container, false);
 
-        FrameLayout fragmentView = new FrameLayout(activity);
-        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
+        activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        activity.toolbar.setNavigationOnClickListener(v -> activity.finishFragment());
+        activity.toolbarTitle.setText(R.string.OpenSourceLibs);
 
         sources.add(new Source("BottomSheet", "https://github.com/michaelbel/bottomsheet","Apache License 2.0"));
         sources.add(new Source("Gson", "https://github.com/google/gson","Apache License 2.0"));
@@ -66,39 +60,33 @@ public class LibsFragment extends Fragment {
         sources.add(new Source("ChipsLayoutManager", "https://github.com/beloos/chipslayoutmanager", "Apache License 2.0"));
         sources.add(new Source("ExpandableTextView", "https://github.com/blogcat/android-expandabletextview", "Apache License 2.0"));
         sources.add(new Source("Android Animated Menu Items", "https://github.com/adonixis/android-animated-menu-items", "Apache License 2.0"));
-        //sources.add(new Source("Realm Android Adapters", "https://github.com/realm/realm-android-adapters", "Apache License 2.0"));
-        //sources.add(new Source("Dagger 2", "https://github.com/google/dagger", "Apache License v2.0"));
-        //sources.add(new Source("CircleIndicator", "https://github.com/ongakuer/circleindicator", "Apache License 2.0"));
-        //sources.add(new Source("RxAndroid", "https://github.com/reactivex/rxjava","Apache License 2.0"));
 
         linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
-        recyclerView = new RecyclerListView(activity);
+        recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(new LibsAdapter());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setVerticalScrollBarEnabled(AndroidUtils.scrollbars());
-        recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        recyclerView.setOnItemClickListener((view, position) -> Browser.openUrl(activity, sources.get(position).url));
-        recyclerView.setOnItemLongClickListener((view, position) -> {
+        recyclerView.setOnItemClickListener((v, position) -> Browser.openUrl(activity, sources.get(position).url));
+        recyclerView.setOnItemLongClickListener((v, position) -> {
             BottomSheet.Builder builder = new BottomSheet.Builder(activity);
-            builder.setCellHeight(ScreenUtils.dp(52));
+            builder.setCellHeight(Extensions.dp(activity, 52));
             builder.setTitle(sources.get(position).url).setTitleMultiline(true);
-            builder.setTitleTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
-            builder.setBackgroundColor(ContextCompat.getColor(activity, Theme.foregroundColor()));
-            builder.setItemTextColor(ContextCompat.getColor(activity, Theme.primaryTextColor()));
+            builder.setTitleTextColorRes(R.color.secondaryText);
+            builder.setBackgroundColorRes(R.color.primary);
+            builder.setItemTextColorRes(R.color.primaryText);
             builder.setItems(new int[] { R.string.Open, R.string.CopyLink }, (dialogInterface, i) -> {
                 if (i == 0) {
                     Browser.openUrl(activity, sources.get(position).url);
                 } else if (i == 1) {
-                    AndroidUtils.copyToClipboard(sources.get(position).url);
+                    Extensions.copyToClipboard(activity, sources.get(position).url);
                     Toast.makeText(activity, getString(R.string.ClipboardCopied, getString(R.string.Link)), Toast.LENGTH_SHORT).show();
                 }
             });
             builder.show();
             return true;
         });
-        fragmentView.addView(recyclerView);
-        return fragmentView;
+
+        return view;
     }
 
     @Override
@@ -115,7 +103,7 @@ public class LibsFragment extends Fragment {
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
-            return new Holder(new TextDetailCell(activity));
+            return new Holder(new TextDetailCell(parent.getContext()));
         }
 
         @Override
