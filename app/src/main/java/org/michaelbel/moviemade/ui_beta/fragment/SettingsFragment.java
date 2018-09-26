@@ -1,6 +1,7 @@
-package org.michaelbel.moviemade.ui.fragment;
+package org.michaelbel.moviemade.ui_beta.fragment;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -8,29 +9,22 @@ import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
-import org.michaelbel.bottomsheet.BottomSheet;
-import org.michaelbel.core.widget.LayoutHelper;
-import org.michaelbel.core.widget.RecyclerListView;
 import org.michaelbel.material.widget.Holder;
+import org.michaelbel.material.widget.RecyclerListView;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Moviemade;
-import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.eventbus.Events;
-import org.michaelbel.moviemade.ui.SettingsActivity;
+import org.michaelbel.moviemade.ui_beta.activity.SettingsActivity;
 import org.michaelbel.moviemade.ui.view.cell.EmptyCell;
 import org.michaelbel.moviemade.ui.view.cell.TextCell;
 import org.michaelbel.moviemade.ui.view.cell.TextDetailCell;
+import org.michaelbel.moviemade.ui_beta.activity.AboutActivity;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
@@ -39,6 +33,7 @@ public class SettingsFragment extends Fragment {
     private int rowCount;
     private int inAppBrowserRow;
     private int adultRow;
+    private int aboutRow;
 
     private SharedPreferences prefs;
     private SettingsActivity activity;
@@ -55,42 +50,43 @@ public class SettingsFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        activity.toolbar.setNavigationOnClickListener(view -> activity.finish());
-        activity.toolbarTitle.setText(R.string.Settings);
+        View view = inflater.inflate(R.layout.fragment_settings, container, false);
 
-        FrameLayout fragmentView = new FrameLayout(activity);
-        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, R.color.background));
+        activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        activity.toolbar.setNavigationOnClickListener(v -> activity.finish());
+        activity.toolbarTitle.setText(R.string.Settings);
 
         rowCount = 0;
         inAppBrowserRow = rowCount++;
         adultRow = rowCount++;
+        aboutRow = rowCount++;
 
         prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
         linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
 
-        recyclerView = new RecyclerListView(activity);
+        recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(new SettingsAdapter());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        recyclerView.setOnItemClickListener((view, position) -> {
+        recyclerView.setOnItemClickListener((v, position) -> {
             if (position == inAppBrowserRow) {
                 boolean enable = prefs.getBoolean("in_app_browser", true);
                 prefs.edit().putBoolean("in_app_browser", !enable).apply();
-                if (view instanceof TextDetailCell) {
-                    ((TextDetailCell) view).setChecked(!enable);
+                if (v instanceof TextDetailCell) {
+                    ((TextDetailCell) v).setChecked(!enable);
                 }
             } else if (position == adultRow) {
                 boolean enable = prefs.getBoolean("adult", true);
                 prefs.edit().putBoolean("adult", !enable).apply();
-                if (view instanceof TextDetailCell) {
-                    ((TextDetailCell) view).setChecked(!enable);
+                if (v instanceof TextDetailCell) {
+                    ((TextDetailCell) v).setChecked(!enable);
                 }
                 ((Moviemade) activity.getApplication()).eventBus().send(new Events.MovieListUpdateAdult());
+            } else if (position == aboutRow) {
+                startActivity(new Intent(activity, AboutActivity.class));
             }
         });
-        fragmentView.addView(recyclerView);
-        return fragmentView;
+
+        return view;
     }
 
     @Override
@@ -107,13 +103,13 @@ public class SettingsFragment extends Fragment {
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
-            View cell = null;
+            View cell;
 
             if (type == 1) {
                 cell = new EmptyCell(activity);
             } else if (type == 2) {
                 cell = new TextCell(activity);
-            } else if (type == 3) {
+            } else {
                 cell = new TextDetailCell(activity);
             }
 
@@ -130,7 +126,12 @@ public class SettingsFragment extends Fragment {
             } else if (type == 2) {
                 TextCell cell = (TextCell) holder.itemView;
                 cell.changeLayoutParams().setHeight(ScreenUtils.dp(52));
-            } else if (type == 3) {
+
+                if (position == aboutRow) {
+                    cell.setMode(TextCell.MODE_DEFAULT);
+                    cell.setText(R.string.About);
+                }
+            } else {
                 TextDetailCell cell = (TextDetailCell) holder.itemView;
                 cell.changeLayoutParams();
 
@@ -145,7 +146,7 @@ public class SettingsFragment extends Fragment {
                     cell.setText(getString(R.string.IncludeAdult));
                     cell.setValue(R.string.IncludeAdultInfo);
                     cell.setChecked(AndroidUtils.includeAdult());
-                    cell.setDivider(false);
+                    cell.setDivider(true);
                 }
             }
         }
@@ -157,14 +158,12 @@ public class SettingsFragment extends Fragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == -9) {
+            if (position == -1) {
                 return 1;
-            } else if (position == -8) {
+            } else if (position == aboutRow) {
                 return 2;
-            } else if (position == adultRow || position == inAppBrowserRow) {
-                return 3;
             } else {
-                return -1;
+                return 3;
             }
         }
     }
