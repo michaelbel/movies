@@ -22,14 +22,14 @@ def getProperty(String filename, String propName) {
 
 android {
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.2'
 
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 27
-        versionCode 40
-        versionName "0.3.0"
-        buildConfigField "String", "VERSION_DATE", '"21 Sep 2018"'
+        versionCode 41
+        versionName "0.3.1"
+        buildConfigField "String", "VERSION_DATE", '"27 Sep 2018"'
         project.ext.set("archivesBaseName", "moviemade-v" + versionName)
         buildConfigField "String", "TMDB_API_KEY", "\"${getProperty("local.properties", "tmdb_api_key")}\""
     }
@@ -53,7 +53,7 @@ android {
         developing {
             flavorDimensions "develop"
             minSdkVersion 21
-            versionName "0.3.0-beta"
+            versionName "0.3.1-beta"
             applicationId "org.michaelbel.moviemade.beta"
         }
     }
