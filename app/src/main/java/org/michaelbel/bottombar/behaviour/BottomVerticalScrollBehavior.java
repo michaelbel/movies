@@ -1,10 +1,11 @@
 package org.michaelbel.bottombar.behaviour;
 
 
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.view.ViewCompat;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import android.view.View;
 import android.view.animation.Interpolator;
 
@@ -30,7 +31,7 @@ public class BottomVerticalScrollBehavior<V extends View> extends VerticalScroll
     // onBottomBar changes
     ///////////////////////////////////////////////////////////////////////////
     @Override
-    public boolean onLayoutChild(CoordinatorLayout parent, final V child, int layoutDirection) {
+    public boolean onLayoutChild(@NonNull CoordinatorLayout parent, @NonNull final V child, int layoutDirection) {
         // First let the parent lay it out
         parent.onLayoutChild(child, layoutDirection);
         if (child instanceof BottomNavigationBar) {
@@ -52,7 +53,7 @@ public class BottomVerticalScrollBehavior<V extends View> extends VerticalScroll
     // SnackBar Handling
     ///////////////////////////////////////////////////////////////////////////
     @Override
-    public boolean layoutDependsOn(CoordinatorLayout parent, V child, View dependency) {
+    public boolean layoutDependsOn(@NonNull CoordinatorLayout parent, V child, View dependency) {
         return isDependent(dependency) || super.layoutDependsOn(parent, child, dependency);
     }
 

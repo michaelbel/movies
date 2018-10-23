@@ -1,11 +1,12 @@
 package org.michaelbel.bottombar.behaviour;
 
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.view.ViewPropertyAnimatorCompat;
-import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.ViewPropertyAnimatorCompat;
+import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 import android.view.View;
 import android.view.animation.Interpolator;
 
@@ -33,20 +34,21 @@ public class BottomNavBarFabBehaviour extends CoordinatorLayout.Behavior<Floatin
     // Constructor
     ///////////////////////////////////////////////////////////////////////////
 
-//    public BottomNavBarFabBehaviour() {
-//        mFabBehaviour = BottomNavigationBar.FAB_BEHAVIOUR_TRANSLATE_AND_STICK;
-//    }
+    //public BottomNavBarFabBehaviour() {
+    //    mFabBehaviour = BottomNavigationBar.FAB_BEHAVIOUR_TRANSLATE_AND_STICK;
+    //}
+
     ///////////////////////////////////////////////////////////////////////////
     // Dependencies setup
     ///////////////////////////////////////////////////////////////////////////
 
     @Override
-    public boolean layoutDependsOn(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
+    public boolean layoutDependsOn(@NonNull CoordinatorLayout parent, @NonNull FloatingActionButton child, @NonNull View dependency) {
         return isDependent(dependency) || super.layoutDependsOn(parent, child, dependency);
     }
 
     @Override
-    public boolean onLayoutChild(CoordinatorLayout parent, FloatingActionButton child, int layoutDirection) {
+    public boolean onLayoutChild(@NonNull CoordinatorLayout parent, @NonNull FloatingActionButton child, int layoutDirection) {
         // First let the parent lay it out
         parent.onLayoutChild(child, layoutDirection);
 
@@ -56,7 +58,7 @@ public class BottomNavBarFabBehaviour extends CoordinatorLayout.Behavior<Floatin
     }
 
     @Override
-    public boolean onDependentViewChanged(CoordinatorLayout parent, FloatingActionButton child, View dependency) {
+    public boolean onDependentViewChanged(@NonNull CoordinatorLayout parent, @NonNull FloatingActionButton child, @NonNull View dependency) {
         if (isDependent(dependency)) {
             updateFabTranslationForBottomNavigationBar(parent, child, dependency);
             return false;
@@ -66,8 +68,7 @@ public class BottomNavBarFabBehaviour extends CoordinatorLayout.Behavior<Floatin
     }
 
     @Override
-    public void onDependentViewRemoved(CoordinatorLayout parent, FloatingActionButton child,
-                                       View dependency) {
+    public void onDependentViewRemoved(@NonNull CoordinatorLayout parent, @NonNull FloatingActionButton child, @NonNull View dependency) {
         if (isDependent(dependency)) {
             updateFabTranslationForBottomNavigationBar(parent, child, dependency);
         }
