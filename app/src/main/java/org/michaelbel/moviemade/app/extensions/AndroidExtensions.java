@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.app.extensions;
 
-import android.app.Activity;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
@@ -14,6 +13,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class AndroidExtensions extends Extensions {
 
@@ -143,10 +144,5 @@ public class AndroidExtensions extends Extensions {
         }
 
         return age;
-    }
-
-    public static int watchlistLayoutFilter() {
-        SharedPreferences prefs = Moviemade.AppContext.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
-        return prefs.getInt("watchlistFilter", 0);
     }
 }

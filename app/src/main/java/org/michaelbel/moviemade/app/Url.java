@@ -2,14 +2,14 @@ package org.michaelbel.moviemade.app;
 
 public class Url {
 
-    public static final String IMDB_MOVIE = "http://imdb.com/title/%s";
-    public static final String IMDB_PERSON = "http://imdb.com/name/%s";
+    public static final String IMDB_MOVIE = "https://imdb.com/title/%s";
+    public static final String IMDB_PERSON = "https://imdb.com/name/%s";
 
-    public static final String YOUTUBE_IMAGE = "http://img.youtube.com/vi/%s/0.jpg";
+    public static final String YOUTUBE_IMAGE = "https://img.youtube.com/vi/%s/0.jpg";
 
     public static final String TMDB_MOVIE = "https://themoviedb.org/movie/%d";
     public static final String TMDB_PERSON = "https://themoviedb.org/person/%d";
-    public static final String TMDB_IMAGE = "http://image.tmdb.org/t/p/%s/%s";
+    public static final String TMDB_IMAGE = "https://image.tmdb.org/t/p/%s/%s";
     public static final String TMDB_MOVIE_POSTERS = "https://themoviedb.org/movie/%d/images/posters";
     public static final String TMDB_MOVIE_BACKDROPS = "https://themoviedb.org/movie/%d/images/backdrops";
 

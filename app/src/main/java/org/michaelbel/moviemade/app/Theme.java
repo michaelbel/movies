@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.DrawableRes;
+import androidx.annotation.DrawableRes;
 
 import org.michaelbel.moviemade.R;
 
@@ -145,11 +145,11 @@ public class Theme {
 
     public static int unselectedTabColor() {
         if (Theme.getTheme() == THEME_LIGHT) {
-            return R.color.night_blue_secondaryTextColor;
+            return R.color.secondaryText;
         } else if (Theme.getTheme() == THEME_NIGHT) {
-            return R.color.night_secondaryTextColor;
+            return R.color.secondaryText;
         } else if (Theme.getTheme() == THEME_NIGHT_BLUE) {
-            return R.color.night_blue_secondaryTextColor;
+            return R.color.secondaryText;
         }
 
         return 0;
