@@ -25,7 +25,7 @@ import android.widget.TextView;
  * @see FrameLayout
  * @since 19 Mar 2016
  */
-abstract class BottomNavigationTab extends FrameLayout {
+public abstract class BottomNavigationTab extends FrameLayout {
 
     protected boolean isNoTitleMode;
 

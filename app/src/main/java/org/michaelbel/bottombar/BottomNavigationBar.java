@@ -85,8 +85,8 @@ public class BottomNavigationBar extends FrameLayout {
     private static final int MIN_SIZE = 3;
     private static final int MAX_SIZE = 5;
 
-    ArrayList<BottomNavigationItem> mBottomNavigationItems = new ArrayList<>();
-    ArrayList<BottomNavigationTab> mBottomNavigationTabs = new ArrayList<>();
+    private ArrayList<BottomNavigationItem> mBottomNavigationItems = new ArrayList<>();
+    private ArrayList<BottomNavigationTab> mBottomNavigationTabs = new ArrayList<>();
 
     private static final int DEFAULT_SELECTED_POSITION = -1;
     private int mSelectedPosition = DEFAULT_SELECTED_POSITION;
@@ -181,11 +181,9 @@ public class BottomNavigationBar extends FrameLayout {
                 case BACKGROUND_STYLE_STATIC:
                     mBackgroundStyle = BACKGROUND_STYLE_STATIC;
                     break;
-
                 case BACKGROUND_STYLE_RIPPLE:
                     mBackgroundStyle = BACKGROUND_STYLE_RIPPLE;
                     break;
-
                 case BACKGROUND_STYLE_DEFAULT:
                 default:
                     mBackgroundStyle = BACKGROUND_STYLE_DEFAULT;
@@ -483,20 +481,14 @@ public class BottomNavigationBar extends FrameLayout {
         bottomNavigationTab.setActiveWidth(itemActiveWidth);
         bottomNavigationTab.setPosition(mBottomNavigationItems.indexOf(currentItem));
 
-        bottomNavigationTab.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                BottomNavigationTab bottomNavigationTabView = (BottomNavigationTab) v;
-                selectTabInternal(bottomNavigationTabView.getPosition(), false, true, false);
-            }
+        bottomNavigationTab.setOnClickListener(v -> {
+            BottomNavigationTab bottomNavigationTabView = (BottomNavigationTab) v;
+            selectTabInternal(bottomNavigationTabView.getPosition(), false, true, false);
         });
 
         mBottomNavigationTabs.add(bottomNavigationTab);
-
         BottomNavigationHelper.bindTabWithData(currentItem, bottomNavigationTab, this);
-
         bottomNavigationTab.initialise(mBackgroundStyle == BACKGROUND_STYLE_STATIC);
-
         mTabContainer.addView(bottomNavigationTab);
     }
 
@@ -526,16 +518,13 @@ public class BottomNavigationBar extends FrameLayout {
                     mContainer.setBackgroundColor(clickedView.getActiveColor());
                     mBackgroundOverlay.setVisibility(View.GONE);
                 } else {
-                    mBackgroundOverlay.post(new Runnable() {
-                        @Override
-                        public void run() {
-//                            try {
+                    mBackgroundOverlay.post(() -> {
+                        //try {
                             BottomNavigationHelper.setBackgroundWithRipple(clickedView, mContainer, mBackgroundOverlay, clickedView.getActiveColor(), mRippleAnimationDuration);
-//                            } catch (Exception e) {
-//                                mContainer.setBackgroundColor(clickedView.getActiveColor());
-//                                mBackgroundOverlay.setVisibility(View.GONE);
-//                            }
-                        }
+                        /*} catch (Exception e) {
+                            mContainer.setBackgroundColor(clickedView.getActiveColor());
+                            mBackgroundOverlay.setVisibility(View.GONE);
+                        }*/
                     });
                 }
             }
@@ -556,7 +545,7 @@ public class BottomNavigationBar extends FrameLayout {
      */
     private void sendListenerCall(int oldPosition, int newPosition, boolean forcedSelection) {
         if (mTabSelectedListener != null) {
-//                && oldPosition != -1) {
+            //&& oldPosition != -1) {
             if (forcedSelection) {
                 mTabSelectedListener.onTabSelected(newPosition);
             } else {
@@ -679,7 +668,7 @@ public class BottomNavigationBar extends FrameLayout {
 
     public void setFab(FloatingActionButton fab) {
         ViewGroup.LayoutParams layoutParams = fab.getLayoutParams();
-        if (layoutParams != null && layoutParams instanceof CoordinatorLayout.LayoutParams) {
+        if (layoutParams instanceof CoordinatorLayout.LayoutParams) {
             CoordinatorLayout.LayoutParams coLayoutParams = (CoordinatorLayout.LayoutParams) layoutParams;
             BottomNavBarFabBehaviour bottomNavBarFabBehaviour = new BottomNavBarFabBehaviour();
             coLayoutParams.setBehavior(bottomNavBarFabBehaviour);
@@ -689,13 +678,12 @@ public class BottomNavigationBar extends FrameLayout {
     // scheduled for next
     private void setFab(FloatingActionButton fab, @FabBehaviour int fabBehaviour) {
         ViewGroup.LayoutParams layoutParams = fab.getLayoutParams();
-        if (layoutParams != null && layoutParams instanceof CoordinatorLayout.LayoutParams) {
+        if (layoutParams instanceof CoordinatorLayout.LayoutParams) {
             CoordinatorLayout.LayoutParams coLayoutParams = (CoordinatorLayout.LayoutParams) layoutParams;
             BottomNavBarFabBehaviour bottomNavBarFabBehaviour = new BottomNavBarFabBehaviour();
             coLayoutParams.setBehavior(bottomNavBarFabBehaviour);
         }
     }
-
 
     ///////////////////////////////////////////////////////////////////////////
     // Getters
@@ -773,16 +761,14 @@ public class BottomNavigationBar extends FrameLayout {
      * Extend this if you do not intend to override every method of OnTabSelectedListener.
      */
     public static class SimpleOnTabSelectedListener implements OnTabSelectedListener {
-        @Override
-        public void onTabSelected(int position) {
-        }
 
         @Override
-        public void onTabUnselected(int position) {
-        }
+        public void onTabSelected(int position) {}
 
         @Override
-        public void onTabReselected(int position) {
-        }
+        public void onTabUnselected(int position) {}
+
+        @Override
+        public void onTabReselected(int position) {}
     }
 }

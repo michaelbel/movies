@@ -23,6 +23,7 @@ import java.util.List;
  * @since 25 Mar 2016
  */
 public class BottomVerticalScrollBehavior<V extends View> extends VerticalScrollingBehavior<V> {
+
     private static final Interpolator INTERPOLATOR = new FastOutSlowInInterpolator();
     private int mBottomNavHeight;
     private WeakReference<BottomNavigationBar> mViewRef;
@@ -38,12 +39,7 @@ public class BottomVerticalScrollBehavior<V extends View> extends VerticalScroll
             mViewRef = new WeakReference<>((BottomNavigationBar) child);
         }
 
-        child.post(new Runnable() {
-            @Override
-            public void run() {
-                mBottomNavHeight = child.getHeight();
-            }
-        });
+        child.post(() -> mBottomNavHeight = child.getHeight());
         updateSnackBarPosition(parent, child, getSnackBarInstance(parent, child));
 
         return super.onLayoutChild(parent, child, layoutDirection);
@@ -53,7 +49,7 @@ public class BottomVerticalScrollBehavior<V extends View> extends VerticalScroll
     // SnackBar Handling
     ///////////////////////////////////////////////////////////////////////////
     @Override
-    public boolean layoutDependsOn(@NonNull CoordinatorLayout parent, V child, View dependency) {
+    public boolean layoutDependsOn(@NonNull CoordinatorLayout parent, @NonNull V child, @NonNull View dependency) {
         return isDependent(dependency) || super.layoutDependsOn(parent, child, dependency);
     }
 
@@ -62,7 +58,7 @@ public class BottomVerticalScrollBehavior<V extends View> extends VerticalScroll
     }
 
     @Override
-    public boolean onDependentViewChanged(CoordinatorLayout parent, V child, View dependency) {
+    public boolean onDependentViewChanged(@NonNull CoordinatorLayout parent, @NonNull V child, @NonNull View dependency) {
         if (isDependent(dependency)) {
             updateSnackBarPosition(parent, child, dependency);
             return false;
@@ -76,7 +72,7 @@ public class BottomVerticalScrollBehavior<V extends View> extends VerticalScroll
     }
 
     private void updateSnackBarPosition(CoordinatorLayout parent, V child, View dependency, float translationY) {
-        if (dependency != null && dependency instanceof Snackbar.SnackbarLayout) {
+        if (dependency instanceof Snackbar.SnackbarLayout) {
             ViewCompat.animate(dependency).setInterpolator(INTERPOLATOR).setDuration(80).setStartDelay(0).translationY(translationY).start();
         }
     }
@@ -103,14 +99,14 @@ public class BottomVerticalScrollBehavior<V extends View> extends VerticalScroll
 
     @Override
     public void onNestedVerticalPreScroll(CoordinatorLayout coordinatorLayout, V child, View target, int dx, int dy, int[] consumed, @ScrollDirection int scrollDirection) {
-//        handleDirection(child, scrollDirection);
+        //handleDirection(child, scrollDirection);
     }
 
     @Override
     protected boolean onNestedDirectionFling(CoordinatorLayout coordinatorLayout, V child, View target, float velocityX, float velocityY, boolean consumed, @ScrollDirection int scrollDirection) {
-//        if (consumed) {
-//            handleDirection(child, scrollDirection);
-//        }
+        /*if (consumed) {
+            handleDirection(child, scrollDirection);
+        }*/
         return consumed;
     }
 

@@ -18,8 +18,7 @@ public class Utils {
 
     public static final int NO_COLOR = Color.TRANSPARENT;
 
-    private Utils() {
-    }
+    private Utils() {}
 
     /**
      * @param context used to get system services
@@ -41,12 +40,9 @@ public class Utils {
      */
     public static int fetchContextColor(Context context, int androidAttribute) {
         TypedValue typedValue = new TypedValue();
-
         TypedArray a = context.obtainStyledAttributes(typedValue.data, new int[]{androidAttribute});
         int color = a.getColor(0, 0);
-
         a.recycle();
-
         return color;
     }
 

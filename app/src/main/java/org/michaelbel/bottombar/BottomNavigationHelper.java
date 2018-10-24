@@ -21,10 +21,9 @@ import org.michaelbel.moviemade.R;
  * @version 1.0
  * @since 19 Mar 2016
  */
-class BottomNavigationHelper {
+public class BottomNavigationHelper {
 
-    private BottomNavigationHelper() {
-    }
+    private BottomNavigationHelper() {}
 
     /**
      * Used to get Measurements for MODE_FIXED
@@ -36,12 +35,9 @@ class BottomNavigationHelper {
      * @return width of each tab
      */
     static int[] getMeasurementsForFixedMode(Context context, int screenWidth, int noOfTabs, boolean scrollable) {
-
         int[] result = new int[2];
-
         int minWidth = (int) context.getResources().getDimension(R.dimen.fixed_min_width_small_views);
         int maxWidth = (int) context.getResources().getDimension(R.dimen.fixed_min_width);
-
         int itemWidth = screenWidth / noOfTabs;
 
         if (itemWidth < minWidth && scrollable) {

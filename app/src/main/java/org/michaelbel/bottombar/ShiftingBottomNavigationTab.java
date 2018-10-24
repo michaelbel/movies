@@ -112,5 +112,4 @@ class ShiftingBottomNavigationTab extends BottomNavigationTab {
             return true;
         }
     }
-
 }

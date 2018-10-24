@@ -13,7 +13,6 @@ import android.text.TextUtils;
 
 import org.michaelbel.bottombar.utils.Utils;
 
-
 /**
  * Class description : Holds data for tabs (i.e data structure which holds all data to paint a tab)
  *
@@ -265,5 +264,4 @@ public class BottomNavigationItem {
     BadgeItem getBadgeItem() {
         return mBadgeItem;
     }
-
 }
