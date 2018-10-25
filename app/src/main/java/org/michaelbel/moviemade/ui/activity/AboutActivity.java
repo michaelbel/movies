@@ -1,13 +1,13 @@
-package org.michaelbel.moviemade.ui_beta.activity;
+package org.michaelbel.moviemade.ui.activity;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import android.widget.TextView;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
-import org.michaelbel.moviemade.ui_beta.fragment.AboutFragment;
+import org.michaelbel.moviemade.ui.fragment.AboutFragment;
 
 public class AboutActivity extends BaseActivity {
 
