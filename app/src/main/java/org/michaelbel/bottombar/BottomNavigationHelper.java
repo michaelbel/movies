@@ -34,7 +34,7 @@ public class BottomNavigationHelper {
      * @param scrollable  is bottom bar scrollable
      * @return width of each tab
      */
-    static int[] getMeasurementsForFixedMode(Context context, int screenWidth, int noOfTabs, boolean scrollable) {
+    public static int[] getMeasurementsForFixedMode(Context context, int screenWidth, int noOfTabs, boolean scrollable) {
         int[] result = new int[2];
         int minWidth = (int) context.getResources().getDimension(R.dimen.fixed_min_width_small_views);
         int maxWidth = (int) context.getResources().getDimension(R.dimen.fixed_min_width);
@@ -60,7 +60,7 @@ public class BottomNavigationHelper {
      * @param scrollable  is bottom bar scrollable
      * @return min and max width of each tab
      */
-    static int[] getMeasurementsForShiftingMode(Context context, int screenWidth, int noOfTabs, boolean scrollable) {
+    public static int[] getMeasurementsForShiftingMode(Context context, int screenWidth, int noOfTabs, boolean scrollable) {
 
         int[] result = new int[2];
 
@@ -111,7 +111,7 @@ public class BottomNavigationHelper {
      * @param bottomNavigationTab  view to which data need to be set
      * @param bottomNavigationBar  view which holds all the tabs
      */
-    static void bindTabWithData(BottomNavigationItem bottomNavigationItem, BottomNavigationTab bottomNavigationTab, BottomNavigationBar bottomNavigationBar) {
+    public static void bindTabWithData(BottomNavigationItem bottomNavigationItem, BottomNavigationTab bottomNavigationTab, BottomNavigationBar bottomNavigationBar) {
 
         Context context = bottomNavigationBar.getContext();
 
