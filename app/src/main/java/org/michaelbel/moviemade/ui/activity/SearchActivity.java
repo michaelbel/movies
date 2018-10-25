@@ -1,41 +1,26 @@
-package org.michaelbel.moviemade.ui;
+package org.michaelbel.moviemade.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.widget.Toolbar;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.TypedValue;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import org.michaelbel.core.widget.LayoutHelper;
 import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
-import org.michaelbel.moviemade.ui.fragment.SearchCollectionsFragment;
-import org.michaelbel.moviemade.ui.fragment.SearchCompaniesFragment;
-import org.michaelbel.moviemade.ui.fragment.SearchKeywordsFragment;
 import org.michaelbel.moviemade.ui.fragment.SearchMoviesFragment;
-import org.michaelbel.moviemade.ui.fragment.SearchPeopleFragment;
-import org.michaelbel.moviemade.ui.view.widget.FragmentsPagerAdapter;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 
 import java.util.List;
@@ -77,24 +62,8 @@ public class SearchActivity extends BaseActivity {
 
         iconActionMode = MODE_ACTION_VOICE;
 
-        FrameLayout toolbarLayout = new FrameLayout(this);
-        toolbarLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        toolbar.addView(toolbarLayout);
-
-        searchEditText = new EditText(this);
-        searchEditText.setLines(1);
-        searchEditText.setMaxLines(1);
-        searchEditText.setSingleLine();
-        searchEditText.setHint(R.string.Search);
-        searchEditText.setBackgroundDrawable(null);
-        searchEditText.setTypeface(Typeface.DEFAULT);
-        searchEditText.setEllipsize(TextUtils.TruncateAt.END);
-        searchEditText.setInputType(InputType.TYPE_CLASS_TEXT);
-        searchEditText.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
-        searchEditText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-        searchEditText.setTextColor(ContextCompat.getColor(this, R.color.md_white));
-        searchEditText.setHintTextColor(ContextCompat.getColor(this, R.color.night_blue_disabledHintTextColor));
-        searchEditText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL));
+        searchEditText = findViewById(R.id.search_edit_text);
+        searchEditText.setBackground(null);
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -116,7 +85,6 @@ public class SearchActivity extends BaseActivity {
 
             return false;
         });
-        toolbarLayout.addView(searchEditText);
         Extensions.clearCursorDrawable(searchEditText);
     }
 
