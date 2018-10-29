@@ -39,8 +39,10 @@ public class MainActivity extends BaseActivity {
         sharedPreferences = context.getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
 
         TopBar topbar = findViewById(R.id.topbar);
+        topbar.setTitle(R.string.AppName);
+
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) topbar.getLayoutParams();
-        params.topMargin = Extensions.getStatusBarHeight(context) + Extensions.dp(context, 4);
+        params.topMargin = Extensions.getStatusBarHeight(context);
 
         ImageView searchIcon = findViewById(R.id.search_icon);
         searchIcon.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SearchActivity.class)));
