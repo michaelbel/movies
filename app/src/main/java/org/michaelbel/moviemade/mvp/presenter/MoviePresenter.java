@@ -2,28 +2,23 @@ package org.michaelbel.moviemade.mvp.presenter;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
 
-import org.michaelbel.material.annotation.Beta;
+import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.app.Url;
 import org.michaelbel.moviemade.app.extensions.AndroidExtensions;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.view.MvpMovieView;
 import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.rest.api.MOVIES;
-import org.michaelbel.moviemade.rest.model.Crew;
 import org.michaelbel.moviemade.rest.model.Movie;
-import org.michaelbel.moviemade.rest.model.v3.Keyword;
-import org.michaelbel.moviemade.rest.model.v3.Trailer;
-import org.michaelbel.moviemade.rest.response.CreditResponse;
-import org.michaelbel.moviemade.rest.response.ImageResponse;
-import org.michaelbel.moviemade.rest.response.KeywordResponse;
-import org.michaelbel.moviemade.rest.response.TrailersResponse;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.DateUtils;
 import org.michaelbel.moviemade.utils.NetworkUtils;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Locale;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -37,42 +32,90 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
-    public void loadMovie(Movie movie) {
+    public void setMovieDetailsFromExtra(Movie movie) {
+        RequestOptions options = new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).priority(Priority.HIGH);
+        getViewState().setPoster(options, String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.posterSize(), movie.posterPath));
+
+        getViewState().setMovieTitle(movie.title);
+
+        getViewState().setOverview(movie.overview);
+
+        getViewState().setVoteAverage(movie.voteAverage);
+
+        getViewState().setVoteCount(movie.voteCount);
+
+        getViewState().setReleaseDate(AndroidExtensions.formatReleaseDate(movie.releaseDate));
+
+        getViewState().setOriginalLanguage(AndroidUtils.formatOriginalLanguage(movie.originalLanguage));
+    }
+
+    /**
+     * Получить наиболее подробную информацию о фильме
+     */
+    public void loadMovieDetails(int movieId) {
         if (NetworkUtils.notConnected()) {
-            if (isMovieRealm(movie.id)) {
-                loadMovieFromRealm(movie.id);
-            } else {
-                getViewState().showMovie(movie, false);
-            }
+            getViewState().showConnectionError();
         } else {
-            loadMovieDetails(movie.id);
+            MOVIES service = ApiFactory.createService2(MOVIES.class);
+            Observable<Movie> observable = service.getDetails(movieId, BuildConfig.TMDB_API_KEY, Url.en_US, null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+            disposables.add(observable.subscribeWith(new DisposableObserver<Movie>() {
+                @Override
+                public void onNext(Movie movie) {
+                    getViewState().setRuntime((movie.runtime != 0 ? AndroidExtensions.formatRuntime(movie.runtime) : null));
+                }
+
+                @Override
+                public void onError(Throwable e) {
+                    getViewState().showConnectionError();
+                }
+
+                @Override
+                public void onComplete() {}
+            }));
         }
     }
 
-    public void loadMovie(MovieRealm movie) {
-        loadMovieDetails(movie.id);
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        disposables.dispose();
     }
 
-    private void loadMovieDetails(int movieId) {
+
+
+
+
+
+
+
+    /*public void loadCredits(int movieId) {
+        List<Crew> crews = new ArrayList<>();
+
+        if (NetworkUtils.notConnected()) {
+            getViewState().showCrew(crews);
+        }
+
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<Movie> observable = service.getDetails(movieId, Url.TMDB_API_KEY, Url.en_US, null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<Movie>() {
+        Observable<CreditResponse> observable = service.getCredits(movieId, BuildConfig.TMDB_API_KEY).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposables.add(observable.subscribeWith(new DisposableObserver<CreditResponse>() {
             @Override
-            public void onNext(Movie movie) {
-                getViewState().showMovie(movie, true);
+            public void onNext(CreditResponse response) {
+                getViewState().showCrew(response.crews);
             }
 
             @Override
             public void onError(Throwable e) {
-                getViewState().showError();
+                getViewState().showCrew(crews);
             }
 
             @Override
-            public void onComplete() {}
+            public void onComplete() {
+                loadTrailers(movieId);
+            }
         }));
-    }
+    }*/
 
-    public void loadTrailers(int movieId) {
+    /*public void loadTrailers(int movieId) {
         List<Trailer> trailers = new ArrayList<>();
 
         if (NetworkUtils.notConnected()) {
@@ -81,7 +124,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         }
 
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<TrailersResponse> observable = service.getVideos(movieId, Url.TMDB_API_KEY, Url.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<TrailersResponse> observable = service.getVideos(movieId, BuildConfig.TMDB_API_KEY, Url.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<TrailersResponse>() {
             @Override
             public void onNext(TrailersResponse response) {
@@ -94,11 +137,38 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             }
 
             @Override
-            public void onComplete() {}
+            public void onComplete() {
+                loadImages(movieId);
+            }
         }));
-    }
+    }*/
 
-    public void loadKeywords(int movieId) {
+    /*public void loadImages(int movieId) {
+        if (NetworkUtils.notConnected()) {
+            return;
+        }
+
+        MOVIES service = ApiFactory.createService2(MOVIES.class);
+        Observable<ImageResponse> observable = service.getImages(movieId, BuildConfig.TMDB_API_KEY, null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposables.add(observable.subscribeWith(new DisposableObserver<ImageResponse>() {
+            @Override
+            public void onNext(ImageResponse response) {
+                getViewState().showImages(response.posters, response.backdrops, response.posters.size(), response.backdrops.size());
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onComplete() {
+                loadKeywords(movieId);
+            }
+        }));
+    }*/
+
+    /*public void loadKeywords(int movieId) {
         List<Keyword> keywords = new ArrayList<>();
 
         if (NetworkUtils.notConnected()) {
@@ -107,7 +177,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         }
 
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<KeywordResponse> observable = service.getKeywords(movieId, Url.TMDB_API_KEY).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<KeywordResponse> observable = service.getKeywords(movieId, BuildConfig.TMDB_API_KEY).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<KeywordResponse>() {
             @Override
             public void onNext(KeywordResponse response) {
@@ -122,92 +192,27 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             @Override
             public void onComplete() {}
         }));
-    }
+    }*/
 
-    public void loadImages(int movieId) {
-        if (NetworkUtils.notConnected()) {
-            return;
-        }
-
-        MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<ImageResponse> observable = service.getImages(movieId, Url.TMDB_API_KEY, null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<ImageResponse>() {
-            @Override
-            public void onNext(ImageResponse response) {
-                getViewState().showImages(response.posters, response.backdrops, response.posters.size(), response.backdrops.size());
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onComplete() {}
-        }));
-    }
-
-    public void loadCredits(int movieId) {
-        List<Crew> crews = new ArrayList<>();
-
-        if (NetworkUtils.notConnected()) {
-            getViewState().showCrew(crews);
-        }
-
-        MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<CreditResponse> observable = service.getCredits(movieId, Url.TMDB_API_KEY).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<CreditResponse>() {
-            @Override
-            public void onNext(CreditResponse response) {
-                getViewState().showCrew(response.crews);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                getViewState().showCrew(crews);
-            }
-
-            @Override
-            public void onComplete() {}
-        }));
-    }
-
-    @Override
-    public void onDestroy() {
-        disposables.dispose();
-        super.onDestroy();
-    }
-
-//--------------------------------------------------------------------------------------------------
-
-    @Beta
-    private boolean isMovieRealm(int movieId) {
+    /*private boolean isMovieRealm(int movieId) {
         Realm realm = Realm.getDefaultInstance();
         MovieRealm movie = realm.where(MovieRealm.class).equalTo("id", movieId).findFirst();
         return movie != null;
-    }
+    }*/
 
-    public boolean isMovieFavorite(int movieId) {
+    /*public boolean isMovieFavorite(int movieId) {
         Realm realm = Realm.getDefaultInstance();
         MovieRealm movie = realm.where(MovieRealm.class).equalTo("id", movieId).findFirst();
-        // Async query
-        /*realm.executeTransactionAsync(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-
-            }
-        });*/
-        //realm.close();
         return movie != null && movie.favorite;
-    }
+    }*/
 
-    public boolean isMovieWatching(int movieId) {
+    /*public boolean isMovieWatching(int movieId) {
         Realm realm = Realm.getDefaultInstance();
         MovieRealm movie = realm.where(MovieRealm.class).equalTo("id", movieId).findFirst();
         return movie != null && movie.watching;
-    }
+    }*/
 
-    public void setMovieFavorite(Movie m) {
+    /*public void setMovieFavorite(Movie m) {
         Realm realm = Realm.getDefaultInstance();
         MovieRealm movie = realm.where(MovieRealm.class).equalTo("id", m.id).findFirst();
         if (movie == null) {
@@ -248,22 +253,22 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             realm.commitTransaction();
         }
         realm.close();
-    }
+    }*/
 
-    public void setMovieFavorite(MovieRealm mr) {
+    /*public void setMovieFavorite(MovieRealm mr) {
         Realm realm = Realm.getDefaultInstance();
         MovieRealm movie = realm.where(MovieRealm.class).equalTo("id", mr.id).findFirst();
-
-        boolean state = movie.favorite;
-        realm.beginTransaction();
-        MovieRealm movie2 = realm.where(MovieRealm.class).equalTo("id", mr.id).findFirst();
-        movie2.favorite = !state;
-        getViewState().favoriteButtonState(!state);
-        realm.commitTransaction();
+        if (movie != null) {
+            boolean fave = movie.favorite;
+            realm.executeTransaction(realm1 -> {
+                movie.favorite = !fave;
+                getViewState().favoriteButtonState(!fave);
+            });
+        }
         realm.close();
-    }
+    }*/
 
-    public void setMovieWatching(Movie m) {
+    /*public void setMovieWatching(Movie m) {
         Realm realm = Realm.getDefaultInstance();
 
         MovieRealm movie = realm.where(MovieRealm.class).equalTo("id", m.id).findFirst();
@@ -297,7 +302,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             realm.commitTransaction();
             getViewState().watchingButtonState(true);
         } else {
-            boolean state = movie.isWatching();
+            boolean state = movie.watching;
             realm.beginTransaction();
             MovieRealm movie2 = realm.where(MovieRealm.class).equalTo("id", m.id).findFirst();
             movie2.watching = !state;
@@ -305,9 +310,9 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             realm.commitTransaction();
         }
         realm.close();
-    }
+    }*/
 
-    public void setMovieWatching(MovieRealm mr) {
+    /*public void setMovieWatching(MovieRealm mr) {
         Realm realm = Realm.getDefaultInstance();
 
         MovieRealm movie = realm.where(MovieRealm.class).equalTo("id", mr.id).findFirst();
@@ -319,7 +324,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         getViewState().watchingButtonState(!state);
         realm.commitTransaction();
         realm.close();
-    }
+    }*/
 
     /*@Beta
     private void updateMovieToRealm(Movie movie) {
@@ -402,13 +407,12 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         realm.close();
     }*/
 
-    @Beta
-    public void loadMovieFromRealm(int movieId) {
+    /*public void loadMovieFromRealm(int movieId) {
         Realm realm = Realm.getDefaultInstance();
         MovieRealm movie = realm.where(MovieRealm.class).equalTo("id", movieId).findFirst();
         realm.close();
         getViewState().showMovieRealm(movie);
-    }
+    }*/
 
     /*public void loadMovieFromRealm(int movieId) {
         Realm realm = Realm.getDefaultInstance();
