@@ -29,7 +29,8 @@ import java.util.Locale;
 @SuppressWarnings("all")
 public class MovieActivity extends BaseActivity {
 
-    private Movie movie;
+    public Movie movie;
+
     private Context context;
 
     private Menu actionMenu;
