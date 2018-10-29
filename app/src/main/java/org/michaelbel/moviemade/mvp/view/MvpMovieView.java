@@ -1,6 +1,7 @@
 package org.michaelbel.moviemade.mvp.view;
 
 import com.arellomobile.mvp.MvpView;
+import com.bumptech.glide.request.RequestOptions;
 
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.rest.model.v3.Backdrop;
@@ -14,23 +15,21 @@ import java.util.List;
 
 public interface MvpMovieView extends MvpView {
 
-    void showMovie(Movie movie, boolean loaded);
+    void setPoster(RequestOptions options, String posterPath);
 
-    void showMovieRealm(MovieRealm movie);
+    void setMovieTitle(String title);
 
-    void showError();
+    void setOverview(String overview);
 
-    void showTrailers(List<Trailer> trailers);
+    void setVoteAverage(float voteAverage);
 
-    void showKeywords(List<Keyword> keywords);
+    void setVoteCount(int voteCount);
 
-    void showImages(List<Poster> posters, List<Backdrop> backdrops, int postersCount, int backdropsCount);
+    void setReleaseDate(String releaseDate);
 
-    void showCrew(List<Crew> crews);
+    void setOriginalLanguage(String originalLanguage);
 
-    void realmAdded();
+    void setRuntime(String runtime);
 
-    void favoriteButtonState(boolean state);
-
-    void watchingButtonState(boolean state);
+    void showConnectionError();
 }
