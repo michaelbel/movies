@@ -1,20 +1,20 @@
 package org.michaelbel.moviemade.mvp.base;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.view.View;
 
 import com.arellomobile.mvp.MvpAppCompatActivity;
 
-import org.michaelbel.moviemade.ui.CollectionActivity;
-import org.michaelbel.moviemade.ui.CompanyActivity;
-import org.michaelbel.moviemade.ui.GenreActivity;
-import org.michaelbel.moviemade.ui.GenresActivity;
-import org.michaelbel.moviemade.ui.KeywordActivity;
-import org.michaelbel.moviemade.ui.MovieActivity;
-import org.michaelbel.moviemade.ui.PersonActivity;
-import org.michaelbel.moviemade.ui.ReviewActivity;
-import org.michaelbel.moviemade.ui.TrailersActivity;
+import org.michaelbel.moviemade.ui_old.CollectionActivity;
+import org.michaelbel.moviemade.ui_old.CompanyActivity;
+import org.michaelbel.moviemade.ui_old.GenreActivity;
+import org.michaelbel.moviemade.ui_old.GenresActivity;
+import org.michaelbel.moviemade.ui_old.KeywordActivity;
+import org.michaelbel.moviemade.ui.activity.MovieActivity;
+import org.michaelbel.moviemade.ui_old.PersonActivity;
+import org.michaelbel.moviemade.ui_old.ReviewActivity;
+import org.michaelbel.moviemade.ui_old.TrailersActivity;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.rest.model.Cast;
 import org.michaelbel.moviemade.rest.model.v3.Company;
@@ -34,41 +34,41 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseModel, Med
     @Override
     public void startFragment(Fragment fragment, View container) {
         getSupportFragmentManager()
-                .beginTransaction()
-                .replace(container.getId(), fragment)
-                .commit();
+            .beginTransaction()
+            .replace(container.getId(), fragment)
+            .commit();
     }
 
     @Override
     public void startFragment(Fragment fragment, int containerId) {
         getSupportFragmentManager()
-                .beginTransaction()
-                .replace(containerId, fragment)
-                .commit();
+            .beginTransaction()
+            .replace(containerId, fragment)
+            .commitAllowingStateLoss();
     }
 
     @Override
     public void startFragment(Fragment fragment, View container, String tag) {
         getSupportFragmentManager()
-                .beginTransaction()
-                .replace(container.getId(), fragment)
-                .addToBackStack(tag)
-                .commit();
+            .beginTransaction()
+            .replace(container.getId(), fragment)
+            .addToBackStack(tag)
+            .commit();
     }
 
     @Override
     public void startFragment(Fragment fragment, int containerId, String tag) {
         getSupportFragmentManager()
-                .beginTransaction()
-                .replace(containerId, fragment)
-                .addToBackStack(tag)
-                .commit();
+            .beginTransaction()
+            .replace(containerId, fragment)
+            .addToBackStack(tag)
+            .commit();
     }
 
     @Override
     public void finishFragment() {
         getSupportFragmentManager()
-                .popBackStack();
+            .popBackStack();
     }
 
     @Override
