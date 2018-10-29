@@ -44,7 +44,7 @@ Take a look at <b>`local.properties`</b> and fill it with [your own][tmdb-introd
  * [AndroidAnimatedMenuItems](https://github.com/adonixis/android-animated-menu-items)
 
 ## License
-    Copyright 2017-2018 Michael Bel
+    Copyright 2017 Michael Bely
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
