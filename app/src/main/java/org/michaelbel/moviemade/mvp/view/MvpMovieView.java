@@ -13,6 +13,8 @@ import org.michaelbel.moviemade.rest.model.v3.Trailer;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+
 public interface MvpMovieView extends MvpView {
 
     void setPoster(RequestOptions options, String posterPath);
@@ -30,6 +32,8 @@ public interface MvpMovieView extends MvpView {
     void setOriginalLanguage(String originalLanguage);
 
     void setRuntime(String runtime);
+
+    void setTagline(String tagline);
 
     void showConnectionError();
 }
