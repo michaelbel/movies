@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.ui_beta.fragment;
+package org.michaelbel.moviemade.ui.fragment;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -7,11 +7,11 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,10 +24,10 @@ import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.app.Moviemade;
 import org.michaelbel.moviemade.app.browser.Browser;
-import org.michaelbel.moviemade.ui.view.AboutView;
-import org.michaelbel.moviemade.ui.view.cell.EmptyCell;
-import org.michaelbel.moviemade.ui.view.cell.TextCell;
-import org.michaelbel.moviemade.ui_beta.activity.AboutActivity;
+import org.michaelbel.moviemade.ui_old.view.AboutView;
+import org.michaelbel.moviemade.ui_old.view.cell.EmptyCell;
+import org.michaelbel.moviemade.ui_old.view.cell.TextCell;
+import org.michaelbel.moviemade.ui.activity.AboutActivity;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 
 public class AboutFragment extends Fragment {
@@ -74,7 +74,7 @@ public class AboutFragment extends Fragment {
         donatePaypalRow = rowCount++;
         poweredByRow = rowCount++;
 
-        linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
 
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(new AboutAdapter());

@@ -1,29 +1,33 @@
 package org.michaelbel.moviemade.ui.fragment;
 
-import android.content.Intent;
-import android.net.Uri;
+import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.palette.graphics.Palette;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ScrollView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
-import com.alexvasilkov.gestures.transition.GestureTransitions;
-import com.alexvasilkov.gestures.transition.ViewsTransitionAnimator;
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.bumptech.glide.request.transition.Transition;
 
-import org.michaelbel.core.widget.LayoutHelper;
+import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.Url;
-import org.michaelbel.moviemade.app.browser.Browser;
+import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.app.extensions.AndroidExtensions;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.presenter.MoviePresenter;
@@ -36,54 +40,66 @@ import org.michaelbel.moviemade.rest.model.v3.Genre;
 import org.michaelbel.moviemade.rest.model.v3.Keyword;
 import org.michaelbel.moviemade.rest.model.v3.Poster;
 import org.michaelbel.moviemade.rest.model.v3.Trailer;
-import org.michaelbel.moviemade.ui.MovieActivity;
-import org.michaelbel.moviemade.ui.interfaces.MovieViewListener;
-import org.michaelbel.moviemade.ui.view.MovieViewLayout;
+import org.michaelbel.moviemade.ui_old.interfaces.MovieViewListener;
+import org.michaelbel.moviemade.ui_old.view.CheckedButton;
+import org.michaelbel.moviemade.ui_old.view.EmptyView;
+import org.michaelbel.moviemade.ui_old.view.RatingView;
+import org.michaelbel.moviemade.ui.activity.MovieActivity;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.NetworkUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import static android.view.View.VISIBLE;
+
 public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView, MovieViewListener {
 
-    //private final int PERMISSION_REQUEST_CODE = 100;
+    //private Movie extraMovie;
+    //private Movie loadedMovie;
+    //private MovieRealm extraMovieRealm;
 
-    private Movie extraMovie;
-    private Movie loadedMovie;
-    private MovieRealm extraMovieRealm;
+    //private ArrayList<Genre> genres = new ArrayList<>();
+    //private ArrayList<Trailer> trailers = new ArrayList<>();
+    //private ArrayList<Keyword> keywords = new ArrayList<>();
+
     private MovieActivity activity;
 
-    private ArrayList<Genre> genres = new ArrayList<>();
-    private ArrayList<Trailer> trailers = new ArrayList<>();
-    private ArrayList<Keyword> keywords = new ArrayList<>();
+    private ProgressBar progressBar;
+    private EmptyView emptyView;
 
-    private ScrollView scrollView;
-    private MovieViewLayout movieView;
-    private SwipeRefreshLayout fragmentView;
-    private ViewsTransitionAnimator imageAnimator;
+    private ImageView posterImage;
+
+    private LinearLayout shortInfoLayout;
+
+    private RatingView ratingView;
+    private TextView ratingText;
+    private TextView voteCountText;
+
+    private LinearLayout releaseDateLayout;
+    private ImageView releaseDateIcon;
+    private TextView releaseDateText;
+
+    private LinearLayout runtimeLayout;
+    private ImageView runtimeIcon;
+    private TextView runtimeText;
+
+    private LinearLayout langLayout;
+    private ImageView langIcon;
+    private TextView langText;
+
+    private LinearLayout titleLayout;
+    private TextView titleText;
+    private TextView taglineText;
+
+    private View dividerView;
+    private TextView overviewText;
+
+    private LinearLayout buttonsLayout;
+    private CheckedButton faveButton;
+    private CheckedButton watchButton;
 
     @InjectPresenter
     public MoviePresenter presenter;
-
-    public static MovieFragment newInstance(Movie movie) {
-        Bundle args = new Bundle();
-        args.putSerializable("movie", movie);
-
-        MovieFragment fragment = new MovieFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    public static MovieFragment newInstance(MovieRealm movie) {
-        Bundle args = new Bundle();
-        args.putParcelable("movieRealm", movie);
-
-        MovieFragment fragment = new MovieFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -94,117 +110,104 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle args) {
-        activity.tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {}
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                if (AndroidUtils.scrollToTop()) {
-                    scrollView.fullScroll(ScrollView.FOCUS_UP);
-                }
-            }
-        });
-
-        fragmentView = new SwipeRefreshLayout(activity);
-        fragmentView.setRefreshing(false);
-        fragmentView.setColorSchemeResources(Theme.accentColor());
-        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
-        fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.primaryColor()));
-        fragmentView.setOnRefreshListener(() -> {
-            if (loadedMovie == null) {
-                presenter.loadMovie(extraMovie);
-            } else {
-                fragmentView.setRefreshing(false);
-            }
-        });
-
-        scrollView = new ScrollView(activity);
-        scrollView.setVerticalScrollBarEnabled(AndroidUtils.scrollbars());
-        //scrollView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
-        scrollView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        fragmentView.addView(scrollView);
-
-        movieView = new MovieViewLayout(activity);
-        movieView.addMovieViewListener(this);
-        movieView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        scrollView.addView(movieView);
-
-        imageAnimator = GestureTransitions.from(movieView.getPoster()).into(activity.posterFull);
-        imageAnimator.addPositionUpdateListener((position, isLeaving) -> {
-            activity.fullBackground.setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
-            activity.fullBackground.setAlpha(position);
-
-            activity.imageToolbar.setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
-            activity.imageToolbar.setAlpha(position);
-
-            activity.posterFull.setVisibility(position == 0f && isLeaving ? View.INVISIBLE : View.VISIBLE);
-        });
-
-        activity.imageToolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        activity.imageToolbar.setNavigationOnClickListener(view -> exitImage());
-
-        return fragmentView;
+        View view = inflater.inflate(R.layout.fragment_movie, container, false);
+        progressBar = view.findViewById(R.id.progress_bar);
+        emptyView = view.findViewById(R.id.empty_view);
+        posterImage = view.findViewById(R.id.poster_image);
+        ratingView = view.findViewById(R.id.rating_view);
+        ratingText = view.findViewById(R.id.rating_text);
+        voteCountText = view.findViewById(R.id.vote_count_text);
+        releaseDateLayout = view.findViewById(R.id.date_layout);
+        releaseDateIcon = view.findViewById(R.id.release_date_icon);
+        releaseDateText = view.findViewById(R.id.release_date_text);
+        runtimeLayout = view.findViewById(R.id.runtime_layout);
+        runtimeIcon = view.findViewById(R.id.runtime_icon);
+        runtimeText = view.findViewById(R.id.runtime_text);
+        langLayout = view.findViewById(R.id.lang_layout);
+        langIcon = view.findViewById(R.id.lang_icon);
+        langText = view.findViewById(R.id.lang_text);
+        titleText = view.findViewById(R.id.title_text);
+        taglineText = view.findViewById(R.id.tagline_text);
+        dividerView = view.findViewById(R.id.divider_view);
+        overviewText = view.findViewById(R.id.overview_text);
+        shortInfoLayout = view.findViewById(R.id.short_info_layout);
+        titleLayout = view.findViewById(R.id.title_layout);
+        buttonsLayout = view.findViewById(R.id.buttons_layout);
+        faveButton = view.findViewById(R.id.fave_button);
+        watchButton = view.findViewById(R.id.watch_button);
+        return  view;
     }
-
-    /*@Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            //createDir();
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }*/
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        emptyView.setOnClickListener(v -> presenter.loadMovie(presenter.movie));
 
-        if (getArguments() == null) {
-            return;
-        }
+        //faveButton.setStyle(CheckedButton.FAVORITE);
+        //faveButton.setOnClickListener(v -> presenter.setMovieFavorite(extraMovie));
 
-        extraMovie = (Movie) getArguments().getSerializable("movie");
-        extraMovieRealm = getArguments().getParcelable("movieRealm");
-
-        if (savedInstanceState == null) {
-            if (extraMovie != null) {
-                presenter.loadMovie(extraMovie);
-            } else {
-                if (NetworkUtils.notConnected()) {
-                    presenter.loadMovieFromRealm(extraMovieRealm.id);
-                } else {
-                    presenter.loadMovie(extraMovieRealm); // todo ???
-                }
-            }
-        }
+        //watchButton.setStyle(CheckedButton.WATCHING);
+        //watchButton.setOnClickListener(v -> presenter.setMovieWatching(extraMovie));
     }
 
     @Override
-    public void showMovie(Movie movie, boolean loaded) {
-        if (loaded) {
-            loadedMovie = movie;
+    public void showMovie(Movie movie) {
+        setPoster(movie.posterPath);
+        ratingView.setRating(movie.voteAverage);
+        ratingText.setText(String.valueOf(movie.voteAverage));
+        voteCountText.setText(String.valueOf(movie.voteCount));
+
+        if (TextUtils.isEmpty(movie.releaseDate)) {
+            shortInfoLayout.removeView(releaseDateLayout);
+        } else {
+            releaseDateIcon.setImageDrawable(Extensions.getIcon(activity, R.drawable.ic_calendar, ContextCompat.getColor(activity, R.color.iconActive)));
+            releaseDateText.setText(AndroidExtensions.formatReleaseDate(movie.releaseDate));
         }
 
-        movieView.addPoster(movie.posterPath); // from extra
-        movieView.addVoteAverage(movie.voteAverage); // from extra
-        movieView.addVoteCount(movie.voteCount); // from extra
-        movieView.addReleaseDate(AndroidExtensions.formatReleaseDate(movie.releaseDate)); // from extra
-        movieView.addRuntime(movie.runtime);
-        movieView.addOriginalLanguage(AndroidUtils.formatOriginalLanguage(movie.originalLanguage)); // from extra
-        movieView.addTitle(movie.title); // from extra
-        movieView.addTagline(movie.tagline);
+        runtimeIcon.setImageDrawable(Extensions.getIcon(activity, R.drawable.ic_clock, ContextCompat.getColor(activity, R.color.iconActive)));
+        runtimeText.setText(movie.runtime != 0 ? AndroidExtensions.formatRuntime(movie.runtime) : null);
 
+        if (TextUtils.isEmpty(movie.originalLanguage)) {
+            shortInfoLayout.removeView(langLayout);
+            langLayout.setVisibility(View.GONE);
+        } else {
+            langIcon.setImageDrawable(Extensions.getIcon(activity, R.drawable.ic_earth, ContextCompat.getColor(activity, R.color.iconActive)));
+            langText.setText(AndroidUtils.formatOriginalLanguage(movie.originalLanguage));
+        }
+
+        titleText.setText(movie.title);
+
+        if (TextUtils.isEmpty(movie.tagline)) {
+            titleLayout.removeView(taglineText);
+        } else {
+            taglineText.setText(movie.tagline);
+        }
+
+        if (TextUtils.isEmpty(movie.overview)) {
+            overviewText.setText(R.string.no_overview);
+        } else {
+            overviewText.setText(movie.overview);
+        }
+
+        //faveButton.setChecked(presenter.isMovieFavorite(movie.id));
+        //watchButton.setChecked(presenter.isMovieWatching(movie.id));
+
+        shortInfoLayout.setVisibility(VISIBLE);
+        titleLayout.setVisibility(VISIBLE);
+        overviewText.setVisibility(VISIBLE);
+        dividerView.setVisibility(VISIBLE);
+
+        emptyView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.GONE);
+
+        //buttonsLayout.setVisibility(VISIBLE);
+
+        /*
         movieView.favoriteButtonVisibility(loaded ? View.VISIBLE : View.INVISIBLE);
         movieView.watchingButtonVisibility(loaded ? View.VISIBLE : View.INVISIBLE);
-        movieView.setFavoriteButton(presenter.isMovieFavorite(movie.id));
-        movieView.setWatchingButton(presenter.isMovieWatching(movie.id));
+        movieView.setFavoriteButton();
+        movieView.setWatchingButton();
         movieView.topLayoutLoaded();
-
-        movieView.addOverview(movie.overview); // from extra
 
         movieView.addOriginalTitle(movie.originalTitle); // from extra
         movieView.addStatus(movie.status);
@@ -219,23 +222,44 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
 
         movieView.addImdbpage(movie.imdbId);
         movieView.addHomepage(movie.homepage);
-        movieView.addCollection(movie.belongsToCollection);
+        movieView.addCollection(movie.belongsToCollection);*/
 
-        presenter.loadCredits(movie.id);
-        presenter.loadTrailers(movie.id);
-        presenter.loadImages(movie.id);
-        presenter.loadKeywords(movie.id);
+        //presenter.loadCredits(movie.id);
+        //presenter.loadTrailers(movie.id);
+        //presenter.loadImages(movie.id);
+        //presenter.loadKeywords(movie.id);
 
-        genres.clear();
-        genres.addAll(movie.genres);
-        movieView.getGenresView().setClickable(true);
+        //genres.clear();
+        //genres.addAll(movie.genres);
+        //movieView.getGenresView().setClickable(true);
+    }
 
-        fragmentView.setRefreshing(false);
+    public void setPoster(@NonNull String posterPath) {
+        RequestOptions options = new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).priority(Priority.HIGH);
+        Glide.with(activity).asBitmap()
+             .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.posterSize(), posterPath)).apply(options)
+             .into(new BitmapImageViewTarget(posterImage) {
+                 @Override
+                 public void onResourceReady(Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
+                     super.onResourceReady(bitmap, transition);
+                     Palette.from(bitmap).generate(palette -> posterImage.setBackgroundColor(ContextCompat.getColor(activity, R.color.primary)));
+                 }
+             });
+        posterImage.setVisibility(VISIBLE);
     }
 
     @Override
+    public void showError() {
+        progressBar.setVisibility(View.GONE);
+        emptyView.setVisibility(VISIBLE);
+        emptyView.setMode(EmptyViewMode.MODE_NO_CONNECTION);
+    }
+
+//--------------------------------------------------------------------------------------------------
+
+    @Override
     public void showMovieRealm(MovieRealm movie) {
-        movieView.addPoster(movie.posterPath);
+        /*movieView.addPoster(movie.posterPath);
         movieView.addTitle(movie.title);
         movieView.addOverview(movie.overview);
         movieView.addReleaseDate(movie.releaseDate);
@@ -265,26 +289,20 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         movieView.setWatchingButton(movie.watching);
 
         movieView.addTrailers(null);
-        movieView.setCrew(null);
-    }
-
-    @Override
-    public void showError() {
-
+        movieView.setCrew(null);*/
     }
 
     @Override
     public void showTrailers(List<Trailer> results) {
-        trailers.clear();
+        /*trailers.clear();
         trailers.addAll(results);
-
         movieView.addTrailers(trailers);
-        movieView.getTrailersView().setClickable(true);
+        movieView.getTrailersView().setClickable(true);*/
     }
 
     @Override
     public void showImages(List<Poster> posters, List<Backdrop> backdrops, int postersCount, int backdropsCount) {
-        movieView.addImages(posters, backdrops, postersCount, backdropsCount);
+        //movieView.addImages(posters, backdrops, postersCount, backdropsCount);
         /*movieView.getImagesView().getPostersAdapter().getView(movieView.getImagesView().getPosterViewPager().getCurrentItem()).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -311,61 +329,58 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
 
     @Override
     public void showCrew(List<Crew> crews) {
-        movieView.setCrew(crews);
+        //movieView.setCrew(crews);
     }
 
     @Override
-    public void realmAdded() {
-
-    }
+    public void realmAdded() {}
 
     @Override
     public void onFavoriteButtonClick(View view) {
-        if (loadedMovie != null) {
+        /*if (loadedMovie != null) {
             presenter.setMovieFavorite(loadedMovie);
         } else if (extraMovieRealm != null) {
             presenter.setMovieFavorite(extraMovieRealm);
-        }
+        }*/
     }
 
     @Override
     public void favoriteButtonState(boolean state) {
-        movieView.setFavoriteButton(state);
+        /*faveButton.setChecked(state);*/
     }
 
     @Override
     public void onWatchingButtonClick(View view) {
-        if (loadedMovie != null) {
+        /*if (loadedMovie != null) {
             presenter.setMovieWatching(loadedMovie);
         } else if (extraMovieRealm != null) {
             presenter.setMovieWatching(extraMovieRealm);
-        }
+        }*/
     }
 
     @Override
     public void watchingButtonState(boolean state) {
-        movieView.setWatchingButton(state);
+        /*watchButton.setChecked(state);*/
     }
 
     @Override
     public void onTrailerClick(View view, String trailerKey) {
-        // todo Open in browser
-        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailerKey)));
+        /*startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailerKey)));*/
     }
 
     @Override
     public void onTrailersSectionClick(View view) {
-        activity.startTrailers(loadedMovie.title, trailers);
+        /*activity.startTrailers(loadedMovie.title, trailers);*/
     }
 
     @Override
     public void onGenresSectionClick(View view) {
-        activity.startGenres(genres);
+        /*activity.startGenres(genres);*/
     }
 
     @Override
     public void onMovieUrlClick(View view, int position) {
-        if (extraMovieRealm != null) {
+        /*if (extraMovieRealm != null) {
             if (position == 1) {
                 Browser.openUrl(activity, String.format(Locale.US, Url.TMDB_MOVIE, extraMovieRealm.id));
             } else if (position == 2) {
@@ -379,72 +394,59 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
             Browser.openUrl(activity, String.format(Locale.US, Url.IMDB_MOVIE, loadedMovie.imdbId));
         } else if (position == 3) {
             Browser.openUrl(activity, loadedMovie.homepage);
-        }
+        }*/
     }
 
     @Override
     public void onGenreClick(View view, Genre genre) {
-        activity.startGenre(genre);
+        /*activity.startGenre(genre);*/
     }
 
     @Override
     public void onPostersClick(View view) {
-        Log.e("2580", "Posters Click");
-        if (extraMovie != null) {
+        /*if (extraMovie != null) {
             Browser.openUrl(activity, String.format(Locale.US, Url.TMDB_MOVIE_POSTERS, extraMovie.id));
         } else if (extraMovieRealm != null) {
             Browser.openUrl(activity, String.format(Locale.US, Url.TMDB_MOVIE_POSTERS, extraMovieRealm.id));
-        }
+        }*/
     }
 
     @Override
     public void onBackdropsClick(View view) {
-        Log.e("2580", "Backdrops Click");
-        if (extraMovie != null) {
+        /*if (extraMovie != null) {
             Browser.openUrl(activity, String.format(Locale.US, Url.TMDB_MOVIE_BACKDROPS, extraMovie.id));
         } else if (extraMovieRealm != null) {
             Browser.openUrl(activity, String.format(Locale.US, Url.TMDB_MOVIE_BACKDROPS, extraMovieRealm.id));
-        }
+        }*/
     }
 
     @Override
     public void onKeywordClick(View view, Keyword keyword) {
-        activity.startKeyword(keyword);
+        /*activity.startKeyword(keyword);*/
     }
 
     @Override
     public void showKeywords(List<Keyword> results) {
-        keywords.clear();
+        /*keywords.clear();
         keywords.addAll(results);
 
         if (movieView.getKeywords().isEmpty()) {
             movieView.addKeywords(keywords);
-        }
+        }*/
     }
 
     @Override
     public void onCollectionClick(View view) {
-        activity.startCollection(loadedMovie.belongsToCollection);
+        /*activity.startCollection(loadedMovie.belongsToCollection);*/
     }
 
     @Override
     public void onCompanyClick(View view, Company company) {
-        activity.startCompany(company);
+        /*activity.startCompany(company);*/
     }
 
     @Override
     public void onPosterClick(View view) {
-        activity.getSettingsController().apply(activity.posterFull);
-        imageAnimator.enterSingle(true);
-    }
-
-    public boolean isOpenImage() {
-        return !imageAnimator.isLeaving();
-    }
-
-    public void exitImage() {
-        if (!imageAnimator.isLeaving()) {
-            imageAnimator.exit(true);
-        }
+        /*imageAnimator.enterSingle(true);*/
     }
 }

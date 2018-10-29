@@ -1,41 +1,34 @@
 package org.michaelbel.moviemade.ui.fragment;
 
-import android.graphics.PorterDuff;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.core.widget.LayoutHelper;
-import org.michaelbel.core.widget.RecyclerListView;
+import org.michaelbel.material.extensions.Extensions;
+import org.michaelbel.material.widget.RecyclerListView;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.Theme;
 import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.mvp.presenter.SearchMoviesPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpSearchView;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Movie;
-import org.michaelbel.moviemade.ui.SearchActivity;
-import org.michaelbel.moviemade.ui.adapter.pagination.PaginationMoviesAdapter;
-import org.michaelbel.moviemade.ui.view.EmptyView;
-import org.michaelbel.moviemade.ui.view.movie.MovieViewListBig;
-import org.michaelbel.moviemade.ui.view.movie.MovieViewPoster;
-import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
+import org.michaelbel.moviemade.ui.activity.SearchActivity;
+import org.michaelbel.moviemade.ui_old.adapter.pagination.PaginationMoviesAdapter;
+import org.michaelbel.moviemade.ui_old.view.EmptyView;
+import org.michaelbel.moviemade.ui_old.view.widget.PaddingItemDecoration;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
 import java.util.List;
@@ -48,6 +41,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
+    private RecyclerListView recyclerView;
 
     @InjectPresenter
     public SearchMoviesPresenter presenter;
@@ -70,19 +64,13 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        FrameLayout fragmentView = new FrameLayout(activity);
-        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, R.color.background));
+        View view = inflater.inflate(R.layout.fragment_search_movies, container, false);
 
-        emptyView = new EmptyView(activity);
+        emptyView = view.findViewById(R.id.empty_view);
         emptyView.setMode(EmptyViewMode.MODE_NO_RESULTS);
-        emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
-        fragmentView.addView(emptyView);
 
-        progressBar = new ProgressBar(activity);
+        progressBar = view.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.INVISIBLE);
-        progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(activity, R.color.accent), PorterDuff.Mode.MULTIPLY);
-        progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
-        fragmentView.addView(progressBar);
 
         PaddingItemDecoration itemDecoration = new PaddingItemDecoration();
         if (AndroidUtils.viewType() == 0) {
@@ -92,26 +80,21 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
         }
 
         adapter = new PaginationMoviesAdapter();
-        gridLayoutManager = new GridLayoutManager(getContext(), AndroidUtils.getSpanForMovies());
-        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        gridLayoutManager = new GridLayoutManager(activity, 2);
+        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
 
-        RecyclerListView recyclerView = new RecyclerListView(activity);
+        recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
         recyclerView.setEmptyView(emptyView);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setVerticalScrollBarEnabled(AndroidUtils.scrollbars());
-        recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        recyclerView.setOnItemClickListener((view, position) -> {
-            if (view instanceof MovieViewListBig || view instanceof MovieViewPoster) {
-                Movie movie = (Movie) adapter.getList().get(position);
-                activity.startMovie(movie);
-            }
+        recyclerView.setOnItemClickListener((v, position) -> {
+            Movie movie = (Movie) adapter.getList().get(position);
+            activity.startMovie(movie);
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
                 int totalItemCount = gridLayoutManager.getItemCount();
@@ -127,8 +110,8 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
                 }
             }
         });
-        fragmentView.addView(recyclerView);
-        return fragmentView;
+
+        return view;
     }
 
     @Override
@@ -165,23 +148,15 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
     public void showResults(List<TmdbObject> results, boolean firstPage) {
         if (firstPage) {
             progressBar.setVisibility(View.GONE);
-
             adapter.addAll(results);
 
             if (presenter.page < presenter.totalPages) {
-                //adapter.addLoadingFooter();
+                // show loading
             } else {
                 presenter.isLastPage = true;
             }
-
-            /*if (AndroidUtilsDev.searchResultsCount()) {
-                TabLayout.Tab tab = activity.tabLayout.getTabAt(SearchActivity.TAB_MOVIES);
-                if (tab != null) {
-                    tab.setText(getResources().getQuantityString(R.plurals.MoviesTotalResults, presenter.totalResults, presenter.totalResults));
-                }
-            }*/
         } else {
-            adapter.removeLoadingFooter();
+            // hide loading
             presenter.isLoading = false;
             adapter.addAll(results);
 
@@ -198,11 +173,6 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
         progressBar.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(mode);
-
-        /*TabLayout.Tab tab = activity.tabLayout.getTabAt(SearchActivity.TAB_MOVIES);
-        if (tab != null) {
-            tab.setText(R.string.Movies);
-        }*/
     }
 
     public boolean empty() {
