@@ -71,10 +71,27 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseModel, Med
             .popBackStack();
     }
 
+    /**
+     * Передать краткую информацию о фильме из списка.
+     * Работает для списков: NowPlaying, TopRated, Upcoming.
+     */
     @Override
     public void startMovie(Movie movie) {
         Intent intent = new Intent(this, MovieActivity.class);
-        intent.putExtra("movie", movie);
+        intent.putExtra("posterPath", movie.posterPath);
+        intent.putExtra("adult", movie.adult);
+        intent.putExtra("overview", movie.overview);
+        intent.putExtra("releaseDate", movie.releaseDate);
+        intent.putIntegerArrayListExtra("genreIds", movie.genreIds);
+        intent.putExtra("id", movie.id);
+        intent.putExtra("originalTitle", movie.originalTitle);
+        intent.putExtra("originalLanguage", movie.originalLanguage);
+        intent.putExtra("title", movie.title);
+        intent.putExtra("backdropPath", movie.backdropPath);
+        intent.putExtra("popularity", movie.popularity);
+        intent.putExtra("voteCount", movie.voteCount);
+        intent.putExtra("video", movie.video);
+        intent.putExtra("voteAverage", movie.voteAverage);
         startActivity(intent);
     }
 
