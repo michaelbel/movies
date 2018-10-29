@@ -1,5 +1,6 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="none">
@@ -14,12 +15,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <!--Индикатор загрузки-->
             <ProgressBar
                 android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"/>
 
+            <org.michaelbel.moviemade.ui_old.view.EmptyView
+                android:id="@+id/empty_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="invisible"/>
+
+            <!--Постер фильма-->
             <ImageView
                 android:id="@+id/poster_image"
                 android:layout_width="120dp"
@@ -40,16 +50,16 @@
                 android:layout_gravity="start|top"
                 android:layout_marginStart="152dp"
                 android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:visibility="invisible">
+                android:layout_marginEnd="16dp">
 
+                <!--Рейтинг-->
                 <LinearLayout
                     android:id="@+id/rating_layout"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <org.michaelbel.moviemade.ui.view.RatingView
+                    <org.michaelbel.moviemade.ui_old.view.RatingView
                         android:id="@+id/rating_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -89,13 +99,15 @@
                             android:layout_marginStart="1dp"
                             android:layout_marginBottom="1dp"
                             android:contentDescription="@string/image_description"
-                            android:src="@drawable/ic_account_multiple"/>
+                            app:srcCompat="@drawable/ic_account_multiple"/>
 
                     </LinearLayout>
 
                 </LinearLayout>
 
+                <!--Дата релиза-->
                 <LinearLayout
+                    android:id="@+id/date_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -121,7 +133,9 @@
 
                 </LinearLayout>
 
+                <!--Продолжительность-->
                 <LinearLayout
+                    android:id="@+id/runtime_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -147,7 +161,9 @@
 
                 </LinearLayout>
 
+                <!--Язык оригинала-->
                 <LinearLayout
+                    android:id="@+id/lang_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
@@ -175,6 +191,7 @@
 
             </LinearLayout>
 
+            <!--Название и слоган-->
             <LinearLayout
                 android:id="@+id/title_layout"
                 android:layout_width="match_parent"
@@ -183,8 +200,7 @@
                 android:layout_gravity="start|top"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="202dp"
-                android:layout_marginEnd="16dp"
-                android:visibility="invisible">
+                android:layout_marginEnd="16dp">
 
                 <TextView
                     android:id="@+id/title_text"
@@ -216,12 +232,12 @@
                 android:orientation="horizontal"
                 android:visibility="invisible">
 
-                <org.michaelbel.moviemade.ui.view.CheckedButton
+                <org.michaelbel.moviemade.ui_old.view.CheckedButton
                     android:id="@+id/watch_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
 
-                <org.michaelbel.moviemade.ui.view.CheckedButton
+                <org.michaelbel.moviemade.ui_old.view.CheckedButton
                     android:id="@+id/fave_button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
@@ -230,15 +246,18 @@
 
         </FrameLayout>
 
+        <!--Разделитель-->
         <View
             android:id="@+id/divider_view"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
             android:layout_marginBottom="12dp"
-            android:visibility="invisible"
             android:background="@color/divider"/>
 
+        <!--Описание-->
         <TextView
             android:id="@+id/overview_text"
             android:layout_width="match_parent"
@@ -249,7 +268,6 @@
             android:textSize="16sp"
             android:textColor="@color/secondaryText"
             android:fontFamily="sans-serif"
-            android:visibility="invisible"
             android:textIsSelectable="true"/>
 
     </LinearLayout>
