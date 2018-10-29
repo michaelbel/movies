@@ -96,6 +96,18 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseModel, Med
     }
 
     @Override
+    public void startTrailers(String title) {
+        Intent intent = new Intent(this, TrailersActivity.class);
+        intent.putExtra("title", title);
+        startActivity(intent);
+    }
+
+
+
+
+
+
+    @Override
     public void startMovie(MovieRealm movie) {
         Intent intent = new Intent(this, MovieActivity.class);
         intent.putExtra("movieRealm", movie);
@@ -129,14 +141,6 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseModel, Med
         Intent intent = new Intent(this, ReviewActivity.class);
         intent.putExtra("review", review);
         intent.putExtra("movieRealm", movie);
-        startActivity(intent);
-    }
-
-    @Override
-    public void startTrailers(String title, ArrayList<Trailer> list) {
-        Intent intent = new Intent(this, TrailersActivity.class);
-        intent.putExtra("title", title);
-        intent.putParcelableArrayListExtra("list", list);
         startActivity(intent);
     }
 
