@@ -20,9 +20,10 @@ public class AboutActivity extends BaseActivity {
         setContentView(R.layout.activity_about);
 
         toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         toolbarTitle = findViewById(R.id.toolbar_title);
 
-        setSupportActionBar(toolbar);
         startFragment(new AboutFragment(), R.id.fragment_view);
     }
 }
