@@ -26,12 +26,10 @@ import org.michaelbel.moviemade.ui.fragment.MovieFragment;
 
 import java.util.Locale;
 
+@SuppressWarnings("all")
 public class MovieActivity extends BaseActivity {
 
-    public int movieId;
-    public Movie movie;
-    public MovieRealm movieRealm;
-
+    private Movie movie;
     private Context context;
 
     private Menu actionMenu;
@@ -48,11 +46,26 @@ public class MovieActivity extends BaseActivity {
 
         context = MovieActivity.this;
 
-        movie = (Movie) getIntent().getSerializableExtra("movie");
-        movieRealm = getIntent().getParcelableExtra("movieRealm");
+        // Создать новый экземпляр класса Movie и присвоить ему все доступные передаваемые значения.
+        movie = new Movie();
+        movie.id =  getIntent().getIntExtra("id", 0);
+        movie.title = getIntent().getStringExtra("title");
+        movie.backdropPath = getIntent().getStringExtra("backdropPath");
+        movie.posterPath = getIntent().getStringExtra("posterPath");
+        movie.overview = getIntent().getStringExtra("overview");
+        movie.voteAverage = getIntent().getFloatExtra("voteAverage", 0);
+        movie.voteCount = getIntent().getIntExtra("voteCount", 0);
+        movie.adult = getIntent().getBooleanExtra("adult", false);
+        movie.video = getIntent().getBooleanExtra("video", false);
+        movie.releaseDate = getIntent().getStringExtra("releaseDate");
+        movie.genreIds = getIntent().getIntegerArrayListExtra("genreIds");
+        movie.originalTitle = getIntent().getStringExtra("originalTitle");
+        movie.originalLanguage = getIntent().getStringExtra("originalLanguage");
+        movie.popularity = getIntent().getDoubleExtra("popularity", 0);
 
         MovieFragment fragment = (MovieFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-        fragment.presenter.loadMovie(movie);
+        fragment.presenter.setMovieDetailsFromExtra(movie);
+        fragment.presenter.loadMovieDetails(movie.id);
 
         getWindow().setStatusBarColor(ContextCompat.getColor(context, R.color.primary));
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -93,7 +106,7 @@ public class MovieActivity extends BaseActivity {
         actionMenu = menu;
         menu_share = menu.add(R.string.Share).setIcon(R.drawable.ic_anim_share).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         menu_tmdb = menu.add(R.string.ViewOnTMDb).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
-        menu_imdb = menu.add(R.string.ViewOnIMDb).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
+        //menu_imdb = menu.add(R.string.ViewOnIMDb).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -111,9 +124,9 @@ public class MovieActivity extends BaseActivity {
             startActivity(Intent.createChooser(intent, getString(R.string.ShareVia)));
         } else if (item == menu_tmdb) {
             Browser.openUrl(context, String.format(Locale.US, Url.TMDB_MOVIE, movie.id));
-        } else if (item == menu_imdb) {
+        } /*else if (item == menu_imdb) {
             Browser.openUrl(context, String.format(Locale.US, Url.IMDB_MOVIE, movie.imdbId));
-        }
+        }*/
 
         return true;
     }
