@@ -26,9 +26,9 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 42
-        versionName "0.3.2"
-        buildConfigField "String", "VERSION_DATE", '"23 Oct 2018"'
+        versionCode 43
+        versionName "0.3.3"
+        buildConfigField "String", "VERSION_DATE", '"25 Oct 2018"'
         project.ext.set("archivesBaseName", "moviemade-v" + versionName)
         buildConfigField "String", "TMDB_API_KEY", "\"${getProperty("local.properties", "tmdb_api_key")}\""
     }
@@ -52,7 +52,7 @@ android {
         developing {
             flavorDimensions "develop"
             minSdkVersion 21
-            versionName "0.3.2-beta"
+            versionName "0.3.3-beta"
             applicationId "org.michaelbel.moviemade.beta"
         }
     }
@@ -77,10 +77,10 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:palette-v7:28.0.0'
 
-    implementation 'com.arello-mobile:moxy:1.5.3'
-    implementation 'com.arello-mobile:moxy-android:1.5.3'
-    implementation 'com.arello-mobile:moxy-app-compat:1.5.3'
-    annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
+    implementation 'com.arello-mobile:moxy:1.5.5'
+    implementation 'com.arello-mobile:moxy-android:1.5.5'
+    implementation 'com.arello-mobile:moxy-app-compat:1.5.5'
+    annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.5'
 
     implementation 'com.alexvasilkov:events:1.0.0'
     implementation 'com.alexvasilkov:gesture-views:2.4.0'
@@ -95,7 +95,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
 
     implementation 'org.michaelbel:material:0.3.6'
-    implementation 'org.michaelbel:bottomsheet:1.2.2'
+    implementation 'org.michaelbel:bottomsheet:1.2.3'
 
     implementation 'io.realm:android-adapters:2.1.1'
     implementation 'at.blogc:expandabletextview:1.0.5'
