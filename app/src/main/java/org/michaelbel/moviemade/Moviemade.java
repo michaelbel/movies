@@ -1,10 +1,10 @@
-package org.michaelbel.moviemade.app;
+package org.michaelbel.moviemade;
 
 import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 
-import org.michaelbel.moviemade.app.eventbus.RxBus;
+import org.michaelbel.moviemade.eventbus.RxBus;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
