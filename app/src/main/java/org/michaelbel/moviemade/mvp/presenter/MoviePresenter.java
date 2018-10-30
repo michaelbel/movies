@@ -55,25 +55,26 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
     public void loadMovieDetails(int movieId) {
         if (NetworkUtils.notConnected()) {
             getViewState().showConnectionError();
-        } else {
-            MOVIES service = ApiFactory.createService2(MOVIES.class);
-            Observable<Movie> observable = service.getDetails(movieId, BuildConfig.TMDB_API_KEY, Url.en_US, null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-            disposables.add(observable.subscribeWith(new DisposableObserver<Movie>() {
-                @Override
-                public void onNext(Movie movie) {
-                    getViewState().setRuntime((movie.runtime != 0 ? AndroidExtensions.formatRuntime(movie.runtime) : null));
-                    getViewState().setTagline(movie.tagline);
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    getViewState().showConnectionError();
-                }
-
-                @Override
-                public void onComplete() {}
-            }));
+            return;
         }
+
+        MOVIES service = ApiFactory.createService2(MOVIES.class);
+        Observable<Movie> observable = service.getDetails(movieId, BuildConfig.TMDB_API_KEY, Url.en_US, null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposables.add(observable.subscribeWith(new DisposableObserver<Movie>() {
+            @Override
+            public void onNext(Movie movie) {
+                getViewState().setRuntime((movie.runtime != 0 ? AndroidExtensions.formatRuntime(movie.runtime) : null));
+                getViewState().setTagline(movie.tagline);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                getViewState().showConnectionError();
+            }
+
+            @Override
+            public void onComplete() {}
+        }));
     }
 
     @Override
@@ -108,34 +109,6 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             @Override
             public void onComplete() {
                 loadTrailers(movieId);
-            }
-        }));
-    }*/
-
-    /*public void loadTrailers(int movieId) {
-        List<Trailer> trailers = new ArrayList<>();
-
-        if (NetworkUtils.notConnected()) {
-            getViewState().showTrailers(trailers);
-            return;
-        }
-
-        MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<TrailersResponse> observable = service.getVideos(movieId, BuildConfig.TMDB_API_KEY, Url.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<TrailersResponse>() {
-            @Override
-            public void onNext(TrailersResponse response) {
-                getViewState().showTrailers(response.trailers);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                getViewState().showTrailers(trailers);
-            }
-
-            @Override
-            public void onComplete() {
-                loadImages(movieId);
             }
         }));
     }*/
