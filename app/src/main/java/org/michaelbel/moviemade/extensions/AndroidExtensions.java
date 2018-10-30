@@ -1,20 +1,17 @@
-package org.michaelbel.moviemade.app.extensions;
+package org.michaelbel.moviemade.extensions;
 
-import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import org.michaelbel.material.annotation.Beta;
 import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.Moviemade;
+import org.michaelbel.moviemade.Moviemade;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 public class AndroidExtensions extends Extensions {
 
