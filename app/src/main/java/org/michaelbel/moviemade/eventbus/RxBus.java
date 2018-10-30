@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.app.eventbus;
+package org.michaelbel.moviemade.eventbus;
 
 import io.reactivex.Observable;
 import io.reactivex.subjects.PublishSubject;

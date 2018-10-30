@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.app.eventbus;
+package org.michaelbel.moviemade.eventbus;
 
 public class Events {
 
