@@ -62,6 +62,7 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
                 @Override
                 public void onNext(Movie movie) {
                     getViewState().setRuntime((movie.runtime != 0 ? AndroidExtensions.formatRuntime(movie.runtime) : null));
+                    getViewState().setTagline(movie.tagline);
                 }
 
                 @Override
@@ -80,10 +81,6 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         super.onDestroy();
         disposables.dispose();
     }
-
-
-
-
 
 
 
