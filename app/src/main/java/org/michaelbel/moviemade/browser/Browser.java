@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.app.browser;
+package org.michaelbel.moviemade.browser;
 
 import android.app.PendingIntent;
 import android.content.Context;
