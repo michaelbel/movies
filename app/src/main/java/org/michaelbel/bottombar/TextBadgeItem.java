@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.ui.widget.bottombar;
+package org.michaelbel.bottombar;
 
 import android.content.Context;
 import android.graphics.Color;

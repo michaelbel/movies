@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.ui.widget.bottombar.behaviour;
+package org.michaelbel.bottombar.behaviour;
 
 
 import android.content.Context;

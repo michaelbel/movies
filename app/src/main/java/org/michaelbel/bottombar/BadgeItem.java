@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.ui.widget.bottombar;
+package org.michaelbel.bottombar;
 
 import androidx.core.view.ViewCompat;
 import androidx.core.view.ViewPropertyAnimatorCompat;

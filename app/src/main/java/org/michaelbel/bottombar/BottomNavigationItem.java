@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.ui.widget.bottombar;
+package org.michaelbel.bottombar;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -11,7 +11,7 @@ import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;
 import android.text.TextUtils;
 
-import org.michaelbel.moviemade.ui.widget.bottombar.utils.Utils;
+import org.michaelbel.bottombar.utils.Utils;
 
 /**
  * Class description : Holds data for tabs (i.e data structure which holds all data to paint a tab)
