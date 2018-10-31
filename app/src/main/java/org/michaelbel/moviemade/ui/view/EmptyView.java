@@ -2,8 +2,6 @@ package org.michaelbel.moviemade.ui.view;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.support.annotation.StringRes;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -12,9 +10,12 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.core.widget.LayoutHelper;
-import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
+import org.michaelbel.moviemade.Theme;
+import org.michaelbel.moviemade.annotation.EmptyViewMode;
+import org.michaelbel.moviemade.ui_old.LayoutHelper;
+
+import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
 
 public class EmptyView extends LinearLayout {
 
@@ -42,7 +43,7 @@ public class EmptyView extends LinearLayout {
         emptyText = new TextView(getContext());
         emptyText.setGravity(Gravity.CENTER);
         emptyText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
-        emptyText.setTextColor(ContextCompat.getColor(getContext(), Theme.iconActiveColor()));
+        emptyText.setTextColor(ContextCompat.getColor(getContext(), R.color.iconActive));
         emptyText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
         emptyText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 10, 24, 0));
         addView(emptyText);
@@ -51,7 +52,7 @@ public class EmptyView extends LinearLayout {
     public EmptyView setMode(@EmptyViewMode int mode) {
         if (mode == EmptyViewMode.MODE_NO_CONNECTION) {
             setIcon(R.drawable.ic_offline);
-            setText(R.string.NoConnection);
+            setText(R.string.no_connection);
         } else if (mode == EmptyViewMode.MODE_NO_MOVIES) {
             setIcon(R.drawable.ic_movieroll);
             setText(R.string.NoMovies);
@@ -76,7 +77,7 @@ public class EmptyView extends LinearLayout {
     }
 
     private void setIcon(int icon) {
-        emptyIcon.setImageDrawable(Theme.getIcon(icon, ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
+        emptyIcon.setImageDrawable(Theme.getIcon(icon, ContextCompat.getColor(getContext(), R.color.iconActive)));
     }
 
     private void setText(@StringRes int textId) {

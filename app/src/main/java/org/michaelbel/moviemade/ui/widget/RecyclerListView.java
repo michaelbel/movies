@@ -2,8 +2,6 @@ package org.michaelbel.moviemade.ui.widget;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 import android.view.HapticFeedbackConstants;
@@ -13,11 +11,13 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 
-
 import org.michaelbel.moviemade.utils.AndroidUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 @SuppressWarnings("all")
 public class RecyclerListView extends RecyclerView {
@@ -407,5 +407,12 @@ public class RecyclerListView extends RecyclerView {
     @Override
     public boolean hasOverlappingRendering() {
         return false;
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        public ViewHolder(View view) {
+            super(view);
+        }
     }
 }
