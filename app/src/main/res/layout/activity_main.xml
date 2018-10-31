@@ -1,4 +1,4 @@
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -12,15 +12,19 @@
         android:fillViewport="true"
         android:background="@color/background"/>
 
-    <include layout="@layout/topbar"/>
+    <org.michaelbel.moviemade.ui.view.topbar.TopBar
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|end"
+        app:bnbAutoHideEnabled="true"/>
 
     <org.michaelbel.bottombar.BottomNavigationBar
         android:id="@+id/bottom_navigation_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:elevation="4dp"
         app:bnbAutoHideEnabled="true"
-        app:bnbElevation="4dp" />
+        app:bnbElevation="4dp"/>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

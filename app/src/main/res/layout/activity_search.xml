@@ -1,20 +1,40 @@
-<android.support.design.widget.CoordinatorLayout
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.design.widget.AppBarLayout
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <android.support.v7.widget.Toolbar
+        <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            app:popupTheme="@style/ThemeOverlay.AppCompat"/>
+            app:popupTheme="@style/ThemeOverlay.AppCompat">
 
-    </android.support.design.widget.AppBarLayout>
+            <EditText
+                android:id="@+id/search_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:inputType="text"
+                android:lines="1"
+                android:maxLines="1"
+                android:hint="@string/search"
+                android:typeface="normal"
+                android:ellipsize="end"
+                android:imeOptions="actionSearch"
+                android:textSize="18sp"
+                android:textColor="@color/primaryText"
+                android:textColorHint="@color/disabledHintText"
+                tools:ignore="Autofill"/>
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
         android:id="@+id/fragment_view"
@@ -22,4 +42,4 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
