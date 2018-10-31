@@ -1,4 +1,8 @@
 <resources>
+    <dimen name="trailer_quality_text_size">11sp</dimen>
+
+
+
     <dimen name="fixed_min_width">120dp</dimen>
     <dimen name="fixed_min_width_small_views">104dp</dimen>
     <dimen name="fixed_max_width">168dp</dimen>

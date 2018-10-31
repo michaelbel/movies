@@ -29,6 +29,7 @@
             <flag name="end" value="0x00800005"/>
         </attr>
     </declare-styleable>
+
     <!--BottomBar-->
     <declare-styleable name="BottomNavigationBar">
         <attr name="bnbElevation" format="dimension" />
