@@ -5,26 +5,29 @@ import android.content.Intent;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import androidx.core.content.ContextCompat;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import org.michaelbel.BackdropView;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.Url;
-import org.michaelbel.moviemade.app.browser.Browser;
-import org.michaelbel.moviemade.model.MovieRealm;
+import org.michaelbel.moviemade.Url;
+import org.michaelbel.moviemade.browser.Browser;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.ui.fragment.MovieFragment;
+import org.michaelbel.moviemade.ui.view.BackdropView;
+import org.michaelbel.moviemade.ui.view.appbar.AppBarState;
+import org.michaelbel.moviemade.ui.view.appbar.AppBarStateChangeListener;
 
 import java.util.Locale;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 @SuppressWarnings("all")
 public class MovieActivity extends BaseActivity {
@@ -82,8 +85,8 @@ public class MovieActivity extends BaseActivity {
         AppBarLayout appBar = findViewById(R.id.app_bar);
         appBar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
-            public void onStateChanged(AppBarLayout appBarLayout, State state) {
-                if (state == State.COLLAPSED) {
+            public void onStateChanged(AppBarLayout appBarLayout, AppBarState state) {
+                if (state == AppBarState.COLLAPSED) {
                     toolbarTitle.setText(movie.title);
                 } else {
                     toolbarTitle.setText(null);
@@ -130,38 +133,5 @@ public class MovieActivity extends BaseActivity {
         }*/
 
         return true;
-    }
-
-    public abstract static class AppBarStateChangeListener implements AppBarLayout.OnOffsetChangedListener {
-
-        public enum State {
-            EXPANDED,
-            COLLAPSED,
-            IDLE
-        }
-
-        private State mCurrentState = State.IDLE;
-
-        @Override
-        public final void onOffsetChanged(AppBarLayout appBarLayout, int i) {
-            if (i == 0) {
-                if (mCurrentState != State.EXPANDED) {
-                    onStateChanged(appBarLayout, State.EXPANDED);
-                }
-                mCurrentState = State.EXPANDED;
-            } else if (Math.abs(i) >= appBarLayout.getTotalScrollRange()) {
-                if (mCurrentState != State.COLLAPSED) {
-                    onStateChanged(appBarLayout, State.COLLAPSED);
-                }
-                mCurrentState = State.COLLAPSED;
-            } else {
-                if (mCurrentState != State.IDLE) {
-                    onStateChanged(appBarLayout, State.IDLE);
-                }
-                mCurrentState = State.IDLE;
-            }
-        }
-
-        public abstract void onStateChanged(AppBarLayout appBarLayout, State state);
     }
 }

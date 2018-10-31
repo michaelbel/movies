@@ -2,12 +2,6 @@ package org.michaelbel.moviemade.ui.fragment;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatTextView;
-import androidx.core.content.ContextCompat;
-import androidx.palette.graphics.Palette;
-
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,9 +11,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -31,10 +23,16 @@ import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.mvp.presenter.MoviePresenter;
 import org.michaelbel.moviemade.mvp.view.MvpMovieView;
-import org.michaelbel.moviemade.ui_old.view.CheckedButton;
-import org.michaelbel.moviemade.ui_old.view.EmptyView;
-import org.michaelbel.moviemade.ui_old.view.RatingView;
 import org.michaelbel.moviemade.ui.activity.MovieActivity;
+import org.michaelbel.moviemade.ui.view.EmptyView;
+import org.michaelbel.moviemade.ui.view.RatingView;
+import org.michaelbel.moviemade.ui_old.view.CheckedButton;
+import org.michaelbel.moxy.android.MvpAppCompatFragment;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.palette.graphics.Palette;
 
 import static android.view.View.VISIBLE;
 
@@ -150,7 +148,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
              .apply(options)
              .into(new BitmapImageViewTarget(posterImage) {
                 @Override
-                public void onResourceReady(Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
+                public void onResourceReady(@NonNull Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
                     super.onResourceReady(bitmap, transition);
                     Palette.from(bitmap).generate(palette -> posterImage.setBackgroundColor(ContextCompat.getColor(activity, R.color.primary)));
                 }
@@ -234,7 +232,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     @Override
     public void onClick(View v) {
         if (v == trailersLayout) {
-            activity.startTrailers(activity.movie.title);
+            activity.startTrailers(activity.movie);
         }
     }
 

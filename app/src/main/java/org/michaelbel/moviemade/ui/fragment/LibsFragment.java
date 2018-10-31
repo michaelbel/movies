@@ -3,11 +3,6 @@ package org.michaelbel.moviemade.ui.fragment;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +13,19 @@ import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.material.widget.Holder;
 import org.michaelbel.material.widget.RecyclerListView;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.browser.Browser;
+import org.michaelbel.moviemade.browser.Browser;
 import org.michaelbel.moviemade.model.Source;
-import org.michaelbel.moviemade.ui_old.view.cell.TextDetailCell;
 import org.michaelbel.moviemade.ui.activity.AboutActivity;
+import org.michaelbel.moviemade.ui_old.view.cell.TextDetailCell;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class LibsFragment extends Fragment {
 

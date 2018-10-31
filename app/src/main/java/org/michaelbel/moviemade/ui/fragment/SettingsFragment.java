@@ -6,27 +6,28 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.michaelbel.material.widget.Holder;
 import org.michaelbel.material.widget.RecyclerListView;
+import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.Moviemade;
-import org.michaelbel.moviemade.app.eventbus.Events;
+import org.michaelbel.moviemade.eventbus.Events;
+import org.michaelbel.moviemade.ui.activity.AboutActivity;
 import org.michaelbel.moviemade.ui.activity.SettingsActivity;
 import org.michaelbel.moviemade.ui_old.view.cell.EmptyCell;
 import org.michaelbel.moviemade.ui_old.view.cell.TextCell;
 import org.michaelbel.moviemade.ui_old.view.cell.TextDetailCell;
-import org.michaelbel.moviemade.ui.activity.AboutActivity;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.ScreenUtils;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class SettingsFragment extends Fragment {
 

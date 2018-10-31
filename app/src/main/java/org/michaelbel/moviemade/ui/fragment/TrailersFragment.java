@@ -1,40 +1,38 @@
 package org.michaelbel.moviemade.ui.fragment;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
+import com.arellomobile.mvp.presenter.InjectPresenter;
+
+import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.core.widget.LayoutHelper;
-import org.michaelbel.moviemade.app.Theme;
-import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
+import org.michaelbel.moviemade.annotation.EmptyViewMode;
+import org.michaelbel.moviemade.mvp.presenter.TrailersPresenter;
+import org.michaelbel.moviemade.mvp.view.MvpTrailersView;
 import org.michaelbel.moviemade.rest.model.v3.Trailer;
-import org.michaelbel.moviemade.ui.TrailersActivity;
-import org.michaelbel.moviemade.ui.adapter.TrailersAdapter;
+import org.michaelbel.moviemade.ui.activity.TrailersActivity;
+import org.michaelbel.moviemade.ui.widget.RecyclerListView;
+import org.michaelbel.moviemade.ui_old.adapter.TrailersAdapter;
 import org.michaelbel.moviemade.ui.view.EmptyView;
-import org.michaelbel.moviemade.ui.view.widget.PaddingItemDecoration;
-import org.michaelbel.core.widget.RecyclerListView;
-import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.ScreenUtils;
+import org.michaelbel.moviemade.ui_old.view.widget.PaddingItemDecoration;
+import org.michaelbel.moxy.android.MvpAppCompatFragment;
 
 import java.util.ArrayList;
 
-public class TrailersFragment extends Fragment {
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+public class TrailersFragment extends MvpAppCompatFragment implements MvpTrailersView {
+
+    public static final int SPAN_COUNT = 1;
 
     private TrailersAdapter adapter;
     private TrailersActivity activity;
@@ -42,17 +40,10 @@ public class TrailersFragment extends Fragment {
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
-    private RecyclerListView recyclerView;
-    private SwipeRefreshLayout fragmentView;
+    public RecyclerListView recyclerView;
 
-    public static TrailersFragment newInstance(ArrayList<Trailer> list) {
-        Bundle args = new Bundle();
-        args.putParcelableArrayList("list", list);
-
-        TrailersFragment fragment = new TrailersFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
+    @InjectPresenter
+    public TrailersPresenter presenter;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,85 +54,58 @@ public class TrailersFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
-        activity.toolbarTitle.setOnClickListener(view -> {
-            if (AndroidUtils.scrollToTop()) {
-                recyclerView.smoothScrollToPosition(0);
-            }
-        });
-
-        fragmentView = new SwipeRefreshLayout(activity);
-        fragmentView.setRefreshing(false);
-        fragmentView.setColorSchemeResources(Theme.accentColor());
-        fragmentView.setBackgroundColor(ContextCompat.getColor(activity, Theme.backgroundColor()));
-        fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.primaryColor()));
-        fragmentView.setOnRefreshListener(() -> {
-            if (adapter.getTrailers().isEmpty()) {
-                onLoadError(EmptyViewMode.MODE_NO_TRAILERS);
-            } else {
-                fragmentView.setRefreshing(false);
-            }
-        });
-
-        FrameLayout contentLayout = new FrameLayout(activity);
-        contentLayout.setLayoutParams(LayoutHelper.makeSwipeRefresh(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        fragmentView.addView(contentLayout);
-
-        progressBar = new ProgressBar(getContext());
-        progressBar.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER));
-        contentLayout.addView(progressBar);
-
-        emptyView = new EmptyView(activity);
-        emptyView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 0, 24, 0));
-        contentLayout.addView(emptyView);
-
-        adapter = new TrailersAdapter();
-        gridLayoutManager = new GridLayoutManager(activity, AndroidUtils.getSpanForTrailers());
-        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-
-        recyclerView = new RecyclerListView(activity);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setEmptyView(emptyView);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setVerticalScrollBarEnabled(AndroidUtils.scrollbars());
-        recyclerView.addItemDecoration(new PaddingItemDecoration(ScreenUtils.dp(2)));
-        recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        recyclerView.setOnItemClickListener((view, position) -> {
-            Trailer trailer = adapter.getTrailers().get(position);
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailer.key)));
-        });
-        contentLayout.addView(recyclerView);
-        return fragmentView;
+        View view = inflater.inflate(R.layout.fragment_trailers, container, false);
+        emptyView = view.findViewById(R.id.empty_view);
+        progressBar = view.findViewById(R.id.progress_bar);
+        recyclerView = view.findViewById(R.id.recycler_view);
+        return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (getArguments() == null) {
-            return;
-        }
+        adapter = new TrailersAdapter();
+        gridLayoutManager = new GridLayoutManager(activity, SPAN_COUNT);
+        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
 
-        adapter.setTrailers(getArguments().getParcelableArrayList("list"));
+        emptyView.setOnClickListener(v -> {
+            emptyView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+            presenter.loadTrailers(activity.movieId);
+        });
 
-        fragmentView.setRefreshing(false);
-        progressBar.setVisibility(View.GONE);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setEmptyView(emptyView);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setPadding(0, Extensions.dp(activity,2), 0, Extensions.dp(activity,2));
+        recyclerView.addItemDecoration(new PaddingItemDecoration(Extensions.dp(activity, 4)));
+        recyclerView.setOnItemClickListener((v, position) -> {
+            Trailer trailer = adapter.trailers.get(position);
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailer.key)));
+        });
     }
 
-    @Override
+    /*@Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         Parcelable state = gridLayoutManager.onSaveInstanceState();
         gridLayoutManager = new GridLayoutManager(activity, AndroidUtils.getSpanForTrailers());
-        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
         recyclerView.setLayoutManager(gridLayoutManager);
         gridLayoutManager.onRestoreInstanceState(state);
+    }*/
+
+    @Override
+    public void setTrailers(ArrayList<Trailer> trailers) {
+        adapter.setTrailers(trailers);
+        progressBar.setVisibility(View.GONE);
     }
 
-    private void onLoadError(int mode) {
-        fragmentView.setRefreshing(false);
+    @Override
+    public void showError() {
+        emptyView.setVisibility(View.VISIBLE);
+        emptyView.setMode(EmptyViewMode.MODE_NO_CONNECTION);
         progressBar.setVisibility(View.GONE);
-        emptyView.setMode(mode);
     }
 }

@@ -4,13 +4,16 @@ import android.os.Bundle;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
-import org.michaelbel.moviemade.ui_old.fragment.TrailersFragment;
-import org.michaelbel.moviemade.utils.AndroidUtilsDev;
+import org.michaelbel.moviemade.ui.fragment.TrailersFragment;
 
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 
 public class TrailersActivity extends BaseActivity {
+
+    public int movieId;
+
+    private TrailersFragment fragment;
 
     public Toolbar toolbar;
     public AppCompatTextView toolbarTitle;
@@ -21,12 +24,14 @@ public class TrailersActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trailers);
 
+        movieId = getIntent().getIntExtra("id", 0);
         String movieTitle = getIntent().getStringExtra("title");
 
         toolbar = findViewById(R.id.toolbar);
-        toolbar.setLayoutParams(AndroidUtilsDev.getLayoutParams(toolbar));
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(view -> finish());
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
+        toolbar.setNavigationOnClickListener(v -> finish());
+        toolbar.setOnClickListener(v -> fragment.recyclerView.smoothScrollToPosition(0));
 
         toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(R.string.trailers);
@@ -34,6 +39,9 @@ public class TrailersActivity extends BaseActivity {
         toolbarSubtitle = findViewById(R.id.toolbar_subtitle);
         toolbarSubtitle.setText(movieTitle);
 
-        startFragment(new TrailersFragment(), R.id.fragment_view);
+        fragment = (TrailersFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+        if (fragment != null) {
+            fragment.presenter.loadTrailers(movieId);
+        }
     }
 }

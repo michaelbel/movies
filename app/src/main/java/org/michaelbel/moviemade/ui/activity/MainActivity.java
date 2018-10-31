@@ -6,7 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import org.michaelbel.topbar.TopBar;
+import org.michaelbel.moviemade.ui.view.topbar.TopBar;
 import org.michaelbel.bottombar.BottomNavigationBar;
 import org.michaelbel.bottombar.BottomNavigationItem;
 import org.michaelbel.material.extensions.Extensions;
@@ -18,7 +18,6 @@ import org.michaelbel.moviemade.ui.fragment.UpcomingFragment;
 
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.fragment.app.Fragment;
 
 public class MainActivity extends BaseActivity {
 

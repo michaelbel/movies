@@ -7,11 +7,6 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,14 +16,20 @@ import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.material.widget.Holder;
 import org.michaelbel.material.widget.RecyclerListView;
 import org.michaelbel.moviemade.BuildConfig;
+import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.Moviemade;
-import org.michaelbel.moviemade.app.browser.Browser;
+import org.michaelbel.moviemade.browser.Browser;
+import org.michaelbel.moviemade.ui.activity.AboutActivity;
 import org.michaelbel.moviemade.ui_old.view.AboutView;
 import org.michaelbel.moviemade.ui_old.view.cell.EmptyCell;
 import org.michaelbel.moviemade.ui_old.view.cell.TextCell;
-import org.michaelbel.moviemade.ui.activity.AboutActivity;
 import org.michaelbel.moviemade.utils.AndroidUtils;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class AboutFragment extends Fragment {
 

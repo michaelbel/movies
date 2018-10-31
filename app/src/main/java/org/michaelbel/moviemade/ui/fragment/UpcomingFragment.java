@@ -4,37 +4,36 @@ import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.arellomobile.mvp.MvpAppCompatFragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.material.widget.RecyclerListView;
+import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.app.Moviemade;
-import org.michaelbel.moviemade.app.eventbus.Events;
+import org.michaelbel.moviemade.eventbus.Events;
 import org.michaelbel.moviemade.mvp.presenter.ListMoviesPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.ui.activity.MainActivity;
+import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui_old.adapter.pagination.PaginationMoviesAdapter;
-import org.michaelbel.moviemade.ui_old.view.EmptyView;
 import org.michaelbel.moviemade.ui_old.view.widget.PaddingItemDecoration;
 import org.michaelbel.moviemade.utils.AndroidUtils;
+import org.michaelbel.moxy.android.MvpAppCompatFragment;
 
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.functions.Consumer;
 
 public class UpcomingFragment extends MvpAppCompatFragment implements MvpResultsView {
