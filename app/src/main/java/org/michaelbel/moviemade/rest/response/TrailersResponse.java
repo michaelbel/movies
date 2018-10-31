@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 import org.michaelbel.moviemade.rest.model.v3.Trailer;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class TrailersResponse {
 
@@ -12,5 +12,5 @@ public class TrailersResponse {
     public int id;
 
     @SerializedName("results")
-    public List<Trailer> trailers;
+    public ArrayList<Trailer> trailers;
 }

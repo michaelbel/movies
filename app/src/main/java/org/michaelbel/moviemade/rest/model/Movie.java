@@ -9,6 +9,7 @@ import org.michaelbel.moviemade.rest.model.v3.Country;
 import org.michaelbel.moviemade.rest.model.v3.Genre;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Movie extends TmdbObject implements Serializable {
@@ -75,6 +76,9 @@ public class Movie extends TmdbObject implements Serializable {
 
     @SerializedName("genres")
     public List<Genre> genres;
+
+    @SerializedName("genre_ids")
+    public ArrayList<Integer> genreIds;
 
     @SerializedName("production_companies")
     public List<Company> companies;
