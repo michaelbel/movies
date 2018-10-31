@@ -2,22 +2,37 @@ package org.michaelbel.moviemade.ui.view;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.IntDef;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.AppCompatImageView;
+import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.core.widget.LayoutHelper;
-import org.michaelbel.moviemade.app.Theme;
+import org.michaelbel.moviemade.Theme;
+import org.michaelbel.moviemade.ui_old.LayoutHelper;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.core.content.ContextCompat;
 
 public class RatingView extends LinearLayout {
 
     private StarView[] stars = new StarView[5];
 
     public RatingView(Context context) {
-        super(context);
+        super(context, null);
+        initialize(context);
+    }
 
+    public RatingView(Context context, @Nullable AttributeSet attrs) {
+        super(context, attrs, 0);
+        initialize(context);
+    }
+
+    public RatingView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        initialize(context);
+    }
+
+    private void initialize(Context context) {
         setOrientation(HORIZONTAL);
 
         int starCount = 5;
@@ -119,18 +134,11 @@ public class RatingView extends LinearLayout {
         }
     }
 
-    public static class StarView extends AppCompatImageView {
+    private class StarView extends AppCompatImageView {
 
         public static final int ICON_STAR = 0;
         public static final int ICON_STAR_HALF = 1;
         public static final int ICON_STAR_BORDER = 2;
-
-        @IntDef({
-                ICON_STAR,
-                ICON_STAR_HALF,
-                ICON_STAR_BORDER
-        })
-        private @interface Style {}
 
         private Drawable icon;
 
@@ -138,13 +146,13 @@ public class RatingView extends LinearLayout {
             super(context);
         }
 
-        public void setIcon(@Style int style) {
+        public void setIcon(int style) {
             if (style == ICON_STAR) {
-                icon = Theme.getIcon(R.drawable.ic_star, ContextCompat.getColor(getContext(), Theme.accentColor()));
+                icon = Theme.getIcon(R.drawable.ic_star, ContextCompat.getColor(getContext(), R.color.accent_yellow));
             } else if (style == ICON_STAR_HALF) {
-                icon = Theme.getIcon(R.drawable.ic_star_half, ContextCompat.getColor(getContext(), Theme.accentColor()));
+                icon = Theme.getIcon(R.drawable.ic_star_half, ContextCompat.getColor(getContext(), R.color.accent_yellow));
             } else if (style == ICON_STAR_BORDER) {
-                icon = Theme.getIcon(R.drawable.ic_star_border, ContextCompat.getColor(getContext(), Theme.accentColor()));
+                icon = Theme.getIcon(R.drawable.ic_star_border, ContextCompat.getColor(getContext(), R.color.accent_yellow));
             }
 
             setImageDrawable(icon);
