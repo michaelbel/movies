@@ -1,32 +1,31 @@
 package org.michaelbel.moviemade.mvp.base;
 
 import android.content.Intent;
-import androidx.fragment.app.Fragment;
 import android.view.View;
 
-import com.arellomobile.mvp.MvpAppCompatActivity;
-
+import org.michaelbel.moviemade.model.MovieRealm;
+import org.michaelbel.moviemade.rest.model.Cast;
+import org.michaelbel.moviemade.rest.model.Movie;
+import org.michaelbel.moviemade.rest.model.v3.Collection;
+import org.michaelbel.moviemade.rest.model.v3.Company;
+import org.michaelbel.moviemade.rest.model.v3.Genre;
+import org.michaelbel.moviemade.rest.model.v3.Keyword;
+import org.michaelbel.moviemade.rest.model.v3.People;
+import org.michaelbel.moviemade.rest.model.v3.Review;
+import org.michaelbel.moviemade.ui.activity.MovieActivity;
+import org.michaelbel.moviemade.ui.activity.TrailersActivity;
 import org.michaelbel.moviemade.ui_old.CollectionActivity;
 import org.michaelbel.moviemade.ui_old.CompanyActivity;
 import org.michaelbel.moviemade.ui_old.GenreActivity;
 import org.michaelbel.moviemade.ui_old.GenresActivity;
 import org.michaelbel.moviemade.ui_old.KeywordActivity;
-import org.michaelbel.moviemade.ui.activity.MovieActivity;
 import org.michaelbel.moviemade.ui_old.PersonActivity;
 import org.michaelbel.moviemade.ui_old.ReviewActivity;
-import org.michaelbel.moviemade.ui_old.TrailersActivity;
-import org.michaelbel.moviemade.model.MovieRealm;
-import org.michaelbel.moviemade.rest.model.Cast;
-import org.michaelbel.moviemade.rest.model.v3.Company;
-import org.michaelbel.moviemade.rest.model.v3.Genre;
-import org.michaelbel.moviemade.rest.model.v3.Keyword;
-import org.michaelbel.moviemade.rest.model.Movie;
-import org.michaelbel.moviemade.rest.model.v3.People;
-import org.michaelbel.moviemade.rest.model.v3.Trailer;
-import org.michaelbel.moviemade.rest.model.v3.Collection;
-import org.michaelbel.moviemade.rest.model.v3.Review;
+import org.michaelbel.moxy.android.MvpAppCompatActivity;
 
 import java.util.ArrayList;
+
+import androidx.fragment.app.Fragment;
 
 @SuppressWarnings("registered")
 public class BaseActivity extends MvpAppCompatActivity implements BaseModel, MediaModel {
@@ -71,6 +70,8 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseModel, Med
             .popBackStack();
     }
 
+//--MediaModel--------------------------------------------------------------------------------------
+
     /**
      * Передать краткую информацию о фильме из списка.
      * Работает для списков: NowPlaying, TopRated, Upcoming.
@@ -96,14 +97,12 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseModel, Med
     }
 
     @Override
-    public void startTrailers(String title) {
+    public void startTrailers(Movie movie) {
         Intent intent = new Intent(this, TrailersActivity.class);
-        intent.putExtra("title", title);
+        intent.putExtra("id", movie.id);
+        intent.putExtra("title", movie.title);
         startActivity(intent);
     }
-
-
-
 
 
 
