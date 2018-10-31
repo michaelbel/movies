@@ -1,4 +1,4 @@
-package org.michaelbel.bottombar;
+package org.michaelbel.moviemade.ui.widget.bottombar;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -23,9 +23,9 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 
-import org.michaelbel.bottombar.behaviour.BottomNavBarFabBehaviour;
-import org.michaelbel.bottombar.behaviour.BottomVerticalScrollBehavior;
-import org.michaelbel.bottombar.utils.Utils;
+import org.michaelbel.moviemade.ui.widget.bottombar.behaviour.BottomNavBarFabBehaviour;
+import org.michaelbel.moviemade.ui.widget.bottombar.behaviour.BottomVerticalScrollBehavior;
+import org.michaelbel.moviemade.ui.widget.bottombar.utils.Utils;
 import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.moviemade.R;
 

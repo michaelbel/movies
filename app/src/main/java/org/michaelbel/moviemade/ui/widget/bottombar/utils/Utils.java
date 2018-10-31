@@ -1,4 +1,4 @@
-package org.michaelbel.bottombar.utils;
+package org.michaelbel.moviemade.ui.widget.bottombar.utils;
 
 import android.content.Context;
 import android.content.res.TypedArray;

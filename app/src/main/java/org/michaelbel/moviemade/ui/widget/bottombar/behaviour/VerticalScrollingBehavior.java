@@ -1,13 +1,11 @@
-package org.michaelbel.bottombar.behaviour;
+package org.michaelbel.moviemade.ui.widget.bottombar.behaviour;
 
 
 import android.content.Context;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.view.WindowInsetsCompat;
 
-import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 

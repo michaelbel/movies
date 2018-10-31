@@ -1,4 +1,4 @@
-package org.michaelbel.bottombar;
+package org.michaelbel.moviemade.ui.widget.bottombar;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
