@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"/>
 
-            <org.michaelbel.moviemade.ui_old.view.EmptyView
+            <org.michaelbel.moviemade.ui.view.EmptyView
                 android:id="@+id/empty_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -59,7 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <org.michaelbel.moviemade.ui_old.view.RatingView
+                    <org.michaelbel.moviemade.ui.view.RatingView
                         android:id="@+id/rating_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -250,11 +250,11 @@
         <View
             android:id="@+id/divider_view"
             android:layout_width="match_parent"
-            android:layout_height="1dp"
+            android:layout_height="0.7dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="10dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="12dp"
+            android:layout_marginBottom="10dp"
             android:background="@color/divider"/>
 
         <!--Описание-->
@@ -264,11 +264,52 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
             android:textSize="16sp"
             android:textColor="@color/secondaryText"
             android:fontFamily="sans-serif"
             android:textIsSelectable="true"/>
+
+        <!--Разделитель-->
+        <View
+            android:id="@+id/divider_view2"
+            android:layout_width="match_parent"
+            android:layout_height="0.7dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/divider"/>
+
+        <!--Trailers-->
+        <FrameLayout
+            android:id="@+id/trailers_layout"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:foreground="?attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/trailers_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="start|center_vertical"
+                android:contentDescription="@string/image_description"
+                android:src="@drawable/ic_play_box_outline"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/trailers_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="40dp"
+                android:textSize="16sp"
+                android:textColor="@color/primaryText"
+                android:fontFamily="sans-serif-medium"
+                android:maxLines="1"
+                android:text="@string/trailers"/>
+
+        </FrameLayout>
 
     </LinearLayout>
 
