@@ -25,7 +25,7 @@
             android:gravity="center"
             android:scaleType="fitXY"/>
 
-        <org.michaelbel.moviemade.ui.widget.bottombar.BadgeTextView
+        <org.michaelbel.bottombar.BadgeTextView
             android:id="@+id/fixed_bottom_navigation_badge"
             style="@style/BadgeText"
             android:layout_width="wrap_content"
