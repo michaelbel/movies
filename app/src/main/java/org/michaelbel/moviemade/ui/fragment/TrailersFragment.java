@@ -1,8 +1,10 @@
 package org.michaelbel.moviemade.ui.fragment;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,11 +34,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class TrailersFragment extends MvpAppCompatFragment implements MvpTrailersView {
 
-    public static final int SPAN_COUNT = 1;
-
     private TrailersAdapter adapter;
     private TrailersActivity activity;
     private GridLayoutManager gridLayoutManager;
+    private PaddingItemDecoration itemDecoration;
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
@@ -65,8 +66,13 @@ public class TrailersFragment extends MvpAppCompatFragment implements MvpTrailer
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        itemDecoration = new PaddingItemDecoration();
+        itemDecoration.setOffset(Extensions.dp(activity, 4));
+
+        int spanCount = activity.getResources().getInteger(R.integer.trailers_span_layout_count);
+
         adapter = new TrailersAdapter();
-        gridLayoutManager = new GridLayoutManager(activity, SPAN_COUNT);
+        gridLayoutManager = new GridLayoutManager(activity, spanCount);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
 
         emptyView.setOnClickListener(v -> {
@@ -77,24 +83,20 @@ public class TrailersFragment extends MvpAppCompatFragment implements MvpTrailer
 
         recyclerView.setAdapter(adapter);
         recyclerView.setEmptyView(emptyView);
+        recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setPadding(0, Extensions.dp(activity,2), 0, Extensions.dp(activity,2));
-        recyclerView.addItemDecoration(new PaddingItemDecoration(Extensions.dp(activity, 4)));
         recyclerView.setOnItemClickListener((v, position) -> {
             Trailer trailer = adapter.trailers.get(position);
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailer.key)));
         });
     }
 
-    /*@Override
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        Parcelable state = gridLayoutManager.onSaveInstanceState();
-        gridLayoutManager = new GridLayoutManager(activity, AndroidUtils.getSpanForTrailers());
-        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        gridLayoutManager.onRestoreInstanceState(state);
-    }*/
+        refreshLayout();
+    }
 
     @Override
     public void setTrailers(ArrayList<Trailer> trailers) {
@@ -107,5 +109,17 @@ public class TrailersFragment extends MvpAppCompatFragment implements MvpTrailer
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(EmptyViewMode.MODE_NO_CONNECTION);
         progressBar.setVisibility(View.GONE);
+    }
+
+    private void refreshLayout() {
+        int spanCount = activity.getResources().getInteger(R.integer.trailers_span_layout_count);
+
+        Parcelable state = gridLayoutManager.onSaveInstanceState();
+        gridLayoutManager = new GridLayoutManager(activity, spanCount);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.removeItemDecoration(itemDecoration);
+        itemDecoration.setOffset(0);
+        recyclerView.addItemDecoration(itemDecoration);
+        gridLayoutManager.onRestoreInstanceState(state);
     }
 }

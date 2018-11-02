@@ -1,14 +1,14 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <gradient
-        android:endColor="@color/colorAccent"
-        android:centerColor="@color/colorAccent"
-        android:startColor="@color/colorAccent"
+        android:endColor="@color/md_teal_500"
+        android:centerColor="@color/md_teal_500"
+        android:startColor="@color/md_teal_500"
         android:angle="270"/>
     <corners
         android:radius="3dp"/>
     <padding
-        android:left="8dp"
-        android:top="4dp"
-        android:right="8dp"
-        android:bottom="4dp"/>
+        android:left="7dp"
+        android:top="3dp"
+        android:right="7dp"
+        android:bottom="3dp"/>
 </shape>

@@ -31,6 +31,7 @@ import org.michaelbel.moxy.android.MvpAppCompatFragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 import androidx.palette.graphics.Palette;
 
@@ -59,7 +60,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
 
     private RatingView ratingView;
     private TextView ratingText;
-    private TextView voteCountText;
+    private AppCompatTextView voteCountText;
 
     private LinearLayout releaseDateLayout;
     private ImageView releaseDateIcon;
@@ -118,7 +119,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         taglineText = view.findViewById(R.id.tagline_text);
         dividerView = view.findViewById(R.id.divider_view);
         overviewText = view.findViewById(R.id.overview_text);
-        shortInfoLayout = view.findViewById(R.id.short_info_layout);
+        shortInfoLayout = view.findViewById(R.id.info_layout);
         titleLayout = view.findViewById(R.id.title_layout);
         buttonsLayout = view.findViewById(R.id.buttons_layout);
         faveButton = view.findViewById(R.id.fave_button);

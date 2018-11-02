@@ -36,6 +36,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.functions.Consumer;
 
+@SuppressLint("CheckResult")
 public class NowPlayingFragment extends MvpAppCompatFragment implements MvpResultsView {
 
     private EmptyView emptyView;
@@ -65,14 +66,12 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MvpResul
         emptyView = view.findViewById(R.id.empty_view);
 
         itemDecoration = new PaddingItemDecoration();
-        if (AndroidUtils.viewType() == AndroidUtils.VIEW_POSTERS) {
-            itemDecoration.setOffset(Extensions.dp(activity, 1));
-        } else {
-            itemDecoration.setOffset(Extensions.dp(activity, 1));
-        }
+        itemDecoration.setOffset(Extensions.dp(activity, 1));
+
+        int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
 
         adapter = new PaginationMoviesAdapter();
-        gridLayoutManager = new GridLayoutManager(activity, 2);
+        gridLayoutManager = new GridLayoutManager(activity, spanCount);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
 
         recyclerView = view.findViewById(R.id.recycler_view);
@@ -81,9 +80,7 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MvpResul
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        if (AndroidUtils.viewType() == AndroidUtils.VIEW_POSTERS) {
-            recyclerView.setPadding(Extensions.dp(activity, 2), 0, Extensions.dp(activity, 2), 0);
-        }
+        recyclerView.setPadding(Extensions.dp(activity, 2), 0, Extensions.dp(activity, 2), 0);
         recyclerView.setOnItemClickListener((v, position) -> {
             Movie movie = (Movie) adapter.getList().get(position);
             activity.startMovie(movie);
@@ -146,10 +143,9 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MvpResul
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        gridLayoutManager.setSpanCount(1);
+        refreshLayout();
     }
 
-    @SuppressLint("CheckResult")
     @Override
     public void onResume() {
         super.onResume();
@@ -200,17 +196,14 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MvpResul
     }
 
     private void refreshLayout() {
+        int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
+
         Parcelable state = gridLayoutManager.onSaveInstanceState();
-        gridLayoutManager = new GridLayoutManager(activity, 2);
+        gridLayoutManager = new GridLayoutManager(activity, spanCount);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.removeItemDecoration(itemDecoration);
-        if (AndroidUtils.viewType() == AndroidUtils.VIEW_POSTERS) {
-            itemDecoration.setOffset(0);
-            recyclerView.addItemDecoration(itemDecoration);
-        } else if (AndroidUtils.viewType() == AndroidUtils.VIEW_BACKDROPS) {
-            itemDecoration.setOffset(Extensions.dp(activity, 2));
-            recyclerView.addItemDecoration(itemDecoration);
-        }
+        itemDecoration.setOffset(0);
+        recyclerView.addItemDecoration(itemDecoration);
         gridLayoutManager.onRestoreInstanceState(state);
     }
 }

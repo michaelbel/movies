@@ -1,27 +1,27 @@
 <resources>
-    <color name="primary">#282828</color>
-    <color name="primaryDark">#202020</color>
-    <color name="accent">#ff5252</color>
+<color name="primary">#282828</color>
+<color name="primaryDark">#202020</color>
+<color name="accent">#ff5252</color>
 
-    <color name="primaryText">#ffffff</color>
-    <color name="secondaryText">#b3ffffff</color>
-    <color name="disabledHintText">#80ffffff</color>
-    <color name="divider">#1fffffff</color>
-    <color name="iconActive">#ffffff</color>
-    <color name="iconInactive">#80ffffff</color>
-    <color name="background">#131313</color>
-    <color name="foreground">#424242</color>
+<color name="primaryText">#ffffff</color>
+<color name="secondaryText">#b3ffffff</color>
+<color name="disabledHintText">#80ffffff</color>
+<color name="divider">#1fffffff</color>
+<color name="iconActive">#ffffff</color>
+<color name="iconInactive">#80ffffff</color>
+<color name="background">#131313</color>
+<color name="foreground">#424242</color>
 
-    <color name="youtubeColor">#f44336</color>
+<color name="youtubeColor">#f44336</color>
 
-    <color name="transparent">#00000000</color>
-    <color name="transparent10">#1a000000</color><!--10% opacity-->
-    <color name="transparent20">#33000000</color><!--20% opacity-->
-    <color name="transparent30">#4d000000</color><!--30% opacity-->
-    <color name="transparent40">#66000000</color><!--40% opacity-->
-    <color name="transparent50">#80000000</color><!--50% opacity-->
-    <color name="transparent60">#99000000</color><!--60% opacity-->
-    <color name="transparent70">#b3000000</color><!--70% opacity-->
-    <color name="transparent80">#cc000000</color><!--80% opacity-->
-    <color name="transparent90">#e6000000</color><!--90% opacity-->
+<color name="transparent">#00000000</color>
+<color name="transparent10">#1a000000</color><!--10% opacity-->
+<color name="transparent20">#33000000</color><!--20% opacity-->
+<color name="transparent30">#4d000000</color><!--30% opacity-->
+<color name="transparent40">#66000000</color><!--40% opacity-->
+<color name="transparent50">#80000000</color><!--50% opacity-->
+<color name="transparent60">#99000000</color><!--60% opacity-->
+<color name="transparent70">#b3000000</color><!--70% opacity-->
+<color name="transparent80">#cc000000</color><!--80% opacity-->
+<color name="transparent90">#e6000000</color><!--90% opacity-->
 </resources>

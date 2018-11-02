@@ -5,9 +5,23 @@
     <string name="loading_status">Loading…</string>
     <string name="loading_tagline">Loading tagline…</string>
     <string name="no_connection">No connection</string>
-    <string name="unknown">unknown</string>
+    <string name="unknown">Unknown</string>
     <string name="trailers">Trailers</string>
     <string name="video_size">%1$sp</string>
+    <string name="about">About</string>
+    <string name="app_for_android">%1$s for Android</string>
+    <string name="version_build_date">Version %1$s (Build %2$d) of %3$s</string>
+    <string name="rate_google_play">Rate on Google Play</string>
+    <string name="fork_github">Fork on Github</string>
+    <string name="open_source_libs">Open-source Libraries</string>
+    <string name="feedback">Feedback</string>
+    <string name="share_with_friends">Share with Friends</string>
+    <string name="other_developer_apps">Other Developer Apps</string>
+    <string name="donate_paypal">Donate PayPal</string>
+    <string name="include_adult">Include Adult</string>
+    <string name="include_adult_info">Toggle the inclusion of adult content</string>
+    <string name="in_app_browser">In-App Browser</string>
+    <string name="in_app_browser_info">Open external links within the app</string>
 
 
 
@@ -163,10 +177,6 @@
     <string name="ImageQualityMedium">Medium</string>
     <string name="ImageQualityHigh">High</string>
     <string name="ImageQualityOriginal">Original</string>
-    <string name="IncludeAdult">Include Adult</string>
-    <string name="IncludeAdultInfo">Toggle the inclusion of adult content</string>
-    <string name="InAppBrowser">In-App Browser</string>
-    <string name="InAppBrowserInfo">Open external links within the app</string>
     <string name="StorageUsage">Storage Usage</string>
     <string name="KeepMedia">Keep Media</string>
     <string name="KeepFewDays">3 days</string>
@@ -216,23 +226,15 @@
         <item>Night Blue</item>
     </string-array>
     <!--About-->
-    <string name="About">About</string>
-    <string name="AppForAndroid">%1$s for Android</string>
-    <string name="VersionBuildDate">Version %1$s (Build %2$d) of %3$s</string>
-    <string name="ForkGithub">Fork on Github</string>
-    <string name="OpenSourceLibs">Open-source Libraries</string>
+
     <string name="ProjectInfo"><![CDATA[<b>]]>Moviemade<![CDATA[</b>]]> is an open source project maintained by one develop. You can help improve the project in one of the following ways:</string>
     <string name="PoweredBy">Powered by <![CDATA[<b>]]>Themoviedb.org<![CDATA[</b>]]></string>
-    <string name="Feedback">Feedback</string>
+
     <string name="Open">Open</string>
     <string name="CopyLink">Copy link</string>
     <string name="Link">Link</string>
     <string name="ClipboardCopied">%1$s copied to clipboard</string>
     <string name="Subject">Subject</string>
-    <string name="RateGooglePlay">Rate on Google Play</string>
-    <string name="OtherDeveloperApps">Other Developer Apps</string>
-    <string name="ShareWithFriends">Share with Friends</string>
-    <string name="DonatePaypal">Donate PayPal</string>
 
     <string name="icon">icon</string>
 </resources>

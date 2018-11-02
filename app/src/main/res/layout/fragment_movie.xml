@@ -32,25 +32,25 @@
             <!--Постер фильма-->
             <ImageView
                 android:id="@+id/poster_image"
-                android:layout_width="120dp"
-                android:layout_height="180dp"
+                android:layout_width="@dimen/poster_image_width"
+                android:layout_height="@dimen/poster_image_height"
                 android:visibility="invisible"
                 android:scaleType="fitXY"
                 android:layout_gravity="start|top"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginStart="@dimen/poster_image_margin_start"
+                android:layout_marginTop="@dimen/poster_image_margin_top"
+                android:layout_marginBottom="@dimen/poster_image_margin_bottom"
                 android:contentDescription="@string/image_description"/>
 
             <LinearLayout
-                android:id="@+id/short_info_layout"
+                android:id="@+id/info_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:layout_gravity="start|top"
-                android:layout_marginStart="152dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp">
+                android:layout_marginStart="@dimen/info_layout_margin_start"
+                android:layout_marginTop="@dimen/info_layout_margin_top"
+                android:layout_marginEnd="@dimen/info_layout_margin_end">
 
                 <!--Рейтинг-->
                 <LinearLayout
@@ -70,8 +70,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center_vertical"
-                        android:layout_marginStart="12dp"
-                        android:textSize="16sp"
+                        android:layout_marginStart="@dimen/rating_text_margin_start"
+                        android:textSize="@dimen/rating_text_size"
                         android:textColor="@color/primaryText"
                         android:fontFamily="sans-serif-medium"/>
 
@@ -80,24 +80,24 @@
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_gravity="start|center_vertical"
-                        android:layout_marginStart="12dp">
+                        android:layout_marginStart="@dimen/vote_count_layout_margin_start">
 
-                        <TextView
+                        <androidx.appcompat.widget.AppCompatTextView
                             android:id="@+id/vote_count_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|bottom"
-                            android:textSize="14sp"
+                            android:textSize="@dimen/vote_count_text_size"
                             android:textColor="@color/primaryText"
                             android:fontFamily="sans-serif-medium"/>
 
-                        <ImageView
+                        <androidx.appcompat.widget.AppCompatImageView
                             android:id="@+id/vote_count_icon"
-                            android:layout_width="13dp"
-                            android:layout_height="13dp"
+                            android:layout_width="@dimen/vote_count_icon_size"
+                            android:layout_height="@dimen/vote_count_icon_size"
                             android:layout_gravity="start|bottom"
-                            android:layout_marginStart="1dp"
-                            android:layout_marginBottom="1dp"
+                            android:layout_marginStart="@dimen/vote_count_icon_margin_start"
+                            android:layout_marginBottom="@dimen/vote_count_icon_margin_bottom"
                             android:contentDescription="@string/image_description"
                             app:srcCompat="@drawable/ic_account_multiple"/>
 
@@ -199,7 +199,7 @@
                 android:orientation="vertical"
                 android:layout_gravity="start|top"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="202dp"
+                android:layout_marginTop="@dimen/title_layout_margin_top"
                 android:layout_marginEnd="16dp">
 
                 <TextView
@@ -287,6 +287,7 @@
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
             android:foreground="?attr/selectableItemBackground">
 
             <ImageView

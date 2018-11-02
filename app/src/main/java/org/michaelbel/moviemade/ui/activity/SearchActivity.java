@@ -51,7 +51,9 @@ public class SearchActivity extends BaseActivity {
 
         String query = getIntent().getStringExtra("query");
         fragment = SearchMoviesFragment.newInstance(query);
-        startFragment(fragment, R.id.fragment_view);
+        if (savedInstanceState == null) {
+            startFragment(fragment, R.id.fragment_view);
+        }
 
         toolbar = findViewById(R.id.toolbar);
         toolbarTitle = findViewById(R.id.toolbar_title);

@@ -1,8 +1,68 @@
+<!-- Телефон в вертикальной ориентации -->
 <resources>
+    <!--TrailersActivity-->
     <dimen name="trailer_quality_text_size">11sp</dimen>
+    <!--AboutActivity-->
+    <dimen name="view_about_padding">24dp</dimen>
+    <dimen name="view_about_launcher_icon_size">120dp</dimen>
+    <dimen name="view_about_name_text_size">20sp</dimen>
+    <dimen name="view_about_name_margin_top">5dp</dimen>
+    <dimen name="view_about_version_text_size">16sp</dimen>
+    <dimen name="view_about_version_margin_top">4dp</dimen>
+
+    <dimen name="cell_height">48dp</dimen>
+    <dimen name="cell_icon_size">24dp</dimen>
+    <dimen name="cell_icon_margin_start">16dp</dimen>
+    <dimen name="cell_text_size">16sp</dimen>
+    <dimen name="cell_text_margin_start">56dp</dimen>
+
+    <dimen name="divider_height">1px</dimen>
+
+    <dimen name="view_powered_text_size">14sp</dimen>
+    <dimen name="view_powered_text_padding">16dp</dimen>
+
+    <dimen name="fragment_about_content_margin">0dp</dimen>
+    <dimen name="fragment_libs_content_margin">0dp</dimen>
+    <dimen name="fragment_settings_content_margin">0dp</dimen>
+
+    <dimen name="cell_details_height">64dp</dimen>
+    <dimen name="cell_details_text_size">16sp</dimen>
+    <dimen name="cell_details_text_margin_start">16dp</dimen>
+    <dimen name="cell_details_text_margin_top">10dp</dimen>
+    <dimen name="cell_details_value_size">13sp</dimen>
+    <dimen name="cell_details_value_margin_top">35dp</dimen>
+
+    <!--SearchMoviesFragment-->
+    <integer name="movies_span_layout_count">2</integer>
+
+    <!--TrailersFragment-->
+    <integer name="trailers_span_layout_count">1</integer>
+
+    <!--layout/activity_movie-->
+    <dimen name="backdrop_height">220dp</dimen>
+
+    <!--layout/fragment_movie-->
+    <dimen name="poster_image_width">120dp</dimen>
+    <dimen name="poster_image_height">180dp</dimen>
+    <dimen name="poster_image_margin_start">16dp</dimen>
+    <dimen name="poster_image_margin_top">16dp</dimen>
+    <dimen name="poster_image_margin_bottom">16dp</dimen>
+    <dimen name="info_layout_margin_start">152dp</dimen><!-- poster_image_width + 16dp + 16dp -->
+    <dimen name="info_layout_margin_top">16dp</dimen>
+    <dimen name="info_layout_margin_end">16dp</dimen>
+    <dimen name="rating_text_margin_start">12dp</dimen>
+    <dimen name="rating_text_size">16sp</dimen>
+    <dimen name="vote_count_layout_margin_start">12dp</dimen>
+    <dimen name="vote_count_text_size">14sp</dimen>
+    <dimen name="vote_count_icon_size">13dp</dimen>
+    <dimen name="vote_count_icon_margin_start">1dp</dimen>
+    <dimen name="vote_count_icon_margin_bottom">1dp</dimen>
+
+    <dimen name="title_layout_margin_top">212dp</dimen><!-- poster_image_height + 16dp + 16dp -->
 
 
 
+    <!--BottomNavigationBar-->
     <dimen name="fixed_min_width">120dp</dimen>
     <dimen name="fixed_min_width_small_views">104dp</dimen>
     <dimen name="fixed_max_width">168dp</dimen>

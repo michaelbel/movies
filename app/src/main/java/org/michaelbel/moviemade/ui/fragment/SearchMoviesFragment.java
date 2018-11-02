@@ -1,6 +1,8 @@
 package org.michaelbel.moviemade.ui.fragment;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +10,7 @@ import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.material.widget.RecyclerListView;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.annotation.EmptyViewMode;
@@ -35,6 +38,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
     private SearchActivity activity;
     private PaginationMoviesAdapter adapter;
     private GridLayoutManager gridLayoutManager;
+    private PaddingItemDecoration itemDecoration;
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
@@ -69,15 +73,13 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
         progressBar = view.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.INVISIBLE);
 
-        PaddingItemDecoration itemDecoration = new PaddingItemDecoration();
-        if (AndroidUtils.viewType() == 0) {
-            itemDecoration.setOffset(0);
-        } else {
-            itemDecoration.setOffset(ScreenUtils.dp(1));
-        }
+        itemDecoration = new PaddingItemDecoration();
+        itemDecoration.setOffset(Extensions.dp(activity, 1));
+
+        int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
 
         adapter = new PaginationMoviesAdapter();
-        gridLayoutManager = new GridLayoutManager(activity, 2);
+        gridLayoutManager = new GridLayoutManager(activity, spanCount);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
 
         recyclerView = view.findViewById(R.id.recycler_view);
@@ -85,6 +87,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
         recyclerView.setEmptyView(emptyView);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.setPadding(Extensions.dp(activity, 2), 0, Extensions.dp(activity, 2), 0);
         recyclerView.setOnItemClickListener((v, position) -> {
             Movie movie = (Movie) adapter.getList().get(position);
             activity.startMovie(movie);
@@ -99,7 +102,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
                 int firstVisibleItemPosition = gridLayoutManager.findFirstVisibleItemPosition();
 
                 if (!presenter.isLoading && !presenter.isLastPage) {
-                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0/* && totalItemCount >= presenter.totalPages*/) {
+                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0) {
                         presenter.isLoading = true;
                         presenter.page++;
                         presenter.loadNextPage();
@@ -107,7 +110,6 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
                 }
             }
         });
-
         return view;
     }
 
@@ -130,6 +132,12 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
             AndroidUtils.hideKeyboard(activity.searchEditText);
             presenter.search(readyQuery);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        refreshLayout();
     }
 
     @Override
@@ -170,6 +178,18 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
         progressBar.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(mode);
+    }
+
+    private void refreshLayout() {
+        int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
+
+        Parcelable state = gridLayoutManager.onSaveInstanceState();
+        gridLayoutManager = new GridLayoutManager(activity, spanCount);
+        recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.removeItemDecoration(itemDecoration);
+        itemDecoration.setOffset(0);
+        recyclerView.addItemDecoration(itemDecoration);
+        gridLayoutManager.onRestoreInstanceState(state);
     }
 
     public boolean empty() {
