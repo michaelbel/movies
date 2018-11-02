@@ -10,10 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.michaelbel.material.widget.Holder;
 import org.michaelbel.material.widget.RecyclerListView;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.annotation.OptimizedForTablets;
 import org.michaelbel.moviemade.eventbus.Events;
 import org.michaelbel.moviemade.ui.activity.AboutActivity;
 import org.michaelbel.moviemade.ui.activity.SettingsActivity;
@@ -25,10 +25,13 @@ import org.michaelbel.moviemade.utils.ScreenUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+@OptimizedForTablets
 public class SettingsFragment extends Fragment {
 
     private int rowCount;
@@ -36,6 +39,7 @@ public class SettingsFragment extends Fragment {
     private int adultRow;
     private int aboutRow;
 
+    private SettingsAdapter adapter;
     private SharedPreferences prefs;
     private SettingsActivity activity;
     private LinearLayoutManager linearLayoutManager;
@@ -57,16 +61,24 @@ public class SettingsFragment extends Fragment {
         activity.toolbar.setNavigationOnClickListener(v -> activity.finish());
         activity.toolbarTitle.setText(R.string.Settings);
 
+        recyclerView = view.findViewById(R.id.recycler_view);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
         rowCount = 0;
         inAppBrowserRow = rowCount++;
         adultRow = rowCount++;
         aboutRow = rowCount++;
 
+        adapter = new SettingsAdapter();
         prefs = activity.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
-        linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
 
-        recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setAdapter(new SettingsAdapter());
+        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setOnItemClickListener((v, position) -> {
             if (position == inAppBrowserRow) {
@@ -86,8 +98,6 @@ public class SettingsFragment extends Fragment {
                 startActivity(new Intent(activity, AboutActivity.class));
             }
         });
-
-        return view;
     }
 
     @Override
@@ -104,17 +114,15 @@ public class SettingsFragment extends Fragment {
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
-            View cell;
+            View view;
 
             if (type == 1) {
-                cell = new EmptyCell(activity);
-            } else if (type == 2) {
-                cell = new TextCell(activity);
+                view = new TextCell(activity);
             } else {
-                cell = new TextDetailCell(activity);
+                view = new TextDetailCell(activity);
             }
 
-            return new Holder(cell);
+            return new org.michaelbel.moviemade.ui.widget.RecyclerListView.ViewHolder(view);
         }
 
         @Override
@@ -122,31 +130,27 @@ public class SettingsFragment extends Fragment {
             int type = getItemViewType(position);
 
             if (type == 1) {
-                EmptyCell cell = (EmptyCell) holder.itemView;
-                cell.changeLayoutParams().setMode(EmptyCell.MODE_DEFAULT).setHeight(ScreenUtils.dp(12));
-            } else if (type == 2) {
                 TextCell cell = (TextCell) holder.itemView;
-                cell.changeLayoutParams().setHeight(ScreenUtils.dp(52));
+                cell.setHeight(ScreenUtils.dp(52));
 
                 if (position == aboutRow) {
                     cell.setMode(TextCell.MODE_DEFAULT);
-                    cell.setText(R.string.About);
+                    cell.setText(R.string.about);
                 }
             } else {
                 TextDetailCell cell = (TextDetailCell) holder.itemView;
-                cell.changeLayoutParams();
 
                 if (position == inAppBrowserRow) {
                     cell.setMode(TextDetailCell.MODE_SWITCH);
-                    cell.setText(R.string.InAppBrowser);
-                    cell.setValue(R.string.InAppBrowserInfo);
+                    cell.setText(R.string.in_app_browser);
+                    cell.setValue(R.string.in_app_browser_info);
                     cell.setChecked(prefs.getBoolean("in_app_browser", true));
                     cell.setDivider(true);
                 } else if (position == adultRow) {
                     cell.setMode(TextDetailCell.MODE_SWITCH);
-                    cell.setText(getString(R.string.IncludeAdult));
-                    cell.setValue(R.string.IncludeAdultInfo);
-                    cell.setChecked(AndroidUtils.includeAdult());
+                    cell.setText(getString(R.string.include_adult));
+                    cell.setValue(R.string.include_adult_info);
+                    cell.setChecked(prefs.getBoolean("adult", true));
                     cell.setDivider(true);
                 }
             }
@@ -159,13 +163,75 @@ public class SettingsFragment extends Fragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == -1) {
+            if (position == aboutRow) {
                 return 1;
-            } else if (position == aboutRow) {
-                return 2;
             } else {
-                return 3;
+                return 2;
             }
         }
     }
+
+    /*private class SettingsAdapter extends RecyclerView.Adapter {
+
+        private AppCompatTextView textView;
+
+        private AppCompatTextView cellText1;
+        private AppCompatTextView cellText2;
+        private SwitchCompat switchCompat;
+        private View dividerView;
+
+        @NonNull
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
+            View view;
+
+            if (type == 1) {
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_cell_text, parent, false);
+                textView = view.findViewById(R.id.text_view);
+            } else {
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_cell_details_switch, parent, false);
+                cellText1 = view.findViewById(R.id.text_view);
+                cellText2 = view.findViewById(R.id.value_text);
+                switchCompat = view.findViewById(R.id.switch_compat);
+                dividerView = view.findViewById(R.id.divider_view);
+            }
+
+            return new org.michaelbel.moviemade.ui.widget.RecyclerListView.ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+            int type = getItemViewType(position);
+
+            if (type == 1) {
+                textView.setText(R.string.about);
+            } else {
+                if (position == inAppBrowserRow) {
+                    cellText1.setText(R.string.in_app_browser);
+                    cellText2.setText(R.string.in_app_browser_info);
+                    switchCompat.setChecked(prefs.getBoolean("in_app_browser", true));
+                    dividerView.setVisibility(View.VISIBLE);
+                } else if (position == adultRow) {
+                    cellText1.setText(getString(R.string.include_adult));
+                    cellText2.setText(R.string.include_adult_info);
+                    switchCompat.setChecked(prefs.getBoolean("adult", true));
+                    dividerView.setVisibility(View.VISIBLE);
+                }
+            }
+        }
+
+        @Override
+        public int getItemCount() {
+            return rowCount;
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            if (position == aboutRow) {
+                return 1;
+            } else {
+                return 2;
+            }
+        }
+    }*/
 }

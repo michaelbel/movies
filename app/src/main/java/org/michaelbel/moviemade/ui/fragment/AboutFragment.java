@@ -173,7 +173,7 @@ public class AboutFragment extends Fragment {
                 textView = view.findViewById(R.id.text_view);
             }
 
-            return new Holder(view);
+            return new org.michaelbel.moviemade.ui.widget.RecyclerListView.ViewHolder(view);
         }
 
         @Override
