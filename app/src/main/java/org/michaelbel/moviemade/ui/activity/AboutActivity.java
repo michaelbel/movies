@@ -6,9 +6,11 @@ import androidx.appcompat.widget.Toolbar;
 import android.widget.TextView;
 
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.annotation.OptimizedForTablets;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.ui.fragment.AboutFragment;
 
+@OptimizedForTablets
 public class AboutActivity extends BaseActivity {
 
     public Toolbar toolbar;
@@ -24,6 +26,8 @@ public class AboutActivity extends BaseActivity {
 
         toolbarTitle = findViewById(R.id.toolbar_title);
 
-        startFragment(new AboutFragment(), R.id.fragment_view);
+        if (savedInstanceState == null) {
+            startFragment(new AboutFragment(), R.id.fragment_view);
+        }
     }
 }
