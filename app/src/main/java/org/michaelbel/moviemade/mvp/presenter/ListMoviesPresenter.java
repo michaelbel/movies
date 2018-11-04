@@ -3,9 +3,10 @@ package org.michaelbel.moviemade.mvp.presenter;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import org.michaelbel.moviemade.app.Url;
-import org.michaelbel.moviemade.app.annotation.EmptyViewMode;
-import org.michaelbel.moviemade.app.extensions.AndroidExtensions;
+import org.michaelbel.moviemade.BuildConfig;
+import org.michaelbel.moviemade.Url;
+import org.michaelbel.moviemade.annotation.EmptyViewMode;
+import org.michaelbel.moviemade.extensions.AndroidExtensions;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
 import org.michaelbel.moviemade.rest.ApiFactory;
@@ -45,7 +46,7 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
         }
 
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<MovieResponse> observable = service.getNowPlaying(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<MovieResponse> observable = service.getNowPlaying(BuildConfig.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MovieResponse>() {
             @Override
             public void onNext(MovieResponse response) {
@@ -70,7 +71,7 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
 
     public void loadNowPlayingNextMovies() {
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<MovieResponse> observable = service.getNowPlaying(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<MovieResponse> observable = service.getNowPlaying(BuildConfig.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MovieResponse>() {
             @Override
             public void onNext(MovieResponse response) {
@@ -95,7 +96,7 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
         }
 
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<MovieResponse> observable = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<MovieResponse> observable = service.getPopular(BuildConfig.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MovieResponse>() {
             @Override
             public void onNext(MovieResponse response) {
@@ -120,7 +121,7 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
 
     public void loadPopularNextMovies() {
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<MovieResponse> observable = service.getPopular(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<MovieResponse> observable = service.getPopular(BuildConfig.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MovieResponse>() {
             @Override
             public void onNext(MovieResponse response) {
@@ -145,7 +146,7 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
         }
 
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<MovieResponse> observable = service.getTopRated(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<MovieResponse> observable = service.getTopRated(BuildConfig.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MovieResponse>() {
             @Override
             public void onNext(MovieResponse response) {
@@ -170,7 +171,7 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
 
     public void loadTopRatedNextMovies() {
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<MovieResponse> observable = service.getTopRated(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<MovieResponse> observable = service.getTopRated(BuildConfig.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MovieResponse>() {
             @Override
             public void onNext(MovieResponse response) {
@@ -195,7 +196,7 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
         }
 
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<MovieResponse> observable = service.getUpcoming(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<MovieResponse> observable = service.getUpcoming(BuildConfig.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MovieResponse>() {
             @Override
             public void onNext(MovieResponse response) {
@@ -220,7 +221,7 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
 
     public void loadUpcomingNextMovies() {
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<MovieResponse> observable = service.getUpcoming(Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<MovieResponse> observable = service.getUpcoming(BuildConfig.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MovieResponse>() {
             @Override
             public void onNext(MovieResponse response) {
@@ -245,7 +246,7 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
         }
 
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<MovieResponse> observable = service.getSimilar(movieId, Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<MovieResponse> observable = service.getSimilar(movieId, BuildConfig.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MovieResponse>() {
             @Override
             public void onNext(MovieResponse response) {
@@ -270,7 +271,7 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
 
     public void loadSimilarNextMovies(int movieId) {
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<MovieResponse> observable = service.getSimilar(movieId, Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<MovieResponse> observable = service.getSimilar(movieId, BuildConfig.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MovieResponse>() {
             @Override
             public void onNext(MovieResponse response) {
@@ -295,7 +296,7 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
         }
 
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<MovieResponse> observable = service.getRecommendations(movieId, Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<MovieResponse> observable = service.getRecommendations(movieId, BuildConfig.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MovieResponse>() {
             @Override
             public void onNext(MovieResponse response) {
@@ -320,7 +321,7 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
 
     public void loadRelatedNextMovies(int movieId) {
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<MovieResponse> observable = service.getRecommendations(movieId, Url.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<MovieResponse> observable = service.getRecommendations(movieId, BuildConfig.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MovieResponse>() {
             @Override
             public void onNext(MovieResponse response) {
@@ -345,7 +346,7 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
         }
 
         PEOPLE service = ApiFactory.createService2(PEOPLE.class);
-        Observable<MoviePeopleResponse> observable = service.getMovieCredits(castId, Url.TMDB_API_KEY, Url.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<MoviePeopleResponse> observable = service.getMovieCredits(castId, BuildConfig.TMDB_API_KEY, Url.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MoviePeopleResponse>() {
             @Override
             public void onNext(MoviePeopleResponse response) {
@@ -417,21 +418,9 @@ public class ListMoviesPresenter extends MvpPresenter<MvpResultsView> {
             newMovie.title = m.title;
             newMovie.posterPath = m.posterPath;
             newMovie.releaseDate = AndroidExtensions.formatReleaseDate(m.releaseDate);
-            //newMovie.originalTitle = m.originalTitle;
-            //newMovie.originalLanguage = AndroidUtils.formatOriginalLanguage(m.originalLanguage);
             newMovie.overview = m.overview;
             newMovie.addedDate = DateUtils.getCurrentDateAndTimeWithMilliseconds();
-            //newMovie.adult = m.adult;
-            //newMovie.backdropPath = m.backdropPath;
-            //newMovie.budget = AndroidUtils.formatCurrency(m.budget);
-            //newMovie.revenue = AndroidUtils.formatCurrency(m.revenue);
-            //newMovie.status = m.status;
-            //newMovie.tagline = m.tagline;
-            //newMovie.imdbId = m.imdbId;
-            //newMovie.homepage = m.homepage;
-            //newMovie.popularity = m.popularity;
-            //newMovie.video = m.video;
-            //newMovie.runtime = AndroidUtils.formatRuntime(m.runtime);
+            newMovie.popularity = m.popularity;
             newMovie.voteAverage = m.voteAverage;
             newMovie.voteCount = m.voteCount;
             newMovie.watching = true;

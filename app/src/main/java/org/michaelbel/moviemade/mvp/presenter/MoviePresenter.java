@@ -7,15 +7,13 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
 import org.michaelbel.moviemade.BuildConfig;
-import org.michaelbel.moviemade.app.Url;
-import org.michaelbel.moviemade.app.extensions.AndroidExtensions;
-import org.michaelbel.moviemade.model.MovieRealm;
+import org.michaelbel.moviemade.Url;
+import org.michaelbel.moviemade.extensions.AndroidExtensions;
 import org.michaelbel.moviemade.mvp.view.MvpMovieView;
 import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.rest.api.MOVIES;
 import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.DateUtils;
 import org.michaelbel.moviemade.utils.NetworkUtils;
 
 import java.util.Locale;
@@ -25,7 +23,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import io.realm.Realm;
 
 @InjectViewState
 public class MoviePresenter extends MvpPresenter<MvpMovieView> {
@@ -49,9 +46,6 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
         getViewState().setOriginalLanguage(AndroidUtils.formatOriginalLanguage(movie.originalLanguage));
     }
 
-    /**
-     * Получить наиболее подробную информацию о фильме
-     */
     public void loadMovieDetails(int movieId) {
         if (NetworkUtils.notConnected()) {
             getViewState().showConnectionError();
@@ -65,6 +59,8 @@ public class MoviePresenter extends MvpPresenter<MvpMovieView> {
             public void onNext(Movie movie) {
                 getViewState().setRuntime((movie.runtime != 0 ? AndroidExtensions.formatRuntime(movie.runtime) : null));
                 getViewState().setTagline(movie.tagline);
+
+                getViewState().showComplete();
             }
 
             @Override
