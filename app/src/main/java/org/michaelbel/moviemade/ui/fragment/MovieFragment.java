@@ -1,6 +1,12 @@
 package org.michaelbel.moviemade.ui.fragment;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -47,8 +53,6 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     //private ArrayList<Trailer> trailers = new ArrayList<>();
     //private ArrayList<Keyword> keywords = new ArrayList<>();
 
-    private MovieActivity activity;
-
     private View view;
 
     private ProgressBar progressBar;
@@ -87,6 +91,10 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
 
     private FrameLayout trailersLayout;
 
+    private boolean connectionError;
+    private MovieActivity activity;
+    private NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
+
     @InjectPresenter
     public MoviePresenter presenter;
 
@@ -94,6 +102,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (MovieActivity) getActivity();
+        activity.registerReceiver(networkChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
     }
 
     @Nullable
@@ -140,6 +149,12 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
 
         emptyView.setVisibility(View.GONE);
         progressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        activity.unregisterReceiver(networkChangeReceiver);
     }
 
     @Override
@@ -228,12 +243,33 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
     @Override
     public void showConnectionError() {
         Snackbar.make(view, R.string.no_connection, Snackbar.LENGTH_SHORT).show();
+        connectionError = true;
+    }
+
+    @Override
+    public void showComplete() {
+        connectionError = false;
     }
 
     @Override
     public void onClick(View v) {
         if (v == trailersLayout) {
             activity.startTrailers(activity.movie);
+        }
+    }
+
+    private class NetworkChangeReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
+
+            if (networkInfo != null && networkInfo.isConnected()) {
+                if (connectionError) {
+                    presenter.loadMovieDetails(activity.movie.id);
+                }
+            }
         }
     }
 

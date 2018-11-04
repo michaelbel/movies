@@ -1,7 +1,12 @@
 package org.michaelbel.moviemade.ui.fragment;
 
-import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -24,7 +29,6 @@ import org.michaelbel.moviemade.ui.activity.MainActivity;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui_old.adapter.pagination.PaginationMoviesAdapter;
 import org.michaelbel.moviemade.ui_old.view.widget.PaddingItemDecoration;
-import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moxy.android.MvpAppCompatFragment;
 
 import java.util.List;
@@ -34,19 +38,20 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import io.reactivex.functions.Consumer;
 
-@SuppressLint("CheckResult")
+@SuppressWarnings("all")
 public class NowPlayingFragment extends MvpAppCompatFragment implements MvpResultsView {
+
+    private MainActivity activity;
+    public PaginationMoviesAdapter adapter;
+    private GridLayoutManager gridLayoutManager;
+    private PaddingItemDecoration itemDecoration;
 
     private EmptyView emptyView;
     private ProgressBar progressBar;
     public RecyclerListView recyclerView;
 
-    private MainActivity activity;
-    private PaginationMoviesAdapter adapter;
-    private GridLayoutManager gridLayoutManager;
-    private PaddingItemDecoration itemDecoration;
+    private NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
 
     @InjectPresenter
     public ListMoviesPresenter presenter;
@@ -55,15 +60,24 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MvpResul
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (MainActivity) getActivity();
+        activity.registerReceiver(networkChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_playing, container, false);
-
         progressBar = view.findViewById(R.id.progress_bar);
         emptyView = view.findViewById(R.id.empty_view);
+        recyclerView = view.findViewById(R.id.recycler_view);
+        return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        emptyView.setOnClickListener(v -> presenter.loadNowPlayingMovies());
 
         itemDecoration = new PaddingItemDecoration();
         itemDecoration.setOffset(Extensions.dp(activity, 1));
@@ -74,7 +88,6 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MvpResul
         gridLayoutManager = new GridLayoutManager(activity, spanCount);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
 
-        recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
         recyclerView.setEmptyView(emptyView);
         recyclerView.addItemDecoration(itemDecoration);
@@ -131,12 +144,6 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MvpResul
             }
         });
 
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         presenter.loadNowPlayingMovies();
     }
 
@@ -151,14 +158,17 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MvpResul
         super.onResume();
 
         Moviemade app = ((Moviemade) activity.getApplication());
-        app.eventBus().toObservable().subscribe(new Consumer<Object>() {
-            @Override
-            public void accept(Object o) {
-                if (o instanceof Events.MovieListRefreshLayout) {
-                    refreshLayout();
-                }
+        app.eventBus().toObservable().subscribe(o -> {
+            if (o instanceof Events.MovieListRefreshLayout) {
+                refreshLayout();
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        activity.unregisterReceiver(networkChangeReceiver);
     }
 
     @Override
@@ -205,5 +215,20 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MvpResul
         itemDecoration.setOffset(0);
         recyclerView.addItemDecoration(itemDecoration);
         gridLayoutManager.onRestoreInstanceState(state);
+    }
+
+    private class NetworkChangeReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo networkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
+
+            if (networkInfo != null && networkInfo.isConnected()) {
+                if (adapter.isEmpty()) {
+                    presenter.loadNowPlayingMovies();
+                }
+            }
+        }
     }
 }

@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import org.michaelbel.moviemade.ui.view.topbar.TopBar;
 import org.michaelbel.bottombar.BottomNavigationBar;
 import org.michaelbel.bottombar.BottomNavigationItem;
 import org.michaelbel.material.extensions.Extensions;
@@ -15,10 +14,12 @@ import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.ui.fragment.NowPlayingFragment;
 import org.michaelbel.moviemade.ui.fragment.TopRatedFragment;
 import org.michaelbel.moviemade.ui.fragment.UpcomingFragment;
+import org.michaelbel.moviemade.ui.view.topbar.TopBar;
 
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
+@SuppressWarnings("all")
 public class MainActivity extends BaseActivity {
 
     private Context context;
@@ -90,13 +91,25 @@ public class MainActivity extends BaseActivity {
             public void onTabReselected(int position) {
                 switch (position) {
                     case 0:
-                        nowPlayingFragment.recyclerView.smoothScrollToPosition(0);
+                        if (nowPlayingFragment.adapter.isEmpty()) {
+                            nowPlayingFragment.presenter.loadNowPlayingMovies();
+                        } else {
+                            nowPlayingFragment.recyclerView.smoothScrollToPosition(0);
+                        }
                         break;
                     case 1:
-                        topRatedFragment.recyclerView.smoothScrollToPosition(0);
+                        if (topRatedFragment.adapter.isEmpty()) {
+                            topRatedFragment.presenter.loadNowPlayingMovies();
+                        } else {
+                            topRatedFragment.recyclerView.smoothScrollToPosition(0);
+                        }
                         break;
                     case 2:
-                        upcomingFragment.recyclerView.smoothScrollToPosition(0);
+                        if (upcomingFragment.adapter.isEmpty()) {
+                            upcomingFragment.presenter.loadNowPlayingMovies();
+                        } else {
+                            upcomingFragment.recyclerView.smoothScrollToPosition(0);
+                        }
                         break;
                 }
             }

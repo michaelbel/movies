@@ -40,6 +40,13 @@
         <activity android:name=".ui.activity.SettingsActivity" android:screenOrientation="user"/>
         <activity android:name=".ui.activity.AboutActivity" android:screenOrientation="user"/>
 
+        <!--<receiver android:name=".ui.NetworkChangeReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+                <action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>
+            </intent-filter>
+        </receiver>-->
+
         <!--
         <intent-filter>
             <action android:name="android.intent.action.VIEW"/>
