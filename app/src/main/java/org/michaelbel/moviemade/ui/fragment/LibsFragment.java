@@ -1,19 +1,15 @@
 package org.michaelbel.moviemade.ui.fragment;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.michaelbel.material.widget.Holder;
-import org.michaelbel.material.widget.RecyclerListView;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.annotation.OptimizedForTablets;
 import org.michaelbel.moviemade.browser.Browser;
 import org.michaelbel.moviemade.model.Source;
 import org.michaelbel.moviemade.ui.activity.AboutActivity;
+import org.michaelbel.moviemade.ui.widget.RecyclerListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,15 +20,18 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-@OptimizedForTablets
+@SuppressWarnings("all")
 public class LibsFragment extends Fragment {
 
     private LibsAdapter adapter;
     private AboutActivity activity;
     private LinearLayoutManager linearLayoutManager;
 
-    private RecyclerListView recyclerView;
+    @BindView(R.id.recycler_view)
+    public RecyclerListView recyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,19 +43,31 @@ public class LibsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_libs, container, false);
+        ButterKnife.bind(this, view);
 
         activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         activity.toolbar.setNavigationOnClickListener(v -> activity.finishFragment());
         activity.toolbarTitle.setText(R.string.open_source_libs);
-
-        recyclerView = view.findViewById(R.id.recycler_view);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         adapter = new LibsAdapter();
+        adapter.addSource("BottomSheet", "https://github.com/michaelbel/bottomsheet","Apache License 2.0");
+        adapter.addSource("Gson", "https://github.com/google/gson","Apache License 2.0");
+        adapter.addSource("Retrofit", "https://square.github.io/retrofit","Apache License 2.0");
+        adapter.addSource("RxJava", "https://github.com/reactivex/rxjava","Apache License 2.0");
+        adapter.addSource("Picasso", "https://square.github.io/picasso","Apache License 2.0");
+        adapter.addSource("Realm Java", "https://github.com/realm/realm-java", "Apache License 2.0");
+        adapter.addSource("Moxy", "https://github.com/arello-mobile/moxy", "The MIT License (MIT)");
+        adapter.addSource("GestureViews", "https://github.com/alexvasilkov/gestureviews", "Apache License 2.0");
+        adapter.addSource("ChipsLayoutManager", "https://github.com/beloos/chipslayoutmanager", "Apache License 2.0");
+        adapter.addSource("ExpandableTextView", "https://github.com/blogcat/android-expandabletextview", "Apache License 2.0");
+        adapter.addSource("Android Animated Menu Items", "https://github.com/adonixis/android-animated-menu-items", "Apache License 2.0");
+
         linearLayoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
 
         recyclerView.setAdapter(adapter);
@@ -82,46 +93,34 @@ public class LibsFragment extends Fragment {
         });*/
     }
 
-    @Override
+    /*@Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         Parcelable state = linearLayoutManager.onSaveInstanceState();
-        linearLayoutManager = new LinearLayoutManager(activity);
+        linearLayoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         linearLayoutManager.onRestoreInstanceState(state);
-    }
+    }*/
 
-    private class LibsAdapter extends RecyclerView.Adapter {
+    public class LibsAdapter extends RecyclerView.Adapter {
 
         private List<Source> sources = new ArrayList<>();
 
-        private AppCompatTextView textView;
-        private AppCompatTextView valueView;
-        private View dividerView;
+        @BindView(R.id.text_view)
+        public AppCompatTextView textView;
 
-        private LibsAdapter() {
-            // todo: Добавляется ли снизу дополнительный элемент BottomSheet при смене ориентации?
-            sources.add(new Source("BottomSheet", "https://github.com/michaelbel/bottomsheet","Apache License 2.0"));
-            sources.add(new Source("Gson", "https://github.com/google/gson","Apache License 2.0"));
-            sources.add(new Source("Retrofit", "https://square.github.io/retrofit","Apache License 2.0"));
-            sources.add(new Source("RxJava", "https://github.com/reactivex/rxjava","Apache License 2.0"));
-            sources.add(new Source("Picasso", "https://square.github.io/picasso","Apache License 2.0"));
-            sources.add(new Source("Realm Java", "https://github.com/realm/realm-java", "Apache License 2.0"));
-            sources.add(new Source("Moxy", "https://github.com/arello-mobile/moxy", "The MIT License (MIT)"));
-            sources.add(new Source("GestureViews", "https://github.com/alexvasilkov/gestureviews", "Apache License 2.0"));
-            sources.add(new Source("ChipsLayoutManager", "https://github.com/beloos/chipslayoutmanager", "Apache License 2.0"));
-            sources.add(new Source("ExpandableTextView", "https://github.com/blogcat/android-expandabletextview", "Apache License 2.0"));
-            sources.add(new Source("Android Animated Menu Items", "https://github.com/adonixis/android-animated-menu-items", "Apache License 2.0"));
-        }
+        @BindView(R.id.value_text)
+        public AppCompatTextView valueView;
+
+        @BindView(R.id.divider_view)
+        public View dividerView;
 
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_cell_details, parent, false);
-            textView = view.findViewById(R.id.text_view);
-            valueView = view.findViewById(R.id.value_text);
-            dividerView = view.findViewById(R.id.divider_view);
-            return new Holder(view);
+            ButterKnife.bind(this, view);
+            return new RecyclerListView.ViewHolder(view);
         }
 
         @Override
@@ -136,6 +135,11 @@ public class LibsFragment extends Fragment {
         @Override
         public int getItemCount() {
             return sources != null ? sources.size() : 0;
+        }
+
+        private void addSource(String name, String url, String license) {
+            sources.add(new Source(name, url, license));
+            notifyItemInserted(sources.size() - 1);
         }
     }
 }
