@@ -1,0 +1,19 @@
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="false"
+    app:cardPreventCornerOverlap="false"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="0dp"
+    app:cardBackgroundColor="@color/primary">
+
+    <com.pierfrancescosoffritti.androidyoutubeplayer.player.YouTubePlayerView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/youtube_player_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</androidx.cardview.widget.CardView>
