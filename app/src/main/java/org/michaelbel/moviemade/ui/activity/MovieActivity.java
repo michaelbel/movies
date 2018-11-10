@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.ui.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
@@ -17,40 +16,51 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.Url;
 import org.michaelbel.moviemade.browser.Browser;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
-import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.ui.fragment.MovieFragment;
 import org.michaelbel.moviemade.ui.view.BackdropView;
 import org.michaelbel.moviemade.ui.view.appbar.AppBarState;
 import org.michaelbel.moviemade.ui.view.appbar.AppBarStateChangeListener;
+import org.michaelbel.tmdb.v3.json.Movie;
 
 import java.util.Locale;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 @SuppressWarnings("all")
 public class MovieActivity extends BaseActivity {
 
     public Movie movie;
 
-    private Context context;
-
     private Menu actionMenu;
     private MenuItem menu_share;
     private MenuItem menu_tmdb;
     private MenuItem menu_imdb;
 
-    private TextView toolbarTitle;
+    @BindView(R.id.toolbar)
+    public Toolbar toolbar;
+
+    @BindView(R.id.app_bar)
+    public AppBarLayout appBar;
+
+    @BindView(R.id.toolbar_title)
+    public TextView toolbarTitle;
+
+    @BindView(R.id.backdrop_image)
+    public BackdropView backdropImage;
+
+    @BindView(R.id.collapsing_layout)
+    public CollapsingToolbarLayout collapsingToolbarLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
+        ButterKnife.bind(this);
 
-        context = MovieActivity.this;
-
-        // Создать новый экземпляр класса Movie и присвоить ему все доступные передаваемые значения.
         movie = new Movie();
         movie.id =  getIntent().getIntExtra("id", 0);
         movie.title = getIntent().getStringExtra("title");
@@ -62,7 +72,7 @@ public class MovieActivity extends BaseActivity {
         movie.adult = getIntent().getBooleanExtra("adult", false);
         movie.video = getIntent().getBooleanExtra("video", false);
         movie.releaseDate = getIntent().getStringExtra("releaseDate");
-        movie.genreIds = getIntent().getIntegerArrayListExtra("genreIds");
+        //movie.genreIds = getIntent().getIntegerArrayListExtra("genreIds");
         movie.originalTitle = getIntent().getStringExtra("originalTitle");
         movie.originalLanguage = getIntent().getStringExtra("originalLanguage");
         movie.popularity = getIntent().getDoubleExtra("popularity", 0);
@@ -71,18 +81,16 @@ public class MovieActivity extends BaseActivity {
         fragment.presenter.setMovieDetailsFromExtra(movie);
         fragment.presenter.loadMovieDetails(movie.id);
 
-        getWindow().setStatusBarColor(ContextCompat.getColor(context, R.color.primary));
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.primary));
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(ContextCompat.getColor(context, R.color.transparent20));
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.transparent20));
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(view -> finish());
         toolbar.setTitle(null);
 
-        AppBarLayout appBar = findViewById(R.id.app_bar);
         appBar.addOnOffsetChangedListener(new AppBarStateChangeListener() {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, AppBarState state) {
@@ -94,15 +102,11 @@ public class MovieActivity extends BaseActivity {
             }
         });
 
-        toolbarTitle = findViewById(R.id.toolbar_title);
         toolbarTitle.setText(movie.title);
-
-        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_layout);
-        collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(context, R.color.primary));
-        collapsingToolbarLayout.setStatusBarScrimColor(ContextCompat.getColor(context, android.R.color.transparent));
-
-        BackdropView backdropImage = findViewById(R.id.backdrop_image);
         backdropImage.setImage(movie.backdropPath);
+
+        collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(this, R.color.primary));
+        collapsingToolbarLayout.setStatusBarScrimColor(ContextCompat.getColor(this, android.R.color.transparent));
     }
 
     @Override
@@ -127,7 +131,7 @@ public class MovieActivity extends BaseActivity {
             intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, Url.TMDB_MOVIE, movie.id));
             startActivity(Intent.createChooser(intent, getString(R.string.ShareVia)));
         } else if (item == menu_tmdb) {
-            Browser.openUrl(context, String.format(Locale.US, Url.TMDB_MOVIE, movie.id));
+            Browser.openUrl(this, String.format(Locale.US, Url.TMDB_MOVIE, movie.id));
         } /*else if (item == menu_imdb) {
             Browser.openUrl(context, String.format(Locale.US, Url.IMDB_MOVIE, movie.imdbId));
         }*/
