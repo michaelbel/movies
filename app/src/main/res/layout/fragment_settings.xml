@@ -1,11 +1,10 @@
-<!--OptimizedForTablets-->
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <org.michaelbel.material.widget.RecyclerListView
+    <org.michaelbel.moviemade.ui.widget.RecyclerListView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
