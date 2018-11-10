@@ -12,14 +12,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import org.michaelbel.material.widget.Holder;
-import org.michaelbel.material.widget.RecyclerListView;
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.annotation.OptimizedForTablets;
 import org.michaelbel.moviemade.browser.Browser;
 import org.michaelbel.moviemade.ui.activity.AboutActivity;
+import org.michaelbel.moviemade.ui.widget.RecyclerListView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 
 import androidx.annotation.NonNull;
@@ -28,9 +26,14 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-@OptimizedForTablets
+@SuppressWarnings("all")
 public class AboutFragment extends Fragment {
+
+    public static final String TELEGRAM_PACKAGE_NAME = "org.telegram.messenger";
+    public static final String LIBS_FRAGMENT_TAG = "libs_fragment";
 
     private int rowCount;
     private int infoRow;
@@ -46,6 +49,7 @@ public class AboutFragment extends Fragment {
     private AboutActivity activity;
     private LinearLayoutManager linearLayoutManager;
 
+    @BindView(R.id.recycler_view)
     private RecyclerListView recyclerView;
 
     @Override
@@ -58,12 +62,11 @@ public class AboutFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_about, container, false);
+        ButterKnife.bind(this, view);
 
         activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         activity.toolbar.setNavigationOnClickListener(v -> activity.finish());
         activity.toolbarTitle.setText(R.string.about);
-
-        recyclerView = view.findViewById(R.id.recycler_view);
         return view;
     }
 
@@ -106,11 +109,11 @@ public class AboutFragment extends Fragment {
                     Browser.openUrl(activity, Moviemade.ACCOUNT_WEB);
                 }
             } else if (position == libsRow) {
-                activity.startFragment(new LibsFragment(), R.id.fragment_view, "libsFragment");
+                activity.startFragment(new LibsFragment(), R.id.fragment_view, LIBS_FRAGMENT_TAG);
             } else if (position == feedbackRow) {
                 try {
                     PackageManager packageManager = activity.getPackageManager();
-                    PackageInfo packageInfo = packageManager.getPackageInfo("org.telegram.messenger", 0);
+                    PackageInfo packageInfo = packageManager.getPackageInfo(TELEGRAM_PACKAGE_NAME, 0);
                     if (packageInfo != null) {
                         Intent telegram = new Intent(Intent.ACTION_VIEW , Uri.parse(Moviemade.TELEGRAM_URL));
                         startActivity(telegram);
@@ -140,7 +143,7 @@ public class AboutFragment extends Fragment {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         Parcelable state = linearLayoutManager.onSaveInstanceState();
-        linearLayoutManager = new LinearLayoutManager(getContext());
+        linearLayoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         linearLayoutManager.onRestoreInstanceState(state);
     }
@@ -173,7 +176,7 @@ public class AboutFragment extends Fragment {
                 textView = view.findViewById(R.id.text_view);
             }
 
-            return new org.michaelbel.moviemade.ui.widget.RecyclerListView.ViewHolder(view);
+            return new RecyclerListView.ViewHolder(view);
         }
 
         @Override
@@ -181,10 +184,10 @@ public class AboutFragment extends Fragment {
             int type = getItemViewType(position);
 
             if (type == 0) {
-                appNameText.setText(getString(R.string.app_for_android, getString(R.string.AppName)));
+                appNameText.setText(getString(R.string.app_for_android, getString(R.string.app_name)));
                 versionText.setText(getString(R.string.version_build_date, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE, BuildConfig.VERSION_DATE));
             } else if (type == 1) {
-                poweredText.setText(AndroidUtils.replaceTags(getString(R.string.PoweredBy)));
+                poweredText.setText(AndroidUtils.replaceTags(getString(R.string.powered_by)));
             } else {
                 if (position == rateGooglePlay) {
                     iconView.setImageResource(R.drawable.ic_google_play);
