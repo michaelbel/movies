@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.ui.activity;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -8,54 +7,66 @@ import android.widget.ImageView;
 
 import org.michaelbel.bottombar.BottomNavigationBar;
 import org.michaelbel.bottombar.BottomNavigationItem;
-import org.michaelbel.material.extensions.Extensions;
+import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.extensions.DeviceUtil;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.ui.fragment.NowPlayingFragment;
 import org.michaelbel.moviemade.ui.fragment.TopRatedFragment;
 import org.michaelbel.moviemade.ui.fragment.UpcomingFragment;
 import org.michaelbel.moviemade.ui.view.topbar.TopBar;
 
+import javax.inject.Inject;
+
 import androidx.annotation.Nullable;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-@SuppressWarnings("all")
 public class MainActivity extends BaseActivity {
 
-    private Context context;
-    private SharedPreferences sharedPreferences;
+    public static final String KEY_CURRENT_FRAGMENT = "fragment";
+    public static final int CURRENT_FRAGMENT_DEFAULT = 0;
 
     private NowPlayingFragment nowPlayingFragment;
     private TopRatedFragment topRatedFragment;
     private UpcomingFragment upcomingFragment;
+
+    @Inject
+    SharedPreferences sharedPreferences;
+
+    @BindView(R.id.topbar)
+    public TopBar topbar;
+
+    @BindView(R.id.search_icon)
+    public ImageView searchIcon;
+
+    @BindView(R.id.settings_icon)
+    public ImageView settingsIcon;
+
+    @BindView(R.id.bottom_navigation_bar)
+    public BottomNavigationBar bottomBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         setTheme(R.style.AppThemeTransparentStatusBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        Moviemade.getComponent().injest(this);
 
-        context = MainActivity.this;
-        sharedPreferences = context.getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
-
-        TopBar topbar = findViewById(R.id.topbar);
         topbar.setTitle(R.string.AppName);
 
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) topbar.getLayoutParams();
-        params.topMargin = Extensions.getStatusBarHeight(context);
+        params.topMargin = DeviceUtil.getStatusBarHeight(this);
 
-        ImageView searchIcon = findViewById(R.id.search_icon);
         searchIcon.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SearchActivity.class)));
-
-        ImageView settingsIcon = findViewById(R.id.settings_icon);
         settingsIcon.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SettingsActivity.class)));
 
         nowPlayingFragment = new NowPlayingFragment();
         topRatedFragment = new TopRatedFragment();
         upcomingFragment = new UpcomingFragment();
 
-        BottomNavigationBar bottomBar = findViewById(R.id.bottom_navigation_bar);
-        bottomBar.setElevation(Extensions.dp(context, 4));
         bottomBar.setBarBackgroundColor(R.color.primary);
         bottomBar.setActiveColor(R.color.md_white);
         bottomBar.setMode(BottomNavigationBar.MODE_FIXED);
@@ -64,7 +75,7 @@ public class MainActivity extends BaseActivity {
             .addItem(new BottomNavigationItem(R.drawable.ic_fire, R.string.NowPlaying).setActiveColorResource(R.color.accent))
             .addItem(new BottomNavigationItem(R.drawable.ic_star_circle, R.string.TopRated).setActiveColorResource(R.color.accent))
             .addItem(new BottomNavigationItem(R.drawable.ic_movieroll, R.string.Upcoming).setActiveColorResource(R.color.accent))
-            .setFirstSelectedPosition(sharedPreferences.getInt("fragment", 0))
+            .setFirstSelectedPosition(sharedPreferences.getInt(KEY_CURRENT_FRAGMENT, CURRENT_FRAGMENT_DEFAULT))
             .initialise();
         bottomBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
@@ -81,7 +92,7 @@ public class MainActivity extends BaseActivity {
                         break;
                 }
 
-                sharedPreferences.edit().putInt("fragment", position).apply();
+                sharedPreferences.edit().putInt(KEY_CURRENT_FRAGMENT, position).apply();
             }
 
             @Override
@@ -119,7 +130,7 @@ public class MainActivity extends BaseActivity {
     }
 
     private void startCurrentFragment() {
-        int position = sharedPreferences.getInt("fragment", 0);
+        int position = sharedPreferences.getInt(KEY_CURRENT_FRAGMENT, CURRENT_FRAGMENT_DEFAULT);
 
         switch (position) {
             case 0:
