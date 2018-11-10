@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognizerIntent;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -17,8 +15,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.extensions.AndroidExtensions;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.ui.fragment.SearchMoviesFragment;
 import org.michaelbel.moviemade.utils.AndroidUtils;
@@ -26,28 +24,38 @@ import org.michaelbel.moviemade.utils.AndroidUtils;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+@SuppressWarnings("all")
 public class SearchActivity extends BaseActivity {
 
-    private static final int MENU_ITEM_INDEX = 0;
-
-    private final int SPEECH_REQUEST_CODE = 101;
-
-    private final int MODE_ACTION_CLEAR = 1;
-    private final int MODE_ACTION_VOICE = 2;
+    public static final int MENU_ITEM_INDEX = 0;
+    public static final int SPEECH_REQUEST_CODE = 101;
+    public static final int MODE_ACTION_CLEAR = 1;
+    public static final int MODE_ACTION_VOICE = 2;
 
     private int iconActionMode;
 
-    public Toolbar toolbar;
-    public TextView toolbarTitle;
-    public EditText searchEditText;
-
     private Menu actionMenu;
     private SearchMoviesFragment fragment;
+
+    @BindView(R.id.toolbar)
+    public Toolbar toolbar;
+
+    @BindView(R.id.toolbar_title)
+    public TextView toolbarTitle;
+
+    @BindView(R.id.search_edit_text)
+    public EditText searchEditText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+        ButterKnife.bind(this);
 
         String query = getIntent().getStringExtra("query");
         fragment = SearchMoviesFragment.newInstance(query);
@@ -55,16 +63,12 @@ public class SearchActivity extends BaseActivity {
             startFragment(fragment, R.id.fragment_view);
         }
 
-        toolbar = findViewById(R.id.toolbar);
-        toolbarTitle = findViewById(R.id.toolbar_title);
-
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(view -> finish());
 
         iconActionMode = MODE_ACTION_VOICE;
 
-        searchEditText = findViewById(R.id.search_edit_text);
         searchEditText.setBackground(null);
         searchEditText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -87,7 +91,7 @@ public class SearchActivity extends BaseActivity {
 
             return false;
         });
-        Extensions.clearCursorDrawable(searchEditText);
+        AndroidExtensions.clearCursorDrawable(searchEditText);
     }
 
     @Override
@@ -102,7 +106,7 @@ public class SearchActivity extends BaseActivity {
                     Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
                     intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
                     intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
-                    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, R.string.SpeakNow);
+                    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, R.string.speak_now);
                     startActivityForResult(intent, SPEECH_REQUEST_CODE);
                 } else if (iconActionMode == MODE_ACTION_CLEAR) {
                     searchEditText.getText().clear();
