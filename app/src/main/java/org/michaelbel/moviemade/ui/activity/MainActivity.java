@@ -102,21 +102,21 @@ public class MainActivity extends BaseActivity {
             public void onTabReselected(int position) {
                 switch (position) {
                     case 0:
-                        if (nowPlayingFragment.adapter.isEmpty()) {
+                        if (nowPlayingFragment.getAdapter().isEmpty()) {
                             nowPlayingFragment.presenter.loadNowPlayingMovies();
                         } else {
                             nowPlayingFragment.recyclerView.smoothScrollToPosition(0);
                         }
                         break;
                     case 1:
-                        if (topRatedFragment.adapter.isEmpty()) {
+                        if (topRatedFragment.getAdapter().isEmpty()) {
                             topRatedFragment.presenter.loadNowPlayingMovies();
                         } else {
                             topRatedFragment.recyclerView.smoothScrollToPosition(0);
                         }
                         break;
                     case 2:
-                        if (upcomingFragment.adapter.isEmpty()) {
+                        if (upcomingFragment.getAdapter().isEmpty()) {
                             upcomingFragment.presenter.loadNowPlayingMovies();
                         } else {
                             upcomingFragment.recyclerView.smoothScrollToPosition(0);
