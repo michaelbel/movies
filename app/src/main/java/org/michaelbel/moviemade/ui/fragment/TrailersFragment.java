@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.ui.fragment;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,9 +18,10 @@ import org.michaelbel.moviemade.mvp.presenter.TrailersPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpTrailersView;
 import org.michaelbel.moviemade.rest.model.v3.Trailer;
 import org.michaelbel.moviemade.ui.activity.TrailersActivity;
+import org.michaelbel.moviemade.ui.dialog.YoutubePlayerDialogFragment;
+import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.widget.RecyclerListView;
 import org.michaelbel.moviemade.ui_old.adapter.TrailersAdapter;
-import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui_old.view.widget.PaddingItemDecoration;
 import org.michaelbel.moxy.android.MvpAppCompatFragment;
 
@@ -34,7 +34,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
+@SuppressWarnings("all")
 public class TrailersFragment extends MvpAppCompatFragment implements MvpTrailersView {
+
+    public static final String YOUTUBE_DIALOG_FRAGMENT_TAG = "youtubeFragment";
 
     private TrailersAdapter adapter;
     private TrailersActivity activity;
@@ -93,7 +96,9 @@ public class TrailersFragment extends MvpAppCompatFragment implements MvpTrailer
         recyclerView.setPadding(0, DeviceUtil.dp(activity,2), 0, DeviceUtil.dp(activity,2));
         recyclerView.setOnItemClickListener((v, position) -> {
             Trailer trailer = adapter.trailers.get(position);
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailer.key)));
+            YoutubePlayerDialogFragment dialog = YoutubePlayerDialogFragment.newInstance(String.valueOf(Uri.parse(trailer.key)));
+            dialog.show(activity.getSupportFragmentManager(), YOUTUBE_DIALOG_FRAGMENT_TAG);
+            //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailer.key)));
         });
     }
 
