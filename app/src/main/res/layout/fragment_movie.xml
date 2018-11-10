@@ -1,6 +1,7 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="none">
@@ -15,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <!--Индикатор загрузки-->
             <ProgressBar
                 android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
@@ -29,7 +29,6 @@
                 android:layout_gravity="center"
                 android:visibility="invisible"/>
 
-            <!--Постер фильма-->
             <ImageView
                 android:id="@+id/poster_image"
                 android:layout_width="@dimen/poster_image_width"
@@ -52,7 +51,6 @@
                 android:layout_marginTop="@dimen/info_layout_margin_top"
                 android:layout_marginEnd="@dimen/info_layout_margin_end">
 
-                <!--Рейтинг-->
                 <LinearLayout
                     android:id="@+id/rating_layout"
                     android:orientation="horizontal"
@@ -105,13 +103,13 @@
 
                 </LinearLayout>
 
-                <!--Дата релиза-->
                 <LinearLayout
                     android:id="@+id/date_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="12dp">
+                    android:layout_marginTop="12dp"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:id="@+id/release_date_icon"
@@ -133,13 +131,13 @@
 
                 </LinearLayout>
 
-                <!--Продолжительность-->
                 <LinearLayout
                     android:id="@+id/runtime_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="12dp">
+                    android:layout_marginTop="12dp"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:id="@+id/runtime_icon"
@@ -161,13 +159,13 @@
 
                 </LinearLayout>
 
-                <!--Язык оригинала-->
                 <LinearLayout
                     android:id="@+id/lang_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="12dp">
+                    android:layout_marginTop="12dp"
+                    tools:ignore="UseCompoundDrawables">
 
                     <ImageView
                         android:id="@+id/lang_icon"
@@ -191,7 +189,6 @@
 
             </LinearLayout>
 
-            <!--Название и слоган-->
             <LinearLayout
                 android:id="@+id/title_layout"
                 android:layout_width="match_parent"
@@ -223,30 +220,39 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/buttons_layout"
+                android:id="@+id/watchlist_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="top|end"
-                android:layout_marginTop="156dp"
+                android:layout_gravity="bottom|end"
+                android:layout_marginBottom="16dp"
                 android:layout_marginEnd="16dp"
                 android:orientation="horizontal"
-                android:visibility="invisible">
+                android:foreground="?attr/selectableItemBackground">
 
-                <org.michaelbel.moviemade.ui_old.view.CheckedButton
-                    android:id="@+id/watch_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                <ImageView
+                    android:id="@+id/watchlist_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:contentDescription="@string/image_description"
+                    android:layout_gravity="start|center_vertical"/>
 
-                <org.michaelbel.moviemade.ui_old.view.CheckedButton
-                    android:id="@+id/fave_button"
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/watchlist_text"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginStart="16dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="sans-serif-medium"
+                    android:lines="1"
+                    android:maxLines="1"
+                    android:singleLine="true"/>
 
             </LinearLayout>
 
         </FrameLayout>
 
-        <!--Разделитель-->
         <View
             android:id="@+id/divider_view"
             android:layout_width="match_parent"
@@ -257,7 +263,6 @@
             android:layout_marginBottom="10dp"
             android:background="@color/divider"/>
 
-        <!--Описание-->
         <TextView
             android:id="@+id/overview_text"
             android:layout_width="match_parent"
@@ -269,7 +274,6 @@
             android:fontFamily="sans-serif"
             android:textIsSelectable="true"/>
 
-        <!--Разделитель-->
         <View
             android:id="@+id/divider_view2"
             android:layout_width="match_parent"
@@ -280,7 +284,6 @@
             android:layout_marginBottom="10dp"
             android:background="@color/divider"/>
 
-        <!--Trailers-->
         <FrameLayout
             android:id="@+id/trailers_layout"
             android:layout_width="match_parent"
