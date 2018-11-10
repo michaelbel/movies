@@ -4,7 +4,12 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 
+import org.michaelbel.moviemade.di.component.DaggerDiComponent;
+import org.michaelbel.moviemade.di.component.DiComponent;
+import org.michaelbel.moviemade.di.module.RestModule;
+import org.michaelbel.moviemade.di.module.SharedPrefsModule;
 import org.michaelbel.moviemade.eventbus.RxBus;
+import org.michaelbel.moviemade.realm.MoviemadeMigration;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -20,9 +25,13 @@ public class Moviemade extends Application {
     public static final String APP_WEB = "https://play.google.com/store/apps/details?id=org.michaelbel.moviemade";
     public static final String APP_MARKET = "market://details?id=org.michaelbel.moviemade";
 
+    private static final String REALM_NAME = "moviemadeDb.realm";
+
     public RxBus rxBus;
     public static volatile Context AppContext;
     public static volatile Handler AppHandler;
+
+    private static DiComponent component;
 
     @Override
     public void onCreate() {
@@ -33,14 +42,27 @@ public class Moviemade extends Application {
 
         rxBus = new RxBus();
 
-        Realm.init(this);
-        RealmConfiguration config = new RealmConfiguration.Builder().name("Moviemade10.realm").build();
+        Realm.init(getApplicationContext());
+        RealmConfiguration config = new RealmConfiguration.Builder()
+            .name(REALM_NAME)
+            .schemaVersion(0)
+            .migration(new MoviemadeMigration())
+            .build();
         Realm.setDefaultConfiguration(config);
+
+        component = DaggerDiComponent.builder()
+            .restModule(new RestModule())
+            .sharedPrefsModule(new SharedPrefsModule(AppContext))
+            .build();
     }
 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
+    }
+
+    public static DiComponent getComponent() {
+        return component;
     }
 
     public RxBus eventBus() {
