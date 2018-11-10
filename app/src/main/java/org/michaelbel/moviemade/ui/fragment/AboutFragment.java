@@ -50,7 +50,7 @@ public class AboutFragment extends Fragment {
     private LinearLayoutManager linearLayoutManager;
 
     @BindView(R.id.recycler_view)
-    private RecyclerListView recyclerView;
+    public RecyclerListView recyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
