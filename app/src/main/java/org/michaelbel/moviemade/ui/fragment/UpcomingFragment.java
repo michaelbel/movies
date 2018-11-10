@@ -16,20 +16,20 @@ import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.material.extensions.Extensions;
-import org.michaelbel.material.widget.RecyclerListView;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.eventbus.Events;
+import org.michaelbel.moviemade.extensions.DeviceUtil;
 import org.michaelbel.moviemade.mvp.presenter.ListMoviesPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpResultsView;
-import org.michaelbel.moviemade.rest.TmdbObject;
-import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.ui.activity.MainActivity;
 import org.michaelbel.moviemade.ui.view.EmptyView;
+import org.michaelbel.moviemade.ui.widget.RecyclerListView;
 import org.michaelbel.moviemade.ui_old.adapter.pagination.PaginationMoviesAdapter;
 import org.michaelbel.moviemade.ui_old.view.widget.PaddingItemDecoration;
 import org.michaelbel.moxy.android.MvpAppCompatFragment;
+import org.michaelbel.tmdb.TmdbObject;
+import org.michaelbel.tmdb.v3.json.Movie;
 
 import java.util.List;
 
@@ -38,38 +38,43 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 @SuppressWarnings("all")
 public class UpcomingFragment extends MvpAppCompatFragment implements MvpResultsView {
 
     private MainActivity activity;
-    public PaginationMoviesAdapter adapter;
+    private PaginationMoviesAdapter adapter;
     private GridLayoutManager gridLayoutManager;
     private PaddingItemDecoration itemDecoration;
-
-    private EmptyView emptyView;
-    private ProgressBar progressBar;
-    public RecyclerListView recyclerView;
-
     private NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
 
     @InjectPresenter
     public ListMoviesPresenter presenter;
+
+    @BindView(R.id.empty_view)
+    public EmptyView emptyView;
+
+    @BindView(R.id.progress_bar)
+    public ProgressBar progressBar;
+
+    @BindView(R.id.recycler_view)
+    public RecyclerListView recyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (MainActivity) getActivity();
         activity.registerReceiver(networkChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+        Moviemade.getComponent().injest(this);
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_upcoming, container, false);
-        progressBar = view.findViewById(R.id.progress_bar);
-        emptyView = view.findViewById(R.id.empty_view);
-        recyclerView = view.findViewById(R.id.recycler_view);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -80,7 +85,7 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MvpResults
         emptyView.setOnClickListener(v -> presenter.loadUpcomingMovies());
 
         itemDecoration = new PaddingItemDecoration();
-        itemDecoration.setOffset(Extensions.dp(activity, 1));
+        itemDecoration.setOffset(DeviceUtil.dp(activity, 1));
 
         int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
 
@@ -93,38 +98,11 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MvpResults
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setPadding(Extensions.dp(activity, 2), 0, Extensions.dp(activity, 2), 0);
+        recyclerView.setPadding(DeviceUtil.dp(activity, 2), 0, DeviceUtil.dp(activity, 2), 0);
         recyclerView.setOnItemClickListener((v, position) -> {
             Movie movie = (Movie) adapter.getList().get(position);
             activity.startMovie(movie);
         });
-        /*recyclerView.setOnItemLongClickListener((view, position) -> {
-            Movie movie = (Movie) adapter.getList().get(position);
-            boolean favorite = presenter.isMovieFavorite(movie.id);
-            boolean watchlist = presenter.isMovieWatchlist(movie.id);
-
-            int favoriteIcon = favorite ? R.drawable.ic_heart : R.drawable.ic_heart_outline;
-            int watchlistIcon = watchlist ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline;
-            int favoriteText = favorite ? R.string.RemoveFromFavorites : R.string.AddToFavorites;
-            int watchlistText = watchlist ? R.string.RemoveFromWatchList : R.string.AddToWatchlist;
-
-            BottomSheet.Builder builder = new BottomSheet.Builder(getContext());
-            builder.setCellHeight(ScreenUtils.dp(52));
-            builder.setIconColorRes(Theme.iconActiveColor());
-            builder.setItemTextColorRes(Theme.primaryTextColor());
-            builder.setBackgroundColorRes(Theme.foregroundColor());
-            builder.setItems(new int[] { favoriteText, watchlistText }, new int[] { favoriteIcon, watchlistIcon }, (dialog, i) -> {
-                if (i == 0) {
-                    presenter.movieFavoritesChange(movie);
-                } else if (i == 1) {
-                    presenter.movieWatchlistChange(movie);
-                }
-            });
-            if (AndroidUtils.additionalOptions()) {
-                builder.show();
-            }
-            return true;
-        });*/
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -138,7 +116,7 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MvpResults
                     if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0) {
                         presenter.isLoading = true;
                         presenter.page++;
-                        loadNextPage();
+                        presenter.loadUpcomingNextMovies();
                     }
                 }
             }
@@ -201,13 +179,12 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MvpResults
         emptyView.setMode(mode);
     }
 
-    private void loadNextPage() {
-        presenter.loadUpcomingNextMovies();
+    public PaginationMoviesAdapter getAdapter() {
+        return adapter;
     }
 
     private void refreshLayout() {
         int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
-
         Parcelable state = gridLayoutManager.onSaveInstanceState();
         gridLayoutManager = new GridLayoutManager(activity, spanCount);
         recyclerView.setLayoutManager(gridLayoutManager);
