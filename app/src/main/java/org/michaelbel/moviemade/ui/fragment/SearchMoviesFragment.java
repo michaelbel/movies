@@ -10,21 +10,20 @@ import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.material.extensions.Extensions;
-import org.michaelbel.material.widget.RecyclerListView;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.annotation.EmptyViewMode;
+import org.michaelbel.moviemade.extensions.DeviceUtil;
 import org.michaelbel.moviemade.mvp.presenter.SearchMoviesPresenter;
 import org.michaelbel.moviemade.mvp.view.MvpSearchView;
-import org.michaelbel.moviemade.rest.TmdbObject;
-import org.michaelbel.moviemade.rest.model.Movie;
 import org.michaelbel.moviemade.ui.activity.SearchActivity;
 import org.michaelbel.moviemade.ui.view.EmptyView;
+import org.michaelbel.moviemade.ui.widget.RecyclerListView;
 import org.michaelbel.moviemade.ui_old.adapter.pagination.PaginationMoviesAdapter;
 import org.michaelbel.moviemade.ui_old.view.widget.PaddingItemDecoration;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.ScreenUtils;
 import org.michaelbel.moxy.android.MvpAppCompatFragment;
+import org.michaelbel.tmdb.TmdbObject;
+import org.michaelbel.tmdb.v3.json.Movie;
 
 import java.util.List;
 
@@ -32,7 +31,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
+@SuppressWarnings("all")
 public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSearchView {
 
     private SearchActivity activity;
@@ -40,12 +42,17 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
     private GridLayoutManager gridLayoutManager;
     private PaddingItemDecoration itemDecoration;
 
-    private EmptyView emptyView;
-    private ProgressBar progressBar;
-    private RecyclerListView recyclerView;
-
     @InjectPresenter
     public SearchMoviesPresenter presenter;
+
+    @BindView(R.id.empty_view)
+    public EmptyView emptyView;
+
+    @BindView(R.id.progress_bar)
+    public ProgressBar progressBar;
+
+    @BindView(R.id.recycler_view)
+    public RecyclerListView recyclerView;
 
     public static SearchMoviesFragment newInstance(String query) {
         Bundle args = new Bundle();
@@ -66,15 +73,14 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_movies, container, false);
+        ButterKnife.bind(this, view);
 
-        emptyView = view.findViewById(R.id.empty_view);
         emptyView.setMode(EmptyViewMode.MODE_NO_RESULTS);
 
-        progressBar = view.findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.INVISIBLE);
 
         itemDecoration = new PaddingItemDecoration();
-        itemDecoration.setOffset(Extensions.dp(activity, 1));
+        itemDecoration.setOffset(DeviceUtil.dp(activity, 1));
 
         int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
 
@@ -82,12 +88,11 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
         gridLayoutManager = new GridLayoutManager(activity, spanCount);
         gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
 
-        recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
         recyclerView.setEmptyView(emptyView);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setPadding(Extensions.dp(activity, 2), 0, Extensions.dp(activity, 2), 0);
+        recyclerView.setPadding(DeviceUtil.dp(activity, 2), 0, DeviceUtil.dp(activity, 2), 0);
         recyclerView.setOnItemClickListener((v, position) -> {
             Movie movie = (Movie) adapter.getList().get(position);
             activity.startMovie(movie);
@@ -182,7 +187,6 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
 
     private void refreshLayout() {
         int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
-
         Parcelable state = gridLayoutManager.onSaveInstanceState();
         gridLayoutManager = new GridLayoutManager(activity, spanCount);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -190,9 +194,5 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements MvpSea
         itemDecoration.setOffset(0);
         recyclerView.addItemDecoration(itemDecoration);
         gridLayoutManager.onRestoreInstanceState(state);
-    }
-
-    public boolean empty() {
-        return adapter.getList().isEmpty();
     }
 }
