@@ -55,7 +55,7 @@ public class MainActivity extends BaseActivity {
         ButterKnife.bind(this);
         Moviemade.getComponent().injest(this);
 
-        topbar.setTitle(R.string.AppName);
+        topbar.setTitle(R.string.app_name);
 
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) topbar.getLayoutParams();
         params.topMargin = DeviceUtil.getStatusBarHeight(this);
