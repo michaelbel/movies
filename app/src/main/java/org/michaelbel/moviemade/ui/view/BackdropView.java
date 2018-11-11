@@ -10,7 +10,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.material.widget.LayoutHelper;
@@ -78,7 +78,10 @@ public class BackdropView extends FrameLayout {
     }
 
     public void setImage(String path) {
-        Picasso.get().load("http://image.tmdb.org/t/p/original/" + path).into(backdropImage);
+        Glide.with(getContext())
+             .load("http://image.tmdb.org/t/p/original/" + path)
+             .thumbnail(0.1F)
+             .into(backdropImage);
     }
 
     public void setLabel(String text) {
