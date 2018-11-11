@@ -1,72 +1,122 @@
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    app:statusBarBackground="@android:color/transparent">
+    tools:context=".ui.activity.MovieActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:fitsSystemWindows="true">
-
-        <com.google.android.material.appbar.CollapsingToolbarLayout
-            android:id="@+id/collapsing_layout"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/backdrop_height"
-            android:fitsSystemWindows="true"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-            <org.michaelbel.moviemade.ui.view.BackdropView
-                android:id="@+id/backdrop_image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fitsSystemWindows="true"
-                app:layout_collapseMode="parallax"/>
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                app:popupTheme="@style/ThemeOverlay.AppCompat"
-                app:layout_scrollFlags="scroll|enterAlways"
-                app:layout_collapseMode="pin">
-
-                <TextView
-                    android:id="@+id/toolbar_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:lines="1"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:textSize="20sp"
-                    android:ellipsize="end"
-                    style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
-
-            </androidx.appcompat.widget.Toolbar>
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/scroll_view"
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
-        android:clipToPadding="false"
-        android:background="@color/background"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:fitsSystemWindows="true"
+        app:statusBarBackground="@android:color/transparent">
 
-        <fragment class="org.michaelbel.moviemade.ui.fragment.MovieFragment"
-            android:id="@+id/fragment"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/app_bar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:fitsSystemWindows="true">
 
-    </androidx.core.widget.NestedScrollView>
+            <com.google.android.material.appbar.CollapsingToolbarLayout
+                android:id="@+id/collapsing_layout"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/backdrop_height"
+                android:fitsSystemWindows="true"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+                <org.michaelbel.moviemade.ui.view.BackdropView
+                    android:id="@+id/backdrop_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
+                    app:layout_collapseMode="parallax"/>
+
+                <androidx.appcompat.widget.Toolbar
+                    android:id="@+id/toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    app:popupTheme="@style/ThemeOverlay.AppCompat"
+                    app:layout_scrollFlags="scroll|enterAlways"
+                    app:layout_collapseMode="pin">
+
+                    <TextView
+                        android:id="@+id/toolbar_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:lines="1"
+                        android:maxLines="1"
+                        android:singleLine="true"
+                        android:textSize="20sp"
+                        android:ellipsize="end"
+                        style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+
+                </androidx.appcompat.widget.Toolbar>
+
+            </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:clipToPadding="false"
+            android:background="@color/background"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+            <fragment class="org.michaelbel.moviemade.ui.fragment.MovieFragment"
+                android:id="@+id/fragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+        </androidx.core.widget.NestedScrollView>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    <View
+        android:id="@+id/demo_full_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/md_black"
+        android:visibility="invisible"/>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/demo_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/demo_pager_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="16dp"
+        android:shadowColor="#000000"
+        android:shadowRadius="4"
+        android:textColor="?android:textColorPrimaryInverse"
+        android:textSize="16sp"
+        android:visibility="invisible"/>
+
+    <com.alexvasilkov.gestures.views.GestureImageView
+        android:id="@+id/full_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        app:gest_doubleTapZoom="3"
+        app:gest_maxZoom="10"/>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/full_image_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@color/transparent20"
+        android:visibility="invisible"
+        app:navigationIcon="@drawable/ic_arrow_back"/>
+
+</merge>
