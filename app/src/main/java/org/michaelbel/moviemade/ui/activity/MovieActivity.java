@@ -6,15 +6,20 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.alexvasilkov.gestures.transition.ViewsTransitionAnimator;
+import com.alexvasilkov.gestures.views.GestureImageView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.Url;
 import org.michaelbel.moviemade.browser.Browser;
+import org.michaelbel.moviemade.extensions.DeviceUtil;
 import org.michaelbel.moviemade.mvp.base.BaseActivity;
 import org.michaelbel.moviemade.ui.fragment.MovieFragment;
 import org.michaelbel.moviemade.ui.view.BackdropView;
@@ -25,8 +30,10 @@ import org.michaelbel.tmdb.v3.json.Movie;
 import java.util.Locale;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -39,6 +46,8 @@ public class MovieActivity extends BaseActivity {
     private MenuItem menu_share;
     private MenuItem menu_tmdb;
     private MenuItem menu_imdb;
+
+    public ViewsTransitionAnimator imageAnimator;
 
     @BindView(R.id.toolbar)
     public Toolbar toolbar;
@@ -54,6 +63,23 @@ public class MovieActivity extends BaseActivity {
 
     @BindView(R.id.collapsing_layout)
     public CollapsingToolbarLayout collapsingToolbarLayout;
+
+
+
+    @BindView(R.id.demo_full_background)
+    public View fullBackground;
+
+    @BindView(R.id.demo_pager)
+    public ViewPager viewPager;
+
+    @BindView(R.id.demo_pager_title)
+    public AppCompatTextView titleText;
+
+    @BindView(R.id.full_image)
+    public GestureImageView fullImage;
+
+    @BindView(R.id.full_image_toolbar)
+    public Toolbar fullImageToolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,7 +110,7 @@ public class MovieActivity extends BaseActivity {
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.primary));
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.transparent20));
+        getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.transparent40));
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         setSupportActionBar(toolbar);
@@ -107,6 +133,19 @@ public class MovieActivity extends BaseActivity {
 
         collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(this, R.color.primary));
         collapsingToolbarLayout.setStatusBarScrimColor(ContextCompat.getColor(this, android.R.color.transparent));
+
+        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) fullImageToolbar.getLayoutParams();
+        params.topMargin = DeviceUtil.getStatusBarHeight(this);
+
+        fullImageToolbar.setNavigationOnClickListener(view -> onBackPressed());
+
+        fullImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fullImageToolbar.setVisibility(isSystemStatusBarShown() ? View.INVISIBLE : View.VISIBLE);
+                showSystemStatusBar(!isSystemStatusBarShown());
+            }
+        });
     }
 
     @Override
@@ -116,6 +155,15 @@ public class MovieActivity extends BaseActivity {
         menu_tmdb = menu.add(R.string.ViewOnTMDb).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
         //menu_imdb = menu.add(R.string.ViewOnIMDb).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
         return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (imageAnimator != null && !imageAnimator.isLeaving()) {
+            imageAnimator.exit(true);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
@@ -137,5 +185,15 @@ public class MovieActivity extends BaseActivity {
         }*/
 
         return true;
+    }
+
+    public void showSystemStatusBar(boolean state) {
+        // If Version SDK >= KITKAT
+        int flags = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE;
+        getWindow().getDecorView().setSystemUiVisibility(state ? 0 : flags);
+    }
+
+    public boolean isSystemStatusBarShown() {
+        return (getWindow().getDecorView().getSystemUiVisibility() & View.SYSTEM_UI_FLAG_FULLSCREEN) == 0;
     }
 }
