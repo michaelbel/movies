@@ -26,9 +26,9 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 46
-        versionName "0.3.6"
-        buildConfigField "String", "VERSION_DATE", '"02 Nov 2018"'
+        versionCode 47
+        versionName "0.3.7"
+        buildConfigField "String", "VERSION_DATE", '"11 Nov 2018"'
         project.ext.set("archivesBaseName", "moviemade-v" + versionName)
         buildConfigField "String", "TMDB_API_KEY", "\"${getProperty("local.properties", "tmdb_api_key")}\""
     }
@@ -52,7 +52,7 @@ android {
         developing {
             flavorDimensions "develop"
             minSdkVersion 21
-            versionName "0.3.6-beta"
+            versionName "0.3.7-beta"
             applicationId "org.michaelbel.moviemade.beta"
         }
     }
@@ -77,8 +77,8 @@ dependencies {
     implementation 'com.android.support:cardview-v7:28.0.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:palette-v7:28.0.0'
-    // rxjava
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.13'
+    // rxjava2
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.15'
     implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
     // retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
@@ -86,9 +86,17 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     // realm
     implementation 'io.realm:android-adapters:2.1.1'
+    // glide
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
     // moxy
     implementation 'com.arello-mobile:moxy:1.5.5'
     annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.5'
+    // youtube player
+    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:8.0.1'
+    // gesture views
+    implementation 'com.alexvasilkov:events:1.0.0'
+    implementation 'com.alexvasilkov:gesture-views:2.4.0'
+    implementation 'com.alexvasilkov:android-commons:2.0.2'
     // dagger
     implementation 'com.google.dagger:dagger:2.16'
     implementation 'com.google.dagger:dagger-android-support:2.15'
@@ -98,22 +106,15 @@ dependencies {
     // butterknife
     implementation 'com.jakewharton:butterknife:9.0.0-rc1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'
+    // room
+    implementation "android.arch.persistence.room:runtime:1.1.1"
+    annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
 
 
-
-    implementation 'com.alexvasilkov:events:1.0.0'
-    implementation 'com.alexvasilkov:gesture-views:2.4.0'
-    implementation 'com.alexvasilkov:android-commons:2.0.2'
-
-    implementation 'com.squareup.picasso:picasso:2.71828'
-
-    implementation 'org.michaelbel:material:0.3.6'
-    implementation 'org.michaelbel:bottomsheet:1.2.3'
     
+    implementation 'org.michaelbel:material:0.3.6'
     implementation 'at.blogc:expandabletextview:1.0.5'
     implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7'
-
-    implementation 'com.github.bumptech.glide:glide:4.8.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
