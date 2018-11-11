@@ -7,6 +7,7 @@ import android.os.Handler;
 import org.michaelbel.moviemade.di.component.DaggerDiComponent;
 import org.michaelbel.moviemade.di.component.DiComponent;
 import org.michaelbel.moviemade.di.module.RestModule;
+import org.michaelbel.moviemade.di.module.RoomModule;
 import org.michaelbel.moviemade.di.module.SharedPrefsModule;
 import org.michaelbel.moviemade.eventbus.RxBus;
 import org.michaelbel.moviemade.realm.MoviemadeMigration;
@@ -53,6 +54,7 @@ public class Moviemade extends Application {
         component = DaggerDiComponent.builder()
             .restModule(new RestModule())
             .sharedPrefsModule(new SharedPrefsModule(AppContext))
+            .roomModule(new RoomModule(AppContext))
             .build();
     }
 
