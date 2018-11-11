@@ -4,11 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,27 +19,36 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.alexvasilkov.gestures.Settings;
+import com.alexvasilkov.gestures.animation.ViewPositionAnimator;
+import com.alexvasilkov.gestures.transition.GestureTransitions;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.bumptech.glide.request.transition.Transition;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.Url;
 import org.michaelbel.moviemade.extensions.AndroidExtensions;
 import org.michaelbel.moviemade.mvp.presenter.MoviePresenter;
 import org.michaelbel.moviemade.mvp.view.MvpMovieView;
+import org.michaelbel.moviemade.room.dao.MovieDao;
+import org.michaelbel.moviemade.room.database.MoviesDatabase;
 import org.michaelbel.moviemade.ui.activity.MovieActivity;
 import org.michaelbel.moviemade.ui.view.EmptyView;
 import org.michaelbel.moviemade.ui.view.RatingView;
 import org.michaelbel.moxy.android.MvpAppCompatFragment;
+import org.michaelbel.tmdb.v3.json.Movie;
+
+import java.util.Locale;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
-import androidx.palette.graphics.Palette;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -47,11 +57,14 @@ import static android.view.View.VISIBLE;
 @SuppressWarnings("all")
 public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView, View.OnClickListener {
 
+    private View view;
+    private String posterPath;
     private boolean connectionError;
     private MovieActivity activity;
     private NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
 
-    private View view;
+    @Inject
+    MoviesDatabase moviesDatabase;
 
     @InjectPresenter
     public MoviePresenter presenter;
@@ -130,6 +143,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         super.onCreate(savedInstanceState);
         activity = (MovieActivity) getActivity();
         activity.registerReceiver(networkChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
+        Moviemade.getComponent().injest(this);
     }
 
     @Nullable
@@ -148,6 +162,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
 
         taglineText.setText(R.string.loading_tagline);
 
+        posterImage.setOnClickListener(this);
         trailersLayout.setOnClickListener(this);
         watchLayout.setOnClickListener(this);
 
@@ -163,17 +178,13 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
 
     @Override
     public void setPoster(RequestOptions options, String posterPath) {
-        Glide.with(activity).asBitmap()
-             .load(posterPath)
-             .apply(options)
-             .into(new BitmapImageViewTarget(posterImage) {
-                @Override
-                public void onResourceReady(@NonNull Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
-                    super.onResourceReady(bitmap, transition);
-                    Palette.from(bitmap).generate(palette -> posterImage.setBackgroundColor(ContextCompat.getColor(activity, R.color.primary)));
-                }
-            });
+        this.posterPath = posterPath;
+
         posterImage.setVisibility(VISIBLE);
+        Glide.with(activity)
+             .load(String.format(Locale.US, Url.TMDB_IMAGE, "w342", posterPath))
+             .thumbnail(0.1F)
+             .into(posterImage);
     }
 
     @Override
@@ -255,18 +266,88 @@ public class MovieFragment extends MvpAppCompatFragment implements MvpMovieView,
         connectionError = true;
     }
 
+    Movie watchMovie;
+
     @Override
-    public void showComplete() {
+    public void showComplete(Movie movie) {
         connectionError = false;
+        //setWatch();
+        watchMovie = movie;
+    }
+
+    void setWatch() {
+        watchIcon.setImageResource(R.drawable.ic_bookmark_plus_outline);
+        watchText.setText("Add to Watchlist");
+        watchLayout.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
         if (v == trailersLayout) {
             activity.startTrailers(activity.movie);
+            /*AsyncTask.execute(new Runnable() {
+                @Override
+                public void run() {
+                    MovieDao movieDao = moviesDatabase.movieDao();
+                    List<org.michaelbel.moviemade.room.entity.Movie> movies = movieDao.getAll();
+                    for (org.michaelbel.moviemade.room.entity.Movie m : movies) {
+                        Log.e("2580", m.title);
+                    }
+                }
+            });*/
         } else if (v == watchLayout) {
+            addToRoom();
+        } else if (v == posterImage) {
+            activity.imageAnimator = GestureTransitions.from(posterImage).into(activity.fullImage);
+            activity.imageAnimator.addPositionUpdateListener(new ViewPositionAnimator.PositionUpdateListener() {
+                @Override
+                public void onPositionUpdate(float position, boolean isLeaving) {
+                    activity.fullBackground.setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
+                    activity.fullBackground.setAlpha(position);
 
+                    activity.fullImageToolbar.setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
+                    activity.fullImageToolbar.setAlpha(position);
+
+                    activity.fullImage.setVisibility(position == 0f && isLeaving ? View.INVISIBLE : View.VISIBLE);
+
+                    Glide.with(activity).load(String.format(Locale.US, Url.TMDB_IMAGE, "original", posterPath)).thumbnail(0.1F).into(activity.fullImage);
+
+                    if (position == 0f && isLeaving) {
+                        activity.showSystemStatusBar(true);
+                    }
+                }
+            });
+
+            activity.fullImage.getController().getSettings()
+                .setGravity(Gravity.CENTER)
+                .setZoomEnabled(true)
+                .setAnimationsDuration(300L)
+                .setDoubleTapEnabled(true)
+                .setRotationEnabled(false)
+                .setFitMethod(Settings.Fit.INSIDE)
+                .setPanEnabled(true)
+                .setRestrictRotation(false)
+                .setOverscrollDistance(activity, 32F, 32F)
+                .setOverzoomFactor(Settings.OVERZOOM_FACTOR)
+                .setFillViewport(true);
+
+            activity.imageAnimator.enterSingle(true);
         }
+    }
+
+    void addToRoom() {
+        org.michaelbel.moviemade.room.entity.Movie movie = new org.michaelbel.moviemade.room.entity.Movie();
+        movie.movieId = watchMovie.id;
+        movie.posterPath = watchMovie.posterPath;
+        movie.title = watchMovie.title;
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                MovieDao movieDao = moviesDatabase.movieDao();
+                movieDao.insert(movie);
+            }
+        });
     }
 
     private class NetworkChangeReceiver extends BroadcastReceiver {
