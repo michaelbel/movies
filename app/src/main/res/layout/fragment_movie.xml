@@ -288,9 +288,9 @@
             android:id="@+id/trailers_layout"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
             android:foreground="?attr/selectableItemBackground">
 
             <ImageView
