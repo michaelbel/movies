@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.extensions.AndroidExtensions;
@@ -44,9 +43,6 @@ public class SearchActivity extends BaseActivity {
 
     @BindView(R.id.toolbar)
     public Toolbar toolbar;
-
-    @BindView(R.id.toolbar_title)
-    public TextView toolbarTitle;
 
     @BindView(R.id.search_edit_text)
     public EditText searchEditText;
