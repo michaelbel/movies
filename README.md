@@ -42,6 +42,9 @@ Take a look at <b>`local.properties`</b> and fill it with [your own][tmdb-introd
  * [ExpandableTextView](https://github.com/Blogcat/Android-ExpandableTextView)
  * [ChipsLayoutManager](https://github.com/BelooS/ChipsLayoutManager)
  * [AndroidAnimatedMenuItems](https://github.com/adonixis/android-animated-menu-items)
+ 
+## Demo video
+https://www.youtube.com/watch?v=H5auyhQU9fU
 
 ## License
     Copyright 2017 Michael Bely
