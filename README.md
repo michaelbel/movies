@@ -31,20 +31,27 @@ Moviemade - quick and easy way to discover popular movies.
 ## Build
 Take a look at <b>`local.properties`</b> and fill it with [your own][tmdb-introduction] <b>tmdb_api_key</b>.
 
+## Screenshots
+| Explore | Search |
+|:-:|:-:|
+| ![Explore](/screenshots/explore.png?raw=true) | ![Search](/screenshots/search.png?raw=true) |
+
+| Movie | Trailers |
+|:-:|:-:|
+| ![Movie](/screenshots/movie.png?raw=true) | ![Trailers](/screenshots/trailers.png?raw=true) |
+
+## Demo video
+https://www.youtube.com/watch?v=H5auyhQU9fU
+
 ## Libraries
- * [BottomSheet](https://github.com/michaelbel/BottomSheet)
  * [Gson](https://github.com/google/gson)
  * [Retrofit](https://github.com/square/retrofit)
- * [Picasso](https://github.com/square/picasso)
  * [RxJava](https://github.com/ReactiveX/RxJava)
  * [Moxy](https://github.com/Arello-Mobile/Moxy)
  * [GestureViews](https://github.com/alexvasilkov/GestureViews)
  * [ExpandableTextView](https://github.com/Blogcat/Android-ExpandableTextView)
  * [ChipsLayoutManager](https://github.com/BelooS/ChipsLayoutManager)
  * [AndroidAnimatedMenuItems](https://github.com/adonixis/android-animated-menu-items)
- 
-## Demo video
-https://www.youtube.com/watch?v=H5auyhQU9fU
 
 ## License
     Copyright 2017 Michael Bely
