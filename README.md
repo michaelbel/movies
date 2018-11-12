@@ -32,13 +32,9 @@ Moviemade - quick and easy way to discover popular movies.
 Take a look at <b>`local.properties`</b> and fill it with [your own][tmdb-introduction] <b>tmdb_api_key</b>.
 
 ## Screenshots
-| Explore | Search |
-|:-:|:-:|
-| ![Explore](/screenshots/explore.png?raw=true) | ![Search](/screenshots/search.png?raw=true) |
-
-| Movie | Trailers |
-|:-:|:-:|
-| ![Movie](/screenshots/movie.png?raw=true) | ![Trailers](/screenshots/trailers.png?raw=true) |
+| Explore | Search | Movie | Trailers |
+|:-:|:-:|:-:|:-:|
+| ![Explore](/screenshots/explore.png?raw=true) | ![Search](/screenshots/search.png?raw=true) | ![Movie](/screenshots/movie.png?raw=true) | ![Trailers](/screenshots/trailers.png?raw=true) |
 
 ## Demo video
 https://www.youtube.com/watch?v=H5auyhQU9fU
