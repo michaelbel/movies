@@ -39,15 +39,17 @@ Take a look at <b>`local.properties`</b> and fill it with [your own][tmdb-introd
 ## Demo video
 https://www.youtube.com/watch?v=H5auyhQU9fU
 
-## Libraries
- * [Gson](https://github.com/google/gson)
- * [Retrofit](https://github.com/square/retrofit)
- * [RxJava](https://github.com/ReactiveX/RxJava)
- * [Moxy](https://github.com/Arello-Mobile/Moxy)
- * [GestureViews](https://github.com/alexvasilkov/GestureViews)
- * [ExpandableTextView](https://github.com/Blogcat/Android-ExpandableTextView)
- * [ChipsLayoutManager](https://github.com/BelooS/ChipsLayoutManager)
- * [AndroidAnimatedMenuItems](https://github.com/adonixis/android-animated-menu-items)
+## Open-source libraries
+* [**Moxy**](https://github.com/Arello-Mobile/Moxy) MVP-architecture
+* [**Retrofit**](https://github.com/square/retrofit) for constructing the REST API
+* [**RxJava2**](https://github.com/ReactiveX/RxJava) for Retrofit & background threads
+* [**ButterKnife**](https://github.com/JakeWharton/butterknife) for view binding
+* [**Gson**](https://github.com/google/gson) to convert Java Objects into JSON and back
+* [**GestureViews**](https://github.com/alexvasilkov/GestureViews) for ImageView with gestures control
+* [**Glide**](https://github.com/bumptech/glide) for loading images
+* [**Dagger**](https://github.com/google/dagger) for DI
+* [**AndroidYouTubePlayer**](https://github.com/PierfrancescoSoffritti/android-youtube-player) for playing videos
+* [**Room**](https://developer.android.com/topic/libraries/architecture/room.html) database
 
 ## License
     Copyright 2017 Michael Bely
