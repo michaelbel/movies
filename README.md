@@ -41,15 +41,16 @@ https://www.youtube.com/watch?v=H5auyhQU9fU
 
 ## Open-source libraries
 * [**Moxy**](https://github.com/Arello-Mobile/Moxy) MVP-architecture
-* [**Retrofit**](https://github.com/square/retrofit) for constructing the REST API
+* [**Retrofit**](https://github.com/square/retrofit) for REST API communication
 * [**RxJava2**](https://github.com/ReactiveX/RxJava) for Retrofit & background threads
 * [**ButterKnife**](https://github.com/JakeWharton/butterknife) for view binding
 * [**Gson**](https://github.com/google/gson) to convert Java Objects into JSON and back
 * [**GestureViews**](https://github.com/alexvasilkov/GestureViews) for ImageView with gestures control
-* [**Glide**](https://github.com/bumptech/glide) for loading images
-* [**Dagger**](https://github.com/google/dagger) for DI
+* [**Glide**](https://github.com/bumptech/glide) for image loading
+* [**Dagger 2**](https://github.com/google/dagger) for dependency injection
 * [**AndroidYouTubePlayer**](https://github.com/PierfrancescoSoffritti/android-youtube-player) for playing videos
 * [**Room**](https://developer.android.com/topic/libraries/architecture/room.html) database
+* [**Espresso**](https://google.github.io/android-testing-support-library/docs/espresso/) for UI tests
 
 ## License
     Copyright 2017 Michael Bely
