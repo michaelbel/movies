@@ -1,0 +1,33 @@
+package org.michaelbel.moviemade.ui.modules.settings;
+
+import android.os.Bundle;
+import android.widget.TextView;
+
+import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.ui.base.BaseActivity;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class SettingsActivity extends BaseActivity {
+
+    @BindView(R.id.toolbar)
+    public Toolbar toolbar;
+
+    @BindView(R.id.toolbar_title)
+    public TextView toolbarTitle;
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_settings);
+        ButterKnife.bind(this);
+        setSupportActionBar(toolbar);
+
+        if (savedInstanceState == null) {
+            startFragment(new SettingsFragment(), R.id.fragment_view);
+        }
+    }
+}
