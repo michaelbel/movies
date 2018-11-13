@@ -5,7 +5,7 @@ import android.view.animation.Interpolator;
 
 import com.google.android.material.snackbar.Snackbar;
 
-import org.michaelbel.bottombar.behaviour.VerticalScrollingBehavior;
+import org.michaelbel.moviemade.ui.widgets.bottombar.behaviour.VerticalScrollingBehavior;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
@@ -15,6 +15,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.ViewCompat;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
+@SuppressWarnings("all")
 public class TopVerticalScrollBehavior<V extends View> extends VerticalScrollingBehavior<V> {
 
     private static final Interpolator INTERPOLATOR = new FastOutSlowInInterpolator();

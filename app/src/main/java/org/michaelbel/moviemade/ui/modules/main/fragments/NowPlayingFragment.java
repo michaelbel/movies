@@ -27,9 +27,9 @@ import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.ui.adapters.PaginationMoviesAdapter;
 import org.michaelbel.moviemade.modules_beta.view.widget.PaddingItemDecoration;
-import org.michaelbel.moxy.android.MvpAppCompatFragment;
-import org.michaelbel.tmdb.TmdbObject;
-import org.michaelbel.tmdb.v3.json.Movie;
+import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.data.TmdbObject;
+import org.michaelbel.moviemade.data.dao.Movie;
 
 import java.util.List;
 
@@ -103,33 +103,6 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements ResultsM
             Movie movie = (Movie) adapter.getList().get(position);
             activity.startMovie(movie);
         });
-        /*recyclerView.setOnItemLongClickListener((view, position) -> {
-            Movie movie = (Movie) adapter.getList().get(position);
-            boolean favorite = presenter.isMovieFavorite(movie.id);
-            boolean watchlist = presenter.isMovieWatchlist(movie.id);
-
-            int favoriteIcon = favorite ? R.drawable.ic_heart : R.drawable.ic_heart_outline;
-            int watchlistIcon = watchlist ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline;
-            int favoriteText = favorite ? R.string.RemoveFromFavorites : R.string.AddToFavorites;
-            int watchlistText = watchlist ? R.string.RemoveFromWatchList : R.string.AddToWatchlist;
-
-            BottomSheet.Builder builder = new BottomSheet.Builder(getContext());
-            builder.setCellHeight(ScreenUtils.dp(52));
-            builder.setIconColorRes(Theme.iconActiveColor());
-            builder.setItemTextColorRes(Theme.primaryTextColor());
-            builder.setBackgroundColorRes(Theme.foregroundColor());
-            builder.setItems(new int[] { favoriteText, watchlistText }, new int[] { favoriteIcon, watchlistIcon }, (dialog, i) -> {
-                if (i == 0) {
-                    presenter.movieFavoritesChange(movie);
-                } else if (i == 1) {
-                    presenter.movieWatchlistChange(movie);
-                }
-            });
-            if (AndroidUtils.additionalOptions()) {
-                builder.show();
-            }
-            return true;
-        });*/
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -177,7 +150,7 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements ResultsM
     }
 
     @Override
-    public void showResults(List<TmdbObject> results, boolean firstPage) {
+    public void showResults(List<Movie> results, boolean firstPage) {
         if (firstPage) {
             progressBar.setVisibility(View.GONE);
             adapter.addAll(results);

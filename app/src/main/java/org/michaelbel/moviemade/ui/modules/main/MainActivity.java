@@ -5,8 +5,8 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import org.michaelbel.bottombar.BottomNavigationBar;
-import org.michaelbel.bottombar.BottomNavigationItem;
+import org.michaelbel.moviemade.ui.widgets.bottombar.BottomNavigationBar;
+import org.michaelbel.moviemade.ui.widgets.bottombar.BottomNavigationItem;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.extensions.DeviceUtil;
@@ -74,9 +74,9 @@ public class MainActivity extends BaseActivity {
         bottomBar.setMode(BottomNavigationBar.MODE_FIXED);
         bottomBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_DEFAULT);
         bottomBar
-            .addItem(new BottomNavigationItem(R.drawable.ic_fire, R.string.NowPlaying).setActiveColorResource(R.color.accent))
-            .addItem(new BottomNavigationItem(R.drawable.ic_star_circle, R.string.TopRated).setActiveColorResource(R.color.accent))
-            .addItem(new BottomNavigationItem(R.drawable.ic_movieroll, R.string.Upcoming).setActiveColorResource(R.color.accent))
+            .addItem(new BottomNavigationItem(R.drawable.ic_fire, R.string.now_playing).setActiveColorResource(R.color.accent))
+            .addItem(new BottomNavigationItem(R.drawable.ic_star_circle, R.string.top_rated).setActiveColorResource(R.color.accent))
+            .addItem(new BottomNavigationItem(R.drawable.ic_movieroll, R.string.upcoming).setActiveColorResource(R.color.accent))
             .setFirstSelectedPosition(sharedPreferences.getInt(KEY_CURRENT_FRAGMENT, CURRENT_FRAGMENT_DEFAULT))
             .initialise();
         bottomBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
