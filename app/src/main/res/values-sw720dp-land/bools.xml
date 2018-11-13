@@ -1,0 +1,3 @@
+<resources>
+    <bool name="tablet">true</bool>
+</resources>

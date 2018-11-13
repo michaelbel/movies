@@ -2,10 +2,11 @@ package org.michaelbel.moviemade.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.design.widget.AppBarLayout;
 import android.view.View;
 
-import org.michaelbel.moviemade.app.Moviemade;
+import com.google.android.material.appbar.AppBarLayout;
+
+import org.michaelbel.moviemade.Moviemade;
 
 public class AndroidUtilsDev {
 

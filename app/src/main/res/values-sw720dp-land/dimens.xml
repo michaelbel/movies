@@ -1,0 +1,5 @@
+<!-- Планшет в горизонатльной ориентации -->
+<resources>
+    <!--layout/activity_movie-->
+    <dimen name="backdrop_margin">112dp</dimen>
+</resources>

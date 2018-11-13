@@ -11,7 +11,10 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import org.michaelbel.material.extensions.Extensions;
+import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
+
+import javax.inject.Inject;
 
 public class Browser {
 

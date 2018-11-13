@@ -1,0 +1,15 @@
+<!-- Телефон в горизонтальной ориентации -->
+<resources>
+    <!--layout/activity_movie-->
+    <dimen name="backdrop_margin">112dp</dimen>
+    <!--layout/fragment_about-->
+    <dimen name="fragment_about_content_margin">56dp</dimen>
+    <!--layout/fragment_libs-->
+    <dimen name="fragment_libs_content_margin">56dp</dimen>
+    <!--layout/fragment_settings-->
+    <dimen name="fragment_settings_content_margin">56dp</dimen>
+    <!--SearchMoviesFragment-->
+    <integer name="movies_span_layout_count">4</integer>
+    <!--TrailersFragment-->
+    <integer name="trailers_span_layout_count">2</integer>
+</resources>

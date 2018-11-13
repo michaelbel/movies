@@ -5,7 +5,7 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.michaelbel.moviemade.rest.TmdbObject;
+import org.michaelbel.tmdb.TmdbObject;
 
 public class Country extends TmdbObject implements Parcelable {
 

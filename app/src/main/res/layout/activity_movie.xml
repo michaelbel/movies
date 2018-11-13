@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.MovieActivity">
+    tools:context=".ui.modules.movie.MovieActivity">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -28,10 +28,12 @@
                 android:fitsSystemWindows="true"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                <org.michaelbel.moviemade.ui.view.BackdropView
+                <org.michaelbel.moviemade.ui.modules.movie.views.BackdropView
                     android:id="@+id/backdrop_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginStart="@dimen/backdrop_margin"
+                    android:layout_marginEnd="@dimen/backdrop_margin"
                     android:fitsSystemWindows="true"
                     app:layout_collapseMode="parallax"/>
 
@@ -70,7 +72,7 @@
             android:background="@color/background"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <fragment class="org.michaelbel.moviemade.ui.fragment.MovieFragment"
+            <fragment class="org.michaelbel.moviemade.ui.modules.movie.MovieFragment"
                 android:id="@+id/fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>

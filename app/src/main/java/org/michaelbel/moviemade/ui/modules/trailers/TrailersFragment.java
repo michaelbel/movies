@@ -18,8 +18,7 @@ import org.michaelbel.moviemade.rest.model.v3.Trailer;
 import org.michaelbel.moviemade.ui.modules.trailers.dialog.YoutubePlayerDialogFragment;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
-import org.michaelbel.moviemade.ui_old.adapter.TrailersAdapter;
-import org.michaelbel.moviemade.ui_old.view.widget.PaddingItemDecoration;
+import org.michaelbel.moviemade.modules_beta.view.widget.PaddingItemDecoration;
 import org.michaelbel.moxy.android.MvpAppCompatFragment;
 
 import java.util.ArrayList;

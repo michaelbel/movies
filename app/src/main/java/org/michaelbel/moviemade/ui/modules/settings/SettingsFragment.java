@@ -15,8 +15,8 @@ import org.michaelbel.moviemade.eventbus.Events;
 import org.michaelbel.moviemade.extensions.DeviceUtil;
 import org.michaelbel.moviemade.ui.modules.about.AboutActivity;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
-import org.michaelbel.moviemade.ui_old.view.cell.TextCell;
-import org.michaelbel.moviemade.ui_old.view.cell.TextDetailCell;
+import org.michaelbel.moviemade.modules_beta.view.cell.TextCell;
+import org.michaelbel.moviemade.modules_beta.view.cell.TextDetailCell;
 
 import javax.inject.Inject;
 

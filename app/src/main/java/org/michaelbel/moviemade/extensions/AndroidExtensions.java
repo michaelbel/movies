@@ -1,17 +1,27 @@
 package org.michaelbel.moviemade.extensions;
 
+import android.annotation.TargetApi;
+import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.text.TextUtils;
+import android.widget.EditText;
+import android.widget.TextView;
 
-import org.michaelbel.material.annotation.Beta;
 import org.michaelbel.material.extensions.Extensions;
-import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.Moviemade;
+import org.michaelbel.moviemade.R;
 
+import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+
+import androidx.annotation.DrawableRes;
+import androidx.core.content.ContextCompat;
 
 public class AndroidExtensions extends Extensions {
 
@@ -60,7 +70,6 @@ public class AndroidExtensions extends Extensions {
         return newFormat.format(date);
     }
 
-    @Beta
     public static String formatBirthday(String birthDate) {
         if (TextUtils.isEmpty(birthDate)) {
             return null;
@@ -82,7 +91,6 @@ public class AndroidExtensions extends Extensions {
         return newFormat.format(date);
     }
 
-    @Beta
     public static int getAge(String dateOfBirth) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
@@ -111,7 +119,6 @@ public class AndroidExtensions extends Extensions {
         return age;
     }
 
-    @Beta
     public static int getAgeDeath(String dateOfBirth, String dateOfDeath) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
@@ -141,5 +148,35 @@ public class AndroidExtensions extends Extensions {
         }
 
         return age;
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
+    public static void clearCursorDrawable(EditText editText) {
+        if (editText == null) {
+            return;
+        }
+
+        try {
+            Field mCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
+            mCursorDrawableRes.setAccessible(true);
+            mCursorDrawableRes.setInt(editText, 0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static Drawable getIcon(Context context, @DrawableRes int resource, int colorFilter) {
+        return getIcon(context, resource, colorFilter, PorterDuff.Mode.MULTIPLY);
+    }
+
+    public static Drawable getIcon(Context context, @DrawableRes int resource, int colorFilter, PorterDuff.Mode mode) {
+        Drawable iconDrawable = ContextCompat.getDrawable(context, resource);
+
+        if (iconDrawable != null) {
+            iconDrawable.clearColorFilter();
+            iconDrawable.mutate().setColorFilter(colorFilter, mode);
+        }
+
+        return iconDrawable;
     }
 }

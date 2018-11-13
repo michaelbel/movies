@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <org.michaelbel.moviemade.ui.view.widget.GestureTextView
+            <org.michaelbel.moviemade.modules_beta.view.widget.GestureTextView
                 android:id="@+id/review_text"
                 android:layout_margin="16dp"
                 android:layout_width="match_parent"

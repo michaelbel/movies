@@ -5,8 +5,8 @@ import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.michaelbel.moviemade.rest.TmdbObject;
-import org.michaelbel.moviemade.rest.model.Movie;
+import org.michaelbel.tmdb.TmdbObject;
+import org.michaelbel.tmdb.v3.json.Movie;
 
 import java.util.ArrayList;
 import java.util.List;

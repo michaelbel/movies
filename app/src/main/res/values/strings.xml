@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name">Moviemade</string>
     <string name="image_description">Poster</string>
     <string name="no_overview">No Overview</string>
     <string name="search">Search</string>
@@ -22,6 +23,10 @@
     <string name="include_adult_info">Toggle the inclusion of adult content</string>
     <string name="in_app_browser">In-App Browser</string>
     <string name="in_app_browser_info">Open external links within the app</string>
+    <string name="powered_by">Powered by <![CDATA[<b>]]>Themoviedb.org<![CDATA[</b>]]></string>
+    <string name="speak_now">Speak now</string>
+    <string name="settings">Settings</string>
+    <string name="favorites">Favorites</string>
 
 
 
@@ -115,7 +120,6 @@
     <!--Search-->
 
     <string name="NoResults">No results</string>
-    <string name="SpeakNow">Speak now</string>
     <string name="People">People</string>
     <string name="All">All</string>
     <plurals name="MoviesTotalResults">
@@ -171,7 +175,6 @@
     <string name="Address">Address</string>
     <string name="OpenAddress">Open address</string>
     <!--Settings-->
-    <string name="Settings">Settings</string>
     <string name="ImageQuality">Image Quality</string>
     <string name="ImageQualityLow">Low</string>
     <string name="ImageQualityMedium">Medium</string>
@@ -228,7 +231,6 @@
     <!--About-->
 
     <string name="ProjectInfo"><![CDATA[<b>]]>Moviemade<![CDATA[</b>]]> is an open source project maintained by one develop. You can help improve the project in one of the following ways:</string>
-    <string name="PoweredBy">Powered by <![CDATA[<b>]]>Themoviedb.org<![CDATA[</b>]]></string>
 
     <string name="Open">Open</string>
     <string name="CopyLink">Copy link</string>

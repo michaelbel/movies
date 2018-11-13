@@ -21,7 +21,7 @@
         android:theme="@style/AppTheme"
         android:fullBackupContent="false">
 
-        <activity android:name=".ui.activity.MainActivity" android:screenOrientation="user" android:configChanges="keyboard|keyboardHidden|orientation|screenSize" android:launchMode="singleTop">
+        <activity android:name=".ui.modules.main.MainActivity" android:screenOrientation="user" android:configChanges="keyboard|keyboardHidden|orientation|screenSize" android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -34,11 +34,11 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.activity.MovieActivity" android:screenOrientation="user" android:configChanges="keyboardHidden|orientation|screenSize"/>
-        <activity android:name=".ui.activity.TrailersActivity" android:screenOrientation="user" android:configChanges="keyboardHidden|orientation|screenSize"/>
-        <activity android:name=".ui.activity.SearchActivity" android:screenOrientation="user" android:configChanges="keyboard|keyboardHidden|orientation|screenSize" android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".ui.activity.SettingsActivity" android:screenOrientation="user"/>
-        <activity android:name=".ui.activity.AboutActivity" android:screenOrientation="user"/>
+        <activity android:name=".ui.modules.movie.MovieActivity" android:screenOrientation="user" android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name=".ui.modules.trailers.TrailersActivity" android:screenOrientation="user" android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name=".ui.modules.search.SearchActivity" android:screenOrientation="user" android:configChanges="keyboard|keyboardHidden|orientation|screenSize" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.modules.settings.SettingsActivity" android:screenOrientation="user"/>
+        <activity android:name=".ui.modules.about.AboutActivity" android:screenOrientation="user"/>
 
         <!--<receiver android:name=".ui.NetworkChangeReceiver">
             <intent-filter>
@@ -60,7 +60,7 @@
         -->
 
         <activity
-            android:name=".ui_old.PopularPeopleActivity"
+            android:name=".modules_beta.person.PopularPeopleActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait">
 
@@ -80,52 +80,47 @@
         </activity>
 
         <activity
-            android:name=".ui_old.ReviewActivity"
+            android:name=".modules_beta.review.ReviewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".ui_old.FavoriteActivity"
+            android:name=".modules_beta.watchlist.FavoriteActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".ui_old.PersonActivity"
+            android:name=".modules_beta.person.PersonActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".ui_old.GenresActivity"
+            android:name=".modules_beta.genres.GenresActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".ui_old.GenreActivity"
+            android:name=".modules_beta.genres.GenreActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".ui_old.WatchlistActivity"
+            android:name=".modules_beta.watchlist.WatchlistActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".ui_old.CollectionActivity"
+            android:name=".modules_beta.collection.CollectionActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".ui_old.CompanyActivity"
+            android:name=".modules_beta.company.CompanyActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".ui_old.KeywordActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".ui_old.RandomMovieActivity"
+            android:name=".modules_beta.keywords.KeywordActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"/>
 

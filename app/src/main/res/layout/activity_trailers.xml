@@ -49,7 +49,7 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <fragment class="org.michaelbel.moviemade.ui.fragment.TrailersFragment"
+    <fragment class="org.michaelbel.moviemade.ui.modules.trailers.TrailersFragment"
         android:id="@+id/fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

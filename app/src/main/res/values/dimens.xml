@@ -40,6 +40,7 @@
 
     <!--layout/activity_movie-->
     <dimen name="backdrop_height">220dp</dimen>
+    <dimen name="backdrop_margin">0dp</dimen>
 
     <!--layout/fragment_movie-->
     <dimen name="poster_image_width">120dp</dimen>

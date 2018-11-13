@@ -1,6 +1,6 @@
 package org.michaelbel.moviemade.rest.api;
 
-import org.michaelbel.moviemade.rest.model.Movie;
+import org.michaelbel.tmdb.v3.json.Movie;
 import org.michaelbel.moviemade.rest.response.CreditResponse;
 import org.michaelbel.moviemade.rest.response.ImageResponse;
 import org.michaelbel.moviemade.rest.response.KeywordResponse;
