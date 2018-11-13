@@ -1,6 +1,6 @@
 package org.michaelbel.moviemade.realm;
 
-import org.michaelbel.tmdb.v3.json.Movie;
+import org.michaelbel.moviemade.data.dao.Movie;
 
 import io.realm.Realm;
 
@@ -8,7 +8,7 @@ import io.realm.Realm;
 public class RealmDb {
 
     public static void insertOrUpdateMovie(Movie movie) {
-        Realm realmDb = Realm.getDefaultInstance();
+        /*Realm realmDb = Realm.getDefaultInstance();
         realmDb.executeTransaction(realm -> {
             MovieRealm movieRealm = realm.where(MovieRealm.class).equalTo("id", movie.id).findFirst();
             if (movieRealm == null) {
@@ -38,7 +38,7 @@ public class RealmDb {
 
             realm.insertOrUpdate(movieRealm);
         });
-        realmDb.close();
+        realmDb.close();*/
     }
 
     public static boolean isMovieExist(int id) {

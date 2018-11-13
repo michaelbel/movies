@@ -18,8 +18,8 @@ import com.bumptech.glide.request.transition.Transition;
 
 import org.michaelbel.material.widget.Holder;
 import org.michaelbel.material.widget.RecyclerListView;
+import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.Url;
 import org.michaelbel.moviemade.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.ui.modules.main.MainActivity;
@@ -173,7 +173,7 @@ public class WatchlistFragment extends Fragment {
                 RequestOptions options = new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).priority(Priority.HIGH);
 
                 Glide.with(view.getContext()).asBitmap()
-                     .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.posterSize(), movie.posterPath)).apply(options)
+                     .load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, AndroidUtils.posterSize(), movie.posterPath)).apply(options)
                      .into(new BitmapImageViewTarget(posterImage) {
                          @Override
                          public void onResourceReady(Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {

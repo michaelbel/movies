@@ -4,12 +4,12 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.BuildConfig;
-import org.michaelbel.moviemade.Url;
+import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.annotation.EmptyViewMode;
+import org.michaelbel.moviemade.data.service.GENRES;
 import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
 import org.michaelbel.moviemade.rest.ApiFactory;
-import org.michaelbel.tmdb.TmdbObject;
-import org.michaelbel.moviemade.rest.api.service.GENRES;
+import org.michaelbel.moviemade.data.TmdbObject;
 import org.michaelbel.moviemade.rest.response.GenresResponse;
 import org.michaelbel.moviemade.utils.NetworkUtils;
 
@@ -34,12 +34,12 @@ public class GenresPresenter extends MvpPresenter<ResultsMvp> {
         }
 
         GENRES service = ApiFactory.createService2(GENRES.class);
-        Observable<GenresResponse> observable = service.getMovieList(BuildConfig.TMDB_API_KEY, Url.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<GenresResponse> observable = service.getMovieList(BuildConfig.TMDB_API_KEY, ConstantsKt.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<GenresResponse>() {
             @Override
             public void onNext(GenresResponse response) {
-                List<TmdbObject> results = new ArrayList<>(response.genres);
-                getViewState().showResults(results, true);
+               //List<TmdbObject> results = new ArrayList<>(response.genres);
+               //getViewState().showResults(results, true);
             }
 
             @Override

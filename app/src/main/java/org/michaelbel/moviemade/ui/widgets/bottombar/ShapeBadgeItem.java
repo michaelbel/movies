@@ -1,4 +1,4 @@
-package org.michaelbel.bottombar;
+package org.michaelbel.moviemade.ui.widgets.bottombar;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -14,7 +14,7 @@ import android.text.TextUtils;
 import android.view.ViewGroup;
 
 
-import org.michaelbel.bottombar.utils.Utils;
+import org.michaelbel.moviemade.ui.widgets.bottombar.utils.Utils;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

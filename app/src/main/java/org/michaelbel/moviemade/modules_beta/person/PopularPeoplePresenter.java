@@ -4,11 +4,11 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.BuildConfig;
-import org.michaelbel.moviemade.Url;
+import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
 import org.michaelbel.moviemade.rest.ApiFactory;
-import org.michaelbel.tmdb.TmdbObject;
+import org.michaelbel.moviemade.data.TmdbObject;
 import org.michaelbel.moviemade.rest.api.PEOPLE;
 import org.michaelbel.moviemade.rest.response.PeopleResponse;
 import org.michaelbel.moviemade.utils.NetworkUtils;
@@ -39,7 +39,7 @@ public class PopularPeoplePresenter extends MvpPresenter<ResultsMvp> {
         }
 
         PEOPLE service = ApiFactory.createService2(PEOPLE.class);
-        Observable<PeopleResponse> observable = service.getPopular(BuildConfig.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<PeopleResponse> observable = service.getPopular(BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<PeopleResponse>() {
             @Override
             public void onNext(PeopleResponse response) {
@@ -49,7 +49,7 @@ public class PopularPeoplePresenter extends MvpPresenter<ResultsMvp> {
                     getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
                     return;
                 }
-                getViewState().showResults(results, true);
+              //  getViewState().showResults(results, true);
             }
 
             @Override
@@ -64,12 +64,12 @@ public class PopularPeoplePresenter extends MvpPresenter<ResultsMvp> {
 
     public void loadNextPage() {
         PEOPLE service = ApiFactory.createService2(PEOPLE.class);
-        Observable<PeopleResponse> observable = service.getPopular(BuildConfig.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<PeopleResponse> observable = service.getPopular(BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<PeopleResponse>() {
             @Override
             public void onNext(PeopleResponse response) {
                 List<TmdbObject> results = new ArrayList<>(response.people);
-                getViewState().showResults(results, false);
+               // getViewState().showResults(results, false);
             }
 
             @Override

@@ -7,7 +7,7 @@ import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
 import org.michaelbel.moviemade.rest.ApiFactory;
-import org.michaelbel.tmdb.TmdbObject;
+import org.michaelbel.moviemade.data.TmdbObject;
 import org.michaelbel.moviemade.rest.api.MOVIES;
 import org.michaelbel.moviemade.rest.response.CreditResponse;
 import org.michaelbel.moviemade.utils.NetworkUtils;
@@ -42,7 +42,7 @@ public class MovieCastsPresenter extends MvpPresenter<ResultsMvp> {
                 if (results.isEmpty()) {
                     getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
                 }
-                getViewState().showResults(results, true);
+               // getViewState().showResults(results, true);
             }
 
             @Override

@@ -4,15 +4,15 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.BuildConfig;
-import org.michaelbel.moviemade.Url;
+import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.annotation.EmptyViewMode;
+import org.michaelbel.moviemade.data.service.KEYWORDS;
 import org.michaelbel.moviemade.extensions.AndroidExtensions;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
 import org.michaelbel.moviemade.rest.ApiFactory;
-import org.michaelbel.tmdb.TmdbObject;
-import org.michaelbel.moviemade.rest.api.service.KEYWORDS;
-import org.michaelbel.tmdb.v3.json.Movie;
+import org.michaelbel.moviemade.data.TmdbObject;
+import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.rest.response.MoviesResponse;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.DateUtils;
@@ -39,7 +39,7 @@ public class KeywordMoviesPresenter extends MvpPresenter<ResultsMvp> {
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     public void loadFirstPage(int keywordId) {
-        if (keywordId == 0) {
+        /*if (keywordId == 0) {
             getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
             return;
         }
@@ -50,7 +50,7 @@ public class KeywordMoviesPresenter extends MvpPresenter<ResultsMvp> {
         }
 
         KEYWORDS service = ApiFactory.createService2(KEYWORDS.class);
-        Observable<MoviesResponse> observable = service.getMovies(keywordId, BuildConfig.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<MoviesResponse> observable = service.getMovies(keywordId, BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, AndroidUtils.includeAdult(), page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override
             public void onNext(MoviesResponse response) {
@@ -70,12 +70,12 @@ public class KeywordMoviesPresenter extends MvpPresenter<ResultsMvp> {
 
             @Override
             public void onComplete() {}
-        }));
+        }));*/
     }
 
     public void loadNextPage(int keywordId) {
-        KEYWORDS service = ApiFactory.createService2(KEYWORDS.class);
-        Observable<MoviesResponse> observable = service.getMovies(keywordId, BuildConfig.TMDB_API_KEY, Url.en_US, AndroidUtils.includeAdult(), page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        /*KEYWORDS service = ApiFactory.createService2(KEYWORDS.class);
+        Observable<MoviesResponse> observable = service.getMovies(keywordId, BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, AndroidUtils.includeAdult(), page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override
             public void onNext(MoviesResponse response) {
@@ -88,11 +88,11 @@ public class KeywordMoviesPresenter extends MvpPresenter<ResultsMvp> {
 
             @Override
             public void onComplete() {}
-        }));
+        }));*/
     }
 
     public void movieFavoritesChange(Movie m) {
-        Realm realm = Realm.getDefaultInstance();
+        /*Realm realm = Realm.getDefaultInstance();
         MovieRealm movie = realm.where(MovieRealm.class).equalTo("id", m.id).findFirst();
         if (movie == null) {
             realm.beginTransaction();
@@ -127,11 +127,11 @@ public class KeywordMoviesPresenter extends MvpPresenter<ResultsMvp> {
             MovieRealm movieRealm = realm.where(MovieRealm.class).equalTo("id", m.id).findFirst();
             //movieRealm.favorite = !movie.favorite;
             realm.commitTransaction();
-        }
+        }*/
     }
 
     public void movieWatchlistChange(Movie m) {
-        Realm realm = Realm.getDefaultInstance();
+        /*Realm realm = Realm.getDefaultInstance();
         MovieRealm movie = realm.where(MovieRealm.class).equalTo("id", m.id).findFirst();
         if (movie == null) {
             realm.beginTransaction();
@@ -154,7 +154,7 @@ public class KeywordMoviesPresenter extends MvpPresenter<ResultsMvp> {
             MovieRealm movieRealm = realm.where(MovieRealm.class).equalTo("id", m.id).findFirst();
             movieRealm.watching = !movie.watching;
             realm.commitTransaction();
-        }
+        }*/
     }
 
     /*public boolean isMovieFavorite(int movieId) {

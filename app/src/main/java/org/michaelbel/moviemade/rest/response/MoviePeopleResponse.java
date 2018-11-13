@@ -2,7 +2,7 @@ package org.michaelbel.moviemade.rest.response;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.michaelbel.tmdb.v3.json.Movie;
+import org.michaelbel.moviemade.data.dao.Movie;
 
 import java.util.List;
 

@@ -88,8 +88,8 @@ public class TrailerView extends FrameLayout {
         return this;
     }
 
-    public TrailerView setQuality(@NonNull String size) {
-        qualityText.setText(getContext().getString(R.string.video_size, size));
+    public TrailerView setQuality(int size) {
+        qualityText.setText(getContext().getString(R.string.video_size, String.valueOf(size)));
         return this;
     }
 

@@ -1,39 +1,29 @@
-package org.michaelbel.moxy.android;
+package org.michaelbel.moviemade.moxy;
 
 import android.os.Bundle;
 
 import com.arellomobile.mvp.MvpDelegate;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.Fragment;
 
 /**
- * Date: 19-Dec-15
- * Time: 13:25
+ * Date: 17-Dec-16
+ * Time: 21:55
  *
- * @author Alexander Blinov
- * @author Yuri Shmakov
  * @author Konstantin Tckhovrebov
  */
 @SuppressWarnings("all")
-public class MvpAppCompatFragment extends Fragment {
+public class MvpAppCompatDialogFragment extends AppCompatDialogFragment {
 
 	private boolean mIsStateSaved;
-	private MvpDelegate<? extends MvpAppCompatFragment> mMvpDelegate;
+	private MvpDelegate<? extends MvpAppCompatDialogFragment> mMvpDelegate;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
 		getMvpDelegate().onCreate(savedInstanceState);
-	}
-
-	@Override
-	public void onStart() {
-		super.onStart();
-
-		mIsStateSaved = false;
-
-		getMvpDelegate().onAttach();
 	}
 
 	public void onResume() {

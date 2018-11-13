@@ -20,13 +20,14 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.Theme;
+import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.eventbus.Events;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
 import org.michaelbel.moviemade.modules_beta.watchlist.WatchlistActivity;
 import org.michaelbel.moviemade.modules_beta.person.PopularPeopleActivity;
 import org.michaelbel.moviemade.modules_beta.watchlist.FavoriteActivity;
-import org.michaelbel.tmdb.TmdbObject;
+import org.michaelbel.moviemade.data.TmdbObject;
 import org.michaelbel.moviemade.rest.model.v3.Genre;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.modules_beta.view.NavigationView;
@@ -163,9 +164,9 @@ public class GenresActivity extends BaseActivity implements ResultsMvp {
     }
 
     @Override
-    public void showResults(List<TmdbObject> results, boolean firstPage) {
-        for (TmdbObject genre : results) {
-            adapter.addFragment(GenreMoviesFragment.newInstance(((Genre) genre).id), ((Genre) genre).name);
+    public void showResults(List<Movie> results, boolean firstPage) {
+        for (Movie genre : results) {
+            //adapter.addFragment(GenreMoviesFragment.newInstance(((Genre) genre).id), ((Genre) genre).name);
         }
 
         adapter.notifyDataSetChanged();

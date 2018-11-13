@@ -2,8 +2,8 @@ package org.michaelbel.moviemade.rest.model.v3;
 
 import com.google.gson.annotations.SerializedName;
 
-import org.michaelbel.tmdb.v3.json.Movie;
-import org.michaelbel.tmdb.TmdbObject;
+import org.michaelbel.moviemade.data.dao.Movie;
+import org.michaelbel.moviemade.data.TmdbObject;
 
 import java.util.List;
 

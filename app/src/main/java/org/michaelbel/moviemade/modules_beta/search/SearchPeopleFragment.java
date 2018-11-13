@@ -13,8 +13,9 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.michaelbel.moviemade.Theme;
 import org.michaelbel.moviemade.annotation.EmptyViewMode;
+import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.ui.modules.search.SearchMvp;
-import org.michaelbel.tmdb.TmdbObject;
+import org.michaelbel.moviemade.data.TmdbObject;
 import org.michaelbel.moviemade.rest.model.v3.People;
 import org.michaelbel.moviemade.ui.modules.search.SearchActivity;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
@@ -24,7 +25,7 @@ import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.modules_beta.view.PersonView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.AndroidUtilsDev;
-import org.michaelbel.moxy.android.MvpAppCompatFragment;
+import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
 
 import java.util.List;
 
@@ -97,7 +98,7 @@ public class SearchPeopleFragment extends MvpAppCompatFragment implements Search
         fragmentView.addView(progressBar);
 
         adapter = new PaginationPeopleAdapter();
-        linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
 
         recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(adapter);
@@ -108,8 +109,8 @@ public class SearchPeopleFragment extends MvpAppCompatFragment implements Search
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
             if (view instanceof PersonView) {
-                People person = (People) adapter.getList().get(position);
-                activity.startPerson(person);
+                //People person = (People) adapter.getList().get(position);
+                //activity.startPerson(person);
             }
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -165,11 +166,11 @@ public class SearchPeopleFragment extends MvpAppCompatFragment implements Search
     }
 
     @Override
-    public void showResults(List<TmdbObject> results, boolean firstPage) {
+    public void showResults(List<Movie> results, boolean firstPage) {
         if (firstPage) {
             progressBar.setVisibility(View.GONE);
 
-            adapter.addAll(results);
+            //adapter.addAll(results);
 
             if (presenter.page < presenter.totalPages) {
                 adapter.addLoadingFooter();
@@ -186,7 +187,7 @@ public class SearchPeopleFragment extends MvpAppCompatFragment implements Search
         } else {
             adapter.removeLoadingFooter();
             presenter.isLoading = false;
-            adapter.addAll(results);
+           // adapter.addAll(results);
 
             if (presenter.page != presenter.totalPages) {
                 adapter.addLoadingFooter();

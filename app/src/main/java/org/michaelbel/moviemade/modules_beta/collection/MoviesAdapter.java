@@ -14,11 +14,11 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import org.michaelbel.material.widget.Holder;
+import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.Url;
 import org.michaelbel.moviemade.extensions.AndroidExtensions;
-import org.michaelbel.tmdb.TmdbObject;
-import org.michaelbel.tmdb.v3.json.Movie;
+import org.michaelbel.moviemade.data.TmdbObject;
+import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.modules_beta.view.movie.MovieViewListBig;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 
@@ -35,18 +35,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MoviesAdapter extends RecyclerView.Adapter {
 
-    private List<TmdbObject> movies;
+    private List<Movie> movies;
 
     public MoviesAdapter() {
         movies = new ArrayList<>();
     }
 
-    public void addMovies(List<TmdbObject> results) {
+    public void addMovies(List<Movie> results) {
         movies.addAll(results);
         notifyItemRangeInserted(movies.size() + 1, results.size());
     }
 
-    public List<TmdbObject> getMovies() {
+    public List<Movie> getMovies() {
         return movies;
     }
 
@@ -71,12 +71,13 @@ public class MoviesAdapter extends RecyclerView.Adapter {
 
         if (getItemViewType(position) == 0) {
             MovieViewListBig view = (MovieViewListBig) holder.itemView;
-            view.setPoster(movie.posterPath)
-                .setTitle(movie.title)
-                .setRating(String.valueOf(movie.voteAverage))
-                .setVoteCount(String.valueOf(movie.voteCount))
-                .setReleaseDate(movie.releaseDate != null ? AndroidExtensions.formatReleaseDate(movie.releaseDate) : "")
-                .setOverview(movie.overview)
+            movie.getReleaseDate();
+            view.setPoster(movie.getPosterPath())
+                .setTitle(movie.getTitle())
+                .setRating(String.valueOf(movie.getVoteAverage()))
+                .setVoteCount(String.valueOf(movie.getVoteCount()))
+                .setReleaseDate(AndroidExtensions.formatReleaseDate(movie.getReleaseDate()))
+                .setOverview(movie.getOverview())
                 .setDivider(position != movies.size() - 1);
         } else if (getItemViewType(position) == 1) {
             View view = holder.itemView;
@@ -91,11 +92,11 @@ public class MoviesAdapter extends RecyclerView.Adapter {
 
             Glide.with(view.getContext())
                     .asBitmap()
-                    .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.posterSize(), movie.posterPath))
+                    .load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, AndroidUtils.posterSize(), movie.getPosterPath()))
                     .apply(options)
                     .into(new BitmapImageViewTarget(posterImage) {
                         @Override
-                        public void onResourceReady(Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
+                        public void onResourceReady(@NonNull Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
                             super.onResourceReady(bitmap, transition);
                             Palette.from(bitmap).generate(palette -> cardView.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.accent)));
                             //Palette.from(bitmap).generate(palette -> setBackgroundColor(palette, holder));

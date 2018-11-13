@@ -15,8 +15,8 @@ import android.widget.ScrollView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.tabs.TabLayout;
 
+import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.Theme;
-import org.michaelbel.moviemade.Url;
 import org.michaelbel.moviemade.browser.Browser;
 import org.michaelbel.moviemade.rest.model.Cast;
 import org.michaelbel.moviemade.rest.model.Person;
@@ -25,7 +25,7 @@ import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.modules_beta.view.PersonViewLayout;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moxy.android.MvpAppCompatFragment;
+import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
 
 import java.util.Locale;
 
@@ -209,9 +209,9 @@ public class PersonFragment extends MvpAppCompatFragment implements PersonMvp, P
     @Override
     public void onWebpageClick(View view, int position) {
         if (position == 0) {
-            Browser.openUrl(activity, String.format(Locale.US, Url.TMDB_PERSON, id));
+            Browser.openUrl(activity, String.format(Locale.US, ConstantsKt.TMDB_PERSON, id));
         } else if (position == 1) {
-            Browser.openUrl(activity, String.format(Locale.US, Url.IMDB_PERSON, loadedPerson.imdbId));
+            Browser.openUrl(activity, String.format(Locale.US, ConstantsKt.IMDB_PERSON, loadedPerson.imdbId));
         } else if (position == 2) {
             Browser.openUrl(activity, loadedPerson.homepage);
         }

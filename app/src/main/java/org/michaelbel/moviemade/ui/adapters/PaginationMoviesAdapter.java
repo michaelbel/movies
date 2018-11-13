@@ -14,16 +14,16 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.transition.Transition;
 
 import org.michaelbel.material.widget.Holder;
+import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.Url;
 import org.michaelbel.moviemade.extensions.AndroidExtensions;
 import org.michaelbel.moviemade.extensions.DeviceUtil;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.ui.base.PaginationAdapter;
 import org.michaelbel.moviemade.modules_beta.view.movie.MovieViewListBig;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.tmdb.TmdbObject;
-import org.michaelbel.tmdb.v3.json.Movie;
+import org.michaelbel.moviemade.data.TmdbObject;
+import org.michaelbel.moviemade.data.dao.Movie;
 
 import java.util.List;
 import java.util.Locale;
@@ -64,12 +64,12 @@ public class PaginationMoviesAdapter extends PaginationAdapter {
 
         if (getItemViewType(position) == ITEM_BACKDROP) {
             MovieViewListBig view = (MovieViewListBig) ((Holder) holder).itemView;
-            view.setPoster(movie.posterPath)
-                .setTitle(movie.title)
-                .setRating(String.valueOf(movie.voteAverage))
-                .setVoteCount(String.valueOf(movie.voteCount))
-                .setReleaseDate(movie.releaseDate != null ? AndroidExtensions.formatReleaseDate(movie.releaseDate) : "")
-                .setOverview(movie.overview)
+            view.setPoster(movie.getPosterPath())
+                .setTitle(movie.getTitle())
+                .setRating(String.valueOf(movie.getVoteAverage()))
+                .setVoteCount(String.valueOf(movie.getVoteCount()))
+                .setReleaseDate(movie.getReleaseDate() != null ? AndroidExtensions.formatReleaseDate(movie.getReleaseDate()) : "")
+                .setOverview(movie.getOverview())
                 .setDivider(true);
         } else if (getItemViewType(position) == ITEM_POSTER) {
             View view = holder.itemView;
@@ -84,7 +84,7 @@ public class PaginationMoviesAdapter extends PaginationAdapter {
 
             Glide.with(view.getContext())
                  .asBitmap()
-                 .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.posterSize(), movie.posterPath))
+                 .load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, AndroidUtils.posterSize(), movie.getPosterPath()))
                  .apply(options)
                  .into(new BitmapImageViewTarget(posterImage) {
                      @Override
@@ -101,12 +101,12 @@ public class PaginationMoviesAdapter extends PaginationAdapter {
         return ITEM_POSTER;
     }
 
-    public void addAll(List<TmdbObject> movies) {
-        for (TmdbObject movie : movies) {
+    public void addAll(List<Movie> movies) {
+        for (Movie movie : movies) {
             if (AndroidUtils.includeAdult()) {
                 add(movie);
             } else {
-                if (!((Movie) movie).adult) {
+                if (!movie.getAdult()) {
                     add(movie);
                 }
             }

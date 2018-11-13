@@ -13,7 +13,7 @@ import android.widget.TextView;
 import org.michaelbel.material.widget.Holder;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.Theme;
-import org.michaelbel.moviemade.rest.model.v3.Trailer;
+import org.michaelbel.moviemade.data.dao.Video;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.modules_beta.view.trailer.TrailerView;
@@ -31,7 +31,7 @@ public class TrailersSection extends FrameLayout {
 
     private TrailersAdapter adapter;
     private SectionTrailersListener sectionListener;
-    private List<Trailer> trailers = new ArrayList<>();
+    private List<Video> trailers = new ArrayList<>();
 
     private ProgressBar progressBar;
     private RecyclerListView recyclerView;
@@ -75,12 +75,12 @@ public class TrailersSection extends FrameLayout {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 0, 48, 0, 0));
         recyclerView.setOnItemClickListener((view, position) -> {
-            Trailer trailer = trailers.get(position);
-            sectionListener.onTrailerClick(view, trailer.key);
+            Video trailer = trailers.get(position);
+            sectionListener.onTrailerClick(view, trailer.getKey());
         });
         recyclerView.setOnItemLongClickListener((view, position) -> {
-            Trailer trailer = trailers.get(position);
-            sectionListener.onTrailerLongClick(view, trailer.key);
+            Video trailer = trailers.get(position);
+            sectionListener.onTrailerLongClick(view, trailer.getKey());
             return true;
         });
         addView(recyclerView);
@@ -96,7 +96,7 @@ public class TrailersSection extends FrameLayout {
         return this;
     }
 
-    public TrailersSection setTrailers(List<Trailer> list) {
+    public TrailersSection setTrailers(List<Video> list) {
         trailers.clear();
         trailers.addAll(list);
         adapter.notifyDataSetChanged();
@@ -121,13 +121,13 @@ public class TrailersSection extends FrameLayout {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-            Trailer trailer = trailers.get(position);
+            Video trailer = trailers.get(position);
 
             TrailerView view = (TrailerView) holder.itemView;
-            view.setTitle(trailer.name)
-                .setQuality(trailer.size)
-                .setSite(trailer.site)
-                .setTrailerImage(trailer.key);
+            view.setTitle(trailer.getName())
+                .setQuality(trailer.getSize())
+                .setSite(trailer.getSite())
+                .setTrailerImage(trailer.getKey());
 
             if (position == 0) {
                 view.changeLayoutParams(true);

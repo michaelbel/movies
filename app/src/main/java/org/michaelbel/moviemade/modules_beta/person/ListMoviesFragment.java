@@ -31,9 +31,9 @@ import org.michaelbel.moviemade.ui.adapters.PaginationMoviesAdapter;
 import org.michaelbel.moviemade.modules_beta.view.widget.PaddingItemDecoration;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.ScreenUtils;
-import org.michaelbel.moxy.android.MvpAppCompatFragment;
-import org.michaelbel.tmdb.TmdbObject;
-import org.michaelbel.tmdb.v3.json.Movie;
+import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.data.TmdbObject;
+import org.michaelbel.moviemade.data.dao.Movie;
 
 import java.util.List;
 
@@ -229,7 +229,7 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements ResultsM
         recyclerView.setOnItemLongClickListener((view, position) -> {
             Movie movie = (Movie) adapter.getList().get(position);
             //boolean favorite = presenter.isMovieFavorite(movie.id);
-            boolean watchlist = presenter.isMovieWatchlist(movie.id);
+            boolean watchlist = presenter.isMovieWatchlist(movie.getId());
 
             //int favoriteIcon = favorite ? R.drawable.ic_heart : R.drawable.ic_heart_outline;
             int watchlistIcon = watchlist ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline;
@@ -289,7 +289,7 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements ResultsM
         person = (Cast) getArguments().getSerializable("person");
 
         if (movie != null) {
-            movieId = movie.id;
+            movieId = movie.getId();
         } else if (movieRealm != null) {
             movieId = movieRealm.id;
         } else if (person != null) {
@@ -358,7 +358,7 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements ResultsM
     }
 
     @Override
-    public void showResults(List<TmdbObject> results, boolean firstPage) {
+    public void showResults(List<Movie> results, boolean firstPage) {
         if (firstPage) {
             fragmentView.setRefreshing(false);
             progressBar.setVisibility(View.GONE);

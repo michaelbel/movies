@@ -15,16 +15,17 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.Theme;
+import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.eventbus.Events;
 import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
-import org.michaelbel.tmdb.TmdbObject;
+import org.michaelbel.moviemade.data.TmdbObject;
 import org.michaelbel.moviemade.rest.model.v3.People;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.modules_beta.view.PersonView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moxy.android.MvpAppCompatFragment;
+import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
 
 import java.util.List;
 
@@ -112,7 +113,7 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements Resul
                 .build();*/
 
         adapter = new PaginationPeopleAdapter();
-        linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
 
         //recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(adapter);
@@ -122,8 +123,8 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements Resul
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
             if (view instanceof PersonView) {
-                People person = (People) adapter.getList().get(position);
-                activity.startPerson(person);
+                //People person = (People) adapter.getList().get(position);
+                //activity.startPerson(person);
             }
         });
         recyclerView.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
@@ -204,12 +205,12 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements Resul
     }*/
 
     @Override
-    public void showResults(List<TmdbObject> results, boolean firstPage) {
+    public void showResults(List<Movie> results, boolean firstPage) {
         if (firstPage) {
             fragmentView.setRefreshing(false);
             progressBar.setVisibility(View.GONE);
 
-            adapter.addAll(results);
+          //  adapter.addAll(results);
 
             if (presenter.page <= presenter.totalPages) {
                 adapter.addLoadingFooter();
@@ -219,7 +220,7 @@ public class PopularPeopleFragment extends MvpAppCompatFragment implements Resul
         } else {
             adapter.removeLoadingFooter();
             presenter.isLoading = false;
-            adapter.addAll(results);
+           // adapter.addAll(results);
 
             if (presenter.page != presenter.totalPages) {
                 adapter.addLoadingFooter();

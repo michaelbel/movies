@@ -14,7 +14,7 @@ import dagger.Provides;
 @Module
 public class RoomModule {
 
-    private static final String ROOM_DATABASE_NAME = "moviesTest";
+    private static final String ROOM_DATABASE_NAME = "moviesDb_Dev";
 
     private Context context;
 

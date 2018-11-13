@@ -4,7 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import org.michaelbel.tmdb.TmdbObject;
+import org.michaelbel.moviemade.data.TmdbObject;
+import org.michaelbel.moviemade.data.dao.Movie;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +15,14 @@ public class PaginationAdapter extends RecyclerView.Adapter {
 
     protected final int ITEM_BACKDROP = 0;
 
-    protected List<TmdbObject> objectList;
+    protected List<Movie> objectList;
     protected boolean isLoadingAdded = false;
 
     public PaginationAdapter() {
         objectList = new ArrayList<>();
     }
 
-    public List<TmdbObject> getList() {
+    public List<Movie> getList() {
         return objectList;
     }
 
@@ -44,12 +45,12 @@ public class PaginationAdapter extends RecyclerView.Adapter {
         return ITEM_BACKDROP;
     }
 
-    public void add(TmdbObject object) {
+    public void add(Movie object) {
         objectList.add(object);
         notifyItemInserted(objectList.size() - 1);
     }
 
-    private void remove(TmdbObject collection) {
+    private void remove(Movie collection) {
         int position = objectList.indexOf(collection);
 
         if (position > -1) {
@@ -66,7 +67,7 @@ public class PaginationAdapter extends RecyclerView.Adapter {
         }
     }
 
-    private TmdbObject getItem(int position) {
+    private Movie getItem(int position) {
         return objectList.get(position);
     }
 
@@ -78,7 +79,7 @@ public class PaginationAdapter extends RecyclerView.Adapter {
         isLoadingAdded = false;
 
         int position = objectList.size() - 1;
-        TmdbObject result = getItem(position);
+        Movie result = getItem(position);
 
         if (result != null) {
             objectList.remove(position);

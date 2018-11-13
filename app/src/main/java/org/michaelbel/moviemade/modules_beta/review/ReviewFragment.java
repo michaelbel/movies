@@ -20,7 +20,7 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.Theme;
 import org.michaelbel.moviemade.browser.Browser;
 import org.michaelbel.moviemade.model.MovieRealm;
-import org.michaelbel.tmdb.v3.json.Movie;
+import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.rest.model.v3.Review;
 import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.modules_beta.view.widget.GestureTextView;
@@ -175,7 +175,7 @@ public class ReviewFragment extends Fragment {
         if (movieRealm != null) {
             mediaTitle.setText(movieRealm.title + " (" + movieRealm.releaseDate + ")");
         } else {
-            mediaTitle.setText(movie.title + " (" + movie.releaseDate.substring(0, 4) + ")");
+            mediaTitle.setText(movie.getTitle() + " (" + movie.getReleaseDate().substring(0, 4) + ")");
         }
 
         authorText.setText(review.author);

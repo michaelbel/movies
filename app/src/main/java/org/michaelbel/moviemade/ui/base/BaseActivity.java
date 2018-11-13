@@ -5,7 +5,7 @@ import android.view.View;
 
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.rest.model.Cast;
-import org.michaelbel.tmdb.v3.json.Movie;
+import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.rest.model.v3.Collection;
 import org.michaelbel.moviemade.rest.model.v3.Company;
 import org.michaelbel.moviemade.rest.model.v3.Genre;
@@ -21,7 +21,7 @@ import org.michaelbel.moviemade.modules_beta.genres.GenresActivity;
 import org.michaelbel.moviemade.modules_beta.keywords.KeywordActivity;
 import org.michaelbel.moviemade.modules_beta.person.PersonActivity;
 import org.michaelbel.moviemade.modules_beta.review.ReviewActivity;
-import org.michaelbel.moxy.android.MvpAppCompatActivity;
+import org.michaelbel.moviemade.moxy.MvpAppCompatActivity;
 
 import java.util.ArrayList;
 
@@ -75,28 +75,15 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseMvp, Media
     @Override
     public void startMovie(Movie movie) {
         Intent intent = new Intent(this, MovieActivity.class);
-        intent.putExtra("posterPath", movie.posterPath);
-        intent.putExtra("adult", movie.adult);
-        intent.putExtra("overview", movie.overview);
-        intent.putExtra("releaseDate", movie.releaseDate);
-        //intent.putIntegerArrayListExtra("genreIds", movie.genreIds);
-        intent.putExtra("id", movie.id);
-        intent.putExtra("originalTitle", movie.originalTitle);
-        intent.putExtra("originalLanguage", movie.originalLanguage);
-        intent.putExtra("title", movie.title);
-        intent.putExtra("backdropPath", movie.backdropPath);
-        intent.putExtra("popularity", movie.popularity);
-        intent.putExtra("voteCount", movie.voteCount);
-        intent.putExtra("video", movie.video);
-        intent.putExtra("voteAverage", movie.voteAverage);
+        intent.putExtra("movie", movie);
         startActivity(intent);
     }
 
     @Override
     public void startTrailers(Movie movie) {
         Intent intent = new Intent(this, TrailersActivity.class);
-        intent.putExtra("id", movie.id);
-        intent.putExtra("title", movie.title);
+        intent.putExtra("id", movie.getId());
+        intent.putExtra("title", movie.getTitle());
         startActivity(intent);
     }
 

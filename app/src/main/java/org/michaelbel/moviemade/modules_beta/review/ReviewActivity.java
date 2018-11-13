@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
-import org.michaelbel.tmdb.v3.json.Movie;
+import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.rest.model.v3.Review;
 import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 

@@ -11,8 +11,8 @@ import com.bumptech.glide.Glide;
 
 import org.michaelbel.material.widget.Holder;
 import org.michaelbel.material.widget.RecyclerListView;
+import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.Url;
 import org.michaelbel.moviemade.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.ui.modules.main.MainActivity;
@@ -215,7 +215,7 @@ public class FavoriteMoviesFragment extends Fragment {
                 ImageView posterImage = view.findViewById(R.id.poster_image);
 
                 Glide.with(holder.itemView.getContext())
-                        .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.posterSize(), movie.posterPath))
+                        .load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, AndroidUtils.posterSize(), movie.posterPath))
                         .thumbnail(0.1F)
                         .into(posterImage);
 

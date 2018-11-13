@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import org.michaelbel.material.widget.Holder;
-import org.michaelbel.tmdb.TmdbObject;
+import org.michaelbel.moviemade.data.TmdbObject;
 import org.michaelbel.moviemade.rest.model.v3.People;
 import org.michaelbel.moviemade.ui.base.PaginationAdapter;
 import org.michaelbel.moviemade.modules_beta.view.PersonView;
@@ -42,7 +42,7 @@ public class PaginationPeopleAdapter extends PaginationAdapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        People p = (People) objectList.get(position);
+        /*People p = (People) objectList.get(position);
 
         if (getItemViewType(position) == ITEM_BACKDROP) {
             PersonView view = (PersonView) ((Holder) holder).itemView;
@@ -51,14 +51,14 @@ public class PaginationPeopleAdapter extends PaginationAdapter {
                 .setProfile(p.profilePath)
                 .setDivider(true);
 
-            /*if (peekAndPop != null) {
+            *//*if (peekAndPop != null) {
                 peekAndPop.addLongClickView(view, position);
-            }*/
-        }
+            }*//*
+        }*/
     }
 
     public void addAll(List<TmdbObject> people) {
-        for (TmdbObject person : people) {
+        /*for (TmdbObject person : people) {
             if (AndroidUtils.includeAdult()) {
                 add(person);
             } else {
@@ -66,11 +66,11 @@ public class PaginationPeopleAdapter extends PaginationAdapter {
                     add(person);
                 }
             }
-        }
+        }*/
     }
 
     public void addLoadingFooter() {
         isLoadingAdded = true;
-        add(new People());
+        //add(new People());
     }
 }

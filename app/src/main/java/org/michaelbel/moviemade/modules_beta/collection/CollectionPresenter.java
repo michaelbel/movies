@@ -4,15 +4,15 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.BuildConfig;
-import org.michaelbel.moviemade.Url;
+import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.extensions.AndroidExtensions;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
 import org.michaelbel.moviemade.rest.ApiFactory;
-import org.michaelbel.tmdb.TmdbObject;
+import org.michaelbel.moviemade.data.TmdbObject;
 import org.michaelbel.moviemade.rest.api.service.COLLECTIONS;
-import org.michaelbel.tmdb.v3.json.Movie;
+import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.rest.model.v3.Collection;
 import org.michaelbel.moviemade.utils.DateUtils;
 import org.michaelbel.moviemade.utils.NetworkUtils;
@@ -44,11 +44,11 @@ public class CollectionPresenter extends MvpPresenter<ResultsMvp> {
         }
 
         COLLECTIONS service = ApiFactory.createService2(COLLECTIONS.class);
-        Observable<Collection> observable = service.getDetails(collectionId, BuildConfig.TMDB_API_KEY, Url.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<Collection> observable = service.getDetails(collectionId, BuildConfig.TMDB_API_KEY, ConstantsKt.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<Collection>() {
             @Override
             public void onNext(Collection collection) {
-                List<TmdbObject> results = new ArrayList<>(collection.movies);
+                List<Movie> results = new ArrayList<>(collection.movies);
                 if (results.isEmpty()) {
                     getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
                     return;
@@ -68,18 +68,18 @@ public class CollectionPresenter extends MvpPresenter<ResultsMvp> {
 
     public void movieFavoritesChange(Movie m) {
         Realm realm = Realm.getDefaultInstance();
-        MovieRealm movie = realm.where(MovieRealm.class).equalTo("id", m.id).findFirst();
+        MovieRealm movie = realm.where(MovieRealm.class).equalTo("id", m.getId()).findFirst();
         if (movie == null) {
             realm.beginTransaction();
 
             MovieRealm newMovie = realm.createObject(MovieRealm.class);
-            newMovie.id = m.id;
-            newMovie.title = m.title;
-            newMovie.posterPath = m.posterPath;
-            newMovie.releaseDate = AndroidExtensions.formatReleaseDate(m.releaseDate);
+            newMovie.id = m.getId();
+            newMovie.title = m.getTitle();
+            newMovie.posterPath = m.getPosterPath();
+            newMovie.releaseDate = AndroidExtensions.formatReleaseDate(m.getReleaseDate());
             //newMovie.originalTitle = m.originalTitle;
             //newMovie.originalLanguage = AndroidUtils.formatOriginalLanguage(m.originalLanguage);
-            newMovie.overview = m.overview;
+            newMovie.overview = m.getOverview();
             newMovie.addedDate = DateUtils.getCurrentDateAndTimeWithMilliseconds();
             //newMovie.adult = m.adult;
             //newMovie.backdropPath = m.backdropPath;
@@ -92,14 +92,14 @@ public class CollectionPresenter extends MvpPresenter<ResultsMvp> {
             //newMovie.popularity = m.popularity;
             //newMovie.video = m.video;
             //newMovie.runtime = AndroidUtils.formatRuntime(m.runtime);
-            newMovie.voteAverage = m.voteAverage;
-            newMovie.voteCount = m.voteCount;
+            newMovie.voteAverage = m.getVoteAverage();
+            newMovie.voteCount = m.getVoteCount();
             //newMovie.favorite = true;
 
             realm.commitTransaction();
         } else {
             realm.beginTransaction();
-            MovieRealm movieRealm = realm.where(MovieRealm.class).equalTo("id", m.id).findFirst();
+            MovieRealm movieRealm = realm.where(MovieRealm.class).equalTo("id", m.getId()).findFirst();
             //movieRealm.favorite = !movie.favorite;
             realm.commitTransaction();
         }
@@ -107,26 +107,26 @@ public class CollectionPresenter extends MvpPresenter<ResultsMvp> {
 
     public void movieWatchlistChange(Movie m) {
         Realm realm = Realm.getDefaultInstance();
-        MovieRealm movie = realm.where(MovieRealm.class).equalTo("id", m.id).findFirst();
+        MovieRealm movie = realm.where(MovieRealm.class).equalTo("id", m.getId()).findFirst();
         if (movie == null) {
             realm.beginTransaction();
 
             MovieRealm newMovie = realm.createObject(MovieRealm.class);
-            newMovie.id = m.id;
-            newMovie.title = m.title;
-            newMovie.posterPath = m.posterPath;
-            newMovie.releaseDate = AndroidExtensions.formatReleaseDate(m.releaseDate);
-            newMovie.overview = m.overview;
+            newMovie.id = m.getId();
+            newMovie.title = m.getTitle();
+            newMovie.posterPath = m.getPosterPath();
+            newMovie.releaseDate = AndroidExtensions.formatReleaseDate(m.getReleaseDate());
+            newMovie.overview = m.getOverview();
             newMovie.addedDate = DateUtils.getCurrentDateAndTimeWithMilliseconds();
-            newMovie.popularity = m.popularity;
-            newMovie.voteAverage = m.voteAverage;
-            newMovie.voteCount = m.voteCount;
+            newMovie.popularity = m.getPopularity();
+            newMovie.voteAverage = m.getVoteAverage();
+            newMovie.voteCount = m.getVoteCount();
             newMovie.watching = true;
 
             realm.commitTransaction();
         } else {
             realm.beginTransaction();
-            MovieRealm movieRealm = realm.where(MovieRealm.class).equalTo("id", m.id).findFirst();
+            MovieRealm movieRealm = realm.where(MovieRealm.class).equalTo("id", m.getId()).findFirst();
             movieRealm.watching = !movie.watching;
             realm.commitTransaction();
         }

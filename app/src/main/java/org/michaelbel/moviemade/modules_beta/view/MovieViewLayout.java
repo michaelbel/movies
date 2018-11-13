@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.alexvasilkov.gestures.views.GestureImageView;
 
+import org.michaelbel.moviemade.data.dao.Video;
 import org.michaelbel.moviemade.ui.modules.movie.views.RatingView;
 import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.R;
@@ -29,7 +30,6 @@ import org.michaelbel.moviemade.rest.model.v3.Company;
 import org.michaelbel.moviemade.rest.model.v3.Genre;
 import org.michaelbel.moviemade.rest.model.v3.Keyword;
 import org.michaelbel.moviemade.rest.model.v3.Poster;
-import org.michaelbel.moviemade.rest.model.v3.Trailer;
 import org.michaelbel.moviemade.modules_beta.movie.MovieViewListener;
 import org.michaelbel.moviemade.modules_beta.view.section.CompaniesSection;
 import org.michaelbel.moviemade.modules_beta.view.section.GenresSection;
@@ -617,7 +617,7 @@ public class MovieViewLayout extends LinearLayout {
         watchingButton.setChecked(watching);
     }
 
-    public void addTrailers(List<Trailer> trailers) {
+    public void addTrailers(List<Video> trailers) {
         if (trailers == null || trailers.isEmpty()) {
             removeView(trailersView);
             return;

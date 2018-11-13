@@ -21,9 +21,9 @@ import org.michaelbel.moviemade.modules_beta.collection.MoviesAdapter;
 import org.michaelbel.moviemade.modules_beta.view.widget.PaddingItemDecoration;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.ScreenUtils;
-import org.michaelbel.moxy.android.MvpAppCompatFragment;
-import org.michaelbel.tmdb.TmdbObject;
-import org.michaelbel.tmdb.v3.json.Movie;
+import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.data.TmdbObject;
+import org.michaelbel.moviemade.data.dao.Movie;
 
 import java.util.List;
 
@@ -32,6 +32,7 @@ import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class CompanyMoviesFragment extends MvpAppCompatFragment implements ResultsMvp {
@@ -111,7 +112,7 @@ public class CompanyMoviesFragment extends MvpAppCompatFragment implements Resul
         }
 
         gridLayoutManager = new GridLayoutManager(activity, AndroidUtils.viewType() == AndroidUtils.VIEW_POSTERS ? 1 : 2);
-        gridLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
 
         recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(adapter);
@@ -128,7 +129,7 @@ public class CompanyMoviesFragment extends MvpAppCompatFragment implements Resul
         recyclerView.setOnItemLongClickListener((view, position) -> {
             Movie movie = (Movie) adapter.getMovies().get(position);
             //boolean favorite = presenter.isMovieFavorite(movie.id);
-            boolean watchlist = presenter.isMovieWatchlist(movie.id);
+            boolean watchlist = presenter.isMovieWatchlist(movie.getId());
 
             //int favoriteIcon = favorite ? R.drawable.ic_heart : R.drawable.ic_heart_outline;
             int watchlistIcon = watchlist ? R.drawable.ic_bookmark : R.drawable.ic_bookmark_outline;
@@ -172,7 +173,7 @@ public class CompanyMoviesFragment extends MvpAppCompatFragment implements Resul
     }
 
     @Override
-    public void showResults(List<TmdbObject> results, boolean firstPage) {
+    public void showResults(List<Movie> results, boolean firstPage) {
         adapter.addMovies(results);
         fragmentView.setRefreshing(false);
         progressBar.setVisibility(View.GONE);

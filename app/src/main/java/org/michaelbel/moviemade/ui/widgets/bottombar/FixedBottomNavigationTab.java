@@ -1,4 +1,4 @@
-package org.michaelbel.bottombar;
+package org.michaelbel.moviemade.ui.widgets.bottombar;
 
 import android.annotation.TargetApi;
 import android.content.Context;

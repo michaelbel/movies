@@ -13,9 +13,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.Theme;
-import org.michaelbel.moviemade.Url;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.rest.model.Cast;
 import org.michaelbel.moviemade.rest.model.v3.People;
@@ -83,7 +83,7 @@ public class PersonActivity extends BaseActivity {
 
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, Url.TMDB_PERSON, castPerson != null ? castPerson.id : peoplePerson.id));
+                intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, ConstantsKt.TMDB_PERSON, castPerson != null ? castPerson.id : peoplePerson.id));
                 startActivity(Intent.createChooser(intent, getString(R.string.ShareVia)));
                 return true;
             });

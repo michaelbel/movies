@@ -4,9 +4,8 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.BuildConfig;
-import org.michaelbel.moviemade.Url;
+import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.annotation.EmptyViewMode;
-import org.michaelbel.moviemade.modules_beta.person.PersonMvp;
 import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.rest.api.PEOPLE;
 import org.michaelbel.moviemade.rest.model.Person;
@@ -30,7 +29,7 @@ public class PersonPresenter extends MvpPresenter<PersonMvp> {
         }
 
         PEOPLE service = ApiFactory.createService2(PEOPLE.class);
-        Observable<Person> observable = service.getDetails(personId, BuildConfig.TMDB_API_KEY, Url.en_US, null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<Person> observable = service.getDetails(personId, BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<Person>() {
             @Override
             public void onNext(Person person) {

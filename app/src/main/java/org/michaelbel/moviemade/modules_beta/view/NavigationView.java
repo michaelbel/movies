@@ -225,16 +225,16 @@ public class NavigationView extends FrameLayout {
 
                 if (position == playingRow) {
                     cell.setIcon(Theme.getIcon(R.drawable.ic_movie, ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
-                    cell.setText(R.string.NowPlaying);
+                    cell.setText(R.string.now_playing);
                 } else if (position == popularRow) {
                     cell.setIcon(Theme.getIcon(R.drawable.ic_movie, ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
                     cell.setText(R.string.Popular);
                 } else if (position == ratedRow) {
                     cell.setIcon(Theme.getIcon(R.drawable.ic_movie, ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
-                    cell.setText(R.string.TopRated);
+                    cell.setText(R.string.top_rated);
                 } else if (position == upcomingRow) {
                     cell.setIcon(Theme.getIcon(R.drawable.ic_movie, ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
-                    cell.setText(R.string.Upcoming);
+                    cell.setText(R.string.upcoming);
                 } else if (position == peopleRow) {
                     cell.setIcon(Theme.getIcon(R.drawable.ic_account_multiple, ContextCompat.getColor(getContext(), Theme.iconActiveColor())));
                     cell.setText(R.string.PopularPeople);

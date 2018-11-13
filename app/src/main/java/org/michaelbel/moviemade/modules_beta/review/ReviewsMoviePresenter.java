@@ -4,11 +4,11 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.BuildConfig;
-import org.michaelbel.moviemade.Url;
+import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
 import org.michaelbel.moviemade.rest.ApiFactory;
-import org.michaelbel.tmdb.TmdbObject;
+import org.michaelbel.moviemade.data.TmdbObject;
 import org.michaelbel.moviemade.rest.api.MOVIES;
 import org.michaelbel.moviemade.rest.response.ReviewResponse;
 import org.michaelbel.moviemade.utils.NetworkUtils;
@@ -53,7 +53,7 @@ public class ReviewsMoviePresenter extends MvpPresenter<ResultsMvp> {
         loadingLocked = false;
 
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<ReviewResponse> observable = service.getReviews(movieId, BuildConfig.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<ReviewResponse> observable = service.getReviews(movieId, BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<ReviewResponse>() {
             @Override
             public void onNext(ReviewResponse response) {
@@ -62,7 +62,7 @@ public class ReviewsMoviePresenter extends MvpPresenter<ResultsMvp> {
                     getViewState().showError(EmptyViewMode.MODE_NO_REVIEWS);
                     return;
                 }
-                getViewState().showResults(results, true);
+                //getViewState().showResults(results, true);
                 totalPages = response.totalPages;
                 page++;
             }
@@ -79,12 +79,12 @@ public class ReviewsMoviePresenter extends MvpPresenter<ResultsMvp> {
 
     public void loadNextPage() {
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<ReviewResponse> observable = service.getReviews(movieId, BuildConfig.TMDB_API_KEY, Url.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<ReviewResponse> observable = service.getReviews(movieId, BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<ReviewResponse>() {
             @Override
             public void onNext(ReviewResponse response) {
                 List<TmdbObject> results = new ArrayList<>(response.reviews);
-                getViewState().showResults(results, false);
+            //    getViewState().showResults(results, false);
                 loading = false;
                 page++;
             }

@@ -14,15 +14,15 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import org.michaelbel.moviemade.Theme;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
-import org.michaelbel.tmdb.TmdbObject;
+import org.michaelbel.moviemade.data.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Cast;
-import org.michaelbel.tmdb.v3.json.Movie;
+import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.ui.modules.movie.MovieActivity;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moxy.android.MvpAppCompatFragment;
+import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
 
 import java.util.List;
 
@@ -30,6 +30,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class MovieCastsFragment extends MvpAppCompatFragment implements ResultsMvp {
@@ -117,7 +118,7 @@ public class MovieCastsFragment extends MvpAppCompatFragment implements ResultsM
         contentLayout.addView(emptyView);
 
         adapter = new CastMoviesAdapter();
-        linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
 
         recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(adapter);
@@ -145,7 +146,7 @@ public class MovieCastsFragment extends MvpAppCompatFragment implements ResultsM
         MovieRealm movieRealm = getArguments().getParcelable("movieRealm");
 
         if (movie != null) {
-            movieId = movie.id;
+            movieId = movie.getId();
         } else if (movieRealm != null) {
             movieId = movieRealm.id;
         }
@@ -156,8 +157,8 @@ public class MovieCastsFragment extends MvpAppCompatFragment implements ResultsM
     }
 
     @Override
-    public void showResults(List<TmdbObject> results, boolean firstPage) {
-        adapter.addCasts(results);
+    public void showResults(List<Movie> results, boolean firstPage) {
+       // adapter.addCasts(results);
         fragmentView.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
     }

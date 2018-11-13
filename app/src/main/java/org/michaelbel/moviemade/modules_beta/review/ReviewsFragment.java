@@ -14,15 +14,15 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import org.michaelbel.moviemade.Theme;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
-import org.michaelbel.tmdb.TmdbObject;
-import org.michaelbel.tmdb.v3.json.Movie;
+import org.michaelbel.moviemade.data.TmdbObject;
+import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.rest.model.v3.Review;
 import org.michaelbel.moviemade.ui.modules.movie.MovieActivity;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moxy.android.MvpAppCompatFragment;
+import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
 
 import java.util.List;
 
@@ -119,7 +119,7 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ResultsMvp 
         contentLayout.addView(emptyView);
 
         adapter = new ReviewsAdapter();
-        linearLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
 
         recyclerView = new RecyclerListView(activity);
         recyclerView.setAdapter(adapter);
@@ -162,7 +162,7 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ResultsMvp 
         currentMovie = (Movie) getArguments().getSerializable("movie");
         currentMovieRealm = getArguments().getParcelable("movieRealm");
         if (currentMovie != null) {
-            movieId = currentMovie.id;
+            movieId = currentMovie.getId();
         } else if (currentMovieRealm != null) {
             movieId = currentMovieRealm.id;
         } else {
@@ -175,8 +175,8 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ResultsMvp 
     }
 
     @Override
-    public void showResults(List<TmdbObject> results, boolean firstPage) {
-        adapter.addReviews(results);
+    public void showResults(List<Movie> results, boolean firstPage) {
+        //adapter.addReviews(results);
         fragmentView.setRefreshing(false);
         progressBar.setVisibility(View.GONE);
     }

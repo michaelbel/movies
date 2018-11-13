@@ -7,7 +7,7 @@ import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.ui.modules.search.SearchMvp;
 import org.michaelbel.moviemade.rest.ApiFactory;
-import org.michaelbel.tmdb.TmdbObject;
+import org.michaelbel.moviemade.data.TmdbObject;
 import org.michaelbel.moviemade.rest.api.SEARCH;
 import org.michaelbel.moviemade.rest.response.CompanyResponse;
 import org.michaelbel.moviemade.utils.NetworkUtils;
@@ -54,7 +54,7 @@ public class SearchCompaniesPresenter extends MvpPresenter<SearchMvp> {
                     getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
                     return;
                 }
-                getViewState().showResults(results, true);
+               // getViewState().showResults(results, true);
             }
 
             @Override
@@ -74,7 +74,7 @@ public class SearchCompaniesPresenter extends MvpPresenter<SearchMvp> {
             @Override
             public void onNext(CompanyResponse response) {
                 List<TmdbObject> results = new ArrayList<>(response.companies);
-                getViewState().showResults(results, false);
+               // getViewState().showResults(results, false);
             }
 
             @Override

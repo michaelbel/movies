@@ -5,7 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import org.michaelbel.material.widget.Holder;
-import org.michaelbel.tmdb.TmdbObject;
+import org.michaelbel.moviemade.data.TmdbObject;
 import org.michaelbel.moviemade.rest.model.v3.Review;
 import org.michaelbel.moviemade.ui.base.PaginationAdapter;
 import org.michaelbel.moviemade.modules_beta.view.ReviewView;
@@ -28,24 +28,24 @@ public class PaginationReviewsAdapter extends PaginationAdapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Review review = (Review) objectList.get(position);
+       // Review review = (Review) objectList.get(position);
 
         if (getItemViewType(position) == ITEM_BACKDROP) {
             ReviewView view = (ReviewView) ((Holder) holder).itemView;
-            view.setAuthor(review.author)
-                .setContent(review.content)
-                .setDivider(true);
+        //    view.setAuthor(review.author)
+          //      .setContent(review.content)
+           //     .setDivider(true);
         }
     }
 
     public void addAll(List<TmdbObject> reviews) {
         for (TmdbObject review : reviews) {
-            add(review);
+         //   add(review);
         }
     }
 
     public void addLoadingFooter() {
         isLoadingAdded = true;
-        add(new Review());
+      //  add(new Review());
     }
 }

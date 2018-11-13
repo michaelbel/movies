@@ -33,17 +33,4 @@ public class ApiFactory {
     public static <S> S createService2(Class<S> serviceClass) {
         return getRetrofit2().create(serviceClass);
     }
-
-    /*@NonNull
-    private static Retrofit getRetrofit() {
-        return new Retrofit.Builder()
-            .baseUrl(TMDB_API_ENDPOINT)
-            .addConverterFactory(GsonConverterFactory.create(GSON)) // todo Change date!
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
-            .build();
-    }*/
-
-    /*public static <S> S createService(Class<S> serviceClass) {
-        return getRetrofit().create(serviceClass);
-    }*/
 }

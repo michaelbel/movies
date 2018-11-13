@@ -1,13 +1,13 @@
-package org.michaelbel.tmdb.v3.json;
+package org.michaelbel.moviemade.data;
 
 import com.google.gson.annotations.SerializedName;
 
+import org.michaelbel.moviemade.data.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Language;
 import org.michaelbel.moviemade.rest.model.v3.Collection;
 import org.michaelbel.moviemade.rest.model.v3.Company;
 import org.michaelbel.moviemade.rest.model.v3.Country;
 import org.michaelbel.moviemade.rest.model.v3.Genre;
-import org.michaelbel.tmdb.TmdbObject;
 
 import java.io.Serializable;
 import java.util.List;

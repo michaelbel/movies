@@ -3,7 +3,7 @@ package org.michaelbel.moviemade.modules_beta.person;
 import android.view.ViewGroup;
 
 import org.michaelbel.material.widget.Holder;
-import org.michaelbel.tmdb.TmdbObject;
+import org.michaelbel.moviemade.data.TmdbObject;
 import org.michaelbel.moviemade.rest.model.Cast;
 import org.michaelbel.moviemade.modules_beta.view.PersonView;
 

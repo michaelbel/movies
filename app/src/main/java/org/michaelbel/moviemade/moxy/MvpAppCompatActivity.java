@@ -1,4 +1,4 @@
-package org.michaelbel.moxy.android;
+package org.michaelbel.moviemade.moxy;
 
 import android.os.Bundle;
 

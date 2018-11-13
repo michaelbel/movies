@@ -14,8 +14,8 @@ import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.bumptech.glide.request.transition.Transition;
 
+import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.Url;
 import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 
@@ -61,7 +61,7 @@ public class MovieViewPoster extends FrameLayout {
 
         Glide.with(getContext())
                 .asBitmap()
-                .load(String.format(Locale.US, Url.TMDB_IMAGE, AndroidUtils.posterSize(), posterPath))
+                .load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, AndroidUtils.posterSize(), posterPath))
                 .apply(options)
                 .into(new BitmapImageViewTarget(posterImage) {
                     @Override

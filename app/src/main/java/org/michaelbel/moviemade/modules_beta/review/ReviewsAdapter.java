@@ -3,7 +3,7 @@ package org.michaelbel.moviemade.modules_beta.review;
 import android.view.ViewGroup;
 
 import org.michaelbel.material.widget.Holder;
-import org.michaelbel.tmdb.TmdbObject;
+import org.michaelbel.moviemade.data.TmdbObject;
 import org.michaelbel.moviemade.rest.model.v3.Review;
 import org.michaelbel.moviemade.modules_beta.view.ReviewView;
 
