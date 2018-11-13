@@ -7,11 +7,11 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
 
 import org.michaelbel.moviemade.BuildConfig;
+import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.Moviemade;
-import org.michaelbel.moviemade.Url;
 import org.michaelbel.moviemade.extensions.AndroidExtensions;
 import org.michaelbel.moviemade.rest.api.MOVIES;
-import org.michaelbel.tmdb.v3.json.Movie;
+import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.NetworkUtils;
 
@@ -34,19 +34,19 @@ public class MoviePresenter extends MvpPresenter<MovieMvp> {
 
     public void setMovieDetailsFromExtra(Movie movie) {
         RequestOptions options = new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).priority(Priority.HIGH);
-        getViewState().setPoster(options, movie.posterPath);
+        getViewState().setPoster(options, movie.getPosterPath());
 
-        getViewState().setMovieTitle(movie.title);
+        getViewState().setMovieTitle(movie.getTitle());
 
-        getViewState().setOverview(movie.overview);
+        getViewState().setOverview(movie.getOverview());
 
-        getViewState().setVoteAverage(movie.voteAverage);
+        getViewState().setVoteAverage(movie.getVoteAverage());
 
-        getViewState().setVoteCount(movie.voteCount);
+        getViewState().setVoteCount(movie.getVoteCount());
 
-        getViewState().setReleaseDate(AndroidExtensions.formatReleaseDate(movie.releaseDate));
+        getViewState().setReleaseDate(AndroidExtensions.formatReleaseDate(movie.getReleaseDate()));
 
-        getViewState().setOriginalLanguage(AndroidUtils.formatOriginalLanguage(movie.originalLanguage));
+        getViewState().setOriginalLanguage(AndroidUtils.formatOriginalLanguage(movie.getOriginalLanguage()));
 
         getViewState().setWatching(false);
     }
@@ -59,12 +59,12 @@ public class MoviePresenter extends MvpPresenter<MovieMvp> {
 
         Moviemade.getComponent().injest(this);
         MOVIES service = retrofit.create(MOVIES.class);
-        Observable<Movie> observable = service.getDetails(movieId, BuildConfig.TMDB_API_KEY, Url.en_US, null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<Movie> observable = service.getDetails(movieId, BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<Movie>() {
             @Override
             public void onNext(Movie movie) {
-                getViewState().setRuntime((movie.runtime != 0 ? AndroidExtensions.formatRuntime(movie.runtime) : null));
-                getViewState().setTagline(movie.tagline);
+                getViewState().setRuntime((movie.getRuntime() != 0 ? AndroidExtensions.formatRuntime(movie.getRuntime()) : null));
+                getViewState().setTagline(movie.getTagline());
 
                 getViewState().showComplete(movie);
             }

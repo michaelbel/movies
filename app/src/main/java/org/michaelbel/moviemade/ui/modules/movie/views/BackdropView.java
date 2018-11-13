@@ -14,7 +14,10 @@ import com.bumptech.glide.Glide;
 
 import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.material.widget.LayoutHelper;
+import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.R;
+
+import java.util.Locale;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -78,10 +81,7 @@ public class BackdropView extends FrameLayout {
     }
 
     public void setImage(String path) {
-        Glide.with(getContext())
-             .load("http://image.tmdb.org/t/p/original/" + path)
-             .thumbnail(0.1F)
-             .into(backdropImage);
+        Glide.with(getContext()).load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, "original", path)).thumbnail(0.1F).into(backdropImage);
     }
 
     public void setLabel(String text) {

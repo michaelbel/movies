@@ -3,7 +3,7 @@ package org.michaelbel.moviemade.ui.modules.movie;
 import com.arellomobile.mvp.MvpView;
 import com.bumptech.glide.request.RequestOptions;
 
-import org.michaelbel.tmdb.v3.json.Movie;
+import org.michaelbel.moviemade.data.dao.Movie;
 
 public interface MovieMvp extends MvpView {
 

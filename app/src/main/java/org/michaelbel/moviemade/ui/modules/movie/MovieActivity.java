@@ -16,15 +16,15 @@ import com.alexvasilkov.gestures.views.GestureImageView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.Url;
 import org.michaelbel.moviemade.browser.Browser;
 import org.michaelbel.moviemade.extensions.DeviceUtil;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.ui.modules.main.views.appbar.AppBarState;
 import org.michaelbel.moviemade.ui.modules.main.views.appbar.AppBarStateChangeListener;
 import org.michaelbel.moviemade.ui.modules.movie.views.BackdropView;
-import org.michaelbel.tmdb.v3.json.Movie;
+import org.michaelbel.moviemade.data.dao.Movie;
 
 import java.util.Locale;
 
@@ -63,8 +63,6 @@ public class MovieActivity extends BaseActivity {
     @BindView(R.id.collapsing_layout)
     public CollapsingToolbarLayout collapsingToolbarLayout;
 
-
-
     @BindView(R.id.demo_full_background)
     public View fullBackground;
 
@@ -86,25 +84,11 @@ public class MovieActivity extends BaseActivity {
         setContentView(R.layout.activity_movie);
         ButterKnife.bind(this);
 
-        movie = new Movie();
-        movie.id =  getIntent().getIntExtra("id", 0);
-        movie.title = getIntent().getStringExtra("title");
-        movie.backdropPath = getIntent().getStringExtra("backdropPath");
-        movie.posterPath = getIntent().getStringExtra("posterPath");
-        movie.overview = getIntent().getStringExtra("overview");
-        movie.voteAverage = getIntent().getFloatExtra("voteAverage", 0);
-        movie.voteCount = getIntent().getIntExtra("voteCount", 0);
-        movie.adult = getIntent().getBooleanExtra("adult", false);
-        movie.video = getIntent().getBooleanExtra("video", false);
-        movie.releaseDate = getIntent().getStringExtra("releaseDate");
-        //movie.genreIds = getIntent().getIntegerArrayListExtra("genreIds");
-        movie.originalTitle = getIntent().getStringExtra("originalTitle");
-        movie.originalLanguage = getIntent().getStringExtra("originalLanguage");
-        movie.popularity = getIntent().getDoubleExtra("popularity", 0);
+        movie = (Movie) getIntent().getSerializableExtra("movie");
 
         MovieFragment fragment = (MovieFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
         fragment.presenter.setMovieDetailsFromExtra(movie);
-        fragment.presenter.loadMovieDetails(movie.id);
+        fragment.presenter.loadMovieDetails(movie.getId());
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.primary));
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -120,15 +104,15 @@ public class MovieActivity extends BaseActivity {
             @Override
             public void onStateChanged(AppBarLayout appBarLayout, AppBarState state) {
                 if (state == AppBarState.COLLAPSED) {
-                    toolbarTitle.setText(movie.title);
+                    toolbarTitle.setText(movie.getTitle());
                 } else {
                     toolbarTitle.setText(null);
                 }
             }
         });
 
-        toolbarTitle.setText(movie.title);
-        backdropImage.setImage(movie.backdropPath);
+        toolbarTitle.setText(movie.getTitle());
+        backdropImage.setImage(movie.getBackdropPath());
 
         collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(this, R.color.primary));
         collapsingToolbarLayout.setStatusBarScrimColor(ContextCompat.getColor(this, android.R.color.transparent));
@@ -175,10 +159,10 @@ public class MovieActivity extends BaseActivity {
 
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, Url.TMDB_MOVIE, movie.id));
+            intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, ConstantsKt.TMDB_MOVIE, movie.getId()));
             startActivity(Intent.createChooser(intent, getString(R.string.ShareVia)));
         } else if (item == menu_tmdb) {
-            Browser.openUrl(this, String.format(Locale.US, Url.TMDB_MOVIE, movie.id));
+            Browser.openUrl(this, String.format(Locale.US, ConstantsKt.TMDB_MOVIE, movie.getId()));
         } /*else if (item == menu_imdb) {
             Browser.openUrl(context, String.format(Locale.US, Url.IMDB_MOVIE, movie.imdbId));
         }*/

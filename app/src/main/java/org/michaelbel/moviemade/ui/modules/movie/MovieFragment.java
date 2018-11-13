@@ -27,16 +27,16 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.Url;
 import org.michaelbel.moviemade.extensions.AndroidExtensions;
 import org.michaelbel.moviemade.room.dao.MovieDao;
 import org.michaelbel.moviemade.room.database.MoviesDatabase;
 import org.michaelbel.moviemade.ui.modules.movie.views.RatingView;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
-import org.michaelbel.moxy.android.MvpAppCompatFragment;
-import org.michaelbel.tmdb.v3.json.Movie;
+import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.data.dao.Movie;
 
 import java.util.Locale;
 
@@ -178,10 +178,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
         this.posterPath = posterPath;
 
         posterImage.setVisibility(VISIBLE);
-        Glide.with(activity)
-             .load(String.format(Locale.US, Url.TMDB_IMAGE, "w342", posterPath))
-             .thumbnail(0.1F)
-             .into(posterImage);
+        Glide.with(activity).load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, "w342", posterPath)).thumbnail(0.1F).into(posterImage);
     }
 
     @Override
@@ -307,7 +304,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
 
                     activity.fullImage.setVisibility(position == 0f && isLeaving ? View.INVISIBLE : View.VISIBLE);
 
-                    Glide.with(activity).load(String.format(Locale.US, Url.TMDB_IMAGE, "original", posterPath)).thumbnail(0.1F).into(activity.fullImage);
+                    Glide.with(activity).load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, "original", posterPath)).thumbnail(0.1F).into(activity.fullImage);
 
                     if (position == 0f && isLeaving) {
                         activity.showSystemStatusBar(true);
@@ -327,16 +324,15 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
                 .setOverscrollDistance(activity, 32F, 32F)
                 .setOverzoomFactor(Settings.OVERZOOM_FACTOR)
                 .setFillViewport(true);
-
             activity.imageAnimator.enterSingle(true);
         }
     }
 
     void addToRoom() {
         org.michaelbel.moviemade.room.entity.Movie movie = new org.michaelbel.moviemade.room.entity.Movie();
-        movie.movieId = watchMovie.id;
-        movie.posterPath = watchMovie.posterPath;
-        movie.title = watchMovie.title;
+        movie.movieId = watchMovie.getId();
+        movie.posterPath = watchMovie.getPosterPath();
+        movie.title = watchMovie.getTitle();
 
         AsyncTask.execute(new Runnable() {
             @Override
@@ -356,7 +352,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
 
             if (networkInfo != null && networkInfo.isConnected()) {
                 if (connectionError) {
-                    presenter.loadMovieDetails(activity.movie.id);
+                    presenter.loadMovieDetails(activity.movie.getId());
                 }
             }
         }
