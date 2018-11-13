@@ -18,9 +18,9 @@ import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.ui.adapters.PaginationMoviesAdapter;
 import org.michaelbel.moviemade.modules_beta.view.widget.PaddingItemDecoration;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moxy.android.MvpAppCompatFragment;
-import org.michaelbel.tmdb.TmdbObject;
-import org.michaelbel.tmdb.v3.json.Movie;
+import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.data.TmdbObject;
+import org.michaelbel.moviemade.data.dao.Movie;
 
 import java.util.List;
 
@@ -152,7 +152,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
     }
 
     @Override
-    public void showResults(List<TmdbObject> results, boolean firstPage) {
+    public void showResults(List<Movie> results, boolean firstPage) {
         if (firstPage) {
             progressBar.setVisibility(View.GONE);
             adapter.addAll(results);
