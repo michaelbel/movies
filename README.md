@@ -14,8 +14,9 @@
 [minsdk-badge]:     https://img.shields.io/badge/minSdkVersion-21-F3745F.svg
 
 <!------------------------------------------------------------------------------------------------------------------------------------>
+<img src="/screenshots/mockup.png"/>
 
-<p align="center">
+<p align="left">
   <img src="../master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"/>
 </p>
 
