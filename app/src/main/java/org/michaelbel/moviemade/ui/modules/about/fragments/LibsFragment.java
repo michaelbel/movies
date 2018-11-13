@@ -7,8 +7,8 @@ import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.browser.Browser;
-import org.michaelbel.moviemade.model.Source;
 import org.michaelbel.moviemade.ui.modules.about.AboutActivity;
+import org.michaelbel.moviemade.ui.modules.about.Source;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 
 import java.util.ArrayList;
@@ -72,7 +72,7 @@ public class LibsFragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setOnItemClickListener((v, position) -> Browser.openUrl(activity, adapter.sources.get(position).url));
+        recyclerView.setOnItemClickListener((v, position) -> Browser.openUrl(activity, adapter.sources.get(position).getUrl()));
         /*recyclerView.setOnItemLongClickListener((v, position) -> {
             BottomSheet.Builder builder = new BottomSheet.Builder(activity);
             builder.setCellHeight(Extensions.dp(activity, 52));
@@ -127,8 +127,8 @@ public class LibsFragment extends Fragment {
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             Source source = sources.get(position);
 
-            textView.setText(source.name);
-            valueView.setText(source.license);
+            textView.setText(source.getName());
+            valueView.setText(source.getLicense());
             dividerView.setVisibility(position != sources.size() - 1 ? View.VISIBLE : View.INVISIBLE);
         }
 
