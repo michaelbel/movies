@@ -27,6 +27,9 @@
     <string name="speak_now">Speak now</string>
     <string name="settings">Settings</string>
     <string name="favorites">Favorites</string>
+    <string name="now_playing">Now Playing</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="upcoming">Upcoming</string>
 
 
 
@@ -38,12 +41,8 @@
     <string name="LanguageNameInEnglish">English</string>
     <string name="LanguageCode">en</string>
     <!--Main-->
-    <string name="NowPlaying">Now Playing</string>
-    <string name="Popular">Popular</string>
-    <string name="TopRated">Top Rated</string>
-    <string name="Upcoming">Upcoming</string>
     <string name="NoMovies">No movies</string>
-
+    <string name="Popular">Popular</string>
     <string name="Genres">Genres</string>
     <string name="LoadingGenres">Loading genres…</string>
     <string name="Favorites">Favorites</string>

@@ -19,7 +19,7 @@
         android:layout_gravity="top|end"
         app:bnbAutoHideEnabled="true"/>
 
-    <org.michaelbel.bottombar.BottomNavigationBar
+    <org.michaelbel.moviemade.ui.widgets.bottombar.BottomNavigationBar
         android:id="@+id/bottom_navigation_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
