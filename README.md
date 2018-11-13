@@ -52,6 +52,7 @@ https://www.youtube.com/watch?v=H5auyhQU9fU
 * [**AndroidYouTubePlayer**](https://github.com/PierfrancescoSoffritti/android-youtube-player) for playing videos
 * [**Room**](https://developer.android.com/topic/libraries/architecture/room.html) database
 * [**Espresso**](https://google.github.io/android-testing-support-library/docs/espresso/) for UI tests
+* [**Kotlin**](https://github.com/JetBrains/kotlin) for simplicity
 
 ## License
     Copyright 2017 Michael Bely
