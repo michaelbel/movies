@@ -4,7 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import org.michaelbel.moviemade.data.TmdbObject;
 import org.michaelbel.moviemade.data.dao.Movie;
 
 import java.util.ArrayList;
@@ -15,15 +14,15 @@ public class PaginationAdapter extends RecyclerView.Adapter {
 
     protected final int ITEM_BACKDROP = 0;
 
-    protected List<Movie> objectList;
+    protected List<Movie> movies;
     protected boolean isLoadingAdded = false;
 
     public PaginationAdapter() {
-        objectList = new ArrayList<>();
+        movies = new ArrayList<>();
     }
 
     public List<Movie> getList() {
-        return objectList;
+        return movies;
     }
 
     @NonNull
@@ -37,7 +36,7 @@ public class PaginationAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemCount() {
-        return objectList != null ? objectList.size() : 0;
+        return movies != null ? movies.size() : 0;
     }
 
     @Override
@@ -46,15 +45,15 @@ public class PaginationAdapter extends RecyclerView.Adapter {
     }
 
     public void add(Movie object) {
-        objectList.add(object);
-        notifyItemInserted(objectList.size() - 1);
+        movies.add(object);
+        notifyItemInserted(movies.size() - 1);
     }
 
     private void remove(Movie collection) {
-        int position = objectList.indexOf(collection);
+        int position = movies.indexOf(collection);
 
         if (position > -1) {
-            objectList.remove(position);
+            movies.remove(position);
             notifyItemRemoved(position);
         }
     }
@@ -68,7 +67,7 @@ public class PaginationAdapter extends RecyclerView.Adapter {
     }
 
     private Movie getItem(int position) {
-        return objectList.get(position);
+        return movies.get(position);
     }
 
     public boolean isEmpty() {
@@ -78,11 +77,11 @@ public class PaginationAdapter extends RecyclerView.Adapter {
     public void removeLoadingFooter() {
         isLoadingAdded = false;
 
-        int position = objectList.size() - 1;
+        int position = movies.size() - 1;
         Movie result = getItem(position);
 
         if (result != null) {
-            objectList.remove(position);
+            movies.remove(position);
             notifyItemRemoved(position);
         }
     }
