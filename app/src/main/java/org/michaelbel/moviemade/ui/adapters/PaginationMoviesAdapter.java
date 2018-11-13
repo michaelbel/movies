@@ -22,7 +22,6 @@ import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.ui.base.PaginationAdapter;
 import org.michaelbel.moviemade.modules_beta.view.movie.MovieViewListBig;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.data.TmdbObject;
 import org.michaelbel.moviemade.data.dao.Movie;
 
 import java.util.List;
@@ -60,7 +59,7 @@ public class PaginationMoviesAdapter extends PaginationAdapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        Movie movie = (Movie) objectList.get(position);
+        Movie movie = movies.get(position);
 
         if (getItemViewType(position) == ITEM_BACKDROP) {
             MovieViewListBig view = (MovieViewListBig) ((Holder) holder).itemView;
