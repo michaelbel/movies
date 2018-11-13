@@ -4,10 +4,10 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.BuildConfig;
-import org.michaelbel.moviemade.Url;
+import org.michaelbel.moviemade.ConstantsKt;
+import org.michaelbel.moviemade.data.dao.VideosResponse;
 import org.michaelbel.moviemade.rest.ApiFactory;
 import org.michaelbel.moviemade.rest.api.MOVIES;
-import org.michaelbel.moviemade.rest.response.TrailersResponse;
 import org.michaelbel.moviemade.utils.NetworkUtils;
 
 import io.reactivex.Observable;
@@ -21,18 +21,18 @@ public class TrailersPresenter extends MvpPresenter<TrailersMvp> {
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
-    public void loadTrailers(int movieId) {
+    void loadTrailers(int movieId) {
         if (NetworkUtils.notConnected()) {
             getViewState().showError();
             return;
         }
 
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<TrailersResponse> observable = service.getVideos(movieId, BuildConfig.TMDB_API_KEY, Url.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<TrailersResponse>() {
+        Observable<VideosResponse> observable = service.getVideos(movieId, BuildConfig.TMDB_API_KEY, ConstantsKt.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposables.add(observable.subscribeWith(new DisposableObserver<VideosResponse>() {
             @Override
-            public void onNext(TrailersResponse response) {
-                getViewState().setTrailers(response.trailers);
+            public void onNext(VideosResponse response) {
+                getViewState().setTrailers(response.getTrailers());
             }
 
             @Override

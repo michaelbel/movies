@@ -13,15 +13,16 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.annotation.EmptyViewMode;
+import org.michaelbel.moviemade.data.dao.Video;
 import org.michaelbel.moviemade.extensions.DeviceUtil;
-import org.michaelbel.moviemade.rest.model.v3.Trailer;
 import org.michaelbel.moviemade.ui.modules.trailers.dialog.YoutubePlayerDialogFragment;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.modules_beta.view.widget.PaddingItemDecoration;
-import org.michaelbel.moxy.android.MvpAppCompatFragment;
+import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -91,8 +92,8 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setPadding(0, DeviceUtil.dp(activity,2), 0, DeviceUtil.dp(activity,2));
         recyclerView.setOnItemClickListener((v, position) -> {
-            Trailer trailer = adapter.trailers.get(position);
-            YoutubePlayerDialogFragment dialog = YoutubePlayerDialogFragment.newInstance(String.valueOf(Uri.parse(trailer.key)));
+            Video trailer = adapter.trailers.get(position);
+            YoutubePlayerDialogFragment dialog = YoutubePlayerDialogFragment.newInstance(String.valueOf(Uri.parse(trailer.getKey())));
             dialog.show(activity.getSupportFragmentManager(), YOUTUBE_DIALOG_FRAGMENT_TAG);
             //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailer.key)));
         });
@@ -105,7 +106,7 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
     }
 
     @Override
-    public void setTrailers(ArrayList<Trailer> trailers) {
+    public void setTrailers(List<Video> trailers) {
         adapter.setTrailers(trailers);
         progressBar.setVisibility(View.GONE);
     }

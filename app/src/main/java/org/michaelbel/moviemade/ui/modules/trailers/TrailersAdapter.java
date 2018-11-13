@@ -7,14 +7,15 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
+import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.Theme;
-import org.michaelbel.moviemade.Url;
+import org.michaelbel.moviemade.data.dao.Video;
 import org.michaelbel.moviemade.extensions.DeviceUtil;
-import org.michaelbel.moviemade.rest.model.v3.Trailer;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
@@ -29,13 +30,13 @@ public class TrailersAdapter extends RecyclerView.Adapter {
     private AppCompatTextView trailerName;
     private AppCompatTextView qualityText;
 
-    public ArrayList<Trailer> trailers;
+    public ArrayList<Video> trailers;
 
-    public TrailersAdapter() {
+    TrailersAdapter() {
         trailers = new ArrayList<>();
     }
 
-    public void setTrailers(ArrayList<Trailer> results) {
+    public void setTrailers(List<Video> results) {
         trailers.addAll(results);
         notifyItemRangeInserted(trailers.size() + 1, results.size());
     }
@@ -59,22 +60,18 @@ public class TrailersAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-        Trailer trailer = trailers.get(position);
+        Video trailer = trailers.get(position);
 
-        trailerName.setText(trailer.name);
-        qualityText.setText(holder.itemView.getContext().getString(R.string.video_size, trailer.size));
+        trailerName.setText(trailer.getName());
+        qualityText.setText(holder.itemView.getContext().getString(R.string.video_size, String.valueOf(trailer.getSize())));
 
-        Glide.with(holder.itemView.getContext())
-             .load(String.format(Locale.US, Url.YOUTUBE_IMAGE, trailer.key))
-             .thumbnail(0.1F)
-             .into(stillImage);
+        Glide.with(holder.itemView.getContext()).load(String.format(Locale.US, ConstantsKt.YOUTUBE_IMAGE, trailer.getKey())).thumbnail(0.1F).into(stillImage);
 
-        if (trailer.site != null) {
-            if (trailer.site.equals("YouTube")) {
-                playerIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_youtube, ContextCompat.getColor(holder.itemView.getContext(), R.color.youtubeColor)));
-            } else {
-                playerIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_play_circle, ContextCompat.getColor(holder.itemView.getContext(), R.color.iconActive)));
-            }
+        trailer.getSite();
+        if (trailer.getSite().equals("YouTube")) {
+            playerIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_youtube, ContextCompat.getColor(holder.itemView.getContext(), R.color.youtubeColor)));
+        } else {
+            playerIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_play_circle, ContextCompat.getColor(holder.itemView.getContext(), R.color.iconActive)));
         }
     }
 
