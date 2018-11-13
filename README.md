@@ -14,8 +14,9 @@
 [minsdk-badge]:     https://img.shields.io/badge/minSdkVersion-21-F3745F.svg
 
 <!------------------------------------------------------------------------------------------------------------------------------------>
+<img src="/screenshots/mockup.png"/>
 
-<p align="center">
+<p align="left">
   <img src="../master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"/>
 </p>
 
@@ -31,17 +32,26 @@ Moviemade - quick and easy way to discover popular movies.
 ## Build
 Take a look at <b>`local.properties`</b> and fill it with [your own][tmdb-introduction] <b>tmdb_api_key</b>.
 
-## Libraries
- * [BottomSheet](https://github.com/michaelbel/BottomSheet)
- * [Gson](https://github.com/google/gson)
- * [Retrofit](https://github.com/square/retrofit)
- * [Picasso](https://github.com/square/picasso)
- * [RxJava](https://github.com/ReactiveX/RxJava)
- * [Moxy](https://github.com/Arello-Mobile/Moxy)
- * [GestureViews](https://github.com/alexvasilkov/GestureViews)
- * [ExpandableTextView](https://github.com/Blogcat/Android-ExpandableTextView)
- * [ChipsLayoutManager](https://github.com/BelooS/ChipsLayoutManager)
- * [AndroidAnimatedMenuItems](https://github.com/adonixis/android-animated-menu-items)
+## Screenshots
+| Explore | Search | Movie | Trailers |
+|:-:|:-:|:-:|:-:|
+| ![Explore](/screenshots/explore.png?raw=true) | ![Search](/screenshots/search.png?raw=true) | ![Movie](/screenshots/movie.png?raw=true) | ![Trailers](/screenshots/trailers.png?raw=true) |
+
+## Demo video
+https://www.youtube.com/watch?v=H5auyhQU9fU
+
+## Open-source libraries
+* [**Moxy**](https://github.com/Arello-Mobile/Moxy) MVP-architecture
+* [**Retrofit**](https://github.com/square/retrofit) for REST API communication
+* [**RxJava2**](https://github.com/ReactiveX/RxJava) for Retrofit & background threads
+* [**ButterKnife**](https://github.com/JakeWharton/butterknife) for view binding
+* [**Gson**](https://github.com/google/gson) to convert Java Objects into JSON and back
+* [**GestureViews**](https://github.com/alexvasilkov/GestureViews) for ImageView with gestures control
+* [**Glide**](https://github.com/bumptech/glide) for image loading
+* [**Dagger 2**](https://github.com/google/dagger) for dependency injection
+* [**AndroidYouTubePlayer**](https://github.com/PierfrancescoSoffritti/android-youtube-player) for playing videos
+* [**Room**](https://developer.android.com/topic/libraries/architecture/room.html) database
+* [**Espresso**](https://google.github.io/android-testing-support-library/docs/espresso/) for UI tests
 
 ## License
     Copyright 2017 Michael Bely
