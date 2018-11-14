@@ -46,7 +46,7 @@ https://www.youtube.com/watch?v=H5auyhQU9fU
 * [**RxJava2**](https://github.com/ReactiveX/RxJava) for Retrofit & background threads
 * [**ButterKnife**](https://github.com/JakeWharton/butterknife) for view binding
 * [**Gson**](https://github.com/google/gson) to convert Java Objects into JSON and back
-* [**GestureViews**](https://github.com/alexvasilkov/GestureViews) for ImageView with gestures control
+* [**GestureViews**](https://github.com/alexvasilkov/GestureViews) for gestures control
 * [**Glide**](https://github.com/bumptech/glide) for image loading
 * [**Dagger 2**](https://github.com/google/dagger) for dependency injection
 * [**AndroidYouTubePlayer**](https://github.com/PierfrancescoSoffritti/android-youtube-player) for playing videos
