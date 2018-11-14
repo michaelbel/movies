@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.annotation;
+package org.michaelbel.moviemade.utils;
 
 import androidx.annotation.IntDef;
 
@@ -6,13 +6,13 @@ import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-import static org.michaelbel.moviemade.annotation.EmptyViewMode.MODE_NO_CONNECTION;
-import static org.michaelbel.moviemade.annotation.EmptyViewMode.MODE_NO_HISTORY;
-import static org.michaelbel.moviemade.annotation.EmptyViewMode.MODE_NO_MOVIES;
-import static org.michaelbel.moviemade.annotation.EmptyViewMode.MODE_NO_PEOPLE;
-import static org.michaelbel.moviemade.annotation.EmptyViewMode.MODE_NO_RESULTS;
-import static org.michaelbel.moviemade.annotation.EmptyViewMode.MODE_NO_REVIEWS;
-import static org.michaelbel.moviemade.annotation.EmptyViewMode.MODE_NO_TRAILERS;
+import static org.michaelbel.moviemade.utils.EmptyViewMode.MODE_NO_CONNECTION;
+import static org.michaelbel.moviemade.utils.EmptyViewMode.MODE_NO_HISTORY;
+import static org.michaelbel.moviemade.utils.EmptyViewMode.MODE_NO_MOVIES;
+import static org.michaelbel.moviemade.utils.EmptyViewMode.MODE_NO_PEOPLE;
+import static org.michaelbel.moviemade.utils.EmptyViewMode.MODE_NO_RESULTS;
+import static org.michaelbel.moviemade.utils.EmptyViewMode.MODE_NO_REVIEWS;
+import static org.michaelbel.moviemade.utils.EmptyViewMode.MODE_NO_TRAILERS;
 
 @Retention(RetentionPolicy.CLASS)
 @IntDef({

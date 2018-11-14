@@ -1,8 +1,7 @@
-package org.michaelbel.moviemade.extensions;
+package org.michaelbel.moviemade.utils;
 
 import android.text.TextUtils;
 
-import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 
@@ -12,7 +11,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-public class AndroidExtensions extends Extensions {
+public class AndroidExtensions {
 
     public static String formatRuntime(int runtime) {
         String patternMin = "mm";

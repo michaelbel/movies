@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade;
+package org.michaelbel.moviemade.utils;
 
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.widget.FrameLayout;

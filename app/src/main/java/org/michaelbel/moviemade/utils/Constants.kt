@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade
+package org.michaelbel.moviemade.utils
 
 const val TMDB_MOVIE = "https://themoviedb.org/movie/%d"
 const val TMDB_PERSON = "https://themoviedb.org/person/%d"

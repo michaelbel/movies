@@ -9,6 +9,11 @@ import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
+import android.content.res.TypedArray
+import androidx.annotation.AttrRes
+import androidx.annotation.NonNull
+import org.michaelbel.moviemade.R
+
 
 object DrawableUtil {
 
@@ -40,5 +45,52 @@ object DrawableUtil {
         }
 
         return iconDrawable
+    }
+
+    fun getAttrColor(@NonNull context: Context, @AttrRes colorAttr: Int): Int {
+        var color = 0
+        val attrs = intArrayOf(colorAttr)
+
+        try {
+            val typedArray = context.obtainStyledAttributes(attrs)
+            color = typedArray.getColor(0, 0)
+            typedArray.recycle()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+
+        return color
+    }
+
+    fun selectableItemBackground(context: Context): Int {
+        val attrs = intArrayOf(R.attr.selectableItemBackground)
+        val typedArray = context.obtainStyledAttributes(attrs)
+        val backgroundResource = typedArray.getResourceId(0, 0)
+        typedArray.recycle()
+        return backgroundResource
+    }
+
+    fun selectableItemBackgroundBorderless(context: Context): Int {
+        val attrs = intArrayOf(R.attr.selectableItemBackgroundBorderless)
+        val typedArray = context.obtainStyledAttributes(attrs)
+        val backgroundResource = typedArray.getResourceId(0, 0)
+        typedArray.recycle()
+        return backgroundResource
+    }
+
+    fun selectableItemBackgroundDrawable(context: Context): Drawable? {
+        val attrs = intArrayOf(android.R.attr.selectableItemBackground)
+        val typedArray = context.obtainStyledAttributes(attrs)
+        val drawableFromTheme = typedArray.getDrawable(0)
+        typedArray.recycle()
+        return drawableFromTheme
+    }
+
+    fun selectableItemBackgroundBorderlessDrawable(context: Context): Drawable? {
+        val attrs = intArrayOf(android.R.attr.selectableItemBackgroundBorderless)
+        val typedArray = context.obtainStyledAttributes(attrs)
+        val drawableFromTheme = typedArray.getDrawable(0)
+        typedArray.recycle()
+        return drawableFromTheme
     }
 }
