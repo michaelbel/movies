@@ -53,6 +53,7 @@ https://www.youtube.com/watch?v=H5auyhQU9fU
 * [**Room**](https://developer.android.com/topic/libraries/architecture/room.html) database
 * [**Espresso**](https://google.github.io/android-testing-support-library/docs/espresso/) for UI tests
 * [**Kotlin**](https://github.com/JetBrains/kotlin) for simplicity
+* [**AndroidAnimatedMenuItems**](https://github.com/adonixis/android-animated-menu-items) for menu items
 
 ## License
     Copyright 2017 Michael Bely
