@@ -46,14 +46,16 @@ https://www.youtube.com/watch?v=H5auyhQU9fU
 * [**RxJava2**](https://github.com/ReactiveX/RxJava) for Retrofit & background threads
 * [**ButterKnife**](https://github.com/JakeWharton/butterknife) for view binding
 * [**Gson**](https://github.com/google/gson) to convert Java Objects into JSON and back
-* [**GestureViews**](https://github.com/alexvasilkov/GestureViews) for ImageView with gestures control
+* [**GestureViews**](https://github.com/alexvasilkov/GestureViews) for gestures control
 * [**Glide**](https://github.com/bumptech/glide) for image loading
-* [**Dagger 2**](https://github.com/google/dagger) for dependency injection
+* [**Dagger2**](https://github.com/google/dagger) for dependency injection
 * [**AndroidYouTubePlayer**](https://github.com/PierfrancescoSoffritti/android-youtube-player) for playing videos
 * [**Room**](https://developer.android.com/topic/libraries/architecture/room.html) database
 * [**Espresso**](https://google.github.io/android-testing-support-library/docs/espresso/) for UI tests
 * [**Kotlin**](https://github.com/JetBrains/kotlin) for simplicity
 * [**AndroidAnimatedMenuItems**](https://github.com/adonixis/android-animated-menu-items) for menu items
+* [**BottomNavigation**](https://github.com/Ashok-Varma/BottomNavigation) for BottomBar tabs
+* [**ChipsLayoutManager**](https://github.com/BelooS/ChipsLayoutManager) for keywords
 
 ## License
     Copyright 2017 Michael Bely
