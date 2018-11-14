@@ -1,35 +1,18 @@
 package org.michaelbel.moviemade.extensions;
 
-import android.annotation.TargetApi;
-import android.content.Context;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.text.TextUtils;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 
-import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import androidx.annotation.DrawableRes;
-import androidx.core.content.ContextCompat;
-
 public class AndroidExtensions extends Extensions {
-
-    /*public static AppBarLayout.LayoutParams setScrollFlags(View view) {
-        AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) view.getLayoutParams();
-        params.setScrollFlags(AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS | AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP);
-        return params;
-    }*/
 
     public static String formatRuntime(int runtime) {
         String patternMin = "mm";
@@ -148,35 +131,5 @@ public class AndroidExtensions extends Extensions {
         }
 
         return age;
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
-    public static void clearCursorDrawable(EditText editText) {
-        if (editText == null) {
-            return;
-        }
-
-        try {
-            Field mCursorDrawableRes = TextView.class.getDeclaredField("mCursorDrawableRes");
-            mCursorDrawableRes.setAccessible(true);
-            mCursorDrawableRes.setInt(editText, 0);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public static Drawable getIcon(Context context, @DrawableRes int resource, int colorFilter) {
-        return getIcon(context, resource, colorFilter, PorterDuff.Mode.MULTIPLY);
-    }
-
-    public static Drawable getIcon(Context context, @DrawableRes int resource, int colorFilter, PorterDuff.Mode mode) {
-        Drawable iconDrawable = ContextCompat.getDrawable(context, resource);
-
-        if (iconDrawable != null) {
-            iconDrawable.clearColorFilter();
-            iconDrawable.mutate().setColorFilter(colorFilter, mode);
-        }
-
-        return iconDrawable;
     }
 }
