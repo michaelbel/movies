@@ -1,12 +1,12 @@
 package org.michaelbel.moviemade.rest.api;
 
 import org.michaelbel.moviemade.data.dao.Movie;
+import org.michaelbel.moviemade.data.dao.ReviewsResponse;
 import org.michaelbel.moviemade.data.dao.VideosResponse;
 import org.michaelbel.moviemade.rest.response.CreditResponse;
 import org.michaelbel.moviemade.rest.response.ImageResponse;
 import org.michaelbel.moviemade.rest.response.KeywordResponse;
 import org.michaelbel.moviemade.rest.response.MovieResponse;
-import org.michaelbel.moviemade.rest.response.ReviewResponse;
 
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -102,7 +102,7 @@ public interface MOVIES {
     );
 
     @GET("movie/{movie_id}/reviews?")
-    Observable<ReviewResponse> getReviews(
+    Observable<ReviewsResponse> getReviews(
         @Path("movie_id") int id,
         @Query("api_key") String apiKey,
         @Query("language") String language,
