@@ -30,6 +30,7 @@
     <string name="now_playing">Now Playing</string>
     <string name="top_rated">Top Rated</string>
     <string name="upcoming">Upcoming</string>
+    <string name="reviews">Reviews</string>
 
 
 
@@ -110,7 +111,7 @@
     <string name="AddToWatchlist">Add to Watchlist</string>
     <string name="RemoveFromWatchList">Remove from Watchlist</string>
     <!--Reviews-->
-    <string name="Reviews">Reviews</string>
+
     <string name="NoReviews">No Reviews</string>
     <string name="ReviewAuthor">Review by %1$s</string>
     <string name="OpenReviewUrl">Open Review url</string>

@@ -288,7 +288,6 @@
             android:id="@+id/trailers_layout"
             android:layout_width="match_parent"
             android:layout_height="48dp"
-            android:layout_marginBottom="16dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:foreground="?attr/selectableItemBackground">
@@ -299,7 +298,7 @@
                 android:layout_height="24dp"
                 android:layout_gravity="start|center_vertical"
                 android:contentDescription="@string/image_description"
-                android:src="@drawable/ic_play_box_outline"/>
+                android:src="@drawable/ic_play_circle"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/trailers_text"
@@ -312,6 +311,37 @@
                 android:fontFamily="sans-serif-medium"
                 android:maxLines="1"
                 android:text="@string/trailers"/>
+
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/reviews_layout"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:foreground="?attr/selectableItemBackground">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/reviews_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="start|center_vertical"
+                android:contentDescription="@string/image_description"
+                android:src="@drawable/ic_review"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/reviews_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="40dp"
+                android:textSize="16sp"
+                android:textColor="@color/primaryText"
+                android:fontFamily="sans-serif-medium"
+                android:maxLines="1"
+                android:text="@string/reviews"/>
 
         </FrameLayout>
 
