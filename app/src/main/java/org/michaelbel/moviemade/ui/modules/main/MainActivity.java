@@ -5,11 +5,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageView;
 
+import org.michaelbel.moviemade.extensions.DeviceUtil;
 import org.michaelbel.moviemade.ui.widgets.bottombar.BottomNavigationBar;
 import org.michaelbel.moviemade.ui.widgets.bottombar.BottomNavigationItem;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.extensions.DeviceUtil;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.ui.modules.main.fragments.NowPlayingFragment;
 import org.michaelbel.moviemade.ui.modules.main.fragments.TopRatedFragment;
@@ -37,17 +37,10 @@ public class MainActivity extends BaseActivity {
     @Inject
     SharedPreferences sharedPreferences;
 
-    @BindView(R.id.topbar)
-    public TopBar topbar;
-
-    @BindView(R.id.search_icon)
-    public ImageView searchIcon;
-
-    @BindView(R.id.settings_icon)
-    public ImageView settingsIcon;
-
-    @BindView(R.id.bottom_navigation_bar)
-    public BottomNavigationBar bottomBar;
+    @BindView(R.id.topbar) TopBar topbar;
+    @BindView(R.id.search_icon) ImageView searchIcon;
+    @BindView(R.id.settings_icon) ImageView settingsIcon;
+    @BindView(R.id.bottom_navigation_bar) BottomNavigationBar bottomBar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -60,7 +53,7 @@ public class MainActivity extends BaseActivity {
         topbar.setTitle(R.string.app_name);
 
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) topbar.getLayoutParams();
-        params.topMargin = DeviceUtil.getStatusBarHeight(this);
+        params.topMargin = DeviceUtil.INSTANCE.getStatusBarHeight(this);
 
         searchIcon.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SearchActivity.class)));
         settingsIcon.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, SettingsActivity.class)));
