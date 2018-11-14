@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.extensions
+package org.michaelbel.moviemade.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
