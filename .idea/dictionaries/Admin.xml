@@ -2,6 +2,7 @@
   <dictionary name="Admin">
     <words>
       <w>butterknife</w>
+      <w>injest</w>
       <w>rxjava</w>
     </words>
   </dictionary>
