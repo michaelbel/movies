@@ -133,7 +133,7 @@ public class SettingsFragment extends Fragment {
 
             if (type == 1) {
                 TextCell cell = (TextCell) holder.itemView;
-                cell.setHeight(DeviceUtil.dp(holder.itemView.getContext(), 52));
+                cell.setHeight(DeviceUtil.INSTANCE.dp(holder.itemView.getContext(), 52));
 
                 if (position == aboutRow) {
                     cell.setMode(TextCell.MODE_DEFAULT);

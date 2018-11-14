@@ -1,16 +1,16 @@
 package org.michaelbel.moviemade.modules_beta.keywords;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import org.michaelbel.material.widget.Holder;
 import org.michaelbel.moviemade.data.TmdbObject;
-import org.michaelbel.moviemade.rest.model.v3.Keyword;
-import org.michaelbel.moviemade.ui.base.PaginationAdapter;
 import org.michaelbel.moviemade.modules_beta.view.cell.TextCell;
+import org.michaelbel.moviemade.ui.base.PaginationAdapter;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class PaginationKeywordsAdapter extends PaginationAdapter {
 
@@ -28,7 +28,7 @@ public class PaginationKeywordsAdapter extends PaginationAdapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        /*Keyword keyword = (Keyword) objectList.get(position);
+        /*Keyword keyword = (Keyword) parts.get(position);
 
         if (getItemViewType(position) == ITEM_BACKDROP) {
             TextCell cell = (TextCell) ((Holder) holder).itemView;

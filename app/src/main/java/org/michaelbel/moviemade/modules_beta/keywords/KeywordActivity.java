@@ -1,14 +1,15 @@
 package org.michaelbel.moviemade.modules_beta.keywords;
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import android.widget.TextView;
 
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.data.dao.Keyword;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
-import org.michaelbel.moviemade.rest.model.v3.Keyword;
 import org.michaelbel.moviemade.utils.AndroidUtilsDev;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 
 public class KeywordActivity extends BaseActivity {
 
@@ -29,8 +30,8 @@ public class KeywordActivity extends BaseActivity {
         toolbar.setNavigationOnClickListener(view -> finish());
 
         toolbarTitle = findViewById(R.id.toolbar_title);
-        toolbarTitle.setText(keyword.name);
+        toolbarTitle.setText(keyword.getName());
 
-        startFragment(KeywordMoviesFragment.newInstance(keyword.id), R.id.fragment_view);
+        startFragment(KeywordMoviesFragment.newInstance(keyword.getId()), R.id.fragment_view);
     }
 }

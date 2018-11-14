@@ -1,11 +1,6 @@
 package org.michaelbel.moviemade.ui.modules.movie;
 
-import android.content.Intent;
-import android.graphics.drawable.Animatable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -16,17 +11,13 @@ import com.alexvasilkov.gestures.views.GestureImageView;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
-import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.browser.Browser;
+import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.extensions.DeviceUtil;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.ui.modules.main.views.appbar.AppBarState;
 import org.michaelbel.moviemade.ui.modules.main.views.appbar.AppBarStateChangeListener;
 import org.michaelbel.moviemade.ui.modules.movie.views.BackdropView;
-import org.michaelbel.moviemade.data.dao.Movie;
-
-import java.util.Locale;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
@@ -39,44 +30,21 @@ import butterknife.ButterKnife;
 @SuppressWarnings("all")
 public class MovieActivity extends BaseActivity {
 
+    public static final String KEY_MOVIE = "movie";
+
     public Movie movie;
-
-    private Menu actionMenu;
-    private MenuItem menu_share;
-    private MenuItem menu_tmdb;
-    private MenuItem menu_imdb;
-
     public ViewsTransitionAnimator imageAnimator;
 
-    @BindView(R.id.toolbar)
-    public Toolbar toolbar;
-
-    @BindView(R.id.app_bar)
-    public AppBarLayout appBar;
-
-    @BindView(R.id.toolbar_title)
-    public TextView toolbarTitle;
-
-    @BindView(R.id.backdrop_image)
-    public BackdropView backdropImage;
-
-    @BindView(R.id.collapsing_layout)
-    public CollapsingToolbarLayout collapsingToolbarLayout;
-
-    @BindView(R.id.demo_full_background)
-    public View fullBackground;
-
-    @BindView(R.id.demo_pager)
-    public ViewPager viewPager;
-
-    @BindView(R.id.demo_pager_title)
-    public AppCompatTextView titleText;
-
-    @BindView(R.id.full_image)
-    public GestureImageView fullImage;
-
-    @BindView(R.id.full_image_toolbar)
-    public Toolbar fullImageToolbar;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.app_bar) AppBarLayout appBar;
+    @BindView(R.id.toolbar_title) TextView toolbarTitle;
+    @BindView(R.id.backdrop_image) BackdropView backdropImage;
+    @BindView(R.id.collapsing_layout) CollapsingToolbarLayout collapsingToolbarLayout;
+    @BindView(R.id.demo_full_background) View fullBackground;
+    @BindView(R.id.demo_pager) ViewPager viewPager;
+    @BindView(R.id.demo_pager_title) AppCompatTextView titleText;
+    @BindView(R.id.full_image) GestureImageView fullImage;
+    @BindView(R.id.full_image_toolbar) Toolbar fullImageToolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -84,7 +52,7 @@ public class MovieActivity extends BaseActivity {
         setContentView(R.layout.activity_movie);
         ButterKnife.bind(this);
 
-        movie = (Movie) getIntent().getSerializableExtra("movie");
+        movie = (Movie) getIntent().getSerializableExtra(KEY_MOVIE);
 
         MovieFragment fragment = (MovieFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
         fragment.presenter.setMovieDetailsFromExtra(movie);
@@ -118,7 +86,7 @@ public class MovieActivity extends BaseActivity {
         collapsingToolbarLayout.setStatusBarScrimColor(ContextCompat.getColor(this, android.R.color.transparent));
 
         FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) fullImageToolbar.getLayoutParams();
-        params.topMargin = DeviceUtil.getStatusBarHeight(this);
+        params.topMargin = DeviceUtil.INSTANCE.getStatusBarHeight(this);
 
         fullImageToolbar.setNavigationOnClickListener(view -> onBackPressed());
 
@@ -132,42 +100,12 @@ public class MovieActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        actionMenu = menu;
-        menu_share = menu.add(R.string.Share).setIcon(R.drawable.ic_anim_share).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        menu_tmdb = menu.add(R.string.ViewOnTMDb).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
-        //menu_imdb = menu.add(R.string.ViewOnIMDb).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
     public void onBackPressed() {
         if (imageAnimator != null && !imageAnimator.isLeaving()) {
             imageAnimator.exit(true);
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item == menu_share) {
-            Drawable icon = actionMenu.getItem(0).getIcon();
-            if (icon instanceof Animatable) {
-                ((Animatable) icon).start();
-            }
-
-            Intent intent = new Intent(Intent.ACTION_SEND);
-            intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, ConstantsKt.TMDB_MOVIE, movie.getId()));
-            startActivity(Intent.createChooser(intent, getString(R.string.ShareVia)));
-        } else if (item == menu_tmdb) {
-            Browser.openUrl(this, String.format(Locale.US, ConstantsKt.TMDB_MOVIE, movie.getId()));
-        } /*else if (item == menu_imdb) {
-            Browser.openUrl(context, String.format(Locale.US, Url.IMDB_MOVIE, movie.imdbId));
-        }*/
-
-        return true;
     }
 
     public void showSystemStatusBar(boolean state) {

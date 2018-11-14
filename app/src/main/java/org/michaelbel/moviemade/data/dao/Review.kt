@@ -1,9 +1,6 @@
 package org.michaelbel.moviemade.data.dao
 
 import com.google.gson.annotations.SerializedName
-import org.michaelbel.moviemade.rest.model.Language
-import org.michaelbel.moviemade.rest.model.v3.*
-import org.michaelbel.moviemade.rest.model.v3.Collection
 import java.io.Serializable
 
 data class Review(

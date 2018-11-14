@@ -9,11 +9,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.Theme;
-import org.michaelbel.moviemade.rest.model.v3.Backdrop;
-import org.michaelbel.moviemade.rest.model.v3.Poster;
-import org.michaelbel.moviemade.LayoutHelper;
+import org.michaelbel.moviemade.data.dao.Image;
 import org.michaelbel.moviemade.modules_beta.view.ImagePageView;
 import org.michaelbel.moviemade.modules_beta.view.ImagePagerAdapter;
 
@@ -104,11 +103,11 @@ public class ImagesSection extends FrameLayout {
         backdropsTitleLayout.addView(backdropsCountText);
     }
 
-    public void addPosters(List<Poster> posters, int size) {
+    public void addPosters(List<Image> posters, int size) {
         List<ImagePageView> views = new ArrayList<>();
-        for (Poster poster : posters) {
+        for (Image poster : posters) {
             ImagePageView view = new ImagePageView(getContext());
-            view.setImage(poster.filePath);
+            view.setImage(poster.getFilePath());
             view.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
             views.add(view);
         }
@@ -118,11 +117,11 @@ public class ImagesSection extends FrameLayout {
         postersCountText.setText(getResources().getQuantityString(R.plurals.Posters, size, size));
     }
 
-    public void addBackdrops(List<Backdrop> backdrops, int size) {
+    public void addBackdrops(List<Image> backdrops, int size) {
         List<ImagePageView> views = new ArrayList<>();
-        for (Backdrop backdrop : backdrops) {
+        for (Image backdrop : backdrops) {
             ImagePageView view = new ImagePageView(getContext());
-            view.setImage(backdrop.filePath);
+            view.setImage(backdrop.getFilePath());
             view.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
             view.getPosterImage().setAdjustViewBounds(true);
             view.getPosterImage().setScaleType(ImageView.ScaleType.CENTER_CROP);

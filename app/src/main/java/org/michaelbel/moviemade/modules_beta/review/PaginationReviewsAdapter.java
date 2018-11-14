@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 
 import org.michaelbel.material.widget.Holder;
 import org.michaelbel.moviemade.data.TmdbObject;
-import org.michaelbel.moviemade.rest.model.v3.Review;
 import org.michaelbel.moviemade.ui.base.PaginationAdapter;
 import org.michaelbel.moviemade.modules_beta.view.ReviewView;
 
@@ -28,7 +27,7 @@ public class PaginationReviewsAdapter extends PaginationAdapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-       // Review review = (Review) objectList.get(position);
+       // Review review = (Review) parts.get(position);
 
         if (getItemViewType(position) == ITEM_BACKDROP) {
             ReviewView view = (ReviewView) ((Holder) holder).itemView;

@@ -15,25 +15,25 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.tabs.TabLayout;
 
+import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.data.dao.Cast;
+import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.eventbus.Events;
+import org.michaelbel.moviemade.extensions.DeviceUtil;
 import org.michaelbel.moviemade.model.MovieRealm;
-import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
+import org.michaelbel.moviemade.modules_beta.view.widget.PaddingItemDecoration;
+import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.ui.adapters.PaginationMoviesAdapter;
 import org.michaelbel.moviemade.ui.modules.main.ListMoviesPresenter;
-import org.michaelbel.moviemade.rest.model.Cast;
 import org.michaelbel.moviemade.ui.modules.main.MainActivity;
+import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
 import org.michaelbel.moviemade.ui.modules.movie.MovieActivity;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
-import org.michaelbel.moviemade.LayoutHelper;
-import org.michaelbel.moviemade.ui.adapters.PaginationMoviesAdapter;
-import org.michaelbel.moviemade.modules_beta.view.widget.PaddingItemDecoration;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.ScreenUtils;
-import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
-import org.michaelbel.moviemade.data.TmdbObject;
-import org.michaelbel.moviemade.data.dao.Movie;
 
 import java.util.List;
 
@@ -293,7 +293,7 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements ResultsM
         } else if (movieRealm != null) {
             movieId = movieRealm.id;
         } else if (person != null) {
-            personId = person.id;
+            personId = person.getId();
         }
 
         if (movieList == LIST_BY_PERSON) {
@@ -329,8 +329,8 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements ResultsM
             public void call(Object object) {
                 if (object instanceof Events.MovieListUpdateAdult) {
                     if (!NetworkUtils.notConnected()) {
-                        if (!movies.isEmpty()) {
-                            movies.clear();
+                        if (!parts.isEmpty()) {
+                            parts.clear();
                         }
 
                         if (movieList == LIST_BY_PERSON) {
@@ -341,8 +341,8 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements ResultsM
                     }
                 } else if (object instanceof Events.MovieListUpdateImageQuality) {
                     if (!NetworkUtils.notConnected()) {
-                        if (!movies.isEmpty()) {
-                            movies.clear();
+                        if (!parts.isEmpty()) {
+                            parts.clear();
                         }
 
                         if (movieList == LIST_BY_PERSON) {
@@ -425,7 +425,7 @@ public class ListMoviesFragment extends MvpAppCompatFragment implements ResultsM
             itemDecoration.setOffset(0);
             recyclerView.addItemDecoration(itemDecoration);
         } else if (AndroidUtils.viewType() == 1) {
-            itemDecoration.setOffset(ScreenUtils.dp(2));
+            itemDecoration.setOffset(DeviceUtil.INSTANCE.dp(getActivity(),2));
             recyclerView.addItemDecoration(itemDecoration);
         }
         gridLayoutManager.onRestoreInstanceState(state);

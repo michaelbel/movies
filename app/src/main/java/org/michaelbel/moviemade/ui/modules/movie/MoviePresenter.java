@@ -2,18 +2,15 @@ package org.michaelbel.moviemade.ui.modules.movie;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.bumptech.glide.request.RequestOptions;
 
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.Moviemade;
-import org.michaelbel.moviemade.extensions.AndroidExtensions;
-import org.michaelbel.moviemade.rest.api.MOVIES;
 import org.michaelbel.moviemade.data.dao.Movie;
+import org.michaelbel.moviemade.data.service.MOVIES;
+import org.michaelbel.moviemade.extensions.AndroidExtensions;
+import org.michaelbel.moviemade.extensions.NetworkUtil;
 import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.NetworkUtils;
 
 import javax.inject.Inject;
 
@@ -29,42 +26,34 @@ public class MoviePresenter extends MvpPresenter<MovieMvp> {
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
-    @Inject
-    Retrofit retrofit;
+    @Inject Retrofit retrofit;
 
-    public void setMovieDetailsFromExtra(Movie movie) {
-        RequestOptions options = new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).priority(Priority.HIGH);
-        getViewState().setPoster(options, movie.getPosterPath());
-
+    void setMovieDetailsFromExtra(Movie movie) {
+        getViewState().setPoster(movie.getPosterPath());
         getViewState().setMovieTitle(movie.getTitle());
-
         getViewState().setOverview(movie.getOverview());
-
         getViewState().setVoteAverage(movie.getVoteAverage());
-
         getViewState().setVoteCount(movie.getVoteCount());
-
         getViewState().setReleaseDate(AndroidExtensions.formatReleaseDate(movie.getReleaseDate()));
-
         getViewState().setOriginalLanguage(AndroidUtils.formatOriginalLanguage(movie.getOriginalLanguage()));
-
         getViewState().setWatching(false);
     }
 
-    public void loadMovieDetails(int movieId) {
-        if (NetworkUtils.notConnected()) {
+    void loadMovieDetails(int movieId) {
+        if (NetworkUtil.INSTANCE.notConnected()) {
             getViewState().showConnectionError();
             return;
         }
 
         Moviemade.getComponent().injest(this);
         MOVIES service = retrofit.create(MOVIES.class);
-        Observable<Movie> observable = service.getDetails(movieId, BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<Movie> observable = service.getDetails(movieId, BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, "").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<Movie>() {
             @Override
             public void onNext(Movie movie) {
                 getViewState().setRuntime((movie.getRuntime() != 0 ? AndroidExtensions.formatRuntime(movie.getRuntime()) : null));
                 getViewState().setTagline(movie.getTagline());
+                getViewState().setURLs(movie.getImdbId(), movie.getHomepage());
 
                 getViewState().showComplete(movie);
             }

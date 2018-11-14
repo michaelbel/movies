@@ -53,7 +53,7 @@
     <dimen name="poster_image_margin_top">16dp</dimen>
     <dimen name="poster_image_margin_bottom">16dp</dimen>
     <dimen name="info_layout_margin_start">282dp</dimen><!-- poster_image_width + 16dp + 16dp -->
-    <dimen name="title_layout_margin_top">407dp</dimen><!-- poster_image_height + 16dp + 16dp -->
+    <dimen name="title_layout_margin_top">403dp</dimen><!-- poster_image_height + 16dp + 16dp -->
 
 
 

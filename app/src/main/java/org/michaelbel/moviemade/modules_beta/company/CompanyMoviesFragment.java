@@ -11,19 +11,18 @@ import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.Theme;
+import org.michaelbel.moviemade.data.dao.Movie;
+import org.michaelbel.moviemade.modules_beta.collection.MoviesAdapter;
+import org.michaelbel.moviemade.modules_beta.view.widget.PaddingItemDecoration;
+import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
 import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
-import org.michaelbel.moviemade.LayoutHelper;
-import org.michaelbel.moviemade.modules_beta.collection.MoviesAdapter;
-import org.michaelbel.moviemade.modules_beta.view.widget.PaddingItemDecoration;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.ScreenUtils;
-import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
-import org.michaelbel.moviemade.data.TmdbObject;
-import org.michaelbel.moviemade.data.dao.Movie;
 
 import java.util.List;
 
@@ -31,7 +30,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 

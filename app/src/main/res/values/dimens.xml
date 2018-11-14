@@ -59,7 +59,7 @@
     <dimen name="vote_count_icon_margin_start">1dp</dimen>
     <dimen name="vote_count_icon_margin_bottom">1dp</dimen>
 
-    <dimen name="title_layout_margin_top">212dp</dimen><!-- poster_image_height + 16dp + 16dp -->
+    <dimen name="title_layout_margin_top">208dp</dimen><!-- poster_image_height + 16dp + 16dp -->
 
 
 

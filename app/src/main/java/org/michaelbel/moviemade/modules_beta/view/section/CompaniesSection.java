@@ -1,7 +1,6 @@
 package org.michaelbel.moviemade.modules_beta.view.section;
 
 import android.content.Context;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -9,11 +8,11 @@ import android.widget.FrameLayout;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 
 import org.michaelbel.material.widget.Holder;
-import org.michaelbel.moviemade.Theme;
-import org.michaelbel.moviemade.rest.model.v3.Company;
-import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.LayoutHelper;
+import org.michaelbel.moviemade.Theme;
+import org.michaelbel.moviemade.data.dao.Company;
 import org.michaelbel.moviemade.modules_beta.view.ChipView;
+import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
 import java.util.ArrayList;
@@ -37,7 +36,7 @@ public class CompaniesSection extends FrameLayout {
         super(context);
 
         ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(context)
-                .setChildGravity(Gravity.START)
+                //.setChildGravity(Gravity.START)
                 .setScrollingEnabled(false)
                 .setOrientation(ChipsLayoutManager.HORIZONTAL)
                 .setRowStrategy(ChipsLayoutManager.STRATEGY_DEFAULT)
@@ -88,7 +87,7 @@ public class CompaniesSection extends FrameLayout {
             view.setRadius(ScreenUtils.dp(10))
                 .setTextColor(ContextCompat.getColor(getContext(), Theme.secondaryTextColor()))
                 .setColorBackground(ContextCompat.getColor(getContext(), Theme.backgroundColor()))
-                .setText(company.name)
+                .setText(company.getName())
                 .changeLayoutParams();
         }
 

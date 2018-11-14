@@ -11,18 +11,17 @@ import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
-import org.michaelbel.moviemade.Theme;
-import org.michaelbel.moviemade.model.MovieRealm;
-import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
-import org.michaelbel.moviemade.data.TmdbObject;
-import org.michaelbel.moviemade.rest.model.Cast;
-import org.michaelbel.moviemade.data.dao.Movie;
-import org.michaelbel.moviemade.ui.modules.movie.MovieActivity;
-import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.LayoutHelper;
-import org.michaelbel.moviemade.ui.widgets.EmptyView;
-import org.michaelbel.moviemade.utils.AndroidUtils;
+import org.michaelbel.moviemade.Theme;
+import org.michaelbel.moviemade.data.dao.Cast;
+import org.michaelbel.moviemade.data.dao.Movie;
+import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
+import org.michaelbel.moviemade.ui.modules.movie.MovieActivity;
+import org.michaelbel.moviemade.ui.widgets.EmptyView;
+import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
+import org.michaelbel.moviemade.utils.AndroidUtils;
 
 import java.util.List;
 
@@ -127,7 +126,7 @@ public class MovieCastsFragment extends MvpAppCompatFragment implements ResultsM
         recyclerView.setVerticalScrollBarEnabled(AndroidUtils.scrollbars());
         recyclerView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         recyclerView.setOnItemClickListener((view, position) -> {
-            Cast cast = (Cast) adapter.getCasts().get(position);
+            Cast cast = adapter.getCasts().get(position);
             activity.startPerson(cast);
         });
         contentLayout.addView(recyclerView);

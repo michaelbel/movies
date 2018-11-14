@@ -284,7 +284,7 @@ public class NavigationView extends FrameLayout {
         public DrawerHeaderCell(Context context) {
             super(context);
 
-            setBackground(context.getDrawable(R.drawable.drawer_header));
+            //setBackground(context.getDrawable(R.drawable.drawer_header));
 
             avatarImage = new ImageView(context);
             avatarImage.setBackground(context.getDrawable(R.drawable.tmdb_icon));

@@ -173,7 +173,7 @@ public class WatchlistFragment extends Fragment {
                 RequestOptions options = new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).priority(Priority.HIGH);
 
                 Glide.with(view.getContext()).asBitmap()
-                     .load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, AndroidUtils.posterSize(), movie.posterPath)).apply(options)
+                     .load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, "w342", movie.posterPath)).apply(options)
                      .into(new BitmapImageViewTarget(posterImage) {
                          @Override
                          public void onResourceReady(Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {

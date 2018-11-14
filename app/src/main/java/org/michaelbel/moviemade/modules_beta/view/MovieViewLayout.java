@@ -2,8 +2,6 @@ package org.michaelbel.moviemade.modules_beta.view;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -17,31 +15,33 @@ import android.widget.TextView;
 
 import com.alexvasilkov.gestures.views.GestureImageView;
 
-import org.michaelbel.moviemade.data.dao.Video;
-import org.michaelbel.moviemade.ui.modules.movie.views.RatingView;
 import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.Theme;
+import org.michaelbel.moviemade.data.CreditsKt;
+import org.michaelbel.moviemade.data.dao.Collection;
+import org.michaelbel.moviemade.data.dao.Company;
+import org.michaelbel.moviemade.data.dao.Crew;
+import org.michaelbel.moviemade.data.dao.Genre;
+import org.michaelbel.moviemade.data.dao.Image;
+import org.michaelbel.moviemade.data.dao.Keyword;
+import org.michaelbel.moviemade.data.dao.Video;
 import org.michaelbel.moviemade.extensions.AndroidExtensions;
-import org.michaelbel.moviemade.rest.model.Crew;
-import org.michaelbel.moviemade.rest.model.v3.Backdrop;
-import org.michaelbel.moviemade.rest.model.v3.Collection;
-import org.michaelbel.moviemade.rest.model.v3.Company;
-import org.michaelbel.moviemade.rest.model.v3.Genre;
-import org.michaelbel.moviemade.rest.model.v3.Keyword;
-import org.michaelbel.moviemade.rest.model.v3.Poster;
 import org.michaelbel.moviemade.modules_beta.movie.MovieViewListener;
 import org.michaelbel.moviemade.modules_beta.view.section.CompaniesSection;
 import org.michaelbel.moviemade.modules_beta.view.section.GenresSection;
 import org.michaelbel.moviemade.modules_beta.view.section.ImagesSection;
 import org.michaelbel.moviemade.modules_beta.view.section.KeywordsSection;
 import org.michaelbel.moviemade.modules_beta.view.section.TrailersSection;
+import org.michaelbel.moviemade.ui.modules.movie.views.RatingView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import at.blogc.android.views.ExpandableTextView;
 
 public class MovieViewLayout extends LinearLayout {
@@ -177,10 +177,10 @@ public class MovieViewLayout extends LinearLayout {
         });*/
         overviewLayout.addView(overviewText);
 
-        if (AndroidUtils.fullOverview()) {
+        /*if (AndroidUtils.fullOverview()) {
             overviewText.setMaxLines(1000);
             overviewText.setOnClickListener(null);
-        }
+        }*/
 
 //------CREW VIEW-----------------------------------------------------------------------------------
 
@@ -397,21 +397,21 @@ public class MovieViewLayout extends LinearLayout {
         addView(linksLayout);
 
         linkTmdbView = new WebpageView(context);
-        linkTmdbView.setText(R.string.ViewOnTMDb);
+        linkTmdbView.setText(R.string.view_on_tmdb);
         linkTmdbView.setDivider(true);
         linkTmdbView.setOnClickListener(view -> movieViewListener.onMovieUrlClick(view, 1));
         linkTmdbView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         linksLayout.addView(linkTmdbView);
 
         linkImdbView = new WebpageView(context);
-        linkImdbView.setText(R.string.ViewOnIMDb);
+        linkImdbView.setText(R.string.view_on_imdb);
         linkImdbView.setDivider(true);
         linkImdbView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         linkImdbView.setOnClickListener(view -> movieViewListener.onMovieUrlClick(view, 2));
         linksLayout.addView(linkImdbView);
 
         linkHomeView = new WebpageView(context);
-        linkHomeView.setText(R.string.ViewHomepage);
+        linkHomeView.setText(R.string.view_homepage);
         linkHomeView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         linkHomeView.setOnClickListener(view -> movieViewListener.onMovieUrlClick(view, 3));
         linksLayout.addView(linkHomeView);
@@ -486,7 +486,7 @@ public class MovieViewLayout extends LinearLayout {
         langLayout.setVisibility(VISIBLE);
     }
 
-    public void addImages(List<Poster> posters, List<Backdrop> backdrops, int postersSize, int backdropsSize) {
+    public void addImages(List<Image> posters, List<Image> backdrops, int postersSize, int backdropsSize) {
         if (posters == null || posters.isEmpty() || backdrops == null || backdrops.isEmpty()) {
             removeView(imagesView);
             return;
@@ -565,20 +565,6 @@ public class MovieViewLayout extends LinearLayout {
         }
 
         revenueText.setText(revenue);
-    }
-
-    public void addImdbpage(String imdbpage) {
-        if (imdbpage == null || imdbpage.isEmpty()) {
-            linksLayout.removeView(linkImdbView);
-            linkTmdbView.setDivider(false);
-        }
-    }
-
-    public void addHomepage(String homepage) {
-        if (homepage == null || homepage.isEmpty()) {
-            linksLayout.removeView(linkHomeView);
-            linkImdbView.setDivider(false);
-        }
     }
 
     public void addCountries(String countries) {
@@ -663,15 +649,15 @@ public class MovieViewLayout extends LinearLayout {
         List<String> producers = new ArrayList<>();
 
         for (Crew crew : crews) {
-            switch (crew.department) {
-                case "Directing":
-                    directors.add(crew.name);
+            switch (crew.getDepartment()) {
+                case CreditsKt.DIRECTING:
+                    directors.add(crew.getName());
                     break;
-                case "Writing":
-                    writers.add(crew.name);
+                case CreditsKt.WRITING:
+                    writers.add(crew.getName());
                     break;
-                case "Production":
-                    producers.add(crew.name);
+                case CreditsKt.PRODUCTION:
+                    producers.add(crew.getName());
                     break;
             }
         }
@@ -734,8 +720,8 @@ public class MovieViewLayout extends LinearLayout {
             return;
         }
 
-        collectionView.addName(getContext().getString(R.string.PartOfCollection, collection.name));
-        collectionView.addImage(collection.backdropPath);
+        collectionView.addName(getContext().getString(R.string.PartOfCollection, collection.getName()));
+        collectionView.addImage(collection.getBackdropPath());
     }
 
     public void topLayoutLoaded() {

@@ -5,12 +5,12 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.annotation.EmptyViewMode;
+import org.michaelbel.moviemade.data.dao.CompaniesResponse;
+import org.michaelbel.moviemade.data.dao.Company;
+import org.michaelbel.moviemade.data.service.SEARCH;
+import org.michaelbel.moviemade.extensions.NetworkUtil;
+import org.michaelbel.moviemade.ApiFactory;
 import org.michaelbel.moviemade.ui.modules.search.SearchMvp;
-import org.michaelbel.moviemade.rest.ApiFactory;
-import org.michaelbel.moviemade.data.TmdbObject;
-import org.michaelbel.moviemade.rest.api.SEARCH;
-import org.michaelbel.moviemade.rest.response.CompanyResponse;
-import org.michaelbel.moviemade.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,19 +37,19 @@ public class SearchCompaniesPresenter extends MvpPresenter<SearchMvp> {
         currentQuery = query;
         getViewState().searchStart();
 
-        if (NetworkUtils.notConnected()) {
+        if (NetworkUtil.INSTANCE.notConnected()) {
             getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
             return;
         }
 
         SEARCH service = ApiFactory.createService2(SEARCH.class);
-        Observable<CompanyResponse> observable = service.searchCompanies(BuildConfig.TMDB_API_KEY, query, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<CompanyResponse>() {
+        Observable<CompaniesResponse> observable = service.searchCompanies(BuildConfig.TMDB_API_KEY, query, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposables.add(observable.subscribeWith(new DisposableObserver<CompaniesResponse>() {
             @Override
-            public void onNext(CompanyResponse response) {
-                totalPages = response.totalPages;
-                totalResults = response.totalResults;
-                List<TmdbObject> results = new ArrayList<>(response.companies);
+            public void onNext(CompaniesResponse response) {
+                totalPages = response.getTotalPages();
+                totalResults = response.getTotalResults();
+                List<Company> results = new ArrayList<>(response.getCompanies());
                 if (results.isEmpty()) {
                     getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
                     return;
@@ -69,11 +69,11 @@ public class SearchCompaniesPresenter extends MvpPresenter<SearchMvp> {
 
     public void loadNextPage() {
         SEARCH service = ApiFactory.createService2(SEARCH.class);
-        Observable<CompanyResponse> observable = service.searchCompanies(BuildConfig.TMDB_API_KEY, currentQuery, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<CompanyResponse>() {
+        Observable<CompaniesResponse> observable = service.searchCompanies(BuildConfig.TMDB_API_KEY, currentQuery, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposables.add(observable.subscribeWith(new DisposableObserver<CompaniesResponse>() {
             @Override
-            public void onNext(CompanyResponse response) {
-                List<TmdbObject> results = new ArrayList<>(response.companies);
+            public void onNext(CompaniesResponse response) {
+                List<Company> results = new ArrayList<>(response.getCompanies());
                // getViewState().showResults(results, false);
             }
 

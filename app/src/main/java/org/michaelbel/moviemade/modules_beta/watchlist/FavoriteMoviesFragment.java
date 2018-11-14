@@ -211,24 +211,9 @@ public class FavoriteMoviesFragment extends Fragment {
             } else if (type == 1) {
                 View view = holder.itemView;
 
-                CardView cardView = view.findViewById(R.id.cardview);
                 ImageView posterImage = view.findViewById(R.id.poster_image);
 
-                Glide.with(holder.itemView.getContext())
-                        .load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, AndroidUtils.posterSize(), movie.posterPath))
-                        .thumbnail(0.1F)
-                        .into(posterImage);
-
-                /*RequestOptions options = new RequestOptions().centerCrop().diskCacheStrategy(DiskCacheStrategy.AUTOMATIC).priority(Priority.HIGH);
-                Glide.with(view.getContext()).asBitmap().load(String.format(Locale.US, Url.TMDB_IMAGE, "w342", movie.posterPath))
-                        .apply(options)
-                        .into(new BitmapImageViewTarget(posterImage) {
-                            @Override
-                            public void onResourceReady(Bitmap bitmap, @Nullable Transition<? super Bitmap> transition) {
-                                super.onResourceReady(bitmap, transition);
-                                //Palette.from(bitmap).generate(palette -> cardView.setBackgroundColor(ContextCompat.getColor(view.getContext(), R.color.primary)));
-                            }
-                        });*/
+                Glide.with(holder.itemView.getContext()).load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, "w342", movie.posterPath)).thumbnail(0.1F).into(posterImage);
             }
         }
 

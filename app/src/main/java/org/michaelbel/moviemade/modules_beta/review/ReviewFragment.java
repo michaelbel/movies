@@ -19,9 +19,9 @@ import android.widget.Toast;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.Theme;
 import org.michaelbel.moviemade.browser.Browser;
+import org.michaelbel.moviemade.data.dao.Review;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.data.dao.Movie;
-import org.michaelbel.moviemade.rest.model.v3.Review;
 import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.modules_beta.view.widget.GestureTextView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
@@ -48,7 +48,7 @@ public class ReviewFragment extends Fragment {
 
     public static ReviewFragment newInstance(Review review, Movie movie) {
         Bundle args = new Bundle();
-        args.putParcelable("review", review);
+        //args.putParcelable("review", review);
         args.putSerializable("movie", movie);
 
         ReviewFragment fragment = new ReviewFragment();
@@ -58,7 +58,7 @@ public class ReviewFragment extends Fragment {
 
     public static ReviewFragment newInstance(Review review, MovieRealm movie) {
         Bundle args = new Bundle();
-        args.putParcelable("review", review);
+        //args.putParcelable("review", review);
         //args.putParcelable("movieRealm", movie);
 
         ReviewFragment fragment = new ReviewFragment();
@@ -117,7 +117,7 @@ public class ReviewFragment extends Fragment {
         mediaTitleLayout.addView(mediaIcon);
 
         mediaTitle = new TextView(activity);
-        mediaTitle.setTextIsSelectable(AndroidUtils.textSelect());
+        mediaTitle.setTextIsSelectable(true);
         mediaTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         mediaTitle.setTextColor(ContextCompat.getColor(activity, R.color.md_white));
         mediaTitle.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
@@ -136,7 +136,7 @@ public class ReviewFragment extends Fragment {
         authorLayout.addView(authorIconView);
 
         authorText = new TextView(activity);
-        authorText.setTextIsSelectable(AndroidUtils.textSelect());
+        authorText.setTextIsSelectable(true);
         authorText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         authorText.setTextColor(ContextCompat.getColor(activity, R.color.md_white));
         authorText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
@@ -147,12 +147,12 @@ public class ReviewFragment extends Fragment {
         reviewText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         reviewText.setTextColor(ContextCompat.getColor(activity, Theme.secondaryTextColor()));
         reviewText.getController().getSettings().setMaxZoom(2.0F);
-        if (AndroidUtils.zoomReview()) {
+        /*if (AndroidUtils.zoomReview()) {
             reviewText.getController().getSettings().enableGestures();
         } else {
             reviewText.getController().getSettings().disableGestures();
         }
-
+*/
         return fragmentView;
     }
 
@@ -178,8 +178,8 @@ public class ReviewFragment extends Fragment {
             mediaTitle.setText(movie.getTitle() + " (" + movie.getReleaseDate().substring(0, 4) + ")");
         }
 
-        authorText.setText(review.author);
-        reviewText.setText(review.content);
-        url = review.url;
+        authorText.setText(review.getAuthor());
+        reviewText.setText(review.getContent());
+        url = review.getUrl();
     }
 }

@@ -1,14 +1,14 @@
 package org.michaelbel.moviemade.ui.base;
 
-import org.michaelbel.moviemade.model.MovieRealm;
-import org.michaelbel.moviemade.rest.model.Cast;
+import org.michaelbel.moviemade.data.dao.Cast;
+import org.michaelbel.moviemade.data.dao.Collection;
+import org.michaelbel.moviemade.data.dao.Company;
+import org.michaelbel.moviemade.data.dao.Genre;
+import org.michaelbel.moviemade.data.dao.Keyword;
 import org.michaelbel.moviemade.data.dao.Movie;
-import org.michaelbel.moviemade.rest.model.v3.Collection;
-import org.michaelbel.moviemade.rest.model.v3.Company;
-import org.michaelbel.moviemade.rest.model.v3.Genre;
-import org.michaelbel.moviemade.rest.model.v3.Keyword;
-import org.michaelbel.moviemade.rest.model.v3.People;
-import org.michaelbel.moviemade.rest.model.v3.Review;
+import org.michaelbel.moviemade.data.dao.Person;
+import org.michaelbel.moviemade.data.dao.Review;
+import org.michaelbel.moviemade.model.MovieRealm;
 
 import java.util.ArrayList;
 
@@ -18,13 +18,15 @@ public interface MediaMvp {
 
     void startTrailers(Movie movie);
 
+    void startReviews(Movie movie);
+
 
 
     void startMovie(MovieRealm movie);
 
     void startPerson(Cast person);
 
-    void startPerson(People person);
+    void startPerson(Person person);
 
     void startReview(Review review, Movie movie);
 

@@ -6,15 +6,11 @@ import com.arellomobile.mvp.MvpPresenter;
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.annotation.EmptyViewMode;
+import org.michaelbel.moviemade.data.dao.GenresResponse;
 import org.michaelbel.moviemade.data.service.GENRES;
+import org.michaelbel.moviemade.extensions.NetworkUtil;
+import org.michaelbel.moviemade.ApiFactory;
 import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
-import org.michaelbel.moviemade.rest.ApiFactory;
-import org.michaelbel.moviemade.data.TmdbObject;
-import org.michaelbel.moviemade.rest.response.GenresResponse;
-import org.michaelbel.moviemade.utils.NetworkUtils;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -28,7 +24,7 @@ public class GenresPresenter extends MvpPresenter<ResultsMvp> {
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     public void loadGenres() {
-        if (NetworkUtils.notConnected()) {
+        if (NetworkUtil.INSTANCE.notConnected()) {
             getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
             return;
         }

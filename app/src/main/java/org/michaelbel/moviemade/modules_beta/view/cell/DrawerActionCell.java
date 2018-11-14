@@ -4,8 +4,6 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.StringRes;
-import androidx.core.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -14,10 +12,13 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.material.extensions.Extensions;
+import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.Theme;
-import org.michaelbel.moviemade.utils.ScreenUtils;
+import org.michaelbel.moviemade.extensions.DeviceUtil;
+
+import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
 
 public class DrawerActionCell extends FrameLayout {
 
@@ -58,7 +59,7 @@ public class DrawerActionCell extends FrameLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int width = MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY);
-        int height = ScreenUtils.dp(48);
+        int height = DeviceUtil.INSTANCE.dp(getContext(),48);
         setMeasuredDimension(width, height);
     }
 

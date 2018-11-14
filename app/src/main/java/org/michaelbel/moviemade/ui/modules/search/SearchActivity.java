@@ -16,6 +16,7 @@ import android.widget.EditText;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.extensions.AndroidExtensions;
+import org.michaelbel.moviemade.extensions.DrawableUtil;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 
@@ -86,7 +87,7 @@ public class SearchActivity extends BaseActivity {
 
             return false;
         });
-        AndroidExtensions.clearCursorDrawable(searchEditText);
+        DrawableUtil.INSTANCE.clearCursorDrawable(searchEditText);
     }
 
     @Override

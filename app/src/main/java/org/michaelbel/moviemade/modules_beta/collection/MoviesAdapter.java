@@ -92,7 +92,7 @@ public class MoviesAdapter extends RecyclerView.Adapter {
 
             Glide.with(view.getContext())
                     .asBitmap()
-                    .load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, AndroidUtils.posterSize(), movie.getPosterPath()))
+                    .load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, "w342", movie.getPosterPath()))
                     .apply(options)
                     .into(new BitmapImageViewTarget(posterImage) {
                         @Override

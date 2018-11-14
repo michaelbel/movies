@@ -45,7 +45,7 @@ public class TrailersAdapter extends RecyclerView.Adapter {
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_trailer, parent, false);
-        if (DeviceUtil.isLandscape(parent.getContext()) || DeviceUtil.isTablet(parent.getContext())) {
+        if (DeviceUtil.INSTANCE.isLandscape(parent.getContext()) || DeviceUtil.INSTANCE.isTablet(parent.getContext())) {
             view.getLayoutParams().height = (int) (parent.getWidth() / 3.5);
         } else {
             view.getLayoutParams().height = parent.getWidth() / 2;

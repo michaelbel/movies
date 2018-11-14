@@ -3,29 +3,11 @@ package org.michaelbel.moviemade.modules_beta.keywords;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import org.michaelbel.moviemade.BuildConfig;
-import org.michaelbel.moviemade.ConstantsKt;
-import org.michaelbel.moviemade.annotation.EmptyViewMode;
-import org.michaelbel.moviemade.data.service.KEYWORDS;
-import org.michaelbel.moviemade.extensions.AndroidExtensions;
+import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
-import org.michaelbel.moviemade.rest.ApiFactory;
-import org.michaelbel.moviemade.data.TmdbObject;
-import org.michaelbel.moviemade.data.dao.Movie;
-import org.michaelbel.moviemade.rest.response.MoviesResponse;
-import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.DateUtils;
-import org.michaelbel.moviemade.utils.NetworkUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 
 @InjectViewState
@@ -40,12 +22,12 @@ public class KeywordMoviesPresenter extends MvpPresenter<ResultsMvp> {
 
     public void loadFirstPage(int keywordId) {
         /*if (keywordId == 0) {
-            getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+            getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
             return;
         }
 
         if (NetworkUtils.notConnected()) {
-            getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
+            getViewState().setError(EmptyViewMode.MODE_NO_CONNECTION);
             return;
         }
 
@@ -55,9 +37,9 @@ public class KeywordMoviesPresenter extends MvpPresenter<ResultsMvp> {
             @Override
             public void onNext(MoviesResponse response) {
                 totalPages = response.totalPages;
-                List<TmdbObject> results = new ArrayList<>(response.movies);
+                List<TmdbObject> results = new ArrayList<>(response.parts);
                 if (results.isEmpty()) {
-                    getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                    getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
                     return;
                 }
                 getViewState().showResults(results, true);
@@ -65,7 +47,7 @@ public class KeywordMoviesPresenter extends MvpPresenter<ResultsMvp> {
 
             @Override
             public void onError(Throwable e) {
-                getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
+                getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
             }
 
             @Override
@@ -79,7 +61,7 @@ public class KeywordMoviesPresenter extends MvpPresenter<ResultsMvp> {
         disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override
             public void onNext(MoviesResponse response) {
-                List<TmdbObject> results = new ArrayList<>(response.movies);
+                List<TmdbObject> results = new ArrayList<>(response.parts);
                 getViewState().showResults(results, false);
             }
 

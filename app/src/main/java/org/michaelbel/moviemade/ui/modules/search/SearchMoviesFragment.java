@@ -19,7 +19,6 @@ import org.michaelbel.moviemade.ui.adapters.PaginationMoviesAdapter;
 import org.michaelbel.moviemade.modules_beta.view.widget.PaddingItemDecoration;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
-import org.michaelbel.moviemade.data.TmdbObject;
 import org.michaelbel.moviemade.data.dao.Movie;
 
 import java.util.List;
@@ -77,7 +76,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
         progressBar.setVisibility(View.INVISIBLE);
 
         itemDecoration = new PaddingItemDecoration();
-        itemDecoration.setOffset(DeviceUtil.dp(activity, 1));
+        itemDecoration.setOffset(DeviceUtil.INSTANCE.dp(activity, 1));
 
         int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
 
@@ -89,7 +88,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
         recyclerView.setEmptyView(emptyView);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setPadding(DeviceUtil.dp(activity, 2), 0, DeviceUtil.dp(activity, 2), 0);
+        recyclerView.setPadding(DeviceUtil.INSTANCE.dp(activity, 2), 0, DeviceUtil.INSTANCE.dp(activity, 2), 0);
         recyclerView.setOnItemClickListener((v, position) -> {
             Movie movie = (Movie) adapter.getList().get(position);
             activity.startMovie(movie);

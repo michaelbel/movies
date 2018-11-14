@@ -1,17 +1,16 @@
 package org.michaelbel.moviemade.modules_beta.collection;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import org.michaelbel.material.widget.Holder;
-import org.michaelbel.moviemade.data.Movie;
-import org.michaelbel.moviemade.data.TmdbObject;
-import org.michaelbel.moviemade.rest.model.v3.Collection;
-import org.michaelbel.moviemade.ui.base.PaginationAdapter;
+import org.michaelbel.moviemade.data.dao.Collection;
 import org.michaelbel.moviemade.modules_beta.view.CollectionView;
+import org.michaelbel.moviemade.ui.base.PaginationAdapter;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class PaginationCollectionsAdapter extends PaginationAdapter {
 
@@ -29,7 +28,7 @@ public class PaginationCollectionsAdapter extends PaginationAdapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        //Collection collection = (org.michaelbel.moviemade.data.dao.Movie) objectList.get(position);
+        //Collection collection = (org.michaelbel.moviemade.data.dao.Movie) parts.get(position);
 
         if (getItemViewType(position) == ITEM_BACKDROP) {
             CollectionView view = (CollectionView) ((Holder) holder).itemView;

@@ -5,7 +5,7 @@ import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 
-import org.michaelbel.moviemade.extensions.AndroidExtensions;
+import org.michaelbel.moviemade.extensions.DrawableUtil;
 
 import androidx.annotation.DrawableRes;
 
@@ -121,6 +121,6 @@ public class Theme {
     }
 
     public static Drawable getIcon(@DrawableRes int resource, int colorFilter) {
-        return AndroidExtensions.getIcon(getContext(), resource, colorFilter, PorterDuff.Mode.MULTIPLY);
+        return DrawableUtil.INSTANCE.getIcon(getContext(), resource, colorFilter, PorterDuff.Mode.MULTIPLY);
     }
 }

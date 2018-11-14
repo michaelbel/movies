@@ -1,13 +1,12 @@
 package org.michaelbel.moviemade.ui.modules.movie;
 
 import com.arellomobile.mvp.MvpView;
-import com.bumptech.glide.request.RequestOptions;
 
 import org.michaelbel.moviemade.data.dao.Movie;
 
 public interface MovieMvp extends MvpView {
 
-    void setPoster(RequestOptions options, String posterPath);
+    void setPoster(String posterPath);
 
     void setMovieTitle(String title);
 
@@ -24,6 +23,8 @@ public interface MovieMvp extends MvpView {
     void setRuntime(String runtime);
 
     void setTagline(String tagline);
+
+    void setURLs(String imdbId, String homepage);
 
     void setWatching(boolean watch);
 

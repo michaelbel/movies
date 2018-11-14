@@ -4,29 +4,28 @@ import android.content.Intent;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import com.google.android.material.tabs.TabLayout;
-import androidx.core.content.ContextCompat;
-import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import org.michaelbel.moviemade.ConstantsKt;
+import com.google.android.material.tabs.TabLayout;
+
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.Theme;
-import org.michaelbel.moviemade.ui.base.BaseActivity;
-import org.michaelbel.moviemade.rest.model.Cast;
-import org.michaelbel.moviemade.rest.model.v3.People;
+import org.michaelbel.moviemade.data.dao.Cast;
+import org.michaelbel.moviemade.data.dao.Person;
 import org.michaelbel.moviemade.modules_beta.view.widget.FragmentsPagerAdapter;
+import org.michaelbel.moviemade.ui.base.BaseActivity;
 
-import java.util.Locale;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.viewpager.widget.ViewPager;
 
 public class PersonActivity extends BaseActivity {
 
     private Cast castPerson;
-    private People peoplePerson;
+    private Person peoplePerson;
 
     public Toolbar toolbar;
     public TextView toolbarTitle;
@@ -56,7 +55,7 @@ public class PersonActivity extends BaseActivity {
             //adapter.addFragment(new PersonFragment(), "Photos");
             adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_BY_PERSON, castPerson), R.string.Movies);
         } else if (peoplePerson != null) {
-            adapter.addFragment(PersonFragment.newInstance(peoplePerson), R.string.Info);
+            //adapter.addFragment(PersonFragment.newInstance(peoplePerson), R.string.Info);
             //adapter.addFragment(ListMoviesFragment.newInstance(ListMoviesFragment.LIST_BY_PERSON, peoplePerson), R.string.Movies);
         }
 
@@ -72,7 +71,7 @@ public class PersonActivity extends BaseActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        menu.add(R.string.Share)
+        menu.add(R.string.share)
             .setIcon(R.drawable.ic_anim_share)
             .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             .setOnMenuItemClickListener(menuItem -> {
@@ -83,7 +82,7 @@ public class PersonActivity extends BaseActivity {
 
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, ConstantsKt.TMDB_PERSON, castPerson != null ? castPerson.id : peoplePerson.id));
+              //  intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, ConstantsKt.TMDB_PERSON, castPerson != null ? castPerson.getId() : peoplePerson.));
                 startActivity(Intent.createChooser(intent, getString(R.string.ShareVia)));
                 return true;
             });

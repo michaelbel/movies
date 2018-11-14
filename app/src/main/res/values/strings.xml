@@ -31,6 +31,10 @@
     <string name="top_rated">Top Rated</string>
     <string name="upcoming">Upcoming</string>
     <string name="reviews">Reviews</string>
+    <string name="share">Share</string>
+    <string name="view_on_tmdb">View on TMDb</string>
+    <string name="view_on_imdb">View on IMDb</string>
+    <string name="view_homepage">View Homepage</string>
 
 
 
@@ -67,14 +71,10 @@
     <string name="Budget">Budget</string>
     <string name="Revenue">Revenue</string>
     <string name="ProductionCompanies">Production Companies</string>
-    <string name="ViewOnTMDb">View on TMDb</string>
-    <string name="ViewOnIMDb">View on IMDb</string>
-    <string name="ViewHomepage">View Homepage</string>
     <string name="Cast">Cast</string>
     <string name="Similar">Similar</string>
     <string name="Related">Related</string>
     <string name="MovieRuntime">%1$s / %2$d min</string>
-    <string name="Share">Share</string>
     <string name="Overview">Overview</string>
     <plurals name="Posters">
         <item quantity="zero">Posters</item>

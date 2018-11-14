@@ -3,8 +3,7 @@ package org.michaelbel.moviemade.modules_beta.person;
 import android.view.ViewGroup;
 
 import org.michaelbel.material.widget.Holder;
-import org.michaelbel.moviemade.data.TmdbObject;
-import org.michaelbel.moviemade.rest.model.Cast;
+import org.michaelbel.moviemade.data.dao.Cast;
 import org.michaelbel.moviemade.modules_beta.view.PersonView;
 
 import java.util.ArrayList;
@@ -15,18 +14,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class CastMoviesAdapter extends RecyclerView.Adapter {
 
-    private List<TmdbObject> casts;
+    private List<Cast> casts;
 
     public CastMoviesAdapter() {
         casts = new ArrayList<>();
     }
 
-    public void addCasts(List<TmdbObject> results) {
+    public void addCasts(List<Cast> results) {
         casts.addAll(results);
         notifyItemRangeInserted(casts.size() + 1, results.size());
     }
 
-    public List<TmdbObject> getCasts() {
+    public List<Cast> getCasts() {
         return casts;
     }
 
@@ -38,12 +37,12 @@ public class CastMoviesAdapter extends RecyclerView.Adapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
-        Cast cast = (Cast) casts.get(position);
+        Cast cast = casts.get(position);
 
         PersonView view = (PersonView) holder.itemView;
-        view.setName(cast.name)
-            .setCharacter(cast.character)
-            .setProfile(cast.profilePath)
+        view.setName(cast.getName())
+            .setCharacter(cast.getCharacter())
+            .setProfile(cast.getProfilePath())
             .setDivider(position != casts.size() - 1);
     }
 

@@ -3,28 +3,15 @@ package org.michaelbel.moviemade.modules_beta.company;
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
-import org.michaelbel.moviemade.BuildConfig;
-import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.annotation.EmptyViewMode;
+import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.extensions.AndroidExtensions;
+import org.michaelbel.moviemade.extensions.NetworkUtil;
 import org.michaelbel.moviemade.model.MovieRealm;
 import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
-import org.michaelbel.moviemade.rest.ApiFactory;
-import org.michaelbel.moviemade.data.TmdbObject;
-import org.michaelbel.moviemade.rest.api.service.COMPANIES;
-import org.michaelbel.moviemade.data.dao.Movie;
-import org.michaelbel.moviemade.rest.response.MoviesResponse;
 import org.michaelbel.moviemade.utils.DateUtils;
-import org.michaelbel.moviemade.utils.NetworkUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 
 @InjectViewState
@@ -38,12 +25,12 @@ public class CompanyMoviesPresenter extends MvpPresenter<ResultsMvp> {
             return;
         }
 
-        if (NetworkUtils.notConnected()) {
+        if (NetworkUtil.INSTANCE.notConnected()) {
             getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
             return;
         }
 
-        COMPANIES service = ApiFactory.createService2(COMPANIES.class);
+        /*COMPANIES service = ApiFactory.createService2(COMPANIES.class);
         Observable<MoviesResponse> observable = service.getMovies(companyId, BuildConfig.TMDB_API_KEY, ConstantsKt.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override
@@ -63,7 +50,7 @@ public class CompanyMoviesPresenter extends MvpPresenter<ResultsMvp> {
 
             @Override
             public void onComplete() {}
-        }));
+        }));*/
     }
 
     public void movieFavoritesChange(Movie m) {

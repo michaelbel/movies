@@ -6,16 +6,15 @@ import com.arellomobile.mvp.MvpPresenter;
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.annotation.EmptyViewMode;
-import org.michaelbel.moviemade.extensions.AndroidExtensions;
-import org.michaelbel.moviemade.model.MovieRealm;
-import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
-import org.michaelbel.moviemade.rest.ApiFactory;
-import org.michaelbel.moviemade.data.TmdbObject;
-import org.michaelbel.moviemade.rest.api.service.COLLECTIONS;
+import org.michaelbel.moviemade.data.dao.Collection;
 import org.michaelbel.moviemade.data.dao.Movie;
-import org.michaelbel.moviemade.rest.model.v3.Collection;
+import org.michaelbel.moviemade.data.service.COLLECTIONS;
+import org.michaelbel.moviemade.extensions.AndroidExtensions;
+import org.michaelbel.moviemade.extensions.NetworkUtil;
+import org.michaelbel.moviemade.model.MovieRealm;
+import org.michaelbel.moviemade.ApiFactory;
+import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
 import org.michaelbel.moviemade.utils.DateUtils;
-import org.michaelbel.moviemade.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +37,7 @@ public class CollectionPresenter extends MvpPresenter<ResultsMvp> {
             return;
         }
 
-        if (NetworkUtils.notConnected()) {
+        if (NetworkUtil.INSTANCE.notConnected()) {
             getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
             return;
         }
@@ -48,7 +47,7 @@ public class CollectionPresenter extends MvpPresenter<ResultsMvp> {
         disposables.add(observable.subscribeWith(new DisposableObserver<Collection>() {
             @Override
             public void onNext(Collection collection) {
-                List<Movie> results = new ArrayList<>(collection.movies);
+                List<Movie> results = new ArrayList<>(collection.getParts());
                 if (results.isEmpty()) {
                     getViewState().showError(EmptyViewMode.MODE_NO_MOVIES);
                     return;

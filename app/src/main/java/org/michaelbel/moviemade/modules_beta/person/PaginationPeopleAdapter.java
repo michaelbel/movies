@@ -1,17 +1,16 @@
 package org.michaelbel.moviemade.modules_beta.person;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import org.michaelbel.material.widget.Holder;
 import org.michaelbel.moviemade.data.TmdbObject;
-import org.michaelbel.moviemade.rest.model.v3.People;
-import org.michaelbel.moviemade.ui.base.PaginationAdapter;
 import org.michaelbel.moviemade.modules_beta.view.PersonView;
-import org.michaelbel.moviemade.utils.AndroidUtils;
+import org.michaelbel.moviemade.ui.base.PaginationAdapter;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class PaginationPeopleAdapter extends PaginationAdapter {
 
@@ -42,7 +41,7 @@ public class PaginationPeopleAdapter extends PaginationAdapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        /*People p = (People) objectList.get(position);
+        /*People p = (People) parts.get(position);
 
         if (getItemViewType(position) == ITEM_BACKDROP) {
             PersonView view = (PersonView) ((Holder) holder).itemView;

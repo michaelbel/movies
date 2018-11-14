@@ -2,6 +2,7 @@ package org.michaelbel.moviemade.ui.modules.trailers;
 
 import com.arellomobile.mvp.MvpView;
 
+import org.michaelbel.moviemade.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.data.dao.Video;
 
 import java.util.ArrayList;
@@ -11,5 +12,5 @@ public interface TrailersMvp extends MvpView {
 
     void setTrailers(List<Video> trailers);
 
-    void showError();
+    void setError(@EmptyViewMode int mode);
 }

@@ -5,12 +5,12 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.annotation.EmptyViewMode;
+import org.michaelbel.moviemade.data.dao.Cast;
+import org.michaelbel.moviemade.data.dao.CreditsResponse;
+import org.michaelbel.moviemade.data.service.MOVIES;
+import org.michaelbel.moviemade.extensions.NetworkUtil;
+import org.michaelbel.moviemade.ApiFactory;
 import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
-import org.michaelbel.moviemade.rest.ApiFactory;
-import org.michaelbel.moviemade.data.TmdbObject;
-import org.michaelbel.moviemade.rest.api.MOVIES;
-import org.michaelbel.moviemade.rest.response.CreditResponse;
-import org.michaelbel.moviemade.utils.NetworkUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,18 +27,18 @@ public class MovieCastsPresenter extends MvpPresenter<ResultsMvp> {
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     public void loadCredits(int movieId) {
-        if (NetworkUtils.notConnected()) {
+        if (NetworkUtil.INSTANCE.notConnected()) {
             getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
             return;
         }
 
         // todo То, что этот метод вызывается 2 раза нехорошо, нужно вызывать его 1 раз и затем только передавать данные
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<CreditResponse> observable = service.getCredits(movieId, BuildConfig.TMDB_API_KEY).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<CreditResponse>() {
+        Observable<CreditsResponse> observable = service.getCredits(movieId, BuildConfig.TMDB_API_KEY).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposables.add(observable.subscribeWith(new DisposableObserver<CreditsResponse>() {
             @Override
-            public void onNext(CreditResponse response) {
-                List<TmdbObject> results = new ArrayList<>(response.casts);
+            public void onNext(CreditsResponse response) {
+                List<Cast> results = new ArrayList<>(response.getCast());
                 if (results.isEmpty()) {
                     getViewState().showError(EmptyViewMode.MODE_NO_PEOPLE);
                 }

@@ -12,21 +12,20 @@ import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.Theme;
-import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
-import org.michaelbel.moviemade.rest.model.v3.Collection;
-import org.michaelbel.moviemade.ui.widgets.EmptyView;
-import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
-import org.michaelbel.moviemade.LayoutHelper;
+import org.michaelbel.moviemade.data.dao.Collection;
+import org.michaelbel.moviemade.data.dao.Movie;
+import org.michaelbel.moviemade.extensions.DeviceUtil;
 import org.michaelbel.moviemade.modules_beta.view.movie.MovieViewListBig;
 import org.michaelbel.moviemade.modules_beta.view.movie.MovieViewPoster;
 import org.michaelbel.moviemade.modules_beta.view.widget.PaddingItemDecoration;
-import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.ScreenUtils;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
-import org.michaelbel.moviemade.data.TmdbObject;
-import org.michaelbel.moviemade.data.dao.Movie;
+import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
+import org.michaelbel.moviemade.ui.widgets.EmptyView;
+import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
+import org.michaelbel.moviemade.utils.AndroidUtils;
 
 import java.util.List;
 
@@ -34,7 +33,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -75,9 +73,7 @@ public class CollectionFragment extends MvpAppCompatFragment implements ResultsM
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         activity.toolbarTitle.setOnClickListener(v -> {
-            if (AndroidUtils.scrollToTop()) {
-                recyclerView.smoothScrollToPosition(0);
-            }
+            recyclerView.smoothScrollToPosition(0);
         });
 
         fragmentView = new SwipeRefreshLayout(activity);
@@ -87,7 +83,7 @@ public class CollectionFragment extends MvpAppCompatFragment implements ResultsM
         fragmentView.setProgressBackgroundColorSchemeColor(ContextCompat.getColor(activity, Theme.primaryColor()));
         fragmentView.setOnRefreshListener(() -> {
             if (adapter.getMovies().isEmpty()) {
-                presenter.loadMovies(collection.id);
+                presenter.loadMovies(collection.getId());
             } else {
                 fragmentView.setRefreshing(false);
             }
@@ -122,7 +118,7 @@ public class CollectionFragment extends MvpAppCompatFragment implements ResultsM
         //collectionViewLayout.addView(overviewText);
 
         itemDecoration = new PaddingItemDecoration();
-        itemDecoration.setOffset(AndroidUtils.viewType() == 0 ? 0 : ScreenUtils.dp(1));
+        itemDecoration.setOffset(AndroidUtils.viewType() == 0 ? 0 : DeviceUtil.INSTANCE.dp(activity, 1));
 
         adapter = new MoviesAdapter();
         gridLayoutManager = new GridLayoutManager(getContext(), AndroidUtils.viewType() == AndroidUtils.VIEW_POSTERS ? 1 : 2);
@@ -203,7 +199,7 @@ public class CollectionFragment extends MvpAppCompatFragment implements ResultsM
         //activity.binding.collapsingLayout.setTitle(collection.name);
 
         if (savedInstanceState == null) {
-            presenter.loadMovies(collection.id);
+            presenter.loadMovies(collection.getId());
         }
     }
 

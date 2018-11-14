@@ -15,9 +15,8 @@ import android.view.inputmethod.InputMethodManager;
 
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.rest.model.v3.Company;
-import org.michaelbel.moviemade.rest.model.v3.Country;
-import org.michaelbel.moviemade.rest.model.v3.Genre;
+import org.michaelbel.moviemade.data.dao.Country;
+import org.michaelbel.moviemade.data.dao.Genre;
 
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -25,12 +24,9 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 public class AndroidUtils {
 
     public static final int VIEW_POSTERS = 0;
-    public static final int VIEW_BACKDROPS = 1;
 
     public static int viewType() {
         return VIEW_POSTERS;
@@ -62,11 +58,6 @@ public class AndroidUtils {
         }
     }
 
-    public static boolean includeAdult() {
-        SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
-        return prefs.getBoolean("adult", true);
-    }
-
     public static boolean scrollToTop() {
         SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
         return prefs.getBoolean("scroll_to_top", true);
@@ -77,24 +68,9 @@ public class AndroidUtils {
         return prefs.getBoolean("scrollbars", true);
     }
 
-    public static boolean zoomReview() {
-        SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
-        return prefs.getBoolean("zoom_review", true);
-    }
-
-    public static boolean fullOverview() {
-        SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
-        return prefs.getBoolean("full_overview", false);
-    }
-
     public static boolean textSelect() {
         SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", Context.MODE_PRIVATE);
         return prefs.getBoolean("text_select", false);
-    }
-
-    public static String posterSize() {
-        SharedPreferences prefs = getContext().getSharedPreferences("mainconfig", AppCompatActivity.MODE_PRIVATE);
-        return prefs.getString("image_quality_poster", "w342");
     }
 
     private static final int FLAG_TAG_BR = 1;
@@ -161,23 +137,6 @@ public class AndroidUtils {
     }
 
     @Deprecated
-    public static String formatCompanies(List<Company> companies) {
-        if (companies == null) {
-            return "";
-        }
-
-        StringBuilder text = new StringBuilder();
-        for (Company company : companies) {
-            text.append(company.name);
-            if (company != companies.get(companies.size() - 1)) {
-                text.append(", ");
-            }
-        }
-
-        return text.toString();
-    }
-
-    @Deprecated
     public static String formatCountries(List<Country> countries) {
         if (countries == null) {
             return "";
@@ -185,15 +144,15 @@ public class AndroidUtils {
 
         StringBuilder text = new StringBuilder();
         for (Country country : countries) {
-            if (country.name.equals("United States of America")) {
-                country.name = "USA";
-            } else if (country.name.equals("United Kingdom")) {
-                country.name = "UK";
-            } else if (country.name.equals("United Arab Emirates")) {
-                country.name = "UAE";
+            if (country.getName().equals("United States of America")) {
+               // country.component2() = "USA";
+            } else if (country.getName().equals("United Kingdom")) {
+                //country.getName() = "UK";
+            } else if (country.getName().equals("United Arab Emirates")) {
+               // country.getName() = "UAE";
             }
 
-            text.append(country.name);
+            text.append(country.getName());
             if (country != countries.get(countries.size() - 1)) {
                 text.append(", ");
             }
@@ -210,7 +169,7 @@ public class AndroidUtils {
 
         StringBuilder text = new StringBuilder();
         for (Genre genre : genres) {
-            text.append(genre.name);
+            text.append(genre.getName());
             if (genre != genres.get(genres.size() - 1)) {
                 text.append(", ");
             }
@@ -233,20 +192,6 @@ public class AndroidUtils {
         }
 
         return text.toString();
-    }
-
-    @Deprecated
-    public static int getColumns() {
-        SharedPreferences prefs = Moviemade.AppContext.getSharedPreferences("main_config", Context.MODE_PRIVATE);
-        int type = prefs.getInt("view_type", 0);
-
-        if (type == 0) {
-            return ScreenUtils.isTablet() ? ScreenUtils.isPortrait() ? 6 : 8 : ScreenUtils.isPortrait() ? 3 : 5;
-        } else if (type == 1) {
-            return ScreenUtils.isTablet() ? ScreenUtils.isPortrait() ? 2 : 4 : ScreenUtils.isPortrait() ? 1 : 2;
-        } else {
-            return ScreenUtils.isTablet() ? ScreenUtils.isPortrait() ? 2 : 4 : ScreenUtils.isPortrait() ? 1 : 2;
-        }
     }
 
     public static Point displaySize = new Point();

@@ -1,11 +1,12 @@
 package org.michaelbel.moviemade.modules_beta.view.cell;
 
 import android.content.Context;
-import androidx.appcompat.widget.AppCompatRadioButton;
 import android.view.Gravity;
 
 import org.michaelbel.moviemade.LayoutHelper;
-import org.michaelbel.moviemade.utils.ScreenUtils;
+import org.michaelbel.moviemade.extensions.DeviceUtil;
+
+import androidx.appcompat.widget.AppCompatRadioButton;
 
 /**
  * Date: Вт, Март 13 2018
@@ -21,7 +22,7 @@ public class RadioCell extends TextCell {
     public RadioCell(Context context) {
         super(context);
 
-        setHeight(ScreenUtils.dp(48));
+        setHeight(DeviceUtil.INSTANCE.dp(context,48));
 
         radioButton = new AppCompatRadioButton(context);
         radioButton.setClickable(false);

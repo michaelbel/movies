@@ -284,6 +284,50 @@
             android:layout_marginBottom="10dp"
             android:background="@color/divider"/>
 
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/crew_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/starring_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="sans-serif"
+                android:textIsSelectable="true"
+                android:textSize="16sp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/directed_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="sans-serif"
+                android:textIsSelectable="true"
+                android:textSize="16sp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/written_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="sans-serif"
+                android:textIsSelectable="true"
+                android:textSize="16sp"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/produced_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/secondaryText"
+                android:fontFamily="sans-serif"
+                android:textIsSelectable="true"
+                android:textSize="16sp"/>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
         <FrameLayout
             android:id="@+id/trailers_layout"
             android:layout_width="match_parent"

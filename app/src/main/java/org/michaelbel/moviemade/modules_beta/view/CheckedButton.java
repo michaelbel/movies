@@ -3,22 +3,23 @@ package org.michaelbel.moviemade.modules_beta.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Rect;
-import androidx.annotation.IntDef;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import androidx.cardview.widget.CardView;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 
-import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.material.extensions.Extensions;
+import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.Theme;
-import org.michaelbel.moviemade.utils.ScreenUtils;
+import org.michaelbel.moviemade.extensions.DeviceUtil;
+
+import androidx.annotation.IntDef;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 
 public class CheckedButton extends FrameLayout {
 
@@ -53,7 +54,7 @@ public class CheckedButton extends FrameLayout {
         cardView.setCardElevation(0);
         cardView.setUseCompatPadding(true);
         cardView.setPreventCornerOverlap(false);
-        cardView.setRadius(ScreenUtils.dp(8));
+        cardView.setRadius(DeviceUtil.INSTANCE.dp(context,8));
         cardView.setCardBackgroundColor(ContextCompat.getColor(context, R.color.primary));
         cardView.setForeground(Extensions.selectableItemBackgroundBorderlessDrawable(context));
         cardView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));

@@ -17,12 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.Theme;
 import org.michaelbel.moviemade.extensions.AndroidExtensions;
-import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.modules_beta.person.PersonViewListener;
-import org.michaelbel.moviemade.utils.AndroidUtils;
 
 import java.util.Objects;
 
@@ -200,7 +199,7 @@ public class PersonViewLayout extends LinearLayout {
 
         nameText = new TextView(context);
         nameText.setVisibility(INVISIBLE);
-        nameText.setTextIsSelectable(AndroidUtils.textSelect());
+        nameText.setTextIsSelectable(true);
         nameText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 23);
         nameText.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         nameText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
@@ -236,7 +235,7 @@ public class PersonViewLayout extends LinearLayout {
         addView(bioLayout);
 
         bioText = new TextView(context);
-        bioText.setTextIsSelectable(AndroidUtils.textSelect());
+        bioText.setTextIsSelectable(true);
         bioText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         bioText.setTypeface(Typeface.create("sans-serif", Typeface.NORMAL));
         bioText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
@@ -252,21 +251,21 @@ public class PersonViewLayout extends LinearLayout {
         addView(pagesLayout);
 
         tmdbPageView = new WebpageView(context);
-        tmdbPageView.setText(R.string.ViewOnTMDb);
+        tmdbPageView.setText(R.string.view_on_tmdb);
         tmdbPageView.setDivider(true);
         tmdbPageView.setOnClickListener(view -> personViewListener.onWebpageClick(view, 0));
         tmdbPageView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         pagesLayout.addView(tmdbPageView);
 
         imdbPageView = new WebpageView(context);
-        imdbPageView.setText(R.string.ViewOnIMDb);
+        imdbPageView.setText(R.string.view_on_imdb);
         imdbPageView.setDivider(true);
         imdbPageView.setOnClickListener(view -> personViewListener.onWebpageClick(view, 1));
         imdbPageView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         pagesLayout.addView(imdbPageView);
 
         homePageView = new WebpageView(context);
-        homePageView.setText(R.string.ViewHomepage);
+        homePageView.setText(R.string.view_homepage);
         homePageView.setOnClickListener(view -> personViewListener.onWebpageClick(view, 2));
         homePageView.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         pagesLayout.addView(homePageView);

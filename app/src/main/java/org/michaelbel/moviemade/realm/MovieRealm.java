@@ -1,10 +1,8 @@
 package org.michaelbel.moviemade.realm;
 
-import org.michaelbel.moviemade.rest.model.Language;
-import org.michaelbel.moviemade.rest.model.v3.Collection;
-import org.michaelbel.moviemade.rest.model.v3.Company;
-import org.michaelbel.moviemade.rest.model.v3.Country;
-import org.michaelbel.moviemade.rest.model.v3.Genre;
+import org.michaelbel.moviemade.data.dao.Collection;
+import org.michaelbel.moviemade.data.dao.Company;
+import org.michaelbel.moviemade.data.dao.Genre;
 
 import java.util.List;
 
@@ -46,7 +44,7 @@ public class MovieRealm extends RealmObject {
     public List<Company> companies;
 
     @Ignore
-    public List<Country> countries;
+    //public List<Country> countries;
 
     public String releaseDate;
 
@@ -55,7 +53,7 @@ public class MovieRealm extends RealmObject {
     public int runtime;
 
     @Ignore
-    public List<Language> languages;
+    //public List<Language> languages;
 
     public String status;
 

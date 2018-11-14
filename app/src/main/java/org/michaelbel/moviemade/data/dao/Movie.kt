@@ -1,11 +1,6 @@
 package org.michaelbel.moviemade.data.dao
 
 import com.google.gson.annotations.SerializedName
-import org.michaelbel.moviemade.rest.model.Language
-import org.michaelbel.moviemade.rest.model.v3.Collection
-import org.michaelbel.moviemade.rest.model.v3.Company
-import org.michaelbel.moviemade.rest.model.v3.Country
-import org.michaelbel.moviemade.rest.model.v3.Genre
 import java.io.Serializable
 
 data class Movie(
@@ -33,5 +28,7 @@ data class Movie(
     @SerializedName("title") val title: String,
     @SerializedName("video") val video: Boolean,
     @SerializedName("vote_average") val voteAverage: Float,
-    @SerializedName("vote_count") val voteCount: Int
+    @SerializedName("vote_count") val voteCount: Int,
+
+    @SerializedName("media_type") val mediaType: String
 ) : Serializable

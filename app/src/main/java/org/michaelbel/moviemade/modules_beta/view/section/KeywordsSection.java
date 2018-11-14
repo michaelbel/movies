@@ -13,11 +13,11 @@ import android.widget.TextView;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 
 import org.michaelbel.material.widget.Holder;
-import org.michaelbel.moviemade.Theme;
-import org.michaelbel.moviemade.rest.model.v3.Keyword;
-import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.LayoutHelper;
+import org.michaelbel.moviemade.Theme;
+import org.michaelbel.moviemade.data.dao.Keyword;
 import org.michaelbel.moviemade.modules_beta.view.ChipView;
+import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.utils.ScreenUtils;
 
 import java.util.ArrayList;
@@ -46,7 +46,7 @@ public class KeywordsSection extends FrameLayout {
         setBackgroundColor(ContextCompat.getColor(context, Theme.foregroundColor()));
 
         ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(context)
-                .setChildGravity(Gravity.START)
+                //.setChildGravity(Gravity.START)
                 .setScrollingEnabled(false)
                 .setOrientation(ChipsLayoutManager.HORIZONTAL)
                 .setRowStrategy(ChipsLayoutManager.STRATEGY_DEFAULT)
@@ -117,7 +117,7 @@ public class KeywordsSection extends FrameLayout {
             view.setRadius(ScreenUtils.dp(15))
                 .setTextColor(ContextCompat.getColor(getContext(), Theme.foregroundColor()))
                 .setColorBackground(ContextCompat.getColor(holder.itemView.getContext(), Theme.accentColor()))
-                .setText(keyword.name)
+                .setText(keyword.getName())
                 .changeLayoutParams();
         }
 

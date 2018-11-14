@@ -4,6 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -11,6 +13,9 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -24,19 +29,19 @@ import com.alexvasilkov.gestures.animation.ViewPositionAnimator;
 import com.alexvasilkov.gestures.transition.GestureTransitions;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.extensions.AndroidExtensions;
+import org.michaelbel.moviemade.browser.Browser;
+import org.michaelbel.moviemade.data.dao.Movie;
+import org.michaelbel.moviemade.extensions.DrawableUtil;
+import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
 import org.michaelbel.moviemade.room.dao.MovieDao;
 import org.michaelbel.moviemade.room.database.MoviesDatabase;
 import org.michaelbel.moviemade.ui.modules.movie.views.RatingView;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
-import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
-import org.michaelbel.moviemade.data.dao.Movie;
 
 import java.util.Locale;
 
@@ -44,7 +49,9 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -54,86 +61,55 @@ import static android.view.View.VISIBLE;
 @SuppressWarnings("all")
 public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, View.OnClickListener {
 
+    private Menu actionMenu;
+    private MenuItem menu_share;
+    private MenuItem menu_tmdb;
+    private MenuItem menu_imdb;
+    private MenuItem menu_homepage;
+
     private View view;
+    private String imdbId;
+    private String homepage;
     private String posterPath;
     private boolean connectionError;
     private MovieActivity activity;
     private NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
 
-    @Inject
-    MoviesDatabase moviesDatabase;
+    @Inject MoviesDatabase moviesDatabase;
+    @InjectPresenter MoviePresenter presenter;
 
-    @InjectPresenter
-    public MoviePresenter presenter;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
+    @BindView(R.id.empty_view) EmptyView emptyView;
+    @BindView(R.id.poster_image) ImageView posterImage;
+    @BindView(R.id.info_layout) LinearLayout infoLayout;
+    @BindView(R.id.rating_view) RatingView ratingView;
+    @BindView(R.id.rating_text) TextView ratingText;
+    @BindView(R.id.vote_count_text) AppCompatTextView voteCountText;
+    @BindView(R.id.date_layout) LinearLayout releaseDateLayout;
+    @BindView(R.id.release_date_icon) ImageView releaseDateIcon;
+    @BindView(R.id.release_date_text) TextView releaseDateText;
+    @BindView(R.id.runtime_icon) ImageView runtimeIcon;
+    @BindView(R.id.runtime_text) TextView runtimeText;
+    @BindView(R.id.lang_layout) LinearLayout langLayout;
+    @BindView(R.id.lang_icon) ImageView langIcon;
+    @BindView(R.id.lang_text) TextView langText;
+    @BindView(R.id.title_layout) LinearLayout titleLayout;
+    @BindView(R.id.title_text) TextView titleText;
+    @BindView(R.id.tagline_text) TextView taglineText;
+    @BindView(R.id.overview_text) TextView overviewText;
+    @BindView(R.id.watchlist_layout) LinearLayout watchLayout;
+    @BindView(R.id.watchlist_icon) ImageView watchIcon;
+    @BindView(R.id.watchlist_text) AppCompatTextView watchText;
+    @BindView(R.id.trailers_layout) FrameLayout trailersLayout;
+    @BindView(R.id.reviews_layout) FrameLayout reviewsLayout;
+    @BindView(R.id.reviews_icon) AppCompatImageView reviewsIcon;
+    @BindView(R.id.reviews_text) AppCompatTextView reviewsText;
 
-    @BindView(R.id.progress_bar)
-    public ProgressBar progressBar;
-
-    @BindView(R.id.empty_view)
-    public EmptyView emptyView;
-
-    @BindView(R.id.poster_image)
-    public ImageView posterImage;
-
-    @BindView(R.id.info_layout)
-    public LinearLayout infoLayout;
-
-    @BindView(R.id.rating_view)
-    public RatingView ratingView;
-
-    @BindView(R.id.rating_text)
-    public TextView ratingText;
-
-    @BindView(R.id.vote_count_text)
-    public AppCompatTextView voteCountText;
-
-    @BindView(R.id.date_layout)
-    public LinearLayout releaseDateLayout;
-
-    @BindView(R.id.release_date_icon)
-    public ImageView releaseDateIcon;
-
-    @BindView(R.id.release_date_text)
-    public TextView releaseDateText;
-
-    @BindView(R.id.runtime_icon)
-    public ImageView runtimeIcon;
-
-    @BindView(R.id.runtime_text)
-    public TextView runtimeText;
-
-    @BindView(R.id.lang_layout)
-    public LinearLayout langLayout;
-
-    @BindView(R.id.lang_icon)
-    public ImageView langIcon;
-
-    @BindView(R.id.lang_text)
-    public TextView langText;
-
-    @BindView(R.id.title_layout)
-    public LinearLayout titleLayout;
-
-    @BindView(R.id.title_text)
-    public TextView titleText;
-
-    @BindView(R.id.tagline_text)
-    public TextView taglineText;
-
-    @BindView(R.id.overview_text)
-    public TextView overviewText;
-
-    @BindView(R.id.watchlist_layout)
-    public LinearLayout watchLayout;
-
-    @BindView(R.id.watchlist_icon)
-    public ImageView watchIcon;
-
-    @BindView(R.id.watchlist_text)
-    public AppCompatTextView watchText;
-
-    @BindView(R.id.trailers_layout)
-    public FrameLayout trailersLayout;
+    @BindView(R.id.crew_layout) LinearLayoutCompat crewLayout;
+    @BindView(R.id.starring_text) AppCompatTextView starringText;
+    @BindView(R.id.directed_text) AppCompatTextView directedText;
+    @BindView(R.id.written_text) AppCompatTextView writtenText;
+    @BindView(R.id.produced_text) AppCompatTextView producedText;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -141,6 +117,37 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
         activity = (MovieActivity) getActivity();
         activity.registerReceiver(networkChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
         Moviemade.getComponent().injest(this);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        actionMenu = menu;
+        menu_share = menu.add(R.string.share).setIcon(R.drawable.ic_anim_share).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        menu_tmdb = menu.add(R.string.view_on_tmdb).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item == menu_share) {
+            Drawable icon = actionMenu.getItem(0).getIcon();
+            if (icon instanceof Animatable) {
+                ((Animatable) icon).start();
+            }
+
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, ConstantsKt.TMDB_MOVIE, activity.movie.getId()));
+            startActivity(Intent.createChooser(intent, getString(R.string.ShareVia)));
+        } else if (item == menu_tmdb) {
+            Browser.openUrl(activity, String.format(Locale.US, ConstantsKt.TMDB_MOVIE, activity.movie.getId()));
+        } else if (item == menu_imdb) {
+            Browser.openUrl(activity, String.format(Locale.US, ConstantsKt.IMDB_MOVIE, imdbId));
+        } else if (item == menu_homepage) {
+            Browser.openUrl(activity, homepage);
+        }
+
+        return true;
     }
 
     @Nullable
@@ -155,12 +162,18 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         runtimeText.setText(R.string.loading_status);
-        runtimeIcon.setImageDrawable(AndroidExtensions.getIcon(activity, R.drawable.ic_clock, ContextCompat.getColor(activity, R.color.iconActive)));
+        runtimeIcon.setImageDrawable(DrawableUtil.INSTANCE.getIcon(activity, R.drawable.ic_clock, ContextCompat.getColor(activity, R.color.iconActive)));
 
         taglineText.setText(R.string.loading_tagline);
 
+        starringText.setText("Loading starring...");
+        directedText.setText("Loading directors...");
+        writtenText.setText("Loading writers...");
+        producedText.setText("Loading producers...");
+
         posterImage.setOnClickListener(this);
         trailersLayout.setOnClickListener(this);
+        reviewsLayout.setOnClickListener(this);
         watchLayout.setOnClickListener(this);
 
         emptyView.setVisibility(View.GONE);
@@ -174,7 +187,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
     }
 
     @Override
-    public void setPoster(RequestOptions options, String posterPath) {
+    public void setPoster(String posterPath) {
         this.posterPath = posterPath;
 
         posterImage.setVisibility(VISIBLE);
@@ -214,7 +227,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
             return;
         }
 
-        releaseDateIcon.setImageDrawable(AndroidExtensions.getIcon(activity, R.drawable.ic_calendar, ContextCompat.getColor(activity, R.color.iconActive)));
+        releaseDateIcon.setImageDrawable(DrawableUtil.INSTANCE.getIcon(activity, R.drawable.ic_calendar, ContextCompat.getColor(activity, R.color.iconActive)));
         releaseDateText.setText(releaseDate);
     }
 
@@ -225,7 +238,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
             return;
         }
 
-        langIcon.setImageDrawable(AndroidExtensions.getIcon(activity, R.drawable.ic_earth, ContextCompat.getColor(activity, R.color.iconActive)));
+        langIcon.setImageDrawable(DrawableUtil.INSTANCE.getIcon(activity, R.drawable.ic_earth, ContextCompat.getColor(activity, R.color.iconActive)));
         langText.setText(originalLanguage);
     }
 
@@ -247,6 +260,20 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
         }
 
         taglineText.setText(tagline);
+    }
+
+    @Override
+    public void setURLs(String imdbId, String homepage) {
+        this.imdbId = imdbId;
+        this.homepage = homepage;
+
+        if (imdbId != null && !TextUtils.isEmpty(imdbId)) {
+            menu_imdb = actionMenu.add(R.string.view_on_imdb).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
+        }
+
+        if (homepage != null && !TextUtils.isEmpty(homepage)) {
+            menu_homepage = actionMenu.add(R.string.view_homepage).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
+        }
     }
 
     @Override
@@ -283,8 +310,8 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
                 @Override
                 public void run() {
                     MovieDao movieDao = moviesDatabase.movieDao();
-                    List<org.michaelbel.moviemade.room.entity.Movie> movies = movieDao.getAll();
-                    for (org.michaelbel.moviemade.room.entity.Movie m : movies) {
+                    List<org.michaelbel.moviemade.room.entity.Movie> parts = movieDao.getAll();
+                    for (org.michaelbel.moviemade.room.entity.Movie m : parts) {
                         Log.e("2580", m.title);
                     }
                 }
@@ -325,6 +352,8 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
                 .setOverzoomFactor(Settings.OVERZOOM_FACTOR)
                 .setFillViewport(true);
             activity.imageAnimator.enterSingle(true);
+        } else if (v == reviewsLayout) {
+            activity.startReviews(activity.movie);
         }
     }
 
@@ -401,11 +430,6 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
     }
 
     @Override
-    public void watchingButtonState(boolean state) {
-        *//*watchButton.setChecked(state);*//*
-    }
-
-    @Override
     public void onMovieUrlClick(View view, int position) {
         *//*if (extraMovieRealm != null) {
             if (position == 1) {
@@ -442,8 +466,5 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
         }*//*
     }
 
-    @Override
-    public void onPosterClick(View view) {
-        *//*imageAnimator.enterSingle(true);*//*
-    }*/
+    */
 }

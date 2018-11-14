@@ -61,7 +61,7 @@ public class MovieViewPoster extends FrameLayout {
 
         Glide.with(getContext())
                 .asBitmap()
-                .load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, AndroidUtils.posterSize(), posterPath))
+                .load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, "w342", posterPath))
                 .apply(options)
                 .into(new BitmapImageViewTarget(posterImage) {
                     @Override

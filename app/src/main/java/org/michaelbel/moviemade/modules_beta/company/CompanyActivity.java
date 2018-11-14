@@ -1,16 +1,17 @@
 package org.michaelbel.moviemade.modules_beta.company;
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.data.dao.Company;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
-import org.michaelbel.moviemade.rest.model.v3.Company;
 import org.michaelbel.moviemade.utils.AndroidUtilsDev;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 
 public class CompanyActivity extends BaseActivity {
 
@@ -33,11 +34,11 @@ public class CompanyActivity extends BaseActivity {
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(view -> finish());
 
-        toolbarTitle.setText(company.name);
+        toolbarTitle.setText(company.getName());
 
         progressBar = findViewById(R.id.progress_bar);
         progressBar.setVisibility(View.GONE);
 
-        startFragment(CompanyMoviesFragment.newInstance(company.id), R.id.fragment_view);
+        startFragment(CompanyMoviesFragment.newInstance(company.getId()), R.id.fragment_view);
     }
 }

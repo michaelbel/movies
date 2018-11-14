@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.rest;
+package org.michaelbel.moviemade;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

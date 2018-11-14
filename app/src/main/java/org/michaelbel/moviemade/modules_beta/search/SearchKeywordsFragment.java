@@ -11,21 +11,18 @@ import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.Theme;
 import org.michaelbel.moviemade.annotation.EmptyViewMode;
 import org.michaelbel.moviemade.data.dao.Movie;
-import org.michaelbel.moviemade.ui.modules.search.SearchMvp;
-import org.michaelbel.moviemade.data.TmdbObject;
-import org.michaelbel.moviemade.rest.model.v3.Keyword;
-import org.michaelbel.moviemade.ui.modules.search.SearchActivity;
-import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
-import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.modules_beta.keywords.PaginationKeywordsAdapter;
-import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.modules_beta.view.cell.TextCell;
-import org.michaelbel.moviemade.utils.AndroidUtils;
-import org.michaelbel.moviemade.utils.AndroidUtilsDev;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.ui.modules.search.SearchActivity;
+import org.michaelbel.moviemade.ui.modules.search.SearchMvp;
+import org.michaelbel.moviemade.ui.widgets.EmptyView;
+import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
+import org.michaelbel.moviemade.utils.AndroidUtils;
 
 import java.util.List;
 
@@ -178,12 +175,12 @@ public class SearchKeywordsFragment extends MvpAppCompatFragment implements Sear
                 presenter.isLastPage = true;
             }
 
-            if (AndroidUtilsDev.searchResultsCount()) {
+            //if (AndroidUtilsDev.searchResultsCount()) {
                 /*TabLayout.Tab tab = activity.tabLayout.getTabAt(SearchActivity.TAB_KEYWORDS);
                 if (tab != null) {
                     tab.setText(getResources().getQuantityString(R.plurals.KeywordsTotalResults, presenter.totalResults, presenter.totalResults));
                 }*/
-            }
+            //}
         } else {
             adapter.removeLoadingFooter();
             presenter.isLoading = false;

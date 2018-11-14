@@ -21,7 +21,6 @@ import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.modules_beta.view.widget.PaddingItemDecoration;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -72,7 +71,7 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
         super.onViewCreated(view, savedInstanceState);
 
         itemDecoration = new PaddingItemDecoration();
-        itemDecoration.setOffset(DeviceUtil.dp(activity, 4));
+        itemDecoration.setOffset(DeviceUtil.INSTANCE.dp(activity, 4));
 
         int spanCount = activity.getResources().getInteger(R.integer.trailers_span_layout_count);
 
@@ -90,7 +89,7 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
         recyclerView.setEmptyView(emptyView);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setPadding(0, DeviceUtil.dp(activity,2), 0, DeviceUtil.dp(activity,2));
+        recyclerView.setPadding(0, DeviceUtil.INSTANCE.dp(activity,2), 0, DeviceUtil.INSTANCE.dp(activity,2));
         recyclerView.setOnItemClickListener((v, position) -> {
             Video trailer = adapter.trailers.get(position);
             YoutubePlayerDialogFragment dialog = YoutubePlayerDialogFragment.newInstance(String.valueOf(Uri.parse(trailer.getKey())));
@@ -112,9 +111,9 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
     }
 
     @Override
-    public void showError() {
+    public void setError(@EmptyViewMode int mode) {
         emptyView.setVisibility(View.VISIBLE);
-        emptyView.setMode(EmptyViewMode.MODE_NO_CONNECTION);
+        emptyView.setMode(mode);
         progressBar.setVisibility(View.GONE);
     }
 

@@ -2,9 +2,9 @@ package org.michaelbel.moviemade.modules_beta.movie;
 
 import android.view.View;
 
-import org.michaelbel.moviemade.rest.model.v3.Company;
-import org.michaelbel.moviemade.rest.model.v3.Genre;
-import org.michaelbel.moviemade.rest.model.v3.Keyword;
+import org.michaelbel.moviemade.data.dao.Company;
+import org.michaelbel.moviemade.data.dao.Genre;
+import org.michaelbel.moviemade.data.dao.Keyword;
 
 public interface MovieViewListener {
 

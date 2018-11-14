@@ -2,13 +2,6 @@ package org.michaelbel.moviemade.modules_beta.genres;
 
 import android.content.Intent;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import com.google.android.material.tabs.TabLayout;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
-import androidx.viewpager.widget.ViewPager;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.widget.Toolbar;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
@@ -16,28 +9,35 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.google.android.material.tabs.TabLayout;
 
-import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.Moviemade;
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.Theme;
+import org.michaelbel.moviemade.data.dao.Genre;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.eventbus.Events;
-import org.michaelbel.moviemade.ui.base.BaseActivity;
-import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
-import org.michaelbel.moviemade.modules_beta.watchlist.WatchlistActivity;
 import org.michaelbel.moviemade.modules_beta.person.PopularPeopleActivity;
-import org.michaelbel.moviemade.modules_beta.watchlist.FavoriteActivity;
-import org.michaelbel.moviemade.data.TmdbObject;
-import org.michaelbel.moviemade.rest.model.v3.Genre;
-import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.modules_beta.view.NavigationView;
 import org.michaelbel.moviemade.modules_beta.view.widget.FragmentsPagerAdapter;
+import org.michaelbel.moviemade.modules_beta.watchlist.FavoriteActivity;
+import org.michaelbel.moviemade.modules_beta.watchlist.WatchlistActivity;
+import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.ui.modules.about.AboutActivity;
 import org.michaelbel.moviemade.ui.modules.main.MainActivity;
+import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
 import org.michaelbel.moviemade.ui.modules.settings.SettingsActivity;
+import org.michaelbel.moviemade.ui.widgets.EmptyView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.viewpager.widget.ViewPager;
 
 public class GenresActivity extends BaseActivity implements ResultsMvp {
 
@@ -78,7 +78,7 @@ public class GenresActivity extends BaseActivity implements ResultsMvp {
         navigationView = findViewById(R.id.navigation_view);
         progressBar = findViewById(R.id.progress_bar);
 
-        genres = getIntent().getParcelableArrayListExtra("list");
+        //genres = getIntent().getParcelableArrayListExtra("list");
         if (genres != null) {
             drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         }
@@ -187,8 +187,8 @@ public class GenresActivity extends BaseActivity implements ResultsMvp {
     }
 
     private void showFromExtra() {
-        for (TmdbObject genre : genres) {
-            adapter.addFragment(GenreMoviesFragment.newInstance(((Genre) genre).id), ((Genre) genre).name);
+        for (Genre genre : genres) {
+            adapter.addFragment(GenreMoviesFragment.newInstance(genre.getId()), genre.getName());
         }
 
         adapter.notifyDataSetChanged();

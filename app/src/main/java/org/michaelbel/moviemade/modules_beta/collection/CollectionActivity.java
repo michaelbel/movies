@@ -1,14 +1,15 @@
 package org.michaelbel.moviemade.modules_beta.collection;
 
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.Toolbar;
 import android.view.WindowManager;
 import android.widget.TextView;
 
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.data.dao.Collection;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
-import org.michaelbel.moviemade.rest.model.v3.Collection;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 
 public class CollectionActivity extends BaseActivity {
 
@@ -53,7 +54,7 @@ public class CollectionActivity extends BaseActivity {
         toolbar.setNavigationOnClickListener(view -> finish());
 
         toolbarTitle = findViewById(R.id.toolbar_title);
-        toolbarTitle.setText(collection.name);
+        toolbarTitle.setText(collection.getName());
 
         startFragment(CollectionFragment.newInstance(collection), R.id.fragment_view);
     }

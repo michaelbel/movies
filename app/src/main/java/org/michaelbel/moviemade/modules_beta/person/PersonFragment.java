@@ -16,16 +16,15 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.google.android.material.tabs.TabLayout;
 
 import org.michaelbel.moviemade.ConstantsKt;
+import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.Theme;
 import org.michaelbel.moviemade.browser.Browser;
-import org.michaelbel.moviemade.rest.model.Cast;
-import org.michaelbel.moviemade.rest.model.Person;
-import org.michaelbel.moviemade.rest.model.v3.People;
-import org.michaelbel.moviemade.ui.widgets.EmptyView;
-import org.michaelbel.moviemade.LayoutHelper;
+import org.michaelbel.moviemade.data.dao.Cast;
+import org.michaelbel.moviemade.data.dao.Person;
 import org.michaelbel.moviemade.modules_beta.view.PersonViewLayout;
-import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.ui.widgets.EmptyView;
+import org.michaelbel.moviemade.utils.AndroidUtils;
 
 import java.util.Locale;
 
@@ -36,7 +35,7 @@ import androidx.core.content.ContextCompat;
 public class PersonFragment extends MvpAppCompatFragment implements PersonMvp, PersonViewListener {
 
     private Cast extraCastPerson;
-    private People extraPeoplePerson;
+    private Person extraPeoplePerson;
     private Person loadedPerson;
 
     private int id;
@@ -61,9 +60,9 @@ public class PersonFragment extends MvpAppCompatFragment implements PersonMvp, P
         return fragment;
     }
 
-    public static PersonFragment newInstance(People person) {
+    public static PersonFragment newInstance(Person person) {
         Bundle args = new Bundle();
-        args.putParcelable("people_person", person);
+       // args.putParcelable("people_person", person);
 
         PersonFragment fragment = new PersonFragment();
         fragment.setArguments(args);
@@ -143,9 +142,9 @@ public class PersonFragment extends MvpAppCompatFragment implements PersonMvp, P
         extraPeoplePerson = getArguments().getParcelable("people_person");
 
         if (extraCastPerson != null) {
-            id = extraCastPerson.id;
+            id = extraCastPerson.getId();
         } else if (extraPeoplePerson != null) {
-            id = extraPeoplePerson.id;
+          //  id = extraPeoplePerson.id;
         }
 
         presenter.loadPerson(id);
@@ -155,15 +154,15 @@ public class PersonFragment extends MvpAppCompatFragment implements PersonMvp, P
     public void showPerson(Person person) {
         loadedPerson = person;
 
-        personView.addProfileImage(person.profilePath);
-        personView.addName(person.name);
-        personView.addPopularity(String.valueOf(person.popularity));
-        personView.addBio(person.bio);
-        personView.addOtherNames(AndroidUtils.formatNames(person.names));
-        personView.addImdb(person.imdbId);
-        personView.addHomepage(person.homepage);
-        personView.addBirthPlace(person.birthPlace);
-        personView.setDates(person.birthday, person.deathday);
+        personView.addProfileImage(person.getProfilePath());
+        personView.addName(person.getName());
+        personView.addPopularity(String.valueOf(person.getPopularity()));
+        personView.addBio(person.getBiography());
+        personView.addOtherNames(AndroidUtils.formatNames(person.getAlso_known_as()));
+        personView.addImdb(person.getImdb_id());
+        personView.addHomepage(person.getHomepage());
+        personView.addBirthPlace(person.getPlaceOfBirth());
+        personView.setDates(person.getBirthDay(), person.getDeathDay());
 
         personView.loadedSuccess();
         //personView.addCareer("Actor, Writing, Crew");
@@ -183,7 +182,7 @@ public class PersonFragment extends MvpAppCompatFragment implements PersonMvp, P
 
     @Override
     public void onBirthPlaceClick(View view) {
-        Uri uri = Uri.parse(String.format("geo:0,0?q=%s", loadedPerson.birthPlace));
+        Uri uri = Uri.parse(String.format("geo:0,0?q=%s", loadedPerson.getPlaceOfBirth()));
         Intent intent = new Intent(Intent.ACTION_VIEW, uri);
         startActivity(intent);
     }
@@ -211,9 +210,9 @@ public class PersonFragment extends MvpAppCompatFragment implements PersonMvp, P
         if (position == 0) {
             Browser.openUrl(activity, String.format(Locale.US, ConstantsKt.TMDB_PERSON, id));
         } else if (position == 1) {
-            Browser.openUrl(activity, String.format(Locale.US, ConstantsKt.IMDB_PERSON, loadedPerson.imdbId));
+            Browser.openUrl(activity, String.format(Locale.US, ConstantsKt.IMDB_PERSON, loadedPerson.getImdb_id()));
         } else if (position == 2) {
-            Browser.openUrl(activity, loadedPerson.homepage);
+            Browser.openUrl(activity, loadedPerson.getHomepage());
         }
     }
 }

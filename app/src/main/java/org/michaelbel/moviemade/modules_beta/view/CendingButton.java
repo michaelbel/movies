@@ -14,11 +14,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.material.extensions.Extensions;
+import org.michaelbel.moviemade.LayoutHelper;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.Theme;
-import org.michaelbel.moviemade.utils.ScreenUtils;
+import org.michaelbel.moviemade.extensions.DeviceUtil;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -50,7 +50,7 @@ public class CendingButton extends FrameLayout {
         cardView.setCardElevation(0);
         cardView.setUseCompatPadding(true);
         cardView.setPreventCornerOverlap(false);
-        cardView.setRadius(ScreenUtils.dp(3));
+        cardView.setRadius(DeviceUtil.INSTANCE.dp(context,3));
         cardView.setCardBackgroundColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
         cardView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         addView(cardView);
@@ -66,7 +66,7 @@ public class CendingButton extends FrameLayout {
         ascendingCardView.setCardElevation(0);
         ascendingCardView.setUseCompatPadding(false);
         ascendingCardView.setPreventCornerOverlap(false);
-        ascendingCardView.setRadius(ScreenUtils.dp(3));
+        ascendingCardView.setRadius(DeviceUtil.INSTANCE.dp(context,3));
         ascendingCardView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -94,7 +94,7 @@ public class CendingButton extends FrameLayout {
         descendingCardView.setCardElevation(0);
         descendingCardView.setUseCompatPadding(false);
         descendingCardView.setPreventCornerOverlap(false);
-        descendingCardView.setRadius(ScreenUtils.dp(3));
+        descendingCardView.setRadius(DeviceUtil.INSTANCE.dp(context, 3));
         descendingCardView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
