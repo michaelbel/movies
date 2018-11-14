@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade.data.service
 
 import io.reactivex.Observable
-import org.michaelbel.moviemade.rest.model.v3.Review
+import org.michaelbel.moviemade.data.dao.Review
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
