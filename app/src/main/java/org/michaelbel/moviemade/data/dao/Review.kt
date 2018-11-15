@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class Review(
-    @SerializedName("id") val id: Int,
+    @SerializedName("id") val id: String,
     @SerializedName("author") val author: String,
     @SerializedName("content") val content: String,
     @SerializedName("iso_639_1") val lang: String,
