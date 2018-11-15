@@ -1,13 +1,14 @@
 package org.michaelbel.moviemade.ui.base;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.data.dao.Movie;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 @SuppressWarnings("ConstantConditions")
 public class PaginationAdapter extends RecyclerView.Adapter {
@@ -31,9 +32,5 @@ public class PaginationAdapter extends RecyclerView.Adapter {
     public void add(Movie object) {
         movies.add(object);
         notifyItemInserted(movies.size() - 1);
-    }
-
-    public boolean isEmpty() {
-        return getItemCount() == 0;
     }
 }

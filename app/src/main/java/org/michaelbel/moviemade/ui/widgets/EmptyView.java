@@ -1,26 +1,26 @@
 package org.michaelbel.moviemade.ui.widgets;
 
 import android.content.Context;
-import android.graphics.Typeface;
 import android.util.AttributeSet;
-import android.util.TypedValue;
-import android.view.Gravity;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.FrameLayout;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.utils.Theme;
+import org.michaelbel.moviemade.utils.DrawableUtil;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
-import org.michaelbel.moviemade.utils.LayoutHelper;
+import org.michaelbel.moviemade.utils.SpannableUtil;
 
 import androidx.annotation.StringRes;
+import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 
-public class EmptyView extends LinearLayout {
+public class EmptyView extends FrameLayout {
 
-    private TextView emptyText;
-    private ImageView emptyIcon;
+    private AppCompatImageView emptyIcon;
+    private AppCompatTextView emptyText;
+    private AppCompatTextView valueText;
 
     public EmptyView(Context context) {
         super(context);
@@ -33,20 +33,10 @@ public class EmptyView extends LinearLayout {
     }
 
     private void initialize() {
-        setOrientation(VERTICAL);
-        setGravity(Gravity.CENTER);
-
-        emptyIcon = new ImageView(getContext());
-        emptyIcon.setLayoutParams(LayoutHelper.makeLinear(56, 56));
-        addView(emptyIcon);
-
-        emptyText = new TextView(getContext());
-        emptyText.setGravity(Gravity.CENTER);
-        emptyText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 17);
-        emptyText.setTextColor(ContextCompat.getColor(getContext(), R.color.iconActive));
-        emptyText.setTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
-        emptyText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 24, 10, 24, 0));
-        addView(emptyText);
+        View view = LayoutInflater.from(getContext()).inflate(R.layout.view_empty, this, true);
+        emptyIcon = view.findViewById(R.id.empty_icon);
+        emptyText = view.findViewById(R.id.empty_text);
+        valueText = view.findViewById(R.id.value_text);
     }
 
     public EmptyView setMode(@EmptyViewMode int mode) {
@@ -55,32 +45,36 @@ public class EmptyView extends LinearLayout {
             setText(R.string.no_connection);
         } else if (mode == EmptyViewMode.MODE_NO_MOVIES) {
             setIcon(R.drawable.ic_movieroll);
-            setText(R.string.NoMovies);
+            setText(R.string.no_movies);
         } else if (mode == EmptyViewMode.MODE_NO_PEOPLE) {
             setIcon(R.drawable.ic_account_circle);
-            setText(R.string.NoPeople);
+            setText(R.string.no_people);
         } else if (mode == EmptyViewMode.MODE_NO_REVIEWS) {
             setIcon(R.drawable.ic_review); // change
-            setText(R.string.NoReviews);
+            setText(R.string.no_reviews);
         } else if (mode == EmptyViewMode.MODE_NO_RESULTS) {
             setIcon(R.drawable.ic_database_search);
-            setText(R.string.NoResults);
+            setText(R.string.no_results);
         } else if (mode == EmptyViewMode.MODE_NO_HISTORY) {
             setIcon(R.drawable.ic_search_history);
             setText(R.string.SearchHistoryEmpty);
         } else if (mode == EmptyViewMode.MODE_NO_TRAILERS) {
             setIcon(R.drawable.ic_trailer);
-            setText(R.string.NoTrailers);
+            setText(R.string.no_trailers);
         }
 
         return this;
     }
 
     private void setIcon(int icon) {
-        emptyIcon.setImageDrawable(Theme.getIcon(icon, ContextCompat.getColor(getContext(), R.color.iconActive)));
+        emptyIcon.setImageDrawable(DrawableUtil.INSTANCE.getIcon(getContext(), icon, ContextCompat.getColor(getContext(), R.color.iconActive)));
     }
 
     private void setText(@StringRes int textId) {
         emptyText.setText(getContext().getString(textId));
+    }
+
+    public void setValue(@StringRes int textId) {
+        valueText.setText(SpannableUtil.replaceTags(getContext().getString(textId)));
     }
 }

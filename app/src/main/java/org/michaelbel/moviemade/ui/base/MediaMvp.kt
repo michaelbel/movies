@@ -2,6 +2,7 @@ package org.michaelbel.moviemade.ui.base
 
 import org.michaelbel.moviemade.data.dao.Keyword
 import org.michaelbel.moviemade.data.dao.Movie
+import org.michaelbel.moviemade.data.dao.Review
 
 interface MediaMvp {
 
@@ -10,6 +11,8 @@ interface MediaMvp {
     fun startTrailers(movie: Movie)
 
     fun startReviews(movie: Movie)
+
+    fun startReview(review: Review, movie: Movie)
 
     fun startKeywords(movie: Movie)
 

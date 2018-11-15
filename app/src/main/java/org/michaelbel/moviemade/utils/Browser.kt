@@ -13,9 +13,9 @@ import org.michaelbel.moviemade.R
 object Browser {
 
     fun openUrl(context: Context, url: String) {
-        val prefs = context.getSharedPreferences("mainconfig", Context.MODE_PRIVATE)
+        val prefs = context.getSharedPreferences(SP_NAME, Context.MODE_PRIVATE)
 
-        if (prefs.getBoolean("in_app_browser", true)) {
+        if (prefs.getBoolean(KEY_BROWSER, true)) {
             openInAppUrl(context, url)
         } else {
             openBrowserUrl(context, url)
@@ -36,7 +36,7 @@ object Browser {
             val bundle = Bundle()
             bundle.putInt("android.support.customtabs.customaction.ID", 0)
             bundle.putParcelable("android.support.customtabs.customaction.ICON", BitmapFactory.decodeResource(context.resources, R.drawable.ic_share))
-            bundle.putString("android.support.customtabs.customaction.DESCRIPTION", "Share link")
+            bundle.putString("android.support.customtabs.customaction.DESCRIPTION", context.getString(R.string.share_link))
             bundle.putParcelable("android.support.customtabs.customaction.PENDING_INTENT", pendingIntent)
             intent.putExtra("android.support.customtabs.extra.ACTION_BUTTON_BUNDLE", bundle)
             intent.putExtra("android.support.customtabs.extra.TINT_ACTION_BUTTON", false)
@@ -45,7 +45,6 @@ object Browser {
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
 
     private fun openBrowserUrl(context: Context, url: String) {

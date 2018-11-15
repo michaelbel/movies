@@ -11,7 +11,7 @@ object NetworkUtil {
     private const val TYPE_VPN = 3
     private const val TYPE_NOT_CONNECTED = 4
 
-    fun getNetworkStatus(): Int {
+    private fun getNetworkStatus(): Int {
         val connectivityManager = Moviemade.AppContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connectivityManager.activeNetworkInfo
 
