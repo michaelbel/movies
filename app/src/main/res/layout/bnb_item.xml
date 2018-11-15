@@ -16,7 +16,7 @@
         android:layout_height="@dimen/fixed_icon_badge_grid_height"
         android:layout_gravity="center_horizontal|top">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/fixed_bottom_navigation_icon"
             android:layout_width="@dimen/fixed_icon_grid"
             android:layout_height="@dimen/fixed_icon_grid"
@@ -34,7 +34,7 @@
             android:gravity="center"/>
     </FrameLayout>
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/fixed_bottom_navigation_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

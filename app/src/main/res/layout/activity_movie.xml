@@ -28,12 +28,13 @@
                 android:fitsSystemWindows="true"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-                <org.michaelbel.moviemade.ui.modules.movie.views.BackdropView
+                <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/backdrop_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/backdrop_margin"
                     android:layout_marginEnd="@dimen/backdrop_margin"
+                    android:scaleType="fitXY"
                     android:fitsSystemWindows="true"
                     app:layout_collapseMode="parallax"/>
 
@@ -45,7 +46,7 @@
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:layout_collapseMode="pin">
 
-                    <TextView
+                    <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/toolbar_title"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

@@ -1,12 +1,11 @@
-<!--OptimizedForTablets-->
-<LinearLayout
+<androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/view_about_padding"
     android:orientation="vertical">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="@dimen/view_about_launcher_icon_size"
         android:layout_height="@dimen/view_about_launcher_icon_size"
         android:contentDescription="@string/image_description"
@@ -33,4 +32,4 @@
         android:textColor="@color/secondaryText"
         android:fontFamily="sans-serif"/>
 
-</LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

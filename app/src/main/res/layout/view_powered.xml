@@ -1,16 +1,9 @@
-<!--OptimizedForTablets-->
-<FrameLayout
+<androidx.appcompat.widget.AppCompatTextView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/powered_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:textSize="@dimen/view_powered_text_size"
-        android:textColor="@color/secondaryText"
-        android:padding="@dimen/view_powered_text_padding"/>
-
-</FrameLayout>
+    android:id="@+id/powered_text"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:textSize="@dimen/view_powered_text_size"
+    android:textColor="@color/secondaryText"
+    android:padding="@dimen/view_powered_text_padding"/>

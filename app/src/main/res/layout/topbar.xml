@@ -24,7 +24,7 @@
         android:text="@string/app_name"
         style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
 
-    <LinearLayout
+    <androidx.appcompat.widget.LinearLayoutCompat
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="end"
@@ -32,7 +32,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/search_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -44,20 +44,7 @@
             android:clickable="true"
             app:srcCompat="@drawable/ic_search"/>
 
-        <!--<ImageView
-            android:id="@+id/view_icon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start|center_vertical"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/ic_view_list"
-            android:contentDescription="@string/image_description"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:focusable="true"
-            android:clickable="true"/>-->
-
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/settings_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -69,6 +56,6 @@
             android:clickable="true"
             app:srcCompat="@drawable/ic_settings"/>
 
-    </LinearLayout>
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.cardview.widget.CardView>

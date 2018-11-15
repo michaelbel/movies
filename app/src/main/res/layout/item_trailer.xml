@@ -12,7 +12,7 @@
     app:cardElevation="2dp"
     app:cardBackgroundColor="@color/foreground">
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/still_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -20,7 +20,7 @@
         android:contentDescription="@string/image_description"
         android:foreground="?attr/selectableItemBackground"/>
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
@@ -33,7 +33,7 @@
         android:layout_gravity="bottom"
         android:background="@color/transparent40">
 
-        <ImageView
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/player_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -42,7 +42,7 @@
             android:contentDescription="@string/image_description"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/trailer_name"
+            android:id="@+id/author_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
