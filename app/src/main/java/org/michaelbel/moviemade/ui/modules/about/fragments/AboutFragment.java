@@ -13,12 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import org.michaelbel.moviemade.BuildConfig;
-import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.browser.Browser;
+import org.michaelbel.moviemade.utils.Browser;
 import org.michaelbel.moviemade.ui.modules.about.AboutActivity;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.utils.AndroidUtils;
+import org.michaelbel.moviemade.utils.LinksKt;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -91,22 +91,22 @@ public class AboutFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setOnItemClickListener((v, position) -> {
             if (position == forkGithubRow) {
-                Browser.openUrl(activity, Moviemade.GITHUB_URL);
+                Browser.INSTANCE.openUrl(activity, LinksKt.GITHUB_URL);
             } else if (position == rateGooglePlay) {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(Moviemade.APP_MARKET));
+                    intent.setData(Uri.parse(LinksKt.APP_MARKET));
                     startActivity(intent);
                 } catch (Exception e) {
-                    Browser.openUrl(activity, Moviemade.APP_WEB);
+                    Browser.INSTANCE.openUrl(activity, LinksKt.APP_WEB);
                 }
             } else if (position == otherAppsRow) {
                 try {
                     Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(Moviemade.ACCOUNT_MARKET));
+                    intent.setData(Uri.parse(LinksKt.ACCOUNT_MARKET));
                     startActivity(intent);
                 } catch (Exception e) {
-                    Browser.openUrl(activity, Moviemade.ACCOUNT_WEB);
+                    Browser.INSTANCE.openUrl(activity, LinksKt.ACCOUNT_WEB);
                 }
             } else if (position == libsRow) {
                 activity.startFragment(new LibsFragment(), R.id.fragment_view, LIBS_FRAGMENT_TAG);
@@ -115,13 +115,13 @@ public class AboutFragment extends Fragment {
                     PackageManager packageManager = activity.getPackageManager();
                     PackageInfo packageInfo = packageManager.getPackageInfo(TELEGRAM_PACKAGE_NAME, 0);
                     if (packageInfo != null) {
-                        Intent telegram = new Intent(Intent.ACTION_VIEW , Uri.parse(Moviemade.TELEGRAM_URL));
+                        Intent telegram = new Intent(Intent.ACTION_VIEW , Uri.parse(LinksKt.TELEGRAM_URL));
                         startActivity(telegram);
                     } else {
                         Intent intent = new Intent(Intent.ACTION_SEND);
                         intent.setType("text/plain");
-                        intent.putExtra(Intent.EXTRA_EMAIL, Moviemade.EMAIL);
-                        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.Subject));
+                        intent.putExtra(Intent.EXTRA_EMAIL, LinksKt.EMAIL);
+                        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject));
                         intent.putExtra(Intent.EXTRA_TEXT, "");
                         startActivity(Intent.createChooser(intent, getString(R.string.feedback)));
                     }
@@ -131,10 +131,10 @@ public class AboutFragment extends Fragment {
             } else if (position == shareFriendsRow) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, Moviemade.APP_WEB);
-                startActivity(Intent.createChooser(intent, getString(R.string.ShareVia)));
+                intent.putExtra(Intent.EXTRA_TEXT, LinksKt.APP_WEB);
+                startActivity(Intent.createChooser(intent, getString(R.string.share_via)));
             } else if (position == donatePaypalRow) {
-                Browser.openUrl(activity, Moviemade.PAYPAL_ME);
+                Browser.INSTANCE.openUrl(activity, LinksKt.PAYPAL_ME);
             }
         });
     }
@@ -152,9 +152,7 @@ public class AboutFragment extends Fragment {
 
         private AppCompatTextView appNameText;
         private AppCompatTextView versionText;
-
         private AppCompatTextView poweredText;
-
         private ImageView iconView;
         private AppCompatTextView textView;
 

@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.browser.Browser;
+import org.michaelbel.moviemade.utils.Browser;
 import org.michaelbel.moviemade.ui.modules.about.AboutActivity;
 import org.michaelbel.moviemade.ui.modules.about.Source;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
@@ -72,48 +72,16 @@ public class LibsFragment extends Fragment {
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setOnItemClickListener((v, position) -> Browser.openUrl(activity, adapter.sources.get(position).getUrl()));
-        /*recyclerView.setOnItemLongClickListener((v, position) -> {
-            BottomSheet.Builder builder = new BottomSheet.Builder(activity);
-            builder.setCellHeight(Extensions.dp(activity, 52));
-            builder.setTitle(sources.get(position).url).setTitleMultiline(true);
-            builder.setTitleTextColorRes(R.color.secondaryText);
-            builder.setBackgroundColorRes(R.color.primary);
-            builder.setItemTextColorRes(R.color.primaryText);
-            builder.setItems(new int[] { R.string.Open, R.string.CopyLink }, (dialogInterface, i) -> {
-                if (i == 0) {
-                    Browser.openUrl(activity, sources.get(position).url);
-                } else if (i == 1) {
-                    Extensions.copyToClipboard(activity, sources.get(position).url);
-                    Toast.makeText(activity, getString(R.string.ClipboardCopied, getString(R.string.Link)), Toast.LENGTH_SHORT).show();
-                }
-            });
-            builder.show();
-            return true;
-        });*/
+        recyclerView.setOnItemClickListener((v, position) -> Browser.INSTANCE.openUrl(activity, adapter.sources.get(position).getUrl()));
     }
-
-    /*@Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        Parcelable state = linearLayoutManager.onSaveInstanceState();
-        linearLayoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        linearLayoutManager.onRestoreInstanceState(state);
-    }*/
 
     public class LibsAdapter extends RecyclerView.Adapter {
 
         private List<Source> sources = new ArrayList<>();
 
-        @BindView(R.id.text_view)
-        public AppCompatTextView textView;
-
-        @BindView(R.id.value_text)
-        public AppCompatTextView valueView;
-
-        @BindView(R.id.divider_view)
-        public View dividerView;
+        @BindView(R.id.text_view) AppCompatTextView textView;
+        @BindView(R.id.value_text) AppCompatTextView valueView;
+        @BindView(R.id.divider_view) View dividerView;
 
         @NonNull
         @Override

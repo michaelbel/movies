@@ -10,8 +10,8 @@ import android.view.animation.Animation;
 import android.view.animation.Transformation;
 import android.widget.FrameLayout;
 
-import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.utils.DeviceUtil;
 
 /**
  * Class description
@@ -42,8 +42,8 @@ public class ShiftingBottomNavigationTab extends BottomNavigationTab {
 
     @Override
     void init() {
-        paddingTopActive = (Extensions.dp(getContext(), 0));
-        paddingTopInActive = (Extensions.dp(getContext(), 10));
+        paddingTopActive = (DeviceUtil.INSTANCE.dp(getContext(), 0));
+        paddingTopInActive = (DeviceUtil.INSTANCE.dp(getContext(), 10));
 
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View view = inflater.inflate(R.layout.bnb_shifting_item, this, true);

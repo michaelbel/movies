@@ -14,11 +14,8 @@ import butterknife.ButterKnife;
 
 public class AboutActivity extends BaseActivity {
 
-    @BindView(R.id.toolbar)
-    public Toolbar toolbar;
-
-    @BindView(R.id.toolbar_title)
-    public TextView toolbarTitle;
+    @BindView(R.id.toolbar) public Toolbar toolbar;
+    @BindView(R.id.toolbar_title) public TextView toolbarTitle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

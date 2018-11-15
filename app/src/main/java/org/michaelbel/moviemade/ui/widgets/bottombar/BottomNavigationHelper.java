@@ -10,8 +10,8 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 
 import org.michaelbel.moviemade.ui.widgets.bottombar.utils.Utils;
-import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.utils.DeviceUtil;
 
 
 /**
@@ -64,8 +64,8 @@ public class BottomNavigationHelper {
 
         int[] result = new int[2];
 
-        int minWidth = Extensions.dp(context, 64);
-        int maxWidth = Extensions.dp(context, 96);
+        int minWidth = DeviceUtil.INSTANCE.dp(context, 64);
+        int maxWidth = DeviceUtil.INSTANCE.dp(context, 96);
 
         double minPossibleWidth = minWidth * (noOfTabs + 0.5);
         double maxPossibleWidth = maxWidth * (noOfTabs + 0.75);

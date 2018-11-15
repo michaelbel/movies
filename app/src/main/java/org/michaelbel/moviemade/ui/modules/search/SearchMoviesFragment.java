@@ -11,12 +11,12 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.annotation.EmptyViewMode;
-import org.michaelbel.moviemade.extensions.DeviceUtil;
+import org.michaelbel.moviemade.utils.DeviceUtil;
+import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
-import org.michaelbel.moviemade.ui.adapters.PaginationMoviesAdapter;
-import org.michaelbel.moviemade.modules_beta.view.widget.PaddingItemDecoration;
+import org.michaelbel.moviemade.ui.modules.main.adapter.PaginationMoviesAdapter;
+import org.michaelbel.moviemade.ui.PaddingItemDecoration;
 import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
 import org.michaelbel.moviemade.data.dao.Movie;
@@ -41,14 +41,9 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
     @InjectPresenter
     public SearchMoviesPresenter presenter;
 
-    @BindView(R.id.empty_view)
-    public EmptyView emptyView;
-
-    @BindView(R.id.progress_bar)
-    public ProgressBar progressBar;
-
-    @BindView(R.id.recycler_view)
-    public RecyclerListView recyclerView;
+    @BindView(R.id.empty_view) EmptyView emptyView;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
+    @BindView(R.id.recycler_view) RecyclerListView recyclerView;
 
     public static SearchMoviesFragment newInstance(String query) {
         Bundle args = new Bundle();
@@ -90,7 +85,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setPadding(DeviceUtil.INSTANCE.dp(activity, 2), 0, DeviceUtil.INSTANCE.dp(activity, 2), 0);
         recyclerView.setOnItemClickListener((v, position) -> {
-            Movie movie = (Movie) adapter.getList().get(position);
+            Movie movie = (Movie) adapter.movies.get(position);
             activity.startMovie(movie);
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -143,7 +138,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
 
     @Override
     public void searchStart() {
-        adapter.getList().clear();
+        adapter.movies.clear();
         adapter.notifyDataSetChanged();
 
         emptyView.setVisibility(View.GONE);
@@ -151,10 +146,10 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
     }
 
     @Override
-    public void showResults(List<Movie> results, boolean firstPage) {
+    public void setMovies(List<Movie> movies, boolean firstPage) {
         if (firstPage) {
             progressBar.setVisibility(View.GONE);
-            adapter.addAll(results);
+            adapter.addAll(movies);
 
             if (presenter.page < presenter.totalPages) {
                 // show loading
@@ -164,7 +159,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
         } else {
             // hide loading
             presenter.isLoading = false;
-            adapter.addAll(results);
+            adapter.addAll(movies);
 
             if (presenter.page != presenter.totalPages) {
                 //adapter.addLoadingFooter();
@@ -175,7 +170,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
     }
 
     @Override
-    public void showError(int mode) {
+    public void setError(int mode) {
         progressBar.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(mode);

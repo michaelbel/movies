@@ -31,17 +31,17 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.google.android.material.snackbar.Snackbar;
 
-import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.browser.Browser;
+import org.michaelbel.moviemade.utils.Browser;
 import org.michaelbel.moviemade.data.dao.Movie;
-import org.michaelbel.moviemade.extensions.DrawableUtil;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
 import org.michaelbel.moviemade.room.dao.MovieDao;
 import org.michaelbel.moviemade.room.database.MoviesDatabase;
 import org.michaelbel.moviemade.ui.modules.movie.views.RatingView;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
+import org.michaelbel.moviemade.utils.ConstantsKt;
+import org.michaelbel.moviemade.utils.DrawableUtil;
 
 import java.util.Locale;
 
@@ -138,13 +138,13 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
             intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, ConstantsKt.TMDB_MOVIE, activity.movie.getId()));
-            startActivity(Intent.createChooser(intent, getString(R.string.ShareVia)));
+            startActivity(Intent.createChooser(intent, getString(R.string.share_via)));
         } else if (item == menu_tmdb) {
-            Browser.openUrl(activity, String.format(Locale.US, ConstantsKt.TMDB_MOVIE, activity.movie.getId()));
+            Browser.INSTANCE.openUrl(activity, String.format(Locale.US, ConstantsKt.TMDB_MOVIE, activity.movie.getId()));
         } else if (item == menu_imdb) {
-            Browser.openUrl(activity, String.format(Locale.US, ConstantsKt.IMDB_MOVIE, imdbId));
+            Browser.INSTANCE.openUrl(activity, String.format(Locale.US, ConstantsKt.IMDB_MOVIE, imdbId));
         } else if (item == menu_homepage) {
-            Browser.openUrl(activity, homepage);
+            Browser.INSTANCE.openUrl(activity, homepage);
         }
 
         return true;

@@ -12,13 +12,13 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.annotation.EmptyViewMode;
+import org.michaelbel.moviemade.utils.DeviceUtil;
+import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.data.dao.Video;
-import org.michaelbel.moviemade.extensions.DeviceUtil;
 import org.michaelbel.moviemade.ui.modules.trailers.dialog.YoutubePlayerDialogFragment;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
-import org.michaelbel.moviemade.modules_beta.view.widget.PaddingItemDecoration;
+import org.michaelbel.moviemade.ui.PaddingItemDecoration;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
 
 import java.util.List;
@@ -43,14 +43,9 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
     @InjectPresenter
     public TrailersPresenter presenter;
 
-    @BindView(R.id.empty_view)
-    public EmptyView emptyView;
-
-    @BindView(R.id.progress_bar)
-    public ProgressBar progressBar;
-
-    @BindView(R.id.recycler_view)
-    public RecyclerListView recyclerView;
+    @BindView(R.id.empty_view) EmptyView emptyView;
+    @BindView(R.id.progress_bar) ProgressBar progressBar;
+    @BindView(R.id.recycler_view) RecyclerListView recyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,7 +77,7 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
         emptyView.setOnClickListener(v -> {
             emptyView.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
-            presenter.loadTrailers(activity.movieId);
+            presenter.loadTrailers(activity.movie.getId());
         });
 
         recyclerView.setAdapter(adapter);

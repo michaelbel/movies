@@ -29,22 +29,6 @@
         <item name="android:visibility">gone</item>
     </style>
 
-
-
-
-    <!--AlertDialog-->
-    <style name="AlertLight" parent="Theme.AppCompat.Dialog.Alert">
-        <item name="background">@color/foregroundColor</item>
-    </style>
-
-    <style name="AlertNight" parent="Theme.AppCompat.Dialog.Alert">
-        <item name="background">@color/foreground</item>
-    </style>
-
-    <style name="AlertNightBlue" parent="Theme.AppCompat.Dialog.Alert">
-        <item name="background">@color/foreground</item>
-    </style>
-
     <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
         <item name="android:background">@drawable/bottom_sheet</item>
     </style>

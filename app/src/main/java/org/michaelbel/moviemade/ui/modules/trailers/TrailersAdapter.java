@@ -7,12 +7,12 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
-import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.Theme;
+import org.michaelbel.moviemade.utils.DeviceUtil;
+import org.michaelbel.moviemade.utils.Theme;
 import org.michaelbel.moviemade.data.dao.Video;
-import org.michaelbel.moviemade.extensions.DeviceUtil;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
+import org.michaelbel.moviemade.utils.ConstantsKt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +30,7 @@ public class TrailersAdapter extends RecyclerView.Adapter {
     private AppCompatTextView trailerName;
     private AppCompatTextView qualityText;
 
-    public ArrayList<Video> trailers;
-
-    TrailersAdapter() {
-        trailers = new ArrayList<>();
-    }
+    public ArrayList<Video> trailers = new ArrayList<>();
 
     public void setTrailers(List<Video> results) {
         trailers.addAll(results);

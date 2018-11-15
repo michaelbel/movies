@@ -1,13 +1,11 @@
-package org.michaelbel.moviemade.ui.modules.search
+package org.michaelbel.moviemade.ui.modules.main
 
 import com.arellomobile.mvp.MvpView
 
 import org.michaelbel.moviemade.utils.EmptyViewMode
 import org.michaelbel.moviemade.data.dao.Movie
 
-interface SearchMvp : MvpView {
-
-    fun searchStart()
+interface MainMvp : MvpView {
 
     fun setMovies(movies: List<Movie>, firstPage: Boolean)
 

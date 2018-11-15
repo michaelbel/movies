@@ -35,6 +35,8 @@
     <string name="view_on_tmdb">View on TMDb</string>
     <string name="view_on_imdb">View on IMDb</string>
     <string name="view_homepage">View Homepage</string>
+    <string name="subject">Subject</string>
+    <string name="share_via">Share via</string>
 
 
 
@@ -60,7 +62,6 @@
     <string name="Info">Info</string>
     <string name="Add">Add</string>
     <string name="Remove">Remove</string>
-    <string name="ShareVia">Share via</string>
     <string name="Crew">Crew</string>
     <string name="Directors">Directors</string>
     <string name="Writers">Writers</string>
@@ -236,7 +237,5 @@
     <string name="CopyLink">Copy link</string>
     <string name="Link">Link</string>
     <string name="ClipboardCopied">%1$s copied to clipboard</string>
-    <string name="Subject">Subject</string>
-
     <string name="icon">icon</string>
 </resources>

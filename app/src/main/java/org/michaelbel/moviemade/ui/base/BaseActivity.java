@@ -53,8 +53,7 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseMvp, Media
     @Override
     public void startTrailers(@NonNull Movie movie) {
         Intent intent = new Intent(this, TrailersActivity.class);
-        intent.putExtra("id", movie.getId());
-        intent.putExtra("title", movie.getTitle());
+        intent.putExtra("movie", movie);
         startActivity(intent);
     }
 

@@ -10,9 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.Theme;
-import org.michaelbel.moviemade.annotation.EmptyViewMode;
-import org.michaelbel.moviemade.LayoutHelper;
+import org.michaelbel.moviemade.utils.Theme;
+import org.michaelbel.moviemade.utils.EmptyViewMode;
+import org.michaelbel.moviemade.utils.LayoutHelper;
 
 import androidx.annotation.StringRes;
 import androidx.core.content.ContextCompat;

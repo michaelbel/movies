@@ -12,11 +12,11 @@ import android.view.ViewGroup;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.eventbus.Events;
-import org.michaelbel.moviemade.extensions.DeviceUtil;
 import org.michaelbel.moviemade.ui.modules.about.AboutActivity;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
-import org.michaelbel.moviemade.modules_beta.view.cell.TextCell;
-import org.michaelbel.moviemade.modules_beta.view.cell.TextDetailCell;
+import org.michaelbel.moviemade.ui.modules.settings.cell.TextCell;
+import org.michaelbel.moviemade.ui.modules.settings.cell.TextDetailCell;
+import org.michaelbel.moviemade.utils.DeviceUtil;
 
 import javax.inject.Inject;
 

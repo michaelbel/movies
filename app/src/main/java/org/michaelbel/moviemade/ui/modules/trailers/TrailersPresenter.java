@@ -6,12 +6,16 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.BuildConfig;
-import org.michaelbel.moviemade.ConstantsKt;
-import org.michaelbel.moviemade.annotation.EmptyViewMode;
+import org.michaelbel.moviemade.data.dao.Video;
+import org.michaelbel.moviemade.utils.ConstantsKt;
+import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.data.dao.VideosResponse;
 import org.michaelbel.moviemade.data.service.MOVIES;
-import org.michaelbel.moviemade.extensions.NetworkUtil;
-import org.michaelbel.moviemade.ApiFactory;
+import org.michaelbel.moviemade.utils.ApiFactory;
+import org.michaelbel.moviemade.utils.NetworkUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -35,13 +39,12 @@ public class TrailersPresenter extends MvpPresenter<TrailersMvp> {
         disposables.add(observable.subscribeWith(new DisposableObserver<VideosResponse>() {
             @Override
             public void onNext(VideosResponse response) {
-                /*List<Video> results = new ArrayList<>(response.getTrailers());
+                List<Video> results = new ArrayList<>(response.getTrailers());
                 if (results.isEmpty()) {
                     getViewState().setError(EmptyViewMode.MODE_NO_TRAILERS);
                     Log.e("2580", response.toString());
                     return;
-                }*/
-
+                }
                 getViewState().setTrailers(response.getTrailers());
             }
 

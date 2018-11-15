@@ -36,7 +36,6 @@
 
         <activity android:name=".ui.modules.movie.MovieActivity" android:screenOrientation="user" android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity android:name=".ui.modules.trailers.TrailersActivity" android:screenOrientation="user" android:configChanges="keyboardHidden|orientation|screenSize"/>
-        <activity android:name=".ui.modules.reviews.ReviewsActivity" android:screenOrientation="user" android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity android:name=".ui.modules.search.SearchActivity" android:screenOrientation="user" android:configChanges="keyboard|keyboardHidden|orientation|screenSize" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".ui.modules.settings.SettingsActivity" android:screenOrientation="user"/>
         <activity android:name=".ui.modules.about.AboutActivity" android:screenOrientation="user"/>
@@ -61,67 +60,22 @@
         -->
 
         <activity
-            android:name=".modules_beta.person.PopularPeopleActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait">
-
-            <!--
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-
-                <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/person/"/> &lt;!&ndash;https://www.themoviedb.org/person/&ndash;&gt;
-                <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/person"/>  &lt;!&ndash;https://www.themoviedb.org/person&ndash;&gt;
-                <data android:scheme="https" android:host="themoviedb.org" android:pathPrefix="/person/"/>     &lt;!&ndash;https://themoviedb.org/person/&ndash;&gt;
-                <data android:scheme="https" android:host="themoviedb.org" android:pathPrefix="/person"/>      &lt;!&ndash;https://themoviedb.org/person&ndash;&gt;
-            </intent-filter>
-            -->
-        </activity>
-
-        <activity
-            android:name=".modules_beta.review.ReviewActivity"
+            android:name=".ui.modules.review.ReviewActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".modules_beta.watchlist.FavoriteActivity"
+            android:name=".ui.modules.watchlist.FavoriteActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".modules_beta.person.PersonActivity"
+            android:name=".ui.modules.watchlist.WatchlistActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".modules_beta.genres.GenresActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".modules_beta.genres.GenreActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".modules_beta.watchlist.WatchlistActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".modules_beta.collection.CollectionActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".modules_beta.company.CompanyActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:screenOrientation="portrait"/>
-
-        <activity
-            android:name=".modules_beta.keywords.KeywordActivity"
+            android:name=".ui.modules.company.CompanyActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait"/>
 

@@ -4,15 +4,15 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.BuildConfig;
-import org.michaelbel.moviemade.ConstantsKt;
 import org.michaelbel.moviemade.Moviemade;
-import org.michaelbel.moviemade.annotation.EmptyViewMode;
+import org.michaelbel.moviemade.utils.AdultUtil;
+import org.michaelbel.moviemade.utils.ConstantsKt;
+import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.data.dao.MoviesResponse;
 import org.michaelbel.moviemade.data.service.SEARCH;
-import org.michaelbel.moviemade.extensions.AdultUtil;
-import org.michaelbel.moviemade.extensions.NetworkUtil;
-import org.michaelbel.moviemade.ApiFactory;
+import org.michaelbel.moviemade.utils.ApiFactory;
+import org.michaelbel.moviemade.utils.NetworkUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,7 @@ public class SearchMoviesPresenter extends MvpPresenter<SearchMvp> {
         getViewState().searchStart();
 
         if (NetworkUtil.INSTANCE.notConnected()) {
-            getViewState().showError(EmptyViewMode.MODE_NO_CONNECTION);
+            getViewState().setError(EmptyViewMode.MODE_NO_CONNECTION);
             return;
         }
 
@@ -53,15 +53,15 @@ public class SearchMoviesPresenter extends MvpPresenter<SearchMvp> {
                 totalResults = response.getTotalResults();
                 List<Movie> results = new ArrayList<>(response.getMovies());
                 if (results.isEmpty()) {
-                    getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
+                    getViewState().setError(EmptyViewMode.MODE_NO_RESULTS);
                     return;
                 }
-                getViewState().showResults(results, true);
+                getViewState().setMovies(results, true);
             }
 
             @Override
             public void onError(Throwable e) {
-                getViewState().showError(EmptyViewMode.MODE_NO_RESULTS);
+                getViewState().setError(EmptyViewMode.MODE_NO_RESULTS);
             }
 
             @Override
@@ -69,7 +69,7 @@ public class SearchMoviesPresenter extends MvpPresenter<SearchMvp> {
         }));
     }
 
-    public void loadNextPage() {
+    void loadNextPage() {
         SEARCH service = ApiFactory.createService2(SEARCH.class);
         Observable<MoviesResponse> observable = service.searchMovies(BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, currentQuery, page, AdultUtil.INSTANCE.includeAdult(Moviemade.AppContext), null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {

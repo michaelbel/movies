@@ -13,11 +13,11 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.dao.Movie;
-import org.michaelbel.moviemade.extensions.DeviceUtil;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.ui.modules.main.views.appbar.AppBarState;
 import org.michaelbel.moviemade.ui.modules.main.views.appbar.AppBarStateChangeListener;
 import org.michaelbel.moviemade.ui.modules.movie.views.BackdropView;
+import org.michaelbel.moviemade.utils.DeviceUtil;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;

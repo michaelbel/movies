@@ -22,12 +22,11 @@ import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-
 import org.michaelbel.moviemade.ui.widgets.bottombar.behaviour.BottomNavBarFabBehaviour;
 import org.michaelbel.moviemade.ui.widgets.bottombar.behaviour.BottomVerticalScrollBehavior;
 import org.michaelbel.moviemade.ui.widgets.bottombar.utils.Utils;
-import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.utils.DeviceUtil;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -150,7 +149,7 @@ public class BottomNavigationBar extends FrameLayout {
             mInActiveColor = typedArray.getColor(R.styleable.BottomNavigationBar_bnbInactiveColor, Color.LTGRAY);
             mBackgroundColor = typedArray.getColor(R.styleable.BottomNavigationBar_bnbBackgroundColor, Color.WHITE);
             mAutoHideEnabled = typedArray.getBoolean(R.styleable.BottomNavigationBar_bnbAutoHideEnabled, true);
-            mElevation = Extensions.dp(context, 8);
+            mElevation = DeviceUtil.INSTANCE.dp(context, 8);
 
             setAnimationDuration(typedArray.getInt(R.styleable.BottomNavigationBar_bnbAnimationDuration, DEFAULT_ANIMATION_DURATION));
 

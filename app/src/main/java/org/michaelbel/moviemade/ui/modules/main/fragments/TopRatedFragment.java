@@ -19,16 +19,16 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.eventbus.Events;
-import org.michaelbel.moviemade.extensions.DeviceUtil;
-import org.michaelbel.moviemade.ui.modules.main.ListMoviesPresenter;
+import org.michaelbel.moviemade.ui.modules.main.MainPresenter;
 import org.michaelbel.moviemade.ui.modules.main.MainActivity;
-import org.michaelbel.moviemade.ui.modules.main.ResultsMvp;
+import org.michaelbel.moviemade.ui.modules.main.MainMvp;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
-import org.michaelbel.moviemade.ui.adapters.PaginationMoviesAdapter;
-import org.michaelbel.moviemade.modules_beta.view.widget.PaddingItemDecoration;
+import org.michaelbel.moviemade.ui.modules.main.adapter.PaginationMoviesAdapter;
+import org.michaelbel.moviemade.ui.PaddingItemDecoration;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
 import org.michaelbel.moviemade.data.dao.Movie;
+import org.michaelbel.moviemade.utils.DeviceUtil;
 
 import java.util.List;
 
@@ -41,7 +41,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 @SuppressWarnings("all")
-public class TopRatedFragment extends MvpAppCompatFragment implements ResultsMvp {
+public class TopRatedFragment extends MvpAppCompatFragment implements MainMvp {
 
     private MainActivity activity;
     private PaginationMoviesAdapter adapter;
@@ -50,7 +50,7 @@ public class TopRatedFragment extends MvpAppCompatFragment implements ResultsMvp
     private NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
 
     @InjectPresenter
-    public ListMoviesPresenter presenter;
+    public MainPresenter presenter;
 
     @BindView(R.id.empty_view) EmptyView emptyView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
@@ -94,7 +94,7 @@ public class TopRatedFragment extends MvpAppCompatFragment implements ResultsMvp
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setPadding(DeviceUtil.INSTANCE.dp(activity, 2), 0, DeviceUtil.INSTANCE.dp(activity, 2), 0);
         recyclerView.setOnItemClickListener((v, position) -> {
-            Movie movie = (Movie) adapter.getList().get(position);
+            Movie movie = (Movie) adapter.movies.get(position);
             activity.startMovie(movie);
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -144,10 +144,10 @@ public class TopRatedFragment extends MvpAppCompatFragment implements ResultsMvp
     }
 
     @Override
-    public void showResults(List<Movie> results, boolean firstPage) {
+    public void setMovies(List<Movie> movies, boolean firstPage) {
         if (firstPage) {
             progressBar.setVisibility(View.GONE);
-            adapter.addAll(results);
+            adapter.addAll(movies);
 
             if (presenter.page < presenter.totalPages) {
                 // show loading
@@ -157,7 +157,7 @@ public class TopRatedFragment extends MvpAppCompatFragment implements ResultsMvp
         } else {
             // hide loading
             presenter.isLoading = false;
-            adapter.addAll(results);
+            adapter.addAll(movies);
 
             if (presenter.page != presenter.totalPages) {
                 //adapter.addLoadingFooter();
@@ -168,7 +168,7 @@ public class TopRatedFragment extends MvpAppCompatFragment implements ResultsMvp
     }
 
     @Override
-    public void showError(int mode) {
+    public void setError(int mode) {
         progressBar.setVisibility(View.GONE);
         emptyView.setMode(mode);
     }

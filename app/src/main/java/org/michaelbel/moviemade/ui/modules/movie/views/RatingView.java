@@ -6,8 +6,8 @@ import android.util.AttributeSet;
 import android.widget.LinearLayout;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.Theme;
-import org.michaelbel.moviemade.LayoutHelper;
+import org.michaelbel.moviemade.utils.Theme;
+import org.michaelbel.moviemade.utils.LayoutHelper;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;

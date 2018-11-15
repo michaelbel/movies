@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import org.michaelbel.moviemade.extensions.DeviceUtil;
 import org.michaelbel.moviemade.ui.widgets.bottombar.BottomNavigationBar;
 import org.michaelbel.moviemade.ui.widgets.bottombar.BottomNavigationItem;
 import org.michaelbel.moviemade.Moviemade;
@@ -17,6 +16,7 @@ import org.michaelbel.moviemade.ui.modules.main.fragments.UpcomingFragment;
 import org.michaelbel.moviemade.ui.modules.search.SearchActivity;
 import org.michaelbel.moviemade.ui.modules.settings.SettingsActivity;
 import org.michaelbel.moviemade.ui.modules.main.views.topbar.TopBar;
+import org.michaelbel.moviemade.utils.DeviceUtil;
 
 import javax.inject.Inject;
 

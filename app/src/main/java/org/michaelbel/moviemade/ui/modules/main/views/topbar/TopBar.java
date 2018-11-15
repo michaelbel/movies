@@ -11,8 +11,8 @@ import android.view.ViewOutlineProvider;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 
-import org.michaelbel.material.extensions.Extensions;
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.utils.DeviceUtil;
 
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -77,7 +77,7 @@ public class TopBar extends FrameLayout {
 
     public void hide(boolean animate) {
         mIsHidden = true;
-        setTranslationY(-(this.getHeight() + Extensions.getStatusBarHeight(getContext())), animate);
+        setTranslationY(-(this.getHeight() + DeviceUtil.INSTANCE.getStatusBarHeight(getContext())), animate);
     }
 
     public void show() {

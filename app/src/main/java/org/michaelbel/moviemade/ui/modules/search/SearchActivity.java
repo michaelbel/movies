@@ -15,10 +15,9 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.extensions.AndroidExtensions;
-import org.michaelbel.moviemade.extensions.DrawableUtil;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.utils.AndroidUtils;
+import org.michaelbel.moviemade.utils.DrawableUtil;
 
 import java.util.List;
 import java.util.Locale;
@@ -41,11 +40,8 @@ public class SearchActivity extends BaseActivity {
     private Menu actionMenu;
     private SearchMoviesFragment fragment;
 
-    @BindView(R.id.toolbar)
-    public Toolbar toolbar;
-
-    @BindView(R.id.search_edit_text)
-    public EditText searchEditText;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.search_edit_text) EditText searchEditText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
