@@ -10,24 +10,23 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
-import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.DrawableUtil;
 
 import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-@SuppressWarnings("all")
 public class SearchActivity extends BaseActivity {
 
     public static final int MENU_ITEM_INDEX = 0;
@@ -41,7 +40,7 @@ public class SearchActivity extends BaseActivity {
     private SearchMoviesFragment fragment;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.search_edit_text) EditText searchEditText;
+    @BindView(R.id.search_edit_text) AppCompatEditText searchEditText;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -77,7 +76,7 @@ public class SearchActivity extends BaseActivity {
         searchEditText.setOnEditorActionListener((view, actionId, event) -> {
             if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_SEARCH)) {
                 fragment.presenter.search(view.getText().toString().trim());
-                AndroidUtils.hideKeyboard(searchEditText);
+                hideKeyboard(searchEditText);
                 return true;
             }
 
@@ -146,6 +145,22 @@ public class SearchActivity extends BaseActivity {
                 iconActionMode = MODE_ACTION_CLEAR;
                 actionMenu.getItem(MENU_ITEM_INDEX).setIcon(R.drawable.ic_clear);
             }
+        }
+    }
+
+    public void hideKeyboard(View view) {
+        if (view == null) {
+            return;
+        }
+
+        try {
+            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (!(imm != null && imm.isActive())) {
+                return;
+            }
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

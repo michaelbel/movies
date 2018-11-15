@@ -17,8 +17,8 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.utils.Browser;
 import org.michaelbel.moviemade.ui.modules.about.AboutActivity;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
-import org.michaelbel.moviemade.utils.AndroidUtils;
 import org.michaelbel.moviemade.utils.LinksKt;
+import org.michaelbel.moviemade.utils.SpannableUtil;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -185,7 +185,7 @@ public class AboutFragment extends Fragment {
                 appNameText.setText(getString(R.string.app_for_android, getString(R.string.app_name)));
                 versionText.setText(getString(R.string.version_build_date, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE, BuildConfig.VERSION_DATE));
             } else if (type == 1) {
-                poweredText.setText(AndroidUtils.replaceTags(getString(R.string.powered_by)));
+                poweredText.setText(SpannableUtil.replaceTags(getString(R.string.powered_by)));
             } else {
                 if (position == rateGooglePlay) {
                     iconView.setImageResource(R.drawable.ic_google_play);

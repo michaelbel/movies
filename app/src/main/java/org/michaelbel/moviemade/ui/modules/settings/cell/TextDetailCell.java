@@ -1,5 +1,6 @@
 package org.michaelbel.moviemade.ui.modules.settings.cell;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -9,21 +10,21 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.utils.DeviceUtil;
 import org.michaelbel.moviemade.utils.DrawableUtil;
-import org.michaelbel.moviemade.utils.Theme;
 import org.michaelbel.moviemade.utils.LayoutHelper;
-import org.michaelbel.moviemade.utils.ScreenUtils;
 
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
 
+@SuppressLint("ClickableViewAccessibility")
 public class TextDetailCell extends FrameLayout {
 
     public static final int MODE_DEFAULT = 0;
@@ -37,14 +38,13 @@ public class TextDetailCell extends FrameLayout {
     })
     private @interface Mode {}
 
-    protected TextView textView;
-    protected TextView valueText;
+    protected AppCompatTextView textView;
+    protected AppCompatTextView valueText;
     private SwitchCompat switchCompat;
     private AppCompatCheckBox checkBox;
 
     private Paint paint;
     private boolean divider;
-    private boolean multiline;
     private Rect rect = new Rect();
     private int currentMode = MODE_DEFAULT;
 
@@ -60,23 +60,23 @@ public class TextDetailCell extends FrameLayout {
             paint.setColor(ContextCompat.getColor(context, R.color.divider));
         }
 
-        textView = new TextView(context);
+        textView = new AppCompatTextView(context);
         textView.setLines(1);
         textView.setMaxLines(1);
         textView.setSingleLine();
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        textView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        textView.setTextColor(ContextCompat.getColor(context, R.color.primaryText));
         textView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 16, 10, 16, 0));
         addView(textView);
 
-        valueText = new TextView(context);
+        valueText = new AppCompatTextView(context);
         valueText.setLines(1);
         valueText.setMaxLines(1);
         valueText.setSingleLine();
         valueText.setEllipsize(TextUtils.TruncateAt.END);
         valueText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
-        valueText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
+        valueText.setTextColor(ContextCompat.getColor(context, R.color.secondaryText));
         valueText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 16, 35, 16, 0));
         addView(valueText);
 
@@ -152,34 +152,6 @@ public class TextDetailCell extends FrameLayout {
         return this;
     }
 
-    private void changeSwitchTheme() {
-        /*int thumbOn = ContextCompat.getColor(getContext(), Theme.thumbOnColor());
-        int thumbOff = ContextCompat.getColor(getContext(), Theme.thumbOffColor());
-
-        int trackOn = ContextCompat.getColor(getContext(), Theme.trackOnColor());
-        int trackOff = ContextCompat.getColor(getContext(), Theme.trackOffColor());
-
-        DrawableCompat.setTintList(switchCompat.getThumbDrawable(), new ColorStateList(
-                new int[][]{
-                        new int[]{ android.R.attr.state_checked },
-                        new int[]{}
-                },
-                new int[]{
-                        thumbOn,
-                        thumbOff
-                }));
-
-        DrawableCompat.setTintList(switchCompat.getTrackDrawable(), new ColorStateList(
-                new int[][]{
-                        new int[]{ android.R.attr.state_checked  },
-                        new int[]{}
-                },
-                new int[]{
-                        trackOn,
-                        trackOff
-                }));*/
-    }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -187,12 +159,7 @@ public class TextDetailCell extends FrameLayout {
         int height;
         int width = MeasureSpec.makeMeasureSpec(widthMeasureSpec, MeasureSpec.EXACTLY);
 
-        if (multiline) {
-            height = getMeasuredHeight();
-        } else {
-            height = ScreenUtils.dp(64) + (divider ? 1 : 0);
-        }
-
+        height = DeviceUtil.INSTANCE.dp(getContext(),64) + (divider ? 1 : 0);
         setMeasuredDimension(width, height);
     }
 

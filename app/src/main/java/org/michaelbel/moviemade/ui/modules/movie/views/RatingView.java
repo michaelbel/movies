@@ -3,17 +3,17 @@ package org.michaelbel.moviemade.ui.modules.movie.views;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.widget.LinearLayout;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.utils.Theme;
+import org.michaelbel.moviemade.utils.DrawableUtil;
 import org.michaelbel.moviemade.utils.LayoutHelper;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.content.ContextCompat;
 
-public class RatingView extends LinearLayout {
+public class RatingView extends LinearLayoutCompat {
 
     private StarView[] stars = new StarView[5];
 
@@ -148,11 +148,11 @@ public class RatingView extends LinearLayout {
 
         public void setIcon(int style) {
             if (style == ICON_STAR) {
-                icon = Theme.getIcon(R.drawable.ic_star, ContextCompat.getColor(getContext(), R.color.accent_yellow));
+                icon = DrawableUtil.INSTANCE.getIcon(getContext(), R.drawable.ic_star, ContextCompat.getColor(getContext(), R.color.accent_yellow));
             } else if (style == ICON_STAR_HALF) {
-                icon = Theme.getIcon(R.drawable.ic_star_half, ContextCompat.getColor(getContext(), R.color.accent_yellow));
+                icon = DrawableUtil.INSTANCE.getIcon(getContext(), R.drawable.ic_star_half, ContextCompat.getColor(getContext(), R.color.accent_yellow));
             } else if (style == ICON_STAR_BORDER) {
-                icon = Theme.getIcon(R.drawable.ic_star_border, ContextCompat.getColor(getContext(), R.color.accent_yellow));
+                icon = DrawableUtil.INSTANCE.getIcon(getContext(), R.drawable.ic_star_border, ContextCompat.getColor(getContext(), R.color.accent_yellow));
             }
 
             setImageDrawable(icon);

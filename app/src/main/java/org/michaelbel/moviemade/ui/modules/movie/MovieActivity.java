@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 
 import com.alexvasilkov.gestures.transition.ViewsTransitionAnimator;
 import com.alexvasilkov.gestures.views.GestureImageView;
+import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
@@ -16,10 +16,13 @@ import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.ui.modules.main.views.appbar.AppBarState;
 import org.michaelbel.moviemade.ui.modules.main.views.appbar.AppBarStateChangeListener;
-import org.michaelbel.moviemade.ui.modules.movie.views.BackdropView;
+import org.michaelbel.moviemade.utils.ConstantsKt;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 
+import java.util.Locale;
+
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -27,7 +30,7 @@ import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-@SuppressWarnings("all")
+
 public class MovieActivity extends BaseActivity {
 
     public static final String KEY_MOVIE = "movie";
@@ -37,8 +40,8 @@ public class MovieActivity extends BaseActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.app_bar) AppBarLayout appBar;
-    @BindView(R.id.toolbar_title) TextView toolbarTitle;
-    @BindView(R.id.backdrop_image) BackdropView backdropImage;
+    @BindView(R.id.toolbar_title) AppCompatTextView toolbarTitle;
+    @BindView(R.id.backdrop_image) AppCompatImageView backdropImage;
     @BindView(R.id.collapsing_layout) CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.demo_full_background) View fullBackground;
     @BindView(R.id.demo_pager) ViewPager viewPager;
@@ -55,8 +58,10 @@ public class MovieActivity extends BaseActivity {
         movie = (Movie) getIntent().getSerializableExtra(KEY_MOVIE);
 
         MovieFragment fragment = (MovieFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-        fragment.presenter.setMovieDetailsFromExtra(movie);
-        fragment.presenter.loadMovieDetails(movie.getId());
+        if (fragment != null) {
+            fragment.presenter.setMovieDetailsFromExtra(movie);
+            fragment.presenter.loadMovieDetails(movie.getId());
+        }
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.primary));
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -80,7 +85,7 @@ public class MovieActivity extends BaseActivity {
         });
 
         toolbarTitle.setText(movie.getTitle());
-        backdropImage.setImage(movie.getBackdropPath());
+        Glide.with(this).load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, "original", movie.getBackdropPath())).thumbnail(0.1F).into(backdropImage);
 
         collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(this, R.color.primary));
         collapsingToolbarLayout.setStatusBarScrimColor(ContextCompat.getColor(this, android.R.color.transparent));
@@ -90,12 +95,9 @@ public class MovieActivity extends BaseActivity {
 
         fullImageToolbar.setNavigationOnClickListener(view -> onBackPressed());
 
-        fullImage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fullImageToolbar.setVisibility(isSystemStatusBarShown() ? View.INVISIBLE : View.VISIBLE);
-                showSystemStatusBar(!isSystemStatusBarShown());
-            }
+        fullImage.setOnClickListener(v -> {
+            fullImageToolbar.setVisibility(isSystemStatusBarShown() ? View.INVISIBLE : View.VISIBLE);
+            showSystemStatusBar(!isSystemStatusBarShown());
         });
     }
 

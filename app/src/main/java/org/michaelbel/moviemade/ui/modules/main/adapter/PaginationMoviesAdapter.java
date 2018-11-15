@@ -3,7 +3,6 @@ package org.michaelbel.moviemade.ui.modules.main.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
@@ -20,12 +19,13 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 @SuppressWarnings("ConstantConditions")
 public class PaginationMoviesAdapter extends PaginationAdapter {
 
-    private ImageView posterImage;
+    private AppCompatImageView posterImage;
 
     @NonNull
     @Override

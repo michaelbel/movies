@@ -3,19 +3,18 @@ package org.michaelbel.moviemade.ui;
 import android.content.Context;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import androidx.annotation.StringRes;
-import androidx.cardview.widget.CardView;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import org.michaelbel.moviemade.utils.DrawableUtil;
 import org.michaelbel.moviemade.utils.LayoutHelper;
-import org.michaelbel.moviemade.utils.ScreenUtils;
+
+import androidx.annotation.StringRes;
+import androidx.cardview.widget.CardView;
 
 public class ChipView extends FrameLayout {
 
@@ -31,7 +30,7 @@ public class ChipView extends FrameLayout {
         cardView.setUseCompatPadding(true);
         cardView.setPreventCornerOverlap(false);
         cardView.setForeground(DrawableUtil.INSTANCE.selectableItemBackgroundBorderlessDrawable(context));
-        cardView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        //cardView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         addView(cardView);
 
         textText = new TextView(context);
@@ -67,13 +66,6 @@ public class ChipView extends FrameLayout {
 
     public ChipView setColorBackground(int color) {
         cardView.setCardBackgroundColor(color);
-        return this;
-    }
-
-    public ChipView changeLayoutParams() {
-        FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        params.rightMargin = ScreenUtils.dp(2F);
-        setLayoutParams(params);
         return this;
     }
 

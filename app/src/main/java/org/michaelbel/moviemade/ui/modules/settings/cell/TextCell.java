@@ -10,13 +10,10 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 import org.michaelbel.moviemade.utils.DrawableUtil;
-import org.michaelbel.moviemade.utils.Theme;
 import org.michaelbel.moviemade.utils.LayoutHelper;
 
 import androidx.annotation.DrawableRes;
@@ -24,10 +21,12 @@ import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.appcompat.widget.AppCompatCheckBox;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
 
+@SuppressLint("ClickableViewAccessibility")
 public class TextCell extends FrameLayout {
 
     public static final int MODE_DEFAULT = 0;
@@ -38,18 +37,18 @@ public class TextCell extends FrameLayout {
     public static final int MODE_ICON = 5;
 
     @IntDef({
-            MODE_DEFAULT,
-            MODE_VALUE_TEXT,
-            MODE_SWITCH,
-            MODE_CHECKBOX,
-            MODE_COLOR,
-            MODE_ICON
+        MODE_DEFAULT,
+        MODE_VALUE_TEXT,
+        MODE_SWITCH,
+        MODE_CHECKBOX,
+        MODE_COLOR,
+        MODE_ICON
     })
     private @interface Mode {}
 
-    protected TextView textView;
-    private TextView valueText;
-    private ImageView iconView;
+    protected AppCompatTextView textView;
+    private AppCompatTextView valueText;
+    private AppCompatImageView iconView;
     private SwitchCompat switchCompat;
     private AppCompatCheckBox checkBox;
 
@@ -64,7 +63,7 @@ public class TextCell extends FrameLayout {
     public TextCell(Context context) {
         super(context);
 
-        iconColor = Theme.iconActiveColor();
+        iconColor = R.color.iconActive;
         cellHeight = (int) context.getResources().getDimension(R.dimen.cell_height);
 
         setForeground(DrawableUtil.INSTANCE.selectableItemBackgroundDrawable(context));
@@ -76,11 +75,9 @@ public class TextCell extends FrameLayout {
             paint.setColor(ContextCompat.getColor(context, R.color.divider));
         }
 
-        iconView = new ImageView(context);
+        iconView = new AppCompatImageView(context);
         iconView.setVisibility(INVISIBLE);
-        iconView.setLayoutParams(LayoutHelper.makeFrame(
-                DeviceUtil.INSTANCE.dp(context, 36),
-                DeviceUtil.INSTANCE.dp(context, 36),
+        iconView.setLayoutParams(LayoutHelper.makeFrame(DeviceUtil.INSTANCE.dp(context, 36), DeviceUtil.INSTANCE.dp(context, 36),
                 Gravity.START | Gravity.CENTER_VERTICAL, 16, 0, 0, 0));
         addView(iconView);
 
@@ -90,7 +87,7 @@ public class TextCell extends FrameLayout {
         textView.setSingleLine();
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        textView.setTextColor(ContextCompat.getColor(context, Theme.primaryTextColor()));
+        textView.setTextColor(ContextCompat.getColor(context, R.color.primaryText));
         textView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 16, 0, 16, 0));
         addView(textView);
 
@@ -101,7 +98,7 @@ public class TextCell extends FrameLayout {
         valueText.setVisibility(INVISIBLE);
         valueText.setEllipsize(TextUtils.TruncateAt.END);
         valueText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        valueText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
+        valueText.setTextColor(ContextCompat.getColor(context, R.color.secondaryText));
         valueText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 16, 0));
         addView(valueText);
 
@@ -124,7 +121,7 @@ public class TextCell extends FrameLayout {
     public TextCell setIcon(@DrawableRes int icon) {
         iconView.setVisibility(icon == 0 ? INVISIBLE : VISIBLE);
         if (icon != 0) {
-            iconView.setImageDrawable(Theme.getIcon(icon, ContextCompat.getColor(getContext(), iconColor)));
+            iconView.setImageDrawable(DrawableUtil.INSTANCE.getIcon(getContext(), icon, ContextCompat.getColor(getContext(), iconColor)));
         }
 
         if (currentMode == MODE_ICON) {
@@ -210,10 +207,6 @@ public class TextCell extends FrameLayout {
         return this;
     }
 
-    public TextView getTextView() {
-        return textView;
-    }
-
     public TextCell setHeight(int height) {
         cellHeight = height;
         return this;
@@ -262,7 +255,6 @@ public class TextCell extends FrameLayout {
         }
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (getForeground() != null) {

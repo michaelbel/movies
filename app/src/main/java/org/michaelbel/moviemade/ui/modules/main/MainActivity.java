@@ -3,24 +3,24 @@ package org.michaelbel.moviemade.ui.modules.main;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.ImageView;
 
-import org.michaelbel.moviemade.ui.widgets.bottombar.BottomNavigationBar;
-import org.michaelbel.moviemade.ui.widgets.bottombar.BottomNavigationItem;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.ui.modules.main.fragments.NowPlayingFragment;
 import org.michaelbel.moviemade.ui.modules.main.fragments.TopRatedFragment;
 import org.michaelbel.moviemade.ui.modules.main.fragments.UpcomingFragment;
+import org.michaelbel.moviemade.ui.modules.main.views.topbar.TopBar;
 import org.michaelbel.moviemade.ui.modules.search.SearchActivity;
 import org.michaelbel.moviemade.ui.modules.settings.SettingsActivity;
-import org.michaelbel.moviemade.ui.modules.main.views.topbar.TopBar;
+import org.michaelbel.moviemade.ui.widgets.bottombar.BottomNavigationBar;
+import org.michaelbel.moviemade.ui.widgets.bottombar.BottomNavigationItem;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 
 import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatImageView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,8 +38,8 @@ public class MainActivity extends BaseActivity {
     SharedPreferences sharedPreferences;
 
     @BindView(R.id.topbar) TopBar topbar;
-    @BindView(R.id.search_icon) ImageView searchIcon;
-    @BindView(R.id.settings_icon) ImageView settingsIcon;
+    @BindView(R.id.search_icon) AppCompatImageView searchIcon;
+    @BindView(R.id.settings_icon) AppCompatImageView settingsIcon;
     @BindView(R.id.bottom_navigation_bar) BottomNavigationBar bottomBar;
 
     @Override
@@ -97,21 +97,21 @@ public class MainActivity extends BaseActivity {
             public void onTabReselected(int position) {
                 switch (position) {
                     case 0:
-                        if (nowPlayingFragment.getAdapter().isEmpty()) {
+                        if (nowPlayingFragment.getAdapter().getItemCount() == 0) {
                             nowPlayingFragment.presenter.loadNowPlayingMovies();
                         } else {
                             nowPlayingFragment.recyclerView.smoothScrollToPosition(0);
                         }
                         break;
                     case 1:
-                        if (topRatedFragment.getAdapter().isEmpty()) {
+                        if (topRatedFragment.getAdapter().getItemCount() == 0) {
                             topRatedFragment.presenter.loadNowPlayingMovies();
                         } else {
                             topRatedFragment.recyclerView.smoothScrollToPosition(0);
                         }
                         break;
                     case 2:
-                        if (upcomingFragment.getAdapter().isEmpty()) {
+                        if (upcomingFragment.getAdapter().getItemCount() == 0) {
                             upcomingFragment.presenter.loadNowPlayingMovies();
                         } else {
                             upcomingFragment.recyclerView.smoothScrollToPosition(0);

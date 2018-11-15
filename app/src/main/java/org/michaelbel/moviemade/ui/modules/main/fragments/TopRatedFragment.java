@@ -1,12 +1,7 @@
 package org.michaelbel.moviemade.ui.modules.main.fragments;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -16,18 +11,21 @@ import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
+import org.jetbrains.annotations.NotNull;
+import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.eventbus.Events;
-import org.michaelbel.moviemade.ui.modules.main.MainPresenter;
+import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.receivers.NetworkChangeReceiver;
+import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.modules.main.MainActivity;
 import org.michaelbel.moviemade.ui.modules.main.MainMvp;
+import org.michaelbel.moviemade.ui.modules.main.MainPresenter;
+import org.michaelbel.moviemade.ui.modules.main.adapter.PaginationMoviesAdapter;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
-import org.michaelbel.moviemade.ui.modules.main.adapter.PaginationMoviesAdapter;
-import org.michaelbel.moviemade.ui.PaddingItemDecoration;
-import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
-import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 
 import java.util.List;
@@ -41,13 +39,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 @SuppressWarnings("all")
-public class TopRatedFragment extends MvpAppCompatFragment implements MainMvp {
+public class TopRatedFragment extends MvpAppCompatFragment implements MainMvp, NetworkChangeReceiver.NCRListener {
 
     private MainActivity activity;
     private PaginationMoviesAdapter adapter;
     private GridLayoutManager gridLayoutManager;
     private PaddingItemDecoration itemDecoration;
-    private NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
+    private NetworkChangeReceiver networkChangeReceiver;
 
     @InjectPresenter
     public MainPresenter presenter;
@@ -60,6 +58,7 @@ public class TopRatedFragment extends MvpAppCompatFragment implements MainMvp {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (MainActivity) getActivity();
+        networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
         Moviemade.getComponent().injest(this);
     }
@@ -144,7 +143,7 @@ public class TopRatedFragment extends MvpAppCompatFragment implements MainMvp {
     }
 
     @Override
-    public void setMovies(List<Movie> movies, boolean firstPage) {
+    public void setMovies(@NotNull List<Movie> movies, boolean firstPage) {
         if (firstPage) {
             progressBar.setVisibility(View.GONE);
             adapter.addAll(movies);
@@ -171,6 +170,10 @@ public class TopRatedFragment extends MvpAppCompatFragment implements MainMvp {
     public void setError(int mode) {
         progressBar.setVisibility(View.GONE);
         emptyView.setMode(mode);
+
+        if (BuildConfig.TMDB_API_KEY == "null") {
+            emptyView.setValue(R.string.api_key_error);
+        }
     }
 
     public PaginationMoviesAdapter getAdapter() {
@@ -188,18 +191,10 @@ public class TopRatedFragment extends MvpAppCompatFragment implements MainMvp {
         gridLayoutManager.onRestoreInstanceState(state);
     }
 
-    private class NetworkChangeReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
-
-            if (networkInfo != null && networkInfo.isConnected()) {
-                if (adapter.isEmpty()) {
-                    presenter.loadTopRatedMovies();
-                }
-            }
+    @Override
+    public void onNetworkChanged() {
+        if (adapter.getItemCount() == 0) {
+            presenter.loadTopRatedMovies();
         }
     }
 }

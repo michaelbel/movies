@@ -4,15 +4,12 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.BuildConfig;
-import org.michaelbel.moviemade.utils.ConstantsKt;
-import org.michaelbel.moviemade.utils.EmptyViewMode;
-import org.michaelbel.moviemade.data.dao.Cast;
-import org.michaelbel.moviemade.data.dao.CreditsResponse;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.data.dao.MoviesResponse;
 import org.michaelbel.moviemade.data.service.MOVIES;
-import org.michaelbel.moviemade.data.service.PEOPLE;
 import org.michaelbel.moviemade.utils.ApiFactory;
+import org.michaelbel.moviemade.utils.ConstantsKt;
+import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 
 import java.util.ArrayList;
@@ -46,6 +43,7 @@ public class MainPresenter extends MvpPresenter<MainMvp> {
             @Override
             public void onNext(MoviesResponse response) {
                 totalPages = response.getTotalPages();
+
                 List<Movie> results = new ArrayList<>(response.getMovies());
                 if (results.isEmpty()) {
                     getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);

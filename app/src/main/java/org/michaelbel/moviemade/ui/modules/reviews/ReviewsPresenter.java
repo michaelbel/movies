@@ -1,17 +1,15 @@
-package org.michaelbel.moviemade.ui.modules.trailers;
-
-import android.util.Log;
+package org.michaelbel.moviemade.ui.modules.reviews;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.BuildConfig;
-import org.michaelbel.moviemade.data.dao.Video;
-import org.michaelbel.moviemade.utils.ConstantsKt;
-import org.michaelbel.moviemade.utils.EmptyViewMode;
-import org.michaelbel.moviemade.data.dao.VideosResponse;
+import org.michaelbel.moviemade.data.dao.Review;
+import org.michaelbel.moviemade.data.dao.ReviewsResponse;
 import org.michaelbel.moviemade.data.service.MOVIES;
 import org.michaelbel.moviemade.utils.ApiFactory;
+import org.michaelbel.moviemade.utils.ConstantsKt;
+import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 
 import java.util.ArrayList;
@@ -24,32 +22,32 @@ import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
-public class TrailersPresenter extends MvpPresenter<TrailersMvp> {
+public class ReviewsPresenter extends MvpPresenter<ReviewsMvp> {
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
-    void loadTrailers(int movieId) {
+    public void loadReviews(int movieId) {
         if (NetworkUtil.INSTANCE.notConnected()) {
             getViewState().setError(EmptyViewMode.MODE_NO_CONNECTION);
             return;
         }
 
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<VideosResponse> observable = service.getVideos(movieId, BuildConfig.TMDB_API_KEY, ConstantsKt.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<VideosResponse>() {
+        Observable<ReviewsResponse> observable = service.getReviews(movieId, BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, 1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposables.add(observable.subscribeWith(new DisposableObserver<ReviewsResponse>() {
             @Override
-            public void onNext(VideosResponse response) {
-                List<Video> results = new ArrayList<>(response.getTrailers());
+            public void onNext(ReviewsResponse response) {
+                List<Review> results = new ArrayList<>(response.getReviews());
                 if (results.isEmpty()) {
-                    getViewState().setError(EmptyViewMode.MODE_NO_TRAILERS);
+                    getViewState().setError(EmptyViewMode.MODE_NO_REVIEWS);
                     return;
                 }
-                getViewState().setTrailers(response.getTrailers());
+                getViewState().setReviews(response.getReviews());
             }
 
             @Override
             public void onError(Throwable e) {
-                getViewState().setError(EmptyViewMode.MODE_NO_TRAILERS);
+                getViewState().setError(EmptyViewMode.MODE_NO_REVIEWS);
             }
 
             @Override

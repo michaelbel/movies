@@ -46,7 +46,7 @@ public class TopBar extends FrameLayout {
     public TopBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         parseAttrs(context, attrs);
-        init();
+        init(context);
     }
 
     private void parseAttrs(Context context, AttributeSet attrs) {
@@ -58,10 +58,10 @@ public class TopBar extends FrameLayout {
         }
     }
 
-    private void init() {
+    private void init(Context context) {
         setLayoutParams(new ViewGroup.LayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)));
 
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.topbar, this, true);
+        View view = LayoutInflater.from(context).inflate(R.layout.topbar, this, true);
         toolbarTitle = view.findViewById(R.id.toolbar_title);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

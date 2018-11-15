@@ -5,8 +5,6 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.Typeface;
-import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -16,10 +14,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.utils.DrawableUtil;
 import org.michaelbel.moviemade.utils.LayoutHelper;
-import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.utils.Theme;
+
+import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 
 public class ReviewView extends FrameLayout {
 
@@ -52,7 +52,7 @@ public class ReviewView extends FrameLayout {
         layout.addView(layout1);
 
         ImageView userIcon = new ImageView(context);
-        userIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_account, ContextCompat.getColor(context, R.color.primaryText)));
+        userIcon.setImageDrawable(DrawableUtil.INSTANCE.getIcon(context, R.drawable.ic_account, ContextCompat.getColor(context, R.color.primaryText)));
         userIcon.setLayoutParams(LayoutHelper.makeLinear(18, 18, Gravity.START | Gravity.CENTER_VERTICAL));
         layout1.addView(userIcon);
 

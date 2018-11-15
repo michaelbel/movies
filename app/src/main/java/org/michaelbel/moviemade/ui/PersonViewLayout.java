@@ -17,10 +17,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.michaelbel.moviemade.utils.LayoutHelper;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.utils.Theme;
 import org.michaelbel.moviemade.utils.AndroidExtensions;
+import org.michaelbel.moviemade.utils.LayoutHelper;
 
 import java.util.Objects;
 
@@ -35,29 +34,18 @@ public class PersonViewLayout extends LinearLayout {
     private LinearLayout nameCareerLayout;
     private TextView nameText;
     private TextView careerText;
-
     private TextView otherNamesText;
-
     private LinearLayout bioLayout;
     private TextView bioText;
-
-
     private LinearLayout shortInfoLayout;
-
     private TextView popularityText;
-
     private LinearLayout birthdayLayout;
     private TextView birthdayText;
-
     private LinearLayout deathdayLayout;
     private TextView deathdayText;
-
     private LinearLayout birthPlaceLayout;
     private TextView birthPlaceText;
-
     private LinearLayout pagesLayout;
-
-
     private ProgressBar progressBar;
 
     public PersonViewLayout(Context context) {
@@ -112,13 +100,13 @@ public class PersonViewLayout extends LinearLayout {
         shortInfoLayout.addView(birthdayLayout);
 
         ImageView birthdayIcon = new ImageView(context);
-        birthdayIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_cake, ContextCompat.getColor(context, Theme.iconActiveColor())));
+        //birthdayIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_cake, ContextCompat.getColor(context, R.color.iconActive)));
         birthdayIcon.setLayoutParams(LayoutHelper.makeLinear(20, 20, Gravity.START));
         birthdayLayout.addView(birthdayIcon);
 
         birthdayText = new TextView(context);
         birthdayText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-        birthdayText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
+        //birthdayText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
         birthdayText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL,6, 0, 0, 0));
         birthdayLayout.addView(birthdayText);
 
@@ -131,13 +119,13 @@ public class PersonViewLayout extends LinearLayout {
         shortInfoLayout.addView(deathdayLayout);
 
         ImageView deathdayIcon = new ImageView(context);
-        deathdayIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_calendar, ContextCompat.getColor(context, Theme.iconActiveColor())));
+        //deathdayIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_calendar, ContextCompat.getColor(context, Theme.iconActiveColor())));
         deathdayIcon.setLayoutParams(LayoutHelper.makeLinear(20, 20, Gravity.START | Gravity.CENTER_VERTICAL));
         deathdayLayout.addView(deathdayIcon);
 
         deathdayText = new TextView(context);
         deathdayText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-        deathdayText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
+        //deathdayText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
         deathdayText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL,6, 0, 0, 0));
         deathdayLayout.addView(deathdayText);
 
@@ -150,17 +138,15 @@ public class PersonViewLayout extends LinearLayout {
         shortInfoLayout.addView(birthPlaceLayout);
 
         ImageView birthplaceIcon = new ImageView(context);
-        birthplaceIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_home, ContextCompat.getColor(context, Theme.iconActiveColor())));
+        //birthplaceIcon.setImageDrawable(Theme.getIcon(R.drawable.ic_home, ContextCompat.getColor(context, R.color.iconActive)));
         birthplaceIcon.setLayoutParams(LayoutHelper.makeLinear(20, 20, Gravity.START));
         birthPlaceLayout.addView(birthplaceIcon);
 
         birthPlaceText = new TextView(context);
         birthPlaceText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
-        birthPlaceText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
+        //birthPlaceText.setTextColor(ContextCompat.getColor(context, Theme.secondaryTextColor()));
         birthPlaceText.setLayoutParams(LayoutHelper.makeLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL,6, 0, 0, 0));
         birthPlaceLayout.addView(birthPlaceText);
-
-//
 
 //------NAME and OTHER NAMES and CAREER-------------------------------------------------------------
 
@@ -218,32 +204,6 @@ public class PersonViewLayout extends LinearLayout {
 
     }
 
-    public void addProfileImage(String profilePath) {
-        if (profilePath == null || profilePath.isEmpty()) {
-            //profileImage.setImageResource(R.drawable.people_placeholder_old);
-            profileImage.setVisibility(INVISIBLE);
-            profileImageEmpty.setVisibility(VISIBLE);
-            return;
-        }
-
-        profileImage.setVisibility(VISIBLE);
-        profileImageEmpty.setVisibility(INVISIBLE);
-
-        /*Picasso.get()
-               .load(String.format(Locale.US, Url.TMDB_IMAGE, "w500", profilePath))
-               //.placeholder(R.drawable.movie_placeholder_old)
-               .memoryPolicy(MemoryPolicy.NO_CACHE, MemoryPolicy.NO_STORE)
-               .into(profileImage);*/
-    }
-
-    public void addPopularity(String popularity) {
-        if (popularity == null || popularity.isEmpty()) {
-            return;
-        }
-
-        popularityText.setText(popularity);
-    }
-
     public void setDates(String birthDay, String deathDay) {
         if (TextUtils.isEmpty(birthDay) && TextUtils.isEmpty(deathDay)) {
             shortInfoLayout.removeView(deathdayLayout);
@@ -269,7 +229,7 @@ public class PersonViewLayout extends LinearLayout {
 
             spannable = new SpannableStringBuilder(text);
             spannable.setSpan(new TypefaceSpan("sans-serif-medium"), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), Theme.primaryTextColor())), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), R.color.primaryText)), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         } else {
             String dateOfBirth = AndroidExtensions.formatBirthday(birthDay);
 
@@ -278,7 +238,7 @@ public class PersonViewLayout extends LinearLayout {
 
             spannable = new SpannableStringBuilder(text);
             spannable.setSpan(new TypefaceSpan("sans-serif-medium"), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), Theme.primaryTextColor())), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), R.color.primaryText)), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
         birthdayText.setText(spannable);
@@ -291,7 +251,7 @@ public class PersonViewLayout extends LinearLayout {
             int pos = dateOfDeath.length() + 3 + (int) Math.ceil(Math.log10(age)); // 3 is (1 space + 2 braces) and number of digits
 
             SpannableStringBuilder spannable2 = new SpannableStringBuilder(text);
-            spannable2.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), Theme.primaryTextColor())),text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable2.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), R.color.primaryText)),text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             spannable2.setSpan(new TypefaceSpan("sans-serif-medium"),text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             deathdayText.setText(spannable2);
@@ -361,7 +321,7 @@ public class PersonViewLayout extends LinearLayout {
         int pos = birthPlace.length();
 
         SpannableStringBuilder spannable = new SpannableStringBuilder(text);
-        spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), Theme.primaryTextColor())), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(getContext(), R.color.primaryText)), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         spannable.setSpan(new TypefaceSpan("sans-serif-medium"), text.length() - pos, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         birthPlaceText.setText(spannable);

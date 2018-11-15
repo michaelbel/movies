@@ -2,7 +2,6 @@ package org.michaelbel.moviemade.ui.modules.main.views.appbar;
 
 import com.google.android.material.appbar.AppBarLayout;
 
-@SuppressWarnings("all")
 public abstract class AppBarStateChangeListener implements AppBarLayout.OnOffsetChangedListener {
 
     private AppBarState mCurrentState = AppBarState.IDLE;

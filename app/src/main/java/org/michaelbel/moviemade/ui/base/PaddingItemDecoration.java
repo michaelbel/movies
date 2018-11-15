@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.ui;
+package org.michaelbel.moviemade.ui.base;
 
 import android.graphics.Rect;
 import android.view.View;

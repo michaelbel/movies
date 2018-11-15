@@ -5,17 +5,11 @@ import android.graphics.Typeface;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.michaelbel.moviemade.utils.LayoutHelper;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.utils.Theme;
-import org.michaelbel.moviemade.data.dao.Image;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
@@ -58,39 +52,39 @@ public class ImagesSection extends FrameLayout {
 
         ViewPager posterViewPager = new ViewPager(context);
 
-        posterViewPager.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        //posterViewPager.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         postersLayout.addView(posterViewPager);
 
         postersTitleLayout = new FrameLayout(context);
         postersTitleLayout.setBackgroundColor(0x99000000);
-        postersTitleLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM));
+        //postersTitleLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM));
         postersLayout.addView(postersTitleLayout);
 
         postersCountText = new TextView(context);
         postersCountText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
         postersCountText.setTextColor(ContextCompat.getColor(context, R.color.md_white));
-        postersCountText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 8, 6, 8, 6));
+        //postersCountText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 8, 6, 8, 6));
         postersTitleLayout.addView(postersCountText);
 
 //------BACKDROPS-----------------------------------------------------------------------------------
 
         FrameLayout backdropsLayout = new FrameLayout(context);
-        backdropsLayout.setLayoutParams(LayoutHelper.makeLinear(0, LayoutHelper.MATCH_PARENT, Gravity.CENTER,2F, 12, 0, 0, 0));
+        //backdropsLayout.setLayoutParams(LayoutHelper.makeLinear(0, LayoutHelper.MATCH_PARENT, Gravity.CENTER,2F, 12, 0, 0, 0));
         imagesLayout.addView(backdropsLayout);
 
         ViewPager backdropViewPager = new ViewPager(context);
-        backdropViewPager.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+       // backdropViewPager.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         backdropsLayout.addView(backdropViewPager);
 
         backdropsTitleLayout = new FrameLayout(context);
         backdropsTitleLayout.setBackgroundColor(0x99000000);
-        backdropsTitleLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM));
+       //backdropsTitleLayout.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM));
         backdropsLayout.addView(backdropsTitleLayout);
 
         backdropsCountText = new TextView(context);
         backdropsCountText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
         backdropsCountText.setTextColor(ContextCompat.getColor(context, R.color.md_white));
-        backdropsCountText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 8, 6, 8, 6));
+      //  backdropsCountText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 8, 6, 8, 6));
         backdropsTitleLayout.addView(backdropsCountText);
     }
 
