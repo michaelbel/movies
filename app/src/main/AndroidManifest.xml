@@ -36,6 +36,8 @@
 
         <activity android:name=".ui.modules.movie.MovieActivity" android:screenOrientation="user" android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity android:name=".ui.modules.trailers.TrailersActivity" android:screenOrientation="user" android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name=".ui.modules.reviews.activity.ReviewsActivity" android:screenOrientation="user" android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name=".ui.modules.reviews.activity.ReviewActivity" android:screenOrientation="user" android:configChanges="keyboardHidden|orientation|screenSize"/>
         <activity android:name=".ui.modules.search.SearchActivity" android:screenOrientation="user" android:configChanges="keyboard|keyboardHidden|orientation|screenSize" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".ui.modules.settings.SettingsActivity" android:screenOrientation="user"/>
         <activity android:name=".ui.modules.about.AboutActivity" android:screenOrientation="user"/>
