@@ -5,14 +5,6 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.os.Build;
-import androidx.annotation.ColorRes;
-import androidx.annotation.IntDef;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.ViewPropertyAnimatorCompat;
-import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,17 +12,27 @@ import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.ui.widgets.bottombar.behaviour.BottomNavBarFabBehaviour;
 import org.michaelbel.moviemade.ui.widgets.bottombar.behaviour.BottomVerticalScrollBehavior;
 import org.michaelbel.moviemade.ui.widgets.bottombar.utils.Utils;
-import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+
+import androidx.annotation.ColorRes;
+import androidx.annotation.IntDef;
+import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.ViewPropertyAnimatorCompat;
+import androidx.interpolator.view.animation.LinearOutSlowInInterpolator;
 
 /**
  * Class description : This class is used to draw the layout and this acts like a bridge between
@@ -98,7 +100,7 @@ public class BottomNavigationBar extends FrameLayout {
 
     private FrameLayout mBackgroundOverlay;
     private FrameLayout mContainer;
-    private LinearLayout mTabContainer;
+    private LinearLayoutCompat mTabContainer;
 
     private static final int DEFAULT_ANIMATION_DURATION = 200;
     private int mAnimationDuration = DEFAULT_ANIMATION_DURATION;

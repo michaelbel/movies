@@ -55,9 +55,6 @@ public class EmptyView extends FrameLayout {
         } else if (mode == EmptyViewMode.MODE_NO_RESULTS) {
             setIcon(R.drawable.ic_database_search);
             setText(R.string.no_results);
-        } else if (mode == EmptyViewMode.MODE_NO_HISTORY) {
-            setIcon(R.drawable.ic_search_history);
-            setText(R.string.SearchHistoryEmpty);
         } else if (mode == EmptyViewMode.MODE_NO_TRAILERS) {
             setIcon(R.drawable.ic_trailer);
             setText(R.string.no_trailers);
