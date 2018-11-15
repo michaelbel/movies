@@ -14,7 +14,7 @@
 [minsdk-badge]:     https://img.shields.io/badge/minSdkVersion-21-F3745F.svg
 
 <!------------------------------------------------------------------------------------------------------------------------------------>
-<img src="/screenshots/mockup.png"/>
+<img src="screenshots/mockup.png"/>
 
 <p align="left">
   <img src="../master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"/>
@@ -30,12 +30,19 @@
 Moviemade - quick and easy way to discover popular movies.
 
 ## Build
-Take a look at <b>`local.properties`</b> and fill it with [your own][tmdb-introduction] <b>tmdb_api_key</b>.
+Take a look at <b>`local.properties`</b> and fill it with [your own][tmdb-introduction] <b>tmdb_api_key</b> like this:
+```gradle
+tmdb_api_key=YOUR_OWN_TMDB_KEY
+```
+
+## Download
+[<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="" height="100">](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
+[<img src="screenshots/direct-apk.png" alt="" height="100">](https://github.com/michaelbel/Moviemade/blob/master/app/releasing/release/moviemade-v0.3.7-releasing-release.apk)
 
 ## Screenshots
 | Explore | Search | Movie | Trailers |
 |:-:|:-:|:-:|:-:|
-| ![Explore](/screenshots/explore.png?raw=true) | ![Search](/screenshots/search.png?raw=true) | ![Movie](/screenshots/movie.png?raw=true) | ![Trailers](/screenshots/trailers.png?raw=true) |
+| ![Explore](screenshots/explore.png?raw=true) | ![Search](screenshots/search.png?raw=true) | ![Movie](screenshots/movie.png?raw=true) | ![Trailers](screenshots/trailers.png?raw=true) |
 
 ## Demo video
 https://www.youtube.com/watch?v=H5auyhQU9fU
@@ -58,6 +65,10 @@ https://www.youtube.com/watch?v=H5auyhQU9fU
 * [**ChipsLayoutManager**](https://github.com/BelooS/ChipsLayoutManager) for keywords
 
 ## License
+<a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
+  <img alt="Apache License 2.0" src="screenshots/apache.png" height="110"/>
+</a>
+
     Copyright 2017 Michael Bely
 
     Licensed under the Apache License, Version 2.0 (the "License");
