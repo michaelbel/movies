@@ -5,10 +5,6 @@ apply plugin: 'realm-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'org.jetbrains.kotlin.android.extensions'
 
-repositories {
-    mavenCentral()
-}
-
 def getProperty(String filename, String propName) {
     def propsFile = rootProject.file(filename)
     if (propsFile.exists()) {
@@ -31,9 +27,9 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
 
-        versionCode 47
-        versionName "0.3.7"
-        buildConfigField "String", "VERSION_DATE", '"11 Nov 2018"'
+        versionCode 48
+        versionName "0.3.8"
+        buildConfigField "String", "VERSION_DATE", '"16 Nov 2018"'
         project.ext.set("archivesBaseName", "moviemade-v" + versionName)
         buildConfigField "String", "TMDB_API_KEY", "\"${getProperty("local.properties", "tmdb_api_key")}\""
 
@@ -59,7 +55,7 @@ android {
         developing {
             flavorDimensions "develop"
             minSdkVersion 21
-            versionName "0.3.7-beta"
+            versionName "0.3.8-beta"
             applicationId "org.michaelbel.moviemade.beta"
         }
     }
