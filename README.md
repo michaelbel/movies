@@ -64,6 +64,9 @@ https://www.youtube.com/watch?v=H5auyhQU9fU
 * [**BottomNavigation**](https://github.com/Ashok-Varma/BottomNavigation) for BottomBar tabs
 * [**ChipsLayoutManager**](https://github.com/BelooS/ChipsLayoutManager) for genres
 
+## Issues
+If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).
+
 ## License
 <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
   <img alt="Apache License 2.0" src="screenshots/apache.png" height="110"/>
