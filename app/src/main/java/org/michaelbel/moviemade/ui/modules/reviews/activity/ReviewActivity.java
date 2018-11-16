@@ -10,6 +10,7 @@ import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.data.dao.Review;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.ui.modules.reviews.fragment.ReviewFragment;
+import org.michaelbel.moviemade.utils.IntentsKt;
 import org.michaelbel.moviemade.utils.SpannableUtil;
 
 import androidx.appcompat.widget.AppCompatTextView;
@@ -18,9 +19,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ReviewActivity extends BaseActivity {
-
-    public static final String MOVIE = "movie";
-    public static final String REVIEW = "review";
 
     public Movie movie;
     public Review review;
@@ -36,8 +34,8 @@ public class ReviewActivity extends BaseActivity {
         ButterKnife.bind(this);
         Moviemade.getComponent().injest(this);
 
-        movie = (Movie) getIntent().getSerializableExtra(MOVIE);
-        review = (Review) getIntent().getSerializableExtra(REVIEW);
+        movie = (Movie) getIntent().getSerializableExtra(IntentsKt.MOVIE);
+        review = (Review) getIntent().getSerializableExtra(IntentsKt.REVIEW);
 
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);

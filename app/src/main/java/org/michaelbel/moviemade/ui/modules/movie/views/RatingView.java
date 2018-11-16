@@ -93,7 +93,7 @@ public class RatingView extends LinearLayoutCompat {
                     }
                     break;
             }
-        } else if (c == 5) {
+        } else {
             switch (a) {
                 case 0:
                     stars[0].setIcon(StarView.ICON_STAR_HALF);

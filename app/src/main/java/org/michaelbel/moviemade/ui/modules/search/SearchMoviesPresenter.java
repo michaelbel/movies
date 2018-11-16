@@ -45,7 +45,7 @@ public class SearchMoviesPresenter extends MvpPresenter<SearchMvp> {
         }
 
         SEARCH service = ApiFactory.createService2(SEARCH.class);
-        Observable<MoviesResponse> observable = service.searchMovies(BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, query, page, AdultUtil.INSTANCE.includeAdult(Moviemade.AppContext), null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<MoviesResponse> observable = service.searchMovies(BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, query, page, AdultUtil.INSTANCE.includeAdult(Moviemade.AppContext), "").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override
             public void onNext(MoviesResponse response) {

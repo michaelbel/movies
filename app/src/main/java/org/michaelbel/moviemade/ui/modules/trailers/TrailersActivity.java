@@ -5,6 +5,7 @@ import android.os.Bundle;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
+import org.michaelbel.moviemade.utils.IntentsKt;
 
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
@@ -26,7 +27,7 @@ public class TrailersActivity extends BaseActivity {
         setContentView(R.layout.activity_trailers);
         ButterKnife.bind(this);
 
-        movie = (Movie) getIntent().getSerializableExtra("movie");
+        movie = (Movie) getIntent().getSerializableExtra(IntentsKt.MOVIE);
 
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);

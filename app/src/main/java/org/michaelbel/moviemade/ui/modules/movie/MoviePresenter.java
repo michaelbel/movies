@@ -1,7 +1,5 @@
 package org.michaelbel.moviemade.ui.modules.movie;
 
-import android.util.Log;
-
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
@@ -89,12 +87,11 @@ public class MoviePresenter extends MvpPresenter<MovieMvp> {
             @Override
             public void onNext(CreditsResponse response) {
                 reloadCredits(response.getCast(), response.getCrew());
-                Log.e("2580", response.toString());
             }
 
             @Override
             public void onError(Throwable e) {
-                Log.e("2580", e.getMessage().toUpperCase());
+                e.printStackTrace();
             }
 
             @Override

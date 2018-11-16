@@ -23,6 +23,7 @@ import org.michaelbel.moviemade.ui.modules.reviews.GestureTextView;
 import org.michaelbel.moviemade.ui.modules.reviews.activity.ReviewActivity;
 import org.michaelbel.moviemade.utils.AndroidUtil;
 import org.michaelbel.moviemade.utils.Browser;
+import org.michaelbel.moviemade.utils.SharedPrefsKt;
 
 import javax.inject.Inject;
 
@@ -32,16 +33,16 @@ import androidx.core.widget.NestedScrollView;
 import butterknife.BindColor;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class ReviewFragment extends MvpAppCompatFragment {
-
-    private static final String KEY_REVIEW_THEME = "review_theme";
 
     private MenuItem menu_url;
     private MenuItem menu_theme_light;
     private MenuItem menu_theme_sepia;
     private MenuItem menu_theme_night;
 
+    private Unbinder unbinder;
     private ReviewActivity activity;
 
     @Inject
@@ -66,7 +67,7 @@ public class ReviewFragment extends MvpAppCompatFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
-        switch (sharedPreferences.getInt(KEY_REVIEW_THEME, THEME_NIGHT)) {
+        switch (sharedPreferences.getInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_NIGHT)) {
             case THEME_LIGHT:
                 scrollLayout.setBackgroundColor(backgroundLight);
                 reviewText.setTextColor(textLight);
@@ -105,16 +106,16 @@ public class ReviewFragment extends MvpAppCompatFragment {
         if (item == menu_url) {
             Browser.INSTANCE.openUrl(activity, activity.review.getUrl());
         } else if (item == menu_theme_light) {
-            int current = sharedPreferences.getInt(KEY_REVIEW_THEME, THEME_NIGHT);
-            sharedPreferences.edit().putInt(KEY_REVIEW_THEME, THEME_LIGHT).apply();
+            int current = sharedPreferences.getInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_NIGHT);
+            sharedPreferences.edit().putInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_LIGHT).apply();
             changeTheme(current, THEME_LIGHT);
         } else if (item == menu_theme_sepia) {
-            int current = sharedPreferences.getInt(KEY_REVIEW_THEME, THEME_NIGHT);
-            sharedPreferences.edit().putInt(KEY_REVIEW_THEME, THEME_SEPIA).apply();
+            int current = sharedPreferences.getInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_NIGHT);
+            sharedPreferences.edit().putInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_SEPIA).apply();
             changeTheme(current, THEME_SEPIA);
         } else if (item == menu_theme_night) {
-            int current = sharedPreferences.getInt(KEY_REVIEW_THEME, THEME_NIGHT);
-            sharedPreferences.edit().putInt(KEY_REVIEW_THEME, THEME_NIGHT).apply();
+            int current = sharedPreferences.getInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_NIGHT);
+            sharedPreferences.edit().putInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_NIGHT).apply();
             changeTheme(current, THEME_NIGHT);
         }
 
@@ -125,7 +126,7 @@ public class ReviewFragment extends MvpAppCompatFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_review, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -133,6 +134,12 @@ public class ReviewFragment extends MvpAppCompatFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         reviewText.getController().getSettings().enableGestures();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 
     public void setReview(Review review) {
@@ -148,8 +155,6 @@ public class ReviewFragment extends MvpAppCompatFragment {
 
             int textColorStart = textNight;
             int textColorEnd = textSepia;
-
-            //ArgbEvaluator evaluator = new ArgbEvaluator();
 
             ObjectAnimator backgroundAnim = ObjectAnimator.ofObject(scrollLayout, "backgroundColor", evaluator, 0, 0);
             backgroundAnim.setObjectValues(backgroundColorStart, backgroundColorEnd);
@@ -175,8 +180,6 @@ public class ReviewFragment extends MvpAppCompatFragment {
             int textColorStart = textNight;
             int textColorEnd = textLight;
 
-            //ArgbEvaluator evaluator = new ArgbEvaluator();
-
             ObjectAnimator backgroundAnim = ObjectAnimator.ofObject(scrollLayout, "backgroundColor", evaluator, 0, 0);
             backgroundAnim.setObjectValues(backgroundColorStart, backgroundColorEnd);
 
@@ -200,8 +203,6 @@ public class ReviewFragment extends MvpAppCompatFragment {
 
             int textColorStart = textSepia;
             int textColorEnd = textLight;
-
-            //ArgbEvaluator evaluator = new ArgbEvaluator();
 
             ObjectAnimator backgroundAnim = ObjectAnimator.ofObject(scrollLayout, "backgroundColor", evaluator, 0, 0);
             backgroundAnim.setObjectValues(backgroundColorStart, backgroundColorEnd);
@@ -227,8 +228,6 @@ public class ReviewFragment extends MvpAppCompatFragment {
             int textColorStart = textSepia;
             int textColorEnd = textNight;
 
-            //ArgbEvaluator evaluator = new ArgbEvaluator();
-
             ObjectAnimator backgroundAnim = ObjectAnimator.ofObject(scrollLayout, "backgroundColor", evaluator, 0, 0);
             backgroundAnim.setObjectValues(backgroundColorStart, backgroundColorEnd);
 
@@ -253,8 +252,6 @@ public class ReviewFragment extends MvpAppCompatFragment {
             int textColorStart = textLight;
             int textColorEnd = textSepia;
 
-            //ArgbEvaluator evaluator = new ArgbEvaluator();
-
             ObjectAnimator backgroundAnim = ObjectAnimator.ofObject(scrollLayout, "backgroundColor", evaluator, 0, 0);
             backgroundAnim.setObjectValues(backgroundColorStart, backgroundColorEnd);
 
@@ -278,8 +275,6 @@ public class ReviewFragment extends MvpAppCompatFragment {
 
             int textColorStart = textLight;
             int textColorEnd = textNight;
-
-            //ArgbEvaluator evaluator = new ArgbEvaluator();
 
             ObjectAnimator backgroundAnim = ObjectAnimator.ofObject(scrollLayout, "backgroundColor", evaluator, 0, 0);
             backgroundAnim.setObjectValues(backgroundColorStart, backgroundColorEnd);

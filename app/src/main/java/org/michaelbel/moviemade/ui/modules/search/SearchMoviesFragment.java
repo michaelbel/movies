@@ -1,12 +1,6 @@
 package org.michaelbel.moviemade.ui.modules.search;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.res.Configuration;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -22,13 +16,14 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
 import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
-import org.michaelbel.moviemade.ui.modules.main.adapter.PaginationMoviesAdapter;
+import org.michaelbel.moviemade.ui.modules.main.adapter.MoviesAdapter;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 
 import java.util.List;
+import java.util.Objects;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -36,16 +31,16 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
-@SuppressWarnings("all")
 public class SearchMoviesFragment extends MvpAppCompatFragment implements SearchMvp {
 
     private String readyQuery;
+    private Unbinder unbinder;
     private SearchActivity activity;
-    private PaginationMoviesAdapter adapter;
+    private MoviesAdapter adapter;
     private GridLayoutManager gridLayoutManager;
     private PaddingItemDecoration itemDecoration;
-    private NetworkChangeReceiver networkChangeReceiver = new NetworkChangeReceiver();
 
     @InjectPresenter
     public SearchMoviesPresenter presenter;
@@ -54,7 +49,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.recycler_view) RecyclerListView recyclerView;
 
-    public static SearchMoviesFragment newInstance(String query) {
+    static SearchMoviesFragment newInstance(String query) {
         Bundle args = new Bundle();
         args.putString("query", query);
 
@@ -67,14 +62,13 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (SearchActivity) getActivity();
-        activity.registerReceiver(networkChangeReceiver, new IntentFilter("android.net.conn.CONNECTIVITY_CHANGE"));
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_movies, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         emptyView.setMode(EmptyViewMode.MODE_NO_RESULTS);
 
@@ -85,9 +79,8 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
 
         int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
 
-        adapter = new PaginationMoviesAdapter();
-        gridLayoutManager = new GridLayoutManager(activity, spanCount);
-        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        adapter = new MoviesAdapter();
+        gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setEmptyView(emptyView);
@@ -95,7 +88,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setPadding(DeviceUtil.INSTANCE.dp(activity, 2), 0, DeviceUtil.INSTANCE.dp(activity, 2), 0);
         recyclerView.setOnItemClickListener((v, position) -> {
-            Movie movie = (Movie) adapter.movies.get(position);
+            Movie movie = adapter.movies.get(position);
             activity.startMovie(movie);
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -130,23 +123,14 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
         readyQuery = getArguments().getString("query");
 
         if (readyQuery == null) {
-            activity.searchEditText.setSelection(activity.searchEditText.getText().length());
+            activity.searchEditText.setSelection(Objects.requireNonNull(activity.searchEditText.getText()).length());
         } else {
             activity.searchEditText.setText(readyQuery);
-            activity.searchEditText.setSelection(activity.searchEditText.getText().length());
+            activity.searchEditText.setSelection(Objects.requireNonNull(activity.searchEditText.getText()).length());
 
             activity.hideKeyboard(activity.searchEditText);
             presenter.search(readyQuery);
         }
-
-        /*emptyView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (activity.searchEditText.getText().toString() == readyQuery) {
-                    presenter.search(readyQuery);
-                }
-            }
-        });*/
     }
 
     @Override
@@ -158,7 +142,8 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
     @Override
     public void onDestroy() {
         super.onDestroy();
-        activity.unregisterReceiver(networkChangeReceiver);
+        presenter.onDestroy();
+        unbinder.unbind();
     }
 
     @Override
@@ -214,22 +199,5 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
         itemDecoration.setOffset(0);
         recyclerView.addItemDecoration(itemDecoration);
         gridLayoutManager.onRestoreInstanceState(state);
-    }
-
-    private class NetworkChangeReceiver extends BroadcastReceiver {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo networkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
-
-            /*if (networkInfo != null && networkInfo.isConnected()) {
-                if (adapter.getItemCount() == 0) {
-                    if (activity.searchEditText.getText().toString() == readyQuery) {
-                        presenter.search(readyQuery);
-                    }
-                }
-            }*/
-        }
     }
 }

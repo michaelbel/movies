@@ -20,6 +20,7 @@ import org.michaelbel.moviemade.utils.DrawableUtil;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
@@ -100,7 +101,7 @@ public class SearchActivity extends BaseActivity {
                     intent.putExtra(RecognizerIntent.EXTRA_PROMPT, R.string.speak_now);
                     startActivityForResult(intent, SPEECH_REQUEST_CODE);
                 } else if (iconActionMode == MODE_ACTION_CLEAR) {
-                    searchEditText.getText().clear();
+                    Objects.requireNonNull(searchEditText.getText()).clear();
                     changeActionIcon();
 
                     InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -126,7 +127,7 @@ public class SearchActivity extends BaseActivity {
                     if (!TextUtils.isEmpty(textResults)) {
                         if (searchEditText != null) {
                             searchEditText.setText(textResults);
-                            searchEditText.setSelection(searchEditText.getText().length());
+                            searchEditText.setSelection(Objects.requireNonNull(searchEditText.getText()).length());
                             changeActionIcon();
                             fragment.presenter.search(textResults);
                         }
@@ -138,7 +139,7 @@ public class SearchActivity extends BaseActivity {
 
     private void changeActionIcon() {
         if (actionMenu != null) {
-            if (searchEditText.getText().toString().trim().isEmpty()) {
+            if (Objects.requireNonNull(searchEditText.getText()).toString().trim().isEmpty()) {
                 iconActionMode = MODE_ACTION_VOICE;
                 actionMenu.getItem(MENU_ITEM_INDEX).setIcon(R.drawable.ic_voice);
             } else {

@@ -6,7 +6,6 @@ import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.dao.Review;
-import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,11 +13,10 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
-public class ReviewsAdapter extends RecyclerView.Adapter {
-
-    private AppCompatTextView authorName;
-    private AppCompatTextView reviewText;
+public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHolder> {
 
     public ArrayList<Review> reviews = new ArrayList<>();
 
@@ -29,22 +27,31 @@ public class ReviewsAdapter extends RecyclerView.Adapter {
 
     @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ReviewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_review, parent, false);
-        authorName = view.findViewById(R.id.author_name);
-        reviewText = view.findViewById(R.id.review_text);
-        return new RecyclerListView.ViewHolder(view);
+        return new ReviewsViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull ReviewsViewHolder holder, int position) {
         Review review = reviews.get(position);
-        authorName.setText(review.getAuthor());
-        reviewText.setText(review.getContent());
+        holder.authorName.setText(review.getAuthor());
+        holder.reviewText.setText(review.getContent());
     }
 
     @Override
     public int getItemCount() {
         return reviews != null ? reviews.size() : 0;
+    }
+
+    class ReviewsViewHolder extends RecyclerView.ViewHolder {
+
+        @BindView(R.id.author_name) AppCompatTextView authorName;
+        @BindView(R.id.review_text) AppCompatTextView reviewText;
+
+        private ReviewsViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.bind(this, itemView);
+        }
     }
 }

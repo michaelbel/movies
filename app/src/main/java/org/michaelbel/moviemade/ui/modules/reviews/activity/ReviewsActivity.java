@@ -6,6 +6,7 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.ui.modules.reviews.fragment.ReviewsFragment;
+import org.michaelbel.moviemade.utils.IntentsKt;
 
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
@@ -27,7 +28,7 @@ public class ReviewsActivity extends BaseActivity {
         setContentView(R.layout.activity_reviews);
         ButterKnife.bind(this);
 
-        movie = (Movie) getIntent().getSerializableExtra("movie");
+        movie = (Movie) getIntent().getSerializableExtra(IntentsKt.MOVIE);
 
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back);

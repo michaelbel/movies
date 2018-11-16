@@ -21,7 +21,7 @@
         android:theme="@style/AppTheme"
         android:fullBackupContent="false">
 
-        <activity android:name=".ui.modules.main.MainActivity" android:screenOrientation="user" android:configChanges="keyboard|keyboardHidden|orientation|screenSize" android:launchMode="singleTop">
+        <activity android:name=".ui.modules.main.MainActivity" android:screenOrientation="user" android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

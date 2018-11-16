@@ -18,6 +18,7 @@ import org.michaelbel.moviemade.ui.modules.main.views.appbar.AppBarState;
 import org.michaelbel.moviemade.ui.modules.main.views.appbar.AppBarStateChangeListener;
 import org.michaelbel.moviemade.utils.ConstantsKt;
 import org.michaelbel.moviemade.utils.DeviceUtil;
+import org.michaelbel.moviemade.utils.IntentsKt;
 
 import java.util.Locale;
 
@@ -32,8 +33,6 @@ import butterknife.ButterKnife;
 
 
 public class MovieActivity extends BaseActivity {
-
-    public static final String KEY_MOVIE = "movie";
 
     public Movie movie;
     public ViewsTransitionAnimator imageAnimator;
@@ -55,7 +54,7 @@ public class MovieActivity extends BaseActivity {
         setContentView(R.layout.activity_movie);
         ButterKnife.bind(this);
 
-        movie = (Movie) getIntent().getSerializableExtra(KEY_MOVIE);
+        movie = (Movie) getIntent().getSerializableExtra(IntentsKt.MOVIE);
 
         MovieFragment fragment = (MovieFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
         if (fragment != null) {

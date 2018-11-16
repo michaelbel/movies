@@ -14,9 +14,9 @@ import android.widget.ImageView;
 
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.utils.Browser;
 import org.michaelbel.moviemade.ui.modules.about.AboutActivity;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
+import org.michaelbel.moviemade.utils.Browser;
 import org.michaelbel.moviemade.utils.LinksKt;
 import org.michaelbel.moviemade.utils.SpannableUtil;
 
@@ -29,11 +29,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-@SuppressWarnings("all")
 public class AboutFragment extends Fragment {
 
-    public static final String TELEGRAM_PACKAGE_NAME = "org.telegram.messenger";
-    public static final String LIBS_FRAGMENT_TAG = "libs_fragment";
+    private static final String TELEGRAM_PACKAGE_NAME = "org.telegram.messenger";
+    private static final String LIBS_FRAGMENT_TAG = "libs_fragment";
 
     private int rowCount;
     private int infoRow;
@@ -148,24 +147,24 @@ public class AboutFragment extends Fragment {
         linearLayoutManager.onRestoreInstanceState(state);
     }
 
-    private class AboutAdapter extends RecyclerView.Adapter {
+    public class AboutAdapter extends RecyclerView.Adapter<AboutAdapter.AboutViewHolder> {
 
-        private AppCompatTextView appNameText;
-        private AppCompatTextView versionText;
-        private AppCompatTextView poweredText;
-        private ImageView iconView;
-        private AppCompatTextView textView;
+        AppCompatTextView poweredText;
+        AppCompatTextView appNameText;
+        AppCompatTextView versionText;
+        ImageView iconView;
+        AppCompatTextView textView;
 
         @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
+        public AboutViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view;
 
-            if (type == 0) {
+            if (viewType == 0) {
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_about, parent, false);
                 appNameText = view.findViewById(R.id.app_name_text);
                 versionText = view.findViewById(R.id.version_text);
-            } else if (type == 1) {
+            } else if (viewType == 1) {
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_powered, parent, false);
                 poweredText = view.findViewById(R.id.powered_text);
             } else {
@@ -174,11 +173,11 @@ public class AboutFragment extends Fragment {
                 textView = view.findViewById(R.id.text_view);
             }
 
-            return new RecyclerListView.ViewHolder(view);
+            return new AboutViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull AboutViewHolder holder, int position) {
             int type = getItemViewType(position);
 
             if (type == 0) {
@@ -225,6 +224,13 @@ public class AboutFragment extends Fragment {
                 return 1;
             } else {
                 return 2;
+            }
+        }
+
+        class AboutViewHolder extends RecyclerView.ViewHolder {
+
+             AboutViewHolder(View itemView) {
+                super(itemView);
             }
         }
     }

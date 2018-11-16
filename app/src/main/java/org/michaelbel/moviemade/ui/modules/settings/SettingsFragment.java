@@ -17,6 +17,7 @@ import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.ui.modules.settings.cell.TextCell;
 import org.michaelbel.moviemade.ui.modules.settings.cell.TextDetailCell;
 import org.michaelbel.moviemade.utils.DeviceUtil;
+import org.michaelbel.moviemade.utils.SharedPrefsKt;
 
 import javax.inject.Inject;
 
@@ -28,11 +29,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-@SuppressWarnings("all")
 public class SettingsFragment extends Fragment {
-
-    public static final String KEY_IN_APP_BROWSER = "in_app_browser";
-    public static final String KEY_ADULT = "adult";
 
     private int rowCount;
     private int inAppBrowserRow;
@@ -84,14 +81,14 @@ public class SettingsFragment extends Fragment {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setOnItemClickListener((v, position) -> {
             if (position == inAppBrowserRow) {
-                boolean enable = sharedPreferences.getBoolean(KEY_IN_APP_BROWSER, true);
-                sharedPreferences.edit().putBoolean(KEY_IN_APP_BROWSER, !enable).apply();
+                boolean enable = sharedPreferences.getBoolean(SharedPrefsKt.KEY_BROWSER, true);
+                sharedPreferences.edit().putBoolean(SharedPrefsKt.KEY_BROWSER, !enable).apply();
                 if (v instanceof TextDetailCell) {
                     ((TextDetailCell) v).setChecked(!enable);
                 }
             } else if (position == adultRow) {
-                boolean enable = sharedPreferences.getBoolean(KEY_ADULT, true);
-                sharedPreferences.edit().putBoolean(KEY_ADULT, !enable).apply();
+                boolean enable = sharedPreferences.getBoolean(SharedPrefsKt.KEY_ADULT, true);
+                sharedPreferences.edit().putBoolean(SharedPrefsKt.KEY_ADULT, !enable).apply();
                 if (v instanceof TextDetailCell) {
                     ((TextDetailCell) v).setChecked(!enable);
                 }
@@ -146,13 +143,13 @@ public class SettingsFragment extends Fragment {
                     cell.setMode(TextDetailCell.MODE_SWITCH);
                     cell.setText(R.string.in_app_browser);
                     cell.setValue(R.string.in_app_browser_info);
-                    cell.setChecked(sharedPreferences.getBoolean(KEY_IN_APP_BROWSER, true));
+                    cell.setChecked(sharedPreferences.getBoolean(SharedPrefsKt.KEY_BROWSER, true));
                     cell.setDivider(true);
                 } else if (position == adultRow) {
                     cell.setMode(TextDetailCell.MODE_SWITCH);
                     cell.setText(getString(R.string.include_adult));
                     cell.setValue(R.string.include_adult_info);
-                    cell.setChecked(sharedPreferences.getBoolean(KEY_ADULT, true));
+                    cell.setChecked(sharedPreferences.getBoolean(SharedPrefsKt.KEY_ADULT, true));
                     cell.setDivider(true);
                 }
             }

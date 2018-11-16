@@ -49,6 +49,7 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.content.ContextCompat;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 import static android.view.View.VISIBLE;
 
@@ -65,6 +66,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
     private String homepage;
     private String posterPath;
     private boolean connectionError;
+    private Unbinder unbinder;
     private MovieActivity activity;
     private NetworkChangeReceiver networkChangeReceiver;
 
@@ -145,7 +147,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle args) {
         view = inflater.inflate(R.layout.fragment_movie, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         return  view;
     }
 
@@ -175,6 +177,8 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
     public void onDestroy() {
         super.onDestroy();
         activity.unregisterReceiver(networkChangeReceiver);
+        presenter.onDestroy();
+        unbinder.unbind();
     }
 
     @Override

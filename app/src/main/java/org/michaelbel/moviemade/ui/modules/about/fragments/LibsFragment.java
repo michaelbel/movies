@@ -6,10 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.utils.Browser;
 import org.michaelbel.moviemade.ui.modules.about.AboutActivity;
 import org.michaelbel.moviemade.ui.modules.about.Source;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
+import org.michaelbel.moviemade.utils.Browser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-@SuppressWarnings("all")
 public class LibsFragment extends Fragment {
 
     private LibsAdapter adapter;
@@ -75,29 +74,24 @@ public class LibsFragment extends Fragment {
         recyclerView.setOnItemClickListener((v, position) -> Browser.INSTANCE.openUrl(activity, adapter.sources.get(position).getUrl()));
     }
 
-    public class LibsAdapter extends RecyclerView.Adapter {
+    public class LibsAdapter extends RecyclerView.Adapter<LibsAdapter.LibsViewHolder> {
 
         private List<Source> sources = new ArrayList<>();
 
-        @BindView(R.id.text_view) AppCompatTextView textView;
-        @BindView(R.id.value_text) AppCompatTextView valueView;
-        @BindView(R.id.divider_view) View dividerView;
-
         @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int type) {
+        public LibsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_cell_details, parent, false);
-            ButterKnife.bind(this, view);
-            return new RecyclerListView.ViewHolder(view);
+            return new LibsViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull LibsViewHolder holder, int position) {
             Source source = sources.get(position);
 
-            textView.setText(source.getName());
-            valueView.setText(source.getLicense());
-            dividerView.setVisibility(position != sources.size() - 1 ? View.VISIBLE : View.INVISIBLE);
+            holder.textView.setText(source.getName());
+            holder.valueView.setText(source.getLicense());
+            holder.dividerView.setVisibility(position != sources.size() - 1 ? View.VISIBLE : View.INVISIBLE);
         }
 
         @Override
@@ -108,6 +102,18 @@ public class LibsFragment extends Fragment {
         private void addSource(String name, String url, String license) {
             sources.add(new Source(name, url, license));
             notifyItemInserted(sources.size() - 1);
+        }
+
+        class LibsViewHolder extends RecyclerView.ViewHolder {
+
+            @BindView(R.id.text_view) AppCompatTextView textView;
+            @BindView(R.id.value_text) AppCompatTextView valueView;
+            @BindView(R.id.divider_view) View dividerView;
+
+            private LibsViewHolder(View itemView) {
+                super(itemView);
+                ButterKnife.bind(this, itemView);
+            }
         }
     }
 }

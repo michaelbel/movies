@@ -16,6 +16,7 @@ import org.michaelbel.moviemade.ui.modules.settings.SettingsActivity;
 import org.michaelbel.moviemade.ui.widgets.bottombar.BottomNavigationBar;
 import org.michaelbel.moviemade.ui.widgets.bottombar.BottomNavigationItem;
 import org.michaelbel.moviemade.utils.DeviceUtil;
+import org.michaelbel.moviemade.utils.SharedPrefsKt;
 
 import javax.inject.Inject;
 
@@ -27,7 +28,6 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends BaseActivity {
 
-    public static final String KEY_CURRENT_FRAGMENT = "fragment";
     public static final int CURRENT_FRAGMENT_DEFAULT = 0;
 
     private NowPlayingFragment nowPlayingFragment;
@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity {
             .addItem(new BottomNavigationItem(R.drawable.ic_fire, R.string.now_playing).setActiveColorResource(R.color.accent))
             .addItem(new BottomNavigationItem(R.drawable.ic_star_circle, R.string.top_rated).setActiveColorResource(R.color.accent))
             .addItem(new BottomNavigationItem(R.drawable.ic_movieroll, R.string.upcoming).setActiveColorResource(R.color.accent))
-            .setFirstSelectedPosition(sharedPreferences.getInt(KEY_CURRENT_FRAGMENT, CURRENT_FRAGMENT_DEFAULT))
+            .setFirstSelectedPosition(sharedPreferences.getInt(SharedPrefsKt.KEY_MAIN_FRAGMENT, CURRENT_FRAGMENT_DEFAULT))
             .initialise();
         bottomBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener() {
             @Override
@@ -87,7 +87,7 @@ public class MainActivity extends BaseActivity {
                         break;
                 }
 
-                sharedPreferences.edit().putInt(KEY_CURRENT_FRAGMENT, position).apply();
+                sharedPreferences.edit().putInt(SharedPrefsKt.KEY_MAIN_FRAGMENT, position).apply();
             }
 
             @Override
@@ -121,11 +121,13 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        startCurrentFragment();
+        if (savedInstanceState == null) {
+            startCurrentFragment();
+        }
     }
 
     private void startCurrentFragment() {
-        int position = sharedPreferences.getInt(KEY_CURRENT_FRAGMENT, CURRENT_FRAGMENT_DEFAULT);
+        int position = sharedPreferences.getInt(SharedPrefsKt.KEY_MAIN_FRAGMENT, CURRENT_FRAGMENT_DEFAULT);
 
         switch (position) {
             case 0:

@@ -1,5 +1,6 @@
 package org.michaelbel.moviemade.ui.modules.trailers;
 
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.net.Uri;
@@ -32,12 +33,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
-@SuppressWarnings("all")
 public class TrailersFragment extends MvpAppCompatFragment implements TrailersMvp, NetworkChangeReceiver.NCRListener {
 
     public static final String YOUTUBE_DIALOG_FRAGMENT_TAG = "youtubeFragment";
 
+    private Unbinder unbinder;
     private TrailersAdapter adapter;
     private TrailersActivity activity;
     private GridLayoutManager gridLayoutManager;
@@ -63,7 +65,7 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trailers, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -77,8 +79,7 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
         int spanCount = activity.getResources().getInteger(R.integer.trailers_span_layout_count);
 
         adapter = new TrailersAdapter();
-        gridLayoutManager = new GridLayoutManager(activity, spanCount);
-        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
 
         emptyView.setOnClickListener(v -> {
             emptyView.setVisibility(View.GONE);
@@ -95,7 +96,11 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
             Video trailer = adapter.trailers.get(position);
             YoutubePlayerDialogFragment dialog = YoutubePlayerDialogFragment.newInstance(String.valueOf(Uri.parse(trailer.getKey())));
             dialog.show(activity.getSupportFragmentManager(), YOUTUBE_DIALOG_FRAGMENT_TAG);
-            //startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailer.key)));
+        });
+        recyclerView.setOnItemLongClickListener((view1, position) -> {
+            Video trailer = adapter.trailers.get(position);
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailer.getKey())));
+            return true;
         });
     }
 
@@ -109,6 +114,8 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
     public void onDestroy() {
         super.onDestroy();
         activity.unregisterReceiver(networkChangeReceiver);
+        presenter.onDestroy();
+        unbinder.unbind();
     }
 
     @Override
@@ -127,7 +134,7 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
     private void refreshLayout() {
         int spanCount = activity.getResources().getInteger(R.integer.trailers_span_layout_count);
         Parcelable state = gridLayoutManager.onSaveInstanceState();
-        gridLayoutManager = new GridLayoutManager(activity, spanCount);
+        gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.removeItemDecoration(itemDecoration);
         itemDecoration.setOffset(0);

@@ -34,10 +34,12 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 @SuppressWarnings("all")
 public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp, NetworkChangeReceiver.NCRListener {
 
+    private Unbinder unbinder;
     private ReviewsAdapter adapter;
     private ReviewsActivity activity;
     private GridLayoutManager gridLayoutManager;
@@ -63,7 +65,7 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp,
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_reviews, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -77,8 +79,7 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp,
         int spanCount = activity.getResources().getInteger(R.integer.trailers_span_layout_count);
 
         adapter = new ReviewsAdapter();
-        gridLayoutManager = new GridLayoutManager(activity, spanCount);
-        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
 
         emptyView.setOnClickListener(v -> {
             emptyView.setVisibility(View.GONE);
@@ -107,6 +108,8 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp,
     public void onDestroy() {
         super.onDestroy();
         activity.unregisterReceiver(networkChangeReceiver);
+        presenter.onDestroy();
+        unbinder.unbind();
     }
 
     @Override
@@ -125,7 +128,7 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp,
     private void refreshLayout() {
         int spanCount = activity.getResources().getInteger(R.integer.trailers_span_layout_count);
         Parcelable state = gridLayoutManager.onSaveInstanceState();
-        gridLayoutManager = new GridLayoutManager(activity, spanCount);
+        gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.removeItemDecoration(itemDecoration);
         itemDecoration.setOffset(0);

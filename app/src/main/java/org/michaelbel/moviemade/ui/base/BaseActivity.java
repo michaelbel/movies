@@ -12,6 +12,7 @@ import org.michaelbel.moviemade.ui.modules.movie.MovieActivity;
 import org.michaelbel.moviemade.ui.modules.reviews.activity.ReviewActivity;
 import org.michaelbel.moviemade.ui.modules.reviews.activity.ReviewsActivity;
 import org.michaelbel.moviemade.ui.modules.trailers.TrailersActivity;
+import org.michaelbel.moviemade.utils.IntentsKt;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -49,29 +50,29 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseMvp, Media
     @Override
     public void startMovie(@NonNull Movie movie) {
         Intent intent = new Intent(this, MovieActivity.class);
-        intent.putExtra("movie", movie);
+        intent.putExtra(IntentsKt.MOVIE, movie);
         startActivity(intent);
     }
 
     @Override
     public void startTrailers(@NonNull Movie movie) {
         Intent intent = new Intent(this, TrailersActivity.class);
-        intent.putExtra("movie", movie);
+        intent.putExtra(IntentsKt.MOVIE, movie);
         startActivity(intent);
     }
 
     @Override
     public void startReview(@NotNull Review review, @NotNull Movie movie) {
         Intent intent = new Intent(this, ReviewActivity.class);
-        intent.putExtra("movie", movie);
-        intent.putExtra("review", review);
+        intent.putExtra(IntentsKt.MOVIE, movie);
+        intent.putExtra(IntentsKt.REVIEW, review);
         startActivity(intent);
     }
 
     @Override
     public void startReviews(@NonNull Movie movie) {
         Intent intent = new Intent(this, ReviewsActivity.class);
-        intent.putExtra("movie", movie);
+        intent.putExtra(IntentsKt.MOVIE, movie);
         startActivity(intent);
     }
 

@@ -1,5 +1,6 @@
 package org.michaelbel.moviemade.ui.modules.main.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -23,7 +24,7 @@ import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.modules.main.MainActivity;
 import org.michaelbel.moviemade.ui.modules.main.MainMvp;
 import org.michaelbel.moviemade.ui.modules.main.MainPresenter;
-import org.michaelbel.moviemade.ui.modules.main.adapter.PaginationMoviesAdapter;
+import org.michaelbel.moviemade.ui.modules.main.adapter.MoviesAdapter;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.utils.DeviceUtil;
@@ -32,20 +33,21 @@ import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
-@SuppressWarnings("all")
 public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, NetworkChangeReceiver.NCRListener {
 
+    private Unbinder unbinder;
     private MainActivity activity;
-    private PaginationMoviesAdapter adapter;
+    private MoviesAdapter adapter;
     private GridLayoutManager gridLayoutManager;
     private PaddingItemDecoration itemDecoration;
     private NetworkChangeReceiver networkChangeReceiver;
+    private boolean connectionFailure = false;
 
     @InjectPresenter
     public MainPresenter presenter;
@@ -67,7 +69,7 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, N
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_upcoming, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -82,18 +84,16 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, N
 
         int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
 
-        adapter = new PaginationMoviesAdapter();
-        gridLayoutManager = new GridLayoutManager(activity, spanCount);
-        gridLayoutManager.setOrientation(RecyclerView.VERTICAL);
+        adapter = new MoviesAdapter();
+        gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setEmptyView(emptyView);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setPadding(DeviceUtil.INSTANCE.dp(activity, 2), 0, DeviceUtil.INSTANCE.dp(activity, 2), 0);
         recyclerView.setOnItemClickListener((v, position) -> {
-            Movie movie = (Movie) adapter.movies.get(position);
+            Movie movie = adapter.movies.get(position);
             activity.startMovie(movie);
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -109,7 +109,7 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, N
                     if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0) {
                         presenter.isLoading = true;
                         presenter.page++;
-                        presenter.loadUpcomingNextMovies();
+                        presenter.loadUpcomingMoviesNext();
                     }
                 }
             }
@@ -124,6 +124,7 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, N
         refreshLayout();
     }
 
+    @SuppressLint("CheckResult")
     @Override
     public void onResume() {
         super.onResume();
@@ -140,10 +141,14 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, N
     public void onDestroy() {
         super.onDestroy();
         activity.unregisterReceiver(networkChangeReceiver);
+        presenter.onDestroy();
+        unbinder.unbind();
     }
 
     @Override
     public void setMovies(@NotNull List<Movie> movies, boolean firstPage) {
+        connectionFailure = true;
+
         if (firstPage) {
             progressBar.setVisibility(View.GONE);
             adapter.addAll(movies);
@@ -168,6 +173,7 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, N
 
     @Override
     public void setError(int mode) {
+        connectionFailure = false;
         progressBar.setVisibility(View.GONE);
         emptyView.setMode(mode);
 
@@ -176,14 +182,14 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, N
         }
     }
 
-    public PaginationMoviesAdapter getAdapter() {
+    public MoviesAdapter getAdapter() {
         return adapter;
     }
 
     private void refreshLayout() {
         int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
         Parcelable state = gridLayoutManager.onSaveInstanceState();
-        gridLayoutManager = new GridLayoutManager(activity, spanCount);
+        gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.removeItemDecoration(itemDecoration);
         itemDecoration.setOffset(0);
@@ -193,7 +199,7 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, N
 
     @Override
     public void onNetworkChanged() {
-        if (adapter.getItemCount() == 0) {
+        if (connectionFailure && adapter.getItemCount() == 0) {
             presenter.loadUpcomingMovies();
         }
     }
