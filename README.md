@@ -62,7 +62,7 @@ https://www.youtube.com/watch?v=H5auyhQU9fU
 * [**Kotlin**](https://github.com/JetBrains/kotlin) for simplicity
 * [**AndroidAnimatedMenuItems**](https://github.com/adonixis/android-animated-menu-items) for menu items
 * [**BottomNavigation**](https://github.com/Ashok-Varma/BottomNavigation) for BottomBar tabs
-* [**ChipsLayoutManager**](https://github.com/BelooS/ChipsLayoutManager) for keywords
+* [**ChipsLayoutManager**](https://github.com/BelooS/ChipsLayoutManager) for genres
 
 ## License
 <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
