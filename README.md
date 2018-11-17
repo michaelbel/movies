@@ -16,18 +16,18 @@
 <!------------------------------------------------------------------------------------------------------------------------------------>
 <img src="screenshots/mockup2.png"/>
 
-<p align="left">
-  <img src="../master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"/>
-</p>
+<img src="../master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="192" align="right" hspace="20"/>
 
-# Moviemade
-[![Platform][platform-badge]][github-url]
-[![MinSdk][minsdk-badge]][github-url]
-[![License][license-badge]][licence-url]
-[![Paypal][paypal-badge]][paypal-url]
-[![GooglePlay][googleplay-badge]][googleplay-url]
+Moviemade
+======
 
-Moviemade - quick and easy way to discover popular movies.
+[![platform-badge]][github-url]
+[![minsdk-badge]][github-url]
+[![license-badge]][licence-url]
+[![paypal-badge]][paypal-url]
+[![googleplay-badge]][googleplay-url]
+
+Moviemade - quick and easy way to discover popular movies. This is a simple TMDb client for Android with material design.
 
 ## Build
 Take a look at <b>`local.properties`</b> and fill it with [your own][tmdb-introduction] <b>tmdb_api_key</b> like this:
