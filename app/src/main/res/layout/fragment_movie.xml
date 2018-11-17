@@ -16,18 +16,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <ProgressBar
+            <!--<ProgressBar
                 android:id="@+id/progress_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center"/>-->
 
-            <org.michaelbel.moviemade.ui.widgets.EmptyView
+            <!--<org.michaelbel.moviemade.ui.widgets.EmptyView
                 android:id="@+id/empty_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:visibility="invisible"/>
+                android:visibility="invisible"/>-->
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/poster_image"
@@ -216,6 +216,13 @@
                     android:textColor="@color/secondaryText"
                     android:fontFamily="sans-serif-medium"
                     android:textIsSelectable="true"/>
+
+                <org.michaelbel.moviemade.ui.widgets.RecyclerListView
+                    android:id="@+id/genres_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layoutDirection="ltr"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 

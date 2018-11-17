@@ -29,5 +29,6 @@ data class Movie(
     @SerializedName("video") val video: Boolean,
     @SerializedName("vote_average") val voteAverage: Float,
     @SerializedName("vote_count") val voteCount: Int,
-    @SerializedName("media_type") val mediaType: String
+    @SerializedName("media_type") val mediaType: String,
+    @SerializedName("genre_ids") val genreIds: List<Int>
 ) : Serializable

@@ -42,6 +42,8 @@
         <activity android:name=".ui.modules.settings.SettingsActivity" android:screenOrientation="user"/>
         <activity android:name=".ui.modules.about.AboutActivity" android:screenOrientation="user"/>
 
+        <activity android:name=".ui.modules.profile.ProfileActivity" android:screenOrientation="user"/>
+
         <!--<receiver android:name=".ui.NetworkChangeReceiver">
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>

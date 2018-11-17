@@ -1,6 +1,7 @@
 package org.michaelbel.moviemade.data.service
 
 import io.reactivex.Observable
+import org.michaelbel.moviemade.data.dao.Token
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -14,7 +15,7 @@ interface AUTHENTICATION {
     @GET("authentication/token/new?")
     fun createRequestToken(
         @Query("api_key") apiKey: String
-    ): Observable<*>
+    ): Observable<Token>
 
     @GET("authentication/session/new?")
     fun createSession(

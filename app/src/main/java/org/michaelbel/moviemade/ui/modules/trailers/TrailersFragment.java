@@ -37,7 +37,7 @@ import butterknife.Unbinder;
 
 public class TrailersFragment extends MvpAppCompatFragment implements TrailersMvp, NetworkChangeReceiver.NCRListener {
 
-    public static final String YOUTUBE_DIALOG_FRAGMENT_TAG = "youtubeFragment";
+    private static final String YOUTUBE_DIALOG_FRAGMENT_TAG = "youtubeFragment";
 
     private Unbinder unbinder;
     private TrailersAdapter adapter;
@@ -45,6 +45,7 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
     private GridLayoutManager gridLayoutManager;
     private PaddingItemDecoration itemDecoration;
     private NetworkChangeReceiver networkChangeReceiver;
+    private boolean connectionFailure = false;
 
     @InjectPresenter
     public TrailersPresenter presenter;
@@ -120,12 +121,14 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
 
     @Override
     public void setTrailers(@NotNull List<Video> trailers) {
+        connectionFailure = false;
         adapter.setTrailers(trailers);
         progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void setError(@EmptyViewMode int mode) {
+        connectionFailure = true;
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(mode);
         progressBar.setVisibility(View.GONE);
@@ -144,7 +147,7 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
 
     @Override
     public void onNetworkChanged() {
-        if (adapter.getItemCount() == 0) {
+        if (connectionFailure && adapter.getItemCount() == 0) {
             presenter.loadTrailers(activity.movie.getId());
         }
     }

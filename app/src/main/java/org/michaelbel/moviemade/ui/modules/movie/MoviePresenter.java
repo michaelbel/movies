@@ -45,6 +45,7 @@ public class MoviePresenter extends MvpPresenter<MovieMvp> {
         getViewState().setReleaseDate(AndroidExtensions.formatReleaseDate(movie.getReleaseDate()));
         getViewState().setOriginalLanguage(LanguageUtil.INSTANCE.formatLanguage(movie.getOriginalLanguage()));
         getViewState().setWatching(false);
+        getViewState().setGenres(movie.getGenreIds());
     }
 
     void loadMovieDetails(int movieId) {

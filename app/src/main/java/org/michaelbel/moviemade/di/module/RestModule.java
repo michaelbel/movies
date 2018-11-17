@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import dagger.Module;
 import dagger.Provides;
 import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -23,21 +24,20 @@ public class RestModule {
     @NonNull
     @Provides
     @Singleton
-    OkHttpClient okHttpClient() {
-        OkHttpClient.Builder builder = new OkHttpClient.Builder();
-        return builder.build();
+    HttpLoggingInterceptor provideHttpLoggingInterceptor() {
+        // to show request and response information.
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        return httpLoggingInterceptor;
     }
 
     @NonNull
     @Provides
     @Singleton
-    Retrofit provideRetrofit() {
-        return new Retrofit.Builder()
-            .baseUrl(TMDB_API_ENDPOINT)
-            .addConverterFactory(GsonConverterFactory.create(provideGson()))
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .client(okHttpClient())
-            .build();
+    OkHttpClient provideOkHttpClient() {
+        OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
+        okHttpClient.addInterceptor(provideHttpLoggingInterceptor());
+        return okHttpClient.build();
     }
 
     @NonNull
@@ -48,5 +48,17 @@ public class RestModule {
         gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
         gsonBuilder.setDateFormat(GSON_DATE_FORMAT);
         return gsonBuilder.create();
+    }
+
+    @NonNull
+    @Provides
+    @Singleton
+    Retrofit provideRetrofit() {
+        return new Retrofit.Builder()
+            .baseUrl(TMDB_API_ENDPOINT)
+            .addConverterFactory(GsonConverterFactory.create(provideGson()))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .client(provideOkHttpClient())
+            .build();
     }
 }

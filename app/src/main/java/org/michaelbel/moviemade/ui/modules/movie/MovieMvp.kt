@@ -1,9 +1,6 @@
 package org.michaelbel.moviemade.ui.modules.movie
 
 import com.arellomobile.mvp.MvpView
-import org.michaelbel.moviemade.data.dao.Cast
-import org.michaelbel.moviemade.data.dao.Crew
-
 import org.michaelbel.moviemade.data.dao.Movie
 
 interface MovieMvp : MvpView {
@@ -33,6 +30,8 @@ interface MovieMvp : MvpView {
     fun setCredits(casts: String, directors: String, writers: String, producers: String)
 
     fun setConnectionError()
+
+    fun setGenres(genres : List<Int>)
 
     fun showComplete(movie: Movie)
 }

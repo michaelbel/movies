@@ -45,6 +45,7 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp,
     private GridLayoutManager gridLayoutManager;
     private PaddingItemDecoration itemDecoration;
     private NetworkChangeReceiver networkChangeReceiver;
+    private boolean connectionFailure = false;
 
     @InjectPresenter
     public ReviewsPresenter presenter;
@@ -114,12 +115,14 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp,
 
     @Override
     public void setReviews(@NotNull List<Review> reviews) {
+        connectionFailure = false;
         adapter.setReviews(reviews);
         progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void setError(@EmptyViewMode int mode) {
+        connectionFailure = true;
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(mode);
         progressBar.setVisibility(View.GONE);
@@ -138,7 +141,7 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp,
 
     @Override
     public void onNetworkChanged() {
-        if (adapter.getItemCount() == 0) {
+        if (connectionFailure && adapter.getItemCount() == 0) {
             presenter.loadReviews(activity.movie.getId());
         }
     }
