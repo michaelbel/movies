@@ -14,20 +14,20 @@
 [minsdk-badge]:     https://img.shields.io/badge/minSdkVersion-21-F3745F.svg
 
 <!------------------------------------------------------------------------------------------------------------------------------------>
-<img src="screenshots/mockup.png"/>
+<img src="screenshots/mockup2.png"/>
 
-<p align="left">
-  <img src="../master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"/>
-</p>
+<img src="../master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="192" align="right" hspace="20"/>
 
-# Moviemade
-[![Platform][platform-badge]][github-url]
-[![MinSdk][minsdk-badge]][github-url]
-[![License][license-badge]][licence-url]
-[![Paypal][paypal-badge]][paypal-url]
-[![GooglePlay][googleplay-badge]][googleplay-url]
+Moviemade
+======
 
-Moviemade - quick and easy way to discover popular movies.
+[![platform-badge]][github-url]
+[![minsdk-badge]][github-url]
+[![license-badge]][licence-url]
+[![paypal-badge]][paypal-url]
+[![googleplay-badge]][googleplay-url]
+
+Moviemade - quick and easy way to discover popular movies. This is a simple TMDb client for Android with material design.
 
 ## Build
 Take a look at <b>`local.properties`</b> and fill it with [your own][tmdb-introduction] <b>tmdb_api_key</b> like this:
@@ -37,7 +37,7 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 
 ## Download
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="" height="100">](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
-[<img src="screenshots/direct-apk.png" alt="" height="100">](bin/moviemade-v0.3.7-release.apk)
+[<img src="screenshots/direct-apk.png" alt="" height="100">](bin/moviemade-v0.3.8-release.apk)
 
 ## Screenshots
 | Explore | Search | Movie | Trailers |
@@ -62,7 +62,10 @@ https://www.youtube.com/watch?v=H5auyhQU9fU
 * [**Kotlin**](https://github.com/JetBrains/kotlin) for simplicity
 * [**AndroidAnimatedMenuItems**](https://github.com/adonixis/android-animated-menu-items) for menu items
 * [**BottomNavigation**](https://github.com/Ashok-Varma/BottomNavigation) for BottomBar tabs
-* [**ChipsLayoutManager**](https://github.com/BelooS/ChipsLayoutManager) for keywords
+* [**ChipsLayoutManager**](https://github.com/BelooS/ChipsLayoutManager) for genres
+
+## Issues
+If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).
 
 ## License
 <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
