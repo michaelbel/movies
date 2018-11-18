@@ -2,10 +2,7 @@
 [paypal-url]:        https://paypal.me/michaelbel
 [licence-url]:       http://www.apache.org/licenses/LICENSE-2.0
 [googleplay-url]:    https://play.google.com/store/apps/details?id=org.michaelbel.moviemade
-[config-properties]: https://github.com/michaelbel/Moviemade/blob/master/app/src/main/assets/config.properties
 [tmdb-introduction]: https://developers.themoviedb.org/3/getting-started/introduction
-
-[launcher-path]: ../master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
 
 [platform-badge]:   https://img.shields.io/badge/Platform-Android-F3745F.svg
 [paypal-badge]:     https://img.shields.io/badge/Donate-Paypal-F3745F.svg
@@ -13,13 +10,12 @@
 [googleplay-badge]: https://img.shields.io/badge/Google_Play-Demo-F3745F.svg
 [minsdk-badge]:     https://img.shields.io/badge/minSdkVersion-21-F3745F.svg
 
-<!------------------------------------------------------------------------------------------------------------------------------------>
+<!--------------------------------------------------------------------------------------------------------------------->
 <img src="screenshots/mockup2.png"/>
-
 <img src="../master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="192" align="right" hspace="20"/>
 
 Moviemade
-======
+=
 
 [![platform-badge]][github-url]
 [![minsdk-badge]][github-url]
@@ -50,19 +46,20 @@ https://www.youtube.com/watch?v=H5auyhQU9fU
 ## Open-source libraries
 * [**Moxy**](https://github.com/Arello-Mobile/Moxy) MVP-architecture
 * [**Retrofit**](https://github.com/square/retrofit) for REST API communication
-* [**RxJava2**](https://github.com/ReactiveX/RxJava) for Retrofit & background threads
-* [**ButterKnife**](https://github.com/JakeWharton/butterknife) for view binding
+* [**OkHttp**](https://github.com/square/okhttp) for http & logging
 * [**Gson**](https://github.com/google/gson) to convert Java Objects into JSON and back
-* [**GestureViews**](https://github.com/alexvasilkov/GestureViews) for gestures control
+* [**RxJava2**](https://github.com/ReactiveX/RxJava) for Retrofit & background threads
 * [**Glide**](https://github.com/bumptech/glide) for image loading
+* [**ButterKnife**](https://github.com/JakeWharton/butterknife) for view binding
 * [**Dagger2**](https://github.com/google/dagger) for dependency injection
-* [**AndroidYouTubePlayer**](https://github.com/PierfrancescoSoffritti/android-youtube-player) for playing videos
 * [**Room**](https://developer.android.com/topic/libraries/architecture/room.html) database
 * [**Espresso**](https://google.github.io/android-testing-support-library/docs/espresso/) for UI tests
 * [**Kotlin**](https://github.com/JetBrains/kotlin) for simplicity
-* [**AndroidAnimatedMenuItems**](https://github.com/adonixis/android-animated-menu-items) for menu items
+* [**GestureViews**](https://github.com/alexvasilkov/GestureViews) for gestures control
 * [**BottomNavigation**](https://github.com/Ashok-Varma/BottomNavigation) for BottomBar tabs
 * [**ChipsLayoutManager**](https://github.com/BelooS/ChipsLayoutManager) for genres
+* [**AndroidYouTubePlayer**](https://github.com/PierfrancescoSoffritti/android-youtube-player) for playing videos
+* [**AndroidAnimatedMenuItems**](https://github.com/adonixis/android-animated-menu-items) for menu items
 
 ## Issues
 If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).
