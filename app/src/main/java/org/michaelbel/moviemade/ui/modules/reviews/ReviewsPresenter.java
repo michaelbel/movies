@@ -8,7 +8,7 @@ import org.michaelbel.moviemade.data.dao.Review;
 import org.michaelbel.moviemade.data.dao.ReviewsResponse;
 import org.michaelbel.moviemade.data.service.MOVIES;
 import org.michaelbel.moviemade.utils.ApiFactory;
-import org.michaelbel.moviemade.utils.ConstantsKt;
+import org.michaelbel.moviemade.utils.TmdbConfigKt;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 
@@ -33,7 +33,7 @@ public class ReviewsPresenter extends MvpPresenter<ReviewsMvp> {
         }
 
         MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<ReviewsResponse> observable = service.getReviews(movieId, BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, 1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<ReviewsResponse> observable = service.getReviews(movieId, BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, 1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<ReviewsResponse>() {
             @Override
             public void onNext(ReviewsResponse response) {
