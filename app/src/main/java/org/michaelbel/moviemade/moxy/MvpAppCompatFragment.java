@@ -8,7 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 /**
- * Date: 19-Dec-15
+ * Date: 19.12.2015
  * Time: 13:25
  *
  * @author Alexander Blinov
@@ -23,32 +23,25 @@ public class MvpAppCompatFragment extends Fragment {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		getMvpDelegate().onCreate(savedInstanceState);
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
-
 		mIsStateSaved = false;
-
 		getMvpDelegate().onAttach();
 	}
 
 	public void onResume() {
 		super.onResume();
-
 		mIsStateSaved = false;
-
 		getMvpDelegate().onAttach();
 	}
 
 	public void onSaveInstanceState(@NonNull Bundle outState) {
 		super.onSaveInstanceState(outState);
-
 		mIsStateSaved = true;
-
 		getMvpDelegate().onSaveInstanceState(outState);
 		getMvpDelegate().onDetach();
 	}
@@ -56,14 +49,12 @@ public class MvpAppCompatFragment extends Fragment {
 	@Override
 	public void onStop() {
 		super.onStop();
-
 		getMvpDelegate().onDetach();
 	}
 
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-
 		getMvpDelegate().onDetach();
 		getMvpDelegate().onDestroyView();
 	}

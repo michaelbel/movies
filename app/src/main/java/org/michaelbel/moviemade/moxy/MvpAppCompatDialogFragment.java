@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatDialogFragment;
 import androidx.fragment.app.Fragment;
 
 /**
- * Date: 17-Dec-16
+ * Date: 17.12.2016
  * Time: 21:55
  *
  * @author Konstantin Tckhovrebov
@@ -22,23 +22,18 @@ public class MvpAppCompatDialogFragment extends AppCompatDialogFragment {
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		getMvpDelegate().onCreate(savedInstanceState);
 	}
 
 	public void onResume() {
 		super.onResume();
-
 		mIsStateSaved = false;
-
 		getMvpDelegate().onAttach();
 	}
 
 	public void onSaveInstanceState(@NonNull Bundle outState) {
 		super.onSaveInstanceState(outState);
-
 		mIsStateSaved = true;
-
 		getMvpDelegate().onSaveInstanceState(outState);
 		getMvpDelegate().onDetach();
 	}
@@ -46,14 +41,12 @@ public class MvpAppCompatDialogFragment extends AppCompatDialogFragment {
 	@Override
 	public void onStop() {
 		super.onStop();
-
 		getMvpDelegate().onDetach();
 	}
 
 	@Override
 	public void onDestroyView() {
 		super.onDestroyView();
-
 		getMvpDelegate().onDetach();
 		getMvpDelegate().onDestroyView();
 	}
