@@ -11,7 +11,7 @@
     app:cardBackgroundColor="@color/primary">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/poster_image"
+        android:id="@+id/user_avatar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="fitXY"
