@@ -86,7 +86,7 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp,
         emptyView.setOnClickListener(v -> {
             emptyView.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
-            presenter.getReviews((Moviemade) activity.getApplication(), activity.movie.getId());
+            presenter.getReviews(activity.movie.getId());
         });
 
         recyclerView.setAdapter(adapter);
@@ -132,7 +132,7 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp,
     @Override
     public void onNetworkChanged() {
         if (connectionFailure && adapter.getItemCount() == 0) {
-            presenter.getReviews((Moviemade) activity.getApplication(), activity.movie.getId());
+            presenter.getReviews(activity.movie.getId());
         }
     }
 

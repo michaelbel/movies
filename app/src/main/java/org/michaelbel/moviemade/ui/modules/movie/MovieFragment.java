@@ -337,7 +337,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
     @Override
     public void onClick(View v) {
         if (v == faveLayout) {
-            presenter.markAsFavorite((Moviemade) activity.getApplication(), sharedPreferences.getInt(SharedPrefsKt.KEY_ACCOUNT_ID, 0), activity.movie.getId(), !favorite);
+            presenter.markAsFavorite(sharedPreferences.getInt(SharedPrefsKt.KEY_ACCOUNT_ID, 0), activity.movie.getId(), !favorite);
         } else if (v == posterImage) {
             activity.imageAnimator = GestureTransitions.from(posterImage).into(activity.fullImage);
             activity.imageAnimator.addPositionUpdateListener((position, isLeaving) -> {
@@ -378,7 +378,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
     @Override
     public void onNetworkChanged() {
         if (connectionError) {
-            presenter.loadDetails((Moviemade) activity.getApplication(), activity.movie.getId());
+            presenter.loadDetails(activity.movie.getId());
         }
     }
 

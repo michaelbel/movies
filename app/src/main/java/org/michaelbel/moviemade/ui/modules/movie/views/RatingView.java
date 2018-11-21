@@ -38,7 +38,7 @@ public class RatingView extends LinearLayoutCompat {
         int starCount = 5;
         for (int i = 0; i < starCount; i++) {
             StarView view = new StarView(context);
-            view.setLayoutParams(LayoutHelper.makeLinear(20, 20));
+            view.setLayoutParams(LayoutHelper.INSTANCE.makeLinear(20, 20));
             addView(view);
             stars[i] = view;
         }

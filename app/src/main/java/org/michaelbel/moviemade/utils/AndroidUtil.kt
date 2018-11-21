@@ -6,13 +6,13 @@ object AndroidUtil {
 
     fun runOnUIThread(runnable: Runnable, delay: Long) {
         if (delay == 0L) {
-            Moviemade.AppHandler.post(runnable)
+            Moviemade.appHandler.post(runnable)
         } else {
-            Moviemade.AppHandler.postDelayed(runnable, delay)
+            Moviemade.appHandler.postDelayed(runnable, delay)
         }
     }
 
     fun cancelRunOnUIThread(runnable: Runnable) {
-        Moviemade.AppHandler.removeCallbacks(runnable)
+        Moviemade.appHandler.removeCallbacks(runnable)
     }
 }

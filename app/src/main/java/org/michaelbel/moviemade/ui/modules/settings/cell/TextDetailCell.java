@@ -67,7 +67,7 @@ public class TextDetailCell extends FrameLayout {
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
         textView.setTextColor(ContextCompat.getColor(context, R.color.primaryText));
-        textView.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 16, 10, 16, 0));
+        textView.setLayoutParams(LayoutHelper.INSTANCE.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 16, 10, 16, 0));
         addView(textView);
 
         valueText = new AppCompatTextView(context);
@@ -77,21 +77,21 @@ public class TextDetailCell extends FrameLayout {
         valueText.setEllipsize(TextUtils.TruncateAt.END);
         valueText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
         valueText.setTextColor(ContextCompat.getColor(context, R.color.secondaryText));
-        valueText.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 16, 35, 16, 0));
+        valueText.setLayoutParams(LayoutHelper.INSTANCE.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 16, 35, 16, 0));
         addView(valueText);
 
         switchCompat = new SwitchCompat(context);
         switchCompat.setClickable(false);
         switchCompat.setFocusable(false);
         switchCompat.setVisibility(INVISIBLE);
-        switchCompat.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 16, 0));
+        switchCompat.setLayoutParams(LayoutHelper.INSTANCE.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 16, 0));
         addView(switchCompat);
 
         checkBox = new AppCompatCheckBox(context);
         checkBox.setClickable(false);
         checkBox.setFocusable(false);
         checkBox.setVisibility(INVISIBLE);
-        checkBox.setLayoutParams(LayoutHelper.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 16, 0));
+        checkBox.setLayoutParams(LayoutHelper.INSTANCE.makeFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 16, 0));
         addView(checkBox);
 
         setMode(currentMode);

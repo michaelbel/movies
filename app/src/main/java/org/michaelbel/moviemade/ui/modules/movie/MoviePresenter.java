@@ -47,6 +47,10 @@ public class MoviePresenter extends MvpPresenter<MovieMvp> {
     @Inject Retrofit retrofit;
     @Inject SharedPreferences sharedPreferences;
 
+    public MoviePresenter() {
+        Moviemade.getComponent().injest(this);
+    }
+
     void setMovieDetailsFromExtra(Movie movie) {
         getViewState().setPoster(movie.getPosterPath());
         getViewState().setMovieTitle(movie.getTitle());
@@ -58,13 +62,12 @@ public class MoviePresenter extends MvpPresenter<MovieMvp> {
         getViewState().setGenres(movie.getGenreIds());
     }
 
-    void loadDetails(Moviemade app, int movieId) {
+    void loadDetails(int movieId) {
         if (NetworkUtil.INSTANCE.notConnected()) {
             getViewState().setConnectionError();
             return;
         }
 
-        app.getAppComponent().injest(this);
         MOVIES service = retrofit.create(MOVIES.class);
         Observable<Movie> observable = service.getDetails(movieId, BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, MediaTypeKt.CREDITS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<Movie>() {
@@ -85,13 +88,12 @@ public class MoviePresenter extends MvpPresenter<MovieMvp> {
             @Override
             public void onComplete() {
                 // если ид сессии пуст не делать
-                setAccountStates(app, movieId);
+                setAccountStates(movieId);
             }
         }));
     }
 
-    void markAsFavorite(Moviemade app, int accountId, int mediaId, boolean favorite) {
-        app.getAppComponent().injest(this);
+    void markAsFavorite(int accountId, int mediaId, boolean favorite) {
         ACCOUNT service = retrofit.create(ACCOUNT.class);
         Observable<MarkFave> observable = service.markAsFavorite(TmdbConfigKt.CONTENT_TYPE, accountId, BuildConfig.TMDB_API_KEY, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""), new Fave(MediaTypeKt.MOVIE, mediaId, favorite)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MarkFave>() {
@@ -110,8 +112,7 @@ public class MoviePresenter extends MvpPresenter<MovieMvp> {
         }));
     }
 
-    private void setAccountStates(Moviemade app, int movieId) {
-        app.getAppComponent().injest(this);
+    private void setAccountStates(int movieId) {
         MOVIES service = retrofit.create(MOVIES.class);
         Observable<AccountStates> observable = service.getAccountStates(movieId, BuildConfig.TMDB_API_KEY, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""), "").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<AccountStates>() {

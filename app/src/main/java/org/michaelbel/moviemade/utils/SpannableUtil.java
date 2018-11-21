@@ -135,7 +135,7 @@ public class SpannableUtil {
 
             for (int a = 0; a < bolds.size() / 2; a++) {
                 spannableStringBuilder.setSpan(new TypefaceSpan("sans-serif-medium"), bolds.get(a * 2), bolds.get(a * 2 + 1), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                spannableStringBuilder.setSpan(new ForegroundColorSpan(ContextCompat.getColor(Moviemade.AppContext, R.color.primaryText)), bolds.get(a * 2), bolds.get(a * 2 + 1), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableStringBuilder.setSpan(new ForegroundColorSpan(ContextCompat.getColor(Moviemade.appContext, R.color.primaryText)), bolds.get(a * 2), bolds.get(a * 2 + 1), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
 
             return spannableStringBuilder;
@@ -154,7 +154,7 @@ public class SpannableUtil {
 
         spannable = new SpannableStringBuilder(allText);
         spannable.setSpan(new TypefaceSpan(FontsKt.ROBOTO_MEDIUM), startPos, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(Moviemade.AppContext, R.color.primaryText)), startPos, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(Moviemade.appContext, R.color.primaryText)), startPos, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         return spannable;
     }
@@ -179,7 +179,7 @@ public class SpannableUtil {
 
         spannable = new SpannableStringBuilder(text);
         spannable.setSpan(new TypefaceSpan(FontsKt.ROBOTO_MEDIUM), startPos, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(Moviemade.AppContext, R.color.tmdbPrimary)), startPos, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(Moviemade.appContext, R.color.tmdbPrimary)), startPos, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         return spannable;
     }*/

@@ -23,7 +23,7 @@ object DateUtil {
             e.printStackTrace()
         }
 
-        return Moviemade.AppContext.getString(R.string.runtime, formatHour.format(date), runtime)
+        return Moviemade.appContext.getString(R.string.runtime, formatHour.format(date), runtime)
     }
 
     fun formatReleaseDate(releaseDate: String?): String {

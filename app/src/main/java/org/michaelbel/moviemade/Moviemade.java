@@ -14,9 +14,8 @@ public class Moviemade extends Application {
 
     public RxBus rxBus;
     public RxBus2 rxBus2;
-    public static volatile Context AppContext;
-    public static volatile Handler AppHandler;
-
+    public static volatile Context appContext;
+    public static volatile Handler appHandler;
     private static AppComponent appComponent;
 
     @Override
@@ -25,21 +24,14 @@ public class Moviemade extends Application {
 
         rxBus = new RxBus();
         rxBus2 = new RxBus2();
-        AppContext = getApplicationContext();
-        AppHandler = new Handler(getApplicationContext().getMainLooper());
-
-        appComponent = DaggerAppComponent.builder()
-            .appModule(new AppModule(this))
-            .build();
+        appContext = getApplicationContext();
+        appHandler = new Handler(getApplicationContext().getMainLooper());
+        appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
     }
 
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-    }
-
-    public AppComponent getAppComponent() {
-        return appComponent;
     }
 
     public static AppComponent getComponent() {

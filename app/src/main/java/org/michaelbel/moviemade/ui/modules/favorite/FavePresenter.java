@@ -32,14 +32,17 @@ public class FavePresenter extends MvpPresenter<FaveMvp> {
     @Inject
     Retrofit retrofit;
 
-    void getFavoriteMovies(Moviemade app, int accountId, String sessionId) {
+    public FavePresenter() {
+        Moviemade.getComponent().injest(this);
+    }
+
+    void getFavoriteMovies(int accountId, String sessionId) {
         if (NetworkUtil.INSTANCE.notConnected()) {
             getViewState().setError(EmptyViewMode.MODE_NO_CONNECTION);
             return;
         }
 
         page = 1;
-        app.getAppComponent().injest(this);
 
         ACCOUNT service = retrofit.create(ACCOUNT.class);
         disposable = service.getFavoriteMovies(accountId, BuildConfig.TMDB_API_KEY, sessionId, TmdbConfigKt.en_US, "created_at.asc", page)
@@ -58,9 +61,8 @@ public class FavePresenter extends MvpPresenter<FaveMvp> {
             });
     }
 
-    void getFavoriteMoviesNext(Moviemade app, int accountId, String sessionId) {
+    void getFavoriteMoviesNext(int accountId, String sessionId) {
         page++;
-        app.getAppComponent().injest(this);
 
         ACCOUNT service = retrofit.create(ACCOUNT.class);
         disposable2 = service.getFavoriteMovies(accountId, BuildConfig.TMDB_API_KEY, sessionId, TmdbConfigKt.en_US, "created_at.asc", page)

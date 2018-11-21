@@ -31,13 +31,15 @@ public class ReviewsPresenter extends MvpPresenter<ReviewsMvp> {
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 
-    public void getReviews(Moviemade app, int movieId) {
+    public ReviewsPresenter() {
+        Moviemade.getComponent().injest(this);
+    }
+
+    public void getReviews(int movieId) {
         if (NetworkUtil.INSTANCE.notConnected()) {
             getViewState().setError(EmptyViewMode.MODE_NO_CONNECTION);
             return;
         }
-
-        app.getAppComponent().injest(this);
 
         MOVIES service = retrofit.create(MOVIES.class);
         Observable<ReviewsResponse> observable = service.getReviews(movieId, BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, 1).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());

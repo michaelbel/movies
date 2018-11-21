@@ -12,7 +12,7 @@ object NetworkUtil {
     private const val TYPE_NOT_CONNECTED = 4
 
     private fun getNetworkStatus(): Int {
-        val connectivityManager = Moviemade.AppContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val connectivityManager = Moviemade.appContext.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connectivityManager.activeNetworkInfo
 
         if (networkInfo != null) {

@@ -40,7 +40,7 @@ public class ReviewsActivity extends BaseActivity {
 
         fragment = (ReviewsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
         if (fragment != null) {
-            fragment.presenter.getReviews((Moviemade) getApplication(), movie.getId());
+            fragment.presenter.getReviews(movie.getId());
         }
     }
 }

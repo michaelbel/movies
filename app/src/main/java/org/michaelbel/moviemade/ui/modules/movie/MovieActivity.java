@@ -60,7 +60,7 @@ public class MovieActivity extends BaseActivity {
         MovieFragment fragment = (MovieFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
         if (fragment != null) {
             fragment.presenter.setMovieDetailsFromExtra(movie);
-            fragment.presenter.loadDetails((Moviemade) getApplication(), movie.getId());
+            fragment.presenter.loadDetails(movie.getId());
         }
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.primary));

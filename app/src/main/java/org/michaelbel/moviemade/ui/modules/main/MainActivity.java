@@ -7,7 +7,6 @@ import android.view.View;
 
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.log;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.ui.modules.account.AccountFragment;
 import org.michaelbel.moviemade.ui.modules.main.fragments.NowPlayingFragment;

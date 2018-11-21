@@ -25,9 +25,9 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
 
-        versionCode 52
-        versionName "1.0.0"
-        buildConfigField "String", "VERSION_DATE", '"20 Nov 2018"'
+        versionCode 53
+        versionName "1.0.1"
+        buildConfigField "String", "VERSION_DATE", '"21 Nov 2018"'
         project.ext.set("archivesBaseName", "moviemade-v" + versionName)
         buildConfigField "String", "TMDB_API_KEY", "\"${getProperty("local.properties", "tmdb_api_key")}\""
 
@@ -46,13 +46,13 @@ android {
     productFlavors {
         releasing {
             flavorDimensions "market"
-            minSdkVersion 21
+            //minSdkVersion 21
             applicationId "org.michaelbel.moviemade"
         }
 
         developing {
             flavorDimensions "develop"
-            minSdkVersion 21
+            //minSdkVersion 21
             applicationId "org.michaelbel.moviemade.beta"
         }
     }

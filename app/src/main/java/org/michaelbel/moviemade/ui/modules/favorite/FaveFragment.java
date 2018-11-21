@@ -83,7 +83,7 @@ public class FaveFragment extends MvpAppCompatFragment implements FaveMvp, Netwo
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        emptyView.setOnClickListener(v -> presenter.getFavoriteMovies((Moviemade) activity.getApplication(), activity.accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, "")));
+        emptyView.setOnClickListener(v -> presenter.getFavoriteMovies(activity.accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, "")));
 
         itemDecoration = new PaddingItemDecoration();
         itemDecoration.setOffset(DeviceUtil.INSTANCE.dp(activity, 1));
@@ -108,12 +108,12 @@ public class FaveFragment extends MvpAppCompatFragment implements FaveMvp, Netwo
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (!recyclerView.canScrollVertically(1)) {
-                    presenter.getFavoriteMoviesNext((Moviemade) activity.getApplication(), activity.accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""));
+                    presenter.getFavoriteMoviesNext(activity.accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""));
                 }
             }
         });
 
-        presenter.getFavoriteMovies((Moviemade) activity.getApplication(), activity.accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""));
+        presenter.getFavoriteMovies(activity.accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""));
     }
 
     @Override
@@ -186,7 +186,7 @@ public class FaveFragment extends MvpAppCompatFragment implements FaveMvp, Netwo
     @Override
     public void onNetworkChanged() {
         if (connectionFailure && adapter.getItemCount() == 0) {
-            presenter.getFavoriteMovies((Moviemade) activity.getApplication(), activity.accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""));
+            presenter.getFavoriteMovies(activity.accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""));
         }
     }
 }
