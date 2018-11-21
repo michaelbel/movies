@@ -36,9 +36,14 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 [<img src="screenshots/direct-apk.png" alt="" height="100">](bin/moviemade-v0.3.8-release.apk)
 
 ## Screenshots
-| Explore | Search | Movie | Trailers |
-|:-:|:-:|:-:|:-:|
-| ![Explore](screenshots/explore.png?raw=true) | ![Search](screenshots/search.png?raw=true) | ![Movie](screenshots/movie.png?raw=true) | ![Trailers](screenshots/trailers.png?raw=true) |
+<div style="dispaly:flex">
+    <img src="screenshots/screen1.png" width="33%">
+    <img src="screenshots/screen2.png" width="33%">
+    <img src="screenshots/screen3.png" width="33%">
+    <img src="screenshots/screen4.png" width="33%">
+    <img src="screenshots/screen5.png" width="33%">
+    <img src="screenshots/screen6.png" width="33%">
+</div>
 
 ## Demo video
 https://www.youtube.com/watch?v=H5auyhQU9fU
