@@ -13,9 +13,9 @@ import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.eventbus.Events;
 import org.michaelbel.moviemade.ui.modules.about.AboutActivity;
-import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.ui.modules.settings.cell.TextCell;
 import org.michaelbel.moviemade.ui.modules.settings.cell.TextDetailCell;
+import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 import org.michaelbel.moviemade.utils.SharedPrefsKt;
 
@@ -36,7 +36,6 @@ public class SettingsFragment extends Fragment {
     private int adultRow;
     private int aboutRow;
 
-    private SettingsAdapter adapter;
     private SettingsActivity activity;
     private LinearLayoutManager linearLayoutManager;
 
@@ -59,7 +58,6 @@ public class SettingsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         ButterKnife.bind(this, view);
 
-        activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         activity.toolbar.setNavigationOnClickListener(v -> activity.finish());
         activity.toolbarTitle.setText(R.string.settings);
         return view;
@@ -74,7 +72,7 @@ public class SettingsFragment extends Fragment {
         adultRow = rowCount++;
         aboutRow = rowCount++;
 
-        adapter = new SettingsAdapter();
+        SettingsAdapter adapter = new SettingsAdapter();
         linearLayoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
 
         recyclerView.setAdapter(adapter);

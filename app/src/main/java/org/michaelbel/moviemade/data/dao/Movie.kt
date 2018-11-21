@@ -30,5 +30,6 @@ data class Movie(
     @SerializedName("vote_average") val voteAverage: Float,
     @SerializedName("vote_count") val voteCount: Int,
     @SerializedName("media_type") val mediaType: String,
-    @SerializedName("genre_ids") val genreIds: List<Int>
+    @SerializedName("genre_ids") val genreIds: List<Int>, // Get short info response.
+    @SerializedName("credits") val credits: CreditsResponse // Append to response.
 ) : Serializable

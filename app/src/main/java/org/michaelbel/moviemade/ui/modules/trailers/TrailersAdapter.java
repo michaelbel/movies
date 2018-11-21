@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.dao.Video;
-import org.michaelbel.moviemade.utils.ConstantsKt;
+import org.michaelbel.moviemade.utils.TmdbConfigKt;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 import org.michaelbel.moviemade.utils.DrawableUtil;
 
@@ -53,7 +53,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
         holder.trailerName.setText(trailer.getName());
         holder.qualityText.setText(holder.itemView.getContext().getString(R.string.video_size, String.valueOf(trailer.getSize())));
 
-        Glide.with(holder.itemView.getContext()).load(String.format(Locale.US, ConstantsKt.YOUTUBE_IMAGE, trailer.getKey())).thumbnail(0.1F).into(holder.stillImage);
+        Glide.with(holder.itemView.getContext()).load(String.format(Locale.US, TmdbConfigKt.YOUTUBE_IMAGE, trailer.getKey())).thumbnail(0.1F).into(holder.stillImage);
 
         trailer.getSite();
         if (trailer.getSite().equals("YouTube")) {

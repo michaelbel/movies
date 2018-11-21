@@ -1,20 +1,28 @@
 package org.michaelbel.moviemade.ui.modules.movie;
 
+import android.content.SharedPreferences;
+
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.data.constants.CreditsKt;
+import org.michaelbel.moviemade.data.constants.MediaTypeKt;
+import org.michaelbel.moviemade.data.dao.AccountStates;
 import org.michaelbel.moviemade.data.dao.Cast;
 import org.michaelbel.moviemade.data.dao.CreditsResponse;
 import org.michaelbel.moviemade.data.dao.Crew;
+import org.michaelbel.moviemade.data.dao.Fave;
+import org.michaelbel.moviemade.data.dao.MarkFave;
 import org.michaelbel.moviemade.data.dao.Movie;
+import org.michaelbel.moviemade.data.service.ACCOUNT;
 import org.michaelbel.moviemade.data.service.MOVIES;
-import org.michaelbel.moviemade.utils.AndroidExtensions;
-import org.michaelbel.moviemade.utils.ConstantsKt;
+import org.michaelbel.moviemade.utils.DateUtil;
 import org.michaelbel.moviemade.utils.LanguageUtil;
 import org.michaelbel.moviemade.utils.NetworkUtil;
+import org.michaelbel.moviemade.utils.SharedPrefsKt;
+import org.michaelbel.moviemade.utils.TmdbConfigKt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,9 +40,12 @@ import retrofit2.Retrofit;
 @InjectViewState
 public class MoviePresenter extends MvpPresenter<MovieMvp> {
 
+    // TODO: The code in this presenter is just fucked up. I know it. I remind myself to rewrite it.
+
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     @Inject Retrofit retrofit;
+    @Inject SharedPreferences sharedPreferences;
 
     void setMovieDetailsFromExtra(Movie movie) {
         getViewState().setPoster(movie.getPosterPath());
@@ -42,28 +53,27 @@ public class MoviePresenter extends MvpPresenter<MovieMvp> {
         getViewState().setOverview(movie.getOverview());
         getViewState().setVoteAverage(movie.getVoteAverage());
         getViewState().setVoteCount(movie.getVoteCount());
-        getViewState().setReleaseDate(AndroidExtensions.formatReleaseDate(movie.getReleaseDate()));
+        getViewState().setReleaseDate(DateUtil.INSTANCE.formatReleaseDate(movie.getReleaseDate()));
         getViewState().setOriginalLanguage(LanguageUtil.INSTANCE.formatLanguage(movie.getOriginalLanguage()));
-        getViewState().setWatching(false);
         getViewState().setGenres(movie.getGenreIds());
     }
 
-    void loadMovieDetails(int movieId) {
+    void loadDetails(Moviemade app, int movieId) {
         if (NetworkUtil.INSTANCE.notConnected()) {
             getViewState().setConnectionError();
             return;
         }
 
-        Moviemade.getComponent().injest(this);
+        app.getAppComponent().injest(this);
         MOVIES service = retrofit.create(MOVIES.class);
-        Observable<Movie> observable = service.getDetails(movieId, BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, "").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        Observable<Movie> observable = service.getDetails(movieId, BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, MediaTypeKt.CREDITS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<Movie>() {
             @Override
             public void onNext(Movie movie) {
-                getViewState().setRuntime((Objects.requireNonNull(movie.getRuntime() != 0 ? AndroidExtensions.formatRuntime(movie.getRuntime()) : null)));
+                getViewState().setRuntime((Objects.requireNonNull(movie.getRuntime() != 0 ? DateUtil.INSTANCE.formatRuntime(movie.getRuntime()) : null)));
                 getViewState().setTagline(movie.getTagline());
                 getViewState().setURLs(movie.getImdbId(), movie.getHomepage());
-
+                fixCredits(movie.getCredits());
                 getViewState().showComplete(movie);
             }
 
@@ -74,25 +84,25 @@ public class MoviePresenter extends MvpPresenter<MovieMvp> {
 
             @Override
             public void onComplete() {
-                loadCredits(movieId);
+                // если ид сессии пуст не делать
+                setAccountStates(app, movieId);
             }
         }));
     }
 
-    private void loadCredits(int movieId) {
-        Moviemade.getComponent().injest(this);
-        MOVIES service = retrofit.create(MOVIES.class);
-        Observable<CreditsResponse> observable = service.getCredits(movieId, BuildConfig.TMDB_API_KEY).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<CreditsResponse>() {
-
+    void markAsFavorite(Moviemade app, int accountId, int mediaId, boolean favorite) {
+        app.getAppComponent().injest(this);
+        ACCOUNT service = retrofit.create(ACCOUNT.class);
+        Observable<MarkFave> observable = service.markAsFavorite(TmdbConfigKt.CONTENT_TYPE, accountId, BuildConfig.TMDB_API_KEY, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""), new Fave(MediaTypeKt.MOVIE, mediaId, favorite)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposables.add(observable.subscribeWith(new DisposableObserver<MarkFave>() {
             @Override
-            public void onNext(CreditsResponse response) {
-                reloadCredits(response.getCast(), response.getCrew());
+            public void onNext(MarkFave markFave) {
+                getViewState().onFavoriteChanged(markFave);
             }
 
             @Override
             public void onError(Throwable e) {
-                e.printStackTrace();
+                getViewState().setConnectionError();
             }
 
             @Override
@@ -100,9 +110,31 @@ public class MoviePresenter extends MvpPresenter<MovieMvp> {
         }));
     }
 
-    private void reloadCredits(List<Cast> casts, List<Crew> crews) {
+    private void setAccountStates(Moviemade app, int movieId) {
+        app.getAppComponent().injest(this);
+        MOVIES service = retrofit.create(MOVIES.class);
+        Observable<AccountStates> observable = service.getAccountStates(movieId, BuildConfig.TMDB_API_KEY, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""), "").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
+        disposables.add(observable.subscribeWith(new DisposableObserver<AccountStates>() {
+            @Override
+            public void onNext(AccountStates states) {
+                if (states != null) {
+                    getViewState().setStates(states.getFavorite());
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                // Rated object has an error.
+            }
+
+            @Override
+            public void onComplete() {}
+        }));
+    }
+
+    private void fixCredits(CreditsResponse creditsResponse) {
         List<String> actors = new ArrayList<>();
-        for (Cast cast : casts) {
+        for (Cast cast : creditsResponse.getCast()) {
             actors.add(cast.getName());
         }
         StringBuilder actorsBuilder = new StringBuilder();
@@ -116,7 +148,7 @@ public class MoviePresenter extends MvpPresenter<MovieMvp> {
         List<String> directors = new ArrayList<>();
         List<String> writers = new ArrayList<>();
         List<String> producers = new ArrayList<>();
-        for (Crew crew : crews) {
+        for (Crew crew : creditsResponse.getCrew()) {
             switch (crew.getDepartment()) {
                 case CreditsKt.DIRECTING:
                     directors.add(crew.getName());

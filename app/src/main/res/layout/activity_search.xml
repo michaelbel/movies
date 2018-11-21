@@ -13,7 +13,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            app:popupTheme="@style/ThemeOverlay.AppCompat">
+            app:popupTheme="@style/ThemeOverlay.AppCompat"
+            app:navigationIcon="@drawable/ic_arrow_back">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/search_edit_text"

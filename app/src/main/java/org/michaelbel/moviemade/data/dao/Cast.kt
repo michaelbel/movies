@@ -12,8 +12,6 @@ data class Cast(
     @SerializedName("name") val name: String,
     @SerializedName("order") val order: Int,
     @SerializedName("profile_path") val profilePath: String,
-
-
     @SerializedName("vote_count") val voteCount: Int,
     @SerializedName("video") val video: Boolean,
     @SerializedName("vote_average") val voteAverage: Float,

@@ -170,4 +170,17 @@ public class SpannableUtil {
 
         return spannable;
     }
+
+    /*public static SpannableStringBuilder linkText(String text) {
+        SpannableStringBuilder spannable;
+
+        int startPos = 0;
+        int endPos = text.length();
+
+        spannable = new SpannableStringBuilder(text);
+        spannable.setSpan(new TypefaceSpan(FontsKt.ROBOTO_MEDIUM), startPos, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(Moviemade.AppContext, R.color.tmdbPrimary)), startPos, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return spannable;
+    }*/
 }

@@ -1,5 +1,6 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -11,6 +12,7 @@
         android:gravity="center"
         android:textSize="@dimen/view_powered_text_size"
         android:textColor="@color/secondaryText"
-        android:padding="@dimen/view_powered_text_padding"/>
+        android:padding="@dimen/view_powered_text_padding"
+        tools:text="Something"/>
 
 </FrameLayout>

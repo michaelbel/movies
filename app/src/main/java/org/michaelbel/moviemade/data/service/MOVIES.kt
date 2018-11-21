@@ -13,7 +13,7 @@ interface MOVIES {
         @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String,
         @Query("language") language: String,
-        @Query("append_to_response") response: String
+        @Query("append_to_response") appendToResponse: String
     ): Observable<Movie>
 
     @GET("movie/{movie_id}/account_states?")
@@ -21,8 +21,8 @@ interface MOVIES {
         @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String,
         @Query("session_id") sessionId: String,
-        @Query("quest_session_id") questSessionId: String
-    ): Observable<*>
+        @Query("guest_session_id") guestSessionId: String
+    ): Observable<AccountStates>
 
     @GET("movie/{movie_id}/changes?")
     fun getChanges(

@@ -23,6 +23,8 @@ public class SettingsActivity extends BaseActivity {
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
 
+        // TODO: toolbar.setTitle?
+
         if (savedInstanceState == null) {
             startFragment(new SettingsFragment(), R.id.fragment_view);
         }

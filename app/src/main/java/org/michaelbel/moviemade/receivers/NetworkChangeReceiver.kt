@@ -5,14 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
 
-class NetworkChangeReceiver(private var ncrListener: NCRListener?) : BroadcastReceiver() {
+class NetworkChangeReceiver(private var networkChangeListener: NetworkChangeListener?) : BroadcastReceiver() {
 
     companion object {
         const val INTENT_ACTION = "android.net.conn.CONNECTIVITY_CHANGE"
-    }
-
-    interface NCRListener {
-        fun onNetworkChanged()
     }
 
     override fun onReceive(context: Context, intent: Intent) {
@@ -20,8 +16,8 @@ class NetworkChangeReceiver(private var ncrListener: NCRListener?) : BroadcastRe
         val networkInfo = connectivityManager.activeNetworkInfo
 
         if (networkInfo != null && networkInfo.isConnected) {
-            if (ncrListener != null) {
-                ncrListener!!.onNetworkChanged()
+            if (networkChangeListener != null) {
+                networkChangeListener!!.onNetworkChanged()
             }
         }
     }

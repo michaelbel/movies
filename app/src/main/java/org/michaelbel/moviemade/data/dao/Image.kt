@@ -3,7 +3,7 @@ package org.michaelbel.moviemade.data.dao
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-// Poster or Backdrop
+// Poster or Backdrop.
 data class Image(
     @SerializedName("aspect_ratio") val aspectRatio: Float,
     @SerializedName("file_path") val filePath: String,

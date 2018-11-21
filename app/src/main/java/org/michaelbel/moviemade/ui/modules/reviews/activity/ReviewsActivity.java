@@ -2,6 +2,7 @@ package org.michaelbel.moviemade.ui.modules.reviews.activity;
 
 import android.os.Bundle;
 
+import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
@@ -31,7 +32,6 @@ public class ReviewsActivity extends BaseActivity {
         movie = (Movie) getIntent().getSerializableExtra(IntentsKt.MOVIE);
 
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         toolbar.setNavigationOnClickListener(v -> finish());
         toolbar.setOnClickListener(v -> fragment.recyclerView.smoothScrollToPosition(0));
 
@@ -40,7 +40,7 @@ public class ReviewsActivity extends BaseActivity {
 
         fragment = (ReviewsFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
         if (fragment != null) {
-            fragment.presenter.loadReviews(movie.getId());
+            fragment.presenter.getReviews((Moviemade) getApplication(), movie.getId());
         }
     }
 }

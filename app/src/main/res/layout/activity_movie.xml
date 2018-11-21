@@ -73,10 +73,11 @@
             android:background="@color/background"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <fragment class="org.michaelbel.moviemade.ui.modules.movie.MovieFragment"
+            <fragment
                 android:id="@+id/fragment"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
+                android:layout_height="match_parent"
+                android:name="org.michaelbel.moviemade.ui.modules.movie.MovieFragment"/>
 
         </androidx.core.widget.NestedScrollView>
 

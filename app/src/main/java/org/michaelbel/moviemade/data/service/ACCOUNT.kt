@@ -2,11 +2,10 @@ package org.michaelbel.moviemade.data.service
 
 import io.reactivex.Observable
 import org.michaelbel.moviemade.data.dao.Account
+import org.michaelbel.moviemade.data.dao.Fave
+import org.michaelbel.moviemade.data.dao.MarkFave
 import org.michaelbel.moviemade.data.dao.MoviesResponse
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface ACCOUNT {
 
@@ -24,13 +23,14 @@ interface ACCOUNT {
         @Query("language") language: String
     ): Observable<*>
 
-    @GET("account/{account_id}/favorite/parts?")
+    @GET("account/{account_id}/favorite/movies?")
     fun getFavoriteMovies(
         @Path("account_id") accountId: Int,
         @Query("api_key") apiKey: String,
         @Query("session_id") sessionId: String,
         @Query("language") lang: String,
-        @Query("sort_by") sort: String
+        @Query("sort_by") sort: String,
+        @Query("page") page: Int
     ): Observable<MoviesResponse>
 
     @GET("account/{account_id}/favorite/tv?")
@@ -44,10 +44,12 @@ interface ACCOUNT {
 
     @POST("account/{account_id}/favorite?")
     fun markAsFavorite(
+        @Header("Content-Type") contentType: String,
         @Path("account_id") id: Int,
         @Query("api_key") apiKey: String,
-        @Query("session_id") sessionId: String
-    ): Observable<*>
+        @Query("session_id") sessionId: String,
+        @Body fave: Fave
+    ): Observable<MarkFave>
 
     @GET("account/{account_id}/rated/parts?")
     fun getRatedMovies(

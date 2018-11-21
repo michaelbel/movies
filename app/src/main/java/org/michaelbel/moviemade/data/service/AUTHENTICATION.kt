@@ -1,31 +1,38 @@
 package org.michaelbel.moviemade.data.service
 
 import io.reactivex.Observable
-import org.michaelbel.moviemade.data.dao.Token
-import retrofit2.http.GET
-import retrofit2.http.Query
+import org.michaelbel.moviemade.data.dao.*
+import retrofit2.http.*
 
 interface AUTHENTICATION {
 
     @GET("authentication/guest_session/new?")
     fun createGuestSession(
         @Query("api_key") apiKey: String
-    ): Observable<*>
+    ): Observable<GuestSession>
 
     @GET("authentication/token/new?")
     fun createRequestToken(
         @Query("api_key") apiKey: String
     ): Observable<Token>
 
-    @GET("authentication/session/new?")
+    @POST("authentication/token/validate_with_login?")
+    fun createSessionWithLogin(
+        @Query("api_key") apiKey: String,
+        @Body username: Username
+    ): Observable<Token>
+
+    @POST("authentication/session/new?")
     fun createSession(
         @Query("api_key") apiKey: String,
-        @Query("request_token") requestToken: String
-    ): Observable<*>
+        @Body authToken: RequestToken
+    ): Observable<Session>
 
-    // createSessionWithLogin
+    // createSession (from api v4)
 
-    // createSession (from v4 access)
-
-    // deleteSession
+    @HTTP(method = "DELETE", path = "authentication/session?", hasBody = true)
+    fun deleteSession(
+        @Query("api_key") apiKey: String,
+        @Body sessionId: SessionId
+    ): Observable<DeletedSession>
 }

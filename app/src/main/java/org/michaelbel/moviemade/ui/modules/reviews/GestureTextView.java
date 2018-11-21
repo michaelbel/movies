@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 
 @SuppressWarnings("all")
+@SuppressLint("ClickableViewAccessibility")
 public class GestureTextView extends AppCompatTextView implements GestureView {
 
     private final GestureController controller;
@@ -50,15 +51,11 @@ public class GestureTextView extends AppCompatTextView implements GestureView {
         origSize = getTextSize();
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
     public GestureController getController() {
         return controller;
     }
 
-    @SuppressLint("ClickableViewAccessibility") // performClick will be called by controller
     @Override
     public boolean onTouchEvent(@NonNull MotionEvent event) {
         return controller.onTouch(this, event);
@@ -90,7 +87,7 @@ public class GestureTextView extends AppCompatTextView implements GestureView {
         float maxSize = origSize * controller.getSettings().getMaxZoom();
         size = Math.max(origSize, Math.min(size, maxSize));
 
-        // Bigger text size steps for smoother scaling
+        // Bigger text size steps for smoother scaling.
         size = Math.round(size);
 
         if (!State.equals(this.size, size)) {

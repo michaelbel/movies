@@ -18,6 +18,5 @@ data class Person(
     @SerializedName("adult") val adult: Boolean,
     @SerializedName("imdb_id") val imdb_id: String,
     @SerializedName("homepage") val homepage: String,
-
     @SerializedName("known_for") val knownFor: List<Movie>
 ) : Serializable

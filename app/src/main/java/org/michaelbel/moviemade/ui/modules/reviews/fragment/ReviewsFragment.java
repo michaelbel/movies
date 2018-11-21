@@ -12,9 +12,11 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.jetbrains.annotations.NotNull;
+import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.dao.Review;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.receivers.NetworkChangeListener;
 import org.michaelbel.moviemade.receivers.NetworkChangeReceiver;
 import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.modules.reviews.ReviewsAdapter;
@@ -36,8 +38,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-@SuppressWarnings("all")
-public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp, NetworkChangeReceiver.NCRListener {
+public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp, NetworkChangeListener {
 
     private Unbinder unbinder;
     private ReviewsAdapter adapter;
@@ -85,7 +86,7 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp,
         emptyView.setOnClickListener(v -> {
             emptyView.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
-            presenter.loadReviews(activity.movie.getId());
+            presenter.getReviews((Moviemade) activity.getApplication(), activity.movie.getId());
         });
 
         recyclerView.setAdapter(adapter);
@@ -128,6 +129,13 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp,
         progressBar.setVisibility(View.GONE);
     }
 
+    @Override
+    public void onNetworkChanged() {
+        if (connectionFailure && adapter.getItemCount() == 0) {
+            presenter.getReviews((Moviemade) activity.getApplication(), activity.movie.getId());
+        }
+    }
+
     private void refreshLayout() {
         int spanCount = activity.getResources().getInteger(R.integer.trailers_span_layout_count);
         Parcelable state = gridLayoutManager.onSaveInstanceState();
@@ -137,12 +145,5 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp,
         itemDecoration.setOffset(0);
         recyclerView.addItemDecoration(itemDecoration);
         gridLayoutManager.onRestoreInstanceState(state);
-    }
-
-    @Override
-    public void onNetworkChanged() {
-        if (connectionFailure && adapter.getItemCount() == 0) {
-            presenter.loadReviews(activity.movie.getId());
-        }
     }
 }

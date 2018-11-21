@@ -19,6 +19,7 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.eventbus.Events;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.receivers.NetworkChangeListener;
 import org.michaelbel.moviemade.receivers.NetworkChangeReceiver;
 import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.modules.main.MainActivity;
@@ -39,7 +40,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, NetworkChangeReceiver.NCRListener {
+@SuppressLint("CheckResult")
+@SuppressWarnings("ResultOfMethodCallIgnored")
+public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, NetworkChangeListener {
 
     private Unbinder unbinder;
     private MainActivity activity;
@@ -62,7 +65,6 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, N
         activity = (MainActivity) getActivity();
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
-        Moviemade.getComponent().injest(this);
     }
 
     @Nullable
@@ -77,7 +79,7 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, N
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        emptyView.setOnClickListener(v -> presenter.loadUpcomingMovies());
+        emptyView.setOnClickListener(v -> presenter.getUpcoming());
 
         itemDecoration = new PaddingItemDecoration();
         itemDecoration.setOffset(DeviceUtil.INSTANCE.dp(activity, 1));
@@ -98,24 +100,15 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, N
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                int totalItemCount = gridLayoutManager.getItemCount();
-                int visibleItemCount = gridLayoutManager.getChildCount();
-                int firstVisibleItemPosition = gridLayoutManager.findFirstVisibleItemPosition();
-
-                if (!presenter.isLoading && !presenter.isLastPage) {
-                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0) {
-                        presenter.isLoading = true;
-                        presenter.page++;
-                        presenter.loadUpcomingMoviesNext();
-                    }
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (!recyclerView.canScrollVertically(1)) {
+                    presenter.getUpcomingNext();
                 }
             }
         });
 
-        presenter.loadUpcomingMovies();
+        presenter.getUpcoming();
     }
 
     @Override
@@ -124,13 +117,11 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, N
         refreshLayout();
     }
 
-    @SuppressLint("CheckResult")
     @Override
     public void onResume() {
         super.onResume();
 
-        Moviemade app = ((Moviemade) activity.getApplication());
-        app.eventBus().toObservable().subscribe(o -> {
+        ((Moviemade) activity.getApplication()).eventBus().toObservable().subscribe(o -> {
             if (o instanceof Events.MovieListRefreshLayout) {
                 refreshLayout();
             }
@@ -146,29 +137,10 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, N
     }
 
     @Override
-    public void setMovies(@NotNull List<Movie> movies, boolean firstPage) {
-        connectionFailure = true;
-
-        if (firstPage) {
-            progressBar.setVisibility(View.GONE);
-            adapter.addAll(movies);
-
-            if (presenter.page < presenter.totalPages) {
-                // show loading
-            } else {
-                presenter.isLastPage = true;
-            }
-        } else {
-            // hide loading
-            presenter.isLoading = false;
-            adapter.addAll(movies);
-
-            if (presenter.page != presenter.totalPages) {
-                //adapter.addLoadingFooter();
-            } else {
-                presenter.isLastPage = true;
-            }
-        }
+    public void setMovies(@NotNull List<Movie> movies) {
+        connectionFailure = false;
+        progressBar.setVisibility(View.GONE);
+        adapter.addAll(movies);
     }
 
     @Override
@@ -182,8 +154,11 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, N
         }
     }
 
-    public MoviesAdapter getAdapter() {
-        return adapter;
+    @Override
+    public void onNetworkChanged() {
+        if (connectionFailure && adapter.getItemCount() == 0) {
+            presenter.getUpcoming();
+        }
     }
 
     private void refreshLayout() {
@@ -197,10 +172,7 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, N
         gridLayoutManager.onRestoreInstanceState(state);
     }
 
-    @Override
-    public void onNetworkChanged() {
-        if (connectionFailure && adapter.getItemCount() == 0) {
-            presenter.loadUpcomingMovies();
-        }
+    public MoviesAdapter getAdapter() {
+        return adapter;
     }
 }

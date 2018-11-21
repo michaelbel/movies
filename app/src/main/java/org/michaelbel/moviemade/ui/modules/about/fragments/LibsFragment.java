@@ -27,7 +27,6 @@ public class LibsFragment extends Fragment {
 
     private LibsAdapter adapter;
     private AboutActivity activity;
-    private LinearLayoutManager linearLayoutManager;
 
     @BindView(R.id.recycler_view)
     public RecyclerListView recyclerView;
@@ -44,7 +43,6 @@ public class LibsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_libs, container, false);
         ButterKnife.bind(this, view);
 
-        activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         activity.toolbar.setNavigationOnClickListener(v -> activity.finishFragment());
         activity.toolbarTitle.setText(R.string.open_source_libs);
         return view;
@@ -67,10 +65,8 @@ public class LibsFragment extends Fragment {
         adapter.addSource("ExpandableTextView", "https://github.com/blogcat/android-expandabletextview", "Apache License 2.0");
         adapter.addSource("Android Animated Menu Items", "https://github.com/adonixis/android-animated-menu-items", "Apache License 2.0");
 
-        linearLayoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
-
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.VERTICAL, false));
         recyclerView.setOnItemClickListener((v, position) -> Browser.INSTANCE.openUrl(activity, adapter.sources.get(position).getUrl()));
     }
 

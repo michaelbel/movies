@@ -1,7 +1,5 @@
 package org.michaelbel.moviemade.ui.modules.reviews.fragment;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
@@ -37,6 +35,10 @@ import butterknife.Unbinder;
 
 public class ReviewFragment extends MvpAppCompatFragment {
 
+    private static final int THEME_LIGHT = 0;
+    private static final int THEME_SEPIA = 1;
+    private static final int THEME_NIGHT = 2;
+
     private MenuItem menu_url;
     private MenuItem menu_theme_light;
     private MenuItem menu_theme_sepia;
@@ -47,10 +49,6 @@ public class ReviewFragment extends MvpAppCompatFragment {
 
     @Inject
     SharedPreferences sharedPreferences;
-
-    private static final int THEME_LIGHT = 0;
-    private static final int THEME_SEPIA = 1;
-    private static final int THEME_NIGHT = 2;
 
     @BindColor(R.color.primaryText) int backgroundLight;
     @BindColor(R.color.sepia_background) int backgroundSepia;
@@ -147,152 +145,57 @@ public class ReviewFragment extends MvpAppCompatFragment {
     }
 
     private void changeTheme(int oldTheme, int newTheme) {
+        int backgroundColorStart = 0;
+        int backgroundColorEnd = 0;
+        int textColorStart = 0;
+        int textColorEnd = 0;
         ArgbEvaluator evaluator = new ArgbEvaluator();
+        ObjectAnimator backgroundAnim;
+        ObjectAnimator textAnim;
+        AnimatorSet animatorSet;
 
         if (oldTheme == THEME_NIGHT && newTheme == THEME_SEPIA) {
-            int backgroundColorStart = backgroundNight;
-            int backgroundColorEnd = backgroundSepia;
-
-            int textColorStart = textNight;
-            int textColorEnd = textSepia;
-
-            ObjectAnimator backgroundAnim = ObjectAnimator.ofObject(scrollLayout, "backgroundColor", evaluator, 0, 0);
-            backgroundAnim.setObjectValues(backgroundColorStart, backgroundColorEnd);
-
-            ObjectAnimator textAnim = ObjectAnimator.ofObject(reviewText, "textColor", evaluator, 0, 0);
-            textAnim.setObjectValues(textColorStart, textColorEnd);
-
-            AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.playTogether(backgroundAnim, textAnim);
-            animatorSet.setDuration(300);
-            animatorSet.setInterpolator(new DecelerateInterpolator(2));
-            animatorSet.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                }
-            });
-            AndroidUtil.INSTANCE.runOnUIThread(animatorSet:: start, 0);
+            backgroundColorStart = backgroundNight;
+            backgroundColorEnd = backgroundSepia;
+            textColorStart = textNight;
+            textColorEnd = textSepia;
         } else if (oldTheme == THEME_NIGHT && newTheme == THEME_LIGHT) {
-            int backgroundColorStart = backgroundNight;
-            int backgroundColorEnd = backgroundLight;
-
-            int textColorStart = textNight;
-            int textColorEnd = textLight;
-
-            ObjectAnimator backgroundAnim = ObjectAnimator.ofObject(scrollLayout, "backgroundColor", evaluator, 0, 0);
-            backgroundAnim.setObjectValues(backgroundColorStart, backgroundColorEnd);
-
-            ObjectAnimator textAnim = ObjectAnimator.ofObject(reviewText, "textColor", evaluator, 0, 0);
-            textAnim.setObjectValues(textColorStart, textColorEnd);
-
-            AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.playTogether(backgroundAnim, textAnim);
-            animatorSet.setDuration(300);
-            animatorSet.setInterpolator(new DecelerateInterpolator(2));
-            animatorSet.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                }
-            });
-            AndroidUtil.INSTANCE.runOnUIThread(animatorSet:: start, 0);
+            backgroundColorStart = backgroundNight;
+            backgroundColorEnd = backgroundLight;
+            textColorStart = textNight;
+            textColorEnd = textLight;
         } else if (oldTheme == THEME_SEPIA && newTheme == THEME_LIGHT) {
-            int backgroundColorStart = backgroundSepia;
-            int backgroundColorEnd = backgroundLight;
-
-            int textColorStart = textSepia;
-            int textColorEnd = textLight;
-
-            ObjectAnimator backgroundAnim = ObjectAnimator.ofObject(scrollLayout, "backgroundColor", evaluator, 0, 0);
-            backgroundAnim.setObjectValues(backgroundColorStart, backgroundColorEnd);
-
-            ObjectAnimator textAnim = ObjectAnimator.ofObject(reviewText, "textColor", evaluator, 0, 0);
-            textAnim.setObjectValues(textColorStart, textColorEnd);
-
-            AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.playTogether(backgroundAnim, textAnim);
-            animatorSet.setDuration(300);
-            animatorSet.setInterpolator(new DecelerateInterpolator(2));
-            animatorSet.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                }
-            });
-            AndroidUtil.INSTANCE.runOnUIThread(animatorSet:: start, 0);
+            backgroundColorStart = backgroundSepia;
+            backgroundColorEnd = backgroundLight;
+            textColorStart = textSepia;
+            textColorEnd = textLight;
         } else if (oldTheme == THEME_SEPIA && newTheme == THEME_NIGHT) {
-            int backgroundColorStart = backgroundSepia;
-            int backgroundColorEnd = backgroundNight;
-
-            int textColorStart = textSepia;
-            int textColorEnd = textNight;
-
-            ObjectAnimator backgroundAnim = ObjectAnimator.ofObject(scrollLayout, "backgroundColor", evaluator, 0, 0);
-            backgroundAnim.setObjectValues(backgroundColorStart, backgroundColorEnd);
-
-            ObjectAnimator textAnim = ObjectAnimator.ofObject(reviewText, "textColor", evaluator, 0, 0);
-            textAnim.setObjectValues(textColorStart, textColorEnd);
-
-            AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.playTogether(backgroundAnim, textAnim);
-            animatorSet.setDuration(300);
-            animatorSet.setInterpolator(new DecelerateInterpolator(2));
-            animatorSet.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                }
-            });
-            AndroidUtil.INSTANCE.runOnUIThread(animatorSet:: start, 0);
+            backgroundColorStart = backgroundSepia;
+            backgroundColorEnd = backgroundNight;
+            textColorStart = textSepia;
+            textColorEnd = textNight;
         } else if (oldTheme == THEME_LIGHT && newTheme == THEME_SEPIA) {
-            int backgroundColorStart = backgroundLight;
-            int backgroundColorEnd = backgroundSepia;
-
-            int textColorStart = textLight;
-            int textColorEnd = textSepia;
-
-            ObjectAnimator backgroundAnim = ObjectAnimator.ofObject(scrollLayout, "backgroundColor", evaluator, 0, 0);
-            backgroundAnim.setObjectValues(backgroundColorStart, backgroundColorEnd);
-
-            ObjectAnimator textAnim = ObjectAnimator.ofObject(reviewText, "textColor", evaluator, 0, 0);
-            textAnim.setObjectValues(textColorStart, textColorEnd);
-
-            AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.playTogether(backgroundAnim, textAnim);
-            animatorSet.setDuration(300);
-            animatorSet.setInterpolator(new DecelerateInterpolator(2));
-            animatorSet.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                }
-            });
-            AndroidUtil.INSTANCE.runOnUIThread(animatorSet:: start, 0);
+            backgroundColorStart = backgroundLight;
+            backgroundColorEnd = backgroundSepia;
+            textColorStart = textLight;
+            textColorEnd = textSepia;
         } else if (oldTheme == THEME_LIGHT && newTheme == THEME_NIGHT) {
-            int backgroundColorStart = backgroundLight;
-            int backgroundColorEnd = backgroundNight;
-
-            int textColorStart = textLight;
-            int textColorEnd = textNight;
-
-            ObjectAnimator backgroundAnim = ObjectAnimator.ofObject(scrollLayout, "backgroundColor", evaluator, 0, 0);
-            backgroundAnim.setObjectValues(backgroundColorStart, backgroundColorEnd);
-
-            ObjectAnimator textAnim = ObjectAnimator.ofObject(reviewText, "textColor", evaluator, 0, 0);
-            textAnim.setObjectValues(textColorStart, textColorEnd);
-
-            AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.playTogether(backgroundAnim, textAnim);
-            animatorSet.setDuration(300);
-            animatorSet.setInterpolator(new DecelerateInterpolator(2));
-            animatorSet.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    super.onAnimationEnd(animation);
-                }
-            });
-            AndroidUtil.INSTANCE.runOnUIThread(animatorSet:: start, 0);
+            backgroundColorStart = backgroundLight;
+            backgroundColorEnd = backgroundNight;
+            textColorStart = textLight;
+            textColorEnd = textNight;
         }
+
+        backgroundAnim = ObjectAnimator.ofObject(scrollLayout, "backgroundColor", evaluator, 0, 0);
+        backgroundAnim.setObjectValues(backgroundColorStart, backgroundColorEnd);
+
+        textAnim = ObjectAnimator.ofObject(reviewText, "textColor", evaluator, 0, 0);
+        textAnim.setObjectValues(textColorStart, textColorEnd);
+
+        animatorSet = new AnimatorSet();
+        animatorSet.playTogether(backgroundAnim, textAnim);
+        animatorSet.setDuration(300);
+        animatorSet.setInterpolator(new DecelerateInterpolator(2));
+        AndroidUtil.INSTANCE.runOnUIThread(animatorSet:: start, 0);
     }
 }

@@ -2,6 +2,7 @@ package org.michaelbel.moviemade.ui.modules.movie;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -24,18 +25,21 @@ import com.google.android.material.snackbar.Snackbar;
 import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.data.constants.CodeKt;
 import org.michaelbel.moviemade.data.constants.Genres;
 import org.michaelbel.moviemade.data.dao.Genre;
+import org.michaelbel.moviemade.data.dao.MarkFave;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.receivers.NetworkChangeListener;
 import org.michaelbel.moviemade.receivers.NetworkChangeReceiver;
-import org.michaelbel.moviemade.room.database.MoviesDatabase;
 import org.michaelbel.moviemade.ui.modules.movie.views.RatingView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.utils.Browser;
-import org.michaelbel.moviemade.utils.ConstantsKt;
 import org.michaelbel.moviemade.utils.DrawableUtil;
+import org.michaelbel.moviemade.utils.SharedPrefsKt;
 import org.michaelbel.moviemade.utils.SpannableUtil;
+import org.michaelbel.moviemade.utils.TmdbConfigKt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,8 +59,9 @@ import butterknife.Unbinder;
 
 import static android.view.View.VISIBLE;
 
-public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, View.OnClickListener, NetworkChangeReceiver.NCRListener {
+public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, View.OnClickListener, NetworkChangeListener {
 
+    private boolean favorite;
     private Menu actionMenu;
     private MenuItem menu_share;
     private MenuItem menu_tmdb;
@@ -73,10 +78,11 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
     private NetworkChangeReceiver networkChangeReceiver;
     private GenresAdapter adapter;
 
-    @Inject MoviesDatabase moviesDatabase;
+    //@Inject MoviesDatabase moviesDatabase;
+    @Inject SharedPreferences sharedPreferences;
     @InjectPresenter MoviePresenter presenter;
 
-    @BindView(R.id.poster_image) AppCompatImageView posterImage;
+    @BindView(R.id.user_avatar) AppCompatImageView posterImage;
     @BindView(R.id.info_layout) LinearLayoutCompat infoLayout;
     @BindView(R.id.rating_view) RatingView ratingView;
     @BindView(R.id.rating_text) AppCompatTextView ratingText;
@@ -93,9 +99,9 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
     @BindView(R.id.title_text) AppCompatTextView titleText;
     @BindView(R.id.tagline_text) AppCompatTextView taglineText;
     @BindView(R.id.overview_text) AppCompatTextView overviewText;
-    @BindView(R.id.watchlist_layout) LinearLayoutCompat watchLayout;
-    @BindView(R.id.watchlist_icon) AppCompatImageView watchIcon;
-    @BindView(R.id.watchlist_text) AppCompatTextView watchText;
+    @BindView(R.id.fave_layout) LinearLayoutCompat faveLayout;
+    @BindView(R.id.fave_icon) AppCompatImageView faveIcon;
+    @BindView(R.id.fave_text) AppCompatTextView faveText;
     @BindView(R.id.trailers_text) AppCompatTextView trailersText;
     @BindView(R.id.reviews_text) AppCompatTextView reviewsText;
     @BindView(R.id.crew_layout) LinearLayoutCompat crewLayout;
@@ -109,9 +115,9 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (MovieActivity) getActivity();
+        Moviemade.getComponent().injest(this);
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
-        Moviemade.getComponent().injest(this);
         setHasOptionsMenu(true);
     }
 
@@ -132,12 +138,12 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
 
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, ConstantsKt.TMDB_MOVIE, activity.movie.getId()));
+            intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, TmdbConfigKt.TMDB_MOVIE, activity.movie.getId()));
             startActivity(Intent.createChooser(intent, getString(R.string.share_via)));
         } else if (item == menu_tmdb) {
-            Browser.INSTANCE.openUrl(activity, String.format(Locale.US, ConstantsKt.TMDB_MOVIE, activity.movie.getId()));
+            Browser.INSTANCE.openUrl(activity, String.format(Locale.US, TmdbConfigKt.TMDB_MOVIE, activity.movie.getId()));
         } else if (item == menu_imdb) {
-            Browser.INSTANCE.openUrl(activity, String.format(Locale.US, ConstantsKt.IMDB_MOVIE, imdbId));
+            Browser.INSTANCE.openUrl(activity, String.format(Locale.US, TmdbConfigKt.IMDB_MOVIE, imdbId));
         } else if (item == menu_homepage) {
             Browser.INSTANCE.openUrl(activity, homepage);
         }
@@ -167,14 +173,15 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
         producedText.setText(SpannableUtil.boldAndColoredText(getString(R.string.produced), getString(R.string.produced, getString(R.string.loading))));
 
         posterImage.setOnClickListener(this);
-        watchLayout.setOnClickListener(this);
+
+        faveLayout.setOnClickListener(this);
+        faveLayout.setVisibility(View.GONE);
+
         trailersText.setOnClickListener(this);
         reviewsText.setOnClickListener(this);
 
-        ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(activity)
-            .setOrientation(ChipsLayoutManager.HORIZONTAL).build();
-
         adapter = new GenresAdapter();
+        ChipsLayoutManager chipsLayoutManager = ChipsLayoutManager.newBuilder(activity).setOrientation(ChipsLayoutManager.HORIZONTAL).build();
 
         genresRecyclerView.setAdapter(adapter);
         genresRecyclerView.setLayoutManager(chipsLayoutManager);
@@ -193,7 +200,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
         this.posterPath = posterPath;
 
         posterImage.setVisibility(VISIBLE);
-        Glide.with(activity).load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, "w342", posterPath)).thumbnail(0.1F).into(posterImage);
+        Glide.with(activity).load(String.format(Locale.US, TmdbConfigKt.TMDB_IMAGE, "w342", posterPath)).thumbnail(0.1F).into(posterImage);
     }
 
     @Override
@@ -274,8 +281,28 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
     }
 
     @Override
-    public void setWatching(boolean watch) {
+    public void setStates(boolean fave) {
+        favorite = fave;
+        faveLayout.setVisibility(VISIBLE);
+        faveIcon.setImageResource(fave ? R.drawable.ic_heart : R.drawable.ic_heart_outline);
+        faveText.setText(fave ? R.string.remove : R.string.add);
+    }
 
+    @Override
+    public void onFavoriteChanged(@NotNull MarkFave markFave) {
+        switch (markFave.getStatusCode()) {
+            case CodeKt.ADDED:
+                faveIcon.setImageResource(R.drawable.ic_heart);
+                faveText.setText(R.string.remove);
+                favorite = true;
+                break;
+            case CodeKt.DELETED:
+                faveIcon.setImageResource(R.drawable.ic_heart_outline);
+                faveText.setText(R.string.add);
+                favorite = false;
+                //sendEvent();
+                break;
+        }
     }
 
     @Override
@@ -302,25 +329,15 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
         connectionError = true;
     }
 
-    //Movie watchMovie;
-
     @Override
     public void showComplete(@NotNull Movie movie) {
         connectionError = false;
-        //setWatch();
-        //watchMovie = movie;
     }
-
-    /*void setWatch() {
-        watchIcon.setImageResource(R.drawable.ic_bookmark_plus_outline);
-        watchText.setText("Add to Watchlist");
-        watchLayout.setOnClickListener(this);
-    }*/
 
     @Override
     public void onClick(View v) {
-        if (v == watchLayout) {
-            //addToRoom();
+        if (v == faveLayout) {
+            presenter.markAsFavorite((Moviemade) activity.getApplication(), sharedPreferences.getInt(SharedPrefsKt.KEY_ACCOUNT_ID, 0), activity.movie.getId(), !favorite);
         } else if (v == posterImage) {
             activity.imageAnimator = GestureTransitions.from(posterImage).into(activity.fullImage);
             activity.imageAnimator.addPositionUpdateListener((position, isLeaving) -> {
@@ -332,13 +349,12 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
 
                 activity.fullImage.setVisibility(position == 0f && isLeaving ? View.INVISIBLE : View.VISIBLE);
 
-                Glide.with(activity).load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, "original", posterPath)).thumbnail(0.1F).into(activity.fullImage);
+                Glide.with(activity).load(String.format(Locale.US, TmdbConfigKt.TMDB_IMAGE, "original", posterPath)).thumbnail(0.1F).into(activity.fullImage);
 
                 if (position == 0f && isLeaving) {
                     activity.showSystemStatusBar(true);
                 }
             });
-
             activity.fullImage.getController().getSettings()
                 .setGravity(Gravity.CENTER)
                 .setZoomEnabled(true)
@@ -359,25 +375,14 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Vie
         }
     }
 
-    /*void addToRoom() {
-        org.michaelbel.moviemade.room.entity.Movie movie = new org.michaelbel.moviemade.room.entity.Movie();
-        movie.movieId = watchMovie.getId();
-        movie.posterPath = watchMovie.getPosterPath();
-        movie.title = watchMovie.getTitle();
-
-        AsyncTask.execute(new Runnable() {
-            @Override
-            public void run() {
-                MovieDao movieDao = moviesDatabase.movieDao();
-                movieDao.insert(movie);
-            }
-        });
-    }*/
-
     @Override
     public void onNetworkChanged() {
         if (connectionError) {
-            presenter.loadMovieDetails(activity.movie.getId());
+            presenter.loadDetails((Moviemade) activity.getApplication(), activity.movie.getId());
         }
     }
+
+    /*private void sendEvent() {
+        ((Moviemade) activity.getApplication()).rxBus2.send(new Events.DeleteMovieFromFavorite(activity.movie.getId()));
+    }*/
 }

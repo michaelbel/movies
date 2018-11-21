@@ -18,9 +18,9 @@ import butterknife.ButterKnife;
 
 public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.GenresViewHolder> {
 
-    public List<Genre> genres = new ArrayList<>();
+    private List<Genre> genres = new ArrayList<>();
 
-    public void setGenres(List<Genre> results) {
+    void setGenres(List<Genre> results) {
         genres.addAll(results);
         notifyItemRangeInserted(genres.size() + 1, results.size());
     }

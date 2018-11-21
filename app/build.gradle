@@ -1,7 +1,5 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'realm-android'
-
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'org.jetbrains.kotlin.android.extensions'
 
@@ -27,9 +25,9 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
 
-        versionCode 50
-        versionName "0.3.9"
-        buildConfigField "String", "VERSION_DATE", '"17 Nov 2018"'
+        versionCode 52
+        versionName "1.0.0"
+        buildConfigField "String", "VERSION_DATE", '"20 Nov 2018"'
         project.ext.set("archivesBaseName", "moviemade-v" + versionName)
         buildConfigField "String", "TMDB_API_KEY", "\"${getProperty("local.properties", "tmdb_api_key")}\""
 
@@ -55,7 +53,6 @@ android {
         developing {
             flavorDimensions "develop"
             minSdkVersion 21
-            versionName "0.3.9-beta"
             applicationId "org.michaelbel.moviemade.beta"
         }
     }
@@ -67,6 +64,10 @@ android {
 
     androidExtensions {
         experimental = true
+    }
+
+    testOptions {
+        unitTests.includeAndroidResources = true
     }
 }
 
@@ -111,15 +112,20 @@ dependencies {
     // room
     implementation "android.arch.persistence.room:runtime:1.1.1"
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
-    // unit testing
-    testImplementation 'junit:junit:4.12'
-    // ui testing
-    androidTestImplementation 'com.android.support.test:testing-support-lib:0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     // kotlin
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.10'
     // chips
     implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7'
-}
 
-//apply plugin: 'com.google.gms.google-services'
+
+
+    // JUnit
+    testImplementation 'junit:junit:4.12'
+    // Robolectric
+    testImplementation 'androidx.test:core:1.0.0'
+    // Mockito
+    testImplementation 'org.mockito:mockito-core:2.23.0'
+
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}

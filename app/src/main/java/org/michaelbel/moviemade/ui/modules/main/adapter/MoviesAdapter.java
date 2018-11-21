@@ -8,7 +8,7 @@ import com.bumptech.glide.Glide;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.dao.Movie;
-import org.michaelbel.moviemade.utils.ConstantsKt;
+import org.michaelbel.moviemade.utils.TmdbConfigKt;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 
 import java.util.ArrayList;
@@ -41,7 +41,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     @Override
     public void onBindViewHolder(@NonNull MoviesViewHolder holder, int position) {
         Movie movie = movies.get(position);
-        Glide.with(holder.itemView.getContext()).load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, "w342", movie.getPosterPath())).thumbnail(0.1f).into(holder.posterImage);
+        Glide.with(holder.itemView.getContext()).load(String.format(Locale.US, TmdbConfigKt.TMDB_IMAGE, "w342", movie.getPosterPath())).thumbnail(0.1f).into(holder.posterImage);
     }
 
     @Override
@@ -56,7 +56,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     class MoviesViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.poster_image) AppCompatImageView posterImage;
+        @BindView(R.id.user_avatar) AppCompatImageView posterImage;
 
         private MoviesViewHolder(View itemView) {
             super(itemView);

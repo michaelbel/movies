@@ -14,6 +14,9 @@
 
     <color name="youtubeColor">#f44336</color>
 
+    <color name="tmdbPrimary">#01d277</color>
+    <color name="tmdbSecondary">#081c24</color>
+
     <color name="transparent">#00000000</color>
     <color name="transparent10">#1a000000</color><!--10% opacity-->
     <color name="transparent20">#33000000</color><!--20% opacity-->

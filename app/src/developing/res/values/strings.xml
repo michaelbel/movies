@@ -1,4 +1,0 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!--app-->
-    <string name="app_name" tools:ignore="PrivateResource">Moviemade Dev</string>
-</resources>

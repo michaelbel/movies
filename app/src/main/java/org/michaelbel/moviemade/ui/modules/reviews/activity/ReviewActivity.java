@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import com.google.android.material.appbar.AppBarLayout;
 
-import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.data.dao.Review;
@@ -32,13 +31,11 @@ public class ReviewActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
         ButterKnife.bind(this);
-        Moviemade.getComponent().injest(this);
 
         movie = (Movie) getIntent().getSerializableExtra(IntentsKt.MOVIE);
         review = (Review) getIntent().getSerializableExtra(IntentsKt.REVIEW);
 
         setSupportActionBar(toolbar);
-        toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         toolbar.setNavigationOnClickListener(v -> finish());
 
         AppBarLayout.LayoutParams params = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();

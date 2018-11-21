@@ -4,33 +4,32 @@ import android.app.Application;
 import android.content.Context;
 import android.os.Handler;
 
-import org.michaelbel.moviemade.di.component.DaggerDiComponent;
-import org.michaelbel.moviemade.di.component.DiComponent;
-import org.michaelbel.moviemade.di.module.RestModule;
-import org.michaelbel.moviemade.di.module.RoomModule;
-import org.michaelbel.moviemade.di.module.SharedPrefsModule;
+import org.michaelbel.moviemade.di.component.AppComponent;
+import org.michaelbel.moviemade.di.component.DaggerAppComponent;
+import org.michaelbel.moviemade.di.module.AppModule;
 import org.michaelbel.moviemade.eventbus.RxBus;
+import org.michaelbel.moviemade.eventbus.RxBus2;
 
 public class Moviemade extends Application {
 
     public RxBus rxBus;
+    public RxBus2 rxBus2;
     public static volatile Context AppContext;
     public static volatile Handler AppHandler;
 
-    private static DiComponent component;
+    private static AppComponent appComponent;
 
     @Override
     public void onCreate() {
         super.onCreate();
 
         rxBus = new RxBus();
+        rxBus2 = new RxBus2();
         AppContext = getApplicationContext();
         AppHandler = new Handler(getApplicationContext().getMainLooper());
 
-        component = DaggerDiComponent.builder()
-            .restModule(new RestModule())
-            .sharedPrefsModule(new SharedPrefsModule(AppContext))
-            .roomModule(new RoomModule(AppContext))
+        appComponent = DaggerAppComponent.builder()
+            .appModule(new AppModule(this))
             .build();
     }
 
@@ -39,8 +38,12 @@ public class Moviemade extends Application {
         super.attachBaseContext(base);
     }
 
-    public static DiComponent getComponent() {
-        return component;
+    public AppComponent getAppComponent() {
+        return appComponent;
+    }
+
+    public static AppComponent getComponent() {
+        return appComponent;
     }
 
     public RxBus eventBus() {

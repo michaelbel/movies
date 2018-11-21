@@ -31,8 +31,8 @@ import butterknife.ButterKnife;
 
 public class AboutFragment extends Fragment {
 
-    private static final String TELEGRAM_PACKAGE_NAME = "org.telegram.messenger";
     private static final String LIBS_FRAGMENT_TAG = "libs_fragment";
+    private static final String TELEGRAM_PACKAGE_NAME = "org.telegram.messenger";
 
     private int rowCount;
     private int infoRow;
@@ -63,7 +63,6 @@ public class AboutFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_about, container, false);
         ButterKnife.bind(this, view);
 
-        activity.toolbar.setNavigationIcon(R.drawable.ic_arrow_back);
         activity.toolbar.setNavigationOnClickListener(v -> activity.finish());
         activity.toolbarTitle.setText(R.string.about);
         return view;
@@ -149,11 +148,11 @@ public class AboutFragment extends Fragment {
 
     public class AboutAdapter extends RecyclerView.Adapter<AboutAdapter.AboutViewHolder> {
 
-        AppCompatTextView poweredText;
-        AppCompatTextView appNameText;
-        AppCompatTextView versionText;
         ImageView iconView;
         AppCompatTextView textView;
+        AppCompatTextView appNameText;
+        AppCompatTextView versionText;
+        AppCompatTextView poweredText;
 
         @NonNull
         @Override

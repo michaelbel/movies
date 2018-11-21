@@ -14,9 +14,11 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.jetbrains.annotations.NotNull;
+import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.dao.Video;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.receivers.NetworkChangeListener;
 import org.michaelbel.moviemade.receivers.NetworkChangeReceiver;
 import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.modules.trailers.dialog.YoutubePlayerDialogFragment;
@@ -35,7 +37,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class TrailersFragment extends MvpAppCompatFragment implements TrailersMvp, NetworkChangeReceiver.NCRListener {
+public class TrailersFragment extends MvpAppCompatFragment implements TrailersMvp, NetworkChangeListener {
 
     private static final String YOUTUBE_DIALOG_FRAGMENT_TAG = "youtubeFragment";
 
@@ -85,7 +87,7 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
         emptyView.setOnClickListener(v -> {
             emptyView.setVisibility(View.GONE);
             progressBar.setVisibility(View.VISIBLE);
-            presenter.loadTrailers(activity.movie.getId());
+            presenter.getVideos(activity.movie.getId());
         });
 
         recyclerView.setAdapter(adapter);
@@ -134,6 +136,13 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
         progressBar.setVisibility(View.GONE);
     }
 
+    @Override
+    public void onNetworkChanged() {
+        if (connectionFailure && adapter.getItemCount() == 0) {
+            presenter.getVideos(activity.movie.getId());
+        }
+    }
+
     private void refreshLayout() {
         int spanCount = activity.getResources().getInteger(R.integer.trailers_span_layout_count);
         Parcelable state = gridLayoutManager.onSaveInstanceState();
@@ -143,12 +152,5 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
         itemDecoration.setOffset(0);
         recyclerView.addItemDecoration(itemDecoration);
         gridLayoutManager.onRestoreInstanceState(state);
-    }
-
-    @Override
-    public void onNetworkChanged() {
-        if (connectionFailure && adapter.getItemCount() == 0) {
-            presenter.loadTrailers(activity.movie.getId());
-        }
     }
 }

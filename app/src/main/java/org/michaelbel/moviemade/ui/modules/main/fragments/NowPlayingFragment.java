@@ -18,7 +18,9 @@ import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.eventbus.Events;
+import org.michaelbel.moviemade.log;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.receivers.NetworkChangeListener;
 import org.michaelbel.moviemade.receivers.NetworkChangeReceiver;
 import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.modules.main.MainActivity;
@@ -39,7 +41,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-public class NowPlayingFragment extends MvpAppCompatFragment implements MainMvp, NetworkChangeReceiver.NCRListener {
+@SuppressLint("CheckResult")
+@SuppressWarnings("ResultOfMethodCallIgnored")
+public class NowPlayingFragment extends MvpAppCompatFragment implements MainMvp, NetworkChangeListener {
 
     private Unbinder unbinder;
     private MainActivity activity;
@@ -62,7 +66,6 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MainMvp,
         activity = (MainActivity) getActivity();
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
-        Moviemade.getComponent().injest(this);
     }
 
     @Nullable
@@ -77,7 +80,7 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MainMvp,
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        emptyView.setOnClickListener(v -> presenter.loadNowPlayingMovies());
+        emptyView.setOnClickListener(v -> presenter.getNowPlaying());
 
         itemDecoration = new PaddingItemDecoration();
         itemDecoration.setOffset(DeviceUtil.INSTANCE.dp(activity, 1));
@@ -101,13 +104,13 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MainMvp,
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (!recyclerView.canScrollVertically(1)) {
-                    presenter.loadNowPlayingMoviesNext();
+                    presenter.getNowPlayingNext();
                 }
             }
         });
 
         if (savedInstanceState == null) {
-            presenter.loadNowPlayingMovies();
+            presenter.getNowPlaying();
         } /*else {
             List<Movie> movies = new ArrayList<>(savedInstanceState.getParcelableArrayList("movies"));
             adapter.addAll(movies);
@@ -127,13 +130,11 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MainMvp,
         outState.putParcelableArrayList("movies", adapter.movies);
     }*/
 
-    @SuppressLint("CheckResult")
     @Override
     public void onResume() {
         super.onResume();
 
-        Moviemade app = ((Moviemade) activity.getApplication());
-        app.eventBus().toObservable().subscribe(o -> {
+        ((Moviemade) activity.getApplication()).eventBus().toObservable().subscribe(o -> {
             if (o instanceof Events.MovieListRefreshLayout) {
                 refreshLayout();
             }
@@ -149,7 +150,7 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MainMvp,
     }
 
     @Override
-    public void setMovies(@NotNull List<Movie> movies, boolean f) {
+    public void setMovies(@NotNull List<Movie> movies) {
         connectionFailure = false;
         progressBar.setVisibility(View.GONE);
         adapter.addAll(movies);
@@ -166,8 +167,11 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MainMvp,
         }
     }
 
-    public MoviesAdapter getAdapter() {
-        return adapter;
+    @Override
+    public void onNetworkChanged() {
+        if (connectionFailure && adapter.getItemCount() == 0) {
+            presenter.getNowPlaying();
+        }
     }
 
     private void refreshLayout() {
@@ -181,10 +185,7 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MainMvp,
         gridLayoutManager.onRestoreInstanceState(state);
     }
 
-    @Override
-    public void onNetworkChanged() {
-        if (connectionFailure && adapter.getItemCount() == 0) {
-            presenter.loadNowPlayingMovies();
-        }
+    public MoviesAdapter getAdapter() {
+        return adapter;
     }
 }

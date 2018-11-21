@@ -1,5 +1,6 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/cell_height"
     android:foreground="?attr/selectableItemBackground">
@@ -16,7 +17,8 @@
         android:lines="1"
         android:maxLines="1"
         android:singleLine="true"
-        android:ellipsize="end"/>
+        android:ellipsize="end"
+        tools:text="Something"/>
 
     <View
         android:layout_width="match_parent"

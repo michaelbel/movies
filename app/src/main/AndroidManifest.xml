@@ -13,12 +13,12 @@
 
     <application
         android:name=".Moviemade"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:supportsRtl="true"
+        android:allowBackup="true"
         android:fullBackupContent="false">
 
         <activity android:name=".ui.modules.main.MainActivity" android:screenOrientation="user" android:launchMode="singleTask">
@@ -30,7 +30,8 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:host="auth_callback_anything" android:scheme="anything"/>
+                <!--Authorization callback URL looks like this: moviemade://main-->
+                <data android:host="main" android:scheme="moviemade"/>
             </intent-filter>
         </activity>
 
@@ -41,27 +42,7 @@
         <activity android:name=".ui.modules.search.SearchActivity" android:screenOrientation="user" android:configChanges="keyboard|keyboardHidden|orientation|screenSize" android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".ui.modules.settings.SettingsActivity" android:screenOrientation="user"/>
         <activity android:name=".ui.modules.about.AboutActivity" android:screenOrientation="user"/>
-
-        <activity android:name=".ui.modules.profile.ProfileActivity" android:screenOrientation="user"/>
-
-        <!--<receiver android:name=".ui.NetworkChangeReceiver">
-            <intent-filter>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-                <action android:name="android.net.wifi.WIFI_STATE_CHANGED"/>
-            </intent-filter>
-        </receiver>-->
-
-        <!--
-        <intent-filter>
-            <action android:name="android.intent.action.VIEW"/>
-            <category android:name="android.intent.category.DEFAULT"/>
-            <category android:name="android.intent.category.BROWSABLE"/>
-            <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/movie/"/> &lt;!&ndash;https://www.themoviedb.org/movie/&ndash;&gt;
-            <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/movie"/>  &lt;!&ndash;https://www.themoviedb.org/movie&ndash;&gt;
-            <data android:scheme="https" android:host="themoviedb.org" android:pathPrefix="/movie/"/>     &lt;!&ndash;https://themoviedb.org/movie/&ndash;&gt;
-            <data android:scheme="https" android:host="themoviedb.org" android:pathPrefix="/movie"/>      &lt;!&ndash;https://themoviedb.org/movie&ndash;&gt;
-        </intent-filter>
-        -->
+        <activity android:name=".ui.modules.favorite.FavoriteActivity" android:screenOrientation="user"/>
 
     </application>
 

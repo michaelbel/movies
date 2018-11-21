@@ -17,4 +17,6 @@ interface MediaMvp {
     fun startKeywords(movie: Movie)
 
     fun startKeyword(keyword: Keyword)
+
+    fun startFave(accountId: Int)
 }

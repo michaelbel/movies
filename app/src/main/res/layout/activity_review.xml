@@ -1,6 +1,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -14,7 +15,8 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            app:popupTheme="@style/ThemeOverlay.AppCompat">
+            app:popupTheme="@style/ThemeOverlay.AppCompat"
+            app:navigationIcon="@drawable/ic_arrow_back">
 
             <FrameLayout
                 android:layout_width="match_parent"
@@ -30,7 +32,8 @@
                     android:ellipsize="end"
                     android:textSize="18sp"
                     android:textColor="@color/primaryText"
-                    android:fontFamily="sans-serif-medium"/>
+                    android:fontFamily="sans-serif-medium"
+                    tools:text="Toolbar Title"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/toolbar_subtitle"
@@ -41,7 +44,8 @@
                     android:singleLine="true"
                     android:ellipsize="end"
                     android:textSize="14sp"
-                    android:textColor="@color/secondaryText"/>
+                    android:textColor="@color/secondaryText"
+                    tools:text="Toolbar Subtitle"/>
 
             </FrameLayout>
 
@@ -49,10 +53,11 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <fragment class="org.michaelbel.moviemade.ui.modules.reviews.fragment.ReviewFragment"
+    <fragment
         android:id="@+id/fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:name="org.michaelbel.moviemade.ui.modules.reviews.fragment.ReviewFragment"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

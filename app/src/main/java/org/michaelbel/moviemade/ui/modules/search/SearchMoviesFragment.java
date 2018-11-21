@@ -12,6 +12,7 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.BuildConfig;
+import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
@@ -93,19 +94,10 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                int totalItemCount = gridLayoutManager.getItemCount();
-                int visibleItemCount = gridLayoutManager.getChildCount();
-                int firstVisibleItemPosition = gridLayoutManager.findFirstVisibleItemPosition();
-
-                if (!presenter.isLoading && !presenter.isLastPage) {
-                    if ((visibleItemCount + firstVisibleItemPosition) >= totalItemCount && firstVisibleItemPosition >= 0) {
-                        presenter.isLoading = true;
-                        presenter.page++;
-                        presenter.loadNextPage();
-                    }
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (!recyclerView.canScrollVertically(1)) {
+                    presenter.loadNextPage();
                 }
             }
         });
@@ -156,27 +148,9 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
     }
 
     @Override
-    public void setMovies(@NotNull List<Movie> movies, boolean firstPage) {
-        if (firstPage) {
-            progressBar.setVisibility(View.GONE);
-            adapter.addAll(movies);
-
-            if (presenter.page < presenter.totalPages) {
-                // show loading
-            } else {
-                presenter.isLastPage = true;
-            }
-        } else {
-            // hide loading
-            presenter.isLoading = false;
-            adapter.addAll(movies);
-
-            if (presenter.page != presenter.totalPages) {
-                //adapter.addLoadingFooter();
-            } else {
-                presenter.isLastPage = true;
-            }
-        }
+    public void setMovies(@NotNull List<Movie> movies) {
+        progressBar.setVisibility(View.GONE);
+        adapter.addAll(movies);
     }
 
     @Override

@@ -4,211 +4,170 @@ import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.BuildConfig;
+import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.data.dao.Movie;
-import org.michaelbel.moviemade.data.dao.MoviesResponse;
 import org.michaelbel.moviemade.data.service.MOVIES;
-import org.michaelbel.moviemade.utils.ApiFactory;
-import org.michaelbel.moviemade.utils.ConstantsKt;
+import org.michaelbel.moviemade.log;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 import org.michaelbel.moviemade.utils.RxUtil;
+import org.michaelbel.moviemade.utils.TmdbConfigKt;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import io.reactivex.Observable;
+import javax.inject.Inject;
+
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
 
 @InjectViewState
 public class MainPresenter extends MvpPresenter<MainMvp> {
 
+    private int page;
     private Disposable nowPlayingSubscription;
-    private Disposable topRatedDispisable;
-    private Disposable upcomingDispisable;
-    private int currentPage = 1;
+    private Disposable nowPlayingSubscription2;
+    private Disposable topRatedSubscription;
+    private Disposable topRatedSubscription2;
+    private Disposable upcomingSubscription;
+    private Disposable upcomingSubscription2;
 
-    public int page = 1;
-    public int totalPages;
-    public boolean isLoading = false;
-    public boolean isLastPage = false;
-    private final CompositeDisposable disposables = new CompositeDisposable();
+    @Inject Retrofit retrofit;
 
-    public void loadNowPlayingMovies() {
+    public MainPresenter() {
+        Moviemade.getComponent().injest(this);
+    }
+
+    public void getNowPlaying() {
         if (NetworkUtil.INSTANCE.notConnected()) {
             getViewState().setError(EmptyViewMode.MODE_NO_CONNECTION);
             return;
         }
 
-        currentPage = 1;
+        page = 1;
 
-        MOVIES service = ApiFactory.createService2(MOVIES.class);
-        nowPlayingSubscription = service.getNowPlaying(BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, currentPage)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doFinally(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        // do finally.
-                    }
-                })
-                .subscribe(new Consumer<MoviesResponse>() {
-                    @Override
-                    public void accept(MoviesResponse response) throws Exception {
-                        List<Movie> results = new ArrayList<>(response.getMovies());
-                        if (results.isEmpty()) {
-                            getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
-                            return;
-                        }
-                        getViewState().setMovies(results, true);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable e) throws Exception {
-                        getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
-                    }
-                });
-    }
-
-    public void loadNowPlayingMoviesNext() {
-        currentPage++;
-        MOVIES service = ApiFactory.createService2(MOVIES.class);
-        nowPlayingSubscription = service.getNowPlaying(BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, currentPage)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doFinally(new Action() {
-                    @Override
-                    public void run() throws Exception {
-                        // do finally.
-                    }
-                })
-                .subscribe(new Consumer<MoviesResponse>() {
-                    @Override
-                    public void accept(MoviesResponse response) throws Exception {
-                        List<Movie> results = new ArrayList<>(response.getMovies());
-                        if (results.isEmpty()) {
-                            getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
-                            return;
-                        }
-                        getViewState().setMovies(results, true);
-                    }
-                }, new Consumer<Throwable>() {
-                    @Override
-                    public void accept(Throwable e) throws Exception {
-                        //getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
-                    }
-                });
-    }
-
-    public void loadTopRatedMovies() {
-        if (NetworkUtil.INSTANCE.notConnected()) {
-            getViewState().setError(EmptyViewMode.MODE_NO_CONNECTION);
-            return;
-        }
-
-        MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<MoviesResponse> observable = service.getTopRated(BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
-            @Override
-            public void onNext(MoviesResponse response) {
-                totalPages = response.getTotalPages();
+        MOVIES service = retrofit.create(MOVIES.class);
+        nowPlayingSubscription = service.getNowPlaying(BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            /*.doFinally(new Action() {
+                @Override
+                public void run() {
+                    do smth.
+                }
+            })*/
+            .subscribe(response -> {
                 List<Movie> results = new ArrayList<>(response.getMovies());
                 if (results.isEmpty()) {
                     getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
                     return;
                 }
-                getViewState().setMovies(results, true);
-            }
-
-            @Override
-            public void onError(Throwable e) {
+                getViewState().setMovies(results);
+            }, e -> {
                 getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
-            }
-
-            @Override
-            public void onComplete() {}
-        }));
-    }
-
-    public void loadTopRatedMoviesNext() {
-        MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<MoviesResponse> observable = service.getTopRated(BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
-            @Override
-            public void onNext(MoviesResponse response) {
-                List<Movie> results = new ArrayList<>(response.getMovies());
-                getViewState().setMovies(results, false);
-            }
-
-            @Override
-            public void onError(Throwable e) {
                 e.printStackTrace();
-            }
-
-            @Override
-            public void onComplete() {}
-        }));
+            });
     }
 
-    public void loadUpcomingMovies() {
-        if (NetworkUtil.INSTANCE.notConnected()) {
-            getViewState().setError(EmptyViewMode.MODE_NO_CONNECTION);
-            return;
-        }
+    public void getNowPlayingNext() {
+        page++;
 
-        MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<MoviesResponse> observable = service.getUpcoming(BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
-            @Override
-            public void onNext(MoviesResponse response) {
-                totalPages = response.getTotalPages();
+        MOVIES service = retrofit.create(MOVIES.class);
+        nowPlayingSubscription2 = service.getNowPlaying(BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe(response -> {
                 List<Movie> results = new ArrayList<>(response.getMovies());
                 if (results.isEmpty()) {
                     getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
                     return;
                 }
-                getViewState().setMovies(results, true);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
-            }
-
-            @Override
-            public void onComplete() {}
-        }));
+                getViewState().setMovies(results);
+            });
     }
 
-    public void loadUpcomingMoviesNext() {
-        MOVIES service = ApiFactory.createService2(MOVIES.class);
-        Observable<MoviesResponse> observable = service.getUpcoming(BuildConfig.TMDB_API_KEY, ConstantsKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
-            @Override
-            public void onNext(MoviesResponse response) {
+    public void getTopRated() {
+        if (NetworkUtil.INSTANCE.notConnected()) {
+            getViewState().setError(EmptyViewMode.MODE_NO_CONNECTION);
+            return;
+        }
+
+        page = 1;
+
+        MOVIES service = retrofit.create(MOVIES.class);
+        topRatedSubscription = service.getTopRated(BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe(response -> {
                 List<Movie> results = new ArrayList<>(response.getMovies());
-                getViewState().setMovies(results, false);
-            }
-
-            @Override
-            public void onError(Throwable e) {
+                if (results.isEmpty()) {
+                    getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
+                    return;
+                }
+                getViewState().setMovies(results);
+            }, e -> {
+                getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
                 e.printStackTrace();
-            }
+            });
+    }
 
-            @Override
-            public void onComplete() {}
-        }));
+    public void getTopRatedNext() {
+        page++;
+
+        MOVIES service = retrofit.create(MOVIES.class);
+        topRatedSubscription2 = service.getTopRated(BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe(response -> {
+                List<Movie> results = new ArrayList<>(response.getMovies());
+                if (results.isEmpty()) {
+                    getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
+                    return;
+                }
+                getViewState().setMovies(results);
+            });
+    }
+
+    public void getUpcoming() {
+        if (NetworkUtil.INSTANCE.notConnected()) {
+            getViewState().setError(EmptyViewMode.MODE_NO_CONNECTION);
+            return;
+        }
+
+        page = 1;
+
+        MOVIES service = retrofit.create(MOVIES.class);
+        upcomingSubscription = service.getUpcoming(BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe(response -> {
+                List<Movie> results = new ArrayList<>(response.getMovies());
+                if (results.isEmpty()) {
+                    getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
+                    return;
+                }
+                getViewState().setMovies(results);
+            }, e -> {
+                getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
+                e.printStackTrace();
+            });
+    }
+
+    public void getUpcomingNext() {
+        page++;
+
+        MOVIES service = retrofit.create(MOVIES.class);
+        upcomingSubscription2 = service.getUpcoming(BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe(response -> {
+                List<Movie> results = new ArrayList<>(response.getMovies());
+                if (results.isEmpty()) {
+                    getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
+                    return;
+                }
+                getViewState().setMovies(results);
+            });
     }
 
     @Override
     public void onDestroy() {
-        disposables.dispose();
         super.onDestroy();
         RxUtil.INSTANCE.unsubscribe(nowPlayingSubscription);
+        RxUtil.INSTANCE.unsubscribe(nowPlayingSubscription2);
+        RxUtil.INSTANCE.unsubscribe(topRatedSubscription);
+        RxUtil.INSTANCE.unsubscribe(topRatedSubscription2);
+        RxUtil.INSTANCE.unsubscribe(upcomingSubscription);
+        RxUtil.INSTANCE.unsubscribe(upcomingSubscription2);
     }
 }

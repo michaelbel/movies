@@ -1,9 +1,12 @@
 package org.michaelbel.moviemade.ui.modules.movie
 
 import com.arellomobile.mvp.MvpView
+import org.michaelbel.moviemade.data.dao.MarkFave
 import org.michaelbel.moviemade.data.dao.Movie
 
 interface MovieMvp : MvpView {
+
+    // TODO: Pass objects, not data types.
 
     fun setPoster(posterPath: String)
 
@@ -25,7 +28,9 @@ interface MovieMvp : MvpView {
 
     fun setURLs(imdbId: String, homepage: String)
 
-    fun setWatching(watch: Boolean)
+    fun setStates(fave: Boolean)
+
+    fun onFavoriteChanged(markFave: MarkFave)
 
     fun setCredits(casts: String, directors: String, writers: String, producers: String)
 

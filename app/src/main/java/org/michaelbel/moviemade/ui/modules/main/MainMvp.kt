@@ -6,7 +6,7 @@ import org.michaelbel.moviemade.utils.EmptyViewMode
 
 interface MainMvp : MvpView {
 
-    fun setMovies(movies: List<Movie>, firstPage: Boolean)
+    fun setMovies(movies: List<Movie>)
 
     fun setError(@EmptyViewMode mode: Int)
 }

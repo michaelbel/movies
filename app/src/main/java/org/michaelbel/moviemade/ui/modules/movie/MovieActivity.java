@@ -11,12 +11,13 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
+import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.ui.modules.main.views.appbar.AppBarState;
 import org.michaelbel.moviemade.ui.modules.main.views.appbar.AppBarStateChangeListener;
-import org.michaelbel.moviemade.utils.ConstantsKt;
+import org.michaelbel.moviemade.utils.TmdbConfigKt;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 import org.michaelbel.moviemade.utils.IntentsKt;
 
@@ -59,7 +60,7 @@ public class MovieActivity extends BaseActivity {
         MovieFragment fragment = (MovieFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
         if (fragment != null) {
             fragment.presenter.setMovieDetailsFromExtra(movie);
-            fragment.presenter.loadMovieDetails(movie.getId());
+            fragment.presenter.loadDetails((Moviemade) getApplication(), movie.getId());
         }
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.primary));
@@ -84,7 +85,7 @@ public class MovieActivity extends BaseActivity {
         });
 
         toolbarTitle.setText(movie.getTitle());
-        Glide.with(this).load(String.format(Locale.US, ConstantsKt.TMDB_IMAGE, "original", movie.getBackdropPath())).thumbnail(0.1F).into(backdropImage);
+        Glide.with(this).load(String.format(Locale.US, TmdbConfigKt.TMDB_IMAGE, "original", movie.getBackdropPath())).thumbnail(0.1F).into(backdropImage);
 
         collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(this, R.color.primary));
         collapsingToolbarLayout.setStatusBarScrimColor(ContextCompat.getColor(this, android.R.color.transparent));
@@ -110,7 +111,7 @@ public class MovieActivity extends BaseActivity {
     }
 
     public void showSystemStatusBar(boolean state) {
-        // If Version SDK >= KITKAT
+        // If Version SDK >= KITKAT.
         int flags = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION | View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_IMMERSIVE;
         getWindow().getDecorView().setSystemUiVisibility(state ? 0 : flags);
     }

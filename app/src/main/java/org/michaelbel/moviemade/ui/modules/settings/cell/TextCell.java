@@ -212,34 +212,6 @@ public class TextCell extends FrameLayout {
         return this;
     }
 
-    private void changeSwitchTheme() {
-        /*int thumbOn = ContextCompat.getColor(getContext(), Theme.thumbOnColor());
-        int thumbOff = ContextCompat.getColor(getContext(), Theme.thumbOffColor());
-
-        int trackOn = ContextCompat.getColor(getContext(), Theme.trackOnColor());
-        int trackOff = ContextCompat.getColor(getContext(), Theme.trackOffColor());
-
-        DrawableCompat.setTintList(switchCompat.getThumbDrawable(), new ColorStateList(
-                new int[][]{
-                        new int[]{ android.R.attr.state_checked },
-                        new int[]{}
-                },
-                new int[]{
-                        thumbOn,
-                        thumbOff
-                }));
-
-        DrawableCompat.setTintList(switchCompat.getTrackDrawable(), new ColorStateList(
-                new int[][]{
-                        new int[]{ android.R.attr.state_checked  },
-                        new int[]{}
-                },
-                new int[]{
-                        trackOn,
-                        trackOff
-                }));*/
-    }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);

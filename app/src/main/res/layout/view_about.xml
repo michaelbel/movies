@@ -1,5 +1,6 @@
 <androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/view_about_padding"
@@ -20,7 +21,8 @@
         android:layout_marginTop="@dimen/view_about_name_margin_top"
         android:textSize="@dimen/view_about_name_text_size"
         android:textColor="@color/secondaryText"
-        android:fontFamily="sans-serif-medium"/>
+        android:fontFamily="sans-serif-medium"
+        tools:text="Moviemade for Android"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/version_text"
@@ -30,6 +32,7 @@
         android:layout_marginTop="@dimen/view_about_version_margin_top"
         android:textSize="@dimen/view_about_version_text_size"
         android:textColor="@color/secondaryText"
-        android:fontFamily="sans-serif"/>
+        android:fontFamily="sans-serif"
+        tools:text="Version 0.3.9 (Build) of 17 Now 2018"/>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -8,6 +8,7 @@ import org.michaelbel.moviemade.data.dao.Keyword;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.data.dao.Review;
 import org.michaelbel.moviemade.moxy.MvpAppCompatActivity;
+import org.michaelbel.moviemade.ui.modules.favorite.FavoriteActivity;
 import org.michaelbel.moviemade.ui.modules.movie.MovieActivity;
 import org.michaelbel.moviemade.ui.modules.reviews.activity.ReviewActivity;
 import org.michaelbel.moviemade.ui.modules.reviews.activity.ReviewsActivity;
@@ -73,6 +74,13 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseMvp, Media
     public void startReviews(@NonNull Movie movie) {
         Intent intent = new Intent(this, ReviewsActivity.class);
         intent.putExtra(IntentsKt.MOVIE, movie);
+        startActivity(intent);
+    }
+
+    @Override
+    public void startFave(int accountId) {
+        Intent intent = new Intent(this, FavoriteActivity.class);
+        intent.putExtra(IntentsKt.ACCOUNT_ID, accountId);
         startActivity(intent);
     }
 
