@@ -1,0 +1,17 @@
+language: android
+
+jdk: oraclejdk8
+
+branches:
+  only:
+    - master
+
+script: "./gradlew clean assembleDebug"
+
+android:
+  components:
+    - platform-tools
+    - tools
+    - build-tools-27.0.3
+    - android-28
+    - extra-android-m2repository
