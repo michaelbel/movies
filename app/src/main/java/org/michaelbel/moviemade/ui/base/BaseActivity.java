@@ -1,6 +1,7 @@
 package org.michaelbel.moviemade.ui.base;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.View;
 
 import org.jetbrains.annotations.NotNull;
@@ -20,6 +21,13 @@ import androidx.fragment.app.Fragment;
 
 @SuppressWarnings("registered")
 public class BaseActivity extends MvpAppCompatActivity implements BaseMvp, MediaMvp {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+//--BaseMvp-----------------------------------------------------------------------------------------
 
     @Override
     public void startFragment(@NonNull Fragment fragment, @NonNull View container) {
@@ -46,7 +54,7 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseMvp, Media
         getSupportFragmentManager().popBackStack();
     }
 
-//--MediaMvp--------------------------------------------------------------------------------------
+//--MediaMvp----------------------------------------------------------------------------------------
 
     @Override
     public void startMovie(@NonNull Movie movie) {
