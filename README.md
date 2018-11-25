@@ -1,4 +1,4 @@
-[github-url]:        https://github.com/michaelbel/moviemade
+[github]:            https://github.com/michaelbel/moviemade
 [paypal-url]:        https://paypal.me/michaelbel
 [licence-url]:       http://www.apache.org/licenses/LICENSE-2.0
 [googleplay-url]:    https://play.google.com/store/apps/details?id=org.michaelbel.moviemade
@@ -17,8 +17,8 @@
 Moviemade
 =
 
-[![platform-badge]][github-url]
-[![minsdk-badge]][github-url]
+[![platform-badge]][github]
+[![minsdk-badge]][github]
 [![license-badge]][licence-url]
 [![paypal-badge]][paypal-url]
 [![googleplay-badge]][googleplay-url]
