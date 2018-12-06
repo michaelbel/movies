@@ -1,4 +1,4 @@
-[github-url]:        https://github.com/michaelbel/moviemade
+[github]:            https://github.com/michaelbel/moviemade
 [paypal-url]:        https://paypal.me/michaelbel
 [licence-url]:       http://www.apache.org/licenses/LICENSE-2.0
 [googleplay-url]:    https://play.google.com/store/apps/details?id=org.michaelbel.moviemade
@@ -10,15 +10,15 @@
 [googleplay-badge]: https://img.shields.io/badge/Google_Play-Demo-F3745F.svg
 [minsdk-badge]:     https://img.shields.io/badge/minSdkVersion-21-F3745F.svg
 
-<!--------------------------------------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------------------------------->
 <img src="screenshots/mockup2.png"/>
 <img src="../master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="192" align="right" hspace="20"/>
 
 Moviemade
 =
 
-[![platform-badge]][github-url]
-[![minsdk-badge]][github-url]
+[![platform-badge]][github]
+[![minsdk-badge]][github]
 [![license-badge]][licence-url]
 [![paypal-badge]][paypal-url]
 [![googleplay-badge]][googleplay-url]
