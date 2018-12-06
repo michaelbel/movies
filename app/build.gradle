@@ -30,14 +30,28 @@ android {
         buildConfigField "String", "VERSION_DATE", '"21 Nov 2018"'
         project.ext.set("archivesBaseName", "moviemade-v" + versionName)
         buildConfigField "String", "TMDB_API_KEY", "\"${getProperty("local.properties", "tmdb_api_key")}\""
-
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    def keystorePropertiesFile = rootProject.file("keystore.properties")
+    def keystoreProperties = new Properties()
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+    // Command: gradlew assembleRelease
+
+    signingConfigs {
+        release {
+            keyAlias keystoreProperties['RELEASE_KEY_ALIAS']
+            keyPassword keystoreProperties['RELEASE_KEY_PASS']
+            storeFile file(keystoreProperties['RELEASE_STORE_FILE'])
+            storePassword keystoreProperties['RELEASE_STORE_PASS']
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 
@@ -46,13 +60,11 @@ android {
     productFlavors {
         releasing {
             flavorDimensions "market"
-            //minSdkVersion 21
             applicationId "org.michaelbel.moviemade"
         }
 
         developing {
             flavorDimensions "develop"
-            //minSdkVersion 21
             applicationId "org.michaelbel.moviemade.beta"
         }
     }
