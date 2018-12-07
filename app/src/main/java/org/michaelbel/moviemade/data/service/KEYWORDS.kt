@@ -15,7 +15,7 @@ interface KEYWORDS {
         @Query("api_key") apiKey: String
     ): Observable<Keyword>
 
-    @GET("keyword/{keyword_id}/parts")
+    @GET("keyword/{keyword_id}/movies")
     fun getMovies(
         @Path("keyword_id") id: Int,
         @Query("api_key") apiKey: String,

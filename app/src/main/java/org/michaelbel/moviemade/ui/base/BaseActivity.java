@@ -10,6 +10,8 @@ import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.data.dao.Review;
 import org.michaelbel.moviemade.moxy.MvpAppCompatActivity;
 import org.michaelbel.moviemade.ui.modules.favorite.FavoriteActivity;
+import org.michaelbel.moviemade.ui.modules.keywords.KeywordActivity;
+import org.michaelbel.moviemade.ui.modules.keywords.KeywordsActivity;
 import org.michaelbel.moviemade.ui.modules.movie.MovieActivity;
 import org.michaelbel.moviemade.ui.modules.reviews.activity.ReviewActivity;
 import org.michaelbel.moviemade.ui.modules.reviews.activity.ReviewsActivity;
@@ -94,11 +96,15 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseMvp, Media
 
     @Override
     public void startKeywords(@NotNull Movie movie) {
-
+        Intent intent = new Intent(this, KeywordsActivity.class);
+        intent.putExtra(IntentsKt.MOVIE, movie);
+        startActivity(intent);
     }
 
     @Override
     public void startKeyword(@NotNull Keyword keyword) {
-
+        Intent intent = new Intent(this, KeywordActivity.class);
+        intent.putExtra(IntentsKt.KEYWORD, keyword);
+        startActivity(intent);
     }
 }

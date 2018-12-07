@@ -5,8 +5,11 @@ import org.michaelbel.moviemade.ui.modules.account.AccountFragment;
 import org.michaelbel.moviemade.ui.modules.account.AccountPresenter;
 import org.michaelbel.moviemade.ui.modules.favorite.FaveFragment;
 import org.michaelbel.moviemade.ui.modules.favorite.FavePresenter;
+import org.michaelbel.moviemade.ui.modules.keywords.KeywordPresenter;
+import org.michaelbel.moviemade.ui.modules.keywords.KeywordsPresenter;
 import org.michaelbel.moviemade.ui.modules.main.MainActivity;
 import org.michaelbel.moviemade.ui.modules.main.MainPresenter;
+import org.michaelbel.moviemade.ui.modules.movie.MovieActivity;
 import org.michaelbel.moviemade.ui.modules.movie.MovieFragment;
 import org.michaelbel.moviemade.ui.modules.movie.MoviePresenter;
 import org.michaelbel.moviemade.ui.modules.reviews.ReviewsPresenter;
@@ -23,6 +26,7 @@ import dagger.Component;
 @Component(modules = {AppModule.class})
 public interface AppComponent {
     void injest(MainActivity activity);
+    void injest(MovieActivity activity);
 
     void injest(MovieFragment fragment);
     void injest(ReviewFragment fragment);
@@ -37,4 +41,6 @@ public interface AppComponent {
     void injest(SearchMoviesPresenter presenter);
     void injest(AccountPresenter presenter);
     void injest(FavePresenter presenter);
+    void injest(KeywordsPresenter presenter);
+    void injest(KeywordPresenter presenter);
 }
