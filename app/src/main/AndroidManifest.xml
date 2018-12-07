@@ -43,6 +43,7 @@
         <activity android:name=".ui.modules.settings.SettingsActivity" android:screenOrientation="user"/>
         <activity android:name=".ui.modules.about.AboutActivity" android:screenOrientation="user"/>
         <activity android:name=".ui.modules.favorite.FavoriteActivity" android:screenOrientation="user"/>
+        <activity android:name=".ui.modules.keywords.KeywordsActivity" android:screenOrientation="user"/>
 
     </application>
 
