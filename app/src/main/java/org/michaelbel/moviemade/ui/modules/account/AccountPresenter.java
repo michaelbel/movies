@@ -13,7 +13,6 @@ import org.michaelbel.moviemade.data.dao.SessionId;
 import org.michaelbel.moviemade.data.dao.Username;
 import org.michaelbel.moviemade.data.service.ACCOUNT;
 import org.michaelbel.moviemade.data.service.AUTHENTICATION;
-import org.michaelbel.moviemade.log;
 import org.michaelbel.moviemade.utils.Error;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 import org.michaelbel.moviemade.utils.RxUtil;

@@ -7,7 +7,6 @@ import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.data.service.MOVIES;
-import org.michaelbel.moviemade.log;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 import org.michaelbel.moviemade.utils.RxUtil;

@@ -5,11 +5,8 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.Moviemade;
-import org.michaelbel.moviemade.data.dao.Keyword;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.data.service.KEYWORDS;
-import org.michaelbel.moviemade.data.service.MOVIES;
-import org.michaelbel.moviemade.log;
 import org.michaelbel.moviemade.utils.AdultUtil;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;

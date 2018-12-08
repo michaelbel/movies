@@ -19,7 +19,6 @@ import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.data.dao.Watch;
 import org.michaelbel.moviemade.data.service.ACCOUNT;
 import org.michaelbel.moviemade.data.service.MOVIES;
-import org.michaelbel.moviemade.log;
 import org.michaelbel.moviemade.utils.DateUtil;
 import org.michaelbel.moviemade.utils.LanguageUtil;
 import org.michaelbel.moviemade.utils.NetworkUtil;

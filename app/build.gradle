@@ -25,9 +25,9 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
 
-        versionCode 53
-        versionName "1.0.1"
-        buildConfigField "String", "VERSION_DATE", '"21 Nov 2018"'
+        versionCode 54
+        versionName "1.0.2"
+        buildConfigField "String", "VERSION_DATE", '"08 Dec 2018"'
         project.ext.set("archivesBaseName", "moviemade-v" + versionName)
         buildConfigField "String", "TMDB_API_KEY", "\"${getProperty("local.properties", "tmdb_api_key")}\""
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
