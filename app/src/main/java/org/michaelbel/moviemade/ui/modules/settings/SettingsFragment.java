@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class SettingsFragment extends Fragment {
 
@@ -36,11 +37,11 @@ public class SettingsFragment extends Fragment {
     private int adultRow;
     private int aboutRow;
 
+    private Unbinder unbinder;
     private SettingsActivity activity;
     private LinearLayoutManager linearLayoutManager;
 
-    @Inject
-    SharedPreferences sharedPreferences;
+    @Inject SharedPreferences sharedPreferences;
 
     @BindView(R.id.recycler_view)
     public RecyclerListView recyclerView;
@@ -56,7 +57,7 @@ public class SettingsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         activity.toolbar.setNavigationOnClickListener(v -> activity.finish());
         activity.toolbarTitle.setText(R.string.settings);
@@ -104,6 +105,12 @@ public class SettingsFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         linearLayoutManager.onRestoreInstanceState(state);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 
     private class SettingsAdapter extends RecyclerView.Adapter {

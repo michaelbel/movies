@@ -31,7 +31,7 @@
         app:cardBackgroundColor="@color/foreground">
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/username_text"
+            android:id="@+id/username_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -60,7 +60,7 @@
         app:cardBackgroundColor="@color/foreground">
 
         <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/password_text"
+            android:id="@+id/password_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"

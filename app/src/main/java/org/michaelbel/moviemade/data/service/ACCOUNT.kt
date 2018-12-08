@@ -1,10 +1,7 @@
 package org.michaelbel.moviemade.data.service
 
 import io.reactivex.Observable
-import org.michaelbel.moviemade.data.dao.Account
-import org.michaelbel.moviemade.data.dao.Fave
-import org.michaelbel.moviemade.data.dao.MarkFave
-import org.michaelbel.moviemade.data.dao.MoviesResponse
+import org.michaelbel.moviemade.data.dao.*
 import retrofit2.http.*
 
 interface ACCOUNT {
@@ -14,14 +11,6 @@ interface ACCOUNT {
         @Query("api_key") apiKey: String,
         @Query("session_id") sessionId: String
     ): Observable<Account>
-
-    @GET("account/{account_id}/lists?")
-    fun getCreatedLists(
-        @Path("account_id") id: Int,
-        @Query("api_key") apiKey: String,
-        @Query("session_id") sessionId: String,
-        @Query("language") language: String
-    ): Observable<*>
 
     @GET("account/{account_id}/favorite/movies?")
     fun getFavoriteMovies(
@@ -33,6 +22,34 @@ interface ACCOUNT {
         @Query("page") page: Int
     ): Observable<MoviesResponse>
 
+    @POST("account/{account_id}/favorite?")
+    fun markAsFavorite(
+        @Header("Content-Type") contentType: String,
+        @Path("account_id") id: Int,
+        @Query("api_key") apiKey: String,
+        @Query("session_id") sessionId: String,
+        @Body fave: Fave
+    ): Observable<Mark>
+
+    @GET("account/{account_id}/watchlist/movies?")
+    fun getWatchlistMovies(
+        @Path("account_id") id: Int,
+        @Query("api_key") apiKey: String,
+        @Query("session_id") sessionId: String,
+        @Query("language") language: String,
+        @Query("sort_by") sort: String,
+        @Query("page") page: Int
+    ): Observable<MoviesResponse>
+
+    @POST("account/{account_id}/watchlist?")
+    fun addToWatchlist(
+        @Header("Content-Type") contentType: String,
+        @Path("account_id") id: Int,
+        @Query("api_key") apiKey: String,
+        @Query("session_id") sessionId: String,
+        @Body watch: Watch
+    ): Observable<Mark>
+
     @GET("account/{account_id}/favorite/tv?")
     fun getFavoriteTVShows(
         @Path("account_id") accountId: Int,
@@ -42,14 +59,13 @@ interface ACCOUNT {
         @Query("sort_by") sort: String
     ): Observable<MoviesResponse>
 
-    @POST("account/{account_id}/favorite?")
-    fun markAsFavorite(
-        @Header("Content-Type") contentType: String,
+    @GET("account/{account_id}/lists?")
+    fun getCreatedLists(
         @Path("account_id") id: Int,
         @Query("api_key") apiKey: String,
         @Query("session_id") sessionId: String,
-        @Body fave: Fave
-    ): Observable<MarkFave>
+        @Query("language") language: String
+    ): Observable<*>
 
     @GET("account/{account_id}/rated/parts?")
     fun getRatedMovies(
@@ -78,15 +94,6 @@ interface ACCOUNT {
         @Query("sort_by") sort: String
     ): Observable<*>
 
-    @GET("account/{account_id}/watching/parts?")
-    fun getMovieWatchlist(
-        @Path("account_id") id: Int,
-        @Query("api_key") apiKey: String,
-        @Query("session_id") sessionId: String,
-        @Query("language") language: String,
-        @Query("sort_by") sort: String
-    ): Observable<MoviesResponse>
-
     @GET("account/{account_id}/watching/tv?")
     fun getTVShowsWatchlist(
         @Path("account_id") id: Int,
@@ -95,11 +102,4 @@ interface ACCOUNT {
         @Query("language") language: String,
         @Query("sort_by") sort: String
     ): Observable<MoviesResponse>
-
-    @POST("account/{account_id}/watching?")
-    fun addToWatchlist(
-        @Path("account_id") id: Int,
-        @Query("api_key") apiKey: String,
-        @Query("session_id") sessionId: String
-    ): Observable<*>
 }

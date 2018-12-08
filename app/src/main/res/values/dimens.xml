@@ -118,4 +118,8 @@
     <dimen name="badge_width_padding">4dp</dimen><!-- 4 -->
     <dimen name="badge_height_padding">1dp</dimen><!-- 1 -->
     <dimen name="badge_top_margin">2dp</dimen><!-- 2 -->
+
+    <!--BottomSheet-->
+    <dimen name="design_bottom_sheet_modal_elevation2">16dp</dimen>
+    <dimen name="design_bottom_sheet_peek_height_min2">64dp</dimen>
 </resources>

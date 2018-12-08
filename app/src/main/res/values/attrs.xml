@@ -20,4 +20,23 @@
         </attr>
         <attr name="bnbAutoHideEnabled" format="boolean" />
     </declare-styleable>
+
+    <!--BottomSheet-->
+    <!-- Theme to use for modal bottom sheet dialogs spawned from this theme. -->
+    <attr name="bottomSheetDialogTheme" format="reference"/>
+    <!-- Style to use for modal bottom sheets in this theme. -->
+    <attr name="bottomSheetStyle" format="reference"/>
+    <declare-styleable name="BottomSheetBehavior_Layout">
+        <!-- The height of the bottom sheet when it is collapsed. -->
+        <attr name="behavior_peekHeight" format="dimension">
+            <!-- Peek at the 16:9 ratio keyline of its parent -->
+            <enum name="auto" value="-1"/>
+        </attr>
+        <!-- Whether this bottom sheet can be hidden by dragging it further downwards -->
+        <attr name="behavior_hideable" format="boolean"/>
+        <!-- Skip the collapsed state once expanded; no effect unless it is hideable -->
+        <attr name="behavior_skipCollapsed" format="boolean"/>
+        <!-- Whether height of expanded sheet wraps content or not -->
+        <attr name="behavior_fitToContents" format="boolean"/>
+    </declare-styleable>
 </resources>

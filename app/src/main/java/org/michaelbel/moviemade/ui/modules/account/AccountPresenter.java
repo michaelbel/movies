@@ -42,7 +42,7 @@ public class AccountPresenter extends MvpPresenter<AccountMvp> {
     @Inject Retrofit retrofit;
     @Inject SharedPreferences sharedPreferences;
 
-    public AccountPresenter() {
+    AccountPresenter() {
         Moviemade.getComponent().injest(this);
     }
 
@@ -127,7 +127,7 @@ public class AccountPresenter extends MvpPresenter<AccountMvp> {
                     if (code == StatusCodeKt.CODE_401) {
                         getViewState().setError(Error.ERROR_UNAUTHORIZED);
                     } else if (code == StatusCodeKt.CODE_404) {
-                        // do smth.
+                        // todo do smth.
                     }
                 });
     }
@@ -140,18 +140,18 @@ public class AccountPresenter extends MvpPresenter<AccountMvp> {
 
         AUTHENTICATION service = retrofit.create(AUTHENTICATION.class);
         disposable5 = service.createRequestToken(BuildConfig.TMDB_API_KEY).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    if (response != null) {
-                        if (response.getSuccess()) {
-                            sharedPreferences.edit().putString(SharedPrefsKt.KEY_TOKEN, response.getRequestToken()).apply();
-                            sharedPreferences.edit().putString(SharedPrefsKt.KEY_DATE_AUTHORISED, response.getDate()).apply();
-                            getViewState().startBrowserAuth(response.getRequestToken());
-                        }
+            .subscribe(response -> {
+                if (response != null) {
+                    if (response.getSuccess()) {
+                        sharedPreferences.edit().putString(SharedPrefsKt.KEY_TOKEN, response.getRequestToken()).apply();
+                        sharedPreferences.edit().putString(SharedPrefsKt.KEY_DATE_AUTHORISED, response.getDate()).apply();
+                        getViewState().startBrowserAuth(response.getRequestToken());
                     }
-                }, e -> {
-                    getViewState().setError(Error.ERROR_CONNECTION_NO_TOKEN);
-                    e.printStackTrace();
-                });
+                }
+            }, e -> {
+                getViewState().setError(Error.ERROR_CONNECTION_NO_TOKEN);
+                e.printStackTrace();
+            });
     }
 
     void createRequestToken(String name, String pass) {
@@ -162,19 +162,19 @@ public class AccountPresenter extends MvpPresenter<AccountMvp> {
 
         AUTHENTICATION service = retrofit.create(AUTHENTICATION.class);
         disposable6 = service.createRequestToken(BuildConfig.TMDB_API_KEY).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    if (response != null) {
-                        if (response.getSuccess()) {
-                            sharedPreferences.edit().putString(SharedPrefsKt.KEY_TOKEN, response.getRequestToken()).apply();
-                            sharedPreferences.edit().putString(SharedPrefsKt.KEY_DATE_AUTHORISED, response.getDate()).apply();
-                            Username username = new Username(name, pass, response.getRequestToken());
-                            authWithLogin(username);
-                        }
+            .subscribe(response -> {
+                if (response != null) {
+                    if (response.getSuccess()) {
+                        sharedPreferences.edit().putString(SharedPrefsKt.KEY_TOKEN, response.getRequestToken()).apply();
+                        sharedPreferences.edit().putString(SharedPrefsKt.KEY_DATE_AUTHORISED, response.getDate()).apply();
+                        Username username = new Username(name, pass, response.getRequestToken());
+                        authWithLogin(username);
                     }
-                }, e -> {
-                    getViewState().setError(Error.ERROR_CONNECTION_NO_TOKEN);
-                    e.printStackTrace();
-                });
+                }
+            }, e -> {
+                getViewState().setError(Error.ERROR_CONNECTION_NO_TOKEN);
+                e.printStackTrace();
+            });
     }
 
     @Override

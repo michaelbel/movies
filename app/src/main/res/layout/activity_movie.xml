@@ -54,7 +54,6 @@
                         android:lines="1"
                         android:maxLines="1"
                         android:singleLine="true"
-                        android:textSize="20sp"
                         android:ellipsize="end"
                         style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
 

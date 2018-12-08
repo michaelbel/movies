@@ -9,13 +9,14 @@ import org.michaelbel.moviemade.data.dao.Keyword;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.data.dao.Review;
 import org.michaelbel.moviemade.moxy.MvpAppCompatActivity;
-import org.michaelbel.moviemade.ui.modules.favorite.FavoriteActivity;
-import org.michaelbel.moviemade.ui.modules.keywords.KeywordActivity;
-import org.michaelbel.moviemade.ui.modules.keywords.KeywordsActivity;
+import org.michaelbel.moviemade.ui.modules.favorites.FavoriteActivity;
+import org.michaelbel.moviemade.ui.modules.keywords.activity.KeywordActivity;
+import org.michaelbel.moviemade.ui.modules.keywords.activity.KeywordsActivity;
 import org.michaelbel.moviemade.ui.modules.movie.MovieActivity;
 import org.michaelbel.moviemade.ui.modules.reviews.activity.ReviewActivity;
 import org.michaelbel.moviemade.ui.modules.reviews.activity.ReviewsActivity;
 import org.michaelbel.moviemade.ui.modules.trailers.TrailersActivity;
+import org.michaelbel.moviemade.ui.modules.watchlist.WatchlistActivity;
 import org.michaelbel.moviemade.utils.IntentsKt;
 
 import androidx.annotation.NonNull;
@@ -88,8 +89,15 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseMvp, Media
     }
 
     @Override
-    public void startFave(int accountId) {
+    public void startFavorites(int accountId) {
         Intent intent = new Intent(this, FavoriteActivity.class);
+        intent.putExtra(IntentsKt.ACCOUNT_ID, accountId);
+        startActivity(intent);
+    }
+
+    @Override
+    public void startWatchlist(int accountId) {
+        Intent intent = new Intent(this, WatchlistActivity.class);
         intent.putExtra(IntentsKt.ACCOUNT_ID, accountId);
         startActivity(intent);
     }

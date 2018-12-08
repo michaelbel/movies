@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!--Application Theme-->
     <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
@@ -6,7 +6,7 @@
         <item name="colorAccent">@color/accent</item>
     </style>
 
-    <!--MainActivity Theme-->
+    <!--MainActivity2 Theme-->
     <style name="AppThemeTransparentStatusBar" parent="Theme.AppCompat.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primaryDark</item>
@@ -78,4 +78,27 @@
     <color name="text_episode_title">#3E3E3E</color>
 
     <color name="white">#FFFFFF</color>
+
+
+    <style name="Animation.Design.BottomSheetDialog" parent="Animation.AppCompat.Dialog">
+        <item name="android:windowEnterAnimation">@anim/design_bottom_sheet_slide_in</item>
+        <item name="android:windowExitAnimation">@anim/design_bottom_sheet_slide_out</item>
+    </style>
+
+    <style name="Animation.MaterialComponents.BottomSheetDialog" parent="Animation.AppCompat.Dialog">
+        <item name="android:windowEnterAnimation">@anim/mtrl_bottom_sheet_slide_in</item>
+        <item name="android:windowExitAnimation">@anim/mtrl_bottom_sheet_slide_out</item>
+    </style>
+
+    <style name="Widget.Design.BottomSheet.Modal" parent="android:Widget">
+        <item name="android:background">?android:attr/colorBackground</item>
+        <item name="android:elevation" tools:ignore="NewApi">
+            @dimen/design_bottom_sheet_modal_elevation
+        </item>
+        <item name="behavior_peekHeight">auto</item>
+        <item name="behavior_hideable">true</item>
+        <item name="behavior_skipCollapsed">false</item>
+    </style>
+
+    <style name="Widget.MaterialComponents.BottomSheet.Modal" parent="Widget.Design.BottomSheet.Modal" />
 </resources>

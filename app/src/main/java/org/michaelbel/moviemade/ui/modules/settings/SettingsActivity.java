@@ -10,8 +10,11 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class SettingsActivity extends BaseActivity {
+
+    private Unbinder unbinder;
 
     @BindView(R.id.toolbar) public Toolbar toolbar;
     @BindView(R.id.toolbar_title) public AppCompatTextView toolbarTitle;
@@ -20,13 +23,17 @@ public class SettingsActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-
-        // TODO: toolbar.setTitle?
 
         if (savedInstanceState == null) {
             startFragment(new SettingsFragment(), R.id.fragment_view);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 }

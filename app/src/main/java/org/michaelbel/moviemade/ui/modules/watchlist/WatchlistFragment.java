@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.ui.modules.favorite;
+package org.michaelbel.moviemade.ui.modules.watchlist;
 
 import android.annotation.SuppressLint;
 import android.content.IntentFilter;
@@ -38,25 +38,23 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 @SuppressLint("CheckResult")
 @SuppressWarnings("ResultOfMethodCallIgnored")
-public class FaveFragment extends MvpAppCompatFragment implements FaveMvp, NetworkChangeListener {
+public class WatchlistFragment extends MvpAppCompatFragment implements WatchlistMvp, NetworkChangeListener {
 
     private Unbinder unbinder;
-    private FavoriteActivity activity;
+    private WatchlistActivity activity;
     private MoviesAdapter adapter;
     private GridLayoutManager gridLayoutManager;
     private PaddingItemDecoration itemDecoration;
     private NetworkChangeReceiver networkChangeReceiver;
     private boolean connectionFailure = false;
 
-    @InjectPresenter
-    public FavePresenter presenter;
-
-    @Inject
-    SharedPreferences sharedPreferences;
+    @Inject SharedPreferences sharedPreferences;
+    @InjectPresenter public WatchlistPresenter presenter;
 
     @BindView(R.id.empty_view) EmptyView emptyView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
@@ -65,7 +63,7 @@ public class FaveFragment extends MvpAppCompatFragment implements FaveMvp, Netwo
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = (FavoriteActivity) getActivity();
+        activity = (WatchlistActivity) getActivity();
         Moviemade.getComponent().injest(this);
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
@@ -74,7 +72,7 @@ public class FaveFragment extends MvpAppCompatFragment implements FaveMvp, Netwo
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_fave, container, false);
+        View view = inflater.inflate(R.layout.fragment_favorites, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -82,8 +80,6 @@ public class FaveFragment extends MvpAppCompatFragment implements FaveMvp, Netwo
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        emptyView.setOnClickListener(v -> presenter.getFavoriteMovies(activity.accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, "")));
 
         itemDecoration = new PaddingItemDecoration();
         itemDecoration.setOffset(DeviceUtil.INSTANCE.dp(activity, 1));
@@ -108,12 +104,12 @@ public class FaveFragment extends MvpAppCompatFragment implements FaveMvp, Netwo
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (!recyclerView.canScrollVertically(1)) {
-                    presenter.getFavoriteMoviesNext(activity.accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""));
+                    presenter.getWatchlistMoviesNext(activity.accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""));
                 }
             }
         });
 
-        presenter.getFavoriteMovies(activity.accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""));
+        presenter.getWatchlistMovies(activity.accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""));
     }
 
     @Override
@@ -148,6 +144,11 @@ public class FaveFragment extends MvpAppCompatFragment implements FaveMvp, Netwo
         activity.unregisterReceiver(networkChangeReceiver);
         presenter.onDestroy();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.empty_view)
+    void emptyViewClick(View v) {
+        presenter.getWatchlistMovies(activity.accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""));
     }
 
     @Override
@@ -186,7 +187,7 @@ public class FaveFragment extends MvpAppCompatFragment implements FaveMvp, Netwo
     @Override
     public void onNetworkChanged() {
         if (connectionFailure && adapter.getItemCount() == 0) {
-            presenter.getFavoriteMovies(activity.accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""));
+            presenter.getWatchlistMovies(activity.accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""));
         }
     }
 }

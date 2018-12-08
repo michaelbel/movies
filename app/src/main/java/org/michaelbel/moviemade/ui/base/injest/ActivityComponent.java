@@ -4,5 +4,5 @@ import dagger.Component;
 
 @Component(modules = {ActivityModule.class})
 public interface ActivityComponent {
-    //void injest(MainActivity activity);
+    //void injest(MainActivity2 activity);
 }

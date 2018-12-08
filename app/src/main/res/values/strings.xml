@@ -35,6 +35,7 @@
     <string name="review_by">Review by %s</string>
     <string name="view_on_site">View on site</string>
     <string name="reviews">Reviews</string>
+    <string name="keywords">Keywords</string>
     <string name="light">Light</string>
     <string name="sepia">Sepia</string>
     <string name="night">Night</string>
@@ -47,9 +48,10 @@
     <string name="share_via">Share via</string>
     <string name="api_key_error">Please add your **tmdb_api_key** string into **local.properties** file</string>
     <string name="no_movies">No movies to show</string>
-    <string name="no_reviews">No Reviews to show</string>
+    <string name="no_reviews">No reviews to show</string>
     <string name="no_results">No results to show</string>
     <string name="no_trailers">No trailers to show</string>
+    <string name="no_keywords">No keywords to show</string>
     <string name="no_people">No people</string>
     <string name="starring">Starring %s</string>
     <string name="directed">Directed by %s</string>
@@ -60,7 +62,7 @@
     <string name="message_account_not_authorized">Your Themoviedb account is not authorized. \nPlease, sign in.</string>
     <string name="sign_up">Sign up</string>
     <string name="sign_in">Sign in</string>
-    <string name="favorite_movies">Favorite movies</string>
+    <string name="favorite_movies">Favorites</string>
     <string name="watchlist">Watchlist</string>
     <string name="logout">Log out</string>
     <string name="account">Account</string>
@@ -68,6 +70,7 @@
     <string name="remove">Remove</string>
     <string name="logout_msg">Are you sure you want to log out?</string>
     <string name="ok">OK</string>
+    <string name="set">Set</string>
     <string name="cancel">Cancel</string>
     <string name="loading_login">Loading login…</string>
     <string name="loading_name">Loading name…</string>
@@ -81,4 +84,8 @@
     <string name="terms_of_use">Terms of Use</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="reset_pass">Reset Password</string>
+    <string name="apply_as_background">Apply image as account background</string>
+    <string name="enter_data">Enter **Username** and **Password**</string>
+    <!--todo Add error везде-->
+    <string name="error_invalid_data">Invalid **Login** or **Password**</string>
 </resources>

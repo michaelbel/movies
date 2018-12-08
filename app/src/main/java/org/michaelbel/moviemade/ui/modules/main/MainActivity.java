@@ -27,6 +27,7 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class MainActivity extends BaseActivity {
 
@@ -37,8 +38,9 @@ public class MainActivity extends BaseActivity {
     private UpcomingFragment upcomingFragment;
     private AccountFragment profileFragment;
 
-    @Inject
-    SharedPreferences sharedPreferences;
+    private Unbinder unbinder;
+
+    @Inject SharedPreferences sharedPreferences;
 
     @BindView(R.id.topbar) TopBar topbar;
     @BindView(R.id.search_icon) AppCompatImageView searchIcon;
@@ -50,7 +52,7 @@ public class MainActivity extends BaseActivity {
         setTheme(R.style.AppThemeTransparentStatusBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
         Moviemade.getComponent().injest(this);
 
         topbar.setTitle(R.string.app_name);
@@ -149,6 +151,12 @@ public class MainActivity extends BaseActivity {
         if (Intent.ACTION_VIEW.equals(action) && data != null) {
             profileFragment.presenter.createSessionId(sharedPreferences.getString(SharedPrefsKt.KEY_TOKEN, ""));
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 
     private void startCurrentFragment() {

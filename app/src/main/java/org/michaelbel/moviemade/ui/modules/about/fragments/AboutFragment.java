@@ -28,6 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class AboutFragment extends Fragment {
 
@@ -45,11 +46,11 @@ public class AboutFragment extends Fragment {
     private int donatePaypalRow;
     private int poweredByRow;
 
+    private Unbinder unbinder;
     private AboutActivity activity;
     private LinearLayoutManager linearLayoutManager;
 
-    @BindView(R.id.recycler_view)
-    public RecyclerListView recyclerView;
+    @BindView(R.id.recycler_view) public RecyclerListView recyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class AboutFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_about, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         activity.toolbar.setNavigationOnClickListener(v -> activity.finish());
         activity.toolbarTitle.setText(R.string.about);
@@ -144,6 +145,12 @@ public class AboutFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         linearLayoutManager.onRestoreInstanceState(state);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 
     public class AboutAdapter extends RecyclerView.Adapter<AboutAdapter.AboutViewHolder> {

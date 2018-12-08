@@ -18,7 +18,6 @@ import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.eventbus.Events;
-import org.michaelbel.moviemade.log;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
 import org.michaelbel.moviemade.receivers.NetworkChangeListener;
 import org.michaelbel.moviemade.receivers.NetworkChangeReceiver;
@@ -39,6 +38,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 @SuppressLint("CheckResult")
@@ -53,8 +53,7 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MainMvp,
     private NetworkChangeReceiver networkChangeReceiver;
     private boolean connectionFailure = false;
 
-    @InjectPresenter
-    public MainPresenter presenter;
+    @InjectPresenter public MainPresenter presenter;
 
     @BindView(R.id.empty_view) EmptyView emptyView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
@@ -79,8 +78,6 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MainMvp,
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        emptyView.setOnClickListener(v -> presenter.getNowPlaying());
 
         itemDecoration = new PaddingItemDecoration();
         itemDecoration.setOffset(DeviceUtil.INSTANCE.dp(activity, 1));
@@ -122,6 +119,11 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MainMvp,
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         refreshLayout();
+    }
+
+    @OnClick(R.id.empty_view)
+    void emptyViewClick(View v) {
+        presenter.getNowPlaying();
     }
 
     /*@Override

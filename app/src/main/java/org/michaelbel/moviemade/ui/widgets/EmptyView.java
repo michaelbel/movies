@@ -58,6 +58,9 @@ public class EmptyView extends FrameLayout {
         } else if (mode == EmptyViewMode.MODE_NO_TRAILERS) {
             setIcon(R.drawable.ic_trailer);
             setText(R.string.no_trailers);
+        } else if (mode == EmptyViewMode.MODE_NO_KEYWORDS) {
+            setIcon(R.drawable.ic_card_text);
+            setText(R.string.no_keywords);
         }
 
         return this;

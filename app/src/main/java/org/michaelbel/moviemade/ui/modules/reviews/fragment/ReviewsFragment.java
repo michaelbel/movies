@@ -12,7 +12,6 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.jetbrains.annotations.NotNull;
-import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.dao.Review;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
@@ -36,6 +35,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp, NetworkChangeListener {
@@ -48,8 +48,7 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp,
     private NetworkChangeReceiver networkChangeReceiver;
     private boolean connectionFailure = false;
 
-    @InjectPresenter
-    public ReviewsPresenter presenter;
+    @InjectPresenter public ReviewsPresenter presenter;
 
     @BindView(R.id.empty_view) EmptyView emptyView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
@@ -83,12 +82,6 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp,
         adapter = new ReviewsAdapter();
         gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
 
-        emptyView.setOnClickListener(v -> {
-            emptyView.setVisibility(View.GONE);
-            progressBar.setVisibility(View.VISIBLE);
-            presenter.getReviews(activity.movie.getId());
-        });
-
         recyclerView.setAdapter(adapter);
         recyclerView.setEmptyView(emptyView);
         recyclerView.addItemDecoration(itemDecoration);
@@ -112,6 +105,13 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp,
         activity.unregisterReceiver(networkChangeReceiver);
         presenter.onDestroy();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.empty_view)
+    void emptyViewClick(View v) {
+        emptyView.setVisibility(View.GONE);
+        progressBar.setVisibility(View.VISIBLE);
+        presenter.getReviews(activity.movie.getId());
     }
 
     @Override

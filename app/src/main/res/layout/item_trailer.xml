@@ -24,8 +24,8 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_gravity="center"
-        android:src="@drawable/ic_button_play"
-        android:contentDescription="@string/image_description"/>
+        android:contentDescription="@string/image_description"
+        app:srcCompat="@drawable/ic_button_play"/>
 
     <FrameLayout
         android:layout_width="match_parent"

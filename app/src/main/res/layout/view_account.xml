@@ -1,0 +1,133 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/account_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="220dp">
+
+        <!--Cover image-->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/backdrop_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitXY"
+            android:fitsSystemWindows="true"
+            app:layout_collapseMode="parallax"/>
+
+        <FrameLayout
+            android:id="@+id/blur_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/backdropBlur"/>
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="vertical">
+
+            <!--Avatar image-->
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/user_avatar"
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:layout_gravity="center_horizontal"
+                tools:src="@mipmap/ic_launcher_round"/>
+
+            <!--Login & Name-->
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_gravity="center_horizontal">
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/login_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="4dp"
+                    android:textSize="16sp"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="sans-serif-medium"
+                    tools:text="First Second"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/name_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="2dp"
+                    android:textSize="18sp"
+                    android:textColor="@color/primaryText"
+                    android:fontFamily="sans-serif-medium"
+                    tools:text="First Second"/>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+        <!--Logout button-->
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/logout_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="top|end"
+            android:layout_marginEnd="16dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:focusable="true"
+            android:clickable="true"
+            app:srcCompat="@drawable/ic_logout"/>
+
+    </FrameLayout>
+
+    <!--Favorites & Watchlist-->
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="236dp"
+        android:orientation="vertical">
+
+        <!--Favorites-->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/favorites_text"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textSize="20sp"
+            android:textColor="@color/primaryText"
+            android:fontFamily="sans-serif-medium"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="@string/favorite_movies"/>
+
+        <!--Watchlist-->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/watchlist_text"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginBottom="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textSize="20sp"
+            android:textColor="@color/primaryText"
+            android:fontFamily="sans-serif-medium"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="@string/watchlist"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</FrameLayout>

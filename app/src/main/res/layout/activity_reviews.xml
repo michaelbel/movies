@@ -7,9 +7,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:elevation="0dp">
+        android:layout_height="wrap_content">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -33,7 +31,7 @@
                     android:textSize="18sp"
                     android:textColor="@color/primaryText"
                     android:fontFamily="sans-serif-medium"
-                    tools:text="Toolbar Title"/>
+                    android:text="@string/reviews"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/toolbar_subtitle"
@@ -45,7 +43,7 @@
                     android:ellipsize="end"
                     android:textSize="14sp"
                     android:textColor="@color/secondaryText"
-                    tools:text="Toolbar Subtitle"/>
+                    tools:text="Subtitle"/>
 
             </FrameLayout>
 

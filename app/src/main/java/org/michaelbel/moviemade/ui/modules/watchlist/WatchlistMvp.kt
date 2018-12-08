@@ -1,10 +1,10 @@
-package org.michaelbel.moviemade.ui.modules.favorite
+package org.michaelbel.moviemade.ui.modules.watchlist
 
 import com.arellomobile.mvp.MvpView
 import org.michaelbel.moviemade.data.dao.Movie
 import org.michaelbel.moviemade.utils.EmptyViewMode
 
-interface FaveMvp : MvpView {
+interface WatchlistMvp : MvpView {
 
     fun setMovies(movies: List<Movie>)
 

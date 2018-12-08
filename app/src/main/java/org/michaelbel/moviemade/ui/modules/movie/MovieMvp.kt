@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade.ui.modules.movie
 
 import com.arellomobile.mvp.MvpView
-import org.michaelbel.moviemade.data.dao.MarkFave
+import org.michaelbel.moviemade.data.dao.Mark
 import org.michaelbel.moviemade.data.dao.Movie
 
 interface MovieMvp : MvpView {
@@ -28,9 +28,11 @@ interface MovieMvp : MvpView {
 
     fun setURLs(imdbId: String, homepage: String)
 
-    fun setStates(fave: Boolean)
+    fun setStates(fave: Boolean, watch : Boolean)
 
-    fun onFavoriteChanged(markFave: MarkFave)
+    fun onFavoriteChanged(mark: Mark)
+
+    fun onWatchListChanged(mark: Mark)
 
     fun setCredits(casts: String, directors: String, writers: String, producers: String)
 

@@ -18,6 +18,7 @@ import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.utils.DrawableUtil;
+import org.michaelbel.moviemade.utils.IntentsKt;
 
 import java.util.List;
 import java.util.Locale;
@@ -28,6 +29,7 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class SearchActivity extends BaseActivity {
 
@@ -39,6 +41,7 @@ public class SearchActivity extends BaseActivity {
     private int iconActionMode;
 
     private Menu actionMenu;
+    private Unbinder unbinder;
     private SearchMoviesFragment fragment;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -48,9 +51,9 @@ public class SearchActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
 
-        String query = getIntent().getStringExtra("query");
+        String query = getIntent().getStringExtra(IntentsKt.QUERY);
         fragment = SearchMoviesFragment.newInstance(query);
         if (savedInstanceState == null) {
             startFragment(fragment, R.id.fragment_view);
@@ -132,6 +135,12 @@ public class SearchActivity extends BaseActivity {
                 }
             }
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 
     private void changeActionIcon() {

@@ -47,8 +47,7 @@ public class ReviewFragment extends MvpAppCompatFragment {
     private Unbinder unbinder;
     private ReviewActivity activity;
 
-    @Inject
-    SharedPreferences sharedPreferences;
+    @Inject SharedPreferences sharedPreferences;
 
     @BindColor(R.color.primaryText) int backgroundLight;
     @BindColor(R.color.sepia_background) int backgroundSepia;

@@ -1,10 +1,11 @@
 package org.michaelbel.moviemade.di.component;
 
+import org.michaelbel.moviemade.ui.modules.favorites.FavoritesFragment;
+import org.michaelbel.moviemade.ui.modules.favorites.FavoritesPresenter;
+import org.michaelbel.moviemade.ui.modules.movie.BackdropDialog;
 import org.michaelbel.moviemade.di.module.AppModule;
 import org.michaelbel.moviemade.ui.modules.account.AccountFragment;
 import org.michaelbel.moviemade.ui.modules.account.AccountPresenter;
-import org.michaelbel.moviemade.ui.modules.favorite.FaveFragment;
-import org.michaelbel.moviemade.ui.modules.favorite.FavePresenter;
 import org.michaelbel.moviemade.ui.modules.keywords.KeywordPresenter;
 import org.michaelbel.moviemade.ui.modules.keywords.KeywordsPresenter;
 import org.michaelbel.moviemade.ui.modules.main.MainActivity;
@@ -17,6 +18,8 @@ import org.michaelbel.moviemade.ui.modules.reviews.fragment.ReviewFragment;
 import org.michaelbel.moviemade.ui.modules.search.SearchMoviesPresenter;
 import org.michaelbel.moviemade.ui.modules.settings.SettingsFragment;
 import org.michaelbel.moviemade.ui.modules.trailers.TrailersPresenter;
+import org.michaelbel.moviemade.ui.modules.watchlist.WatchlistFragment;
+import org.michaelbel.moviemade.ui.modules.watchlist.WatchlistPresenter;
 
 import javax.inject.Singleton;
 
@@ -31,8 +34,9 @@ public interface AppComponent {
     void injest(MovieFragment fragment);
     void injest(ReviewFragment fragment);
     void injest(AccountFragment fragment);
-    void injest(FaveFragment fragment);
+    void injest(FavoritesFragment fragment);
     void injest(SettingsFragment fragment);
+    void injest(WatchlistFragment fragment);
 
     void injest(MainPresenter presenter);
     void injest(MoviePresenter presenter);
@@ -40,7 +44,10 @@ public interface AppComponent {
     void injest(TrailersPresenter presenter);
     void injest(SearchMoviesPresenter presenter);
     void injest(AccountPresenter presenter);
-    void injest(FavePresenter presenter);
+    void injest(FavoritesPresenter presenter);
     void injest(KeywordsPresenter presenter);
     void injest(KeywordPresenter presenter);
+    void injest(WatchlistPresenter presenter);
+
+    void injest(BackdropDialog dialog);
 }

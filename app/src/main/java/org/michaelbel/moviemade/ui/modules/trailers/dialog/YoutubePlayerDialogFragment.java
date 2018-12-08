@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.lifecycle.Lifecycle;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 @SuppressWarnings("all")
 public class YoutubePlayerDialogFragment extends BottomSheetDialogFragment {
@@ -23,9 +24,9 @@ public class YoutubePlayerDialogFragment extends BottomSheetDialogFragment {
     public static final String KEY_VIDEO_URL = "video_url";
 
     private String videoUrl;
+    private Unbinder unbinder;
 
-    @BindView(R.id.youtube_player_view)
-    public YouTubePlayerView youTubePlayerView;
+    @BindView(R.id.youtube_player_view) public YouTubePlayerView youTubePlayerView;
 
     public static YoutubePlayerDialogFragment newInstance(String url) {
         Bundle args = new Bundle();
@@ -33,7 +34,6 @@ public class YoutubePlayerDialogFragment extends BottomSheetDialogFragment {
 
         YoutubePlayerDialogFragment fragment = new YoutubePlayerDialogFragment();
         fragment.setArguments(args);
-
         return fragment;
     }
 
@@ -46,7 +46,7 @@ public class YoutubePlayerDialogFragment extends BottomSheetDialogFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.view_player_dialog, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         return view;
     }
 
@@ -73,5 +73,11 @@ public class YoutubePlayerDialogFragment extends BottomSheetDialogFragment {
                 }
             });
         },true);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
     }
 }

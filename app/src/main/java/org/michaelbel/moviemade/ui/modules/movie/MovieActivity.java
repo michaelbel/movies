@@ -1,9 +1,11 @@
 package org.michaelbel.moviemade.ui.modules.movie;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import com.alexvasilkov.gestures.transition.ViewsTransitionAnimator;
 import com.alexvasilkov.gestures.views.GestureImageView;
@@ -17,11 +19,14 @@ import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.ui.modules.main.views.appbar.AppBarState;
 import org.michaelbel.moviemade.ui.modules.main.views.appbar.AppBarStateChangeListener;
+import org.michaelbel.moviemade.utils.SharedPrefsKt;
 import org.michaelbel.moviemade.utils.TmdbConfigKt;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 import org.michaelbel.moviemade.utils.IntentsKt;
 
 import java.util.Locale;
+
+import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -31,11 +36,14 @@ import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnLongClick;
+import butterknife.Unbinder;
 
-
+@SuppressWarnings("all")
 public class MovieActivity extends BaseActivity {
 
     public Movie movie;
+    private Unbinder unbinder;
     public ViewsTransitionAnimator imageAnimator;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -49,11 +57,14 @@ public class MovieActivity extends BaseActivity {
     @BindView(R.id.full_image) GestureImageView fullImage;
     @BindView(R.id.full_image_toolbar) Toolbar fullImageToolbar;
 
+    @Inject SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
+        Moviemade.getComponent().injest(this);
 
         movie = (Movie) getIntent().getSerializableExtra(IntentsKt.MOVIE);
 
@@ -108,6 +119,24 @@ public class MovieActivity extends BaseActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
+    }
+
+    @OnLongClick(R.id.backdrop_image)
+    public boolean backdropLongClick(View v) {
+        if (!sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, "").isEmpty()) {
+            DeviceUtil.INSTANCE.vibrate(this, 15);
+            BackdropDialog dialog = BackdropDialog.newInstance(String.format(Locale.US, TmdbConfigKt.TMDB_IMAGE, "original", movie.getBackdropPath()));
+            dialog.show(getSupportFragmentManager(), "tag");
+            return true;
+        }
+
+        return false;
     }
 
     public void showSystemStatusBar(boolean state) {

@@ -38,6 +38,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 @SuppressLint("CheckResult")
@@ -52,8 +53,7 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, N
     private NetworkChangeReceiver networkChangeReceiver;
     private boolean connectionFailure = false;
 
-    @InjectPresenter
-    public MainPresenter presenter;
+    @InjectPresenter public MainPresenter presenter;
 
     @BindView(R.id.empty_view) EmptyView emptyView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
@@ -78,8 +78,6 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, N
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        emptyView.setOnClickListener(v -> presenter.getUpcoming());
 
         itemDecoration = new PaddingItemDecoration();
         itemDecoration.setOffset(DeviceUtil.INSTANCE.dp(activity, 1));
@@ -134,6 +132,11 @@ public class UpcomingFragment extends MvpAppCompatFragment implements MainMvp, N
         activity.unregisterReceiver(networkChangeReceiver);
         presenter.onDestroy();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.empty_view)
+    void emptyViewClick(View v) {
+        presenter.getUpcoming();
     }
 
     @Override

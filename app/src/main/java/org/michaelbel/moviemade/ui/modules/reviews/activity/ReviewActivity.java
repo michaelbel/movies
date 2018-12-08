@@ -16,11 +16,13 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class ReviewActivity extends BaseActivity {
 
     public Movie movie;
     public Review review;
+    private Unbinder unbinder;
 
     @BindView(R.id.toolbar) public Toolbar toolbar;
     @BindView(R.id.toolbar_title) AppCompatTextView toolbarTitle;
@@ -30,7 +32,7 @@ public class ReviewActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
-        ButterKnife.bind(this);
+        unbinder = ButterKnife.bind(this);
 
         movie = (Movie) getIntent().getSerializableExtra(IntentsKt.MOVIE);
         review = (Review) getIntent().getSerializableExtra(IntentsKt.REVIEW);
@@ -48,5 +50,11 @@ public class ReviewActivity extends BaseActivity {
         if (fragment != null) {
             fragment.setReview(review);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 }

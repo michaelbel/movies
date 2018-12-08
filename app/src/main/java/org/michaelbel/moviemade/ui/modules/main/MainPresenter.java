@@ -47,7 +47,6 @@ public class MainPresenter extends MvpPresenter<MainMvp> {
         }
 
         page = 1;
-
         MOVIES service = retrofit.create(MOVIES.class);
         nowPlayingSubscription = service.getNowPlaying(BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             /*.doFinally(new Action() {
@@ -71,7 +70,6 @@ public class MainPresenter extends MvpPresenter<MainMvp> {
 
     public void getNowPlayingNext() {
         page++;
-
         MOVIES service = retrofit.create(MOVIES.class);
         nowPlayingSubscription2 = service.getNowPlaying(BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(response -> {
@@ -91,7 +89,6 @@ public class MainPresenter extends MvpPresenter<MainMvp> {
         }
 
         page = 1;
-
         MOVIES service = retrofit.create(MOVIES.class);
         topRatedSubscription = service.getTopRated(BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(response -> {
@@ -109,7 +106,6 @@ public class MainPresenter extends MvpPresenter<MainMvp> {
 
     public void getTopRatedNext() {
         page++;
-
         MOVIES service = retrofit.create(MOVIES.class);
         topRatedSubscription2 = service.getTopRated(BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(response -> {
@@ -129,7 +125,6 @@ public class MainPresenter extends MvpPresenter<MainMvp> {
         }
 
         page = 1;
-
         MOVIES service = retrofit.create(MOVIES.class);
         upcomingSubscription = service.getUpcoming(BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(response -> {
@@ -147,7 +142,6 @@ public class MainPresenter extends MvpPresenter<MainMvp> {
 
     public void getUpcomingNext() {
         page++;
-
         MOVIES service = retrofit.create(MOVIES.class);
         upcomingSubscription2 = service.getUpcoming(BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(response -> {

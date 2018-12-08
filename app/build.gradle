@@ -128,6 +128,8 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.10'
     // chips
     implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7'
+    // circle image
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
 
 
 

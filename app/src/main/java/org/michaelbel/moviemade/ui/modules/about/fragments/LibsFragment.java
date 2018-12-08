@@ -22,9 +22,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 public class LibsFragment extends Fragment {
 
+    private Unbinder unbinder;
     private LibsAdapter adapter;
     private AboutActivity activity;
 
@@ -41,7 +43,7 @@ public class LibsFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_libs, container, false);
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
 
         activity.toolbar.setNavigationOnClickListener(v -> activity.finishFragment());
         activity.toolbarTitle.setText(R.string.open_source_libs);
@@ -68,6 +70,12 @@ public class LibsFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.VERTICAL, false));
         recyclerView.setOnItemClickListener((v, position) -> Browser.INSTANCE.openUrl(activity, adapter.sources.get(position).getUrl()));
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 
     public class LibsAdapter extends RecyclerView.Adapter<LibsAdapter.LibsViewHolder> {

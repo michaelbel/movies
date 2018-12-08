@@ -22,6 +22,7 @@ import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
+import org.michaelbel.moviemade.utils.IntentsKt;
 
 import java.util.List;
 import java.util.Objects;
@@ -43,8 +44,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
     private GridLayoutManager gridLayoutManager;
     private PaddingItemDecoration itemDecoration;
 
-    @InjectPresenter
-    public SearchMoviesPresenter presenter;
+    @InjectPresenter public SearchMoviesPresenter presenter;
 
     @BindView(R.id.empty_view) EmptyView emptyView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
@@ -52,7 +52,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
 
     static SearchMoviesFragment newInstance(String query) {
         Bundle args = new Bundle();
-        args.putString("query", query);
+        args.putString(IntentsKt.QUERY, query);
 
         SearchMoviesFragment fragment = new SearchMoviesFragment();
         fragment.setArguments(args);
@@ -112,7 +112,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
             return;
         }
 
-        readyQuery = getArguments().getString("query");
+        readyQuery = getArguments().getString(IntentsKt.QUERY);
 
         if (readyQuery == null) {
             activity.searchEditText.setSelection(Objects.requireNonNull(activity.searchEditText.getText()).length());

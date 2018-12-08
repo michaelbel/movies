@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.ui.modules.favorite;
+package org.michaelbel.moviemade.ui.modules.watchlist;
 
 import com.arellomobile.mvp.InjectViewState;
 import com.arellomobile.mvp.MvpPresenter;
@@ -7,6 +7,7 @@ import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.data.service.ACCOUNT;
+import org.michaelbel.moviemade.ui.modules.watchlist.WatchlistMvp;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 import org.michaelbel.moviemade.utils.RxUtil;
@@ -23,7 +24,7 @@ import io.reactivex.schedulers.Schedulers;
 import retrofit2.Retrofit;
 
 @InjectViewState
-public class FavePresenter extends MvpPresenter<FaveMvp> {
+public class WatchlistPresenter extends MvpPresenter<WatchlistMvp> {
 
     private int page;
     private Disposable disposable;
@@ -32,22 +33,19 @@ public class FavePresenter extends MvpPresenter<FaveMvp> {
     @Inject
     Retrofit retrofit;
 
-    public FavePresenter() {
+    public WatchlistPresenter() {
         Moviemade.getComponent().injest(this);
     }
 
-    void getFavoriteMovies(int accountId, String sessionId) {
+    void getWatchlistMovies(int accountId, String sessionId) {
         if (NetworkUtil.INSTANCE.notConnected()) {
             getViewState().setError(EmptyViewMode.MODE_NO_CONNECTION);
             return;
         }
 
         page = 1;
-
         ACCOUNT service = retrofit.create(ACCOUNT.class);
-        disposable = service.getFavoriteMovies(accountId, BuildConfig.TMDB_API_KEY, sessionId, TmdbConfigKt.en_US, "created_at.asc", page)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+        disposable = service.getWatchlistMovies(accountId, BuildConfig.TMDB_API_KEY, sessionId, TmdbConfigKt.en_US, "created_at.asc", page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(response -> {
                 List<Movie> results = new ArrayList<>(response.getMovies());
                 if (results.isEmpty()) {
@@ -61,24 +59,21 @@ public class FavePresenter extends MvpPresenter<FaveMvp> {
             });
     }
 
-    void getFavoriteMoviesNext(int accountId, String sessionId) {
+    void getWatchlistMoviesNext(int accountId, String sessionId) {
         page++;
-
         ACCOUNT service = retrofit.create(ACCOUNT.class);
-        disposable2 = service.getFavoriteMovies(accountId, BuildConfig.TMDB_API_KEY, sessionId, TmdbConfigKt.en_US, "created_at.asc", page)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(response -> {
-                    List<Movie> results = new ArrayList<>(response.getMovies());
-                    if (results.isEmpty()) {
-                        getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
-                        return;
-                    }
-                    getViewState().setMovies(results);
-                }, e -> {
+        disposable2 = service.getFavoriteMovies(accountId, BuildConfig.TMDB_API_KEY, sessionId, TmdbConfigKt.en_US, "created_at.asc", page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe(response -> {
+                List<Movie> results = new ArrayList<>(response.getMovies());
+                if (results.isEmpty()) {
                     getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
-                    e.printStackTrace();
-                });
+                    return;
+                }
+                getViewState().setMovies(results);
+            }, e -> {
+                getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
+                e.printStackTrace();
+            });
     }
 
     @Override
