@@ -88,4 +88,6 @@
     <string name="enter_data">Enter **Username** and **Password**</string>
     <!--todo Add error везде-->
     <string name="error_invalid_data">Invalid **Login** or **Password**</string>
+    <string name="similar_movies">Similar movies</string>
+    <string name="recommendations">Recommendations</string>
 </resources>

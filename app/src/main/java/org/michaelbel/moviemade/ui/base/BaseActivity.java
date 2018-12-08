@@ -13,8 +13,10 @@ import org.michaelbel.moviemade.ui.modules.favorites.FavoriteActivity;
 import org.michaelbel.moviemade.ui.modules.keywords.activity.KeywordActivity;
 import org.michaelbel.moviemade.ui.modules.keywords.activity.KeywordsActivity;
 import org.michaelbel.moviemade.ui.modules.movie.MovieActivity;
+import org.michaelbel.moviemade.ui.modules.recommendations.RecommendationsMoviesActivity;
 import org.michaelbel.moviemade.ui.modules.reviews.activity.ReviewActivity;
 import org.michaelbel.moviemade.ui.modules.reviews.activity.ReviewsActivity;
+import org.michaelbel.moviemade.ui.modules.similar.SimilarMoviesActivity;
 import org.michaelbel.moviemade.ui.modules.trailers.TrailersActivity;
 import org.michaelbel.moviemade.ui.modules.watchlist.WatchlistActivity;
 import org.michaelbel.moviemade.utils.IntentsKt;
@@ -113,6 +115,20 @@ public class BaseActivity extends MvpAppCompatActivity implements BaseMvp, Media
     public void startKeyword(@NotNull Keyword keyword) {
         Intent intent = new Intent(this, KeywordActivity.class);
         intent.putExtra(IntentsKt.KEYWORD, keyword);
+        startActivity(intent);
+    }
+
+    @Override
+    public void startSimilarMovies(@NotNull Movie movie) {
+        Intent intent = new Intent(this, SimilarMoviesActivity.class);
+        intent.putExtra(IntentsKt.MOVIE, movie);
+        startActivity(intent);
+    }
+
+    @Override
+    public void startRecommendationsMovies(@NotNull Movie movie) {
+        Intent intent = new Intent(this, RecommendationsMoviesActivity.class);
+        intent.putExtra(IntentsKt.MOVIE, movie);
         startActivity(intent);
     }
 }

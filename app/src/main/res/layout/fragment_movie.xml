@@ -412,6 +412,7 @@
             android:layout_marginBottom="10dp"
             android:background="@color/divider"/>
 
+        <!--Trailers-->
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/trailers_text"
             android:layout_width="match_parent"
@@ -427,6 +428,7 @@
             android:maxLines="1"
             android:text="@string/trailers"/>
 
+        <!--Reviews-->
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/reviews_text"
             android:layout_width="match_parent"
@@ -442,8 +444,41 @@
             android:maxLines="1"
             android:text="@string/reviews"/>
 
+        <!--Keywords-->
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/keywords_text"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textSize="20sp"
+            android:textColor="@color/primaryText"
+            android:fontFamily="sans-serif-medium"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="@string/keywords"/>
+
+        <!--Similar movies-->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/similar_text"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:textSize="20sp"
+            android:textColor="@color/primaryText"
+            android:fontFamily="sans-serif-medium"
+            android:foreground="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:maxLines="1"
+            android:text="@string/similar_movies"/>
+
+        <!--Recommendations movies-->
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/recommendations_text"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
@@ -456,7 +491,7 @@
             android:foreground="?attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:text="@string/keywords"/>
+            android:text="@string/recommendations"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

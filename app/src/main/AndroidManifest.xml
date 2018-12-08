@@ -36,16 +36,18 @@
         </activity>
 
         <activity android:name=".ui.modules.movie.MovieActivity" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation|screenSize"/>
-        <activity android:name=".ui.modules.trailers.TrailersActivity" android:screenOrientation="user" android:configChanges="keyboardHidden|orientation|screenSize"/>
-        <activity android:name=".ui.modules.reviews.activity.ReviewsActivity" android:screenOrientation="user" android:configChanges="keyboardHidden|orientation|screenSize"/>
-        <activity android:name=".ui.modules.reviews.activity.ReviewActivity" android:screenOrientation="user" android:configChanges="keyboardHidden|orientation|screenSize"/>
-        <activity android:name=".ui.modules.search.SearchActivity" android:screenOrientation="user" android:configChanges="keyboard|keyboardHidden|orientation|screenSize" android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".ui.modules.settings.SettingsActivity" android:screenOrientation="user"/>
-        <activity android:name=".ui.modules.about.AboutActivity" android:screenOrientation="user"/>
-        <activity android:name=".ui.modules.favorites.FavoriteActivity" android:screenOrientation="user"/>
-        <activity android:name=".ui.modules.keywords.activity.KeywordsActivity" android:screenOrientation="user"/>
-        <activity android:name=".ui.modules.keywords.activity.KeywordActivity" android:screenOrientation="user"/>
-        <activity android:name=".ui.modules.watchlist.WatchlistActivity" android:screenOrientation="user"/>
+        <activity android:name=".ui.modules.trailers.TrailersActivity" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name=".ui.modules.reviews.activity.ReviewsActivity" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name=".ui.modules.reviews.activity.ReviewActivity" android:screenOrientation="portrait" android:configChanges="keyboardHidden|orientation|screenSize"/>
+        <activity android:name=".ui.modules.search.SearchActivity" android:screenOrientation="portrait" android:configChanges="keyboard|keyboardHidden|orientation|screenSize" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".ui.modules.settings.SettingsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.modules.about.AboutActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.modules.favorites.FavoriteActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.modules.keywords.activity.KeywordsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.modules.keywords.activity.KeywordActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.modules.watchlist.WatchlistActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.modules.similar.SimilarMoviesActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.modules.recommendations.RecommendationsMoviesActivity" android:screenOrientation="portrait"/>
 
     </application>
 

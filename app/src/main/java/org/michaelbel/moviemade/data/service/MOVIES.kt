@@ -127,12 +127,12 @@ interface MOVIES {
         @Query("page") page: Int
     ): Observable<MoviesResponse>
 
-    @GET("movie/popular?")
+    /*@GET("movie/popular?")
     fun getPopular(
         @Query("api_key") apiKey: String,
         @Query("language") lang: String,
         @Query("page") page: Int
-    ): Observable<MoviesResponse>
+    ): Observable<MoviesResponse>*/
 
     @GET("movie/top_rated?")
     fun getTopRated(

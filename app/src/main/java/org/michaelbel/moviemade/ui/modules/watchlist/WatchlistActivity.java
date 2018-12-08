@@ -15,6 +15,7 @@ public class WatchlistActivity extends BaseActivity {
 
     public int accountId;
     private Unbinder unbinder;
+    private WatchlistFragment fragment;
 
     @BindView(R.id.toolbar) public Toolbar toolbar;
 
@@ -28,6 +29,9 @@ public class WatchlistActivity extends BaseActivity {
 
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> finish());
+        toolbar.setOnClickListener(v -> fragment.recyclerView.smoothScrollToPosition(0));
+
+        fragment = (WatchlistFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
     }
 
     @Override

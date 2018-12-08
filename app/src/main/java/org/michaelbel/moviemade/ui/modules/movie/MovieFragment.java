@@ -113,9 +113,6 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Net
     @BindView(R.id.watchlist_icon) AppCompatImageView watchlistIcon;
     @BindView(R.id.watchlist_text) AppCompatTextView watchlistText;
 
-    @BindView(R.id.trailers_text) AppCompatTextView trailersText;
-    @BindView(R.id.reviews_text) AppCompatTextView reviewsText;
-    @BindView(R.id.keywords_text) AppCompatTextView keywordsText;
     @BindView(R.id.crew_layout) LinearLayoutCompat crewLayout;
     @BindView(R.id.starring_text) AppCompatTextView starringText;
     @BindView(R.id.directed_text) AppCompatTextView directedText;
@@ -339,7 +336,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Net
                 watchlistIcon.setImageDrawable(DrawableUtil.INSTANCE.getIcon(activity, R.drawable.ic_bookmark_outline, ContextCompat.getColor(activity, R.color.primaryText)));
                 watchlistText.setTextColor(ContextCompat.getColor(activity, R.color.primaryText));
                 watchlist = false;
-                //sendEvent();
+                // todo sendEvent();
                 break;
         }
     }
@@ -402,17 +399,17 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Net
             }
         });
         activity.fullImage.getController().getSettings()
-                .setGravity(Gravity.CENTER)
-                .setZoomEnabled(true)
-                .setAnimationsDuration(300L)
-                .setDoubleTapEnabled(true)
-                .setRotationEnabled(false)
-                .setFitMethod(Settings.Fit.INSIDE)
-                .setPanEnabled(true)
-                .setRestrictRotation(false)
-                .setOverscrollDistance(activity, 32F, 32F)
-                .setOverzoomFactor(Settings.OVERZOOM_FACTOR)
-                .setFillViewport(true);
+            .setGravity(Gravity.CENTER)
+            .setZoomEnabled(true)
+            .setAnimationsDuration(300L)
+            .setDoubleTapEnabled(true)
+            .setRotationEnabled(false)
+            .setFitMethod(Settings.Fit.INSIDE)
+            .setPanEnabled(true)
+            .setRestrictRotation(false)
+            .setOverscrollDistance(activity, 32F, 32F)
+            .setOverzoomFactor(Settings.OVERZOOM_FACTOR)
+            .setFillViewport(true);
         activity.imageAnimator.enterSingle(true);
     }
 
@@ -429,6 +426,16 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Net
     @OnClick(R.id.keywords_text)
     void keywordsClick(View v) {
         activity.startKeywords(activity.movie);
+    }
+
+    @OnClick(R.id.similar_text)
+    void similarClick(View v) {
+        activity.startSimilarMovies(activity.movie);
+    }
+
+    @OnClick(R.id.recommendations_text)
+    void recommendationsClick(View v) {
+        activity.startRecommendationsMovies(activity.movie);
     }
 
     @Override

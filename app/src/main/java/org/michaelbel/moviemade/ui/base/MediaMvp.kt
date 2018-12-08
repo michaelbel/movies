@@ -21,4 +21,8 @@ interface MediaMvp {
     fun startFavorites(accountId: Int)
 
     fun startWatchlist(accountId: Int)
+
+    fun startSimilarMovies(movie: Movie)
+
+    fun startRecommendationsMovies(movie: Movie)
 }

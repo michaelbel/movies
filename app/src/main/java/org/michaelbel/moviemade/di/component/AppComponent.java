@@ -13,10 +13,14 @@ import org.michaelbel.moviemade.ui.modules.main.MainPresenter;
 import org.michaelbel.moviemade.ui.modules.movie.MovieActivity;
 import org.michaelbel.moviemade.ui.modules.movie.MovieFragment;
 import org.michaelbel.moviemade.ui.modules.movie.MoviePresenter;
+import org.michaelbel.moviemade.ui.modules.recommendations.RecommendationsMoviesFragment;
+import org.michaelbel.moviemade.ui.modules.recommendations.RecommendationsMoviesPresenter;
 import org.michaelbel.moviemade.ui.modules.reviews.ReviewsPresenter;
 import org.michaelbel.moviemade.ui.modules.reviews.fragment.ReviewFragment;
 import org.michaelbel.moviemade.ui.modules.search.SearchMoviesPresenter;
 import org.michaelbel.moviemade.ui.modules.settings.SettingsFragment;
+import org.michaelbel.moviemade.ui.modules.similar.SimilarMoviesFragment;
+import org.michaelbel.moviemade.ui.modules.similar.SimilarMoviesPresenter;
 import org.michaelbel.moviemade.ui.modules.trailers.TrailersPresenter;
 import org.michaelbel.moviemade.ui.modules.watchlist.WatchlistFragment;
 import org.michaelbel.moviemade.ui.modules.watchlist.WatchlistPresenter;
@@ -37,6 +41,8 @@ public interface AppComponent {
     void injest(FavoritesFragment fragment);
     void injest(SettingsFragment fragment);
     void injest(WatchlistFragment fragment);
+    void injest(SimilarMoviesFragment fragment);
+    void injest(RecommendationsMoviesFragment fragment);
 
     void injest(MainPresenter presenter);
     void injest(MoviePresenter presenter);
@@ -48,6 +54,8 @@ public interface AppComponent {
     void injest(KeywordsPresenter presenter);
     void injest(KeywordPresenter presenter);
     void injest(WatchlistPresenter presenter);
+    void injest(SimilarMoviesPresenter presenter);
+    void injest(RecommendationsMoviesPresenter presenter);
 
     void injest(BackdropDialog dialog);
 }

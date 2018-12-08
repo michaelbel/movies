@@ -1,9 +1,9 @@
-package org.michaelbel.moviemade.ui.modules.trailers;
+package org.michaelbel.moviemade.ui.modules.similar;
 
-import android.content.Intent;
+import android.annotation.SuppressLint;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
@@ -14,19 +14,23 @@ import android.widget.ProgressBar;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.jetbrains.annotations.NotNull;
+import org.michaelbel.moviemade.BuildConfig;
+import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.data.dao.Video;
+import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
 import org.michaelbel.moviemade.receivers.NetworkChangeListener;
 import org.michaelbel.moviemade.receivers.NetworkChangeReceiver;
 import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
-import org.michaelbel.moviemade.ui.modules.trailers.dialog.YoutubePlayerDialogFragment;
+import org.michaelbel.moviemade.ui.modules.favorites.FavoritesMvp;
+import org.michaelbel.moviemade.ui.modules.main.adapter.MoviesAdapter;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.utils.DeviceUtil;
-import org.michaelbel.moviemade.utils.EmptyViewMode;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,28 +41,30 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 
-public class TrailersFragment extends MvpAppCompatFragment implements TrailersMvp, NetworkChangeListener {
-
-    private static final String YOUTUBE_DIALOG_FRAGMENT_TAG = "youtubeFragment";
+@SuppressLint("CheckResult")
+@SuppressWarnings({"ResultOfMethodCallIgnored", "unused"})
+public class SimilarMoviesFragment extends MvpAppCompatFragment implements FavoritesMvp, NetworkChangeListener {
 
     private Unbinder unbinder;
-    private TrailersAdapter adapter;
-    private TrailersActivity activity;
+    private SimilarMoviesActivity activity;
+    private MoviesAdapter adapter;
     private GridLayoutManager gridLayoutManager;
     private PaddingItemDecoration itemDecoration;
     private NetworkChangeReceiver networkChangeReceiver;
     private boolean connectionFailure = false;
 
-    @InjectPresenter public TrailersPresenter presenter;
+    @Inject SharedPreferences sharedPreferences;
+    @InjectPresenter public SimilarMoviesPresenter presenter;
 
     @BindView(R.id.empty_view) EmptyView emptyView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.recycler_view) public RecyclerListView recyclerView;
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        activity = (TrailersActivity) getActivity();
+        activity = (SimilarMoviesActivity) getActivity();
+        Moviemade.getComponent().injest(this);
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
     }
@@ -66,7 +72,7 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_trailers, container, false);
+        View view = inflater.inflate(R.layout.fragment_similar_movies, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
     }
@@ -76,27 +82,31 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
         super.onViewCreated(view, savedInstanceState);
 
         itemDecoration = new PaddingItemDecoration();
-        itemDecoration.setOffset(DeviceUtil.INSTANCE.dp(activity, 4));
+        itemDecoration.setOffset(DeviceUtil.INSTANCE.dp(activity, 1));
 
-        int spanCount = activity.getResources().getInteger(R.integer.trailers_span_layout_count);
+        int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
 
-        adapter = new TrailersAdapter();
+        adapter = new MoviesAdapter();
         gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setEmptyView(emptyView);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setPadding(0, DeviceUtil.INSTANCE.dp(activity,2), 0, DeviceUtil.INSTANCE.dp(activity,2));
+        recyclerView.setPadding(DeviceUtil.INSTANCE.dp(activity, 2), 0, DeviceUtil.INSTANCE.dp(activity, 2), 0);
         recyclerView.setOnItemClickListener((v, position) -> {
-            Video trailer = adapter.trailers.get(position);
-            YoutubePlayerDialogFragment dialog = YoutubePlayerDialogFragment.newInstance(String.valueOf(Uri.parse(trailer.getKey())));
-            dialog.show(activity.getSupportFragmentManager(), YOUTUBE_DIALOG_FRAGMENT_TAG);
+            Movie movie = adapter.movies.get(position);
+            activity.startMovie(movie);
+            activity.finish();
         });
-        recyclerView.setOnItemLongClickListener((view1, position) -> {
-            Video trailer = adapter.trailers.get(position);
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailer.getKey())));
-            return true;
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                if (!recyclerView.canScrollVertically(1)) {
+                    presenter.getSimilarMoviesNext(activity.movie.getId());
+                }
+            }
         });
     }
 
@@ -106,6 +116,31 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
         refreshLayout();
     }
 
+    @OnClick(R.id.empty_view)
+    void emptyViewClick(View v) {
+        presenter.getSimilarMovies(activity.movie.getId());
+    }
+
+    /*@Override
+    public void onResume() {
+        super.onResume();
+
+        ((Moviemade) activity.getApplication()).rxBus2.toObserverable().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object -> {
+                if (object instanceof Events.DeleteMovieFromFavorite) {
+                    int movieId = ((Events.DeleteMovieFromFavorite) object).movieId;
+                    if (adapter != null) {
+                        if (adapter.removeMovieById(movieId)) {
+                            if (emptyView != null) {
+                                emptyView.setVisibility(View.VISIBLE);
+                                emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
+                            }
+                        }
+                    }
+                }
+            });
+    }*/
+
     @Override
     public void onDestroy() {
         super.onDestroy();
@@ -114,37 +149,30 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
         unbinder.unbind();
     }
 
-    @OnClick(R.id.empty_view)
-    void emptyViewClick(View v) {
-        emptyView.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
-        presenter.getVideos(activity.movie.getId());
-    }
-
     @Override
-    public void setTrailers(@NotNull List<Video> trailers) {
+    public void setMovies(@NotNull List<Movie> movies) {
         connectionFailure = false;
-        adapter.setTrailers(trailers);
         progressBar.setVisibility(View.GONE);
+        adapter.addAll(movies);
     }
 
     @Override
-    public void setError(@EmptyViewMode int mode) {
-        connectionFailure = true;
-        emptyView.setVisibility(View.VISIBLE);
+    public void setError(int mode) {
+        connectionFailure = false;
+        progressBar.setVisibility(View.GONE);
         emptyView.setMode(mode);
-        progressBar.setVisibility(View.GONE);
-    }
 
-    @Override
-    public void onNetworkChanged() {
-        if (connectionFailure && adapter.getItemCount() == 0) {
-            presenter.getVideos(activity.movie.getId());
+        if (BuildConfig.TMDB_API_KEY == "null") {
+            emptyView.setValue(R.string.api_key_error);
         }
     }
 
+    public MoviesAdapter getAdapter() {
+        return adapter;
+    }
+
     private void refreshLayout() {
-        int spanCount = activity.getResources().getInteger(R.integer.trailers_span_layout_count);
+        int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
         Parcelable state = gridLayoutManager.onSaveInstanceState();
         gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(gridLayoutManager);
@@ -152,5 +180,12 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
         itemDecoration.setOffset(0);
         recyclerView.addItemDecoration(itemDecoration);
         gridLayoutManager.onRestoreInstanceState(state);
+    }
+
+    @Override
+    public void onNetworkChanged() {
+        if (connectionFailure && adapter.getItemCount() == 0) {
+            presenter.getSimilarMovies(activity.movie.getId());
+        }
     }
 }
