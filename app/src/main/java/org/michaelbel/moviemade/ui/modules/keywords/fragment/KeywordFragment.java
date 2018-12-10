@@ -152,7 +152,7 @@ public class KeywordFragment extends MvpAppCompatFragment implements KeywordMvp,
         emptyView.setMode(mode);
 
         if (BuildConfig.TMDB_API_KEY == "null") {
-            emptyView.setValue(R.string.api_key_error);
+            emptyView.setValue(R.string.error_empty_api_key);
         }
     }
 

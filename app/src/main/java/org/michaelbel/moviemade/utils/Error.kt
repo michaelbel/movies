@@ -3,6 +3,7 @@ package org.michaelbel.moviemade.utils
 import androidx.annotation.IntDef
 import org.michaelbel.moviemade.utils.Error.Companion.ERROR_AUTH_WITH_LOGIN
 import org.michaelbel.moviemade.utils.Error.Companion.ERROR_CONNECTION_NO_TOKEN
+import org.michaelbel.moviemade.utils.Error.Companion.ERROR_NOT_FOUND
 import org.michaelbel.moviemade.utils.Error.Companion.ERROR_NO_CONNECTION
 import org.michaelbel.moviemade.utils.Error.Companion.ERROR_UNAUTHORIZED
 
@@ -10,7 +11,8 @@ import org.michaelbel.moviemade.utils.Error.Companion.ERROR_UNAUTHORIZED
     ERROR_UNAUTHORIZED,
     ERROR_NO_CONNECTION,
     ERROR_CONNECTION_NO_TOKEN,
-    ERROR_AUTH_WITH_LOGIN
+    ERROR_AUTH_WITH_LOGIN,
+    ERROR_NOT_FOUND
 )
 @Error
 annotation class Error {
@@ -19,5 +21,6 @@ annotation class Error {
         const val ERROR_NO_CONNECTION = 1
         const val ERROR_CONNECTION_NO_TOKEN = 2
         const val ERROR_AUTH_WITH_LOGIN = 3
+        const val ERROR_NOT_FOUND = 4
     }
 }

@@ -80,8 +80,7 @@ public class BackdropDialog extends BottomSheetDialogFragment {
     @OnClick(R.id.set_btn)
     public void setBtnClick(View v) {
         sharedPreferences.edit().putString(SharedPrefsKt.KEY_ACCOUNT_BACKDROP, path).apply();
-        // todo add to strings
-        Toast.makeText(getActivity(), "Image applyed as background", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.msg_image_applied, Toast.LENGTH_SHORT).show();
         dismiss();
     }
 

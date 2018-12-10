@@ -144,7 +144,7 @@ public class AccountFragment extends MvpAppCompatFragment implements AccountMvp,
         String pass = passwordField.getText() != null ? passwordField.getText().toString().trim() : null;
 
         if (name != null && name.length() == 0 || pass != null && pass.length() == 0) {
-            Toast.makeText(activity, SpannableUtil.replaceTags(getString(R.string.enter_data)), Toast.LENGTH_SHORT).show();
+            Toast.makeText(activity, SpannableUtil.replaceTags(getString(R.string.msg_enter_data)), Toast.LENGTH_SHORT).show();
         } else {
             presenter.createRequestToken(name, pass);
         }
@@ -179,7 +179,7 @@ public class AccountFragment extends MvpAppCompatFragment implements AccountMvp,
     void logoutClick(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle(R.string.logout);
-        builder.setMessage(R.string.logout_msg);
+        builder.setMessage(R.string.msg_logout);
         builder.setNegativeButton(R.string.cancel, null);
         builder.setPositiveButton(R.string.ok, (dialog, which) -> presenter.deleteSession());
         builder.show();
@@ -228,16 +228,24 @@ public class AccountFragment extends MvpAppCompatFragment implements AccountMvp,
 
     @Override
     public void setError(@Error int error) {
-        if (error == Error.ERROR_UNAUTHORIZED) {
-            sharedPreferences.edit().putString(SharedPrefsKt.KEY_SESSION_ID, "").apply();
-            loginLayout.setVisibility(View.VISIBLE);
-            accountLayout.setVisibility(View.GONE);
-        } else if (error == Error.ERROR_CONNECTION_NO_TOKEN) {
-            Toast.makeText(activity, R.string.no_connection, Toast.LENGTH_SHORT).show();
-        } else if (error == Error.ERROR_NO_CONNECTION) {
-            Toast.makeText(activity, R.string.no_connection, Toast.LENGTH_SHORT).show();
-        } else if (error == Error.ERROR_AUTH_WITH_LOGIN) {
-            Toast.makeText(activity, SpannableUtil.replaceTags(getString(R.string.error_invalid_data)), Toast.LENGTH_SHORT).show();
+        switch (error) {
+            case Error.ERROR_UNAUTHORIZED:
+                sharedPreferences.edit().putString(SharedPrefsKt.KEY_SESSION_ID, "").apply();
+                loginLayout.setVisibility(View.VISIBLE);
+                accountLayout.setVisibility(View.GONE);
+                break;
+            case Error.ERROR_CONNECTION_NO_TOKEN:
+                Toast.makeText(activity, R.string.error_empty_token, Toast.LENGTH_SHORT).show();
+                break;
+            case Error.ERROR_NO_CONNECTION:
+                Toast.makeText(activity, R.string.error_no_connection, Toast.LENGTH_SHORT).show();
+                break;
+            case Error.ERROR_AUTH_WITH_LOGIN:
+                Toast.makeText(activity, SpannableUtil.replaceTags(getString(R.string.error_invalid_data)), Toast.LENGTH_SHORT).show();
+                break;
+            case Error.ERROR_NOT_FOUND:
+                Toast.makeText(activity, SpannableUtil.replaceTags(getString(R.string.error_not_found)), Toast.LENGTH_SHORT).show();
+                break;
         }
     }
 

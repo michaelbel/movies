@@ -29,8 +29,6 @@ import retrofit2.Retrofit;
 @InjectViewState
 public class AccountPresenter extends MvpPresenter<AccountMvp> {
 
-    // TODO: add strings to strings.xml
-
     private Disposable disposable1;
     private Disposable disposable2;
     private Disposable disposable3;
@@ -114,21 +112,19 @@ public class AccountPresenter extends MvpPresenter<AccountMvp> {
         }
 
         ACCOUNT service = retrofit.create(ACCOUNT.class);
-        disposable4 = service.getDetails(BuildConfig.TMDB_API_KEY, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(account -> {
-                    if (account != null) {
-                        getViewState().setAccount(account);
-                    }
-                }, e -> {
-                    int code = ((HttpException) e).code();
-                    if (code == StatusCodeKt.CODE_401) {
-                        getViewState().setError(Error.ERROR_UNAUTHORIZED);
-                    } else if (code == StatusCodeKt.CODE_404) {
-                        // todo do smth.
-                    }
-                });
+        disposable4 = service.getDetails(BuildConfig.TMDB_API_KEY, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, "")).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+            .subscribe(account -> {
+                if (account != null) {
+                    getViewState().setAccount(account);
+                }
+            }, e -> {
+                int code = ((HttpException) e).code();
+                if (code == StatusCodeKt.CODE_401) {
+                    getViewState().setError(Error.ERROR_UNAUTHORIZED);
+                } else if (code == StatusCodeKt.CODE_404) {
+                    getViewState().setError(Error.ERROR_NOT_FOUND);
+                }
+            });
     }
 
     void createRequestToken() {

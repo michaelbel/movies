@@ -87,7 +87,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Net
     @InjectPresenter MoviePresenter presenter;
 
     // todo Rename id to poster
-    @BindView(R.id.user_avatar) AppCompatImageView posterImage;
+    @BindView(R.id.poster) AppCompatImageView posterImage;
     @BindView(R.id.info_layout) LinearLayoutCompat infoLayout;
     @BindView(R.id.rating_view) RatingView ratingView;
     @BindView(R.id.rating_text) AppCompatTextView ratingText;
@@ -319,7 +319,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Net
                 favoritesIcon.setImageDrawable(DrawableUtil.INSTANCE.getIcon(activity, R.drawable.ic_heart_outline, ContextCompat.getColor(activity, R.color.primaryText)));
                 favoritesText.setTextColor(ContextCompat.getColor(activity, R.color.primaryText));
                 favorite = false;
-                //sendEvent();
+                // todo sendEvent();
                 break;
         }
     }
@@ -361,7 +361,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Net
 
     @Override
     public void setConnectionError() {
-        Snackbar.make(view, R.string.no_connection, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(view, R.string.error_no_connection, Snackbar.LENGTH_SHORT).show();
         connectionError = true;
     }
 
@@ -380,7 +380,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Net
         presenter.addToWatchlist(sharedPreferences.getInt(SharedPrefsKt.KEY_ACCOUNT_ID, 0), activity.movie.getId(), !watchlist);
     }
 
-    @OnClick(R.id.user_avatar)
+    @OnClick(R.id.poster)
     void posterClick(View v) {
         activity.imageAnimator = GestureTransitions.from(posterImage).into(activity.fullImage);
         activity.imageAnimator.addPositionUpdateListener((position, isLeaving) -> {

@@ -12,7 +12,6 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.BuildConfig;
-import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
@@ -160,7 +159,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
         emptyView.setMode(mode);
 
         if (BuildConfig.TMDB_API_KEY == "null") {
-            emptyView.setValue(R.string.api_key_error);
+            emptyView.setValue(R.string.error_empty_api_key);
         }
     }
 

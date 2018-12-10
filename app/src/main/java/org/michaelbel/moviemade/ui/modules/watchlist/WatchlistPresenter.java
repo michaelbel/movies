@@ -5,9 +5,9 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.Moviemade;
+import org.michaelbel.moviemade.data.constants.SortKt;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.data.service.ACCOUNT;
-import org.michaelbel.moviemade.ui.modules.watchlist.WatchlistMvp;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 import org.michaelbel.moviemade.utils.RxUtil;
@@ -45,7 +45,7 @@ public class WatchlistPresenter extends MvpPresenter<WatchlistMvp> {
 
         page = 1;
         ACCOUNT service = retrofit.create(ACCOUNT.class);
-        disposable = service.getWatchlistMovies(accountId, BuildConfig.TMDB_API_KEY, sessionId, TmdbConfigKt.en_US, "created_at.asc", page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        disposable = service.getWatchlistMovies(accountId, BuildConfig.TMDB_API_KEY, sessionId, TmdbConfigKt.en_US, SortKt.ASC, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(response -> {
                 List<Movie> results = new ArrayList<>(response.getMovies());
                 if (results.isEmpty()) {
@@ -62,7 +62,7 @@ public class WatchlistPresenter extends MvpPresenter<WatchlistMvp> {
     void getWatchlistMoviesNext(int accountId, String sessionId) {
         page++;
         ACCOUNT service = retrofit.create(ACCOUNT.class);
-        disposable2 = service.getFavoriteMovies(accountId, BuildConfig.TMDB_API_KEY, sessionId, TmdbConfigKt.en_US, "created_at.asc", page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        disposable2 = service.getFavoriteMovies(accountId, BuildConfig.TMDB_API_KEY, sessionId, TmdbConfigKt.en_US, SortKt.ASC, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(response -> {
                 List<Movie> results = new ArrayList<>(response.getMovies());
                 if (results.isEmpty()) {

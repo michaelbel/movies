@@ -42,7 +42,7 @@ public class EmptyView extends FrameLayout {
     public EmptyView setMode(@EmptyViewMode int mode) {
         if (mode == EmptyViewMode.MODE_NO_CONNECTION) {
             setIcon(R.drawable.ic_offline);
-            setText(R.string.no_connection);
+            setText(R.string.error_no_connection);
         } else if (mode == EmptyViewMode.MODE_NO_MOVIES) {
             setIcon(R.drawable.ic_movieroll);
             setText(R.string.no_movies);

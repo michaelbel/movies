@@ -41,7 +41,7 @@ import retrofit2.Retrofit;
 @InjectViewState
 public class MoviePresenter extends MvpPresenter<MovieMvp> {
 
-    // TODO: The code in this presenter is just fucked up. I know it. I remind myself to rewrite it.
+    // TODO: remake it
 
     private final CompositeDisposable disposables = new CompositeDisposable();
 

@@ -1,5 +1,5 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <string name="app_name" tools:ignore="PrivateResource">Moviemade</string>
+<resources>
+    <string name="app_name">Moviemade</string>
     <string name="language_code">en</string>
 
     <string name="image_description">Poster</string>
@@ -7,7 +7,6 @@
     <string name="search">Search</string>
     <string name="loading_status">Loading…</string>
     <string name="loading_tagline">Loading tagline…</string>
-    <string name="no_connection">No connection</string>
     <string name="unknown">Unknown</string>
     <string name="trailers">Trailers</string>
     <string name="video_size">%1$sp</string>
@@ -46,7 +45,6 @@
     <string name="view_homepage">View Homepage</string>
     <string name="subject">Subject</string>
     <string name="share_via">Share via</string>
-    <string name="api_key_error">Please add your **tmdb_api_key** string into **local.properties** file</string>
     <string name="no_movies">No movies to show</string>
     <string name="no_reviews">No reviews to show</string>
     <string name="no_results">No results to show</string>
@@ -59,19 +57,12 @@
     <string name="produced">Produced by %s</string>
     <string name="loading">loading…</string>
     <string name="icon">icon</string>
-    <string name="message_account_not_authorized">Your Themoviedb account is not authorized. \nPlease, sign in.</string>
     <string name="sign_up">Sign up</string>
     <string name="sign_in">Sign in</string>
     <string name="favorite_movies">Favorites</string>
     <string name="watchlist">Watchlist</string>
     <string name="logout">Log out</string>
     <string name="account">Account</string>
-    <string name="add">Add</string>
-    <string name="remove">Remove</string>
-    <string name="logout_msg">Are you sure you want to log out?</string>
-    <string name="ok">OK</string>
-    <string name="set">Set</string>
-    <string name="cancel">Cancel</string>
     <string name="loading_login">Loading login…</string>
     <string name="loading_name">Loading name…</string>
     <string name="none">None</string>
@@ -85,9 +76,22 @@
     <string name="privacy_policy">Privacy Policy</string>
     <string name="reset_pass">Reset Password</string>
     <string name="apply_as_background">Apply image as account background</string>
-    <string name="enter_data">Enter **Username** and **Password**</string>
-    <!--todo Add error везде-->
-    <string name="error_invalid_data">Invalid **Login** or **Password**</string>
     <string name="similar_movies">Similar movies</string>
     <string name="recommendations">Recommendations</string>
+
+    <!--Errors-->
+    <string name="error_no_connection">No connection</string>
+    <string name="error_not_found">Resource is not found</string>
+    <string name="error_empty_token">Authorized token is empty</string>
+    <string name="error_invalid_data">Invalid **Login** or **Password**</string>
+    <string name="error_empty_api_key">Please add your **tmdb_api_key** string into **local.properties** file</string>
+    <!--Actions-->
+    <string name="ok">OK</string>
+    <string name="set">Set</string>
+    <string name="cancel">Cancel</string>
+    <!--Messages-->
+    <string name="msg_logout">Are you sure you want to log out?</string>
+    <string name="msg_enter_data">Enter **Username** and **Password**</string>
+    <string name="msg_account_not_authorized">Your Themoviedb account is not authorized. \nPlease, sign in.</string>
+    <string name="msg_image_applied">Image applied as background</string>
 </resources>

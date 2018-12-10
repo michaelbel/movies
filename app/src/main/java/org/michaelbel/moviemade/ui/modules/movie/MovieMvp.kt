@@ -6,8 +6,6 @@ import org.michaelbel.moviemade.data.dao.Movie
 
 interface MovieMvp : MvpView {
 
-    // TODO: Pass objects, not data types.
-
     fun setPoster(posterPath: String)
 
     fun setMovieTitle(title: String)
