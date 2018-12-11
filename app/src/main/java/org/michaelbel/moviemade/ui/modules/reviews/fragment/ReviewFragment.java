@@ -50,12 +50,12 @@ public class ReviewFragment extends MvpAppCompatFragment {
     @Inject SharedPreferences sharedPreferences;
 
     @BindColor(R.color.primaryText) int backgroundLight;
-    @BindColor(R.color.sepia_background) int backgroundSepia;
+    @BindColor(R.color.sepiaBackground) int backgroundSepia;
     @BindColor(R.color.background) int backgroundNight;
 
     @BindColor(R.color.md_black) int textLight;
     @BindColor(R.color.md_black) int textSepia;
-    @BindColor(R.color.night_text) int textNight;
+    @BindColor(R.color.nightText) int textNight;
 
     @BindView(R.id.review_text) GestureTextView reviewText;
     @BindView(R.id.scroll_layout) NestedScrollView scrollLayout;

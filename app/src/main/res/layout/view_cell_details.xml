@@ -41,8 +41,9 @@
     <View
         android:id="@+id/divider_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/divider_height"
+        android:layout_height="0.5dp"
         android:layout_gravity="bottom"
+        android:layout_marginStart="14dp"
         android:background="@color/divider"/>
 
 </FrameLayout>

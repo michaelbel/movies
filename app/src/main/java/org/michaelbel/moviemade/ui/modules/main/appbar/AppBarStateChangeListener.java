@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.ui.modules.main.views.appbar;
+package org.michaelbel.moviemade.ui.modules.main.appbar;
 
 import com.google.android.material.appbar.AppBarLayout;
 

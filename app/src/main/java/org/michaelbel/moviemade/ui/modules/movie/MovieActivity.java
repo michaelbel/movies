@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import com.alexvasilkov.gestures.transition.ViewsTransitionAnimator;
 import com.alexvasilkov.gestures.views.GestureImageView;
@@ -17,8 +16,8 @@ import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.dao.Movie;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
-import org.michaelbel.moviemade.ui.modules.main.views.appbar.AppBarState;
-import org.michaelbel.moviemade.ui.modules.main.views.appbar.AppBarStateChangeListener;
+import org.michaelbel.moviemade.ui.modules.main.appbar.AppBarState;
+import org.michaelbel.moviemade.ui.modules.main.appbar.AppBarStateChangeListener;
 import org.michaelbel.moviemade.utils.SharedPrefsKt;
 import org.michaelbel.moviemade.utils.TmdbConfigKt;
 import org.michaelbel.moviemade.utils.DeviceUtil;

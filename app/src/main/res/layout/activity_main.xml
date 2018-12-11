@@ -11,19 +11,32 @@
         android:fillViewport="true"
         android:background="@color/background"/>
 
-    <org.michaelbel.moviemade.ui.modules.main.views.topbar.TopBar
-        android:id="@+id/topbar"
+    <org.michaelbel.moviemade.ui.modules.main.appbar.MainAppBar
+        android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top|end"
-        app:bnbAutoHideEnabled="true"/>
+        android:layout_height="56dp"
+        app:elevation="0dp">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="56dp">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/toolbar_title"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:gravity="center_vertical"
+                style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
+
+        </androidx.appcompat.widget.Toolbar>
+
+    </org.michaelbel.moviemade.ui.modules.main.appbar.MainAppBar>
 
     <org.michaelbel.moviemade.ui.widgets.bottombar.BottomNavigationBar
         android:id="@+id/bottom_navigation_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:bnbAutoHideEnabled="true"
-        app:bnbElevation="4dp"/>
+        android:layout_gravity="bottom"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

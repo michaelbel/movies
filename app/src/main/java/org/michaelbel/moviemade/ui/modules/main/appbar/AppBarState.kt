@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.ui.modules.main.views.appbar
+package org.michaelbel.moviemade.ui.modules.main.appbar
 
 enum class AppBarState {
     EXPANDED,

@@ -5,6 +5,9 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -68,10 +71,25 @@ public class AccountFragment extends MvpAppCompatFragment implements AccountMvp,
     @BindView(R.id.login_text) AppCompatTextView loginText;
     @BindView(R.id.name_text) AppCompatTextView nameText;
     @BindView(R.id.backdrop_image) AppCompatImageView backdropImage;
-    @BindView(R.id.logout_btn) AppCompatImageView logoutBtn;
 
     @Inject SharedPreferences sharedPreferences;
     @InjectPresenter public AccountPresenter presenter;
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.add(R.string.logout)
+            .setIcon(R.drawable.ic_logout)
+            .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            .setOnMenuItemClickListener(item -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                builder.setTitle(R.string.logout);
+                builder.setMessage(R.string.msg_logout);
+                builder.setNegativeButton(R.string.cancel, null);
+                builder.setPositiveButton(R.string.ok, (dialog, which) -> presenter.deleteSession());
+                builder.show();
+                return true;
+            });
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -132,9 +150,6 @@ public class AccountFragment extends MvpAppCompatFragment implements AccountMvp,
             Glide.with(activity).load(sharedPreferences.getString(SharedPrefsKt.KEY_ACCOUNT_BACKDROP, "")).thumbnail(0.1f).into(backdropImage);
         }
 
-        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) logoutBtn.getLayoutParams();
-        params.topMargin = DeviceUtil.INSTANCE.getStatusBarHeight(activity) + DeviceUtil.INSTANCE.dp(activity, 16);
-
         presenter.getAccountDetails();
     }
 
@@ -173,16 +188,6 @@ public class AccountFragment extends MvpAppCompatFragment implements AccountMvp,
     @OnClick(R.id.policy_card)
     void policyClick(View v) {
         Browser.INSTANCE.openUrl(activity, TmdbConfigKt.TMDB_PRIVACY_POLICY);
-    }
-
-    @OnClick(R.id.logout_btn)
-    void logoutClick(View v) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle(R.string.logout);
-        builder.setMessage(R.string.msg_logout);
-        builder.setNegativeButton(R.string.cancel, null);
-        builder.setPositiveButton(R.string.ok, (dialog, which) -> presenter.deleteSession());
-        builder.show();
     }
 
     @OnClick(R.id.favorites_text)

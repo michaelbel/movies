@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.ui.modules.main.views.topbar;
+package org.michaelbel.moviemade.ui.modules.main.appbar;
 
 import android.view.View;
 import android.view.animation.Interpolator;
@@ -16,17 +16,17 @@ import androidx.core.view.ViewCompat;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
 @SuppressWarnings("all")
-public class TopVerticalScrollBehavior<V extends View> extends VerticalScrollingBehavior<V> {
+public class MainAppBarVerticalScrollBehavior<V extends View> extends VerticalScrollingBehavior<V> {
 
     private static final Interpolator INTERPOLATOR = new FastOutSlowInInterpolator();
     private int mBottomNavHeight;
-    private WeakReference<TopBar> mViewRef;
+    private WeakReference<MainAppBar> mViewRef;
 
     @Override
     public boolean onLayoutChild(@NonNull CoordinatorLayout parent, @NonNull final V child, int layoutDirection) {
         parent.onLayoutChild(child, layoutDirection);
-        if (child instanceof TopBar) {
-            mViewRef = new WeakReference<>((TopBar) child);
+        if (child instanceof MainAppBar) {
+            mViewRef = new WeakReference<>((MainAppBar) child);
         }
 
         child.post(() -> mBottomNavHeight = child.getHeight());
@@ -98,15 +98,15 @@ public class TopVerticalScrollBehavior<V extends View> extends VerticalScrolling
     }
 
     private void handleDirection(CoordinatorLayout parent, V child, int scrollDirection) {
-        TopBar topBar = mViewRef.get();
+        MainAppBar appBar = mViewRef.get();
 
-        if (topBar != null && topBar.isAutoHideEnabled()) {
-            if (scrollDirection == ScrollDirection.SCROLL_DIRECTION_DOWN && topBar.isHidden()) {
+        if (appBar != null && appBar.isAutoHideEnabled()) {
+            if (scrollDirection == ScrollDirection.SCROLL_DIRECTION_DOWN && appBar.isHidden()) {
                 updateSnackBarPosition(parent, child, getSnackBarInstance(parent, child), -mBottomNavHeight);
-                topBar.show();
-            } else if (scrollDirection == ScrollDirection.SCROLL_DIRECTION_UP && !topBar.isHidden()) {
+                appBar.show();
+            } else if (scrollDirection == ScrollDirection.SCROLL_DIRECTION_UP && !appBar.isHidden()) {
                 updateSnackBarPosition(parent, child, getSnackBarInstance(parent, child), 0);
-                topBar.hide();
+                appBar.hide();
             }
         }
     }

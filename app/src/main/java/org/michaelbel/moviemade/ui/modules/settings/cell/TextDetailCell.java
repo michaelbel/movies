@@ -51,8 +51,8 @@ public class TextDetailCell extends FrameLayout {
     public TextDetailCell(Context context) {
         super(context);
 
-        setForeground(DrawableUtil.INSTANCE.selectableItemBackgroundDrawable(context));
         setBackgroundColor(ContextCompat.getColor(context, R.color.background));
+        setForeground(DrawableUtil.INSTANCE.selectableItemBackgroundDrawable(context));
 
         if (paint == null) {
             paint = new Paint();
@@ -166,7 +166,7 @@ public class TextDetailCell extends FrameLayout {
     @Override
     protected void onDraw(Canvas canvas) {
         if (divider) {
-            canvas.drawLine(getPaddingLeft(), getHeight() - 1, getWidth() - getPaddingRight(), getHeight() - 1, paint);
+            canvas.drawLine(getPaddingLeft() + DeviceUtil.INSTANCE.dp(getContext(), 14), getHeight() - 1, getWidth() - getPaddingRight(), getHeight() - 1, paint);
         }
     }
 

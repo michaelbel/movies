@@ -29,6 +29,6 @@
     <color name="transparent90">#e6000000</color><!--90% opacity-->
 
     <!--ReviewActivity-->
-    <color name="night_text">#999999</color>
-    <color name="sepia_background">#f6efdc</color>
+    <color name="nightText">#999999</color>
+    <color name="sepiaBackground">#f6efdc</color>
 </resources>
