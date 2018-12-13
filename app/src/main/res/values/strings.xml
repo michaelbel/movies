@@ -78,6 +78,7 @@
     <string name="apply_as_background">Apply image as account background</string>
     <string name="similar_movies">Similar movies</string>
     <string name="recommendations">Recommendations</string>
+    <string name="filter">Filter</string>
 
     <!--Errors-->
     <string name="error_no_connection">No connection</string>

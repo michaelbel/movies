@@ -13,8 +13,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.FrameLayout;
 
-import org.michaelbel.moviemade.Moviemade;
+import org.michaelbel.moviemade.Logger;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.utils.DrawableUtil;
@@ -31,14 +32,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public class SearchActivity extends BaseActivity {
 
-    public static final int MENU_ITEM_INDEX = 0;
     public static final int SPEECH_REQUEST_CODE = 101;
+    public static final int MENU_ITEM_INDEX = 0;
     public static final int MODE_ACTION_CLEAR = 1;
     public static final int MODE_ACTION_VOICE = 2;
 
     private int iconActionMode;
+    private boolean isFilterShowed = false;
 
     private Menu actionMenu;
     private Unbinder unbinder;
@@ -46,6 +51,41 @@ public class SearchActivity extends BaseActivity {
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.search_edit_text) AppCompatEditText searchEditText;
+
+    @BindView(R.id.shadow_view) View shadowView;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        actionMenu = menu;
+
+       /* menu.add(R.string.filter).setIcon(R.drawable.ic_tune).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            .setOnMenuItemClickListener(item -> {
+                showFilter();
+                return true;
+            });*/
+
+        menu.add(null).setIcon(R.drawable.ic_voice).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            .setOnMenuItemClickListener(menuItem -> {
+                if (iconActionMode == MODE_ACTION_VOICE) {
+                    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
+                    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, R.string.speak_now);
+                    startActivityForResult(intent, SPEECH_REQUEST_CODE);
+                } else if (iconActionMode == MODE_ACTION_CLEAR) {
+                    Objects.requireNonNull(searchEditText.getText()).clear();
+                    changeActionIcon();
+
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    if (imm != null) {
+                        imm.showSoftInput(searchEditText, InputMethodManager.SHOW_IMPLICIT);
+                    }
+                }
+                return true;
+            });
+
+        return super.onCreateOptionsMenu(menu);
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -72,6 +112,9 @@ public class SearchActivity extends BaseActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 changeActionIcon();
+                if (s.length() >= 2) {
+                    fragment.presenter.search(s.toString().trim());
+                }
             }
 
             @Override
@@ -87,33 +130,10 @@ public class SearchActivity extends BaseActivity {
             return false;
         });
         DrawableUtil.INSTANCE.clearCursorDrawable(searchEditText);
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        actionMenu = menu;
-
-        menu.add(null).setIcon(R.drawable.ic_voice).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
-            .setOnMenuItemClickListener(menuItem -> {
-                if (iconActionMode == MODE_ACTION_VOICE) {
-                    Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
-                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-                    intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.ENGLISH);
-                    intent.putExtra(RecognizerIntent.EXTRA_PROMPT, R.string.speak_now);
-                    startActivityForResult(intent, SPEECH_REQUEST_CODE);
-                } else if (iconActionMode == MODE_ACTION_CLEAR) {
-                    Objects.requireNonNull(searchEditText.getText()).clear();
-                    changeActionIcon();
-
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                    if (imm != null) {
-                        imm.showSoftInput(searchEditText, InputMethodManager.SHOW_IMPLICIT);
-                    }
-                }
-                return true;
-            });
-
-        return super.onCreateOptionsMenu(menu);
+        //isFilterShowed = false;
+        //filterLayout.setVisibility(GONE);
+        //shadowView.setVisibility(GONE);
     }
 
     @Override
@@ -153,6 +173,27 @@ public class SearchActivity extends BaseActivity {
                 actionMenu.getItem(MENU_ITEM_INDEX).setIcon(R.drawable.ic_clear);
             }
         }
+    }
+
+    private void showFilter() {
+        if (isFilterShowed) {
+            shadowView.setVisibility(GONE);
+            isFilterShowed = false;
+        } else {
+            shadowView.setVisibility(VISIBLE);
+            isFilterShowed = true;
+        }
+
+        /*ObjectAnimator animator = ObjectAnimator.ofFloat(filterLayout, "translationY", -filterLayout.getMeasuredWidth(), 0);
+        animator.setDuration(300);
+        animator.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                filterLayout.setVisibility(View.VISIBLE);
+            }
+        });
+        AndroidUtil.INSTANCE.runOnUIThread(animator:: start, 0);*/
     }
 
     public void hideKeyboard(View view) {

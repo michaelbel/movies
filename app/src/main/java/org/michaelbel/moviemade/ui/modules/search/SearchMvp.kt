@@ -10,5 +10,7 @@ interface SearchMvp : MvpView {
 
     fun setMovies(movies: List<Movie>)
 
+    fun setSuggestions(movies: List<Movie>)
+
     fun setError(@EmptyViewMode mode: Int)
 }

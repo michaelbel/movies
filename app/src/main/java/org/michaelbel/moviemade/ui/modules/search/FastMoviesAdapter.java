@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.ui.modules.main.adapter;
+package org.michaelbel.moviemade.ui.modules.search;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +8,8 @@ import com.bumptech.glide.Glide;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.dao.Movie;
-import org.michaelbel.moviemade.utils.TmdbConfigKt;
 import org.michaelbel.moviemade.utils.DeviceUtil;
+import org.michaelbel.moviemade.utils.TmdbConfigKt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,19 +22,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 @SuppressWarnings("ConstantConditions")
-public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
+public class FastMoviesAdapter extends RecyclerView.Adapter<FastMoviesAdapter.MoviesViewHolder> {
 
     public ArrayList<Movie> movies = new ArrayList<>();
 
     @NonNull
     @Override
     public MoviesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_poster, parent, false);
-        if (DeviceUtil.INSTANCE.isLandscape(parent.getContext()) || DeviceUtil.INSTANCE.isTablet(parent.getContext())) {
-            view.getLayoutParams().height = (int) (parent.getWidth() / 2.5F);
-        } else {
-            view.getLayoutParams().height = (int) (parent.getWidth() / 2 * 1.5F);
-        }
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_fast_movie, parent, false);
         return new MoviesViewHolder(view);
     }
 
@@ -51,6 +46,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     public void addAll(List<Movie> movies) {
         this.movies.addAll(movies);
+        notifyDataSetChanged();
+    }
+
+    public void clear() {
+        movies.clear();
         notifyDataSetChanged();
     }
 

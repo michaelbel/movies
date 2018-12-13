@@ -1,5 +1,8 @@
 package org.michaelbel.moviemade.ui.modules.search;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ObjectAnimator;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -19,6 +22,7 @@ import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.modules.main.adapter.MoviesAdapter;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
+import org.michaelbel.moviemade.utils.AndroidUtil;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.IntentsKt;
@@ -36,12 +40,14 @@ import butterknife.Unbinder;
 
 public class SearchMoviesFragment extends MvpAppCompatFragment implements SearchMvp {
 
-    private String readyQuery;
     private Unbinder unbinder;
     private SearchActivity activity;
     private MoviesAdapter adapter;
     private GridLayoutManager gridLayoutManager;
     private PaddingItemDecoration itemDecoration;
+
+    private FastMoviesAdapter fastAdapter;
+    private GridLayoutManager fastGridLayoutManager;
 
     @InjectPresenter public SearchMoviesPresenter presenter;
 
@@ -100,6 +106,9 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
                 }
             }
         });
+
+        fastAdapter = new FastMoviesAdapter();
+        fastGridLayoutManager = new GridLayoutManager(activity, 1, RecyclerView.VERTICAL, false);
         return view;
     }
 
@@ -111,7 +120,7 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
             return;
         }
 
-        readyQuery = getArguments().getString(IntentsKt.QUERY);
+        String readyQuery = getArguments().getString(IntentsKt.QUERY);
 
         if (readyQuery == null) {
             activity.searchEditText.setSelection(Objects.requireNonNull(activity.searchEditText.getText()).length());
@@ -150,6 +159,12 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
     public void setMovies(@NotNull List<Movie> movies) {
         progressBar.setVisibility(View.GONE);
         adapter.addAll(movies);
+    }
+
+    @Override
+    public void setSuggestions(@NotNull List<Movie> movies) {
+        fastAdapter.clear();
+        fastAdapter.addAll(movies);
     }
 
     @Override
