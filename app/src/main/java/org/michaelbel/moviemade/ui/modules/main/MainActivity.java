@@ -11,10 +11,10 @@ import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.ui.modules.account.AccountFragment;
+import org.michaelbel.moviemade.ui.modules.main.appbar.MainAppBar;
 import org.michaelbel.moviemade.ui.modules.main.fragments.NowPlayingFragment;
 import org.michaelbel.moviemade.ui.modules.main.fragments.TopRatedFragment;
 import org.michaelbel.moviemade.ui.modules.main.fragments.UpcomingFragment;
-import org.michaelbel.moviemade.ui.modules.main.appbar.MainAppBar;
 import org.michaelbel.moviemade.ui.modules.search.SearchActivity;
 import org.michaelbel.moviemade.ui.modules.settings.SettingsActivity;
 import org.michaelbel.moviemade.ui.widgets.bottombar.BottomNavigationBar;
@@ -33,6 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import shortbread.Shortcut;
 
 public class MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
 
@@ -206,5 +207,23 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
                 startFragment(upcomingFragment, R.id.fragment_view);
                 break;
         }
+    }
+
+    @Shortcut(id = "favorites", rank = 3, icon = R.drawable.ic_shortcut_favorite, shortLabelRes = R.string.favorites)
+    public void showFavorites() {
+        startFragment(profileFragment, R.id.fragment_view);
+        toolbarTitle.setText(null);
+        appBar.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.transparent));
+        bottomBar.selectTab(3);
+        startFavorites(profileFragment.getAccountId());
+    }
+
+    @Shortcut(id = "watchlist", rank = 2, icon = R.drawable.ic_shortcut_bookmark, shortLabelRes = R.string.watchlist)
+    public void showUpcomingMovies() {
+        startFragment(profileFragment, R.id.fragment_view);
+        toolbarTitle.setText(null);
+        appBar.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.transparent));
+        bottomBar.selectTab(3);
+        startWatchlist(profileFragment.getAccountId());
     }
 }

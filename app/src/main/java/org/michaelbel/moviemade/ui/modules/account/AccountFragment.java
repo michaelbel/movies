@@ -51,6 +51,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
+import shortbread.Shortcut;
 
 @SuppressWarnings("all")
 public class AccountFragment extends MvpAppCompatFragment implements AccountMvp, NetworkChangeListener {
@@ -275,5 +276,9 @@ public class AccountFragment extends MvpAppCompatFragment implements AccountMvp,
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public int getAccountId() {
+        return accountId;
     }
 }
