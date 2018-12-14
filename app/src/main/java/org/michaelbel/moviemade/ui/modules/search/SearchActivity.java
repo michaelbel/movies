@@ -18,6 +18,7 @@ import android.widget.FrameLayout;
 import org.michaelbel.moviemade.Logger;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
+import org.michaelbel.moviemade.ui.modules.main.MainActivity;
 import org.michaelbel.moviemade.utils.DrawableUtil;
 import org.michaelbel.moviemade.utils.IntentsKt;
 
@@ -31,10 +32,12 @@ import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
+import shortbread.Shortcut;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
+@Shortcut(id = "search", rank = 1, icon = R.drawable.ic_shortcut_search, shortLabelRes = R.string.search, backStack = MainActivity.class)
 public class SearchActivity extends BaseActivity {
 
     public static final int SPEECH_REQUEST_CODE = 101;
@@ -175,7 +178,7 @@ public class SearchActivity extends BaseActivity {
         }
     }
 
-    private void showFilter() {
+    /*private void showFilter() {
         if (isFilterShowed) {
             shadowView.setVisibility(GONE);
             isFilterShowed = false;
@@ -184,7 +187,7 @@ public class SearchActivity extends BaseActivity {
             isFilterShowed = true;
         }
 
-        /*ObjectAnimator animator = ObjectAnimator.ofFloat(filterLayout, "translationY", -filterLayout.getMeasuredWidth(), 0);
+        *//*ObjectAnimator animator = ObjectAnimator.ofFloat(filterLayout, "translationY", -filterLayout.getMeasuredWidth(), 0);
         animator.setDuration(300);
         animator.addListener(new AnimatorListenerAdapter() {
             @Override
@@ -193,8 +196,8 @@ public class SearchActivity extends BaseActivity {
                 filterLayout.setVisibility(View.VISIBLE);
             }
         });
-        AndroidUtil.INSTANCE.runOnUIThread(animator:: start, 0);*/
-    }
+        AndroidUtil.INSTANCE.runOnUIThread(animator:: start, 0);*//*
+    }*/
 
     public void hideKeyboard(View view) {
         if (view == null) {
