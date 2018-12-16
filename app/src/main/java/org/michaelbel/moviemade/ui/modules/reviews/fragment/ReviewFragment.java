@@ -5,18 +5,16 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.data.dao.Review;
-import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.data.entity.Review;
+import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.modules.reviews.GestureTextView;
 import org.michaelbel.moviemade.ui.modules.reviews.activity.ReviewActivity;
 import org.michaelbel.moviemade.utils.AndroidUtil;
@@ -30,10 +28,8 @@ import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
 import butterknife.BindColor;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
-public class ReviewFragment extends MvpAppCompatFragment {
+public class ReviewFragment extends BaseFragment {
 
     private static final int THEME_LIGHT = 0;
     private static final int THEME_SEPIA = 1;
@@ -44,7 +40,6 @@ public class ReviewFragment extends MvpAppCompatFragment {
     private MenuItem menu_theme_sepia;
     private MenuItem menu_theme_night;
 
-    private Unbinder unbinder;
     private ReviewActivity activity;
 
     @Inject SharedPreferences sharedPreferences;
@@ -86,7 +81,7 @@ public class ReviewFragment extends MvpAppCompatFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (ReviewActivity) getActivity();
-        Moviemade.getComponent().injest(this);
+        Moviemade.getAppComponent().injest(this);
         setHasOptionsMenu(true);
     }
 
@@ -119,14 +114,6 @@ public class ReviewFragment extends MvpAppCompatFragment {
         return true;
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_review, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        return view;
-    }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -134,9 +121,8 @@ public class ReviewFragment extends MvpAppCompatFragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
+    protected int getLayout() {
+        return R.layout.fragment_review;
     }
 
     public void setReview(Review review) {

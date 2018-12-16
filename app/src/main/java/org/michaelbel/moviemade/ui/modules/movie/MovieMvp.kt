@@ -1,8 +1,8 @@
 package org.michaelbel.moviemade.ui.modules.movie
 
 import com.arellomobile.mvp.MvpView
-import org.michaelbel.moviemade.data.dao.Mark
-import org.michaelbel.moviemade.data.dao.Movie
+import org.michaelbel.moviemade.data.entity.Mark
+import org.michaelbel.moviemade.data.entity.Movie
 
 interface MovieMvp : MvpView {
 

@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.data.dao.Keyword;
+import org.michaelbel.moviemade.data.entity.Keyword;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,11 @@ import butterknife.ButterKnife;
 
 public class KeywordsAdapter extends RecyclerView.Adapter<KeywordsAdapter.KeywordsViewHolder> {
 
-    public List<Keyword> keywords = new ArrayList<>();
+    private List<Keyword> keywords = new ArrayList<>();
+
+    public List<Keyword> getKeywords() {
+        return keywords;
+    }
 
     public void setKeywords(List<Keyword> results) {
         keywords.addAll(results);

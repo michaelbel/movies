@@ -8,9 +8,9 @@ import com.arellomobile.mvp.MvpPresenter;
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.data.constants.StatusCodeKt;
-import org.michaelbel.moviemade.data.dao.RequestToken;
-import org.michaelbel.moviemade.data.dao.SessionId;
-import org.michaelbel.moviemade.data.dao.Username;
+import org.michaelbel.moviemade.data.entity.RequestToken;
+import org.michaelbel.moviemade.data.entity.SessionId;
+import org.michaelbel.moviemade.data.entity.Username;
 import org.michaelbel.moviemade.data.service.ACCOUNT;
 import org.michaelbel.moviemade.data.service.AUTHENTICATION;
 import org.michaelbel.moviemade.utils.Error;
@@ -24,7 +24,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 import retrofit2.HttpException;
-import retrofit2.Retrofit;
 
 @InjectViewState
 public class AccountPresenter extends MvpPresenter<AccountMvp> {
@@ -36,11 +35,12 @@ public class AccountPresenter extends MvpPresenter<AccountMvp> {
     private Disposable disposable5;
     private Disposable disposable6;
 
-    @Inject Retrofit retrofit;
+    @Inject ACCOUNT accountService;
+    @Inject AUTHENTICATION authService;
     @Inject SharedPreferences sharedPreferences;
 
     AccountPresenter() {
-        Moviemade.getComponent().injest(this);
+        Moviemade.getAppComponent().injest(this);
     }
 
     public void createSessionId(String token) {
@@ -49,8 +49,7 @@ public class AccountPresenter extends MvpPresenter<AccountMvp> {
             return;
         }
 
-        AUTHENTICATION service = retrofit.create(AUTHENTICATION.class);
-        disposable1 = service.createSession(BuildConfig.TMDB_API_KEY, new RequestToken(token)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        disposable1 = authService.createSession(BuildConfig.TMDB_API_KEY, new RequestToken(token)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(session -> {
                 if (session != null) {
                     if (session.getSuccess()) {
@@ -70,8 +69,7 @@ public class AccountPresenter extends MvpPresenter<AccountMvp> {
             return;
         }
 
-        AUTHENTICATION service = retrofit.create(AUTHENTICATION.class);
-        disposable2 = service.createSessionWithLogin(BuildConfig.TMDB_API_KEY, username).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        disposable2 = authService.createSessionWithLogin(BuildConfig.TMDB_API_KEY, username).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(tokenResponse -> {
                 if (tokenResponse != null) {
                     if (tokenResponse.getSuccess()) {
@@ -91,8 +89,7 @@ public class AccountPresenter extends MvpPresenter<AccountMvp> {
             return;
         }
 
-        AUTHENTICATION service = retrofit.create(AUTHENTICATION.class);
-        disposable3 = service.deleteSession(BuildConfig.TMDB_API_KEY, new SessionId(sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""))).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        disposable3 = authService.deleteSession(BuildConfig.TMDB_API_KEY, new SessionId(sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""))).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(deletedSession -> {
                 if (deletedSession != null) {
                     if (deletedSession.getSuccess()) {
@@ -111,8 +108,7 @@ public class AccountPresenter extends MvpPresenter<AccountMvp> {
             return;
         }
 
-        ACCOUNT service = retrofit.create(ACCOUNT.class);
-        disposable4 = service.getDetails(BuildConfig.TMDB_API_KEY, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, "")).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        disposable4 = accountService.getDetails(BuildConfig.TMDB_API_KEY, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, "")).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(account -> {
                 if (account != null) {
                     getViewState().setAccount(account);
@@ -133,8 +129,7 @@ public class AccountPresenter extends MvpPresenter<AccountMvp> {
             return;
         }
 
-        AUTHENTICATION service = retrofit.create(AUTHENTICATION.class);
-        disposable5 = service.createRequestToken(BuildConfig.TMDB_API_KEY).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        disposable5 = authService.createRequestToken(BuildConfig.TMDB_API_KEY).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(response -> {
                 if (response != null) {
                     if (response.getSuccess()) {
@@ -155,8 +150,7 @@ public class AccountPresenter extends MvpPresenter<AccountMvp> {
             return;
         }
 
-        AUTHENTICATION service = retrofit.create(AUTHENTICATION.class);
-        disposable6 = service.createRequestToken(BuildConfig.TMDB_API_KEY).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        disposable6 = authService.createRequestToken(BuildConfig.TMDB_API_KEY).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(response -> {
                 if (response != null) {
                     if (response.getSuccess()) {

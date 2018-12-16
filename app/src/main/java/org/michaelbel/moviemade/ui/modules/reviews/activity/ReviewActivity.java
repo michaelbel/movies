@@ -5,8 +5,8 @@ import android.os.Bundle;
 import com.google.android.material.appbar.AppBarLayout;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.data.dao.Movie;
-import org.michaelbel.moviemade.data.dao.Review;
+import org.michaelbel.moviemade.data.entity.Movie;
+import org.michaelbel.moviemade.data.entity.Review;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.ui.modules.reviews.fragment.ReviewFragment;
 import org.michaelbel.moviemade.utils.IntentsKt;
@@ -15,14 +15,13 @@ import org.michaelbel.moviemade.utils.SpannableUtil;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 public class ReviewActivity extends BaseActivity {
 
+    // todo make private.
     public Movie movie;
+    // todo make private.
     public Review review;
-    private Unbinder unbinder;
 
     @BindView(R.id.toolbar) public Toolbar toolbar;
     @BindView(R.id.toolbar_title) AppCompatTextView toolbarTitle;
@@ -32,7 +31,6 @@ public class ReviewActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_review);
-        unbinder = ButterKnife.bind(this);
 
         movie = (Movie) getIntent().getSerializableExtra(IntentsKt.MOVIE);
         review = (Review) getIntent().getSerializableExtra(IntentsKt.REVIEW);
@@ -50,11 +48,5 @@ public class ReviewActivity extends BaseActivity {
         if (fragment != null) {
             fragment.setReview(review);
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
     }
 }

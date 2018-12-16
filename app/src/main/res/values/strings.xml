@@ -95,4 +95,11 @@
     <string name="msg_enter_data">Enter **Username** and **Password**</string>
     <string name="msg_account_not_authorized">Your Themoviedb account is not authorized. \nPlease, sign in.</string>
     <string name="msg_image_applied">Image applied as background</string>
+
+    <string name="ad_app_id">ca-app-pub-3651393080934289~1447245983</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3651393080934289/4775379452</string>
+
+    <!--Test-->
+    <!--<string name="ad_app_id">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="banner_ad_unit_id">ca-app-pub-3651393080934289/2751044208</string>-->
 </resources>

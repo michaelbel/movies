@@ -1,31 +1,26 @@
 package org.michaelbel.moviemade.ui.modules.movie;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-import com.alexvasilkov.gestures.transition.ViewsTransitionAnimator;
 import com.alexvasilkov.gestures.views.GestureImageView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 
-import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.data.dao.Movie;
+import org.michaelbel.moviemade.data.entity.Movie;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.ui.modules.main.appbar.AppBarState;
 import org.michaelbel.moviemade.ui.modules.main.appbar.AppBarStateChangeListener;
-import org.michaelbel.moviemade.utils.SharedPrefsKt;
-import org.michaelbel.moviemade.utils.TmdbConfigKt;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 import org.michaelbel.moviemade.utils.IntentsKt;
+import org.michaelbel.moviemade.utils.SharedPrefsKt;
+import org.michaelbel.moviemade.utils.TmdbConfigKt;
 
 import java.util.Locale;
-
-import javax.inject.Inject;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
@@ -34,16 +29,15 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnLongClick;
-import butterknife.Unbinder;
 
 @SuppressWarnings("all")
 public class MovieActivity extends BaseActivity {
 
-    public Movie movie;
-    private Unbinder unbinder;
-    public ViewsTransitionAnimator imageAnimator;
+    private Movie movie;
+    private MovieFragment fragment;
+    // todo
+    //public ViewsTransitionAnimator imageAnimator;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.app_bar) AppBarLayout appBar;
@@ -56,22 +50,22 @@ public class MovieActivity extends BaseActivity {
     @BindView(R.id.full_image) GestureImageView fullImage;
     @BindView(R.id.full_image_toolbar) Toolbar fullImageToolbar;
 
-    @Inject SharedPreferences sharedPreferences;
+    public Movie getMovie() {
+        return movie;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
-        unbinder = ButterKnife.bind(this);
-        Moviemade.getComponent().injest(this);
+
+        //MobileAds.initialize(this, getString(R.string.ad_app_id));
 
         movie = (Movie) getIntent().getSerializableExtra(IntentsKt.MOVIE);
 
-        MovieFragment fragment = (MovieFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-        if (fragment != null) {
-            fragment.presenter.setMovieDetailsFromExtra(movie);
-            fragment.presenter.loadDetails(movie.getId());
-        }
+        fragment = (MovieFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+        fragment.getPresenter().setMovieDetailsFromExtra(movie);
+        fragment.getPresenter().getDetails(movie.getId());
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.primary));
         getWindow().clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
@@ -113,22 +107,16 @@ public class MovieActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (imageAnimator != null && !imageAnimator.isLeaving()) {
-            imageAnimator.exit(true);
+        if (fragment.getImageAnimator() != null && !fragment.getImageAnimator().isLeaving()) {
+            fragment.getImageAnimator().exit(true);
         } else {
             super.onBackPressed();
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
-    }
-
     @OnLongClick(R.id.backdrop_image)
     public boolean backdropLongClick(View v) {
-        if (!sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, "").isEmpty()) {
+        if (!getSharedPreferences().getString(SharedPrefsKt.KEY_SESSION_ID, "").isEmpty()) {
             DeviceUtil.INSTANCE.vibrate(this, 15);
             BackdropDialog dialog = BackdropDialog.newInstance(String.format(Locale.US, TmdbConfigKt.TMDB_IMAGE, "original", movie.getBackdropPath()));
             dialog.show(getSupportFragmentManager(), "tag");

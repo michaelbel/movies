@@ -2,22 +2,20 @@ package org.michaelbel.moviemade.ui.modules.trailers;
 
 import android.os.Bundle;
 
-import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.data.dao.Movie;
+import org.michaelbel.moviemade.data.entity.Movie;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.utils.IntentsKt;
 
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 public class TrailersActivity extends BaseActivity {
 
+    // TODO make private.
+    // TODO make add getter
     public Movie movie;
-    private Unbinder unbinder;
     private TrailersFragment fragment;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
@@ -27,7 +25,6 @@ public class TrailersActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trailers);
-        unbinder = ButterKnife.bind(this);
 
         movie = (Movie) getIntent().getSerializableExtra(IntentsKt.MOVIE);
 
@@ -41,11 +38,5 @@ public class TrailersActivity extends BaseActivity {
         if (fragment != null) {
             fragment.presenter.getVideos(movie.getId());
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
     }
 }

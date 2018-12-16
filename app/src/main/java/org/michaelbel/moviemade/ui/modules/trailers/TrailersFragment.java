@@ -6,19 +6,17 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.data.dao.Video;
-import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.data.entity.Video;
 import org.michaelbel.moviemade.receivers.NetworkChangeListener;
 import org.michaelbel.moviemade.receivers.NetworkChangeReceiver;
+import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.modules.trailers.dialog.YoutubePlayerDialogFragment;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
@@ -31,17 +29,16 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.SnapHelper;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
-public class TrailersFragment extends MvpAppCompatFragment implements TrailersMvp, NetworkChangeListener {
+public class TrailersFragment extends BaseFragment implements TrailersMvp, NetworkChangeListener {
 
     private static final String YOUTUBE_DIALOG_FRAGMENT_TAG = "youtubeFragment";
 
-    private Unbinder unbinder;
     private TrailersAdapter adapter;
     private TrailersActivity activity;
     private GridLayoutManager gridLayoutManager;
@@ -49,10 +46,14 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
     private NetworkChangeReceiver networkChangeReceiver;
     private boolean connectionFailure = false;
 
+    // TODO make private.
+    // TODO make add getter
     @InjectPresenter public TrailersPresenter presenter;
 
     @BindView(R.id.empty_view) EmptyView emptyView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
+    // TODO make private.
+    // TODO make add getter
     @BindView(R.id.recycler_view) public RecyclerListView recyclerView;
 
     @Override
@@ -61,14 +62,6 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
         activity = (TrailersActivity) getActivity();
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_trailers, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        return view;
     }
 
     @Override
@@ -82,6 +75,9 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
 
         adapter = new TrailersAdapter();
         gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
+
+        SnapHelper snapHelper = new LinearSnapHelper();
+        snapHelper.attachToRecyclerView(recyclerView);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setEmptyView(emptyView);
@@ -101,6 +97,11 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
     }
 
     @Override
+    protected int getLayout() {
+        return R.layout.fragment_trailers;
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         refreshLayout();
@@ -111,7 +112,6 @@ public class TrailersFragment extends MvpAppCompatFragment implements TrailersMv
         super.onDestroy();
         activity.unregisterReceiver(networkChangeReceiver);
         presenter.onDestroy();
-        unbinder.unbind();
     }
 
     @OnClick(R.id.empty_view)

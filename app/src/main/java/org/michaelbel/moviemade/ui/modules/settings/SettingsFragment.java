@@ -5,13 +5,13 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.eventbus.Events;
+import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.modules.about.AboutActivity;
 import org.michaelbel.moviemade.ui.modules.settings.cell.TextCell;
 import org.michaelbel.moviemade.ui.modules.settings.cell.TextDetailCell;
@@ -23,50 +23,38 @@ import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
-public class SettingsFragment extends Fragment {
+public class SettingsFragment extends BaseFragment {
 
     private int rowCount;
     private int inAppBrowserRow;
     private int adultRow;
     private int aboutRow;
 
-    private Unbinder unbinder;
     private SettingsActivity activity;
     private LinearLayoutManager linearLayoutManager;
 
     @Inject SharedPreferences sharedPreferences;
 
-    @BindView(R.id.recycler_view)
-    public RecyclerListView recyclerView;
+    // TODO make private.
+    // TODO make add getter
+    @BindView(R.id.recycler_view) public RecyclerListView recyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (SettingsActivity) getActivity();
-        Moviemade.getComponent().injest(this);
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        unbinder = ButterKnife.bind(this, view);
-
-        activity.toolbar.setNavigationOnClickListener(v -> activity.finish());
-        activity.toolbarTitle.setText(R.string.settings);
-        return view;
+        Moviemade.getAppComponent().injest(this);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        activity.toolbar.setNavigationOnClickListener(v -> activity.finish());
+        activity.toolbarTitle.setText(R.string.settings);
 
         rowCount = 0;
         inAppBrowserRow = rowCount++;
@@ -99,18 +87,17 @@ public class SettingsFragment extends Fragment {
     }
 
     @Override
+    protected int getLayout() {
+        return R.layout.fragment_settings;
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         Parcelable state = linearLayoutManager.onSaveInstanceState();
         linearLayoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         linearLayoutManager.onRestoreInstanceState(state);
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
     }
 
     private class SettingsAdapter extends RecyclerView.Adapter {

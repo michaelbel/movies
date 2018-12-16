@@ -5,7 +5,7 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.Moviemade;
-import org.michaelbel.moviemade.data.dao.Movie;
+import org.michaelbel.moviemade.data.entity.Movie;
 import org.michaelbel.moviemade.data.service.MOVIES;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;
@@ -20,7 +20,6 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
 
 @InjectViewState
 public class RecommendationsMoviesPresenter extends MvpPresenter<RecommendationsMvp> {
@@ -29,10 +28,10 @@ public class RecommendationsMoviesPresenter extends MvpPresenter<Recommendations
     private Disposable disposable;
     private Disposable disposable2;
 
-    @Inject Retrofit retrofit;
+    @Inject MOVIES service;
 
     RecommendationsMoviesPresenter() {
-        Moviemade.getComponent().injest(this);
+        Moviemade.getAppComponent().injest(this);
     }
 
     void getRecommendations(int movieId) {
@@ -42,7 +41,6 @@ public class RecommendationsMoviesPresenter extends MvpPresenter<Recommendations
         }
 
         page = 1;
-        MOVIES service = retrofit.create(MOVIES.class);
         disposable = service.getRecommendations(movieId, BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(response -> {
                 List<Movie> results = new ArrayList<>(response.getMovies());
@@ -59,7 +57,6 @@ public class RecommendationsMoviesPresenter extends MvpPresenter<Recommendations
 
     void getRecommendationsNext(int movieId) {
         page++;
-        MOVIES service = retrofit.create(MOVIES.class);
         disposable2 = service.getRecommendations(movieId, BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(response -> {
                 List<Movie> results = new ArrayList<>(response.getMovies());

@@ -17,14 +17,17 @@
         android:theme="@style/AppTheme"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:allowBackup="true"
-        android:fullBackupContent="false">
+        android:allowBackup="true">
+
+        <!--AdMob-->
+        <!--<meta-data android:name="com.google.android.gms.ads.AD_MANAGER_APP" android:value="true"/>-->
+        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="@string/ad_app_id"/>
 
         <activity android:name=".ui.modules.main.MainActivity" android:screenOrientation="portrait" android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>

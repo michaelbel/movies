@@ -4,12 +4,10 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
@@ -20,13 +18,12 @@ import com.bumptech.glide.Glide;
 
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.data.dao.Account;
-import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.data.entity.Account;
 import org.michaelbel.moviemade.receivers.NetworkChangeListener;
 import org.michaelbel.moviemade.receivers.NetworkChangeReceiver;
+import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.modules.main.MainActivity;
 import org.michaelbel.moviemade.utils.Browser;
-import org.michaelbel.moviemade.utils.DeviceUtil;
 import org.michaelbel.moviemade.utils.DrawableUtil;
 import org.michaelbel.moviemade.utils.Error;
 import org.michaelbel.moviemade.utils.SharedPrefsKt;
@@ -47,17 +44,13 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.cardview.widget.CardView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import de.hdodenhof.circleimageview.CircleImageView;
-import shortbread.Shortcut;
 
 @SuppressWarnings("all")
-public class AccountFragment extends MvpAppCompatFragment implements AccountMvp, NetworkChangeListener {
+public class AccountFragment extends BaseFragment implements AccountMvp, NetworkChangeListener {
 
     private int accountId;
-    private Unbinder unbinder;
     private MainActivity activity;
     private NetworkChangeReceiver networkChangeReceiver;
 
@@ -74,7 +67,11 @@ public class AccountFragment extends MvpAppCompatFragment implements AccountMvp,
     @BindView(R.id.backdrop_image) AppCompatImageView backdropImage;
 
     @Inject SharedPreferences sharedPreferences;
-    @InjectPresenter public AccountPresenter presenter;
+    @InjectPresenter AccountPresenter presenter;
+
+    public AccountPresenter getPresenter() {
+        return presenter;
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -97,17 +94,9 @@ public class AccountFragment extends MvpAppCompatFragment implements AccountMvp,
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
         activity = (MainActivity) getActivity();
-        Moviemade.getComponent().injest(this);
+        Moviemade.get(activity).getComponent().injest(this);
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View parentView = inflater.inflate(R.layout.fragment_account, container, false);
-        unbinder = ButterKnife.bind(this, parentView);
-        return parentView;
     }
 
     @Override
@@ -118,6 +107,11 @@ public class AccountFragment extends MvpAppCompatFragment implements AccountMvp,
         } else {
             showAccount();
         }
+    }
+
+    @Override
+    protected int getLayout() {
+        return R.layout.fragment_account;
     }
 
     private void showLogin() {
@@ -258,7 +252,6 @@ public class AccountFragment extends MvpAppCompatFragment implements AccountMvp,
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unbinder.unbind();
         presenter.onDestroy();
     }
 

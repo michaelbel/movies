@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.data.dao.Genre;
+import org.michaelbel.moviemade.data.entity.Genre;
 
 import java.util.ArrayList;
 import java.util.List;

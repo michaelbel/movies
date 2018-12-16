@@ -6,9 +6,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -17,10 +15,10 @@ import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.data.dao.Movie;
-import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.data.entity.Movie;
 import org.michaelbel.moviemade.receivers.NetworkChangeListener;
 import org.michaelbel.moviemade.receivers.NetworkChangeReceiver;
+import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.modules.main.adapter.MoviesAdapter;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
@@ -36,15 +34,12 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 @SuppressLint("CheckResult")
 @SuppressWarnings({"ResultOfMethodCallIgnored", "unused"})
-public class RecommendationsMoviesFragment extends MvpAppCompatFragment implements RecommendationsMvp, NetworkChangeListener {
+public class RecommendationsMoviesFragment extends BaseFragment implements RecommendationsMvp, NetworkChangeListener {
 
-    private Unbinder unbinder;
     private RecommendationsMoviesActivity activity;
     private MoviesAdapter adapter;
     private GridLayoutManager gridLayoutManager;
@@ -59,21 +54,21 @@ public class RecommendationsMoviesFragment extends MvpAppCompatFragment implemen
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.recycler_view) public RecyclerListView recyclerView;
 
+    public RecommendationsMoviesPresenter getPresenter() {
+        return presenter;
+    }
+
+    public RecyclerListView getRecyclerView() {
+        return recyclerView;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (RecommendationsMoviesActivity) getActivity();
-        Moviemade.getComponent().injest(this);
+        Moviemade.getAppComponent().injest(this);
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_similar_movies, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        return view;
     }
 
     @Override
@@ -103,10 +98,15 @@ public class RecommendationsMoviesFragment extends MvpAppCompatFragment implemen
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (!recyclerView.canScrollVertically(1)) {
-                    presenter.getRecommendationsNext(activity.movie.getId());
+                    presenter.getRecommendationsNext(activity.getMovie().getId());
                 }
             }
         });
+    }
+
+    @Override
+    protected int getLayout() {
+        return R.layout.fragment_similar_movies;
     }
 
     @Override
@@ -117,7 +117,7 @@ public class RecommendationsMoviesFragment extends MvpAppCompatFragment implemen
 
     @OnClick(R.id.empty_view)
     void emptyViewClick(View v) {
-        presenter.getRecommendations(activity.movie.getId());
+        presenter.getRecommendations(activity.getMovie().getId());
     }
 
     /*@Override
@@ -145,7 +145,6 @@ public class RecommendationsMoviesFragment extends MvpAppCompatFragment implemen
         super.onDestroy();
         activity.unregisterReceiver(networkChangeReceiver);
         presenter.onDestroy();
-        unbinder.unbind();
     }
 
     @Override
@@ -184,7 +183,7 @@ public class RecommendationsMoviesFragment extends MvpAppCompatFragment implemen
     @Override
     public void onNetworkChanged() {
         if (connectionFailure && adapter.getItemCount() == 0) {
-            presenter.getRecommendations(activity.movie.getId());
+            presenter.getRecommendations(activity.getMovie().getId());
         }
     }
 }

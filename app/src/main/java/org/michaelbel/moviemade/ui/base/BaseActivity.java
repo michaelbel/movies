@@ -1,13 +1,13 @@
 package org.michaelbel.moviemade.ui.base;
 
 import android.content.Intent;
-import android.os.Bundle;
+import android.content.SharedPreferences;
 import android.view.View;
 
 import org.jetbrains.annotations.NotNull;
-import org.michaelbel.moviemade.data.dao.Keyword;
-import org.michaelbel.moviemade.data.dao.Movie;
-import org.michaelbel.moviemade.data.dao.Review;
+import org.michaelbel.moviemade.data.entity.Keyword;
+import org.michaelbel.moviemade.data.entity.Movie;
+import org.michaelbel.moviemade.data.entity.Review;
 import org.michaelbel.moviemade.moxy.MvpAppCompatActivity;
 import org.michaelbel.moviemade.ui.modules.favorites.FavoriteActivity;
 import org.michaelbel.moviemade.ui.modules.keywords.activity.KeywordActivity;
@@ -20,16 +20,32 @@ import org.michaelbel.moviemade.ui.modules.similar.SimilarMoviesActivity;
 import org.michaelbel.moviemade.ui.modules.trailers.TrailersActivity;
 import org.michaelbel.moviemade.ui.modules.watchlist.WatchlistActivity;
 import org.michaelbel.moviemade.utils.IntentsKt;
+import org.michaelbel.moviemade.utils.SharedPrefsKt;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 @SuppressWarnings("registered")
-public class BaseActivity extends MvpAppCompatActivity implements BaseMvp, MediaMvp {
+public abstract class BaseActivity extends MvpAppCompatActivity implements BaseMvp, MediaMvp {
+
+    private Unbinder unbinder;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void setContentView(int layoutResID) {
+        super.setContentView(layoutResID);
+        unbinder = ButterKnife.bind(this);
+    }
+
+    public SharedPreferences getSharedPreferences() {
+        return getSharedPreferences(SharedPrefsKt.SP_NAME, MODE_PRIVATE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unbinder.unbind();
     }
 
 //--BaseMvp-----------------------------------------------------------------------------------------

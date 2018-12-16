@@ -6,9 +6,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -17,10 +15,10 @@ import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.data.dao.Movie;
-import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.data.entity.Movie;
 import org.michaelbel.moviemade.receivers.NetworkChangeListener;
 import org.michaelbel.moviemade.receivers.NetworkChangeReceiver;
+import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.modules.favorites.FavoritesMvp;
 import org.michaelbel.moviemade.ui.modules.main.adapter.MoviesAdapter;
@@ -37,15 +35,12 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 @SuppressLint("CheckResult")
 @SuppressWarnings({"ResultOfMethodCallIgnored", "unused"})
-public class SimilarMoviesFragment extends MvpAppCompatFragment implements FavoritesMvp, NetworkChangeListener {
+public class SimilarMoviesFragment extends BaseFragment implements FavoritesMvp, NetworkChangeListener {
 
-    private Unbinder unbinder;
     private SimilarMoviesActivity activity;
     private MoviesAdapter adapter;
     private GridLayoutManager gridLayoutManager;
@@ -54,27 +49,23 @@ public class SimilarMoviesFragment extends MvpAppCompatFragment implements Favor
     private boolean connectionFailure = false;
 
     @Inject SharedPreferences sharedPreferences;
+    // TODO make private.
+    // TODO make add getter
     @InjectPresenter public SimilarMoviesPresenter presenter;
 
     @BindView(R.id.empty_view) EmptyView emptyView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
+    // TODO make private.
+    // TODO make add getter
     @BindView(R.id.recycler_view) public RecyclerListView recyclerView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (SimilarMoviesActivity) getActivity();
-        Moviemade.getComponent().injest(this);
+        Moviemade.getAppComponent().injest(this);
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_similar_movies, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        return view;
     }
 
     @Override
@@ -108,6 +99,11 @@ public class SimilarMoviesFragment extends MvpAppCompatFragment implements Favor
                 }
             }
         });
+    }
+
+    @Override
+    protected int getLayout() {
+        return R.layout.fragment_similar_movies;
     }
 
     @Override
@@ -146,7 +142,6 @@ public class SimilarMoviesFragment extends MvpAppCompatFragment implements Favor
         super.onDestroy();
         activity.unregisterReceiver(networkChangeReceiver);
         presenter.onDestroy();
-        unbinder.unbind();
     }
 
     @Override

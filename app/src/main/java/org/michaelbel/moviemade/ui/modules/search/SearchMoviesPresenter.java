@@ -5,8 +5,8 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.Moviemade;
-import org.michaelbel.moviemade.data.dao.Movie;
-import org.michaelbel.moviemade.data.dao.MoviesResponse;
+import org.michaelbel.moviemade.data.entity.Movie;
+import org.michaelbel.moviemade.data.entity.MoviesResponse;
 import org.michaelbel.moviemade.data.service.SEARCH;
 import org.michaelbel.moviemade.utils.AdultUtil;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
@@ -23,19 +23,18 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
 
 @InjectViewState
 public class SearchMoviesPresenter extends MvpPresenter<SearchMvp> {
 
-    @Inject Retrofit retrofit;
+    @Inject SEARCH service;
 
     private int page;
     private String currentQuery;
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     SearchMoviesPresenter() {
-        Moviemade.getComponent().injest(this);
+        Moviemade.getAppComponent().injest(this);
     }
 
     public void search(String query) {
@@ -48,7 +47,6 @@ public class SearchMoviesPresenter extends MvpPresenter<SearchMvp> {
         }
 
         page = 1;
-        SEARCH service = retrofit.create(SEARCH.class);
         Observable<MoviesResponse> observable = service.searchMovies(BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, query, page, AdultUtil.INSTANCE.includeAdult(Moviemade.appContext), "").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override
@@ -73,7 +71,6 @@ public class SearchMoviesPresenter extends MvpPresenter<SearchMvp> {
 
     void loadNextPage() {
         page++;
-        SEARCH service = retrofit.create(SEARCH.class);
         Observable<MoviesResponse> observable = service.searchMovies(BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, currentQuery, page, AdultUtil.INSTANCE.includeAdult(Moviemade.appContext), null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
         disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
             @Override

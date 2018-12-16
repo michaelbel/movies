@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.modules.about.AboutActivity;
 import org.michaelbel.moviemade.ui.modules.about.Source;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
@@ -17,21 +18,17 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
-public class LibsFragment extends Fragment {
+public class LibsFragment extends BaseFragment {
 
-    private Unbinder unbinder;
     private LibsAdapter adapter;
     private AboutActivity activity;
 
-    @BindView(R.id.recycler_view)
-    public RecyclerListView recyclerView;
+    @BindView(R.id.recycler_view) RecyclerListView recyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,20 +36,11 @@ public class LibsFragment extends Fragment {
         activity = (AboutActivity) getActivity();
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_libs, container, false);
-        unbinder = ButterKnife.bind(this, view);
-
-        activity.toolbar.setNavigationOnClickListener(v -> activity.finishFragment());
-        activity.toolbarTitle.setText(R.string.open_source_libs);
-        return view;
-    }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        activity.getToolbar().setNavigationOnClickListener(v -> activity.finishFragment());
+        activity.getToolbarTitle().setText(R.string.open_source_libs);
 
         adapter = new LibsAdapter();
         adapter.addSource("BottomSheet", "https://github.com/michaelbel/bottomsheet","Apache License 2.0");
@@ -73,9 +61,8 @@ public class LibsFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
+    protected int getLayout() {
+        return R.layout.fragment_libs;
     }
 
     public class LibsAdapter extends RecyclerView.Adapter<LibsAdapter.LibsViewHolder> {

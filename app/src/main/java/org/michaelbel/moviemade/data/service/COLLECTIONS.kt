@@ -1,8 +1,8 @@
 package org.michaelbel.moviemade.data.service
 
 import io.reactivex.Observable
-import org.michaelbel.moviemade.data.dao.Collection
-import org.michaelbel.moviemade.data.dao.ImagesResponse
+import org.michaelbel.moviemade.data.entity.Collection
+import org.michaelbel.moviemade.data.entity.ImagesResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

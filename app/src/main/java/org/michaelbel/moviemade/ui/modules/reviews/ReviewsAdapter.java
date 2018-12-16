@@ -5,7 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.data.dao.Review;
+import org.michaelbel.moviemade.data.entity.Review;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,8 @@ import butterknife.ButterKnife;
 
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHolder> {
 
+    // todo make private.
+    // todo add getter.
     public ArrayList<Review> reviews = new ArrayList<>();
 
     public void setReviews(List<Review> results) {

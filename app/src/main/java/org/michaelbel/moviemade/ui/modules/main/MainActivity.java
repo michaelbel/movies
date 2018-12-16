@@ -1,13 +1,11 @@
 package org.michaelbel.moviemade.ui.modules.main;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.ui.modules.account.AccountFragment;
@@ -22,30 +20,23 @@ import org.michaelbel.moviemade.ui.widgets.bottombar.BottomNavigationItem;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 import org.michaelbel.moviemade.utils.SharedPrefsKt;
 
-import javax.inject.Inject;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.content.ContextCompat;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 import shortbread.Shortcut;
 
 public class MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener {
 
-    public static final int DEFAULT_FRAGMENT = 0;
+    private static final int DEFAULT_FRAGMENT = 0;
 
-    private Unbinder unbinder;
     private NowPlayingFragment nowPlayingFragment;
     private TopRatedFragment topRatedFragment;
     private UpcomingFragment upcomingFragment;
     private AccountFragment profileFragment;
-
-    @Inject SharedPreferences sharedPreferences;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.app_bar) MainAppBar appBar;
@@ -74,8 +65,6 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         setTheme(R.style.AppThemeTransparentStatusBar);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        unbinder = ButterKnife.bind(this);
-        Moviemade.getComponent().injest(this);
 
         setSupportActionBar(toolbar);
         toolbarTitle.setText(R.string.app_name);
@@ -94,7 +83,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         bottomBar.setActiveColor(R.color.md_white);
         bottomBar.setMode(BottomNavigationBar.MODE_FIXED);
         bottomBar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_DEFAULT);
-        bottomBar.setFirstSelectedPosition(sharedPreferences.getInt(SharedPrefsKt.KEY_MAIN_FRAGMENT, DEFAULT_FRAGMENT))
+        bottomBar.setFirstSelectedPosition(getSharedPreferences().getInt(SharedPrefsKt.KEY_MAIN_FRAGMENT, DEFAULT_FRAGMENT))
             .addItem(new BottomNavigationItem(R.drawable.ic_fire, R.string.now_playing).setActiveColorResource(R.color.accent))
             .addItem(new BottomNavigationItem(R.drawable.ic_star_circle, R.string.top_rated).setActiveColorResource(R.color.accent))
             .addItem(new BottomNavigationItem(R.drawable.ic_movieroll, R.string.upcoming).setActiveColorResource(R.color.accent))
@@ -126,7 +115,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         }
 
         if (position != 3) {
-            sharedPreferences.edit().putInt(SharedPrefsKt.KEY_MAIN_FRAGMENT, position).apply();
+            getSharedPreferences().edit().putInt(SharedPrefsKt.KEY_MAIN_FRAGMENT, position).apply();
             toolbarTitle.setText(R.string.app_name);
             appBar.setBackgroundColor(ContextCompat.getColor(MainActivity.this, R.color.transparent20));
         }
@@ -149,14 +138,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         String data = intent.getDataString();
 
         if (Intent.ACTION_VIEW.equals(action) && data != null) {
-            profileFragment.presenter.createSessionId(sharedPreferences.getString(SharedPrefsKt.KEY_TOKEN, ""));
+            profileFragment.getPresenter().createSessionId(getSharedPreferences().getString(SharedPrefsKt.KEY_TOKEN, ""));
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
     }
 
     @OnClick(R.id.toolbar)
@@ -171,30 +154,30 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         switch (position) {
             case 0:
                 if (nowPlayingFragment.getAdapter().getItemCount() == 0) {
-                    nowPlayingFragment.presenter.getNowPlaying();
+                    nowPlayingFragment.getPresenter().getNowPlaying();
                 } else {
-                    nowPlayingFragment.recyclerView.smoothScrollToPosition(0);
+                    nowPlayingFragment.getRecyclerView().smoothScrollToPosition(0);
                 }
                 break;
             case 1:
                 if (topRatedFragment.getAdapter().getItemCount() == 0) {
-                    topRatedFragment.presenter.getTopRated();
+                    topRatedFragment.getPresenter().getTopRated();
                 } else {
-                    topRatedFragment.recyclerView.smoothScrollToPosition(0);
+                    topRatedFragment.getRecyclerView().smoothScrollToPosition(0);
                 }
                 break;
             case 2:
                 if (upcomingFragment.getAdapter().getItemCount() == 0) {
-                    upcomingFragment.presenter.getUpcoming();
+                    upcomingFragment.getPresenter().getUpcoming();
                 } else {
-                    upcomingFragment.recyclerView.smoothScrollToPosition(0);
+                    upcomingFragment.getRecyclerView().smoothScrollToPosition(0);
                 }
                 break;
         }
     }
 
     private void startCurrentFragment() {
-        int position = sharedPreferences.getInt(SharedPrefsKt.KEY_MAIN_FRAGMENT, DEFAULT_FRAGMENT);
+        int position = getSharedPreferences().getInt(SharedPrefsKt.KEY_MAIN_FRAGMENT, DEFAULT_FRAGMENT);
 
         switch (position) {
             case 0:

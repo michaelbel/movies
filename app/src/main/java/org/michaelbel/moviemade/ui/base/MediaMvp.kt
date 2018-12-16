@@ -1,8 +1,8 @@
 package org.michaelbel.moviemade.ui.base
 
-import org.michaelbel.moviemade.data.dao.Keyword
-import org.michaelbel.moviemade.data.dao.Movie
-import org.michaelbel.moviemade.data.dao.Review
+import org.michaelbel.moviemade.data.entity.Keyword
+import org.michaelbel.moviemade.data.entity.Movie
+import org.michaelbel.moviemade.data.entity.Review
 
 interface MediaMvp {
 

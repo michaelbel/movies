@@ -8,22 +8,22 @@ import org.michaelbel.moviemade.utils.IntentsKt;
 
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 public class WatchlistActivity extends BaseActivity {
 
+    // TODO make private.
+    // TODO make add getter
     public int accountId;
-    private Unbinder unbinder;
     private WatchlistFragment fragment;
 
+    // TODO make private.
+    // TODO make add getter
     @BindView(R.id.toolbar) public Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watchlist);
-        unbinder = ButterKnife.bind(this);
 
         accountId = getIntent().getIntExtra(IntentsKt.ACCOUNT_ID, 0);
 
@@ -32,11 +32,5 @@ public class WatchlistActivity extends BaseActivity {
         toolbar.setOnClickListener(v -> fragment.recyclerView.smoothScrollToPosition(0));
 
         fragment = (WatchlistFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
     }
 }

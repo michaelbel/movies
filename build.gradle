@@ -1,22 +1,31 @@
 buildscript {
     repositories {
-        mavenCentral()
         jcenter()
+        mavenCentral()
         google()
+        maven { url 'https://maven.fabric.io/public' }
     }
 
     dependencies {
+        // Gradle.
         classpath 'com.android.tools.build:gradle:3.2.1'
-        classpath 'io.realm:realm-gradle-plugin:5.3.0'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.10"
+        // Kotlin.
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.11"
+        // Google Services.
+        classpath 'com.google.gms:google-services:4.2.0'
+        // Fabric.
+        classpath 'io.fabric.tools:gradle:1.27.0'
     }
 }
 
 allprojects {
     repositories {
-        mavenCentral()
         jcenter()
+        mavenCentral()
         google()
+        maven { url "https://jitpack.io" }
+        maven { url 'https://maven.fabric.io/public' }
+        flatDir { dirs '../aars' }
     }
 }
 
