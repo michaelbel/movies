@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade.data.service
 
 import io.reactivex.Observable
-import org.michaelbel.moviemade.data.dao.GenresResponse
+import org.michaelbel.moviemade.data.entity.GenresResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 

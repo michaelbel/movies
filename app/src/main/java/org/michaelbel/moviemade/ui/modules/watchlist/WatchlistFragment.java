@@ -17,10 +17,11 @@ import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.data.dao.Movie;
+import org.michaelbel.moviemade.data.entity.Movie;
 import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
 import org.michaelbel.moviemade.receivers.NetworkChangeListener;
 import org.michaelbel.moviemade.receivers.NetworkChangeReceiver;
+import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.modules.main.adapter.MoviesAdapter;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
@@ -43,9 +44,8 @@ import butterknife.Unbinder;
 
 @SuppressLint("CheckResult")
 @SuppressWarnings("ResultOfMethodCallIgnored")
-public class WatchlistFragment extends MvpAppCompatFragment implements WatchlistMvp, NetworkChangeListener {
+public class WatchlistFragment extends BaseFragment implements WatchlistMvp, NetworkChangeListener {
 
-    private Unbinder unbinder;
     private WatchlistActivity activity;
     private MoviesAdapter adapter;
     private GridLayoutManager gridLayoutManager;
@@ -64,17 +64,9 @@ public class WatchlistFragment extends MvpAppCompatFragment implements Watchlist
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (WatchlistActivity) getActivity();
-        Moviemade.getComponent().injest(this);
+        Moviemade.getAppComponent().injest(this);
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_favorites, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        return view;
     }
 
     @Override
@@ -113,6 +105,11 @@ public class WatchlistFragment extends MvpAppCompatFragment implements Watchlist
     }
 
     @Override
+    protected int getLayout() {
+        return R.layout.fragment_favorites;
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         refreshLayout();
@@ -143,7 +140,6 @@ public class WatchlistFragment extends MvpAppCompatFragment implements Watchlist
         super.onDestroy();
         activity.unregisterReceiver(networkChangeReceiver);
         presenter.onDestroy();
-        unbinder.unbind();
     }
 
     @OnClick(R.id.empty_view)

@@ -4,19 +4,17 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.data.dao.Review;
-import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.data.entity.Review;
 import org.michaelbel.moviemade.receivers.NetworkChangeListener;
 import org.michaelbel.moviemade.receivers.NetworkChangeReceiver;
+import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.modules.reviews.ReviewsAdapter;
 import org.michaelbel.moviemade.ui.modules.reviews.ReviewsMvp;
@@ -34,13 +32,10 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
-public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp, NetworkChangeListener {
+public class ReviewsFragment extends BaseFragment implements ReviewsMvp, NetworkChangeListener {
 
-    private Unbinder unbinder;
     private ReviewsAdapter adapter;
     private ReviewsActivity activity;
     private GridLayoutManager gridLayoutManager;
@@ -48,10 +43,14 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp,
     private NetworkChangeReceiver networkChangeReceiver;
     private boolean connectionFailure = false;
 
+    // todo add getter.
+    // todo make private.
     @InjectPresenter public ReviewsPresenter presenter;
 
     @BindView(R.id.empty_view) EmptyView emptyView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
+    // todo make private.
+    // todo add getter.
     @BindView(R.id.recycler_view) public RecyclerListView recyclerView;
 
     @Override
@@ -60,14 +59,6 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp,
         activity = (ReviewsActivity) getActivity();
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_reviews, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        return view;
     }
 
     @Override
@@ -94,6 +85,11 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp,
     }
 
     @Override
+    protected int getLayout() {
+        return R.layout.fragment_reviews;
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         refreshLayout();
@@ -104,7 +100,6 @@ public class ReviewsFragment extends MvpAppCompatFragment implements ReviewsMvp,
         super.onDestroy();
         activity.unregisterReceiver(networkChangeReceiver);
         presenter.onDestroy();
-        unbinder.unbind();
     }
 
     @OnClick(R.id.empty_view)

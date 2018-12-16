@@ -1,14 +1,9 @@
 package org.michaelbel.moviemade.ui.modules.search;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -16,13 +11,12 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.data.dao.Movie;
-import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.data.entity.Movie;
+import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.modules.main.adapter.MoviesAdapter;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
-import org.michaelbel.moviemade.utils.AndroidUtil;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.IntentsKt;
@@ -35,12 +29,9 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
-public class SearchMoviesFragment extends MvpAppCompatFragment implements SearchMvp {
+public class SearchMoviesFragment extends BaseFragment implements SearchMvp {
 
-    private Unbinder unbinder;
     private SearchActivity activity;
     private MoviesAdapter adapter;
     private GridLayoutManager gridLayoutManager;
@@ -49,6 +40,8 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
     private FastMoviesAdapter fastAdapter;
     private GridLayoutManager fastGridLayoutManager;
 
+    // todo make private.
+    // todo add getter.
     @InjectPresenter public SearchMoviesPresenter presenter;
 
     @BindView(R.id.empty_view) EmptyView emptyView;
@@ -70,11 +63,9 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
         activity = (SearchActivity) getActivity();
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search_movies, container, false);
-        unbinder = ButterKnife.bind(this, view);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         emptyView.setMode(EmptyViewMode.MODE_NO_RESULTS);
 
@@ -109,12 +100,6 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
 
         fastAdapter = new FastMoviesAdapter();
         fastGridLayoutManager = new GridLayoutManager(activity, 1, RecyclerView.VERTICAL, false);
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
         if (getArguments() == null) {
             return;
@@ -134,6 +119,11 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
     }
 
     @Override
+    protected int getLayout() {
+        return R.layout.fragment_search_movies;
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         refreshLayout();
@@ -143,7 +133,6 @@ public class SearchMoviesFragment extends MvpAppCompatFragment implements Search
     public void onDestroy() {
         super.onDestroy();
         presenter.onDestroy();
-        unbinder.unbind();
     }
 
     @Override

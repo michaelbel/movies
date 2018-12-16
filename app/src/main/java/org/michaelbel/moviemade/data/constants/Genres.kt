@@ -1,6 +1,6 @@
 package org.michaelbel.moviemade.data.constants
 
-import org.michaelbel.moviemade.data.dao.Genre
+import org.michaelbel.moviemade.data.entity.Genre
 import java.util.*
 
 const val GENRE_ACTION = 28

@@ -13,9 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.FrameLayout;
 
-import org.michaelbel.moviemade.Logger;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
 import org.michaelbel.moviemade.ui.modules.main.MainActivity;
@@ -30,12 +28,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatEditText;
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 import shortbread.Shortcut;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
 
 @Shortcut(id = "search", rank = 1, icon = R.drawable.ic_shortcut_search, shortLabelRes = R.string.search, backStack = MainActivity.class)
 public class SearchActivity extends BaseActivity {
@@ -49,13 +42,11 @@ public class SearchActivity extends BaseActivity {
     private boolean isFilterShowed = false;
 
     private Menu actionMenu;
-    private Unbinder unbinder;
     private SearchMoviesFragment fragment;
 
     @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.search_edit_text) AppCompatEditText searchEditText;
-
     @BindView(R.id.shadow_view) View shadowView;
+    @BindView(R.id.search_edit_text) AppCompatEditText searchEditText;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -94,7 +85,6 @@ public class SearchActivity extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
-        unbinder = ButterKnife.bind(this);
 
         String query = getIntent().getStringExtra(IntentsKt.QUERY);
         fragment = SearchMoviesFragment.newInstance(query);
@@ -158,12 +148,6 @@ public class SearchActivity extends BaseActivity {
                 }
             }
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
     }
 
     private void changeActionIcon() {

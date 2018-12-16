@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade.ui.modules.account
 
 import com.arellomobile.mvp.MvpView
-import org.michaelbel.moviemade.data.dao.Account
+import org.michaelbel.moviemade.data.entity.Account
 import org.michaelbel.moviemade.utils.Error
 
 interface AccountMvp : MvpView {

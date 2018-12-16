@@ -5,9 +5,7 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -16,11 +14,11 @@ import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.data.dao.Movie;
+import org.michaelbel.moviemade.data.entity.Movie;
 import org.michaelbel.moviemade.eventbus.Events;
-import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
 import org.michaelbel.moviemade.receivers.NetworkChangeListener;
 import org.michaelbel.moviemade.receivers.NetworkChangeReceiver;
+import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.modules.main.MainActivity;
 import org.michaelbel.moviemade.ui.modules.main.MainMvp;
@@ -37,15 +35,12 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 @SuppressLint("CheckResult")
 @SuppressWarnings("ResultOfMethodCallIgnored")
-public class NowPlayingFragment extends MvpAppCompatFragment implements MainMvp, NetworkChangeListener {
+public class NowPlayingFragment extends BaseFragment implements MainMvp, NetworkChangeListener {
 
-    private Unbinder unbinder;
     private MainActivity activity;
     private MoviesAdapter adapter;
     private RecyclerView.LayoutManager gridLayoutManager;
@@ -53,11 +48,23 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MainMvp,
     private NetworkChangeReceiver networkChangeReceiver;
     private boolean connectionFailure = false;
 
-    @InjectPresenter public MainPresenter presenter;
+    @InjectPresenter MainPresenter presenter;
 
     @BindView(R.id.empty_view) EmptyView emptyView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
-    @BindView(R.id.recycler_view) public RecyclerListView recyclerView;
+    @BindView(R.id.recycler_view) RecyclerListView recyclerView;
+
+    public MainPresenter getPresenter() {
+        return presenter;
+    }
+
+    public MoviesAdapter getAdapter() {
+        return adapter;
+    }
+
+    public RecyclerListView getRecyclerView() {
+        return recyclerView;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,14 +72,6 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MainMvp,
         activity = (MainActivity) getActivity();
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_playing, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        return view;
     }
 
     @Override
@@ -116,6 +115,11 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MainMvp,
     }
 
     @Override
+    protected int getLayout() {
+        return R.layout.fragment_playing;
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         refreshLayout();
@@ -148,7 +152,6 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MainMvp,
         super.onDestroy();
         activity.unregisterReceiver(networkChangeReceiver);
         presenter.onDestroy();
-        unbinder.unbind();
     }
 
     @Override
@@ -185,9 +188,5 @@ public class NowPlayingFragment extends MvpAppCompatFragment implements MainMvp,
         itemDecoration.setOffset(0);
         recyclerView.addItemDecoration(itemDecoration);
         gridLayoutManager.onRestoreInstanceState(state);
-    }
-
-    public MoviesAdapter getAdapter() {
-        return adapter;
     }
 }

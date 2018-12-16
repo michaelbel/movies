@@ -5,17 +5,11 @@ import com.arellomobile.mvp.MvpPresenter;
 
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.Moviemade;
-import org.michaelbel.moviemade.data.dao.Keyword;
-import org.michaelbel.moviemade.data.dao.KeywordsResponse;
-import org.michaelbel.moviemade.data.dao.Movie;
-import org.michaelbel.moviemade.data.service.KEYWORDS;
+import org.michaelbel.moviemade.data.entity.Keyword;
 import org.michaelbel.moviemade.data.service.MOVIES;
-import org.michaelbel.moviemade.ui.modules.main.MainMvp;
-import org.michaelbel.moviemade.utils.AdultUtil;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 import org.michaelbel.moviemade.utils.RxUtil;
-import org.michaelbel.moviemade.utils.TmdbConfigKt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,17 +19,16 @@ import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
 
 @InjectViewState
 public class KeywordsPresenter extends MvpPresenter<KeywordsMvp> {
 
     private Disposable subscription1;
 
-    @Inject Retrofit retrofit;
+    @Inject MOVIES service;
 
     public KeywordsPresenter() {
-        Moviemade.getComponent().injest(this);
+        Moviemade.getAppComponent().injest(this);
     }
 
     public void getKeywords(int movieId) {
@@ -44,7 +37,6 @@ public class KeywordsPresenter extends MvpPresenter<KeywordsMvp> {
             return;
         }
 
-        MOVIES service = retrofit.create(MOVIES.class);
         subscription1 = service.getKeywords(movieId, BuildConfig.TMDB_API_KEY).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
             .subscribe(response -> {
                 List<Keyword> results = new ArrayList<>(response.getKeywords());

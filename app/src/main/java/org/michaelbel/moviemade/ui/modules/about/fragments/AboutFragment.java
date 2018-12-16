@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.modules.about.AboutActivity;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.utils.Browser;
@@ -23,16 +24,13 @@ import org.michaelbel.moviemade.utils.SpannableUtil;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
-public class AboutFragment extends Fragment {
+public class AboutFragment extends BaseFragment {
 
-    private static final String LIBS_FRAGMENT_TAG = "libs_fragment";
+    private static final String LIBS_FRAGMENT_TAG = "libsFragment";
     private static final String TELEGRAM_PACKAGE_NAME = "org.telegram.messenger";
 
     private int rowCount;
@@ -46,11 +44,10 @@ public class AboutFragment extends Fragment {
     private int donatePaypalRow;
     private int poweredByRow;
 
-    private Unbinder unbinder;
     private AboutActivity activity;
     private LinearLayoutManager linearLayoutManager;
 
-    @BindView(R.id.recycler_view) public RecyclerListView recyclerView;
+    @BindView(R.id.recycler_view) RecyclerListView recyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,20 +55,11 @@ public class AboutFragment extends Fragment {
         activity = (AboutActivity) getActivity();
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_about, container, false);
-        unbinder = ButterKnife.bind(this, view);
-
-        activity.toolbar.setNavigationOnClickListener(v -> activity.finish());
-        activity.toolbarTitle.setText(R.string.about);
-        return view;
-    }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        activity.getToolbar().setNavigationOnClickListener(v -> activity.finish());
+        activity.getToolbarTitle().setText(R.string.about);
 
         rowCount = 0;
         infoRow = rowCount++;
@@ -139,18 +127,17 @@ public class AboutFragment extends Fragment {
     }
 
     @Override
+    protected int getLayout() {
+        return R.layout.fragment_about;
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         Parcelable state = linearLayoutManager.onSaveInstanceState();
         linearLayoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
         linearLayoutManager.onRestoreInstanceState(state);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
     }
 
     public class AboutAdapter extends RecyclerView.Adapter<AboutAdapter.AboutViewHolder> {

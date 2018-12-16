@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.data.dao.Movie;
+import org.michaelbel.moviemade.data.entity.Movie;
 import org.michaelbel.moviemade.utils.TmdbConfigKt;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 

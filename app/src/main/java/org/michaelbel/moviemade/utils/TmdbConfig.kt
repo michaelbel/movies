@@ -17,7 +17,7 @@ const val REDIRECT_URL = "moviemade://main"
 
 const val CONTENT_TYPE = "application/json;charset=utf-8"
 
-const val GSON_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ssZ"
+const val GSON_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
 
 const val GRAVATAR_URL = "https://gravatar.com/avatar/%s"
 const val GRAVATAR_URL_JPG = "https://gravatar.com/avatar/%s.jpg"

@@ -10,31 +10,28 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.Unbinder;
 
 public class AboutActivity extends BaseActivity {
 
-    private Unbinder unbinder;
-
-    @BindView(R.id.toolbar) public Toolbar toolbar;
-    @BindView(R.id.toolbar_title) public AppCompatTextView toolbarTitle;
+    @BindView(R.id.toolbar) Toolbar toolbar;
+    @BindView(R.id.toolbar_title) AppCompatTextView toolbarTitle;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_about);
-        unbinder = ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_about);
 
         if (savedInstanceState == null) {
             startFragment(new AboutFragment(), R.id.fragment_view);
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        unbinder.unbind();
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    public AppCompatTextView getToolbarTitle() {
+        return toolbarTitle;
     }
 }

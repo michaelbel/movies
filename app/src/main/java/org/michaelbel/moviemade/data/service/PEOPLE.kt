@@ -1,9 +1,9 @@
 package org.michaelbel.moviemade.data.service
 
 import io.reactivex.Observable
-import org.michaelbel.moviemade.data.dao.CreditsResponse
-import org.michaelbel.moviemade.data.dao.Person
-import org.michaelbel.moviemade.data.dao.PersonsResponse
+import org.michaelbel.moviemade.data.entity.CreditsResponse
+import org.michaelbel.moviemade.data.entity.Person
+import org.michaelbel.moviemade.data.entity.PersonsResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query

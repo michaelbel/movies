@@ -8,31 +8,34 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 
 import com.alexvasilkov.gestures.Settings;
 import com.alexvasilkov.gestures.transition.GestureTransitions;
+import com.alexvasilkov.gestures.transition.ViewsTransitionAnimator;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.material.snackbar.Snackbar;
 
 import org.jetbrains.annotations.NotNull;
+import org.michaelbel.moviemade.Logger;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.constants.CodeKt;
 import org.michaelbel.moviemade.data.constants.Genres;
-import org.michaelbel.moviemade.data.dao.Genre;
-import org.michaelbel.moviemade.data.dao.Mark;
-import org.michaelbel.moviemade.data.dao.Movie;
-import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.data.entity.Genre;
+import org.michaelbel.moviemade.data.entity.Mark;
+import org.michaelbel.moviemade.data.entity.Movie;
 import org.michaelbel.moviemade.receivers.NetworkChangeListener;
 import org.michaelbel.moviemade.receivers.NetworkChangeReceiver;
+import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.modules.movie.views.RatingView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.utils.Browser;
@@ -55,14 +58,12 @@ import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 import static android.view.View.VISIBLE;
 
-@SuppressWarnings("unused")
-public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, NetworkChangeListener {
+//@SuppressWarnings("unused")
+public class MovieFragment extends BaseFragment implements MovieMvp, NetworkChangeListener {
 
     private boolean favorite;
     private boolean watchlist;
@@ -72,21 +73,19 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Net
     private MenuItem menu_imdb;
     private MenuItem menu_homepage;
 
-    private View view;
     private String imdbId;
     private String homepage;
     private String posterPath;
     private boolean connectionError;
-    private Unbinder unbinder;
     private MovieActivity activity;
     private NetworkChangeReceiver networkChangeReceiver;
     private GenresAdapter adapter;
+    private ViewsTransitionAnimator imageAnimator;
 
     //@Inject MoviesDatabase moviesDatabase;
     @Inject SharedPreferences sharedPreferences;
     @InjectPresenter MoviePresenter presenter;
 
-    // todo Rename id to poster
     @BindView(R.id.poster) AppCompatImageView posterImage;
     @BindView(R.id.info_layout) LinearLayoutCompat infoLayout;
     @BindView(R.id.rating_view) RatingView ratingView;
@@ -120,11 +119,21 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Net
     @BindView(R.id.produced_text) AppCompatTextView producedText;
     @BindView(R.id.genres_recycler_view) RecyclerListView genresRecyclerView;
 
+    @BindView(R.id.ad_view) AdView adView;
+
+    ViewsTransitionAnimator getImageAnimator() {
+        return imageAnimator;
+    }
+
+    public MoviePresenter getPresenter() {
+        return presenter;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (MovieActivity) getActivity();
-        Moviemade.getComponent().injest(this);
+        Moviemade.get(activity).getComponent().injest(this);
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
         setHasOptionsMenu(true);
@@ -147,10 +156,10 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Net
 
             Intent intent = new Intent(Intent.ACTION_SEND);
             intent.setType("text/plain");
-            intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, TmdbConfigKt.TMDB_MOVIE, activity.movie.getId()));
+            intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, TmdbConfigKt.TMDB_MOVIE, activity.getMovie().getId()));
             startActivity(Intent.createChooser(intent, getString(R.string.share_via)));
         } else if (item == menu_tmdb) {
-            Browser.INSTANCE.openUrl(activity, String.format(Locale.US, TmdbConfigKt.TMDB_MOVIE, activity.movie.getId()));
+            Browser.INSTANCE.openUrl(activity, String.format(Locale.US, TmdbConfigKt.TMDB_MOVIE, activity.getMovie().getId()));
         } else if (item == menu_imdb) {
             Browser.INSTANCE.openUrl(activity, String.format(Locale.US, TmdbConfigKt.IMDB_MOVIE, imdbId));
         } else if (item == menu_homepage) {
@@ -158,14 +167,6 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Net
         }
 
         return true;
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle args) {
-        view = inflater.inflate(R.layout.fragment_movie, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        return  view;
     }
 
     @Override
@@ -188,6 +189,92 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Net
 
         genresRecyclerView.setAdapter(adapter);
         genresRecyclerView.setLayoutManager(ChipsLayoutManager.newBuilder(activity).setOrientation(ChipsLayoutManager.HORIZONTAL).build());
+
+        AdRequest adRequestBuilder = new AdRequest.Builder()
+            .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+            .addTestDevice("00999FD7320C99C1BB17669939CBD172")
+            .build();
+
+        adView.loadAd(adRequestBuilder);
+        adView.setAdListener(new AdListener(){
+            @Override
+            public void onAdClosed() {
+                super.onAdClosed();
+                Logger.e("onAdClosed");
+            }
+
+            @Override
+            public void onAdFailedToLoad(int errorCode) {
+                super.onAdFailedToLoad(errorCode);
+                switch (errorCode){
+                    case AdRequest.ERROR_CODE_INTERNAL_ERROR:
+                        Logger.e("onAdFailedToLoad banner ERROR_CODE_INTERNAL_ERROR");
+                        break;
+                    case AdRequest.ERROR_CODE_INVALID_REQUEST:
+                        Logger.e("onAdFailedToLoad banner ERROR_CODE_INVALID_REQUEST");
+                        break;
+                    case AdRequest.ERROR_CODE_NETWORK_ERROR:
+                        Logger.e("onAdFailedToLoad banner ERROR_CODE_NETWORK_ERROR");
+                        break;
+                    case AdRequest.ERROR_CODE_NO_FILL:
+                        Logger.e("onAdFailedToLoad banner ERROR_CODE_NO_FILL");
+                        break;
+                }
+            }
+
+            @Override
+            public void onAdLeftApplication() {
+                super.onAdLeftApplication();
+                Logger.e("onAdLeftApplication");
+            }
+
+            @Override
+            public void onAdOpened() {
+                super.onAdOpened();
+                Logger.e("onAdOpened");
+            }
+
+            @Override
+            public void onAdLoaded() {
+                super.onAdLoaded();
+                Logger.e("onAdLoaded");
+            }
+
+            @Override
+            public void onAdClicked() {
+                super.onAdClicked();
+                Logger.e("onAdClicked");
+            }
+
+            @Override
+            public void onAdImpression() {
+                super.onAdImpression();
+                Logger.e("onAdImpression");
+            }
+        });
+    }
+
+    @Override
+    protected int getLayout() {
+        return R.layout.fragment_movie;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (adView != null) {
+            adView.pause();
+            Logger.e("adView pause");
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adView != null) {
+            adView.resume();
+            Logger.e("adView resume");
+        }
     }
 
     @Override
@@ -195,7 +282,10 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Net
         super.onDestroy();
         activity.unregisterReceiver(networkChangeReceiver);
         presenter.onDestroy();
-        unbinder.unbind();
+        if (adView != null) {
+            adView.destroy();
+            Logger.e("adView destroy");
+        }
     }
 
     @Override
@@ -361,7 +451,7 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Net
 
     @Override
     public void setConnectionError() {
-        Snackbar.make(view, R.string.error_no_connection, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(getParentView(), R.string.error_no_connection, Snackbar.LENGTH_SHORT).show();
         connectionError = true;
     }
 
@@ -372,18 +462,18 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Net
 
     @OnClick(R.id.favorites_btn)
     void favoritesClick(View v) {
-        presenter.markAsFavorite(sharedPreferences.getInt(SharedPrefsKt.KEY_ACCOUNT_ID, 0), activity.movie.getId(), !favorite);
+        presenter.markAsFavorite(sharedPreferences.getInt(SharedPrefsKt.KEY_ACCOUNT_ID, 0), activity.getMovie().getId(), !favorite);
     }
 
     @OnClick(R.id.watchlist_btn)
     void watchlistClick(View v) {
-        presenter.addToWatchlist(sharedPreferences.getInt(SharedPrefsKt.KEY_ACCOUNT_ID, 0), activity.movie.getId(), !watchlist);
+        presenter.addToWatchlist(sharedPreferences.getInt(SharedPrefsKt.KEY_ACCOUNT_ID, 0), activity.getMovie().getId(), !watchlist);
     }
 
     @OnClick(R.id.poster)
     void posterClick(View v) {
-        activity.imageAnimator = GestureTransitions.from(posterImage).into(activity.fullImage);
-        activity.imageAnimator.addPositionUpdateListener((position, isLeaving) -> {
+        imageAnimator = GestureTransitions.from(posterImage).into(activity.fullImage);
+        imageAnimator.addPositionUpdateListener((position, isLeaving) -> {
             activity.fullBackground.setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
             activity.fullBackground.setAlpha(position);
 
@@ -410,42 +500,42 @@ public class MovieFragment extends MvpAppCompatFragment implements MovieMvp, Net
             .setOverscrollDistance(activity, 32F, 32F)
             .setOverzoomFactor(Settings.OVERZOOM_FACTOR)
             .setFillViewport(true);
-        activity.imageAnimator.enterSingle(true);
+        imageAnimator.enterSingle(true);
     }
 
     @OnClick(R.id.trailers_text)
     void trailersClick(View v) {
-        activity.startTrailers(activity.movie);
+        activity.startTrailers(activity.getMovie());
     }
 
     @OnClick(R.id.reviews_text)
     void reviewsClick(View v) {
-        activity.startReviews(activity.movie);
+        activity.startReviews(activity.getMovie());
     }
 
     @OnClick(R.id.keywords_text)
     void keywordsClick(View v) {
-        activity.startKeywords(activity.movie);
+        activity.startKeywords(activity.getMovie());
     }
 
     @OnClick(R.id.similar_text)
     void similarClick(View v) {
-        activity.startSimilarMovies(activity.movie);
+        activity.startSimilarMovies(activity.getMovie());
     }
 
     @OnClick(R.id.recommendations_text)
     void recommendationsClick(View v) {
-        activity.startRecommendationsMovies(activity.movie);
+        activity.startRecommendationsMovies(activity.getMovie());
     }
 
     @Override
     public void onNetworkChanged() {
         if (connectionError) {
-            presenter.loadDetails(activity.movie.getId());
+            presenter.getDetails(activity.getMovie().getId());
         }
     }
 
     /*private void sendEvent() {
-        ((Moviemade) activity.getApplication()).rxBus2.send(new Events.DeleteMovieFromFavorite(activity.movie.getId()));
+        ((Moviemade) activity.getApplication()).rxBus2.send(new Events.DeleteMovieFromFavorite(activity.getMovie().getId()));
     }*/
 }
