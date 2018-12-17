@@ -6,7 +6,7 @@ import com.arellomobile.mvp.MvpPresenter;
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.data.entity.Keyword;
-import org.michaelbel.moviemade.data.service.MOVIES;
+import org.michaelbel.moviemade.data.service.MoviesService;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 import org.michaelbel.moviemade.utils.RxUtil;
@@ -25,7 +25,8 @@ public class KeywordsPresenter extends MvpPresenter<KeywordsMvp> {
 
     private Disposable subscription1;
 
-    @Inject MOVIES service;
+    @Inject
+    MoviesService service;
 
     public KeywordsPresenter() {
         Moviemade.getAppComponent().injest(this);

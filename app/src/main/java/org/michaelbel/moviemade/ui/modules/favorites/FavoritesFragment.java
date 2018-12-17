@@ -1,7 +1,6 @@
 package org.michaelbel.moviemade.ui.modules.favorites;
 
 import android.annotation.SuppressLint;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -13,11 +12,11 @@ import com.arellomobile.mvp.presenter.InjectPresenter;
 
 import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.BuildConfig;
+import org.michaelbel.moviemade.Logger;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.entity.Movie;
-import org.michaelbel.moviemade.receivers.NetworkChangeListener;
-import org.michaelbel.moviemade.receivers.NetworkChangeReceiver;
+import org.michaelbel.moviemade.ui.receivers.NetworkChangeListener;
 import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.modules.main.adapter.MoviesAdapter;
@@ -41,11 +40,11 @@ import butterknife.OnClick;
 @SuppressWarnings({"ResultOfMethodCallIgnored", "unused"})
 public class FavoritesFragment extends BaseFragment implements FavoritesMvp, NetworkChangeListener {
 
-    private FavoriteActivity activity;
     private MoviesAdapter adapter;
+    private FavoriteActivity activity;
     private GridLayoutManager gridLayoutManager;
     private PaddingItemDecoration itemDecoration;
-    private NetworkChangeReceiver networkChangeReceiver;
+    //private NetworkChangeReceiver networkChangeReceiver;
     private boolean connectionFailure = false;
 
     @Inject SharedPreferences sharedPreferences;
@@ -63,9 +62,9 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvp, Net
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (FavoriteActivity) getActivity();
-        Moviemade.getAppComponent().injest(this);
-        networkChangeReceiver = new NetworkChangeReceiver(this);
-        activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
+        Moviemade.get(activity).getComponent().injest(this);
+        //networkChangeReceiver = new NetworkChangeReceiver(this);
+        //activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
     }
 
     @Override
@@ -86,7 +85,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvp, Net
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setPadding(DeviceUtil.INSTANCE.dp(activity, 2), 0, DeviceUtil.INSTANCE.dp(activity, 2), 0);
         recyclerView.setOnItemClickListener((v, position) -> {
-            Movie movie = adapter.movies.get(position);
+            Movie movie = adapter.getMovies().get(position);
             activity.startMovie(movie);
             activity.finish();
         });
@@ -140,28 +139,36 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvp, Net
     }*/
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
-        activity.unregisterReceiver(networkChangeReceiver);
-        presenter.onDestroy();
+    public void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+        Logger.e("showLoading");
+    }
+
+    @Override
+    public void hideLoading() {
+        progressBar.setVisibility(View.GONE);
+        Logger.e("hideLoading");
     }
 
     @Override
     public void setMovies(@NotNull List<Movie> movies) {
         connectionFailure = false;
-        progressBar.setVisibility(View.GONE);
         adapter.addAll(movies);
+        Logger.e("setMovies");
+        hideLoading();
     }
 
     @Override
     public void setError(int mode) {
         connectionFailure = false;
-        progressBar.setVisibility(View.GONE);
         emptyView.setMode(mode);
+        hideLoading();
 
         if (BuildConfig.TMDB_API_KEY == "null") {
             emptyView.setValue(R.string.error_empty_api_key);
         }
+
+        Logger.e("setError");
     }
 
     public MoviesAdapter getAdapter() {
@@ -184,5 +191,12 @@ public class FavoritesFragment extends BaseFragment implements FavoritesMvp, Net
         if (connectionFailure && adapter.getItemCount() == 0) {
             presenter.getFavoriteMovies(activity.getAccountId(), sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""));
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //activity.unregisterReceiver(networkChangeReceiver);
+        presenter.onDestroy();
     }
 }

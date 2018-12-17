@@ -14,11 +14,10 @@ import org.michaelbel.moviemade.data.entity.Cast;
 import org.michaelbel.moviemade.data.entity.CreditsResponse;
 import org.michaelbel.moviemade.data.entity.Crew;
 import org.michaelbel.moviemade.data.entity.Fave;
-import org.michaelbel.moviemade.data.entity.Mark;
 import org.michaelbel.moviemade.data.entity.Movie;
 import org.michaelbel.moviemade.data.entity.Watch;
-import org.michaelbel.moviemade.data.service.ACCOUNT;
-import org.michaelbel.moviemade.data.service.MOVIES;
+import org.michaelbel.moviemade.data.service.AccountService;
+import org.michaelbel.moviemade.data.service.MoviesService;
 import org.michaelbel.moviemade.utils.DateUtil;
 import org.michaelbel.moviemade.utils.LanguageUtil;
 import org.michaelbel.moviemade.utils.NetworkUtil;
@@ -31,7 +30,6 @@ import java.util.Objects;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
@@ -43,8 +41,10 @@ public class MoviePresenter extends MvpPresenter<MovieMvp> {
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     @Inject SharedPreferences sharedPreferences;
-    @Inject MOVIES moviesService;
-    @Inject ACCOUNT accountService;
+    @Inject
+    MoviesService moviesService;
+    @Inject
+    AccountService accountService;
 
     MoviePresenter() {
         Moviemade.getAppComponent().injest(this);
@@ -67,84 +67,63 @@ public class MoviePresenter extends MvpPresenter<MovieMvp> {
             return;
         }
 
-        Observable<Movie> observable = moviesService.getDetails(movieId, BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, MediaTypeKt.CREDITS).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<Movie>() {
-            @Override
-            public void onNext(Movie movie) {
-                getViewState().setRuntime((Objects.requireNonNull(movie.getRuntime() != 0 ? DateUtil.INSTANCE.formatRuntime(movie.getRuntime()) : null)));
-                getViewState().setTagline(movie.getTagline());
-                getViewState().setURLs(movie.getImdbId(), movie.getHomepage());
-                fixCredits(movie.getCredits());
-                getViewState().showComplete(movie);
-            }
+        disposables.add(moviesService.getDetails(movieId, BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, MediaTypeKt.CREDITS)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(new DisposableObserver<Movie>() {
+                @Override
+                public void onNext(Movie movie) {
+                    getViewState().setRuntime((Objects.requireNonNull(movie.getRuntime() != 0 ? DateUtil.INSTANCE.formatRuntime(movie.getRuntime()) : null)));
+                    getViewState().setTagline(movie.getTagline());
+                    getViewState().setURLs(movie.getImdbId(), movie.getHomepage());
+                    fixCredits(movie.getCredits());
+                    getViewState().showComplete(movie);
+                }
 
-            @Override
-            public void onError(Throwable e) {
-                getViewState().setConnectionError();
-            }
+                @Override
+                public void onError(Throwable e) {
+                    getViewState().setConnectionError();
+                }
 
-            @Override
-            public void onComplete() {
-                // если ид сессии пуст не делать
-                setAccountStates(movieId);
-            }
-        }));
+                @Override
+                public void onComplete() {
+                    setAccountStates(movieId);
+                }
+            }));
     }
 
     void markAsFavorite(int accountId, int mediaId, boolean favorite) {
-        Observable<Mark> observable = accountService.markAsFavorite(TmdbConfigKt.CONTENT_TYPE, accountId, BuildConfig.TMDB_API_KEY, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""), new Fave(MediaTypeKt.MOVIE, mediaId, favorite)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<Mark>() {
-            @Override
-            public void onNext(Mark mark) {
-                getViewState().onFavoriteChanged(mark);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                getViewState().setConnectionError();
-            }
-
-            @Override
-            public void onComplete() {}
-        }));
+        disposables.add(accountService.markAsFavorite(TmdbConfigKt.CONTENT_TYPE, accountId, BuildConfig.TMDB_API_KEY, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""), new Fave(MediaTypeKt.MOVIE, mediaId, favorite))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(mark -> getViewState().onFavoriteChanged(mark), throwable -> getViewState().setConnectionError()));
     }
 
     void addToWatchlist(int accountId, int mediaId, boolean watchlist) {
-        Observable<Mark> observable = accountService.addToWatchlist(TmdbConfigKt.CONTENT_TYPE, accountId, BuildConfig.TMDB_API_KEY, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""), new Watch(MediaTypeKt.MOVIE, mediaId, watchlist)).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<Mark>() {
-            @Override
-            public void onNext(Mark mark) {
-                getViewState().onWatchListChanged(mark);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                getViewState().setConnectionError();
-            }
-
-            @Override
-            public void onComplete() {}
-        }));
+        disposables.add(accountService.addToWatchlist(TmdbConfigKt.CONTENT_TYPE, accountId, BuildConfig.TMDB_API_KEY, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""), new Watch(MediaTypeKt.MOVIE, mediaId, watchlist))
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(mark -> getViewState().onWatchListChanged(mark), throwable -> getViewState().setConnectionError()));
     }
 
     private void setAccountStates(int movieId) {
-        Observable<AccountStates> observable = moviesService.getAccountStates(movieId, BuildConfig.TMDB_API_KEY, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""), "").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<AccountStates>() {
-            @Override
-            public void onNext(AccountStates states) {
-                if (states != null) {
-                    getViewState().setStates(states.getFavorite(), states.getWatchlist());
+        disposables.add(moviesService.getAccountStates(movieId, BuildConfig.TMDB_API_KEY, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""), "")
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribeWith(new DisposableObserver<AccountStates>() {
+                @Override
+                public void onNext(AccountStates states) {
+                    if (states != null) {
+                        getViewState().setStates(states.getFavorite(), states.getWatchlist());
+                    }
                 }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                // Rated object has an error.
-            }
-
-            @Override
-            public void onComplete() {}
-        }));
+                @Override
+                public void onError(Throwable e) {
+                    // TODO Rated object has an error.
+                }
+                @Override
+                public void onComplete() {}
+            }));
     }
 
     private void fixCredits(CreditsResponse creditsResponse) {

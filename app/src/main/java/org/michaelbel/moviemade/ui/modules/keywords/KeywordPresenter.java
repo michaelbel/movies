@@ -19,6 +19,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
@@ -26,11 +27,9 @@ import io.reactivex.schedulers.Schedulers;
 public class KeywordPresenter extends MvpPresenter<KeywordMvp> {
 
     private int page;
-    private Disposable subscription2;
-    private Disposable subscription3;
+    private CompositeDisposable disposables = new CompositeDisposable();
 
-    @Inject
-    KeywordsService service;
+    @Inject KeywordsService service;
 
     public KeywordPresenter() {
         Moviemade.getAppComponent().injest(this);
@@ -43,7 +42,9 @@ public class KeywordPresenter extends MvpPresenter<KeywordMvp> {
         }
 
         page = 1;
-        subscription2 = service.getMovies(keywordId, BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, AdultUtil.INSTANCE.includeAdult(Moviemade.appContext), page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        disposables.add(service.getMovies(keywordId, BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, AdultUtil.INSTANCE.includeAdult(Moviemade.appContext), page)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe(response -> {
                 List<Movie> results = new ArrayList<>(response.getMovies());
                 if (results.isEmpty()) {
@@ -51,15 +52,14 @@ public class KeywordPresenter extends MvpPresenter<KeywordMvp> {
                     return;
                 }
                 getViewState().setMovies(results);
-            }, e -> {
-                getViewState().setError(EmptyViewMode.MODE_NO_MOVIES);
-                e.printStackTrace();
-            });
+            }, e -> getViewState().setError(EmptyViewMode.MODE_NO_MOVIES)));
     }
 
     public void getMoviesNext(int keywordId) {
         page++;
-        subscription3 = service.getMovies(keywordId, BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, AdultUtil.INSTANCE.includeAdult(Moviemade.appContext), page).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        disposables.add(service.getMovies(keywordId, BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, AdultUtil.INSTANCE.includeAdult(Moviemade.appContext), page)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe(response -> {
                 List<Movie> results = new ArrayList<>(response.getMovies());
                 if (results.isEmpty()) {
@@ -67,13 +67,12 @@ public class KeywordPresenter extends MvpPresenter<KeywordMvp> {
                     return;
                 }
                 getViewState().setMovies(results);
-            });
+            }));
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        RxUtil.INSTANCE.unsubscribe(subscription2);
-        RxUtil.INSTANCE.unsubscribe(subscription3);
+        disposables.dispose();
     }
 }

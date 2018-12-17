@@ -85,7 +85,7 @@ public class SearchMoviesFragment extends BaseFragment implements SearchMvp {
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setPadding(DeviceUtil.INSTANCE.dp(activity, 2), 0, DeviceUtil.INSTANCE.dp(activity, 2), 0);
         recyclerView.setOnItemClickListener((v, position) -> {
-            Movie movie = adapter.movies.get(position);
+            Movie movie = adapter.getMovies().get(position);
             activity.startMovie(movie);
         });
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -137,7 +137,7 @@ public class SearchMoviesFragment extends BaseFragment implements SearchMvp {
 
     @Override
     public void searchStart() {
-        adapter.movies.clear();
+        adapter.getMovies().clear();
         adapter.notifyDataSetChanged();
 
         emptyView.setVisibility(View.GONE);

@@ -24,7 +24,11 @@ import butterknife.ButterKnife;
 @SuppressWarnings("ConstantConditions")
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
 
-    public ArrayList<Movie> movies = new ArrayList<>();
+    private ArrayList<Movie> movies = new ArrayList<>();
+
+    public ArrayList<Movie> getMovies() {
+        return movies;
+    }
 
     @NonNull
     @Override

@@ -59,8 +59,6 @@ public class MovieActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_movie);
 
-        //MobileAds.initialize(this, getString(R.string.ad_app_id));
-
         movie = (Movie) getIntent().getSerializableExtra(IntentsKt.MOVIE);
 
         fragment = (MovieFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);

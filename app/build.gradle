@@ -119,6 +119,7 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.10'
     implementation 'com.github.matthiasrobbers:shortbread:1.0.2'
     implementation 'com.google.android.gms:play-services-ads:17.1.2'
+    implementation 'com.google.android.gms:play-services-analytics:16.0.6'
     implementation 'com.arello-mobile:moxy:1.5.5'
     implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7'
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:8.0.1'
