@@ -9,13 +9,15 @@ import android.os.Parcelable;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
-
 import org.jetbrains.annotations.NotNull;
+import org.michaelbel.moviemade.Logger;
+import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.entity.Video;
-import org.michaelbel.moviemade.receivers.NetworkChangeListener;
-import org.michaelbel.moviemade.receivers.NetworkChangeReceiver;
+import org.michaelbel.moviemade.data.service.MoviesService;
+import org.michaelbel.moviemade.ui.modules.trailers.adapter.TrailersAdapter;
+import org.michaelbel.moviemade.ui.receivers.NetworkChangeListener;
+import org.michaelbel.moviemade.ui.receivers.NetworkChangeReceiver;
 import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.modules.trailers.dialog.YoutubePlayerDialogFragment;
@@ -23,8 +25,11 @@ import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
+import org.michaelbel.moviemade.utils.IntentsKt;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,26 +40,40 @@ import androidx.recyclerview.widget.SnapHelper;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class TrailersFragment extends BaseFragment implements TrailersMvp, NetworkChangeListener {
+public class TrailersFragment extends BaseFragment implements NetworkChangeListener, TrailersContract.View {
 
     private static final String YOUTUBE_DIALOG_FRAGMENT_TAG = "youtubeFragment";
 
+    private int movieId;
     private TrailersAdapter adapter;
     private TrailersActivity activity;
     private GridLayoutManager gridLayoutManager;
-    private PaddingItemDecoration itemDecoration;
     private NetworkChangeReceiver networkChangeReceiver;
     private boolean connectionFailure = false;
+    private TrailersContract.Presenter presenter;
 
-    // TODO make private.
-    // TODO make add getter
-    @InjectPresenter public TrailersPresenter presenter;
+    @Inject MoviesService service;
 
     @BindView(R.id.empty_view) EmptyView emptyView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
-    // TODO make private.
-    // TODO make add getter
-    @BindView(R.id.recycler_view) public RecyclerListView recyclerView;
+    @BindView(R.id.recycler_view) RecyclerListView recyclerView;
+
+    static TrailersFragment newInstance(int movieId) {
+        Bundle args = new Bundle();
+        args.putInt(IntentsKt.MOVIE_ID, movieId);
+
+        TrailersFragment fragment = new TrailersFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public TrailersContract.Presenter getPresenter() {
+        return presenter;
+    }
+
+    public RecyclerListView getRecyclerView() {
+        return recyclerView;
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -62,14 +81,16 @@ public class TrailersFragment extends BaseFragment implements TrailersMvp, Netwo
         activity = (TrailersActivity) getActivity();
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
+        Moviemade.get(activity).getComponent().injest(this);
+
+        presenter = new TrailersPresenter(this, service);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        itemDecoration = new PaddingItemDecoration();
-        itemDecoration.setOffset(DeviceUtil.INSTANCE.dp(activity, 4));
+        activity.getToolbar().setOnClickListener(v -> recyclerView.smoothScrollToPosition(0));
 
         int spanCount = activity.getResources().getInteger(R.integer.trailers_span_layout_count);
 
@@ -80,10 +101,8 @@ public class TrailersFragment extends BaseFragment implements TrailersMvp, Netwo
         snapHelper.attachToRecyclerView(recyclerView);
 
         recyclerView.setAdapter(adapter);
-        recyclerView.setEmptyView(emptyView);
-        recyclerView.addItemDecoration(itemDecoration);
+        //recyclerView.setEmptyView(emptyView);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setPadding(0, DeviceUtil.INSTANCE.dp(activity,2), 0, DeviceUtil.INSTANCE.dp(activity,2));
         recyclerView.setOnItemClickListener((v, position) -> {
             Video trailer = adapter.trailers.get(position);
             YoutubePlayerDialogFragment dialog = YoutubePlayerDialogFragment.newInstance(String.valueOf(Uri.parse(trailer.getKey())));
@@ -94,6 +113,13 @@ public class TrailersFragment extends BaseFragment implements TrailersMvp, Netwo
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:" + trailer.getKey())));
             return true;
         });
+
+        Bundle args = getArguments();
+        if (args != null) {
+            movieId = args.getInt(IntentsKt.MOVIE_ID);
+        }
+
+        presenter.getVideos(movieId);
     }
 
     @Override
@@ -118,14 +144,23 @@ public class TrailersFragment extends BaseFragment implements TrailersMvp, Netwo
     void emptyViewClick(View v) {
         emptyView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
-        presenter.getVideos(activity.movie.getId());
+        presenter.getVideos(movieId);
+    }
+
+    @Override
+    public void showLoading() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideLoading() {
+        progressBar.setVisibility(View.GONE);
     }
 
     @Override
     public void setTrailers(@NotNull List<Video> trailers) {
         connectionFailure = false;
         adapter.setTrailers(trailers);
-        progressBar.setVisibility(View.GONE);
     }
 
     @Override
@@ -133,13 +168,13 @@ public class TrailersFragment extends BaseFragment implements TrailersMvp, Netwo
         connectionFailure = true;
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(mode);
-        progressBar.setVisibility(View.GONE);
+        hideLoading();
     }
 
     @Override
     public void onNetworkChanged() {
         if (connectionFailure && adapter.getItemCount() == 0) {
-            presenter.getVideos(activity.movie.getId());
+            presenter.getVideos(movieId);
         }
     }
 
@@ -148,9 +183,6 @@ public class TrailersFragment extends BaseFragment implements TrailersMvp, Netwo
         Parcelable state = gridLayoutManager.onSaveInstanceState();
         gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.removeItemDecoration(itemDecoration);
-        itemDecoration.setOffset(0);
-        recyclerView.addItemDecoration(itemDecoration);
         gridLayoutManager.onRestoreInstanceState(state);
     }
 }

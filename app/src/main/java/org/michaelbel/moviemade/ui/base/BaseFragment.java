@@ -5,7 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import org.michaelbel.moviemade.moxy.MvpAppCompatFragment;
+import org.michaelbel.moviemade.ui.moxy.MvpAppCompatFragment;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

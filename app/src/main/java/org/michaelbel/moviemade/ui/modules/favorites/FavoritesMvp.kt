@@ -6,6 +6,10 @@ import org.michaelbel.moviemade.utils.EmptyViewMode
 
 interface FavoritesMvp : MvpView {
 
+    fun showLoading()
+
+    fun hideLoading()
+
     fun setMovies(movies: List<Movie>)
 
     fun setError(@EmptyViewMode mode: Int)

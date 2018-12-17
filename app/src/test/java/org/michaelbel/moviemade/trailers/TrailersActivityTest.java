@@ -5,7 +5,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.data.entity.Video;
-import org.michaelbel.moviemade.ui.modules.trailers.TrailersMvp;
+import org.michaelbel.moviemade.ui.modules.trailers.TrailersContract;
 import org.michaelbel.moviemade.ui.modules.trailers.TrailersMvp$$State;
 import org.michaelbel.moviemade.ui.modules.trailers.TrailersPresenter;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
@@ -23,7 +23,7 @@ import static org.mockito.Mockito.verify;
 public class TrailersActivityTest {
 
     @Mock
-    TrailersMvp trailersMvp;
+    TrailersContract trailersMvp;
 
     @Mock
     TrailersMvp$$State trailersMvpState;

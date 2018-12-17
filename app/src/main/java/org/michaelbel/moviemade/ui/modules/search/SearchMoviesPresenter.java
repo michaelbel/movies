@@ -6,8 +6,7 @@ import com.arellomobile.mvp.MvpPresenter;
 import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.data.entity.Movie;
-import org.michaelbel.moviemade.data.entity.MoviesResponse;
-import org.michaelbel.moviemade.data.service.SEARCH;
+import org.michaelbel.moviemade.data.service.SearchService;
 import org.michaelbel.moviemade.utils.AdultUtil;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;
@@ -18,16 +17,15 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 @InjectViewState
 public class SearchMoviesPresenter extends MvpPresenter<SearchMvp> {
 
-    @Inject SEARCH service;
+    @Inject
+    SearchService service;
 
     private int page;
     private String currentQuery;
@@ -47,45 +45,25 @@ public class SearchMoviesPresenter extends MvpPresenter<SearchMvp> {
         }
 
         page = 1;
-        Observable<MoviesResponse> observable = service.searchMovies(BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, query, page, AdultUtil.INSTANCE.includeAdult(Moviemade.appContext), "").subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
-            @Override
-            public void onNext(MoviesResponse response) {
-                List<Movie> results = new ArrayList<>(response.getMovies());
+        disposables.add(service.searchMovies(BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, query, page, AdultUtil.INSTANCE.includeAdult(Moviemade.appContext), "")
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(moviesResponse -> {
+                List<Movie> results = new ArrayList<>(moviesResponse.getMovies());
                 if (results.isEmpty()) {
                     getViewState().setError(EmptyViewMode.MODE_NO_RESULTS);
                     return;
                 }
                 getViewState().setMovies(results);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                getViewState().setError(EmptyViewMode.MODE_NO_RESULTS);
-            }
-
-            @Override
-            public void onComplete() {}
-        }));
+            }, throwable -> getViewState().setError(EmptyViewMode.MODE_NO_RESULTS)));
     }
 
     void loadNextPage() {
         page++;
-        Observable<MoviesResponse> observable = service.searchMovies(BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, currentQuery, page, AdultUtil.INSTANCE.includeAdult(Moviemade.appContext), null).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<MoviesResponse>() {
-            @Override
-            public void onNext(MoviesResponse response) {
-                getViewState().setMovies(response.getMovies());
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onComplete() {}
-        }));
+        disposables.add(service.searchMovies(BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, currentQuery, page, AdultUtil.INSTANCE.includeAdult(Moviemade.appContext), null)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(moviesResponse -> getViewState().setMovies(moviesResponse.getMovies()), Throwable::printStackTrace));
     }
 
     @Override

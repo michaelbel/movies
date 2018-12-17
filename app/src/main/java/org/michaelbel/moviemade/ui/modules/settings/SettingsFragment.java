@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
-import org.michaelbel.moviemade.eventbus.Events;
+import org.michaelbel.moviemade.data.eventbus.Events;
 import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.modules.about.AboutActivity;
 import org.michaelbel.moviemade.ui.modules.settings.cell.TextCell;
@@ -39,22 +39,20 @@ public class SettingsFragment extends BaseFragment {
 
     @Inject SharedPreferences sharedPreferences;
 
-    // TODO make private.
-    // TODO make add getter
-    @BindView(R.id.recycler_view) public RecyclerListView recyclerView;
+    @BindView(R.id.recycler_view) RecyclerListView recyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (SettingsActivity) getActivity();
-        Moviemade.getAppComponent().injest(this);
+        Moviemade.get(activity).getComponent().injest(this);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        activity.toolbar.setNavigationOnClickListener(v -> activity.finish());
-        activity.toolbarTitle.setText(R.string.settings);
+        activity.getToolbar().setNavigationOnClickListener(v -> activity.finish());
+        activity.getToolbarTitle().setText(R.string.settings);
 
         rowCount = 0;
         inAppBrowserRow = rowCount++;

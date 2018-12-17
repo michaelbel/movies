@@ -81,7 +81,7 @@ public class ReviewFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (ReviewActivity) getActivity();
-        Moviemade.getAppComponent().injest(this);
+        Moviemade.get(activity).getComponent().injest(this);
         setHasOptionsMenu(true);
     }
 

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.data.entity.Keyword;
 import org.michaelbel.moviemade.data.entity.Movie;
 import org.michaelbel.moviemade.data.entity.Review;
-import org.michaelbel.moviemade.moxy.MvpAppCompatActivity;
+import org.michaelbel.moviemade.ui.moxy.MvpAppCompatActivity;
 import org.michaelbel.moviemade.ui.modules.favorites.FavoriteActivity;
 import org.michaelbel.moviemade.ui.modules.keywords.activity.KeywordActivity;
 import org.michaelbel.moviemade.ui.modules.keywords.activity.KeywordsActivity;

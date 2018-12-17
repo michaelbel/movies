@@ -495,7 +495,7 @@
 
         <com.google.android.gms.ads.AdView
             android:id="@+id/ad_view"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             app:adSize="BANNER"

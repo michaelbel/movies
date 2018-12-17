@@ -19,8 +19,10 @@ import com.bumptech.glide.Glide;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.entity.Account;
-import org.michaelbel.moviemade.receivers.NetworkChangeListener;
-import org.michaelbel.moviemade.receivers.NetworkChangeReceiver;
+import org.michaelbel.moviemade.data.service.AccountService;
+import org.michaelbel.moviemade.data.service.AuthService;
+import org.michaelbel.moviemade.ui.receivers.NetworkChangeListener;
+import org.michaelbel.moviemade.ui.receivers.NetworkChangeReceiver;
 import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.modules.main.MainActivity;
 import org.michaelbel.moviemade.utils.Browser;
@@ -48,7 +50,7 @@ import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 @SuppressWarnings("all")
-public class AccountFragment extends BaseFragment implements AccountMvp, NetworkChangeListener {
+public class AccountFragment extends BaseFragment implements NetworkChangeListener, AccountContract.View {
 
     private int accountId;
     private MainActivity activity;
@@ -66,10 +68,13 @@ public class AccountFragment extends BaseFragment implements AccountMvp, Network
     @BindView(R.id.name_text) AppCompatTextView nameText;
     @BindView(R.id.backdrop_image) AppCompatImageView backdropImage;
 
+    @Inject AuthService authService;
+    @Inject AccountService accountService;
     @Inject SharedPreferences sharedPreferences;
-    @InjectPresenter AccountPresenter presenter;
 
-    public AccountPresenter getPresenter() {
+    private AccountContract.Presenter presenter;
+
+    public AccountContract.Presenter getPresenter() {
         return presenter;
     }
 
@@ -97,6 +102,8 @@ public class AccountFragment extends BaseFragment implements AccountMvp, Network
         Moviemade.get(activity).getComponent().injest(this);
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
+
+        presenter = new AccountPresenter(this, authService, accountService);
     }
 
     @Override
@@ -253,6 +260,7 @@ public class AccountFragment extends BaseFragment implements AccountMvp, Network
     public void onDestroy() {
         super.onDestroy();
         presenter.onDestroy();
+        activity.unregisterReceiver(networkChangeReceiver);
     }
 
     private void hideKeyboard(View view) {

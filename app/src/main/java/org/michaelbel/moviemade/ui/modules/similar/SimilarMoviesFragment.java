@@ -16,11 +16,10 @@ import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.entity.Movie;
-import org.michaelbel.moviemade.receivers.NetworkChangeListener;
-import org.michaelbel.moviemade.receivers.NetworkChangeReceiver;
+import org.michaelbel.moviemade.ui.receivers.NetworkChangeListener;
+import org.michaelbel.moviemade.ui.receivers.NetworkChangeReceiver;
 import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
-import org.michaelbel.moviemade.ui.modules.favorites.FavoritesMvp;
 import org.michaelbel.moviemade.ui.modules.main.adapter.MoviesAdapter;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
@@ -39,7 +38,7 @@ import butterknife.OnClick;
 
 @SuppressLint("CheckResult")
 @SuppressWarnings({"ResultOfMethodCallIgnored", "unused"})
-public class SimilarMoviesFragment extends BaseFragment implements FavoritesMvp, NetworkChangeListener {
+public class SimilarMoviesFragment extends BaseFragment implements SimilarMvp, NetworkChangeListener {
 
     private SimilarMoviesActivity activity;
     private MoviesAdapter adapter;
@@ -63,7 +62,7 @@ public class SimilarMoviesFragment extends BaseFragment implements FavoritesMvp,
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (SimilarMoviesActivity) getActivity();
-        Moviemade.getAppComponent().injest(this);
+        Moviemade.get(activity).getComponent().injest(this);
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
     }
@@ -86,7 +85,7 @@ public class SimilarMoviesFragment extends BaseFragment implements FavoritesMvp,
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setPadding(DeviceUtil.INSTANCE.dp(activity, 2), 0, DeviceUtil.INSTANCE.dp(activity, 2), 0);
         recyclerView.setOnItemClickListener((v, position) -> {
-            Movie movie = adapter.movies.get(position);
+            Movie movie = adapter.getMovies().get(position);
             activity.startMovie(movie);
             activity.finish();
         });

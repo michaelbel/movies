@@ -1,70 +1,52 @@
 package org.michaelbel.moviemade.ui.modules.trailers;
 
-import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
-
-import org.michaelbel.moviemade.BuildConfig;
-import org.michaelbel.moviemade.Moviemade;
+import org.michaelbel.moviemade.Logger;
 import org.michaelbel.moviemade.data.entity.Video;
 import org.michaelbel.moviemade.data.entity.VideosResponse;
-import org.michaelbel.moviemade.data.service.MOVIES;
+import org.michaelbel.moviemade.data.service.MoviesService;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;
-import org.michaelbel.moviemade.utils.TmdbConfigKt;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.Observer;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.functions.Action;
 
-@InjectViewState
-public class TrailersPresenter extends MvpPresenter<TrailersMvp> {
+public class TrailersPresenter implements TrailersContract.Presenter {
 
-    @Inject MOVIES service;
-
+    private TrailersContract.View view;
+    private TrailersContract.Repository repository;
     private final CompositeDisposable disposables = new CompositeDisposable();
 
-    public TrailersPresenter() {
-        Moviemade.getAppComponent().injest(this);
+    public TrailersPresenter(TrailersContract.View view, MoviesService service) {
+        this.view = view;
+        this.repository = new TrailersRepository(service);
     }
 
+    @Override
     public void getVideos(int movieId) {
         if (NetworkUtil.INSTANCE.notConnected()) {
-            getViewState().setError(EmptyViewMode.MODE_NO_CONNECTION);
+            view.setError(EmptyViewMode.MODE_NO_CONNECTION);
             return;
         }
 
-        Observable<VideosResponse> observable = service.getVideos(movieId, BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());
-        disposables.add(observable.subscribeWith(new DisposableObserver<VideosResponse>() {
-            @Override
-            public void onNext(VideosResponse response) {
-                List<Video> results = new ArrayList<>(response.getTrailers());
+        disposables.add(repository.getVideos(movieId)
+            .doOnTerminate(() -> view.hideLoading())
+            .subscribe(videosResponse -> {
+                List<Video> results = new ArrayList<>(videosResponse.getTrailers());
                 if (results.isEmpty()) {
-                    getViewState().setError(EmptyViewMode.MODE_NO_TRAILERS);
+                    view.setError(EmptyViewMode.MODE_NO_TRAILERS);
                     return;
                 }
-                getViewState().setTrailers(response.getTrailers());
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                getViewState().setError(EmptyViewMode.MODE_NO_TRAILERS);
-            }
-
-            @Override
-            public void onComplete() {}
-        }));
+                view.setTrailers(videosResponse.getTrailers());
+            }, throwable -> view.setError(EmptyViewMode.MODE_NO_TRAILERS)));
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         disposables.dispose();
     }
 }
