@@ -49,7 +49,6 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 https://www.youtube.com/watch?v=H5auyhQU9fU
 
 ## Open-source libraries
-* [**Moxy**](https://github.com/Arello-Mobile/Moxy) MVP-architecture
 * [**Retrofit**](https://github.com/square/retrofit) for REST API communication
 * [**OkHttp**](https://github.com/square/okhttp) for http & logging
 * [**Gson**](https://github.com/google/gson) to convert Java Objects into JSON and back
