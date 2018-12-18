@@ -19,7 +19,7 @@ public class RcmdMoviesActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_recommendations);
+        setContentView(R.layout.activity_rcmds);
 
         Movie movie = (Movie) getIntent().getSerializableExtra(IntentsKt.MOVIE);
 
