@@ -1,0 +1,5 @@
+<resources>
+    <string name="ad_app_id">ca-app-pub-0000000000000000~0000000000</string>
+    <string name="banner_ad_unit_id">ca-app-pub-0000000000000000/0000000000</string>
+    <string name="device_test_id">00000AA0000A00A0AA00000000AAA000</string>
+</resources>
