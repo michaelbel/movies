@@ -5,30 +5,33 @@ import android.content.IntentFilter;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
-
 import org.jetbrains.annotations.NotNull;
-import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.entity.Movie;
 import org.michaelbel.moviemade.data.eventbus.Events;
-import org.michaelbel.moviemade.ui.receivers.NetworkChangeListener;
-import org.michaelbel.moviemade.ui.receivers.NetworkChangeReceiver;
+import org.michaelbel.moviemade.data.service.KeywordsService;
+import org.michaelbel.moviemade.ui.GridSpacingItemDecoration;
 import org.michaelbel.moviemade.ui.base.BaseFragment;
-import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
-import org.michaelbel.moviemade.ui.modules.keywords.KeywordMvp;
+import org.michaelbel.moviemade.ui.modules.keywords.KeywordContract;
 import org.michaelbel.moviemade.ui.modules.keywords.KeywordPresenter;
 import org.michaelbel.moviemade.ui.modules.keywords.activity.KeywordActivity;
 import org.michaelbel.moviemade.ui.modules.main.adapter.MoviesAdapter;
+import org.michaelbel.moviemade.ui.modules.main.adapter.OnMovieClickListener;
+import org.michaelbel.moviemade.ui.receivers.NetworkChangeListener;
+import org.michaelbel.moviemade.ui.receivers.NetworkChangeReceiver;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
-import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.utils.DeviceUtil;
+import org.michaelbel.moviemade.utils.IntentsKt;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,24 +40,32 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-@SuppressLint("CheckResult")
-@SuppressWarnings("ResultOfMethodCallIgnored")
-public class KeywordFragment extends BaseFragment implements KeywordMvp, NetworkChangeListener {
+public class KeywordFragment extends BaseFragment implements KeywordContract.View, NetworkChangeListener, OnMovieClickListener {
 
+    private int keywordId;
     private KeywordActivity activity;
     private MoviesAdapter adapter;
     private GridLayoutManager gridLayoutManager;
-    private PaddingItemDecoration itemDecoration;
     private NetworkChangeReceiver networkChangeReceiver;
     private boolean connectionFailure = false;
+    private KeywordContract.Presenter presenter;
 
-    @InjectPresenter KeywordPresenter presenter;
+    @Inject KeywordsService service;
 
     @BindView(R.id.empty_view) EmptyView emptyView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
-    @BindView(R.id.recycler_view) public RecyclerListView recyclerView;
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
-    public KeywordPresenter getPresenter() {
+    public static KeywordFragment newInstance(int keywordId) {
+        Bundle args = new Bundle();
+        args.putInt(IntentsKt.KEYWORD_ID, keywordId);
+
+        KeywordFragment fragment = new KeywordFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public KeywordContract.Presenter getPresenter() {
         return presenter;
     }
 
@@ -64,43 +75,47 @@ public class KeywordFragment extends BaseFragment implements KeywordMvp, Network
         activity = (KeywordActivity) getActivity();
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
+        Moviemade.get(activity).getComponent().injest(this);
+        presenter = new KeywordPresenter(this, service);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_movies, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        itemDecoration = new PaddingItemDecoration();
-        itemDecoration.setOffset(DeviceUtil.INSTANCE.dp(activity, 1));
+        activity.getToolbar().setOnClickListener(v -> recyclerView.smoothScrollToPosition(0));
 
         int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
 
-        adapter = new MoviesAdapter();
+        adapter = new MoviesAdapter(this);
         gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
+        GridSpacingItemDecoration spacingDecoration = new GridSpacingItemDecoration(spanCount, DeviceUtil.INSTANCE.dp(activity, 3));
 
         recyclerView.setAdapter(adapter);
-        recyclerView.setEmptyView(emptyView);
-        recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setPadding(DeviceUtil.INSTANCE.dp(activity, 2), 0, DeviceUtil.INSTANCE.dp(activity, 2), 0);
-        recyclerView.setOnItemClickListener((v, position) -> {
-            Movie movie = adapter.getMovies().get(position);
-            activity.startMovie(movie);
-        });
+        recyclerView.addItemDecoration(spacingDecoration);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (!recyclerView.canScrollVertically(1)) {
-                    presenter.getMoviesNext(activity.getKeyword().getId());
+                    presenter.getMoviesNext(keywordId);
                 }
             }
         });
-    }
 
-    @Override
-    protected int getLayout() {
-        return R.layout.fragment_keyword;
+        Bundle args = getArguments();
+        if (args != null) {
+            keywordId = args.getInt(IntentsKt.KEYWORD_ID);
+        }
+
+        presenter.getMovies(keywordId);
     }
 
     @Override
@@ -109,6 +124,8 @@ public class KeywordFragment extends BaseFragment implements KeywordMvp, Network
         refreshLayout();
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    @SuppressLint("CheckResult")
     @Override
     public void onResume() {
         super.onResume();
@@ -127,9 +144,10 @@ public class KeywordFragment extends BaseFragment implements KeywordMvp, Network
         presenter.onDestroy();
     }
 
+    // TODO add method
     @OnClick(R.id.empty_view)
     void emptyViewClick(View v) {
-        presenter.getMovies(activity.getKeyword().getId());
+        presenter.getMovies(keywordId);
     }
 
     @Override
@@ -144,16 +162,12 @@ public class KeywordFragment extends BaseFragment implements KeywordMvp, Network
         connectionFailure = false;
         progressBar.setVisibility(View.GONE);
         emptyView.setMode(mode);
-
-        if (BuildConfig.TMDB_API_KEY == "null") {
-            emptyView.setValue(R.string.error_empty_api_key);
-        }
     }
 
     @Override
     public void onNetworkChanged() {
         if (connectionFailure && adapter.getItemCount() == 0) {
-            presenter.getMovies(activity.getKeyword().getId());
+            presenter.getMovies(keywordId);
         }
     }
 
@@ -162,13 +176,15 @@ public class KeywordFragment extends BaseFragment implements KeywordMvp, Network
         Parcelable state = gridLayoutManager.onSaveInstanceState();
         gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.removeItemDecoration(itemDecoration);
-        itemDecoration.setOffset(0);
-        recyclerView.addItemDecoration(itemDecoration);
         gridLayoutManager.onRestoreInstanceState(state);
     }
 
     public MoviesAdapter getAdapter() {
         return adapter;
+    }
+
+    @Override
+    public void onMovieClick(@NotNull Movie movie, @NotNull View view) {
+        activity.startMovie(movie);
     }
 }

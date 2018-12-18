@@ -18,15 +18,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-@SuppressWarnings("all")
 public class YoutubePlayerDialogFragment extends BottomSheetDialogFragment {
 
-    public static final String KEY_VIDEO_URL = "video_url";
+    private static final String KEY_VIDEO_URL = "video_url";
 
     private String videoUrl;
     private Unbinder unbinder;
 
-    @BindView(R.id.youtube_player_view) public YouTubePlayerView youTubePlayerView;
+    @BindView(R.id.player_view) YouTubePlayerView youTubePlayerView;
 
     public static YoutubePlayerDialogFragment newInstance(String url) {
         Bundle args = new Bundle();

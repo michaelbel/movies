@@ -6,21 +6,22 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import org.jetbrains.annotations.NotNull;
-import org.michaelbel.moviemade.Logger;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.entity.Video;
 import org.michaelbel.moviemade.data.service.MoviesService;
+import org.michaelbel.moviemade.ui.GridSpacingItemDecoration;
+import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.modules.trailers.adapter.TrailersAdapter;
+import org.michaelbel.moviemade.ui.modules.trailers.dialog.YoutubePlayerDialogFragment;
 import org.michaelbel.moviemade.ui.receivers.NetworkChangeListener;
 import org.michaelbel.moviemade.ui.receivers.NetworkChangeReceiver;
-import org.michaelbel.moviemade.ui.base.BaseFragment;
-import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
-import org.michaelbel.moviemade.ui.modules.trailers.dialog.YoutubePlayerDialogFragment;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.utils.DeviceUtil;
@@ -34,9 +35,7 @@ import javax.inject.Inject;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.SnapHelper;
 import butterknife.BindView;
 import butterknife.OnClick;
 
@@ -86,6 +85,12 @@ public class TrailersFragment extends BaseFragment implements NetworkChangeListe
         presenter = new TrailersPresenter(this, service);
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_trailers, container, false);
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -96,13 +101,11 @@ public class TrailersFragment extends BaseFragment implements NetworkChangeListe
 
         adapter = new TrailersAdapter();
         gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
-
-        SnapHelper snapHelper = new LinearSnapHelper();
-        snapHelper.attachToRecyclerView(recyclerView);
+        GridSpacingItemDecoration spacingDecoration = new GridSpacingItemDecoration(spanCount, DeviceUtil.INSTANCE.dp(activity, 5), true);
 
         recyclerView.setAdapter(adapter);
-        //recyclerView.setEmptyView(emptyView);
         recyclerView.setLayoutManager(gridLayoutManager);
+        recyclerView.addItemDecoration(spacingDecoration);
         recyclerView.setOnItemClickListener((v, position) -> {
             Video trailer = adapter.trailers.get(position);
             YoutubePlayerDialogFragment dialog = YoutubePlayerDialogFragment.newInstance(String.valueOf(Uri.parse(trailer.getKey())));
@@ -120,11 +123,6 @@ public class TrailersFragment extends BaseFragment implements NetworkChangeListe
         }
 
         presenter.getVideos(movieId);
-    }
-
-    @Override
-    protected int getLayout() {
-        return R.layout.fragment_trailers;
     }
 
     @Override

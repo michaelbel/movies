@@ -18,9 +18,11 @@ import butterknife.ButterKnife;
 
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHolder> {
 
-    // todo make private.
-    // todo add getter.
-    public ArrayList<Review> reviews = new ArrayList<>();
+    private ArrayList<Review> reviews = new ArrayList<>();
+
+    public ArrayList<Review> getReviews() {
+        return reviews;
+    }
 
     public void setReviews(List<Review> results) {
         reviews.addAll(results);
@@ -30,7 +32,7 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsV
     @NonNull
     @Override
     public ReviewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_review, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_review, parent, false);
         return new ReviewsViewHolder(view);
     }
 

@@ -31,7 +31,6 @@ import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 import butterknife.OnLongClick;
 
-@SuppressWarnings("all")
 public class MovieActivity extends BaseActivity {
 
     private Movie movie;
@@ -62,7 +61,7 @@ public class MovieActivity extends BaseActivity {
         movie = (Movie) getIntent().getSerializableExtra(IntentsKt.MOVIE);
 
         fragment = (MovieFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-        fragment.getPresenter().setMovieDetailsFromExtra(movie);
+        fragment.getPresenter().setDetailExtra(movie);
         fragment.getPresenter().getDetails(movie.getId());
 
         getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.primary));

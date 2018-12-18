@@ -8,15 +8,16 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.alexvasilkov.gestures.Settings;
 import com.alexvasilkov.gestures.transition.GestureTransitions;
 import com.alexvasilkov.gestures.transition.ViewsTransitionAnimator;
-import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.ads.AdListener;
@@ -33,11 +34,13 @@ import org.michaelbel.moviemade.data.constants.Genres;
 import org.michaelbel.moviemade.data.entity.Genre;
 import org.michaelbel.moviemade.data.entity.Mark;
 import org.michaelbel.moviemade.data.entity.Movie;
+import org.michaelbel.moviemade.data.service.AccountService;
+import org.michaelbel.moviemade.data.service.MoviesService;
+import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.modules.movie.adapter.GenresAdapter;
+import org.michaelbel.moviemade.ui.modules.movie.views.RatingView;
 import org.michaelbel.moviemade.ui.receivers.NetworkChangeListener;
 import org.michaelbel.moviemade.ui.receivers.NetworkChangeReceiver;
-import org.michaelbel.moviemade.ui.base.BaseFragment;
-import org.michaelbel.moviemade.ui.modules.movie.views.RatingView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.utils.Browser;
 import org.michaelbel.moviemade.utils.DrawableUtil;
@@ -63,8 +66,7 @@ import butterknife.OnClick;
 
 import static android.view.View.VISIBLE;
 
-//@SuppressWarnings("unused")
-public class MovieFragment extends BaseFragment implements MovieMvp, NetworkChangeListener {
+public class MovieFragment extends BaseFragment implements MovieContract.View, NetworkChangeListener {
 
     private boolean favorite;
     private boolean watchlist;
@@ -73,6 +75,7 @@ public class MovieFragment extends BaseFragment implements MovieMvp, NetworkChan
     private MenuItem menu_tmdb;
     private MenuItem menu_imdb;
     private MenuItem menu_homepage;
+    private View parentView;
 
     private String imdbId;
     private String homepage;
@@ -82,10 +85,11 @@ public class MovieFragment extends BaseFragment implements MovieMvp, NetworkChan
     private NetworkChangeReceiver networkChangeReceiver;
     private GenresAdapter adapter;
     private ViewsTransitionAnimator imageAnimator;
+    private MovieContract.Presenter presenter;
 
-    //@Inject MoviesDatabase moviesDatabase;
+    @Inject MoviesService moviesService;
+    @Inject AccountService accountService;
     @Inject SharedPreferences sharedPreferences;
-    @InjectPresenter MoviePresenter presenter;
 
     @BindView(R.id.poster) AppCompatImageView posterImage;
     @BindView(R.id.info_layout) LinearLayoutCompat infoLayout;
@@ -126,7 +130,7 @@ public class MovieFragment extends BaseFragment implements MovieMvp, NetworkChan
         return imageAnimator;
     }
 
-    public MoviePresenter getPresenter() {
+    public MovieContract.Presenter getPresenter() {
         return presenter;
     }
 
@@ -138,6 +142,7 @@ public class MovieFragment extends BaseFragment implements MovieMvp, NetworkChan
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
         setHasOptionsMenu(true);
+        presenter = new MoviePresenter(this, moviesService, accountService, sharedPreferences);
     }
 
     @Override
@@ -170,6 +175,13 @@ public class MovieFragment extends BaseFragment implements MovieMvp, NetworkChan
         return true;
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        parentView = inflater.inflate(R.layout.fragment_movie, container, false);
+        return parentView;
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -193,7 +205,7 @@ public class MovieFragment extends BaseFragment implements MovieMvp, NetworkChan
 
         AdRequest adRequestBuilder = new AdRequest.Builder()
             .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-            .addTestDevice("00999FD7320C99C1BB17669939CBD172")
+            .addTestDevice(getString(R.string.device_test_id))
             .build();
 
         adView.loadAd(adRequestBuilder);
@@ -201,7 +213,6 @@ public class MovieFragment extends BaseFragment implements MovieMvp, NetworkChan
             @Override
             public void onAdClosed() {
                 super.onAdClosed();
-                Logger.e("onAdClosed");
             }
 
             @Override
@@ -226,38 +237,28 @@ public class MovieFragment extends BaseFragment implements MovieMvp, NetworkChan
             @Override
             public void onAdLeftApplication() {
                 super.onAdLeftApplication();
-                Logger.e("onAdLeftApplication");
             }
 
             @Override
             public void onAdOpened() {
                 super.onAdOpened();
-                Logger.e("onAdOpened");
             }
 
             @Override
             public void onAdLoaded() {
                 super.onAdLoaded();
-                Logger.e("onAdLoaded");
             }
 
             @Override
             public void onAdClicked() {
                 super.onAdClicked();
-                Logger.e("onAdClicked");
             }
 
             @Override
             public void onAdImpression() {
                 super.onAdImpression();
-                Logger.e("onAdImpression");
             }
         });
-    }
-
-    @Override
-    protected int getLayout() {
-        return R.layout.fragment_movie;
     }
 
     @Override
@@ -265,7 +266,6 @@ public class MovieFragment extends BaseFragment implements MovieMvp, NetworkChan
         super.onPause();
         if (adView != null) {
             adView.pause();
-            Logger.e("adView pause");
         }
     }
 
@@ -274,7 +274,6 @@ public class MovieFragment extends BaseFragment implements MovieMvp, NetworkChan
         super.onResume();
         if (adView != null) {
             adView.resume();
-            Logger.e("adView resume");
         }
     }
 
@@ -285,7 +284,6 @@ public class MovieFragment extends BaseFragment implements MovieMvp, NetworkChan
         presenter.onDestroy();
         if (adView != null) {
             adView.destroy();
-            Logger.e("adView destroy");
         }
     }
 
@@ -452,7 +450,7 @@ public class MovieFragment extends BaseFragment implements MovieMvp, NetworkChan
 
     @Override
     public void setConnectionError() {
-        Snackbar.make(getParentView(), R.string.error_no_connection, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(parentView, R.string.error_no_connection, Snackbar.LENGTH_SHORT).show();
         connectionError = true;
     }
 
@@ -463,12 +461,12 @@ public class MovieFragment extends BaseFragment implements MovieMvp, NetworkChan
 
     @OnClick(R.id.favorites_btn)
     void favoritesClick(View v) {
-        presenter.markAsFavorite(sharedPreferences.getInt(SharedPrefsKt.KEY_ACCOUNT_ID, 0), activity.getMovie().getId(), !favorite);
+        presenter.markFavorite(sharedPreferences.getInt(SharedPrefsKt.KEY_ACCOUNT_ID, 0), activity.getMovie().getId(), !favorite);
     }
 
     @OnClick(R.id.watchlist_btn)
     void watchlistClick(View v) {
-        presenter.addToWatchlist(sharedPreferences.getInt(SharedPrefsKt.KEY_ACCOUNT_ID, 0), activity.getMovie().getId(), !watchlist);
+        presenter.addWatchlist(sharedPreferences.getInt(SharedPrefsKt.KEY_ACCOUNT_ID, 0), activity.getMovie().getId(), !watchlist);
     }
 
     @OnClick(R.id.poster)
@@ -526,7 +524,7 @@ public class MovieFragment extends BaseFragment implements MovieMvp, NetworkChan
 
     @OnClick(R.id.recommendations_text)
     void recommendationsClick(View v) {
-        activity.startRecommendationsMovies(activity.getMovie());
+        activity.startRcmdsMovies(activity.getMovie());
     }
 
     @Override

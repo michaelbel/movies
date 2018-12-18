@@ -2,48 +2,65 @@ package org.michaelbel.moviemade.ui.modules.keywords.fragment;
 
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager;
 
 import org.jetbrains.annotations.NotNull;
+import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.entity.Keyword;
-import org.michaelbel.moviemade.ui.receivers.NetworkChangeListener;
-import org.michaelbel.moviemade.ui.receivers.NetworkChangeReceiver;
+import org.michaelbel.moviemade.data.service.MoviesService;
 import org.michaelbel.moviemade.ui.base.BaseFragment;
-import org.michaelbel.moviemade.ui.modules.keywords.KeywordsAdapter;
-import org.michaelbel.moviemade.ui.modules.keywords.KeywordsMvp;
+import org.michaelbel.moviemade.ui.modules.keywords.adapter.KeywordsAdapter;
+import org.michaelbel.moviemade.ui.modules.keywords.KeywordsContract;
 import org.michaelbel.moviemade.ui.modules.keywords.KeywordsPresenter;
 import org.michaelbel.moviemade.ui.modules.keywords.activity.KeywordsActivity;
+import org.michaelbel.moviemade.ui.receivers.NetworkChangeListener;
+import org.michaelbel.moviemade.ui.receivers.NetworkChangeReceiver;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
+import org.michaelbel.moviemade.utils.IntentsKt;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import butterknife.BindView;
 import butterknife.OnClick;
 
-public class KeywordsFragment extends BaseFragment implements KeywordsMvp, NetworkChangeListener {
+public class KeywordsFragment extends BaseFragment implements KeywordsContract.View, NetworkChangeListener {
 
+    private int movieId;
     private KeywordsAdapter adapter;
     private KeywordsActivity activity;
     private NetworkChangeReceiver networkChangeReceiver;
     private boolean connectionFailure = false;
+    private KeywordsContract.Presenter presenter;
 
-    @InjectPresenter KeywordsPresenter presenter;
+    @Inject MoviesService service;
 
     @BindView(R.id.empty_view) EmptyView emptyView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
-    @BindView(R.id.recycler_view) public RecyclerListView recyclerView;
+    @BindView(R.id.recycler_view) RecyclerListView recyclerView;
 
-    public KeywordsPresenter getPresenter() {
+    public KeywordsContract.Presenter getPresenter() {
         return presenter;
+    }
+
+    public static KeywordsFragment newInstance(int movieId) {
+        Bundle args = new Bundle();
+        args.putInt(IntentsKt.MOVIE_ID, movieId);
+
+        KeywordsFragment fragment = new KeywordsFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
     @Override
@@ -52,11 +69,22 @@ public class KeywordsFragment extends BaseFragment implements KeywordsMvp, Netwo
         activity = (KeywordsActivity) getActivity();
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
+        Moviemade.get(activity).getComponent().injest(this);
+        presenter = new KeywordsPresenter(this, service);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_keywords, container, false);
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        activity.getToolbar().setOnClickListener(v -> recyclerView.smoothScrollToPosition(0));
+
         adapter = new KeywordsAdapter();
 
         recyclerView.setAdapter(adapter);
@@ -66,11 +94,13 @@ public class KeywordsFragment extends BaseFragment implements KeywordsMvp, Netwo
             Keyword keyword = adapter.getKeywords().get(position);
             activity.startKeyword(keyword);
         });
-    }
 
-    @Override
-    protected int getLayout() {
-        return R.layout.fragment_keywords;
+        Bundle args = getArguments();
+        if (args != null) {
+            movieId = args.getInt(IntentsKt.MOVIE_ID);
+        }
+
+        presenter.getKeywords(movieId);
     }
 
     @Override
@@ -84,7 +114,7 @@ public class KeywordsFragment extends BaseFragment implements KeywordsMvp, Netwo
     void emptyViewClick(View v) {
         emptyView.setVisibility(View.GONE);
         progressBar.setVisibility(View.VISIBLE);
-        presenter.getKeywords(activity.getMovie().getId());
+        presenter.getKeywords(movieId);
     }
 
     @Override
@@ -105,7 +135,7 @@ public class KeywordsFragment extends BaseFragment implements KeywordsMvp, Netwo
     @Override
     public void onNetworkChanged() {
         if (connectionFailure && adapter.getItemCount() == 0) {
-            presenter.getKeywords(activity.getMovie().getId());
+            presenter.getKeywords(movieId);
         }
     }
 }

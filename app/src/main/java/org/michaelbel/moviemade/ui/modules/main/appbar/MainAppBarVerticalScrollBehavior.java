@@ -15,7 +15,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.ViewCompat;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
-@SuppressWarnings("all")
 public class MainAppBarVerticalScrollBehavior<V extends View> extends VerticalScrollingBehavior<V> {
 
     private static final Interpolator INTERPOLATOR = new FastOutSlowInInterpolator();

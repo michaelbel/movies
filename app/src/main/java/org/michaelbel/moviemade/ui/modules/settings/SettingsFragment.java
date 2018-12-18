@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -48,6 +49,12 @@ public class SettingsFragment extends BaseFragment {
         Moviemade.get(activity).getComponent().injest(this);
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_settings, container, false);
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -82,11 +89,6 @@ public class SettingsFragment extends BaseFragment {
                 startActivity(new Intent(activity, AboutActivity.class));
             }
         });
-    }
-
-    @Override
-    protected int getLayout() {
-        return R.layout.fragment_settings;
     }
 
     @Override

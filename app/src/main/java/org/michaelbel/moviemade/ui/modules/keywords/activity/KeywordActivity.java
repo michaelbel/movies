@@ -14,32 +14,26 @@ import butterknife.BindView;
 
 public class KeywordActivity extends BaseActivity {
 
-    private Keyword keyword;
-    private KeywordFragment fragment;
-
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.toolbar_title) AppCompatTextView toolbarTitle;
+
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_keyword);
 
-        keyword = (Keyword) getIntent().getSerializableExtra(IntentsKt.KEYWORD);
+        Keyword keyword = (Keyword) getIntent().getSerializableExtra(IntentsKt.KEYWORD);
 
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> finish());
-        toolbar.setOnClickListener(v -> fragment.recyclerView.smoothScrollToPosition(0));
-
         toolbarTitle.setText(keyword.getName());
 
-        fragment = (KeywordFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-        if (fragment != null) {
-            fragment.getPresenter().getMovies(keyword.getId());
+        if (savedInstanceState == null) {
+            startFragment(KeywordFragment.newInstance(keyword.getId()), R.id.fragment_view);
         }
-    }
-
-    public Keyword getKeyword() {
-        return keyword;
     }
 }

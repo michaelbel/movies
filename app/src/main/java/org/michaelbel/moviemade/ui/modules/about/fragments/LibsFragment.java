@@ -4,13 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.modules.about.AboutActivity;
 import org.michaelbel.moviemade.ui.modules.about.Source;
-import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.utils.Browser;
 
 import java.util.ArrayList;
@@ -23,18 +21,24 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.internal.DebouncingOnClickListener;
 
 public class LibsFragment extends BaseFragment {
 
-    private LibsAdapter adapter;
     private AboutActivity activity;
 
-    @BindView(R.id.recycler_view) RecyclerListView recyclerView;
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (AboutActivity) getActivity();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_libs, container, false);
     }
 
     @Override
@@ -43,7 +47,8 @@ public class LibsFragment extends BaseFragment {
         activity.getToolbar().setNavigationOnClickListener(v -> activity.finishFragment());
         activity.getToolbarTitle().setText(R.string.open_source_libs);
 
-        adapter = new LibsAdapter();
+        // FIXME add all libs.
+        LibsAdapter adapter = new LibsAdapter();
         adapter.addSource("BottomSheet", "https://github.com/michaelbel/bottomsheet","Apache License 2.0");
         adapter.addSource("Gson", "https://github.com/google/gson","Apache License 2.0");
         adapter.addSource("Retrofit", "https://square.github.io/retrofit","Apache License 2.0");
@@ -58,29 +63,40 @@ public class LibsFragment extends BaseFragment {
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.VERTICAL, false));
-        recyclerView.setOnItemClickListener((v, position) -> Browser.INSTANCE.openUrl(activity, adapter.sources.get(position).getUrl()));
     }
 
-    @Override
-    protected int getLayout() {
-        return R.layout.fragment_libs;
+    private void onSourceClick(Source source) {
+        Browser.INSTANCE.openUrl(activity, source.getUrl());
     }
 
     public class LibsAdapter extends RecyclerView.Adapter<LibsAdapter.LibsViewHolder> {
 
         private List<Source> sources = new ArrayList<>();
 
+        private void addSource(String name, String url, String license) {
+            sources.add(new Source(name, url, license));
+            notifyItemInserted(sources.size() - 1);
+        }
+
         @NonNull
         @Override
         public LibsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_cell_details, parent, false);
-            return new LibsViewHolder(view);
+            LibsViewHolder viewHolder = new LibsViewHolder(view);
+            view.setOnClickListener(new DebouncingOnClickListener() {
+                @Override
+                public void doClick(View v) {
+                    int position = viewHolder.getAdapterPosition();
+                    onSourceClick(sources.get(position));
+                }
+            });
+
+            return viewHolder;
         }
 
         @Override
         public void onBindViewHolder(@NonNull LibsViewHolder holder, int position) {
             Source source = sources.get(position);
-
             holder.textView.setText(source.getName());
             holder.valueView.setText(source.getLicense());
             holder.dividerView.setVisibility(position != sources.size() - 1 ? View.VISIBLE : View.INVISIBLE);
@@ -89,11 +105,6 @@ public class LibsFragment extends BaseFragment {
         @Override
         public int getItemCount() {
             return sources != null ? sources.size() : 0;
-        }
-
-        private void addSource(String name, String url, String license) {
-            sources.add(new Source(name, url, license));
-            notifyItemInserted(sources.size() - 1);
         }
 
         class LibsViewHolder extends RecyclerView.ViewHolder {

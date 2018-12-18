@@ -3,20 +3,22 @@ package org.michaelbel.moviemade.ui.modules.search;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
-
 import org.jetbrains.annotations.NotNull;
-import org.michaelbel.moviemade.BuildConfig;
+import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.entity.Movie;
+import org.michaelbel.moviemade.data.service.SearchService;
+import org.michaelbel.moviemade.ui.GridSpacingItemDecoration;
 import org.michaelbel.moviemade.ui.base.BaseFragment;
-import org.michaelbel.moviemade.ui.base.PaddingItemDecoration;
 import org.michaelbel.moviemade.ui.modules.main.adapter.MoviesAdapter;
+import org.michaelbel.moviemade.ui.modules.main.adapter.OnMovieClickListener;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
-import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
+import org.michaelbel.moviemade.utils.BuildUtil;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.IntentsKt;
@@ -24,29 +26,26 @@ import org.michaelbel.moviemade.utils.IntentsKt;
 import java.util.List;
 import java.util.Objects;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
-public class SearchMoviesFragment extends BaseFragment implements SearchMvp {
+public class SearchMoviesFragment extends BaseFragment implements SearchContract.View, OnMovieClickListener {
 
     private SearchActivity activity;
     private MoviesAdapter adapter;
     private GridLayoutManager gridLayoutManager;
-    private PaddingItemDecoration itemDecoration;
+    private SearchContract.Presenter presenter;
 
-    private FastMoviesAdapter fastAdapter;
-    private GridLayoutManager fastGridLayoutManager;
-
-    // todo make private.
-    // todo add getter.
-    @InjectPresenter public SearchMoviesPresenter presenter;
+    @Inject SearchService service;
 
     @BindView(R.id.empty_view) EmptyView emptyView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
-    @BindView(R.id.recycler_view) RecyclerListView recyclerView;
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     static SearchMoviesFragment newInstance(String query) {
         Bundle args = new Bundle();
@@ -57,10 +56,22 @@ public class SearchMoviesFragment extends BaseFragment implements SearchMvp {
         return fragment;
     }
 
+    public SearchContract.Presenter getPresenter() {
+        return presenter;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (SearchActivity) getActivity();
+        Moviemade.get(activity).getComponent().injest(this);
+        presenter = new SearchMoviesPresenter(this, service);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_movies, container, false);
     }
 
     @Override
@@ -71,41 +82,27 @@ public class SearchMoviesFragment extends BaseFragment implements SearchMvp {
 
         progressBar.setVisibility(View.INVISIBLE);
 
-        itemDecoration = new PaddingItemDecoration();
-        itemDecoration.setOffset(DeviceUtil.INSTANCE.dp(activity, 1));
-
         int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
 
-        adapter = new MoviesAdapter();
+        adapter = new MoviesAdapter(this);
         gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
+        GridSpacingItemDecoration spacingDecoration = new GridSpacingItemDecoration(2, DeviceUtil.INSTANCE.dp(activity, 3), true);
 
         recyclerView.setAdapter(adapter);
-        recyclerView.setEmptyView(emptyView);
-        recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.setPadding(DeviceUtil.INSTANCE.dp(activity, 2), 0, DeviceUtil.INSTANCE.dp(activity, 2), 0);
-        recyclerView.setOnItemClickListener((v, position) -> {
-            Movie movie = adapter.getMovies().get(position);
-            activity.startMovie(movie);
-        });
+        recyclerView.addItemDecoration(spacingDecoration);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
                 if (!recyclerView.canScrollVertically(1)) {
-                    presenter.loadNextPage();
+                    presenter.loadNextResults();
                 }
             }
         });
 
-        fastAdapter = new FastMoviesAdapter();
-        fastGridLayoutManager = new GridLayoutManager(activity, 1, RecyclerView.VERTICAL, false);
-
-        if (getArguments() == null) {
-            return;
-        }
-
-        String readyQuery = getArguments().getString(IntentsKt.QUERY);
+        // Fixme. Везде сделать так.
+        String readyQuery = getArguments() != null ? getArguments().getString(IntentsKt.QUERY) : null;
 
         if (readyQuery == null) {
             activity.searchEditText.setSelection(Objects.requireNonNull(activity.searchEditText.getText()).length());
@@ -116,11 +113,6 @@ public class SearchMoviesFragment extends BaseFragment implements SearchMvp {
             activity.hideKeyboard(activity.searchEditText);
             presenter.search(readyQuery);
         }
-    }
-
-    @Override
-    protected int getLayout() {
-        return R.layout.fragment_search_movies;
     }
 
     @Override
@@ -151,18 +143,12 @@ public class SearchMoviesFragment extends BaseFragment implements SearchMvp {
     }
 
     @Override
-    public void setSuggestions(@NotNull List<Movie> movies) {
-        fastAdapter.clear();
-        fastAdapter.addAll(movies);
-    }
-
-    @Override
     public void setError(int mode) {
         progressBar.setVisibility(View.GONE);
         emptyView.setVisibility(View.VISIBLE);
         emptyView.setMode(mode);
 
-        if (BuildConfig.TMDB_API_KEY == "null") {
+        if (BuildUtil.INSTANCE.isEmptyApiKey()) {
             emptyView.setValue(R.string.error_empty_api_key);
         }
     }
@@ -172,9 +158,11 @@ public class SearchMoviesFragment extends BaseFragment implements SearchMvp {
         Parcelable state = gridLayoutManager.onSaveInstanceState();
         gridLayoutManager = new GridLayoutManager(activity, spanCount);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.removeItemDecoration(itemDecoration);
-        itemDecoration.setOffset(0);
-        recyclerView.addItemDecoration(itemDecoration);
         gridLayoutManager.onRestoreInstanceState(state);
+    }
+
+    @Override
+    public void onMovieClick(@NotNull Movie movie, @NotNull View view) {
+        activity.startMovie(movie);
     }
 }

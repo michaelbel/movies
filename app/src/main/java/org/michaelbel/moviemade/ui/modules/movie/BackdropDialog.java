@@ -23,7 +23,6 @@ import butterknife.OnClick;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
-@SuppressWarnings("all")
 public class BackdropDialog extends BottomSheetDialogFragment {
 
     private String path;
@@ -34,7 +33,7 @@ public class BackdropDialog extends BottomSheetDialogFragment {
     @BindView(R.id.set_btn) AppCompatTextView setBtn;
     @BindView(R.id.cancel_btn) AppCompatTextView cancelBtn;
 
-    public static BackdropDialog newInstance(String path) {
+    static BackdropDialog newInstance(String path) {
         Bundle args = new Bundle();
         args.putString(IntentsKt.BACKDROP, path);
         BackdropDialog fragment = new BackdropDialog();

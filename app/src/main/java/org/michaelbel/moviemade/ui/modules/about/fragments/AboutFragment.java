@@ -47,12 +47,19 @@ public class AboutFragment extends BaseFragment {
     private AboutActivity activity;
     private LinearLayoutManager linearLayoutManager;
 
+    // Fixme.
     @BindView(R.id.recycler_view) RecyclerListView recyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (AboutActivity) getActivity();
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_about, container, false);
     }
 
     @Override
@@ -124,11 +131,6 @@ public class AboutFragment extends BaseFragment {
                 Browser.INSTANCE.openUrl(activity, LinksKt.PAYPAL_ME);
             }
         });
-    }
-
-    @Override
-    protected int getLayout() {
-        return R.layout.fragment_about;
     }
 
     @Override

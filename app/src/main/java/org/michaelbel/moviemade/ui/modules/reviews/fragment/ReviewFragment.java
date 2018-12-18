@@ -5,10 +5,12 @@ import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 
 import org.michaelbel.moviemade.Moviemade;
@@ -19,6 +21,7 @@ import org.michaelbel.moviemade.ui.modules.reviews.GestureTextView;
 import org.michaelbel.moviemade.ui.modules.reviews.activity.ReviewActivity;
 import org.michaelbel.moviemade.utils.AndroidUtil;
 import org.michaelbel.moviemade.utils.Browser;
+import org.michaelbel.moviemade.utils.IntentsKt;
 import org.michaelbel.moviemade.utils.SharedPrefsKt;
 
 import javax.inject.Inject;
@@ -40,6 +43,7 @@ public class ReviewFragment extends BaseFragment {
     private MenuItem menu_theme_sepia;
     private MenuItem menu_theme_night;
 
+    private Review review;
     private ReviewActivity activity;
 
     @Inject SharedPreferences sharedPreferences;
@@ -54,6 +58,15 @@ public class ReviewFragment extends BaseFragment {
 
     @BindView(R.id.review_text) GestureTextView reviewText;
     @BindView(R.id.scroll_layout) NestedScrollView scrollLayout;
+
+    public static ReviewFragment newInstance(Review review) {
+        Bundle args = new Bundle();
+        args.putSerializable(IntentsKt.REVIEW, review);
+
+        ReviewFragment fragment = new ReviewFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -74,7 +87,7 @@ public class ReviewFragment extends BaseFragment {
                 break;
         }
 
-        activity.toolbar.setOnClickListener(v -> scrollLayout.fullScroll(View.FOCUS_UP));
+        activity.getToolbar().setOnClickListener(v -> scrollLayout.fullScroll(View.FOCUS_UP));
     }
 
     @Override
@@ -96,7 +109,7 @@ public class ReviewFragment extends BaseFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item == menu_url) {
-            Browser.INSTANCE.openUrl(activity, activity.review.getUrl());
+            Browser.INSTANCE.openUrl(activity, review.getUrl());
         } else if (item == menu_theme_light) {
             int current = sharedPreferences.getInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_NIGHT);
             sharedPreferences.edit().putInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_LIGHT).apply();
@@ -114,15 +127,23 @@ public class ReviewFragment extends BaseFragment {
         return true;
     }
 
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_review, container, false);
+    }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         reviewText.getController().getSettings().enableGestures();
-    }
 
-    @Override
-    protected int getLayout() {
-        return R.layout.fragment_review;
+        Bundle args = getArguments();
+        if (args != null) {
+            review = (Review) args.getSerializable(IntentsKt.REVIEW);
+        }
+
+        setReview(review);
     }
 
     public void setReview(Review review) {

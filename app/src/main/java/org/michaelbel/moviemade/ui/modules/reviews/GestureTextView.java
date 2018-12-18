@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.ui.modules.reviews;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -13,8 +12,6 @@ import com.alexvasilkov.gestures.views.interfaces.GestureView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 
-@SuppressWarnings("all")
-@SuppressLint("ClickableViewAccessibility")
 public class GestureTextView extends AppCompatTextView implements GestureView {
 
     private final GestureController controller;
