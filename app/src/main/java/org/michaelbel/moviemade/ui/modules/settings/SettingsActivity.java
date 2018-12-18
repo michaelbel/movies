@@ -7,7 +7,6 @@ import com.google.android.gms.analytics.HitBuilders;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.ui.base.BaseActivity;
-import org.michaelbel.moviemade.utils.DeviceUtil;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;

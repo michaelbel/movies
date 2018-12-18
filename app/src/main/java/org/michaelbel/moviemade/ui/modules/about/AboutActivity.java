@@ -16,6 +16,14 @@ public class AboutActivity extends BaseActivity {
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.toolbar_title) AppCompatTextView toolbarTitle;
 
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
+
+    public AppCompatTextView getToolbarTitle() {
+        return toolbarTitle;
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,13 +33,5 @@ public class AboutActivity extends BaseActivity {
         if (savedInstanceState == null) {
             startFragment(new AboutFragment(), R.id.fragment_view);
         }
-    }
-
-    public Toolbar getToolbar() {
-        return toolbar;
-    }
-
-    public AppCompatTextView getToolbarTitle() {
-        return toolbarTitle;
     }
 }

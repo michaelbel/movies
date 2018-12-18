@@ -11,26 +11,24 @@ import butterknife.BindView;
 
 public class FavoriteActivity extends BaseActivity {
 
-    private int accountId;
-    private FavoritesFragment fragment;
-
     @BindView(R.id.toolbar) Toolbar toolbar;
+
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_favorite);
 
-        accountId = getIntent().getIntExtra(IntentsKt.ACCOUNT_ID, 0);
+        int accountId = getIntent().getIntExtra(IntentsKt.ACCOUNT_ID, 0);
 
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> finish());
-        toolbar.setOnClickListener(v -> fragment.getRecyclerView().smoothScrollToPosition(0));
 
-        fragment = (FavoritesFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
-    }
-
-    public int getAccountId() {
-        return accountId;
+        if (savedInstanceState == null) {
+            startFragment(FavoritesFragment.newInstance(accountId), R.id.fragment_view);
+        }
     }
 }

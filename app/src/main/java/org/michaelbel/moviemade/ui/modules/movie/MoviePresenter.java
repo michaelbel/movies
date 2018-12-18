@@ -2,125 +2,111 @@ package org.michaelbel.moviemade.ui.modules.movie;
 
 import android.content.SharedPreferences;
 
-import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
-
-import org.michaelbel.moviemade.BuildConfig;
-import org.michaelbel.moviemade.Moviemade;
+import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.data.constants.CreditsKt;
-import org.michaelbel.moviemade.data.constants.MediaTypeKt;
 import org.michaelbel.moviemade.data.entity.AccountStates;
 import org.michaelbel.moviemade.data.entity.Cast;
 import org.michaelbel.moviemade.data.entity.CreditsResponse;
 import org.michaelbel.moviemade.data.entity.Crew;
-import org.michaelbel.moviemade.data.entity.Fave;
 import org.michaelbel.moviemade.data.entity.Movie;
-import org.michaelbel.moviemade.data.entity.Watch;
 import org.michaelbel.moviemade.data.service.AccountService;
 import org.michaelbel.moviemade.data.service.MoviesService;
 import org.michaelbel.moviemade.utils.DateUtil;
 import org.michaelbel.moviemade.utils.LanguageUtil;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 import org.michaelbel.moviemade.utils.SharedPrefsKt;
-import org.michaelbel.moviemade.utils.TmdbConfigKt;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.inject.Inject;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 
-@InjectViewState
-public class MoviePresenter extends MvpPresenter<MovieMvp> {
+public class MoviePresenter implements MovieContract.Presenter {
 
+    private MovieContract.View view;
+    private MovieContract.Repository repository;
+    private SharedPreferences preferences;
     private final CompositeDisposable disposables = new CompositeDisposable();
 
-    @Inject SharedPreferences sharedPreferences;
-    @Inject
-    MoviesService moviesService;
-    @Inject
-    AccountService accountService;
-
-    MoviePresenter() {
-        Moviemade.getAppComponent().injest(this);
+    MoviePresenter(MovieContract.View view, MoviesService moviesService, AccountService accountService, SharedPreferences prefs) {
+        this.view = view;
+        this.repository = new MovieRepository(moviesService, accountService);
+        this.preferences = prefs;
     }
 
-    void setMovieDetailsFromExtra(Movie movie) {
-        getViewState().setPoster(movie.getPosterPath());
-        getViewState().setMovieTitle(movie.getTitle());
-        getViewState().setOverview(movie.getOverview());
-        getViewState().setVoteAverage(movie.getVoteAverage());
-        getViewState().setVoteCount(movie.getVoteCount());
-        getViewState().setReleaseDate(DateUtil.INSTANCE.formatReleaseDate(movie.getReleaseDate()));
-        getViewState().setOriginalLanguage(LanguageUtil.INSTANCE.formatLanguage(movie.getOriginalLanguage()));
-        getViewState().setGenres(movie.getGenreIds());
+    @Override
+    public void setDetailExtra(@NotNull Movie movie) {
+        view.setPoster(movie.getPosterPath());
+        view.setMovieTitle(movie.getTitle());
+        view.setOverview(movie.getOverview());
+        view.setVoteAverage(movie.getVoteAverage());
+        view.setVoteCount(movie.getVoteCount());
+        view.setReleaseDate(DateUtil.INSTANCE.formatReleaseDate(movie.getReleaseDate()));
+        view.setOriginalLanguage(LanguageUtil.INSTANCE.formatLanguage(movie.getOriginalLanguage()));
+        view.setGenres(movie.getGenreIds());
     }
 
-    void getDetails(int movieId) {
+    @Override
+    public void getDetails(int movieId) {
+        // Fixme.
         if (NetworkUtil.INSTANCE.notConnected()) {
-            getViewState().setConnectionError();
+            view.setConnectionError();
             return;
         }
 
-        disposables.add(moviesService.getDetails(movieId, BuildConfig.TMDB_API_KEY, TmdbConfigKt.en_US, MediaTypeKt.CREDITS)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+        disposables.add(repository.getDetails(movieId)
             .subscribeWith(new DisposableObserver<Movie>() {
                 @Override
                 public void onNext(Movie movie) {
-                    getViewState().setRuntime((Objects.requireNonNull(movie.getRuntime() != 0 ? DateUtil.INSTANCE.formatRuntime(movie.getRuntime()) : null)));
-                    getViewState().setTagline(movie.getTagline());
-                    getViewState().setURLs(movie.getImdbId(), movie.getHomepage());
+                    view.setRuntime((Objects.requireNonNull(movie.getRuntime() != 0 ? DateUtil.INSTANCE.formatRuntime(movie.getRuntime()) : null)));
+                    view.setTagline(movie.getTagline());
+                    view.setURLs(movie.getImdbId(), movie.getHomepage());
                     fixCredits(movie.getCredits());
-                    getViewState().showComplete(movie);
+                    view.showComplete(movie);
                 }
 
                 @Override
                 public void onError(Throwable e) {
-                    getViewState().setConnectionError();
+                    view.setConnectionError();
                 }
 
                 @Override
                 public void onComplete() {
-                    setAccountStates(movieId);
+                    getAccountStates(movieId);
                 }
             }));
     }
 
-    void markAsFavorite(int accountId, int mediaId, boolean favorite) {
-        disposables.add(accountService.markAsFavorite(TmdbConfigKt.CONTENT_TYPE, accountId, BuildConfig.TMDB_API_KEY, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""), new Fave(MediaTypeKt.MOVIE, mediaId, favorite))
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(mark -> getViewState().onFavoriteChanged(mark), throwable -> getViewState().setConnectionError()));
+    @Override
+    public void markFavorite(int accountId, int mediaId, boolean favorite) {
+        disposables.add(repository.markFavorite(accountId, preferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""), mediaId, favorite)
+            .subscribe(mark -> view.onFavoriteChanged(mark), throwable -> view.setConnectionError()));
     }
 
-    void addToWatchlist(int accountId, int mediaId, boolean watchlist) {
-        disposables.add(accountService.addToWatchlist(TmdbConfigKt.CONTENT_TYPE, accountId, BuildConfig.TMDB_API_KEY, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""), new Watch(MediaTypeKt.MOVIE, mediaId, watchlist))
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(mark -> getViewState().onWatchListChanged(mark), throwable -> getViewState().setConnectionError()));
+    @Override
+    public void addWatchlist(int accountId, int mediaId, boolean watchlist) {
+        disposables.add(repository.addWatchlist(accountId, preferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""), mediaId, watchlist)
+            .subscribe(mark -> view.onWatchListChanged(mark), throwable -> view.setConnectionError()));
     }
 
-    private void setAccountStates(int movieId) {
-        disposables.add(moviesService.getAccountStates(movieId, BuildConfig.TMDB_API_KEY, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""), "")
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+    @Override
+    public void getAccountStates(int movieId) {
+        disposables.add(repository.getAccountStates(movieId, preferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""))
             .subscribeWith(new DisposableObserver<AccountStates>() {
                 @Override
                 public void onNext(AccountStates states) {
                     if (states != null) {
-                        getViewState().setStates(states.getFavorite(), states.getWatchlist());
+                        view.setStates(states.getFavorite(), states.getWatchlist());
                     }
                 }
+
                 @Override
                 public void onError(Throwable e) {
-                    // TODO Rated object has an error.
+                    // Fixme: Rated object has an error.
                 }
+
                 @Override
                 public void onComplete() {}
             }));
@@ -181,12 +167,11 @@ public class MoviePresenter extends MvpPresenter<MovieMvp> {
             }
         }
 
-        getViewState().setCredits(actorsBuilder.toString(), directorsBuilder.toString(), writersBuilder.toString(), producersBuilder.toString());
+        view.setCredits(actorsBuilder.toString(), directorsBuilder.toString(), writersBuilder.toString(), producersBuilder.toString());
     }
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         disposables.dispose();
     }
 }

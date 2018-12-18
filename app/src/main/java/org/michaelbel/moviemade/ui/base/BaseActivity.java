@@ -8,12 +8,11 @@ import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.data.entity.Keyword;
 import org.michaelbel.moviemade.data.entity.Movie;
 import org.michaelbel.moviemade.data.entity.Review;
-import org.michaelbel.moviemade.ui.moxy.MvpAppCompatActivity;
 import org.michaelbel.moviemade.ui.modules.favorites.FavoriteActivity;
 import org.michaelbel.moviemade.ui.modules.keywords.activity.KeywordActivity;
 import org.michaelbel.moviemade.ui.modules.keywords.activity.KeywordsActivity;
 import org.michaelbel.moviemade.ui.modules.movie.MovieActivity;
-import org.michaelbel.moviemade.ui.modules.recommendations.RecommendationsMoviesActivity;
+import org.michaelbel.moviemade.ui.modules.recommendations.RcmdMoviesActivity;
 import org.michaelbel.moviemade.ui.modules.reviews.activity.ReviewActivity;
 import org.michaelbel.moviemade.ui.modules.reviews.activity.ReviewsActivity;
 import org.michaelbel.moviemade.ui.modules.similar.SimilarMoviesActivity;
@@ -23,23 +22,20 @@ import org.michaelbel.moviemade.utils.IntentsKt;
 import org.michaelbel.moviemade.utils.SharedPrefsKt;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
 @SuppressWarnings("registered")
-public abstract class BaseActivity extends MvpAppCompatActivity implements BaseMvp, MediaMvp {
+public abstract class BaseActivity extends AppCompatActivity implements BaseContract, BaseContract.BaseView, BaseContract.MediaView {
 
     private Unbinder unbinder;
 
     @Override
-    public void setContentView(int layoutResID) {
-        super.setContentView(layoutResID);
+    public void setContentView(int layoutId) {
+        super.setContentView(layoutId);
         unbinder = ButterKnife.bind(this);
-    }
-
-    public SharedPreferences getSharedPreferences() {
-        return getSharedPreferences(SharedPrefsKt.SP_NAME, MODE_PRIVATE);
     }
 
     @Override
@@ -48,7 +44,15 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseM
         unbinder.unbind();
     }
 
-//--BaseMvp-----------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------
+
+    @NotNull
+    @Override
+    public SharedPreferences getSharedPreferences() {
+        return getSharedPreferences(SharedPrefsKt.SP_NAME, MODE_PRIVATE);
+    }
+
+//--BaseView----------------------------------------------------------------------------------------
 
     @Override
     public void startFragment(@NonNull Fragment fragment, @NonNull View container) {
@@ -57,7 +61,7 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseM
 
     @Override
     public void startFragment(@NonNull Fragment fragment, int containerId) {
-        getSupportFragmentManager().beginTransaction().replace(containerId, fragment).commitAllowingStateLoss();
+        getSupportFragmentManager().beginTransaction().replace(containerId, fragment).commit();
     }
 
     @Override
@@ -75,7 +79,7 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseM
         getSupportFragmentManager().popBackStack();
     }
 
-//--MediaMvp----------------------------------------------------------------------------------------
+//--MediaView---------------------------------------------------------------------------------------
 
     @Override
     public void startMovie(@NonNull Movie movie) {
@@ -142,8 +146,8 @@ public abstract class BaseActivity extends MvpAppCompatActivity implements BaseM
     }
 
     @Override
-    public void startRecommendationsMovies(@NotNull Movie movie) {
-        Intent intent = new Intent(this, RecommendationsMoviesActivity.class);
+    public void startRcmdsMovies(@NotNull Movie movie) {
+        Intent intent = new Intent(this, RcmdMoviesActivity.class);
         intent.putExtra(IntentsKt.MOVIE, movie);
         startActivity(intent);
     }

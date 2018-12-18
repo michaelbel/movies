@@ -50,7 +50,7 @@
         <activity android:name=".ui.modules.keywords.activity.KeywordActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.modules.watchlist.WatchlistActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.modules.similar.SimilarMoviesActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.modules.recommendations.RecommendationsMoviesActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.modules.recommendations.RcmdMoviesActivity" android:screenOrientation="portrait"/>
 
     </application>
 

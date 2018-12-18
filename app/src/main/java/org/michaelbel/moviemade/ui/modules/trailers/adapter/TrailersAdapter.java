@@ -36,7 +36,7 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
     @NonNull
     @Override
     public TrailersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_trailer, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_trailer, parent, false);
         if (DeviceUtil.INSTANCE.isLandscape(parent.getContext()) || DeviceUtil.INSTANCE.isTablet(parent.getContext())) {
             view.getLayoutParams().height = (int) (parent.getWidth() / 3.5);
         } else {

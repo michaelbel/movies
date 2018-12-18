@@ -2,14 +2,8 @@ package org.michaelbel.moviemade.ui.modules.account;
 
 import android.content.SharedPreferences;
 
-import com.arellomobile.mvp.InjectViewState;
-import com.arellomobile.mvp.MvpPresenter;
-
 import org.jetbrains.annotations.NotNull;
-import org.michaelbel.moviemade.BuildConfig;
-import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.data.constants.StatusCodeKt;
-import org.michaelbel.moviemade.data.entity.RequestToken;
 import org.michaelbel.moviemade.data.entity.SessionId;
 import org.michaelbel.moviemade.data.entity.Username;
 import org.michaelbel.moviemade.data.service.AccountService;
@@ -18,28 +12,25 @@ import org.michaelbel.moviemade.utils.Error;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 import org.michaelbel.moviemade.utils.SharedPrefsKt;
 
-import javax.inject.Inject;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
 import retrofit2.HttpException;
 
 public class AccountPresenter implements AccountContract.Presenter {
 
     private AccountContract.View view;
     private AccountContract.Repository repository;
+    private SharedPreferences sharedPreferences;
     private CompositeDisposable disposables = new CompositeDisposable();
-    @Inject SharedPreferences sharedPreferences;
 
-    AccountPresenter(AccountContract.View view, AuthService authService, AccountService accountService) {
+    AccountPresenter(AccountContract.View view, AuthService authService, AccountService accountService, SharedPreferences prefs) {
         this.view = view;
         this.repository = new AccountRepository(authService, accountService);
-        Moviemade.getAppComponent().injest(this);
+        this.sharedPreferences = prefs;
     }
 
     @Override
     public void createSessionId(@NotNull String token) {
+        // Fixme.
         if (NetworkUtil.INSTANCE.notConnected()) {
             view.setError(Error.ERROR_NO_CONNECTION);
             return;
@@ -58,6 +49,7 @@ public class AccountPresenter implements AccountContract.Presenter {
 
     @Override
     public void authWithLogin(@NotNull Username un) {
+        // Fixme.
         if (NetworkUtil.INSTANCE.notConnected()) {
             view.setError(Error.ERROR_NO_CONNECTION);
             return;
@@ -76,6 +68,7 @@ public class AccountPresenter implements AccountContract.Presenter {
 
     @Override
     public void deleteSession() {
+        // Fixme.
         if (NetworkUtil.INSTANCE.notConnected()) {
             view.setError(Error.ERROR_NO_CONNECTION);
             return;
@@ -93,6 +86,7 @@ public class AccountPresenter implements AccountContract.Presenter {
 
     @Override
     public void getAccountDetails() {
+        // Fixme.
         if (NetworkUtil.INSTANCE.notConnected()) {
             view.setError(Error.ERROR_NO_CONNECTION);
             return;
@@ -115,6 +109,7 @@ public class AccountPresenter implements AccountContract.Presenter {
 
     @Override
     public void createRequestToken() {
+        // Fixme.
         if (NetworkUtil.INSTANCE.notConnected()) {
             view.setError(Error.ERROR_CONNECTION_NO_TOKEN);
             return;
@@ -134,6 +129,7 @@ public class AccountPresenter implements AccountContract.Presenter {
 
     @Override
     public void createRequestToken(@NotNull String name, @NotNull String pass) {
+        // Fixme.
         if (NetworkUtil.INSTANCE.notConnected()) {
             view.setError(Error.ERROR_CONNECTION_NO_TOKEN);
             return;

@@ -85,7 +85,7 @@
     <string name="error_not_found">Resource is not found</string>
     <string name="error_empty_token">Authorized token is empty</string>
     <string name="error_invalid_data">Invalid **Login** or **Password**</string>
-    <string name="error_empty_api_key">Please add your **tmdb_api_key** string into **local.properties** file</string>
+    <string name="error_empty_api_key">Please, add your **TMDB_API_KEY** into **local.properties**</string>
     <!--Actions-->
     <string name="ok">OK</string>
     <string name="set">Set</string>

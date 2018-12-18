@@ -4,16 +4,17 @@ import android.content.Context;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 
 import org.michaelbel.moviemade.Moviemade;
@@ -21,10 +22,10 @@ import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.entity.Account;
 import org.michaelbel.moviemade.data.service.AccountService;
 import org.michaelbel.moviemade.data.service.AuthService;
-import org.michaelbel.moviemade.ui.receivers.NetworkChangeListener;
-import org.michaelbel.moviemade.ui.receivers.NetworkChangeReceiver;
 import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.modules.main.MainActivity;
+import org.michaelbel.moviemade.ui.receivers.NetworkChangeListener;
+import org.michaelbel.moviemade.ui.receivers.NetworkChangeReceiver;
 import org.michaelbel.moviemade.utils.Browser;
 import org.michaelbel.moviemade.utils.DrawableUtil;
 import org.michaelbel.moviemade.utils.Error;
@@ -49,7 +50,6 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-@SuppressWarnings("all")
 public class AccountFragment extends BaseFragment implements NetworkChangeListener, AccountContract.View {
 
     private int accountId;
@@ -60,7 +60,7 @@ public class AccountFragment extends BaseFragment implements NetworkChangeListen
     @BindView(R.id.logo_image) AppCompatImageView logoImage;
     @BindView(R.id.username_field) AppCompatEditText usernameField;
     @BindView(R.id.password_field) AppCompatEditText passwordField;
-    @BindView(R.id.signin_btn) CardView signinBtn;
+    @BindView(R.id.signin_btn) CardView signInBtn;
 
     @BindView(R.id.account_layout) FrameLayout accountLayout;
     @BindView(R.id.user_avatar) CircleImageView userAvatar;
@@ -73,6 +73,10 @@ public class AccountFragment extends BaseFragment implements NetworkChangeListen
     @Inject SharedPreferences sharedPreferences;
 
     private AccountContract.Presenter presenter;
+
+    public int getAccountId() {
+        return accountId;
+    }
 
     public AccountContract.Presenter getPresenter() {
         return presenter;
@@ -103,7 +107,13 @@ public class AccountFragment extends BaseFragment implements NetworkChangeListen
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
 
-        presenter = new AccountPresenter(this, authService, accountService);
+        presenter = new AccountPresenter(this, authService, accountService, sharedPreferences);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_account, container, false);
     }
 
     @Override
@@ -114,11 +124,6 @@ public class AccountFragment extends BaseFragment implements NetworkChangeListen
         } else {
             showAccount();
         }
-    }
-
-    @Override
-    protected int getLayout() {
-        return R.layout.fragment_account;
     }
 
     private void showLogin() {
@@ -133,7 +138,7 @@ public class AccountFragment extends BaseFragment implements NetworkChangeListen
         DrawableUtil.INSTANCE.clearCursorDrawable(passwordField);
         passwordField.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                signinBtn.performClick();
+                signInBtn.performClick();
                 return true;
             }
             return false;
@@ -156,7 +161,7 @@ public class AccountFragment extends BaseFragment implements NetworkChangeListen
     }
 
     @OnClick(R.id.signin_btn)
-    void signinClick(View v) {
+    void signInClick(View v) {
         String name = usernameField.getText() != null ? usernameField.getText().toString().trim() : null;
         String pass = passwordField.getText() != null ? passwordField.getText().toString().trim() : null;
 
@@ -277,9 +282,5 @@ public class AccountFragment extends BaseFragment implements NetworkChangeListen
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    public int getAccountId() {
-        return accountId;
     }
 }

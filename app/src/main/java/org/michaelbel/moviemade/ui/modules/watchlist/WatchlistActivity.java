@@ -11,26 +11,24 @@ import butterknife.BindView;
 
 public class WatchlistActivity extends BaseActivity {
 
-    // TODO make private.
-    // TODO make add getter
-    public int accountId;
-    private WatchlistFragment fragment;
+    @BindView(R.id.toolbar) Toolbar toolbar;
 
-    // TODO make private.
-    // TODO make add getter
-    @BindView(R.id.toolbar) public Toolbar toolbar;
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_watchlist);
 
-        accountId = getIntent().getIntExtra(IntentsKt.ACCOUNT_ID, 0);
+        int accountId = getIntent().getIntExtra(IntentsKt.ACCOUNT_ID, 0);
 
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(v -> finish());
-        toolbar.setOnClickListener(v -> fragment.recyclerView.smoothScrollToPosition(0));
 
-        fragment = (WatchlistFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+        if (savedInstanceState == null) {
+            startFragment(WatchlistFragment.newInstance(accountId), R.id.fragment_view);
+        }
     }
 }

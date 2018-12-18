@@ -39,7 +39,6 @@ public class SearchActivity extends BaseActivity {
     public static final int MODE_ACTION_VOICE = 2;
 
     private int iconActionMode;
-    private boolean isFilterShowed = false;
 
     private Menu actionMenu;
     private SearchMoviesFragment fragment;
@@ -106,7 +105,7 @@ public class SearchActivity extends BaseActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 changeActionIcon();
                 if (s.length() >= 2) {
-                    fragment.presenter.search(s.toString().trim());
+                    fragment.getPresenter().search(s.toString().trim());
                 }
             }
 
@@ -115,7 +114,7 @@ public class SearchActivity extends BaseActivity {
         });
         searchEditText.setOnEditorActionListener((view, actionId, event) -> {
             if ((event != null && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)) || (actionId == EditorInfo.IME_ACTION_SEARCH)) {
-                fragment.presenter.search(view.getText().toString().trim());
+                fragment.getPresenter().search(view.getText().toString().trim());
                 hideKeyboard(searchEditText);
                 return true;
             }
@@ -142,7 +141,7 @@ public class SearchActivity extends BaseActivity {
                             searchEditText.setText(textResults);
                             searchEditText.setSelection(Objects.requireNonNull(searchEditText.getText()).length());
                             changeActionIcon();
-                            fragment.presenter.search(textResults);
+                            fragment.getPresenter().search(textResults);
                         }
                     }
                 }

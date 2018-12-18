@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.ui.modules.settings.cell;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -26,7 +25,6 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
 
-@SuppressLint("ClickableViewAccessibility")
 public class TextCell extends FrameLayout {
 
     public static final int MODE_DEFAULT = 0;

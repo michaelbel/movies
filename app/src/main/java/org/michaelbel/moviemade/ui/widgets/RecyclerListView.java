@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 @SuppressWarnings("all")
+@Deprecated
 public class RecyclerListView extends RecyclerView {
 
     private RecyclerView.OnScrollListener onScrollListener;
