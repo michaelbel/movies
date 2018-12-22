@@ -1,0 +1,8 @@
+<org.michaelbel.moviemade.ui.widgets.ExpandableView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/profile"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:title="Disable Ads"
+    app:inner_view="@layout/view_collapsed"/>

@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.ads.AdLoader;
+
 import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
@@ -53,6 +55,9 @@ public class UpcomingFragment extends BaseFragment implements MainContract.View,
     @BindView(R.id.empty_view) EmptyView emptyView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
+
+    public static final int NUMBER_OF_ADS = 5;
+    private AdLoader adLoader;
 
     public MainContract.Presenter getPresenter() {
         return presenter;

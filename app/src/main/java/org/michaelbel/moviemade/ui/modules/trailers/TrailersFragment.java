@@ -101,7 +101,7 @@ public class TrailersFragment extends BaseFragment implements NetworkChangeListe
 
         adapter = new TrailersAdapter();
         gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
-        GridSpacingItemDecoration spacingDecoration = new GridSpacingItemDecoration(spanCount, DeviceUtil.INSTANCE.dp(activity, 5), true);
+        GridSpacingItemDecoration spacingDecoration = new GridSpacingItemDecoration(spanCount, DeviceUtil.INSTANCE.dp(activity, 5));
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(gridLayoutManager);

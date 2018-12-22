@@ -90,7 +90,7 @@ public class ReviewsFragment extends BaseFragment implements ReviewsContract.Vie
 
         adapter = new ReviewsAdapter();
         gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
-        GridSpacingItemDecoration spacingDecoration = new GridSpacingItemDecoration(1, DeviceUtil.INSTANCE.dp(activity, 5), true);
+        GridSpacingItemDecoration spacingDecoration = new GridSpacingItemDecoration(1, DeviceUtil.INSTANCE.dp(activity, 5));
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(gridLayoutManager);

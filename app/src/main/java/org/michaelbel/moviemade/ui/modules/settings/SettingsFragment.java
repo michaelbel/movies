@@ -16,6 +16,7 @@ import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.modules.about.AboutActivity;
 import org.michaelbel.moviemade.ui.modules.settings.cell.TextCell;
 import org.michaelbel.moviemade.ui.modules.settings.cell.TextDetailCell;
+import org.michaelbel.moviemade.ui.widgets.ExpandableView;
 import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 import org.michaelbel.moviemade.utils.SharedPrefsKt;
@@ -33,6 +34,7 @@ public class SettingsFragment extends BaseFragment {
     private int rowCount;
     private int inAppBrowserRow;
     private int adultRow;
+    private int adsRow;
     private int aboutRow;
 
     private SettingsActivity activity;
@@ -64,6 +66,7 @@ public class SettingsFragment extends BaseFragment {
         rowCount = 0;
         inAppBrowserRow = rowCount++;
         adultRow = rowCount++;
+        adsRow = rowCount++;
         aboutRow = rowCount++;
 
         SettingsAdapter adapter = new SettingsAdapter();
@@ -109,6 +112,8 @@ public class SettingsFragment extends BaseFragment {
 
             if (type == 1) {
                 view = new TextCell(activity);
+            } else if (type == 2) {
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_settings_ads, parent, false);
             } else {
                 view = new TextDetailCell(activity);
             }
@@ -128,6 +133,9 @@ public class SettingsFragment extends BaseFragment {
                     cell.setMode(TextCell.MODE_DEFAULT);
                     cell.setText(R.string.about);
                 }
+            } else if (type == 2) {
+                ExpandableView view = (ExpandableView) holder.itemView;
+                view.setTitle(R.string.disable_ads);
             } else {
                 TextDetailCell cell = (TextDetailCell) holder.itemView;
 
@@ -156,8 +164,10 @@ public class SettingsFragment extends BaseFragment {
         public int getItemViewType(int position) {
             if (position == aboutRow) {
                 return 1;
-            } else {
+            } else if (position == adsRow) {
                 return 2;
+            } else {
+                return 3;
             }
         }
     }

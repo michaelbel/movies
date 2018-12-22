@@ -10,7 +10,6 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import org.michaelbel.moviemade.data.eventbus.RxBus;
-import org.michaelbel.moviemade.data.eventbus.RxBus2;
 import org.michaelbel.moviemade.data.injection.component.AppComponent;
 import org.michaelbel.moviemade.data.injection.component.DaggerAppComponent;
 import org.michaelbel.moviemade.data.injection.module.AppModule;
@@ -22,12 +21,8 @@ import shortbread.Shortbread;
 public class Moviemade extends Application {
 
     public RxBus rxBus;
-    public RxBus2 rxBus2;
     public static volatile Context appContext;
     public static volatile Handler appHandler;
-
-    @Deprecated
-    private static AppComponent appComponent;
 
     private AppComponent component;
 
@@ -43,20 +38,13 @@ public class Moviemade extends Application {
         super.onCreate();
 
         rxBus = new RxBus();
-        rxBus2 = new RxBus2();
         appContext = getApplicationContext();
         appHandler = new Handler(getApplicationContext().getMainLooper());
-        appComponent = DaggerAppComponent.builder().appModule(new AppModule(this)).build();
 
         Shortbread.create(this);
         MobileAds.initialize(getApplicationContext(), getString(R.string.ad_app_id));
 
         getTracker().send(new HitBuilders.EventBuilder().setCategory("Device Name").setAction(DeviceUtil.INSTANCE.getDeviceName()).build());
-    }
-
-    @Deprecated
-    public static AppComponent getAppComponent() {
-        return appComponent;
     }
 
     public RxBus eventBus() {

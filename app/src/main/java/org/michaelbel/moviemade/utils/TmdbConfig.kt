@@ -26,6 +26,3 @@ const val YOUTUBE_IMAGE = "https://img.youtube.com/vi/%s/0.jpg"
 
 const val IMDB_MOVIE = "https://imdb.com/title/%s"
 const val IMDB_PERSON = "https://imdb.com/name/%s"
-
-const val en_US = "en-US"
-const val ru_RU = "ru-RU"

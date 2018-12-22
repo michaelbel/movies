@@ -185,7 +185,7 @@ public class MovieFragment extends BaseFragment implements MovieContract.View, N
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        runtimeText.setText(R.string.loading_status);
+        runtimeText.setText(R.string.loading);
         runtimeIcon.setImageDrawable(DrawableUtil.INSTANCE.getIcon(activity, R.drawable.ic_clock, ContextCompat.getColor(activity, R.color.iconActive)));
 
         taglineText.setText(R.string.loading_tagline);

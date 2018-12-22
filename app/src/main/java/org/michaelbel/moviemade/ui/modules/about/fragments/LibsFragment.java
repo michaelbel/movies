@@ -54,8 +54,6 @@ public class LibsFragment extends BaseFragment {
         adapter.addSource("Retrofit", "https://square.github.io/retrofit","Apache License 2.0");
         adapter.addSource("RxJava", "https://github.com/reactivex/rxjava","Apache License 2.0");
         adapter.addSource("Picasso", "https://square.github.io/picasso","Apache License 2.0");
-        adapter.addSource("Realm Java", "https://github.com/realm/realm-java", "Apache License 2.0");
-        adapter.addSource("Moxy", "https://github.com/arello-mobile/moxy", "The MIT License (MIT)");
         adapter.addSource("GestureViews", "https://github.com/alexvasilkov/gestureviews", "Apache License 2.0");
         adapter.addSource("ChipsLayoutManager", "https://github.com/beloos/chipslayoutmanager", "Apache License 2.0");
         adapter.addSource("ExpandableTextView", "https://github.com/blogcat/android-expandabletextview", "Apache License 2.0");

@@ -97,7 +97,7 @@ public class RcmdMoviesFragment extends BaseFragment implements RcmdContract.Vie
 
         adapter = new MoviesAdapter(this);
         gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
-        GridSpacingItemDecoration spacingDecoration = new GridSpacingItemDecoration(2, DeviceUtil.INSTANCE.dp(activity, 3), true);
+        GridSpacingItemDecoration spacingDecoration = new GridSpacingItemDecoration(2, DeviceUtil.INSTANCE.dp(activity, 3));
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(gridLayoutManager);

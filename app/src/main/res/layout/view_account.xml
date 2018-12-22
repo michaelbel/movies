@@ -97,7 +97,7 @@
             android:foreground="?attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:maxLines="1"
-            android:text="@string/favorite_movies"/>
+            android:text="@string/favorites"/>
 
         <!--Watchlist-->
         <androidx.appcompat.widget.AppCompatTextView

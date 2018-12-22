@@ -42,7 +42,7 @@ public class FavoritesPresenter implements FavoritesContract.Presenter {
                     view.setMovies(results);
                 }, e -> view.setError(EmptyViewMode.MODE_NO_MOVIES)));
 
-        /*disposables.add(service.getFavoriteMovies(accountId, BuildConfig.TMDB_API_KEY, sessionId, TmdbConfigKt.en_US, OrderKt.ASC, page)
+        /*disposables.add(service.getFavoriteMovies(accountId, BuildConfig.TMDB_API_KEY, sessionId, TmdbConfigKt.LANG_EN_US, OrderKt.ASC, page)
             .doOnSubscribe(disposable -> getViewState().showLoading())
             .doAfterTerminate(() -> getViewState().hideLoading())
             .subscribeOn(Schedulers.io())
