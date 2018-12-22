@@ -83,7 +83,7 @@
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <View
-        android:id="@+id/demo_full_background"
+        android:id="@+id/full_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/md_black"

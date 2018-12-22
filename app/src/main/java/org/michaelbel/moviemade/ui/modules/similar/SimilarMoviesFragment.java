@@ -83,7 +83,7 @@ public class SimilarMoviesFragment extends BaseFragment implements SimilarContra
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        activity.toolbar.setOnClickListener(v -> recyclerView.smoothScrollToPosition(0));
+        activity.getToolbar().setOnClickListener(v -> recyclerView.smoothScrollToPosition(0));
 
         int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
 

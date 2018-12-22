@@ -5,8 +5,6 @@ import android.content.SharedPreferences
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import butterknife.ButterKnife
-import butterknife.Unbinder
 import org.michaelbel.moviemade.data.entity.Keyword
 import org.michaelbel.moviemade.data.entity.Movie
 import org.michaelbel.moviemade.data.entity.Review
@@ -23,20 +21,6 @@ import org.michaelbel.moviemade.ui.modules.watchlist.WatchlistActivity
 import org.michaelbel.moviemade.utils.*
 
 abstract class BaseActivity : AppCompatActivity(), BaseContract, BaseContract.BaseView, BaseContract.MediaView {
-
-    private var unbinder: Unbinder? = null
-
-    override fun setContentView(layoutId: Int) {
-        super.setContentView(layoutId)
-        unbinder = ButterKnife.bind(this)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        unbinder!!.unbind()
-    }
-
-//--------------------------------------------------------------------------------------------------
 
     override fun getSharedPreferences(): SharedPreferences {
         return getSharedPreferences(SP_NAME, MODE_PRIVATE)

@@ -105,12 +105,12 @@ public class SearchMoviesFragment extends BaseFragment implements SearchContract
         String readyQuery = getArguments() != null ? getArguments().getString(IntentsKt.QUERY) : null;
 
         if (readyQuery == null) {
-            activity.searchEditText.setSelection(Objects.requireNonNull(activity.searchEditText.getText()).length());
+            activity.getSearchEditText().setSelection(Objects.requireNonNull(activity.getSearchEditText().getText()).length());
         } else {
-            activity.searchEditText.setText(readyQuery);
-            activity.searchEditText.setSelection(Objects.requireNonNull(activity.searchEditText.getText()).length());
+            activity.getSearchEditText().setText(readyQuery);
+            activity.getSearchEditText().setSelection(Objects.requireNonNull(activity.getSearchEditText().getText()).length());
 
-            activity.hideKeyboard(activity.searchEditText);
+            activity.hideKeyboard(activity.getSearchEditText());
             presenter.search(readyQuery);
         }
     }
