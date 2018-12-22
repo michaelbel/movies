@@ -122,4 +122,8 @@
     <!--BottomSheet-->
     <dimen name="design_bottom_sheet_modal_elevation2">16dp</dimen>
     <dimen name="design_bottom_sheet_peek_height_min2">64dp</dimen>
+
+    <!--ExpandableCardView-->
+    <dimen name="default_card_height">50dp</dimen>
+    <dimen name="default_vertical_padding">10dp</dimen>
 </resources>

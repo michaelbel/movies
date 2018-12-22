@@ -5,7 +5,6 @@
     <string name="image_description">Poster</string>
     <string name="no_overview">No Overview</string>
     <string name="search">Search</string>
-    <string name="loading_status">Loading…</string>
     <string name="loading_tagline">Loading tagline…</string>
     <string name="unknown">Unknown</string>
     <string name="trailers">Trailers</string>
@@ -59,7 +58,6 @@
     <string name="icon">icon</string>
     <string name="sign_up">Sign up</string>
     <string name="sign_in">Sign in</string>
-    <string name="favorite_movies">Favorites</string>
     <string name="watchlist">Watchlist</string>
     <string name="logout">Log out</string>
     <string name="account">Account</string>
@@ -79,6 +77,9 @@
     <string name="similar_movies">Similar movies</string>
     <string name="recommendations">Recommendations</string>
     <string name="filter">Filter</string>
+
+    <string name="disable_ads" translatable="false">Disable Ads</string>
+    <string name="coming_soon" translatable="false">Coming soon</string>
 
     <!--Errors-->
     <string name="error_no_connection">No connection</string>

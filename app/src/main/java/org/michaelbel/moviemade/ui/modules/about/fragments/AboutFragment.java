@@ -142,7 +142,7 @@ public class AboutFragment extends BaseFragment {
         linearLayoutManager.onRestoreInstanceState(state);
     }
 
-    public class AboutAdapter extends RecyclerView.Adapter<AboutAdapter.AboutViewHolder> {
+    public class AboutAdapter extends RecyclerView.Adapter {
 
         ImageView iconView;
         AppCompatTextView textView;
@@ -152,27 +152,28 @@ public class AboutFragment extends BaseFragment {
 
         @NonNull
         @Override
-        public AboutViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view;
 
             if (viewType == 0) {
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_about, parent, false);
                 appNameText = view.findViewById(R.id.app_name_text);
                 versionText = view.findViewById(R.id.version_text);
+                return new HeaderVH(view);
             } else if (viewType == 1) {
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_powered, parent, false);
                 poweredText = view.findViewById(R.id.powered_text);
+                return new AboutViewHolder(view);
             } else {
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_cell, parent, false);
                 iconView = view.findViewById(R.id.icon_view);
                 textView = view.findViewById(R.id.text_view);
+                return new FooterVH(view);
             }
-
-            return new AboutViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull AboutViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             int type = getItemViewType(position);
 
             if (type == 0) {
@@ -222,9 +223,21 @@ public class AboutFragment extends BaseFragment {
             }
         }
 
+        class HeaderVH extends RecyclerView.ViewHolder {
+            HeaderVH(View itemView) {
+                super(itemView);
+            }
+        }
+
         class AboutViewHolder extends RecyclerView.ViewHolder {
 
              AboutViewHolder(View itemView) {
+                super(itemView);
+            }
+        }
+
+        class FooterVH extends RecyclerView.ViewHolder {
+            FooterVH(View itemView) {
                 super(itemView);
             }
         }

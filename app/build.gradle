@@ -29,9 +29,9 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
 
-        versionCode 61
-        versionName "1.2.0"
-        buildConfigField "String", "VERSION_DATE", '"18 Dec 2018"'
+        versionCode 63
+        versionName "1.2.2"
+        buildConfigField "String", "VERSION_DATE", '"22 Dec 2018"'
         project.ext.set("archivesBaseName", "moviemade-v" + versionName)
         buildConfigField "String", "TMDB_API_KEY", "\"${getProperty("local.properties", "TMDB_API_KEY")}\""
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -95,9 +95,9 @@ android {
         exclude 'NOTICE.txt'
 
         exclude 'META-INF/DEPENDENCIES.txt'
-        exclude 'META-INF/services/javax.annotation.processing.Processor'
         exclude 'META-INF/rxjava.properties'
         exclude 'META-INF/license/LICENSE.base64.txt'
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
 }
 
@@ -106,13 +106,13 @@ dependencies {
     implementation 'com.android.support:cardview-v7:28.0.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    implementation 'io.reactivex.rxjava2:rxjava:2.1.15'
-    implementation 'io.reactivex.rxjava2:rxandroid:2.0.2'
+    implementation 'io.reactivex.rxjava2:rxjava:2.2.0'
+    implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava2:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'com.squareup.okhttp3:okhttp:3.11.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     implementation 'com.google.dagger:dagger:2.16'
     implementation 'com.jakewharton:butterknife:9.0.0-rc1'
@@ -126,6 +126,8 @@ dependencies {
     implementation 'com.alexvasilkov:gesture-views:2.4.0'
     implementation 'com.alexvasilkov:android-commons:2.0.2'
     implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+    implementation 'com.android.billingclient:billing:1.0'
 
     annotationProcessor 'com.google.dagger:dagger-compiler:2.16'
     annotationProcessor 'com.jakewharton:butterknife-compiler:9.0.0-rc1'

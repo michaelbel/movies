@@ -12,7 +12,7 @@ import org.michaelbel.moviemade.data.entity.Movie;
 import org.michaelbel.moviemade.data.service.AccountService;
 import org.michaelbel.moviemade.data.service.MoviesService;
 import org.michaelbel.moviemade.utils.DateUtil;
-import org.michaelbel.moviemade.utils.LanguageUtil;
+import org.michaelbel.moviemade.utils.LangUtil;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 import org.michaelbel.moviemade.utils.SharedPrefsKt;
 
@@ -44,7 +44,7 @@ public class MoviePresenter implements MovieContract.Presenter {
         view.setVoteAverage(movie.getVoteAverage());
         view.setVoteCount(movie.getVoteCount());
         view.setReleaseDate(DateUtil.INSTANCE.formatReleaseDate(movie.getReleaseDate()));
-        view.setOriginalLanguage(LanguageUtil.INSTANCE.formatLanguage(movie.getOriginalLanguage()));
+        view.setOriginalLanguage(LangUtil.INSTANCE.formatLanguage(movie.getOriginalLanguage()));
         view.setGenres(movie.getGenreIds());
     }
 

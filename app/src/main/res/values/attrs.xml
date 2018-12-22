@@ -39,4 +39,13 @@
         <!-- Whether height of expanded sheet wraps content or not -->
         <attr name="behavior_fitToContents" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="ExpandableView">
+        <attr name="title" format="string"/>
+        <attr name="icon" format="reference"/>
+        <attr name="inner_view" format="reference"/>
+        <attr name="expandOnClick" format="boolean"/>
+        <attr name="animationDuration" format="integer"/>
+        <attr name="startExpanded" format="boolean"/>
+    </declare-styleable>
 </resources>
