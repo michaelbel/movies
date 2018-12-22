@@ -471,23 +471,23 @@ public class MovieFragment extends BaseFragment implements MovieContract.View, N
 
     @OnClick(R.id.poster)
     void posterClick(View v) {
-        imageAnimator = GestureTransitions.from(posterImage).into(activity.fullImage);
+        imageAnimator = GestureTransitions.from(posterImage).into(activity.getFullImage());
         imageAnimator.addPositionUpdateListener((position, isLeaving) -> {
-            activity.fullBackground.setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
-            activity.fullBackground.setAlpha(position);
+            activity.getFullBackground().setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
+            activity.getFullBackground().setAlpha(position);
 
-            activity.fullImageToolbar.setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
-            activity.fullImageToolbar.setAlpha(position);
+            activity.getFullBackground().setVisibility(position == 0f ? View.INVISIBLE : View.VISIBLE);
+            activity.getFullBackground().setAlpha(position);
 
-            activity.fullImage.setVisibility(position == 0f && isLeaving ? View.INVISIBLE : View.VISIBLE);
+            activity.getFullImage().setVisibility(position == 0f && isLeaving ? View.INVISIBLE : View.VISIBLE);
 
-            Glide.with(activity).load(String.format(Locale.US, TmdbConfigKt.TMDB_IMAGE, "original", posterPath)).thumbnail(0.1F).into(activity.fullImage);
+            Glide.with(activity).load(String.format(Locale.US, TmdbConfigKt.TMDB_IMAGE, "original", posterPath)).thumbnail(0.1F).into(activity.getFullImage());
 
             if (position == 0f && isLeaving) {
                 activity.showSystemStatusBar(true);
             }
         });
-        activity.fullImage.getController().getSettings()
+        activity.getFullImage().getController().getSettings()
             .setGravity(Gravity.CENTER)
             .setZoomEnabled(true)
             .setAnimationsDuration(300L)

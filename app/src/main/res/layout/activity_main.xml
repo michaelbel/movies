@@ -34,7 +34,7 @@
     </org.michaelbel.moviemade.ui.modules.main.appbar.MainAppBar>
 
     <org.michaelbel.moviemade.ui.widgets.bottombar.BottomNavigationBar
-        android:id="@+id/bottom_navigation_bar"
+        android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"/>
