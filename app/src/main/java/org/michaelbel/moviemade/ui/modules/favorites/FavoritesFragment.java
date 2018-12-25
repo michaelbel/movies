@@ -1,9 +1,7 @@
 package org.michaelbel.moviemade.ui.modules.favorites;
 
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +11,6 @@ import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.entity.Movie;
-import org.michaelbel.moviemade.data.service.AccountService;
 import org.michaelbel.moviemade.ui.GridSpacingItemDecoration;
 import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.modules.main.adapter.MoviesAdapter;
@@ -41,12 +38,12 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     private MoviesAdapter adapter;
     private FavoriteActivity activity;
     private GridLayoutManager gridLayoutManager;
-    private FavoritesContract.Presenter presenter;
+
     // Fixme.
     //private NetworkChangeReceiver networkChangeReceiver;
     private boolean connectionFailure = false;
 
-    @Inject AccountService service;
+    @Inject FavoritesContract.Presenter presenter;
     @Inject SharedPreferences sharedPreferences;
 
     @BindView(R.id.empty_view) EmptyView emptyView;
@@ -66,10 +63,14 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (FavoriteActivity) getActivity();
-        Moviemade.get(activity).getComponent().injest(this);
+
         //networkChangeReceiver = new NetworkChangeReceiver(this);
         //activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
-        presenter = new FavoritesPresenter(this, service);
+
+        if (activity != null) {
+            Moviemade.get(activity).getFragmentComponent().inject(this);
+        }
+        presenter.setView(this);
     }
 
     @Nullable
@@ -88,27 +89,22 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
 
         adapter = new MoviesAdapter(this);
-        gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
-        GridSpacingItemDecoration spacingDecoration = new GridSpacingItemDecoration(spanCount, DeviceUtil.INSTANCE.dp(activity, 3));
+        gridLayoutManager = new GridLayoutManager(activity, spanCount);
 
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.addItemDecoration(spacingDecoration);
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, DeviceUtil.INSTANCE.dp(activity, 3)));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (!recyclerView.canScrollVertically(1)) {
+                if (!recyclerView.canScrollVertically(1) && adapter.getItemCount() != 0) {
                     presenter.getFavoriteMoviesNext(accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""));
                 }
             }
         });
 
-        Bundle args = getArguments();
-        if (args != null) {
-            accountId = args.getInt(IntentsKt.ACCOUNT_ID);
-        }
-
+        accountId = getArguments() != null ? getArguments().getInt(IntentsKt.ACCOUNT_ID) : 0;
         presenter.getFavoriteMovies(accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""));
     }
 
@@ -118,32 +114,6 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         // FIXME.
         activity.finish();
     }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        refreshLayout();
-    }
-
-    /*@Override
-    public void onResume() {
-        super.onResume();
-
-        ((Moviemade) activity.getApplication()).rxBus2.toObserverable().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object -> {
-                if (object instanceof Events.DeleteMovieFromFavorite) {
-                    int movieId = ((Events.DeleteMovieFromFavorite) object).movieId;
-                    if (adapter != null) {
-                        if (adapter.removeMovieById(movieId)) {
-                            if (emptyView != null) {
-                                emptyView.setVisibility(View.VISIBLE);
-                                emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
-                            }
-                        }
-                    }
-                }
-            });
-    }*/
 
     @Override
     public void showLoading() {
@@ -158,7 +128,7 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
     @Override
     public void setMovies(@NotNull List<Movie> movies) {
         connectionFailure = false;
-        adapter.addAll(movies);
+        adapter.addMovies(movies);
         hideLoading();
         emptyView.setVisibility(View.GONE);
     }
@@ -174,19 +144,6 @@ public class FavoritesFragment extends BaseFragment implements FavoritesContract
         if (BuildUtil.INSTANCE.isEmptyApiKey()) {
             emptyView.setValue(R.string.error_empty_api_key);
         }
-    }
-
-    public MoviesAdapter getAdapter() {
-        return adapter;
-    }
-
-    // FIXME: Configure landscape orientation.
-    private void refreshLayout() {
-        int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
-        Parcelable state = gridLayoutManager.onSaveInstanceState();
-        gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        gridLayoutManager.onRestoreInstanceState(state);
     }
 
     @Override

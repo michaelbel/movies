@@ -1,9 +1,7 @@
 package org.michaelbel.moviemade.ui.modules.reviews.fragment;
 
 import android.content.IntentFilter;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +12,15 @@ import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.entity.Movie;
 import org.michaelbel.moviemade.data.entity.Review;
-import org.michaelbel.moviemade.data.service.MoviesService;
 import org.michaelbel.moviemade.ui.GridSpacingItemDecoration;
 import org.michaelbel.moviemade.ui.base.BaseFragment;
-import org.michaelbel.moviemade.ui.modules.reviews.ReviewsAdapter;
 import org.michaelbel.moviemade.ui.modules.reviews.ReviewsContract;
-import org.michaelbel.moviemade.ui.modules.reviews.ReviewsPresenter;
 import org.michaelbel.moviemade.ui.modules.reviews.activity.ReviewsActivity;
+import org.michaelbel.moviemade.ui.modules.reviews.adapter.OnReviewClickListener;
+import org.michaelbel.moviemade.ui.modules.reviews.adapter.ReviewsAdapter;
 import org.michaelbel.moviemade.ui.receivers.NetworkChangeListener;
 import org.michaelbel.moviemade.ui.receivers.NetworkChangeReceiver;
 import org.michaelbel.moviemade.ui.widgets.EmptyView;
-import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.IntentsKt;
@@ -38,22 +34,21 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.OnClick;
 
-public class ReviewsFragment extends BaseFragment implements ReviewsContract.View, NetworkChangeListener {
+public class ReviewsFragment extends BaseFragment implements ReviewsContract.View, NetworkChangeListener, OnReviewClickListener {
 
     private Movie movie;
     private ReviewsAdapter adapter;
     private ReviewsActivity activity;
-    private GridLayoutManager gridLayoutManager;
+
     private NetworkChangeReceiver networkChangeReceiver;
     private boolean connectionFailure = false;
-    private ReviewsContract.Presenter presenter;
 
-    @Inject MoviesService service;
+    @Inject ReviewsContract.Presenter presenter;
+
     @BindView(R.id.empty_view) EmptyView emptyView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
-    @BindView(R.id.recycler_view) RecyclerListView recyclerView;
+    @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     public static ReviewsFragment newInstance(Movie movie) {
         Bundle args = new Bundle();
@@ -68,10 +63,12 @@ public class ReviewsFragment extends BaseFragment implements ReviewsContract.Vie
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (ReviewsActivity) getActivity();
+
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
-        Moviemade.get(activity).getComponent().injest(this);
-        presenter = new ReviewsPresenter(this, service);
+
+        Moviemade.get(activity).getFragmentComponent().inject(this);
+        presenter.setView(this);
     }
 
     @Nullable
@@ -83,37 +80,31 @@ public class ReviewsFragment extends BaseFragment implements ReviewsContract.Vie
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         activity.getToolbar().setOnClickListener(v -> recyclerView.smoothScrollToPosition(0));
 
         int spanCount = activity.getResources().getInteger(R.integer.trailers_span_layout_count);
 
-        adapter = new ReviewsAdapter();
-        gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
-        GridSpacingItemDecoration spacingDecoration = new GridSpacingItemDecoration(1, DeviceUtil.INSTANCE.dp(activity, 5));
+        adapter = new ReviewsAdapter(this);
 
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.addItemDecoration(spacingDecoration);
-        recyclerView.setOnItemClickListener((v, position) -> {
-            Review review = adapter.getReviews().get(position);
-            activity.startReview(review, movie);
+        recyclerView.setLayoutManager(new GridLayoutManager(activity, spanCount));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, DeviceUtil.INSTANCE.dp(activity, 5)));
+
+        emptyView.setOnClickListener(v -> {
+            emptyView.setVisibility(View.GONE);
+            progressBar.setVisibility(View.VISIBLE);
+            presenter.getReviews(movie.getId());
         });
 
-        Bundle args = getArguments();
-        if (args != null) {
-            movie = (Movie) args.getSerializable(IntentsKt.MOVIE);
-        }
-
+        movie = getArguments() != null ? (Movie) getArguments().getSerializable(IntentsKt.MOVIE) : null;
         if (movie != null) {
             presenter.getReviews(movie.getId());
         }
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        refreshLayout();
+    public void onReviewClick(@NotNull Review review, @NotNull View view) {
+        activity.startReview(review, movie);
     }
 
     @Override
@@ -121,13 +112,6 @@ public class ReviewsFragment extends BaseFragment implements ReviewsContract.Vie
         super.onDestroy();
         activity.unregisterReceiver(networkChangeReceiver);
         presenter.onDestroy();
-    }
-
-    @OnClick(R.id.empty_view)
-    void emptyViewClick(View v) {
-        emptyView.setVisibility(View.GONE);
-        progressBar.setVisibility(View.VISIBLE);
-        presenter.getReviews(movie.getId());
     }
 
     @Override
@@ -150,13 +134,5 @@ public class ReviewsFragment extends BaseFragment implements ReviewsContract.Vie
         if (connectionFailure && adapter.getItemCount() == 0) {
             presenter.getReviews(movie.getId());
         }
-    }
-
-    private void refreshLayout() {
-        int spanCount = activity.getResources().getInteger(R.integer.trailers_span_layout_count);
-        Parcelable state = gridLayoutManager.onSaveInstanceState();
-        gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        gridLayoutManager.onRestoreInstanceState(state);
     }
 }

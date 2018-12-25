@@ -1,12 +1,15 @@
 package org.michaelbel.moviemade.data.injection.component;
 
-import org.michaelbel.moviemade.data.injection.PerActivity;
 import org.michaelbel.moviemade.data.injection.module.ActivityModule;
+import org.michaelbel.moviemade.data.injection.scope.ActivityScoped;
+import org.michaelbel.moviemade.ui.modules.main.MainActivity;
+import org.michaelbel.moviemade.ui.modules.movie.MovieActivity;
 
 import dagger.Subcomponent;
 
-@PerActivity
+@ActivityScoped
 @Subcomponent(modules = ActivityModule.class)
 public interface ActivityComponent {
-    // oid inject(MainActivity activity);
+    void inject(MainActivity target);
+    void inject(MovieActivity target);
 }

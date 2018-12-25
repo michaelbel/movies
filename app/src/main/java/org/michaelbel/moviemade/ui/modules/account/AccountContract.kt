@@ -14,6 +14,7 @@ interface AccountContract {
     }
 
     interface Presenter {
+        fun setView(view: View)
         fun createSessionId(token: String)
         fun authWithLogin(un: Username)
         fun deleteSession()

@@ -71,10 +71,10 @@ public class MovieFragment extends BaseFragment implements MovieContract.View, N
     private boolean favorite;
     private boolean watchlist;
     private Menu actionMenu;
-    private MenuItem menu_share;
-    private MenuItem menu_tmdb;
-    private MenuItem menu_imdb;
-    private MenuItem menu_homepage;
+    private MenuItem menuShare;
+    private MenuItem menuTmdb;
+    private MenuItem menuImdb;
+    private MenuItem menuHomepage;
     private View parentView;
 
     private String imdbId;
@@ -134,27 +134,32 @@ public class MovieFragment extends BaseFragment implements MovieContract.View, N
         return presenter;
     }
 
+    // FIXME add newInstance
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+
         activity = (MovieActivity) getActivity();
-        Moviemade.get(activity).getComponent().injest(this);
+
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
-        setHasOptionsMenu(true);
+
+        Moviemade.get(activity).getFragmentComponent().inject(this);
         presenter = new MoviePresenter(this, moviesService, accountService, sharedPreferences);
     }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         actionMenu = menu;
-        menu_share = menu.add(R.string.share).setIcon(R.drawable.ic_anim_share).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        menu_tmdb = menu.add(R.string.view_on_tmdb).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
+        menuShare = menu.add(R.string.share).setIcon(R.drawable.ic_anim_share).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        menuTmdb = menu.add(R.string.view_on_tmdb).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item == menu_share) {
+        if (item == menuShare) {
             Drawable icon = actionMenu.getItem(0).getIcon();
             if (icon instanceof Animatable) {
                 ((Animatable) icon).start();
@@ -164,11 +169,11 @@ public class MovieFragment extends BaseFragment implements MovieContract.View, N
             intent.setType("text/plain");
             intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, TmdbConfigKt.TMDB_MOVIE, activity.getMovie().getId()));
             startActivity(Intent.createChooser(intent, getString(R.string.share_via)));
-        } else if (item == menu_tmdb) {
+        } else if (item == menuTmdb) {
             Browser.INSTANCE.openUrl(activity, String.format(Locale.US, TmdbConfigKt.TMDB_MOVIE, activity.getMovie().getId()));
-        } else if (item == menu_imdb) {
+        } else if (item == menuImdb) {
             Browser.INSTANCE.openUrl(activity, String.format(Locale.US, TmdbConfigKt.IMDB_MOVIE, imdbId));
-        } else if (item == menu_homepage) {
+        } else if (item == menuHomepage) {
             Browser.INSTANCE.openUrl(activity, homepage);
         }
 
@@ -363,11 +368,11 @@ public class MovieFragment extends BaseFragment implements MovieContract.View, N
         this.homepage = homepage;
 
         if (!TextUtils.isEmpty(imdbId)) {
-            menu_imdb = actionMenu.add(R.string.view_on_imdb).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
+            menuImdb = actionMenu.add(R.string.view_on_imdb).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
         }
 
         if (!TextUtils.isEmpty(homepage)) {
-            menu_homepage = actionMenu.add(R.string.view_homepage).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
+            menuHomepage = actionMenu.add(R.string.view_homepage).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
         }
     }
 

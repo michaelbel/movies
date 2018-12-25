@@ -19,15 +19,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.internal.DebouncingOnClickListener;
 
 public class LibsFragment extends BaseFragment {
 
     private AboutActivity activity;
-
-    @BindView(R.id.recycler_view) RecyclerView recyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -38,7 +34,7 @@ public class LibsFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_libs, container, false);
+        return inflater.inflate(R.layout.fragment_recycler, container, false);
     }
 
     @Override
@@ -47,7 +43,7 @@ public class LibsFragment extends BaseFragment {
         activity.getToolbar().setNavigationOnClickListener(v -> activity.finishFragment());
         activity.getToolbarTitle().setText(R.string.open_source_libs);
 
-        // FIXME add all libs.
+        // FIXME add all sources.
         LibsAdapter adapter = new LibsAdapter();
         adapter.addSource("BottomSheet", "https://github.com/michaelbel/bottomsheet","Apache License 2.0");
         adapter.addSource("Gson", "https://github.com/google/gson","Apache License 2.0");
@@ -59,8 +55,9 @@ public class LibsFragment extends BaseFragment {
         adapter.addSource("ExpandableTextView", "https://github.com/blogcat/android-expandabletextview", "Apache License 2.0");
         adapter.addSource("Android Animated Menu Items", "https://github.com/adonixis/android-animated-menu-items", "Apache License 2.0");
 
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(activity, RecyclerView.VERTICAL, false));
+        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
     }
 
     private void onSourceClick(Source source) {
@@ -97,23 +94,25 @@ public class LibsFragment extends BaseFragment {
             Source source = sources.get(position);
             holder.textView.setText(source.getName());
             holder.valueView.setText(source.getLicense());
-            holder.dividerView.setVisibility(position != sources.size() - 1 ? View.VISIBLE : View.INVISIBLE);
+            holder.dividerView.setVisibility(position != sources.size() - 1 ? View.VISIBLE : View.GONE);
         }
 
         @Override
         public int getItemCount() {
-            return sources != null ? sources.size() : 0;
+            return sources.size();
         }
 
         class LibsViewHolder extends RecyclerView.ViewHolder {
 
-            @BindView(R.id.text_view) AppCompatTextView textView;
-            @BindView(R.id.value_text) AppCompatTextView valueView;
-            @BindView(R.id.divider_view) View dividerView;
+            AppCompatTextView textView;
+            AppCompatTextView valueView;
+            View dividerView;
 
-            private LibsViewHolder(View itemView) {
-                super(itemView);
-                ButterKnife.bind(this, itemView);
+            private LibsViewHolder(View view) {
+                super(view);
+                textView = view.findViewById(R.id.text_view);
+                valueView = view.findViewById(R.id.value_text);
+                dividerView = view.findViewById(R.id.divider_view);
             }
         }
     }

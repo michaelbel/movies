@@ -12,8 +12,8 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:layout_height="?actionBarSize"
+            app:popupTheme="@style/ThemeOverlay.AppCompat"
             app:navigationIcon="@drawable/ic_arrow_back">
 
             <FrameLayout
@@ -25,23 +25,23 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top"
-                    android:layout_marginTop="9dp"
+                    android:layout_marginTop="@dimen/margin_top_title"
                     android:singleLine="true"
                     android:ellipsize="end"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/text_size_title"
                     android:textColor="@color/primaryText"
                     android:fontFamily="sans-serif-medium"
-                    android:text="@string/recommendations"/>
+                    tools:text="@string/keywords"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/toolbar_subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
-                    android:layout_marginBottom="9dp"
+                    android:layout_marginBottom="@dimen/margin_bottom_subtitle"
                     android:singleLine="true"
                     android:ellipsize="end"
-                    android:textSize="14sp"
+                    android:textSize="@dimen/text_size_subtitle"
                     android:textColor="@color/secondaryText"
                     tools:text="Subtitle"/>
 

@@ -13,6 +13,7 @@ interface SimilarContract {
     }
 
     interface Presenter {
+        fun setView(view: View)
         fun getSimilarMovies(movieId: Int)
         fun getSimilarMoviesNext(movieId: Int)
         fun onDestroy()

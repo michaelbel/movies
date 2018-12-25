@@ -1,5 +1,18 @@
-<!-- Телефон в вертикальной ориентации -->
+<!--Portrait Phone-->
 <resources>
+    <!--layout/activity_subtitle-->
+    <dimen name="text_size_title">18sp</dimen>
+    <dimen name="text_size_subtitle">14sp</dimen>
+    <dimen name="margin_top_title">9dp</dimen>
+    <dimen name="margin_bottom_subtitle">9dp</dimen>
+    <!--layout/activity_movie-->
+    <dimen name="backdrop_height">220dp</dimen>
+    <dimen name="backdrop_margin">0dp</dimen>
+    <!--other-->
+    <dimen name="height_divider">1px</dimen>
+
+
+    
     <!--TrailersActivity-->
     <dimen name="trailer_quality_text_size">11sp</dimen>
     <!--AboutActivity-->
@@ -37,10 +50,6 @@
 
     <!--TrailersFragment-->
     <integer name="trailers_span_layout_count">1</integer>
-
-    <!--layout/activity_movie-->
-    <dimen name="backdrop_height">220dp</dimen>
-    <dimen name="backdrop_margin">0dp</dimen>
 
     <!--layout/fragment_movie-->
     <dimen name="poster_image_width">120dp</dimen>

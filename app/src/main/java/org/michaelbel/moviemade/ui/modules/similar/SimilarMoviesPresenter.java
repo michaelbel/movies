@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade.ui.modules.similar;
 
+import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.data.entity.Movie;
-import org.michaelbel.moviemade.data.service.MoviesService;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 
@@ -17,9 +17,13 @@ public class SimilarMoviesPresenter implements SimilarContract.Presenter {
     private SimilarContract.Repository repository;
     private CompositeDisposable disposables = new CompositeDisposable();
 
-    SimilarMoviesPresenter(SimilarContract.View view, MoviesService service) {
+    public SimilarMoviesPresenter(SimilarRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public void setView(@NotNull SimilarContract.View view) {
         this.view = view;
-        this.repository = new SimilarRepository(service);
     }
 
     @Override

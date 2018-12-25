@@ -24,9 +24,6 @@ class MovieActivity : BaseActivity() {
 
     var movie: Movie? = null
 
-    // Fixme
-    private set
-
     private var fragment: MovieFragment? = null
 
     fun getFullImage() : GestureImageView {

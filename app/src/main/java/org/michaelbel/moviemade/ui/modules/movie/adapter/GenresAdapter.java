@@ -13,8 +13,6 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.GenresViewHolder> {
 
@@ -29,7 +27,8 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.GenresView
     @Override
     public GenresViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chip_genre, parent, false);
-        return new GenresViewHolder(view);
+        GenresViewHolder holder = new GenresViewHolder(view);
+        return holder;
     }
 
     @Override
@@ -45,11 +44,11 @@ public class GenresAdapter extends RecyclerView.Adapter<GenresAdapter.GenresView
 
     class GenresViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.chip_name) AppCompatTextView chipText;
+        AppCompatTextView chipText;
 
-        private GenresViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        private GenresViewHolder(View view) {
+            super(view);
+            chipText = view.findViewById(R.id.chip_name);
         }
     }
 }

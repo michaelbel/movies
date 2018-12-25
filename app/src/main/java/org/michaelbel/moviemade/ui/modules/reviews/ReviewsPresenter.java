@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade.ui.modules.reviews;
 
+import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.data.entity.Review;
-import org.michaelbel.moviemade.data.service.MoviesService;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 
@@ -16,9 +16,13 @@ public class ReviewsPresenter implements ReviewsContract.Presenter {
     private ReviewsContract.Repository repository;
     private final CompositeDisposable disposables = new CompositeDisposable();
 
-    public ReviewsPresenter(ReviewsContract.View view, MoviesService service) {
+    public ReviewsPresenter(ReviewsRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public void setView(@NotNull ReviewsContract.View view) {
         this.view = view;
-        this.repository = new ReviewsRepository(service);
     }
 
     @Override

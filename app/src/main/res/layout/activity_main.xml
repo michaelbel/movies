@@ -14,18 +14,18 @@
     <org.michaelbel.moviemade.ui.modules.main.appbar.MainAppBar
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="?actionBarSize"
         app:elevation="0dp">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="56dp">
+            android:layout_height="?actionBarSize">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/toolbar_title"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="wrap_content"
                 android:gravity="center_vertical"
                 style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
 

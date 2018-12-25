@@ -12,7 +12,7 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="?actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back">
 
             <androidx.appcompat.widget.AppCompatEditText
@@ -26,7 +26,7 @@
                 android:hint="@string/search"
                 android:typeface="normal"
                 android:ellipsize="end"
-                android:imeOptions="actionSearch"
+                android:imeOptions="actionSearch|flagNoExtractUi"
                 android:textSize="18sp"
                 android:textColor="@color/primaryText"
                 android:textColorHint="@color/disabledHintText"
@@ -48,17 +48,5 @@
         android:layout_height="match_parent"
         android:background="@color/transparent40"
         android:visibility="invisible"/>
-
-    <!--<FrameLayout
-        android:id="@+id/filter_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:layout_marginTop="56dp"
-        android:background="@color/primary">
-
-        <include layout="@layout/card_filter"/>
-
-    </FrameLayout>-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

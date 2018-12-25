@@ -80,8 +80,12 @@
 
     <string name="disable_ads" translatable="false">Disable Ads</string>
     <string name="coming_soon" translatable="false">Coming soon</string>
+    <string name="retry" translatable="false">RETRY</string>
+    <string name="msg_toolbar_pinned" translatable="false">Toolbar pinned</string>
+    <string name="msg_toolbar_unpinned" translatable="false">Toolbar unpinned</string>
 
     <!--Errors-->
+    <string name="error_offline" translatable="false">You\'re offline</string>
     <string name="error_no_connection">No connection</string>
     <string name="error_not_found">Resource is not found</string>
     <string name="error_empty_token">Authorized token is empty</string>

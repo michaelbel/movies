@@ -2,7 +2,6 @@ package org.michaelbel.moviemade.ui.modules.search;
 
 import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.data.entity.Movie;
-import org.michaelbel.moviemade.data.service.SearchService;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 
@@ -19,9 +18,13 @@ public class SearchMoviesPresenter implements SearchContract.Presenter {
     private SearchContract.Repository repository;
     private final CompositeDisposable disposables = new CompositeDisposable();
 
-    SearchMoviesPresenter(SearchContract.View view, SearchService service) {
+    public SearchMoviesPresenter(SearchRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public void setView(@NotNull SearchContract.View view) {
         this.view = view;
-        this.repository = new SearchRepository(service);
     }
 
     @Override

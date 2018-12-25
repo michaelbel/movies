@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade.ui.modules.trailers;
 
+import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.data.entity.Video;
-import org.michaelbel.moviemade.data.service.MoviesService;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 
@@ -14,11 +14,15 @@ public class TrailersPresenter implements TrailersContract.Presenter {
 
     private TrailersContract.View view;
     private TrailersContract.Repository repository;
-    private final CompositeDisposable disposables = new CompositeDisposable();
+    private CompositeDisposable disposables = new CompositeDisposable();
 
-    public TrailersPresenter(TrailersContract.View view, MoviesService service) {
+    public TrailersPresenter(TrailersRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public void setView(@NotNull TrailersContract.View view) {
         this.view = view;
-        this.repository = new TrailersRepository(service);
     }
 
     @Override

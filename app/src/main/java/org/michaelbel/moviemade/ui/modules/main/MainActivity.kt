@@ -62,9 +62,9 @@ class MainActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener {
             }
         }
 
-        app_bar!!.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent20))
+        app_bar.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent20))
 
-        val params = app_bar!!.layoutParams as CoordinatorLayout.LayoutParams
+        val params = app_bar.layoutParams as CoordinatorLayout.LayoutParams
         params.topMargin = DeviceUtil.getStatusBarHeight(this)
 
         nowPlayingFragment = NowPlayingFragment()

@@ -15,6 +15,7 @@ interface FavoritesContract {
     }
 
     interface Presenter {
+        fun setView(view: View)
         fun getFavoriteMovies(accountId: Int, sessionId: String)
         fun getFavoriteMoviesNext(accountId: Int, sessionId: String)
         fun onDestroy()

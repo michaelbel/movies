@@ -18,28 +18,28 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatImageView;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.internal.DebouncingOnClickListener;
 
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesViewHolder> {
 
     private OnMovieClickListener movieClickListener;
-    private ArrayList<Movie> movies = new ArrayList<>();
-
-    @Deprecated
-    public MoviesAdapter() {}
+    private List<Movie> movies = new ArrayList<>();
 
     public MoviesAdapter(OnMovieClickListener listener) {
         movieClickListener = listener;
     }
 
-    public ArrayList<Movie> getMovies() {
+    public List<Movie> getMovies() {
         return movies;
     }
 
-    public void addAll(List<Movie> movies) {
+    public void addMovies(List<Movie> movies) {
         this.movies.addAll(movies);
+        notifyDataSetChanged();
+    }
+
+    public void clear() {
+        movies.clear();
         notifyDataSetChanged();
     }
 
@@ -47,12 +47,14 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
     @Override
     public MoviesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_poster, parent, false);
-        MoviesViewHolder viewHolder = new MoviesViewHolder(view);
+        MoviesViewHolder holder = new MoviesViewHolder(view);
         view.setOnClickListener(new DebouncingOnClickListener() {
             @Override
             public void doClick(View v) {
-                int position = viewHolder.getAdapterPosition();
-                movieClickListener.onMovieClick(movies.get(position), v);
+                int position = holder.getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION) {
+                    movieClickListener.onMovieClick(movies.get(position), v);
+                }
             }
         });
 
@@ -62,7 +64,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
             view.getLayoutParams().height = (int) (parent.getWidth() / 2 * 1.5F);
         }
 
-        return viewHolder;
+        return holder;
     }
 
     @Override
@@ -78,11 +80,11 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.MoviesView
 
     class MoviesViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.poster) AppCompatImageView posterImage;
+        AppCompatImageView posterImage;
 
-        private MoviesViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        private MoviesViewHolder(View view) {
+            super(view);
+            posterImage = view.findViewById(R.id.poster);
         }
     }
 }

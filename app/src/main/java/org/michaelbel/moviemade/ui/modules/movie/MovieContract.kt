@@ -29,6 +29,7 @@ interface MovieContract {
     }
 
     interface Presenter {
+        fun setView(view: View)
         fun setDetailExtra(movie: Movie)
         fun getDetails(movieId: Int)
         fun markFavorite(accountId: Int, mediaId: Int, favorite: Boolean)

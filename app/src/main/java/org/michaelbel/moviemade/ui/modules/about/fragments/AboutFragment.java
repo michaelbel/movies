@@ -3,10 +3,8 @@ package org.michaelbel.moviemade.ui.modules.about.fragments;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +14,6 @@ import org.michaelbel.moviemade.BuildConfig;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.modules.about.AboutActivity;
-import org.michaelbel.moviemade.ui.widgets.RecyclerListView;
 import org.michaelbel.moviemade.utils.Browser;
 import org.michaelbel.moviemade.utils.LinksKt;
 import org.michaelbel.moviemade.utils.SpannableUtil;
@@ -26,7 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
+import butterknife.internal.DebouncingOnClickListener;
 
 public class AboutFragment extends BaseFragment {
 
@@ -45,10 +42,6 @@ public class AboutFragment extends BaseFragment {
     private int poweredByRow;
 
     private AboutActivity activity;
-    private LinearLayoutManager linearLayoutManager;
-
-    // Fixme.
-    @BindView(R.id.recycler_view) RecyclerListView recyclerView;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,7 +52,7 @@ public class AboutFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_about, container, false);
+        return inflater.inflate(R.layout.fragment_recycler, container, false);
     }
 
     @Override
@@ -79,96 +72,109 @@ public class AboutFragment extends BaseFragment {
         donatePaypalRow = rowCount++;
         poweredByRow = rowCount++;
 
-        linearLayoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
-
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setAdapter(new AboutAdapter());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setOnItemClickListener((v, position) -> {
-            if (position == forkGithubRow) {
-                Browser.INSTANCE.openUrl(activity, LinksKt.GITHUB_URL);
-            } else if (position == rateGooglePlay) {
-                try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(LinksKt.APP_MARKET));
-                    startActivity(intent);
-                } catch (Exception e) {
-                    Browser.INSTANCE.openUrl(activity, LinksKt.APP_WEB);
-                }
-            } else if (position == otherAppsRow) {
-                try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse(LinksKt.ACCOUNT_MARKET));
-                    startActivity(intent);
-                } catch (Exception e) {
-                    Browser.INSTANCE.openUrl(activity, LinksKt.ACCOUNT_WEB);
-                }
-            } else if (position == libsRow) {
-                activity.startFragment(new LibsFragment(), R.id.fragment_view, LIBS_FRAGMENT_TAG);
-            } else if (position == feedbackRow) {
-                try {
-                    PackageManager packageManager = activity.getPackageManager();
-                    PackageInfo packageInfo = packageManager.getPackageInfo(TELEGRAM_PACKAGE_NAME, 0);
-                    if (packageInfo != null) {
-                        Intent telegram = new Intent(Intent.ACTION_VIEW , Uri.parse(LinksKt.TELEGRAM_URL));
-                        startActivity(telegram);
-                    } else {
-                        Intent intent = new Intent(Intent.ACTION_SEND);
-                        intent.setType("text/plain");
-                        intent.putExtra(Intent.EXTRA_EMAIL, LinksKt.EMAIL);
-                        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject));
-                        intent.putExtra(Intent.EXTRA_TEXT, "");
-                        startActivity(Intent.createChooser(intent, getString(R.string.feedback)));
-                    }
-                } catch (PackageManager.NameNotFoundException e) {
-                    e.printStackTrace();
-                }
-            } else if (position == shareFriendsRow) {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("text/plain");
-                intent.putExtra(Intent.EXTRA_TEXT, LinksKt.APP_WEB);
-                startActivity(Intent.createChooser(intent, getString(R.string.share_via)));
-            } else if (position == donatePaypalRow) {
-                Browser.INSTANCE.openUrl(activity, LinksKt.PAYPAL_ME);
-            }
-        });
+        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        Parcelable state = linearLayoutManager.onSaveInstanceState();
-        linearLayoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        linearLayoutManager.onRestoreInstanceState(state);
+    private void doAction(int position) {
+        if (position == forkGithubRow) {
+            Browser.INSTANCE.openUrl(activity, LinksKt.GITHUB_URL);
+        } else if (position == rateGooglePlay) {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(LinksKt.APP_MARKET));
+                startActivity(intent);
+            } catch (Exception e) {
+                Browser.INSTANCE.openUrl(activity, LinksKt.APP_WEB);
+            }
+        } else if (position == otherAppsRow) {
+            try {
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setData(Uri.parse(LinksKt.ACCOUNT_MARKET));
+                startActivity(intent);
+            } catch (Exception e) {
+                Browser.INSTANCE.openUrl(activity, LinksKt.ACCOUNT_WEB);
+            }
+        } else if (position == libsRow) {
+            activity.startFragment(new LibsFragment(), R.id.fragment_view, LIBS_FRAGMENT_TAG);
+        } else if (position == feedbackRow) {
+            try {
+                PackageManager packageManager = activity.getPackageManager();
+                PackageInfo packageInfo = packageManager.getPackageInfo(TELEGRAM_PACKAGE_NAME, 0);
+                if (packageInfo != null) {
+                    Intent telegram = new Intent(Intent.ACTION_VIEW , Uri.parse(LinksKt.TELEGRAM_URL));
+                    startActivity(telegram);
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setType("text/plain");
+                    intent.putExtra(Intent.EXTRA_EMAIL, LinksKt.EMAIL);
+                    intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject));
+                    intent.putExtra(Intent.EXTRA_TEXT, "");
+                    startActivity(Intent.createChooser(intent, getString(R.string.feedback)));
+                }
+            } catch (PackageManager.NameNotFoundException e) {
+                e.printStackTrace();
+            }
+        } else if (position == shareFriendsRow) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("text/plain");
+            intent.putExtra(Intent.EXTRA_TEXT, LinksKt.APP_WEB);
+            startActivity(Intent.createChooser(intent, getString(R.string.share_via)));
+        } else if (position == donatePaypalRow) {
+            Browser.INSTANCE.openUrl(activity, LinksKt.PAYPAL_ME);
+        }
     }
 
     public class AboutAdapter extends RecyclerView.Adapter {
 
-        ImageView iconView;
-        AppCompatTextView textView;
-        AppCompatTextView appNameText;
-        AppCompatTextView versionText;
-        AppCompatTextView poweredText;
+        private ImageView iconView;
+        private AppCompatTextView textView;
+        private AppCompatTextView appNameText;
+        private AppCompatTextView versionText;
+        private AppCompatTextView poweredText;
 
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view;
-
             if (viewType == 0) {
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_about, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_about, parent, false);
+                HeaderVH holder = new HeaderVH(view);
                 appNameText = view.findViewById(R.id.app_name_text);
                 versionText = view.findViewById(R.id.version_text);
-                return new HeaderVH(view);
+                view.setOnClickListener(new DebouncingOnClickListener() {
+                    @Override
+                    public void doClick(View v) {
+                        int position = holder.getAdapterPosition();
+                        doAction(position);
+                    }
+                });
+                return holder;
             } else if (viewType == 1) {
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_powered, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_powered, parent, false);
+                AboutVH holder = new AboutVH(view);
                 poweredText = view.findViewById(R.id.powered_text);
-                return new AboutViewHolder(view);
+                view.setOnClickListener(new DebouncingOnClickListener() {
+                    @Override
+                    public void doClick(View v) {
+                        int position = holder.getAdapterPosition();
+                        doAction(position);
+                    }
+                });
+                return holder;
             } else {
-                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_cell, parent, false);
+                View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_cell, parent, false);
+                FooterVH holder = new FooterVH(view);
                 iconView = view.findViewById(R.id.icon_view);
                 textView = view.findViewById(R.id.text_view);
-                return new FooterVH(view);
+                view.setOnClickListener(new DebouncingOnClickListener() {
+                    @Override
+                    public void doClick(View v) {
+                        int position = holder.getAdapterPosition();
+                        doAction(position);
+                    }
+                });
+                return holder;
             }
         }
 
@@ -229,9 +235,9 @@ public class AboutFragment extends BaseFragment {
             }
         }
 
-        class AboutViewHolder extends RecyclerView.ViewHolder {
+        class AboutVH extends RecyclerView.ViewHolder {
 
-             AboutViewHolder(View itemView) {
+             AboutVH(View itemView) {
                 super(itemView);
             }
         }

@@ -37,6 +37,11 @@ public class MoviePresenter implements MovieContract.Presenter {
     }
 
     @Override
+    public void setView(@NotNull MovieContract.View view) {
+        this.view = view;
+    }
+
+    @Override
     public void setDetailExtra(@NotNull Movie movie) {
         view.setPoster(movie.getPosterPath());
         view.setMovieTitle(movie.getTitle());

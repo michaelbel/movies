@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.appcompat.widget.Toolbar
 import com.google.android.gms.analytics.HitBuilders
-import kotlinx.android.synthetic.main.activity_settings.*
+import kotlinx.android.synthetic.main.activity_title.*
 import org.michaelbel.moviemade.Moviemade
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.ui.base.BaseActivity
@@ -21,7 +21,7 @@ class SettingsActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_settings)
+        setContentView(R.layout.activity_title)
         setSupportActionBar(toolbar)
 
         if (savedInstanceState == null) {

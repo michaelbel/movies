@@ -13,6 +13,7 @@ interface ReviewsContract {
     }
 
     interface Presenter {
+        fun setView(view: View)
         fun getReviews(movieId: Int)
         fun onDestroy()
     }

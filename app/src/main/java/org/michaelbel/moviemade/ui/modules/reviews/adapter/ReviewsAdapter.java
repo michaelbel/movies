@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.ui.modules.reviews;
+package org.michaelbel.moviemade.ui.modules.reviews.adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,14 +13,18 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import butterknife.internal.DebouncingOnClickListener;
 
 public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsViewHolder> {
 
+    private OnReviewClickListener reviewClickListener;
     private ArrayList<Review> reviews = new ArrayList<>();
 
-    public ArrayList<Review> getReviews() {
+    public ReviewsAdapter(OnReviewClickListener listener) {
+        this.reviewClickListener = listener;
+    }
+
+    public List<Review> getReviews() {
         return reviews;
     }
 
@@ -33,7 +37,17 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsV
     @Override
     public ReviewsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_review, parent, false);
-        return new ReviewsViewHolder(view);
+        ReviewsViewHolder holder = new ReviewsViewHolder(view);
+        view.setOnClickListener(new DebouncingOnClickListener() {
+            @Override
+            public void doClick(View v) {
+                int pos = holder.getAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION) {
+                    reviewClickListener.onReviewClick(reviews.get(pos), v);
+                }
+            }
+        });
+        return holder;
     }
 
     @Override
@@ -50,12 +64,13 @@ public class ReviewsAdapter extends RecyclerView.Adapter<ReviewsAdapter.ReviewsV
 
     class ReviewsViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.author_name) AppCompatTextView authorName;
-        @BindView(R.id.review_text) AppCompatTextView reviewText;
+        AppCompatTextView authorName;
+        AppCompatTextView reviewText;
 
-        private ReviewsViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        private ReviewsViewHolder(View view) {
+            super(view);
+            authorName = view.findViewById(R.id.author_name);
+            reviewText = view.findViewById(R.id.review_text);
         }
     }
 }

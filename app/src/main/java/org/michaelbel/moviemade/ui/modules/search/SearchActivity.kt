@@ -46,12 +46,6 @@ class SearchActivity : BaseActivity() {
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         actionMenu = menu
 
-        /* menu.add(R.string.filter).setIcon(R.drawable.ic_tune).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
-            .setOnMenuItemClickListener(item -> {
-                showFilter();
-                return true;
-            });*/
-
         menu.add(null).setIcon(R.drawable.ic_voice).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
             .setOnMenuItemClickListener {
                 if (iconActionMode == MODE_ACTION_VOICE) {
@@ -61,7 +55,7 @@ class SearchActivity : BaseActivity() {
                     intent.putExtra(RecognizerIntent.EXTRA_PROMPT, R.string.speak_now)
                     startActivityForResult(intent, SPEECH_REQUEST_CODE)
                 } else if (iconActionMode == MODE_ACTION_CLEAR) {
-                    Objects.requireNonNull<Editable>(search_edit_text!!.text).clear()
+                    Objects.requireNonNull<Editable>(search_edit_text.text).clear()
                     changeActionIcon()
 
                     val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
@@ -84,7 +78,7 @@ class SearchActivity : BaseActivity() {
         }
 
         setSupportActionBar(toolbar)
-        toolbar!!.setNavigationOnClickListener { finish() }
+        toolbar!!.setNavigationOnClickListener {finish()}
 
         iconActionMode = MODE_ACTION_VOICE
 
