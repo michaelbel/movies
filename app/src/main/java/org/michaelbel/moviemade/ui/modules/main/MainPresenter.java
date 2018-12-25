@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade.ui.modules.main;
 
+import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.data.entity.Movie;
-import org.michaelbel.moviemade.data.service.MoviesService;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 
@@ -17,13 +17,18 @@ public class MainPresenter implements MainContract.Presenter {
     private MainContract.Repository repository;
     private CompositeDisposable disposables = new CompositeDisposable();
 
-    public MainPresenter(MainContract.View view, MoviesService service) {
+    public MainPresenter(MainRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public void setView(@NotNull MainContract.View view) {
         this.view = view;
-        this.repository = new MainRepository(service);
     }
 
     @Override
     public void getNowPlaying() {
+
         // Fixme.
         if (NetworkUtil.INSTANCE.notConnected()) {
             view.setError(EmptyViewMode.MODE_NO_CONNECTION);
@@ -39,7 +44,7 @@ public class MainPresenter implements MainContract.Presenter {
                     view.setError(EmptyViewMode.MODE_NO_MOVIES);
                     return;
                 }
-                view.setMovies(results);
+                view.setContent(results);
             }, e -> view.setError(EmptyViewMode.MODE_NO_MOVIES)));
     }
 
@@ -54,7 +59,7 @@ public class MainPresenter implements MainContract.Presenter {
                     view.setError(EmptyViewMode.MODE_NO_MOVIES);
                     return;
                 }
-                view.setMovies(results);
+                view.setContent(results);
             }));
     }
 
@@ -75,7 +80,7 @@ public class MainPresenter implements MainContract.Presenter {
                     view.setError(EmptyViewMode.MODE_NO_MOVIES);
                     return;
                 }
-                view.setMovies(results);
+                view.setContent(results);
             }, e -> view.setError(EmptyViewMode.MODE_NO_MOVIES)));
     }
 
@@ -89,7 +94,7 @@ public class MainPresenter implements MainContract.Presenter {
                     view.setError(EmptyViewMode.MODE_NO_MOVIES);
                     return;
                 }
-                view.setMovies(results);
+                view.setContent(results);
             }));
     }
 
@@ -110,7 +115,7 @@ public class MainPresenter implements MainContract.Presenter {
                     view.setError(EmptyViewMode.MODE_NO_MOVIES);
                     return;
                 }
-                view.setMovies(results);
+                view.setContent(results);
             }, e -> view.setError(EmptyViewMode.MODE_NO_MOVIES)));
     }
 
@@ -125,7 +130,7 @@ public class MainPresenter implements MainContract.Presenter {
                     view.setError(EmptyViewMode.MODE_NO_MOVIES);
                     return;
                 }
-                view.setMovies(results);
+                view.setContent(results);
             }));
     }
 

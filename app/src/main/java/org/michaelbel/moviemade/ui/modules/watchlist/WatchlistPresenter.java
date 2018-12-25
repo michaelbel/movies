@@ -2,7 +2,6 @@ package org.michaelbel.moviemade.ui.modules.watchlist;
 
 import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.data.entity.Movie;
-import org.michaelbel.moviemade.data.service.AccountService;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 
@@ -18,9 +17,13 @@ public class WatchlistPresenter implements WatchlistContract.Presenter {
     private WatchlistContract.Repository repository;
     private CompositeDisposable disposables = new CompositeDisposable();
 
-    WatchlistPresenter(WatchlistContract.View view, AccountService service) {
+    public WatchlistPresenter(WatchlistRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public void setView(@NotNull WatchlistContract.View view) {
         this.view = view;
-        this.repository = new WatchlistRepository(service);
     }
 
     @Override

@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade.ui.modules.keywords;
 
+import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.data.entity.Movie;
-import org.michaelbel.moviemade.data.service.KeywordsService;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 
@@ -17,9 +17,13 @@ public class KeywordPresenter implements KeywordContract.Presenter {
     private KeywordContract.Repository repository;
     private CompositeDisposable disposables = new CompositeDisposable();
 
-    public KeywordPresenter(KeywordContract.View view, KeywordsService service) {
+    public KeywordPresenter(KeywordRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public void setView(@NotNull KeywordContract.View view) {
         this.view = view;
-        this.repository = new KeywordRepository(service);
     }
 
     @Override

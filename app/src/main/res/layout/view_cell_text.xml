@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/cell_height"
+    android:layout_height="52dp"
     android:foreground="?attr/selectableItemBackground">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -11,9 +11,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="start|center_vertical"
         android:layout_marginStart="16dp"
-        android:textSize="@dimen/cell_text_size"
+        android:textSize="16sp"
         android:textColor="@color/primaryText"
-        android:fontFamily="sans-serif-medium"
         android:lines="1"
         android:maxLines="1"
         android:singleLine="true"
@@ -21,10 +20,10 @@
         tools:text="Something"/>
 
     <View
+        android:id="@+id/divider_view"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/divider_height"
+        android:layout_height="1px"
         android:layout_gravity="bottom"
-        android:background="@color/divider"
-        android:visibility="gone"/>
+        android:background="@color/divider"/>
 
 </FrameLayout>

@@ -20,8 +20,6 @@ import com.bumptech.glide.Glide;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.entity.Account;
-import org.michaelbel.moviemade.data.service.AccountService;
-import org.michaelbel.moviemade.data.service.AuthService;
 import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.modules.main.MainActivity;
 import org.michaelbel.moviemade.ui.receivers.NetworkChangeListener;
@@ -68,8 +66,7 @@ public class AccountFragment extends BaseFragment implements NetworkChangeListen
     @BindView(R.id.name_text) AppCompatTextView nameText;
     @BindView(R.id.backdrop_image) AppCompatImageView backdropImage;
 
-    @Inject AuthService authService;
-    @Inject AccountService accountService;
+    @Inject AccountRepository repository;
     @Inject SharedPreferences sharedPreferences;
 
     private AccountContract.Presenter presenter;
@@ -102,12 +99,12 @@ public class AccountFragment extends BaseFragment implements NetworkChangeListen
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
         activity = (MainActivity) getActivity();
-        Moviemade.get(activity).getComponent().injest(this);
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
-
-        presenter = new AccountPresenter(this, authService, accountService, sharedPreferences);
+        Moviemade.get(activity).getFragmentComponent().inject(this);
+        presenter = new AccountPresenter(this, repository, sharedPreferences);
     }
 
     @Nullable
@@ -124,6 +121,17 @@ public class AccountFragment extends BaseFragment implements NetworkChangeListen
         } else {
             showAccount();
         }
+
+        signInBtn.setOnClickListener(v -> {
+            String name = usernameField.getText() != null ? usernameField.getText().toString().trim() : null;
+            String pass = passwordField.getText() != null ? passwordField.getText().toString().trim() : null;
+
+            if (name != null && name.length() == 0 || pass != null && pass.length() == 0) {
+                Toast.makeText(activity, SpannableUtil.replaceTags(getString(R.string.msg_enter_data)), Toast.LENGTH_SHORT).show();
+            } else {
+                presenter.createRequestToken(name, pass);
+            }
+        });
     }
 
     private void showLogin() {
@@ -160,20 +168,9 @@ public class AccountFragment extends BaseFragment implements NetworkChangeListen
         presenter.getAccountDetails();
     }
 
-    @OnClick(R.id.signin_btn)
-    void signInClick(View v) {
-        String name = usernameField.getText() != null ? usernameField.getText().toString().trim() : null;
-        String pass = passwordField.getText() != null ? passwordField.getText().toString().trim() : null;
-
-        if (name != null && name.length() == 0 || pass != null && pass.length() == 0) {
-            Toast.makeText(activity, SpannableUtil.replaceTags(getString(R.string.msg_enter_data)), Toast.LENGTH_SHORT).show();
-        } else {
-            presenter.createRequestToken(name, pass);
-        }
-    }
-
+    // FIXME remove all @OnClick methods
     @OnClick(R.id.signup_btn)
-    void signupClick(View v) {
+    void signUpClick(View v) {
         Browser.INSTANCE.openUrl(activity, TmdbConfigKt.TMDB_SIGNUP);
     }
 
@@ -273,14 +270,10 @@ public class AccountFragment extends BaseFragment implements NetworkChangeListen
             return;
         }
 
-        try {
-            InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
-            if (!(imm != null && imm.isActive())) {
-                return;
-            }
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-        } catch (Exception e) {
-            e.printStackTrace();
+        InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (!(imm != null && imm.isActive())) {
+            return;
         }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

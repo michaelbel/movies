@@ -4,15 +4,52 @@ import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.michaelbel.moviemade.data.service.AccountService;
+import org.michaelbel.moviemade.data.service.AuthService;
+import org.michaelbel.moviemade.data.service.MoviesService;
+import org.michaelbel.moviemade.ui.modules.account.AccountRepository;
 import org.michaelbel.moviemade.utils.TmdbConfigKt;
 
 import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 @Module
 public class NetworkModule {
+
+    @Provides
+    @Singleton
+    Retrofit retrofit() {
+        return new Retrofit.Builder()
+            .baseUrl(TmdbConfigKt.TMDB_API_ENDPOINT)
+            .addConverterFactory(GsonConverterFactory.create(provideGson()))
+            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+            .client(okHttpClient())
+            .build();
+    }
+
+    @Provides
+    @Singleton
+    HttpLoggingInterceptor httpLoggingInterceptor() {
+        // Logging request and response information.
+        HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+        httpLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        return httpLoggingInterceptor;
+    }
+
+    @Provides
+    @Singleton
+    OkHttpClient okHttpClient() {
+        OkHttpClient.Builder okHttpClient = new OkHttpClient.Builder();
+        okHttpClient.addInterceptor(httpLoggingInterceptor());
+        return okHttpClient.build();
+    }
 
     @Provides
     @Singleton
@@ -23,55 +60,25 @@ public class NetworkModule {
         return gsonBuilder.create();
     }
 
-    /*@Provides
-    @Singleton
-    Retrofit provideRetrofit2(OkHttpClient okHttpClient, Gson gson) {
-        return new Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .client(okHttpClient)
-            .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build();
-    }*/
+//--Services----------------------------------------------------------------------------------------
 
-    /*@Provides
+    @Provides
     @Singleton
-    OkHttpClient provideOkHttpClient2(HttpLoggingInterceptor httpLoggingInterceptor*//*, StethoInterceptor stethoInterceptor, ChuckInterceptor chuckInterceptor*//*) {
-        OkHttpClient.Builder httpClientBuilder = new OkHttpClient.Builder();
-        if (BuildConfig.DEBUG) {
-            //httpClientBuilder.addInterceptor(chuckInterceptor);
-            httpClientBuilder.addInterceptor(httpLoggingInterceptor);
-            //httpClientBuilder.addNetworkInterceptor(stethoInterceptor);
-        }
-        return httpClientBuilder.build();
-    }*/
+    MoviesService provideMoviesApi() {
+        return retrofit().create(MoviesService.class);
+    }
 
-    /*@Provides
+    @Provides
     @Singleton
-    HttpLoggingInterceptor provideHttpLoggingInterceptor2() {
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(*//*message -> Timber.d(message)*//*);
-        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        return loggingInterceptor;
-    }*/
+    AccountService provideAccountApi() {
+        return retrofit().create(AccountService.class);
+    }
 
-    /*@Provides
-    @Singleton
-    StethoInterceptor provideStethoInterceptor() {
-        return new StethoInterceptor();
-    }*/
+//--Repositories------------------------------------------------------------------------------------
 
-    /*@Provides
+    @Provides
     @Singleton
-    ChuckInterceptor provideChuckInterceptor() {
-        return new ChuckInterceptor(context);
-    }*/
-
-    /*@Provides
-    @Singleton
-    Gson provideGson2() {
-        return new GsonBuilder()
-            .setDateFormat(TmdbConfigKt.GSON_DATE_FORMAT)
-            .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-            .create();
-    }*/
+    AccountRepository provideAccountRepository() {
+        return new AccountRepository(retrofit().create(AuthService.class), retrofit().create(AccountService.class));
+    }
 }

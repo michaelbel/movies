@@ -1,10 +1,12 @@
-package org.michaelbel.moviemade.data.injection;
+package org.michaelbel.moviemade.data.injection.scope;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 import javax.inject.Scope;
 
+@Documented
 @Scope
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PerFragment {}
+public @interface ActivityScoped {}

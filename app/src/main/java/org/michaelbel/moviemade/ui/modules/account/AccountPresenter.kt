@@ -6,23 +6,17 @@ import org.michaelbel.moviemade.data.constants.CODE_401
 import org.michaelbel.moviemade.data.constants.CODE_404
 import org.michaelbel.moviemade.data.entity.SessionId
 import org.michaelbel.moviemade.data.entity.Username
-import org.michaelbel.moviemade.data.service.AccountService
-import org.michaelbel.moviemade.data.service.AuthService
 import org.michaelbel.moviemade.utils.*
 import retrofit2.HttpException
 
 class AccountPresenter internal constructor(
         private val view: AccountContract.View,
-        authService: AuthService,
-        accountService: AccountService,
+        private val repository: AccountContract.Repository,
         private val sharedPreferences: SharedPreferences) : AccountContract.Presenter {
 
-    private val disposables = CompositeDisposable()
-    private val repository: AccountContract.Repository
+    override fun setView(view: AccountContract.View) {}
 
-    init {
-        this.repository = AccountRepository(authService, accountService)
-    }
+    private val disposables = CompositeDisposable()
 
     override fun createSessionId(token: String) {
         // Fixme.

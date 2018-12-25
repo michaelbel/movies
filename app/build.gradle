@@ -29,7 +29,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 28
 
-        versionCode 63
+        versionCode 64
         versionName "1.2.2"
         buildConfigField "String", "VERSION_DATE", '"22 Dec 2018"'
         project.ext.set("archivesBaseName", "moviemade-v" + versionName)
@@ -48,7 +48,8 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
@@ -99,6 +100,26 @@ android {
         exclude 'META-INF/license/LICENSE.base64.txt'
         exclude 'META-INF/services/javax.annotation.processing.Processor'
     }
+
+    lintOptions {
+        abortOnError false
+        fatal 'StopShip'
+    }
+
+    /*applicationVariants.all { variant ->
+        variant.assemble.doLast {
+            if (variant.buildType.name.contains('release')) {
+                def path = null
+                variant.outputs.each { output ->
+                    path = output.outputFile
+                }
+
+                exec {
+                    ['explorer', '/select,', path].execute()
+                }
+            }
+        }
+    }*/
 }
 
 dependencies {

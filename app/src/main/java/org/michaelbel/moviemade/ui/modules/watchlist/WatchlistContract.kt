@@ -13,6 +13,7 @@ interface WatchlistContract {
     }
 
     interface Presenter {
+        fun setView(view: View)
         fun getWatchlistMovies(accountId: Int, sessionId: String)
         fun getWatchlistMoviesNext(accountId: Int, sessionId: String)
         fun onDestroy()

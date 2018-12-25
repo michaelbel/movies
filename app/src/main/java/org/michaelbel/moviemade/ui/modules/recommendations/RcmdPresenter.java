@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade.ui.modules.recommendations;
 
+import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.data.entity.Movie;
-import org.michaelbel.moviemade.data.service.MoviesService;
 import org.michaelbel.moviemade.utils.EmptyViewMode;
 import org.michaelbel.moviemade.utils.NetworkUtil;
 
@@ -17,9 +17,13 @@ public class RcmdPresenter implements RcmdContract.Presenter {
     private RcmdContract.Repository repository;
     private CompositeDisposable disposables = new CompositeDisposable();
 
-    RcmdPresenter(RcmdContract.View view, MoviesService service) {
+    public RcmdPresenter(RcmdRepository repository) {
+        this.repository = repository;
+    }
+
+    @Override
+    public void setView(@NotNull RcmdContract.View view) {
         this.view = view;
-        this.repository = new RcmdRepository(service);
     }
 
     @Override

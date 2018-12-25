@@ -9,11 +9,12 @@ import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
+// FIXME convert to kotlin
 public class KeywordsRepository implements KeywordsContract.Repository {
 
     private MoviesService service;
 
-    KeywordsRepository(MoviesService service) {
+    public KeywordsRepository(MoviesService service) {
         this.service = service;
     }
 

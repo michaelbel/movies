@@ -13,6 +13,7 @@ interface KeywordsContract {
     }
 
     interface Presenter {
+        fun setView(view: View)
         fun getKeywords(movieId: Int)
         fun onDestroy()
     }

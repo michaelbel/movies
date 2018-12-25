@@ -8,9 +8,9 @@ import com.bumptech.glide.Glide;
 
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.entity.Video;
-import org.michaelbel.moviemade.utils.TmdbConfigKt;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 import org.michaelbel.moviemade.utils.DrawableUtil;
+import org.michaelbel.moviemade.utils.TmdbConfigKt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,14 +21,22 @@ import androidx.appcompat.widget.AppCompatImageView;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+import butterknife.internal.DebouncingOnClickListener;
 
 public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.TrailersViewHolder> {
 
-    public ArrayList<Video> trailers = new ArrayList<>();
+    private OnTrailerClickListener trailerClickListener;
+    private List<Video> trailers = new ArrayList<>();
 
-    public void setTrailers(List<Video> results) {
+    public TrailersAdapter(OnTrailerClickListener listener) {
+        trailerClickListener = listener;
+    }
+
+    public List<Video> getTrailers() {
+        return trailers;
+    }
+
+    public void addTrailers(List<Video> results) {
         trailers.addAll(results);
         notifyItemRangeInserted(trailers.size() + 1, results.size());
     }
@@ -37,13 +45,32 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
     @Override
     public TrailersViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_trailer, parent, false);
+        TrailersViewHolder holder = new TrailersViewHolder(view);
+        view.setOnClickListener(new DebouncingOnClickListener() {
+            @Override
+            public void doClick(View v) {
+                int pos = holder.getAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION) {
+                    trailerClickListener.onTrailerClick(trailers.get(pos), v);
+                }
+            }
+        });
+        view.setOnLongClickListener(v -> {
+            int pos = holder.getAdapterPosition();
+            if (pos != RecyclerView.NO_POSITION) {
+                trailerClickListener.onTrailerLongClick(trailers.get(pos), v);
+                return true;
+            }
+            return false;
+        });
+
         if (DeviceUtil.INSTANCE.isLandscape(parent.getContext()) || DeviceUtil.INSTANCE.isTablet(parent.getContext())) {
             view.getLayoutParams().height = (int) (parent.getWidth() / 3.5);
         } else {
             view.getLayoutParams().height = parent.getWidth() / 2;
         }
 
-        return new TrailersViewHolder(view);
+        return holder;
     }
 
     @Override
@@ -70,14 +97,17 @@ public class TrailersAdapter extends RecyclerView.Adapter<TrailersAdapter.Traile
 
     class TrailersViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.still_image) AppCompatImageView stillImage;
-        @BindView(R.id.player_icon) AppCompatImageView playerIcon;
-        @BindView(R.id.author_name) AppCompatTextView trailerName;
-        @BindView(R.id.quality_badge) AppCompatTextView qualityText;
+        AppCompatImageView stillImage;
+        AppCompatImageView playerIcon;
+        AppCompatTextView trailerName;
+        AppCompatTextView qualityText;
 
-        private TrailersViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        private TrailersViewHolder(View view) {
+            super(view);
+            stillImage = view.findViewById(R.id.still_image);
+            playerIcon = view.findViewById(R.id.player_icon);
+            trailerName = view.findViewById(R.id.trailer_name);
+            qualityText = view.findViewById(R.id.quality_badge);
         }
     }
 }

@@ -1,9 +1,7 @@
 package org.michaelbel.moviemade.ui.modules.main.fragments;
 
 import android.content.IntentFilter;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +11,10 @@ import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.entity.Movie;
-import org.michaelbel.moviemade.data.eventbus.Events;
-import org.michaelbel.moviemade.data.service.MoviesService;
 import org.michaelbel.moviemade.ui.GridSpacingItemDecoration;
 import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.modules.main.MainActivity;
 import org.michaelbel.moviemade.ui.modules.main.MainContract;
-import org.michaelbel.moviemade.ui.modules.main.MainPresenter;
 import org.michaelbel.moviemade.ui.modules.main.adapter.MoviesAdapter;
 import org.michaelbel.moviemade.ui.modules.main.adapter.OnMovieClickListener;
 import org.michaelbel.moviemade.ui.receivers.NetworkChangeListener;
@@ -37,18 +32,16 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.OnClick;
 
 public class TopRatedFragment extends BaseFragment implements MainContract.View, NetworkChangeListener, OnMovieClickListener {
 
     private MainActivity activity;
     private MoviesAdapter adapter;
-    private GridLayoutManager gridLayoutManager;
+
     private NetworkChangeReceiver networkChangeReceiver;
-    private MainContract.Presenter presenter;
     private boolean connectionFailure = false;
 
-    @Inject MoviesService service;
+    @Inject MainContract.Presenter presenter;
 
     @BindView(R.id.empty_view) EmptyView emptyView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
@@ -70,10 +63,12 @@ public class TopRatedFragment extends BaseFragment implements MainContract.View,
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (MainActivity) getActivity();
+
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
-        Moviemade.get(activity).getComponent().injest(this);
-        presenter = new MainPresenter(this, service);
+
+        Moviemade.get(activity).getFragmentComponent().inject(this);
+        presenter.setView(this);
     }
 
     @Nullable
@@ -89,40 +84,23 @@ public class TopRatedFragment extends BaseFragment implements MainContract.View,
         int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
 
         adapter = new MoviesAdapter(this);
-        gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
-        GridSpacingItemDecoration spacingDecoration = new GridSpacingItemDecoration(spanCount, DeviceUtil.INSTANCE.dp(activity, 3));
 
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.addItemDecoration(spacingDecoration);
+        recyclerView.setLayoutManager(new GridLayoutManager(activity, spanCount));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, DeviceUtil.INSTANCE.dp(activity, 3)));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (!recyclerView.canScrollVertically(1)) {
+                if (!recyclerView.canScrollVertically(1) && adapter.getItemCount() != 0) {
                     presenter.getTopRatedNext();
                 }
             }
         });
 
+        emptyView.setOnClickListener(v -> presenter.getTopRated());
+
         presenter.getTopRated();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        refreshLayout();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-
-        ((Moviemade) activity.getApplication()).eventBus().toObservable().subscribe(o -> {
-            if (o instanceof Events.MovieListRefreshLayout) {
-                refreshLayout();
-            }
-        });
     }
 
     @Override
@@ -132,16 +110,11 @@ public class TopRatedFragment extends BaseFragment implements MainContract.View,
         presenter.onDestroy();
     }
 
-    @OnClick(R.id.empty_view)
-    void emptyViewClick(View v) {
-        presenter.getTopRated();
-    }
-
     @Override
-    public void setMovies(@NotNull List<Movie> movies) {
+    public void setContent(@NotNull List<Movie> movies) {
         connectionFailure = false;
         progressBar.setVisibility(View.GONE);
-        adapter.addAll(movies);
+        adapter.addMovies(movies);
     }
 
     @Override
@@ -162,12 +135,9 @@ public class TopRatedFragment extends BaseFragment implements MainContract.View,
         }
     }
 
-    private void refreshLayout() {
-        int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
-        Parcelable state = gridLayoutManager.onSaveInstanceState();
-        gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        gridLayoutManager.onRestoreInstanceState(state);
+    @Override
+    public void setLoading() {
+
     }
 
     @Override

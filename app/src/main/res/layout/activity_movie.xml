@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
-        app:statusBarBackground="@android:color/transparent">
+        app:statusBarBackground="@color/transparent">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/app_bar"
@@ -41,11 +41,12 @@
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
+                    android:layout_height="?actionBarSize"
                     app:popupTheme="@style/ThemeOverlay.AppCompat"
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:layout_collapseMode="pin">
 
+                    <!--FIXME remove lines, maxLines, ellipsize-->
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/toolbar_title"
                         android:layout_width="match_parent"
@@ -53,7 +54,6 @@
                         android:gravity="center_vertical"
                         android:lines="1"
                         android:maxLines="1"
-                        android:singleLine="true"
                         android:ellipsize="end"
                         style="@style/TextAppearance.Widget.AppCompat.Toolbar.Title"/>
 

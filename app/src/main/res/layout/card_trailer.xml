@@ -36,7 +36,7 @@
             android:contentDescription="@string/image_description"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/author_name"
+            android:id="@+id/trailer_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"

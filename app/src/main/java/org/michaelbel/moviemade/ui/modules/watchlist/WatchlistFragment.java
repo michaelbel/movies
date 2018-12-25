@@ -12,7 +12,6 @@ import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.entity.Movie;
-import org.michaelbel.moviemade.data.service.AccountService;
 import org.michaelbel.moviemade.ui.GridSpacingItemDecoration;
 import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.modules.main.adapter.MoviesAdapter;
@@ -34,23 +33,26 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.OnClick;
 
 public class WatchlistFragment extends BaseFragment implements WatchlistContract.View, NetworkChangeListener, OnMovieClickListener {
 
     private int accountId;
     private WatchlistActivity activity;
     private MoviesAdapter adapter;
+
     private NetworkChangeReceiver networkChangeReceiver;
     private boolean connectionFailure = false;
-    private WatchlistContract.Presenter presenter;
 
-    @Inject AccountService service;
+    @Inject WatchlistContract.Presenter presenter;
     @Inject SharedPreferences sharedPreferences;
 
     @BindView(R.id.empty_view) EmptyView emptyView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
     @BindView(R.id.recycler_view) RecyclerView recyclerView;
+
+    public MoviesAdapter getAdapter() {
+        return adapter;
+    }
 
     public static WatchlistFragment newInstance(int accountId) {
         Bundle args = new Bundle();
@@ -65,10 +67,12 @@ public class WatchlistFragment extends BaseFragment implements WatchlistContract
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (WatchlistActivity) getActivity();
+
         networkChangeReceiver = new NetworkChangeReceiver(this);
         activity.registerReceiver(networkChangeReceiver, new IntentFilter(NetworkChangeReceiver.INTENT_ACTION));
-        Moviemade.get(activity).getComponent().injest(this);
-        presenter = new WatchlistPresenter(this, service);
+
+        Moviemade.get(activity).getFragmentComponent().inject(this);
+        presenter.setView(this);
     }
 
     @Nullable
@@ -80,7 +84,6 @@ public class WatchlistFragment extends BaseFragment implements WatchlistContract
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         activity.getToolbar().setOnClickListener(v -> recyclerView.smoothScrollToPosition(0));
 
         int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
@@ -88,45 +91,23 @@ public class WatchlistFragment extends BaseFragment implements WatchlistContract
         adapter = new MoviesAdapter(this);
 
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false));
+        recyclerView.setLayoutManager(new GridLayoutManager(activity, spanCount));
         recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, DeviceUtil.INSTANCE.dp(activity, 3)));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                if (!recyclerView.canScrollVertically(1)) {
+                if (!recyclerView.canScrollVertically(1) && adapter.getItemCount() != 0) {
                     presenter.getWatchlistMoviesNext(accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""));
                 }
             }
         });
 
-        Bundle args = getArguments();
-        if (args != null) {
-            accountId = args.getInt(IntentsKt.ACCOUNT_ID);
-        }
+        emptyView.setOnClickListener(v -> presenter.getWatchlistMovies(accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, "")));
 
+        accountId = getArguments() != null ? getArguments().getInt(IntentsKt.ACCOUNT_ID) : 0;
         presenter.getWatchlistMovies(accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""));
     }
-
-    /*@Override
-    public void onResume() {
-        super.onResume();
-
-        ((Moviemade) activity.getApplication()).rxBus2.toObserverable().subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-            .subscribe(object -> {
-                if (object instanceof Events.DeleteMovieFromFavorite) {
-                    int movieId = ((Events.DeleteMovieFromFavorite) object).movieId;
-                    if (adapter != null) {
-                        if (adapter.removeMovieById(movieId)) {
-                            if (emptyView != null) {
-                                emptyView.setVisibility(View.VISIBLE);
-                                emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES);
-                            }
-                        }
-                    }
-                }
-            });
-    }*/
 
     @Override
     public void onDestroy() {
@@ -135,16 +116,11 @@ public class WatchlistFragment extends BaseFragment implements WatchlistContract
         presenter.onDestroy();
     }
 
-    @OnClick(R.id.empty_view)
-    void emptyViewClick(View v) {
-        presenter.getWatchlistMovies(accountId, sharedPreferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""));
-    }
-
     @Override
     public void setMovies(@NotNull List<Movie> movies) {
         connectionFailure = false;
         progressBar.setVisibility(View.GONE);
-        adapter.addAll(movies);
+        adapter.addMovies(movies);
     }
 
     @Override
@@ -156,10 +132,6 @@ public class WatchlistFragment extends BaseFragment implements WatchlistContract
         if (BuildUtil.INSTANCE.isEmptyApiKey()) {
             emptyView.setValue(R.string.error_empty_api_key);
         }
-    }
-
-    public MoviesAdapter getAdapter() {
-        return adapter;
     }
 
     @Override

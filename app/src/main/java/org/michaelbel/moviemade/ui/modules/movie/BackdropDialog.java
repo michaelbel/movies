@@ -19,8 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatTextView;
 import butterknife.BindView;
-import butterknife.OnClick;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 public class BackdropDialog extends BottomSheetDialogFragment {
@@ -49,7 +49,7 @@ public class BackdropDialog extends BottomSheetDialogFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Moviemade.get(getActivity()).getComponent().injest(this);
+        Moviemade.get(getActivity()).getFragmentComponent().inject(this);
     }
 
     @Nullable

@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
+import android.widget.Toast;
 
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
@@ -37,11 +38,6 @@ public class ReviewFragment extends BaseFragment {
     private static final int THEME_LIGHT = 0;
     private static final int THEME_SEPIA = 1;
     private static final int THEME_NIGHT = 2;
-
-    private MenuItem menu_url;
-    private MenuItem menu_theme_light;
-    private MenuItem menu_theme_sepia;
-    private MenuItem menu_theme_night;
 
     private Review review;
     private ReviewActivity activity;
@@ -69,8 +65,57 @@ public class ReviewFragment extends BaseFragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+
+        activity = (ReviewActivity) getActivity();
+        if (activity != null) {
+            Moviemade.get(activity).getFragmentComponent().inject(this);
+        }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_review, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.item_url) {
+            Browser.INSTANCE.openUrl(activity, review.getUrl());
+        } else if (item.getItemId() == R.id.item_light) {
+            int current = sharedPreferences.getInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_NIGHT);
+            sharedPreferences.edit().putInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_LIGHT).apply();
+            changeTheme(current, THEME_LIGHT);
+        } else if (item.getItemId() == R.id.item_sepia) {
+            int current = sharedPreferences.getInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_NIGHT);
+            sharedPreferences.edit().putInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_SEPIA).apply();
+            changeTheme(current, THEME_SEPIA);
+        } else if (item.getItemId() == R.id.item_night) {
+            int current = sharedPreferences.getInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_NIGHT);
+            sharedPreferences.edit().putInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_NIGHT).apply();
+            changeTheme(current, THEME_NIGHT);
+        }
+        return true;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_review, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        activity.getToolbar().setOnClickListener(v -> scrollLayout.fullScroll(View.FOCUS_UP));
+        activity.getToolbar().setOnLongClickListener(v -> changePinning());
+
+        reviewText.getController().getSettings().enableGestures();
+        review = getArguments() != null ? (Review) getArguments().getSerializable(IntentsKt.REVIEW) : null;
+        reviewText.setText(review != null ? review.getContent() : "");
 
         switch (sharedPreferences.getInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_NIGHT)) {
             case THEME_LIGHT:
@@ -85,69 +130,10 @@ public class ReviewFragment extends BaseFragment {
                 scrollLayout.setBackgroundColor(backgroundNight);
                 reviewText.setTextColor(textNight);
                 break;
+            default:
+                scrollLayout.setBackgroundColor(backgroundNight);
+                reviewText.setTextColor(textNight);
         }
-
-        activity.getToolbar().setOnClickListener(v -> scrollLayout.fullScroll(View.FOCUS_UP));
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        activity = (ReviewActivity) getActivity();
-        Moviemade.get(activity).getComponent().injest(this);
-        setHasOptionsMenu(true);
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        menu_url = menu.add(R.string.view_on_site).setIcon(R.drawable.ic_redo).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-        menu_theme_light = menu.add(R.string.light).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
-        menu_theme_sepia = menu.add(R.string.sepia).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
-        menu_theme_night = menu.add(R.string.night).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item == menu_url) {
-            Browser.INSTANCE.openUrl(activity, review.getUrl());
-        } else if (item == menu_theme_light) {
-            int current = sharedPreferences.getInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_NIGHT);
-            sharedPreferences.edit().putInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_LIGHT).apply();
-            changeTheme(current, THEME_LIGHT);
-        } else if (item == menu_theme_sepia) {
-            int current = sharedPreferences.getInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_NIGHT);
-            sharedPreferences.edit().putInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_SEPIA).apply();
-            changeTheme(current, THEME_SEPIA);
-        } else if (item == menu_theme_night) {
-            int current = sharedPreferences.getInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_NIGHT);
-            sharedPreferences.edit().putInt(SharedPrefsKt.KEY_REVIEW_THEME, THEME_NIGHT).apply();
-            changeTheme(current, THEME_NIGHT);
-        }
-
-        return true;
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_review, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        reviewText.getController().getSettings().enableGestures();
-
-        Bundle args = getArguments();
-        if (args != null) {
-            review = (Review) args.getSerializable(IntentsKt.REVIEW);
-        }
-
-        setReview(review);
-    }
-
-    public void setReview(Review review) {
-        reviewText.setText(review.getContent());
     }
 
     private void changeTheme(int oldTheme, int newTheme) {
@@ -203,5 +189,13 @@ public class ReviewFragment extends BaseFragment {
         animatorSet.setDuration(300);
         animatorSet.setInterpolator(new DecelerateInterpolator(2));
         AndroidUtil.INSTANCE.runOnUIThread(animatorSet:: start, 0);
+    }
+
+    private boolean changePinning() {
+        boolean pin = sharedPreferences.getBoolean(SharedPrefsKt.KEY_TOOLBAR_PINNED, false);
+        sharedPreferences.edit().putBoolean(SharedPrefsKt.KEY_TOOLBAR_PINNED, !pin).apply();
+        activity.changePinning(!pin);
+        Toast.makeText(activity, !pin ? R.string.msg_toolbar_pinned : R.string.msg_toolbar_unpinned, Toast.LENGTH_SHORT).show();
+        return true;
     }
 }

@@ -2,7 +2,7 @@ package org.michaelbel.moviemade.ui.modules.recommendations
 
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
-import kotlinx.android.synthetic.main.activity_rcmds.*
+import kotlinx.android.synthetic.main.activity_subtitle.*
 
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.data.entity.Movie
@@ -17,13 +17,14 @@ class RcmdMoviesActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_rcmds)
+        setContentView(R.layout.activity_subtitle)
 
         val movie = intent.getSerializableExtra(MOVIE) as Movie
 
         setSupportActionBar(toolbar)
         toolbar!!.setNavigationOnClickListener { finish() }
-        toolbar_subtitle!!.text = title
+        toolbar_title.setText(R.string.recommendations)
+        toolbar_subtitle.text = movie.title
 
         if (savedInstanceState == null) {
             startFragment(RcmdMoviesFragment.newInstance(movie.id), R.id.fragment_view)

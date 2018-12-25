@@ -20,7 +20,16 @@ public class EmptyView extends FrameLayout {
 
     private AppCompatImageView emptyIcon;
     private AppCompatTextView emptyText;
+    //private AppCompatTextView retryText;
     private AppCompatTextView valueText;
+    //public CardView reloadBtn;
+    //public ProgressBar progressBar;
+
+    private OnReloadListener onReloadListener;
+
+    public interface OnReloadListener {
+        void onReload();
+    }
 
     public EmptyView(Context context) {
         super(context);
@@ -37,12 +46,16 @@ public class EmptyView extends FrameLayout {
         emptyIcon = view.findViewById(R.id.empty_icon);
         emptyText = view.findViewById(R.id.empty_text);
         valueText = view.findViewById(R.id.value_text);
+        valueText.setVisibility(GONE);
+        //reloadBtn = view.findViewById(R.id.reload_btn);
+        //progressBar = view.findViewById(R.id.progress_bar);
+        //retryText = view.findViewById(R.id.retry_text);
     }
 
     public EmptyView setMode(@EmptyViewMode int mode) {
         if (mode == EmptyViewMode.MODE_NO_CONNECTION) {
             setIcon(R.drawable.ic_offline);
-            setText(R.string.error_no_connection);
+            setText(R.string.error_offline);
         } else if (mode == EmptyViewMode.MODE_NO_MOVIES) {
             setIcon(R.drawable.ic_movieroll);
             setText(R.string.no_movies);
@@ -67,7 +80,7 @@ public class EmptyView extends FrameLayout {
     }
 
     private void setIcon(int icon) {
-        emptyIcon.setImageDrawable(DrawableUtil.INSTANCE.getIcon(getContext(), icon, ContextCompat.getColor(getContext(), R.color.iconActive)));
+        emptyIcon.setImageDrawable(DrawableUtil.INSTANCE.getIcon(getContext(), icon, ContextCompat.getColor(getContext(), R.color.secondaryText)));
     }
 
     private void setText(@StringRes int textId) {
@@ -75,6 +88,7 @@ public class EmptyView extends FrameLayout {
     }
 
     public void setValue(@StringRes int textId) {
+        valueText.setVisibility(VISIBLE);
         valueText.setText(SpannableUtil.replaceTags(getContext().getString(textId)));
     }
 }

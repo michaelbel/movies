@@ -1,10 +1,8 @@
 package org.michaelbel.moviemade.ui.modules.trailers
 
 import io.reactivex.Observable
-import io.reactivex.disposables.Disposable
 import org.michaelbel.moviemade.data.entity.Video
 import org.michaelbel.moviemade.data.entity.VideosResponse
-import org.michaelbel.moviemade.data.service.MoviesService
 import org.michaelbel.moviemade.utils.EmptyViewMode
 
 interface TrailersContract {
@@ -17,6 +15,7 @@ interface TrailersContract {
     }
 
     interface Presenter {
+        fun setView(view: View)
         fun getVideos(movieId: Int)
         fun onDestroy()
     }

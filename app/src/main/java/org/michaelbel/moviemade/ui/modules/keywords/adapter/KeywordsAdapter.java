@@ -13,8 +13,6 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatTextView;
 import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class KeywordsAdapter extends RecyclerView.Adapter<KeywordsAdapter.KeywordsViewHolder> {
 
@@ -24,7 +22,7 @@ public class KeywordsAdapter extends RecyclerView.Adapter<KeywordsAdapter.Keywor
         return keywords;
     }
 
-    public void setKeywords(List<Keyword> results) {
+    public void addKeywords(List<Keyword> results) {
         keywords.addAll(results);
         notifyItemRangeInserted(keywords.size() + 1, results.size());
     }
@@ -33,7 +31,8 @@ public class KeywordsAdapter extends RecyclerView.Adapter<KeywordsAdapter.Keywor
     @Override
     public KeywordsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.chip_keyword, parent, false);
-        return new KeywordsViewHolder(view);
+        KeywordsViewHolder holder = new KeywordsViewHolder(view);
+        return holder;
     }
 
     @Override
@@ -49,11 +48,11 @@ public class KeywordsAdapter extends RecyclerView.Adapter<KeywordsAdapter.Keywor
 
     class KeywordsViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.keyword_name) AppCompatTextView keywordName;
+        AppCompatTextView keywordName;
 
-        private KeywordsViewHolder(View itemView) {
-            super(itemView);
-            ButterKnife.bind(this, itemView);
+        private KeywordsViewHolder(View view) {
+            super(view);
+            keywordName = view.findViewById(R.id.keyword_name);
         }
     }
 }

@@ -14,6 +14,7 @@ interface SearchContract {
     }
 
     interface Presenter {
+        fun setView(view: View)
         fun search(query: String)
         fun loadNextResults()
         fun onDestroy()

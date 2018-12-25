@@ -1,8 +1,6 @@
 package org.michaelbel.moviemade.ui.modules.search;
 
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +10,6 @@ import org.jetbrains.annotations.NotNull;
 import org.michaelbel.moviemade.Moviemade;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.data.entity.Movie;
-import org.michaelbel.moviemade.data.service.SearchService;
 import org.michaelbel.moviemade.ui.GridSpacingItemDecoration;
 import org.michaelbel.moviemade.ui.base.BaseFragment;
 import org.michaelbel.moviemade.ui.modules.main.adapter.MoviesAdapter;
@@ -36,12 +33,10 @@ import butterknife.BindView;
 
 public class SearchMoviesFragment extends BaseFragment implements SearchContract.View, OnMovieClickListener {
 
-    private SearchActivity activity;
     private MoviesAdapter adapter;
-    private GridLayoutManager gridLayoutManager;
-    private SearchContract.Presenter presenter;
+    private SearchActivity activity;
 
-    @Inject SearchService service;
+    @Inject SearchContract.Presenter presenter;
 
     @BindView(R.id.empty_view) EmptyView emptyView;
     @BindView(R.id.progress_bar) ProgressBar progressBar;
@@ -56,16 +51,15 @@ public class SearchMoviesFragment extends BaseFragment implements SearchContract
         return fragment;
     }
 
-    public SearchContract.Presenter getPresenter() {
-        return presenter;
-    }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (SearchActivity) getActivity();
-        Moviemade.get(activity).getComponent().injest(this);
-        presenter = new SearchMoviesPresenter(this, service);
+
+        if (activity != null) {
+            Moviemade.get(activity).getFragmentComponent().inject(this);
+        }
+        presenter.setView(this);
     }
 
     @Nullable
@@ -78,19 +72,13 @@ public class SearchMoviesFragment extends BaseFragment implements SearchContract
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        emptyView.setMode(EmptyViewMode.MODE_NO_RESULTS);
-
-        progressBar.setVisibility(View.INVISIBLE);
-
         int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
 
         adapter = new MoviesAdapter(this);
-        gridLayoutManager = new GridLayoutManager(activity, spanCount, RecyclerView.VERTICAL, false);
-        GridSpacingItemDecoration spacingDecoration = new GridSpacingItemDecoration(2, DeviceUtil.INSTANCE.dp(activity, 3));
 
         recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        recyclerView.addItemDecoration(spacingDecoration);
+        recyclerView.setLayoutManager(new GridLayoutManager(activity, spanCount));
+        recyclerView.addItemDecoration(new GridSpacingItemDecoration(spanCount, DeviceUtil.INSTANCE.dp(activity, 3)));
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -101,7 +89,10 @@ public class SearchMoviesFragment extends BaseFragment implements SearchContract
             }
         });
 
-        // Fixme. Везде сделать так.
+        progressBar.setVisibility(View.INVISIBLE);
+
+        emptyView.setMode(EmptyViewMode.MODE_NO_RESULTS);
+
         String readyQuery = getArguments() != null ? getArguments().getString(IntentsKt.QUERY) : null;
 
         if (readyQuery == null) {
@@ -113,12 +104,6 @@ public class SearchMoviesFragment extends BaseFragment implements SearchContract
             activity.hideKeyboard(activity.getSearchEditText());
             presenter.search(readyQuery);
         }
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        refreshLayout();
     }
 
     @Override
@@ -139,7 +124,7 @@ public class SearchMoviesFragment extends BaseFragment implements SearchContract
     @Override
     public void setMovies(@NotNull List<Movie> movies) {
         progressBar.setVisibility(View.GONE);
-        adapter.addAll(movies);
+        adapter.addMovies(movies);
     }
 
     @Override
@@ -151,14 +136,6 @@ public class SearchMoviesFragment extends BaseFragment implements SearchContract
         if (BuildUtil.INSTANCE.isEmptyApiKey()) {
             emptyView.setValue(R.string.error_empty_api_key);
         }
-    }
-
-    private void refreshLayout() {
-        int spanCount = activity.getResources().getInteger(R.integer.movies_span_layout_count);
-        Parcelable state = gridLayoutManager.onSaveInstanceState();
-        gridLayoutManager = new GridLayoutManager(activity, spanCount);
-        recyclerView.setLayoutManager(gridLayoutManager);
-        gridLayoutManager.onRestoreInstanceState(state);
     }
 
     @Override

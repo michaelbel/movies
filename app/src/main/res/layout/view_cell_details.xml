@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/cell_details_height"
+    android:layout_height="64dp"
     android:foreground="?attr/selectableItemBackground">
 
     <androidx.appcompat.widget.AppCompatTextView
@@ -10,10 +10,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|top"
-        android:layout_marginStart="@dimen/cell_details_text_margin_start"
-        android:layout_marginTop="@dimen/cell_details_text_margin_top"
-        android:layout_marginEnd="@dimen/cell_details_text_margin_start"
-        android:textSize="@dimen/cell_details_text_size"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:textSize="16sp"
         android:textColor="@color/primaryText"
         android:fontFamily="sans-serif-medium"
         android:lines="1"
@@ -27,10 +27,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|top"
-        android:layout_marginStart="@dimen/cell_details_text_margin_start"
-        android:layout_marginTop="@dimen/cell_details_value_margin_top"
-        android:layout_marginEnd="@dimen/cell_details_text_margin_start"
-        android:textSize="@dimen/cell_details_value_size"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="35dp"
+        android:layout_marginEnd="16dp"
+        android:textSize="13sp"
         android:textColor="@color/secondaryText"
         android:lines="1"
         android:maxLines="1"
@@ -41,7 +41,7 @@
     <View
         android:id="@+id/divider_view"
         android:layout_width="match_parent"
-        android:layout_height="0.5dp"
+        android:layout_height="1px"
         android:layout_gravity="bottom"
         android:layout_marginStart="14dp"
         android:background="@color/divider"/>

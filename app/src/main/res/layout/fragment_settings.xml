@@ -3,6 +3,4 @@
     android:id="@+id/recycler_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginStart="@dimen/fragment_settings_content_margin"
-    android:layout_marginEnd="@dimen/fragment_settings_content_margin"
     android:background="@color/background"/>

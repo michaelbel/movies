@@ -2,9 +2,7 @@ package org.michaelbel.moviemade.ui.modules.settings;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +36,6 @@ public class SettingsFragment extends BaseFragment {
     private int aboutRow;
 
     private SettingsActivity activity;
-    private LinearLayoutManager linearLayoutManager;
 
     @Inject SharedPreferences sharedPreferences;
 
@@ -48,7 +45,10 @@ public class SettingsFragment extends BaseFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         activity = (SettingsActivity) getActivity();
-        Moviemade.get(activity).getComponent().injest(this);
+
+        if (activity != null) {
+            Moviemade.get(activity).getFragmentComponent().inject(this);
+        }
     }
 
     @Nullable
@@ -69,11 +69,8 @@ public class SettingsFragment extends BaseFragment {
         adsRow = rowCount++;
         aboutRow = rowCount++;
 
-        SettingsAdapter adapter = new SettingsAdapter();
-        linearLayoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
-
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(new SettingsAdapter());
+        recyclerView.setLayoutManager(new LinearLayoutManager(activity));
         recyclerView.setOnItemClickListener((v, position) -> {
             if (position == inAppBrowserRow) {
                 boolean enable = sharedPreferences.getBoolean(SharedPrefsKt.KEY_BROWSER, true);
@@ -94,15 +91,6 @@ public class SettingsFragment extends BaseFragment {
         });
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        Parcelable state = linearLayoutManager.onSaveInstanceState();
-        linearLayoutManager = new LinearLayoutManager(activity, RecyclerView.VERTICAL, false);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        linearLayoutManager.onRestoreInstanceState(state);
-    }
-
     private class SettingsAdapter extends RecyclerView.Adapter {
 
         @NonNull
@@ -112,10 +100,12 @@ public class SettingsFragment extends BaseFragment {
 
             if (type == 1) {
                 view = new TextCell(activity);
+                view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             } else if (type == 2) {
                 view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_settings_ads, parent, false);
             } else {
                 view = new TextDetailCell(activity);
+                view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             }
 
             return new RecyclerListView.ViewHolder(view);

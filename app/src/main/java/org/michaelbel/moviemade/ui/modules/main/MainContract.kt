@@ -8,11 +8,13 @@ import org.michaelbel.moviemade.utils.EmptyViewMode
 interface MainContract {
 
     interface View {
-        fun setMovies(movies: List<Movie>)
+        fun setLoading()
+        fun setContent(movies: List<Movie>)
         fun setError(@EmptyViewMode mode: Int)
     }
 
     interface Presenter {
+        fun setView(view: View)
         fun getNowPlaying()
         fun getNowPlayingNext()
         fun getTopRated()

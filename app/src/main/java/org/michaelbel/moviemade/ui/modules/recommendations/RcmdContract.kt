@@ -13,6 +13,7 @@ interface RcmdContract {
     }
 
     interface Presenter {
+        fun setView(view: View)
         fun getRcmdMovies(movieId: Int)
         fun getRcmdMoviesNext(movieId: Int)
         fun onDestroy()

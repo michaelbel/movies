@@ -2,7 +2,7 @@ package org.michaelbel.moviemade.ui.modules.keywords.activity
 
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
-import kotlinx.android.synthetic.main.activity_keywords.*
+import kotlinx.android.synthetic.main.activity_subtitle.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.data.entity.Movie
 import org.michaelbel.moviemade.ui.base.BaseActivity
@@ -17,13 +17,14 @@ class KeywordsActivity : BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_keywords)
+        setContentView(R.layout.activity_subtitle)
 
         val movie = intent.getSerializableExtra(MOVIE) as Movie
 
         setSupportActionBar(toolbar)
         toolbar!!.setNavigationOnClickListener { finish() }
-        toolbar_subtitle!!.text = movie.title
+        toolbar_title.setText(R.string.keywords)
+        toolbar_subtitle.text = movie.title
 
         if (savedInstanceState == null) {
             startFragment(KeywordsFragment.newInstance(movie.id), R.id.fragment_view)

@@ -1,6 +1,16 @@
-<!-- Планшет в вертикальной ориентации -->
-
+<!--Portrait & Landscape Tablet-->
 <resources>
+    <!--layout/activity_subtitle-->
+    <dimen name="text_size_title">18sp</dimen>
+    <dimen name="text_size_subtitle">14sp</dimen>
+    <dimen name="margin_top_title">7dp</dimen>
+    <dimen name="margin_bottom_subtitle">7dp</dimen>
+    <!--layout/activity_movie-->
+    <dimen name="backdrop_height">480dp</dimen>
+    <dimen name="backdrop_margin">144dp</dimen>
+
+
+
     <!--TrailersActivity-->
     <dimen name="trailer_quality_text_size">11sp</dimen>
     <!--AboutActivity-->
@@ -41,10 +51,6 @@
 
     <!--TrailersFragment-->
     <integer name="trailers_span_layout_count">2</integer>
-
-    <!--layout/activity_movie-->
-    <dimen name="backdrop_height">480dp</dimen>
-    <dimen name="backdrop_margin">0dp</dimen>
 
     <!--layout/fragment_movie-->
     <dimen name="poster_image_width">250dp</dimen>

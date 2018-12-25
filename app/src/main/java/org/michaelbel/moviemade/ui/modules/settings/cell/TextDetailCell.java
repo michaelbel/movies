@@ -23,6 +23,7 @@ import androidx.appcompat.widget.AppCompatTextView;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.content.ContextCompat;
 
+// FIXME remove this class and create layout file
 public class TextDetailCell extends FrameLayout {
 
     public static final int MODE_DEFAULT = 0;

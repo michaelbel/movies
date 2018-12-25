@@ -73,7 +73,8 @@ data class Movie(
                "budget=$budget," +
                "genres=$genres," +
                "homepage='$homepage'," +
-               "id=$id, imdbId='$imdbId'," +
+               "id=$id, " +
+               "imdbId='$imdbId'," +
                "originalLanguage='$originalLanguage'," +
                "originalTitle='$originalTitle'," +
                "overview='$overview'," +
