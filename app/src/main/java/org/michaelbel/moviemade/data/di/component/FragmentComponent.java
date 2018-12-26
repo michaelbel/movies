@@ -1,7 +1,7 @@
-package org.michaelbel.moviemade.data.injection.component;
+package org.michaelbel.moviemade.data.di.component;
 
-import org.michaelbel.moviemade.data.injection.module.FragmentModule;
-import org.michaelbel.moviemade.data.injection.scope.FragmentScoped;
+import org.michaelbel.moviemade.data.di.module.FragmentModule;
+import org.michaelbel.moviemade.data.di.scope.FragmentScoped;
 import org.michaelbel.moviemade.ui.modules.account.AccountFragment;
 import org.michaelbel.moviemade.ui.modules.favorites.FavoritesFragment;
 import org.michaelbel.moviemade.ui.modules.keywords.fragment.KeywordFragment;
@@ -25,21 +25,21 @@ import dagger.Subcomponent;
 @FragmentScoped
 @Subcomponent(modules = FragmentModule.class)
 public interface FragmentComponent {
-    void inject(MovieFragment fragment);
-    void inject(ReviewFragment fragment);
-    void inject(AccountFragment fragment);
-    void inject(FavoritesFragment fragment);
-    void inject(SettingsFragment fragment);
-    void inject(WatchlistFragment fragment);
-    void inject(SimilarMoviesFragment fragment);
-    void inject(RcmdMoviesFragment fragment);
-    void inject(TrailersFragment fragment);
-    void inject(NowPlayingFragment fragment);
-    void inject(TopRatedFragment fragment);
-    void inject(UpcomingFragment fragment);
-    void inject(SearchMoviesFragment fragment);
-    void inject(ReviewsFragment fragment);
-    void inject(KeywordFragment fragment);
-    void inject(KeywordsFragment fragment);
+    void inject(MovieFragment target);
+    void inject(ReviewFragment target);
+    void inject(AccountFragment target);
+    void inject(FavoritesFragment target);
+    void inject(SettingsFragment target);
+    void inject(WatchlistFragment target);
+    void inject(SimilarMoviesFragment target);
+    void inject(RcmdMoviesFragment target);
+    void inject(TrailersFragment target);
+    void inject(NowPlayingFragment target);
+    void inject(TopRatedFragment target);
+    void inject(UpcomingFragment target);
+    void inject(SearchMoviesFragment target);
+    void inject(ReviewsFragment target);
+    void inject(KeywordFragment target);
+    void inject(KeywordsFragment target);
     void inject(BackdropDialog target);
 }

@@ -1,12 +1,14 @@
 package org.michaelbel.moviemade.ui.modules.main
 
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.activity_main.*
+import org.michaelbel.moviemade.Moviemade
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.ui.base.BaseActivity
 import org.michaelbel.moviemade.ui.modules.account.AccountFragment
@@ -21,17 +23,31 @@ import org.michaelbel.moviemade.utils.DeviceUtil
 import org.michaelbel.moviemade.utils.KEY_MAIN_FRAGMENT
 import org.michaelbel.moviemade.utils.KEY_TOKEN
 import shortbread.Shortcut
+import javax.inject.Inject
 
 class MainActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener {
 
     companion object {
         private const val DEFAULT_FRAGMENT = 0
+        private const val KEY_BAR_POSITION = "pos"
     }
 
     private var nowPlayingFragment: NowPlayingFragment? = null
     private var topRatedFragment: TopRatedFragment? = null
     private var upcomingFragment: UpcomingFragment? = null
     private var profileFragment: AccountFragment? = null
+
+    @Inject lateinit var sharedPreferences: SharedPreferences
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        val action = intent.action
+        val data = intent.dataString
+
+        if (Intent.ACTION_VIEW == action && data != null) {
+            profileFragment!!.presenter.createSessionId(sharedPreferences.getString(KEY_TOKEN, "")!!)
+        }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
@@ -52,6 +68,7 @@ class MainActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener {
         setTheme(R.style.AppThemeTransparentStatusBar)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        Moviemade.get(this).activityComponent.inject(this)
 
         setSupportActionBar(toolbar)
         toolbar_title!!.setText(R.string.app_name)
@@ -77,7 +94,7 @@ class MainActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener {
         bottom_bar!!.activeColor = R.color.md_white
         bottom_bar!!.setMode(BottomNavigationBar.MODE_FIXED)
         bottom_bar!!.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_DEFAULT)
-        bottom_bar!!.setFirstSelectedPosition(getSharedPreferences().getInt(KEY_MAIN_FRAGMENT, DEFAULT_FRAGMENT))
+        bottom_bar!!.setFirstSelectedPosition(sharedPreferences.getInt(KEY_MAIN_FRAGMENT, DEFAULT_FRAGMENT))
             .addItem(BottomNavigationItem(R.drawable.ic_fire, R.string.now_playing).setActiveColorResource(R.color.accent))
             .addItem(BottomNavigationItem(R.drawable.ic_star_circle, R.string.top_rated).setActiveColorResource(R.color.accent))
             .addItem(BottomNavigationItem(R.drawable.ic_movieroll, R.string.upcoming).setActiveColorResource(R.color.accent))
@@ -86,7 +103,14 @@ class MainActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener {
 
         if (savedInstanceState == null) {
             startCurrentFragment()
+        } else {
+            bottom_bar.selectTab(savedInstanceState.getInt(KEY_BAR_POSITION))
         }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState!!.putInt(KEY_BAR_POSITION, bottom_bar.currentSelectedPosition)
+        super.onSaveInstanceState(outState)
     }
 
     override fun onTabSelected(position: Int) {
@@ -102,7 +126,7 @@ class MainActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener {
         }
 
         if (position != 3) {
-            getSharedPreferences().edit().putInt(KEY_MAIN_FRAGMENT, position).apply()
+            sharedPreferences.edit().putInt(KEY_MAIN_FRAGMENT, position).apply()
             toolbar_title!!.setText(R.string.app_name)
             app_bar!!.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.transparent20))
         }
@@ -115,16 +139,6 @@ class MainActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener {
     }
 
     override fun onTabUnselected(position: Int) {}
-
-    override fun onNewIntent(intent: Intent) {
-        super.onNewIntent(intent)
-        val action = intent.action
-        val data = intent.dataString
-
-        if (Intent.ACTION_VIEW == action && data != null) {
-            profileFragment!!.presenter.createSessionId(getSharedPreferences().getString(KEY_TOKEN, "")!!)
-        }
-    }
 
     private fun scrollToTop(position: Int) {
         when (position) {
@@ -149,7 +163,7 @@ class MainActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener {
     }
 
     private fun startCurrentFragment() {
-        val position = getSharedPreferences().getInt(KEY_MAIN_FRAGMENT, DEFAULT_FRAGMENT)
+        val position = sharedPreferences.getInt(KEY_MAIN_FRAGMENT, DEFAULT_FRAGMENT)
 
         when (position) {
             0 -> startFragment(nowPlayingFragment!!, R.id.fragment_view)
@@ -161,7 +175,7 @@ class MainActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener {
     @Shortcut(id = "favorites", rank = 3, icon = R.drawable.ic_shortcut_favorite, shortLabelRes = R.string.favorites)
     fun showFavorites() {
         startFragment(profileFragment!!, R.id.fragment_view)
-        toolbar_title!!.text = null
+        toolbar_title.text = ""
         app_bar!!.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.transparent))
         bottom_bar!!.selectTab(3)
         startFavorites(profileFragment!!.accountId)
@@ -170,7 +184,7 @@ class MainActivity : BaseActivity(), BottomNavigationBar.OnTabSelectedListener {
     @Shortcut(id = "watchlist", rank = 2, icon = R.drawable.ic_shortcut_bookmark, shortLabelRes = R.string.watchlist)
     fun showUpcomingMovies() {
         startFragment(profileFragment!!, R.id.fragment_view)
-        toolbar_title!!.text = null
+        toolbar_title.text = ""
         app_bar!!.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.transparent))
         bottom_bar!!.selectTab(3)
         startWatchlist(profileFragment!!.accountId)

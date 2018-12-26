@@ -1,5 +1,6 @@
 package org.michaelbel.moviemade.ui.modules.movie
 
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
 import android.view.WindowManager
@@ -9,6 +10,7 @@ import com.alexvasilkov.gestures.views.GestureImageView
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.activity_movie.*
+import org.michaelbel.moviemade.Moviemade
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.data.entity.Movie
 import org.michaelbel.moviemade.ui.base.BaseActivity
@@ -19,12 +21,15 @@ import org.michaelbel.moviemade.utils.KEY_SESSION_ID
 import org.michaelbel.moviemade.utils.MOVIE
 import org.michaelbel.moviemade.utils.TMDB_IMAGE
 import java.util.*
+import javax.inject.Inject
 
 class MovieActivity : BaseActivity() {
 
     var movie: Movie? = null
 
     private var fragment: MovieFragment? = null
+
+    @Inject lateinit var sharedPreferences: SharedPreferences
 
     fun getFullImage() : GestureImageView {
         return full_image
@@ -41,6 +46,7 @@ class MovieActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_movie)
+        Moviemade.get(this).activityComponent.inject(this)
 
         movie = intent.getSerializableExtra(MOVIE) as Movie
 
@@ -85,7 +91,7 @@ class MovieActivity : BaseActivity() {
         }
 
         backdrop_image!!.setOnLongClickListener {
-            if (!getSharedPreferences().getString(KEY_SESSION_ID, "")!!.isEmpty()) {
+            if (!sharedPreferences.getString(KEY_SESSION_ID, "")!!.isEmpty()) {
                 DeviceUtil.vibrate(this@MovieActivity, 15)
                 val dialog = BackdropDialog.newInstance(String.format(Locale.US, TMDB_IMAGE, "original", movie!!.backdropPath))
                 dialog.show(supportFragmentManager, "tag")

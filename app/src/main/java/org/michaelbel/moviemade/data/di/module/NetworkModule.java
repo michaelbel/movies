@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.data.injection.module;
+package org.michaelbel.moviemade.data.di.module;
 
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;

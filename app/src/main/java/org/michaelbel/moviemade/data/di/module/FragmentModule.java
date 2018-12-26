@@ -1,9 +1,9 @@
-package org.michaelbel.moviemade.data.injection.module;
+package org.michaelbel.moviemade.data.di.module;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import org.michaelbel.moviemade.data.injection.scope.FragmentScoped;
+import org.michaelbel.moviemade.data.di.scope.FragmentScoped;
 import org.michaelbel.moviemade.data.service.AccountService;
 import org.michaelbel.moviemade.data.service.KeywordsService;
 import org.michaelbel.moviemade.data.service.MoviesService;
@@ -47,15 +47,9 @@ import retrofit2.Retrofit;
 @Module
 public class FragmentModule {
 
-    private Context context;
-
-    public FragmentModule(Context context) {
-        this.context = context;
-    }
-
     @Provides
     @FragmentScoped
-    SharedPreferences sharedPreferences() {
+    SharedPreferences sharedPreferences(Context context) {
         return context.getSharedPreferences(SharedPrefsKt.SP_NAME, Context.MODE_PRIVATE);
     }
 
