@@ -1,9 +1,9 @@
-package org.michaelbel.moviemade.data.injection.module;
+package org.michaelbel.moviemade.data.di.module;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import org.michaelbel.moviemade.data.injection.scope.ActivityScoped;
+import org.michaelbel.moviemade.data.di.scope.ActivityScoped;
 import org.michaelbel.moviemade.utils.SharedPrefsKt;
 
 import dagger.Module;

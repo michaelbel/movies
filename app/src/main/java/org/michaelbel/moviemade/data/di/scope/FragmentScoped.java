@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.data.injection.scope;
+package org.michaelbel.moviemade.data.di.scope;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

@@ -1,7 +1,6 @@
 package org.michaelbel.moviemade.ui.base
 
 import android.content.Intent
-import android.content.SharedPreferences
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -18,15 +17,12 @@ import org.michaelbel.moviemade.ui.modules.reviews.activity.ReviewsActivity
 import org.michaelbel.moviemade.ui.modules.similar.SimilarMoviesActivity
 import org.michaelbel.moviemade.ui.modules.trailers.TrailersActivity
 import org.michaelbel.moviemade.ui.modules.watchlist.WatchlistActivity
-import org.michaelbel.moviemade.utils.*
+import org.michaelbel.moviemade.utils.ACCOUNT_ID
+import org.michaelbel.moviemade.utils.KEYWORD
+import org.michaelbel.moviemade.utils.MOVIE
+import org.michaelbel.moviemade.utils.REVIEW
 
-abstract class BaseActivity : AppCompatActivity(), BaseContract, BaseContract.BaseView, BaseContract.MediaView {
-
-    override fun getSharedPreferences(): SharedPreferences {
-        return getSharedPreferences(SP_NAME, MODE_PRIVATE)
-    }
-
-//--BaseView----------------------------------------------------------------------------------------
+abstract class BaseActivity : AppCompatActivity(), BaseContract, BaseContract.MediaView {
 
     override fun startFragment(fragment: Fragment, container: View) {
         supportFragmentManager.beginTransaction().replace(container.id, fragment).commit()

@@ -10,14 +10,14 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import org.michaelbel.moviemade.data.eventbus.RxBus;
-import org.michaelbel.moviemade.data.injection.component.ActivityComponent;
-import org.michaelbel.moviemade.data.injection.component.AppComponent;
-import org.michaelbel.moviemade.data.injection.component.DaggerAppComponent;
-import org.michaelbel.moviemade.data.injection.component.FragmentComponent;
-import org.michaelbel.moviemade.data.injection.module.ActivityModule;
-import org.michaelbel.moviemade.data.injection.module.AppModule;
-import org.michaelbel.moviemade.data.injection.module.FragmentModule;
-import org.michaelbel.moviemade.data.injection.module.NetworkModule;
+import org.michaelbel.moviemade.data.di.component.ActivityComponent;
+import org.michaelbel.moviemade.data.di.component.AppComponent;
+import org.michaelbel.moviemade.data.di.component.DaggerAppComponent;
+import org.michaelbel.moviemade.data.di.component.FragmentComponent;
+import org.michaelbel.moviemade.data.di.module.ActivityModule;
+import org.michaelbel.moviemade.data.di.module.AppModule;
+import org.michaelbel.moviemade.data.di.module.FragmentModule;
+import org.michaelbel.moviemade.data.di.module.NetworkModule;
 import org.michaelbel.moviemade.utils.DeviceUtil;
 
 import shortbread.Shortbread;
@@ -74,7 +74,7 @@ public class Moviemade extends Application {
     }
 
     public FragmentComponent getFragmentComponent() {
-        fragmentComponent = getComponent().plus(new FragmentModule(this));
+        fragmentComponent = getComponent().plus(new FragmentModule());
         return fragmentComponent;
     }
 

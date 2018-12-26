@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.data.injection.module;
+package org.michaelbel.moviemade.data.di.module;
 
 import android.app.Application;
 import android.content.Context;

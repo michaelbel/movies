@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.ui.base
 
-import android.content.SharedPreferences
 import android.view.View
 import androidx.fragment.app.Fragment
 import org.michaelbel.moviemade.data.entity.Keyword
@@ -9,15 +8,11 @@ import org.michaelbel.moviemade.data.entity.Review
 
 interface BaseContract {
 
-    fun getSharedPreferences() : SharedPreferences
-
-    interface BaseView {
-        fun startFragment(fragment: Fragment, container: View)
-        fun startFragment(fragment: Fragment, containerId: Int)
-        fun startFragment(fragment: Fragment, container: View, tag: String)
-        fun startFragment(fragment: Fragment, containerId: Int, tag: String)
-        fun finishFragment()
-    }
+    fun startFragment(fragment: Fragment, container: View)
+    fun startFragment(fragment: Fragment, containerId: Int)
+    fun startFragment(fragment: Fragment, container: View, tag: String)
+    fun startFragment(fragment: Fragment, containerId: Int, tag: String)
+    fun finishFragment()
 
     interface MediaView {
         fun startMovie(movie: Movie)
