@@ -1,10 +1,8 @@
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".ui.modules.movie.MovieActivity">
+    android:layout_height="match_parent">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -46,7 +44,6 @@
                     app:layout_scrollFlags="scroll|enterAlways"
                     app:layout_collapseMode="pin">
 
-                    <!--FIXME remove lines, maxLines, ellipsize-->
                     <androidx.appcompat.widget.AppCompatTextView
                         android:id="@+id/toolbar_title"
                         android:layout_width="match_parent"
@@ -69,14 +66,13 @@
             android:layout_height="match_parent"
             android:scrollbars="none"
             android:clipToPadding="false"
-            android:background="@color/background"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <fragment
                 android:id="@+id/fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:name="org.michaelbel.moviemade.ui.modules.movie.MovieFragment"/>
+                android:name="org.michaelbel.moviemade.presentation.features.movie.MovieFragment"/>
 
         </androidx.core.widget.NestedScrollView>
 
@@ -86,7 +82,7 @@
         android:id="@+id/full_background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/md_black"
+        android:background="?android:attr/shadowColor"
         android:visibility="invisible"/>
 
     <androidx.viewpager.widget.ViewPager
@@ -100,7 +96,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_margin="16dp"
-        android:shadowColor="#000000"
+        android:shadowColor="?android:attr/shadowColor"
         android:shadowRadius="4"
         android:textColor="?android:textColorPrimaryInverse"
         android:textSize="16sp"
@@ -117,7 +113,7 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/full_image_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
+        android:layout_height="?actionBarSize"
         android:background="@color/transparent20"
         android:visibility="invisible"
         app:navigationIcon="@drawable/ic_arrow_back"/>

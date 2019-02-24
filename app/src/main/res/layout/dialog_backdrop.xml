@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:cardBackgroundColor="@color/foreground"
+    app:cardBackgroundColor="?android:attr/colorForeground"
     app:cardCornerRadius="8dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        tools:context=".ui.modules.movie.MovieActivity"
+        tools:context=".presentation.features.movie.MovieActivity"
         tools:showIn="@layout/activity_movie">
 
         <androidx.appcompat.widget.AppCompatTextView
@@ -32,7 +32,7 @@
             android:layout_height="48dp"
             android:layout_gravity="center_horizontal"
             android:textSize="20sp"
-            android:textColor="@color/primaryText"
+            android:textColor="?android:attr/textColorPrimary"
             android:fontFamily="sans-serif-medium"
             android:foreground="?attr/selectableItemBackground"
             android:gravity="center"
@@ -45,7 +45,7 @@
             android:layout_height="48dp"
             android:layout_gravity="center_horizontal"
             android:textSize="20sp"
-            android:textColor="@color/primaryText"
+            android:textColor="?android:attr/textColorPrimary"
             android:fontFamily="sans-serif-medium"
             android:foreground="?attr/selectableItemBackground"
             android:gravity="center"

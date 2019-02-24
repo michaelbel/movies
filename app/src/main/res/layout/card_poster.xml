@@ -1,10 +1,7 @@
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/cardview"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:cardBackgroundColor="@color/primary">
+    android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/poster"
@@ -13,4 +10,4 @@
         android:scaleType="fitXY"
         android:foreground="?attr/selectableItemBackground"/>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

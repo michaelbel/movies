@@ -9,7 +9,6 @@
         android:id="@+id/icon_view"
         android:layout_width="@dimen/cell_icon_size"
         android:layout_height="@dimen/cell_icon_size"
-        android:contentDescription="@string/image_description"
         android:layout_gravity="start|center_vertical"
         android:layout_marginStart="@dimen/cell_icon_margin_start"
         tools:src="@drawable/ic_calendar"/>
@@ -21,7 +20,7 @@
         android:layout_gravity="start|center_vertical"
         android:layout_marginStart="@dimen/cell_text_margin_start"
         android:textSize="@dimen/cell_text_size"
-        android:textColor="@color/primaryText"
+        android:textColor="?android:attr/textColorPrimary"
         android:fontFamily="sans-serif-medium"
         android:lines="1"
         android:maxLines="1"
@@ -34,6 +33,6 @@
         android:layout_height="@dimen/height_divider"
         android:layout_gravity="bottom"
         android:layout_marginStart="54dp"
-        android:background="@color/divider"/>
+        android:background="?android:attr/divider"/>
 
 </FrameLayout>

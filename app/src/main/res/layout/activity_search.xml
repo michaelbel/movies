@@ -1,7 +1,6 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -20,17 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
-                android:inputType="text"
-                android:lines="1"
-                android:maxLines="1"
-                android:hint="@string/search"
-                android:typeface="normal"
-                android:ellipsize="end"
-                android:imeOptions="actionSearch|flagNoExtractUi"
-                android:textSize="18sp"
-                android:textColor="@color/primaryText"
-                android:textColorHint="@color/disabledHintText"
-                tools:ignore="Autofill"/>
+                style="@style/SearchView"/>
 
         </androidx.appcompat.widget.Toolbar>
 
@@ -41,12 +30,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
-    <View
-        android:id="@+id/shadow_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/transparent40"
-        android:visibility="invisible"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

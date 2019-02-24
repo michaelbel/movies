@@ -20,7 +20,7 @@
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
             android:scaleType="fitXY"
-            android:background="@color/background"
+            android:background="?android:attr/windowBackground"
             tools:src="@mipmap/ic_launcher"/>
 
         <!--Username-->
@@ -32,7 +32,7 @@
             android:layout_marginEnd="16dp"
             app:cardCornerRadius="6dp"
             app:cardElevation="2dp"
-            app:cardBackgroundColor="@color/foreground">
+            app:cardBackgroundColor="?android:attr/colorForeground">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/username_field"
@@ -43,8 +43,8 @@
                 android:layout_marginEnd="12dp"
                 android:hint="@string/username"
                 android:textSize="16sp"
-                android:textColor="@color/primaryText"
-                android:textColorHint="@color/disabledHintText"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textColorHint="?android:attr/textColorHint"
                 android:lines="1"
                 android:maxLines="1"
                 android:imeOptions="actionNext|flagNoExtractUi"
@@ -61,7 +61,7 @@
             android:layout_marginEnd="16dp"
             app:cardCornerRadius="6dp"
             app:cardElevation="2dp"
-            app:cardBackgroundColor="@color/foreground">
+            app:cardBackgroundColor="?android:attr/colorForeground">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/password_field"
@@ -72,8 +72,8 @@
                 android:layout_marginEnd="12dp"
                 android:hint="@string/password"
                 android:textSize="16sp"
-                android:textColor="@color/primaryText"
-                android:textColorHint="@color/disabledHintText"
+                android:textColor="?android:attr/textColorPrimary"
+                android:textColorHint="?android:attr/textColorHint"
                 android:lines="1"
                 android:maxLines="1"
                 android:imeOptions="actionDone|flagNoExtractUi"
@@ -82,38 +82,22 @@
         </androidx.cardview.widget.CardView>
 
         <!--Reset Password-->
-        <androidx.cardview.widget.CardView
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/reset_pass"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
-            android:foreground="?attr/selectableItemBackground"
-            app:cardElevation="0dp"
-            app:cardCornerRadius="14dp"
-            app:cardBackgroundColor="@color/background">
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginStart="11dp"
-                android:layout_marginTop="7dp"
-                android:layout_marginEnd="11dp"
-                android:layout_marginBottom="7dp"
-                android:textSize="14sp"
-                android:textColor="@color/tmdbPrimary"
-                android:text="@string/reset_pass"/>
-
-        </androidx.cardview.widget.CardView>
+            android:layout_marginTop="6dp"
+            android:text="@string/reset_pass"
+            style="@style/Button.Borderless"/>
 
         <!--Sign in up-->
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="6dp"
             android:layout_marginEnd="16dp"
             android:orientation="horizontal"
             android:gravity="center_horizontal">
@@ -129,7 +113,7 @@
                 android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="6dp"
                 app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/foreground">
+                app:cardBackgroundColor="?android:attr/colorForeground">
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
@@ -140,14 +124,14 @@
                     android:layout_marginBottom="2dp"
                     app:cardCornerRadius="6dp"
                     app:cardElevation="0dp"
-                    app:cardBackgroundColor="@color/background">
+                    app:cardBackgroundColor="?android:attr/colorBackground">
 
                     <androidx.appcompat.widget.AppCompatTextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:textSize="16sp"
-                        android:textColor="@color/primaryText"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:text="@string/sign_up"/>
 
                 </androidx.cardview.widget.CardView>
@@ -165,14 +149,14 @@
                 android:foreground="?attr/selectableItemBackground"
                 app:cardCornerRadius="6dp"
                 app:cardElevation="2dp"
-                app:cardBackgroundColor="@color/foreground">
+                app:cardBackgroundColor="?android:attr/colorForeground">
 
                 <androidx.appcompat.widget.AppCompatTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:textSize="16sp"
-                    android:textColor="@color/primaryText"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:text="@string/sign_in"/>
 
             </androidx.cardview.widget.CardView>
@@ -193,7 +177,7 @@
                 android:layout_height="1dp"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:background="@color/divider"/>
+                android:background="?android:attr/divider"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="match_parent"
@@ -201,7 +185,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1.5"
                 android:gravity="center"
-                android:textColor="@color/secondaryText"
+                android:textColor="?android:attr/divider"
                 android:fontFamily="sans-serif-medium"
                 android:textSize="14sp"
                 android:text="@string/divider_or"/>
@@ -211,7 +195,7 @@
                 android:layout_height="1dp"
                 android:layout_gravity="center_vertical"
                 android:layout_weight="1"
-                android:background="@color/divider"/>
+                android:background="?android:attr/divider"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -226,19 +210,19 @@
             android:foreground="?attr/selectableItemBackground"
             app:cardCornerRadius="6dp"
             app:cardElevation="2dp"
-            app:cardBackgroundColor="@color/foreground">
+            app:cardBackgroundColor="?android:attr/colorForeground">
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="16sp"
-                android:textColor="@color/primaryText"
+                android:textColor="?android:attr/textColorPrimary"
                 android:text="@string/login_with_tmdb"/>
 
         </androidx.cardview.widget.CardView>
 
-        <!--Terms and Policy-->
+        <!--Terms and Privacy-->
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -249,62 +233,20 @@
             android:gravity="center_horizontal">
 
             <!--Terms of Use-->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/terms_card"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/terms_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:foreground="?attr/selectableItemBackground"
-                app:cardElevation="0dp"
-                app:cardCornerRadius="14dp"
-                app:cardBackgroundColor="@color/background">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="11dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginEnd="11dp"
-                    android:layout_marginBottom="7dp"
-                    android:textSize="14sp"
-                    android:textColor="@color/tmdbPrimary"
-                    android:text="@string/terms_of_use"/>
-
-            </androidx.cardview.widget.CardView>
-
-            <View
-                android:layout_width="2.5dp"
-                android:layout_height="2.5dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginStart="3dp"
-                android:layout_marginEnd="3dp"
-                android:background="@drawable/dot"/>
+                android:text="@string/terms_of_use"
+                style="@style/Button.Borderless"/>
 
             <!--Privacy Policy-->
-            <androidx.cardview.widget.CardView
-                android:id="@+id/policy_card"
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/privacy_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:foreground="?attr/selectableItemBackground"
-                app:cardElevation="0dp"
-                app:cardCornerRadius="14dp"
-                app:cardBackgroundColor="@color/background">
-
-                <androidx.appcompat.widget.AppCompatTextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="11dp"
-                    android:layout_marginTop="7dp"
-                    android:layout_marginEnd="11dp"
-                    android:layout_marginBottom="7dp"
-                    android:textSize="14sp"
-                    android:textColor="@color/tmdbPrimary"
-                    android:text="@string/privacy_policy"/>
-
-            </androidx.cardview.widget.CardView>
+                android:text="@string/privacy_policy"
+                style="@style/Button.Borderless"/>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 

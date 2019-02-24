@@ -25,13 +25,14 @@
             android:gravity="center"
             android:scaleType="fitXY"/>
 
-        <org.michaelbel.moviemade.ui.widgets.bottombar.BadgeTextView
+        <org.michaelbel.moviemade.presentation.common.bottombar.BadgeTextView
             android:id="@+id/fixed_bottom_navigation_badge"
             style="@style/BadgeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="top|end"
             android:gravity="center"/>
+
     </FrameLayout>
 
     <androidx.appcompat.widget.AppCompatTextView

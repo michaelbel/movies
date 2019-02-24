@@ -24,5 +24,90 @@
   <public name="behavior_fitToContents" type="attr"/>
   <public name="Animation.Design.BottomSheetDialog" type="style"/>
   <public name="Widget.Design.BottomSheet.Modal" type="style"/>
+
+  <!--BottomNavBar-->
+  <style name="BadgeText" parent="TextAppearance.AppCompat.Body2">
+    <item name="android:textSize">@dimen/badge_text_size</item>
+    <item name="android:includeFontPadding">false</item>
+    <item name="android:maxLines">1</item>
+    <item name="android:layout_marginTop">@dimen/badge_top_margin</item>
+    <item name="android:paddingRight">@dimen/badge_width_padding</item>
+    <item name="android:paddingLeft">@dimen/badge_width_padding</item>
+    <item name="android:paddingBottom">@dimen/badge_height_padding</item>
+    <item name="android:paddingTop">@dimen/badge_height_padding</item>
+    <item name="android:visibility">gone</item>
+  </style>
+
+  <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
+    <item name="android:background">@drawable/bottom_sheet</item>
+  </style>
+
+  <style name="BottomSheetTheme" parent="@style/Theme.Design.Light.BottomSheetDialog">
+    <item name="bottomSheetStyle">@style/BottomSheet</item>
+  </style>
+
+
+
+
+
+
+  <!-- Margins -->
+  <dimen name="space_left_right">16dp</dimen>
+  <dimen name="space_top_bottom">16dp</dimen>
+  <dimen name="space_top_bottom_plus_statusbar">40dp</dimen>
+  <dimen name="space_poster_margin_top">100dp</dimen>
+  <dimen name="space_poster_margin_bottom">24dp</dimen>
+
+  <!-- View Sizes -->
+  <dimen name="image_poster_width">120dp</dimen>
+  <dimen name="image_poster_height">176dp</dimen>
+  <dimen name="image_poster_width_landscape">96dp</dimen>
+  <dimen name="image_poster_height_landscape">141dp</dimen>
+
+  <dimen name="image_header_height">170dp</dimen>
+
+  <dimen name="layout_episode_number">50dp</dimen>
+  <dimen name="layout_season_rating">60dp</dimen>
+
+  <dimen name="view_progress_size">24dp</dimen>
+
+  <!-- Text Sizes (sp) -->
+  <dimen name="text_season_rating">24sp</dimen>
+  <dimen name="text_episodes_header">24sp</dimen>
+  <dimen name="text_episode_number">18sp</dimen>
+  <dimen name="text_episode_title">20sp</dimen>
+
+  <dimen name="text_toolbar_title_collapsed">20sp</dimen>
+
+  <color name="background_episode_number">#9B9B9B</color>
+  <color name="background_layout">#E7E7E7</color>
+  <color name="background_rating">@color/primary</color>
+
+  <color name="text_episodes_header">@color/background_episode_number</color>
+  <color name="text_episode_title">#3E3E3E</color>
+
+  <color name="white">#FFFFFF</color>
+
+  <style name="Animation.Design.BottomSheetDialog" parent="Animation.AppCompat.Dialog">
+    <item name="android:windowEnterAnimation">@anim/design_bottom_sheet_slide_in</item>
+    <item name="android:windowExitAnimation">@anim/design_bottom_sheet_slide_out</item>
+  </style>
+
+  <style name="Animation.MaterialComponents.BottomSheetDialog" parent="Animation.AppCompat.Dialog">
+    <item name="android:windowEnterAnimation">@anim/mtrl_bottom_sheet_slide_in</item>
+    <item name="android:windowExitAnimation">@anim/mtrl_bottom_sheet_slide_out</item>
+  </style>
+
+  <style name="Widget.Design.BottomSheet.Modal" parent="android:Widget">
+    <item name="android:background">?android:attr/colorBackground</item>
+    <item name="android:elevation">
+      @dimen/design_bottom_sheet_modal_elevation
+    </item>
+    <item name="behavior_peekHeight">auto</item>
+    <item name="behavior_hideable">true</item>
+    <item name="behavior_skipCollapsed">false</item>
+  </style>
+
+  <style name="Widget.MaterialComponents.BottomSheet.Modal" parent="Widget.Design.BottomSheet.Modal" />
 </resources>
 

@@ -1,5 +1,9 @@
 <!--Portrait Phone-->
 <resources>
+    <!--settings-->
+    <dimen name="settings_preference_divider_height">1px</dimen>
+    <dimen name="settings_preference_divider_margin">14dp</dimen>
+
     <!--layout/activity_subtitle-->
     <dimen name="text_size_title">18sp</dimen>
     <dimen name="text_size_subtitle">14sp</dimen>

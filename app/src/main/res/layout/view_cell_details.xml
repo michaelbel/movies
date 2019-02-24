@@ -14,7 +14,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="16dp"
         android:textSize="16sp"
-        android:textColor="@color/primaryText"
+        android:textColor="?android:attr/textColorPrimary"
         android:fontFamily="sans-serif-medium"
         android:lines="1"
         android:maxLines="1"
@@ -31,7 +31,7 @@
         android:layout_marginTop="35dp"
         android:layout_marginEnd="16dp"
         android:textSize="13sp"
-        android:textColor="@color/secondaryText"
+        android:textColor="?android:attr/textColorSecondary"
         android:lines="1"
         android:maxLines="1"
         android:singleLine="true"
@@ -44,6 +44,6 @@
         android:layout_height="1px"
         android:layout_gravity="bottom"
         android:layout_marginStart="14dp"
-        android:background="@color/divider"/>
+        android:background="?android:attr/divider"/>
 
 </FrameLayout>

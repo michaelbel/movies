@@ -1,4 +1,4 @@
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,12 +6,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_marginEnd="1dp"
-    android:foreground="?attr/selectableItemBackground"
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="false"
-    app:cardCornerRadius="11dp"
-    app:cardElevation="2dp"
-    app:cardBackgroundColor="@color/foreground">
+    app:cardCornerRadius="11dp">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/chip_name"
@@ -23,10 +20,10 @@
         android:layout_marginEnd="12dp"
         android:layout_marginBottom="4dp"
         android:textSize="16sp"
-        android:textColor="@color/secondaryText"
+        android:textColor="?android:attr/textColorSecondary"
         android:fontFamily="sans-serif-medium"
         android:ellipsize="end"
         android:maxLines="1"
         tools:text="Adventure"/>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

@@ -3,10 +3,9 @@
     android:id="@+id/scroll_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
     android:scrollbars="vertical">
 
-    <org.michaelbel.moviemade.ui.modules.reviews.GestureTextView
+    <org.michaelbel.moviemade.presentation.features.reviews.GestureTextView
         android:id="@+id/review_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

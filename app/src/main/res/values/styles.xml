@@ -1,104 +1,86 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!--Application Theme-->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryDark">@color/primaryDark</item>
-        <item name="colorAccent">@color/accent</item>
+<resources>
+    <!--Launcher-->
+    <style name="AppTheme.Launcher" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:windowBackground">@drawable/preview_window</item>
     </style>
 
-    <!--MainActivity2 Theme-->
-    <style name="AppThemeTransparentStatusBar" parent="Theme.AppCompat.NoActionBar">
+    <!--Base Theme-->
+    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <!--Colors-->
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primaryDark</item>
         <item name="colorAccent">@color/accent</item>
+        <item name="android:statusBarColor">?colorPrimaryDark</item>
+        <item name="android:windowBackground">@color/backgroundColor</item>
+        <item name="android:colorBackground">@color/backgroundColor</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        <item name="android:listDivider">@color/dividerColor</item>
+        <item name="android:divider">@color/dividerColor</item>
+        <item name="android:textColorHint">@color/textColorHint</item>
+        <item name="android:shadowColor">@color/shadowColor</item>
+        <!--Styles-->
+        <item name="switchStyle">@style/Widget.Moviemade.Switch</item>
+        <item name="materialCardViewStyle">@style/Widget.Moviemade.Card</item>
+
+        <item name="android:windowLightStatusBar">false</item><!--Fixme: override res in values-v23-->
+        <!--<item name="android:windowContentOverlay">@null</item>-->
+    </style>
+
+    <!--MainActivity Theme-->
+    <style name="AppTheme.TransparentStatusBar" parent="AppTheme">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="windowNoTitle">true</item>
     </style>
 
-    <!--BottomNavBar-->
-    <style name="BadgeText" parent="TextAppearance.AppCompat.Body2">
-        <item name="android:textSize">@dimen/badge_text_size</item>
-        <item name="android:includeFontPadding">false</item>
+    <!--CardView-->
+    <style name="Widget.Moviemade.Card" parent="Widget.MaterialComponents.CardView">
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="cardBackgroundColor">@color/foregroundColor</item>
+    </style>
+
+    <!--SwitchCompat-->
+    <style name="Widget.Moviemade.Switch" parent="Widget.AppCompat.CompoundButton.Switch">
+        <item name="colorControlActivated">?colorAccent</item>
+    </style>
+
+    <style name="SearchView">
+        <item name="android:inputType">text</item>
+        <item name="android:imeOptions">actionSearch|flagNoExtractUi</item>
+        <item name="android:lines">1</item>
         <item name="android:maxLines">1</item>
-        <item name="android:layout_marginTop">@dimen/badge_top_margin</item>
-        <item name="android:paddingRight">@dimen/badge_width_padding</item>
-        <item name="android:paddingLeft">@dimen/badge_width_padding</item>
-        <item name="android:paddingBottom">@dimen/badge_height_padding</item>
-        <item name="android:paddingTop">@dimen/badge_height_padding</item>
-        <item name="android:visibility">gone</item>
+        <item name="android:hint">@string/search</item>
+        <item name="android:typeface">normal</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
+        <item name="android:textColorHint">?android:attr/textColorHint</item>
     </style>
 
-    <style name="BottomSheet" parent="@style/Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@drawable/bottom_sheet</item>
+    <style name="ToolbarTitle">
+        <item name="android:lines">1</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textSize">18sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+        <item name="android:textColor">?android:attr/textColorPrimary</item>
     </style>
 
-    <style name="BottomSheetTheme" parent="@style/Theme.Design.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/BottomSheet</item>
+    <style name="ToolbarSubtitle">
+        <item name="android:lines">1</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">?android:attr/textColorSecondary</item>
     </style>
 
-
-
-
-
-
-    <!-- Margins -->
-    <dimen name="space_left_right">16dp</dimen>
-    <dimen name="space_top_bottom">16dp</dimen>
-    <dimen name="space_top_bottom_plus_statusbar">40dp</dimen>
-    <dimen name="space_poster_margin_top">100dp</dimen>
-    <dimen name="space_poster_margin_bottom">24dp</dimen>
-
-    <!-- View Sizes -->
-    <dimen name="image_poster_width">120dp</dimen>
-    <dimen name="image_poster_height">176dp</dimen>
-    <dimen name="image_poster_width_landscape">96dp</dimen>
-    <dimen name="image_poster_height_landscape">141dp</dimen>
-
-    <dimen name="image_header_height">170dp</dimen>
-
-    <dimen name="layout_episode_number">50dp</dimen>
-    <dimen name="layout_season_rating">60dp</dimen>
-
-    <dimen name="view_progress_size">24dp</dimen>
-
-    <!-- Text Sizes (sp) -->
-    <dimen name="text_season_rating">24sp</dimen>
-    <dimen name="text_episodes_header">24sp</dimen>
-    <dimen name="text_episode_number">18sp</dimen>
-    <dimen name="text_episode_title">20sp</dimen>
-
-    <dimen name="text_toolbar_title_collapsed">20sp</dimen>
-
-    <color name="background_episode_number">#9B9B9B</color>
-    <color name="background_layout">#E7E7E7</color>
-    <color name="background_rating">@color/primary</color>
-
-    <color name="text_episodes_header">@color/background_episode_number</color>
-    <color name="text_episode_title">#3E3E3E</color>
-
-    <color name="white">#FFFFFF</color>
-
-
-    <style name="Animation.Design.BottomSheetDialog" parent="Animation.AppCompat.Dialog">
-        <item name="android:windowEnterAnimation">@anim/design_bottom_sheet_slide_in</item>
-        <item name="android:windowExitAnimation">@anim/design_bottom_sheet_slide_out</item>
+    <style name="Button.Borderless" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:textColor">@color/tmdbPrimary</item>
     </style>
 
-    <style name="Animation.MaterialComponents.BottomSheetDialog" parent="Animation.AppCompat.Dialog">
-        <item name="android:windowEnterAnimation">@anim/mtrl_bottom_sheet_slide_in</item>
-        <item name="android:windowExitAnimation">@anim/mtrl_bottom_sheet_slide_out</item>
-    </style>
-
-    <style name="Widget.Design.BottomSheet.Modal" parent="android:Widget">
-        <item name="android:background">?android:attr/colorBackground</item>
-        <item name="android:elevation" tools:ignore="NewApi">
-            @dimen/design_bottom_sheet_modal_elevation
-        </item>
-        <item name="behavior_peekHeight">auto</item>
-        <item name="behavior_hideable">true</item>
-        <item name="behavior_skipCollapsed">false</item>
-    </style>
-
-    <style name="Widget.MaterialComponents.BottomSheet.Modal" parent="Widget.Design.BottomSheet.Modal" />
 </resources>

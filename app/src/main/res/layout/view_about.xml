@@ -10,29 +10,28 @@
     <androidx.appcompat.widget.AppCompatImageView
         android:layout_width="@dimen/view_about_launcher_icon_size"
         android:layout_height="@dimen/view_about_launcher_icon_size"
-        android:contentDescription="@string/image_description"
         android:layout_gravity="center_horizontal"
         app:srcCompat="@mipmap/ic_launcher_round"/>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/app_name_text"
+        android:id="@+id/appName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/view_about_name_margin_top"
         android:textSize="@dimen/view_about_name_text_size"
-        android:textColor="@color/secondaryText"
+        android:textColor="?android:attr/textColorSecondary"
         android:fontFamily="sans-serif-medium"
         tools:text="Moviemade for Android"/>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/version_text"
+        android:id="@+id/versionText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="@dimen/view_about_version_margin_top"
         android:textSize="@dimen/view_about_version_text_size"
-        android:textColor="@color/secondaryText"
+        android:textColor="?android:attr/textColorSecondary"
         android:fontFamily="sans-serif"
         tools:text="Version 0.3.9 (Build) of 17 Now 2018"/>
 
