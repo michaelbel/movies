@@ -4,7 +4,7 @@
     android:id="@+id/expand_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/background"
+    android:background="?android:attr/windowBackground"
     android:foreground="?attr/selectableItemBackground">
 
     <LinearLayout
@@ -28,7 +28,7 @@
                     android:layout_marginStart="16dp"
                     android:textSize="16sp"
                     android:maxLines="1"
-                    android:textColor="@color/primaryText" />
+                    android:textColor="?android:attr/textColorPrimary"/>
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/arrow"
@@ -55,6 +55,6 @@
         android:layout_height="1px"
         android:layout_gravity="bottom"
         android:layout_marginStart="14dp"
-        android:background="@color/divider"/>
+        android:background="?android:attr/divider"/>
 
 </FrameLayout>

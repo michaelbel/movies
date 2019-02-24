@@ -1,7 +1,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <shape android:shape="oval">
-            <solid android:color="@color/secondaryText"/>
+            <solid android:color="?android:attr/divider"/>
         </shape>
     </item>
 </selector>

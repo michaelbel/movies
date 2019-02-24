@@ -1,8 +1,7 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background">
+    android:layout_height="match_parent">
 
     <ProgressBar
         android:id="@+id/progress_bar"
@@ -10,15 +9,13 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
 
-    <org.michaelbel.moviemade.ui.widgets.EmptyView
+    <org.michaelbel.moviemade.presentation.common.EmptyView
         android:id="@+id/empty_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginStart="24dp"
-        android:layout_marginEnd="24dp"/>
+        android:layout_gravity="center"/>
 
-    <org.michaelbel.moviemade.ui.widgets.RecyclerListView
+    <org.michaelbel.moviemade.presentation.common.RecyclerListView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

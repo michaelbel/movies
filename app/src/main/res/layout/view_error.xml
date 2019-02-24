@@ -1,0 +1,59 @@
+<androidx.appcompat.widget.LinearLayoutCompat
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/error_icon"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        tools:src="@drawable/ic_review"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/error_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="@color/errorColor"
+        android:textSize="20sp"
+        android:visibility="gone"
+        tools:text="No movies to show"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/text_error_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+        android:text="@string/error_invalid_data"
+        android:textColor="@color/errorColor"
+        android:textSize="16sp"
+        android:visibility="gone"
+        tools:text="No movies to show overview alala ololo hahaha ho-ho-ho happy new year merry christmas everyone!"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/button_reload"
+        style="@style/Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:textColor="@color/accent_blue"
+        android:textSize="16sp"
+        android:text="@string/retry"/>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

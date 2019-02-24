@@ -1,3 +1,4 @@
+<!--fixme constraint layout-->
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -25,8 +26,7 @@
                 android:layout_gravity="start|top"
                 android:layout_marginStart="@dimen/poster_image_margin_start"
                 android:layout_marginTop="@dimen/poster_image_margin_top"
-                android:layout_marginBottom="@dimen/poster_image_margin_bottom"
-                android:contentDescription="@string/image_description" />
+                android:layout_marginBottom="@dimen/poster_image_margin_bottom"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:id="@+id/info_layout"
@@ -44,7 +44,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <org.michaelbel.moviemade.ui.modules.movie.views.RatingView
+                    <org.michaelbel.moviemade.presentation.features.movie.views.RatingView
                         android:id="@+id/rating_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
                         android:layout_gravity="start|center_vertical"
                         android:layout_marginStart="@dimen/rating_text_margin_start"
                         android:textSize="@dimen/rating_text_size"
-                        android:textColor="@color/primaryText"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:fontFamily="sans-serif-medium"
                         tools:text="8.5"/>
 
@@ -74,7 +74,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|bottom"
                             android:textSize="@dimen/vote_count_text_size"
-                            android:textColor="@color/primaryText"
+                            android:textColor="?android:attr/textColorPrimary"
                             android:fontFamily="sans-serif-medium"
                             tools:text="2568"/>
 
@@ -85,7 +85,6 @@
                             android:layout_gravity="start|bottom"
                             android:layout_marginStart="@dimen/vote_count_icon_margin_start"
                             android:layout_marginBottom="@dimen/vote_count_icon_margin_bottom"
-                            android:contentDescription="@string/image_description"
                             app:srcCompat="@drawable/ic_account_multiple"/>
 
                     </androidx.appcompat.widget.LinearLayoutCompat>
@@ -97,15 +96,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="12dp"
-                    tools:ignore="UseCompoundDrawables">
+                    android:layout_marginTop="12dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/release_date_icon"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center_vertical"
-                        android:contentDescription="@string/image_description"
                         tools:src="@drawable/ic_calendar"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -115,7 +112,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="6dp"
                         android:textSize="15sp"
-                        android:textColor="@color/primaryText"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:fontFamily="sans-serif-medium"
                         android:maxLines="1"
                         tools:text="25 Oct 2018"/>
@@ -127,15 +124,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="12dp"
-                    tools:ignore="UseCompoundDrawables">
+                    android:layout_marginTop="12dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/runtime_icon"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center_vertical"
-                        android:contentDescription="@string/image_description"
                         tools:src="@drawable/ic_clock"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -145,7 +140,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="6dp"
                         android:textSize="15sp"
-                        android:textColor="@color/primaryText"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:fontFamily="sans-serif-medium"
                         android:maxLines="1"
                         tools:text="2:15 / 135 min"/>
@@ -157,15 +152,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:layout_marginTop="12dp"
-                    tools:ignore="UseCompoundDrawables">
+                    android:layout_marginTop="12dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
                         android:id="@+id/lang_icon"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="start|center_vertical"
-                        android:contentDescription="@string/image_description"
                         tools:src="@drawable/ic_earth"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -175,7 +168,7 @@
                         android:layout_gravity="center_vertical"
                         android:layout_marginStart="6dp"
                         android:textSize="15sp"
-                        android:textColor="@color/primaryText"
+                        android:textColor="?android:attr/textColorPrimary"
                         android:fontFamily="sans-serif-medium"
                         android:maxLines="1"
                         tools:text="English"/>
@@ -191,14 +184,14 @@
                     android:orientation="horizontal">
 
                     <!--Watchlist-->
-                    <androidx.cardview.widget.CardView
+                    <com.google.android.material.card.MaterialCardView
                         android:id="@+id/watchlist_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:foreground="?attr/selectableItemBackground"
                         app:cardElevation="0dp"
                         app:cardCornerRadius="16dp"
-                        app:cardBackgroundColor="@color/background">
+                        app:cardBackgroundColor="?android:attr/colorBackground">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="wrap_content"
@@ -214,7 +207,6 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:layout_gravity="center_horizontal"
-                                android:contentDescription="@string/image_description"
                                 tools:src="@drawable/ic_bookmark_outline" />
 
                             <androidx.appcompat.widget.AppCompatTextView
@@ -226,23 +218,23 @@
                                 android:lines="1"
                                 android:maxLines="1"
                                 android:singleLine="true"
-                                android:textColor="@color/primaryText"
+                                android:textColor="?android:attr/textColorPrimary"
                                 android:textSize="14sp"
                                 android:text="@string/watchlist"/>
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    </androidx.cardview.widget.CardView>
+                    </com.google.android.material.card.MaterialCardView>
 
                     <!--Favorites-->
-                    <androidx.cardview.widget.CardView
+                    <com.google.android.material.card.MaterialCardView
                         android:id="@+id/favorites_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:foreground="?attr/selectableItemBackground"
                         app:cardElevation="0dp"
                         app:cardCornerRadius="16dp"
-                        app:cardBackgroundColor="@color/background">
+                        app:cardBackgroundColor="?android:attr/colorBackground">
 
                         <androidx.appcompat.widget.LinearLayoutCompat
                             android:layout_width="wrap_content"
@@ -258,8 +250,7 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:layout_gravity="center_horizontal"
-                                android:contentDescription="@string/image_description"
-                                tools:src="@drawable/ic_heart_outline" />
+                                tools:src="@drawable/ic_heart_outline"/>
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/favorites_text"
@@ -270,13 +261,13 @@
                                 android:lines="1"
                                 android:maxLines="1"
                                 android:singleLine="true"
-                                android:textColor="@color/primaryText"
+                                android:textColor="?android:attr/textColorPrimary"
                                 android:textSize="14sp"
                                 android:text="@string/favorites"/>
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    </androidx.cardview.widget.CardView>
+                    </com.google.android.material.card.MaterialCardView>
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -297,7 +288,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="24sp"
-                    android:textColor="@color/primaryText"
+                    android:textColor="?android:attr/textColorPrimary"
                     android:fontFamily="sans-serif-medium"
                     android:textIsSelectable="true"
                     tools:text="Movie Title"/>
@@ -307,17 +298,16 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
-                    android:textColor="@color/secondaryText"
+                    android:textColor="?android:attr/textColorSecondary"
                     android:fontFamily="sans-serif-medium"
                     android:textIsSelectable="true"
                     tools:text="Movie tagline"/>
 
-                <org.michaelbel.moviemade.ui.widgets.RecyclerListView
+                <org.michaelbel.moviemade.presentation.common.RecyclerListView
                     android:id="@+id/genres_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:layoutDirection="ltr"/>
+                    android:layout_marginTop="8dp"/>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -330,7 +320,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/divider"/>
+            android:background="?android:attr/divider"/>
 
         <!--Overview-->
         <androidx.appcompat.widget.AppCompatTextView
@@ -340,7 +330,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:textSize="16sp"
-            android:textColor="@color/secondaryText"
+            android:textColor="?android:attr/textColorSecondary"
             android:fontFamily="sans-serif"
             android:textIsSelectable="true"
             tools:text="Movie overview here"/>
@@ -352,7 +342,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/divider"/>
+            android:background="?android:attr/divider"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/crew_layout"
@@ -366,7 +356,7 @@
                 android:id="@+id/starring_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/secondaryText"
+                android:textColor="?android:attr/textColorSecondary"
                 android:textIsSelectable="true"
                 android:textSize="16sp"
                 tools:text="Starring: John Smith"/>
@@ -376,7 +366,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:textColor="@color/secondaryText"
+                android:textColor="?android:attr/textColorSecondary"
                 android:textIsSelectable="true"
                 android:textSize="16sp"
                 tools:text="Directed by: John Smith"/>
@@ -386,7 +376,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:textColor="@color/secondaryText"
+                android:textColor="?android:attr/textColorSecondary"
                 android:textIsSelectable="true"
                 android:textSize="16sp"
                 tools:text="Written by: John Smith"/>
@@ -396,7 +386,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
-                android:textColor="@color/secondaryText"
+                android:textColor="?android:attr/textColorSecondary"
                 android:textIsSelectable="true"
                 android:textSize="16sp"
                 tools:text="Produced by: John Smith"/>
@@ -410,18 +400,18 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="10dp"
-            android:background="@color/divider"/>
+            android:background="?android:attr/divider"/>
 
         <!--Trailers-->
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/trailers_text"
+            android:id="@+id/trailers_btn"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:textSize="20sp"
-            android:textColor="@color/primaryText"
+            android:textColor="?android:attr/textColorPrimary"
             android:fontFamily="sans-serif-medium"
             android:foreground="?attr/selectableItemBackground"
             android:gravity="center_vertical"
@@ -437,7 +427,7 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:textSize="20sp"
-            android:textColor="@color/primaryText"
+            android:textColor="?android:attr/textColorPrimary"
             android:fontFamily="sans-serif-medium"
             android:foreground="?attr/selectableItemBackground"
             android:gravity="center_vertical"
@@ -453,7 +443,7 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:textSize="20sp"
-            android:textColor="@color/primaryText"
+            android:textColor="?android:attr/textColorPrimary"
             android:fontFamily="sans-serif-medium"
             android:foreground="?attr/selectableItemBackground"
             android:gravity="center_vertical"
@@ -469,7 +459,7 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:textSize="20sp"
-            android:textColor="@color/primaryText"
+            android:textColor="?android:attr/textColorPrimary"
             android:fontFamily="sans-serif-medium"
             android:foreground="?attr/selectableItemBackground"
             android:gravity="center_vertical"
@@ -486,20 +476,20 @@
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
             android:textSize="20sp"
-            android:textColor="@color/primaryText"
+            android:textColor="?android:attr/textColorPrimary"
             android:fontFamily="sans-serif-medium"
             android:foreground="?attr/selectableItemBackground"
             android:gravity="center_vertical"
             android:maxLines="1"
             android:text="@string/recommendations"/>
 
-        <com.google.android.gms.ads.AdView
+        <!--<com.google.android.gms.ads.AdView
             android:id="@+id/ad_view"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_gravity="center_horizontal"
             app:adSize="BANNER"
-            app:adUnitId="@string/banner_ad_unit_id"/>
+            app:adUnitId="@string/banner_ad_unit_id"/>-->
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

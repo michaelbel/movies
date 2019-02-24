@@ -6,15 +6,14 @@
     android:layout_height="wrap_content">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/powered_text"
+        android:id="@+id/poweredText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
         android:layout_gravity="center"
         android:gravity="center"
         android:padding="@dimen/view_powered_text_padding"
         android:textSize="@dimen/view_powered_text_size"
-        android:textColor="@color/secondaryText"
+        android:textColor="?android:attr/textColorSecondary"
         tools:text="Powered with Themoviedb.org"/>
 
 </FrameLayout>

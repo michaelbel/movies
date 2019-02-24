@@ -14,7 +14,7 @@
         android:layout_marginTop="@dimen/cell_details_text_margin_top"
         android:layout_marginEnd="@dimen/cell_details_text_margin_start"
         android:textSize="@dimen/cell_details_text_size"
-        android:textColor="@color/primaryText"
+        android:textColor="?android:attr/textColorPrimary"
         android:fontFamily="sans-serif-medium"
         android:lines="1"
         android:maxLines="1"
@@ -31,7 +31,7 @@
         android:layout_marginTop="@dimen/cell_details_value_margin_top"
         android:layout_marginEnd="@dimen/cell_details_text_margin_start"
         android:textSize="@dimen/cell_details_value_size"
-        android:textColor="@color/secondaryText"
+        android:textColor="?android:attr/textColorSecondary"
         android:lines="1"
         android:maxLines="1"
         android:singleLine="true"
@@ -53,6 +53,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/divider_height"
         android:layout_gravity="bottom"
-        android:background="@color/divider"/>
+        android:background="?android:attr/divider"/>
 
 </FrameLayout>

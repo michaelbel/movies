@@ -7,11 +7,11 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.BODY_SENSORS"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="com.android.vending.BILLING"/>
-    <uses-permission android:name="com.samsung.permission.SSENSOR"/>
+    <!--<uses-permission android:name="com.android.vending.BILLING"/>-->
+    <!--<uses-permission android:name="com.samsung.permission.SSENSOR"/>-->
 
     <application
-        android:name=".Moviemade"
+        android:name=".presentation.App"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:icon="@mipmap/ic_launcher_round"
@@ -20,10 +20,9 @@
         android:fullBackupContent="true">
 
         <!--AdMob-->
-        <meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="@string/ad_app_id"/>
-
-        <!--FIXME user orientation-->
-        <activity android:name=".ui.modules.main.MainActivity" android:screenOrientation="user" android:launchMode="singleTask">
+        <!--<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="@string/ad_app_id"/>-->
+        
+        <activity android:name=".presentation.features.main.MainActivity"  android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -37,11 +36,9 @@
                 <data android:host="main" android:scheme="moviemade"/>
             </intent-filter>
         </activity>
-
-        <!--FIXME user orientation-->
+        
         <activity
-            android:name=".ui.modules.movie.MovieActivity"
-            android:screenOrientation="user">
+            android:name=".presentation.features.movie.MovieActivity">
             <!--<intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
@@ -51,20 +48,18 @@
             </intent-filter>-->
         </activity>
 
-        <!--FIXME user orientation-->
-        <activity android:name=".ui.modules.trailers.TrailersActivity" android:screenOrientation="user" />
-        <activity android:name=".ui.modules.reviews.activity.ReviewsActivity" android:screenOrientation="user" />
-        <activity android:name=".ui.modules.reviews.activity.ReviewActivity" android:screenOrientation="user" />
-        <activity android:name=".ui.modules.search.SearchActivity" android:screenOrientation="user" android:windowSoftInputMode="adjustResize"/>
-        <activity android:name=".ui.modules.favorites.FavoriteActivity" android:screenOrientation="user"/>
-        <activity android:name=".ui.modules.keywords.activity.KeywordsActivity" android:screenOrientation="user"/>
-        <activity android:name=".ui.modules.keywords.activity.KeywordActivity" android:screenOrientation="user"/>
-        <activity android:name=".ui.modules.watchlist.WatchlistActivity" android:screenOrientation="user"/>
-        <activity android:name=".ui.modules.similar.SimilarMoviesActivity" android:screenOrientation="user"/>
-        <activity android:name=".ui.modules.recommendations.RcmdMoviesActivity" android:screenOrientation="user"/>
-
-        <activity android:name=".ui.modules.settings.SettingsActivity"/>
-        <activity android:name=".ui.modules.about.AboutActivity"/>
+        <activity android:name=".presentation.features.trailers.TrailersActivity"/>
+        <activity android:name=".presentation.features.reviews.activity.ReviewsActivity"/>
+        <activity android:name=".presentation.features.reviews.activity.ReviewActivity"/>
+        <activity android:name=".presentation.features.search.SearchActivity" android:windowSoftInputMode="adjustResize"/>
+        <activity android:name=".presentation.features.favorites.FavoriteActivity"/>
+        <activity android:name=".presentation.features.keywords.activity.KeywordsActivity"/>
+        <activity android:name=".presentation.features.keywords.activity.KeywordActivity"/>
+        <activity android:name=".presentation.features.watchlist.WatchlistActivity"/>
+        <activity android:name=".presentation.features.similar.SimilarMoviesActivity"/>
+        <activity android:name=".presentation.features.recommendations.RcmdMoviesActivity"/>
+        <activity android:name=".presentation.features.settings.SettingsActivity"/>
+        <activity android:name=".presentation.features.about.AboutActivity"/>
 
     </application>
 

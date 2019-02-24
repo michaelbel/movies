@@ -6,14 +6,10 @@ buildscript {
     }
 
     dependencies {
-        // Gradle.
-        classpath 'com.android.tools.build:gradle:3.2.1'
-        // Kotlin.
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.11"
-        // Google Services.
+        classpath 'com.android.tools.build:gradle:3.3.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.21"
         classpath 'com.google.gms:google-services:4.2.0'
-        // Fabric.
-        classpath 'io.fabric.tools:gradle:1.27.0'
+        classpath 'io.fabric.tools:gradle:1.27.1'
     }
 }
 

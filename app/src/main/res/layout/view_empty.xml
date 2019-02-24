@@ -1,6 +1,5 @@
 <androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -23,7 +22,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="24dp"
         android:textSize="20sp"
-        android:textColor="@color/iconActive"
+        android:textColor="@color/errorColor"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
         tools:text="No movies"/>
@@ -37,7 +36,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="16dp"
         android:textSize="16sp"
-        android:textColor="@color/secondaryText"
+        android:textColor="?android:attr/textColorSecondary"
         android:gravity="center"
         tools:text="Connection error"/>
 

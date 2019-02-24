@@ -3,14 +3,16 @@
     <color name="primaryDark">#202020</color>
     <color name="accent">#ff5252</color>
 
-    <color name="primaryText">#ffffff</color>
-    <color name="secondaryText">#b3ffffff</color>
-    <color name="disabledHintText">#80ffffff</color>
-    <color name="divider">#1fffffff</color>
-    <color name="iconActive">#ffffff</color>
-    <color name="iconInactive">#80ffffff</color>
-    <color name="background">#141414</color>
-    <color name="foreground">#212121</color>
+    <color name="textColorPrimary">#ffffff</color>
+    <color name="textColorSecondary">#b3ffffff</color>
+    <color name="textColorHint">#80ffffff</color>
+    <color name="dividerColor">#1fffffff</color>
+    <color name="iconActiveColor">#ffffff</color>
+    <color name="iconInactiveColor">#80ffffff</color>
+    <color name="backgroundColor">#141414</color>
+    <color name="foregroundColor">#212121</color>
+    <color name="shadowColor">#000000</color>
+    <color name="errorColor">#616161</color>
 
     <color name="tmdbPrimary">#01d277</color>
     <color name="tmdbSecondary">#081c24</color>
