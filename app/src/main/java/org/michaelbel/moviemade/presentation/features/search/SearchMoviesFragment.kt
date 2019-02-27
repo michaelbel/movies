@@ -46,7 +46,7 @@ class SearchMoviesFragment : BaseFragment(), SearchContract.View, MoviesAdapter.
 
     private var iconActionMode = ITEM_MIC
 
-    private lateinit var actionMenu: Menu
+    private var actionMenu: Menu? = null
     lateinit var adapter: MoviesAdapter
 
     @Inject
@@ -192,12 +192,14 @@ class SearchMoviesFragment : BaseFragment(), SearchContract.View, MoviesAdapter.
     }
 
     private fun changeActionIcon() {
-        if (searchView.text!!.toString().trim { it <= ' ' }.isEmpty()) {
-            iconActionMode = ITEM_MIC
-            actionMenu.getItem(MENU_ITEM_INDEX).setIcon(R.drawable.ic_voice)
-        } else {
-            iconActionMode = ITEM_CLR
-            actionMenu.getItem(MENU_ITEM_INDEX).setIcon(R.drawable.ic_clear)
+        if (actionMenu != null) {
+            if (searchView.text.toString().trim { it <= ' ' }.isEmpty()) {
+                iconActionMode = ITEM_MIC
+                actionMenu?.getItem(MENU_ITEM_INDEX)?.setIcon(R.drawable.ic_voice)
+            } else {
+                iconActionMode = ITEM_CLR
+                actionMenu?.getItem(MENU_ITEM_INDEX)?.setIcon(R.drawable.ic_clear)
+            }
         }
     }
 

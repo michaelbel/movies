@@ -34,6 +34,19 @@ import javax.inject.Inject
 
 class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.Listener {
 
+    companion object {
+        const val EXTRA_MOVIE = "movie"
+
+        internal fun newInstance(movie: Movie): MovieFragment {
+            val args = Bundle()
+            args.putSerializable(EXTRA_MOVIE, movie)
+
+            val fragment = MovieFragment()
+            fragment.arguments = args
+            return fragment
+        }
+    }
+
     private var favorite: Boolean = false
     private var watchlist: Boolean = false
     private var actionMenu: Menu? = null
@@ -42,19 +55,17 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
     private var menuImdb: MenuItem? = null
     private var menuHomepage: MenuItem? = null
 
-    private lateinit var parentView: View
-
     private var imdbId: String? = null
 
-    private lateinit var homepage: String
+    private var homepage: String? = null
 
     private var posterPath: String? = null
     private var connectionError: Boolean = false
 
-    lateinit var networkChangeReceiver: NetworkChangeReceiver
+    private var networkChangeReceiver: NetworkChangeReceiver? = null
     lateinit var adapter: GenresAdapter
 
-    //@BindView(R.id.ad_view) AdView adView;
+    //AdView adView;
 
     var imageAnimator: ViewsTransitionAnimator<*>? = null
 
@@ -79,7 +90,8 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
         networkChangeReceiver = NetworkChangeReceiver(this)
         requireContext().registerReceiver(networkChangeReceiver, IntentFilter(NetworkChangeReceiver.INTENT_ACTION))
 
-        presenter = MoviePresenter(this, moviesService, accountService, preferences)
+        presenter = MoviePresenter(moviesService, accountService, preferences)
+        presenter.attach(this)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -103,16 +115,14 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
             }
             item === menuTmdb -> Browser.openUrl(requireContext(), String.format(Locale.US, TMDB_MOVIE, (requireActivity() as MovieActivity).movie.id))
             item === menuImdb -> Browser.openUrl(requireContext(), String.format(Locale.US, IMDB_MOVIE, imdbId))
-            item === menuHomepage -> Browser.openUrl(requireContext(), homepage)
+            item === menuHomepage -> Browser.openUrl(requireContext(), homepage!!)
         }
 
         return true
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        parentView = inflater.inflate(R.layout.fragment_movie, container, false)
-        return parentView
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_movie, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -135,9 +145,6 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
         genres_recycler_view.adapter = adapter
         genres_recycler_view.layoutManager = ChipsLayoutManager.newBuilder(requireContext())
                 .setOrientation(ChipsLayoutManager.HORIZONTAL).build()
-
-        //AppCompatButton trailersBtn = view.findViewById(R.id.trailers_btn);
-        //trailersBtn.setOnClickListener(v -> activity.startTrailers(activity.getMovie()));
 
         /*AdRequest adRequestBuilder = new AdRequest.Builder()
             .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
@@ -257,6 +264,12 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
         recommendations_text.setOnClickListener {
             (requireActivity() as MovieActivity).startRcmdsMovies((requireActivity() as MovieActivity).movie)
         }
+
+        val movie = arguments?.getSerializable(EXTRA_MOVIE) as Movie
+        if (movie != null) {
+            presenter.setDetailExtra(movie)
+            presenter.getDetails(movie.id)
+        }
     }
 
     /*@Override
@@ -351,7 +364,7 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
 
     override fun setURLs(imdbId: String, homepage: String) {
         this.imdbId = imdbId
-        this.homepage = homepage
+        this.homepage = homepage ?: ""
 
         if (!TextUtils.isEmpty(imdbId)) {
             menuImdb = actionMenu!!.add(R.string.view_on_imdb).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER)
@@ -441,7 +454,7 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
     }
 
     override fun setConnectionError() {
-        Snackbar.make(parentView, R.string.error_no_connection, Snackbar.LENGTH_SHORT).show()
+        Snackbar.make(parent, R.string.error_no_connection, Snackbar.LENGTH_SHORT).show()
         connectionError = true
     }
 

@@ -166,7 +166,7 @@ class AboutFragment: BaseFragment() {
                     appNameText!!.text = getString(R.string.app_for_android, getString(R.string.app_name))
                     versionText!!.text = getString(R.string.version_build_date, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE, BuildConfig.VERSION_DATE)
                 }
-                1 -> poweredText!!.text = SpannableUtil.replaceTags(getString(R.string.powered_by))
+                1 -> poweredText!!.text = getString(R.string.powered_by)
                 else -> when (position) {
                     rateGooglePlay -> {
                         iconView!!.setImageResource(R.drawable.ic_google_play)

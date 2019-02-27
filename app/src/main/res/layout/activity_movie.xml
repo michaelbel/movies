@@ -68,11 +68,16 @@
             android:clipToPadding="false"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <fragment
+            <FrameLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <!--<fragment
                 android:id="@+id/fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:name="org.michaelbel.moviemade.presentation.features.movie.MovieFragment"/>
+                android:name="org.michaelbel.moviemade.presentation.features.movie.MovieFragment"/>-->
 
         </androidx.core.widget.NestedScrollView>
 
