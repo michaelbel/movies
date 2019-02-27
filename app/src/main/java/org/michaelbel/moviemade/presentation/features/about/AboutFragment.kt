@@ -12,13 +12,13 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.internal.DebouncingOnClickListener
 import kotlinx.android.synthetic.main.activity_default.*
 import kotlinx.android.synthetic.main.fragment_lce.*
 import org.michaelbel.moviemade.BuildConfig
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.utils.*
 import org.michaelbel.moviemade.presentation.base.BaseFragment
+import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
 
 @Deprecated("")
 class AboutFragment: BaseFragment() {
@@ -147,7 +147,7 @@ class AboutFragment: BaseFragment() {
                     val holder = FooterVH(view)
                     iconView = view.findViewById(R.id.icon_view)
                     textView = view.findViewById(R.id.text_view)
-                    view.setOnClickListener(object : DebouncingOnClickListener() {
+                    view.setOnClickListener(object: DebouncingOnClickListener() {
                         override fun doClick(v: View) {
                             val position = holder.adapterPosition
                             doAction(position)

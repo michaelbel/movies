@@ -22,7 +22,10 @@ import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceive
 import org.michaelbel.moviemade.presentation.features.main.MoviesAdapter
 import javax.inject.Inject
 
-class RcmdMoviesFragment: BaseFragment(), RcmdContract.View, NetworkChangeReceiver.Listener, MoviesAdapter.Listener {
+class RcmdMoviesFragment: BaseFragment(),
+        RcmdContract.View,
+        NetworkChangeReceiver.Listener,
+        MoviesAdapter.Listener {
 
     companion object {
         fun newInstance(movieId: Int): RcmdMoviesFragment {
@@ -36,8 +39,8 @@ class RcmdMoviesFragment: BaseFragment(), RcmdContract.View, NetworkChangeReceiv
     }
 
     private var movieId: Int = 0
-    private var adapter: MoviesAdapter? = null
-    private var gridLayoutManager: GridLayoutManager? = null
+    lateinit var adapter: MoviesAdapter
+    private lateinit var gridLayoutManager: GridLayoutManager
 
     private var networkChangeReceiver: NetworkChangeReceiver? = null
     private var connectionFailure = false
@@ -71,7 +74,7 @@ class RcmdMoviesFragment: BaseFragment(), RcmdContract.View, NetworkChangeReceiv
         recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1) && adapter?.itemCount != 0) {
+                if (!recyclerView.canScrollVertically(1) && adapter.itemCount != 0) {
                     presenter.getRcmdMoviesNext(movieId)
                 }
             }
@@ -79,7 +82,7 @@ class RcmdMoviesFragment: BaseFragment(), RcmdContract.View, NetworkChangeReceiv
 
         emptyView.setOnClickListener { presenter.getRcmdMoviesNext(movieId) }
 
-        movieId = if (arguments != null) arguments!!.getInt(MOVIE_ID) else 0
+        movieId = arguments?.getInt(MOVIE_ID) ?: 0
         presenter.getRcmdMovies(movieId)
     }
 
@@ -92,7 +95,7 @@ class RcmdMoviesFragment: BaseFragment(), RcmdContract.View, NetworkChangeReceiv
     override fun setMovies(movies: List<Movie>) {
         connectionFailure = false
         progressBar.visibility = GONE
-        adapter?.addMovies(movies)
+        adapter.addMovies(movies)
     }
 
     override fun setError(mode: Int) {
@@ -106,7 +109,7 @@ class RcmdMoviesFragment: BaseFragment(), RcmdContract.View, NetworkChangeReceiv
     }
 
     override fun onNetworkChanged() {
-        if (connectionFailure && adapter?.itemCount == 0) {
+        if (connectionFailure && adapter.itemCount == 0) {
             presenter.getRcmdMovies(movieId)
         }
     }

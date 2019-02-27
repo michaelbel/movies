@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.internal.DebouncingOnClickListener
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.card_review.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Review
+import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
 import java.util.*
 
 class ReviewsAdapter(

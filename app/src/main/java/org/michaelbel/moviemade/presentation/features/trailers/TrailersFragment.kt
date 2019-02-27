@@ -40,7 +40,7 @@ class TrailersFragment: BaseFragment(), NetworkChangeReceiver.Listener, Trailers
     }
 
     private var movieId: Int = 0
-    private var adapter: TrailersAdapter? = null
+    lateinit var adapter: TrailersAdapter
 
     private var connectionFailure = false
     private var networkChangeReceiver: NetworkChangeReceiver? = null
@@ -107,7 +107,7 @@ class TrailersFragment: BaseFragment(), NetworkChangeReceiver.Listener, Trailers
 
     override fun setTrailers(trailers: List<Video>) {
         connectionFailure = false
-        adapter?.addTrailers(trailers)
+        adapter.addTrailers(trailers)
     }
 
     override fun setError(@EmptyViewMode mode: Int) {
@@ -118,7 +118,7 @@ class TrailersFragment: BaseFragment(), NetworkChangeReceiver.Listener, Trailers
     }
 
     override fun onNetworkChanged() {
-        if (connectionFailure && adapter!!.itemCount == 0) {
+        if (connectionFailure && adapter.itemCount == 0) {
             presenter.getVideos(movieId)
         }
     }

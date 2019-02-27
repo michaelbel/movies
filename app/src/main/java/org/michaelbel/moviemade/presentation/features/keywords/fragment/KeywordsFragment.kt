@@ -2,7 +2,6 @@ package org.michaelbel.moviemade.presentation.features.keywords.fragment
 
 import android.content.IntentFilter
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -64,12 +63,15 @@ class KeywordsFragment: BaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as KeywordsActivity).toolbar.setOnClickListener { recyclerView.smoothScrollToPosition(0) }
+        (requireActivity() as KeywordsActivity).toolbar.setOnClickListener {
+            recyclerView.smoothScrollToPosition(0)
+        }
 
         adapter = KeywordsAdapter(this)
 
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = ChipsLayoutManager.newBuilder(requireContext()).setOrientation(ChipsLayoutManager.HORIZONTAL).build()
+        recyclerView.layoutManager = ChipsLayoutManager.newBuilder(requireContext())
+                .setOrientation(ChipsLayoutManager.HORIZONTAL).build()
 
         emptyView.setOnClickListener {
             emptyView.visibility = GONE
@@ -82,7 +84,6 @@ class KeywordsFragment: BaseFragment(),
     }
 
     override fun onKeywordClick(keyword: Keyword) {
-        Log.d("2580", "onKeywordClick")
         (requireActivity() as KeywordsActivity).startKeyword(keyword)
     }
 
