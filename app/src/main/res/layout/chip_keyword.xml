@@ -10,7 +10,7 @@
     app:cardCornerRadius="16dp">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/keyword_name"
+        android:id="@+id/keywordName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|center_vertical"

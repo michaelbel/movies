@@ -9,4 +9,4 @@ data class PersonsResponse(
     @SerializedName("dates") val dates: Dates,
     @SerializedName("total_pages") val totalPages: Int,
     @SerializedName("total_results") val totalResults: Int
-) : Serializable
+): Serializable

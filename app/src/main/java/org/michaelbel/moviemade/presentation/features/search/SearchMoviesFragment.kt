@@ -113,10 +113,10 @@ class SearchMoviesFragment : BaseFragment(), SearchContract.View, MoviesAdapter.
 
         adapter = MoviesAdapter(this)
 
-        recycler_view.adapter = adapter
-        recycler_view.layoutManager = GridLayoutManager(requireContext(), spanCount)
-        recycler_view.addItemDecoration(GridSpacingItemDecoration(spanCount, DeviceUtil.dp(requireContext(), 3F)))
-        recycler_view.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
+        recyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, DeviceUtil.dp(requireContext(), 3F)))
+        recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)) {
@@ -125,9 +125,9 @@ class SearchMoviesFragment : BaseFragment(), SearchContract.View, MoviesAdapter.
             }
         })
 
-        progress_bar.visibility = GONE
+        progressBar.visibility = GONE
 
-        empty_view.setMode(EmptyViewMode.MODE_NO_RESULTS)
+        emptyView.setMode(EmptyViewMode.MODE_NO_RESULTS)
 
         searchView.background = null
         searchView.addTextChangedListener(object: TextWatcher {
@@ -168,26 +168,26 @@ class SearchMoviesFragment : BaseFragment(), SearchContract.View, MoviesAdapter.
         adapter!!.movies.clear()
         adapter?.notifyDataSetChanged()
 
-        empty_view.visibility = GONE
-        progress_bar.visibility = VISIBLE
+        emptyView.visibility = GONE
+        progressBar.visibility = VISIBLE
     }
 
     override fun setMovies(movies: List<Movie>) {
-        progress_bar.visibility = GONE
+        progressBar.visibility = GONE
         adapter?.addMovies(movies)
     }
 
     override fun setError(mode: Int) {
-        progress_bar.visibility = GONE
-        empty_view.visibility = VISIBLE
-        empty_view.setMode(mode)
+        progressBar.visibility = GONE
+        emptyView.visibility = VISIBLE
+        emptyView.setMode(mode)
 
         if (BuildUtil.isEmptyApiKey()) {
-            empty_view.setValue(R.string.error_empty_api_key)
+            emptyView.setValue(R.string.error_empty_api_key)
         }
     }
 
-    override fun onMovieClick(movie: Movie, view: View) {
+    override fun onMovieClick(movie: Movie) {
         (requireActivity() as SearchActivity).startMovie(movie)
     }
 

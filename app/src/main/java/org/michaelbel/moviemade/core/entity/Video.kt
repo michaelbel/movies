@@ -12,4 +12,4 @@ data class Video(
     @SerializedName("site") val site: String,
     @SerializedName("size") val size: Int,
     @SerializedName("type") val type: String
-) : Serializable
+): Serializable

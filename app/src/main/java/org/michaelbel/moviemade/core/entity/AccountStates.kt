@@ -8,4 +8,4 @@ data class AccountStates(
     @SerializedName("favorite") val favorite: Boolean,
     @SerializedName("watchlist") val watchlist: Boolean
     //@SerializedName("rated") val rated: Rated
-) : Serializable
+): Serializable

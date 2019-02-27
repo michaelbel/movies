@@ -12,4 +12,4 @@ data class Image(
     @SerializedName("vote_average") val voteAverage: Int,
     @SerializedName("vote_count") val voteCount: Int,
     @SerializedName("width") val width: Int
-) : Serializable
+): Serializable

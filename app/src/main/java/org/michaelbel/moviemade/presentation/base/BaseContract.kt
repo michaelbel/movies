@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.presentation.base
 
-import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import org.michaelbel.moviemade.core.entity.Keyword

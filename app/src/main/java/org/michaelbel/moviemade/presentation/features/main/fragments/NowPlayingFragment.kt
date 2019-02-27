@@ -1,55 +1,48 @@
-package org.michaelbel.moviemade.presentation.features.recommendations
+package org.michaelbel.moviemade.presentation.features.main.fragments
 
 import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_default.*
 import kotlinx.android.synthetic.main.fragment_movies.*
-import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Movie
+import org.michaelbel.moviemade.core.utils.BuildUtil
 import org.michaelbel.moviemade.core.utils.DeviceUtil
-import org.michaelbel.moviemade.core.utils.MOVIE_ID
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
 import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceiver
+import org.michaelbel.moviemade.presentation.features.main.MainActivity
+import org.michaelbel.moviemade.presentation.features.main.MainContract
 import org.michaelbel.moviemade.presentation.features.main.MoviesAdapter
 import javax.inject.Inject
 
-class RcmdMoviesFragment: BaseFragment(), RcmdContract.View, NetworkChangeReceiver.Listener, MoviesAdapter.Listener {
+class NowPlayingFragment: BaseFragment(),
+        MainContract.View,
+        NetworkChangeReceiver.Listener,
+        MoviesAdapter.Listener {
 
-    companion object {
-        fun newInstance(movieId: Int): RcmdMoviesFragment {
-            val args = Bundle()
-            args.putInt(MOVIE_ID, movieId)
-
-            val fragment = RcmdMoviesFragment()
-            fragment.arguments = args
-            return fragment
-        }
-    }
-
-    private var movieId: Int = 0
-    private var adapter: MoviesAdapter? = null
-    private var gridLayoutManager: GridLayoutManager? = null
+    private lateinit var adapter: MoviesAdapter
 
     private var networkChangeReceiver: NetworkChangeReceiver? = null
     private var connectionFailure = false
 
     @Inject
-    lateinit var presenter: RcmdContract.Presenter
+    lateinit var presenter: MainContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        App[requireActivity().application as App].createFragmentComponent().inject(this)
+
         networkChangeReceiver = NetworkChangeReceiver(this)
         requireContext().registerReceiver(networkChangeReceiver, IntentFilter(NetworkChangeReceiver.INTENT_ACTION))
-        App[requireActivity().application].createFragmentComponent().inject(this)
+
         presenter.attach(this)
     }
 
@@ -58,29 +51,26 @@ class RcmdMoviesFragment: BaseFragment(), RcmdContract.View, NetworkChangeReceiv
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as RcmdMoviesActivity).toolbar.setOnClickListener { recyclerView.smoothScrollToPosition(0) }
 
         val spanCount = resources.getInteger(R.integer.movies_span_layout_count)
 
         adapter = MoviesAdapter(this)
-        gridLayoutManager = GridLayoutManager(requireContext(), spanCount)
 
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = gridLayoutManager
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
         recyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, DeviceUtil.dp(requireContext(), 3F)))
         recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1) && adapter?.itemCount != 0) {
-                    presenter.getRcmdMoviesNext(movieId)
+                if (!recyclerView.canScrollVertically(1) && adapter.itemCount != 0) {
+                    presenter.getNowPlayingNext()
                 }
             }
         })
 
-        emptyView.setOnClickListener { presenter.getRcmdMoviesNext(movieId) }
+        emptyView.setOnClickListener { presenter.getTopRated() }
 
-        movieId = if (arguments != null) arguments!!.getInt(MOVIE_ID) else 0
-        presenter.getRcmdMovies(movieId)
+        presenter.getNowPlaying()
     }
 
     override fun onDestroy() {
@@ -89,29 +79,34 @@ class RcmdMoviesFragment: BaseFragment(), RcmdContract.View, NetworkChangeReceiv
         presenter.destroy()
     }
 
-    override fun setMovies(movies: List<Movie>) {
+    override fun setContent(movies: List<Movie>) {
         connectionFailure = false
         progressBar.visibility = GONE
-        adapter?.addMovies(movies)
+        emptyView.visibility = GONE
+        adapter.addMovies(movies)
     }
 
     override fun setError(mode: Int) {
         connectionFailure = false
         progressBar.visibility = GONE
+
+        emptyView.visibility = VISIBLE
         emptyView.setMode(mode)
 
-        if (TMDB_API_KEY === "null") {
+        if (BuildUtil.isEmptyApiKey()) {
             emptyView.setValue(R.string.error_empty_api_key)
         }
     }
 
     override fun onNetworkChanged() {
-        if (connectionFailure && adapter?.itemCount == 0) {
-            presenter.getRcmdMovies(movieId)
+        if (connectionFailure && adapter.itemCount == 0) {
+            presenter.getNowPlaying()
         }
     }
 
+    override fun setLoading() {}
+
     override fun onMovieClick(movie: Movie) {
-        (requireActivity() as RcmdMoviesActivity).startMovie(movie)
+        (requireActivity() as MainActivity).startMovie(movie)
     }
 }

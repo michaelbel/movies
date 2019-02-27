@@ -8,4 +8,4 @@ data class SearchKeywordsResponse(
     @SerializedName("results") val keywords: List<Keyword>,
     @SerializedName("total_pages") val totalPages: Int,
     @SerializedName("total_results") val totalResults: Int
-) : Serializable
+): Serializable

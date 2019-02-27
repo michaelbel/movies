@@ -12,4 +12,4 @@ data class Review(
     @SerializedName("media_title") val mediaTitle: String,
     @SerializedName("media_type") val mediaType: String,
     @SerializedName("url") val url: String
-) : Serializable
+): Serializable

@@ -5,4 +5,4 @@ import java.io.Serializable
 
 data class RequestToken(
     @SerializedName("request_token") val requestToken: String
-) : Serializable
+): Serializable
