@@ -9,4 +9,4 @@ data class ReviewsResponse(
     @SerializedName("results") val reviews: List<Review>,
     @SerializedName("total_pages") val totalPages: Int,
     @SerializedName("total_results") val totalResults: Int
-) : Serializable
+): Serializable

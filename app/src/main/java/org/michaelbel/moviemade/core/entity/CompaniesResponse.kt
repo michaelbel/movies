@@ -8,4 +8,4 @@ data class CompaniesResponse(
     @SerializedName("results") val companies: List<Company>,
     @SerializedName("total_pages") val totalPages: Int,
     @SerializedName("total_results") val totalResults: Int
-) : Serializable
+): Serializable

@@ -2,7 +2,6 @@ package org.michaelbel.moviemade.core.utils
 
 import android.animation.ObjectAnimator
 import android.animation.StateListAnimator
-import android.annotation.TargetApi
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
@@ -13,12 +12,13 @@ import android.widget.TextView
 import androidx.annotation.AttrRes
 import androidx.annotation.DrawableRes
 import androidx.annotation.NonNull
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import org.michaelbel.moviemade.R
 
 object ViewUtil {
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR1)
+    @RequiresApi(12)
     fun clearCursorDrawable(editText: EditText?) {
         if (editText == null) {
             return
@@ -70,7 +70,7 @@ object ViewUtil {
         return backgroundResource
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
     fun setElevation(view: View, elevation : Float) {
         val dur = view.resources.getInteger(R.integer.app_bar_elevation_anim_duration)
         val sla = StateListAnimator()

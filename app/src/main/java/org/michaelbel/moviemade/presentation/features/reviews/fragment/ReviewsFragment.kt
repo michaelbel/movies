@@ -38,8 +38,8 @@ class ReviewsFragment: BaseFragment(), ReviewsContract.View, NetworkChangeReceiv
         }
     }
 
-    private var movie: Movie? = null
-    private var adapter: ReviewsAdapter? = null
+    lateinit var movie: Movie
+    lateinit var adapter: ReviewsAdapter
 
     private var networkChangeReceiver: NetworkChangeReceiver? = null
     private var connectionFailure = false
@@ -61,30 +61,28 @@ class ReviewsFragment: BaseFragment(), ReviewsContract.View, NetworkChangeReceiv
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as ReviewsActivity).toolbar.setOnClickListener { recycler_view.smoothScrollToPosition(0) }
+        (requireActivity() as ReviewsActivity).toolbar.setOnClickListener { recyclerView.smoothScrollToPosition(0) }
 
         val spanCount = resources.getInteger(R.integer.trailers_span_layout_count)
 
         adapter = ReviewsAdapter(this)
 
-        recycler_view.adapter = adapter
-        recycler_view.layoutManager = GridLayoutManager(requireContext(), spanCount)
-        recycler_view.addItemDecoration(GridSpacingItemDecoration(spanCount, DeviceUtil.dp(requireContext(), 5F)))
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
+        recyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, DeviceUtil.dp(requireContext(), 5F)))
 
-        empty_view.setOnClickListener {
-            empty_view.visibility = GONE
-            progress_bar.visibility = VISIBLE
-            presenter.getReviews(movie!!.id)
+        emptyView.setOnClickListener {
+            emptyView.visibility = GONE
+            progressBar.visibility = VISIBLE
+            presenter.getReviews(movie.id)
         }
 
         movie = arguments?.getSerializable(MOVIE) as Movie
-        if (movie != null) {
-            presenter.getReviews(movie!!.id)
-        }
+        presenter.getReviews(movie.id)
     }
 
     override fun onReviewClick(review: Review, view: View) {
-        (requireActivity() as ReviewsActivity).startReview(review, movie!!)
+        (requireActivity() as ReviewsActivity).startReview(review, movie)
     }
 
     override fun onDestroy() {
@@ -95,20 +93,20 @@ class ReviewsFragment: BaseFragment(), ReviewsContract.View, NetworkChangeReceiv
 
     override fun setReviews(reviews: List<Review>) {
         connectionFailure = false
-        adapter?.reviews = reviews
-        progress_bar.visibility = GONE
+        adapter.setReviews(reviews)
+        progressBar.visibility = GONE
     }
 
     override fun setError(@EmptyViewMode mode: Int) {
         connectionFailure = true
-        empty_view.visibility = VISIBLE
-        empty_view.setMode(mode)
-        progress_bar.visibility = GONE
+        emptyView.visibility = VISIBLE
+        emptyView.setMode(mode)
+        progressBar.visibility = GONE
     }
 
     override fun onNetworkChanged() {
-        if (connectionFailure && adapter?.itemCount == 0) {
-            presenter.getReviews(movie!!.id)
+        if (connectionFailure && adapter.itemCount == 0) {
+            presenter.getReviews(movie.id)
         }
     }
 }

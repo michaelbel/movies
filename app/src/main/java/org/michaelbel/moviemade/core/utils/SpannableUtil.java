@@ -1,27 +1,26 @@
 package org.michaelbel.moviemade.core.utils;
 
-import android.content.Context;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.TypefaceSpan;
 
-import org.michaelbel.moviemade.presentation.App;
 import org.michaelbel.moviemade.R;
+import org.michaelbel.moviemade.presentation.App;
 
 import java.util.ArrayList;
 
 import androidx.core.content.ContextCompat;
 
-@SuppressWarnings("all")
+// todo convert to kotlin
 public class SpannableUtil {
 
     public static final int FLAG_TAG_BR = 1;
     public static final int FLAG_TAG_BOLD = 2;
-    public static final int FLAG_TAG_COLOR = 4;
+    //public static final int FLAG_TAG_COLOR = 4;
     public static final int FLAG_TAG_URL = 8;
     public static final int FLAG_TAG_ALL = FLAG_TAG_BR | FLAG_TAG_BOLD | FLAG_TAG_URL;
-    public static final int FLAG_TAG_BOLD_COLORS = FLAG_TAG_BOLD | FLAG_TAG_COLOR;
+    //public static final int FLAG_TAG_BOLD_COLORS = FLAG_TAG_BOLD | FLAG_TAG_COLOR;
 
     public static SpannableStringBuilder replaceTags(String str) {
         return replaceTags(str, FLAG_TAG_ALL);
@@ -100,7 +99,7 @@ public class SpannableUtil {
         return new SpannableStringBuilder(str);
     }
 
-    public static SpannableStringBuilder replaceTags2(String str, int flag, Object... args) {
+    /*public static SpannableStringBuilder replaceTags2(String str, int flag, Object... args) {
         try {
             int start;
             int end;
@@ -147,7 +146,7 @@ public class SpannableUtil {
         }
 
         return new SpannableStringBuilder(str);
-    }
+    }*/
 
     public static SpannableStringBuilder boldAndColoredText(String title, String allText) {
         SpannableStringBuilder spannable;
@@ -174,7 +173,7 @@ public class SpannableUtil {
         return spannable;
     }
 
-    public static SpannableStringBuilder linkText(Context context, String text) {
+    /*public static SpannableStringBuilder linkText(Context context, String text) {
         SpannableStringBuilder spannable;
 
         int startPos = 0;
@@ -186,5 +185,5 @@ public class SpannableUtil {
                 startPos, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         return spannable;
-    }
+    }*/
 }

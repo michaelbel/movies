@@ -65,16 +65,16 @@ class WatchlistFragment: BaseFragment(), WatchlistContract.View, NetworkChangeRe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as WatchlistActivity).toolbar.setOnClickListener { recycler_view.smoothScrollToPosition(0) }
+        (requireActivity() as WatchlistActivity).toolbar.setOnClickListener { recyclerView.smoothScrollToPosition(0) }
 
         val spanCount = resources.getInteger(R.integer.movies_span_layout_count)
 
         adapter = MoviesAdapter(this)
 
-        recycler_view.adapter = adapter
-        recycler_view.layoutManager = GridLayoutManager(requireContext(), spanCount)
-        recycler_view.addItemDecoration(GridSpacingItemDecoration(spanCount, DeviceUtil.dp(requireContext(), 3F)))
-        recycler_view.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
+        recyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, DeviceUtil.dp(requireContext(), 3F)))
+        recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1) && adapter?.itemCount != 0) {
@@ -83,7 +83,7 @@ class WatchlistFragment: BaseFragment(), WatchlistContract.View, NetworkChangeRe
             }
         })
 
-        empty_view.setOnClickListener { presenter.getWatchlistMovies(accountId, preferences.getString(KEY_SESSION_ID, "")!!) }
+        emptyView.setOnClickListener { presenter.getWatchlistMovies(accountId, preferences.getString(KEY_SESSION_ID, "")!!) }
 
         accountId = if (arguments != null) arguments!!.getInt(EXTRA_ACCOUNT_ID) else 0
         presenter.getWatchlistMovies(accountId, preferences.getString(KEY_SESSION_ID, "")!!)
@@ -97,17 +97,17 @@ class WatchlistFragment: BaseFragment(), WatchlistContract.View, NetworkChangeRe
 
     override fun setMovies(movies: List<Movie>) {
         connectionFailure = false
-        progress_bar.visibility = GONE
+        progressBar.visibility = GONE
         adapter?.addMovies(movies)
     }
 
     override fun setError(mode: Int) {
         connectionFailure = false
-        progress_bar.visibility = GONE
-        empty_view.setMode(mode)
+        progressBar.visibility = GONE
+        emptyView.setMode(mode)
 
         if (BuildUtil.isEmptyApiKey()) {
-            empty_view.setValue(R.string.error_empty_api_key)
+            emptyView.setValue(R.string.error_empty_api_key)
         }
     }
 
@@ -117,7 +117,7 @@ class WatchlistFragment: BaseFragment(), WatchlistContract.View, NetworkChangeRe
         }
     }
 
-    override fun onMovieClick(movie: Movie, view: View) {
+    override fun onMovieClick(movie: Movie) {
         (requireActivity() as WatchlistActivity).startMovie(movie)
         requireActivity().finish()
     }

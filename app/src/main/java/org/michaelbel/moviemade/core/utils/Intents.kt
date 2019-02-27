@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.core.utils
 
-const val QUERY = "query"
 const val MOVIE = "movie"
 const val MOVIE_ID = "movie_id"
 const val REVIEW = "review"

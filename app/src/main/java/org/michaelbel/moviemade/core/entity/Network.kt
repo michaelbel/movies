@@ -9,4 +9,4 @@ data class Network(
     @SerializedName("id") val id: Int,
     @SerializedName("name") val name: String,
     @SerializedName("origin_country") val originCountry: String
-) : Serializable
+): Serializable

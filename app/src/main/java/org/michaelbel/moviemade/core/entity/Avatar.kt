@@ -5,4 +5,4 @@ import java.io.Serializable
 
 data class Avatar(
     @SerializedName("gravatar") val gravatar: GrAvatar
-) : Serializable
+): Serializable

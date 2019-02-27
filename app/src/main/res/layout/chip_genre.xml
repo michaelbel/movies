@@ -11,7 +11,7 @@
     app:cardCornerRadius="11dp">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/chip_name"
+        android:id="@+id/chipName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|center_vertical"

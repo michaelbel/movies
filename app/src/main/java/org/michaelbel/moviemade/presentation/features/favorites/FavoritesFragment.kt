@@ -66,16 +66,16 @@ class FavoritesFragment: BaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireContext() as FavoriteActivity).toolbar.setOnClickListener { recycler_view.smoothScrollToPosition(0) }
+        (requireContext() as FavoriteActivity).toolbar.setOnClickListener { recyclerView.smoothScrollToPosition(0) }
 
         val spanCount = resources.getInteger(R.integer.movies_span_layout_count)
 
         adapter = MoviesAdapter(this)
 
-        recycler_view.adapter = adapter
-        recycler_view.layoutManager = GridLayoutManager(requireContext(), spanCount)
-        recycler_view.addItemDecoration(GridSpacingItemDecoration(spanCount, DeviceUtil.dp(requireContext(), 3F)))
-        recycler_view.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
+        recyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, DeviceUtil.dp(requireContext(), 3F)))
+        recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1) && adapter?.itemCount != 0) {
@@ -84,40 +84,40 @@ class FavoritesFragment: BaseFragment(),
             }
         })
 
-        empty_view.setOnClickListener { presenter.getFavoriteMovies(accountId, preferences.getString(KEY_SESSION_ID, "")!!) }
+        emptyView.setOnClickListener { presenter.getFavoriteMovies(accountId, preferences.getString(KEY_SESSION_ID, "")!!) }
 
         accountId = if (arguments != null) arguments!!.getInt(EXTRA_ACCOUNT_ID) else 0
         presenter.getFavoriteMovies(accountId, preferences.getString(KEY_SESSION_ID, "")!!)
     }
 
-    override fun onMovieClick(movie: Movie, view: View) {
+    override fun onMovieClick(movie: Movie) {
         (requireContext() as FavoriteActivity).startMovie(movie)
         requireActivity().finish()
     }
 
     override fun showLoading() {
-        progress_bar.visibility = VISIBLE
+        progressBar.visibility = VISIBLE
     }
 
     override fun hideLoading() {
-        progress_bar.visibility = GONE
+        progressBar.visibility = GONE
     }
 
     override fun setMovies(movies: List<Movie>) {
         connectionFailure = false
         adapter?.addMovies(movies)
         hideLoading()
-        empty_view.visibility = GONE
+        emptyView.visibility = GONE
     }
 
     override fun setError(mode: Int) {
         connectionFailure = true
-        empty_view.visibility = VISIBLE
-        empty_view.setMode(mode)
+        emptyView.visibility = VISIBLE
+        emptyView.setMode(mode)
         hideLoading()
 
         if (BuildUtil.isEmptyApiKey()) {
-            empty_view.setValue(R.string.error_empty_api_key)
+            emptyView.setValue(R.string.error_empty_api_key)
         }
     }
 

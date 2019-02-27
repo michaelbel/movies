@@ -4,19 +4,19 @@
     android:layout_height="match_parent">
 
     <ProgressBar
-        android:id="@+id/progress_bar"
+        android:id="@+id/progressBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
 
     <org.michaelbel.moviemade.presentation.common.EmptyView
-        android:id="@+id/empty_view"
+        android:id="@+id/emptyView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"/>
 
-    <org.michaelbel.moviemade.presentation.common.RecyclerListView
-        android:id="@+id/recycler_view"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="12dp"/>

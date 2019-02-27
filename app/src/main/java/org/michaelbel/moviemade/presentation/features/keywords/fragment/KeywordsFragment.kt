@@ -2,6 +2,7 @@ package org.michaelbel.moviemade.presentation.features.keywords.fragment
 
 import android.content.IntentFilter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
@@ -22,7 +23,10 @@ import org.michaelbel.moviemade.presentation.features.keywords.KeywordsContract
 import org.michaelbel.moviemade.presentation.features.keywords.activity.KeywordsActivity
 import javax.inject.Inject
 
-class KeywordsFragment: BaseFragment(), KeywordsContract.View, NetworkChangeReceiver.Listener {
+class KeywordsFragment: BaseFragment(),
+        KeywordsContract.View,
+        KeywordsAdapter.Listener,
+        NetworkChangeReceiver.Listener {
 
     companion object {
         fun newInstance(movieId: Int): KeywordsFragment {
@@ -36,7 +40,8 @@ class KeywordsFragment: BaseFragment(), KeywordsContract.View, NetworkChangeRece
     }
 
     private var movieId: Int = 0
-    private var adapter: KeywordsAdapter? = null
+
+    private lateinit var adapter: KeywordsAdapter
 
     private var networkChangeReceiver: NetworkChangeReceiver? = null
     private var connectionFailure = false
@@ -59,43 +64,43 @@ class KeywordsFragment: BaseFragment(), KeywordsContract.View, NetworkChangeRece
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as KeywordsActivity).toolbar.setOnClickListener { recycler_view.smoothScrollToPosition(0) }
+        (requireActivity() as KeywordsActivity).toolbar.setOnClickListener { recyclerView.smoothScrollToPosition(0) }
 
-        adapter = KeywordsAdapter()
+        adapter = KeywordsAdapter(this)
 
-        recycler_view.adapter = adapter
-        recycler_view.emptyView = empty_view
-        recycler_view.layoutManager = ChipsLayoutManager.newBuilder(requireContext()).setOrientation(ChipsLayoutManager.HORIZONTAL).build()
-        recycler_view.setOnItemClickListener { _, position ->
-            val keyword = adapter!!.keywords[position]
-            (requireActivity() as KeywordsActivity).startKeyword(keyword)
-        }
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = ChipsLayoutManager.newBuilder(requireContext()).setOrientation(ChipsLayoutManager.HORIZONTAL).build()
 
-        empty_view.setOnClickListener {
-            empty_view.visibility = GONE
-            progress_bar.visibility = VISIBLE
+        emptyView.setOnClickListener {
+            emptyView.visibility = GONE
+            progressBar.visibility = VISIBLE
             presenter.getKeywords(movieId)
         }
 
-        movieId = if (arguments != null) arguments!!.getInt(MOVIE_ID) else 0
+        movieId = arguments?.getInt(MOVIE_ID) ?: 0
         presenter.getKeywords(movieId)
+    }
+
+    override fun onKeywordClick(keyword: Keyword) {
+        Log.d("2580", "onKeywordClick")
+        (requireActivity() as KeywordsActivity).startKeyword(keyword)
     }
 
     override fun setKeywords(keywords: List<Keyword>) {
         connectionFailure = false
-        adapter!!.addKeywords(keywords)
-        progress_bar.visibility = GONE
+        adapter.addKeywords(keywords)
+        progressBar.visibility = GONE
     }
 
     override fun setError(@EmptyViewMode mode: Int) {
         connectionFailure = true
-        empty_view.visibility = VISIBLE
-        empty_view.setMode(mode)
-        progress_bar.visibility = GONE
+        emptyView.visibility = VISIBLE
+        emptyView.setMode(mode)
+        progressBar.visibility = GONE
     }
 
     override fun onNetworkChanged() {
-        if (connectionFailure && adapter!!.itemCount == 0) {
+        if (connectionFailure && adapter.itemCount == 0) {
             presenter.getKeywords(movieId)
         }
     }

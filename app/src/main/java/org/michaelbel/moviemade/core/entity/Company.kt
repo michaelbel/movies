@@ -12,4 +12,4 @@ data class Company(
     @SerializedName("name") val name: String,
     @SerializedName("origin_country") val originCountry: String,
     @SerializedName("parent_company") val parentCompany: Company
-) : Serializable
+): Serializable

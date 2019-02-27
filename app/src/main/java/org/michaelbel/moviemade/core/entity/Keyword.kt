@@ -6,4 +6,4 @@ import java.io.Serializable
 data class Keyword(
     @SerializedName("id") val id: Int,
     @SerializedName("name") val name: String
-) : Serializable
+): Serializable

@@ -61,19 +61,19 @@ class TrailersFragment: BaseFragment(), NetworkChangeReceiver.Listener, Trailers
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as TrailersActivity).toolbar.setOnClickListener { recycler_view.smoothScrollToPosition(0) }
+        (requireActivity() as TrailersActivity).toolbar.setOnClickListener { recyclerView.smoothScrollToPosition(0) }
 
         val spanCount = resources.getInteger(R.integer.trailers_span_layout_count)
 
         adapter = TrailersAdapter(this)
 
-        recycler_view.adapter = adapter
-        recycler_view.layoutManager = GridLayoutManager(requireContext(), spanCount)
-        recycler_view.addItemDecoration(GridSpacingItemDecoration(spanCount, DeviceUtil.dp(requireContext(), 5F)))
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
+        recyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, DeviceUtil.dp(requireContext(), 5F)))
 
-        empty_view.setOnClickListener {
-            empty_view.visibility = GONE
-            progress_bar.visibility = VISIBLE
+        emptyView.setOnClickListener {
+            emptyView.visibility = GONE
+            progressBar.visibility = VISIBLE
             presenter.getVideos(movieId)
         }
 
@@ -81,12 +81,12 @@ class TrailersFragment: BaseFragment(), NetworkChangeReceiver.Listener, Trailers
         presenter.getVideos(movieId)
     }
 
-    override fun onTrailerClick(video: Video, view: View) {
+    override fun onTrailerClick(video: Video) {
         val dialog = YoutubePlayerDialogFragment.newInstance(video.key.toUri().toString())
         dialog.show(requireActivity().supportFragmentManager, YOUTUBE_DIALOG_FRAGMENT_TAG)
     }
 
-    override fun onTrailerLongClick(video: Video, view: View): Boolean {
+    override fun onTrailerLongClick(video: Video): Boolean {
         startActivity(Intent(Intent.ACTION_VIEW, ("vnd.youtube:" + video.key).toUri()))
         return true
     }
@@ -98,11 +98,11 @@ class TrailersFragment: BaseFragment(), NetworkChangeReceiver.Listener, Trailers
     }
 
     override fun showLoading() {
-        progress_bar.visibility = VISIBLE
+        progressBar.visibility = VISIBLE
     }
 
     override fun hideLoading() {
-        progress_bar.visibility = GONE
+        progressBar.visibility = GONE
     }
 
     override fun setTrailers(trailers: List<Video>) {
@@ -112,8 +112,8 @@ class TrailersFragment: BaseFragment(), NetworkChangeReceiver.Listener, Trailers
 
     override fun setError(@EmptyViewMode mode: Int) {
         connectionFailure = true
-        empty_view.visibility = VISIBLE
-        empty_view.setMode(mode)
+        emptyView.visibility = VISIBLE
+        emptyView.setMode(mode)
         hideLoading()
     }
 

@@ -23,7 +23,10 @@ import org.michaelbel.moviemade.presentation.features.keywords.activity.KeywordA
 import org.michaelbel.moviemade.presentation.features.main.MoviesAdapter
 import javax.inject.Inject
 
-class KeywordFragment: BaseFragment(), KeywordContract.View, NetworkChangeReceiver.Listener, MoviesAdapter.Listener {
+class KeywordFragment: BaseFragment(),
+        KeywordContract.View,
+        NetworkChangeReceiver.Listener,
+        MoviesAdapter.Listener {
 
     companion object {
         fun newInstance(keywordId: Int): KeywordFragment {
@@ -36,8 +39,8 @@ class KeywordFragment: BaseFragment(), KeywordContract.View, NetworkChangeReceiv
         }
     }
 
-    private var keywordId: Int = 0
-    private var adapter: MoviesAdapter? = null
+    var keywordId: Int = 0
+    lateinit var adapter: MoviesAdapter
 
     private var networkChangeReceiver: NetworkChangeReceiver? = null
     private var connectionFailure = false
@@ -59,27 +62,27 @@ class KeywordFragment: BaseFragment(), KeywordContract.View, NetworkChangeReceiv
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as KeywordActivity).toolbar.setOnClickListener { recycler_view.smoothScrollToPosition(0) }
+        (requireActivity() as KeywordActivity).toolbar.setOnClickListener { recyclerView.smoothScrollToPosition(0) }
 
         val spanCount = resources.getInteger(R.integer.movies_span_layout_count)
 
         adapter = MoviesAdapter(this)
 
-        recycler_view.adapter = adapter
-        recycler_view.layoutManager = GridLayoutManager(requireContext(), spanCount)
-        recycler_view.addItemDecoration(GridSpacingItemDecoration(spanCount, DeviceUtil.dp(requireContext(), 3F)))
-        recycler_view.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
+        recyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, DeviceUtil.dp(requireContext(), 3F)))
+        recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1) && adapter?.itemCount != 0) {
+                if (!recyclerView.canScrollVertically(1) && adapter.itemCount != 0) {
                     presenter.getMoviesNext(keywordId)
                 }
             }
         })
 
-        empty_view.setOnClickListener { presenter.getMovies(keywordId) }
+        emptyView.setOnClickListener { presenter.getMovies(keywordId) }
 
-        keywordId = if (arguments != null) arguments!!.getInt(KEYWORD_ID) else 0
+        keywordId = arguments?.getInt(KEYWORD_ID) ?: 0
         presenter.getMovies(keywordId)
     }
 
@@ -91,23 +94,23 @@ class KeywordFragment: BaseFragment(), KeywordContract.View, NetworkChangeReceiv
 
     override fun setMovies(movies: List<Movie>) {
         connectionFailure = false
-        progress_bar.visibility = GONE
-        adapter?.addMovies(movies)
+        progressBar.visibility = GONE
+        adapter.addMovies(movies)
     }
 
     override fun setError(mode: Int) {
         connectionFailure = false
-        progress_bar.visibility = GONE
-        empty_view.setMode(mode)
+        progressBar.visibility = GONE
+        emptyView.setMode(mode)
     }
 
     override fun onNetworkChanged() {
-        if (connectionFailure && adapter?.itemCount == 0) {
+        if (connectionFailure && adapter.itemCount == 0) {
             presenter.getMovies(keywordId)
         }
     }
 
-    override fun onMovieClick(movie: Movie, view: View) {
+    override fun onMovieClick(movie: Movie) {
         (requireActivity() as KeywordActivity).startMovie(movie)
     }
 }

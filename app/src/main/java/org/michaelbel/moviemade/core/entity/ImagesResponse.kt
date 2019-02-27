@@ -7,4 +7,4 @@ data class ImagesResponse(
     @SerializedName("id") val id: Int,
     @SerializedName("backdrops") val cast: List<Image>,
     @SerializedName("posters") val crew: List<Image>
-) : Serializable
+): Serializable

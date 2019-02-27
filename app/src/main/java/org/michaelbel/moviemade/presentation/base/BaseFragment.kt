@@ -6,7 +6,7 @@ import androidx.fragment.app.Fragment
 import butterknife.ButterKnife
 import butterknife.Unbinder
 
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment: Fragment() {
 
     private var unbinder: Unbinder? = null
 

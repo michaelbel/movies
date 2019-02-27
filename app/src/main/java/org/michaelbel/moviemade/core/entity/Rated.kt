@@ -5,4 +5,4 @@ import java.io.Serializable
 
 data class Rated(
     @SerializedName("value") val value: Int
-) : Serializable
+): Serializable

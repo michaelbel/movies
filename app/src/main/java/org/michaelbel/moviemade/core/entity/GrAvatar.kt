@@ -5,4 +5,4 @@ import java.io.Serializable
 
 data class GrAvatar(
     @SerializedName("hash") val hash: String
-) : Serializable
+): Serializable
