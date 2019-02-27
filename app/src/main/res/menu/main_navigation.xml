@@ -1,0 +1,28 @@
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/item_playing"
+        android:title="@string/now_playing"
+        android:icon="@drawable/ic_fire"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/item_rated"
+        android:title="@string/top_rated"
+        android:icon="@drawable/ic_star_circle"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/item_upcoming"
+        android:title="@string/upcoming"
+        android:icon="@drawable/ic_movie_roll"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/item_account"
+        android:title="@string/account"
+        android:icon="@drawable/ic_account_circle"
+        app:showAsAction="ifRoom"/>
+</menu>

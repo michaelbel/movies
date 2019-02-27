@@ -99,7 +99,7 @@ public class AboutFragment extends BaseFragment {
                 Browser.INSTANCE.openUrl(activity, LinksKt.ACCOUNT_WEB);
             }
         } else if (position == libsRow) {
-            activity.startFragment(new LibsFragment(), R.id.fragment_view, LIBS_FRAGMENT_TAG);
+            activity.startFragment(new LibsFragment(), R.id.container, LIBS_FRAGMENT_TAG);
         } else if (position == feedbackRow) {
             try {
                 PackageManager packageManager = activity.getPackageManager();

@@ -1,5 +1,7 @@
 package org.michaelbel.moviemade.presentation.base
 
+import android.view.View
+import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
 import org.michaelbel.moviemade.core.entity.Keyword
 import org.michaelbel.moviemade.core.entity.Movie
@@ -7,8 +9,8 @@ import org.michaelbel.moviemade.core.entity.Review
 
 interface BaseContract {
 
-    fun startFragment(fragment: Fragment, containerId: Int)
-    fun startFragment(fragment: Fragment, containerId: Int, tag: String)
+    fun startFragment(fragment: Fragment, @LayoutRes containerId: Int)
+    fun startFragment(fragment: Fragment, @LayoutRes containerId: Int, tag: String)
     fun finishFragment()
 
     interface MediaView {

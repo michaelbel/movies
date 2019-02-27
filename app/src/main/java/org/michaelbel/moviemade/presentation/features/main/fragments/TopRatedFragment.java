@@ -8,19 +8,18 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
 import org.jetbrains.annotations.NotNull;
-import org.michaelbel.moviemade.presentation.App;
 import org.michaelbel.moviemade.R;
 import org.michaelbel.moviemade.core.entity.Movie;
-import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration;
+import org.michaelbel.moviemade.core.utils.BuildUtil;
+import org.michaelbel.moviemade.core.utils.DeviceUtil;
+import org.michaelbel.moviemade.presentation.App;
 import org.michaelbel.moviemade.presentation.base.BaseFragment;
+import org.michaelbel.moviemade.presentation.common.EmptyView;
+import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration;
+import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceiver;
 import org.michaelbel.moviemade.presentation.features.main.MainActivity;
 import org.michaelbel.moviemade.presentation.features.main.MainContract;
 import org.michaelbel.moviemade.presentation.features.main.MoviesAdapter;
-import org.michaelbel.moviemade.presentation.common.network.NetworkChangeListener;
-import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceiver;
-import org.michaelbel.moviemade.presentation.common.EmptyView;
-import org.michaelbel.moviemade.core.utils.BuildUtil;
-import org.michaelbel.moviemade.core.utils.DeviceUtil;
 
 import java.util.List;
 
@@ -32,7 +31,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
-public class TopRatedFragment extends BaseFragment implements MainContract.View, NetworkChangeListener, MoviesAdapter.Listener {
+public class TopRatedFragment extends BaseFragment implements MainContract.View, NetworkChangeReceiver.Listener, MoviesAdapter.Listener {
 
     private MainActivity activity;
     private MoviesAdapter adapter;

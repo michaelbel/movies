@@ -27,6 +27,8 @@ abstract class BaseActivity: AppCompatActivity(), BaseContract, BaseContract.Med
         supportFragmentManager.beginTransaction().replace(containerId, fragment).commit()
     }
 
+
+
     override fun startFragment(fragment: Fragment, containerId: Int, tag: String) {
         supportFragmentManager.beginTransaction().replace(containerId, fragment).addToBackStack(tag).commit()
     }

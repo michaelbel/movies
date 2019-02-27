@@ -17,7 +17,6 @@ import org.michaelbel.moviemade.presentation.App;
 import org.michaelbel.moviemade.presentation.base.BaseFragment;
 import org.michaelbel.moviemade.presentation.common.EmptyView;
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration;
-import org.michaelbel.moviemade.presentation.common.network.NetworkChangeListener;
 import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceiver;
 import org.michaelbel.moviemade.presentation.features.main.MainActivity;
 import org.michaelbel.moviemade.presentation.features.main.MainContract;
@@ -34,7 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 public class NowPlayingFragment extends BaseFragment
-        implements MainContract.View, NetworkChangeListener, MoviesAdapter.Listener {
+        implements MainContract.View, NetworkChangeReceiver.Listener, MoviesAdapter.Listener {
 
     private MainActivity activity;
     private MoviesAdapter adapter;

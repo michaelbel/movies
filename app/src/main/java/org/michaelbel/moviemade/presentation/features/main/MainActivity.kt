@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.utils.DeviceUtil
@@ -15,8 +16,6 @@ import org.michaelbel.moviemade.core.utils.KEY_MAIN_FRAGMENT
 import org.michaelbel.moviemade.core.utils.KEY_TOKEN
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseActivity
-import org.michaelbel.moviemade.presentation.common.bottombar.BottomNavigationBar
-import org.michaelbel.moviemade.presentation.common.bottombar.BottomNavigationItem
 import org.michaelbel.moviemade.presentation.features.account.AccountFragment
 import org.michaelbel.moviemade.presentation.features.main.fragments.NowPlayingFragment
 import org.michaelbel.moviemade.presentation.features.main.fragments.TopRatedFragment
@@ -26,17 +25,14 @@ import org.michaelbel.moviemade.presentation.features.settings.SettingsActivity
 import shortbread.Shortcut
 import javax.inject.Inject
 
-class MainActivity: BaseActivity(), BottomNavigationBar.OnTabSelectedListener {
+class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     companion object {
-        private const val DEFAULT_FRAGMENT = 0
+        private const val DEFAULT_FRAGMENT = R.id.item_playing
         private const val KEY_BAR_POSITION = "pos"
     }
 
-    private var nowPlayingFragment: NowPlayingFragment? = null
-    private var topRatedFragment: TopRatedFragment? = null
-    private var upcomingFragment: UpcomingFragment? = null
-    private var profileFragment: AccountFragment? = null
+    private lateinit var accountFragment: AccountFragment
 
     @Inject
     lateinit var sharedPreferences: SharedPreferences
@@ -51,7 +47,8 @@ class MainActivity: BaseActivity(), BottomNavigationBar.OnTabSelectedListener {
         val data = intent.dataString
 
         if (Intent.ACTION_VIEW == action && data != null) {
-            profileFragment!!.presenter.createSessionId(sharedPreferences.getString(KEY_TOKEN, "")!!)
+            val token = sharedPreferences.getString(KEY_TOKEN, "") ?: ""
+            accountFragment.presenter.createSessionId(token)
         }
     }
 
@@ -84,103 +81,56 @@ class MainActivity: BaseActivity(), BottomNavigationBar.OnTabSelectedListener {
 
         setSupportActionBar(toolbar)
         supportActionBar?.setTitle(R.string.app_name)
-        toolbar.setOnClickListener {
-            val position = bottom_bar!!.currentSelectedPosition
-            if (position != 3) {
-                scrollToTop(position)
-            }
-        }
 
         appBarLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent20))
 
         val params = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
         params.topMargin = DeviceUtil.getStatusBarHeight(this)
 
-        nowPlayingFragment = NowPlayingFragment()
-        topRatedFragment = TopRatedFragment()
-        upcomingFragment = UpcomingFragment()
-        profileFragment = AccountFragment()
+        accountFragment = AccountFragment()
 
-        bottom_bar.setTabSelectedListener(this)
-        bottom_bar.setBarBackgroundColor(R.color.primary)
-        bottom_bar.activeColor = R.color.md_white
-        bottom_bar.setMode(BottomNavigationBar.MODE_FIXED)
-        bottom_bar.setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_DEFAULT)
-        bottom_bar.setFirstSelectedPosition(sharedPreferences.getInt(KEY_MAIN_FRAGMENT, DEFAULT_FRAGMENT))
-            .addItem(BottomNavigationItem(R.drawable.ic_fire, R.string.now_playing).setActiveColorResource(R.color.accent))
-            .addItem(BottomNavigationItem(R.drawable.ic_star_circle, R.string.top_rated).setActiveColorResource(R.color.accent))
-            .addItem(BottomNavigationItem(R.drawable.ic_movieroll, R.string.upcoming).setActiveColorResource(R.color.accent))
-            .addItem(BottomNavigationItem(R.drawable.ic_account_circle, R.string.account).setActiveColorResource(R.color.accent))
-            .initialise()
+        bottomNavigationView.setOnNavigationItemSelectedListener(this)
+        bottomNavigationView.selectedItemId = DEFAULT_FRAGMENT
 
         if (savedInstanceState == null) {
             startCurrentFragment()
         } else {
-            bottom_bar.selectTab(savedInstanceState.getInt(KEY_BAR_POSITION))
+            bottomNavigationView.selectedItemId = savedInstanceState.getInt(KEY_BAR_POSITION)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
-        outState?.putInt(KEY_BAR_POSITION, bottom_bar.currentSelectedPosition)
+        outState?.putInt(KEY_BAR_POSITION, bottomNavigationView.selectedItemId)
         super.onSaveInstanceState(outState, outPersistentState)
     }
 
-    override fun onTabSelected(position: Int) {
-        when (position) {
-            0 -> startFragment(nowPlayingFragment!!, R.id.fragment_view)
-            1 -> startFragment(topRatedFragment!!, R.id.fragment_view)
-            2 -> startFragment(upcomingFragment!!, R.id.fragment_view)
-            3 -> {
-                startFragment(profileFragment!!, R.id.fragment_view)
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_playing -> startFragment(NowPlayingFragment(), container.id)
+            R.id.item_rated -> startFragment(TopRatedFragment(), container.id)
+            R.id.item_upcoming -> startFragment(UpcomingFragment(), container.id)
+            R.id.item_account -> {
+                startFragment(accountFragment, container.id)
                 supportActionBar?.title = ""
                 appBarLayout.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.transparent))
             }
         }
 
-        if (position != 3) {
-            sharedPreferences.edit().putInt(KEY_MAIN_FRAGMENT, position).apply()
+        if (item.itemId != R.id.item_account) {
+            sharedPreferences.edit().putInt(KEY_MAIN_FRAGMENT, item.itemId).apply()
             supportActionBar?.setTitle(R.string.app_name)
             appBarLayout.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.transparent20))
         }
-    }
 
-    override fun onTabReselected(position: Int) {
-        if (position != 3) {
-            scrollToTop(position)
-        }
-    }
-
-    override fun onTabUnselected(position: Int) {}
-
-    private fun scrollToTop(position: Int) {
-        when (position) {
-            0 -> if (nowPlayingFragment!!.adapter.itemCount == 0) {
-                nowPlayingFragment!!.presenter.getNowPlaying()
-            } else {
-                nowPlayingFragment!!.recyclerView.smoothScrollToPosition(0)
-            }
-
-            1 -> if (topRatedFragment!!.adapter.itemCount == 0) {
-                topRatedFragment!!.presenter.getTopRated()
-            } else {
-                topRatedFragment!!.recyclerView.smoothScrollToPosition(0)
-            }
-
-            2 -> if (upcomingFragment!!.adapter.itemCount == 0) {
-                upcomingFragment!!.presenter.getUpcoming()
-            } else {
-                upcomingFragment!!.recyclerView.smoothScrollToPosition(0)
-            }
-        }
+        return true
     }
 
     private fun startCurrentFragment() {
-        val position = sharedPreferences.getInt(KEY_MAIN_FRAGMENT, DEFAULT_FRAGMENT)
-
-        when (position) {
-            0 -> startFragment(nowPlayingFragment!!, R.id.fragment_view)
-            1 -> startFragment(topRatedFragment!!, R.id.fragment_view)
-            2 -> startFragment(upcomingFragment!!, R.id.fragment_view)
+        val item = sharedPreferences.getInt(KEY_MAIN_FRAGMENT, DEFAULT_FRAGMENT)
+        when (item) {
+            R.id.item_playing -> startFragment(NowPlayingFragment(), container.id)
+            R.id.item_rated -> startFragment(TopRatedFragment(), container.id)
+            R.id.item_upcoming -> startFragment(UpcomingFragment(), container.id)
         }
     }
 
@@ -191,11 +141,11 @@ class MainActivity: BaseActivity(), BottomNavigationBar.OnTabSelectedListener {
             shortLabelRes = R.string.favorites
     )
     fun showFavorites() {
-        startFragment(profileFragment!!, R.id.fragment_view)
+        startFragment(accountFragment!!, container.id)
         supportActionBar?.title = ""
         appBarLayout.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.transparent))
-        bottom_bar.selectTab(3)
-        startFavorites(profileFragment!!.accountId)
+        bottomNavigationView.selectedItemId = R.id.item_account
+        startFavorites(accountFragment!!.accountId)
     }
 
     @Shortcut(
@@ -205,10 +155,10 @@ class MainActivity: BaseActivity(), BottomNavigationBar.OnTabSelectedListener {
             shortLabelRes = R.string.watchlist
     )
     fun showUpcomingMovies() {
-        startFragment(profileFragment!!, R.id.fragment_view)
+        startFragment(accountFragment, container.id)
         supportActionBar?.title = ""
         appBarLayout.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.transparent))
-        bottom_bar.selectTab(3)
-        startWatchlist(profileFragment!!.accountId)
+        bottomNavigationView.selectedItemId = R.id.item_account
+        startWatchlist(accountFragment.accountId)
     }
 }

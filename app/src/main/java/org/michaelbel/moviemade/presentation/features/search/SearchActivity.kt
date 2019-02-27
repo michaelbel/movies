@@ -24,7 +24,7 @@ class SearchActivity: BaseActivity() {
         toolbar.setNavigationOnClickListener {finish()}
 
         if (savedInstanceState == null) {
-            startFragment(SearchMoviesFragment.newInstance(), R.id.fragment_view)
+            startFragment(SearchMoviesFragment.newInstance(), container.id)
         }
     }
 }

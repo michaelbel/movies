@@ -10,27 +10,27 @@ abstract class AppBarStateChangeListener: AppBarLayout.OnOffsetChangedListener {
         IDLE
     }
 
-    private var mCurrentState = AppBarState.IDLE
+    private var currentState = AppBarState.IDLE
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout, i: Int) {
         when {
             i == 0 -> {
-                if (mCurrentState !== AppBarState.EXPANDED) {
+                if (currentState !== AppBarState.EXPANDED) {
                     onStateChanged(appBarLayout, AppBarState.EXPANDED)
                 }
-                mCurrentState = AppBarState.EXPANDED
+                currentState = AppBarState.EXPANDED
             }
             Math.abs(i) >= appBarLayout.totalScrollRange -> {
-                if (mCurrentState !== AppBarState.COLLAPSED) {
+                if (currentState !== AppBarState.COLLAPSED) {
                     onStateChanged(appBarLayout, AppBarState.COLLAPSED)
                 }
-                mCurrentState = AppBarState.COLLAPSED
+                currentState = AppBarState.COLLAPSED
             }
             else -> {
-                if (mCurrentState !== AppBarState.IDLE) {
+                if (currentState !== AppBarState.IDLE) {
                     onStateChanged(appBarLayout, AppBarState.IDLE)
                 }
-                mCurrentState = AppBarState.IDLE
+                currentState = AppBarState.IDLE
             }
         }
     }

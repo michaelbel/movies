@@ -16,7 +16,7 @@ class AccountPresenter internal constructor(
     override fun attach(view: AccountContract.View) {}
 
     override fun createSessionId(token: String) {
-        if (!NetworkUtil.isNetworkConnected()) {
+        if (NetworkUtil.isNetworkConnected().not()) {
             view.setError(Error.ERR_NO_CONNECTION)
             return
         }

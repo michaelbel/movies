@@ -10,6 +10,7 @@ import org.michaelbel.moviemade.core.remote.MoviesService
 import org.michaelbel.moviemade.core.utils.CONTENT_TYPE
 import org.michaelbel.moviemade.core.utils.LocalUtil
 import org.michaelbel.moviemade.presentation.App
+import org.michaelbel.moviemade.presentation.base.Presenter
 
 class MovieRepository internal constructor(
         private val moviesService: MoviesService, private val accountService: AccountService

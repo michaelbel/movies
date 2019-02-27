@@ -1,19 +1,16 @@
 package org.michaelbel.moviemade.presentation.features.favorites
 
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
-import kotlinx.android.synthetic.main.activity_frame.*
+import kotlinx.android.synthetic.main.activity_default.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.utils.EXTRA_ACCOUNT_ID
 import org.michaelbel.moviemade.presentation.base.BaseActivity
 
 class FavoriteActivity: BaseActivity() {
 
-    fun getToolbar(): Toolbar = toolbar
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_frame)
+        setContentView(R.layout.activity_default)
 
         val accountId = intent.getIntExtra(EXTRA_ACCOUNT_ID, 0)
 
@@ -22,7 +19,7 @@ class FavoriteActivity: BaseActivity() {
         supportActionBar?.setTitle(R.string.favorites)
 
         if (savedInstanceState == null) {
-            startFragment(FavoritesFragment.newInstance(accountId), R.id.fragment_view)
+            startFragment(FavoritesFragment.newInstance(accountId), container.id)
         }
     }
 }

@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade.presentation.features.settings
 
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_frame.*
+import kotlinx.android.synthetic.main.activity_default.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.presentation.base.BaseActivity
 
@@ -9,11 +9,11 @@ class SettingsActivity: BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_frame)
+        setContentView(R.layout.activity_default)
         initToolbar()
 
         if (savedInstanceState == null) {
-            startFragment(SettingsFragment(), R.id.fragment_view)
+            startFragment(SettingsFragment(), container.id)
         }
     }
 

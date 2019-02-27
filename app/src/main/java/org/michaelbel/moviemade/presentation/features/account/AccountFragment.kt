@@ -20,16 +20,14 @@ import org.michaelbel.moviemade.core.entity.Account
 import org.michaelbel.moviemade.core.utils.*
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseFragment
-import org.michaelbel.moviemade.presentation.common.network.NetworkChangeListener
 import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceiver
 import org.michaelbel.moviemade.presentation.features.main.MainActivity
 import java.util.*
 import javax.inject.Inject
 
-class AccountFragment: BaseFragment(), NetworkChangeListener, AccountContract.View {
+class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountContract.View {
 
     var accountId: Int = 0
-        private set
 
     private var networkChangeReceiver: NetworkChangeReceiver? = null
 
@@ -59,9 +57,9 @@ class AccountFragment: BaseFragment(), NetworkChangeListener, AccountContract.Vi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
+        App[requireActivity().application].createFragmentComponent().inject(this)
         networkChangeReceiver = NetworkChangeReceiver(this)
         requireActivity().registerReceiver(networkChangeReceiver, IntentFilter(NetworkChangeReceiver.INTENT_ACTION))
-        App[requireActivity().application].createFragmentComponent().inject(this)
         presenter = AccountPresenter(this, repository, preferences)
     }
 

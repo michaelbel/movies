@@ -18,7 +18,6 @@ import org.michaelbel.moviemade.presentation.App;
 import org.michaelbel.moviemade.presentation.base.BaseFragment;
 import org.michaelbel.moviemade.presentation.common.ErrorView;
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration;
-import org.michaelbel.moviemade.presentation.common.network.NetworkChangeListener;
 import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceiver;
 import org.michaelbel.moviemade.presentation.features.main.MoviesAdapter;
 
@@ -37,7 +36,11 @@ import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 public class SimilarMoviesFragment extends BaseFragment implements
-        SimilarContract.View, NetworkChangeListener, MoviesAdapter.Listener, ErrorView.ErrorListener, SwipeRefreshLayout.OnRefreshListener {
+        SimilarContract.View,
+        NetworkChangeReceiver.Listener,
+        MoviesAdapter.Listener,
+        ErrorView.ErrorListener,
+        SwipeRefreshLayout.OnRefreshListener {
 
     private int movieId;
     private SimilarMoviesActivity activity;
