@@ -78,7 +78,7 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
             val pass = password_field.text.toString().trim()
 
             if (name.isEmpty() || pass.isEmpty()) {
-                Toast.makeText(activity, SpannableUtil.replaceTags(getString(R.string.msg_enter_data)), Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, R.string.msg_enter_data, Toast.LENGTH_SHORT).show()
             } else {
                 presenter.createRequestToken(name, pass)
             }
@@ -171,9 +171,9 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
             Error.ERR_NO_CONNECTION ->
                 Toast.makeText(requireContext(), R.string.error_no_connection, Toast.LENGTH_SHORT).show()
             Error.ERROR_AUTH_WITH_LOGIN ->
-                Toast.makeText(requireContext(), SpannableUtil.replaceTags(getString(R.string.error_invalid_data)), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.error_invalid_data, Toast.LENGTH_SHORT).show()
             Error.ERROR_NOT_FOUND ->
-                Toast.makeText(requireContext(), SpannableUtil.replaceTags(getString(R.string.error_not_found)), Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), R.string.error_not_found, Toast.LENGTH_SHORT).show()
         }
     }
 

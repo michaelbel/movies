@@ -9,7 +9,6 @@ import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.view_empty.view.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.utils.EmptyViewMode
-import org.michaelbel.moviemade.core.utils.SpannableUtil
 import org.michaelbel.moviemade.core.utils.ViewUtil
 
 class EmptyView: FrameLayout {
@@ -77,6 +76,6 @@ class EmptyView: FrameLayout {
 
     fun setValue(@StringRes textId: Int) {
         value_text.visibility = VISIBLE
-        value_text.text = SpannableUtil.replaceTags(context.getString(textId))
+        value_text.text = context.getString(textId)
     }
 }

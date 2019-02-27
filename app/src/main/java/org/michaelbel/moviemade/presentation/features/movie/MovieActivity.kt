@@ -44,9 +44,16 @@ class MovieActivity: BaseActivity() {
 
         movie = intent.getSerializableExtra(MOVIE) as Movie
 
-        fragment = supportFragmentManager.findFragmentById(R.id.fragment) as MovieFragment
-        fragment.presenter.setDetailExtra(movie)
-        fragment.presenter.getDetails(movie.id)
+        fragment = MovieFragment.newInstance(movie)
+        startFragment(fragment, container.id)
+
+        //fragment = supportFragmentManager.findFragmentById(R.id.fragment) as MovieFragment
+        //fragment.arguments?.putSerializable("movie", movie)
+
+        /*if (fragment.presenter != null) {
+            fragment.presenter.setDetailExtra(movie)
+            fragment.presenter.getDetails(movie.id)
+        }*/
 
         window.statusBarColor = ContextCompat.getColor(this, R.color.primary)
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -97,7 +104,7 @@ class MovieActivity: BaseActivity() {
 
     override fun onBackPressed() {
         if (fragment.imageAnimator != null && !fragment.imageAnimator!!.isLeaving) {
-            fragment.imageAnimator!!.exit(true)
+            fragment.imageAnimator?.exit(true)
         } else {
             super.onBackPressed()
         }

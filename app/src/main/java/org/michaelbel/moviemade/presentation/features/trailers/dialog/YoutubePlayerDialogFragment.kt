@@ -27,8 +27,6 @@ class YoutubePlayerDialogFragment: BottomSheetDialogFragment() {
 
     private lateinit var videoUrl: String
 
-    override fun getTheme() = R.style.BottomSheetTheme
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.view_player_dialog, container, false)
 

@@ -28,7 +28,7 @@
     <string name="include_adult_info">Toggle the inclusion of adult content</string>
     <string name="in_app_browser">In-App Browser</string>
     <string name="in_app_browser_info">Open external links within the app</string>
-    <string name="powered_by">Powered by **Themoviedb.org**</string>
+    <string name="powered_by">Powered by Themoviedb.org</string>
     <string name="speak_now">Speak now</string>
     <string name="favorites">Favorites</string>
     <string name="now_playing">Now Playing</string>
@@ -93,15 +93,15 @@
     <string name="error_no_connection">No connection</string>
     <string name="error_not_found">Resource is not found</string>
     <string name="error_empty_token">Authorized token is empty</string>
-    <string name="error_invalid_data">Invalid **Login** or **Password**</string>
-    <string name="error_empty_api_key">Please, add your **TMDB_API_KEY** into **local.properties**</string>
+    <string name="error_invalid_data">Invalid Login or Password</string>
+    <string name="error_empty_api_key">Please, add your TMDB_API_KEY into local.properties</string>
     <!--Actions-->
     <string name="ok">OK</string>
     <string name="set">Set</string>
     <string name="cancel">Cancel</string>
     <!--Messages-->
     <string name="msg_logout">Are you sure you want to log out?</string>
-    <string name="msg_enter_data">Enter **Username** and **Password**</string>
+    <string name="msg_enter_data">Enter Username and Password</string>
     <string name="msg_account_not_authorized">Your Themoviedb account is not authorized. \nPlease, sign in.</string>
     <string name="msg_image_applied">Image applied as background</string>
     <string name="msg_check_internet" translatable="false">Please, check your internet connection and try again</string>

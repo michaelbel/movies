@@ -6,12 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.dialog_backdrop.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.utils.BACKDROP
 import org.michaelbel.moviemade.core.utils.KEY_ACCOUNT_BACKDROP
 import org.michaelbel.moviemade.presentation.App
-import org.michaelbel.moviemade.presentation.common.bottomsheet.BottomSheetDialogFragment
 import javax.inject.Inject
 
 class BackdropDialog: BottomSheetDialogFragment() {
@@ -30,10 +30,6 @@ class BackdropDialog: BottomSheetDialogFragment() {
 
     @Inject
     lateinit var preferences: SharedPreferences
-
-    override fun getTheme(): Int {
-        return R.style.BottomSheetTheme
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

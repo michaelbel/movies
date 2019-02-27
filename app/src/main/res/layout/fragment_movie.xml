@@ -8,6 +8,7 @@
     android:scrollbars="none">
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -303,7 +304,7 @@
                     android:textIsSelectable="true"
                     tools:text="Movie tagline"/>
 
-                <org.michaelbel.moviemade.presentation.common.RecyclerListView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/genres_recycler_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

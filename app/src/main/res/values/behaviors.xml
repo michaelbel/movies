@@ -1,3 +1,0 @@
-<resources>
-    <string name="bottom_sheet_behavior" translatable="false">com.google.android.material.bottomsheet.BottomSheetBehavior</string>
-</resources>
