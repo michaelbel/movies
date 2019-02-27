@@ -10,7 +10,7 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.GridLayoutManager
-import kotlinx.android.synthetic.main.activity_frame.*
+import kotlinx.android.synthetic.main.activity_default.*
 import kotlinx.android.synthetic.main.fragment_trailers.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Video
@@ -20,12 +20,11 @@ import org.michaelbel.moviemade.core.utils.MOVIE_ID
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
-import org.michaelbel.moviemade.presentation.common.network.NetworkChangeListener
 import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceiver
 import org.michaelbel.moviemade.presentation.features.trailers.dialog.YoutubePlayerDialogFragment
 import javax.inject.Inject
 
-class TrailersFragment: BaseFragment(), NetworkChangeListener, TrailersContract.View, TrailersAdapter.Listener {
+class TrailersFragment: BaseFragment(), NetworkChangeReceiver.Listener, TrailersContract.View, TrailersAdapter.Listener {
 
     companion object {
         private const val YOUTUBE_DIALOG_FRAGMENT_TAG = "youtubeFragment"

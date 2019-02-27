@@ -14,6 +14,7 @@ import org.michaelbel.moviemade.core.utils.AndroidUtil;
 import org.michaelbel.moviemade.core.utils.DateUtil;
 import org.michaelbel.moviemade.core.utils.NetworkUtil;
 import org.michaelbel.moviemade.core.utils.SharedPrefsKt;
+import org.michaelbel.moviemade.presentation.base.Presenter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,12 +23,11 @@ import java.util.Objects;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 
-public class MoviePresenter implements MovieContract.Presenter {
+public class MoviePresenter extends Presenter implements MovieContract.Presenter {
 
     private MovieContract.View view;
     private MovieContract.Repository repository;
     private SharedPreferences preferences;
-    private final CompositeDisposable disposables = new CompositeDisposable();
 
     MoviePresenter(MovieContract.View view, MoviesService moviesService, AccountService accountService, SharedPreferences prefs) {
         this.view = view;
@@ -58,7 +58,7 @@ public class MoviePresenter implements MovieContract.Presenter {
             return;
         }
 
-        disposables.add(repository.getDetails(movieId)
+        getDisposable().add(repository.getDetails(movieId)
             .subscribeWith(new DisposableObserver<Movie>() {
                 @Override
                 public void onNext(Movie movie) {
@@ -86,7 +86,7 @@ public class MoviePresenter implements MovieContract.Presenter {
     public void markFavorite(int accountId, int mediaId, boolean favorite) {
         if (!NetworkUtil.INSTANCE.isNetworkConnected()) return;
 
-        disposables.add(repository.markFavorite(accountId, preferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""), mediaId, favorite)
+        getDisposable().add(repository.markFavorite(accountId, preferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""), mediaId, favorite)
             .subscribe(mark -> view.onFavoriteChanged(mark), throwable -> view.setConnectionError()));
     }
 
@@ -94,13 +94,13 @@ public class MoviePresenter implements MovieContract.Presenter {
     public void addWatchlist(int accountId, int mediaId, boolean watchlist) {
         if (!NetworkUtil.INSTANCE.isNetworkConnected()) return;
 
-        disposables.add(repository.addWatchlist(accountId, preferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""), mediaId, watchlist)
+        getDisposable().add(repository.addWatchlist(accountId, preferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""), mediaId, watchlist)
             .subscribe(mark -> view.onWatchListChanged(mark), throwable -> view.setConnectionError()));
     }
 
     @Override
     public void getAccountStates(int movieId) {
-        disposables.add(repository.getAccountStates(movieId, preferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""))
+        getDisposable().add(repository.getAccountStates(movieId, preferences.getString(SharedPrefsKt.KEY_SESSION_ID, ""))
             .subscribeWith(new DisposableObserver<AccountStates>() {
                 @Override
                 public void onNext(AccountStates states) {
@@ -179,6 +179,6 @@ public class MoviePresenter implements MovieContract.Presenter {
 
     @Override
     public void destroy() {
-        disposables.dispose();
+        getDisposable().dispose();
     }
 }

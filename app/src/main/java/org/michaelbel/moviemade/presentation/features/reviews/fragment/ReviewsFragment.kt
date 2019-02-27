@@ -8,7 +8,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import kotlinx.android.synthetic.main.activity_frame.*
+import kotlinx.android.synthetic.main.activity_default.*
 import kotlinx.android.synthetic.main.fragment_reviews.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Movie
@@ -19,14 +19,13 @@ import org.michaelbel.moviemade.core.utils.MOVIE
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
-import org.michaelbel.moviemade.presentation.common.network.NetworkChangeListener
 import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceiver
 import org.michaelbel.moviemade.presentation.features.reviews.ReviewsAdapter
 import org.michaelbel.moviemade.presentation.features.reviews.ReviewsContract
 import org.michaelbel.moviemade.presentation.features.reviews.activity.ReviewsActivity
 import javax.inject.Inject
 
-class ReviewsFragment: BaseFragment(), ReviewsContract.View, NetworkChangeListener, ReviewsAdapter.Listener {
+class ReviewsFragment: BaseFragment(), ReviewsContract.View, NetworkChangeReceiver.Listener, ReviewsAdapter.Listener {
 
     companion object {
         fun newInstance(movie: Movie): ReviewsFragment {

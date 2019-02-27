@@ -8,7 +8,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager
-import kotlinx.android.synthetic.main.activity_frame.*
+import kotlinx.android.synthetic.main.activity_default.*
 import kotlinx.android.synthetic.main.fragment_keywords.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Keyword
@@ -16,14 +16,13 @@ import org.michaelbel.moviemade.core.utils.EmptyViewMode
 import org.michaelbel.moviemade.core.utils.MOVIE_ID
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseFragment
-import org.michaelbel.moviemade.presentation.common.network.NetworkChangeListener
 import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceiver
 import org.michaelbel.moviemade.presentation.features.keywords.KeywordsAdapter
 import org.michaelbel.moviemade.presentation.features.keywords.KeywordsContract
 import org.michaelbel.moviemade.presentation.features.keywords.activity.KeywordsActivity
 import javax.inject.Inject
 
-class KeywordsFragment: BaseFragment(), KeywordsContract.View, NetworkChangeListener {
+class KeywordsFragment: BaseFragment(), KeywordsContract.View, NetworkChangeReceiver.Listener {
 
     companion object {
         fun newInstance(movieId: Int): KeywordsFragment {

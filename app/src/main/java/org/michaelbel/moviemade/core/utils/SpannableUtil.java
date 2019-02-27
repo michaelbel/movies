@@ -1,5 +1,6 @@
 package org.michaelbel.moviemade.core.utils;
 
+import android.content.Context;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -28,13 +29,14 @@ public class SpannableUtil {
 
     public static SpannableStringBuilder replaceTags(String str, int flag, Object... args) {
         try {
-            int start;
-            int end;
+            int start = 0;
+            int end = 0;
 
             StringBuilder stringBuilder = new StringBuilder(str);
 
             if ((flag & FLAG_TAG_BR) != 0) {
-                while ((start = stringBuilder.indexOf("<br>")) != -1) {
+                boolean while2 = (start = stringBuilder.indexOf("<br>")) != -1;
+                while (while2) {
                     stringBuilder.replace(start, start + 4, "\n");
                 }
 
@@ -46,7 +48,8 @@ public class SpannableUtil {
             ArrayList<Integer> bolds = new ArrayList<>();
 
             if ((flag & FLAG_TAG_BOLD) != 0) {
-                while ((start = stringBuilder.indexOf("<b>")) != -1) {
+                boolean while2 = (start = stringBuilder.indexOf("<b>")) != -1;
+                while (while2) {
                     stringBuilder.replace(start, start + 3, "");
                     end = stringBuilder.indexOf("</b>");
 
@@ -171,16 +174,17 @@ public class SpannableUtil {
         return spannable;
     }
 
-    /*public static SpannableStringBuilder linkText(String text) {
+    public static SpannableStringBuilder linkText(Context context, String text) {
         SpannableStringBuilder spannable;
 
         int startPos = 0;
         int endPos = text.length();
 
         spannable = new SpannableStringBuilder(text);
-        spannable.setSpan(new TypefaceSpan(FontsKt.ROBOTO_MEDIUM), startPos, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(Moviemade.appContext, R.color.tmdbPrimary)), startPos, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new TypefaceSpan("sans-serif-medium"), startPos, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        spannable.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, R.color.tmdbPrimary)),
+                startPos, endPos, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
         return spannable;
-    }*/
+    }
 }

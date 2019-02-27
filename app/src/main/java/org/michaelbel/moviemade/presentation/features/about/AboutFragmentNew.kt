@@ -6,7 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
-import kotlinx.android.synthetic.main.activity_frame.*
+import kotlinx.android.synthetic.main.activity_default.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.utils.*
 import timber.log.Timber
@@ -43,7 +43,7 @@ class AboutFragmentNew: PreferenceFragmentCompat() {
                 return true
             }
             preference?.key == "key_fork" -> Browser.openUrl(requireContext(), GITHUB_URL)
-            preference?.key == "key_sources" -> (requireActivity() as AboutActivity).startFragment(LibsFragment(), org.michaelbel.moviemade.R.id.fragment_view, "libsFragment")
+            preference?.key == "key_sources" -> (requireActivity() as AboutActivity).startFragment(LibsFragment(), org.michaelbel.moviemade.R.id.container, "libsFragment")
             preference?.key == "key_feedback" ->
                 try {
                     val packageManager = requireContext().packageManager

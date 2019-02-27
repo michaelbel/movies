@@ -39,7 +39,6 @@ import org.michaelbel.moviemade.core.utils.ViewUtil;
 import org.michaelbel.moviemade.presentation.App;
 import org.michaelbel.moviemade.presentation.base.BaseFragment;
 import org.michaelbel.moviemade.presentation.common.RecyclerListView;
-import org.michaelbel.moviemade.presentation.common.network.NetworkChangeListener;
 import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceiver;
 import org.michaelbel.moviemade.presentation.features.movie.adapter.GenresAdapter;
 import org.michaelbel.moviemade.presentation.features.movie.views.RatingView;
@@ -62,7 +61,7 @@ import butterknife.OnClick;
 
 import static android.view.View.VISIBLE;
 
-public class MovieFragment extends BaseFragment implements MovieContract.View, NetworkChangeListener {
+public class MovieFragment extends BaseFragment implements MovieContract.View, NetworkChangeReceiver.Listener {
 
     private boolean favorite;
     private boolean watchlist;

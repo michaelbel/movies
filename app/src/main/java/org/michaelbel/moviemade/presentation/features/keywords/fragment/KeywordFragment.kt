@@ -8,7 +8,7 @@ import android.view.View.GONE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_frame.*
+import kotlinx.android.synthetic.main.activity_default.*
 import kotlinx.android.synthetic.main.fragment_movies.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Movie
@@ -17,14 +17,13 @@ import org.michaelbel.moviemade.core.utils.KEYWORD_ID
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
-import org.michaelbel.moviemade.presentation.common.network.NetworkChangeListener
 import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceiver
 import org.michaelbel.moviemade.presentation.features.keywords.KeywordContract
 import org.michaelbel.moviemade.presentation.features.keywords.activity.KeywordActivity
 import org.michaelbel.moviemade.presentation.features.main.MoviesAdapter
 import javax.inject.Inject
 
-class KeywordFragment: BaseFragment(), KeywordContract.View, NetworkChangeListener, MoviesAdapter.Listener {
+class KeywordFragment: BaseFragment(), KeywordContract.View, NetworkChangeReceiver.Listener, MoviesAdapter.Listener {
 
     companion object {
         fun newInstance(keywordId: Int): KeywordFragment {

@@ -1,8 +1,7 @@
 package org.michaelbel.moviemade.presentation.features.trailers
 
 import android.os.Bundle
-import androidx.appcompat.widget.Toolbar
-import kotlinx.android.synthetic.main.activity_frame.*
+import kotlinx.android.synthetic.main.activity_default.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Movie
 import org.michaelbel.moviemade.core.utils.MOVIE
@@ -10,11 +9,9 @@ import org.michaelbel.moviemade.presentation.base.BaseActivity
 
 class TrailersActivity: BaseActivity() {
 
-    fun getToolbar(): Toolbar = toolbar
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_frame)
+        setContentView(R.layout.activity_default)
 
         val movie = intent.getSerializableExtra(MOVIE) as Movie
 
@@ -24,7 +21,7 @@ class TrailersActivity: BaseActivity() {
         supportActionBar?.subtitle = movie.title
 
         if (savedInstanceState == null) {
-            startFragment(TrailersFragment.newInstance(movie.id), R.id.fragment_view)
+            startFragment(TrailersFragment.newInstance(movie.id), container.id)
         }
     }
 }

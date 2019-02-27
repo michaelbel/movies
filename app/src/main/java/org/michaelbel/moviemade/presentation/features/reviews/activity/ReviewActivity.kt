@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.appbar.AppBarLayout
-import kotlinx.android.synthetic.main.activity_frame.*
+import kotlinx.android.synthetic.main.activity_default.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Movie
 import org.michaelbel.moviemade.core.entity.Review
@@ -26,7 +26,7 @@ class ReviewActivity: BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_frame)
+        setContentView(R.layout.activity_default)
         App[application].createActivityComponent().inject(this)
 
         val movie = intent.getSerializableExtra(MOVIE) as Movie
@@ -47,7 +47,7 @@ class ReviewActivity: BaseActivity() {
         }
 
         if (savedInstanceState == null) {
-            startFragment(ReviewFragment.newInstance(review), R.id.fragment_view)
+            startFragment(ReviewFragment.newInstance(review), container.id)
         }
     }
 

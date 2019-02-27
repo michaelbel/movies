@@ -2,7 +2,7 @@ package org.michaelbel.moviemade.presentation.features.similar
 
 import android.os.Bundle
 import androidx.appcompat.widget.Toolbar
-import kotlinx.android.synthetic.main.activity_frame.*
+import kotlinx.android.synthetic.main.activity_default.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Movie
 import org.michaelbel.moviemade.core.utils.MOVIE
@@ -14,7 +14,7 @@ class SimilarMoviesActivity: BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_frame)
+        setContentView(R.layout.activity_default)
 
         val movie = intent.getSerializableExtra(MOVIE) as Movie
 
@@ -24,7 +24,7 @@ class SimilarMoviesActivity: BaseActivity() {
         supportActionBar?.subtitle = movie.title
 
         if (savedInstanceState == null) {
-            startFragment(SimilarMoviesFragment.newInstance(movie.id), R.id.fragment_view)
+            startFragment(SimilarMoviesFragment.newInstance(movie.id), container.id)
         }
     }
 }
