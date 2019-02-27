@@ -39,8 +39,7 @@ class WatchlistFragment: BaseFragment(), WatchlistContract.View, NetworkChangeRe
 
     private var accountId: Int = 0
 
-    var adapter: MoviesAdapter? = null
-        private set
+    lateinit var adapter: MoviesAdapter
 
     private var networkChangeReceiver: NetworkChangeReceiver? = null
     private var connectionFailure = false
@@ -77,7 +76,7 @@ class WatchlistFragment: BaseFragment(), WatchlistContract.View, NetworkChangeRe
         recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1) && adapter?.itemCount != 0) {
+                if (!recyclerView.canScrollVertically(1) && adapter.itemCount != 0) {
                     presenter.getWatchlistMoviesNext(accountId, preferences.getString(KEY_SESSION_ID, "")!!)
                 }
             }
@@ -85,7 +84,7 @@ class WatchlistFragment: BaseFragment(), WatchlistContract.View, NetworkChangeRe
 
         emptyView.setOnClickListener { presenter.getWatchlistMovies(accountId, preferences.getString(KEY_SESSION_ID, "")!!) }
 
-        accountId = if (arguments != null) arguments!!.getInt(EXTRA_ACCOUNT_ID) else 0
+        accountId = arguments?.getInt(EXTRA_ACCOUNT_ID) ?: 0
         presenter.getWatchlistMovies(accountId, preferences.getString(KEY_SESSION_ID, "")!!)
     }
 
@@ -98,7 +97,7 @@ class WatchlistFragment: BaseFragment(), WatchlistContract.View, NetworkChangeRe
     override fun setMovies(movies: List<Movie>) {
         connectionFailure = false
         progressBar.visibility = GONE
-        adapter?.addMovies(movies)
+        adapter.addMovies(movies)
     }
 
     override fun setError(mode: Int) {
@@ -112,7 +111,7 @@ class WatchlistFragment: BaseFragment(), WatchlistContract.View, NetworkChangeRe
     }
 
     override fun onNetworkChanged() {
-        if (connectionFailure && adapter!!.itemCount == 0) {
+        if (connectionFailure && adapter.itemCount == 0) {
             presenter.getWatchlistMovies(accountId, preferences.getString(KEY_SESSION_ID, "")!!)
         }
     }

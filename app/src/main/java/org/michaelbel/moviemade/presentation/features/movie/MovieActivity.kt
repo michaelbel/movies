@@ -24,11 +24,11 @@ import javax.inject.Inject
 
 class MovieActivity: BaseActivity() {
 
-    var movie: Movie? = null
+    lateinit var movie: Movie
+    lateinit var fragment: MovieFragment
 
-    private var fragment: MovieFragment? = null
-
-    @Inject lateinit var sharedPreferences: SharedPreferences
+    @Inject
+    lateinit var sharedPreferences: SharedPreferences
 
     fun getFullImage(): GestureImageView = full_image
 
@@ -44,9 +44,9 @@ class MovieActivity: BaseActivity() {
 
         movie = intent.getSerializableExtra(MOVIE) as Movie
 
-        fragment = supportFragmentManager.findFragmentById(R.id.fragment) as MovieFragment?
-        fragment!!.presenter.setDetailExtra(movie!!)
-        fragment!!.presenter.getDetails(movie!!.id)
+        fragment = supportFragmentManager.findFragmentById(R.id.fragment) as MovieFragment
+        fragment.presenter.setDetailExtra(movie)
+        fragment.presenter.getDetails(movie.id)
 
         window.statusBarColor = ContextCompat.getColor(this, R.color.primary)
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -61,15 +61,15 @@ class MovieActivity: BaseActivity() {
         app_bar.addOnOffsetChangedListener(object : AppBarStateChangeListener() {
             override fun onStateChanged(appBarLayout: AppBarLayout, state: AppBarState) {
                 if (state === AppBarState.COLLAPSED) {
-                    toolbar_title.text = movie!!.title
+                    toolbar_title.text = movie.title
                 } else {
                     toolbar_title.text = null
                 }
             }
         })
 
-        toolbar_title.text = movie!!.title
-        Glide.with(this).load(String.format(Locale.US, TMDB_IMAGE, "original", movie!!.backdropPath)).thumbnail(0.1F).into(backdrop_image)
+        toolbar_title.text = movie.title
+        Glide.with(this).load(String.format(Locale.US, TMDB_IMAGE, "original", movie.backdropPath)).thumbnail(0.1F).into(backdrop_image)
 
         collapsing_layout.setContentScrimColor(ContextCompat.getColor(this, R.color.primary))
         collapsing_layout.setStatusBarScrimColor(ContextCompat.getColor(this, android.R.color.transparent))
@@ -87,7 +87,7 @@ class MovieActivity: BaseActivity() {
         backdrop_image.setOnLongClickListener {
             if (!sharedPreferences.getString(KEY_SESSION_ID, "")!!.isEmpty()) {
                 DeviceUtil.vibrate(this@MovieActivity, 15)
-                val dialog = BackdropDialog.newInstance(String.format(Locale.US, TMDB_IMAGE, "original", movie!!.backdropPath))
+                val dialog = BackdropDialog.newInstance(String.format(Locale.US, TMDB_IMAGE, "original", movie.backdropPath))
                 dialog.show(supportFragmentManager, "tag")
                 return@setOnLongClickListener true
             }
@@ -96,8 +96,8 @@ class MovieActivity: BaseActivity() {
     }
 
     override fun onBackPressed() {
-        if (fragment!!.imageAnimator != null && !fragment!!.imageAnimator.isLeaving) {
-            fragment!!.imageAnimator.exit(true)
+        if (fragment.imageAnimator != null && !fragment.imageAnimator!!.isLeaving) {
+            fragment.imageAnimator!!.exit(true)
         } else {
             super.onBackPressed()
         }

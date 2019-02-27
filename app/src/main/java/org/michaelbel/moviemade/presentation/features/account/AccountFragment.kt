@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.text.Editable
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -75,13 +74,13 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
         }
 
         signin_btn.setOnClickListener {
-            val name = if (username_field.text != null) username_field.text!!.toString().trim { it <= ' ' } else null
-            val pass = if (password_field.text != null) password_field.text!!.toString().trim { it <= ' ' } else null
+            val name = username_field.text.toString().trim()
+            val pass = password_field.text.toString().trim()
 
-            if (name != null && name.length == 0 || pass != null && pass.length == 0) {
+            if (name.isEmpty() || pass.isEmpty()) {
                 Toast.makeText(activity, SpannableUtil.replaceTags(getString(R.string.msg_enter_data)), Toast.LENGTH_SHORT).show()
             } else {
-                presenter.createRequestToken(name!!, pass!!)
+                presenter.createRequestToken(name, pass)
             }
         }
 
@@ -100,12 +99,12 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
         login_layout.visibility = VISIBLE
         account_layout.visibility = GONE
 
-        Glide.with(activity!!).load(TMDB_LOGO).thumbnail(0.1f).into(logo_image)
+        Glide.with(requireContext()).load(TMDB_LOGO).thumbnail(0.1F).into(logo_image)
         username_field.background = null
         password_field.background = null
         ViewUtil.clearCursorDrawable(username_field)
         ViewUtil.clearCursorDrawable(password_field)
-        password_field.setOnEditorActionListener { v, actionId, event ->
+        password_field.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 signin_btn.performClick()
                 return@setOnEditorActionListener true
@@ -123,7 +122,9 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
         name_text.setText(R.string.loading_name)
 
         if (!preferences.getString(KEY_ACCOUNT_BACKDROP, "")!!.isEmpty()) {
-            Glide.with(activity!!).load(preferences.getString(KEY_ACCOUNT_BACKDROP, "")).thumbnail(0.1F).into(backdrop_image)
+            Glide.with(requireContext())
+                    .load(preferences.getString(KEY_ACCOUNT_BACKDROP, ""))
+                    .thumbnail(0.1F).into(backdrop_image)
         }
 
         presenter.getAccountDetails()
@@ -134,8 +135,8 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
     }
 
     override fun sessionChanged(state: Boolean) {
-        Objects.requireNonNull<Editable>(username_field.text).clear()
-        Objects.requireNonNull<Editable>(password_field.text).clear()
+        username_field.text?.clear()
+        password_field.text?.clear()
 
         if (state) {
             // Session created.
@@ -151,7 +152,9 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
         preferences.edit().putInt(KEY_ACCOUNT_ID, accountId).apply()
         login_text.text = if (account.username.isEmpty()) getString(R.string.none) else account.username
         name_text.text = if (account.name.isEmpty()) getString(R.string.none) else account.name
-        Glide.with(activity!!).load(String.format(Locale.US, GRAVATAR_URL, account.avatar.gravatar.hash)).thumbnail(0.1F).into(user_avatar)
+        Glide.with(requireContext())
+                .load(String.format(Locale.US, GRAVATAR_URL, account.avatar.gravatar.hash))
+                .thumbnail(0.1F).into(user_avatar)
     }
 
     override fun onNetworkChanged() {}
@@ -163,23 +166,23 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
                 login_layout.visibility = VISIBLE
                 privacy_btn.visibility = GONE
             }
-            Error.ERROR_CONNECTION_NO_TOKEN -> Toast.makeText(activity, R.string.error_empty_token, Toast.LENGTH_SHORT).show()
-            Error.ERR_NO_CONNECTION -> Toast.makeText(activity, R.string.error_no_connection, Toast.LENGTH_SHORT).show()
-            Error.ERROR_AUTH_WITH_LOGIN -> Toast.makeText(activity, SpannableUtil.replaceTags(getString(R.string.error_invalid_data)), Toast.LENGTH_SHORT).show()
-            Error.ERROR_NOT_FOUND -> Toast.makeText(activity, SpannableUtil.replaceTags(getString(R.string.error_not_found)), Toast.LENGTH_SHORT).show()
+            Error.ERROR_CONNECTION_NO_TOKEN ->
+                Toast.makeText(requireContext(), R.string.error_empty_token, Toast.LENGTH_SHORT).show()
+            Error.ERR_NO_CONNECTION ->
+                Toast.makeText(requireContext(), R.string.error_no_connection, Toast.LENGTH_SHORT).show()
+            Error.ERROR_AUTH_WITH_LOGIN ->
+                Toast.makeText(requireContext(), SpannableUtil.replaceTags(getString(R.string.error_invalid_data)), Toast.LENGTH_SHORT).show()
+            Error.ERROR_NOT_FOUND ->
+                Toast.makeText(requireContext(), SpannableUtil.replaceTags(getString(R.string.error_not_found)), Toast.LENGTH_SHORT).show()
         }
     }
 
     private fun hideKeyboard(view: View?) {
-        if (view == null) {
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (imm.isActive.not()) {
             return
         }
-
-        val imm = view.context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        if (!(imm.isActive)) {
-            return
-        }
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 
     override fun onDestroy() {

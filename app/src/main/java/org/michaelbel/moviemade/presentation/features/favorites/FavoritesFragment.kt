@@ -26,7 +26,9 @@ import org.michaelbel.moviemade.presentation.features.main.MoviesAdapter
 import javax.inject.Inject
 
 class FavoritesFragment: BaseFragment(),
-        FavoritesContract.View, NetworkChangeReceiver.Listener, MoviesAdapter.Listener {
+        FavoritesContract.View,
+        NetworkChangeReceiver.Listener,
+        MoviesAdapter.Listener {
 
     companion object {
         internal fun newInstance(accountId: Int): FavoritesFragment {
@@ -40,7 +42,7 @@ class FavoritesFragment: BaseFragment(),
     }
 
     private var accountId: Int = 0
-    private var adapter: MoviesAdapter? = null
+    lateinit var adapter: MoviesAdapter
 
     private var networkChangeReceiver: NetworkChangeReceiver? = null
     private var connectionFailure = false
@@ -78,7 +80,7 @@ class FavoritesFragment: BaseFragment(),
         recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1) && adapter?.itemCount != 0) {
+                if (!recyclerView.canScrollVertically(1) && adapter.itemCount != 0) {
                     presenter.getFavoriteMoviesNext(accountId, preferences.getString(KEY_SESSION_ID, "")!!)
                 }
             }
@@ -86,7 +88,7 @@ class FavoritesFragment: BaseFragment(),
 
         emptyView.setOnClickListener { presenter.getFavoriteMovies(accountId, preferences.getString(KEY_SESSION_ID, "")!!) }
 
-        accountId = if (arguments != null) arguments!!.getInt(EXTRA_ACCOUNT_ID) else 0
+        accountId = arguments?.getInt(EXTRA_ACCOUNT_ID) ?: 0
         presenter.getFavoriteMovies(accountId, preferences.getString(KEY_SESSION_ID, "")!!)
     }
 
@@ -105,7 +107,7 @@ class FavoritesFragment: BaseFragment(),
 
     override fun setMovies(movies: List<Movie>) {
         connectionFailure = false
-        adapter?.addMovies(movies)
+        adapter.addMovies(movies)
         hideLoading()
         emptyView.visibility = GONE
     }
@@ -122,7 +124,7 @@ class FavoritesFragment: BaseFragment(),
     }
 
     override fun onNetworkChanged() {
-        if (connectionFailure && adapter?.itemCount == 0) {
+        if (connectionFailure && adapter.itemCount == 0) {
             presenter.getFavoriteMovies(accountId, preferences.getString(KEY_SESSION_ID, "")!!)
         }
     }

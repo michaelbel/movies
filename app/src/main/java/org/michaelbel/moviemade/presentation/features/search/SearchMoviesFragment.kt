@@ -46,8 +46,8 @@ class SearchMoviesFragment : BaseFragment(), SearchContract.View, MoviesAdapter.
 
     private var iconActionMode = ITEM_MIC
 
-    private var actionMenu: Menu? = null
-    private var adapter: MoviesAdapter? = null
+    private lateinit var actionMenu: Menu
+    lateinit var adapter: MoviesAdapter
 
     @Inject
     lateinit var presenter: SearchContract.Presenter
@@ -165,8 +165,8 @@ class SearchMoviesFragment : BaseFragment(), SearchContract.View, MoviesAdapter.
     }
 
     override fun searchStart() {
-        adapter!!.movies.clear()
-        adapter?.notifyDataSetChanged()
+        adapter.movies.clear()
+        adapter.notifyDataSetChanged()
 
         emptyView.visibility = GONE
         progressBar.visibility = VISIBLE
@@ -174,7 +174,7 @@ class SearchMoviesFragment : BaseFragment(), SearchContract.View, MoviesAdapter.
 
     override fun setMovies(movies: List<Movie>) {
         progressBar.visibility = GONE
-        adapter?.addMovies(movies)
+        adapter.addMovies(movies)
     }
 
     override fun setError(mode: Int) {
@@ -192,14 +192,12 @@ class SearchMoviesFragment : BaseFragment(), SearchContract.View, MoviesAdapter.
     }
 
     private fun changeActionIcon() {
-        if (actionMenu != null) {
-            if (searchView.text!!.toString().trim { it <= ' ' }.isEmpty()) {
-                iconActionMode = ITEM_MIC
-                actionMenu!!.getItem(MENU_ITEM_INDEX).setIcon(R.drawable.ic_voice)
-            } else {
-                iconActionMode = ITEM_CLR
-                actionMenu!!.getItem(MENU_ITEM_INDEX).setIcon(R.drawable.ic_clear)
-            }
+        if (searchView.text!!.toString().trim { it <= ' ' }.isEmpty()) {
+            iconActionMode = ITEM_MIC
+            actionMenu.getItem(MENU_ITEM_INDEX).setIcon(R.drawable.ic_voice)
+        } else {
+            iconActionMode = ITEM_CLR
+            actionMenu.getItem(MENU_ITEM_INDEX).setIcon(R.drawable.ic_clear)
         }
     }
 

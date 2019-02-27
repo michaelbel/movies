@@ -7,29 +7,30 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator
 import com.google.android.material.snackbar.Snackbar
 import java.lang.ref.WeakReference
 
-class MainAppBarVerticalScrollBehavior<V : View> : VerticalScrollingBehavior<V>() {
+class MainAppBarVerticalScrollBehavior<V: View>: VerticalScrollingBehavior<V>() {
 
-    private var mBottomNavHeight: Int = 0
-    private var mViewRef: WeakReference<MainAppBar>? = null
+    companion object {
+        private val INTERPOLATOR = FastOutSlowInInterpolator()
+    }
+
+    private var bottomNavHeight: Int = 0
+    private var viewRef: WeakReference<MainAppBar>? = null
 
     override fun onLayoutChild(parent: CoordinatorLayout, child: V, layoutDirection: Int): Boolean {
         parent.onLayoutChild(child, layoutDirection)
         if (child is MainAppBar) {
-            mViewRef = WeakReference(child as MainAppBar)
+            viewRef = WeakReference(child as MainAppBar)
         }
 
-        child.post { mBottomNavHeight = child.height }
+        child.post { bottomNavHeight = child.height }
         updateSnackBarPosition(parent, child, getSnackBarInstance(parent, child))
         return super.onLayoutChild(parent, child, layoutDirection)
     }
 
-    override fun layoutDependsOn(parent: CoordinatorLayout, child: V, dependency: View): Boolean {
-        return isDependent(dependency) || super.layoutDependsOn(parent, child, dependency)
-    }
+    override fun layoutDependsOn(parent: CoordinatorLayout, child: V, dependency: View): Boolean =
+        isDependent(dependency) || super.layoutDependsOn(parent, child, dependency)
 
-    private fun isDependent(dependency: View): Boolean {
-        return dependency is Snackbar.SnackbarLayout
-    }
+    private fun isDependent(dependency: View): Boolean = dependency is Snackbar.SnackbarLayout
 
     override fun onDependentViewChanged(parent: CoordinatorLayout, child: V, dependency: View): Boolean {
         if (isDependent(dependency)) {
@@ -62,39 +63,62 @@ class MainAppBarVerticalScrollBehavior<V : View> : VerticalScrollingBehavior<V>(
         return null
     }
 
-    override fun onNestedVerticalScrollUnconsumed(coordinatorLayout: CoordinatorLayout, child: V, scrollDirection: Int, currentOverScroll: Int, totalScroll: Int) {}
+    override fun onNestedVerticalScrollUnconsumed(
+            coordinatorLayout: CoordinatorLayout,
+            child: V,
+            scrollDirection: Int,
+            currentOverScroll: Int,
+            totalScroll: Int
+    ) {}
 
-    override fun onNestedVerticalPreScroll(coordinatorLayout: CoordinatorLayout, child: V, target: View, dx: Int, dy: Int, consumed: IntArray, scrollDirection: Int) {
+    override fun onNestedVerticalPreScroll(
+            coordinatorLayout: CoordinatorLayout,
+            child: V,
+            target: View,
+            dx: Int,
+            dy: Int,
+            consumed: IntArray,
+            scrollDirection: Int
+    ) {
         //handleDirection(child, scrollDirection);
     }
 
-    override fun onNestedDirectionFling(coordinatorLayout: CoordinatorLayout, child: V, target: View, velocityX: Float, velocityY: Float, consumed: Boolean, scrollDirection: Int): Boolean {
+    override fun onNestedDirectionFling(
+            coordinatorLayout: CoordinatorLayout,
+            child: V,
+            target: View,
+            velocityX: Float,
+            velocityY: Float,
+            consumed: Boolean,
+            scrollDirection: Int
+    ): Boolean {
         /*if (consumed) {
             handleDirection(child, scrollDirection);
         }*/
         return consumed
     }
 
-    override fun onNestedVerticalScrollConsumed(coordinatorLayout: CoordinatorLayout, child: V, scrollDirection: Int, currentOverScroll: Int, totalConsumedScroll: Int) {
+    override fun onNestedVerticalScrollConsumed(
+            coordinatorLayout: CoordinatorLayout,
+            child: V,
+            scrollDirection: Int,
+            currentOverScroll: Int,
+            totalConsumedScroll: Int
+    ) {
         handleDirection(coordinatorLayout, child, scrollDirection)
     }
 
     private fun handleDirection(parent: CoordinatorLayout, child: V, scrollDirection: Int) {
-        val appBar = mViewRef!!.get()
+        val appBar = viewRef?.get()
 
         if (appBar != null && appBar.isAutoHideEnabled) {
             if (scrollDirection == VerticalScrollingBehavior.SCROLL_DIRECTION_DOWN && appBar.isHidden) {
-                updateSnackBarPosition(parent, child, getSnackBarInstance(parent, child), (-mBottomNavHeight).toFloat())
+                updateSnackBarPosition(parent, child, getSnackBarInstance(parent, child), (-bottomNavHeight).toFloat())
                 appBar.show(true)
             } else if (scrollDirection == VerticalScrollingBehavior.SCROLL_DIRECTION_UP && !appBar.isHidden) {
                 updateSnackBarPosition(parent, child, getSnackBarInstance(parent, child), 0f)
                 appBar.hide(true)
             }
         }
-    }
-
-    companion object {
-
-        private val INTERPOLATOR = FastOutSlowInInterpolator()
     }
 }

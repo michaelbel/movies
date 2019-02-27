@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.internal.DebouncingOnClickListener
 import com.bumptech.glide.Glide
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.card_trailer.*
@@ -14,6 +13,7 @@ import org.michaelbel.moviemade.core.entity.Video
 import org.michaelbel.moviemade.core.utils.DeviceUtil
 import org.michaelbel.moviemade.core.utils.ViewUtil
 import org.michaelbel.moviemade.core.utils.YOUTUBE_IMAGE
+import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
 import java.util.*
 
 class TrailersAdapter(
