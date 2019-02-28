@@ -3,12 +3,14 @@
 [licence-url]:       http://www.apache.org/licenses/LICENSE-2.0
 [googleplay-url]:    https://play.google.com/store/apps/details?id=org.michaelbel.moviemade
 [tmdb-introduction]: https://developers.themoviedb.org/3/getting-started/introduction
+[kotlinlang]: https://kotlinlang.org
 
 [platform-badge]:   https://img.shields.io/badge/Platform-Android-F3745F.svg
 [paypal-badge]:     https://img.shields.io/badge/Donate-Paypal-F3745F.svg
 [license-badge]:    https://img.shields.io/badge/License-Apache_v2.0-F3745F.svg
 [googleplay-badge]: https://img.shields.io/badge/Google_Play-Demo-F3745F.svg
 [minsdk-badge]:     https://img.shields.io/badge/minSdkVersion-21-F3745F.svg
+[kotlin-badge]:     https://img.shields.io/badge/Awesome-Kotlin-F18E33.svg
 
 <!------------------------------------------------------------------------------------------------------->
 <img src="screenshots/mockup2.png"/>
@@ -22,6 +24,7 @@ Moviemade
 [![license-badge]][licence-url]
 [![paypal-badge]][paypal-url]
 [![googleplay-badge]][googleplay-url]
+[![kotlin-badge]][kotlinlang]
 
 Moviemade - quick and easy way to discover popular movies. This is a simple TMDb client for Android with material design.
 
