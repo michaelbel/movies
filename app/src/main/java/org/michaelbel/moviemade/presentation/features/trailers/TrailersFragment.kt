@@ -24,7 +24,10 @@ import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceive
 import org.michaelbel.moviemade.presentation.features.trailers.dialog.YoutubePlayerDialogFragment
 import javax.inject.Inject
 
-class TrailersFragment: BaseFragment(), NetworkChangeReceiver.Listener, TrailersContract.View, TrailersAdapter.Listener {
+class TrailersFragment: BaseFragment(),
+        NetworkChangeReceiver.Listener,
+        TrailersContract.View,
+        TrailersAdapter.Listener {
 
     companion object {
         private const val YOUTUBE_DIALOG_FRAGMENT_TAG = "youtubeFragment"
@@ -61,7 +64,9 @@ class TrailersFragment: BaseFragment(), NetworkChangeReceiver.Listener, Trailers
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as TrailersActivity).toolbar.setOnClickListener { recyclerView.smoothScrollToPosition(0) }
+        (requireActivity() as TrailersActivity).toolbar.setOnClickListener {
+            recyclerView.smoothScrollToPosition(0)
+        }
 
         val spanCount = resources.getInteger(R.integer.trailers_span_layout_count)
 

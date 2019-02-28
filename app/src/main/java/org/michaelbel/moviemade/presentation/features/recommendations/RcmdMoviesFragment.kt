@@ -40,7 +40,7 @@ class RcmdMoviesFragment: BaseFragment(),
 
     private var movieId: Int = 0
     lateinit var adapter: MoviesAdapter
-    private lateinit var gridLayoutManager: GridLayoutManager
+    private lateinit var layoutManager: GridLayoutManager
 
     private var networkChangeReceiver: NetworkChangeReceiver? = null
     private var connectionFailure = false
@@ -61,15 +61,17 @@ class RcmdMoviesFragment: BaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as RcmdMoviesActivity).toolbar.setOnClickListener { recyclerView.smoothScrollToPosition(0) }
+        (requireActivity() as RcmdMoviesActivity).toolbar.setOnClickListener {
+            recyclerView.smoothScrollToPosition(0)
+        }
 
         val spanCount = resources.getInteger(R.integer.movies_span_layout_count)
 
         adapter = MoviesAdapter(this)
-        gridLayoutManager = GridLayoutManager(requireContext(), spanCount)
+        layoutManager = GridLayoutManager(requireContext(), spanCount)
 
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = gridLayoutManager
+        recyclerView.layoutManager = layoutManager
         recyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, DeviceUtil.dp(requireContext(), 3F)))
         recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {

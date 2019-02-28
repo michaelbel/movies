@@ -2,10 +2,8 @@ package org.michaelbel.moviemade.presentation.features.keywords
 
 import org.michaelbel.moviemade.core.utils.EmptyViewMode
 import org.michaelbel.moviemade.core.utils.NetworkUtil
-
-import java.util.ArrayList
-
 import org.michaelbel.moviemade.presentation.base.Presenter
+import java.util.*
 
 class KeywordsPresenter(repository: KeywordsRepository): Presenter(), KeywordsContract.Presenter {
 
@@ -23,8 +21,8 @@ class KeywordsPresenter(repository: KeywordsRepository): Presenter(), KeywordsCo
         }
 
         disposable.add(repository.getKeywords(movieId)
-                .subscribe({ (_, keywords) ->
-                    val results = ArrayList(keywords)
+                .subscribe({
+                    val results = ArrayList(it.keywords)
                     if (results.isEmpty()) {
                         view?.setError(EmptyViewMode.MODE_NO_KEYWORDS)
                         return@subscribe

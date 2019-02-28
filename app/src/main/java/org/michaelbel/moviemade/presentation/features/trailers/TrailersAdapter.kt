@@ -27,10 +27,6 @@ class TrailersAdapter(
         fun onTrailerLongClick(video: Video): Boolean
     }
 
-    fun getTrailers(): List<Video> {
-        return trailers
-    }
-
     fun addTrailers(results: List<Video>) {
         trailers.addAll(results)
         notifyItemRangeInserted(trailers.size + 1, results.size)
@@ -75,19 +71,19 @@ class TrailersAdapter(
             RecyclerView.ViewHolder(containerView), LayoutContainer {
 
         fun bind(trailer: Video) {
-            trailer_name.text = trailer.name
-            quality_badge.text = containerView.context.getString(R.string.video_size, trailer.size.toString())
+            trailerName.text = trailer.name
+            qualityBadge.text = containerView.context.getString(R.string.video_size, trailer.size.toString())
             Glide.with(containerView.context)
                     .load(String.format(Locale.US, YOUTUBE_IMAGE, trailer.key))
                     .thumbnail(0.1F)
-                    .into(still_image)
+                    .into(stillImage)
 
             if (trailer.site == "YouTube") {
-                player_icon.setImageDrawable(
+                playerIcon.setImageDrawable(
                         ViewUtil.getIcon(containerView.context, R.drawable.ic_youtube,
                                 ContextCompat.getColor(containerView.context, R.color.youtubeColor)))
             } else {
-                player_icon.setImageDrawable(
+                playerIcon.setImageDrawable(
                         ViewUtil.getIcon(containerView.context, R.drawable.ic_play_circle,
                                 ContextCompat.getColor(containerView.context, R.color.iconActiveColor)))
             }

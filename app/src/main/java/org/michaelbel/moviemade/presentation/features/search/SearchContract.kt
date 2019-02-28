@@ -20,6 +20,6 @@ interface SearchContract {
     }
 
     interface Repository {
-        fun search(query: String, page: Int) : Observable<MoviesResponse>
+        fun search(query: String, page: Int): Observable<MoviesResponse>
     }
 }

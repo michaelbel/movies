@@ -3,8 +3,8 @@ package org.michaelbel.moviemade.presentation.features.keywords
 import io.reactivex.Observable
 import org.michaelbel.moviemade.core.entity.Movie
 import org.michaelbel.moviemade.core.entity.MoviesResponse
-import org.michaelbel.moviemade.presentation.base.BasePresenter
 import org.michaelbel.moviemade.core.utils.EmptyViewMode
+import org.michaelbel.moviemade.presentation.base.BasePresenter
 
 interface KeywordContract {
 
@@ -19,6 +19,6 @@ interface KeywordContract {
     }
 
     interface Repository {
-        fun getMovies(keywordId: Int, page: Int) : Observable<MoviesResponse>
+        fun getMovies(keywordId: Int, page: Int): Observable<MoviesResponse>
     }
 }

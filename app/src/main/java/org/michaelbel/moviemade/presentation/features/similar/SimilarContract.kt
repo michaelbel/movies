@@ -18,6 +18,6 @@ interface SimilarContract {
     }
 
     interface Repository {
-        fun getSimilarMovies(movieId: Int, page: Int) : Observable<MoviesResponse>
+        fun getSimilarMovies(movieId: Int, page: Int): Observable<MoviesResponse>
     }
 }

@@ -12,7 +12,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.utils.DeviceUtil
-import org.michaelbel.moviemade.core.utils.KEY_MAIN_FRAGMENT
 import org.michaelbel.moviemade.core.utils.KEY_TOKEN
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseActivity
@@ -28,14 +27,16 @@ import javax.inject.Inject
 class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     companion object {
+        private const val KEY_FRAGMENT = "fragment"
         private const val DEFAULT_FRAGMENT = R.id.item_playing
-        private const val KEY_BAR_POSITION = "pos"
+
+        private const val ARG_NAVIGATION_BAR_POSITION = "pos"
     }
 
     private lateinit var accountFragment: AccountFragment
 
     @Inject
-    lateinit var sharedPreferences: SharedPreferences
+    lateinit var preferences: SharedPreferences
 
     override fun setTheme(resid: Int) {
         super.setTheme(R.style.AppTheme_TransparentStatusBar)
@@ -47,7 +48,7 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
         val data = intent.dataString
 
         if (Intent.ACTION_VIEW == action && data != null) {
-            val token = sharedPreferences.getString(KEY_TOKEN, "") ?: ""
+            val token = preferences.getString(KEY_TOKEN, "") ?: ""
             accountFragment.presenter.createSessionId(token)
         }
     }
@@ -62,13 +63,6 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
             startActivity(Intent(this@MainActivity, SearchActivity::class.java))
         } else if (item.itemId == R.id.item_settings) {
             startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
-            /*val appTheme = preferences.getInt(KEY_THEME, 0)
-            if (appTheme == 0) {
-                preferences.edit().putInt(KEY_THEME, 1).apply()
-            } else {
-                preferences.edit().putInt(KEY_THEME, 0).apply()
-            }
-            recreate()*/
         }
 
         return super.onOptionsItemSelected(item)
@@ -90,17 +84,17 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
         accountFragment = AccountFragment()
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
-        bottomNavigationView.selectedItemId = DEFAULT_FRAGMENT
 
         if (savedInstanceState == null) {
-            startCurrentFragment()
+            val item = preferences.getInt(KEY_FRAGMENT, DEFAULT_FRAGMENT)
+            bottomNavigationView.selectedItemId = item
         } else {
-            bottomNavigationView.selectedItemId = savedInstanceState.getInt(KEY_BAR_POSITION)
+            bottomNavigationView.selectedItemId = savedInstanceState.getInt(ARG_NAVIGATION_BAR_POSITION)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
-        outState?.putInt(KEY_BAR_POSITION, bottomNavigationView.selectedItemId)
+        outState?.putInt(ARG_NAVIGATION_BAR_POSITION, bottomNavigationView.selectedItemId)
         super.onSaveInstanceState(outState, outPersistentState)
     }
 
@@ -117,7 +111,7 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
         }
 
         if (item.itemId != R.id.item_account) {
-            sharedPreferences.edit().putInt(KEY_MAIN_FRAGMENT, item.itemId).apply()
+            preferences.edit().putInt(KEY_FRAGMENT, item.itemId).apply()
             supportActionBar?.setTitle(R.string.app_name)
             appBarLayout.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.transparent20))
         }
@@ -125,35 +119,16 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
         return true
     }
 
-    private fun startCurrentFragment() {
-        val item = sharedPreferences.getInt(KEY_MAIN_FRAGMENT, DEFAULT_FRAGMENT)
-        when (item) {
-            R.id.item_playing -> startFragment(NowPlayingFragment(), container.id)
-            R.id.item_rated -> startFragment(TopRatedFragment(), container.id)
-            R.id.item_upcoming -> startFragment(UpcomingFragment(), container.id)
-        }
-    }
-
-    @Shortcut(
-            id = "favorites",
-            rank = 3,
-            icon = R.drawable.ic_shortcut_favorite,
-            shortLabelRes = R.string.favorites
-    )
+    @Shortcut(id = "favorites", rank = 3, icon = R.drawable.ic_shortcut_favorite, shortLabelRes = R.string.favorites)
     fun showFavorites() {
-        startFragment(accountFragment!!, container.id)
+        startFragment(accountFragment, container.id)
         supportActionBar?.title = ""
         appBarLayout.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.transparent))
         bottomNavigationView.selectedItemId = R.id.item_account
-        startFavorites(accountFragment!!.accountId)
+        startFavorites(accountFragment.accountId)
     }
 
-    @Shortcut(
-            id = "watchlist",
-            rank = 2,
-            icon = R.drawable.ic_shortcut_bookmark,
-            shortLabelRes = R.string.watchlist
-    )
+    @Shortcut(id = "watchlist", rank = 2, icon = R.drawable.ic_shortcut_bookmark, shortLabelRes = R.string.watchlist)
     fun showUpcomingMovies() {
         startFragment(accountFragment, container.id)
         supportActionBar?.title = ""

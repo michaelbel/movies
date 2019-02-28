@@ -27,7 +27,7 @@
             android:text="@string/apply_as_background"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/set_btn"
+            android:id="@+id/setBtn"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center_horizontal"
@@ -40,7 +40,7 @@
             android:text="@string/set"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/cancel_btn"
+            android:id="@+id/cancelBtn"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center_horizontal"

@@ -2,8 +2,6 @@ package org.michaelbel.moviemade.presentation.features.similar
 
 import org.michaelbel.moviemade.core.utils.Error
 import org.michaelbel.moviemade.core.utils.NetworkUtil
-
-import io.reactivex.disposables.CompositeDisposable
 import org.michaelbel.moviemade.presentation.base.Presenter
 import retrofit2.HttpException
 
@@ -25,16 +23,13 @@ class SimilarMoviesPresenter(repository: SimilarRepository): Presenter(), Simila
 
         page = 1
         disposable.add(repository.getSimilarMovies(movieId, page)
-                .subscribe(
-                        { (_, movies) ->
-                            if (movies.isEmpty()) {
-                                view!!.setError(Throwable("No movies"), Error.ERR_NO_MOVIES)
-                                return@subscribe
-                            }
-                            view?.setMovies(movies)
-                        },
-                        { e -> view!!.setError(e, (e as HttpException).code()) }
-                )
+                .subscribe({
+                    if (it.movies.isEmpty()) {
+                        view?.setError(Throwable("No movies"), Error.ERR_NO_MOVIES)
+                        return@subscribe
+                    }
+                    view?.setMovies(it.movies)
+                }, { view?.setError(it, (it as HttpException).code()) })
         )
     }
 
@@ -45,7 +40,7 @@ class SimilarMoviesPresenter(repository: SimilarRepository): Presenter(), Simila
 
         page++
         disposable.add(repository.getSimilarMovies(movieId, page)
-                .subscribe { (_, movies) -> view!!.setMovies(movies) })
+                .subscribe { view?.setMovies(it.movies) })
     }
 
     override fun destroy() {

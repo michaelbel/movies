@@ -50,11 +50,9 @@ class KeywordsFragment: BaseFragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        App[requireActivity().application].createFragmentComponent().inject(this)
         networkChangeReceiver = NetworkChangeReceiver(this)
         requireContext().registerReceiver(networkChangeReceiver, IntentFilter(NetworkChangeReceiver.INTENT_ACTION))
-
-        App[requireActivity().application].createFragmentComponent().inject(this)
         presenter.attach(this)
     }
 

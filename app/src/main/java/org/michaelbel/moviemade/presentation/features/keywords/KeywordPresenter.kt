@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.presentation.features.keywords
 
-import io.reactivex.disposables.CompositeDisposable
 import org.michaelbel.moviemade.core.utils.EmptyViewMode
 import org.michaelbel.moviemade.core.utils.NetworkUtil
 import org.michaelbel.moviemade.presentation.base.Presenter
@@ -17,30 +16,30 @@ class KeywordPresenter(repository: KeywordRepository): Presenter(), KeywordContr
     }
 
     override fun getMovies(keywordId: Int) {
-        if (!NetworkUtil.isNetworkConnected()) {
+        if (NetworkUtil.isNetworkConnected().not()) {
             view?.setError(EmptyViewMode.MODE_NO_CONNECTION)
             return
         }
 
         page = 1
         disposable.add(repository.getMovies(keywordId, page)
-                .subscribe({ (_, movies) ->
-                    val results = ArrayList(movies)
+                .subscribe({
+                    val results = ArrayList(it.movies)
                     if (results.isEmpty()) {
                         view?.setError(EmptyViewMode.MODE_NO_MOVIES)
                         return@subscribe
                     }
-                    view!!.setMovies(results)
+                    view?.setMovies(results)
                 }, { view?.setError(EmptyViewMode.MODE_NO_MOVIES) }))
     }
 
     override fun getMoviesNext(keywordId: Int) {
-        if (!NetworkUtil.isNetworkConnected()) {
+        if (NetworkUtil.isNetworkConnected().not()) {
             return
         }
 
         page++
-        disposable.add(repository.getMovies(keywordId, page).subscribe { (_, movies) -> view?.setMovies(movies) })
+        disposable.add(repository.getMovies(keywordId, page).subscribe { view?.setMovies(it.movies) })
     }
 
     override fun destroy() {

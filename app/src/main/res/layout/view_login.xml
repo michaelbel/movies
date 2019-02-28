@@ -8,7 +8,7 @@
     android:layout_marginBottom="56dp">
 
     <androidx.appcompat.widget.LinearLayoutCompat
-        android:id="@+id/login_layout"
+        android:id="@+id/loginLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
@@ -35,7 +35,7 @@
             app:cardBackgroundColor="@color/foregroundColor">
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/username_field"
+                android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -64,7 +64,7 @@
             app:cardBackgroundColor="@color/foregroundColor">
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/password_field"
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -83,7 +83,7 @@
 
         <!--Reset Password-->
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/reset_pass"
+            android:id="@+id/resetBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
@@ -104,7 +104,7 @@
 
             <!--Sign up-->
             <androidx.cardview.widget.CardView
-                android:id="@+id/signup_btn"
+                android:id="@+id/signupBtn"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
@@ -140,7 +140,7 @@
 
             <!--Sign in-->
             <androidx.cardview.widget.CardView
-                android:id="@+id/signin_btn"
+                android:id="@+id/signinBtn"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_gravity="center_vertical"
@@ -201,7 +201,7 @@
 
         <!--Login-->
         <androidx.cardview.widget.CardView
-            android:id="@+id/login_btn"
+            android:id="@+id/loginBtn"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginStart="16dp"
@@ -234,7 +234,7 @@
 
             <!--Terms of Use-->
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/terms_btn"
+                android:id="@+id/termsBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/terms_of_use"
@@ -242,7 +242,7 @@
 
             <!--Privacy Policy-->
             <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/privacy_btn"
+                android:id="@+id/privacyBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/privacy_policy"

@@ -3,7 +3,7 @@ package org.michaelbel.moviemade.presentation.features.watchlist
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
-import org.michaelbel.moviemade.BuildConfig
+import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
 import org.michaelbel.moviemade.core.consts.Order
 import org.michaelbel.moviemade.core.entity.MoviesResponse
 import org.michaelbel.moviemade.core.remote.AccountService
@@ -15,7 +15,7 @@ class WatchlistRepository internal constructor(
 ): WatchlistContract.Repository {
 
     override fun getWatchlistMovies(accountId: Int, sessionId: String, page: Int): Observable<MoviesResponse> =
-        service.getWatchlistMovies(accountId, BuildConfig.TMDB_API_KEY, sessionId, LocalUtil.getLanguage(App.appContext), Order.ASC, page)
+        service.getWatchlistMovies(accountId, TMDB_API_KEY, sessionId, LocalUtil.getLanguage(App.appContext), Order.ASC, page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 }

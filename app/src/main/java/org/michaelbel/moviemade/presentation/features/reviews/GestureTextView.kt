@@ -10,8 +10,8 @@ import com.alexvasilkov.gestures.State
 import com.alexvasilkov.gestures.views.interfaces.GestureView
 
 open class GestureTextView
-@JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0):
-        AppCompatTextView(context, attrs, defStyle), GestureView {
+    @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0
+    ): AppCompatTextView(context, attrs, defStyle), GestureView {
 
     private val controller: GestureController = GestureController(this)
 

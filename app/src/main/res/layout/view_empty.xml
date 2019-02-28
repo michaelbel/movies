@@ -28,7 +28,7 @@
         tools:text="No movies"/>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/value_text"
+        android:id="@+id/value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

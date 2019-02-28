@@ -2,11 +2,8 @@ package org.michaelbel.moviemade.presentation.features.recommendations
 
 import org.michaelbel.moviemade.core.utils.EmptyViewMode
 import org.michaelbel.moviemade.core.utils.NetworkUtil
-
-import java.util.ArrayList
-
-import io.reactivex.disposables.CompositeDisposable
 import org.michaelbel.moviemade.presentation.base.Presenter
+import java.util.*
 
 class RcmdPresenter(repository: RcmdRepository): Presenter(), RcmdContract.Presenter {
 
@@ -26,8 +23,8 @@ class RcmdPresenter(repository: RcmdRepository): Presenter(), RcmdContract.Prese
 
         page = 1
         disposable.add(repository.getRcmdMovies(movieId, page)
-                .subscribe({ (_, movies) ->
-                    val results = ArrayList(movies)
+                .subscribe({
+                    val results = ArrayList(it.movies)
                     if (results.isEmpty()) {
                         view?.setError(EmptyViewMode.MODE_NO_MOVIES)
                         return@subscribe
@@ -40,7 +37,7 @@ class RcmdPresenter(repository: RcmdRepository): Presenter(), RcmdContract.Prese
         if (!NetworkUtil.isNetworkConnected()) return
 
         page++
-        disposable.add(repository.getRcmdMovies(movieId, page).subscribe { (_, movies) -> view!!.setMovies(movies) })
+        disposable.add(repository.getRcmdMovies(movieId, page).subscribe { view?.setMovies(it.movies) })
     }
 
     override fun destroy() {

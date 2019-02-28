@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/still_image"
+        android:id="@+id/stillImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
@@ -25,14 +25,14 @@
         android:background="@color/transparent40">
 
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/player_icon"
+            android:id="@+id/playerIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
             android:layout_marginStart="12dp"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/trailer_name"
+            android:id="@+id/trailerName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
@@ -45,7 +45,7 @@
             android:maxLines="1"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/quality_badge"
+            android:id="@+id/qualityBadge"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"

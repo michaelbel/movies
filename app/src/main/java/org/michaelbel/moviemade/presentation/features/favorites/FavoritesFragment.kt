@@ -55,11 +55,9 @@ class FavoritesFragment: BaseFragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        App[requireActivity().application].createFragmentComponent().inject(this)
         networkChangeReceiver = NetworkChangeReceiver(this)
         requireContext().registerReceiver(networkChangeReceiver, IntentFilter(NetworkChangeReceiver.INTENT_ACTION))
-
-        App[requireActivity().application].createFragmentComponent().inject(this)
         presenter.attach(this)
     }
 
@@ -68,7 +66,9 @@ class FavoritesFragment: BaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireContext() as FavoriteActivity).toolbar.setOnClickListener { recyclerView.smoothScrollToPosition(0) }
+        (requireContext() as FavoriteActivity).toolbar.setOnClickListener {
+            recyclerView.smoothScrollToPosition(0)
+        }
 
         val spanCount = resources.getInteger(R.integer.movies_span_layout_count)
 
@@ -80,16 +80,21 @@ class FavoritesFragment: BaseFragment(),
         recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1) && adapter.itemCount != 0) {
-                    presenter.getFavoriteMoviesNext(accountId, preferences.getString(KEY_SESSION_ID, "")!!)
+                if (recyclerView.canScrollVertically(1).not() && adapter.itemCount != 0) {
+                    val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
+                    presenter.getFavoriteMoviesNext(accountId, sessionId)
                 }
             }
         })
 
-        emptyView.setOnClickListener { presenter.getFavoriteMovies(accountId, preferences.getString(KEY_SESSION_ID, "")!!) }
+        emptyView.setOnClickListener {
+            val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
+            presenter.getFavoriteMovies(accountId, sessionId)
+        }
 
         accountId = arguments?.getInt(EXTRA_ACCOUNT_ID) ?: 0
-        presenter.getFavoriteMovies(accountId, preferences.getString(KEY_SESSION_ID, "")!!)
+        val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
+        presenter.getFavoriteMovies(accountId, sessionId)
     }
 
     override fun onMovieClick(movie: Movie) {
@@ -125,7 +130,8 @@ class FavoritesFragment: BaseFragment(),
 
     override fun onNetworkChanged() {
         if (connectionFailure && adapter.itemCount == 0) {
-            presenter.getFavoriteMovies(accountId, preferences.getString(KEY_SESSION_ID, "")!!)
+            val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
+            presenter.getFavoriteMovies(accountId, sessionId)
         }
     }
 

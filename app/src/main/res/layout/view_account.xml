@@ -2,7 +2,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/account_layout"
+    android:id="@+id/accountLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -13,7 +13,7 @@
 
         <!--Cover image-->
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/backdrop_image"
+            android:id="@+id/cover"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="fitXY"
@@ -36,7 +36,7 @@
 
             <!--Avatar image-->
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/user_avatar"
+                android:id="@+id/avatar"
                 android:layout_width="72dp"
                 android:layout_height="72dp"
                 android:layout_gravity="center_horizontal"
@@ -50,7 +50,7 @@
                 android:layout_gravity="center_horizontal">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/login_text"
+                    android:id="@+id/loginText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -61,7 +61,7 @@
                     tools:text="First Second"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/name_text"
+                    android:id="@+id/nameText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
@@ -86,7 +86,7 @@
 
         <!--Favorites-->
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/favorites_text"
+            android:id="@+id/favoritesText"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:paddingStart="16dp"
@@ -101,7 +101,7 @@
 
         <!--Watchlist-->
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/watchlist_text"
+            android:id="@+id/watchlistText"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"

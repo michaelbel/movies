@@ -24,11 +24,11 @@ interface AccountContract {
     }
 
     interface Repository {
-        fun createSessionId(token: String) : Observable<Session>
-        fun authWithLogin(un: Username) : Observable<Token>
-        fun deleteSession(sessionId: SessionId) : Observable<DeletedSession>
-        fun getAccountDetails(sessionId: String) : Observable<Account>
+        fun createSessionId(token: String): Observable<Session>
+        fun authWithLogin(un: Username): Observable<Token>
+        fun deleteSession(sessionId: SessionId): Observable<DeletedSession>
+        fun getAccountDetails(sessionId: String): Observable<Account>
         fun createRequestToken() : Observable<Token>
-        fun createRequestToken(name: String, pass: String) : Observable<Token>
+        fun createRequestToken(name: String, pass: String): Observable<Token>
     }
 }

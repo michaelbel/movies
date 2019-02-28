@@ -2,11 +2,8 @@ package org.michaelbel.moviemade.presentation.features.trailers
 
 import org.michaelbel.moviemade.core.utils.EmptyViewMode
 import org.michaelbel.moviemade.core.utils.NetworkUtil
-
-import java.util.ArrayList
-
-import io.reactivex.disposables.CompositeDisposable
 import org.michaelbel.moviemade.presentation.base.Presenter
+import java.util.*
 
 class TrailersPresenter(repository: TrailersRepository): Presenter(), TrailersContract.Presenter {
 
@@ -25,13 +22,13 @@ class TrailersPresenter(repository: TrailersRepository): Presenter(), TrailersCo
 
         disposable.add(repository.getVideos(movieId)
                 .doOnTerminate { view?.hideLoading() }
-                .subscribe({ (_, trailers) ->
-                    val results = ArrayList(trailers)
+                .subscribe({
+                    val results = ArrayList(it.trailers)
                     if (results.isEmpty()) {
                         view?.setError(EmptyViewMode.MODE_NO_TRAILERS)
                         return@subscribe
                     }
-                    view?.setTrailers(trailers)
+                    view?.setTrailers(it.trailers)
                 }, { view?.setError(EmptyViewMode.MODE_NO_TRAILERS) }))
     }
 

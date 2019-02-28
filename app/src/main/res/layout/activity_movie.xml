@@ -5,29 +5,27 @@
     android:layout_height="match_parent">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
         app:statusBarBackground="@color/transparent">
 
         <com.google.android.material.appbar.AppBarLayout
-            android:id="@+id/app_bar"
+            android:id="@+id/appBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             android:fitsSystemWindows="true">
 
             <com.google.android.material.appbar.CollapsingToolbarLayout
-                android:id="@+id/collapsing_layout"
+                android:id="@+id/collapsingLayout"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/backdrop_height"
                 android:fitsSystemWindows="true"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/backdrop_image"
+                    android:id="@+id/cover"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="@dimen/backdrop_margin"
@@ -45,7 +43,7 @@
                     app:layout_collapseMode="pin">
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/toolbar_title"
+                        android:id="@+id/toolbarTitle"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center_vertical"
@@ -73,42 +71,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
 
-            <!--<fragment
-                android:id="@+id/fragment"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:name="org.michaelbel.moviemade.presentation.features.movie.MovieFragment"/>-->
-
         </androidx.core.widget.NestedScrollView>
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <View
-        android:id="@+id/full_background"
+        android:id="@+id/fullBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?android:attr/shadowColor"
         android:visibility="invisible"/>
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/demo_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/demo_pager_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_margin="16dp"
-        android:shadowColor="?android:attr/shadowColor"
-        android:shadowRadius="4"
-        android:textColor="?android:textColorPrimaryInverse"
-        android:textSize="16sp"
-        android:visibility="invisible"/>
-
     <com.alexvasilkov.gestures.views.GestureImageView
-        android:id="@+id/full_image"
+        android:id="@+id/fullImage"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="invisible"
@@ -116,7 +91,7 @@
         app:gest_maxZoom="10"/>
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/full_image_toolbar"
+        android:id="@+id/fullToolbar"
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="@color/transparent20"

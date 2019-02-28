@@ -1,6 +1,6 @@
 package org.michaelbel.moviemade.presentation.features.account
 
-import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -67,15 +67,16 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        if (preferences.getString(KEY_SESSION_ID, "")!!.isEmpty()) {
+        val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
+        if (sessionId.isEmpty()) {
             showLogin()
         } else {
             showAccount()
         }
 
-        signin_btn.setOnClickListener {
-            val name = username_field.text.toString().trim()
-            val pass = password_field.text.toString().trim()
+        signinBtn.setOnClickListener {
+            val name = username.text.toString().trim()
+            val pass = password.text.toString().trim()
 
             if (name.isEmpty() || pass.isEmpty()) {
                 Toast.makeText(activity, R.string.msg_enter_data, Toast.LENGTH_SHORT).show()
@@ -84,29 +85,29 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
             }
         }
 
-        signup_btn.setOnClickListener { Browser.openUrl(requireContext(), TMDB_SIGNUP) }
-        reset_pass.setOnClickListener { Browser.openUrl(requireContext(), TMDB_RESET_PASSWORD) }
-        login_btn.setOnClickListener { presenter.createRequestToken() }
-        terms_btn.setOnClickListener { Browser.openUrl(requireContext(), TMDB_TERMS_OF_USE) }
-        privacy_btn.setOnClickListener { Browser.openUrl(requireContext(), TMDB_PRIVACY_POLICY) }
+        signupBtn.setOnClickListener { Browser.openUrl(requireContext(), TMDB_SIGNUP) }
+        resetBtn.setOnClickListener { Browser.openUrl(requireContext(), TMDB_RESET_PASSWORD) }
+        loginBtn.setOnClickListener { presenter.createRequestToken() }
+        termsBtn.setOnClickListener { Browser.openUrl(requireContext(), TMDB_TERMS_OF_USE) }
+        privacyBtn.setOnClickListener { Browser.openUrl(requireContext(), TMDB_PRIVACY_POLICY) }
 
-        favorites_text.setOnClickListener { (requireActivity() as MainActivity).startFavorites(accountId) }
-        watchlist_text.setOnClickListener { (requireActivity() as MainActivity).startWatchlist(accountId) }
+        favoritesText.setOnClickListener { (requireActivity() as MainActivity).startFavorites(accountId) }
+        watchlistText.setOnClickListener { (requireActivity() as MainActivity).startWatchlist(accountId) }
     }
 
     private fun showLogin() {
         preferences.edit().putString(KEY_SESSION_ID, "").apply()
-        login_layout.visibility = VISIBLE
-        account_layout.visibility = GONE
+        loginLayout.visibility = VISIBLE
+        accountLayout.visibility = GONE
 
         Glide.with(requireContext()).load(TMDB_LOGO).thumbnail(0.1F).into(logo_image)
-        username_field.background = null
-        password_field.background = null
-        ViewUtil.clearCursorDrawable(username_field)
-        ViewUtil.clearCursorDrawable(password_field)
-        password_field.setOnEditorActionListener { _, actionId, _ ->
+        username.background = null
+        password.background = null
+        ViewUtil.clearCursorDrawable(username)
+        ViewUtil.clearCursorDrawable(password)
+        password.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
-                signin_btn.performClick()
+                signinBtn.performClick()
                 return@setOnEditorActionListener true
             }
             false
@@ -114,17 +115,16 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
     }
 
     private fun showAccount() {
-        hideKeyboard(password_field)
-        account_layout.visibility = VISIBLE
-        login_layout.visibility = GONE
+        hideKeyboard(password)
+        accountLayout.visibility = VISIBLE
+        loginLayout.visibility = GONE
 
-        login_text.setText(R.string.loading_login)
-        name_text.setText(R.string.loading_name)
+        loginText.setText(R.string.loading_login)
+        nameText.setText(R.string.loading_name)
 
-        if (!preferences.getString(KEY_ACCOUNT_BACKDROP, "")!!.isEmpty()) {
-            Glide.with(requireContext())
-                    .load(preferences.getString(KEY_ACCOUNT_BACKDROP, ""))
-                    .thumbnail(0.1F).into(backdrop_image)
+        val backdrop = preferences.getString(KEY_ACCOUNT_BACKDROP, "") ?: ""
+        if (backdrop.isNotEmpty()) {
+            Glide.with(requireContext()).load(backdrop).thumbnail(0.1F).into(cover)
         }
 
         presenter.getAccountDetails()
@@ -135,8 +135,8 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
     }
 
     override fun sessionChanged(state: Boolean) {
-        username_field.text?.clear()
-        password_field.text?.clear()
+        username.text?.clear()
+        password.text?.clear()
 
         if (state) {
             // Session created.
@@ -150,11 +150,11 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
     override fun setAccount(account: Account) {
         accountId = account.id
         preferences.edit().putInt(KEY_ACCOUNT_ID, accountId).apply()
-        login_text.text = if (account.username.isEmpty()) getString(R.string.none) else account.username
-        name_text.text = if (account.name.isEmpty()) getString(R.string.none) else account.name
+        loginText.text = if (account.username.isEmpty()) getString(R.string.none) else account.username
+        nameText.text = if (account.name.isEmpty()) getString(R.string.none) else account.name
         Glide.with(requireContext())
                 .load(String.format(Locale.US, GRAVATAR_URL, account.avatar.gravatar.hash))
-                .thumbnail(0.1F).into(user_avatar)
+                .thumbnail(0.1F).into(avatar)
     }
 
     override fun onNetworkChanged() {}
@@ -163,8 +163,8 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
         when (error) {
             Error.ERROR_UNAUTHORIZED -> {
                 preferences.edit().putString(KEY_SESSION_ID, "").apply()
-                login_layout.visibility = VISIBLE
-                privacy_btn.visibility = GONE
+                loginLayout.visibility = VISIBLE
+                privacyBtn.visibility = GONE
             }
             Error.ERROR_CONNECTION_NO_TOKEN ->
                 Toast.makeText(requireContext(), R.string.error_empty_token, Toast.LENGTH_SHORT).show()
@@ -178,7 +178,7 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
     }
 
     private fun hideKeyboard(view: View?) {
-        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         if (imm.isActive.not()) {
             return
         }
