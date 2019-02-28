@@ -10,17 +10,13 @@ class SettingsActivity: BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_default)
-        initToolbar()
+        setSupportActionBar(toolbar)
+        toolbar.setNavigationOnClickListener { finish() }
+        supportActionBar?.setTitle(R.string.settings)
 
         if (savedInstanceState == null) {
             startFragment(SettingsFragment(), container.id)
         }
-    }
-
-    private fun initToolbar() {
-        setSupportActionBar(toolbar)
-        toolbar.setNavigationOnClickListener { finish() }
-        supportActionBar?.setTitle(R.string.settings)
     }
 }
 

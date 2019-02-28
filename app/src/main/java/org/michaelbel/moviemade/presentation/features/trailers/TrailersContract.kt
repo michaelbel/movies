@@ -3,8 +3,8 @@ package org.michaelbel.moviemade.presentation.features.trailers
 import io.reactivex.Observable
 import org.michaelbel.moviemade.core.entity.Video
 import org.michaelbel.moviemade.core.entity.VideosResponse
-import org.michaelbel.moviemade.presentation.base.BasePresenter
 import org.michaelbel.moviemade.core.utils.EmptyViewMode
+import org.michaelbel.moviemade.presentation.base.BasePresenter
 
 interface TrailersContract {
 
@@ -20,6 +20,6 @@ interface TrailersContract {
     }
 
     interface Repository {
-        fun getVideos(movieId: Int) : Observable<VideosResponse>
+        fun getVideos(movieId: Int): Observable<VideosResponse>
     }
 }

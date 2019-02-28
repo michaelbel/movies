@@ -3,8 +3,8 @@ package org.michaelbel.moviemade.presentation.features.reviews
 import io.reactivex.Observable
 import org.michaelbel.moviemade.core.entity.Review
 import org.michaelbel.moviemade.core.entity.ReviewsResponse
-import org.michaelbel.moviemade.presentation.base.BasePresenter
 import org.michaelbel.moviemade.core.utils.EmptyViewMode
+import org.michaelbel.moviemade.presentation.base.BasePresenter
 
 interface ReviewsContract {
 
@@ -18,6 +18,6 @@ interface ReviewsContract {
     }
 
     interface Repository {
-        fun getReviews(movieId: Int) : Observable<ReviewsResponse>
+        fun getReviews(movieId: Int): Observable<ReviewsResponse>
     }
 }

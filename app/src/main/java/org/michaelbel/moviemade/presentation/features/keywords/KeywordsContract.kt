@@ -3,8 +3,8 @@ package org.michaelbel.moviemade.presentation.features.keywords
 import io.reactivex.Observable
 import org.michaelbel.moviemade.core.entity.Keyword
 import org.michaelbel.moviemade.core.entity.KeywordsResponse
-import org.michaelbel.moviemade.presentation.base.BasePresenter
 import org.michaelbel.moviemade.core.utils.EmptyViewMode
+import org.michaelbel.moviemade.presentation.base.BasePresenter
 
 interface KeywordsContract {
 
@@ -18,6 +18,6 @@ interface KeywordsContract {
     }
 
     interface Repository {
-        fun getKeywords(movieId: Int) : Observable<KeywordsResponse>
+        fun getKeywords(movieId: Int): Observable<KeywordsResponse>
     }
 }

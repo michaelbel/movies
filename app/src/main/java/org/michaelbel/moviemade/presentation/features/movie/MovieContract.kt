@@ -38,9 +38,9 @@ interface MovieContract {
     }
 
     interface Repository {
-        fun getDetails(movieId: Int) : Observable<Movie>
-        fun markFavorite(accountId: Int, sessionId: String, mediaId: Int, favorite: Boolean) : Observable<Mark>
-        fun addWatchlist(accountId: Int, sessionId: String, mediaId: Int, watchlist: Boolean) : Observable<Mark>
-        fun getAccountStates(movieId: Int, sessionId: String) : Observable<AccountStates>
+        fun getDetails(movieId: Int): Observable<Movie>
+        fun markFavorite(accountId: Int, sessionId: String, mediaId: Int, favorite: Boolean): Observable<Mark>
+        fun addWatchlist(accountId: Int, sessionId: String, mediaId: Int, watchlist: Boolean): Observable<Mark>
+        fun getAccountStates(movieId: Int, sessionId: String): Observable<AccountStates>
     }
 }

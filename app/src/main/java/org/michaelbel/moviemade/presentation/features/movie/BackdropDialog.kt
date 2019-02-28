@@ -43,14 +43,12 @@ class BackdropDialog: BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
         path = arguments?.getString(BACKDROP) ?: ""
 
-        set_btn.setOnClickListener {
+        setBtn.setOnClickListener {
             preferences.edit().putString(KEY_ACCOUNT_BACKDROP, path).apply()
             Toast.makeText(activity, R.string.msg_image_applied, Toast.LENGTH_SHORT).show()
             dismiss()
         }
 
-        cancel_btn.setOnClickListener {
-            dismiss()
-        }
+        cancelBtn.setOnClickListener { dismiss() }
     }
 }

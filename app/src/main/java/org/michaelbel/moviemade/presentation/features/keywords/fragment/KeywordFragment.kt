@@ -50,10 +50,9 @@ class KeywordFragment: BaseFragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        App[requireActivity().application].createFragmentComponent().inject(this)
         networkChangeReceiver = NetworkChangeReceiver(this)
         requireContext().registerReceiver(networkChangeReceiver, IntentFilter(NetworkChangeReceiver.INTENT_ACTION))
-
-        App[requireActivity().application].createFragmentComponent().inject(this)
         presenter.attach(this)
     }
 
@@ -74,7 +73,7 @@ class KeywordFragment: BaseFragment(),
         recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1) && adapter.itemCount != 0) {
+                if (recyclerView.canScrollVertically(1).not() && adapter.itemCount != 0) {
                     presenter.getMoviesNext(keywordId)
                 }
             }

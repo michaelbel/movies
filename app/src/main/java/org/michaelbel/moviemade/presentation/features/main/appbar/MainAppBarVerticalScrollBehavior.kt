@@ -116,7 +116,7 @@ class MainAppBarVerticalScrollBehavior<V: View>: VerticalScrollingBehavior<V>() 
                 updateSnackBarPosition(parent, child, getSnackBarInstance(parent, child), (-bottomNavHeight).toFloat())
                 appBar.show(true)
             } else if (scrollDirection == VerticalScrollingBehavior.SCROLL_DIRECTION_UP && !appBar.isHidden) {
-                updateSnackBarPosition(parent, child, getSnackBarInstance(parent, child), 0f)
+                updateSnackBarPosition(parent, child, getSnackBarInstance(parent, child), 0F)
                 appBar.hide(true)
             }
         }

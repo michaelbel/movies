@@ -30,7 +30,7 @@
                 android:layout_marginBottom="@dimen/poster_image_margin_bottom"/>
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/info_layout"
+                android:id="@+id/infoLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -40,19 +40,19 @@
                 android:layout_marginEnd="@dimen/info_layout_margin_end">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/rating_layout"
+                    android:id="@+id/ratingLayout"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <org.michaelbel.moviemade.presentation.features.movie.views.RatingView
-                        android:id="@+id/rating_view"
+                        android:id="@+id/ratingView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center_vertical"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/rating_text"
+                        android:id="@+id/ratingText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start|center_vertical"
@@ -70,7 +70,7 @@
                         android:layout_marginStart="@dimen/vote_count_layout_margin_start">
 
                         <androidx.appcompat.widget.AppCompatTextView
-                            android:id="@+id/vote_count_text"
+                            android:id="@+id/voteCountText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="start|bottom"
@@ -80,7 +80,7 @@
                             tools:text="2568"/>
 
                         <androidx.appcompat.widget.AppCompatImageView
-                            android:id="@+id/vote_count_icon"
+                            android:id="@+id/voteCountIcon"
                             android:layout_width="@dimen/vote_count_icon_size"
                             android:layout_height="@dimen/vote_count_icon_size"
                             android:layout_gravity="start|bottom"
@@ -93,21 +93,21 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/date_layout"
+                    android:id="@+id/dateLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginTop="12dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/release_date_icon"
+                        android:id="@+id/releaseDateIcon"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center_vertical"
                         tools:src="@drawable/ic_calendar"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/release_date_text"
+                        android:id="@+id/releaseDateText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -121,21 +121,21 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/runtime_layout"
+                    android:id="@+id/runtimeLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginTop="12dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/runtime_icon"
+                        android:id="@+id/runtimeIcon"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center_vertical"
                         tools:src="@drawable/ic_clock"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/runtime_text"
+                        android:id="@+id/runtimeText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -149,21 +149,21 @@
                 </androidx.appcompat.widget.LinearLayoutCompat>
 
                 <androidx.appcompat.widget.LinearLayoutCompat
-                    android:id="@+id/lang_layout"
+                    android:id="@+id/langLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginTop="12dp">
 
                     <androidx.appcompat.widget.AppCompatImageView
-                        android:id="@+id/lang_icon"
+                        android:id="@+id/langIcon"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="start|center_vertical"
                         tools:src="@drawable/ic_earth"/>
 
                     <androidx.appcompat.widget.AppCompatTextView
-                        android:id="@+id/lang_text"
+                        android:id="@+id/langText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
@@ -186,7 +186,7 @@
 
                     <!--Watchlist-->
                     <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/watchlist_btn"
+                        android:id="@+id/watchlistBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:foreground="?attr/selectableItemBackground"
@@ -204,14 +204,14 @@
                             android:paddingBottom="2dp">
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:id="@+id/watchlist_icon"
+                                android:id="@+id/watchlistIcon"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:layout_gravity="center_horizontal"
                                 tools:src="@drawable/ic_bookmark_outline" />
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/watchlist_text"
+                                android:id="@+id/watchlistText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
@@ -229,7 +229,7 @@
 
                     <!--Favorites-->
                     <com.google.android.material.card.MaterialCardView
-                        android:id="@+id/favorites_btn"
+                        android:id="@+id/favoritesBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:foreground="?attr/selectableItemBackground"
@@ -247,14 +247,14 @@
                             android:paddingBottom="2dp">
 
                             <androidx.appcompat.widget.AppCompatImageView
-                                android:id="@+id/favorites_icon"
+                                android:id="@+id/favoritesIcon"
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:layout_gravity="center_horizontal"
                                 tools:src="@drawable/ic_heart_outline"/>
 
                             <androidx.appcompat.widget.AppCompatTextView
-                                android:id="@+id/favorites_text"
+                                android:id="@+id/favoritesText"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
@@ -275,7 +275,7 @@
             </androidx.appcompat.widget.LinearLayoutCompat>
 
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/title_layout"
+                android:id="@+id/titleLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -285,7 +285,7 @@
                 android:layout_marginEnd="16dp">
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/title_text"
+                    android:id="@+id/titleText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="24sp"
@@ -295,7 +295,7 @@
                     tools:text="Movie Title"/>
 
                 <androidx.appcompat.widget.AppCompatTextView
-                    android:id="@+id/tagline_text"
+                    android:id="@+id/taglineText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="16sp"
@@ -305,7 +305,7 @@
                     tools:text="Movie tagline"/>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/genres_recycler_view"
+                    android:id="@+id/genresRecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"/>
@@ -325,7 +325,7 @@
 
         <!--Overview-->
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/overview_text"
+            android:id="@+id/overviewText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -346,7 +346,7 @@
             android:background="?android:attr/divider"/>
 
         <androidx.appcompat.widget.LinearLayoutCompat
-            android:id="@+id/crew_layout"
+            android:id="@+id/crewLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -354,7 +354,7 @@
             android:orientation="vertical">
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/starring_text"
+                android:id="@+id/starringText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="?android:attr/textColorSecondary"
@@ -363,7 +363,7 @@
                 tools:text="Starring: John Smith"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/directed_text"
+                android:id="@+id/directedText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -373,7 +373,7 @@
                 tools:text="Directed by: John Smith"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/written_text"
+                android:id="@+id/writtenText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -383,7 +383,7 @@
                 tools:text="Written by: John Smith"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/produced_text"
+                android:id="@+id/producedText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
@@ -405,7 +405,7 @@
 
         <!--Trailers-->
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/trailers_btn"
+            android:id="@+id/trailersText"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
@@ -421,7 +421,7 @@
 
         <!--Reviews-->
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/reviews_text"
+            android:id="@+id/reviewsText"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
@@ -437,7 +437,7 @@
 
         <!--Keywords-->
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/keywords_text"
+            android:id="@+id/keywordsText"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
@@ -453,7 +453,7 @@
 
         <!--Similar movies-->
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/similar_text"
+            android:id="@+id/similarText"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"
@@ -469,7 +469,7 @@
 
         <!--Recommendations movies-->
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/recommendations_text"
+            android:id="@+id/recommendationsText"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_gravity="center_vertical"

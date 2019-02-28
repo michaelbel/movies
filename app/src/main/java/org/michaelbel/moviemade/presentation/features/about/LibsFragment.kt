@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
+import kotlinx.android.synthetic.main.activity_default.*
 import kotlinx.android.synthetic.main.fragment_keywords.*
 import kotlinx.android.synthetic.main.view_cell_details.*
 import org.michaelbel.moviemade.R
@@ -19,14 +20,14 @@ import java.util.*
 
 class LibsFragment: BaseFragment() {
 
-    inner class Source(val name: String, internal val url: String, val license: String)
+    data class Source(val name: String, val url: String, val license: String)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
         inflater.inflate(R.layout.fragment_recycler, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as AboutActivity).getToolbar().setNavigationOnClickListener {
+        (requireActivity() as AboutActivity).toolbar.setNavigationOnClickListener {
             (requireActivity() as AboutActivity).finishFragment()
         }
         (requireActivity() as AboutActivity).supportActionBar?.setTitle(R.string.open_source_libs)
@@ -74,9 +75,9 @@ class LibsFragment: BaseFragment() {
                 RecyclerView.ViewHolder(containerView), LayoutContainer {
 
             fun bind(source: Source) {
-                text_view.text = source.name
-                value_text.text = source.license
-                divider_view.visibility = if (adapterPosition != sources.size - 1) VISIBLE else GONE
+                text.text = source.name
+                value.text = source.license
+                divider.visibility = if (adapterPosition != sources.size - 1) VISIBLE else GONE
 
                 containerView.setOnClickListener(object: DebouncingOnClickListener() {
                     override fun doClick(v: View) {

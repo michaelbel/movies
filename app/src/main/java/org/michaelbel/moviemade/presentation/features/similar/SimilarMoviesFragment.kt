@@ -12,6 +12,7 @@ import androidx.core.view.isGone
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import kotlinx.android.synthetic.main.activity_default.*
 import kotlinx.android.synthetic.main.fragment_lce.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Movie
@@ -60,11 +61,9 @@ class SimilarMoviesFragment: BaseFragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        App[requireActivity().application as App].createFragmentComponent().inject(this)
         networkChangeReceiver = NetworkChangeReceiver(this)
         requireContext().registerReceiver(networkChangeReceiver, IntentFilter(NetworkChangeReceiver.INTENT_ACTION))
-
-        App[requireActivity().application as App].createFragmentComponent().inject(this)
         presenter.attach(this)
     }
 
@@ -73,7 +72,7 @@ class SimilarMoviesFragment: BaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as SimilarMoviesActivity).getToolbar().setOnClickListener {
+        (requireActivity() as SimilarMoviesActivity).toolbar.setOnClickListener {
             recyclerView.smoothScrollToPosition(0)
         }
 
@@ -81,9 +80,9 @@ class SimilarMoviesFragment: BaseFragment(),
 
         adapter = MoviesAdapter(this)
 
-        swipe_refresh_layout.setColorSchemeColors(ViewUtil.getAttrColor(requireContext(), android.R.attr.colorAccent))
-        swipe_refresh_layout.setProgressBackgroundColorSchemeColor(ViewUtil.getAttrColor(requireContext(), android.R.attr.colorPrimary))
-        swipe_refresh_layout.setOnRefreshListener(this)
+        swipeRefreshLayout.setColorSchemeColors(ViewUtil.getAttrColor(requireContext(), android.R.attr.colorAccent))
+        swipeRefreshLayout.setProgressBackgroundColorSchemeColor(ViewUtil.getAttrColor(requireContext(), android.R.attr.colorPrimary))
+        swipeRefreshLayout.setOnRefreshListener(this)
 
         progressBar.visibility = VISIBLE
 
@@ -99,7 +98,7 @@ class SimilarMoviesFragment: BaseFragment(),
             }
         })
 
-        error_view.setErrorListener(this)
+        errorView.setErrorListener(this)
 
         movieId = arguments?.getInt(MOVIE_ID) ?: 0
         presenter.getSimilarMovies(movieId)
@@ -108,23 +107,23 @@ class SimilarMoviesFragment: BaseFragment(),
     override fun setMovies(movies: List<Movie>) {
         connectionFailure = false
         progressBar.visibility = GONE
-        swipe_refresh_layout.isRefreshing = false
-        error_view.visibility = GONE
+        swipeRefreshLayout.isRefreshing = false
+        errorView.visibility = GONE
         adapter.addMovies(movies)
     }
 
     override fun setError(error: Throwable, code: Int) {
         connectionFailure = true
-        progressBar!!.visibility = GONE
-        swipe_refresh_layout.isRefreshing = false
-        error_view.visibility = VISIBLE
-        error_view.setError(error, code)
+        progressBar.visibility = GONE
+        swipeRefreshLayout.isRefreshing = false
+        errorView.visibility = VISIBLE
+        errorView.setError(error, code)
 
         Timber.d(error, javaClass.simpleName)
     }
 
     override fun onReloadData() {
-        error_view.visibility = GONE
+        errorView.visibility = GONE
         progressBar.visibility = VISIBLE
         presenter.getSimilarMovies(movieId)
     }
@@ -132,7 +131,7 @@ class SimilarMoviesFragment: BaseFragment(),
     override fun onRefresh() {
         if (progressBar.isGone) {
             if (adapter.itemCount == 0) {
-                error_view.visibility = GONE
+                errorView.visibility = GONE
                 presenter.getSimilarMovies(movieId)
             } else {
                 adapter.movies.clear()
@@ -154,7 +153,7 @@ class SimilarMoviesFragment: BaseFragment(),
 
     override fun onDestroy() {
         super.onDestroy()
-        activity!!.unregisterReceiver(networkChangeReceiver)
+        requireContext().unregisterReceiver(networkChangeReceiver)
         presenter.destroy()
     }
 }

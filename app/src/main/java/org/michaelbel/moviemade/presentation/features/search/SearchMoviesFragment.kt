@@ -31,7 +31,7 @@ import org.michaelbel.moviemade.presentation.features.main.MoviesAdapter
 import java.util.*
 import javax.inject.Inject
 
-class SearchMoviesFragment : BaseFragment(), SearchContract.View, MoviesAdapter.Listener {
+class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.Listener {
 
     companion object {
         private const val KEY_MENU_ICON = "icon"
@@ -63,7 +63,8 @@ class SearchMoviesFragment : BaseFragment(), SearchContract.View, MoviesAdapter.
                     val textResults = results[0]
                     if (!TextUtils.isEmpty(textResults)) {
                         searchView.setText(textResults)
-                        searchView.setSelection(searchView.text!!.length)
+                        val text = searchView.text ?: ""
+                        searchView.setSelection(text.length)
                         changeActionIcon()
                         presenter.search(textResults)
                     }
@@ -85,7 +86,7 @@ class SearchMoviesFragment : BaseFragment(), SearchContract.View, MoviesAdapter.
         menu.add(null).setIcon(icon).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM).setOnMenuItemClickListener {
             if (iconActionMode == ITEM_CLR) {
                 if (searchView.text != null) {
-                    searchView.text!!.clear()
+                    searchView.text?.clear()
                 }
                 changeActionIcon()
 
@@ -135,7 +136,7 @@ class SearchMoviesFragment : BaseFragment(), SearchContract.View, MoviesAdapter.
 
             override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                 changeActionIcon()
-                if (s.toString().trim { it <= ' ' }.length >= 2) {
+                if (s.toString().trim().length >= 2) {
                     presenter.search(s.toString().trim { it <= ' ' })
                 }
             }
@@ -193,7 +194,7 @@ class SearchMoviesFragment : BaseFragment(), SearchContract.View, MoviesAdapter.
 
     private fun changeActionIcon() {
         if (actionMenu != null) {
-            if (searchView.text.toString().trim { it <= ' ' }.isEmpty()) {
+            if (searchView.text.toString().trim().isEmpty()) {
                 iconActionMode = ITEM_MIC
                 actionMenu?.getItem(MENU_ITEM_INDEX)?.setIcon(R.drawable.ic_voice)
             } else {

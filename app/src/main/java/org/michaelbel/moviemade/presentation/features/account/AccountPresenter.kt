@@ -10,7 +10,7 @@ import retrofit2.HttpException
 class AccountPresenter internal constructor(
     private val view: AccountContract.View,
     private val repository: AccountContract.Repository,
-    private val sharedPreferences: SharedPreferences
+    private val preferences: SharedPreferences
 ): Presenter(), AccountContract.Presenter {
 
     override fun attach(view: AccountContract.View) {}
@@ -22,27 +22,25 @@ class AccountPresenter internal constructor(
         }
 
         disposable.add(repository.createSessionId(token)
-            .subscribe({ session ->
-                if (session != null) {
-                    if (session.success) {
-                        sharedPreferences.edit().putString(KEY_SESSION_ID, session.sessionId).apply()
-                        view.sessionChanged(true)
-                    }
+            .subscribe({
+                if (it.success) {
+                    preferences.edit().putString(KEY_SESSION_ID, it.sessionId).apply()
+                    view.sessionChanged(true)
                 }
             }, { view.setError(Error.ERR_NO_CONNECTION) }))
     }
 
     override fun authWithLogin(un: Username) {
-        if (!NetworkUtil.isNetworkConnected()) {
+        if (NetworkUtil.isNetworkConnected().not()) {
             view.setError(Error.ERR_NO_CONNECTION)
             return
         }
 
         disposable.add(repository.authWithLogin(un)
-            .subscribe({ tokenResponse ->
-                if (tokenResponse != null) {
-                    if (tokenResponse.success) {
-                        val authorizedToken = tokenResponse.requestToken
+            .subscribe({
+                if (it != null) {
+                    if (it.success) {
+                        val authorizedToken = it.requestToken
                         createSessionId(authorizedToken)
                     }
                 }
@@ -50,15 +48,16 @@ class AccountPresenter internal constructor(
     }
 
     override fun deleteSession() {
-        if (!NetworkUtil.isNetworkConnected()) {
+        if (NetworkUtil.isNetworkConnected().not()) {
             view.setError(Error.ERR_NO_CONNECTION)
             return
         }
 
-        disposable.add(repository.deleteSession(SessionId(sharedPreferences.getString(KEY_SESSION_ID, "")!!))
-            .subscribe({ deletedSession ->
-                if (deletedSession != null) {
-                    if (deletedSession.success) {
+        val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
+        disposable.add(repository.deleteSession(SessionId(sessionId))
+            .subscribe({
+                if (it != null) {
+                    if (it.success) {
                         view.sessionChanged(false)
                     }
                 }
@@ -66,18 +65,19 @@ class AccountPresenter internal constructor(
     }
 
     override fun getAccountDetails() {
-        if (!NetworkUtil.isNetworkConnected()) {
+        if (NetworkUtil.isNetworkConnected().not()) {
             view.setError(Error.ERR_NO_CONNECTION)
             return
         }
 
-        disposable.add(repository.getAccountDetails(sharedPreferences.getString(KEY_SESSION_ID, "")!!)
-            .subscribe({ account ->
-                if (account != null) {
-                    view.setAccount(account)
+        val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
+        disposable.add(repository.getAccountDetails(sessionId)
+            .subscribe({
+                if (it != null) {
+                    view.setAccount(it)
                 }
-            }, { e ->
-                val code = (e as HttpException).code()
+            }, {
+                val code = (it as HttpException).code()
                 if (code == 401) {
                     view.setError(Error.ERROR_UNAUTHORIZED)
                 } else if (code == 404) {
@@ -87,36 +87,36 @@ class AccountPresenter internal constructor(
     }
 
     override fun createRequestToken() {
-        if (!NetworkUtil.isNetworkConnected()) {
+        if (NetworkUtil.isNetworkConnected()) {
             view.setError(Error.ERROR_CONNECTION_NO_TOKEN)
             return
         }
 
         disposable.add(repository.createRequestToken()
-            .subscribe({ response ->
-                if (response != null) {
-                    if (response.success) {
-                        sharedPreferences.edit().putString(KEY_TOKEN, response.requestToken).apply()
-                        sharedPreferences.edit().putString(KEY_DATE_AUTHORISED, response.date).apply()
-                        view.startBrowserAuth(response.requestToken)
+            .subscribe({
+                if (it != null) {
+                    if (it.success) {
+                        preferences.edit().putString(KEY_TOKEN, it.requestToken).apply()
+                        preferences.edit().putString(KEY_DATE_AUTHORISED, it.date).apply()
+                        view.startBrowserAuth(it.requestToken)
                     }
                 }
             }, { view.setError(Error.ERROR_CONNECTION_NO_TOKEN) }))
     }
 
     override fun createRequestToken(name: String, pass: String) {
-        if (!NetworkUtil.isNetworkConnected()) {
+        if (NetworkUtil.isNetworkConnected().not()) {
             view.setError(Error.ERROR_CONNECTION_NO_TOKEN)
             return
         }
 
         disposable.add(repository.createRequestToken(name, pass)
-            .subscribe({ response ->
-                if (response != null) {
-                    if (response.success) {
-                        sharedPreferences.edit().putString(KEY_TOKEN, response.requestToken).apply()
-                        sharedPreferences.edit().putString(KEY_DATE_AUTHORISED, response.date).apply()
-                        val username = Username(name, pass, response.requestToken)
+            .subscribe({
+                if (it != null) {
+                    if (it.success) {
+                        preferences.edit().putString(KEY_TOKEN, it.requestToken).apply()
+                        preferences.edit().putString(KEY_DATE_AUTHORISED, it.date).apply()
+                        val username = Username(name, pass, it.requestToken)
                         authWithLogin(username)
                     }
                 }

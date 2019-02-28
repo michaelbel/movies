@@ -14,7 +14,7 @@
         tools:src="@drawable/ic_calendar"/>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/text_view"
+        android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|center_vertical"

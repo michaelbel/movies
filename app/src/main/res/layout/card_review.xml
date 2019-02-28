@@ -20,7 +20,7 @@
             app:srcCompat="@drawable/ic_account"/>
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/author_name"
+            android:id="@+id/authorName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
@@ -36,7 +36,7 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/review_text"
+        android:id="@+id/reviewText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start|top"

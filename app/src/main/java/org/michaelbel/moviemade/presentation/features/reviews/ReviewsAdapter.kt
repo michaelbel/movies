@@ -21,10 +21,6 @@ class ReviewsAdapter(
 
     private val reviews = ArrayList<Review>()
 
-    fun getReviews(): List<Review> {
-        return reviews
-    }
-
     fun setReviews(results: List<Review>) {
         reviews.addAll(results)
         notifyItemRangeInserted(reviews.size + 1, results.size)
@@ -54,8 +50,8 @@ class ReviewsAdapter(
             RecyclerView.ViewHolder(containerView), LayoutContainer {
 
         fun bind(review: Review) {
-            author_name.text = review.author
-            review_text.text = review.content
+            authorName.text = review.author
+            reviewText.text = review.content
         }
     }
 }

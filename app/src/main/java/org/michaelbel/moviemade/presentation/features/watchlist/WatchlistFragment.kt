@@ -24,7 +24,10 @@ import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceive
 import org.michaelbel.moviemade.presentation.features.main.MoviesAdapter
 import javax.inject.Inject
 
-class WatchlistFragment: BaseFragment(), WatchlistContract.View, NetworkChangeReceiver.Listener, MoviesAdapter.Listener {
+class WatchlistFragment: BaseFragment(),
+        WatchlistContract.View,
+        NetworkChangeReceiver.Listener,
+        MoviesAdapter.Listener {
 
     companion object {
         fun newInstance(accountId: Int): WatchlistFragment {
@@ -54,7 +57,6 @@ class WatchlistFragment: BaseFragment(), WatchlistContract.View, NetworkChangeRe
         super.onCreate(savedInstanceState)
         networkChangeReceiver = NetworkChangeReceiver(this)
         requireContext().registerReceiver(networkChangeReceiver, IntentFilter(NetworkChangeReceiver.INTENT_ACTION))
-
         App[requireActivity().application].createFragmentComponent().inject(this)
         presenter.attach(this)
     }
@@ -64,7 +66,9 @@ class WatchlistFragment: BaseFragment(), WatchlistContract.View, NetworkChangeRe
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as WatchlistActivity).toolbar.setOnClickListener { recyclerView.smoothScrollToPosition(0) }
+        (requireActivity() as WatchlistActivity).toolbar.setOnClickListener {
+            recyclerView.smoothScrollToPosition(0)
+        }
 
         val spanCount = resources.getInteger(R.integer.movies_span_layout_count)
 
@@ -77,15 +81,20 @@ class WatchlistFragment: BaseFragment(), WatchlistContract.View, NetworkChangeRe
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1) && adapter.itemCount != 0) {
-                    presenter.getWatchlistMoviesNext(accountId, preferences.getString(KEY_SESSION_ID, "")!!)
+                    val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
+                    presenter.getWatchlistMoviesNext(accountId, sessionId)
                 }
             }
         })
 
-        emptyView.setOnClickListener { presenter.getWatchlistMovies(accountId, preferences.getString(KEY_SESSION_ID, "")!!) }
+        emptyView.setOnClickListener {
+            val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
+            presenter.getWatchlistMovies(accountId, sessionId)
+        }
 
         accountId = arguments?.getInt(EXTRA_ACCOUNT_ID) ?: 0
-        presenter.getWatchlistMovies(accountId, preferences.getString(KEY_SESSION_ID, "")!!)
+        val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
+        presenter.getWatchlistMovies(accountId, sessionId)
     }
 
     override fun onDestroy() {
@@ -112,7 +121,8 @@ class WatchlistFragment: BaseFragment(), WatchlistContract.View, NetworkChangeRe
 
     override fun onNetworkChanged() {
         if (connectionFailure && adapter.itemCount == 0) {
-            presenter.getWatchlistMovies(accountId, preferences.getString(KEY_SESSION_ID, "")!!)
+            val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
+            presenter.getWatchlistMovies(accountId, sessionId)
         }
     }
 

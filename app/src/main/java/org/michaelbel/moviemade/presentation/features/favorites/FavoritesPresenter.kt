@@ -1,8 +1,8 @@
 package org.michaelbel.moviemade.presentation.features.favorites
 
-import org.michaelbel.moviemade.presentation.base.Presenter
 import org.michaelbel.moviemade.core.utils.EmptyViewMode
 import org.michaelbel.moviemade.core.utils.NetworkUtil
+import org.michaelbel.moviemade.presentation.base.Presenter
 import java.util.*
 
 class FavoritesPresenter(repository: FavoriteRepository): Presenter(), FavoritesContract.Presenter {
@@ -16,17 +16,17 @@ class FavoritesPresenter(repository: FavoriteRepository): Presenter(), Favorites
     }
 
     override fun getFavoriteMovies(accountId: Int, sessionId: String) {
-        if (!NetworkUtil.isNetworkConnected()) {
+        if (NetworkUtil.isNetworkConnected().not()) {
             view?.setError(EmptyViewMode.MODE_NO_CONNECTION)
             return
         }
 
         page = 1
         disposable.add(repository.getFavoriteMovies(accountId, sessionId, page)
-            .subscribe({ (_, movies) ->
-                val results = ArrayList(movies)
+            .subscribe({
+                val results = ArrayList(it.movies)
                 if (results.isEmpty()) {
-                    view!!.setError(EmptyViewMode.MODE_NO_MOVIES)
+                    view?.setError(EmptyViewMode.MODE_NO_MOVIES)
                     return@subscribe
                 }
                 view?.setMovies(results)
@@ -34,10 +34,13 @@ class FavoritesPresenter(repository: FavoriteRepository): Presenter(), Favorites
     }
 
     override fun getFavoriteMoviesNext(accountId: Int, sessionId: String) {
-        if (!NetworkUtil.isNetworkConnected()) return
+        if (NetworkUtil.isNetworkConnected().not()) {
+            return
+        }
 
         page++
-        disposable.add(repository.getFavoriteMovies(accountId, sessionId, page).subscribe { (_, movies) -> view!!.setMovies(movies)})
+        disposable.add(repository.getFavoriteMovies(accountId, sessionId, page)
+                .subscribe { view?.setMovies(it.movies)})
     }
 
     override fun destroy() {

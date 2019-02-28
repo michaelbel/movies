@@ -11,7 +11,7 @@
 
     <com.pierfrancescosoffritti.androidyoutubeplayer.player.YouTubePlayerView
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/player_view"
+        android:id="@+id/playerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

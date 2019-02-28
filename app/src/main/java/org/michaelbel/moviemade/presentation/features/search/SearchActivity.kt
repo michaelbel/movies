@@ -7,13 +7,8 @@ import org.michaelbel.moviemade.presentation.base.BaseActivity
 import org.michaelbel.moviemade.presentation.features.main.MainActivity
 import shortbread.Shortcut
 
-@Shortcut(
-        id = "search",
-        rank = 1,
-        icon = R.drawable.ic_shortcut_search,
-        shortLabelRes = R.string.search,
-        backStack = [MainActivity::class]
-)
+@Shortcut(id = "search", rank = 1, icon = R.drawable.ic_shortcut_search, shortLabelRes = R.string.search,
+        backStack = [MainActivity::class])
 class SearchActivity: BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {

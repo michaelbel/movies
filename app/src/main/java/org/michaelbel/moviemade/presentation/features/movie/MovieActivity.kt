@@ -3,18 +3,19 @@ package org.michaelbel.moviemade.presentation.features.movie
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.WindowManager
 import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
-import com.alexvasilkov.gestures.views.GestureImageView
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.activity_movie.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Movie
 import org.michaelbel.moviemade.core.utils.DeviceUtil
+import org.michaelbel.moviemade.core.utils.EXTRA_MOVIE
 import org.michaelbel.moviemade.core.utils.KEY_SESSION_ID
-import org.michaelbel.moviemade.core.utils.MOVIE
 import org.michaelbel.moviemade.core.utils.TMDB_IMAGE
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseActivity
@@ -30,10 +31,6 @@ class MovieActivity: BaseActivity() {
     @Inject
     lateinit var sharedPreferences: SharedPreferences
 
-    fun getFullImage(): GestureImageView = full_image
-
-    fun getFullBackground(): View = full_background
-
     private val isSystemStatusBarShown: Boolean
         get() = window.decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0
 
@@ -42,18 +39,10 @@ class MovieActivity: BaseActivity() {
         setContentView(R.layout.activity_movie)
         App[application].createActivityComponent().inject(this)
 
-        movie = intent.getSerializableExtra(MOVIE) as Movie
+        movie = intent.getSerializableExtra(EXTRA_MOVIE) as Movie
 
         fragment = MovieFragment.newInstance(movie)
         startFragment(fragment, container.id)
-
-        //fragment = supportFragmentManager.findFragmentById(R.id.fragment) as MovieFragment
-        //fragment.arguments?.putSerializable("movie", movie)
-
-        /*if (fragment.presenter != null) {
-            fragment.presenter.setDetailExtra(movie)
-            fragment.presenter.getDetails(movie.id)
-        }*/
 
         window.statusBarColor = ContextCompat.getColor(this, R.color.primary)
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -65,34 +54,33 @@ class MovieActivity: BaseActivity() {
         toolbar.setNavigationOnClickListener {finish()}
         toolbar.title = null
 
-        app_bar.addOnOffsetChangedListener(object : AppBarStateChangeListener() {
+        appBar.addOnOffsetChangedListener(object: AppBarStateChangeListener() {
             override fun onStateChanged(appBarLayout: AppBarLayout, state: AppBarState) {
-                if (state === AppBarState.COLLAPSED) {
-                    toolbar_title.text = movie.title
-                } else {
-                    toolbar_title.text = null
-                }
+                toolbarTitle.text = if (state === AppBarState.COLLAPSED) movie.title else null
             }
         })
 
-        toolbar_title.text = movie.title
-        Glide.with(this).load(String.format(Locale.US, TMDB_IMAGE, "original", movie.backdropPath)).thumbnail(0.1F).into(backdrop_image)
+        toolbarTitle.text = movie.title
+        Glide.with(this)
+                .load(String.format(Locale.US, TMDB_IMAGE, "original", movie.backdropPath))
+                .thumbnail(0.1F).into(cover)
 
-        collapsing_layout.setContentScrimColor(ContextCompat.getColor(this, R.color.primary))
-        collapsing_layout.setStatusBarScrimColor(ContextCompat.getColor(this, android.R.color.transparent))
+        collapsingLayout.setContentScrimColor(ContextCompat.getColor(this, R.color.primary))
+        collapsingLayout.setStatusBarScrimColor(ContextCompat.getColor(this, android.R.color.transparent))
 
-        val params = full_image_toolbar.layoutParams as FrameLayout.LayoutParams
+        val params = fullToolbar.layoutParams as FrameLayout.LayoutParams
         params.topMargin = DeviceUtil.getStatusBarHeight(this)
 
-        full_image_toolbar.setNavigationOnClickListener { onBackPressed() }
+        fullToolbar.setNavigationOnClickListener { onBackPressed() }
 
-        full_image.setOnClickListener {
-            full_image_toolbar!!.visibility = if (isSystemStatusBarShown) View.INVISIBLE else View.VISIBLE
+        fullImage.setOnClickListener {
+            fullToolbar.visibility = if (isSystemStatusBarShown) INVISIBLE else VISIBLE
             showSystemStatusBar(!isSystemStatusBarShown)
         }
 
-        backdrop_image.setOnLongClickListener {
-            if (!sharedPreferences.getString(KEY_SESSION_ID, "")!!.isEmpty()) {
+        cover.setOnLongClickListener {
+            val sessionId = sharedPreferences.getString(KEY_SESSION_ID, "") ?: ""
+            if (sessionId.isNotEmpty()) {
                 DeviceUtil.vibrate(this@MovieActivity, 15)
                 val dialog = BackdropDialog.newInstance(String.format(Locale.US, TMDB_IMAGE, "original", movie.backdropPath))
                 dialog.show(supportFragmentManager, "tag")

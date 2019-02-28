@@ -35,15 +35,15 @@ class YoutubePlayerDialogFragment: BottomSheetDialogFragment() {
 
         videoUrl = arguments?.getString(KEY_VIDEO_URL) ?: ""
 
-        lifecycle.addObserver(player_view)
+        lifecycle.addObserver(playerView)
 
-        player_view.initialize({ youTubePlayer ->
-            youTubePlayer.addListener(object : AbstractYouTubePlayerListener() {
+        playerView.initialize({
+            it.addListener(object: AbstractYouTubePlayerListener() {
                 override fun onReady() {
                     if (lifecycle.currentState == Lifecycle.State.RESUMED) {
-                        youTubePlayer.loadVideo(videoUrl, 0F)
+                        it.loadVideo(videoUrl, 0F)
                     } else {
-                        youTubePlayer.cueVideo(videoUrl, 0F)
+                        it.cueVideo(videoUrl, 0F)
                     }
                 }
             })

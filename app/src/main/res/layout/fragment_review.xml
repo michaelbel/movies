@@ -1,12 +1,12 @@
 <androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/scroll_layout"
+    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:scrollbars="vertical">
 
     <org.michaelbel.moviemade.presentation.features.reviews.GestureTextView
-        android:id="@+id/review_text"
+        android:id="@+id/reviewText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start|top"

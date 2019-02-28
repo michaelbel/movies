@@ -15,6 +15,7 @@ import com.alexvasilkov.gestures.transition.ViewsTransitionAnimator
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.android.synthetic.main.activity_movie.*
 import kotlinx.android.synthetic.main.fragment_movie.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.consts.Code
@@ -81,15 +82,12 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
     lateinit var preferences: SharedPreferences
 
     // Fixme: add newInstance
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         App[requireActivity().application as App].createFragmentComponent().inject(this)
-
         networkChangeReceiver = NetworkChangeReceiver(this)
         requireContext().registerReceiver(networkChangeReceiver, IntentFilter(NetworkChangeReceiver.INTENT_ACTION))
-
         presenter = MoviePresenter(moviesService, accountService, preferences)
         presenter.attach(this)
     }
@@ -126,24 +124,24 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        runtime_text.setText(R.string.loading)
-        runtime_icon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_clock,
+        runtimeText.setText(R.string.loading)
+        runtimeIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_clock,
                 ContextCompat.getColor(requireContext(), R.color.iconActiveColor)))
 
-        tagline_text.setText(R.string.loading_tagline)
+        taglineText.setText(R.string.loading_tagline)
 
-        starring_text.text = SpannableUtil.boldAndColoredText(getString(R.string.starring), getString(R.string.starring, getString(R.string.loading)))
-        directed_text.text = SpannableUtil.boldAndColoredText(getString(R.string.directed), getString(R.string.directed, getString(R.string.loading)))
-        written_text.text = SpannableUtil.boldAndColoredText(getString(R.string.written), getString(R.string.written, getString(R.string.loading)))
-        produced_text.text = SpannableUtil.boldAndColoredText(getString(R.string.produced), getString(R.string.produced, getString(R.string.loading)))
+        starringText.text = SpannableUtil.boldAndColoredText(getString(R.string.starring), getString(R.string.starring, getString(R.string.loading)))
+        directedText.text = SpannableUtil.boldAndColoredText(getString(R.string.directed), getString(R.string.directed, getString(R.string.loading)))
+        writtenText.text = SpannableUtil.boldAndColoredText(getString(R.string.written), getString(R.string.written, getString(R.string.loading)))
+        producedText.text = SpannableUtil.boldAndColoredText(getString(R.string.produced), getString(R.string.produced, getString(R.string.loading)))
 
-        favorites_btn.visibility = GONE
-        favorites_btn.visibility = GONE
+        favoritesBtn.visibility = GONE
+        favoritesBtn.visibility = GONE
 
         adapter = GenresAdapter()
 
-        genres_recycler_view.adapter = adapter
-        genres_recycler_view.layoutManager = ChipsLayoutManager.newBuilder(requireContext())
+        genresRecyclerView.adapter = adapter
+        genresRecyclerView.layoutManager = ChipsLayoutManager.newBuilder(requireContext())
                 .setOrientation(ChipsLayoutManager.HORIZONTAL).build()
 
         /*AdRequest adRequestBuilder = new AdRequest.Builder()
@@ -203,35 +201,35 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
             }
         });*/
 
-        favorites_btn.setOnClickListener {
+        favoritesBtn.setOnClickListener {
             presenter.markFavorite(preferences.getInt(KEY_ACCOUNT_ID, 0), (requireActivity() as MovieActivity).movie.id, !favorite)
         }
 
-        watchlist_btn.setOnClickListener {
+        watchlistBtn.setOnClickListener {
             presenter.addWatchlist(preferences.getInt(KEY_ACCOUNT_ID, 0), (requireActivity() as MovieActivity).movie.id, !watchlist)
         }
 
         poster.setOnClickListener {
-            imageAnimator = GestureTransitions.from<Any>(poster).into((requireActivity() as MovieActivity).getFullImage())
+            imageAnimator = GestureTransitions.from<Any>(poster).into((requireActivity() as MovieActivity).fullImage)
             imageAnimator!!.addPositionUpdateListener { position, isLeaving ->
-                (requireActivity() as MovieActivity).getFullBackground().visibility = if (position == 0F) INVISIBLE else VISIBLE
-                (requireActivity() as MovieActivity).getFullBackground().alpha = position
+                (requireActivity() as MovieActivity).fullBackground.visibility = if (position == 0F) INVISIBLE else VISIBLE
+                (requireActivity() as MovieActivity).fullBackground.alpha = position
 
-                (requireActivity() as MovieActivity).getFullBackground().visibility = if (position == 0F) INVISIBLE else VISIBLE
-                (requireActivity() as MovieActivity).getFullBackground().alpha = position
+                (requireActivity() as MovieActivity).fullBackground.visibility = if (position == 0F) INVISIBLE else VISIBLE
+                (requireActivity() as MovieActivity).fullBackground.alpha = position
 
-                (requireActivity() as MovieActivity).getFullImage().visibility = if (position == 0F && isLeaving) INVISIBLE else VISIBLE
+                (requireActivity() as MovieActivity).fullImage.visibility = if (position == 0F && isLeaving) INVISIBLE else VISIBLE
 
                 Glide.with(requireContext())
                         .load(String.format(Locale.US, TMDB_IMAGE, "original", posterPath))
                         .thumbnail(0.1F)
-                        .into((requireActivity() as MovieActivity).getFullImage())
+                        .into((requireActivity() as MovieActivity).fullImage)
 
                 if (position == 0F && isLeaving) {
                     (requireActivity() as MovieActivity).showSystemStatusBar(true)
                 }
             }
-            (requireActivity() as MovieActivity).getFullImage().controller.settings
+            (requireActivity() as MovieActivity).fullImage.controller.settings
                     .setGravity(Gravity.CENTER)
                     .setZoomEnabled(true)
                     .setAnimationsDuration(300L)
@@ -245,23 +243,23 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
             imageAnimator!!.enterSingle(true)
         }
 
-        trailers_btn.setOnClickListener {
+        trailersText.setOnClickListener {
             (requireActivity() as MovieActivity).startTrailers((requireActivity() as MovieActivity).movie)
         }
 
-        reviews_text.setOnClickListener {
+        reviewsText.setOnClickListener {
             (requireActivity() as MovieActivity).startReviews((requireActivity() as MovieActivity).movie)
         }
 
-        keywords_text.setOnClickListener {
+        keywordsText.setOnClickListener {
             (requireActivity() as MovieActivity).startKeywords((requireActivity() as MovieActivity).movie)
         }
 
-        similar_text.setOnClickListener {
+        similarText.setOnClickListener {
             (requireActivity() as MovieActivity).startSimilarMovies((requireActivity() as MovieActivity).movie)
         }
 
-        recommendations_text.setOnClickListener {
+        recommendationsText.setOnClickListener {
             (requireActivity() as MovieActivity).startRcmdsMovies((requireActivity() as MovieActivity).movie)
         }
 
@@ -306,60 +304,60 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
     }
 
     override fun setMovieTitle(title: String) {
-        title_text.text = title
+        titleText.text = title
     }
 
     override fun setOverview(overview: String) {
         if (TextUtils.isEmpty(overview)) {
-            overview_text.setText(R.string.no_overview)
+            overviewText.setText(R.string.no_overview)
             return
         }
 
-        overview_text.text = overview
+        overviewText.text = overview
     }
 
     override fun setVoteAverage(voteAverage: Float) {
-        rating_view.setRating(voteAverage)
-        rating_text.text = voteAverage.toString()
+        ratingView.setRating(voteAverage)
+        ratingText.text = voteAverage.toString()
     }
 
     override fun setVoteCount(voteCount: Int) {
-        vote_count_text.text = voteCount.toString()
+        voteCountText.text = voteCount.toString()
     }
 
     override fun setReleaseDate(releaseDate: String) {
         if (TextUtils.isEmpty(releaseDate)) {
-            info_layout.removeView(date_layout)
+            infoLayout.removeView(dateLayout)
             return
         }
 
-        release_date_icon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_calendar,
+        releaseDateIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_calendar,
                 ContextCompat.getColor(activity!!, R.color.iconActiveColor)))
-        release_date_text.text = releaseDate
+        releaseDateText.text = releaseDate
     }
 
     override fun setOriginalLanguage(originalLanguage: String) {
         if (TextUtils.isEmpty(originalLanguage)) {
-            info_layout.removeView(lang_layout)
+            infoLayout.removeView(langLayout)
             return
         }
 
-        lang_icon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_earth,
+        langIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_earth,
                 ContextCompat.getColor(requireContext(), R.color.iconActiveColor)))
-        lang_text.text = originalLanguage
+        langText.text = originalLanguage
     }
 
     override fun setRuntime(runtime: String) {
-        runtime_text.text = runtime
+        runtimeText.text = runtime
     }
 
     override fun setTagline(tagline: String) {
         if (TextUtils.isEmpty(tagline)) {
-            title_layout.removeView(tagline_text)
+            titleLayout.removeView(taglineText)
             return
         }
 
-        tagline_text.text = tagline
+        taglineText.text = tagline
     }
 
     override fun setURLs(imdbId: String, homepage: String) {
@@ -379,42 +377,42 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
         favorite = fave
         watchlist = watch
 
-        favorites_btn.visibility = VISIBLE
-        watchlist_btn.visibility = VISIBLE
+        favoritesBtn.visibility = VISIBLE
+        watchlistBtn.visibility = VISIBLE
 
         if (fave) {
-            favorites_icon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart,
+            favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart,
                     ContextCompat.getColor(requireContext(), R.color.accent_blue)))
-            favorites_text.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
+            favoritesText.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
         } else {
-            favorites_icon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart_outline,
+            favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart_outline,
                     ContextCompat.getColor(requireContext(), R.color.textColorPrimary)))
-            favorites_text.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
+            favoritesText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
         }
 
         if (watch) {
-            watchlist_icon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark,
+            watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark,
                     ContextCompat.getColor(requireContext(), R.color.accent_blue)))
-            watchlist_text.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
+            watchlistText.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
         } else {
-            watchlist_icon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark_outline,
+            watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark_outline,
                     ContextCompat.getColor(requireContext(), R.color.textColorPrimary)))
-            watchlist_text.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
+            watchlistText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
         }
     }
 
     override fun onFavoriteChanged(mark: Mark) {
         when (mark.statusCode) {
             Code.ADDED -> {
-                favorites_icon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart,
+                favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart,
                         ContextCompat.getColor(requireContext(), R.color.accent_blue)))
-                favorites_text.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
+                favoritesText.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
                 favorite = true
             }
             Code.DELETED -> {
-                favorites_icon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart_outline,
+                favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart_outline,
                         ContextCompat.getColor(requireContext(), R.color.textColorPrimary)))
-                favorites_text.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
+                favoritesText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
                 favorite = false
             }
         }
@@ -423,25 +421,25 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
     override fun onWatchListChanged(mark: Mark) {
         when (mark.statusCode) {
             Code.ADDED -> {
-                watchlist_icon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark,
+                watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark,
                         ContextCompat.getColor(requireContext(), R.color.accent_blue)))
-                watchlist_text.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
+                watchlistText.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
                 watchlist = true
             }
             Code.DELETED -> {
-                watchlist_icon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark_outline,
+                watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark_outline,
                         ContextCompat.getColor(requireContext(), R.color.textColorPrimary)))
-                watchlist_text.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
+                watchlistText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
                 watchlist = false
             }
         }
     }
 
     override fun setCredits(casts: String, directors: String, writers: String, producers: String) {
-        starring_text.text = SpannableUtil.boldAndColoredText(getString(R.string.starring), getString(R.string.starring, casts))
-        directed_text.text = SpannableUtil.boldAndColoredText(getString(R.string.directed), getString(R.string.directed, directors))
-        written_text.text = SpannableUtil.boldAndColoredText(getString(R.string.written), getString(R.string.written, writers))
-        produced_text.text = SpannableUtil.boldAndColoredText(getString(R.string.produced), getString(R.string.produced, producers))
+        starringText.text = SpannableUtil.boldAndColoredText(getString(R.string.starring), getString(R.string.starring, casts))
+        directedText.text = SpannableUtil.boldAndColoredText(getString(R.string.directed), getString(R.string.directed, directors))
+        writtenText.text = SpannableUtil.boldAndColoredText(getString(R.string.written), getString(R.string.written, writers))
+        producedText.text = SpannableUtil.boldAndColoredText(getString(R.string.produced), getString(R.string.produced, producers))
     }
 
     override fun setGenres(genreIds: List<Int>) {

@@ -75,7 +75,7 @@ class EmptyView: FrameLayout {
     }
 
     fun setValue(@StringRes textId: Int) {
-        value_text.visibility = VISIBLE
-        value_text.text = context.getString(textId)
+        value.visibility = VISIBLE
+        value.text = context.getString(textId)
     }
 }

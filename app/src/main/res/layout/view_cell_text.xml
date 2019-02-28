@@ -6,7 +6,7 @@
     android:foreground="?attr/selectableItemBackground">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/text_view"
+        android:id="@+id/text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|center_vertical"
@@ -20,7 +20,7 @@
         tools:text="Something"/>
 
     <View
-        android:id="@+id/divider_view"
+        android:id="@+id/divider"
         android:layout_width="match_parent"
         android:layout_height="1px"
         android:layout_gravity="bottom"

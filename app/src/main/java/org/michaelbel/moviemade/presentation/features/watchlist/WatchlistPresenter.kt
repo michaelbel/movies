@@ -17,14 +17,14 @@ class WatchlistPresenter(repository: WatchlistRepository): Presenter(), Watchlis
 
     override fun getWatchlistMovies(accountId: Int, sessionId: String) {
         if (!NetworkUtil.isNetworkConnected()) {
-            view!!.setError(EmptyViewMode.MODE_NO_CONNECTION)
+            view?.setError(EmptyViewMode.MODE_NO_CONNECTION)
             return
         }
 
         page = 1
         disposable.add(repository.getWatchlistMovies(accountId, sessionId, page)
-                .subscribe({ (_, movies) ->
-                    val results = ArrayList(movies)
+                .subscribe({
+                    val results = ArrayList(it.movies)
                     if (results.isEmpty()) {
                         view?.setError(EmptyViewMode.MODE_NO_MOVIES)
                         return@subscribe
@@ -37,7 +37,8 @@ class WatchlistPresenter(repository: WatchlistRepository): Presenter(), Watchlis
         if (!NetworkUtil.isNetworkConnected()) return
 
         page++
-        disposable.add(repository.getWatchlistMovies(accountId, sessionId, page).subscribe { (_, movies) -> view?.setMovies(movies) })
+        disposable.add(repository.getWatchlistMovies(accountId, sessionId, page)
+                .subscribe { view?.setMovies(it.movies) })
     }
 
     override fun destroy() {

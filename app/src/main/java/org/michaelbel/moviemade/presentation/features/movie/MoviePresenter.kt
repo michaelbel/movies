@@ -74,19 +74,22 @@ class MoviePresenter internal constructor(
     override fun markFavorite(accountId: Int, mediaId: Int, favorite: Boolean) {
         if (NetworkUtil.isNetworkConnected().not()) return
 
-        disposable.add(repository.markFavorite(accountId, preferences.getString(KEY_SESSION_ID, "")!!, mediaId, favorite)
-                .subscribe({ mark -> view?.onFavoriteChanged(mark) }, { view?.setConnectionError() }))
+        val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
+        disposable.add(repository.markFavorite(accountId, sessionId, mediaId, favorite)
+                .subscribe({ view?.onFavoriteChanged(it) }, { view?.setConnectionError() }))
     }
 
     override fun addWatchlist(accountId: Int, mediaId: Int, watchlist: Boolean) {
         if (NetworkUtil.isNetworkConnected().not()) return
 
-        disposable.add(repository.addWatchlist(accountId, preferences.getString(KEY_SESSION_ID, "")!!, mediaId, watchlist)
-                .subscribe({ mark -> view?.onWatchListChanged(mark) }, { view?.setConnectionError() }))
+        val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
+        disposable.add(repository.addWatchlist(accountId, sessionId, mediaId, watchlist)
+                .subscribe({ view?.onWatchListChanged(it) }, { view?.setConnectionError() }))
     }
 
     override fun getAccountStates(movieId: Int) {
-        disposable.add(repository.getAccountStates(movieId, preferences.getString(KEY_SESSION_ID, "")!!)
+        val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
+        disposable.add(repository.getAccountStates(movieId, sessionId)
                 .subscribeWith(object: DisposableObserver<AccountStates>() {
                     override fun onNext(states: AccountStates) {
                         view?.setStates(states.favorite, states.watchlist)

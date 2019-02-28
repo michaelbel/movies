@@ -14,8 +14,8 @@ import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Movie
 import org.michaelbel.moviemade.core.entity.Review
 import org.michaelbel.moviemade.core.utils.DeviceUtil
+import org.michaelbel.moviemade.core.utils.EXTRA_MOVIE
 import org.michaelbel.moviemade.core.utils.EmptyViewMode
-import org.michaelbel.moviemade.core.utils.MOVIE
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
@@ -25,12 +25,15 @@ import org.michaelbel.moviemade.presentation.features.reviews.ReviewsContract
 import org.michaelbel.moviemade.presentation.features.reviews.activity.ReviewsActivity
 import javax.inject.Inject
 
-class ReviewsFragment: BaseFragment(), ReviewsContract.View, NetworkChangeReceiver.Listener, ReviewsAdapter.Listener {
+class ReviewsFragment: BaseFragment(),
+        ReviewsContract.View,
+        NetworkChangeReceiver.Listener,
+        ReviewsAdapter.Listener {
 
     companion object {
         fun newInstance(movie: Movie): ReviewsFragment {
             val args = Bundle()
-            args.putSerializable(MOVIE, movie)
+            args.putSerializable(EXTRA_MOVIE, movie)
 
             val fragment = ReviewsFragment()
             fragment.arguments = args
@@ -61,7 +64,9 @@ class ReviewsFragment: BaseFragment(), ReviewsContract.View, NetworkChangeReceiv
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as ReviewsActivity).toolbar.setOnClickListener { recyclerView.smoothScrollToPosition(0) }
+        (requireActivity() as ReviewsActivity).toolbar.setOnClickListener {
+            recyclerView.smoothScrollToPosition(0)
+        }
 
         val spanCount = resources.getInteger(R.integer.trailers_span_layout_count)
 
@@ -77,7 +82,7 @@ class ReviewsFragment: BaseFragment(), ReviewsContract.View, NetworkChangeReceiv
             presenter.getReviews(movie.id)
         }
 
-        movie = arguments?.getSerializable(MOVIE) as Movie
+        movie = arguments?.getSerializable(EXTRA_MOVIE) as Movie
         presenter.getReviews(movie.id)
     }
 
