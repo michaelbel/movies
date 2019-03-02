@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_lce.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Movie
 import org.michaelbel.moviemade.core.utils.DeviceUtil
-import org.michaelbel.moviemade.core.utils.MOVIE_ID
+import org.michaelbel.moviemade.core.utils.EXTRA_MOVIE_ID
 import org.michaelbel.moviemade.core.utils.ViewUtil
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseFragment
@@ -32,13 +32,13 @@ class SimilarMoviesFragment: BaseFragment(),
         SimilarContract.View,
         NetworkChangeReceiver.Listener,
         MoviesAdapter.Listener,
-        ErrorView.ErrorListener,
+        ErrorView.Listener,
         SwipeRefreshLayout.OnRefreshListener {
 
     companion object {
         fun newInstance(movieId: Int): SimilarMoviesFragment {
             val args = Bundle()
-            args.putInt(MOVIE_ID, movieId)
+            args.putInt(EXTRA_MOVIE_ID, movieId)
 
             val fragment = SimilarMoviesFragment()
             fragment.arguments = args
@@ -100,7 +100,7 @@ class SimilarMoviesFragment: BaseFragment(),
 
         errorView.setErrorListener(this)
 
-        movieId = arguments?.getInt(MOVIE_ID) ?: 0
+        movieId = arguments?.getInt(EXTRA_MOVIE_ID) ?: 0
         presenter.getSimilarMovies(movieId)
     }
 

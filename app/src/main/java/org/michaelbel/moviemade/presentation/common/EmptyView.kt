@@ -13,12 +13,6 @@ import org.michaelbel.moviemade.core.utils.ViewUtil
 
 class EmptyView: FrameLayout {
 
-    private val onReloadListener: OnReloadListener? = null
-
-    interface OnReloadListener {
-        fun onReload()
-    }
-
     constructor(context: Context): super(context) {
         initialize()
     }
@@ -67,11 +61,11 @@ class EmptyView: FrameLayout {
     }
 
     private fun setIcon(icon: Int) {
-        empty_icon.setImageDrawable(ViewUtil.getIcon(context, icon, ContextCompat.getColor(context, R.color.errorColor)))
+        emptyIcon.setImageDrawable(ViewUtil.getIcon(context, icon, ContextCompat.getColor(context, R.color.errorColor)))
     }
 
     private fun setText(@StringRes textId: Int) {
-        empty_text.text = context.getString(textId)
+        emptyText.text = context.getString(textId)
     }
 
     fun setValue(@StringRes textId: Int) {

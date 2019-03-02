@@ -22,7 +22,7 @@ class KeywordsActivity: BaseActivity() {
         supportActionBar?.subtitle = movie.title
 
         if (savedInstanceState == null) {
-            startFragment(KeywordsFragment.newInstance(movie.id), container.id)
+            supportFragmentManager.beginTransaction().replace(container.id, KeywordsFragment.newInstance(movie.id)).commit()
         }
     }
 }

@@ -19,7 +19,10 @@ class FavoriteActivity: BaseActivity() {
         supportActionBar?.setTitle(R.string.favorites)
 
         if (savedInstanceState == null) {
-            startFragment(FavoritesFragment.newInstance(accountId), container.id)
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(container.id, FavoritesFragment.newInstance(accountId))
+                    .commit()
         }
     }
 }

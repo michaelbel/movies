@@ -9,7 +9,6 @@ import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.dialog_backdrop.*
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.utils.BACKDROP
 import org.michaelbel.moviemade.core.utils.KEY_ACCOUNT_BACKDROP
 import org.michaelbel.moviemade.presentation.App
 import javax.inject.Inject
@@ -17,6 +16,8 @@ import javax.inject.Inject
 class BackdropDialog: BottomSheetDialogFragment() {
 
     companion object {
+        const val BACKDROP = "backdrop"
+
         internal fun newInstance(path: String): BackdropDialog {
             val args = Bundle()
             args.putString(BACKDROP, path)

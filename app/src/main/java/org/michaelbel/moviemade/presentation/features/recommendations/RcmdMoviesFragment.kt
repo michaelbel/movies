@@ -14,7 +14,7 @@ import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Movie
 import org.michaelbel.moviemade.core.utils.DeviceUtil
-import org.michaelbel.moviemade.core.utils.MOVIE_ID
+import org.michaelbel.moviemade.core.utils.EXTRA_MOVIE_ID
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
@@ -30,7 +30,7 @@ class RcmdMoviesFragment: BaseFragment(),
     companion object {
         fun newInstance(movieId: Int): RcmdMoviesFragment {
             val args = Bundle()
-            args.putInt(MOVIE_ID, movieId)
+            args.putInt(EXTRA_MOVIE_ID, movieId)
 
             val fragment = RcmdMoviesFragment()
             fragment.arguments = args
@@ -84,7 +84,7 @@ class RcmdMoviesFragment: BaseFragment(),
 
         emptyView.setOnClickListener { presenter.getRcmdMoviesNext(movieId) }
 
-        movieId = arguments?.getInt(MOVIE_ID) ?: 0
+        movieId = arguments?.getInt(EXTRA_MOVIE_ID) ?: 0
         presenter.getRcmdMovies(movieId)
     }
 

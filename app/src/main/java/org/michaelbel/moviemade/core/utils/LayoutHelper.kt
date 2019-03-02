@@ -13,6 +13,6 @@ object LayoutHelper {
         }
     }
 
-    fun makeLinear(width: Int, height: Int): LinearLayout.LayoutParams =
+    fun makeLinear(width: Int, height: Int) =
             LinearLayout.LayoutParams(getSize(width.toFloat()), getSize(height.toFloat()))
 }

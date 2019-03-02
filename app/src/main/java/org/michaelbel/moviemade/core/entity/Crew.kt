@@ -3,6 +3,7 @@ package org.michaelbel.moviemade.core.entity
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
+@Suppress("unused")
 data class Crew(
     @SerializedName("credit_id") val creditId: String,
     @SerializedName("department") val department: String,
@@ -26,21 +27,7 @@ data class Crew(
     @SerializedName("release_date") val releaseDate: String
 ): Serializable {
 
-    /*enum class Credits(var crew: String) {
-        WRITING("Writing"),
-        PRODUCTION("Production"),
-        SOUND("Sound"),
-        CAMERA("Camera"),
-        EDITING("Editing"),
-        ART("Art"),
-        DIRECTING("Directing"),
-        CREW("Crew"),
-        LIGHTING("Lighting"),
-        COSTUME_MAKEUP("Costume & Make-Up"),
-        VISUAL_EFFECTS("Visual Effects")
-    }*/
-
-    object Credits {
+    companion object {
         const val WRITING = "Writing"
         const val PRODUCTION = "Production"
         const val SOUND = "Sound"

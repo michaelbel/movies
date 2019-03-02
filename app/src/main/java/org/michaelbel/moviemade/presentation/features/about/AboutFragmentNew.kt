@@ -43,7 +43,12 @@ class AboutFragmentNew: PreferenceFragmentCompat() {
                 return true
             }
             preference?.key == "key_fork" -> Browser.openUrl(requireContext(), GITHUB_URL)
-            preference?.key == "key_sources" -> (requireActivity() as AboutActivity).startFragment(LibsFragment(), org.michaelbel.moviemade.R.id.container, "libsFragment")
+            preference?.key == "key_sources" -> (requireActivity() as AboutActivity)
+                    .supportFragmentManager
+                        .beginTransaction()
+                        .replace(R.id.container, LibsFragment())
+                        .addToBackStack(tag)
+                        .commit()
             preference?.key == "key_feedback" ->
                 try {
                     val packageManager = requireContext().packageManager

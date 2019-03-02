@@ -26,7 +26,7 @@ class ReviewActivity: BaseActivity() {
         supportActionBar?.subtitle = SpannableUtil.boldText(getString(R.string.review_by), getString(R.string.review_by, review.author))
 
         if (savedInstanceState == null) {
-            startFragment(ReviewFragment.newInstance(review), container.id)
+            supportFragmentManager.beginTransaction().replace(container.id, ReviewFragment.newInstance(review)).commit()
         }
     }
 }

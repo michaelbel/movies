@@ -4,7 +4,7 @@ import io.reactivex.Observable
 import org.michaelbel.moviemade.core.entity.AccountStates
 import org.michaelbel.moviemade.core.entity.Mark
 import org.michaelbel.moviemade.core.entity.Movie
-import org.michaelbel.moviemade.presentation.base.BasePresenter
+import org.michaelbel.moviemade.presentation.base.BaseContract
 
 interface MovieContract {
 
@@ -29,7 +29,7 @@ interface MovieContract {
         fun showComplete(movie: Movie)
     }
 
-    interface Presenter: BasePresenter<View> {
+    interface Presenter: BaseContract.Presenter<View> {
         fun setDetailExtra(movie: Movie)
         fun getDetails(movieId: Int)
         fun markFavorite(accountId: Int, mediaId: Int, favorite: Boolean)

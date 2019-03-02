@@ -19,7 +19,8 @@ class WatchlistActivity: BaseActivity() {
         supportActionBar?.setTitle(R.string.watchlist)
 
         if (savedInstanceState == null) {
-            startFragment(WatchlistFragment.newInstance(accountId), container.id)
+            supportFragmentManager.beginTransaction()
+                    .replace(container.id, WatchlistFragment.newInstance(accountId)).commit()
         }
     }
 }

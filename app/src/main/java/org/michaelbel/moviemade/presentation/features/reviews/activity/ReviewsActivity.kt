@@ -22,7 +22,7 @@ class ReviewsActivity: BaseActivity() {
         supportActionBar?.subtitle = movie.title
 
         if (savedInstanceState == null) {
-            startFragment(ReviewsFragment.newInstance(movie), container.id)
+            supportFragmentManager.beginTransaction().replace(container.id, ReviewsFragment.newInstance(movie)).commit()
         }
     }
 }

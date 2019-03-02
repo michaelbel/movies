@@ -2,13 +2,9 @@ package org.michaelbel.moviemade.presentation.features.movie
 
 import android.content.SharedPreferences
 import io.reactivex.observers.DisposableObserver
-import org.michaelbel.moviemade.core.entity.AccountStates
-import org.michaelbel.moviemade.core.entity.CreditsResponse
-import org.michaelbel.moviemade.core.entity.Crew
-import org.michaelbel.moviemade.core.entity.Movie
+import org.michaelbel.moviemade.core.entity.*
 import org.michaelbel.moviemade.core.remote.AccountService
 import org.michaelbel.moviemade.core.remote.MoviesService
-import org.michaelbel.moviemade.core.utils.AndroidUtil
 import org.michaelbel.moviemade.core.utils.DateUtil
 import org.michaelbel.moviemade.core.utils.KEY_SESSION_ID
 import org.michaelbel.moviemade.core.utils.NetworkUtil
@@ -48,7 +44,7 @@ class MoviePresenter internal constructor(
                 .subscribeWith(object: DisposableObserver<Movie>() {
                     override fun onNext(movie: Movie) {
                         view?.setRuntime(DateUtil.formatRuntime(movie.runtime))
-                        view?.setOriginalLanguage(AndroidUtil.formatCountries(movie.countries))
+                        view?.setOriginalLanguage(formatCountries(movie.countries))
                         view?.setTagline(movie.tagline)
 
                         if (movie != null) {
@@ -70,6 +66,8 @@ class MoviePresenter internal constructor(
                     }
                 }))
     }
+
+
 
     override fun markFavorite(accountId: Int, mediaId: Int, favorite: Boolean) {
         if (NetworkUtil.isNetworkConnected().not()) return
@@ -121,9 +119,9 @@ class MoviePresenter internal constructor(
         val producers = ArrayList<String>()
         for (crew in creditsResponse.crew) {
             when (crew.department) {
-                Crew.Credits.DIRECTING -> directors.add(crew.name)
-                Crew.Credits.WRITING -> writers.add(crew.name)
-                Crew.Credits.PRODUCTION -> producers.add(crew.name)
+                Crew.DIRECTING -> directors.add(crew.name)
+                Crew.WRITING -> writers.add(crew.name)
+                Crew.PRODUCTION -> producers.add(crew.name)
             }
         }
 
@@ -158,6 +156,20 @@ class MoviePresenter internal constructor(
                 writersBuilder.toString(),
                 producersBuilder.toString()
         )
+    }
+
+    private fun formatCountries(countries: List<Country>): String {
+        if (countries.isEmpty()) {
+            return ""
+        }
+
+        val text = StringBuilder()
+        for (country in countries) {
+            text.append(country.name).append(", ")
+        }
+
+        text.delete(text.toString().length - 2, text.toString().length)
+        return text.toString()
     }
 
     override fun destroy() {

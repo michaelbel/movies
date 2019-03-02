@@ -15,7 +15,7 @@ class SettingsActivity: BaseActivity() {
         supportActionBar?.setTitle(R.string.settings)
 
         if (savedInstanceState == null) {
-            startFragment(SettingsFragment(), container.id)
+            supportFragmentManager.beginTransaction().replace(container.id, SettingsFragment()).commit()
         }
     }
 }

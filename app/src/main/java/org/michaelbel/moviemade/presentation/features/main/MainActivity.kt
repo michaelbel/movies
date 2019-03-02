@@ -100,11 +100,11 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.item_playing -> startFragment(NowPlayingFragment(), container.id)
-            R.id.item_rated -> startFragment(TopRatedFragment(), container.id)
-            R.id.item_upcoming -> startFragment(UpcomingFragment(), container.id)
+            R.id.item_playing -> supportFragmentManager.beginTransaction().replace(container.id, NowPlayingFragment()).commit()
+            R.id.item_rated -> supportFragmentManager.beginTransaction().replace(container.id, TopRatedFragment()).commit()
+            R.id.item_upcoming -> supportFragmentManager.beginTransaction().replace(container.id, UpcomingFragment()).commit()
             R.id.item_account -> {
-                startFragment(accountFragment, container.id)
+                supportFragmentManager.beginTransaction().replace(container.id, accountFragment).commit()
                 supportActionBar?.title = ""
                 appBarLayout.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.transparent))
             }
@@ -121,7 +121,7 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
 
     @Shortcut(id = "favorites", rank = 3, icon = R.drawable.ic_shortcut_favorite, shortLabelRes = R.string.favorites)
     fun showFavorites() {
-        startFragment(accountFragment, container.id)
+        supportFragmentManager.beginTransaction().replace(container.id, accountFragment).commit()
         supportActionBar?.title = ""
         appBarLayout.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.transparent))
         bottomNavigationView.selectedItemId = R.id.item_account
@@ -130,7 +130,7 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
 
     @Shortcut(id = "watchlist", rank = 2, icon = R.drawable.ic_shortcut_bookmark, shortLabelRes = R.string.watchlist)
     fun showUpcomingMovies() {
-        startFragment(accountFragment, container.id)
+        supportFragmentManager.beginTransaction().replace(container.id, accountFragment).commit()
         supportActionBar?.title = ""
         appBarLayout.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.transparent))
         bottomNavigationView.selectedItemId = R.id.item_account

@@ -28,7 +28,7 @@ class LibsFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as AboutActivity).toolbar.setNavigationOnClickListener {
-            (requireActivity() as AboutActivity).finishFragment()
+            (requireActivity() as AboutActivity).supportFragmentManager.popBackStack()
         }
         (requireActivity() as AboutActivity).supportActionBar?.setTitle(R.string.open_source_libs)
 
