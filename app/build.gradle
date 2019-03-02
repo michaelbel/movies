@@ -31,9 +31,9 @@ android {
 
         defaultPublishConfig 'debug'
 
-        versionCode 64
-        versionName "1.2.2"
-        buildConfigField "String", "VERSION_DATE", '"22 Dec 2018"'
+        versionCode 65
+        versionName "1.3.0"
+        buildConfigField "String", "VERSION_DATE", '"02 Feb 2019"'
         project.ext.set("archivesBaseName", "moviemade-v" + versionName)
         buildConfigField "String", "TMDB_API_KEY", "\"${getProperty("local.properties", "TMDB_API_KEY")}\""
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -119,7 +119,6 @@ android {
         warningsAsErrors true
         showAll true
         explainIssues true
-        abortOnError true
         ignoreWarnings false
         checkReleaseBuilds true
         htmlReport true
@@ -127,6 +126,7 @@ android {
         lintConfig file("$projectDir/lint.xml")
         fatal 'StopShip'*/
 
+        abortOnError false
         disable 'MissingTranslation'
         disable 'ExtraTranslation'
     }

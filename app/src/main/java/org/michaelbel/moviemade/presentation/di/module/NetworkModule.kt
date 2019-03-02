@@ -1,16 +1,13 @@
 package org.michaelbel.moviemade.presentation.di.module
 
 import android.content.Context
-import com.facebook.stetho.okhttp3.StethoInterceptor
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.readystatesoftware.chuck.ChuckInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.michaelbel.moviemade.BuildConfig.DEBUG
 import org.michaelbel.moviemade.core.remote.AccountService
 import org.michaelbel.moviemade.core.remote.AuthService
 import org.michaelbel.moviemade.core.remote.MoviesService
@@ -62,11 +59,11 @@ class NetworkModule(private val context: Context, private val baseUrl: String) {
 
     private fun okHttpClient(): OkHttpClient {
         val okHttpClient = OkHttpClient().newBuilder()
-        if (DEBUG) {
+        /*if (DEBUG) {
             okHttpClient.interceptors().add(ChuckInterceptor(context))
             okHttpClient.interceptors().add(httpLoggingInterceptor())
             okHttpClient.networkInterceptors().add(StethoInterceptor())
-        }
+        }*/
         return okHttpClient.build()
     }
 

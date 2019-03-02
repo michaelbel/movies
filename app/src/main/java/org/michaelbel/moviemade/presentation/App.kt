@@ -3,11 +3,6 @@ package org.michaelbel.moviemade.presentation
 import android.app.Application
 import android.content.Context
 import android.os.Handler
-import com.facebook.stetho.Stetho
-import com.singhajit.sherlock.core.Sherlock
-import com.squareup.leakcanary.LeakCanary
-import com.tspoon.traceur.Traceur
-import org.michaelbel.moviemade.BuildConfig.DEBUG
 import org.michaelbel.moviemade.core.utils.TMDB_API_ENDPOINT
 import org.michaelbel.moviemade.presentation.di.component.ActivityComponent
 import org.michaelbel.moviemade.presentation.di.component.AppComponent
@@ -18,7 +13,6 @@ import org.michaelbel.moviemade.presentation.di.module.AppModule
 import org.michaelbel.moviemade.presentation.di.module.FragmentModule
 import org.michaelbel.moviemade.presentation.di.module.NetworkModule
 import shortbread.Shortbread
-import timber.log.Timber
 
 class App: Application() {
 
@@ -45,14 +39,14 @@ class App: Application() {
 
         Shortbread.create(this)
 
-        if (DEBUG) {
+        /*if (DEBUG) {
             Traceur.enableLogging()
             Sherlock.init(this)
             LeakCanary.install(this)
             Timber.plant(Timber.DebugTree())
             Timber.tag(TAG)
             Stetho.initializeWithDefaults(this)
-        }
+        }*/
 
         initDI()
 
