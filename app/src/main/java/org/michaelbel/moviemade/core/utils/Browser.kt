@@ -11,6 +11,7 @@ import android.preference.PreferenceManager
 import androidx.core.net.toUri
 
 import org.michaelbel.moviemade.R
+import timber.log.Timber
 
 object Browser {
 
@@ -46,7 +47,7 @@ object Browser {
             intent.putExtra(android.provider.Browser.EXTRA_APPLICATION_ID, context.packageName)
             context.startActivity(intent)
         } catch (e: Exception) {
-            e.printStackTrace()
+            Timber.e(e)
         }
     }
 

@@ -3,7 +3,7 @@ package org.michaelbel.moviemade.presentation.features.movie
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.View
-import android.view.View.INVISIBLE
+import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.WindowManager
 import android.widget.FrameLayout
@@ -29,7 +29,7 @@ class MovieActivity: BaseActivity() {
     lateinit var fragment: MovieFragment
 
     @Inject
-    lateinit var sharedPreferences: SharedPreferences
+    lateinit var preferences: SharedPreferences
 
     private val isSystemStatusBarShown: Boolean
         get() = window.decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0
@@ -42,7 +42,7 @@ class MovieActivity: BaseActivity() {
         movie = intent.getSerializableExtra(EXTRA_MOVIE) as Movie
 
         fragment = MovieFragment.newInstance(movie)
-        startFragment(fragment, container.id)
+        supportFragmentManager.beginTransaction().replace(container.id, fragment).commit()
 
         window.statusBarColor = ContextCompat.getColor(this, R.color.primary)
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -60,6 +60,11 @@ class MovieActivity: BaseActivity() {
             }
         })
 
+        /**
+         * todo
+         * supportActionBar?.title пока не получается использовать,
+         * так как его перехватывает collapsingToolbarLayout.title.
+         */
         toolbarTitle.text = movie.title
         Glide.with(this)
                 .load(String.format(Locale.US, TMDB_IMAGE, "original", movie.backdropPath))
@@ -74,12 +79,12 @@ class MovieActivity: BaseActivity() {
         fullToolbar.setNavigationOnClickListener { onBackPressed() }
 
         fullImage.setOnClickListener {
-            fullToolbar.visibility = if (isSystemStatusBarShown) INVISIBLE else VISIBLE
-            showSystemStatusBar(!isSystemStatusBarShown)
+            fullToolbar.visibility = if (isSystemStatusBarShown) GONE else VISIBLE
+            showSystemStatusBar(isSystemStatusBarShown.not())
         }
 
         cover.setOnLongClickListener {
-            val sessionId = sharedPreferences.getString(KEY_SESSION_ID, "") ?: ""
+            val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
             if (sessionId.isNotEmpty()) {
                 DeviceUtil.vibrate(this@MovieActivity, 15)
                 val dialog = BackdropDialog.newInstance(String.format(Locale.US, TMDB_IMAGE, "original", movie.backdropPath))
@@ -99,7 +104,6 @@ class MovieActivity: BaseActivity() {
     }
 
     fun showSystemStatusBar(state: Boolean) {
-        // If Version SDK >= KITKAT.
         val flags = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE
         window.decorView.systemUiVisibility = if (state) 0 else flags
     }

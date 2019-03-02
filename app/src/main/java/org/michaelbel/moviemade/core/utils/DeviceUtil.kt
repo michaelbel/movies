@@ -11,9 +11,9 @@ import org.michaelbel.moviemade.R
 
 object DeviceUtil {
 
-    fun isTablet(context: Context): Boolean = context.resources.getBoolean(R.bool.tablet)
+    fun isTablet(context: Context) = context.resources.getBoolean(R.bool.tablet)
 
-    fun isLandscape(context: Context): Boolean =
+    fun isLandscape(context: Context) =
             context.resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE
 
     fun getStatusBarHeight(context: Context): Int {
@@ -27,7 +27,7 @@ object DeviceUtil {
         return result
     }
 
-    fun dp(context: Context, value: Float): Int =
+    fun dp(context: Context, value: Float) =
             Math.ceil((context.resources.displayMetrics.density * value).toDouble()).toInt()
 
     @RequiresPermission(Manifest.permission.VIBRATE)
@@ -35,8 +35,7 @@ object DeviceUtil {
         val vibrator = context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         if (Build.VERSION.SDK_INT > 26) {
             vibrator.vibrate(VibrationEffect.createOneShot(
-                    milliseconds.toLong(),
-                    VibrationEffect.DEFAULT_AMPLITUDE)
+                    milliseconds.toLong(), VibrationEffect.DEFAULT_AMPLITUDE)
             )
         } else {
             // Deprecated in API 26

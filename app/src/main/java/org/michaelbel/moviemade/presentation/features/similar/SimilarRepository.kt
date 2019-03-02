@@ -6,15 +6,14 @@ import io.reactivex.schedulers.Schedulers
 import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
 import org.michaelbel.moviemade.core.entity.MoviesResponse
 import org.michaelbel.moviemade.core.remote.MoviesService
-import org.michaelbel.moviemade.core.utils.LocalUtil
-import org.michaelbel.moviemade.presentation.App
+import java.util.*
 
 class SimilarRepository internal constructor(
         private val service: MoviesService
 ): SimilarContract.Repository {
 
     override fun getSimilarMovies(movieId: Int, page: Int): Observable<MoviesResponse> =
-        service.getSimilar(movieId, TMDB_API_KEY, LocalUtil.getLanguage(App.appContext), page)
+        service.getSimilar(movieId, TMDB_API_KEY, Locale.getDefault().language, page)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 }

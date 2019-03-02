@@ -21,7 +21,7 @@ class KeywordActivity: BaseActivity() {
         supportActionBar?.title = keyword.name
 
         if (savedInstanceState == null) {
-            startFragment(KeywordFragment.newInstance(keyword.id), container.id)
+            supportFragmentManager.beginTransaction().replace(container.id, KeywordFragment.newInstance(keyword.id)).commit()
         }
     }
 }

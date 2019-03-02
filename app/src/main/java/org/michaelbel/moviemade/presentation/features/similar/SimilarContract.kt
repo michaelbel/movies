@@ -3,7 +3,7 @@ package org.michaelbel.moviemade.presentation.features.similar
 import io.reactivex.Observable
 import org.michaelbel.moviemade.core.entity.Movie
 import org.michaelbel.moviemade.core.entity.MoviesResponse
-import org.michaelbel.moviemade.presentation.base.BasePresenter
+import org.michaelbel.moviemade.presentation.base.BaseContract
 
 interface SimilarContract {
 
@@ -12,7 +12,7 @@ interface SimilarContract {
         fun setError(msg: Throwable, code: Int)
     }
 
-    interface Presenter: BasePresenter<View> {
+    interface Presenter: BaseContract.Presenter<View> {
         fun getSimilarMovies(movieId: Int)
         fun getSimilarMoviesNext(movieId: Int)
     }

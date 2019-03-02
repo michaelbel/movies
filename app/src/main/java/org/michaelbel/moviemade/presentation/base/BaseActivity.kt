@@ -2,7 +2,6 @@ package org.michaelbel.moviemade.presentation.base
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import org.michaelbel.moviemade.core.entity.Keyword
 import org.michaelbel.moviemade.core.entity.Movie
 import org.michaelbel.moviemade.core.entity.Review
@@ -21,23 +20,7 @@ import org.michaelbel.moviemade.presentation.features.similar.SimilarMoviesActiv
 import org.michaelbel.moviemade.presentation.features.trailers.TrailersActivity
 import org.michaelbel.moviemade.presentation.features.watchlist.WatchlistActivity
 
-abstract class BaseActivity: AppCompatActivity(), BaseContract, BaseContract.MediaView {
-
-    override fun startFragment(fragment: Fragment, containerId: Int) {
-        supportFragmentManager.beginTransaction().replace(containerId, fragment).commit()
-    }
-
-
-
-    override fun startFragment(fragment: Fragment, containerId: Int, tag: String) {
-        supportFragmentManager.beginTransaction().replace(containerId, fragment).addToBackStack(tag).commit()
-    }
-
-    override fun finishFragment() {
-        supportFragmentManager.popBackStack()
-    }
-
-//--MediaView---------------------------------------------------------------------------------------
+abstract class BaseActivity: AppCompatActivity(), MediaDelegate {
 
     override fun startMovie(movie: Movie) {
         val intent = Intent(this, MovieActivity::class.java)

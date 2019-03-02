@@ -1,8 +1,6 @@
 package org.michaelbel.moviemade.presentation.common
 
-import android.annotation.TargetApi
 import android.content.Context
-import android.os.Build
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.LinearLayout
@@ -15,9 +13,13 @@ import org.michaelbel.moviemade.core.utils.ViewUtil
 
 class ErrorView: LinearLayout {
 
-    private var errorListener: ErrorListener? = null
+    interface Listener {
+        fun onReloadData()
+    }
 
-    constructor(context: Context) : super(context) {
+    private var errorListener: Listener? = null
+
+    constructor(context: Context): super(context) {
         init()
     }
 
@@ -25,20 +27,11 @@ class ErrorView: LinearLayout {
         init()
     }
 
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int): super(context, attrs, defStyleAttr) {
-        init()
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int, defStyleRes: Int): super(context, attrs, defStyleAttr, defStyleRes) {
-        init()
-    }
-
     private fun init() {
         LayoutInflater.from(context).inflate(R.layout.view_error, this)
-        button_reload.setOnClickListener {
+        buttonReload.setOnClickListener {
             if (errorListener != null) {
-                errorListener!!.onReloadData()
+                errorListener?.onReloadData()
             }
         }
     }
@@ -62,26 +55,22 @@ class ErrorView: LinearLayout {
         }
     }
 
-    fun setErrorListener(errorListener: ErrorListener) {
-        this.errorListener = errorListener
+    fun setErrorListener(listener: Listener) {
+        errorListener = listener
     }
 
     private fun setIcon(icon: Int) {
-        error_icon.visibility = VISIBLE
-        error_icon.setImageDrawable(ViewUtil.getIcon(context, icon, ContextCompat.getColor(context, R.color.errorColor)))
+        errorIcon.visibility = VISIBLE
+        errorIcon.setImageDrawable(ViewUtil.getIcon(context, icon, ContextCompat.getColor(context, R.color.errorColor)))
     }
 
     private fun setTitle(@StringRes textId: Int) {
-        error_title.visibility = VISIBLE
-        error_title.setText(textId)
+        errorTitle.visibility = VISIBLE
+        errorTitle.setText(textId)
     }
 
     private fun setMessage(@StringRes textId: Int) {
-        text_error_message.visibility = VISIBLE
-        text_error_message.setText(textId)
-    }
-
-    interface ErrorListener {
-        fun onReloadData()
+        textErrorMessage.visibility = VISIBLE
+        textErrorMessage.setText(textId)
     }
 }

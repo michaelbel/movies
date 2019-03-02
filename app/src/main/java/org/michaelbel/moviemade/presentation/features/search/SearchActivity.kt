@@ -19,7 +19,7 @@ class SearchActivity: BaseActivity() {
         toolbar.setNavigationOnClickListener {finish()}
 
         if (savedInstanceState == null) {
-            startFragment(SearchMoviesFragment.newInstance(), container.id)
+            supportFragmentManager.beginTransaction().replace(container.id, SearchMoviesFragment.newInstance()).commit()
         }
     }
 }

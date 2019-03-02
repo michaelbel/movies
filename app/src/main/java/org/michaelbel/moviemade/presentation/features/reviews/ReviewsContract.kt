@@ -4,7 +4,7 @@ import io.reactivex.Observable
 import org.michaelbel.moviemade.core.entity.Review
 import org.michaelbel.moviemade.core.entity.ReviewsResponse
 import org.michaelbel.moviemade.core.utils.EmptyViewMode
-import org.michaelbel.moviemade.presentation.base.BasePresenter
+import org.michaelbel.moviemade.presentation.base.BaseContract
 
 interface ReviewsContract {
 
@@ -13,7 +13,7 @@ interface ReviewsContract {
         fun setError(@EmptyViewMode mode: Int)
     }
 
-    interface Presenter: BasePresenter<View> {
+    interface Presenter: BaseContract.Presenter<View> {
         fun getReviews(movieId: Int)
     }
 

@@ -8,8 +8,7 @@ import org.michaelbel.moviemade.core.entity.*
 import org.michaelbel.moviemade.core.remote.AccountService
 import org.michaelbel.moviemade.core.remote.MoviesService
 import org.michaelbel.moviemade.core.utils.CONTENT_TYPE
-import org.michaelbel.moviemade.core.utils.LocalUtil
-import org.michaelbel.moviemade.presentation.App
+import java.util.*
 
 class MovieRepository internal constructor(
         private val moviesService: MoviesService,
@@ -17,17 +16,17 @@ class MovieRepository internal constructor(
 ): MovieContract.Repository {
 
     override fun getDetails(movieId: Int): Observable<Movie> =
-        moviesService.getDetails(movieId, TMDB_API_KEY, LocalUtil.getLanguage(App.appContext), Movie.MediaType.CREDITS)
+        moviesService.getDetails(movieId, TMDB_API_KEY, Locale.getDefault().language, Movie.CREDITS)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
     override fun markFavorite(accountId: Int, sessionId: String, mediaId: Int, favorite: Boolean): Observable<Mark> =
-        accountService.markAsFavorite(CONTENT_TYPE, accountId, TMDB_API_KEY, sessionId, Fave(Movie.MediaType.MOVIE, mediaId, favorite))
+        accountService.markAsFavorite(CONTENT_TYPE, accountId, TMDB_API_KEY, sessionId, Fave(Movie.MOVIE, mediaId, favorite))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 
     override fun addWatchlist(accountId: Int, sessionId: String, mediaId: Int, watchlist: Boolean): Observable<Mark> =
-        accountService.addToWatchlist(CONTENT_TYPE, accountId, TMDB_API_KEY, sessionId, Watch(Movie.MediaType.MOVIE, mediaId, watchlist))
+        accountService.addToWatchlist(CONTENT_TYPE, accountId, TMDB_API_KEY, sessionId, Watch(Movie.MOVIE, mediaId, watchlist))
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
 

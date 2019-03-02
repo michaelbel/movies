@@ -3,8 +3,8 @@ package org.michaelbel.moviemade.presentation.features.favorites
 import io.reactivex.Observable
 import org.michaelbel.moviemade.core.entity.Movie
 import org.michaelbel.moviemade.core.entity.MoviesResponse
-import org.michaelbel.moviemade.presentation.base.BasePresenter
 import org.michaelbel.moviemade.core.utils.EmptyViewMode
+import org.michaelbel.moviemade.presentation.base.BaseContract
 
 interface FavoritesContract {
 
@@ -15,7 +15,7 @@ interface FavoritesContract {
         fun setError(@EmptyViewMode mode: Int)
     }
 
-    interface Presenter: BasePresenter<View> {
+    interface Presenter: BaseContract.Presenter<View> {
         fun getFavoriteMovies(accountId: Int, sessionId: String)
         fun getFavoriteMoviesNext(accountId: Int, sessionId: String)
     }

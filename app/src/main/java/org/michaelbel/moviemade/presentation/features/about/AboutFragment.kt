@@ -82,7 +82,11 @@ class AboutFragment: BaseFragment() {
                 } catch (e: Exception) {
                     Browser.openUrl(requireContext(), ACCOUNT_WEB)
                 }
-            libsRow -> (requireActivity() as AboutActivity).startFragment(LibsFragment(), container.id, LIBS_FRAGMENT_TAG)
+            libsRow -> (requireActivity() as AboutActivity).supportFragmentManager
+                    .beginTransaction()
+                    .replace((requireActivity() as AboutActivity).container.id, LibsFragment())
+                    .addToBackStack(tag)
+                    .commit()
             feedbackRow ->
                 try {
                     val packageManager = requireContext().packageManager

@@ -21,7 +21,7 @@ class TrailersActivity: BaseActivity() {
         supportActionBar?.subtitle = movie.title
 
         if (savedInstanceState == null) {
-            startFragment(TrailersFragment.newInstance(movie.id), container.id)
+            supportFragmentManager.beginTransaction().replace(container.id, TrailersFragment.newInstance(movie.id)).commit()
         }
     }
 }

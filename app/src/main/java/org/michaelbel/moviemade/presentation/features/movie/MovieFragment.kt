@@ -7,7 +7,8 @@ import android.graphics.drawable.Animatable
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
-import android.view.View.*
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.core.content.ContextCompat
 import com.alexvasilkov.gestures.Settings
 import com.alexvasilkov.gestures.transition.GestureTransitions
@@ -18,8 +19,6 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_movie.*
 import kotlinx.android.synthetic.main.fragment_movie.*
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.consts.Code
-import org.michaelbel.moviemade.core.consts.Genres
 import org.michaelbel.moviemade.core.entity.Genre
 import org.michaelbel.moviemade.core.entity.Mark
 import org.michaelbel.moviemade.core.entity.Movie
@@ -81,7 +80,6 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
     @Inject
     lateinit var preferences: SharedPreferences
 
-    // Fixme: add newInstance
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
@@ -211,14 +209,14 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
 
         poster.setOnClickListener {
             imageAnimator = GestureTransitions.from<Any>(poster).into((requireActivity() as MovieActivity).fullImage)
-            imageAnimator!!.addPositionUpdateListener { position, isLeaving ->
-                (requireActivity() as MovieActivity).fullBackground.visibility = if (position == 0F) INVISIBLE else VISIBLE
+            imageAnimator?.addPositionUpdateListener { position, isLeaving ->
+                (requireActivity() as MovieActivity).fullBackground.visibility = if (position == 0F) GONE else VISIBLE
                 (requireActivity() as MovieActivity).fullBackground.alpha = position
 
-                (requireActivity() as MovieActivity).fullBackground.visibility = if (position == 0F) INVISIBLE else VISIBLE
-                (requireActivity() as MovieActivity).fullBackground.alpha = position
+                (requireActivity() as MovieActivity).fullToolbar.visibility = if (position == 0F) GONE else VISIBLE
+                (requireActivity() as MovieActivity).fullToolbar.alpha = position
 
-                (requireActivity() as MovieActivity).fullImage.visibility = if (position == 0F && isLeaving) INVISIBLE else VISIBLE
+                (requireActivity() as MovieActivity).fullImage.visibility = if (position == 0F && isLeaving) GONE else VISIBLE
 
                 Glide.with(requireContext())
                         .load(String.format(Locale.US, TMDB_IMAGE, "original", posterPath))
@@ -240,7 +238,7 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
                     .setRestrictRotation(false)
                     .setOverscrollDistance(requireContext(), 32F, 32F)
                     .setOverzoomFactor(Settings.OVERZOOM_FACTOR).isFillViewport = true
-            imageAnimator!!.enterSingle(true)
+            imageAnimator?.enterSingle(true)
         }
 
         trailersText.setOnClickListener {
@@ -300,7 +298,8 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
         poster.visibility = VISIBLE
         Glide.with(requireContext())
                 .load(String.format(Locale.US, TMDB_IMAGE, "w342", posterPath))
-                .thumbnail(0.1F).into(poster)
+                .thumbnail(0.1F)
+                .into(poster)
     }
 
     override fun setMovieTitle(title: String) {
@@ -375,10 +374,7 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
 
     override fun setStates(fave: Boolean, watch: Boolean) {
         favorite = fave
-        watchlist = watch
-
         favoritesBtn.visibility = VISIBLE
-        watchlistBtn.visibility = VISIBLE
 
         if (fave) {
             favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart,
@@ -389,6 +385,9 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
                     ContextCompat.getColor(requireContext(), R.color.textColorPrimary)))
             favoritesText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
         }
+
+        watchlist = watch
+        watchlistBtn.visibility = VISIBLE
 
         if (watch) {
             watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark,
@@ -403,13 +402,13 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
 
     override fun onFavoriteChanged(mark: Mark) {
         when (mark.statusCode) {
-            Code.ADDED -> {
+            Mark.ADDED -> {
                 favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart,
                         ContextCompat.getColor(requireContext(), R.color.accent_blue)))
                 favoritesText.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
                 favorite = true
             }
-            Code.DELETED -> {
+            Mark.DELETED -> {
                 favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart_outline,
                         ContextCompat.getColor(requireContext(), R.color.textColorPrimary)))
                 favoritesText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
@@ -420,13 +419,13 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
 
     override fun onWatchListChanged(mark: Mark) {
         when (mark.statusCode) {
-            Code.ADDED -> {
+            Mark.ADDED -> {
                 watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark,
                         ContextCompat.getColor(requireContext(), R.color.accent_blue)))
                 watchlistText.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
                 watchlist = true
             }
-            Code.DELETED -> {
+            Mark.DELETED -> {
                 watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark_outline,
                         ContextCompat.getColor(requireContext(), R.color.textColorPrimary)))
                 watchlistText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
@@ -445,7 +444,7 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
     override fun setGenres(genreIds: List<Int>) {
         val list = ArrayList<Genre>()
         for (id in genreIds) {
-            list.add(Genres.getGenreById(id)!!)
+            list.add(Genre.getGenreById(id))
         }
 
         adapter.setGenres(list)

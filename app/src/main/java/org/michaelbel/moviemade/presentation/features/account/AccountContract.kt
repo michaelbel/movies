@@ -3,7 +3,7 @@ package org.michaelbel.moviemade.presentation.features.account
 import io.reactivex.Observable
 import org.michaelbel.moviemade.core.entity.*
 import org.michaelbel.moviemade.core.utils.Error
-import org.michaelbel.moviemade.presentation.base.BasePresenter
+import org.michaelbel.moviemade.presentation.base.BaseContract
 
 interface AccountContract {
 
@@ -14,7 +14,7 @@ interface AccountContract {
         fun setError(@Error error: Int)
     }
 
-    interface Presenter: BasePresenter<View> {
+    interface Presenter: BaseContract.Presenter<View> {
         fun createSessionId(token: String)
         fun authWithLogin(un: Username)
         fun deleteSession()

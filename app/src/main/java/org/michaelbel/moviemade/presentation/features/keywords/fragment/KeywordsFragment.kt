@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.fragment_keywords.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Keyword
 import org.michaelbel.moviemade.core.utils.EmptyViewMode
-import org.michaelbel.moviemade.core.utils.MOVIE_ID
+import org.michaelbel.moviemade.core.utils.EXTRA_MOVIE_ID
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceiver
@@ -30,7 +30,7 @@ class KeywordsFragment: BaseFragment(),
     companion object {
         fun newInstance(movieId: Int): KeywordsFragment {
             val args = Bundle()
-            args.putInt(MOVIE_ID, movieId)
+            args.putInt(EXTRA_MOVIE_ID, movieId)
 
             val fragment = KeywordsFragment()
             fragment.arguments = args
@@ -77,7 +77,7 @@ class KeywordsFragment: BaseFragment(),
             presenter.getKeywords(movieId)
         }
 
-        movieId = arguments?.getInt(MOVIE_ID) ?: 0
+        movieId = arguments?.getInt(EXTRA_MOVIE_ID) ?: 0
         presenter.getKeywords(movieId)
     }
 

@@ -15,19 +15,12 @@ object DateUtil {
         val formatMin = SimpleDateFormat(patternMin, Locale.US)
         val formatHour = SimpleDateFormat(patternHour, Locale.US)
 
-        var date: Date? = null
-
-        try {
-            date = formatMin.parse(runtime.toString())
-        } catch (e: ParseException) {
-            e.printStackTrace()
-        }
-
+        val date = formatMin.parse(runtime.toString())
         return App.appContext.getString(R.string.runtime, formatHour.format(date), runtime)
     }
 
-    fun formatReleaseDate(releaseDate: String?): String {
-        if (releaseDate == null || releaseDate.isEmpty()) {
+    fun formatReleaseDate(releaseDate: String): String {
+        if (releaseDate.isEmpty()) {
             return ""
         }
 

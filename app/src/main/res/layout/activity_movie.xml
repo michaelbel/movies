@@ -96,6 +96,7 @@
         android:layout_height="?actionBarSize"
         android:background="@color/transparent20"
         android:visibility="invisible"
+        app:title="1 of 1"
         app:navigationIcon="@drawable/ic_arrow_back"/>
 
 </merge>

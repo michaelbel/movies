@@ -190,6 +190,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:foreground="?attr/selectableItemBackground"
+                        android:visibility="invisible"
                         app:cardElevation="0dp"
                         app:cardCornerRadius="16dp"
                         app:cardBackgroundColor="?android:attr/colorBackground">
@@ -233,6 +234,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:foreground="?attr/selectableItemBackground"
+                        android:visibility="invisible"
                         app:cardElevation="0dp"
                         app:cardCornerRadius="16dp"
                         app:cardBackgroundColor="?android:attr/colorBackground">

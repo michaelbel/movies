@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/error_icon"
+        android:id="@+id/errorIcon"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
@@ -15,7 +15,7 @@
         tools:src="@drawable/ic_review"/>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/error_title"
+        android:id="@+id/errorTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
@@ -30,7 +30,7 @@
         tools:text="No movies to show"/>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/text_error_message"
+        android:id="@+id/textErrorMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
@@ -45,7 +45,7 @@
         tools:text="No movies to show overview alala ololo hahaha ho-ho-ho happy new year merry christmas everyone!"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button_reload"
+        android:id="@+id/buttonReload"
         style="@style/Button.Borderless"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

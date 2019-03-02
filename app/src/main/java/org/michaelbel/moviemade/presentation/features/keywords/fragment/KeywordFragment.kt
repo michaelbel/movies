@@ -13,7 +13,6 @@ import kotlinx.android.synthetic.main.fragment_movies.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Movie
 import org.michaelbel.moviemade.core.utils.DeviceUtil
-import org.michaelbel.moviemade.core.utils.KEYWORD_ID
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
@@ -29,9 +28,11 @@ class KeywordFragment: BaseFragment(),
         MoviesAdapter.Listener {
 
     companion object {
+        const val ARG_KEYWORD_ID = "keyword_id"
+
         fun newInstance(keywordId: Int): KeywordFragment {
             val args = Bundle()
-            args.putInt(KEYWORD_ID, keywordId)
+            args.putInt(ARG_KEYWORD_ID, keywordId)
 
             val fragment = KeywordFragment()
             fragment.arguments = args
@@ -81,7 +82,7 @@ class KeywordFragment: BaseFragment(),
 
         emptyView.setOnClickListener { presenter.getMovies(keywordId) }
 
-        keywordId = arguments?.getInt(KEYWORD_ID) ?: 0
+        keywordId = arguments?.getInt(ARG_KEYWORD_ID) ?: 0
         presenter.getMovies(keywordId)
     }
 

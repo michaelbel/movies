@@ -16,7 +16,7 @@ import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Video
 import org.michaelbel.moviemade.core.utils.DeviceUtil
 import org.michaelbel.moviemade.core.utils.EmptyViewMode
-import org.michaelbel.moviemade.core.utils.MOVIE_ID
+import org.michaelbel.moviemade.core.utils.EXTRA_MOVIE_ID
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
@@ -34,7 +34,7 @@ class TrailersFragment: BaseFragment(),
 
         internal fun newInstance(movieId: Int): TrailersFragment {
             val args = Bundle()
-            args.putInt(MOVIE_ID, movieId)
+            args.putInt(EXTRA_MOVIE_ID, movieId)
 
             val fragment = TrailersFragment()
             fragment.arguments = args
@@ -82,7 +82,7 @@ class TrailersFragment: BaseFragment(),
             presenter.getVideos(movieId)
         }
 
-        movieId = if (arguments != null) arguments!!.getInt(MOVIE_ID) else 0
+        movieId = if (arguments != null) arguments!!.getInt(EXTRA_MOVIE_ID) else 0
         presenter.getVideos(movieId)
     }
 

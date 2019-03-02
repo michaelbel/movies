@@ -21,7 +21,7 @@ class SimilarMoviesActivity: BaseActivity() {
         supportActionBar?.subtitle = movie.title
 
         if (savedInstanceState == null) {
-            startFragment(SimilarMoviesFragment.newInstance(movie.id), container.id)
+            supportFragmentManager.beginTransaction().replace(container.id, SimilarMoviesFragment.newInstance(movie.id)).commit()
         }
     }
 }

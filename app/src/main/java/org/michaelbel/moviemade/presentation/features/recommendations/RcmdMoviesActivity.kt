@@ -21,7 +21,7 @@ class RcmdMoviesActivity: BaseActivity() {
         supportActionBar?.subtitle = movie.title
 
         if (savedInstanceState == null) {
-            startFragment(RcmdMoviesFragment.newInstance(movie.id), container.id)
+            supportFragmentManager.beginTransaction().replace(container.id, RcmdMoviesFragment.newInstance(movie.id)).commit()
         }
     }
 }
