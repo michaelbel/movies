@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.presentation.features.favorites
 
-import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,22 +12,20 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_default.*
 import kotlinx.android.synthetic.main.fragment_movies.*
 import org.michaelbel.moviemade.R
+import org.michaelbel.moviemade.core.DeviceUtil
+import org.michaelbel.moviemade.core.EmptyViewMode
 import org.michaelbel.moviemade.core.entity.Movie
-import org.michaelbel.moviemade.core.utils.BuildUtil
-import org.michaelbel.moviemade.core.utils.DeviceUtil
-import org.michaelbel.moviemade.core.utils.EXTRA_ACCOUNT_ID
-import org.michaelbel.moviemade.core.utils.KEY_SESSION_ID
+import org.michaelbel.moviemade.core.local.BuildUtil
+import org.michaelbel.moviemade.core.local.Intents.EXTRA_ACCOUNT_ID
+import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
-import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceiver
 import org.michaelbel.moviemade.presentation.features.main.MoviesAdapter
+import org.michaelbel.moviemade.presentation.features.movie.MoviesActivity
 import javax.inject.Inject
 
-class FavoritesFragment: BaseFragment(),
-        FavoritesContract.View,
-        NetworkChangeReceiver.Listener,
-        MoviesAdapter.Listener {
+class FavoritesFragment: BaseFragment(), FavoritesContract.View, MoviesAdapter.Listener {
 
     companion object {
         internal fun newInstance(accountId: Int): FavoritesFragment {
@@ -44,9 +41,6 @@ class FavoritesFragment: BaseFragment(),
     private var accountId: Int = 0
     lateinit var adapter: MoviesAdapter
 
-    private var networkChangeReceiver: NetworkChangeReceiver? = null
-    private var connectionFailure = false
-
     @Inject
     lateinit var preferences: SharedPreferences
 
@@ -56,8 +50,6 @@ class FavoritesFragment: BaseFragment(),
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         App[requireActivity().application].createFragmentComponent().inject(this)
-        networkChangeReceiver = NetworkChangeReceiver(this)
-        requireContext().registerReceiver(networkChangeReceiver, IntentFilter(NetworkChangeReceiver.INTENT_ACTION))
         presenter.attach(this)
     }
 
@@ -66,7 +58,7 @@ class FavoritesFragment: BaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireContext() as FavoriteActivity).toolbar.setOnClickListener {
+        (requireContext() as MoviesActivity).toolbar.setOnClickListener {
             recyclerView.smoothScrollToPosition(0)
         }
 
@@ -98,41 +90,31 @@ class FavoritesFragment: BaseFragment(),
     }
 
     override fun onMovieClick(movie: Movie) {
-        (requireContext() as FavoriteActivity).startMovie(movie)
+        (requireContext() as MoviesActivity).startMovie(movie)
         requireActivity().finish()
     }
 
-    override fun showLoading() {
-        progressBar.visibility = VISIBLE
+    override fun loading(state: Boolean) {
+        progressBar.visibility = if (state) VISIBLE else GONE
     }
 
-    override fun hideLoading() {
-        progressBar.visibility = GONE
-    }
-
-    override fun setMovies(movies: List<Movie>) {
-        connectionFailure = false
-        adapter.addMovies(movies)
-        hideLoading()
-        emptyView.visibility = GONE
-    }
-
-    override fun setError(mode: Int) {
-        connectionFailure = true
+    override fun error(code: Int) {
         emptyView.visibility = VISIBLE
-        emptyView.setMode(mode)
-        hideLoading()
+
+        if (code == 1) {
+            emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES)
+        } else {
+            emptyView.setMode(EmptyViewMode.MODE_NO_CONNECTION)
+        }
 
         if (BuildUtil.isEmptyApiKey()) {
             emptyView.setValue(R.string.error_empty_api_key)
         }
     }
 
-    override fun onNetworkChanged() {
-        if (connectionFailure && adapter.itemCount == 0) {
-            val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
-            presenter.getFavoriteMovies(accountId, sessionId)
-        }
+    override fun content(results: List<Movie>) {
+        adapter.addMovies(results)
+        emptyView.visibility = GONE
     }
 
     override fun onDestroy() {

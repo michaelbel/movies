@@ -1,7 +1,6 @@
 package org.michaelbel.moviemade.presentation.features.movie
 
 import android.content.Intent
-import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.graphics.drawable.Animatable
 import android.os.Bundle
@@ -9,30 +8,42 @@ import android.text.TextUtils
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.alexvasilkov.gestures.Settings
 import com.alexvasilkov.gestures.transition.GestureTransitions
 import com.alexvasilkov.gestures.transition.ViewsTransitionAnimator
+import com.alexvasilkov.gestures.views.GestureImageView
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_movie.*
 import kotlinx.android.synthetic.main.fragment_movie.*
 import org.michaelbel.moviemade.R
+import org.michaelbel.moviemade.core.TmdbConfig.IMDB_MOVIE
+import org.michaelbel.moviemade.core.TmdbConfig.TMDB_IMAGE
+import org.michaelbel.moviemade.core.TmdbConfig.TMDB_MOVIE
+import org.michaelbel.moviemade.core.ViewUtil
+import org.michaelbel.moviemade.core.customtabs.Browser
+import org.michaelbel.moviemade.core.entity.Country
 import org.michaelbel.moviemade.core.entity.Genre
 import org.michaelbel.moviemade.core.entity.Mark
 import org.michaelbel.moviemade.core.entity.Movie
+import org.michaelbel.moviemade.core.entity.MoviesResponse.Companion.RECOMMENDATIONS
+import org.michaelbel.moviemade.core.entity.MoviesResponse.Companion.SIMILAR
+import org.michaelbel.moviemade.core.local.SharedPrefs
+import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_ID
 import org.michaelbel.moviemade.core.remote.AccountService
 import org.michaelbel.moviemade.core.remote.MoviesService
-import org.michaelbel.moviemade.core.utils.*
+import org.michaelbel.moviemade.core.text.SpannableUtil
+import org.michaelbel.moviemade.core.time.DateUtil
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseFragment
-import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceiver
 import org.michaelbel.moviemade.presentation.features.movie.adapter.GenresAdapter
 import java.util.*
 import javax.inject.Inject
 
-class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.Listener {
+class MovieFragment: BaseFragment(), MovieContract.View {
 
     companion object {
         const val EXTRA_MOVIE = "movie"
@@ -59,16 +70,19 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
 
     private var homepage: String? = null
 
-    private var posterPath: String? = null
-    private var connectionError: Boolean = false
+    private var posterPath: String = ""
 
-    private var networkChangeReceiver: NetworkChangeReceiver? = null
-    lateinit var adapter: GenresAdapter
+    private lateinit var adapter: GenresAdapter
+    private lateinit var movie: Movie
 
     //AdView adView;
 
     var imageAnimator: ViewsTransitionAnimator<*>? = null
+    private lateinit var fullBackground: View
+    private lateinit var fullToolbar: Toolbar
+    private lateinit var fullImage: GestureImageView
 
+    @Inject
     lateinit var presenter: MovieContract.Presenter
 
     @Inject
@@ -84,9 +98,6 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true)
         App[requireActivity().application as App].createFragmentComponent().inject(this)
-        networkChangeReceiver = NetworkChangeReceiver(this)
-        requireContext().registerReceiver(networkChangeReceiver, IntentFilter(NetworkChangeReceiver.INTENT_ACTION))
-        presenter = MoviePresenter(moviesService, accountService, preferences)
         presenter.attach(this)
     }
 
@@ -106,19 +117,25 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
 
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.type = "text/plain"
-                intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, TMDB_MOVIE, (requireActivity() as MovieActivity).movie.id))
+                intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, TMDB_MOVIE, movie.id))
                 startActivity(Intent.createChooser(intent, getString(R.string.share_via)))
             }
-            item === menuTmdb -> Browser.openUrl(requireContext(), String.format(Locale.US, TMDB_MOVIE, (requireActivity() as MovieActivity).movie.id))
-            item === menuImdb -> Browser.openUrl(requireContext(), String.format(Locale.US, IMDB_MOVIE, imdbId))
+            item === menuTmdb ->
+                Browser.openUrl(requireContext(), String.format(Locale.US, TMDB_MOVIE, movie.id))
+            item === menuImdb ->
+                Browser.openUrl(requireContext(), String.format(Locale.US, IMDB_MOVIE, imdbId))
             item === menuHomepage -> Browser.openUrl(requireContext(), homepage!!)
         }
 
         return true
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_movie, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        fullBackground = (requireActivity() as MovieActivity).fullBackground
+        fullToolbar = (requireActivity() as MovieActivity).fullToolbar
+        fullImage = (requireActivity() as MovieActivity).fullImage
+        return inflater.inflate(R.layout.fragment_movie, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -138,8 +155,8 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
 
         adapter = GenresAdapter()
 
-        genresRecyclerView.adapter = adapter
-        genresRecyclerView.layoutManager = ChipsLayoutManager.newBuilder(requireContext())
+        genresList.adapter = adapter
+        genresList.layoutManager = ChipsLayoutManager.newBuilder(requireContext())
                 .setOrientation(ChipsLayoutManager.HORIZONTAL).build()
 
         /*AdRequest adRequestBuilder = new AdRequest.Builder()
@@ -200,34 +217,36 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
         });*/
 
         favoritesBtn.setOnClickListener {
-            presenter.markFavorite(preferences.getInt(KEY_ACCOUNT_ID, 0), (requireActivity() as MovieActivity).movie.id, !favorite)
+            val sessionId = preferences.getString(SharedPrefs.KEY_SESSION_ID, "") ?: ""
+            presenter.markFavorite(sessionId, preferences.getInt(KEY_ACCOUNT_ID, 0), (requireActivity() as MovieActivity).movie.id, !favorite)
         }
 
         watchlistBtn.setOnClickListener {
-            presenter.addWatchlist(preferences.getInt(KEY_ACCOUNT_ID, 0), (requireActivity() as MovieActivity).movie.id, !watchlist)
+            val sessionId = preferences.getString(SharedPrefs.KEY_SESSION_ID, "") ?: ""
+            presenter.addWatchlist(sessionId, preferences.getInt(KEY_ACCOUNT_ID, 0), (requireActivity() as MovieActivity).movie.id, !watchlist)
         }
 
         poster.setOnClickListener {
-            imageAnimator = GestureTransitions.from<Any>(poster).into((requireActivity() as MovieActivity).fullImage)
+            imageAnimator = GestureTransitions.from<Any>(poster).into(fullImage)
             imageAnimator?.addPositionUpdateListener { position, isLeaving ->
-                (requireActivity() as MovieActivity).fullBackground.visibility = if (position == 0F) GONE else VISIBLE
-                (requireActivity() as MovieActivity).fullBackground.alpha = position
+                fullBackground.visibility = if (position == 0F) GONE else VISIBLE
+                fullBackground.alpha = position
 
-                (requireActivity() as MovieActivity).fullToolbar.visibility = if (position == 0F) GONE else VISIBLE
-                (requireActivity() as MovieActivity).fullToolbar.alpha = position
+                fullToolbar.visibility = if (position == 0F) GONE else VISIBLE
+                fullToolbar.alpha = position
 
-                (requireActivity() as MovieActivity).fullImage.visibility = if (position == 0F && isLeaving) GONE else VISIBLE
+                fullImage.visibility = if (position == 0F && isLeaving) GONE else VISIBLE
 
                 Glide.with(requireContext())
                         .load(String.format(Locale.US, TMDB_IMAGE, "original", posterPath))
                         .thumbnail(0.1F)
-                        .into((requireActivity() as MovieActivity).fullImage)
+                        .into(fullImage)
 
                 if (position == 0F && isLeaving) {
                     (requireActivity() as MovieActivity).showSystemStatusBar(true)
                 }
             }
-            (requireActivity() as MovieActivity).fullImage.controller.settings
+            fullImage.controller.settings
                     .setGravity(Gravity.CENTER)
                     .setZoomEnabled(true)
                     .setAnimationsDuration(300L)
@@ -242,30 +261,87 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
         }
 
         trailersText.setOnClickListener {
-            (requireActivity() as MovieActivity).startTrailers((requireActivity() as MovieActivity).movie)
+            (requireActivity() as MovieActivity).startTrailers(movie)
         }
 
         reviewsText.setOnClickListener {
-            (requireActivity() as MovieActivity).startReviews((requireActivity() as MovieActivity).movie)
+            (requireActivity() as MovieActivity).startReviews(movie)
         }
 
         keywordsText.setOnClickListener {
-            (requireActivity() as MovieActivity).startKeywords((requireActivity() as MovieActivity).movie)
+            (requireActivity() as MovieActivity).startKeywords(movie)
         }
 
         similarText.setOnClickListener {
-            (requireActivity() as MovieActivity).startSimilarMovies((requireActivity() as MovieActivity).movie)
+            (requireActivity() as MovieActivity).startMovies(SIMILAR, movie)
         }
 
         recommendationsText.setOnClickListener {
-            (requireActivity() as MovieActivity).startRcmdsMovies((requireActivity() as MovieActivity).movie)
+            (requireActivity() as MovieActivity).startMovies(RECOMMENDATIONS, movie)
         }
 
-        val movie = arguments?.getSerializable(EXTRA_MOVIE) as Movie
+        movie = arguments?.getSerializable(EXTRA_MOVIE) as Movie
         if (movie != null) {
+            val sessionId = preferences.getString(SharedPrefs.KEY_SESSION_ID, "") ?: ""
             presenter.setDetailExtra(movie)
-            presenter.getDetails(movie.id)
+            presenter.getDetails(sessionId, movie.id)
         }
+    }
+
+    override fun movieExtra(movie: Movie) {
+        posterPath = movie.posterPath
+        poster.visibility = VISIBLE
+        Glide.with(requireContext())
+                .load(String.format(Locale.US, TMDB_IMAGE, "w342", posterPath))
+                .thumbnail(0.1F)
+                .into(poster)
+
+        titleText.text = movie.title
+
+        overviewText.text = if (TextUtils.isEmpty(movie.overview)) getString(R.string.no_overview) else movie.overview
+
+        ratingView.setRating(movie.voteAverage)
+        ratingText.text = movie.voteAverage.toString()
+
+        voteCountText.text = movie.voteCount.toString()
+
+        dateIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_calendar,
+                ContextCompat.getColor(requireContext(), R.color.iconActiveColor)))
+        dateText.text = DateUtil.formatReleaseDate(movie.releaseDate)
+
+        val list = ArrayList<Genre>()
+        for (id in movie.genreIds) {
+            list.add(Genre.getGenreById(id))
+        }
+        adapter.setGenres(list)
+    }
+
+    override fun movie(movie: Movie) {
+        runtimeText.text = getString(R.string.runtime, DateUtil.formatRuntime(movie.runtime), movie.runtime)
+
+        langIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_earth,
+                ContextCompat.getColor(requireContext(), R.color.iconActiveColor)))
+        langText.text = formatCountries(movie.countries)
+
+        if (TextUtils.isEmpty(movie.tagline)) {
+            parent.removeView(taglineText)
+            return
+        }
+        taglineText.text = movie.tagline
+    }
+
+    private fun formatCountries(countries: List<Country>): String {
+        if (countries.isEmpty()) {
+            return ""
+        }
+
+        val text = StringBuilder()
+        for (country in countries) {
+            text.append(country.name).append(", ")
+        }
+
+        text.delete(text.toString().length - 2, text.toString().length)
+        return text.toString()
     }
 
     /*@Override
@@ -286,89 +362,22 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
 
     override fun onDestroy() {
         super.onDestroy()
-        requireContext().unregisterReceiver(networkChangeReceiver)
         presenter.destroy()
         /*if (adView != null) {
             adView.destroy();
         }*/
     }
 
-    override fun setPoster(posterPath: String) {
-        this.posterPath = posterPath
-        poster.visibility = VISIBLE
-        Glide.with(requireContext())
-                .load(String.format(Locale.US, TMDB_IMAGE, "w342", posterPath))
-                .thumbnail(0.1F)
-                .into(poster)
-    }
-
-    override fun setMovieTitle(title: String) {
-        titleText.text = title
-    }
-
-    override fun setOverview(overview: String) {
-        if (TextUtils.isEmpty(overview)) {
-            overviewText.setText(R.string.no_overview)
-            return
-        }
-
-        overviewText.text = overview
-    }
-
-    override fun setVoteAverage(voteAverage: Float) {
-        ratingView.setRating(voteAverage)
-        ratingText.text = voteAverage.toString()
-    }
-
-    override fun setVoteCount(voteCount: Int) {
-        voteCountText.text = voteCount.toString()
-    }
-
-    override fun setReleaseDate(releaseDate: String) {
-        if (TextUtils.isEmpty(releaseDate)) {
-            infoLayout.removeView(dateLayout)
-            return
-        }
-
-        releaseDateIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_calendar,
-                ContextCompat.getColor(activity!!, R.color.iconActiveColor)))
-        releaseDateText.text = releaseDate
-    }
-
-    override fun setOriginalLanguage(originalLanguage: String) {
-        if (TextUtils.isEmpty(originalLanguage)) {
-            infoLayout.removeView(langLayout)
-            return
-        }
-
-        langIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_earth,
-                ContextCompat.getColor(requireContext(), R.color.iconActiveColor)))
-        langText.text = originalLanguage
-    }
-
-    override fun setRuntime(runtime: String) {
-        runtimeText.text = runtime
-    }
-
-    override fun setTagline(tagline: String) {
-        if (TextUtils.isEmpty(tagline)) {
-            titleLayout.removeView(taglineText)
-            return
-        }
-
-        taglineText.text = tagline
-    }
-
     override fun setURLs(imdbId: String, homepage: String) {
         this.imdbId = imdbId
-        this.homepage = homepage ?: ""
+        this.homepage = homepage
 
         if (!TextUtils.isEmpty(imdbId)) {
-            menuImdb = actionMenu!!.add(R.string.view_on_imdb).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER)
+            menuImdb = actionMenu?.add(R.string.view_on_imdb)?.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER)
         }
 
         if (!TextUtils.isEmpty(homepage)) {
-            menuHomepage = actionMenu!!.add(R.string.view_homepage).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER)
+            menuHomepage = actionMenu?.add(R.string.view_homepage)?.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER)
         }
     }
 
@@ -441,31 +450,9 @@ class MovieFragment: BaseFragment(), MovieContract.View, NetworkChangeReceiver.L
         producedText.text = SpannableUtil.boldAndColoredText(getString(R.string.produced), getString(R.string.produced, producers))
     }
 
-    override fun setGenres(genreIds: List<Int>) {
-        val list = ArrayList<Genre>()
-        for (id in genreIds) {
-            list.add(Genre.getGenreById(id))
-        }
-
-        adapter.setGenres(list)
-    }
-
     override fun setConnectionError() {
         Snackbar.make(parent, R.string.error_no_connection, Snackbar.LENGTH_SHORT).show()
-        connectionError = true
     }
 
-    override fun showComplete(movie: Movie) {
-        connectionError = false
-    }
-
-    override fun onNetworkChanged() {
-        if (connectionError) {
-            presenter.getDetails((requireActivity() as MovieActivity).movie.id)
-        }
-    }
-
-    /*private void sendEvent() {
-        ((Moviemade) activity.getApplication()).rxBus2.send(new Events.DeleteMovieFromFavorite(activity.getMovie().getId()));
-    }*/
+    override fun showComplete(movie: Movie) {}
 }

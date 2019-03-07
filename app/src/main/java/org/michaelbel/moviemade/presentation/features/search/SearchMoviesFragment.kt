@@ -5,9 +5,7 @@ import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -20,10 +18,10 @@ import kotlinx.android.synthetic.main.activity_search.*
 import kotlinx.android.synthetic.main.fragment_movies.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Movie
-import org.michaelbel.moviemade.core.utils.BuildUtil
-import org.michaelbel.moviemade.core.utils.DeviceUtil
-import org.michaelbel.moviemade.core.utils.EmptyViewMode
-import org.michaelbel.moviemade.core.utils.ViewUtil
+import org.michaelbel.moviemade.core.local.BuildUtil
+import org.michaelbel.moviemade.core.DeviceUtil
+import org.michaelbel.moviemade.core.EmptyViewMode
+import org.michaelbel.moviemade.core.ViewUtil
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
@@ -89,9 +87,7 @@ class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.L
                     searchView.text?.clear()
                 }
                 changeActionIcon()
-
-                val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.showSoftInput(searchView, InputMethodManager.SHOW_IMPLICIT)
+                showKeyboard(searchView)
             } else {
                 val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
@@ -108,7 +104,7 @@ class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.L
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        searchView = (requireActivity() as SearchActivity).search_edit_text
+        searchView = (requireActivity() as SearchActivity).searchEditText
 
         val spanCount = resources.getInteger(R.integer.movies_span_layout_count)
 
@@ -130,22 +126,17 @@ class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.L
 
         emptyView.setMode(EmptyViewMode.MODE_NO_RESULTS)
 
-        searchView.background = null
-        searchView.addTextChangedListener(object: TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+        searchView.addTextChangedListener(object: TextChanger {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 changeActionIcon()
                 if (s.toString().trim().length >= 2) {
                     presenter.search(s.toString().trim { it <= ' ' })
                 }
             }
-
-            override fun afterTextChanged(s: Editable) {}
         })
         searchView.setOnEditorActionListener { v, actionId, event ->
             if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_SEARCH) {
-                presenter.search(v.text.toString().trim { it <= ' ' })
+                presenter.search(v.text.toString().trim())
                 hideKeyboard(searchView)
                 return@setOnEditorActionListener true
             }
@@ -168,20 +159,20 @@ class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.L
     override fun searchStart() {
         adapter.movies.clear()
         adapter.notifyDataSetChanged()
-
         emptyView.visibility = GONE
-        progressBar.visibility = VISIBLE
     }
 
-    override fun setMovies(movies: List<Movie>) {
-        progressBar.visibility = GONE
-        adapter.addMovies(movies)
+    override fun loading(state: Boolean) {
+        progressBar.visibility = if (state) VISIBLE else GONE
     }
 
-    override fun setError(mode: Int) {
-        progressBar.visibility = GONE
+    override fun content(results: List<Movie>) {
+        adapter.addMovies(results)
+    }
+
+    override fun error(code: Int) {
         emptyView.visibility = VISIBLE
-        emptyView.setMode(mode)
+        emptyView.setMode(code)
 
         if (BuildUtil.isEmptyApiKey()) {
             emptyView.setValue(R.string.error_empty_api_key)
@@ -194,14 +185,15 @@ class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.L
 
     private fun changeActionIcon() {
         if (actionMenu != null) {
-            if (searchView.text.toString().trim().isEmpty()) {
-                iconActionMode = ITEM_MIC
-                actionMenu?.getItem(MENU_ITEM_INDEX)?.setIcon(R.drawable.ic_voice)
-            } else {
-                iconActionMode = ITEM_CLR
-                actionMenu?.getItem(MENU_ITEM_INDEX)?.setIcon(R.drawable.ic_clear)
-            }
+            val searchEmpty = searchView.text.toString().trim().isEmpty()
+            iconActionMode = if (searchEmpty) ITEM_MIC else ITEM_CLR
+            actionMenu?.getItem(MENU_ITEM_INDEX)?.setIcon(if (searchEmpty) R.drawable.ic_voice else R.drawable.ic_clear)
         }
+    }
+
+    private fun showKeyboard(view: View) {
+        val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun hideKeyboard(view: View) {

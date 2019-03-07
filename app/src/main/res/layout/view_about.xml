@@ -1,15 +1,16 @@
+<!--todo convert to constraint layout-->
 <androidx.appcompat.widget.LinearLayoutCompat
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/view_about_padding"
+    android:padding="@dimen/about_view_padding"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="@dimen/view_about_launcher_icon_size"
-        android:layout_height="@dimen/view_about_launcher_icon_size"
+        android:layout_width="@dimen/about_view_launcher_icon_size"
+        android:layout_height="@dimen/about_view_launcher_icon_size"
         android:layout_gravity="center_horizontal"
         app:srcCompat="@mipmap/ic_launcher_round"/>
 
@@ -18,8 +19,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/view_about_name_margin_top"
-        android:textSize="@dimen/view_about_name_text_size"
+        android:layout_marginTop="@dimen/about_view_name_margin"
+        android:textSize="@dimen/about_view_name_text_size"
         android:textColor="?android:attr/textColorSecondary"
         android:fontFamily="sans-serif-medium"
         tools:text="Moviemade for Android"/>
@@ -29,8 +30,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="@dimen/view_about_version_margin_top"
-        android:textSize="@dimen/view_about_version_text_size"
+        android:layout_marginTop="@dimen/about_version_margin"
+        android:textSize="@dimen/about_version_text_size"
         android:textColor="?android:attr/textColorSecondary"
         android:fontFamily="sans-serif"
         tools:text="Version 0.3.9 (Build) of 17 Now 2018"/>

@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.chip_genre.*
+import kotlinx.android.synthetic.main.item_genre.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Genre
 import java.util.*
@@ -20,7 +20,7 @@ class GenresAdapter: RecyclerView.Adapter<GenresAdapter.GenresViewHolder>() {
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenresViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.chip_genre, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_genre, parent, false)
         return GenresViewHolder(view)
     }
 

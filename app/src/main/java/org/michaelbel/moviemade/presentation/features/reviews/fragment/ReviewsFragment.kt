@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.presentation.features.reviews.fragment
 
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,22 +12,17 @@ import kotlinx.android.synthetic.main.fragment_reviews.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Movie
 import org.michaelbel.moviemade.core.entity.Review
-import org.michaelbel.moviemade.core.utils.DeviceUtil
-import org.michaelbel.moviemade.core.utils.EXTRA_MOVIE
-import org.michaelbel.moviemade.core.utils.EmptyViewMode
+import org.michaelbel.moviemade.core.DeviceUtil
+import org.michaelbel.moviemade.core.local.Intents.EXTRA_MOVIE
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
-import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceiver
 import org.michaelbel.moviemade.presentation.features.reviews.ReviewsAdapter
 import org.michaelbel.moviemade.presentation.features.reviews.ReviewsContract
 import org.michaelbel.moviemade.presentation.features.reviews.activity.ReviewsActivity
 import javax.inject.Inject
 
-class ReviewsFragment: BaseFragment(),
-        ReviewsContract.View,
-        NetworkChangeReceiver.Listener,
-        ReviewsAdapter.Listener {
+class ReviewsFragment: BaseFragment(), ReviewsContract.View, ReviewsAdapter.Listener {
 
     companion object {
         fun newInstance(movie: Movie): ReviewsFragment {
@@ -44,17 +38,11 @@ class ReviewsFragment: BaseFragment(),
     lateinit var movie: Movie
     lateinit var adapter: ReviewsAdapter
 
-    private var networkChangeReceiver: NetworkChangeReceiver? = null
-    private var connectionFailure = false
-
     @Inject
     lateinit var presenter: ReviewsContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        networkChangeReceiver = NetworkChangeReceiver(this)
-        requireContext().registerReceiver(networkChangeReceiver, IntentFilter(NetworkChangeReceiver.INTENT_ACTION))
-
         App[requireActivity().application].createFragmentComponent().inject(this)
         presenter.attach(this)
     }
@@ -86,32 +74,25 @@ class ReviewsFragment: BaseFragment(),
         presenter.getReviews(movie.id)
     }
 
+    override fun loading(state: Boolean) {
+        progressBar.visibility = if (state) VISIBLE else GONE
+    }
+
+    override fun content(results: List<Review>) {
+        adapter.setReviews(results)
+    }
+
+    override fun error(code: Int) {
+        emptyView.visibility = VISIBLE
+        emptyView.setMode(code)
+    }
+
     override fun onReviewClick(review: Review, view: View) {
         (requireActivity() as ReviewsActivity).startReview(review, movie)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        requireContext().unregisterReceiver(networkChangeReceiver)
         presenter.destroy()
-    }
-
-    override fun setReviews(reviews: List<Review>) {
-        connectionFailure = false
-        adapter.setReviews(reviews)
-        progressBar.visibility = GONE
-    }
-
-    override fun setError(@EmptyViewMode mode: Int) {
-        connectionFailure = true
-        emptyView.visibility = VISIBLE
-        emptyView.setMode(mode)
-        progressBar.visibility = GONE
-    }
-
-    override fun onNetworkChanged() {
-        if (connectionFailure && adapter.itemCount == 0) {
-            presenter.getReviews(movie.id)
-        }
     }
 }

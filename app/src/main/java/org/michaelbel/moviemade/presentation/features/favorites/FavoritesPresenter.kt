@@ -1,36 +1,40 @@
 package org.michaelbel.moviemade.presentation.features.favorites
 
-import org.michaelbel.moviemade.core.utils.EmptyViewMode
-import org.michaelbel.moviemade.core.utils.NetworkUtil
+import org.michaelbel.moviemade.core.net.NetworkUtil
 import org.michaelbel.moviemade.presentation.base.Presenter
-import java.util.*
+import retrofit2.HttpException
 
-class FavoritesPresenter(repository: FavoriteRepository): Presenter(), FavoritesContract.Presenter {
+class FavoritesPresenter(
+        private val repository: FavoritesContract.Repository
+): Presenter(), FavoritesContract.Presenter {
 
     private var page: Int = 0
-    private var view: FavoritesContract.View? = null
-    private val repository: FavoritesContract.Repository = repository
+    private lateinit var view: FavoritesContract.View
 
     override fun attach(view: FavoritesContract.View) {
         this.view = view
     }
 
     override fun getFavoriteMovies(accountId: Int, sessionId: String) {
-        if (NetworkUtil.isNetworkConnected().not()) {
-            view?.setError(EmptyViewMode.MODE_NO_CONNECTION)
+        /*if (NetworkUtil.isNetworkConnected().not()) {
+            view?.error(Throwable("no connection"))
             return
-        }
+        }*/
 
         page = 1
         disposable.add(repository.getFavoriteMovies(accountId, sessionId, page)
-            .subscribe({
-                val results = ArrayList(it.movies)
-                if (results.isEmpty()) {
-                    view?.setError(EmptyViewMode.MODE_NO_MOVIES)
-                    return@subscribe
-                }
-                view?.setMovies(results)
-            }, { view?.setError(EmptyViewMode.MODE_NO_MOVIES) }))
+                .doOnSubscribe { view.loading(true) }
+                .doAfterTerminate { view.loading(false) }
+                .subscribe(
+                        {
+                            if (it.isEmpty()) {
+                                view.error(1)
+                                return@subscribe
+                            }
+                            view.content(it) },
+                        { view.error((it as HttpException).code())}
+                )
+        )
     }
 
     override fun getFavoriteMoviesNext(accountId: Int, sessionId: String) {
@@ -40,7 +44,7 @@ class FavoritesPresenter(repository: FavoriteRepository): Presenter(), Favorites
 
         page++
         disposable.add(repository.getFavoriteMovies(accountId, sessionId, page)
-                .subscribe { view?.setMovies(it.movies)})
+                .subscribe { view.content(it)})
     }
 
     override fun destroy() {

@@ -4,13 +4,13 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
+import org.michaelbel.moviemade.core.TmdbConfig.CONTENT_TYPE
 import org.michaelbel.moviemade.core.entity.*
 import org.michaelbel.moviemade.core.remote.AccountService
 import org.michaelbel.moviemade.core.remote.MoviesService
-import org.michaelbel.moviemade.core.utils.CONTENT_TYPE
 import java.util.*
 
-class MovieRepository internal constructor(
+class MovieRepository(
         private val moviesService: MoviesService,
         private val accountService: AccountService
 ): MovieContract.Repository {

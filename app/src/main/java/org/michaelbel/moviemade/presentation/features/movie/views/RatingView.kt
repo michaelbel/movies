@@ -7,8 +7,8 @@ import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.core.content.ContextCompat
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.utils.LayoutHelper
-import org.michaelbel.moviemade.core.utils.ViewUtil
+import org.michaelbel.moviemade.core.LayoutHelper
+import org.michaelbel.moviemade.core.ViewUtil
 
 class RatingView: LinearLayoutCompat {
 
@@ -38,7 +38,7 @@ class RatingView: LinearLayoutCompat {
         val starCount = 5
         for (i in 0 until starCount) {
             val view = StarView(context)
-            view.layoutParams = LayoutHelper.makeLinear(20, 20)
+            view.layoutParams = LayoutHelper.makeLinear(context,20, 20)
             addView(view)
             stars[i] = view
         }

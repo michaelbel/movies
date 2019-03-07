@@ -8,10 +8,8 @@ import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.michaelbel.moviemade.core.remote.AccountService
-import org.michaelbel.moviemade.core.remote.AuthService
-import org.michaelbel.moviemade.core.remote.MoviesService
-import org.michaelbel.moviemade.core.utils.GSON_DATE_FORMAT
+import org.michaelbel.moviemade.core.TmdbConfig.GSON_DATE_FORMAT
+import org.michaelbel.moviemade.core.remote.*
 import org.michaelbel.moviemade.presentation.features.account.AccountRepository
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
@@ -22,8 +20,8 @@ import javax.inject.Singleton
 @Module
 class NetworkModule(private val context: Context, private val baseUrl: String) {
 
-    @Singleton
     @Provides
+    @Singleton
     fun retrofit(): Retrofit {
         return Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson()))
@@ -33,26 +31,28 @@ class NetworkModule(private val context: Context, private val baseUrl: String) {
                 .build()
     }
 
-    @Singleton
     @Provides
-    fun movieService(): MoviesService {
-        return retrofit().create(MoviesService::class.java)
-    }
+    @Singleton
+    fun movieService(): MoviesService = retrofit().create(MoviesService::class.java)
 
-    @Singleton
     @Provides
-    fun accountService(): AccountService {
-        return retrofit().create(AccountService::class.java)
-    }
+    @Singleton
+    fun searchService(): SearchService = retrofit().create(SearchService::class.java)
 
-    @Singleton
     @Provides
-    fun authService(): AuthService {
-        return retrofit().create(AuthService::class.java)
-    }
+    @Singleton
+    fun keywordsService(): KeywordsService = retrofit().create(KeywordsService::class.java)
 
-    @Singleton
     @Provides
+    @Singleton
+    fun accountService(): AccountService = retrofit().create(AccountService::class.java)
+
+    @Provides
+    @Singleton
+    fun authService(): AuthService = retrofit().create(AuthService::class.java)
+
+    @Provides
+    @Singleton
     fun accountRepository(authService: AuthService, accountService: AccountService): AccountRepository {
         return AccountRepository(authService, accountService)
     }

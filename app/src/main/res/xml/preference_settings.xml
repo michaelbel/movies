@@ -4,7 +4,7 @@
     <SwitchPreferenceCompat
         app:key="key_browser"
         app:title="@string/in_app_browser"
-        app:summary="@string/in_app_browser_info"
+        app:summary="@string/in_app_browser_summary"
         app:defaultValue="true"
         app:iconSpaceReserved="false"/>
 
@@ -13,7 +13,7 @@
     <SwitchPreferenceCompat
         app:key="key_adult"
         app:title="@string/include_adult"
-        app:summary="@string/include_adult_info"
+        app:summary="@string/include_adult_summary"
         app:defaultValue="true"
         app:iconSpaceReserved="false"/>
 

@@ -2,24 +2,21 @@ package org.michaelbel.moviemade.presentation.features.search
 
 import io.reactivex.Observable
 import org.michaelbel.moviemade.core.entity.Movie
-import org.michaelbel.moviemade.core.entity.MoviesResponse
-import org.michaelbel.moviemade.core.utils.EmptyViewMode
-import org.michaelbel.moviemade.presentation.base.BaseContract
+import org.michaelbel.moviemade.presentation.base.BasePresenter
+import org.michaelbel.moviemade.presentation.base.BaseView
 
 interface SearchContract {
 
-    interface View {
+    interface View: BaseView<List<Movie>> {
         fun searchStart()
-        fun setMovies(movies: List<Movie>)
-        fun setError(@EmptyViewMode mode: Int)
     }
 
-    interface Presenter: BaseContract.Presenter<View> {
+    interface Presenter: BasePresenter<View> {
         fun search(query: String)
         fun loadNextResults()
     }
 
     interface Repository {
-        fun search(query: String, page: Int): Observable<MoviesResponse>
+        fun search(query: String, page: Int): Observable<List<Movie>>
     }
 }

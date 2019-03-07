@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.presentation.features.keywords.fragment
 
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,20 +11,15 @@ import kotlinx.android.synthetic.main.activity_default.*
 import kotlinx.android.synthetic.main.fragment_keywords.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Keyword
-import org.michaelbel.moviemade.core.utils.EmptyViewMode
-import org.michaelbel.moviemade.core.utils.EXTRA_MOVIE_ID
+import org.michaelbel.moviemade.core.local.Intents.EXTRA_MOVIE_ID
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseFragment
-import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceiver
 import org.michaelbel.moviemade.presentation.features.keywords.KeywordsAdapter
 import org.michaelbel.moviemade.presentation.features.keywords.KeywordsContract
 import org.michaelbel.moviemade.presentation.features.keywords.activity.KeywordsActivity
 import javax.inject.Inject
 
-class KeywordsFragment: BaseFragment(),
-        KeywordsContract.View,
-        KeywordsAdapter.Listener,
-        NetworkChangeReceiver.Listener {
+class KeywordsFragment: BaseFragment(), KeywordsContract.View, KeywordsAdapter.Listener {
 
     companion object {
         fun newInstance(movieId: Int): KeywordsFragment {
@@ -42,17 +36,12 @@ class KeywordsFragment: BaseFragment(),
 
     private lateinit var adapter: KeywordsAdapter
 
-    private var networkChangeReceiver: NetworkChangeReceiver? = null
-    private var connectionFailure = false
-
     @Inject
     lateinit var presenter: KeywordsContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         App[requireActivity().application].createFragmentComponent().inject(this)
-        networkChangeReceiver = NetworkChangeReceiver(this)
-        requireContext().registerReceiver(networkChangeReceiver, IntentFilter(NetworkChangeReceiver.INTENT_ACTION))
         presenter.attach(this)
     }
 
@@ -85,28 +74,21 @@ class KeywordsFragment: BaseFragment(),
         (requireActivity() as KeywordsActivity).startKeyword(keyword)
     }
 
-    override fun setKeywords(keywords: List<Keyword>) {
-        connectionFailure = false
-        adapter.addKeywords(keywords)
-        progressBar.visibility = GONE
+    override fun loading(state: Boolean) {
+        progressBar.visibility = if (state) VISIBLE else GONE
     }
 
-    override fun setError(@EmptyViewMode mode: Int) {
-        connectionFailure = true
+    override fun content(results: List<Keyword>) {
+        adapter.addKeywords(results)
+    }
+
+    override fun error(code: Int) {
         emptyView.visibility = VISIBLE
-        emptyView.setMode(mode)
-        progressBar.visibility = GONE
-    }
-
-    override fun onNetworkChanged() {
-        if (connectionFailure && adapter.itemCount == 0) {
-            presenter.getKeywords(movieId)
-        }
+        emptyView.setMode(code)
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        requireContext().unregisterReceiver(networkChangeReceiver)
         presenter.destroy()
     }
 }

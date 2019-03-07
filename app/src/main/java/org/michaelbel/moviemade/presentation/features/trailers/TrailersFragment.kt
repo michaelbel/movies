@@ -1,7 +1,6 @@
 package org.michaelbel.moviemade.presentation.features.trailers
 
 import android.content.Intent
-import android.content.IntentFilter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,20 +13,15 @@ import kotlinx.android.synthetic.main.activity_default.*
 import kotlinx.android.synthetic.main.fragment_trailers.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Video
-import org.michaelbel.moviemade.core.utils.DeviceUtil
-import org.michaelbel.moviemade.core.utils.EmptyViewMode
-import org.michaelbel.moviemade.core.utils.EXTRA_MOVIE_ID
+import org.michaelbel.moviemade.core.DeviceUtil
+import org.michaelbel.moviemade.core.local.Intents.EXTRA_MOVIE_ID
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
-import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceiver
 import org.michaelbel.moviemade.presentation.features.trailers.dialog.YoutubePlayerDialogFragment
 import javax.inject.Inject
 
-class TrailersFragment: BaseFragment(),
-        NetworkChangeReceiver.Listener,
-        TrailersContract.View,
-        TrailersAdapter.Listener {
+class TrailersFragment: BaseFragment(), TrailersContract.View, TrailersAdapter.Listener {
 
     companion object {
         private const val YOUTUBE_DIALOG_FRAGMENT_TAG = "youtubeFragment"
@@ -45,16 +39,11 @@ class TrailersFragment: BaseFragment(),
     private var movieId: Int = 0
     lateinit var adapter: TrailersAdapter
 
-    private var connectionFailure = false
-    private var networkChangeReceiver: NetworkChangeReceiver? = null
-
     @Inject
     lateinit var presenter: TrailersContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        networkChangeReceiver = NetworkChangeReceiver(this)
-        requireContext().registerReceiver(networkChangeReceiver, IntentFilter(NetworkChangeReceiver.INTENT_ACTION))
         App[requireActivity().application].createFragmentComponent().inject(this)
         presenter.attach(this)
     }
@@ -82,7 +71,7 @@ class TrailersFragment: BaseFragment(),
             presenter.getVideos(movieId)
         }
 
-        movieId = if (arguments != null) arguments!!.getInt(EXTRA_MOVIE_ID) else 0
+        movieId = arguments?.getInt(EXTRA_MOVIE_ID) ?: 0
         presenter.getVideos(movieId)
     }
 
@@ -98,33 +87,19 @@ class TrailersFragment: BaseFragment(),
 
     override fun onDestroy() {
         super.onDestroy()
-        requireContext().unregisterReceiver(networkChangeReceiver)
         presenter.destroy()
     }
 
-    override fun showLoading() {
-        progressBar.visibility = VISIBLE
+    override fun loading(state: Boolean) {
+        progressBar.visibility = if (state) VISIBLE else GONE
     }
 
-    override fun hideLoading() {
-        progressBar.visibility = GONE
+    override fun content(results: List<Video>) {
+        adapter.addTrailers(results)
     }
 
-    override fun setTrailers(trailers: List<Video>) {
-        connectionFailure = false
-        adapter.addTrailers(trailers)
-    }
-
-    override fun setError(@EmptyViewMode mode: Int) {
-        connectionFailure = true
+    override fun error(code: Int) {
         emptyView.visibility = VISIBLE
-        emptyView.setMode(mode)
-        hideLoading()
-    }
-
-    override fun onNetworkChanged() {
-        if (connectionFailure && adapter.itemCount == 0) {
-            presenter.getVideos(movieId)
-        }
+        emptyView.setMode(code)
     }
 }

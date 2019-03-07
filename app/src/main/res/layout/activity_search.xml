@@ -16,7 +16,7 @@
             app:navigationIcon="@drawable/ic_arrow_back">
 
             <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/search_edit_text"
+                android:id="@+id/searchEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"

@@ -13,10 +13,11 @@ import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.activity_movie.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Movie
-import org.michaelbel.moviemade.core.utils.DeviceUtil
-import org.michaelbel.moviemade.core.utils.EXTRA_MOVIE
-import org.michaelbel.moviemade.core.utils.KEY_SESSION_ID
-import org.michaelbel.moviemade.core.utils.TMDB_IMAGE
+import org.michaelbel.moviemade.core.DeviceUtil
+import org.michaelbel.moviemade.core.local.Intents.EXTRA_MOVIE
+import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
+import org.michaelbel.moviemade.core.TmdbConfig
+import org.michaelbel.moviemade.core.TmdbConfig.TMDB_IMAGE
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseActivity
 import org.michaelbel.moviemade.presentation.features.main.appbar.AppBarStateChangeListener
@@ -67,14 +68,15 @@ class MovieActivity: BaseActivity() {
          */
         toolbarTitle.text = movie.title
         Glide.with(this)
-                .load(String.format(Locale.US, TMDB_IMAGE, "original", movie.backdropPath))
-                .thumbnail(0.1F).into(cover)
+             .load(TmdbConfig.image(movie.backdropPath))
+             .thumbnail(0.1F)
+             .into(cover)
 
         collapsingLayout.setContentScrimColor(ContextCompat.getColor(this, R.color.primary))
         collapsingLayout.setStatusBarScrimColor(ContextCompat.getColor(this, android.R.color.transparent))
 
         val params = fullToolbar.layoutParams as FrameLayout.LayoutParams
-        params.topMargin = DeviceUtil.getStatusBarHeight(this)
+        params.topMargin = DeviceUtil.statusBarHeight(this)
 
         fullToolbar.setNavigationOnClickListener { onBackPressed() }
 

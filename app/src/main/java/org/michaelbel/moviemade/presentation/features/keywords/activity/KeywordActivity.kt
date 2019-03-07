@@ -4,7 +4,7 @@ import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_default.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Keyword
-import org.michaelbel.moviemade.core.utils.EXTRA_KEYWORD
+import org.michaelbel.moviemade.core.local.Intents.EXTRA_KEYWORD
 import org.michaelbel.moviemade.presentation.base.BaseActivity
 import org.michaelbel.moviemade.presentation.features.keywords.fragment.KeywordFragment
 
@@ -21,7 +21,10 @@ class KeywordActivity: BaseActivity() {
         supportActionBar?.title = keyword.name
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().replace(container.id, KeywordFragment.newInstance(keyword.id)).commit()
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(container.id, KeywordFragment.newInstance(keyword.id))
+                    .commit()
         }
     }
 }

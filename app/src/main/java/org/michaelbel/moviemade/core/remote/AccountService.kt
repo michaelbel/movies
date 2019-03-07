@@ -6,13 +6,13 @@ import retrofit2.http.*
 
 interface AccountService {
 
-    @GET("account?")
+    @GET("account")
     fun getDetails(
         @Query("api_key") apiKey: String,
         @Query("session_id") sessionId: String
     ): Observable<Account>
 
-    @GET("account/{account_id}/favorite/movies?")
+    @GET("account/{account_id}/favorite/movies")
     fun getFavoriteMovies(
         @Path("account_id") accountId: Int,
         @Query("api_key") apiKey: String,
@@ -22,7 +22,7 @@ interface AccountService {
         @Query("page") page: Int
     ): Observable<MoviesResponse>
 
-    @POST("account/{account_id}/favorite?")
+    @POST("account/{account_id}/favorite")
     fun markAsFavorite(
         @Header("Content-Type") contentType: String,
         @Path("account_id") id: Int,
@@ -31,7 +31,7 @@ interface AccountService {
         @Body fave: Fave
     ): Observable<Mark>
 
-    @GET("account/{account_id}/watchlist/movies?")
+    @GET("account/{account_id}/watchlist/movies")
     fun getWatchlistMovies(
         @Path("account_id") id: Int,
         @Query("api_key") apiKey: String,
@@ -41,7 +41,7 @@ interface AccountService {
         @Query("page") page: Int
     ): Observable<MoviesResponse>
 
-    @POST("account/{account_id}/watchlist?")
+    @POST("account/{account_id}/watchlist")
     fun addToWatchlist(
         @Header("Content-Type") contentType: String,
         @Path("account_id") id: Int,
@@ -50,7 +50,7 @@ interface AccountService {
         @Body watch: Watch
     ): Observable<Mark>
 
-    @GET("account/{account_id}/favorite/tv?")
+    @GET("account/{account_id}/favorite/tv")
     fun getFavoriteTVShows(
         @Path("account_id") accountId: Int,
         @Query("api_key") apiKey: String,
@@ -59,7 +59,7 @@ interface AccountService {
         @Query("sort_by") sort: String
     ): Observable<MoviesResponse>
 
-    @GET("account/{account_id}/lists?")
+    @GET("account/{account_id}/lists")
     fun getCreatedLists(
         @Path("account_id") id: Int,
         @Query("api_key") apiKey: String,
@@ -67,7 +67,7 @@ interface AccountService {
         @Query("language") language: String
     ): Observable<*>
 
-    @GET("account/{account_id}/rated/parts?")
+    @GET("account/{account_id}/rated/parts")
     fun getRatedMovies(
         @Path("account_id") id: Int,
         @Query("api_key") apiKey: String,
@@ -76,7 +76,7 @@ interface AccountService {
         @Query("sort_by") sort: String
     ): Observable<*>
 
-    @GET("account/{account_id}/rated/tv?")
+    @GET("account/{account_id}/rated/tv")
     fun getRatedTVShows(
         @Path("account_id") id: Int,
         @Query("api_key") apiKey: String,
@@ -85,7 +85,7 @@ interface AccountService {
         @Query("sort_by") sort: String
     ): Observable<*>
 
-    @GET("account/{account_id}/rated/tv/episodes?")
+    @GET("account/{account_id}/rated/tv/episodes")
     fun getRatedTVEpisodes(
         @Path("account_id") id: Int,
         @Query("api_key") apiKey: String,
@@ -94,7 +94,7 @@ interface AccountService {
         @Query("sort_by") sort: String
     ): Observable<*>
 
-    @GET("account/{account_id}/watching/tv?")
+    @GET("account/{account_id}/watching/tv")
     fun getTVShowsWatchlist(
         @Path("account_id") id: Int,
         @Query("api_key") apiKey: String,

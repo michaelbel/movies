@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cardview"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true"
+    app:cardPreventCornerOverlap="false"
+    app:cardCornerRadius="@dimen/genre_chip_radius">
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/chipName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginStart="@dimen/genre_chip_text_margin_start"
+        android:layout_marginTop="@dimen/genre_chip_text_margin_top"
+        android:layout_marginEnd="@dimen/genre_chip_text_margin_end"
+        android:layout_marginBottom="@dimen/genre_chip_text_margin_bottom"
+        android:textSize="@dimen/genre_chip_text_size"
+        android:textColor="?android:attr/textColorSecondary"
+        android:fontFamily="sans-serif-medium"
+        android:ellipsize="end"
+        android:maxLines="1"
+        tools:text="Adventure"/>
+
+</com.google.android.material.card.MaterialCardView>

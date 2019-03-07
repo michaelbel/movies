@@ -5,9 +5,9 @@ import kotlinx.android.synthetic.main.activity_default.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Movie
 import org.michaelbel.moviemade.core.entity.Review
-import org.michaelbel.moviemade.core.utils.EXTRA_MOVIE
-import org.michaelbel.moviemade.core.utils.EXTRA_REVIEW
-import org.michaelbel.moviemade.core.utils.SpannableUtil
+import org.michaelbel.moviemade.core.local.Intents.EXTRA_MOVIE
+import org.michaelbel.moviemade.core.local.Intents.EXTRA_REVIEW
+import org.michaelbel.moviemade.core.text.SpannableUtil
 import org.michaelbel.moviemade.presentation.base.BaseActivity
 import org.michaelbel.moviemade.presentation.features.reviews.fragment.ReviewFragment
 
@@ -26,7 +26,10 @@ class ReviewActivity: BaseActivity() {
         supportActionBar?.subtitle = SpannableUtil.boldText(getString(R.string.review_by), getString(R.string.review_by, review.author))
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().replace(container.id, ReviewFragment.newInstance(review)).commit()
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(container.id, ReviewFragment.newInstance(review))
+                    .commit()
         }
     }
 }

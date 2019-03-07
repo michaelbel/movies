@@ -7,14 +7,15 @@ import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
 import android.view.animation.DecelerateInterpolator
+import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.activity_default.*
 import kotlinx.android.synthetic.main.fragment_review.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Review
-import org.michaelbel.moviemade.core.utils.Browser
-import org.michaelbel.moviemade.core.utils.EXTRA_REVIEW
+import org.michaelbel.moviemade.core.customtabs.Browser
+import org.michaelbel.moviemade.core.local.Intents.EXTRA_REVIEW
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.features.reviews.activity.ReviewActivity
@@ -35,7 +36,7 @@ class ReviewFragment: BaseFragment() {
 
         private const val ANIM_DURATION = 300L
 
-        private const val TOOLBAR_PINNED = /*AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS*/ 0
+        private const val TOOLBAR_PINNED = 0
         private const val TOOLBAR_UNPINNED = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL or AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
 
         fun newInstance(review: Review): ReviewFragment {
@@ -52,6 +53,8 @@ class ReviewFragment: BaseFragment() {
     lateinit var preferences: SharedPreferences
 
     lateinit var review: Review
+
+    private lateinit var toolbar: Toolbar
 
     private var textLight: Int = 0
     private var textSepia: Int = 0
@@ -93,14 +96,15 @@ class ReviewFragment: BaseFragment() {
         return true
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_review, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        toolbar = (requireActivity() as ReviewActivity).toolbar
+        toolbar.setOnClickListener { scrollView.fullScroll(View.FOCUS_UP) }
+        toolbar.setOnLongClickListener { changePinning() }
+        return inflater.inflate(R.layout.fragment_review, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as ReviewActivity).toolbar.setOnClickListener { scrollView.fullScroll(View.FOCUS_UP) }
-        (requireActivity() as ReviewActivity).toolbar.setOnLongClickListener { changePinning() }
-
         textLight = ContextCompat.getColor(requireContext(), R.color.md_black)
         textSepia = ContextCompat.getColor(requireContext(), R.color.md_black)
         textNight = ContextCompat.getColor(requireContext(), R.color.nightText)
@@ -115,7 +119,7 @@ class ReviewFragment: BaseFragment() {
 
         val pin = preferences.getBoolean(KEY_TOOLBAR_PINNED, false)
 
-        val params = (requireActivity() as ReviewActivity).toolbar.layoutParams as AppBarLayout.LayoutParams
+        val params = toolbar.layoutParams as AppBarLayout.LayoutParams
         params.scrollFlags = if (pin) TOOLBAR_PINNED else TOOLBAR_UNPINNED
 
         val theme = preferences.getInt(KEY_REVIEW_THEME, THEME_NIGHT)
@@ -197,9 +201,9 @@ class ReviewFragment: BaseFragment() {
         val pin = preferences.getBoolean(KEY_TOOLBAR_PINNED, false)
         preferences.edit().putBoolean(KEY_TOOLBAR_PINNED, !pin).apply()
 
-        val params = (requireActivity() as ReviewActivity).toolbar.layoutParams as AppBarLayout.LayoutParams
+        val params = toolbar.layoutParams as AppBarLayout.LayoutParams
         params.scrollFlags = if (pin) TOOLBAR_PINNED else TOOLBAR_UNPINNED
-        (requireActivity() as ReviewActivity).toolbar.layoutParams = params
+        toolbar.layoutParams = params
 
         //Toast.makeText(requireContext(), if (!pin) R.string.msg_toolbar_pinned else R.string.msg_toolbar_unpinned, Toast.LENGTH_SHORT).show()
         return true

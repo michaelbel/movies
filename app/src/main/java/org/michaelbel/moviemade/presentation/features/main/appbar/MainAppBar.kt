@@ -5,7 +5,7 @@ import android.util.AttributeSet
 
 import com.google.android.material.appbar.AppBarLayout
 
-import org.michaelbel.moviemade.core.utils.DeviceUtil
+import org.michaelbel.moviemade.core.DeviceUtil
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.ViewCompat
 import androidx.core.view.ViewPropertyAnimatorCompat
@@ -32,7 +32,7 @@ class MainAppBar: AppBarLayout {
 
     fun hide(animate: Boolean) {
         isHidden = true
-        setTranslationY(-(this.height + DeviceUtil.getStatusBarHeight(context)), animate)
+        setTranslationY(-(this.height + DeviceUtil.statusBarHeight(context)), animate)
     }
 
     fun show(animate: Boolean) {

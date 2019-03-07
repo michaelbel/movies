@@ -1,33 +1,31 @@
 package org.michaelbel.moviemade.presentation.features.watchlist
 
-import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_default.*
 import kotlinx.android.synthetic.main.fragment_movies.*
 import org.michaelbel.moviemade.R
+import org.michaelbel.moviemade.core.DeviceUtil
+import org.michaelbel.moviemade.core.EmptyViewMode
 import org.michaelbel.moviemade.core.entity.Movie
-import org.michaelbel.moviemade.core.utils.BuildUtil
-import org.michaelbel.moviemade.core.utils.DeviceUtil
-import org.michaelbel.moviemade.core.utils.EXTRA_ACCOUNT_ID
-import org.michaelbel.moviemade.core.utils.KEY_SESSION_ID
+import org.michaelbel.moviemade.core.local.BuildUtil
+import org.michaelbel.moviemade.core.local.Intents.EXTRA_ACCOUNT_ID
+import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
-import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceiver
 import org.michaelbel.moviemade.presentation.features.main.MoviesAdapter
+import org.michaelbel.moviemade.presentation.features.movie.MoviesActivity
 import javax.inject.Inject
 
-class WatchlistFragment: BaseFragment(),
-        WatchlistContract.View,
-        NetworkChangeReceiver.Listener,
-        MoviesAdapter.Listener {
+class WatchlistFragment: BaseFragment(), WatchlistContract.View, MoviesAdapter.Listener {
 
     companion object {
         fun newInstance(accountId: Int): WatchlistFragment {
@@ -44,9 +42,6 @@ class WatchlistFragment: BaseFragment(),
 
     lateinit var adapter: MoviesAdapter
 
-    private var networkChangeReceiver: NetworkChangeReceiver? = null
-    private var connectionFailure = false
-
     @Inject
     lateinit var preferences: SharedPreferences
 
@@ -55,8 +50,6 @@ class WatchlistFragment: BaseFragment(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        networkChangeReceiver = NetworkChangeReceiver(this)
-        requireContext().registerReceiver(networkChangeReceiver, IntentFilter(NetworkChangeReceiver.INTENT_ACTION))
         App[requireActivity().application].createFragmentComponent().inject(this)
         presenter.attach(this)
     }
@@ -66,7 +59,7 @@ class WatchlistFragment: BaseFragment(),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as WatchlistActivity).toolbar.setOnClickListener {
+        (requireActivity() as MoviesActivity).toolbar.setOnClickListener {
             recyclerView.smoothScrollToPosition(0)
         }
 
@@ -99,35 +92,33 @@ class WatchlistFragment: BaseFragment(),
 
     override fun onDestroy() {
         super.onDestroy()
-        requireContext().unregisterReceiver(networkChangeReceiver)
         presenter.destroy()
     }
 
-    override fun setMovies(movies: List<Movie>) {
-        connectionFailure = false
-        progressBar.visibility = GONE
-        adapter.addMovies(movies)
+    override fun loading(state: Boolean) {
+        progressBar.visibility = if (state) VISIBLE else GONE
     }
 
-    override fun setError(mode: Int) {
-        connectionFailure = false
-        progressBar.visibility = GONE
-        emptyView.setMode(mode)
+    override fun error(code: Int) {
+        emptyView.visibility = VISIBLE
+
+        if (code == 1) {
+            emptyView.setMode(EmptyViewMode.MODE_NO_MOVIES)
+        } else {
+            emptyView.setMode(EmptyViewMode.MODE_NO_CONNECTION)
+        }
 
         if (BuildUtil.isEmptyApiKey()) {
             emptyView.setValue(R.string.error_empty_api_key)
         }
     }
 
-    override fun onNetworkChanged() {
-        if (connectionFailure && adapter.itemCount == 0) {
-            val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
-            presenter.getWatchlistMovies(accountId, sessionId)
-        }
+    override fun content(results: List<Movie>) {
+        adapter.addMovies(results)
     }
 
     override fun onMovieClick(movie: Movie) {
-        (requireActivity() as WatchlistActivity).startMovie(movie)
+        (requireActivity() as MoviesActivity).startMovie(movie)
         requireActivity().finish()
     }
 }

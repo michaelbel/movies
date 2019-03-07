@@ -15,7 +15,10 @@ class AboutActivity: BaseActivity() {
         //ViewUtil.setElevation(appbar, 0F)
 
         if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction().replace(container.id, AboutFragment()).commit()
+            supportFragmentManager
+                    .beginTransaction()
+                    .replace(container.id, AboutFragment())
+                    .commit()
         }
     }
 }

@@ -1,93 +1,44 @@
 package org.michaelbel.moviemade.presentation.features.main
 
-import org.michaelbel.moviemade.core.utils.EmptyViewMode
-import org.michaelbel.moviemade.core.utils.NetworkUtil
+import org.michaelbel.moviemade.core.EmptyViewMode
+import org.michaelbel.moviemade.core.net.NetworkUtil
 import org.michaelbel.moviemade.presentation.base.Presenter
-import java.util.*
 
-class MainPresenter(repository: MainRepository): Presenter(), MainContract.Presenter {
+class MainPresenter(
+        private val repository: MainContract.Repository
+): Presenter(), MainContract.Presenter {
 
     private var page: Int = 0
-    private var view: MainContract.View? = null
-    private val repository: MainContract.Repository = repository
+    private lateinit var view: MainContract.View
 
     override fun attach(view: MainContract.View) {
         this.view = view
     }
 
-    override fun getNowPlaying() {
+    override fun movies(movieId: Int, list: String) {
         if (!NetworkUtil.isNetworkConnected()) {
-            view?.setError(EmptyViewMode.MODE_NO_CONNECTION)
+            view.error(EmptyViewMode.MODE_NO_CONNECTION)
             return
         }
 
         page = 1
-        disposable.add(repository.getNowPlaying(page)
+        disposable.add(repository.movies(movieId, list, page)
+                .doOnSubscribe { view.loading(true) }
+                .doAfterTerminate { view.loading(false) }
                 .subscribe({
-                    val results = ArrayList(it.movies)
-                    if (results.isEmpty()) {
-                        view?.setError(EmptyViewMode.MODE_NO_MOVIES)
+                    if (it.isEmpty()) {
+                        view.error(EmptyViewMode.MODE_NO_MOVIES)
                         return@subscribe
                     }
-                    view?.setContent(results)
-                }, { view?.setError(EmptyViewMode.MODE_NO_MOVIES) }))
+                    view.content(it)
+                }, { view.error(EmptyViewMode.MODE_NO_MOVIES) }))
     }
 
-    override fun getNowPlayingNext() {
+    override fun moviesNext(movieId: Int, list: String) {
         if (!NetworkUtil.isNetworkConnected()) return
 
         page++
-        disposable.add(repository.getNowPlaying(page).subscribe { view?.setContent(it.movies) })
-    }
-
-    override fun getTopRated() {
-        if (!NetworkUtil.isNetworkConnected()) {
-            view?.setError(EmptyViewMode.MODE_NO_CONNECTION)
-            return
-        }
-
-        page = 1
-        disposable.add(repository.getTopRated(page)
-                .subscribe({
-                    val results = ArrayList(it.movies)
-                    if (results.isEmpty()) {
-                        view?.setError(EmptyViewMode.MODE_NO_MOVIES)
-                        return@subscribe
-                    }
-                    view?.setContent(results)
-                }, { view?.setError(EmptyViewMode.MODE_NO_MOVIES) }))
-    }
-
-    override fun getTopRatedNext() {
-        if (!NetworkUtil.isNetworkConnected()) return
-
-        page++
-        disposable.add(repository.getTopRated(page).subscribe { view?.setContent(it.movies) })
-    }
-
-    override fun getUpcoming() {
-        if (!NetworkUtil.isNetworkConnected()) {
-            view?.setError(EmptyViewMode.MODE_NO_CONNECTION)
-            return
-        }
-
-        page = 1
-        disposable.add(repository.getUpcoming(page)
-                .subscribe({
-                    val results = ArrayList(it.movies)
-                    if (results.isEmpty()) {
-                        view?.setError(EmptyViewMode.MODE_NO_MOVIES)
-                        return@subscribe
-                    }
-                    view?.setContent(results)
-                }, { view?.setError(EmptyViewMode.MODE_NO_MOVIES) }))
-    }
-
-    override fun getUpcomingNext() {
-        if (!NetworkUtil.isNetworkConnected()) return
-
-        page++
-        disposable.add(repository.getUpcoming(page).subscribe { view?.setContent(it.movies) })
+        disposable.add(repository.movies(movieId, list, page).subscribe { view.content(it) })
     }
 
     override fun destroy() {

@@ -7,25 +7,36 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.appcompat.widget.AppCompatTextView
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.activity_default.*
 import kotlinx.android.synthetic.main.fragment_lce.*
+import kotlinx.android.synthetic.main.view_about.*
+import kotlinx.android.synthetic.main.view_cell.*
+import kotlinx.android.synthetic.main.view_powered.*
 import org.michaelbel.moviemade.BuildConfig
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.utils.*
+import org.michaelbel.moviemade.core.Links.ACCOUNT_MARKET
+import org.michaelbel.moviemade.core.Links.ACCOUNT_WEB
+import org.michaelbel.moviemade.core.Links.APP_MARKET
+import org.michaelbel.moviemade.core.Links.APP_WEB
+import org.michaelbel.moviemade.core.Links.EMAIL
+import org.michaelbel.moviemade.core.Links.GITHUB_URL
+import org.michaelbel.moviemade.core.Links.PAYPAL_ME
+import org.michaelbel.moviemade.core.Links.TELEGRAM_URL
+import org.michaelbel.moviemade.core.customtabs.Browser
 import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
 import timber.log.Timber
 
-@Deprecated("")
 class AboutFragment: BaseFragment() {
 
     companion object {
-        private const val LIBS_FRAGMENT_TAG = "libsFragment"
+        private const val LIBS_FRAGMENT_TAG = "libs_fragment"
         private const val TELEGRAM_PACKAGE_NAME = "org.telegram.messenger"
     }
 
@@ -41,11 +52,13 @@ class AboutFragment: BaseFragment() {
     private var poweredByRow: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_recycler, container, false)
+        inflater.inflate(R.layout.fragment_list, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as AboutActivity).toolbar.setNavigationOnClickListener { requireActivity().finish() }
+        (requireActivity() as AboutActivity).toolbar.setNavigationOnClickListener {
+            requireActivity().finish()
+        }
         (requireActivity() as AboutActivity).supportActionBar?.setTitle(R.string.about)
 
         rowCount = 0
@@ -82,15 +95,15 @@ class AboutFragment: BaseFragment() {
                 } catch (e: Exception) {
                     Browser.openUrl(requireContext(), ACCOUNT_WEB)
                 }
-            libsRow -> (requireActivity() as AboutActivity).supportFragmentManager
-                    .beginTransaction()
-                    .replace((requireActivity() as AboutActivity).container.id, LibsFragment())
-                    .addToBackStack(tag)
-                    .commit()
+            libsRow ->
+                requireFragmentManager()
+                        .beginTransaction()
+                        .replace((requireActivity() as AboutActivity).container.id, LibsFragment())
+                        .addToBackStack(LIBS_FRAGMENT_TAG)
+                        .commit()
             feedbackRow ->
                 try {
-                    val packageManager = requireContext().packageManager
-                    val packageInfo = packageManager.getPackageInfo(TELEGRAM_PACKAGE_NAME, 0)
+                    val packageInfo = requireContext().packageManager.getPackageInfo(TELEGRAM_PACKAGE_NAME, 0)
                     if (packageInfo != null) {
                         val telegram = Intent(Intent.ACTION_VIEW, TELEGRAM_URL.toUri())
                         startActivity(telegram)
@@ -115,94 +128,55 @@ class AboutFragment: BaseFragment() {
         }
     }
 
-    inner class AboutAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-
-        private var iconView: ImageView? = null
-        private var textView: AppCompatTextView? = null
-        private var appNameText: AppCompatTextView? = null
-        private var versionText: AppCompatTextView? = null
-        private var poweredText: AppCompatTextView? = null
+    private inner class AboutAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            when (viewType) {
+            return when (viewType) {
                 0 -> {
                     val view = LayoutInflater.from(parent.context).inflate(R.layout.view_about, parent, false)
-                    val holder = HeaderVH(view)
-                    appNameText = view.findViewById(R.id.appName)
-                    versionText = view.findViewById(R.id.versionText)
-                    view.setOnClickListener(object : DebouncingOnClickListener() {
-                        override fun doClick(v: View) {
-                            val position = holder.adapterPosition
-                            doAction(position)
-                        }
-                    })
-                    return holder
+                    HeaderVH(view)
                 }
                 1 -> {
                     val view = LayoutInflater.from(parent.context).inflate(R.layout.view_powered, parent, false)
-                    val holder = AboutVH(view)
-                    poweredText = view.findViewById(R.id.poweredText)
-                    view.setOnClickListener(object : DebouncingOnClickListener() {
-                        override fun doClick(v: View) {
-                            val position = holder.adapterPosition
-                            doAction(position)
-                        }
-                    })
-                    return holder
+                    FooterVH(view)
                 }
                 else -> {
                     val view = LayoutInflater.from(parent.context).inflate(R.layout.view_cell, parent, false)
-                    val holder = FooterVH(view)
-                    iconView = view.findViewById(R.id.icon_view)
-                    textView = view.findViewById(R.id.text)
-                    view.setOnClickListener(object: DebouncingOnClickListener() {
-                        override fun doClick(v: View) {
-                            val position = holder.adapterPosition
-                            doAction(position)
-                        }
-                    })
-                    return holder
+                    AboutVH(view)
                 }
             }
         }
 
-        override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {
             val type = getItemViewType(position)
 
             when (type) {
                 0 -> {
-                    appNameText?.text = getString(R.string.app_for_android, getString(R.string.app_name))
-                    versionText?.text = getString(R.string.version_build_date, BuildConfig.VERSION_NAME, BuildConfig.VERSION_CODE, BuildConfig.VERSION_DATE)
+                    val holder = (viewHolder as HeaderVH)
+                    holder.bind(
+                        getString(R.string.app_for_android, getString(R.string.app_name)),
+                        getString(
+                                R.string.version_build_date,
+                                BuildConfig.VERSION_NAME,
+                                BuildConfig.VERSION_CODE,
+                                BuildConfig.VERSION_DATE
+                        )
+                    )
                 }
-                1 -> poweredText?.text = getString(R.string.powered_by)
-                else -> when (position) {
-                    rateGooglePlay -> {
-                        iconView?.setImageResource(R.drawable.ic_google_play)
-                        textView?.setText(R.string.rate_google_play)
-                    }
-                    forkGithubRow -> {
-                        iconView?.setImageResource(R.drawable.ic_github)
-                        textView?.setText(R.string.fork_github)
-                    }
-                    libsRow -> {
-                        iconView?.setImageResource(R.drawable.ic_storage)
-                        textView?.setText(R.string.open_source_libs)
-                    }
-                    otherAppsRow -> {
-                        iconView?.setImageResource(R.drawable.ic_shop)
-                        textView?.setText(R.string.other_developer_apps)
-                    }
-                    feedbackRow -> {
-                        iconView?.setImageResource(R.drawable.ic_mail)
-                        textView?.setText(R.string.feedback)
-                    }
-                    shareFriendsRow -> {
-                        iconView?.setImageResource(R.drawable.ic_share)
-                        textView?.setText(R.string.share_with_friends)
-                    }
-                    donatePaypalRow -> {
-                        iconView?.setImageResource(R.drawable.ic_paypal)
-                        textView?.setText(R.string.donate_paypal)
+                1 -> {
+                    val holder = (viewHolder as FooterVH)
+                    holder.bind(getString(R.string.powered_by))
+                }
+                else -> {
+                    val holder = (viewHolder as AboutVH)
+                    when (position) {
+                        rateGooglePlay -> holder.bind(R.drawable.ic_google_play, R.string.rate_google_play)
+                        forkGithubRow -> holder.bind(R.drawable.ic_github, R.string.fork_github)
+                        libsRow -> holder.bind(R.drawable.ic_storage, R.string.open_source_libs)
+                        otherAppsRow -> holder.bind(R.drawable.ic_shop, R.string.other_developer_apps)
+                        feedbackRow -> holder.bind(R.drawable.ic_mail, R.string.feedback)
+                        shareFriendsRow -> holder.bind(R.drawable.ic_share, R.string.share_with_friends)
+                        donatePaypalRow -> holder.bind(R.drawable.ic_paypal, R.string.donate_paypal)
                     }
                 }
             }
@@ -210,18 +184,57 @@ class AboutFragment: BaseFragment() {
 
         override fun getItemCount() = rowCount
 
-        override fun getItemViewType(position: Int): Int {
-            return when (position) {
-                infoRow -> 0
-                poweredByRow -> 1
-                else -> 2
+        override fun getItemViewType(position: Int): Int = when (position) {
+            infoRow -> 0
+            poweredByRow -> 1
+            else -> 2
+        }
+
+        internal inner class HeaderVH(override val containerView: View):
+                RecyclerView.ViewHolder(containerView), LayoutContainer {
+
+            fun bind(app: String, version: String) {
+                appName.text = app
+                versionText.text = version
+                containerView.setOnClickListener(object: DebouncingOnClickListener() {
+                    override fun doClick(v: View) {
+                        if (adapterPosition != RecyclerView.NO_POSITION) {
+                            doAction(adapterPosition)
+                        }
+                    }
+                })
             }
         }
 
-        internal inner class HeaderVH(itemView: View): RecyclerView.ViewHolder(itemView)
+        internal inner class AboutVH(override val containerView: View):
+                RecyclerView.ViewHolder(containerView), LayoutContainer {
 
-        internal inner class AboutVH(itemView: View): RecyclerView.ViewHolder(itemView)
+            fun bind(@DrawableRes resId: Int, @StringRes text: Int) {
+                iconView.setImageResource(resId)
+                textView.setText(text)
+                containerView.setOnClickListener(object: DebouncingOnClickListener() {
+                    override fun doClick(v: View) {
+                        if (adapterPosition != RecyclerView.NO_POSITION) {
+                            doAction(adapterPosition)
+                        }
+                    }
+                })
+            }
+        }
 
-        internal inner class FooterVH(itemView: View): RecyclerView.ViewHolder(itemView)
+        internal inner class FooterVH(override val containerView: View):
+                RecyclerView.ViewHolder(containerView), LayoutContainer {
+
+            fun bind(text: String) {
+                poweredText.text = text
+                containerView.setOnClickListener(object: DebouncingOnClickListener() {
+                    override fun doClick(v: View) {
+                        if (adapterPosition != RecyclerView.NO_POSITION) {
+                            doAction(adapterPosition)
+                        }
+                    }
+                })
+            }
+        }
     }
 }

@@ -3,7 +3,8 @@ package org.michaelbel.moviemade.presentation
 import android.app.Application
 import android.content.Context
 import android.os.Handler
-import org.michaelbel.moviemade.core.utils.TMDB_API_ENDPOINT
+import android.util.Log
+import org.michaelbel.moviemade.core.TmdbConfig.TMDB_API_ENDPOINT
 import org.michaelbel.moviemade.presentation.di.component.ActivityComponent
 import org.michaelbel.moviemade.presentation.di.component.AppComponent
 import org.michaelbel.moviemade.presentation.di.component.DaggerAppComponent
@@ -28,6 +29,10 @@ class App: Application() {
 
         lateinit var appHandler: Handler
         lateinit var appContext: Context
+
+        @JvmStatic fun d(msg: String) {
+            Log.e(TAG, msg)
+        }
     }
 
     private lateinit var appComponent: AppComponent

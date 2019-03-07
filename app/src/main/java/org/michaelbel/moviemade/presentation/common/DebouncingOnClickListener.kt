@@ -9,11 +9,11 @@ abstract class DebouncingOnClickListener: View.OnClickListener {
         val ENABLE_AGAIN = { enabled = true }
     }
 
-    override fun onClick(v: View) {
+    override fun onClick(view: View) {
         if (enabled) {
             enabled = false
-            v.post(ENABLE_AGAIN)
-            doClick(v)
+            view.post(ENABLE_AGAIN)
+            doClick(view)
         }
     }
 

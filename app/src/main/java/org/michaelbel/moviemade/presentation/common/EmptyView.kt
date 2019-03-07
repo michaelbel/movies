@@ -8,8 +8,8 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.view_empty.view.*
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.utils.EmptyViewMode
-import org.michaelbel.moviemade.core.utils.ViewUtil
+import org.michaelbel.moviemade.core.EmptyViewMode
+import org.michaelbel.moviemade.core.ViewUtil
 
 class EmptyView: FrameLayout {
 

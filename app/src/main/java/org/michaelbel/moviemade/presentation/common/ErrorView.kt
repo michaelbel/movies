@@ -8,8 +8,8 @@ import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.view_error.view.*
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.utils.Error
-import org.michaelbel.moviemade.core.utils.ViewUtil
+import org.michaelbel.moviemade.core.Error
+import org.michaelbel.moviemade.core.ViewUtil
 
 class ErrorView: LinearLayout {
 

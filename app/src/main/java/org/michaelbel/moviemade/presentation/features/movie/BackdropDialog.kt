@@ -9,7 +9,7 @@ import android.widget.Toast
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import kotlinx.android.synthetic.main.dialog_backdrop.*
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.utils.KEY_ACCOUNT_BACKDROP
+import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_BACKDROP
 import org.michaelbel.moviemade.presentation.App
 import javax.inject.Inject
 
