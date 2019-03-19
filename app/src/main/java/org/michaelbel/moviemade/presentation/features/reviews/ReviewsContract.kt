@@ -10,10 +10,10 @@ interface ReviewsContract {
     interface View: BaseView<List<Review>>
 
     interface Presenter: BasePresenter<View> {
-        fun getReviews(movieId: Int)
+        fun reviews(movieId: Int)
     }
 
     interface Repository {
-        fun getReviews(movieId: Int): Observable<List<Review>>
+        fun reviews(movieId: Int): Observable<List<Review>>
     }
 }

@@ -1,6 +1,6 @@
 package org.michaelbel.moviemade.presentation.features.keywords
 
-import org.michaelbel.moviemade.core.EmptyViewMode
+import org.michaelbel.moviemade.core.errors.EmptyViewMode
 import org.michaelbel.moviemade.core.net.NetworkUtil
 import org.michaelbel.moviemade.presentation.base.Presenter
 
@@ -14,13 +14,13 @@ class KeywordsPresenter(
         this.view = view
     }
 
-    override fun getKeywords(movieId: Int) {
+    override fun keywords(movieId: Int) {
         if (!NetworkUtil.isNetworkConnected()) {
             view.error(EmptyViewMode.MODE_NO_CONNECTION)
             return
         }
 
-        disposable.add(repository.getKeywords(movieId)
+        disposable.add(repository.keywords(movieId)
                 .doOnSubscribe { view.loading(true) }
                 .doAfterTerminate { view.loading(false) }
                 .subscribe({

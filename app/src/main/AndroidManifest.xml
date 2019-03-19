@@ -1,4 +1,5 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="org.michaelbel.moviemade"
     tools:ignore="BatteryLife">
@@ -56,40 +57,16 @@
         </activity>
 
         <activity
-            android:name=".presentation.features.trailers.TrailersActivity"
-            android:theme="@style/AppTheme"/>
-
-        <activity
-            android:name=".presentation.features.reviews.activity.ReviewsActivity"
-            android:theme="@style/AppTheme"/>
-
-        <activity
-            android:name=".presentation.features.reviews.activity.ReviewActivity"
-            android:theme="@style/AppTheme"/>
-
-        <activity
             android:name=".presentation.features.search.SearchActivity"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme"/>
 
         <activity
-            android:name=".presentation.features.keywords.activity.KeywordsActivity"
-            android:theme="@style/AppTheme"/>
-
-        <activity
-            android:name=".presentation.features.keywords.activity.KeywordActivity"
-            android:theme="@style/AppTheme"/>
-
-        <activity
-            android:name=".presentation.features.movie.MoviesActivity"
+            android:name=".presentation.ContainerActivity"
             android:theme="@style/AppTheme"/>
 
         <activity
             android:name=".presentation.features.settings.SettingsActivity"
-            android:theme="@style/AppTheme"/>
-
-        <activity
-            android:name=".presentation.features.about.AboutActivity"
             android:theme="@style/AppTheme"/>
 
     </application>

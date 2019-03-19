@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground"
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="false"
-    app:cardCornerRadius="@dimen/keyword_radius">
+    app:cardCornerRadius="@dimen/keyword_radius"
+    app:cardBackgroundColor="@color/foregroundColor">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/keywordName"
@@ -25,4 +27,4 @@
         android:maxLines="1"
         tools:text="Adventure"/>
 
-</com.google.android.material.card.MaterialCardView>
+</androidx.cardview.widget.CardView>

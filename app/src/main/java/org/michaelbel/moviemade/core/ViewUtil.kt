@@ -18,13 +18,16 @@ object ViewUtil {
         mCursorDrawableRes.setInt(editText, 0)
     }
 
-    fun getIcon(context: Context, @DrawableRes resource: Int, colorFilter: Int): Drawable? =
+    fun getIcon(context: Context, @DrawableRes resource: Int, colorFilter: Int): Drawable =
             getIcon(context, resource, colorFilter, PorterDuff.Mode.MULTIPLY)
 
-    private fun getIcon(context: Context, @DrawableRes resource: Int, colorFilter: Int, mode: PorterDuff.Mode): Drawable? {
-        val iconDrawable = ContextCompat.getDrawable(context, resource)
-        iconDrawable?.clearColorFilter()
-        iconDrawable?.mutate()?.setColorFilter(colorFilter, mode)
+    private fun getIcon(context: Context, @DrawableRes resource: Int, colorFilter: Int, mode: PorterDuff.Mode): Drawable {
+        val iconDrawable = ContextCompat.getDrawable(context, resource) ?: context.getDrawable(resource)
+        val color = ContextCompat.getColor(context, colorFilter)
+
+        iconDrawable.clearColorFilter()
+        iconDrawable.mutate().setColorFilter(color, mode)
+
         return iconDrawable
     }
 }

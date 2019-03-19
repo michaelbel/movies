@@ -3,16 +3,15 @@ package org.michaelbel.moviemade.presentation.features.trailers
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_trailer.*
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.entity.Video
 import org.michaelbel.moviemade.core.DeviceUtil
 import org.michaelbel.moviemade.core.TmdbConfig.YOUTUBE_IMAGE
 import org.michaelbel.moviemade.core.ViewUtil
+import org.michaelbel.moviemade.core.entity.Video
 import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
 import java.util.*
 
@@ -49,7 +48,7 @@ class TrailersAdapter(
                 listener.onTrailerLongClick(trailers[pos])
                 return@setOnLongClickListener true
             }
-            false
+            return@setOnLongClickListener false
         }
 
         if (DeviceUtil.isLandscape(parent.context) || DeviceUtil.isTablet(parent.context)) {
@@ -80,12 +79,10 @@ class TrailersAdapter(
 
             if (trailer.site == "YouTube") {
                 playerIcon.setImageDrawable(
-                        ViewUtil.getIcon(containerView.context, R.drawable.ic_youtube,
-                                ContextCompat.getColor(containerView.context, R.color.youtubeColor)))
+                        ViewUtil.getIcon(containerView.context, R.drawable.ic_youtube, R.color.youtubeColor))
             } else {
                 playerIcon.setImageDrawable(
-                        ViewUtil.getIcon(containerView.context, R.drawable.ic_play_circle,
-                                ContextCompat.getColor(containerView.context, R.color.iconActiveColor)))
+                        ViewUtil.getIcon(containerView.context, R.drawable.ic_play_circle, R.color.iconActiveColor))
             }
         }
     }

@@ -12,9 +12,22 @@ interface MainContract {
     interface Presenter: BasePresenter<View> {
         fun movies(movieId: Int = 0, list: String)
         fun moviesNext(movieId: Int = 0, list: String)
+
+        fun movies(keywordId: Int)
+        fun moviesNext(keywordId: Int)
+
+        fun moviesWatchlist(accountId: Int, sessionId: String)
+        fun moviesWatchlistNext(accountId: Int, sessionId: String)
+
+        fun moviesFavorite(accountId: Int, sessionId: String)
+        fun moviesFavoriteNext(accountId: Int, sessionId: String)
     }
 
     interface Repository {
         fun movies(movieId: Int, list: String, page: Int): Observable<List<Movie>>
+        fun movies(keywordId: Int, page: Int): Observable<List<Movie>>
+
+        fun moviesWatchlist(accountId: Int, sessionId: String, page: Int): Observable<List<Movie>>
+        fun moviesFavorite(accountId: Int, sessionId: String, page: Int): Observable<List<Movie>>
     }
 }

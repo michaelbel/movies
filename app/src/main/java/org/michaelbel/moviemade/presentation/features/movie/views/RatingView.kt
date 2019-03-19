@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.core.content.ContextCompat
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.LayoutHelper
 import org.michaelbel.moviemade.core.ViewUtil
@@ -136,9 +135,9 @@ class RatingView: LinearLayoutCompat {
 
         fun setIcon(style: Int) {
             when (style) {
-                ICON_STAR -> icon = ViewUtil.getIcon(context, R.drawable.ic_star, ContextCompat.getColor(context, R.color.accent_yellow))
-                ICON_STAR_HALF -> icon = ViewUtil.getIcon(context, R.drawable.ic_star_half, ContextCompat.getColor(context, R.color.accent_yellow))
-                ICON_STAR_BORDER -> icon = ViewUtil.getIcon(context, R.drawable.ic_star_border, ContextCompat.getColor(context, R.color.accent_yellow))
+                ICON_STAR -> icon = ViewUtil.getIcon(context, R.drawable.ic_star, R.color.accent_yellow)
+                ICON_STAR_HALF -> icon = ViewUtil.getIcon(context, R.drawable.ic_star_half, R.color.accent_yellow)
+                ICON_STAR_BORDER -> icon = ViewUtil.getIcon(context, R.drawable.ic_star_border, R.color.accent_yellow)
             }
 
             setImageDrawable(icon)

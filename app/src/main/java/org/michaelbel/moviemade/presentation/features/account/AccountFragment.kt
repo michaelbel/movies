@@ -1,6 +1,7 @@
 package org.michaelbel.moviemade.presentation.features.account
 
 import android.content.Context.INPUT_METHOD_SERVICE
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
@@ -15,7 +16,6 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.view_account.*
 import kotlinx.android.synthetic.main.view_login.*
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.Error
 import org.michaelbel.moviemade.core.TmdbConfig.GRAVATAR_URL
 import org.michaelbel.moviemade.core.TmdbConfig.REDIRECT_URL
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_AUTH_URL
@@ -29,21 +29,30 @@ import org.michaelbel.moviemade.core.customtabs.Browser
 import org.michaelbel.moviemade.core.entity.Account
 import org.michaelbel.moviemade.core.entity.MoviesResponse.Companion.FAVORITE
 import org.michaelbel.moviemade.core.entity.MoviesResponse.Companion.WATCHLIST
+import org.michaelbel.moviemade.core.errors.Error
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_BACKDROP
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_ID
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_DATE_AUTHORISED
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_TOKEN
 import org.michaelbel.moviemade.presentation.App
+import org.michaelbel.moviemade.presentation.ContainerActivity
+import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_ACCOUNT_ID
+import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.FRAGMENT_NAME
 import org.michaelbel.moviemade.presentation.base.BaseFragment
-import org.michaelbel.moviemade.presentation.features.main.MainActivity
 import retrofit2.HttpException
 import java.util.*
 import javax.inject.Inject
 
 class AccountFragment: BaseFragment(), AccountContract.View {
 
+    companion object {
+        internal fun newInstance() = AccountFragment()
+    }
+
     var accountId: Int = 0
+
+    private var sessionId: String = ""
 
     @Inject
     lateinit var preferences: SharedPreferences
@@ -61,27 +70,28 @@ class AccountFragment: BaseFragment(), AccountContract.View {
                     builder.setMessage(R.string.msg_logout)
                     builder.setNegativeButton(R.string.cancel, null)
                     builder.setPositiveButton(R.string.ok) { _, _ ->
-                        val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
                         presenter.deleteSession(sessionId)
                     }
                     builder.show()
-                    true
+                    return@setOnMenuItemClickListener true
                 }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
         App[requireActivity().application].createFragmentComponent().inject(this)
         presenter.attach(this)
+        sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_account, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
+        return inflater.inflate(R.layout.fragment_account, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
+
         if (sessionId.isEmpty()) {
             showLogin()
         } else {
@@ -106,10 +116,16 @@ class AccountFragment: BaseFragment(), AccountContract.View {
         privacyBtn.setOnClickListener { Browser.openUrl(requireContext(), TMDB_PRIVACY_POLICY) }
 
         favoritesText.setOnClickListener {
-            (requireActivity() as MainActivity).startMovies(FAVORITE, accountId)
+            val intent = Intent(requireContext(), ContainerActivity::class.java)
+            intent.putExtra(FRAGMENT_NAME, FAVORITE)
+            intent.putExtra(EXTRA_ACCOUNT_ID, accountId)
+            startActivity(intent)
         }
         watchlistText.setOnClickListener {
-            (requireActivity() as MainActivity).startMovies(WATCHLIST, accountId)
+            val intent = Intent(requireContext(), ContainerActivity::class.java)
+            intent.putExtra(FRAGMENT_NAME, WATCHLIST)
+            intent.putExtra(EXTRA_ACCOUNT_ID, accountId)
+            startActivity(intent)
         }
     }
 
@@ -126,7 +142,7 @@ class AccountFragment: BaseFragment(), AccountContract.View {
                 signinBtn.performClick()
                 return@setOnEditorActionListener true
             }
-            false
+            return@setOnEditorActionListener false
         }
     }
 
@@ -143,7 +159,6 @@ class AccountFragment: BaseFragment(), AccountContract.View {
             Glide.with(requireContext()).load(backdrop).thumbnail(0.1F).into(cover)
         }
 
-        val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
         presenter.getAccountDetails(sessionId)
     }
 

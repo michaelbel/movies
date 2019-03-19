@@ -10,10 +10,10 @@ interface KeywordsContract {
     interface View: BaseView<List<Keyword>>
 
     interface Presenter: BasePresenter<View> {
-        fun getKeywords(movieId: Int)
+        fun keywords(movieId: Int)
     }
 
     interface Repository {
-        fun getKeywords(movieId: Int): Observable<List<Keyword>>
+        fun keywords(movieId: Int): Observable<List<Keyword>>
     }
 }

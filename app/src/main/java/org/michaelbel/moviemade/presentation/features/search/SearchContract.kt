@@ -13,7 +13,7 @@ interface SearchContract {
 
     interface Presenter: BasePresenter<View> {
         fun search(query: String)
-        fun loadNextResults()
+        fun nextResults()
     }
 
     interface Repository {

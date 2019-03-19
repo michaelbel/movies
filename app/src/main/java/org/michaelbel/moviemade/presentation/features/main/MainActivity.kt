@@ -19,6 +19,9 @@ import org.michaelbel.moviemade.core.entity.MoviesResponse.Companion.UPCOMING
 import org.michaelbel.moviemade.core.entity.MoviesResponse.Companion.WATCHLIST
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_TOKEN
 import org.michaelbel.moviemade.presentation.App
+import org.michaelbel.moviemade.presentation.ContainerActivity
+import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_ACCOUNT_ID
+import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.FRAGMENT_NAME
 import org.michaelbel.moviemade.presentation.base.BaseActivity
 import org.michaelbel.moviemade.presentation.features.account.AccountFragment
 import org.michaelbel.moviemade.presentation.features.search.SearchActivity
@@ -32,7 +35,7 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
         private const val KEY_FRAGMENT = "fragment"
         private const val DEFAULT_FRAGMENT = R.id.item_playing
 
-        private const val ARG_NAVIGATION_BAR_POSITION = "pos"
+        private const val ARG_BOTTOM_BAR_POSITION = "pos"
     }
 
     private lateinit var accountFragment: AccountFragment
@@ -62,9 +65,10 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.item_search) {
-            startActivity(Intent(this@MainActivity, SearchActivity::class.java))
+            val intent = Intent(this, SearchActivity::class.java)
+            startActivity(intent)
         } else if (item.itemId == R.id.item_settings) {
-            startActivity(Intent(this@MainActivity, SettingsActivity::class.java))
+            startActivity(Intent(this, SettingsActivity::class.java))
         }
 
         return super.onOptionsItemSelected(item)
@@ -91,12 +95,12 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
             val item = preferences.getInt(KEY_FRAGMENT, DEFAULT_FRAGMENT)
             bottomNavigationView.selectedItemId = item
         } else {
-            bottomNavigationView.selectedItemId = savedInstanceState.getInt(ARG_NAVIGATION_BAR_POSITION)
+            bottomNavigationView.selectedItemId = savedInstanceState.getInt(ARG_BOTTOM_BAR_POSITION)
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
-        outState?.putInt(ARG_NAVIGATION_BAR_POSITION, bottomNavigationView.selectedItemId)
+        outState?.putInt(ARG_BOTTOM_BAR_POSITION, bottomNavigationView.selectedItemId)
         super.onSaveInstanceState(outState, outPersistentState)
     }
 
@@ -142,8 +146,11 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
         supportActionBar?.title = ""
         appBarLayout.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.transparent))
         bottomNavigationView.selectedItemId = R.id.item_account
-        startMovies(FAVORITE, accountFragment.accountId)
-        //startFavorites(accountFragment.accountId)
+
+        val intent = Intent(this, ContainerActivity::class.java)
+        intent.putExtra(FRAGMENT_NAME, FAVORITE)
+        intent.putExtra(EXTRA_ACCOUNT_ID, accountFragment.accountId)
+        startActivity(intent)
     }
 
     @Shortcut(id = "watchlist", rank = 2, icon = R.drawable.ic_shortcut_bookmark, shortLabelRes = R.string.watchlist)
@@ -152,7 +159,10 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
         supportActionBar?.title = ""
         appBarLayout.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.transparent))
         bottomNavigationView.selectedItemId = R.id.item_account
-        startMovies(WATCHLIST, accountFragment.accountId)
-        //startWatchlist(accountFragment.accountId)
+
+        val intent = Intent(this, ContainerActivity::class.java)
+        intent.putExtra(FRAGMENT_NAME, WATCHLIST)
+        intent.putExtra(EXTRA_ACCOUNT_ID, accountFragment.accountId)
+        startActivity(intent)
     }
 }

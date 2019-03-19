@@ -1,11 +1,11 @@
 package org.michaelbel.moviemade.presentation.features.account
 
 import io.reactivex.Observable
-import org.michaelbel.moviemade.core.Error
 import org.michaelbel.moviemade.core.entity.Account
 import org.michaelbel.moviemade.core.entity.SessionId
 import org.michaelbel.moviemade.core.entity.Token
 import org.michaelbel.moviemade.core.entity.Username
+import org.michaelbel.moviemade.core.errors.Error
 import org.michaelbel.moviemade.presentation.base.BasePresenter
 
 interface AccountContract {

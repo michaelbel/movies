@@ -1,6 +1,6 @@
 package org.michaelbel.moviemade.presentation.features.reviews
 
-import org.michaelbel.moviemade.core.EmptyViewMode
+import org.michaelbel.moviemade.core.errors.EmptyViewMode
 import org.michaelbel.moviemade.core.net.NetworkUtil
 import org.michaelbel.moviemade.presentation.base.Presenter
 
@@ -14,12 +14,12 @@ class ReviewsPresenter(
         this.view = view
     }
 
-    override fun getReviews(movieId: Int) {
+    override fun reviews(movieId: Int) {
         if (NetworkUtil.isNetworkConnected().not()) {
             view.error(EmptyViewMode.MODE_NO_CONNECTION)
         }
 
-        disposable.add(repository.getReviews(movieId)
+        disposable.add(repository.reviews(movieId)
                 .doOnSubscribe { view.loading(true) }
                 .doAfterTerminate { view.loading(false) }
                 .subscribe({

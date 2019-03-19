@@ -1,5 +1,6 @@
 package org.michaelbel.moviemade.presentation.features.main
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,28 +15,22 @@ import org.michaelbel.moviemade.core.entity.Movie
 import org.michaelbel.moviemade.core.entity.MoviesResponse.Companion.NOW_PLAYING
 import org.michaelbel.moviemade.core.local.BuildUtil
 import org.michaelbel.moviemade.presentation.App
+import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_MOVIE
 import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
+import org.michaelbel.moviemade.presentation.features.movie.MovieActivity
 import javax.inject.Inject
 
+/**
+ * Список фильмов без тулбара для главной
+ */
 class MoviesFragment: BaseFragment(), MainContract.View, MoviesAdapter.Listener {
 
     companion object {
         const val EXTRA_LIST = "list"
-        const val EXTRA_MOVIE_ID = "movie_id"
 
-        fun newInstance(list: String): MoviesFragment {
+        internal fun newInstance(list: String): MoviesFragment {
             val args = Bundle()
-            args.putString(EXTRA_LIST, list)
-
-            val fragment = MoviesFragment()
-            fragment.arguments = args
-            return fragment
-        }
-
-        fun newInstance(list: String, id: Int): MoviesFragment {
-            val args = Bundle()
-            args.putInt(EXTRA_MOVIE_ID, id)
             args.putString(EXTRA_LIST, list)
 
             val fragment = MoviesFragment()
@@ -45,7 +40,6 @@ class MoviesFragment: BaseFragment(), MainContract.View, MoviesAdapter.Listener 
     }
 
     private lateinit var list: String
-    private var movieId: Int = 0
     private lateinit var adapter: MoviesAdapter
 
     @Inject
@@ -73,16 +67,15 @@ class MoviesFragment: BaseFragment(), MainContract.View, MoviesAdapter.Listener 
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1) && adapter.itemCount != 0) {
-                    presenter.moviesNext(movieId, list)
+                    presenter.moviesNext(0, list)
                 }
             }
         })
 
-        emptyView.setOnClickListener { presenter.movies(movieId, list) }
+        emptyView.setOnClickListener { presenter.movies(0, list) }
 
         list = arguments?.getString(EXTRA_LIST) ?: NOW_PLAYING
-        movieId = arguments?.getInt(EXTRA_MOVIE_ID) ?: 0
-        presenter.movies(movieId, list)
+        presenter.movies(0, list)
     }
 
     override fun loading(state: Boolean) {
@@ -97,13 +90,15 @@ class MoviesFragment: BaseFragment(), MainContract.View, MoviesAdapter.Listener 
         emptyView.visibility = VISIBLE
         emptyView.setMode(code)
 
-        if (BuildUtil.isEmptyApiKey()) {
+        if (BuildUtil.isApiKeyEmpty()) {
             emptyView.setValue(R.string.error_empty_api_key)
         }
     }
 
     override fun onMovieClick(movie: Movie) {
-        (requireActivity() as MainActivity).startMovie(movie)
+        val intent = Intent(requireContext(), MovieActivity::class.java)
+        intent.putExtra(EXTRA_MOVIE, movie)
+        startActivity(intent)
     }
 
     override fun onDestroy() {

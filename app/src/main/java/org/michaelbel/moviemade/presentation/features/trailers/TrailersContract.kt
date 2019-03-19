@@ -10,10 +10,10 @@ interface TrailersContract {
     interface View: BaseView<List<Video>>
 
     interface Presenter: BasePresenter<View> {
-        fun getVideos(movieId: Int)
+        fun trailers(movieId: Int)
     }
 
     interface Repository {
-        fun getVideos(movieId: Int): Observable<List<Video>>
+        fun trailers(movieId: Int): Observable<List<Video>>
     }
 }

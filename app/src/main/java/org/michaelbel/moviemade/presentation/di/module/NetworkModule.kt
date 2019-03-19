@@ -7,14 +7,12 @@ import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
 import org.michaelbel.moviemade.core.TmdbConfig.GSON_DATE_FORMAT
-import org.michaelbel.moviemade.core.remote.*
+import org.michaelbel.moviemade.core.remote.Api
 import org.michaelbel.moviemade.presentation.features.account.AccountRepository
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import timber.log.Timber
 import javax.inject.Singleton
 
 @Module
@@ -24,37 +22,21 @@ class NetworkModule(private val context: Context, private val baseUrl: String) {
     @Singleton
     fun retrofit(): Retrofit {
         return Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .client(okHttpClient())
                 .addConverterFactory(GsonConverterFactory.create(gson()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(okHttpClient())
-                .baseUrl(baseUrl)
                 .build()
     }
 
     @Provides
     @Singleton
-    fun movieService(): MoviesService = retrofit().create(MoviesService::class.java)
+    fun apiService(): Api = retrofit().create(Api::class.java)
 
     @Provides
     @Singleton
-    fun searchService(): SearchService = retrofit().create(SearchService::class.java)
-
-    @Provides
-    @Singleton
-    fun keywordsService(): KeywordsService = retrofit().create(KeywordsService::class.java)
-
-    @Provides
-    @Singleton
-    fun accountService(): AccountService = retrofit().create(AccountService::class.java)
-
-    @Provides
-    @Singleton
-    fun authService(): AuthService = retrofit().create(AuthService::class.java)
-
-    @Provides
-    @Singleton
-    fun accountRepository(authService: AuthService, accountService: AccountService): AccountRepository {
-        return AccountRepository(authService, accountService)
+    fun accountRepository(service: Api): AccountRepository {
+        return AccountRepository(service)
     }
 
     private fun okHttpClient(): OkHttpClient {
@@ -67,11 +49,11 @@ class NetworkModule(private val context: Context, private val baseUrl: String) {
         return okHttpClient.build()
     }
 
-    private fun httpLoggingInterceptor(): HttpLoggingInterceptor {
+    /*private fun httpLoggingInterceptor(): HttpLoggingInterceptor {
         val httpLoggingInterceptor = HttpLoggingInterceptor{message -> Timber.d(message)}
         httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
         return httpLoggingInterceptor
-    }
+    }*/
 
     private fun gson(): Gson =
         GsonBuilder()

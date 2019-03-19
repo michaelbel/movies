@@ -1,6 +1,6 @@
 package org.michaelbel.moviemade.presentation.features.search
 
-import org.michaelbel.moviemade.core.EmptyViewMode
+import org.michaelbel.moviemade.core.errors.EmptyViewMode
 import org.michaelbel.moviemade.core.net.NetworkUtil
 import org.michaelbel.moviemade.presentation.base.Presenter
 
@@ -38,7 +38,7 @@ class SearchMoviesPresenter(
                 }, { view.error(EmptyViewMode.MODE_NO_RESULTS) }))
     }
 
-    override fun loadNextResults() {
+    override fun nextResults() {
         if (!NetworkUtil.isNetworkConnected()) return
 
         page++

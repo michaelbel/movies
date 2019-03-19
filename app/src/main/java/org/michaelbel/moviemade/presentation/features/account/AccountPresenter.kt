@@ -1,8 +1,8 @@
 package org.michaelbel.moviemade.presentation.features.account
 
-import org.michaelbel.moviemade.core.Error
 import org.michaelbel.moviemade.core.entity.SessionId
 import org.michaelbel.moviemade.core.entity.Username
+import org.michaelbel.moviemade.core.errors.Error
 import org.michaelbel.moviemade.core.net.NetworkUtil
 import org.michaelbel.moviemade.presentation.base.Presenter
 

@@ -1,0 +1,14 @@
+<androidx.appcompat.widget.AppCompatTextView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/crewText"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textColor="?android:attr/textColorSecondary"
+    android:textIsSelectable="true"
+    android:textSize="@dimen/crew_text_size"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/divider2"
+    app:layout_constraintEnd_toEndOf="parent"
+    tools:text="Starring: John Smith"/>

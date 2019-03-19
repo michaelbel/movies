@@ -2,10 +2,10 @@ package org.michaelbel.moviemade.presentation.features.about
 
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -13,7 +13,7 @@ import androidx.core.net.toUri
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.activity_default.*
+import kotlinx.android.synthetic.main.activity_container.*
 import kotlinx.android.synthetic.main.fragment_lce.*
 import kotlinx.android.synthetic.main.view_about.*
 import kotlinx.android.synthetic.main.view_cell.*
@@ -28,7 +28,9 @@ import org.michaelbel.moviemade.core.Links.EMAIL
 import org.michaelbel.moviemade.core.Links.GITHUB_URL
 import org.michaelbel.moviemade.core.Links.PAYPAL_ME
 import org.michaelbel.moviemade.core.Links.TELEGRAM_URL
+import org.michaelbel.moviemade.core.ViewUtil
 import org.michaelbel.moviemade.core.customtabs.Browser
+import org.michaelbel.moviemade.presentation.ContainerActivity
 import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
 import timber.log.Timber
@@ -36,8 +38,10 @@ import timber.log.Timber
 class AboutFragment: BaseFragment() {
 
     companion object {
-        private const val LIBS_FRAGMENT_TAG = "libs_fragment"
+        private const val FRAGMENT_TAG = "fragment_libs"
         private const val TELEGRAM_PACKAGE_NAME = "org.telegram.messenger"
+
+        internal fun newInstance() = AboutFragment()
     }
 
     private var rowCount: Int = 0
@@ -52,14 +56,13 @@ class AboutFragment: BaseFragment() {
     private var poweredByRow: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_list, container, false)
+        inflater.inflate(R.layout.fragment_lce, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as AboutActivity).toolbar.setNavigationOnClickListener {
-            requireActivity().finish()
-        }
-        (requireActivity() as AboutActivity).supportActionBar?.setTitle(R.string.about)
+        toolbar.title = getString(R.string.about)
+        toolbar.navigationIcon = ViewUtil.getIcon(requireContext(), R.drawable.ic_arrow_back, R.color.iconActiveColor)
+        toolbar.setNavigationOnClickListener { requireActivity().finish() }
 
         rowCount = 0
         infoRow = rowCount++
@@ -72,6 +75,8 @@ class AboutFragment: BaseFragment() {
         donatePaypalRow = rowCount++
         poweredByRow = rowCount++
 
+        progressBar.visibility = GONE
+
         recyclerView.adapter = AboutAdapter()
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
     }
@@ -82,24 +87,20 @@ class AboutFragment: BaseFragment() {
             rateGooglePlay ->
                 try {
                     val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse(APP_MARKET)
+                    intent.data = APP_MARKET.toUri()
                     startActivity(intent)
-                } catch (e: Exception) {
-                    Browser.openUrl(requireContext(), APP_WEB)
-                }
+                } catch (e: Exception) { Browser.openUrl(requireContext(), APP_WEB) }
             otherAppsRow ->
                 try {
                     val intent = Intent(Intent.ACTION_VIEW)
-                    intent.data = Uri.parse(ACCOUNT_MARKET)
+                    intent.data = ACCOUNT_MARKET.toUri()
                     startActivity(intent)
-                } catch (e: Exception) {
-                    Browser.openUrl(requireContext(), ACCOUNT_WEB)
-                }
+                } catch (e: Exception) { Browser.openUrl(requireContext(), ACCOUNT_WEB) }
             libsRow ->
                 requireFragmentManager()
                         .beginTransaction()
-                        .replace((requireActivity() as AboutActivity).container.id, LibsFragment())
-                        .addToBackStack(LIBS_FRAGMENT_TAG)
+                        .add((requireActivity() as ContainerActivity).container.id, LibsFragment.newInstance())
+                        .addToBackStack(FRAGMENT_TAG)
                         .commit()
             feedbackRow ->
                 try {
@@ -115,9 +116,7 @@ class AboutFragment: BaseFragment() {
                         intent.putExtra(Intent.EXTRA_TEXT, "")
                         startActivity(Intent.createChooser(intent, getString(R.string.feedback)))
                     }
-                } catch (e: PackageManager.NameNotFoundException) {
-                    Timber.e(e)
-                }
+                } catch (e: PackageManager.NameNotFoundException) { Timber.e(e) }
             shareFriendsRow -> {
                 val intent = Intent(Intent.ACTION_SEND)
                 intent.type = "text/plain"
@@ -130,21 +129,10 @@ class AboutFragment: BaseFragment() {
 
     private inner class AboutAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-            return when (viewType) {
-                0 -> {
-                    val view = LayoutInflater.from(parent.context).inflate(R.layout.view_about, parent, false)
-                    HeaderVH(view)
-                }
-                1 -> {
-                    val view = LayoutInflater.from(parent.context).inflate(R.layout.view_powered, parent, false)
-                    FooterVH(view)
-                }
-                else -> {
-                    val view = LayoutInflater.from(parent.context).inflate(R.layout.view_cell, parent, false)
-                    AboutVH(view)
-                }
-            }
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder = when (viewType) {
+            0 -> HeaderVH(LayoutInflater.from(parent.context).inflate(R.layout.view_about, parent, false))
+            1 -> FooterVH(LayoutInflater.from(parent.context).inflate(R.layout.view_powered, parent, false))
+            else -> AboutVH(LayoutInflater.from(parent.context).inflate(R.layout.view_cell, parent, false))
         }
 
         override fun onBindViewHolder(viewHolder: RecyclerView.ViewHolder, position: Int) {

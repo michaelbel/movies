@@ -15,11 +15,11 @@ open class GestureTextView
 
     private val controller: GestureController = GestureController(this)
 
-    private var origSize: Float = 0.toFloat()
-    private var size: Float = 0.toFloat()
+    private var origSize: Float = 0F
+    private var size: Float = 0F
 
     init {
-        controller.settings.setOverzoomFactor(1f).isPanEnabled = false
+        controller.settings.setOverzoomFactor(1F).isPanEnabled = false
         controller.settings.initFromAttributes(context, attrs)
         controller.addOnStateChangeListener(object: GestureController.OnStateChangeListener {
             override fun onStateChanged(state: State) {

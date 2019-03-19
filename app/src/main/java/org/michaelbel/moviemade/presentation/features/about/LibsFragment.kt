@@ -9,10 +9,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.activity_default.*
-import kotlinx.android.synthetic.main.fragment_keywords.*
+import kotlinx.android.synthetic.main.fragment_lce.*
 import kotlinx.android.synthetic.main.view_cell_details.*
 import org.michaelbel.moviemade.R
+import org.michaelbel.moviemade.core.ViewUtil
 import org.michaelbel.moviemade.core.customtabs.Browser
 import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
@@ -20,17 +20,20 @@ import java.util.*
 
 class LibsFragment: BaseFragment() {
 
+    companion object {
+        internal fun newInstance() = LibsFragment()
+    }
+
     data class Source(val name: String, val url: String, val license: String)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_list, container, false)
+        inflater.inflate(R.layout.fragment_lce, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireActivity() as AboutActivity).toolbar.setNavigationOnClickListener {
-            (requireActivity() as AboutActivity).supportFragmentManager.popBackStack()
-        }
-        (requireActivity() as AboutActivity).supportActionBar?.setTitle(R.string.open_source_libs)
+        toolbar.title = getString(R.string.open_source_libs)
+        toolbar.navigationIcon = ViewUtil.getIcon(requireContext(), R.drawable.ic_arrow_back, R.color.iconActiveColor)
+        toolbar.setNavigationOnClickListener { requireFragmentManager().popBackStack() }
 
         val adapter = LibsAdapter()
         adapter.addSource("BottomSheet", "https://github.com/michaelbel/bottomsheet")
@@ -42,6 +45,8 @@ class LibsFragment: BaseFragment() {
         adapter.addSource("ChipsLayoutManager", "https://github.com/beloos/chipslayoutmanager")
         adapter.addSource("ExpandableTextView", "https://github.com/blogcat/android-expandabletextview")
         adapter.addSource("Android Animated Menu Items", "https://github.com/adonixis/android-animated-menu-items")
+
+        progressBar.visibility = GONE
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity)
@@ -56,10 +61,8 @@ class LibsFragment: BaseFragment() {
             notifyItemInserted(sources.size - 1)
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LibsViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.view_cell_details, parent, false)
-            return LibsViewHolder(view)
-        }
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LibsViewHolder =
+            LibsViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.view_cell_details, parent, false))
 
         override fun onBindViewHolder(holder: LibsViewHolder, position: Int) {
             holder.bind(sources[position])

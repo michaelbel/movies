@@ -3,7 +3,9 @@ package org.michaelbel.moviemade.presentation.features.movie
 import io.reactivex.observers.DisposableObserver
 import org.michaelbel.moviemade.core.entity.AccountStates
 import org.michaelbel.moviemade.core.entity.CreditsResponse
-import org.michaelbel.moviemade.core.entity.Crew
+import org.michaelbel.moviemade.core.entity.Crew.Companion.DIRECTING
+import org.michaelbel.moviemade.core.entity.Crew.Companion.PRODUCTION
+import org.michaelbel.moviemade.core.entity.Crew.Companion.WRITING
 import org.michaelbel.moviemade.core.entity.Movie
 import org.michaelbel.moviemade.core.net.NetworkUtil
 import org.michaelbel.moviemade.presentation.base.Presenter
@@ -17,10 +19,6 @@ class MoviePresenter(
 
     override fun attach(view: MovieContract.View) {
         this.view = view
-    }
-
-    override fun setDetailExtra(movie: Movie) {
-        view.movieExtra(movie)
     }
 
     override fun getDetails(sessionId: String, movieId: Int) {
@@ -83,15 +81,11 @@ class MoviePresenter(
                 }))
     }
 
-    private fun fixCredits(creditsResponse: CreditsResponse) {
-        val actors = ArrayList<String>()
-        for (cast in creditsResponse.cast) {
-            actors.add(cast.name)
-        }
+    private fun fixCredits(credits: CreditsResponse) {
         val actorsBuilder = StringBuilder()
-        for (name in actors) {
-            actorsBuilder.append(name)
-            if (name != actors[actors.size - 1]) {
+        for (cast in credits.cast) {
+            actorsBuilder.append(cast.name)
+            if (cast != credits.cast[credits.cast.size - 1]) {
                 actorsBuilder.append(", ")
             }
         }
@@ -99,18 +93,17 @@ class MoviePresenter(
         val directors = ArrayList<String>()
         val writers = ArrayList<String>()
         val producers = ArrayList<String>()
-        for (crew in creditsResponse.crew) {
+        for (crew in credits.crew) {
             when (crew.department) {
-                Crew.DIRECTING -> directors.add(crew.name)
-                Crew.WRITING -> writers.add(crew.name)
-                Crew.PRODUCTION -> producers.add(crew.name)
+                DIRECTING -> directors.add(crew.name)
+                WRITING -> writers.add(crew.name)
+                PRODUCTION -> producers.add(crew.name)
             }
         }
 
         val directorsBuilder = StringBuilder()
         for (i in directors.indices) {
             directorsBuilder.append(directors[i])
-            // if item is not last and is not empty
             if (i != directors.size - 1) {
                 directorsBuilder.append(", ")
             }
@@ -132,12 +125,8 @@ class MoviePresenter(
             }
         }
 
-        view?.setCredits(
-                actorsBuilder.toString(),
-                directorsBuilder.toString(),
-                writersBuilder.toString(),
-                producersBuilder.toString()
-        )
+        view.setCredits(actorsBuilder.toString(), directorsBuilder.toString(),
+                writersBuilder.toString(), producersBuilder.toString())
     }
 
     override fun destroy() {

@@ -9,10 +9,9 @@ import org.michaelbel.moviemade.presentation.base.BasePresenter
 interface MovieContract {
 
     interface View {
-        // fixme put movie object.
         fun movie(movie: Movie)
-        fun movieExtra(movie: Movie)
 
+        // fixme put movie object.
         fun setURLs(imdbId: String, homepage: String)
         fun setStates(fave: Boolean, watch : Boolean)
         fun onFavoriteChanged(mark: Mark)
@@ -23,7 +22,6 @@ interface MovieContract {
     }
 
     interface Presenter: BasePresenter<View> {
-        fun setDetailExtra(movie: Movie)
         fun getDetails(sessionId: String, movieId: Int)
         fun markFavorite(sessionId: String, accountId: Int, mediaId: Int, favorite: Boolean)
         fun addWatchlist(sessionId: String, accountId: Int, mediaId: Int, watchlist: Boolean)
