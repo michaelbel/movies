@@ -57,13 +57,10 @@ https://www.youtube.com/watch?v=H5auyhQU9fU
 * [**Gson**](https://github.com/google/gson) to convert Java Objects into JSON and back
 * [**RxJava2**](https://github.com/ReactiveX/RxJava) for Retrofit & background threads
 * [**Glide**](https://github.com/bumptech/glide) for image loading
-* [**ButterKnife**](https://github.com/JakeWharton/butterknife) for view binding
 * [**Dagger2**](https://github.com/google/dagger) for dependency injection
 * [**Room**](https://developer.android.com/topic/libraries/architecture/room.html) database
-* [**Espresso**](https://google.github.io/android-testing-support-library/docs/espresso/) for UI tests
 * [**Kotlin**](https://github.com/JetBrains/kotlin) for simplicity
 * [**GestureViews**](https://github.com/alexvasilkov/GestureViews) for gestures control
-* [**BottomNavigation**](https://github.com/Ashok-Varma/BottomNavigation) for BottomBar tabs
 * [**ChipsLayoutManager**](https://github.com/BelooS/ChipsLayoutManager) for genres
 * [**AndroidYouTubePlayer**](https://github.com/PierfrancescoSoffritti/android-youtube-player) for playing videos
 * [**AndroidAnimatedMenuItems**](https://github.com/adonixis/android-animated-menu-items) for menu items
