@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.card_review.*
+import kotlinx.android.synthetic.main.item_review.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.entity.Review
 import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
@@ -27,7 +27,7 @@ class ReviewsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ReviewsViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.card_review, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_review, parent, false)
         val holder = ReviewsViewHolder(view)
         view.setOnClickListener(object: DebouncingOnClickListener() {
             override fun doClick(v: View) {

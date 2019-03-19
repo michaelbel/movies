@@ -2,24 +2,18 @@ package org.michaelbel.moviemade.presentation.features.trailers
 
 import io.reactivex.Observable
 import org.michaelbel.moviemade.core.entity.Video
-import org.michaelbel.moviemade.core.entity.VideosResponse
-import org.michaelbel.moviemade.core.utils.EmptyViewMode
-import org.michaelbel.moviemade.presentation.base.BaseContract
+import org.michaelbel.moviemade.presentation.base.BasePresenter
+import org.michaelbel.moviemade.presentation.base.BaseView
 
 interface TrailersContract {
 
-    interface View {
-        fun showLoading()
-        fun hideLoading()
-        fun setTrailers(trailers: List<Video>)
-        fun setError(@EmptyViewMode mode: Int)
-    }
+    interface View: BaseView<List<Video>>
 
-    interface Presenter: BaseContract.Presenter<View> {
-        fun getVideos(movieId: Int)
+    interface Presenter: BasePresenter<View> {
+        fun trailers(movieId: Int)
     }
 
     interface Repository {
-        fun getVideos(movieId: Int): Observable<VideosResponse>
+        fun trailers(movieId: Int): Observable<List<Video>>
     }
 }

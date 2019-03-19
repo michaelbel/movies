@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade.presentation.features.account
 
 import android.content.Context.INPUT_METHOD_SERVICE
-import android.content.IntentFilter
+import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
@@ -11,31 +11,53 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.edit
 import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.view_account.*
 import kotlinx.android.synthetic.main.view_login.*
 import org.michaelbel.moviemade.R
+import org.michaelbel.moviemade.core.TmdbConfig.GRAVATAR_URL
+import org.michaelbel.moviemade.core.TmdbConfig.REDIRECT_URL
+import org.michaelbel.moviemade.core.TmdbConfig.TMDB_AUTH_URL
+import org.michaelbel.moviemade.core.TmdbConfig.TMDB_LOGO
+import org.michaelbel.moviemade.core.TmdbConfig.TMDB_PRIVACY_POLICY
+import org.michaelbel.moviemade.core.TmdbConfig.TMDB_REGISTER
+import org.michaelbel.moviemade.core.TmdbConfig.TMDB_RESET_PASSWORD
+import org.michaelbel.moviemade.core.TmdbConfig.TMDB_TERMS_OF_USE
+import org.michaelbel.moviemade.core.ViewUtil
+import org.michaelbel.moviemade.core.customtabs.Browser
 import org.michaelbel.moviemade.core.entity.Account
-import org.michaelbel.moviemade.core.utils.*
+import org.michaelbel.moviemade.core.entity.MoviesResponse.Companion.FAVORITE
+import org.michaelbel.moviemade.core.entity.MoviesResponse.Companion.WATCHLIST
+import org.michaelbel.moviemade.core.errors.Error
+import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_BACKDROP
+import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_ID
+import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_DATE_AUTHORISED
+import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
+import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_TOKEN
 import org.michaelbel.moviemade.presentation.App
+import org.michaelbel.moviemade.presentation.ContainerActivity
+import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_ACCOUNT_ID
+import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.FRAGMENT_NAME
 import org.michaelbel.moviemade.presentation.base.BaseFragment
-import org.michaelbel.moviemade.presentation.common.network.NetworkChangeReceiver
-import org.michaelbel.moviemade.presentation.features.main.MainActivity
+import retrofit2.HttpException
 import java.util.*
 import javax.inject.Inject
 
-class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountContract.View {
+class AccountFragment: BaseFragment(), AccountContract.View {
+
+    companion object {
+        internal fun newInstance() = AccountFragment()
+    }
 
     var accountId: Int = 0
 
-    private var networkChangeReceiver: NetworkChangeReceiver? = null
+    private var sessionId: String = ""
 
     @Inject
     lateinit var preferences: SharedPreferences
 
     @Inject
-    lateinit var repository: AccountRepository
-
     lateinit var presenter: AccountContract.Presenter
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -47,27 +69,29 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
                     builder.setTitle(R.string.logout)
                     builder.setMessage(R.string.msg_logout)
                     builder.setNegativeButton(R.string.cancel, null)
-                    builder.setPositiveButton(R.string.ok) { _, _ -> presenter.deleteSession() }
+                    builder.setPositiveButton(R.string.ok) { _, _ ->
+                        presenter.deleteSession(sessionId)
+                    }
                     builder.show()
-                    true
+                    return@setOnMenuItemClickListener true
                 }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
         App[requireActivity().application].createFragmentComponent().inject(this)
-        networkChangeReceiver = NetworkChangeReceiver(this)
-        requireActivity().registerReceiver(networkChangeReceiver, IntentFilter(NetworkChangeReceiver.INTENT_ACTION))
-        presenter = AccountPresenter(this, repository, preferences)
+        presenter.attach(this)
+        sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_account, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
+        return inflater.inflate(R.layout.fragment_account, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
+
         if (sessionId.isEmpty()) {
             showLogin()
         } else {
@@ -85,14 +109,24 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
             }
         }
 
-        signupBtn.setOnClickListener { Browser.openUrl(requireContext(), TMDB_SIGNUP) }
+        signupBtn.setOnClickListener { Browser.openUrl(requireContext(), TMDB_REGISTER) }
         resetBtn.setOnClickListener { Browser.openUrl(requireContext(), TMDB_RESET_PASSWORD) }
         loginBtn.setOnClickListener { presenter.createRequestToken() }
         termsBtn.setOnClickListener { Browser.openUrl(requireContext(), TMDB_TERMS_OF_USE) }
         privacyBtn.setOnClickListener { Browser.openUrl(requireContext(), TMDB_PRIVACY_POLICY) }
 
-        favoritesText.setOnClickListener { (requireActivity() as MainActivity).startFavorites(accountId) }
-        watchlistText.setOnClickListener { (requireActivity() as MainActivity).startWatchlist(accountId) }
+        favoritesText.setOnClickListener {
+            val intent = Intent(requireContext(), ContainerActivity::class.java)
+            intent.putExtra(FRAGMENT_NAME, FAVORITE)
+            intent.putExtra(EXTRA_ACCOUNT_ID, accountId)
+            startActivity(intent)
+        }
+        watchlistText.setOnClickListener {
+            val intent = Intent(requireContext(), ContainerActivity::class.java)
+            intent.putExtra(FRAGMENT_NAME, WATCHLIST)
+            intent.putExtra(EXTRA_ACCOUNT_ID, accountId)
+            startActivity(intent)
+        }
     }
 
     private fun showLogin() {
@@ -100,9 +134,7 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
         loginLayout.visibility = VISIBLE
         accountLayout.visibility = GONE
 
-        Glide.with(requireContext()).load(TMDB_LOGO).thumbnail(0.1F).into(logo_image)
-        username.background = null
-        password.background = null
+        Glide.with(requireContext()).load(TMDB_LOGO).thumbnail(0.1F).into(logoImage)
         ViewUtil.clearCursorDrawable(username)
         ViewUtil.clearCursorDrawable(password)
         password.setOnEditorActionListener { _, actionId, _ ->
@@ -110,7 +142,7 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
                 signinBtn.performClick()
                 return@setOnEditorActionListener true
             }
-            false
+            return@setOnEditorActionListener false
         }
     }
 
@@ -127,24 +159,30 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
             Glide.with(requireContext()).load(backdrop).thumbnail(0.1F).into(cover)
         }
 
-        presenter.getAccountDetails()
+        presenter.getAccountDetails(sessionId)
     }
 
-    override fun startBrowserAuth(token: String) {
+    override fun startBrowserAuth(token: String, date: String) {
+        preferences.edit {
+            putString(KEY_TOKEN, token)
+            putString(KEY_DATE_AUTHORISED, date)
+        }
+
         Browser.openUrl(requireContext(), String.format(TMDB_AUTH_URL, token, REDIRECT_URL))
     }
 
-    override fun sessionChanged(state: Boolean) {
+    override fun sessionCreated(sessionId: String) {
         username.text?.clear()
         password.text?.clear()
 
-        if (state) {
-            // Session created.
-            showAccount()
-        } else {
-            // Session deleted.
-            showLogin()
-        }
+        preferences.edit().putString(KEY_SESSION_ID, sessionId).apply()
+        showAccount()
+    }
+
+    override fun sessionDeleted() {
+        username.text?.clear()
+        password.text?.clear()
+        showLogin()
     }
 
     override fun setAccount(account: Account) {
@@ -157,7 +195,16 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
                 .thumbnail(0.1F).into(avatar)
     }
 
-    override fun onNetworkChanged() {}
+    override fun setError(throwable: Throwable) {
+        val code = (throwable as HttpException).code()
+        if (code == 401) {
+            preferences.edit().putString(KEY_SESSION_ID, "").apply()
+            loginLayout.visibility = VISIBLE
+            privacyBtn.visibility = GONE
+        } else if (code == 404) {
+            Toast.makeText(requireContext(), R.string.error_not_found, Toast.LENGTH_SHORT).show()
+        }
+    }
 
     override fun setError(@Error error: Int) {
         when (error) {
@@ -177,6 +224,13 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
         }
     }
 
+    override fun saveToken(token: String, date: String) {
+        preferences.edit {
+            putString(KEY_TOKEN, token)
+            putString(KEY_DATE_AUTHORISED, date)
+        }
+    }
+
     private fun hideKeyboard(view: View?) {
         val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
         if (imm.isActive.not()) {
@@ -188,6 +242,5 @@ class AccountFragment: BaseFragment(), NetworkChangeReceiver.Listener, AccountCo
     override fun onDestroy() {
         super.onDestroy()
         presenter.destroy()
-        requireActivity().unregisterReceiver(networkChangeReceiver)
     }
 }

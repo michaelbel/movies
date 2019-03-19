@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -59,7 +60,7 @@
         </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.core.widget.NestedScrollView
-            android:id="@+id/scroll_view"
+            android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbars="none"
@@ -80,7 +81,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?android:attr/shadowColor"
-        android:visibility="invisible"/>
+        android:visibility="gone"/>
 
     <com.alexvasilkov.gestures.views.GestureImageView
         android:id="@+id/fullImage"
@@ -95,8 +96,8 @@
         android:layout_width="match_parent"
         android:layout_height="?actionBarSize"
         android:background="@color/transparent20"
-        android:visibility="invisible"
-        app:title="1 of 1"
+        android:visibility="gone"
+        app:title="@string/photo_of"
         app:navigationIcon="@drawable/ic_arrow_back"/>
 
 </merge>

@@ -5,29 +5,28 @@ import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
-import android.text.Editable
 import android.text.TextUtils
-import android.text.TextWatcher
 import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
-import androidx.appcompat.widget.AppCompatEditText
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_search.*
-import kotlinx.android.synthetic.main.fragment_movies.*
+import kotlinx.android.synthetic.main.fragment_search.*
 import org.michaelbel.moviemade.R
+import org.michaelbel.moviemade.core.DeviceUtil
+import org.michaelbel.moviemade.core.ViewUtil
 import org.michaelbel.moviemade.core.entity.Movie
-import org.michaelbel.moviemade.core.utils.BuildUtil
-import org.michaelbel.moviemade.core.utils.DeviceUtil
-import org.michaelbel.moviemade.core.utils.EmptyViewMode
-import org.michaelbel.moviemade.core.utils.ViewUtil
+import org.michaelbel.moviemade.core.errors.EmptyViewMode
+import org.michaelbel.moviemade.core.local.BuildUtil
 import org.michaelbel.moviemade.presentation.App
+import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_MOVIE
 import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
 import org.michaelbel.moviemade.presentation.features.main.MoviesAdapter
+import org.michaelbel.moviemade.presentation.features.movie.MovieActivity
+import org.michaelbel.moviemade.presentation.features.search.SearchActivity.Companion.EXTRA_QUERY
 import java.util.*
 import javax.inject.Inject
 
@@ -41,18 +40,24 @@ class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.L
         private const val ITEM_CLR = 1
         private const val ITEM_MIC = 2
 
-        internal fun newInstance() = SearchMoviesFragment()
+        internal fun newInstance(query: String): SearchMoviesFragment {
+            val args = Bundle()
+            args.putString(EXTRA_QUERY, query)
+
+            val fragment = SearchMoviesFragment()
+            fragment.arguments = args
+            return fragment
+        }
     }
 
     private var iconActionMode = ITEM_MIC
 
+    private var query = ""
     private var actionMenu: Menu? = null
-    lateinit var adapter: MoviesAdapter
+    private lateinit var adapter: MoviesAdapter
 
     @Inject
     lateinit var presenter: SearchContract.Presenter
-
-    private lateinit var searchView: AppCompatEditText
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -62,9 +67,9 @@ class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.L
                 if (results != null && results.size > 0) {
                     val textResults = results[0]
                     if (!TextUtils.isEmpty(textResults)) {
-                        searchView.setText(textResults)
-                        val text = searchView.text ?: ""
-                        searchView.setSelection(text.length)
+                        searchEditText.setText(textResults)
+                        val text = searchEditText.text ?: ""
+                        searchEditText.setSelection(text.length)
                         changeActionIcon()
                         presenter.search(textResults)
                     }
@@ -80,18 +85,23 @@ class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.L
         presenter.attach(this)
     }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        actionMenu = menu
-        val icon = if (iconActionMode == ITEM_MIC) R.drawable.ic_voice else R.drawable.ic_clear
-        menu.add(null).setIcon(icon).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM).setOnMenuItemClickListener {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+        inflater.inflate(R.layout.fragment_search, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        toolbar.setOnClickListener { recyclerView.smoothScrollToPosition(0) }
+        toolbar.navigationIcon = ViewUtil.getIcon(requireContext(), R.drawable.ic_arrow_back, R.color.iconActiveColor)
+        toolbar.setNavigationOnClickListener { requireActivity().finish() }
+        toolbar.inflateMenu(R.menu.menu_search)
+        toolbar.setOnMenuItemClickListener {
             if (iconActionMode == ITEM_CLR) {
-                if (searchView.text != null) {
-                    searchView.text?.clear()
+                if (searchEditText.text != null) {
+                    searchEditText.text?.clear()
                 }
                 changeActionIcon()
-
-                val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.showSoftInput(searchView, InputMethodManager.SHOW_IMPLICIT)
+                showKeyboard(searchEditText)
             } else {
                 val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
@@ -99,16 +109,9 @@ class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.L
                 intent.putExtra(RecognizerIntent.EXTRA_PROMPT, R.string.speak_now)
                 startActivityForResult(intent, SPEECH_REQUEST_CODE)
             }
-            true
+            return@setOnMenuItemClickListener true
         }
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_movies, container, false)
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        searchView = (requireActivity() as SearchActivity).search_edit_text
+        actionMenu = toolbar.menu
 
         val spanCount = resources.getInteger(R.integer.movies_span_layout_count)
 
@@ -121,7 +124,7 @@ class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.L
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)) {
-                    presenter.loadNextResults()
+                    presenter.nextResults()
                 }
             }
         })
@@ -130,33 +133,38 @@ class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.L
 
         emptyView.setMode(EmptyViewMode.MODE_NO_RESULTS)
 
-        searchView.background = null
-        searchView.addTextChangedListener(object: TextWatcher {
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+        searchEditText.addTextChangedListener(object: TextChanger {
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 changeActionIcon()
                 if (s.toString().trim().length >= 2) {
                     presenter.search(s.toString().trim { it <= ' ' })
                 }
             }
-
-            override fun afterTextChanged(s: Editable) {}
         })
-        searchView.setOnEditorActionListener { v, actionId, event ->
+        searchEditText.setOnEditorActionListener { v, actionId, event ->
             if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_SEARCH) {
-                presenter.search(v.text.toString().trim { it <= ' ' })
-                hideKeyboard(searchView)
+                presenter.search(v.text.toString().trim())
+                hideKeyboard(searchEditText)
                 return@setOnEditorActionListener true
             }
-            false
+            return@setOnEditorActionListener false
         }
 
-        searchView.setSelection(searchView.text!!.length)
-        ViewUtil.clearCursorDrawable(searchView)
+        searchEditText.setSelection(searchEditText.text.toString().length)
+        ViewUtil.clearCursorDrawable(searchEditText)
 
         if (savedInstanceState != null) {
             iconActionMode = savedInstanceState.getInt(KEY_MENU_ICON)
+        }
+
+        changeActionIcon()
+
+        // Start search with query argument.
+        query = arguments?.getString(EXTRA_QUERY) ?: ""
+        if (query != "") {
+            searchEditText.setText(query)
+            searchEditText.setSelection(searchEditText.text.toString().length)
+            presenter.search(query)
         }
     }
 
@@ -168,40 +176,44 @@ class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.L
     override fun searchStart() {
         adapter.movies.clear()
         adapter.notifyDataSetChanged()
-
         emptyView.visibility = GONE
-        progressBar.visibility = VISIBLE
     }
 
-    override fun setMovies(movies: List<Movie>) {
-        progressBar.visibility = GONE
-        adapter.addMovies(movies)
+    override fun loading(state: Boolean) {
+        progressBar.visibility = if (state) VISIBLE else GONE
     }
 
-    override fun setError(mode: Int) {
-        progressBar.visibility = GONE
+    override fun content(results: List<Movie>) {
+        adapter.addMovies(results)
+        hideKeyboard(searchEditText)
+    }
+
+    override fun error(code: Int) {
         emptyView.visibility = VISIBLE
-        emptyView.setMode(mode)
+        emptyView.setMode(code)
 
-        if (BuildUtil.isEmptyApiKey()) {
+        if (BuildUtil.isApiKeyEmpty()) {
             emptyView.setValue(R.string.error_empty_api_key)
         }
     }
 
     override fun onMovieClick(movie: Movie) {
-        (requireActivity() as SearchActivity).startMovie(movie)
+        val intent = Intent(requireContext(), MovieActivity::class.java)
+        intent.putExtra(EXTRA_MOVIE, movie)
+        startActivity(intent)
     }
 
     private fun changeActionIcon() {
         if (actionMenu != null) {
-            if (searchView.text.toString().trim().isEmpty()) {
-                iconActionMode = ITEM_MIC
-                actionMenu?.getItem(MENU_ITEM_INDEX)?.setIcon(R.drawable.ic_voice)
-            } else {
-                iconActionMode = ITEM_CLR
-                actionMenu?.getItem(MENU_ITEM_INDEX)?.setIcon(R.drawable.ic_clear)
-            }
+            val searchEmpty = searchEditText.text.toString().trim().isEmpty()
+            iconActionMode = if (searchEmpty) ITEM_MIC else ITEM_CLR
+            actionMenu?.getItem(MENU_ITEM_INDEX)?.setIcon(if (searchEmpty) R.drawable.ic_voice else R.drawable.ic_clear)
         }
+    }
+
+    private fun showKeyboard(view: View) {
+        val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
     }
 
     private fun hideKeyboard(view: View) {

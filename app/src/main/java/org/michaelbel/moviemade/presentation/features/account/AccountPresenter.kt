@@ -1,19 +1,20 @@
 package org.michaelbel.moviemade.presentation.features.account
 
-import android.content.SharedPreferences
 import org.michaelbel.moviemade.core.entity.SessionId
 import org.michaelbel.moviemade.core.entity.Username
-import org.michaelbel.moviemade.core.utils.*
+import org.michaelbel.moviemade.core.errors.Error
+import org.michaelbel.moviemade.core.net.NetworkUtil
 import org.michaelbel.moviemade.presentation.base.Presenter
-import retrofit2.HttpException
 
-class AccountPresenter internal constructor(
-    private val view: AccountContract.View,
-    private val repository: AccountContract.Repository,
-    private val preferences: SharedPreferences
+class AccountPresenter (
+    private val repository: AccountContract.Repository
 ): Presenter(), AccountContract.Presenter {
 
-    override fun attach(view: AccountContract.View) {}
+    private lateinit var view: AccountContract.View
+
+    override fun attach(view: AccountContract.View) {
+        this.view = view
+    }
 
     override fun createSessionId(token: String) {
         if (NetworkUtil.isNetworkConnected().not()) {
@@ -22,12 +23,7 @@ class AccountPresenter internal constructor(
         }
 
         disposable.add(repository.createSessionId(token)
-            .subscribe({
-                if (it.success) {
-                    preferences.edit().putString(KEY_SESSION_ID, it.sessionId).apply()
-                    view.sessionChanged(true)
-                }
-            }, { view.setError(Error.ERR_NO_CONNECTION) }))
+            .subscribe({ view.sessionCreated(it) }, { view.setError(Error.ERR_NO_CONNECTION) }))
     }
 
     override fun authWithLogin(un: Username) {
@@ -37,69 +33,43 @@ class AccountPresenter internal constructor(
         }
 
         disposable.add(repository.authWithLogin(un)
-            .subscribe({
-                if (it != null) {
-                    if (it.success) {
-                        val authorizedToken = it.requestToken
-                        createSessionId(authorizedToken)
-                    }
-                }
-            }, { view.setError(Error.ERROR_AUTH_WITH_LOGIN) }))
+            .subscribe({ createSessionId(it) }, { view.setError(Error.ERROR_AUTH_WITH_LOGIN) }))
     }
 
-    override fun deleteSession() {
+    override fun deleteSession(sessionId: String) {
         if (NetworkUtil.isNetworkConnected().not()) {
             view.setError(Error.ERR_NO_CONNECTION)
             return
         }
 
-        val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
         disposable.add(repository.deleteSession(SessionId(sessionId))
             .subscribe({
-                if (it != null) {
-                    if (it.success) {
-                        view.sessionChanged(false)
-                    }
+                if (it) {
+                    view.sessionDeleted()
                 }
             }, { view.setError(Error.ERR_NO_CONNECTION) }))
     }
 
-    override fun getAccountDetails() {
+    override fun getAccountDetails(sessionId: String) {
         if (NetworkUtil.isNetworkConnected().not()) {
             view.setError(Error.ERR_NO_CONNECTION)
             return
         }
 
-        val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
         disposable.add(repository.getAccountDetails(sessionId)
-            .subscribe({
-                if (it != null) {
-                    view.setAccount(it)
-                }
-            }, {
-                val code = (it as HttpException).code()
-                if (code == 401) {
-                    view.setError(Error.ERROR_UNAUTHORIZED)
-                } else if (code == 404) {
-                    view.setError(Error.ERROR_NOT_FOUND)
-                }
-            }))
+            .subscribe({ view.setAccount(it) }, { view.setError(it) }))
     }
 
     override fun createRequestToken() {
-        if (NetworkUtil.isNetworkConnected()) {
+        if (NetworkUtil.isNetworkConnected().not()) {
             view.setError(Error.ERROR_CONNECTION_NO_TOKEN)
             return
         }
 
         disposable.add(repository.createRequestToken()
             .subscribe({
-                if (it != null) {
-                    if (it.success) {
-                        preferences.edit().putString(KEY_TOKEN, it.requestToken).apply()
-                        preferences.edit().putString(KEY_DATE_AUTHORISED, it.date).apply()
-                        view.startBrowserAuth(it.requestToken)
-                    }
+                if (it.success) {
+                    view.startBrowserAuth(it.requestToken, it.date)
                 }
             }, { view.setError(Error.ERROR_CONNECTION_NO_TOKEN) }))
     }
@@ -112,13 +82,10 @@ class AccountPresenter internal constructor(
 
         disposable.add(repository.createRequestToken(name, pass)
             .subscribe({
-                if (it != null) {
-                    if (it.success) {
-                        preferences.edit().putString(KEY_TOKEN, it.requestToken).apply()
-                        preferences.edit().putString(KEY_DATE_AUTHORISED, it.date).apply()
-                        val username = Username(name, pass, it.requestToken)
-                        authWithLogin(username)
-                    }
+                if (it.success) {
+                    view.saveToken(it.requestToken, it.date)
+                    val username = Username(name, pass, it.requestToken)
+                    authWithLogin(username)
                 }
             }, { view.setError(Error.ERROR_CONNECTION_NO_TOKEN) }))
     }

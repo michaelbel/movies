@@ -5,11 +5,10 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.annotation.StringRes
-import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.view_empty.view.*
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.utils.EmptyViewMode
-import org.michaelbel.moviemade.core.utils.ViewUtil
+import org.michaelbel.moviemade.core.ViewUtil
+import org.michaelbel.moviemade.core.errors.EmptyViewMode
 
 class EmptyView: FrameLayout {
 
@@ -61,7 +60,7 @@ class EmptyView: FrameLayout {
     }
 
     private fun setIcon(icon: Int) {
-        emptyIcon.setImageDrawable(ViewUtil.getIcon(context, icon, ContextCompat.getColor(context, R.color.errorColor)))
+        emptyIcon.setImageDrawable(ViewUtil.getIcon(context, icon, R.color.errorColor))
     }
 
     private fun setText(@StringRes textId: Int) {

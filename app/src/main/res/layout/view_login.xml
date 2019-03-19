@@ -1,3 +1,4 @@
+<!--fixme-->
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,7 +16,7 @@
 
         <!--Logo-->
         <androidx.appcompat.widget.AppCompatImageView
-            android:id="@+id/logo_image"
+            android:id="@+id/logoImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
@@ -48,6 +49,7 @@
                 android:lines="1"
                 android:maxLines="1"
                 android:imeOptions="actionNext|flagNoExtractUi"
+                android:background="@null"
                 android:inputType="text"/>
 
         </androidx.cardview.widget.CardView>
@@ -77,6 +79,7 @@
                 android:lines="1"
                 android:maxLines="1"
                 android:imeOptions="actionDone|flagNoExtractUi"
+                android:background="@null"
                 android:inputType="textPassword"/>
 
         </androidx.cardview.widget.CardView>

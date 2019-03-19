@@ -1,28 +1,30 @@
-<com.google.android.material.card.MaterialCardView
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginEnd="1dp"
+    android:foreground="?attr/selectableItemBackground"
     app:cardUseCompatPadding="true"
     app:cardPreventCornerOverlap="false"
-    app:cardCornerRadius="16dp">
+    app:cardCornerRadius="@dimen/keyword_radius"
+    app:cardBackgroundColor="@color/foregroundColor">
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/keywordName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|center_vertical"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
-        android:textSize="16sp"
+        android:layout_marginStart="@dimen/keyword_text_margin_start"
+        android:layout_marginTop="@dimen/keyword_text_margin_top"
+        android:layout_marginEnd="@dimen/keyword_text_margin_end"
+        android:layout_marginBottom="@dimen/keyword_text_margin_bottom"
+        android:textSize="@dimen/keyword_text_size"
         android:textColor="?android:attr/textColorSecondary"
         android:fontFamily="sans-serif-medium"
         android:ellipsize="end"
         android:maxLines="1"
         tools:text="Adventure"/>
 
-</com.google.android.material.card.MaterialCardView>
+</androidx.cardview.widget.CardView>

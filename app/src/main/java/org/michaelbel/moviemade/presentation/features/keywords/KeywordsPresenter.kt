@@ -1,34 +1,35 @@
 package org.michaelbel.moviemade.presentation.features.keywords
 
-import org.michaelbel.moviemade.core.utils.EmptyViewMode
-import org.michaelbel.moviemade.core.utils.NetworkUtil
+import org.michaelbel.moviemade.core.errors.EmptyViewMode
+import org.michaelbel.moviemade.core.net.NetworkUtil
 import org.michaelbel.moviemade.presentation.base.Presenter
-import java.util.*
 
-class KeywordsPresenter(repository: KeywordsRepository): Presenter(), KeywordsContract.Presenter {
+class KeywordsPresenter(
+        private val repository: KeywordsRepository
+): Presenter(), KeywordsContract.Presenter {
 
-    private var view: KeywordsContract.View? = null
-    private val repository: KeywordsContract.Repository = repository
+    private lateinit var view: KeywordsContract.View
 
     override fun attach(view: KeywordsContract.View) {
         this.view = view
     }
 
-    override fun getKeywords(movieId: Int) {
+    override fun keywords(movieId: Int) {
         if (!NetworkUtil.isNetworkConnected()) {
-            view?.setError(EmptyViewMode.MODE_NO_CONNECTION)
+            view.error(EmptyViewMode.MODE_NO_CONNECTION)
             return
         }
 
-        disposable.add(repository.getKeywords(movieId)
+        disposable.add(repository.keywords(movieId)
+                .doOnSubscribe { view.loading(true) }
+                .doAfterTerminate { view.loading(false) }
                 .subscribe({
-                    val results = ArrayList(it.keywords)
-                    if (results.isEmpty()) {
-                        view?.setError(EmptyViewMode.MODE_NO_KEYWORDS)
+                    if (it.isEmpty()) {
+                        view.error(EmptyViewMode.MODE_NO_KEYWORDS)
                         return@subscribe
                     }
-                    view?.setKeywords(results)
-                }, { view?.setError(EmptyViewMode.MODE_NO_KEYWORDS) }))
+                    view.content(it)
+                }, { view.error(EmptyViewMode.MODE_NO_KEYWORDS) }))
     }
 
     override fun destroy() {

@@ -1,3 +1,4 @@
+<!--fixme-->
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -6,7 +7,7 @@
     android:foreground="?attr/selectableItemBackground">
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/icon_view"
+        android:id="@+id/iconView"
         android:layout_width="@dimen/cell_icon_size"
         android:layout_height="@dimen/cell_icon_size"
         android:layout_gravity="start|center_vertical"
@@ -14,7 +15,7 @@
         tools:src="@drawable/ic_calendar"/>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/text"
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start|center_vertical"

@@ -2,30 +2,32 @@ package org.michaelbel.moviemade.presentation.features.main
 
 import io.reactivex.Observable
 import org.michaelbel.moviemade.core.entity.Movie
-import org.michaelbel.moviemade.core.entity.MoviesResponse
-import org.michaelbel.moviemade.core.utils.EmptyViewMode
-import org.michaelbel.moviemade.presentation.base.BaseContract
+import org.michaelbel.moviemade.presentation.base.BasePresenter
+import org.michaelbel.moviemade.presentation.base.BaseView
 
 interface MainContract {
 
-    interface View {
-        fun setLoading()
-        fun setContent(movies: List<Movie>)
-        fun setError(@EmptyViewMode mode: Int)
-    }
+    interface View: BaseView<List<Movie>>
 
-    interface Presenter: BaseContract.Presenter<View> {
-        fun getNowPlaying()
-        fun getNowPlayingNext()
-        fun getTopRated()
-        fun getTopRatedNext()
-        fun getUpcoming()
-        fun getUpcomingNext()
+    interface Presenter: BasePresenter<View> {
+        fun movies(movieId: Int = 0, list: String)
+        fun moviesNext(movieId: Int = 0, list: String)
+
+        fun movies(keywordId: Int)
+        fun moviesNext(keywordId: Int)
+
+        fun moviesWatchlist(accountId: Int, sessionId: String)
+        fun moviesWatchlistNext(accountId: Int, sessionId: String)
+
+        fun moviesFavorite(accountId: Int, sessionId: String)
+        fun moviesFavoriteNext(accountId: Int, sessionId: String)
     }
 
     interface Repository {
-        fun getNowPlaying(page: Int): Observable<MoviesResponse>
-        fun getTopRated(page: Int): Observable<MoviesResponse>
-        fun getUpcoming(page: Int): Observable<MoviesResponse>
+        fun movies(movieId: Int, list: String, page: Int): Observable<List<Movie>>
+        fun movies(keywordId: Int, page: Int): Observable<List<Movie>>
+
+        fun moviesWatchlist(accountId: Int, sessionId: String, page: Int): Observable<List<Movie>>
+        fun moviesFavorite(accountId: Int, sessionId: String, page: Int): Observable<List<Movie>>
     }
 }

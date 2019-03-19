@@ -1,3 +1,4 @@
+<!--fixme-->
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
@@ -11,8 +12,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:gravity="center"
-        android:padding="@dimen/view_powered_text_padding"
-        android:textSize="@dimen/view_powered_text_size"
+        android:padding="@dimen/powered_text_padding"
+        android:textSize="@dimen/powered_text_size"
         android:textColor="?android:attr/textColorSecondary"
         tools:text="Powered with Themoviedb.org"/>
 

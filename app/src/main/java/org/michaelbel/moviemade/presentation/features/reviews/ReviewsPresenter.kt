@@ -1,34 +1,34 @@
 package org.michaelbel.moviemade.presentation.features.reviews
 
-import org.michaelbel.moviemade.core.utils.EmptyViewMode
-import org.michaelbel.moviemade.core.utils.NetworkUtil
+import org.michaelbel.moviemade.core.errors.EmptyViewMode
+import org.michaelbel.moviemade.core.net.NetworkUtil
 import org.michaelbel.moviemade.presentation.base.Presenter
-import java.util.*
 
-class ReviewsPresenter(repository: ReviewsRepository): Presenter(), ReviewsContract.Presenter {
+class ReviewsPresenter(
+        private val repository: ReviewsContract.Repository
+): Presenter(), ReviewsContract.Presenter {
 
-    private var view: ReviewsContract.View? = null
-    private val repository: ReviewsContract.Repository = repository
+    private lateinit var view: ReviewsContract.View
 
     override fun attach(view: ReviewsContract.View) {
         this.view = view
     }
 
-    override fun getReviews(movieId: Int) {
-        if (!NetworkUtil.isNetworkConnected()) {
-            view?.setError(EmptyViewMode.MODE_NO_CONNECTION)
-            return
+    override fun reviews(movieId: Int) {
+        if (NetworkUtil.isNetworkConnected().not()) {
+            view.error(EmptyViewMode.MODE_NO_CONNECTION)
         }
 
-        disposable.add(repository.getReviews(movieId)
+        disposable.add(repository.reviews(movieId)
+                .doOnSubscribe { view.loading(true) }
+                .doAfterTerminate { view.loading(false) }
                 .subscribe({
-                    val results = ArrayList(it.reviews)
-                    if (results.isEmpty()) {
-                        view?.setError(EmptyViewMode.MODE_NO_REVIEWS)
+                    if (it.isEmpty()) {
+                        view.error(EmptyViewMode.MODE_NO_REVIEWS)
                         return@subscribe
                     }
-                    view?.setReviews(it.reviews)
-                }, { view?.setError(EmptyViewMode.MODE_NO_REVIEWS) }))
+                    view.content(it)
+                }, { view.error(EmptyViewMode.MODE_NO_REVIEWS) }))
     }
 
     override fun destroy() {
