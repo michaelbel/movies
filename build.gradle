@@ -1,4 +1,33 @@
 buildscript {
+    ext.androidx_version = '1.0.0'
+    ext.kotlin_version = '1.3.30'
+    ext.kotlinx_version = '1.1.1'
+    ext.retrofit_version = '2.5.0'
+    ext.okhttp_version = '3.12.0'
+    ext.room_version = '2.1.0-alpha06'
+    ext.lifecycle_version = '2.0.0'
+    ext.rxkotlin_version = '2.3.0'
+    ext.rxandroid_version = '2.1.1'
+    ext.ktx_version = '1.0.1'
+    ext.fragmentktx_version = '1.0.0'
+    ext.collectionktx_version = '1.0.0'
+    ext.material_version = '1.0.0'
+    ext.glide_version = '4.9.0'
+    ext.dagger_version = '2.21'
+    ext.shortbread_version = '1.0.2'
+    ext.stetho_version = '1.5.0'
+    ext.timber_version = '4.7.1'
+    ext.traceur_version = '1.0.1'
+    ext.sherlock_version = '1.0.4'
+    ext.chuck_version = '1.1.0'
+    ext.leakcanary_version = '1.6.3'
+    ext.vectordrawable_version = '1.0.1'
+    ext.appcompat_version = '1.1.0-alpha04'
+    ext.constraintlayout_version = '1.1.3'
+    ext.preference_version = '1.1.0-alpha04'
+    ext.arch_version = '1.1.1'
+    ext.work_version = '1.0.1'
+
     repositories {
         jcenter()
         google()
@@ -6,10 +35,10 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.3.2'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.3.21"
+        classpath 'com.android.tools.build:gradle:3.4.0'
         classpath 'com.google.gms:google-services:4.2.0'
         classpath 'io.fabric.tools:gradle:1.27.1'
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 

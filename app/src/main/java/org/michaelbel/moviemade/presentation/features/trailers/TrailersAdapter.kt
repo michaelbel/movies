@@ -6,12 +6,12 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_trailer.*
+import kotlinx.android.synthetic.main.listitem_trailer.*
+import org.michaelbel.data.Video
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.DeviceUtil
 import org.michaelbel.moviemade.core.TmdbConfig.YOUTUBE_IMAGE
 import org.michaelbel.moviemade.core.ViewUtil
-import org.michaelbel.moviemade.core.entity.Video
 import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
 import java.util.*
 
@@ -32,7 +32,7 @@ class TrailersAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TrailersViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_trailer, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.listitem_trailer, parent, false)
         val holder = TrailersViewHolder(view)
         view.setOnClickListener(object: DebouncingOnClickListener() {
             override fun doClick(v: View) {

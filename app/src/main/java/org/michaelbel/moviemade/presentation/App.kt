@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import android.os.Handler
 import android.util.Log
+import com.facebook.stetho.Stetho
+import org.michaelbel.moviemade.BuildConfig.DEBUG
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_API_ENDPOINT
 import org.michaelbel.moviemade.presentation.di.component.ActivityComponent
 import org.michaelbel.moviemade.presentation.di.component.AppComponent
@@ -14,6 +16,7 @@ import org.michaelbel.moviemade.presentation.di.module.AppModule
 import org.michaelbel.moviemade.presentation.di.module.FragmentModule
 import org.michaelbel.moviemade.presentation.di.module.NetworkModule
 import shortbread.Shortbread
+import timber.log.Timber
 
 class App: Application() {
 
@@ -43,15 +46,16 @@ class App: Application() {
         appContext = applicationContext
 
         Shortbread.create(this)
+        Stetho.initializeWithDefaults(this)
 
-        /*if (DEBUG) {
-            Traceur.enableLogging()
-            Sherlock.init(this)
-            LeakCanary.install(this)
+        if (DEBUG) {
+            //Traceur.enableLogging()
+            //Sherlock.init(this)
+            //LeakCanary.install(this)
             Timber.plant(Timber.DebugTree())
             Timber.tag(TAG)
             Stetho.initializeWithDefaults(this)
-        }*/
+        }
 
         initDI()
 

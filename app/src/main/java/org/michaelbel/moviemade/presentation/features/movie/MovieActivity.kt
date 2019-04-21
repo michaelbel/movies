@@ -11,17 +11,17 @@ import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
 import kotlinx.android.synthetic.main.activity_movie.*
+import org.michaelbel.data.Movie
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.DeviceUtil
 import org.michaelbel.moviemade.core.TmdbConfig
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_IMAGE
-import org.michaelbel.moviemade.core.entity.Movie
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_MOVIE
-import org.michaelbel.moviemade.presentation.base.BaseActivity
-import org.michaelbel.moviemade.presentation.features.main.appbar.AppBarStateChangeListener
-import org.michaelbel.moviemade.presentation.features.movie.dialog.BackdropDialog
+import org.michaelbel.moviemade.presentation.common.BackdropDialog
+import org.michaelbel.moviemade.presentation.common.appbar.AppBarStateChangeListener
+import org.michaelbel.moviemade.presentation.common.base.BaseActivity
 import java.util.*
 import javax.inject.Inject
 

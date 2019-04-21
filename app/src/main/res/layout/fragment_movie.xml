@@ -20,7 +20,7 @@
         tools:visibility="visible"
         tools:src="@drawable/example"/>
 
-    <org.michaelbel.moviemade.presentation.features.movie.views.RatingView
+    <org.michaelbel.moviemade.presentation.common.RatingView
         android:id="@+id/ratingView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

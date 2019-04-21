@@ -43,7 +43,7 @@
         android:textColor="@color/errorColor"
         android:textSize="16sp"
         android:visibility="gone"
-        tools:text="No movies to show overview alala ololo hahaha ho-ho-ho happy new year merry christmas everyone!"/>
+        tools:text="No movies to show"/>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonReload"

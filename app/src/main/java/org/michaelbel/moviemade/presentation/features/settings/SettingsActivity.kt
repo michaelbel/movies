@@ -3,7 +3,7 @@ package org.michaelbel.moviemade.presentation.features.settings
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.presentation.base.BaseActivity
+import org.michaelbel.moviemade.presentation.common.base.BaseActivity
 
 class SettingsActivity: BaseActivity() {
 

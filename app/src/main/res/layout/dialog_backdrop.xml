@@ -35,7 +35,7 @@
             android:textSize="20sp"
             android:textColor="?android:attr/textColorPrimary"
             android:fontFamily="sans-serif-medium"
-            android:foreground="?attr/selectableItemBackground"
+            android:foreground="?selectableItemBackground"
             android:gravity="center"
             android:maxLines="1"
             android:text="@string/set"/>
@@ -48,7 +48,7 @@
             android:textSize="20sp"
             android:textColor="?android:attr/textColorPrimary"
             android:fontFamily="sans-serif-medium"
-            android:foreground="?attr/selectableItemBackground"
+            android:foreground="?selectableItemBackground"
             android:gravity="center"
             android:maxLines="1"
             android:text="@string/cancel"/>

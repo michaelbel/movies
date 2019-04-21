@@ -8,23 +8,23 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.setMargins
+import androidx.fragment.app.transaction
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager
 import kotlinx.android.synthetic.main.activity_container.*
 import kotlinx.android.synthetic.main.fragment_lce.*
+import org.michaelbel.data.Keyword
+import org.michaelbel.data.Movie
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.ViewUtil
-import org.michaelbel.moviemade.core.entity.Keyword
-import org.michaelbel.moviemade.core.entity.Movie
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.ContainerActivity
-import org.michaelbel.moviemade.presentation.MoviesFragment2
-import org.michaelbel.moviemade.presentation.base.BaseFragment
+import org.michaelbel.moviemade.presentation.common.base.BaseFragment
+import org.michaelbel.moviemade.presentation.features.main.MoviesFragment2
 import javax.inject.Inject
 
-/**
- * Show keywords list by movie.
- */
-class KeywordsFragment: BaseFragment(), KeywordsContract.View, KeywordsAdapter.Listener {
+class KeywordsFragment: BaseFragment(), KeywordsAdapter.Listener {
 
     companion object {
         private const val ARG_MOVIE = "movie"
@@ -42,17 +42,18 @@ class KeywordsFragment: BaseFragment(), KeywordsContract.View, KeywordsAdapter.L
 
     private lateinit var movie: Movie
     private lateinit var adapter: KeywordsAdapter
+    private lateinit var viewModel: KeywordsModel
 
     @Inject
-    lateinit var presenter: KeywordsContract.Presenter
+    lateinit var factory: KeywordsFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         App[requireActivity().application].createFragmentComponent().inject(this)
-        presenter.attach(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        viewModel = ViewModelProviders.of(requireActivity(), factory).get(KeywordsModel::class.java)
         return inflater.inflate(R.layout.fragment_lce, container, false)
     }
 
@@ -63,7 +64,7 @@ class KeywordsFragment: BaseFragment(), KeywordsContract.View, KeywordsAdapter.L
         toolbar.title = getString(R.string.keywords)
         toolbar.subtitle = movie.title
         toolbar.navigationIcon = ViewUtil.getIcon(requireContext(), R.drawable.ic_arrow_back, R.color.iconActiveColor)
-        toolbar.setOnClickListener { recyclerView.smoothScrollToPosition(0) }
+        toolbar.setOnClickListener { onScrollToTop() }
         toolbar.setNavigationOnClickListener { requireActivity().finish() }
 
         adapter = KeywordsAdapter(this)
@@ -75,37 +76,31 @@ class KeywordsFragment: BaseFragment(), KeywordsContract.View, KeywordsAdapter.L
 
         emptyView.setOnClickListener {
             emptyView.visibility = GONE
-            progressBar.visibility = VISIBLE
-            presenter.keywords(movie.id)
+            viewModel.keywords(movie.id)
         }
 
-        presenter.keywords(movie.id)
+        viewModel.keywords(movie.id)
+        viewModel.loading.observe(viewLifecycleOwner, Observer {
+            progressBar.visibility = if (it) VISIBLE else GONE
+        })
+        viewModel.content.observe(viewLifecycleOwner, Observer {
+            adapter.addKeywords(it)
+        })
+        viewModel.error.observe(viewLifecycleOwner, Observer {
+            emptyView.visibility = VISIBLE
+            emptyView.setMode(it)
+        })
     }
 
     override fun onKeywordClick(keyword: Keyword) {
-        requireFragmentManager()
-                .beginTransaction()
-                .replace((requireActivity() as ContainerActivity).container.id, MoviesFragment2.newInstance(keyword))
-                .addToBackStack(FRAGMENT_TAG)
-                .commit()
+        requireFragmentManager().transaction {
+            add((requireActivity() as ContainerActivity).container.id, MoviesFragment2.newInstance(keyword))
+            addToBackStack(FRAGMENT_TAG)
+        }
     }
 
-    override fun loading(state: Boolean) {
-        progressBar.visibility = if (state) VISIBLE else GONE
-    }
-
-    override fun content(results: List<Keyword>) {
-        adapter.addKeywords(results)
-    }
-
-    override fun error(code: Int) {
-        emptyView.visibility = VISIBLE
-        emptyView.setMode(code)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.destroy()
+    override fun onScrollToTop() {
+        recyclerView.smoothScrollToPosition(0)
     }
 
     private fun recyclerViewLayoutParams(): ConstraintLayout.LayoutParams {

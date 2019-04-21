@@ -8,10 +8,7 @@ import org.michaelbel.moviemade.presentation.di.module.NetworkModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [
-    (AppModule::class),
-    (NetworkModule::class)
-])
+@Component(modules = [AppModule::class, NetworkModule::class])
 interface AppComponent {
     fun plus(target: ActivityModule): ActivityComponent
     fun plus(target: FragmentModule): FragmentComponent

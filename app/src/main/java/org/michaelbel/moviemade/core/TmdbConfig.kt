@@ -1,6 +1,6 @@
 package org.michaelbel.moviemade.core
 
-import java.util.*
+import java.util.Locale.ENGLISH
 
 @Suppress("unused")
 object TmdbConfig {
@@ -35,5 +35,5 @@ object TmdbConfig {
     const val IMDB_MOVIE = "https://imdb.com/title/%s"
     const val IMDB_PERSON = "https://imdb.com/name/%s"
 
-    fun image(path: String) = String.format(Locale.ENGLISH, TMDB_IMAGE, "original", path)
+    fun image(path: String) = String.format(ENGLISH, TMDB_IMAGE, "original", path)
 }

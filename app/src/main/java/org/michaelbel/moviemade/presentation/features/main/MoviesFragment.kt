@@ -7,24 +7,26 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_movies.*
+import org.michaelbel.data.Movie
+import org.michaelbel.data.remote.model.MoviesResponse.Companion.NOW_PLAYING
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.entity.Movie
-import org.michaelbel.moviemade.core.entity.MoviesResponse.Companion.NOW_PLAYING
 import org.michaelbel.moviemade.core.local.BuildUtil
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_MOVIE
-import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
+import org.michaelbel.moviemade.presentation.common.base.BaseFragment
 import org.michaelbel.moviemade.presentation.features.movie.MovieActivity
 import javax.inject.Inject
 
 /**
- * Список фильмов без тулбара для главной
+ * Список фильмов без тулбара для главной.
  */
-class MoviesFragment: BaseFragment(), MainContract.View, MoviesAdapter.Listener {
+class MoviesFragment: BaseFragment(), MoviesAdapter.Listener {
 
     companion object {
         const val EXTRA_LIST = "list"
@@ -41,68 +43,70 @@ class MoviesFragment: BaseFragment(), MainContract.View, MoviesAdapter.Listener 
 
     private lateinit var list: String
     private lateinit var adapter: MoviesAdapter
+    private lateinit var viewModel: MoviesModel
 
     @Inject
-    lateinit var presenter: MainContract.Presenter
+    lateinit var factory: MoviesFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         App[requireActivity().application as App].createFragmentComponent().inject(this)
-        presenter.attach(this)
-        adapter = MoviesAdapter(this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        viewModel = ViewModelProviders.of(requireActivity(), factory).get(MoviesModel::class.java)
         return inflater.inflate(R.layout.fragment_movies, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val spanCount = resources.getInteger(R.integer.movies_span_layout_count)
+        list = arguments?.getString(EXTRA_LIST) ?: NOW_PLAYING
+
+        val spans = resources.getInteger(R.integer.movies_span_layout_count)
+
+        adapter = MoviesAdapter(this)
 
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
-        recyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, resources.getDimension(R.dimen.movies_list_spacing).toInt()))
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), spans)
+        recyclerView.addItemDecoration(GridSpacingItemDecoration(spans, resources.getDimension(R.dimen.movies_list_spacing).toInt()))
         recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1) && adapter.itemCount != 0) {
-                    presenter.moviesNext(0, list)
+                    viewModel.moviesNext(list = list)
                 }
             }
         })
 
-        emptyView.setOnClickListener { presenter.movies(0, list) }
-
-        list = arguments?.getString(EXTRA_LIST) ?: NOW_PLAYING
-        presenter.movies(0, list)
-    }
-
-    override fun loading(state: Boolean) {
-        progressBar.visibility = if (state) VISIBLE else GONE
-    }
-
-    override fun content(results: List<Movie>) {
-        adapter.addMovies(results)
-    }
-
-    override fun error(code: Int) {
-        emptyView.visibility = VISIBLE
-        emptyView.setMode(code)
-
-        if (BuildUtil.isApiKeyEmpty()) {
-            emptyView.setValue(R.string.error_empty_api_key)
+        emptyView.setOnClickListener {
+            emptyView.visibility = GONE
+            viewModel.movies(list = list)
         }
+
+        viewModel.movies(list = list)
+        viewModel.loading.observe(viewLifecycleOwner, Observer {
+            progressBar.visibility = if (it) VISIBLE else GONE
+        })
+        viewModel.content.observe(viewLifecycleOwner, Observer {
+            adapter.addMovies(it)
+        })
+        viewModel.error.observe(viewLifecycleOwner, Observer {
+            emptyView.visibility = VISIBLE
+            emptyView.setMode(it)
+
+            if (BuildUtil.isApiKeyEmpty()) {
+                emptyView.setValue(R.string.error_empty_api_key)
+            }
+        })
+    }
+
+    override fun onScrollToTop() {
+        recyclerView.smoothScrollToPosition(0)
     }
 
     override fun onMovieClick(movie: Movie) {
         val intent = Intent(requireContext(), MovieActivity::class.java)
         intent.putExtra(EXTRA_MOVIE, movie)
         startActivity(intent)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.destroy()
     }
 }
