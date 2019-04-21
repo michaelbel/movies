@@ -3,7 +3,7 @@ package org.michaelbel.moviemade.presentation.features.search
 import android.os.Bundle
 import kotlinx.android.synthetic.main.activity_container.*
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.presentation.base.BaseActivity
+import org.michaelbel.moviemade.presentation.common.base.BaseActivity
 import org.michaelbel.moviemade.presentation.features.main.MainActivity
 import shortbread.Shortcut
 

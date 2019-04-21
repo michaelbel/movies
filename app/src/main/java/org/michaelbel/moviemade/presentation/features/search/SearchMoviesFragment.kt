@@ -11,26 +11,30 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_search.*
+import org.michaelbel.data.Movie
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.DeviceUtil
 import org.michaelbel.moviemade.core.ViewUtil
-import org.michaelbel.moviemade.core.entity.Movie
 import org.michaelbel.moviemade.core.errors.EmptyViewMode
 import org.michaelbel.moviemade.core.local.BuildUtil
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_MOVIE
-import org.michaelbel.moviemade.presentation.base.BaseFragment
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
+import org.michaelbel.moviemade.presentation.common.TextChanger
+import org.michaelbel.moviemade.presentation.common.base.BaseFragment
 import org.michaelbel.moviemade.presentation.features.main.MoviesAdapter
+import org.michaelbel.moviemade.presentation.features.main.MoviesFactory
+import org.michaelbel.moviemade.presentation.features.main.MoviesModel
 import org.michaelbel.moviemade.presentation.features.movie.MovieActivity
 import org.michaelbel.moviemade.presentation.features.search.SearchActivity.Companion.EXTRA_QUERY
 import java.util.*
 import javax.inject.Inject
 
-class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.Listener {
+class SearchMoviesFragment: BaseFragment(), MoviesAdapter.Listener {
 
     companion object {
         private const val KEY_MENU_ICON = "icon"
@@ -52,12 +56,13 @@ class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.L
 
     private var iconActionMode = ITEM_MIC
 
-    private var query = ""
+    private var query: String = ""
     private var actionMenu: Menu? = null
     private lateinit var adapter: MoviesAdapter
+    private lateinit var viewModel: MoviesModel
 
     @Inject
-    lateinit var presenter: SearchContract.Presenter
+    lateinit var factory: MoviesFactory
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -71,7 +76,7 @@ class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.L
                         val text = searchEditText.text ?: ""
                         searchEditText.setSelection(text.length)
                         changeActionIcon()
-                        presenter.search(textResults)
+                        search(textResults)
                     }
                 }
             }
@@ -80,18 +85,19 @@ class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
         App[requireActivity().application].createFragmentComponent().inject(this)
-        presenter.attach(this)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
-        inflater.inflate(R.layout.fragment_search, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        setHasOptionsMenu(true)
+        viewModel = ViewModelProviders.of(requireActivity(), factory).get(MoviesModel::class.java)
+        return inflater.inflate(R.layout.fragment_search, container, false)
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        toolbar.setOnClickListener { recyclerView.smoothScrollToPosition(0) }
+        toolbar.setOnClickListener { onScrollToTop() }
         toolbar.navigationIcon = ViewUtil.getIcon(requireContext(), R.drawable.ic_arrow_back, R.color.iconActiveColor)
         toolbar.setNavigationOnClickListener { requireActivity().finish() }
         toolbar.inflateMenu(R.menu.menu_search)
@@ -113,18 +119,18 @@ class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.L
         }
         actionMenu = toolbar.menu
 
-        val spanCount = resources.getInteger(R.integer.movies_span_layout_count)
+        val spans = resources.getInteger(R.integer.movies_span_layout_count)
 
         adapter = MoviesAdapter(this)
 
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), spanCount)
-        recyclerView.addItemDecoration(GridSpacingItemDecoration(spanCount, DeviceUtil.dp(requireContext(), 3F)))
+        recyclerView.layoutManager = GridLayoutManager(requireContext(), spans)
+        recyclerView.addItemDecoration(GridSpacingItemDecoration(spans, DeviceUtil.dp(requireContext(), 3F)))
         recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)) {
-                    presenter.nextResults()
+                    viewModel.searchMoviesNext(query)
                 }
             }
         })
@@ -136,20 +142,19 @@ class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.L
         searchEditText.addTextChangedListener(object: TextChanger {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 changeActionIcon()
-                if (s.toString().trim().length >= 2) {
-                    presenter.search(s.toString().trim { it <= ' ' })
-                }
+                /*if (s.toString().trim().length >= 2) {
+                    search(s.toString().trim())
+                }*/
             }
         })
         searchEditText.setOnEditorActionListener { v, actionId, event ->
             if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_SEARCH) {
-                presenter.search(v.text.toString().trim())
+                search(v.text.toString().trim())
                 hideKeyboard(searchEditText)
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
         }
-
         searchEditText.setSelection(searchEditText.text.toString().length)
         ViewUtil.clearCursorDrawable(searchEditText)
 
@@ -164,8 +169,24 @@ class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.L
         if (query != "") {
             searchEditText.setText(query)
             searchEditText.setSelection(searchEditText.text.toString().length)
-            presenter.search(query)
+            search(query)
         }
+
+        viewModel.loading.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            progressBar.visibility = if (it) VISIBLE else GONE
+        })
+        viewModel.content.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            adapter.addMovies(it)
+            hideKeyboard(searchEditText)
+        })
+        viewModel.error.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+            emptyView.visibility = VISIBLE
+            emptyView.setMode(it)
+
+            if (BuildUtil.isApiKeyEmpty()) {
+                emptyView.setValue(R.string.error_empty_api_key)
+            }
+        })
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -173,34 +194,23 @@ class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.L
         super.onSaveInstanceState(outState)
     }
 
-    override fun searchStart() {
-        adapter.movies.clear()
-        adapter.notifyDataSetChanged()
-        emptyView.visibility = GONE
-    }
-
-    override fun loading(state: Boolean) {
-        progressBar.visibility = if (state) VISIBLE else GONE
-    }
-
-    override fun content(results: List<Movie>) {
-        adapter.addMovies(results)
-        hideKeyboard(searchEditText)
-    }
-
-    override fun error(code: Int) {
-        emptyView.visibility = VISIBLE
-        emptyView.setMode(code)
-
-        if (BuildUtil.isApiKeyEmpty()) {
-            emptyView.setValue(R.string.error_empty_api_key)
-        }
+    override fun onScrollToTop() {
+        recyclerView.smoothScrollToPosition(0)
     }
 
     override fun onMovieClick(movie: Movie) {
         val intent = Intent(requireContext(), MovieActivity::class.java)
         intent.putExtra(EXTRA_MOVIE, movie)
         startActivity(intent)
+    }
+
+    private fun search(query: String) {
+        adapter.movies.clear()
+        adapter.notifyDataSetChanged()
+        emptyView.visibility = GONE
+
+        this.query = query
+        viewModel.searchMovies(query)
     }
 
     private fun changeActionIcon() {
@@ -222,10 +232,5 @@ class SearchMoviesFragment: BaseFragment(), SearchContract.View, MoviesAdapter.L
             return
         }
         imm.hideSoftInputFromWindow(view.windowToken, 0)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        presenter.destroy()
     }
 }

@@ -21,7 +21,7 @@
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/item_account"
+        android:id="@+id/item_user"
         android:title="@string/account"
         android:icon="@drawable/ic_account_circle"
         app:showAsAction="ifRoom"/>

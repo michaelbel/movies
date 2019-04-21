@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.chip_keyword.*
+import org.michaelbel.data.Keyword
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.entity.Keyword
 import java.util.*
 
 class KeywordsAdapter(

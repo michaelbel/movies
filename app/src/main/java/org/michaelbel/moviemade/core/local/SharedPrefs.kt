@@ -9,5 +9,4 @@ object SharedPrefs {
     const val KEY_ACCOUNT_ID = "account_id"
     const val KEY_ACCOUNT_BACKDROP = "backdrop"
     const val KEY_ADULT = "adult"
-    const val KEY_BROWSER = "browser"
 }

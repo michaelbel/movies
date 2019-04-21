@@ -8,37 +8,34 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.transaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import org.michaelbel.data.remote.model.MoviesResponse.Companion.NOW_PLAYING
+import org.michaelbel.data.remote.model.MoviesResponse.Companion.TOP_RATED
+import org.michaelbel.data.remote.model.MoviesResponse.Companion.UPCOMING
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.DeviceUtil
-import org.michaelbel.moviemade.core.entity.MoviesResponse.Companion.FAVORITE
-import org.michaelbel.moviemade.core.entity.MoviesResponse.Companion.NOW_PLAYING
-import org.michaelbel.moviemade.core.entity.MoviesResponse.Companion.TOP_RATED
-import org.michaelbel.moviemade.core.entity.MoviesResponse.Companion.UPCOMING
-import org.michaelbel.moviemade.core.entity.MoviesResponse.Companion.WATCHLIST
-import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_TOKEN
+import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
 import org.michaelbel.moviemade.presentation.App
-import org.michaelbel.moviemade.presentation.ContainerActivity
-import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_ACCOUNT_ID
-import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.FRAGMENT_NAME
-import org.michaelbel.moviemade.presentation.base.BaseActivity
-import org.michaelbel.moviemade.presentation.features.account.AccountFragment
+import org.michaelbel.moviemade.presentation.common.base.BaseActivity
+import org.michaelbel.moviemade.presentation.common.base.BaseFragment
+import org.michaelbel.moviemade.presentation.features.login.LoginFragment
 import org.michaelbel.moviemade.presentation.features.search.SearchActivity
 import org.michaelbel.moviemade.presentation.features.settings.SettingsActivity
-import shortbread.Shortcut
+import org.michaelbel.moviemade.presentation.features.user.UserFragment
 import javax.inject.Inject
 
-class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
+        BottomNavigationView.OnNavigationItemReselectedListener {
 
     companion object {
         private const val KEY_FRAGMENT = "fragment"
+        private const val FRAGMENT_TAG = "fragment-tag"
         private const val DEFAULT_FRAGMENT = R.id.item_playing
 
         private const val ARG_BOTTOM_BAR_POSITION = "pos"
     }
-
-    private lateinit var accountFragment: AccountFragment
 
     @Inject
     lateinit var preferences: SharedPreferences
@@ -49,12 +46,9 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
 
     override fun onNewIntent(intent: Intent) {
         super.onNewIntent(intent)
-        val action = intent.action
-        val data = intent.dataString
-
-        if (Intent.ACTION_VIEW == action && data != null) {
-            val token = preferences.getString(KEY_TOKEN, "") ?: ""
-            accountFragment.presenter.createSessionId(token)
+        val fragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG)
+        if (fragment is LoginFragment) {
+            fragment.onNewIntent(intent.action, intent.dataString)
         }
     }
 
@@ -87,9 +81,8 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
         val params = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
         params.topMargin = DeviceUtil.statusBarHeight(this)
 
-        accountFragment = AccountFragment()
-
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
+        bottomNavigationView.setOnNavigationItemReselectedListener(this)
 
         if (savedInstanceState == null) {
             val item = preferences.getInt(KEY_FRAGMENT, DEFAULT_FRAGMENT)
@@ -107,31 +100,35 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_playing ->
-                supportFragmentManager
-                        .beginTransaction()
-                        .replace(container.id, MoviesFragment.newInstance(NOW_PLAYING))
-                        .commit()
+                supportFragmentManager.transaction {
+                    replace(container.id, MoviesFragment.newInstance(NOW_PLAYING), FRAGMENT_TAG)
+                }
             R.id.item_rated ->
-                supportFragmentManager
-                        .beginTransaction()
-                        .replace(container.id, MoviesFragment.newInstance(TOP_RATED))
-                        .commit()
+                supportFragmentManager.transaction {
+                    replace(container.id, MoviesFragment.newInstance(TOP_RATED), FRAGMENT_TAG)
+                }
             R.id.item_upcoming ->
-                supportFragmentManager
-                        .beginTransaction()
-                        .replace(container.id, MoviesFragment.newInstance(UPCOMING))
-                        .commit()
-            R.id.item_account -> {
-                supportFragmentManager
-                        .beginTransaction()
-                        .replace(container.id, accountFragment)
-                        .commit()
+                supportFragmentManager.transaction {
+                    replace(container.id, MoviesFragment.newInstance(UPCOMING), FRAGMENT_TAG)
+                }
+            R.id.item_user -> {
+                val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
+                if (sessionId.isEmpty()) {
+                    supportFragmentManager.transaction {
+                        replace(container.id, LoginFragment.newInstance(), FRAGMENT_TAG)
+                    }
+                } else {
+                    supportFragmentManager.transaction {
+                        replace(container.id, UserFragment.newInstance(), FRAGMENT_TAG)
+                    }
+                }
+
                 supportActionBar?.title = ""
                 appBarLayout.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.transparent))
             }
         }
 
-        if (item.itemId != R.id.item_account) {
+        if (item.itemId != R.id.item_user) {
             preferences.edit().putInt(KEY_FRAGMENT, item.itemId).apply()
             supportActionBar?.setTitle(R.string.app_name)
             appBarLayout.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.transparent20))
@@ -140,9 +137,17 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
         return true
     }
 
-    @Shortcut(id = "favorites", rank = 3, icon = R.drawable.ic_shortcut_favorite, shortLabelRes = R.string.favorites)
+    override fun onNavigationItemReselected(item: MenuItem) {
+        val fragment: BaseFragment? = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG) as BaseFragment?
+        fragment?.onScrollToTop()
+    }
+
+    /*@Shortcut(id = "favorites", rank = 3, icon = R.drawable.ic_shortcut_favorite, shortLabelRes = R.string.favorites)
     fun showFavorites() {
-        supportFragmentManager.beginTransaction().replace(container.id, accountFragment).commit()
+        supportFragmentManager
+                .beginTransaction()
+                .replace(container.id, UserFragment.newInstance(), UserFragment::class.simpleName)
+                .commit()
         supportActionBar?.title = ""
         appBarLayout.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.transparent))
         bottomNavigationView.selectedItemId = R.id.item_account
@@ -155,7 +160,10 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
 
     @Shortcut(id = "watchlist", rank = 2, icon = R.drawable.ic_shortcut_bookmark, shortLabelRes = R.string.watchlist)
     fun showWatchlist() {
-        supportFragmentManager.beginTransaction().replace(container.id, accountFragment).commit()
+        supportFragmentManager
+                .beginTransaction()
+                .replace(container.id, UserFragment.newInstance(), UserFragment::class.simpleName)
+                .commit()
         supportActionBar?.title = ""
         appBarLayout.setBackgroundColor(ContextCompat.getColor(this@MainActivity, R.color.transparent))
         bottomNavigationView.selectedItemId = R.id.item_account
@@ -164,5 +172,5 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
         intent.putExtra(FRAGMENT_NAME, WATCHLIST)
         intent.putExtra(EXTRA_ACCOUNT_ID, accountFragment.accountId)
         startActivity(intent)
-    }
+    }*/
 }

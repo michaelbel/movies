@@ -95,7 +95,7 @@
             android:textSize="20sp"
             android:textColor="?android:attr/textColorPrimary"
             android:fontFamily="sans-serif-medium"
-            android:background="?attr/selectableItemBackground"
+            android:background="?selectableItemBackground"
             android:gravity="center_vertical"
             android:maxLines="1"
             android:text="@string/favorites"/>
@@ -112,7 +112,7 @@
             android:textSize="20sp"
             android:textColor="?android:attr/textColorPrimary"
             android:fontFamily="sans-serif-medium"
-            android:background="?attr/selectableItemBackground"
+            android:background="?selectableItemBackground"
             android:gravity="center_vertical"
             android:maxLines="1"
             android:text="@string/watchlist"/>

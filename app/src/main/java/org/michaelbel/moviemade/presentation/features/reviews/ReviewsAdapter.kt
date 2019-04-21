@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_review.*
+import org.michaelbel.data.Review
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.entity.Review
 import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
 import java.util.*
 

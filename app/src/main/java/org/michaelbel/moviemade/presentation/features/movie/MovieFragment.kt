@@ -11,6 +11,8 @@ import android.view.View.VISIBLE
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alexvasilkov.gestures.Settings
@@ -25,18 +27,18 @@ import kotlinx.android.synthetic.main.activity_movie.*
 import kotlinx.android.synthetic.main.fragment_movie_old.*
 import kotlinx.android.synthetic.main.item_crew.*
 import kotlinx.android.synthetic.main.item_genre.*
+import org.michaelbel.core.customtabs.Browser
+import org.michaelbel.data.Movie
+import org.michaelbel.data.remote.model.Country
+import org.michaelbel.data.remote.model.Genre
+import org.michaelbel.data.remote.model.Mark
+import org.michaelbel.data.remote.model.MoviesResponse.Companion.RECOMMENDATIONS
+import org.michaelbel.data.remote.model.MoviesResponse.Companion.SIMILAR
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.TmdbConfig.IMDB_MOVIE
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_IMAGE
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_MOVIE
 import org.michaelbel.moviemade.core.ViewUtil
-import org.michaelbel.moviemade.core.customtabs.Browser
-import org.michaelbel.moviemade.core.entity.Country
-import org.michaelbel.moviemade.core.entity.Genre
-import org.michaelbel.moviemade.core.entity.Mark
-import org.michaelbel.moviemade.core.entity.Movie
-import org.michaelbel.moviemade.core.entity.MoviesResponse.Companion.RECOMMENDATIONS
-import org.michaelbel.moviemade.core.entity.MoviesResponse.Companion.SIMILAR
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_ID
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
 import org.michaelbel.moviemade.core.text.SpannableUtil
@@ -47,14 +49,14 @@ import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.FRAGMEN
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.KEYWORDS
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.REVIEWS
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.TRAILERS
-import org.michaelbel.moviemade.presentation.base.BaseFragment
+import org.michaelbel.moviemade.presentation.common.base.BaseFragment
 import org.michaelbel.moviemade.presentation.features.search.SearchActivity
 import org.michaelbel.moviemade.presentation.features.search.SearchActivity.Companion.EXTRA_QUERY
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 
-class MovieFragment: BaseFragment(), MovieContract.View {
+class MovieFragment: BaseFragment() {
 
     companion object {
         private const val EXTRA_MOVIE = "movie"
@@ -88,6 +90,7 @@ class MovieFragment: BaseFragment(), MovieContract.View {
     private lateinit var movie: Movie
     private lateinit var crewAdapter: CrewAdapter
     private lateinit var genresAdapter: GenresAdapter
+    private lateinit var viewModel: MovieModel
 
     //AdView adView;
 
@@ -100,12 +103,11 @@ class MovieFragment: BaseFragment(), MovieContract.View {
     lateinit var preferences: SharedPreferences
 
     @Inject
-    lateinit var presenter: MovieContract.Presenter
+    lateinit var factory: MovieFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         App[requireActivity().application as App].createFragmentComponent().inject(this)
-        presenter.attach(this)
         sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
     }
 
@@ -143,6 +145,7 @@ class MovieFragment: BaseFragment(), MovieContract.View {
         fullToolbar = (requireActivity() as MovieActivity).fullToolbar
         fullImage = (requireActivity() as MovieActivity).fullImage
         setHasOptionsMenu(true)
+        viewModel = ViewModelProviders.of(requireActivity(), factory).get(MovieModel::class.java)
         return inflater.inflate(R.layout.fragment_movie_old, container, false)
     }
 
@@ -201,11 +204,10 @@ class MovieFragment: BaseFragment(), MovieContract.View {
         });*/
 
         favoritesBtn.setOnClickListener {
-            presenter.markFavorite(sessionId, preferences.getInt(KEY_ACCOUNT_ID, 0), movie.id, !favorite)
+            viewModel.markFavorite(sessionId, preferences.getInt(KEY_ACCOUNT_ID, 0), movie.id, !favorite)
         }
-
         watchlistBtn.setOnClickListener {
-            presenter.addWatchlist(sessionId, preferences.getInt(KEY_ACCOUNT_ID, 0), movie.id, !watchlist)
+            viewModel.addWatchlist(sessionId, preferences.getInt(KEY_ACCOUNT_ID, 0), movie.id, !watchlist)
         }
 
         poster.setOnClickListener {
@@ -281,8 +283,107 @@ class MovieFragment: BaseFragment(), MovieContract.View {
         if (movie != null) {
             //presenter.setDetailExtra(movie)
             movieExtra(movie)
-            presenter.getDetails(sessionId, movie.id)
+            viewModel.details(sessionId, movie.id)
         }
+
+        viewModel.movie.observe(viewLifecycleOwner, Observer {
+            if (it.runtime == 0) {
+                //parent.removeView(runtimeIcon)
+                //parent.removeView(runtimeText)
+                infoLayout.removeView(runtimeLayout) // old layout
+            } else {
+                runtimeText.text = getString(R.string.runtime, DateUtil.formatRuntime(it.runtime), it.runtime)
+            }
+
+            if (it.countries.isEmpty()) {
+                //parent.removeView(langIcon)
+                //parent.removeView(langText)
+                infoLayout.removeView(langLayout) // old layout
+            } else {
+                langText.text = formatCountries(it.countries)
+            }
+
+            if (TextUtils.isEmpty(it.tagline)) {
+                //parent.removeView(taglineText)
+                titleLayout.removeView(taglineText) // old layout
+            } else {
+                taglineText.text = it.tagline
+            }
+        })
+        viewModel.imdb.observe(viewLifecycleOwner, Observer {
+            this.imdbId = it
+            if (!TextUtils.isEmpty(imdbId)) {
+                menuImdb = actionMenu?.add(R.string.view_on_imdb)?.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER)
+            }
+        })
+        viewModel.homepage.observe(viewLifecycleOwner, Observer {
+            this.homepage = it
+            if (!TextUtils.isEmpty(homepage)) {
+                menuHomepage = actionMenu?.add(R.string.view_homepage)?.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER)
+            }
+        })
+        viewModel.connectionError.observe(viewLifecycleOwner, Observer {
+            Snackbar.make(parent, R.string.error_no_connection, Snackbar.LENGTH_SHORT).show()
+        })
+        viewModel.favoriteChange.observe(viewLifecycleOwner, Observer {
+            when (it.statusCode) {
+                Mark.ADDED -> {
+                    favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart, R.color.accent_blue))
+                    favoritesText.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
+                    favorite = true
+                }
+                Mark.DELETED -> {
+                    favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart_outline, R.color.textColorPrimary))
+                    favoritesText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
+                    favorite = false
+                }
+            }
+        })
+        viewModel.watchlistChange.observe(viewLifecycleOwner, Observer {
+            when (it.statusCode) {
+                Mark.ADDED -> {
+                    watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark, R.color.accent_blue))
+                    watchlistText.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
+                    watchlist = true
+                }
+                Mark.DELETED -> {
+                    watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark_outline, R.color.textColorPrimary))
+                    watchlistText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
+                    watchlist = false
+                }
+            }
+        })
+        viewModel.accountStates.observe(viewLifecycleOwner, Observer {
+            favorite = it.favorite
+            favoritesBtn.visibility = VISIBLE
+
+            if (favorite) {
+                favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart, R.color.accent_blue))
+                favoritesText.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
+            } else {
+                favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart_outline, R.color.textColorPrimary))
+                favoritesText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
+            }
+
+            watchlist = it.watchlist
+            watchlistBtn.visibility = VISIBLE
+
+            if (watchlist) {
+                watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark, R.color.accent_blue))
+                watchlistText.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
+            } else {
+                watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark_outline, R.color.textColorPrimary))
+                watchlistText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
+            }
+        })
+        viewModel.credit.observe(viewLifecycleOwner, Observer {
+            val crewList = ArrayList<Credits>()
+            crewList.add(Credits(getString(R.string.starring), getString(R.string.starring, it["actors"])))
+            crewList.add(Credits(getString(R.string.directed), getString(R.string.directed, it["directors"])))
+            crewList.add(Credits(getString(R.string.written), getString(R.string.written, it["writers"])))
+            crewList.add(Credits(getString(R.string.produced), getString(R.string.produced, it["producers"])))
+            crewAdapter.setCrew(crewList)
+        })
     }
 
     private fun movieExtra(movie: Movie) {
@@ -320,31 +421,6 @@ class MovieFragment: BaseFragment(), MovieContract.View {
         genresAdapter.setGenres(list)
     }
 
-    override fun movie(movie: Movie) {
-        if (movie.runtime == 0) {
-            //parent.removeView(runtimeIcon)
-            //parent.removeView(runtimeText)
-            infoLayout.removeView(runtimeLayout) // old layout
-        } else {
-            runtimeText.text = getString(R.string.runtime, DateUtil.formatRuntime(movie.runtime), movie.runtime)
-        }
-
-        if (movie.countries.isEmpty()) {
-            //parent.removeView(langIcon)
-            //parent.removeView(langText)
-            infoLayout.removeView(langLayout) // old layout
-        } else {
-            langText.text = formatCountries(movie.countries)
-        }
-
-        if (TextUtils.isEmpty(movie.tagline)) {
-            //parent.removeView(taglineText)
-            titleLayout.removeView(taglineText) // old layout
-        } else {
-            taglineText.text = movie.tagline
-        }
-    }
-
     private fun formatCountries(countries: List<Country>): String {
         if (countries.isEmpty()) {
             return ""
@@ -376,95 +452,12 @@ class MovieFragment: BaseFragment(), MovieContract.View {
         }
     }*/
 
-    override fun onDestroy() {
+    /*override fun onDestroy() {
         super.onDestroy()
-        presenter.destroy()
-        /*if (adView != null) {
+        if (adView != null) {
             adView.destroy();
-        }*/
-    }
-
-    override fun setURLs(imdbId: String, homepage: String) {
-        this.imdbId = imdbId
-        this.homepage = homepage
-
-        if (!TextUtils.isEmpty(imdbId)) {
-            menuImdb = actionMenu?.add(R.string.view_on_imdb)?.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER)
         }
-
-        if (!TextUtils.isEmpty(homepage)) {
-            menuHomepage = actionMenu?.add(R.string.view_homepage)?.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER)
-        }
-    }
-
-    override fun setStates(fave: Boolean, watch: Boolean) {
-        favorite = fave
-        favoritesBtn.visibility = VISIBLE
-
-        if (fave) {
-            favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart, R.color.accent_blue))
-            favoritesText.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
-        } else {
-            favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart_outline, R.color.textColorPrimary))
-            favoritesText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
-        }
-
-        watchlist = watch
-        watchlistBtn.visibility = VISIBLE
-
-        if (watch) {
-            watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark, R.color.accent_blue))
-            watchlistText.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
-        } else {
-            watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark_outline, R.color.textColorPrimary))
-            watchlistText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
-        }
-    }
-
-    override fun onFavoriteChanged(mark: Mark) {
-        when (mark.statusCode) {
-            Mark.ADDED -> {
-                favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart, R.color.accent_blue))
-                favoritesText.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
-                favorite = true
-            }
-            Mark.DELETED -> {
-                favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart_outline, R.color.textColorPrimary))
-                favoritesText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
-                favorite = false
-            }
-        }
-    }
-
-    override fun onWatchListChanged(mark: Mark) {
-        when (mark.statusCode) {
-            Mark.ADDED -> {
-                watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark, R.color.accent_blue))
-                watchlistText.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
-                watchlist = true
-            }
-            Mark.DELETED -> {
-                watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark_outline, R.color.textColorPrimary))
-                watchlistText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
-                watchlist = false
-            }
-        }
-    }
-
-    override fun setCredits(casts: String, directors: String, writers: String, producers: String) {
-        val crewList = ArrayList<Credits>()
-        crewList.add(Credits(getString(R.string.starring), getString(R.string.starring, casts)))
-        crewList.add(Credits(getString(R.string.directed), getString(R.string.directed, directors)))
-        crewList.add(Credits(getString(R.string.written), getString(R.string.written, writers)))
-        crewList.add(Credits(getString(R.string.produced), getString(R.string.produced, producers)))
-        crewAdapter.setCrew(crewList)
-    }
-
-    override fun setConnectionError() {
-        Snackbar.make(parent, R.string.error_no_connection, Snackbar.LENGTH_SHORT).show()
-    }
-
-    override fun showComplete(movie: Movie) {}
+    }*/
 
     data class Credits(val category: String, val list: String)
 

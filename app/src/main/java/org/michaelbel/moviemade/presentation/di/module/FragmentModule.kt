@@ -2,57 +2,61 @@ package org.michaelbel.moviemade.presentation.di.module
 
 import dagger.Module
 import dagger.Provides
-import org.michaelbel.moviemade.core.remote.Api
-import org.michaelbel.moviemade.presentation.features.account.AccountContract
-import org.michaelbel.moviemade.presentation.features.account.AccountPresenter
-import org.michaelbel.moviemade.presentation.features.account.AccountRepository
-import org.michaelbel.moviemade.presentation.features.keywords.KeywordsContract
-import org.michaelbel.moviemade.presentation.features.keywords.KeywordsPresenter
-import org.michaelbel.moviemade.presentation.features.keywords.KeywordsRepository
-import org.michaelbel.moviemade.presentation.features.main.MainContract
-import org.michaelbel.moviemade.presentation.features.main.MainPresenter
-import org.michaelbel.moviemade.presentation.features.main.MainRepository
-import org.michaelbel.moviemade.presentation.features.movie.MovieContract
-import org.michaelbel.moviemade.presentation.features.movie.MoviePresenter
-import org.michaelbel.moviemade.presentation.features.movie.MovieRepository
-import org.michaelbel.moviemade.presentation.features.reviews.ReviewsContract
-import org.michaelbel.moviemade.presentation.features.reviews.ReviewsPresenter
-import org.michaelbel.moviemade.presentation.features.reviews.ReviewsRepository
-import org.michaelbel.moviemade.presentation.features.search.SearchContract
-import org.michaelbel.moviemade.presentation.features.search.SearchMoviesPresenter
-import org.michaelbel.moviemade.presentation.features.search.SearchRepository
-import org.michaelbel.moviemade.presentation.features.trailers.TrailersContract
-import org.michaelbel.moviemade.presentation.features.trailers.TrailersPresenter
-import org.michaelbel.moviemade.presentation.features.trailers.TrailersRepository
+import org.michaelbel.data.local.dao.*
+import org.michaelbel.data.remote.Api
+import org.michaelbel.domain.*
+import org.michaelbel.moviemade.presentation.features.keywords.KeywordsFactory
+import org.michaelbel.moviemade.presentation.features.login.LoginFactory
+import org.michaelbel.moviemade.presentation.features.main.MoviesFactory
+import org.michaelbel.moviemade.presentation.features.movie.MovieFactory
+import org.michaelbel.moviemade.presentation.features.reviews.ReviewsFactory
+import org.michaelbel.moviemade.presentation.features.trailers.TrailersFactory
+import org.michaelbel.moviemade.presentation.features.user.UserFactory
 
 @Module
 class FragmentModule {
 
-    @Provides
-    fun trailersPresenter(service: Api): TrailersContract.Presenter =
-            TrailersPresenter(TrailersRepository(service))
+    //region Repositories
 
     @Provides
-    fun searchPresenter(service: Api): SearchContract.Presenter =
-            SearchMoviesPresenter(SearchRepository(service))
+    fun trailersRepository(api: Api, dao: TrailersDao) = TrailersRepository(api, dao)
 
     @Provides
-    fun reviewsPresenter(service: Api): ReviewsContract.Presenter =
-            ReviewsPresenter(ReviewsRepository(service))
+    fun reviewsRepository(api: Api, dao: ReviewsDao) = ReviewsRepository(api, dao)
 
     @Provides
-    fun mainPresenter(service: Api): MainContract.Presenter =
-            MainPresenter(MainRepository(service))
+    fun keywordsRepository(api: Api, dao: KeywordsDao) = KeywordsRepository(api, dao)
 
     @Provides
-    fun moviePresenter(service: Api): MovieContract.Presenter =
-            MoviePresenter(MovieRepository(service))
+    fun moviesRepository(api: Api, dao: MoviesDao) = MoviesRepository(api, dao)
 
     @Provides
-    fun keywordsPresenter(service: Api): KeywordsContract.Presenter =
-            KeywordsPresenter(KeywordsRepository(service))
+    fun usersRepository(api: Api, dao: UsersDao) = UsersRepository(api, dao)
+
+    //endregion
+
+    //region Factories
 
     @Provides
-    fun accountPresenter(service: Api): AccountContract.Presenter =
-            AccountPresenter(AccountRepository(service))
+    fun trailersFactory(repository: TrailersRepository) = TrailersFactory(repository)
+
+    @Provides
+    fun reviewsFactory(repository: ReviewsRepository) = ReviewsFactory(repository)
+
+    @Provides
+    fun keywordsFactory(repository: KeywordsRepository) = KeywordsFactory(repository)
+
+    @Provides
+    fun movieFactory(repository: MoviesRepository) = MovieFactory(repository)
+
+    @Provides
+    fun moviesFactory(repository: MoviesRepository) = MoviesFactory(repository)
+
+    @Provides
+    fun loginFactory(repository: UsersRepository) = LoginFactory(repository)
+
+    @Provides
+    fun userFactory(repository: UsersRepository) = UserFactory(repository)
+
+    //endregion
 }

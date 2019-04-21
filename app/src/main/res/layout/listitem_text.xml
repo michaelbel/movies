@@ -1,0 +1,39 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/cell_height"
+    android:foreground="?selectableItemBackground">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/iconView"
+        android:layout_width="@dimen/cell_icon_size"
+        android:layout_height="@dimen/cell_icon_size"
+        android:layout_gravity="start|center_vertical"
+        android:layout_marginStart="@dimen/cell_icon_margin_start"
+        tools:src="@drawable/ic_calendar"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="start|center_vertical"
+        android:layout_marginStart="@dimen/cell_text_margin_start"
+        android:textSize="@dimen/cell_text_size"
+        android:textColor="?android:attr/textColorPrimary"
+        android:fontFamily="sans-serif-medium"
+        android:lines="1"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:ellipsize="end"
+        tools:text="Something"/>
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/height_divider"
+        android:layout_gravity="bottom"
+        android:layout_marginStart="54dp"
+        android:background="?android:attr/divider"/>
+
+</FrameLayout>

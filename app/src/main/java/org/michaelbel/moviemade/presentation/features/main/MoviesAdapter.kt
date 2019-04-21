@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_poster.*
+import kotlinx.android.synthetic.main.listitem_movie.*
+import org.michaelbel.data.Movie
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.entity.Movie
 import org.michaelbel.moviemade.core.DeviceUtil
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_IMAGE
 import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
@@ -30,7 +30,7 @@ class MoviesAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MoviesViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_poster, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.listitem_movie, parent, false)
         val holder = MoviesViewHolder(view)
 
         val landscape = DeviceUtil.isLandscape(parent.context) || DeviceUtil.isTablet(parent.context)
