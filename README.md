@@ -1,6 +1,6 @@
 [github]:            https://github.com/michaelbel/moviemade
 [paypal-url]:        https://paypal.me/michaelbel
-[licence-url]:       http://www.apache.org/licenses/LICENSE-2.0
+[licence-url]:       https://apache.org/licenses/LICENSE-2.0
 [googleplay-url]:    https://play.google.com/store/apps/details?id=org.michaelbel.moviemade
 [tmdb-introduction]: https://developers.themoviedb.org/3/getting-started/introduction
 [kotlinlang]: https://kotlinlang.org
