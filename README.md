@@ -3,7 +3,7 @@
 [licence-url]:       https://apache.org/licenses/LICENSE-2.0
 [googleplay-url]:    https://play.google.com/store/apps/details?id=org.michaelbel.moviemade
 [tmdb-introduction]: https://developers.themoviedb.org/3/getting-started/introduction
-[kotlinlang]: https://kotlinlang.org
+[kotlinlang]:        https://kotlinlang.org
 
 [platform-badge]:   https://img.shields.io/badge/Platform-Android-F3745F.svg
 [paypal-badge]:     https://img.shields.io/badge/Donate-Paypal-F3745F.svg
