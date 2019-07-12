@@ -18,6 +18,7 @@ import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.ViewUtil
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
 import java.io.IOException
+import java.io.Serializable
 import java.nio.charset.Charset
 
 class SourcesFragment: BaseFragment() {
@@ -32,7 +33,7 @@ class SourcesFragment: BaseFragment() {
             @Expose @SerializedName("name") val name: String,
             @Expose @SerializedName("url") val url: String,
             @Expose @SerializedName("license") val license: String
-    )
+    ): Serializable
 
     private val adapter = ListAdapter()
     private lateinit var viewModel: SourcesModel

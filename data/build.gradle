@@ -1,18 +1,14 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        targetSdkVersion 29
     }
 
     buildTypes {
@@ -31,22 +27,20 @@ android {
 dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_version"
+
     api "com.squareup.retrofit2:retrofit:$retrofit_version"
     api "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    api "com.squareup.retrofit2:adapter-rxjava2:$retrofit_version"
     api "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
 
-    api "androidx.lifecycle:lifecycle-livedata:$lifecycle_version"
-    api "androidx.lifecycle:lifecycle-livedata-core:$lifecycle_version"
-    api "androidx.lifecycle:lifecycle-extensions:$lifecycle_version"
+    api "androidx.lifecycle:lifecycle-livedata:$androidx_lifecycle_version"
+    api "androidx.lifecycle:lifecycle-livedata-core:$androidx_lifecycle_version"
+    api "androidx.lifecycle:lifecycle-extensions:$androidx_lifecycle_version"
 
     api "android.arch.lifecycle:common-java8:$arch_version" // fixme check
 
-    api "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version"
-    api "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
-
-    api "androidx.room:room-runtime:$room_version"
-    api "androidx.room:room-rxjava2:$room_version"
-    api "androidx.room:room-ktx:$room_version"
-    kapt "androidx.room:room-compiler:$room_version"
+    api "androidx.room:room-runtime:$androidx_room_version"
+    api "androidx.room:room-ktx:$androidx_room_version"
+    kapt "androidx.room:room-compiler:$androidx_room_version"
 }

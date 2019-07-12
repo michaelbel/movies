@@ -35,7 +35,7 @@
             android:textSize="20sp"
             android:textColor="?android:attr/textColorPrimary"
             android:fontFamily="sans-serif-medium"
-            android:foreground="?selectableItemBackground"
+            android:background="?selectableItemBackground"
             android:gravity="center"
             android:maxLines="1"
             android:text="@string/set"/>
@@ -48,7 +48,7 @@
             android:textSize="20sp"
             android:textColor="?android:attr/textColorPrimary"
             android:fontFamily="sans-serif-medium"
-            android:foreground="?selectableItemBackground"
+            android:background="?selectableItemBackground"
             android:gravity="center"
             android:maxLines="1"
             android:text="@string/cancel"/>
@@ -56,4 +56,3 @@
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.cardview.widget.CardView>
-

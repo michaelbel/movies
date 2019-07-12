@@ -11,10 +11,10 @@ import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.michaelbel.data.remote.Api
-import org.michaelbel.moviemade.BuildConfig.DEBUG
+import org.michaelbel.moviemade.BuildConfig
 import org.michaelbel.moviemade.core.TmdbConfig.GSON_DATE_FORMAT
+import org.michaelbel.moviemade.core.retrofit.CoroutineCallAdapterFactory
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber
 import javax.inject.Singleton
@@ -29,7 +29,7 @@ class NetworkModule(private val context: Context, private val baseUrl: String) {
                 .baseUrl(baseUrl)
                 .client(okHttpClient())
                 .addConverterFactory(GsonConverterFactory.create(gson()))
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .build()
     }
 
@@ -39,7 +39,7 @@ class NetworkModule(private val context: Context, private val baseUrl: String) {
 
     private fun okHttpClient(): OkHttpClient {
         val okHttpClient = OkHttpClient().newBuilder()
-        if (DEBUG) {
+        if (BuildConfig.DEBUG) {
             okHttpClient.interceptors().add(ChuckInterceptor(context))
             okHttpClient.interceptors().add(httpLoggingInterceptor())
             okHttpClient.networkInterceptors().add(StethoInterceptor())

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="search"
+        android:icon="@drawable/ic_shortcut_search"
+        android:shortcutShortLabel="@string/search"
+        android:shortcutLongLabel="@string/search"
+        android:enabled="true">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="org.michaelbel.moviemade"
+            android:targetClass="org.michaelbel.moviemade.presentation.features.main.MainActivity"/>
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="org.michaelbel.moviemade"
+            android:targetClass="org.michaelbel.moviemade.presentation.features.search.SearchActivity"/>
+    </shortcut>
+</shortcuts>

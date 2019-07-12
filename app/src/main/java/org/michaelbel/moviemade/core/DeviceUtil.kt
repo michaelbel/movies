@@ -10,6 +10,7 @@ import android.os.VibrationEffect.DEFAULT_AMPLITUDE
 import android.os.Vibrator
 import androidx.annotation.RequiresPermission
 import org.michaelbel.moviemade.R
+import kotlin.math.ceil
 
 object DeviceUtil {
 
@@ -24,7 +25,7 @@ object DeviceUtil {
     }
 
     fun dp(context: Context, value: Float) =
-            Math.ceil((context.resources.displayMetrics.density * value).toDouble()).toInt()
+            ceil((context.resources.displayMetrics.density * value).toDouble()).toInt()
 
     @RequiresPermission(Manifest.permission.VIBRATE)
     fun vibrate(context: Context, milliseconds: Int) {

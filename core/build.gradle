@@ -1,16 +1,13 @@
 apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
 
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        targetSdkVersion 29
     }
 
     buildTypes {
@@ -29,9 +26,9 @@ android {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    api "androidx.recyclerview:recyclerview:$androidx_version"
-    api "androidx.browser:browser:$androidx_version"
-    api "androidx.core:core-ktx:$ktx_version"
-    api "androidx.fragment:fragment-ktx:$fragmentktx_version"
-    api "androidx.collection:collection-ktx:$collectionktx_version"
+    api "androidx.core:core-ktx:$androidx_core_ktx_version"
+    api "androidx.browser:browser:$androidx_browser_version"
+    api "androidx.fragment:fragment-ktx:$androidx_fragment_ktx_version"
+    api "androidx.recyclerview:recyclerview:$androidx_recyclerview_version"
+    api "androidx.collection:collection-ktx:$androidx_collection_ktx_version"
 }

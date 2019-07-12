@@ -1,5 +1,6 @@
 package org.michaelbel.moviemade.presentation.features.about
 
+import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -11,7 +12,16 @@ import androidx.fragment.app.transaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import kotlinx.android.synthetic.main.activity_container.*
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.play.core.appupdate.AppUpdateInfo
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
+import com.google.android.play.core.install.InstallStateUpdatedListener
+import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallStatus
+import com.google.android.play.core.install.model.UpdateAvailability
+import com.google.android.play.core.tasks.Task
+import kotlinx.android.synthetic.main.activity_parent.*
 import kotlinx.android.synthetic.main.fragment_lce.*
 import org.michaelbel.core.adapter.ListAdapter
 import org.michaelbel.core.customtabs.Browser
@@ -32,14 +42,19 @@ import org.michaelbel.moviemade.presentation.features.sources.SourcesFragment
 class AboutFragment: BaseFragment() {
 
     companion object {
-        private const val FRAGMENT_TAG = "fragment_libs"
         private const val TELEGRAM_PACKAGE_NAME = "org.telegram.messenger"
+        private const val APP_UPDATE_REQUEST_CODE = 189
 
         internal fun newInstance() = AboutFragment()
     }
 
     private val adapter = ListAdapter()
     private lateinit var viewModel: AboutModel
+
+    private var appUpdateManager: AppUpdateManager? = null
+    private var appUpdateInfo: Task<AppUpdateInfo>? = null
+
+    private val installStateUpdatedListener = InstallStateUpdatedListener {}
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         viewModel = ViewModelProviders.of(requireActivity()).get(AboutModel::class.java)
@@ -60,6 +75,9 @@ class AboutFragment: BaseFragment() {
         viewModel.click.observe(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let { cell ->
                 when (cell) {
+                    "update" -> {
+                        appUpdateManager?.startUpdateFlowForResult(appUpdateInfo?.result, AppUpdateType.FLEXIBLE, requireActivity(), APP_UPDATE_REQUEST_CODE)
+                    }
                     "rate" ->
                         try {
                             val intent = Intent(Intent.ACTION_VIEW)
@@ -70,7 +88,7 @@ class AboutFragment: BaseFragment() {
                     "libs" ->
                         requireFragmentManager().transaction {
                             add((requireActivity() as ContainerActivity).container.id, SourcesFragment.newInstance())
-                            addToBackStack(FRAGMENT_TAG)
+                            addToBackStack(tag)
                         }
                     "apps" ->
                         try {
@@ -78,7 +96,6 @@ class AboutFragment: BaseFragment() {
                             intent.data = ACCOUNT_MARKET.toUri()
                             startActivity(intent)
                         } catch (e: Exception) { Browser.openUrl(requireContext(), ACCOUNT_WEB) }
-
                     "feedback" ->
                         try {
                             val packageInfo = requireContext().packageManager.getPackageInfo(TELEGRAM_PACKAGE_NAME, 0)
@@ -86,20 +103,10 @@ class AboutFragment: BaseFragment() {
                                 val telegram = Intent(Intent.ACTION_VIEW, TELEGRAM_URL.toUri())
                                 startActivity(telegram)
                             } else {
-                                val intent = Intent(Intent.ACTION_SEND)
-                                intent.type = "text/plain"
-                                intent.putExtra(Intent.EXTRA_EMAIL, EMAIL)
-                                intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject))
-                                intent.putExtra(Intent.EXTRA_TEXT, "")
-                                startActivity(Intent.createChooser(intent, getString(R.string.feedback)))
+                                feedbackEmail()
                             }
                         } catch (e: PackageManager.NameNotFoundException) {
-                            val intent = Intent(Intent.ACTION_SEND)
-                            intent.type = "text/plain"
-                            intent.putExtra(Intent.EXTRA_EMAIL, EMAIL)
-                            intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject))
-                            intent.putExtra(Intent.EXTRA_TEXT, "")
-                            startActivity(Intent.createChooser(intent, getString(R.string.feedback)))
+                            feedbackEmail()
                         }
                     "share" -> {
                         val intent = Intent(Intent.ACTION_SEND)
@@ -108,9 +115,47 @@ class AboutFragment: BaseFragment() {
                         startActivity(Intent.createChooser(intent, getString(R.string.share_via)))
                     }
                     "donate" -> Browser.openUrl(requireContext(), PAYPAL_ME)
-                    else -> null
+                    else -> return@let
                 }
             }
         })
+
+        // InApp Updates.
+        appUpdateManager = AppUpdateManagerFactory.create(requireContext())
+        appUpdateManager?.registerListener(installStateUpdatedListener)
+
+        appUpdateInfo = appUpdateManager?.appUpdateInfo
+        appUpdateInfo?.addOnSuccessListener {
+            if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && it.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
+                viewModel.addAppUpdateItem()
+            }
+
+            if (it.installStatus() == InstallStatus.DOWNLOADED) {
+                Snackbar.make(view, R.string.update_uploaded, Snackbar.LENGTH_INDEFINITE).apply {
+                    setAction(R.string.action_restart) { appUpdateManager?.completeUpdate() }
+                    show()
+                }
+            } else if (it.installStatus() == InstallStatus.DOWNLOADING) {}
+        }
+        appUpdateInfo?.addOnFailureListener {}
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == APP_UPDATE_REQUEST_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
+                // todo Success
+            } else {
+                // todo Error
+            }
+        }
+    }
+
+    private fun feedbackEmail() {
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.type = "text/plain"
+        intent.putExtra(Intent.EXTRA_EMAIL, EMAIL)
+        intent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.subject))
+        intent.putExtra(Intent.EXTRA_TEXT, "")
+        startActivity(Intent.createChooser(intent, getString(R.string.feedback)))
     }
 }

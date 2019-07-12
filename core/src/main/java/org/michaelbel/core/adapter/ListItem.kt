@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 interface ListItem {
     fun getData(): Any
     fun getViewType(): Int
-    fun getId(): Long
+    fun getId(): Long = RecyclerView.NO_ID
     fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
     fun getChangePayload(item: ListItem): Bundle? = null
     fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int)

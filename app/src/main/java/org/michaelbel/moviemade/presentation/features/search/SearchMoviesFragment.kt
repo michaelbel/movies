@@ -11,22 +11,23 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_search.*
-import org.michaelbel.data.Movie
+import org.michaelbel.core.adapter.ListAdapter
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.DeviceUtil
 import org.michaelbel.moviemade.core.ViewUtil
-import org.michaelbel.moviemade.core.errors.EmptyViewMode
 import org.michaelbel.moviemade.core.local.BuildUtil
+import org.michaelbel.moviemade.core.startActivity
+import org.michaelbel.moviemade.core.state.EmptyState
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_MOVIE
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
 import org.michaelbel.moviemade.presentation.common.TextChanger
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
-import org.michaelbel.moviemade.presentation.features.main.MoviesAdapter
 import org.michaelbel.moviemade.presentation.features.main.MoviesFactory
 import org.michaelbel.moviemade.presentation.features.main.MoviesModel
 import org.michaelbel.moviemade.presentation.features.movie.MovieActivity
@@ -34,7 +35,7 @@ import org.michaelbel.moviemade.presentation.features.search.SearchActivity.Comp
 import java.util.*
 import javax.inject.Inject
 
-class SearchMoviesFragment: BaseFragment(), MoviesAdapter.Listener {
+class SearchMoviesFragment: BaseFragment() {
 
     companion object {
         private const val KEY_MENU_ICON = "icon"
@@ -58,7 +59,7 @@ class SearchMoviesFragment: BaseFragment(), MoviesAdapter.Listener {
 
     private var query: String = ""
     private var actionMenu: Menu? = null
-    private lateinit var adapter: MoviesAdapter
+    private lateinit var adapter: ListAdapter
     private lateinit var viewModel: MoviesModel
 
     @Inject
@@ -121,7 +122,7 @@ class SearchMoviesFragment: BaseFragment(), MoviesAdapter.Listener {
 
         val spans = resources.getInteger(R.integer.movies_span_layout_count)
 
-        adapter = MoviesAdapter(this)
+        adapter = ListAdapter()
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = GridLayoutManager(requireContext(), spans)
@@ -130,14 +131,14 @@ class SearchMoviesFragment: BaseFragment(), MoviesAdapter.Listener {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)) {
-                    viewModel.searchMoviesNext(query)
+                    viewModel.searchMovies(query)
                 }
             }
         })
 
         progressBar.visibility = GONE
 
-        emptyView.setMode(EmptyViewMode.MODE_NO_RESULTS)
+        emptyView.setMode(EmptyState.MODE_NO_RESULTS)
 
         searchEditText.addTextChangedListener(object: TextChanger {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
@@ -172,19 +173,35 @@ class SearchMoviesFragment: BaseFragment(), MoviesAdapter.Listener {
             search(query)
         }
 
-        viewModel.loading.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
+        viewModel.loading.observe(viewLifecycleOwner, Observer {
             progressBar.visibility = if (it) VISIBLE else GONE
         })
-        viewModel.content.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            adapter.addMovies(it)
+        viewModel.content.observe(viewLifecycleOwner, Observer {
+            adapter.setItems(it)
             hideKeyboard(searchEditText)
         })
-        viewModel.error.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
-            emptyView.visibility = VISIBLE
-            emptyView.setMode(it)
+        viewModel.error.observe(viewLifecycleOwner, Observer { error ->
+            error.getContentIfNotHandled()?.let {
+                emptyView.visibility = VISIBLE
+                emptyView.setMode(it)
 
-            if (BuildUtil.isApiKeyEmpty()) {
-                emptyView.setValue(R.string.error_empty_api_key)
+                if (BuildUtil.isApiKeyEmpty()) {
+                    emptyView.setValue(R.string.error_empty_api_key)
+                }
+            }
+        })
+        viewModel.click.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                requireActivity().startActivity<MovieActivity> {
+                    putExtra(EXTRA_MOVIE, it)
+                }
+            }
+        })
+        viewModel.longClick.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                requireActivity().startActivity<MovieActivity> {
+                    putExtra(EXTRA_MOVIE, it)
+                }
             }
         })
     }
@@ -198,15 +215,8 @@ class SearchMoviesFragment: BaseFragment(), MoviesAdapter.Listener {
         recyclerView.smoothScrollToPosition(0)
     }
 
-    override fun onMovieClick(movie: Movie) {
-        val intent = Intent(requireContext(), MovieActivity::class.java)
-        intent.putExtra(EXTRA_MOVIE, movie)
-        startActivity(intent)
-    }
-
     private fun search(query: String) {
-        adapter.movies.clear()
-        adapter.notifyDataSetChanged()
+        adapter.clear()
         emptyView.visibility = GONE
 
         this.query = query

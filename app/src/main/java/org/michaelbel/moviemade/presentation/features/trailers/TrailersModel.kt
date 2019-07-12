@@ -2,21 +2,21 @@ package org.michaelbel.moviemade.presentation.features.trailers
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.reactivex.Observable
-import io.reactivex.disposables.CompositeDisposable
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.michaelbel.core.adapter.ItemsManager
 import org.michaelbel.core.adapter.ListItem
 import org.michaelbel.data.Video
 import org.michaelbel.domain.TrailersRepository
 import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
-import org.michaelbel.moviemade.core.errors.EmptyViewMode
+import org.michaelbel.moviemade.core.state.EmptyState
+import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_TRAILERS
 import org.michaelbel.moviemade.presentation.listitem.TrailerListItem
-import java.util.*
-import kotlin.collections.ArrayList
 
 class TrailersModel(val repository: TrailersRepository): ViewModel() {
 
-    private val disposable = CompositeDisposable()
     private val itemsManager = Manager()
 
     var loading = MutableLiveData<Boolean>()
@@ -26,25 +26,32 @@ class TrailersModel(val repository: TrailersRepository): ViewModel() {
     var longClick = MutableLiveData<Video>()
 
     fun trailers(movieId: Int) {
-        disposable.add(repository.trailers(movieId, TMDB_API_KEY, Locale.getDefault().language)
-                .doOnSubscribe { loading.postValue(true) }
-                .doOnTerminate { loading.postValue(false) }
-                .flatMap {
-                    if (it.isEmpty()) {
-                        error.postValue(EmptyViewMode.MODE_NO_TRAILERS)
-                    } else {
-                        itemsManager.updateTrailers(it)
-                    }
-                    Observable.just(true)
-                }
-                .subscribe({
-                    content.postValue(itemsManager.get())
-                }, { error.postValue(EmptyViewMode.MODE_NO_TRAILERS) }))
-    }
+        loading.postValue(true)
 
-    override fun onCleared() {
-        super.onCleared()
-        disposable.dispose()
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val result = repository.trailers(movieId, TMDB_API_KEY)
+                withContext(Dispatchers.Main) {
+                    if (result.isSuccessful) {
+                        val list = result.body()?.results
+                        if (list.isNullOrEmpty()) {
+                            error.postValue(MODE_NO_TRAILERS)
+                        } else {
+                            itemsManager.updateTrailers(list)
+                            content.postValue(itemsManager.get())
+                        }
+
+                        loading.postValue(false)
+                    } else {
+                        error.postValue(MODE_NO_TRAILERS)
+                        loading.postValue(false)
+                    }
+                }
+            } catch (e: Throwable) {
+                error.postValue(EmptyState.MODE_NO_CONNECTION)
+                loading.postValue(false)
+            }
+        }
     }
 
     private inner class Manager: ItemsManager() {
@@ -53,8 +60,9 @@ class TrailersModel(val repository: TrailersRepository): ViewModel() {
 
         fun updateTrailers(items: List<Video>) {
             trailers.clear()
-            for (video in items) {
-                val videoItem = TrailerListItem(video)
+
+            items.forEach {
+                val videoItem = TrailerListItem(it)
                 videoItem.listener = object: TrailerListItem.Listener {
                     override fun onClick(video: Video) {
                         click.postValue(video)

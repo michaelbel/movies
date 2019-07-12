@@ -11,12 +11,13 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.transaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import org.michaelbel.data.remote.model.MoviesResponse.Companion.NOW_PLAYING
-import org.michaelbel.data.remote.model.MoviesResponse.Companion.TOP_RATED
-import org.michaelbel.data.remote.model.MoviesResponse.Companion.UPCOMING
+import org.michaelbel.data.Movie.Companion.NOW_PLAYING
+import org.michaelbel.data.Movie.Companion.TOP_RATED
+import org.michaelbel.data.Movie.Companion.UPCOMING
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.DeviceUtil
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
+import org.michaelbel.moviemade.core.startActivity
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.common.base.BaseActivity
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
@@ -26,12 +27,12 @@ import org.michaelbel.moviemade.presentation.features.settings.SettingsActivity
 import org.michaelbel.moviemade.presentation.features.user.UserFragment
 import javax.inject.Inject
 
-class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
-        BottomNavigationView.OnNavigationItemReselectedListener {
+class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemReselectedListener {
 
     companion object {
+        const val FRAGMENT_TAG = "fragment-tag"
+
         private const val KEY_FRAGMENT = "fragment"
-        private const val FRAGMENT_TAG = "fragment-tag"
         private const val DEFAULT_FRAGMENT = R.id.item_playing
 
         private const val ARG_BOTTOM_BAR_POSITION = "pos"
@@ -59,10 +60,9 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (item.itemId == R.id.item_search) {
-            val intent = Intent(this, SearchActivity::class.java)
-            startActivity(intent)
+            startActivity<SearchActivity>()
         } else if (item.itemId == R.id.item_settings) {
-            startActivity(Intent(this, SettingsActivity::class.java))
+            startActivity<SettingsActivity>()
         }
 
         return super.onOptionsItemSelected(item)
@@ -84,11 +84,41 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
         bottomNavigationView.setOnNavigationItemReselectedListener(this)
 
-        if (savedInstanceState == null) {
-            val item = preferences.getInt(KEY_FRAGMENT, DEFAULT_FRAGMENT)
-            bottomNavigationView.selectedItemId = item
-        } else {
-            bottomNavigationView.selectedItemId = savedInstanceState.getInt(ARG_BOTTOM_BAR_POSITION)
+        val itemId: Int = savedInstanceState?.getInt(ARG_BOTTOM_BAR_POSITION) ?: preferences.getInt(KEY_FRAGMENT, DEFAULT_FRAGMENT)
+
+        bottomNavigationView.selectedItemId = itemId
+
+        when (itemId) {
+            R.id.item_playing -> {
+                supportFragmentManager
+                        .beginTransaction()
+                        .replace(container.id, MoviesFragment.newInstance(NOW_PLAYING), FRAGMENT_TAG)
+                        .commitNow()
+
+                /*supportFragmentManager.transaction {
+                    replace(container.id, MoviesFragment.newInstance(NOW_PLAYING), FRAGMENT_TAG)
+                }*/
+            }
+            R.id.item_rated -> {
+                supportFragmentManager
+                        .beginTransaction()
+                        .replace(container.id, MoviesFragment.newInstance(TOP_RATED), FRAGMENT_TAG)
+                        .commitNow()
+
+                /*supportFragmentManager.transaction {
+                    replace(container.id, MoviesFragment.newInstance(TOP_RATED), FRAGMENT_TAG)
+                }*/
+            }
+            R.id.item_upcoming -> {
+                supportFragmentManager
+                        .beginTransaction()
+                        .replace(container.id, MoviesFragment.newInstance(UPCOMING), FRAGMENT_TAG)
+                        .commitNow()
+
+                /*supportFragmentManager.transaction {
+                    replace(container.id, MoviesFragment.newInstance(UPCOMING), FRAGMENT_TAG)
+                }*/
+            }
         }
     }
 
@@ -113,12 +143,10 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
                 }
             R.id.item_user -> {
                 val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
-                if (sessionId.isEmpty()) {
-                    supportFragmentManager.transaction {
+                supportFragmentManager.transaction {
+                    if (sessionId.isEmpty()) {
                         replace(container.id, LoginFragment.newInstance(), FRAGMENT_TAG)
-                    }
-                } else {
-                    supportFragmentManager.transaction {
+                    } else {
                         replace(container.id, UserFragment.newInstance(), FRAGMENT_TAG)
                     }
                 }

@@ -15,7 +15,6 @@ import org.michaelbel.moviemade.presentation.di.module.ActivityModule
 import org.michaelbel.moviemade.presentation.di.module.AppModule
 import org.michaelbel.moviemade.presentation.di.module.FragmentModule
 import org.michaelbel.moviemade.presentation.di.module.NetworkModule
-import shortbread.Shortbread
 import timber.log.Timber
 
 class App: Application() {
@@ -34,6 +33,10 @@ class App: Application() {
         lateinit var appContext: Context
 
         @JvmStatic fun d(msg: String) {
+            Log.d(TAG, msg)
+        }
+
+        @JvmStatic fun e(msg: String) {
             Log.e(TAG, msg)
         }
     }
@@ -45,15 +48,17 @@ class App: Application() {
         appHandler = Handler(applicationContext.mainLooper)
         appContext = applicationContext
 
-        Shortbread.create(this)
         Stetho.initializeWithDefaults(this)
+
+        Timber.plant(Timber.DebugTree())
+        Timber.tag(TAG)
 
         if (DEBUG) {
             //Traceur.enableLogging()
             //Sherlock.init(this)
             //LeakCanary.install(this)
-            Timber.plant(Timber.DebugTree())
-            Timber.tag(TAG)
+            //Timber.plant(Timber.DebugTree())
+            //Timber.tag(TAG)
             Stetho.initializeWithDefaults(this)
         }
 

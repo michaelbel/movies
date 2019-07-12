@@ -1,22 +1,25 @@
 package org.michaelbel.data.remote
 
-import io.reactivex.Observable
+import kotlinx.coroutines.Deferred
 import org.michaelbel.data.Keyword
 import org.michaelbel.data.Movie
 import org.michaelbel.data.Review
+import org.michaelbel.data.Video
 import org.michaelbel.data.remote.model.*
 import org.michaelbel.data.remote.model.Collection
+import org.michaelbel.data.remote.model.base.Result
+import retrofit2.Response
 import retrofit2.http.*
 
 interface Api {
 
-    //region AccountService
+    //region Account
 
     @GET("account")
-    fun getDetails(
+    fun details(
             @Query("api_key") apiKey: String,
             @Query("session_id") sessionId: String
-    ): Observable<Account>
+    ): Deferred<Response<Account>>
 
     @GET("account/{account_id}/favorite/movies")
     fun moviesFavorite(
@@ -26,7 +29,7 @@ interface Api {
             @Query("language") lang: String,
             @Query("sort_by") sort: String,
             @Query("page") page: Int
-    ): Observable<MoviesResponse>
+    ): Deferred<Response<Result<Movie>>>
 
     @POST("account/{account_id}/favorite")
     fun markAsFavorite(
@@ -35,7 +38,7 @@ interface Api {
             @Query("api_key") apiKey: String,
             @Query("session_id") sessionId: String,
             @Body fave: Fave
-    ): Observable<Mark>
+    ): Deferred<Response<Mark>>
 
     @GET("account/{account_id}/watchlist/movies")
     fun moviesWatchlist(
@@ -45,7 +48,7 @@ interface Api {
             @Query("language") language: String,
             @Query("sort_by") sort: String,
             @Query("page") page: Int
-    ): Observable<MoviesResponse>
+    ): Deferred<Response<Result<Movie>>>
 
     @POST("account/{account_id}/watchlist")
     fun addToWatchlist(
@@ -54,82 +57,84 @@ interface Api {
             @Query("api_key") apiKey: String,
             @Query("session_id") sessionId: String,
             @Body watch: Watch
-    ): Observable<Mark>
+    ): Deferred<Response<Mark>>
 
     @GET("account/{account_id}/favorite/tv")
-    fun getFavoriteTVShows(
+    fun favoriteShows(
             @Path("account_id") accountId: Int,
             @Query("api_key") apiKey: String,
             @Query("session_id") sessionId: String,
             @Query("language") lang: String,
             @Query("sort_by") sort: String
-    ): Observable<MoviesResponse>
+    ): Deferred<Response<Result<Movie>>>
 
     @GET("account/{account_id}/lists")
-    fun getCreatedLists(
+    fun createdLists(
             @Path("account_id") id: Int,
             @Query("api_key") apiKey: String,
             @Query("session_id") sessionId: String,
             @Query("language") language: String
-    ): Observable<*>
+    ): Deferred<Response<*>>
 
     @GET("account/{account_id}/rated/parts")
-    fun getRatedMovies(
+    fun ratedMovies(
             @Path("account_id") id: Int,
             @Query("api_key") apiKey: String,
             @Query("session_id") sessionId: String,
             @Query("language") language: String,
             @Query("sort_by") sort: String
-    ): Observable<*>
+    ): Deferred<Response<*>>
 
     @GET("account/{account_id}/rated/tv")
-    fun getRatedTVShows(
+    fun ratedShows(
             @Path("account_id") id: Int,
             @Query("api_key") apiKey: String,
             @Query("session_id") sessionId: String,
             @Query("language") language: String,
             @Query("sort_by") sort: String
-    ): Observable<*>
+    ): Deferred<Response<*>>
 
     @GET("account/{account_id}/rated/tv/episodes")
-    fun getRatedTVEpisodes(
+    fun ratedEpisodes(
             @Path("account_id") id: Int,
             @Query("api_key") apiKey: String,
             @Query("session_id") sessionId: String,
             @Query("language") language: String,
             @Query("sort_by") sort: String
-    ): Observable<*>
+    ): Deferred<Response<*>>
 
     @GET("account/{account_id}/watching/tv")
-    fun getTVShowsWatchlist(
+    fun showsWatchlist(
             @Path("account_id") id: Int,
             @Query("api_key") apiKey: String,
             @Query("session_id") sessionId: String,
             @Query("language") language: String,
             @Query("sort_by") sort: String
-    ): Observable<MoviesResponse>
+    ): Deferred<Response<Result<Movie>>>
 
     //endregion
 
-    //region AuthService
+    //region Auth
 
     @GET("authentication/guest_session/new?")
-    fun createGuestSession(@Query("api_key") apiKey: String): Observable<GuestSession>
+    fun createGuestSession(
+            @Query("api_key") apiKey: String
+    ): Deferred<Response<GuestSession>>
 
     @GET("authentication/token/new?")
-    fun createRequestToken(@Query("api_key") apiKey: String): Observable<Token>
+    fun createRequestToken(@Query("api_key") apiKey: String): Deferred<Response<Token>>
 
     @POST("authentication/token/validate_with_login?")
     fun createSessionWithLogin(
             @Query("api_key") apiKey: String,
             @Body username: Username
-    ): Observable<Token>
+    ): Deferred<Response<Token>>
 
     @POST("authentication/session/new?")
     fun createSession(
             @Query("api_key") apiKey: String,
             @Body authToken: RequestToken
-    ): Observable<Session>
+    ): Deferred<Response<Session>>
 
     // createSession (from api v4)
 
@@ -137,75 +142,75 @@ interface Api {
     fun deleteSession(
             @Query("api_key") apiKey: String,
             @Body sessionId: SessionId
-    ): Observable<DeletedSession>
+    ): Deferred<Response<DeletedSession>>
 
     //endregion
 
-    //region CertificationsService
+    //region Certifications
 
     @GET("certification/movie/list?")
-    fun getMovieCertifications(@Query("api_key") apiKey: String): Observable<*>
+    fun movieCertifications(@Query("api_key") apiKey: String): Deferred<Response<*>>
 
     @GET("certification/tv/list?")
-    fun getTVCertifications(@Query("api_key") apiKey: String): Observable<*>
+    fun showCertifications(@Query("api_key") apiKey: String): Deferred<Response<*>>
 
     //endregion
 
-    //region ChangesService
+    //region Changes
 
     @GET("movie/changes?")
-    fun getMovieChangeList(
+    fun movieChangeList(
             @Query("api_key") apiKey: String,
             @Query("end_date") endDate: String,
             @Query("start_date") startDate: String,
             @Query("page") page: Int
-    ): Observable<*>
+    ): Deferred<Response<*>>
 
     @GET("tv/changes?")
-    fun getTVChangeList(
+    fun showsChangeList(
             @Query("api_key") apiKey: String,
             @Query("end_date") endDate: String,
             @Query("start_date") startDate: String,
             @Query("page") page: Int
-    ): Observable<*>
+    ): Deferred<*>
 
     @GET("person/changes?")
-    fun getPersonChangeList(
+    fun personChangeList(
             @Query("api_key") apiKey: String,
             @Query("end_date") endDate: String,
             @Query("start_date") startDate: String,
             @Query("page") page: Int
-    ): Observable<*>
+    ): Deferred<*>
 
     //endregion
 
-    //region CollectionsService
+    //region Collections
 
     @GET("collection/{collection_id}?")
-    fun getDetails(
+    fun collection(
             @Path("collection_id") id: Int,
             @Query("api_key") apiKey: String,
             @Query("language") language: String
-    ): Observable<Collection>
+    ): Deferred<Collection>
 
     @GET("collection/{collection_id}/images?")
     fun collectionImages(
             @Path("collection_id") id: Int,
             @Query("api_key") apiKey: String,
             @Query("language") language: String
-    ): Observable<ImagesResponse>
+    ): Deferred<ImagesResponse>
 
     // getTranslations
 
     //endregion
 
-    //region CompaniesService
+    //region Companies
 
     @GET("company/{company_id}?")
-    fun companyDetails(
+    fun company(
             @Path("company_id") id: Int,
             @Query("api_key") apiKey: String
-    ): Observable<Company>
+    ): Deferred<Company>
 
     // getAlternativeNames
 
@@ -213,62 +218,62 @@ interface Api {
 
     //endregion
 
-    //region ConfigurationsService
+    //region Configurations
 
     @GET("configuration?")
-    fun apiConfiguration(): Observable<*>
+    fun apiConfiguration(): Deferred<*>
 
     @GET("configuration/countries?")
-    fun countries(): Observable<*>
+    fun countries(): Deferred<*>
 
     @GET("configuration/jobs?")
-    fun jobs(): Observable<*>
+    fun jobs(): Deferred<*>
 
     @GET("configuration/languages?")
-    fun languages(): Observable<*>
+    fun languages(): Deferred<*>
 
     @GET("configuration/primary_translations?")
-    fun primaryTranslations(): Observable<*>
+    fun primaryTranslations(): Deferred<*>
 
     @GET("configuration/timezones?")
-    fun timezones(): Observable<*>
+    fun timezones(): Deferred<*>
 
     //endregion
 
-    //region CreditsService
+    //region Credits
 
     @GET("credit/{credit_id}?")
-    fun creditDetails(
+    fun credit(
             @Path("credit_id") id: String,
             @Query("api_key") apiKey: String
-    ): Observable<*>
+    ): Deferred<*>
 
     //endregion
 
-    //region DiscoverService
+    //region Discover
 
     @GET("discover/movie?")
-    fun movieDiscover(): Observable<*>
+    fun movieDiscover(): Deferred<*>
 
     @GET("discover/tv?")
-    fun tvDiscover(): Observable<*>
+    fun tvDiscover(): Deferred<*>
 
     //endregion
 
-    //region GuestSessionsService
+    //region GuestSessions
 
     @GET("guest_session/{guest_session_id}/rated/parts?")
-    fun getRatedMovies(): Observable<*>
+    fun ratedMovies(): Deferred<*>
 
     @GET("guest_session/{guest_session_id}/rated/tv?")
-    fun getRatedTVShows(): Observable<*>
+    fun ratedShows(): Deferred<*>
 
     @GET("guest_session/{guest_session_id}/rated/tv/episodes?")
-    fun getRatedTVEpisodes(): Observable<*>
+    fun ratedEpisodes(): Deferred<*>
 
     //endregion
 
-    //region ListsService
+    //region Lists
 
     // methods from v4
     // getDetails
@@ -281,23 +286,23 @@ interface Api {
 
     //endregion
 
-    //region GenresService
+    //region Genres
 
     @GET("genre/movie/list?")
-    fun getMovieList(
+    fun movieList(
             @Query("api_key") apiKey: String,
             @Query("language") language: String
-    ): Observable<GenresResponse>
+    ): Deferred<GenresResponse>
 
     @GET("genre/tv/list?")
-    fun getTVList(
+    fun tvList(
             @Query("api_key") apiKey: String,
             @Query("language") language: String
-    ): Observable<GenresResponse>
+    ): Deferred<GenresResponse>
 
     //endregion
 
-    //region FindService
+    //region Find
 
     @GET("find/{external_id}?")
     fun findById(
@@ -305,17 +310,17 @@ interface Api {
             @Query("api_key") apiKey: String,
             @Query("language") language: String,
             @Query("external_source") ex_source: String
-    ): Observable<*>
+    ): Deferred<*>
 
     //endregion
 
-    //region KeywordsService
+    //region Keywords
 
     @GET("keyword/{keyword_id}?")
-    fun getDetails(
+    fun keyword(
             @Path("keyword_id") id: Int,
             @Query("api_key") apiKey: String
-    ): Observable<Keyword>
+    ): Deferred<Keyword>
 
     @GET("keyword/{keyword_id}/movies")
     fun moviesByKeyword(
@@ -324,81 +329,81 @@ interface Api {
             @Query("language") language: String,
             @Query("include_adult") adult: Boolean,
             @Query("page") page: Int
-    ): Observable<MoviesResponse>
+    ): Deferred<Response<Result<Movie>>>
 
     //endregion
 
-    //region MoviesService
+    //region Movies
 
     @GET("movie/{movie_id}")
-    fun getDetails(
+    fun movie(
         @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String,
         @Query("language") language: String,
         @Query("append_to_response") appendToResponse: String
-    ): Observable<Movie>
+    ): Deferred<Response<Movie>>
 
     @GET("movie/{movie_id}/account_states")
-    fun getAccountStates(
+    fun accountStates(
         @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String,
         @Query("session_id") sessionId: String,
         @Query("guest_session_id") guestSessionId: String
-    ): Observable<AccountStates>
+    ): Deferred<Response<AccountStates>>
 
     @GET("movie/{movie_id}/changes")
-    fun getChanges(
+    fun changes(
         @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String,
         @Query("start_date") startDate: String,
         @Query("end_date") endDate: String,
         @Query("page") page: Int
-    ): Observable<*>
+    ): Deferred<*>
 
     @GET("movie/{movie_id}/alternative_titles")
-    fun getAlternativeTitles(
+    fun alternativeTitles(
         @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String,
         @Query("country") country: String
-    ): Observable<*>
+    ): Deferred<*>
 
     @GET("movie/{movie_id}/credits")
-    fun getCredits(
+    fun movieCredits(
         @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String
-    ): Observable<CreditsResponse>
+    ): Deferred<CreditsResponse>
 
     @GET("movie/{movie_id}/images")
-    fun getImages(
+    fun movieImages(
         @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String,
         @Query("include_image_language") lang: String
-    ): Observable<ImagesResponse>
+    ): Deferred<ImagesResponse>
 
     @GET("movie/{movie_id}/keywords")
-    fun getKeywords(
+    fun keywords(
         @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String
-    ): Observable<KeywordsResponse>
+    ): Deferred<Response<KeywordsResponse>>
 
     @GET("movie/{movie_id}/release_dates")
-    fun getReleaseDates(
+    fun releaseDates(
         @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String
-    ): Observable<*>
+    ): Deferred<*>
 
     @GET("movie/{movie_id}/videos")
-    fun getVideos(
+    fun trailers(
         @Path("movie_id") id: Int,
-        @Query("api_key") apiKey: String,
-        @Query("language") lang: String
-    ): Observable<VideosResponse>
+        @Query("api_key") apiKey: String
+        //@Query("language") lang: String
+    ): Deferred<Response<Result<Video>>>
 
     @GET("movie/{movie_id}/translations")
-    fun getTranslations(
+    fun translations(
         @Query("api_key") apiKey: String,
         @Query("language") lang: String
-    ): Observable<*>
+    ): Deferred<Response<*>>
 
     /**
      * similar
@@ -411,33 +416,33 @@ interface Api {
             @Query("api_key") apiKey: String,
             @Query("language") language: String,
             @Query("page") page: Int
-    ): Observable<MoviesResponse>
+    ): Deferred<Response<Result<Movie>>>
 
     @GET("movie/{movie_id}/reviews")
-    fun getReviews(
+    fun reviews(
         @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String,
-        @Query("language") language: String,
+        //@Query("language") language: String,
         @Query("page") page: Int
-    ): Observable<ReviewsResponse>
+    ): Deferred<Response<Result<Review>>>
 
     @GET("movie/{movie_id}/lists")
-    fun getLists(
+    fun movieLists(
         @Path("movie_id") param: String,
         @Query("api_key") apiKey: String,
         @Query("language") language: String,
         @Query("page") page: Int
-    ): Observable<MoviesResponse>
+    ): Deferred<Response<Result<Movie>>>
 
     // rateMovie
 
     // deleteRating
 
     @GET("movie/latest")
-    fun getLatest(
+    fun movieLatest(
         @Query("api_key") apiKey: String,
         @Query("language") lang: String
-    ): Observable<*>
+    ): Deferred<Response<*>>
 
     /**
      * now_playing
@@ -451,17 +456,17 @@ interface Api {
             @Query("api_key") apiKey: String,
             @Query("language") lang: String,
             @Query("page") page: Int
-    ): Observable<MoviesResponse>
+    ): Deferred<Response<Result<Movie>>>
 
     //endregion
 
-    //region NetworksService
+    //region Networks
 
     @GET("network/{network_id}?")
     fun networkDetails(
             @Path("network_id") id: Int,
             @Query("api_key") apiKey: String
-    ): Observable<Network>
+    ): Deferred<Network>
 
     // getAlternativeNames
 
@@ -469,7 +474,7 @@ interface Api {
 
     //endregion
 
-    //region PeopleService
+    //region People
 
     @GET("person/{person_id}?")
     fun personDetails(
@@ -477,7 +482,7 @@ interface Api {
             @Query("api_key") apiKey: String,
             @Query("language") language: String,
             @Query("append_to_response") response: String
-    ): Observable<Person>
+    ): Deferred<Person>
 
     @GET("person/{person_id}/changes?")
     fun personChanges(
@@ -486,48 +491,48 @@ interface Api {
             @Query("end_date") endDate: String,
             @Query("start_date") startDate: String,
             @Query("page") page: Int
-    ): Observable<*>
+    ): Deferred<*>
 
     @GET("person/{person_id}/movie_credits?")
-    fun getMovieCredits(
+    fun movieCredits(
             @Path("person_id") id: Int,
             @Query("api_key") apiKey: String,
             @Query("language") language: String
-    ): Observable<CreditsResponse>
+    ): Deferred<CreditsResponse>
 
     @GET("person/{person_id}/tv_credits?")
-    fun getTVCredits(
+    fun tvCredits(
             @Path("person_id") id: Int,
             @Query("api_key") apiKey: String,
             @Query("language") language: String
-    ): Observable<*>
+    ): Deferred<*>
 
     @GET("person/{person_id}/combined_credits?")
-    fun getCombinedCredits(
+    fun combinedCredits(
             @Path("person_id") id: Int,
             @Query("api_key") apiKey: String,
             @Query("language") language: String
-    ): Observable<*>
+    ): Deferred<*>
 
     @GET("person/{person_id}/external_ids?")
-    fun getExternalIDs(
+    fun externalIDs(
             @Path("person_id") id: Int,
             @Query("api_key") apiKey: String,
             @Query("language") language: String
-    ): Observable<*>
+    ): Deferred<*>
 
     @GET("person/{person_id}/images?")
-    fun getImages(
+    fun personImages(
             @Path("person_id") id: Int,
             @Query("api_key") apiKey: String
-    ): Observable<*>
+    ): Deferred<*>
 
     @GET("person/{person_id}/tagged_images?")
-    fun getTaggedImages(
+    fun taggedImages(
             @Path("person_id") id: Int,
             @Query("api_key") apiKey: String,
             @Query("page") page: Int
-    ): Observable<*>
+    ): Deferred<*>
 
     // getTranslations
 
@@ -535,35 +540,35 @@ interface Api {
     fun personLatest(
             @Query("api_key") apiKey: String,
             @Query("language") language: String
-    ): Observable<*>
+    ): Deferred<*>
 
     @GET("person/popular?")
-    fun getPopular(
+    fun personPopular(
             @Query("api_key") apiKey: String,
             @Query("language") language: String,
             @Query("page") page: Int
-    ): Observable<PersonsResponse>
+    ): Deferred<Result<Person>>
 
     //endregion
 
-    //region ReviewsService
+    //region Reviews
 
     @GET("review/{review_id}?")
     fun reviewDetails(
             @Path("review_id") id: String,
             @Query("api_key") apiKey: String
-    ): Observable<Review>
+    ): Deferred<Review>
 
     //endregion
 
-    //region SearchService
+    //region Search
 
     @GET("search/company?")
     fun searchCompanies(
             @Query("api_key") apiKey: String,
             @Query("query") query: String,
             @Query("page") page: Int
-    ): Observable<CompaniesResponse>
+    ): Deferred<Result<Company>>
 
     @GET("search/collection?")
     fun searchCollections(
@@ -571,14 +576,14 @@ interface Api {
             @Query("language") lang: String,
             @Query("query") query: String,
             @Query("page") page: Int
-    ): Observable<CollectionsResponse>
+    ): Deferred<Result<Collection>>
 
     @GET("search/keyword?")
     fun searchKeywords(
             @Query("api_key") apiKey: String,
             @Query("query") query: String,
             @Query("page") page: Int
-    ): Observable<SearchKeywordsResponse>
+    ): Deferred<Result<Keyword>>
 
     @GET("search/movie?")
     fun searchMovies(
@@ -590,10 +595,10 @@ interface Api {
             @Query("region") region: String
             //@Query("year") int year,
             //@Query("primary_release_year") int primaryReleaseYear
-    ): Observable<MoviesResponse>
+    ): Deferred<Response<Result<Movie>>>
 
     @GET("search/multi?")
-    fun searchMulti(): Observable<*>
+    fun searchMulti(): Deferred<*>
 
     @GET("search/person?")
     fun searchPeople(
@@ -603,26 +608,26 @@ interface Api {
             @Query("page") page: Int,
             @Query("include_adult") adult: Boolean,
             @Query("region") region: String
-    ): Observable<PersonsResponse>
+    ): Deferred<Result<Person>>
 
     @GET("search/tv?")
-    fun searchTvShows(): Observable<*>
+    fun searchTvShows(): Deferred<*>
 
     //endregion
 
-    //region TrendingService
+    //region Trending
 
     // getTrending
 
     //endregion
 
-    //region TvEpisodeGroupsService
+    //region TvEpisodeGroups
 
     // getDetails
 
     //endregion
 
-    //region TvEpisodesService
+    //region TvEpisodes
 
     // getDetails
 
@@ -644,7 +649,7 @@ interface Api {
 
     //endregion
 
-    //region TvSeasonsService
+    //region TvSeasons
 
     // getDetails
 
@@ -662,7 +667,7 @@ interface Api {
 
     //endregion
 
-    //region TvService
+    //region TV
 
     // getDetails
     // getAccountStates

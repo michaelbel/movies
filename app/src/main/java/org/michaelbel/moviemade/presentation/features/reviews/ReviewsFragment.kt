@@ -10,10 +10,11 @@ import androidx.fragment.app.transaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
-import kotlinx.android.synthetic.main.activity_container.*
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.activity_parent.*
 import kotlinx.android.synthetic.main.fragment_lce.*
+import org.michaelbel.core.adapter.ListAdapter
 import org.michaelbel.data.Movie
-import org.michaelbel.data.Review
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.DeviceUtil
 import org.michaelbel.moviemade.core.ViewUtil
@@ -25,11 +26,10 @@ import org.michaelbel.moviemade.presentation.common.base.BaseFragment
 import org.michaelbel.moviemade.presentation.features.review.ReviewFragment
 import javax.inject.Inject
 
-class ReviewsFragment: BaseFragment(), ReviewsAdapter.Listener {
+class ReviewsFragment: BaseFragment() {
 
     companion object {
         private const val ARG_MOVIE = "movie"
-        private const val FRAGMENT_TAG = "fragment_review"
 
         internal fun newInstance(movie: Movie): ReviewsFragment {
             val args = Bundle()
@@ -42,7 +42,7 @@ class ReviewsFragment: BaseFragment(), ReviewsAdapter.Listener {
     }
 
     private lateinit var movie: Movie
-    private lateinit var adapter: ReviewsAdapter
+    private lateinit var adapter: ListAdapter
     private lateinit var viewModel: ReviewsModel
 
     @Inject
@@ -70,11 +70,19 @@ class ReviewsFragment: BaseFragment(), ReviewsAdapter.Listener {
 
         val spans = resources.getInteger(R.integer.trailers_span_layout_count)
 
-        adapter = ReviewsAdapter(this)
+        adapter = ListAdapter()
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = GridLayoutManager(requireContext(), spans)
         recyclerView.addItemDecoration(GridSpacingItemDecoration(spans, DeviceUtil.dp(requireContext(), 5F)))
+        recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (!recyclerView.canScrollVertically(1) && adapter.itemCount != 0) {
+                    viewModel.reviews(movie.id)
+                }
+            }
+        })
 
         emptyView.setOnClickListener {
             emptyView.visibility = GONE
@@ -86,22 +94,33 @@ class ReviewsFragment: BaseFragment(), ReviewsAdapter.Listener {
             progressBar.visibility = if (it) VISIBLE else GONE
         })
         viewModel.content.observe(viewLifecycleOwner, Observer {
-            adapter.setReviews(it)
+            adapter.setItems(it)
         })
-        viewModel.error.observe(viewLifecycleOwner, Observer {
-            emptyView.visibility = VISIBLE
-            emptyView.setMode(it)
+        viewModel.error.observe(viewLifecycleOwner, Observer { error ->
+            error.getContentIfNotHandled()?.let {
+                emptyView.visibility = VISIBLE
+                emptyView.setMode(it)
+            }
+        })
+        viewModel.click.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                requireFragmentManager().transaction {
+                    add((requireActivity() as ContainerActivity).container.id, ReviewFragment.newInstance(it, movie))
+                    addToBackStack(tag)
+                }
+            }
+        })
+        viewModel.longClick.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                requireFragmentManager().transaction {
+                    add((requireActivity() as ContainerActivity).container.id, ReviewFragment.newInstance(it, movie))
+                    addToBackStack(tag)
+                }
+            }
         })
     }
 
     override fun onScrollToTop() {
         recyclerView.smoothScrollToPosition(0)
-    }
-
-    override fun onReviewClick(review: Review, view: View) {
-        requireFragmentManager().transaction {
-            add((requireActivity() as ContainerActivity).container.id, ReviewFragment.newInstance(review, movie))
-            addToBackStack(FRAGMENT_TAG)
-        }
     }
 }

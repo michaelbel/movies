@@ -4,11 +4,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import com.bumptech.glide.Glide
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.listitem_trailer.view.*
 import org.michaelbel.core.adapter.ListItem
-import org.michaelbel.core.adapter.ViewTypes
+import org.michaelbel.core.adapter.ViewTypes.TRAILER_ITEM
 import org.michaelbel.data.Video
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.TmdbConfig.YOUTUBE_IMAGE
@@ -27,9 +28,7 @@ data class TrailerListItem(internal var trailer: Video): ListItem {
 
     override fun getData() = trailer
 
-    override fun getViewType() = ViewTypes.TRAILER_ITEM
-
-    override fun getId() = RecyclerView.NO_ID
+    override fun getViewType() = TRAILER_ITEM
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.listitem_trailer, parent, false))
@@ -48,14 +47,13 @@ data class TrailerListItem(internal var trailer: Video): ListItem {
 
         holder.itemView.setOnClickListener(object: DebouncingOnClickListener() {
             override fun doClick(v: View) {
-                if (holder.adapterPosition != RecyclerView.NO_POSITION) {
+                if (holder.adapterPosition != NO_POSITION) {
                     listener.onClick(getData())
                 }
             }
         })
-
         holder.itemView.setOnLongClickListener {
-            if (holder.adapterPosition != RecyclerView.NO_POSITION) {
+            if (holder.adapterPosition != NO_POSITION) {
                 listener.onLongClick(getData())
                 return@setOnLongClickListener true
             }

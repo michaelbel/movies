@@ -2,29 +2,27 @@ package org.michaelbel.moviemade.presentation.features.movie
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.observers.DisposableObserver
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.michaelbel.data.Movie
 import org.michaelbel.data.Movie.Companion.CREDITS
 import org.michaelbel.data.remote.model.AccountStates
 import org.michaelbel.data.remote.model.CreditsResponse
-import org.michaelbel.data.remote.model.Crew
+import org.michaelbel.data.remote.model.Crew.Companion.DIRECTING
+import org.michaelbel.data.remote.model.Crew.Companion.PRODUCTION
+import org.michaelbel.data.remote.model.Crew.Companion.WRITING
 import org.michaelbel.data.remote.model.Mark
 import org.michaelbel.domain.MoviesRepository
 import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
 import org.michaelbel.moviemade.core.TmdbConfig.CONTENT_TYPE
+import org.michaelbel.moviemade.presentation.App
+import timber.log.Timber
 import java.util.*
 import kotlin.collections.HashMap
 
 class MovieModel(val repository: MoviesRepository): ViewModel() {
-
-    private val disposable = CompositeDisposable()
-
-    interface Listener {
-        fun onClick(cell: String)
-    }
-
-    lateinit var listener: Listener
 
     var movie = MutableLiveData<Movie>()
     var imdb = MutableLiveData<String>()
@@ -35,55 +33,89 @@ class MovieModel(val repository: MoviesRepository): ViewModel() {
     var accountStates = MutableLiveData<AccountStates>()
     var credit = MutableLiveData<HashMap<String, String>>()
 
-    fun details(sessionId: String, movieId: Int) {
-        disposable.add(repository.details(movieId, TMDB_API_KEY, Locale.getDefault().language, CREDITS)
-                .subscribeWith(object: DisposableObserver<Movie>() {
-                    override fun onNext(it: Movie) {
-                        movie.postValue(it)
+    fun movie(sessionId: String, movieId: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val result = repository.movie(movieId, TMDB_API_KEY, Locale.getDefault().language, CREDITS)
+                withContext(Dispatchers.Main) {
+                    if (result.isSuccessful) {
+                        result.body()?.let {
+                            movie.postValue(result.body())
 
-                        if (it != null) {
-                            if (it.homepage != null) {
-                                imdb.postValue(it.imdbId)
-                                homepage.postValue(it.homepage)
+                            it.imdbId?.let { imdbId ->
+                                imdb.postValue(imdbId)
                             }
 
-                            fixCredits(it.credits)
+                            it.homepage?.let { link ->
+                                homepage.postValue(link)
+                            }
+
+                            it.credits?.let { credits ->
+                                fixCredits(credits)
+                            }
                         }
+                    } else {
+                        // todo smth
                     }
-
-                    override fun onError(e: Throwable) {
-                        connectionError.postValue(e)
-                    }
-
-                    override fun onComplete() {
-                        getAccountStates(sessionId, movieId)
-                    }
-                }))
+                }
+            } catch (e: Throwable) {
+                Timber.e(e)
+            }
+        }
     }
 
     fun markFavorite(sessionId: String, accountId: Int, mediaId: Int, favorite: Boolean) {
-        disposable.add(repository.markFavorite(CONTENT_TYPE, accountId, TMDB_API_KEY, sessionId, mediaId, favorite)
-                .subscribe({ favoriteChange.postValue(it) }, { connectionError.postValue(it) }))
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val result = repository.markFavorite(CONTENT_TYPE, accountId, TMDB_API_KEY, sessionId, mediaId, favorite)
+                withContext(Dispatchers.Main) {
+                    if (result.isSuccessful) {
+                        favoriteChange.postValue(result.body())
+                    } else {
+                        // todo smth
+                    }
+                }
+            } catch (e: Throwable) {
+                connectionError.postValue(e)
+            }
+        }
     }
 
     fun addWatchlist(sessionId: String, accountId: Int, mediaId: Int, watchlist: Boolean) {
-        disposable.add(repository.addWatchlist(CONTENT_TYPE, accountId, sessionId, TMDB_API_KEY, mediaId, watchlist)
-                .subscribe({ watchlistChange.postValue(it) }, { connectionError.postValue(it) }))
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val result = repository.addWatchlist(CONTENT_TYPE, accountId, sessionId, TMDB_API_KEY, mediaId, watchlist)
+                withContext(Dispatchers.Main) {
+                    if (result.isSuccessful) {
+                        watchlistChange.postValue(result.body())
+                    } else {
+                        // todo smth
+                    }
+                }
+            } catch (e: Throwable) {
+                connectionError.postValue(e)
+            }
+        }
     }
 
-    fun getAccountStates(sessionId: String, movieId: Int) {
-        disposable.add(repository.accountStates(movieId, TMDB_API_KEY, sessionId)
-                .subscribeWith(object: DisposableObserver<AccountStates>() {
-                    override fun onNext(states: AccountStates) {
-                        accountStates.postValue(states)
+    private fun accountStates(sessionId: String, movieId: Int) {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val result = repository.accountStates(movieId, TMDB_API_KEY, sessionId)
+                withContext(Dispatchers.Main) {
+                    if (result.isSuccessful) {
+                        App.e("account states post: ${result.body()}")
+                        accountStates.postValue(result.body())
+                    } else {
+                        App.e("account states post error")
+                        // todo smth
                     }
-
-                    override fun onError(e: Throwable) {
-                        // fixme: Rated object has an error
-                    }
-
-                    override fun onComplete() {}
-                }))
+                }
+            } catch (e: Throwable) {
+                App.e("account states throwable: $e")
+                connectionError.postValue(e)
+            }
+        }
     }
 
     private fun fixCredits(credits: CreditsResponse) {
@@ -100,9 +132,9 @@ class MovieModel(val repository: MoviesRepository): ViewModel() {
         val producers = ArrayList<String>()
         for (crew in credits.crew) {
             when (crew.department) {
-                Crew.DIRECTING -> directors.add(crew.name)
-                Crew.WRITING -> writers.add(crew.name)
-                Crew.PRODUCTION -> producers.add(crew.name)
+                DIRECTING -> directors.add(crew.name)
+                WRITING -> writers.add(crew.name)
+                PRODUCTION -> producers.add(crew.name)
             }
         }
 
@@ -136,10 +168,5 @@ class MovieModel(val repository: MoviesRepository): ViewModel() {
         map["writers"] = writersBuilder.toString()
         map["producers"] = producersBuilder.toString()
         credit.postValue(map)
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        disposable.dispose()
     }
 }

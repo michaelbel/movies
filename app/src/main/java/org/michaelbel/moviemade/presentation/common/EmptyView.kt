@@ -8,7 +8,13 @@ import androidx.annotation.StringRes
 import kotlinx.android.synthetic.main.view_empty.view.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.ViewUtil
-import org.michaelbel.moviemade.core.errors.EmptyViewMode
+import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_CONNECTION
+import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_KEYWORDS
+import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_MOVIES
+import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_PEOPLE
+import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_RESULTS
+import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_REVIEWS
+import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_TRAILERS
 
 class EmptyView: FrameLayout {
 
@@ -24,33 +30,33 @@ class EmptyView: FrameLayout {
         LayoutInflater.from(context).inflate(R.layout.view_empty, this, true)
     }
 
-    fun setMode(@EmptyViewMode mode: Int): EmptyView {
+    fun setMode(mode: Int): EmptyView {
         when (mode) {
-            EmptyViewMode.MODE_NO_CONNECTION -> {
+            MODE_NO_CONNECTION -> {
                 setIcon(R.drawable.ic_offline)
                 setText(R.string.error_offline)
             }
-            EmptyViewMode.MODE_NO_MOVIES -> {
+            MODE_NO_MOVIES -> {
                 setIcon(R.drawable.ic_movie_roll)
                 setText(R.string.no_movies)
             }
-            EmptyViewMode.MODE_NO_PEOPLE -> {
+            MODE_NO_PEOPLE -> {
                 setIcon(R.drawable.ic_account_circle)
                 setText(R.string.no_people)
             }
-            EmptyViewMode.MODE_NO_REVIEWS -> {
+            MODE_NO_REVIEWS -> {
                 setIcon(R.drawable.ic_review)
                 setText(R.string.no_reviews)
             }
-            EmptyViewMode.MODE_NO_RESULTS -> {
+            MODE_NO_RESULTS -> {
                 setIcon(R.drawable.ic_database_search)
                 setText(R.string.no_results)
             }
-            EmptyViewMode.MODE_NO_TRAILERS -> {
+            MODE_NO_TRAILERS -> {
                 setIcon(R.drawable.ic_trailer)
                 setText(R.string.no_trailers)
             }
-            EmptyViewMode.MODE_NO_KEYWORDS -> {
+            MODE_NO_KEYWORDS -> {
                 setIcon(R.drawable.ic_card_text)
                 setText(R.string.no_keywords)
             }

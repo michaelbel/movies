@@ -190,7 +190,7 @@
                         android:id="@+id/watchlistBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:foreground="?attr/selectableItemBackground"
+                        android:foreground="?selectableItemBackgroundBorderless"
                         android:visibility="invisible"
                         app:cardElevation="0dp"
                         app:cardCornerRadius="16dp"
@@ -211,7 +211,7 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:layout_gravity="center_horizontal"
-                                tools:src="@drawable/ic_bookmark_outline" />
+                                app:srcCompat="@drawable/ic_bookmark_outline"/>
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/watchlistText"
@@ -256,7 +256,7 @@
                                 android:layout_width="24dp"
                                 android:layout_height="24dp"
                                 android:layout_gravity="center_horizontal"
-                                tools:src="@drawable/ic_heart_outline"/>
+                                app:srcCompat="@drawable/ic_heart_outline"/>
 
                             <androidx.appcompat.widget.AppCompatTextView
                                 android:id="@+id/favoritesText"
@@ -360,7 +360,7 @@
             app:layout_constraintTop_toBottomOf="@+id/divider2"
             app:layout_constraintEnd_toEndOf="parent"
             tools:orientation="vertical"
-            tools:listitem="@layout/item_crew"
+            tools:listitem="@layout/listitem_crew"
             tools:itemCount="4"/>
 
         <View

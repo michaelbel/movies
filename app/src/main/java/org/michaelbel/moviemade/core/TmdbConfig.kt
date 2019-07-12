@@ -2,7 +2,6 @@ package org.michaelbel.moviemade.core
 
 import java.util.Locale.ENGLISH
 
-@Suppress("unused")
 object TmdbConfig {
     const val TMDB_API_ENDPOINT = "https://api.themoviedb.org/3/"
 
