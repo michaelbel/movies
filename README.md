@@ -64,8 +64,6 @@ https://www.youtube.com/watch?v=H5auyhQU9fU
 * [**ChipsLayoutManager**](https://github.com/BelooS/ChipsLayoutManager) for genres
 * [**AndroidYouTubePlayer**](https://github.com/PierfrancescoSoffritti/android-youtube-player) for playing videos
 * [**AndroidAnimatedMenuItems**](https://github.com/adonixis/android-animated-menu-items) for menu items
-* [**CircleImageView**](https://github.com/hdodenhof/CircleImageView) for circle images
-* [**Shortbread**](https://github.com/MatthiasRobbers/shortbread) for app shortcuts
 
 ## Issues
 If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).
