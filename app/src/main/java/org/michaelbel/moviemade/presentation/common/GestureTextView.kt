@@ -10,9 +10,7 @@ import com.alexvasilkov.gestures.State
 import com.alexvasilkov.gestures.views.interfaces.GestureView
 
 // fixme constructor
-open class GestureTextView
-    @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyle: Int = 0
-    ): AppCompatTextView(context, attrs, defStyle), GestureView {
+open class GestureTextView: AppCompatTextView, GestureView {
 
     private val controller: GestureController = GestureController(this)
 
@@ -21,7 +19,7 @@ open class GestureTextView
 
     init {
         controller.settings.setOverzoomFactor(1F).isPanEnabled = false
-        controller.settings.initFromAttributes(context, attrs)
+        //controller.settings.initFromAttributes(context, attrs)
         controller.addOnStateChangeListener(object: GestureController.OnStateChangeListener {
             override fun onStateChanged(state: State) {
                 applyState(state)
@@ -34,6 +32,10 @@ open class GestureTextView
 
         origSize = textSize
     }
+
+    constructor(context: Context): super(context)
+
+    constructor(context: Context, attrs: AttributeSet): super(context, attrs)
 
     override fun getController(): GestureController = controller
 

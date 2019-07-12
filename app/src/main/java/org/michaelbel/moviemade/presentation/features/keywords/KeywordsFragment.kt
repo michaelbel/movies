@@ -12,9 +12,9 @@ import androidx.fragment.app.transaction
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager
-import kotlinx.android.synthetic.main.activity_container.*
+import kotlinx.android.synthetic.main.activity_parent.*
 import kotlinx.android.synthetic.main.fragment_lce.*
-import org.michaelbel.data.Keyword
+import org.michaelbel.core.adapter.ListAdapter
 import org.michaelbel.data.Movie
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.ViewUtil
@@ -24,11 +24,10 @@ import org.michaelbel.moviemade.presentation.common.base.BaseFragment
 import org.michaelbel.moviemade.presentation.features.main.MoviesFragment2
 import javax.inject.Inject
 
-class KeywordsFragment: BaseFragment(), KeywordsAdapter.Listener {
+class KeywordsFragment: BaseFragment() {
 
     companion object {
         private const val ARG_MOVIE = "movie"
-        private const val FRAGMENT_TAG = "fragment_keyword"
 
         internal fun newInstance(movie: Movie): KeywordsFragment {
             val args = Bundle()
@@ -41,7 +40,7 @@ class KeywordsFragment: BaseFragment(), KeywordsAdapter.Listener {
     }
 
     private lateinit var movie: Movie
-    private lateinit var adapter: KeywordsAdapter
+    private lateinit var adapter: ListAdapter
     private lateinit var viewModel: KeywordsModel
 
     @Inject
@@ -67,12 +66,11 @@ class KeywordsFragment: BaseFragment(), KeywordsAdapter.Listener {
         toolbar.setOnClickListener { onScrollToTop() }
         toolbar.setNavigationOnClickListener { requireActivity().finish() }
 
-        adapter = KeywordsAdapter(this)
+        adapter = ListAdapter()
 
         recyclerView.adapter = adapter
         recyclerView.layoutParams = recyclerViewLayoutParams()
-        recyclerView.layoutManager = ChipsLayoutManager.newBuilder(requireContext())
-                .setOrientation(ChipsLayoutManager.HORIZONTAL).build()
+        recyclerView.layoutManager = ChipsLayoutManager.newBuilder(requireContext()).setOrientation(ChipsLayoutManager.HORIZONTAL).build()
 
         emptyView.setOnClickListener {
             emptyView.visibility = GONE
@@ -84,23 +82,24 @@ class KeywordsFragment: BaseFragment(), KeywordsAdapter.Listener {
             progressBar.visibility = if (it) VISIBLE else GONE
         })
         viewModel.content.observe(viewLifecycleOwner, Observer {
-            adapter.addKeywords(it)
+            adapter.setItems(it)
         })
         viewModel.error.observe(viewLifecycleOwner, Observer {
             emptyView.visibility = VISIBLE
             emptyView.setMode(it)
         })
-    }
-
-    override fun onKeywordClick(keyword: Keyword) {
-        requireFragmentManager().transaction {
-            add((requireActivity() as ContainerActivity).container.id, MoviesFragment2.newInstance(keyword))
-            addToBackStack(FRAGMENT_TAG)
-        }
-    }
-
-    override fun onScrollToTop() {
-        recyclerView.smoothScrollToPosition(0)
+        viewModel.click.observe(viewLifecycleOwner, Observer {
+            requireFragmentManager().transaction {
+                add((requireActivity() as ContainerActivity).container.id, MoviesFragment2.newInstance(it))
+                addToBackStack(tag)
+            }
+        })
+        viewModel.longClick.observe(viewLifecycleOwner, Observer {
+            requireFragmentManager().transaction {
+                add((requireActivity() as ContainerActivity).container.id, MoviesFragment2.newInstance(it))
+                addToBackStack(tag)
+            }
+        })
     }
 
     private fun recyclerViewLayoutParams(): ConstraintLayout.LayoutParams {

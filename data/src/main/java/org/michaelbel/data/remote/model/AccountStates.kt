@@ -7,6 +7,6 @@ import java.io.Serializable
 data class AccountStates(
         @Expose @SerializedName("id") val id: Int,
         @Expose @SerializedName("favorite") val favorite: Boolean,
-        @Expose @SerializedName("watchlist") val watchlist: Boolean,
-        @SerializedName("rated") val rated: Rated
+        @Expose @SerializedName("watchlist") val watchlist: Boolean
+        //@Expose @SerializedName("rated") val rated: Rated
 ): Serializable

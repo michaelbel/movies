@@ -6,6 +6,7 @@ import android.graphics.drawable.Animatable
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
+import android.view.MenuItem.SHOW_AS_ACTION_NEVER
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.TextView
@@ -25,22 +26,24 @@ import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.activity_movie.*
 import kotlinx.android.synthetic.main.fragment_movie_old.*
-import kotlinx.android.synthetic.main.item_crew.*
-import kotlinx.android.synthetic.main.item_genre.*
+import kotlinx.android.synthetic.main.listitem_crew.*
+import kotlinx.android.synthetic.main.listitem_genre.*
 import org.michaelbel.core.customtabs.Browser
 import org.michaelbel.data.Movie
+import org.michaelbel.data.Movie.Companion.RECOMMENDATIONS
+import org.michaelbel.data.Movie.Companion.SIMILAR
 import org.michaelbel.data.remote.model.Country
 import org.michaelbel.data.remote.model.Genre
 import org.michaelbel.data.remote.model.Mark
-import org.michaelbel.data.remote.model.MoviesResponse.Companion.RECOMMENDATIONS
-import org.michaelbel.data.remote.model.MoviesResponse.Companion.SIMILAR
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.TmdbConfig.IMDB_MOVIE
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_IMAGE
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_MOVIE
 import org.michaelbel.moviemade.core.ViewUtil
+import org.michaelbel.moviemade.core.isNetworkAvailable
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_ID
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
+import org.michaelbel.moviemade.core.startActivity
 import org.michaelbel.moviemade.core.text.SpannableUtil
 import org.michaelbel.moviemade.core.time.DateUtil
 import org.michaelbel.moviemade.presentation.App
@@ -82,17 +85,13 @@ class MovieFragment: BaseFragment() {
     private var menuHomepage: MenuItem? = null
 
     private var imdbId: String? = null
-
     private var homepage: String? = null
-
-    private var posterPath: String = ""
+    private var posterPath: String? = null
 
     private lateinit var movie: Movie
     private lateinit var crewAdapter: CrewAdapter
     private lateinit var genresAdapter: GenresAdapter
     private lateinit var viewModel: MovieModel
-
-    //AdView adView;
 
     var imageAnimator: ViewsTransitionAnimator<*>? = null
     private lateinit var fullBackground: View
@@ -118,9 +117,9 @@ class MovieFragment: BaseFragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when {
-            item === menuShare -> {
-                val icon = actionMenu!!.getItem(0).icon
+        when (item) {
+            menuShare -> {
+                val icon = actionMenu?.getItem(0)?.icon
                 if (icon is Animatable) {
                     (icon as Animatable).start()
                 }
@@ -130,11 +129,15 @@ class MovieFragment: BaseFragment() {
                 intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, TMDB_MOVIE, movie.id))
                 startActivity(Intent.createChooser(intent, getString(R.string.share_via)))
             }
-            item === menuTmdb ->
-                Browser.openUrl(requireContext(), String.format(Locale.US, TMDB_MOVIE, movie.id))
-            item === menuImdb ->
-                Browser.openUrl(requireContext(), String.format(Locale.US, IMDB_MOVIE, imdbId))
-            item === menuHomepage -> Browser.openUrl(requireContext(), homepage!!)
+            menuTmdb -> Browser.openUrl(requireContext(), String.format(Locale.US, TMDB_MOVIE, movie.id))
+            menuImdb -> {
+                val imdbId = imdbId
+                imdbId?.let { Browser.openUrl(requireContext(), String.format(Locale.US, IMDB_MOVIE, imdbId)) }
+            }
+            menuHomepage ->  {
+                val homepageUrl = homepage
+                homepageUrl?.let { Browser.openUrl(requireContext(), homepageUrl) }
+            }
         }
 
         return true
@@ -144,6 +147,7 @@ class MovieFragment: BaseFragment() {
         fullBackground = (requireActivity() as MovieActivity).fullBackground
         fullToolbar = (requireActivity() as MovieActivity).fullToolbar
         fullImage = (requireActivity() as MovieActivity).fullImage
+
         setHasOptionsMenu(true)
         viewModel = ViewModelProviders.of(requireActivity(), factory).get(MovieModel::class.java)
         return inflater.inflate(R.layout.fragment_movie_old, container, false)
@@ -151,6 +155,7 @@ class MovieFragment: BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         runtimeIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_clock, R.color.iconActiveColor))
         runtimeText.setText(R.string.loading)
 
@@ -160,9 +165,6 @@ class MovieFragment: BaseFragment() {
         taglineText.setText(R.string.loading_tagline)
         taglineText.customSelectionActionModeCallback = SelectableActionMode(taglineText)
 
-        favoritesBtn.visibility = GONE
-        favoritesBtn.visibility = GONE
-
         genresAdapter = GenresAdapter()
         genresList.adapter = genresAdapter
         genresList.layoutManager = ChipsLayoutManager.newBuilder(requireContext()).setOrientation(ChipsLayoutManager.HORIZONTAL).build()
@@ -171,46 +173,21 @@ class MovieFragment: BaseFragment() {
         crewList.adapter = crewAdapter
         crewList.layoutManager = LinearLayoutManager(requireContext())
 
-        /*AdRequest adRequestBuilder = new AdRequest.Builder()
-            .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-            .addTestDevice(getString(R.string.device_test_id))
-            .build();
-
-        adView.loadAd(adRequestBuilder);
-        adView.setAdListener(new AdListener(){
-            @Override
-            public void onAdClosed() {
-                super.onAdClosed();
-            }
-
-            @Override
-            public void onAdFailedToLoad(int errorCode) {
-                super.onAdFailedToLoad(errorCode);
-                switch (errorCode){
-                    case AdRequest.ERROR_CODE_INTERNAL_ERROR:
-                        Timber.d("onAdFailedToLoad banner ERROR_CODE_INTERNAL_ERROR");
-                        break;
-                    case AdRequest.ERROR_CODE_INVALID_REQUEST:
-                        Timber.d("onAdFailedToLoad banner ERROR_CODE_INVALID_REQUEST");
-                        break;
-                    case AdRequest.ERROR_CODE_NETWORK_ERROR:
-                        Timber.d("onAdFailedToLoad banner ERROR_CODE_NETWORK_ERROR");
-                        break;
-                    case AdRequest.ERROR_CODE_NO_FILL:
-                        Timber.d("onAdFailedToLoad banner ERROR_CODE_NO_FILL");
-                        break;
-                }
-            }
-        });*/
-
+        favoritesBtn.visibility = if (sessionId.isEmpty()) GONE else VISIBLE
         favoritesBtn.setOnClickListener {
             viewModel.markFavorite(sessionId, preferences.getInt(KEY_ACCOUNT_ID, 0), movie.id, !favorite)
         }
+
+        watchlistBtn.visibility = if (sessionId.isEmpty()) GONE else VISIBLE
         watchlistBtn.setOnClickListener {
             viewModel.addWatchlist(sessionId, preferences.getInt(KEY_ACCOUNT_ID, 0), movie.id, !watchlist)
         }
 
         poster.setOnClickListener {
+            if (requireContext().isNetworkAvailable().not()) {
+                return@setOnClickListener
+            }
+
             imageAnimator = GestureTransitions.from<Any>(poster).into(fullImage)
             imageAnimator?.addPositionUpdateListener { position, isLeaving ->
                 fullBackground.visibility = if (position == 0F) GONE else VISIBLE
@@ -245,46 +222,39 @@ class MovieFragment: BaseFragment() {
         }
 
         trailersText.setOnClickListener {
-            val intent = Intent(requireContext(), ContainerActivity::class.java)
-            intent.putExtra(FRAGMENT_NAME, TRAILERS)
-            intent.putExtra(EXTRA_MOVIE, movie)
-            startActivity(intent)
+            requireActivity().startActivity<ContainerActivity> {
+                putExtra(FRAGMENT_NAME, TRAILERS)
+                putExtra(EXTRA_MOVIE, movie)
+            }
         }
-
         reviewsText.setOnClickListener {
-            val intent = Intent(requireContext(), ContainerActivity::class.java)
-            intent.putExtra(FRAGMENT_NAME, REVIEWS)
-            intent.putExtra(EXTRA_MOVIE, movie)
-            startActivity(intent)
+            requireActivity().startActivity<ContainerActivity> {
+                putExtra(FRAGMENT_NAME, REVIEWS)
+                putExtra(EXTRA_MOVIE, movie)
+            }
         }
-
         keywordsText.setOnClickListener {
-            val intent = Intent(requireContext(), ContainerActivity::class.java)
-            intent.putExtra(FRAGMENT_NAME, KEYWORDS)
-            intent.putExtra(EXTRA_MOVIE, movie)
-            startActivity(intent)
+            requireActivity().startActivity<ContainerActivity> {
+                putExtra(FRAGMENT_NAME, KEYWORDS)
+                putExtra(EXTRA_MOVIE, movie)
+            }
         }
-
         similarText.setOnClickListener {
-            val intent = Intent(requireContext(), ContainerActivity::class.java)
-            intent.putExtra(FRAGMENT_NAME, SIMILAR)
-            intent.putExtra(EXTRA_MOVIE, movie)
-            startActivity(intent)
+            requireActivity().startActivity<ContainerActivity> {
+                putExtra(FRAGMENT_NAME, SIMILAR)
+                putExtra(EXTRA_MOVIE, movie)
+            }
         }
-
         recommendationsText.setOnClickListener {
-            val intent = Intent(requireContext(), ContainerActivity::class.java)
-            intent.putExtra(FRAGMENT_NAME, RECOMMENDATIONS)
-            intent.putExtra(EXTRA_MOVIE, movie)
-            startActivity(intent)
+            requireActivity().startActivity<ContainerActivity> {
+                putExtra(FRAGMENT_NAME, RECOMMENDATIONS)
+                putExtra(EXTRA_MOVIE, movie)
+            }
         }
 
         movie = arguments?.getSerializable(EXTRA_MOVIE) as Movie
-        if (movie != null) {
-            //presenter.setDetailExtra(movie)
-            movieExtra(movie)
-            viewModel.details(sessionId, movie.id)
-        }
+        movieExtra(movie)
+        viewModel.movie(sessionId, movie.id)
 
         viewModel.movie.observe(viewLifecycleOwner, Observer {
             if (it.runtime == 0) {
@@ -311,15 +281,15 @@ class MovieFragment: BaseFragment() {
             }
         })
         viewModel.imdb.observe(viewLifecycleOwner, Observer {
-            this.imdbId = it
-            if (!TextUtils.isEmpty(imdbId)) {
-                menuImdb = actionMenu?.add(R.string.view_on_imdb)?.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER)
+            if (it.isNullOrEmpty().not()) {
+                imdbId = it
+                menuImdb = actionMenu?.add(R.string.view_on_imdb)?.setShowAsActionFlags(SHOW_AS_ACTION_NEVER)
             }
         })
         viewModel.homepage.observe(viewLifecycleOwner, Observer {
-            this.homepage = it
-            if (!TextUtils.isEmpty(homepage)) {
-                menuHomepage = actionMenu?.add(R.string.view_homepage)?.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER)
+            if (it.isNullOrEmpty().not()) {
+                homepage = it
+                menuHomepage = actionMenu?.add(R.string.view_homepage)?.setShowAsActionFlags(SHOW_AS_ACTION_NEVER)
             }
         })
         viewModel.connectionError.observe(viewLifecycleOwner, Observer {
@@ -355,68 +325,64 @@ class MovieFragment: BaseFragment() {
         })
         viewModel.accountStates.observe(viewLifecycleOwner, Observer {
             favorite = it.favorite
-            favoritesBtn.visibility = VISIBLE
-
-            if (favorite) {
-                favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart, R.color.accent_blue))
-                favoritesText.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
-            } else {
-                favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart_outline, R.color.textColorPrimary))
-                favoritesText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
-            }
+            favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), if (favorite) R.drawable.ic_heart else R.drawable.ic_heart_outline, if (favorite) R.color.accent_blue else R.color.textColorPrimary))
+            favoritesText.setTextColor(ContextCompat.getColor(requireContext(), if (favorite) R.color.accent_blue else R.color.textColorPrimary))
 
             watchlist = it.watchlist
-            watchlistBtn.visibility = VISIBLE
-
-            if (watchlist) {
-                watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark, R.color.accent_blue))
-                watchlistText.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
-            } else {
-                watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark_outline, R.color.textColorPrimary))
-                watchlistText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
-            }
+            watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), if (watchlist) R.drawable.ic_bookmark else R.drawable.ic_bookmark_outline, if (watchlist) R.color.accent_blue else R.color.textColorPrimary))
+            watchlistText.setTextColor(ContextCompat.getColor(requireContext(), if (watchlist) R.color.accent_blue else R.color.textColorPrimary))
         })
         viewModel.credit.observe(viewLifecycleOwner, Observer {
-            val crewList = ArrayList<Credits>()
-            crewList.add(Credits(getString(R.string.starring), getString(R.string.starring, it["actors"])))
-            crewList.add(Credits(getString(R.string.directed), getString(R.string.directed, it["directors"])))
-            crewList.add(Credits(getString(R.string.written), getString(R.string.written, it["writers"])))
-            crewList.add(Credits(getString(R.string.produced), getString(R.string.produced, it["producers"])))
-            crewAdapter.setCrew(crewList)
+            if (it.isNullOrEmpty().not()) {
+                val crewList = ArrayList<Credits>()
+                crewList.add(Credits(getString(R.string.starring), getString(R.string.starring, it["actors"])))
+                crewList.add(Credits(getString(R.string.directed), getString(R.string.directed, it["directors"])))
+                crewList.add(Credits(getString(R.string.written), getString(R.string.written, it["writers"])))
+                crewList.add(Credits(getString(R.string.produced), getString(R.string.produced, it["producers"])))
+                crewAdapter.setCrew(crewList)
+            }
         })
     }
 
     private fun movieExtra(movie: Movie) {
         posterPath = movie.posterPath
-        poster.visibility = VISIBLE
-        Glide.with(requireContext())
-                .load(String.format(Locale.US, TMDB_IMAGE, "w342", posterPath))
-                .thumbnail(0.1F)
-                .into(poster)
+        if (posterPath.isNullOrEmpty().not()) {
+            poster.visibility = VISIBLE
+            Glide.with(requireContext())
+                    .load(String.format(Locale.US, TMDB_IMAGE, "w342", posterPath))
+                    .thumbnail(0.1F)
+                    .into(poster)
+        }
 
         titleText.text = movie.title
         titleText.customSelectionActionModeCallback = SelectableActionMode(titleText)
 
-        overviewText.text = if (TextUtils.isEmpty(movie.overview)) getString(R.string.no_overview) else movie.overview
-        overviewText.customSelectionActionModeCallback = SelectableActionMode(overviewText)
+        if (movie.overview.isNullOrEmpty()) {
+            overviewText.text = getString(R.string.no_overview)
+        } else {
+            overviewText.text = movie.overview
+            overviewText.customSelectionActionModeCallback = SelectableActionMode(overviewText)
+        }
 
         ratingView.setRating(movie.voteAverage)
         ratingText.text = movie.voteAverage.toString()
 
         voteCountText.text = movie.voteCount.toString()
 
-        if (movie.releaseDate == null) {
+        if (movie.releaseDate.isNullOrEmpty()) {
             //parent.removeView(dateIcon)
             //parent.removeView(dateText)
             infoLayout.removeView(dateLayout) // old layout
         } else {
-            dateIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_calendar, R.color.iconActiveColor))
-            dateText.text = DateUtil.formatReleaseDate(movie.releaseDate)
+            movie.releaseDate?.let {
+                dateIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_calendar, R.color.iconActiveColor))
+                dateText.text = DateUtil.formatReleaseDate(it)
+            }
         }
 
         val list = ArrayList<Genre>()
-        for (id in movie.genreIds) {
-            list.add(Genre.getGenreById(id))
+        movie.genreIds.forEach {
+            list.add(Genre.getGenreById(it))
         }
         genresAdapter.setGenres(list)
     }
@@ -436,32 +402,8 @@ class MovieFragment: BaseFragment() {
         return text.toString()
     }
 
-    /*@Override
-    public void onPause() {
-        super.onPause();
-        if (adView != null) {
-            adView.pause();
-        }
-    }*/
-
-    /*@Override
-    public void onResume() {
-        super.onResume();
-        if (adView != null) {
-            adView.resume();
-        }
-    }*/
-
-    /*override fun onDestroy() {
-        super.onDestroy()
-        if (adView != null) {
-            adView.destroy();
-        }
-    }*/
-
     data class Credits(val category: String, val list: String)
 
-    // Interface to select text and start in-app search.
     private inner class SelectableActionMode(private val view: TextView): ActionMode.Callback {
         override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
             when (item?.itemId) {
@@ -479,9 +421,9 @@ class MovieFragment: BaseFragment() {
 
                     val selectedText = view.text.subSequence(min, max).toString()
 
-                    val intent = Intent(view.context, SearchActivity::class.java)
-                    intent.putExtra(EXTRA_QUERY, selectedText)
-                    view.context.startActivity(intent)
+                    requireActivity().startActivity<SearchActivity> {
+                        putExtra(EXTRA_QUERY, selectedText)
+                    }
 
                     mode?.finish()
                     return true
@@ -510,7 +452,7 @@ class MovieFragment: BaseFragment() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CrewViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_crew, parent, false)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.listitem_crew, parent, false)
             return CrewViewHolder(view)
         }
 
@@ -539,7 +481,7 @@ class MovieFragment: BaseFragment() {
         }
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GenresViewHolder {
-            val view = LayoutInflater.from(parent.context).inflate(R.layout.item_genre, parent, false)
+            val view = LayoutInflater.from(parent.context).inflate(R.layout.listitem_genre, parent, false)
             return GenresViewHolder(view)
         }
 

@@ -1,25 +1,16 @@
 package org.michaelbel.domain
 
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import org.michaelbel.data.Keyword
 import org.michaelbel.data.local.dao.KeywordsDao
 import org.michaelbel.data.remote.Api
+import org.michaelbel.data.remote.model.KeywordsResponse
+import retrofit2.Response
 import java.util.*
 
 class KeywordsRepository(private val api: Api, private val dao: KeywordsDao) {
 
-    fun keywords(movieId: Int, apiKey: String): Observable<List<Keyword>> {
-        return api.getKeywords(movieId, apiKey)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .flatMap {
-                    add(movieId, it.keywords)
-                    return@flatMap Observable.just(it)
-                }
-                .map { it.keywords }
-
+    suspend fun keywords(movieId: Int, apiKey: String): Response<KeywordsResponse> {
+        return api.keywords(movieId, apiKey).await()
     }
 
     fun add(movieId: Int, items: List<Keyword>) {

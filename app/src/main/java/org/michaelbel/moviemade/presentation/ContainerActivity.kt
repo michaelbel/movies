@@ -2,12 +2,12 @@ package org.michaelbel.moviemade.presentation
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.activity_container.*
+import kotlinx.android.synthetic.main.activity_parent.*
 import org.michaelbel.data.Movie
-import org.michaelbel.data.remote.model.MoviesResponse.Companion.FAVORITE
-import org.michaelbel.data.remote.model.MoviesResponse.Companion.RECOMMENDATIONS
-import org.michaelbel.data.remote.model.MoviesResponse.Companion.SIMILAR
-import org.michaelbel.data.remote.model.MoviesResponse.Companion.WATCHLIST
+import org.michaelbel.data.Movie.Companion.FAVORITE
+import org.michaelbel.data.Movie.Companion.RECOMMENDATIONS
+import org.michaelbel.data.Movie.Companion.SIMILAR
+import org.michaelbel.data.Movie.Companion.WATCHLIST
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.presentation.common.base.BaseActivity
 import org.michaelbel.moviemade.presentation.features.about.AboutFragment
@@ -34,7 +34,7 @@ class ContainerActivity: BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_container)
+        setContentView(R.layout.activity_parent)
 
         val fragment = intent.getStringExtra(FRAGMENT_NAME)
         val accountId = intent.getIntExtra(EXTRA_ACCOUNT_ID, 0)

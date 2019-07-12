@@ -1,55 +1,33 @@
 package org.michaelbel.domain
 
-import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import org.michaelbel.data.Video
 import org.michaelbel.data.local.dao.UsersDao
 import org.michaelbel.data.remote.Api
 import org.michaelbel.data.remote.model.*
+import retrofit2.Response
 
 class UsersRepository(private val api: Api, private val dao: UsersDao) {
 
-    fun createSessionId(apiKey: String, token: String): Observable<String> {
-        return api.createSession(apiKey, RequestToken(token))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map { if (it.success) it.sessionId else "" }
+    suspend fun createSessionId(apiKey: String, token: String): Response<Session> {
+        return api.createSession(apiKey, RequestToken(token)).await()
     }
 
-    fun authWithLogin(apiKey: String, un: Username): Observable<String> {
-        return api.createSessionWithLogin(apiKey, un)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map { if (it.success) it.requestToken else "" }
+    suspend fun authWithLogin(apiKey: String, un: Username): Response<Token> {
+        return api.createSessionWithLogin(apiKey, un).await()
     }
 
-    fun deleteSession(apiKey: String, sessionId: SessionId): Observable<Boolean> {
-        return api.deleteSession(apiKey, sessionId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .map { it.success }
+    suspend fun deleteSession(apiKey: String, sessionId: SessionId): Response<DeletedSession> {
+        return api.deleteSession(apiKey, sessionId).await()
     }
 
-    fun getAccountDetails(apiKey: String, sessionId: String): Observable<Account> {
-        return api.getDetails(apiKey, sessionId)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+    suspend fun accountDetails(apiKey: String, sessionId: String): Response<Account> {
+        return api.details(apiKey, sessionId).await()
     }
 
-    fun createRequestToken(apiKey: String): Observable<Token> {
-        return api.createRequestToken(apiKey)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
+    suspend fun createRequestToken(apiKey: String): Response<Token> {
+        return api.createRequestToken(apiKey).await()
     }
 
-    fun createRequestToken(apiKey: String, name: String, pass: String): Observable<Token> {
-        return api.createRequestToken(apiKey)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-    }
-
-    fun add(movieId: Int, items: List<Video>) {
-
+    suspend fun createRequestToken(apiKey: String, name: String, pass: String): Response<Token> {
+        return api.createRequestToken(apiKey).await()
     }
 }

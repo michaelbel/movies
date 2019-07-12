@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.listitem_about.view.*
 import org.michaelbel.core.adapter.ListItem
-import org.michaelbel.core.adapter.ViewTypes
+import org.michaelbel.core.adapter.ViewTypes.ABOUT_ITEM
 import org.michaelbel.moviemade.R
 import java.io.Serializable
 
@@ -17,9 +17,7 @@ data class AboutListItem(internal var data: Data): ListItem {
 
     override fun getData() = data
 
-    override fun getViewType() = ViewTypes.ABOUT_ITEM
-
-    override fun getId() = RecyclerView.NO_ID
+    override fun getViewType() = ABOUT_ITEM
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.listitem_about, parent, false))

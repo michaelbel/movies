@@ -288,7 +288,7 @@
         app:layout_constraintTop_toBottomOf="@+id/taglineText"
         app:layout_constraintEnd_toEndOf="parent"
         tools:orientation="horizontal"
-        tools:listitem="@layout/item_genre"
+        tools:listitem="@layout/listitem_genre"
         tools:itemCount="1"/>
 
     <View
@@ -343,7 +343,7 @@
         app:layout_constraintTop_toBottomOf="@+id/divider2"
         app:layout_constraintEnd_toEndOf="parent"
         tools:orientation="vertical"
-        tools:listitem="@layout/item_crew"
+        tools:listitem="@layout/listitem_crew"
         tools:itemCount="4"/>
 
     <View

@@ -1,16 +1,14 @@
 package org.michaelbel.data.local.dao
 
 import androidx.room.Dao
-import androidx.room.Query
-import io.reactivex.Flowable
 import org.michaelbel.data.Video
 import org.michaelbel.data.local.BaseDao
 
 @Dao
 abstract class TrailersDao: BaseDao<Video>() {
 
-    @Query("select * from trailers where id = :id")
-    protected abstract fun findById(id: Int): Flowable<Video>
+    /*@Query("select * from trailers where id = :id")
+    protected abstract fun findById(id: Int): Deferred<Video>
 
     @Query("select * from trailers")
     protected abstract fun getAll(): List<Video>
@@ -19,7 +17,7 @@ abstract class TrailersDao: BaseDao<Video>() {
     protected abstract fun getAll(id: Int): List<Video>
 
     @Query("delete from trailers")
-    protected abstract fun deleteAll()
+    protected abstract fun deleteAll()*/
 
     /**
      * Аннотирование метода с помощью @Transaction гарантирует, что все операции базы данных,

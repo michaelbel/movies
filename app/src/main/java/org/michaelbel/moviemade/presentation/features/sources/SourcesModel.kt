@@ -14,11 +14,11 @@ class SourcesModel: ViewModel() {
     fun init(items: List<SourcesFragment.Source>) {
         val list = ArrayList<ListItem>()
 
-        for (item in items) {
-            val listItem = TextDetailListItem(TextDetailListItem.Data(item.name, item.license, item != items[items.size - 1]))
+        items.forEach {
+            val listItem = TextDetailListItem(TextDetailListItem.Data(it.name, it.license, it != items[items.size - 1]))
             listItem.listener = object: TextDetailListItem.Listener {
                 override fun onClick() {
-                    click.postValue(LiveDataEvent(item.url))
+                    click.postValue(LiveDataEvent(it.url))
                 }
             }
             list.add(listItem)

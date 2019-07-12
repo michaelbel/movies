@@ -1,30 +1,34 @@
 package org.michaelbel.moviemade.presentation.features.user
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.transaction
+import androidx.core.content.edit
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.Glide
-import com.readystatesoftware.chuck.internal.ui.MainActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.view_account.*
-import org.michaelbel.data.remote.model.MoviesResponse.Companion.FAVORITE
-import org.michaelbel.data.remote.model.MoviesResponse.Companion.WATCHLIST
+import kotlinx.android.synthetic.main.fragment_user.*
+import org.michaelbel.data.Movie.Companion.FAVORITE
+import org.michaelbel.data.Movie.Companion.WATCHLIST
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.TmdbConfig.GRAVATAR_URL
-import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_BACKDROP
+import org.michaelbel.moviemade.core.local.SharedPrefs
+import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_AVATAR
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_ID
+import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_LOGIN
+import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_NAME
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
+import org.michaelbel.moviemade.core.startActivity
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.ContainerActivity
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_ACCOUNT_ID
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.FRAGMENT_NAME
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
 import org.michaelbel.moviemade.presentation.features.login.LoginFragment
+import org.michaelbel.moviemade.presentation.features.main.MainActivity
+import org.michaelbel.moviemade.presentation.features.main.MainActivity.Companion.FRAGMENT_TAG
 import java.util.*
 import javax.inject.Inject
 
@@ -33,9 +37,6 @@ class UserFragment: BaseFragment() {
     companion object {
         internal fun newInstance() = UserFragment()
     }
-
-    private var accountId: Int = 0
-    private var sessionId: String = ""
 
     private lateinit var viewModel: UserModel
 
@@ -55,7 +56,7 @@ class UserFragment: BaseFragment() {
                     builder.setMessage(R.string.msg_logout)
                     builder.setNegativeButton(R.string.cancel, null)
                     builder.setPositiveButton(R.string.ok) { _, _ ->
-                        viewModel.deleteSession(sessionId)
+                        viewModel.deleteSession(preferences.getString(KEY_SESSION_ID, "") ?: "")
                     }
                     builder.show()
                     return@setOnMenuItemClickListener true
@@ -65,7 +66,6 @@ class UserFragment: BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         App[requireActivity().application].createFragmentComponent().inject(this)
-        sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -76,56 +76,75 @@ class UserFragment: BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        showAccount()
+
+        val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
+        App.d("UserFragment, sessionId = $sessionId")
+        if (sessionId.isEmpty()) {
+            requireFragmentManager()
+                    .beginTransaction()
+                    .replace((requireActivity() as MainActivity).container.id, LoginFragment.newInstance(), FRAGMENT_TAG)
+                    .commit()
+        }
+
+        updateData()
 
         favoritesText.setOnClickListener {
-            val intent = Intent(requireContext(), ContainerActivity::class.java)
-            intent.putExtra(FRAGMENT_NAME, FAVORITE)
-            intent.putExtra(EXTRA_ACCOUNT_ID, accountId)
-            startActivity(intent)
+            requireActivity().startActivity<ContainerActivity> {
+                putExtra(FRAGMENT_NAME, FAVORITE)
+                putExtra(EXTRA_ACCOUNT_ID, preferences.getInt(KEY_ACCOUNT_ID, 0))
+            }
         }
         watchlistText.setOnClickListener {
-            val intent = Intent(requireContext(), ContainerActivity::class.java)
-            intent.putExtra(FRAGMENT_NAME, WATCHLIST)
-            intent.putExtra(EXTRA_ACCOUNT_ID, accountId)
-            startActivity(intent)
+            requireActivity().startActivity<ContainerActivity> {
+                putExtra(FRAGMENT_NAME, WATCHLIST)
+                putExtra(EXTRA_ACCOUNT_ID, preferences.getInt(KEY_ACCOUNT_ID, 0))
+            }
         }
 
-        viewModel.sessionDeleted.observe(viewLifecycleOwner, Observer {
-            showLogin()
-        })
+        viewModel.accountDetails(preferences.getString(KEY_SESSION_ID, "") ?: "")
         viewModel.account.observe(viewLifecycleOwner, Observer {
-            accountId = it.id
-            preferences.edit().putInt(KEY_ACCOUNT_ID, accountId).apply()
-            loginText.text = if (it.username.isEmpty()) getString(R.string.none) else it.username
-            nameText.text = if (it.name.isEmpty()) getString(R.string.none) else it.name
-            Glide.with(requireContext())
-                    .load(String.format(Locale.US, GRAVATAR_URL, it.avatar.gravatar.hash))
-                    .thumbnail(0.1F).into(avatar)
+            App.d("${this.javaClass.simpleName}:: Account observe: $it")
+
+            preferences.edit {
+                putInt(KEY_ACCOUNT_ID, it.id)
+                putString(KEY_ACCOUNT_LOGIN, it.username)
+                putString(KEY_ACCOUNT_NAME, it.name)
+                putString(KEY_ACCOUNT_AVATAR, it.avatar.gravatar.hash)
+            }
+
+            updateData()
+        })
+        viewModel.sessionDeleted.observe(viewLifecycleOwner, Observer {
+            App.d("\"${this.javaClass.simpleName}:: Session deleted")
+            it.getContentIfNotHandled().let {
+                preferences.edit().putString(KEY_SESSION_ID, "").apply()
+
+                requireFragmentManager()
+                        .beginTransaction()
+                        .replace((requireActivity() as MainActivity).container.id, LoginFragment.newInstance(), FRAGMENT_TAG)
+                        .commit()
+            }
+        })
+        viewModel.throwable.observe(viewLifecycleOwner, Observer {
+            //Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
         })
     }
 
-    override fun onScrollToTop() {
-        super.onScrollToTop()
-    }
+    private fun updateData() {
+        val name = preferences.getString(KEY_ACCOUNT_NAME, "") ?: ""
+        nameText.text = name
+        App.d("\"${this.javaClass.simpleName}:: name = $name")
 
-    private fun showLogin() {
-        preferences.edit().putString(KEY_SESSION_ID, "").apply()
+        val login = preferences.getString(KEY_ACCOUNT_LOGIN, "") ?: ""
+        App.d("\"${this.javaClass.simpleName}:: login = $login")
+        loginText.text = login
 
-        requireFragmentManager().transaction {
-            replace((requireActivity() as MainActivity).container.id, LoginFragment.newInstance())
-        }
-    }
+        val path = preferences.getString(KEY_ACCOUNT_AVATAR, "http://null") ?: "http://null"
+        App.d("\"${this.javaClass.simpleName}:: avatar = $path")
+        Glide.with(requireContext()).load(String.format(Locale.US, GRAVATAR_URL, path)).thumbnail(0.1F).into(avatar)
 
-    private fun showAccount() {
-        loginText.setText(R.string.loading_login)
-        nameText.setText(R.string.loading_name)
-
-        val backdrop = preferences.getString(KEY_ACCOUNT_BACKDROP, "") ?: ""
-        if (backdrop.isNotEmpty()) {
-            Glide.with(requireContext()).load(backdrop).thumbnail(0.1F).into(cover)
-        }
-
-        viewModel.accountDetails(sessionId)
+        val backdrop = preferences.getString(SharedPrefs.KEY_ACCOUNT_BACKDROP, "") ?: "http://null"
+        App.d("\"${this.javaClass.simpleName}:: backdrop = $backdrop")
+        Glide.with(requireContext()).load(backdrop).thumbnail(0.1F).into(cover)
     }
 }

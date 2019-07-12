@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.presentation.features.main
 
-import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,17 +12,19 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_lce.*
+import org.michaelbel.core.adapter.ListAdapter
 import org.michaelbel.data.Keyword
 import org.michaelbel.data.Movie
-import org.michaelbel.data.remote.model.MoviesResponse.Companion.FAVORITE
-import org.michaelbel.data.remote.model.MoviesResponse.Companion.NOW_PLAYING
-import org.michaelbel.data.remote.model.MoviesResponse.Companion.RECOMMENDATIONS
-import org.michaelbel.data.remote.model.MoviesResponse.Companion.SIMILAR
-import org.michaelbel.data.remote.model.MoviesResponse.Companion.WATCHLIST
+import org.michaelbel.data.Movie.Companion.FAVORITE
+import org.michaelbel.data.Movie.Companion.NOW_PLAYING
+import org.michaelbel.data.Movie.Companion.RECOMMENDATIONS
+import org.michaelbel.data.Movie.Companion.SIMILAR
+import org.michaelbel.data.Movie.Companion.WATCHLIST
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.ViewUtil
 import org.michaelbel.moviemade.core.local.BuildUtil
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
+import org.michaelbel.moviemade.core.startActivity
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_MOVIE
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
@@ -39,7 +40,7 @@ import javax.inject.Inject
  * Similar, Recommendations
  * Movies by Keyword
  */
-class MoviesFragment2: BaseFragment(), MoviesAdapter.Listener {
+class MoviesFragment2: BaseFragment() {
 
     companion object {
         private const val ARG_LIST = "list"
@@ -87,13 +88,14 @@ class MoviesFragment2: BaseFragment(), MoviesAdapter.Listener {
     }
 
     private var movie: Movie? = null
+    private var movieId: Int = 0
     private var keyword: Keyword = Keyword(id = 0, name = "")
 
     private var accountId: Int = 0
     private var sessionId: String = ""
 
     private lateinit var list: String
-    private lateinit var adapter: MoviesAdapter
+    private lateinit var adapter: ListAdapter
     private lateinit var viewModel: MoviesModel
 
     @Inject
@@ -118,6 +120,7 @@ class MoviesFragment2: BaseFragment(), MoviesAdapter.Listener {
         list = arguments?.getString(ARG_LIST) ?: NOW_PLAYING
         if (arguments?.getSerializable(ARG_MOVIE) != null) {
             movie = arguments?.getSerializable(ARG_MOVIE) as Movie
+            movieId = movie?.id ?: 0
         }
         if (arguments?.getSerializable(ARG_KEYWORD) != null) {
             keyword = arguments?.getSerializable(ARG_KEYWORD) as Keyword
@@ -138,8 +141,7 @@ class MoviesFragment2: BaseFragment(), MoviesAdapter.Listener {
                 }
             }
         }
-
-        if (movie?.id != 0) {
+        if (movieId != 0) {
             toolbar.subtitle = movie?.title
         }
         toolbar.navigationIcon = ViewUtil.getIcon(requireContext(), R.drawable.ic_arrow_back, R.color.iconActiveColor)
@@ -154,7 +156,7 @@ class MoviesFragment2: BaseFragment(), MoviesAdapter.Listener {
 
         val spans = resources.getInteger(R.integer.movies_span_layout_count)
 
-        adapter = MoviesAdapter(this)
+        adapter = ListAdapter()
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = GridLayoutManager(requireContext(), spans)
@@ -164,10 +166,10 @@ class MoviesFragment2: BaseFragment(), MoviesAdapter.Listener {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1) && adapter.itemCount != 0) {
                     when {
-                        keyword.id != 0 -> viewModel.moviesNext(keyword.id)
-                        list == WATCHLIST -> viewModel.moviesWatchlistNext(accountId, sessionId)
-                        list == FAVORITE -> viewModel.moviesFavoriteNext(accountId, sessionId)
-                        else -> viewModel.moviesNext(movie!!.id, list)
+                        keyword.id != 0 -> viewModel.moviesByKeyword(keyword.id)
+                        list == WATCHLIST -> viewModel.moviesWatchlist(accountId, sessionId)
+                        list == FAVORITE -> viewModel.moviesFavorite(accountId, sessionId)
+                        else -> viewModel.moviesById(movieId, list)
                     }
                 }
             }
@@ -175,38 +177,53 @@ class MoviesFragment2: BaseFragment(), MoviesAdapter.Listener {
 
         emptyView.setOnClickListener {
             emptyView.visibility = GONE
-            viewModel.movies(movie!!.id, list)
+            when {
+                keyword.id != 0 -> viewModel.moviesByKeyword(keyword.id)
+                list == FAVORITE -> viewModel.moviesFavorite(accountId, sessionId)
+                list == WATCHLIST -> viewModel.moviesWatchlist(accountId, sessionId)
+                else -> viewModel.moviesById(movieId, list)
+            }
         }
 
         when {
-            keyword.id != 0 -> viewModel.movies(keyword.id)
+            keyword.id != 0 -> viewModel.moviesByKeyword(keyword.id)
             list == FAVORITE -> viewModel.moviesFavorite(accountId, sessionId)
             list == WATCHLIST -> viewModel.moviesWatchlist(accountId, sessionId)
-            else -> viewModel.movies(movie!!.id, list)
+            else -> viewModel.moviesById(movieId, list)
         }
         viewModel.loading.observe(viewLifecycleOwner, Observer {
             progressBar.visibility = if (it) VISIBLE else GONE
         })
         viewModel.content.observe(viewLifecycleOwner, Observer {
-            adapter.addMovies(it)
+            adapter.setItems(it)
         })
-        viewModel.error.observe(viewLifecycleOwner, Observer {
-            emptyView.visibility = VISIBLE
-            emptyView.setMode(it)
+        viewModel.error.observe(viewLifecycleOwner, Observer { error ->
+            error.getContentIfNotHandled()?.let {
+                emptyView.visibility = VISIBLE
+                emptyView.setMode(it)
 
-            if (BuildUtil.isApiKeyEmpty()) {
-                emptyView.setValue(R.string.error_empty_api_key)
+                if (BuildUtil.isApiKeyEmpty()) {
+                    emptyView.setValue(R.string.error_empty_api_key)
+                }
+            }
+        })
+        viewModel.click.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                requireActivity().startActivity<MovieActivity> {
+                    putExtra(EXTRA_MOVIE, it)
+                }
+            }
+        })
+        viewModel.longClick.observe(viewLifecycleOwner, Observer {
+            it.getContentIfNotHandled()?.let {
+                requireActivity().startActivity<MovieActivity> {
+                    putExtra(EXTRA_MOVIE, it)
+                }
             }
         })
     }
 
     override fun onScrollToTop() {
         recyclerView.smoothScrollToPosition(0)
-    }
-
-    override fun onMovieClick(movie: Movie) {
-        val intent = Intent(requireContext(), MovieActivity::class.java)
-        intent.putExtra(EXTRA_MOVIE, movie)
-        startActivity(intent)
     }
 }

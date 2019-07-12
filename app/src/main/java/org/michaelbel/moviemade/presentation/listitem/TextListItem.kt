@@ -8,10 +8,11 @@ import android.view.ViewGroup
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.listitem_text.view.*
 import org.michaelbel.core.adapter.ListItem
-import org.michaelbel.core.adapter.ViewTypes
+import org.michaelbel.core.adapter.ViewTypes.TEXT_ITEM
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
 import java.io.Serializable
@@ -25,16 +26,14 @@ data class TextListItem(internal var data: Data): ListItem {
     ): Serializable
 
     interface Listener {
-        fun onClick()
+        fun onClick() {}
     }
 
     lateinit var listener: Listener
 
     override fun getData() = data
 
-    override fun getViewType() = ViewTypes.TEXT_ITEM
-
-    override fun getId() = RecyclerView.NO_ID
+    override fun getViewType() = TEXT_ITEM
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.listitem_text, parent, false))
@@ -44,9 +43,12 @@ data class TextListItem(internal var data: Data): ListItem {
         holder.itemView.iconView.setImageResource(getData().icon)
         holder.itemView.textView.setText(getData().text)
         holder.itemView.divider.visibility = if (getData().divider) VISIBLE else GONE
+
         holder.itemView.setOnClickListener(object: DebouncingOnClickListener() {
             override fun doClick(v: View) {
-                listener.onClick()
+                if (holder.adapterPosition != NO_POSITION) {
+                    listener.onClick()
+                }
             }
         })
     }

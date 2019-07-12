@@ -3,10 +3,11 @@ package org.michaelbel.moviemade.presentation.common
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.util.AttributeSet
+import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.LayoutHelper
+import org.michaelbel.moviemade.core.DeviceUtil
 import org.michaelbel.moviemade.core.ViewUtil
 
 class RatingView: LinearLayoutCompat {
@@ -32,12 +33,12 @@ class RatingView: LinearLayoutCompat {
     }
 
     private fun initialize(context: Context) {
-        orientation = LinearLayoutCompat.HORIZONTAL
+        orientation = HORIZONTAL
 
         val starCount = 5
         for (i in 0 until starCount) {
             val view = StarView(context)
-            view.layoutParams = LayoutHelper.makeLinear(context,20, 20)
+            view.layoutParams = LinearLayout.LayoutParams(DeviceUtil.dp(context, 20F), DeviceUtil.dp(context, 20F))
             addView(view)
             stars[i] = view
         }
