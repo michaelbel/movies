@@ -11,7 +11,7 @@ object DateUtil {
         val formatHour = SimpleDateFormat("H:mm", ENGLISH)
 
         val date = formatMin.parse(runtime.toString())
-        return formatHour.format(date)
+        return formatHour.format(date as Date)
     }
 
     fun formatReleaseDate(releaseDate: String): String {
@@ -19,6 +19,6 @@ object DateUtil {
         val newFormat = SimpleDateFormat("d MMM yyyy", ENGLISH)
 
         val date = oldFormat.parse(releaseDate)
-        return newFormat.format(date)
+        return newFormat.format(date as Date)
     }
 }

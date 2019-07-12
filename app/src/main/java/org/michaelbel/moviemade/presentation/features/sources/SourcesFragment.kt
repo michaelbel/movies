@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,7 +16,6 @@ import kotlinx.android.synthetic.main.fragment_lce.*
 import org.michaelbel.core.adapter.ListAdapter
 import org.michaelbel.core.customtabs.Browser
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.ViewUtil
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
 import java.io.IOException
 import java.io.Serializable
@@ -46,7 +46,7 @@ class SourcesFragment: BaseFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         toolbar.title = getString(R.string.open_source_libs)
-        toolbar.navigationIcon = ViewUtil.getIcon(requireContext(), R.drawable.ic_arrow_back)
+        toolbar.navigationIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_back)
         toolbar.setNavigationOnClickListener { requireFragmentManager().popBackStack() }
 
         val list: List<Source> = Gson().fromJson(loadJsonFromAsset(FILE_NAME), object: TypeToken<List<Source>>() {}.type)

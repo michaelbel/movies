@@ -3,6 +3,7 @@ package org.michaelbel.moviemade.presentation.listitem
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import com.bumptech.glide.Glide
@@ -43,7 +44,7 @@ data class TrailerListItem(internal var trailer: Video): ListItem {
 
         holder.itemView.playerIcon.setImageDrawable(if (trailer.site == "YouTube")
             ViewUtil.getIcon(holder.itemView.context, R.drawable.ic_youtube, R.color.youtubeColor) else
-            ViewUtil.getIcon(holder.itemView.context, R.drawable.ic_play_circle))
+            ContextCompat.getDrawable(holder.itemView.context, R.drawable.ic_play_circle))
 
         holder.itemView.setOnClickListener(object: DebouncingOnClickListener() {
             override fun doClick(v: View) {

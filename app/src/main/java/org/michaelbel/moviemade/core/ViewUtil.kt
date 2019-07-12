@@ -1,14 +1,16 @@
 package org.michaelbel.moviemade.core
 
 import android.content.Context
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.os.Build
 import android.widget.EditText
 import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
-import org.michaelbel.moviemade.R
 
 object ViewUtil {
 
@@ -18,15 +20,17 @@ object ViewUtil {
         mCursorDrawableRes.setInt(editText, 0)
     }
 
-    fun getIcon(context: Context, @DrawableRes resource: Int, @ColorRes colorFilter: Int = R.color.iconActiveColor): Drawable =
-            getIcon(context, resource, colorFilter, PorterDuff.Mode.MULTIPLY)
-
-    private fun getIcon(context: Context, @DrawableRes resource: Int, colorFilter: Int, mode: PorterDuff.Mode): Drawable {
+    fun getIcon(context: Context, @DrawableRes resource: Int, @ColorRes color: Int): Drawable {
         val iconDrawable = ContextCompat.getDrawable(context, resource) ?: context.getDrawable(resource)
-        val color = ContextCompat.getColor(context, colorFilter)
+        val colorDrawable = ContextCompat.getColor(context, color)
 
         iconDrawable?.clearColorFilter()
-        iconDrawable?.mutate()?.setColorFilter(color, mode)
+        iconDrawable?.mutate()
+        if (Build.VERSION.SDK_INT >= 29) {
+            iconDrawable?.colorFilter = BlendModeColorFilter(colorDrawable, BlendMode.COLOR)
+        } else {
+            iconDrawable?.setColorFilter(colorDrawable, PorterDuff.Mode.MULTIPLY)
+        }
 
         return iconDrawable as Drawable
     }

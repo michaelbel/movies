@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.fragment.app.transaction
 import androidx.lifecycle.Observer
@@ -34,7 +35,6 @@ import org.michaelbel.moviemade.core.Links.EMAIL
 import org.michaelbel.moviemade.core.Links.GITHUB_URL
 import org.michaelbel.moviemade.core.Links.PAYPAL_ME
 import org.michaelbel.moviemade.core.Links.TELEGRAM_URL
-import org.michaelbel.moviemade.core.ViewUtil
 import org.michaelbel.moviemade.presentation.ContainerActivity
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
 import org.michaelbel.moviemade.presentation.features.sources.SourcesFragment
@@ -65,7 +65,7 @@ class AboutFragment: BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         toolbar.title = getString(R.string.about)
-        toolbar.navigationIcon = ViewUtil.getIcon(requireContext(), R.drawable.ic_arrow_back)
+        toolbar.navigationIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_arrow_back)
         toolbar.setNavigationOnClickListener { requireActivity().finish() }
 
         recyclerView.adapter = adapter

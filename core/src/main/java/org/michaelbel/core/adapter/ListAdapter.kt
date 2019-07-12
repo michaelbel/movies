@@ -36,7 +36,7 @@ class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         setItems(listItems, false)
     }
 
-    fun setItems(listItems: ArrayList<ListItem>, isDiffUtilEnabled: Boolean){
+    fun setItems(listItems: ArrayList<ListItem>, isDiffUtilEnabled: Boolean) {
         var diffUtilCallback : DiffUtilCallback? = null
 
         if (isDiffUtilEnabled){
@@ -74,7 +74,7 @@ class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
-        if (payloads.isEmpty() || !(items[position].onBindViewHolder(holder, position, payloads))){
+        if (payloads.isEmpty() || !(items[position].onBindViewHolder(holder, position, payloads))) {
             super.onBindViewHolder(holder, position, payloads)
         }
     }
@@ -151,7 +151,7 @@ class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 items.addAll(newItems)
 
                 if (pendingUpdates.size > 0) {
-                    updateData(pendingUpdates.peek(), callback)
+                    updateData(pendingUpdates.peek() as Collection<ListItem>, callback)
                 }
             }
         }

@@ -1,6 +1,7 @@
 package org.michaelbel.moviemade.presentation.features.settings
 
 import android.os.Bundle
+import androidx.fragment.app.transaction
 import kotlinx.android.synthetic.main.activity_settings.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.presentation.common.base.BaseActivity
@@ -15,10 +16,9 @@ class SettingsActivity: BaseActivity() {
         supportActionBar?.setTitle(R.string.settings)
 
         if (savedInstanceState == null) {
-            supportFragmentManager
-                    .beginTransaction()
-                    .replace(container.id, SettingsFragment.newInstance())
-                    .commit()
+            supportFragmentManager.transaction {
+                replace(container.id, SettingsFragment.newInstance())
+            }
         }
     }
 }

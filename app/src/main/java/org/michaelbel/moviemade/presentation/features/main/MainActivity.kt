@@ -90,40 +90,25 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
 
         when (itemId) {
             R.id.item_playing -> {
-                supportFragmentManager
-                        .beginTransaction()
-                        .replace(container.id, MoviesFragment.newInstance(NOW_PLAYING), FRAGMENT_TAG)
-                        .commitNow()
-
-                /*supportFragmentManager.transaction {
+                supportFragmentManager.transaction {
                     replace(container.id, MoviesFragment.newInstance(NOW_PLAYING), FRAGMENT_TAG)
-                }*/
+                }
             }
             R.id.item_rated -> {
-                supportFragmentManager
-                        .beginTransaction()
-                        .replace(container.id, MoviesFragment.newInstance(TOP_RATED), FRAGMENT_TAG)
-                        .commitNow()
-
-                /*supportFragmentManager.transaction {
+                supportFragmentManager.transaction {
                     replace(container.id, MoviesFragment.newInstance(TOP_RATED), FRAGMENT_TAG)
-                }*/
+                }
             }
             R.id.item_upcoming -> {
-                supportFragmentManager
-                        .beginTransaction()
-                        .replace(container.id, MoviesFragment.newInstance(UPCOMING), FRAGMENT_TAG)
-                        .commitNow()
-
-                /*supportFragmentManager.transaction {
+                supportFragmentManager.transaction {
                     replace(container.id, MoviesFragment.newInstance(UPCOMING), FRAGMENT_TAG)
-                }*/
+                }
             }
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
-        outState?.putInt(ARG_BOTTOM_BAR_POSITION, bottomNavigationView.selectedItemId)
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        outState.putInt(ARG_BOTTOM_BAR_POSITION, bottomNavigationView.selectedItemId)
         super.onSaveInstanceState(outState, outPersistentState)
     }
 
