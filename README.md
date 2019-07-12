@@ -14,7 +14,7 @@
 
 <!------------------------------------------------------------------------------------------------------->
 <img src="screenshots/mockup2.png"/>
-<img src="../master/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="192" align="right" hspace="20"/>
+<img src="../master/icons/ic_launcher_playstore.png" width="192" align="right" hspace="20"/>
 
 Moviemade
 =
