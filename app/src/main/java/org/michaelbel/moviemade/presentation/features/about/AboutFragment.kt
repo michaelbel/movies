@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.presentation.features.about
 
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
@@ -13,13 +12,11 @@ import androidx.fragment.app.transaction
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.crashlytics.android.Crashlytics
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallStateUpdatedListener
 import com.google.android.play.core.install.model.AppUpdateType
-import com.google.android.play.core.install.model.InstallStatus
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.tasks.Task
 import kotlinx.android.synthetic.main.activity_parent.*
@@ -85,9 +82,7 @@ class AboutFragment: BaseFragment() {
         viewModel.click.reObserve(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let { cell ->
                 when (cell) {
-                    "update" -> {
-                        appUpdateManager?.startUpdateFlowForResult(appUpdateInfo?.result, AppUpdateType.FLEXIBLE, requireActivity(), APP_UPDATE_REQUEST_CODE)
-                    }
+                    "update" -> appUpdateManager?.startUpdateFlowForResult(appUpdateInfo?.result, AppUpdateType.IMMEDIATE, requireActivity(), APP_UPDATE_REQUEST_CODE)
                     "rate" -> {
                         try {
                             val intent = Intent(Intent.ACTION_VIEW)
@@ -153,7 +148,7 @@ class AboutFragment: BaseFragment() {
             }
         })
 
-        // InApp Updates.
+        // IAUs
         appUpdateManager = AppUpdateManagerFactory.create(requireContext())
         appUpdateManager?.registerListener(installStateUpdatedListener)
 
@@ -162,25 +157,8 @@ class AboutFragment: BaseFragment() {
             if (it.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE && it.isUpdateTypeAllowed(AppUpdateType.IMMEDIATE)) {
                 viewModel.addAppUpdateItem()
             }
-
-            if (it.installStatus() == InstallStatus.DOWNLOADED) {
-                Snackbar.make(view, R.string.update_uploaded, Snackbar.LENGTH_INDEFINITE).apply {
-                    setAction(R.string.action_restart) { appUpdateManager?.completeUpdate() }
-                    show()
-                }
-            } else if (it.installStatus() == InstallStatus.DOWNLOADING) {}
         }
-        appUpdateInfo?.addOnFailureListener {}
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == APP_UPDATE_REQUEST_CODE) {
-            if (resultCode == Activity.RESULT_OK) {
-                // todo Success
-            } else {
-                // todo Error
-            }
-        }
+        appUpdateInfo?.addOnFailureListener { Crashlytics.logException(it) }
     }
 
     private fun feedbackEmail() {

@@ -2,6 +2,8 @@ package org.michaelbel.moviemade.presentation.listitem
 
 import android.animation.ObjectAnimator
 import android.animation.PropertyValuesHolder
+import android.animation.ValueAnimator.INFINITE
+import android.animation.ValueAnimator.REVERSE
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,9 +21,13 @@ import java.io.Serializable
 
 data class AppUpdateListItem(internal var data: Data): ListItem {
 
+    data class Data(internal var downloadMode: Boolean = false): Serializable
+
+    private var viewHolder: ViewHolder? = null
+
     private var animator: ObjectAnimator? = null
 
-    data class Data(internal var listener: Listener): Serializable
+    var listener: Listener? = null
 
     interface Listener {
         fun onClick() {}
@@ -32,7 +38,8 @@ data class AppUpdateListItem(internal var data: Data): ListItem {
     override fun getViewType() = APP_UPDATE_ITEM
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.listitem_app_update, parent, false))
+        viewHolder = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.listitem_app_update, parent, false))
+        return viewHolder as ViewHolder
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -43,7 +50,7 @@ data class AppUpdateListItem(internal var data: Data): ListItem {
         holder.itemView.setOnClickListener(object: DebouncingOnClickListener() {
             override fun doClick(v: View) {
                 if (holder.adapterPosition != NO_POSITION) {
-                    getData().listener.onClick()
+                    listener?.onClick()
                 }
             }
         })
@@ -60,8 +67,8 @@ data class AppUpdateListItem(internal var data: Data): ListItem {
 
     private fun animateIcon(view: AppCompatImageView) {
         animator = ObjectAnimator.ofPropertyValuesHolder(view, PropertyValuesHolder.ofFloat("scaleX", 1.15F), PropertyValuesHolder.ofFloat("scaleY", 1.15F))
-        animator?.repeatCount = ObjectAnimator.INFINITE
-        animator?.repeatMode = ObjectAnimator.REVERSE
+        animator?.repeatCount = INFINITE
+        animator?.repeatMode = REVERSE
         animator?.duration = 750L
         animator?.start()
     }
