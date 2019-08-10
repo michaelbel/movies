@@ -1,11 +1,15 @@
 package org.michaelbel.data.local.dao
 
 import androidx.room.Dao
-import org.michaelbel.data.Video
-import org.michaelbel.data.local.BaseDao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy.REPLACE
+import org.michaelbel.data.local.model.TrailerLocal
 
 @Dao
-abstract class TrailersDao: BaseDao<Video>() {
+abstract class TrailersDao {
+
+    @Insert(onConflict = REPLACE)
+    abstract suspend fun insert(trailers: ArrayList<TrailerLocal>)
 
     /*@Query("select * from trailers where id = :id")
     protected abstract fun findById(id: Int): Deferred<Video>
@@ -35,6 +39,6 @@ abstract class TrailersDao: BaseDao<Video>() {
      * Таким образом, вместо этого мы можем создать объект VideoMinimal,
      * который содержит только необходимые данные.
      */
-    /*@Query("select id, name from trailers")
+    /*@Query("select id, title from trailers")
     protected abstract fun videosMinimal(): List<Video>*/
 }

@@ -8,7 +8,7 @@ object SharedPrefs {
     const val KEY_DATE_AUTHORISED = "date_authorised"
 
     const val KEY_ACCOUNT_ID = "account_id"
-    const val KEY_ACCOUNT_NAME = "name"
+    const val KEY_ACCOUNT_NAME = "title"
     const val KEY_ACCOUNT_LOGIN = "login"
     const val KEY_ACCOUNT_AVATAR = "avatar"
     const val KEY_ACCOUNT_BACKDROP = "backdrop"

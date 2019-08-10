@@ -8,22 +8,24 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_lce.*
 import org.michaelbel.core.adapter.ListAdapter
-import org.michaelbel.data.Keyword
-import org.michaelbel.data.Movie
-import org.michaelbel.data.Movie.Companion.FAVORITE
-import org.michaelbel.data.Movie.Companion.NOW_PLAYING
-import org.michaelbel.data.Movie.Companion.RECOMMENDATIONS
-import org.michaelbel.data.Movie.Companion.SIMILAR
-import org.michaelbel.data.Movie.Companion.WATCHLIST
+import org.michaelbel.data.remote.model.Keyword
+import org.michaelbel.data.remote.model.Movie
+import org.michaelbel.data.remote.model.Movie.Companion.FAVORITE
+import org.michaelbel.data.remote.model.Movie.Companion.NOW_PLAYING
+import org.michaelbel.data.remote.model.Movie.Companion.RECOMMENDATIONS
+import org.michaelbel.data.remote.model.Movie.Companion.SIMILAR
+import org.michaelbel.data.remote.model.Movie.Companion.WATCHLIST
+import org.michaelbel.domain.MoviesRepository
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.ViewUtil
+import org.michaelbel.moviemade.core.getViewModel
 import org.michaelbel.moviemade.core.local.BuildUtil
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
+import org.michaelbel.moviemade.core.reObserve
 import org.michaelbel.moviemade.core.startActivity
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_MOVIE
@@ -88,21 +90,19 @@ class MoviesFragment2: BaseFragment() {
     }
 
     private var movie: Movie? = null
-    private var movieId: Int = 0
+    private var movieId: Long = 0L
     private var keyword: Keyword = Keyword(id = 0, name = "")
 
-    private var accountId: Int = 0
+    private var accountId: Long = 0L
     private var sessionId: String = ""
 
     private lateinit var list: String
     private lateinit var adapter: ListAdapter
-    private lateinit var viewModel: MoviesModel
 
-    @Inject
-    lateinit var preferences: SharedPreferences
+    @Inject lateinit var repository: MoviesRepository
+    @Inject lateinit var preferences: SharedPreferences
 
-    @Inject
-    lateinit var factory: MoviesFactory
+    private val viewModel: MoviesModel by lazy { getViewModel { MoviesModel(repository) } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -111,7 +111,6 @@ class MoviesFragment2: BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel = ViewModelProviders.of(requireActivity(), factory).get(MoviesModel::class.java)
         return inflater.inflate(R.layout.fragment_lce, container, false)
     }
 
@@ -120,13 +119,13 @@ class MoviesFragment2: BaseFragment() {
         list = arguments?.getString(ARG_LIST) ?: NOW_PLAYING
         if (arguments?.getSerializable(ARG_MOVIE) != null) {
             movie = arguments?.getSerializable(ARG_MOVIE) as Movie
-            movieId = movie?.id ?: 0
+            movieId = movie?.id?.toLong() ?: 0L
         }
         if (arguments?.getSerializable(ARG_KEYWORD) != null) {
             keyword = arguments?.getSerializable(ARG_KEYWORD) as Keyword
         }
 
-        accountId = arguments?.getInt(ARG_ACCOUNT_ID) ?: 0
+        accountId = arguments?.getLong(ARG_ACCOUNT_ID) ?: 0L
 
         toolbar.title = when(list) {
             SIMILAR -> getString(R.string.similar_movies)
@@ -134,20 +133,20 @@ class MoviesFragment2: BaseFragment() {
             FAVORITE -> getString(R.string.favorites)
             WATCHLIST -> getString(R.string.watchlist)
             else -> {
-                if (keyword.id != 0) {
+                if (keyword.id != 0L) {
                     keyword.name
                 } else {
                     ""
                 }
             }
         }
-        if (movieId != 0) {
+        if (movieId != 0L) {
             toolbar.subtitle = movie?.title
         }
         toolbar.navigationIcon = ViewUtil.getIcon(requireContext(), R.drawable.ic_arrow_back, R.color.iconActiveColor)
         toolbar.setOnClickListener { onScrollToTop() }
         toolbar.setNavigationOnClickListener {
-            if (keyword.id != 0) {
+            if (keyword.id != 0L) {
                 requireFragmentManager().popBackStack()
             } else {
                 requireActivity().finish()
@@ -166,7 +165,7 @@ class MoviesFragment2: BaseFragment() {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1) && adapter.itemCount != 0) {
                     when {
-                        keyword.id != 0 -> viewModel.moviesByKeyword(keyword.id)
+                        keyword.id != 0L -> viewModel.moviesByKeyword(keyword.id)
                         list == WATCHLIST -> viewModel.moviesWatchlist(accountId, sessionId)
                         list == FAVORITE -> viewModel.moviesFavorite(accountId, sessionId)
                         else -> viewModel.moviesById(movieId, list)
@@ -178,7 +177,7 @@ class MoviesFragment2: BaseFragment() {
         emptyView.setOnClickListener {
             emptyView.visibility = GONE
             when {
-                keyword.id != 0 -> viewModel.moviesByKeyword(keyword.id)
+                keyword.id != 0L -> viewModel.moviesByKeyword(keyword.id)
                 list == FAVORITE -> viewModel.moviesFavorite(accountId, sessionId)
                 list == WATCHLIST -> viewModel.moviesWatchlist(accountId, sessionId)
                 else -> viewModel.moviesById(movieId, list)
@@ -186,18 +185,18 @@ class MoviesFragment2: BaseFragment() {
         }
 
         when {
-            keyword.id != 0 -> viewModel.moviesByKeyword(keyword.id)
+            keyword.id != 0L -> viewModel.moviesByKeyword(keyword.id)
             list == FAVORITE -> viewModel.moviesFavorite(accountId, sessionId)
             list == WATCHLIST -> viewModel.moviesWatchlist(accountId, sessionId)
             else -> viewModel.moviesById(movieId, list)
         }
-        viewModel.loading.observe(viewLifecycleOwner, Observer {
+        viewModel.loading.reObserve(viewLifecycleOwner, Observer {
             progressBar.visibility = if (it) VISIBLE else GONE
         })
-        viewModel.content.observe(viewLifecycleOwner, Observer {
+        viewModel.content.reObserve(viewLifecycleOwner, Observer {
             adapter.setItems(it)
         })
-        viewModel.error.observe(viewLifecycleOwner, Observer { error ->
+        viewModel.error.reObserve(viewLifecycleOwner, Observer { error ->
             error.getContentIfNotHandled()?.let {
                 emptyView.visibility = VISIBLE
                 emptyView.setMode(it)
@@ -207,14 +206,14 @@ class MoviesFragment2: BaseFragment() {
                 }
             }
         })
-        viewModel.click.observe(viewLifecycleOwner, Observer {
+        viewModel.click.reObserve(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 requireActivity().startActivity<MovieActivity> {
                     putExtra(EXTRA_MOVIE, it)
                 }
             }
         })
-        viewModel.longClick.observe(viewLifecycleOwner, Observer {
+        viewModel.longClick.reObserve(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 requireActivity().startActivity<MovieActivity> {
                     putExtra(EXTRA_MOVIE, it)

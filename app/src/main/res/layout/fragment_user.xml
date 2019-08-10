@@ -22,16 +22,17 @@
 
     <!--Blur-->
     <FrameLayout
-        android:id="@+id/blur_layout"
+        android:id="@+id/blurLayout"
         android:layout_width="match_parent"
         android:layout_height="220dp"
         android:background="@color/backdropBlur"
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <!--Avatar-->
-    <de.hdodenhof.circleimageview.CircleImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/avatar"
         android:layout_width="72dp"
         android:layout_height="72dp"

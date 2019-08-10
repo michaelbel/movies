@@ -7,6 +7,8 @@ import retrofit2.Response
 
 class UsersRepository(private val api: Api, private val dao: UsersDao) {
 
+    //region Remote
+
     suspend fun createSessionId(apiKey: String, token: String): Response<Session> {
         return api.createSession(apiKey, RequestToken(token)).await()
     }
@@ -30,4 +32,6 @@ class UsersRepository(private val api: Api, private val dao: UsersDao) {
     suspend fun createRequestToken(apiKey: String, name: String, pass: String): Response<Token> {
         return api.createRequestToken(apiKey).await()
     }
+
+    //endregion
 }

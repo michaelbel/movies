@@ -25,12 +25,10 @@ android {
 }
 
 dependencies {
+    api project(':core')
+
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_version"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_version"
-
-    api "com.squareup.retrofit2:retrofit:$retrofit_version"
     api "com.squareup.retrofit2:converter-gson:$retrofit_version"
     api "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
 

@@ -3,16 +3,23 @@ package org.michaelbel.moviemade.presentation.features.user
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.*
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import com.bumptech.glide.Glide
+import com.crashlytics.android.Crashlytics
+import com.squareup.picasso.Callback
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_user.*
-import org.michaelbel.data.Movie.Companion.FAVORITE
-import org.michaelbel.data.Movie.Companion.WATCHLIST
+import org.michaelbel.core.picasso.CircleTransformation
+import org.michaelbel.data.remote.model.Movie.Companion.FAVORITE
+import org.michaelbel.data.remote.model.Movie.Companion.WATCHLIST
+import org.michaelbel.domain.UsersRepository
 import org.michaelbel.moviemade.R
+import org.michaelbel.moviemade.core.*
 import org.michaelbel.moviemade.core.TmdbConfig.GRAVATAR_URL
 import org.michaelbel.moviemade.core.local.SharedPrefs
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_AVATAR
@@ -20,7 +27,6 @@ import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_ID
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_LOGIN
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_NAME
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
-import org.michaelbel.moviemade.core.startActivity
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.ContainerActivity
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_ACCOUNT_ID
@@ -38,13 +44,10 @@ class UserFragment: BaseFragment() {
         internal fun newInstance() = UserFragment()
     }
 
-    private lateinit var viewModel: UserModel
+    @Inject lateinit var repository: UsersRepository
+    @Inject lateinit var preferences: SharedPreferences
 
-    @Inject
-    lateinit var factory: UserFactory
-
-    @Inject
-    lateinit var preferences: SharedPreferences
+    private val viewModel: UserModel by lazy { getViewModel { UserModel(repository) } }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.add(R.string.logout)
@@ -66,19 +69,17 @@ class UserFragment: BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         App[requireActivity().application].createFragmentComponent().inject(this)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        setHasOptionsMenu(true)
-        viewModel = ViewModelProviders.of(requireActivity(), factory).get(UserModel::class.java)
         return inflater.inflate(R.layout.fragment_user, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
-        App.d("UserFragment, sessionId = $sessionId")
+        val sessionId: String = preferences.getString(KEY_SESSION_ID, "") ?: ""
         if (sessionId.isEmpty()) {
             requireFragmentManager()
                     .beginTransaction()
@@ -91,22 +92,20 @@ class UserFragment: BaseFragment() {
         favoritesText.setOnClickListener {
             requireActivity().startActivity<ContainerActivity> {
                 putExtra(FRAGMENT_NAME, FAVORITE)
-                putExtra(EXTRA_ACCOUNT_ID, preferences.getInt(KEY_ACCOUNT_ID, 0))
+                putExtra(EXTRA_ACCOUNT_ID, preferences.getLong(KEY_ACCOUNT_ID, 0L))
             }
         }
         watchlistText.setOnClickListener {
             requireActivity().startActivity<ContainerActivity> {
                 putExtra(FRAGMENT_NAME, WATCHLIST)
-                putExtra(EXTRA_ACCOUNT_ID, preferences.getInt(KEY_ACCOUNT_ID, 0))
+                putExtra(EXTRA_ACCOUNT_ID, preferences.getLong(KEY_ACCOUNT_ID, 0L))
             }
         }
 
         viewModel.accountDetails(preferences.getString(KEY_SESSION_ID, "") ?: "")
-        viewModel.account.observe(viewLifecycleOwner, Observer {
-            App.d("${this.javaClass.simpleName}:: Account observe: $it")
-
+        viewModel.account.reObserve(viewLifecycleOwner, Observer {
             preferences.edit {
-                putInt(KEY_ACCOUNT_ID, it.id)
+                putLong(KEY_ACCOUNT_ID, it.id.toLong())
                 putString(KEY_ACCOUNT_LOGIN, it.username)
                 putString(KEY_ACCOUNT_NAME, it.name)
                 putString(KEY_ACCOUNT_AVATAR, it.avatar.gravatar.hash)
@@ -114,8 +113,7 @@ class UserFragment: BaseFragment() {
 
             updateData()
         })
-        viewModel.sessionDeleted.observe(viewLifecycleOwner, Observer {
-            App.d("\"${this.javaClass.simpleName}:: Session deleted")
+        viewModel.sessionDeleted.reObserve(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled().let {
                 preferences.edit().putString(KEY_SESSION_ID, "").apply()
 
@@ -125,26 +123,37 @@ class UserFragment: BaseFragment() {
                         .commit()
             }
         })
-        viewModel.throwable.observe(viewLifecycleOwner, Observer {
+        viewModel.throwable.reObserve(viewLifecycleOwner, Observer {
             //Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
         })
     }
 
     private fun updateData() {
-        val name = preferences.getString(KEY_ACCOUNT_NAME, "") ?: ""
+        val name = preferences.getString(KEY_ACCOUNT_NAME, "")
         nameText.text = name
-        App.d("\"${this.javaClass.simpleName}:: name = $name")
 
-        val login = preferences.getString(KEY_ACCOUNT_LOGIN, "") ?: ""
-        App.d("\"${this.javaClass.simpleName}:: login = $login")
+        val login = preferences.getString(KEY_ACCOUNT_LOGIN, "")
         loginText.text = login
 
-        val path = preferences.getString(KEY_ACCOUNT_AVATAR, "http://null") ?: "http://null"
-        App.d("\"${this.javaClass.simpleName}:: avatar = $path")
-        Glide.with(requireContext()).load(String.format(Locale.US, GRAVATAR_URL, path)).thumbnail(0.1F).into(avatar)
+        val avatarPath: String = String.format(Locale.US, GRAVATAR_URL, preferences.getString(KEY_ACCOUNT_AVATAR, ""))
+        if (avatarPath.trim().isNotEmpty()) {
+            avatar.loadImage(avatarPath,
+                    resize = Pair(DeviceUtil.dp(requireContext(), 72F), DeviceUtil.dp(requireContext(), 72F)),
+                    placeholder = R.drawable.placeholder_circle,
+                    error = R.drawable.error_circle,
+                    transformation = CircleTransformation(ContextCompat.getColor(requireContext(), R.color.strokeColor), DeviceUtil.dp(requireContext(), 1F)))
+        }
 
-        val backdrop = preferences.getString(SharedPrefs.KEY_ACCOUNT_BACKDROP, "") ?: "http://null"
-        App.d("\"${this.javaClass.simpleName}:: backdrop = $backdrop")
-        Glide.with(requireContext()).load(backdrop).thumbnail(0.1F).into(cover)
+        val backdrop = preferences.getString(SharedPrefs.KEY_ACCOUNT_BACKDROP, "http://null") ?: "http://null"
+        Picasso.get().load(backdrop).resize(DeviceUtil.getScreenWidth(requireContext()), DeviceUtil.dp(requireContext(), 220F)).into(cover, object: Callback {
+            override fun onSuccess() {
+                blurLayout?.visibility = VISIBLE
+            }
+
+            override fun onError(e: Exception?) {
+                blurLayout?.visibility = GONE
+                Crashlytics.logException(e)
+            }
+        })
     }
 }

@@ -20,7 +20,6 @@
     <dimen name="cell_icon_size">36dp</dimen>
     <dimen name="cell_icon_margin_start">16dp</dimen>
     <dimen name="cell_text_size">18sp</dimen>
-    <dimen name="cell_text_margin_start">68dp</dimen>
 
     <dimen name="powered_text_size">16sp</dimen>
     <dimen name="powered_text_padding">20dp</dimen>

@@ -11,7 +11,7 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.listitem_trailer.view.*
 import org.michaelbel.core.adapter.ListItem
 import org.michaelbel.core.adapter.ViewTypes.TRAILER_ITEM
-import org.michaelbel.data.Video
+import org.michaelbel.data.remote.model.Video
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.TmdbConfig.YOUTUBE_IMAGE
 import org.michaelbel.moviemade.core.ViewUtil
@@ -62,5 +62,5 @@ data class TrailerListItem(internal var trailer: Video): ListItem {
         }
     }
 
-    class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
+    private inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
 }

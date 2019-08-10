@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.michaelbel.core.adapter.ItemsManager
 import org.michaelbel.core.adapter.ListItem
-import org.michaelbel.data.Keyword
+import org.michaelbel.data.remote.model.Keyword
 import org.michaelbel.domain.KeywordsRepository
 import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
 import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_CONNECTION
@@ -25,7 +25,7 @@ class KeywordsModel(val repository: KeywordsRepository): ViewModel() {
     var click = MutableLiveData<Keyword>()
     var longClick = MutableLiveData<Keyword>()
 
-    fun keywords(movieId: Int) {
+    fun keywords(movieId: Long) {
         loading.postValue(true)
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -39,6 +39,7 @@ class KeywordsModel(val repository: KeywordsRepository): ViewModel() {
                         } else {
                             itemsManager.updateTrailers(list)
                             content.postValue(itemsManager.get())
+                            repository.addAll(movieId, list)
                         }
 
                         loading.postValue(false)

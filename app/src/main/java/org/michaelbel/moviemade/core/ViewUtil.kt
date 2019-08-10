@@ -6,19 +6,11 @@ import android.graphics.BlendModeColorFilter
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Build
-import android.widget.EditText
-import android.widget.TextView
 import androidx.annotation.ColorRes
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 
 object ViewUtil {
-
-    fun clearCursorDrawable(editText: EditText) {
-        val mCursorDrawableRes = TextView::class.java.getDeclaredField("mCursorDrawableRes")
-        mCursorDrawableRes.isAccessible = true
-        mCursorDrawableRes.setInt(editText, 0)
-    }
 
     fun getIcon(context: Context, @DrawableRes resource: Int, @ColorRes color: Int): Drawable {
         val iconDrawable = ContextCompat.getDrawable(context, resource) ?: context.getDrawable(resource)

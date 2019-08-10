@@ -34,5 +34,5 @@ object TmdbConfig {
     const val IMDB_MOVIE = "https://imdb.com/title/%s"
     const val IMDB_PERSON = "https://imdb.com/name/%s"
 
-    fun image(path: String) = String.format(ENGLISH, TMDB_IMAGE, "original", path)
+    fun image(path: String, size: String = "original") = String.format(ENGLISH, TMDB_IMAGE, size, path)
 }

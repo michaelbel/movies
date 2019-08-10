@@ -21,4 +21,11 @@ object DateUtil {
         val date = oldFormat.parse(releaseDate)
         return newFormat.format(date as Date)
     }
+
+    fun formatSystemTime(time: Long): String {
+        val simpleDateFormat = SimpleDateFormat("d MMM yyyy", ENGLISH)
+        val date = Date(time)
+
+        return simpleDateFormat.format(date)
+    }
 }

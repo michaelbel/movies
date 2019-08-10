@@ -25,7 +25,7 @@
             android:textColor="@color/accent_blue"
             android:fontFamily="sans-serif-medium"
             android:textSize="22sp"
-            android:text="@string/apply_as_background"/>
+            android:text="@string/set_as_background"/>
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/setBtn"

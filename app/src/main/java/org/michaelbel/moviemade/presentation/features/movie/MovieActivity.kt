@@ -2,30 +2,30 @@ package org.michaelbel.moviemade.presentation.features.movie
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
-import android.view.WindowManager
+import android.view.View.*
+import android.view.WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS
+import android.view.WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.core.content.ContextCompat
-import com.bumptech.glide.Glide
 import com.google.android.material.appbar.AppBarLayout
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_movie.*
-import org.michaelbel.data.Movie
+import org.michaelbel.data.remote.model.Movie
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.DeviceUtil
 import org.michaelbel.moviemade.core.TmdbConfig
-import org.michaelbel.moviemade.core.TmdbConfig.TMDB_IMAGE
+import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_BACKDROP
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_MOVIE
-import org.michaelbel.moviemade.presentation.common.BackdropDialog
 import org.michaelbel.moviemade.presentation.common.appbar.AppBarStateChangeListener
 import org.michaelbel.moviemade.presentation.common.base.BaseActivity
-import java.util.*
+import org.michaelbel.moviemade.presentation.listitem.TextListItem
+import org.michaelbel.moviemade.presentation.widget.BottomSheetDialog
 import javax.inject.Inject
 
-class MovieActivity: BaseActivity() {
+class MovieActivity: BaseActivity(R.layout.activity_movie) {
 
     private lateinit var movie: Movie
     private lateinit var fragment: MovieFragment
@@ -34,11 +34,10 @@ class MovieActivity: BaseActivity() {
     lateinit var preferences: SharedPreferences
 
     private val isSystemStatusBarShown: Boolean
-        get() = window.decorView.systemUiVisibility and View.SYSTEM_UI_FLAG_FULLSCREEN == 0
+        get() = window.decorView.systemUiVisibility and SYSTEM_UI_FLAG_FULLSCREEN == 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_movie)
         App[application].createActivityComponent().inject(this)
 
         movie = intent.getSerializableExtra(EXTRA_MOVIE) as Movie
@@ -47,8 +46,8 @@ class MovieActivity: BaseActivity() {
         supportFragmentManager.beginTransaction().replace(container.id, fragment).commit()
 
         window.statusBarColor = ContextCompat.getColor(this, R.color.primary)
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        window.clearFlags(FLAG_TRANSLUCENT_STATUS)
+        window.addFlags(FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.statusBarColor = ContextCompat.getColor(this, R.color.transparent40)
 
         toolbar.setNavigationIcon(R.drawable.ic_arrow_back)
@@ -59,6 +58,7 @@ class MovieActivity: BaseActivity() {
         appBar.addOnOffsetChangedListener(object: AppBarStateChangeListener() {
             override fun onStateChanged(appBarLayout: AppBarLayout, state: AppBarState) {
                 toolbarTitle.text = if (state === AppBarState.COLLAPSED) movie.title else null
+                toolbarTitle.isSelected = state === AppBarState.COLLAPSED
             }
         })
 
@@ -68,11 +68,9 @@ class MovieActivity: BaseActivity() {
          * так как его перехватывает collapsingToolbarLayout.title.
          */
         toolbarTitle.text = movie.title
-        if (movie.backdropPath != null) {
-            Glide.with(this)
-                    .load(TmdbConfig.image(movie.backdropPath))
-                    .thumbnail(0.1F)
-                    .into(cover)
+
+        if (!movie.backdropPath.isNullOrEmpty()) {
+            Picasso.get().load(TmdbConfig.image(movie.backdropPath as String)).resize(DeviceUtil.getScreenWidth(this), DeviceUtil.dp(this, 220F)).into(cover)
         }
 
         collapsingLayout.setContentScrimColor(ContextCompat.getColor(this, R.color.primary))
@@ -89,11 +87,22 @@ class MovieActivity: BaseActivity() {
         }
 
         cover.setOnLongClickListener {
-            val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
-            if (sessionId.isNotEmpty()) {
-                DeviceUtil.vibrate(this@MovieActivity, 15)
-                val dialog = BackdropDialog.newInstance(String.format(Locale.US, TMDB_IMAGE, "original", movie.backdropPath))
-                dialog.show(supportFragmentManager, "tag")
+            val sessionId: String? = preferences.getString(KEY_SESSION_ID, "")
+
+            if (!sessionId.isNullOrEmpty() && !movie.backdropPath.isNullOrEmpty()) {
+                val dialog = BottomSheetDialog(top = 8F, bottom = 8F)
+
+                val listItem = TextListItem(TextListItem.Data(text = R.string.set_as_background, divider = false, medium = false))
+                listItem.listener = object: TextListItem.Listener {
+                    override fun onClick() {
+                        preferences.edit().putString(KEY_ACCOUNT_BACKDROP, TmdbConfig.image(movie.backdropPath as String)).apply()
+                        Toast.makeText(this@MovieActivity, R.string.msg_done, Toast.LENGTH_SHORT).show()
+                        dialog.dismiss()
+                    }
+                }
+
+                dialog.addItem(listItem)
+                dialog.show(supportFragmentManager, dialog.tag + "1")
                 return@setOnLongClickListener true
             }
             return@setOnLongClickListener false
@@ -101,7 +110,7 @@ class MovieActivity: BaseActivity() {
     }
 
     override fun onBackPressed() {
-        if (fragment.imageAnimator != null && !fragment.imageAnimator!!.isLeaving) {
+        if (fragment.imageAnimator != null && fragment.imageAnimator?.isLeaving == false) {
             fragment.imageAnimator?.exit(true)
         } else {
             super.onBackPressed()
@@ -109,7 +118,7 @@ class MovieActivity: BaseActivity() {
     }
 
     fun showSystemStatusBar(state: Boolean) {
-        val flags = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION or View.SYSTEM_UI_FLAG_FULLSCREEN or View.SYSTEM_UI_FLAG_IMMERSIVE
+        val flags = SYSTEM_UI_FLAG_HIDE_NAVIGATION or SYSTEM_UI_FLAG_FULLSCREEN or SYSTEM_UI_FLAG_IMMERSIVE
         window.decorView.systemUiVisibility = if (state) 0 else flags
     }
 }

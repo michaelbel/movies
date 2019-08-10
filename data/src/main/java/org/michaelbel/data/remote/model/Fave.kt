@@ -5,6 +5,6 @@ import java.io.Serializable
 
 data class Fave(
         @SerializedName("media_type") val mediaType: String,
-        @SerializedName("media_id") val mediaId: Int,
+        @SerializedName("media_id") val mediaId: Long,
         @SerializedName("favorite") val favorite: Boolean
 ): Serializable

@@ -66,5 +66,5 @@ data class AppUpdateListItem(internal var data: Data): ListItem {
         animator?.start()
     }
 
-    class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
+    private inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
 }

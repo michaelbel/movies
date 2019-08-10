@@ -1,10 +1,6 @@
 package org.michaelbel.data.remote
 
 import kotlinx.coroutines.Deferred
-import org.michaelbel.data.Keyword
-import org.michaelbel.data.Movie
-import org.michaelbel.data.Review
-import org.michaelbel.data.Video
 import org.michaelbel.data.remote.model.*
 import org.michaelbel.data.remote.model.Collection
 import org.michaelbel.data.remote.model.base.Result
@@ -23,7 +19,7 @@ interface Api {
 
     @GET("account/{account_id}/favorite/movies")
     fun moviesFavorite(
-            @Path("account_id") accountId: Int,
+            @Path("account_id") accountId: Long,
             @Query("api_key") apiKey: String,
             @Query("session_id") sessionId: String,
             @Query("language") lang: String,
@@ -34,7 +30,7 @@ interface Api {
     @POST("account/{account_id}/favorite")
     fun markAsFavorite(
             @Header("Content-Type") contentType: String,
-            @Path("account_id") id: Int,
+            @Path("account_id") id: Long,
             @Query("api_key") apiKey: String,
             @Query("session_id") sessionId: String,
             @Body fave: Fave
@@ -42,7 +38,7 @@ interface Api {
 
     @GET("account/{account_id}/watchlist/movies")
     fun moviesWatchlist(
-            @Path("account_id") id: Int,
+            @Path("account_id") id: Long,
             @Query("api_key") apiKey: String,
             @Query("session_id") sessionId: String,
             @Query("language") language: String,
@@ -53,7 +49,7 @@ interface Api {
     @POST("account/{account_id}/watchlist")
     fun addToWatchlist(
             @Header("Content-Type") contentType: String,
-            @Path("account_id") id: Int,
+            @Path("account_id") id: Long,
             @Query("api_key") apiKey: String,
             @Query("session_id") sessionId: String,
             @Body watch: Watch
@@ -324,7 +320,7 @@ interface Api {
 
     @GET("keyword/{keyword_id}/movies")
     fun moviesByKeyword(
-            @Path("keyword_id") id: Int,
+            @Path("keyword_id") id: Long,
             @Query("api_key") apiKey: String,
             @Query("language") language: String,
             @Query("include_adult") adult: Boolean,
@@ -337,7 +333,7 @@ interface Api {
 
     @GET("movie/{movie_id}")
     fun movie(
-        @Path("movie_id") id: Int,
+        @Path("movie_id") id: Long,
         @Query("api_key") apiKey: String,
         @Query("language") language: String,
         @Query("append_to_response") appendToResponse: String
@@ -345,7 +341,7 @@ interface Api {
 
     @GET("movie/{movie_id}/account_states")
     fun accountStates(
-        @Path("movie_id") id: Int,
+        @Path("movie_id") id: Long,
         @Query("api_key") apiKey: String,
         @Query("session_id") sessionId: String,
         @Query("guest_session_id") guestSessionId: String
@@ -382,7 +378,7 @@ interface Api {
 
     @GET("movie/{movie_id}/keywords")
     fun keywords(
-        @Path("movie_id") id: Int,
+        @Path("movie_id") id: Long,
         @Query("api_key") apiKey: String
     ): Deferred<Response<KeywordsResponse>>
 
@@ -394,7 +390,7 @@ interface Api {
 
     @GET("movie/{movie_id}/videos")
     fun trailers(
-        @Path("movie_id") id: Int,
+        @Path("movie_id") id: Long,
         @Query("api_key") apiKey: String
         //@Query("language") lang: String
     ): Deferred<Response<Result<Video>>>
@@ -411,7 +407,7 @@ interface Api {
      */
     @GET("movie/{movie_id}/{list}")
     fun moviesById(
-            @Path("movie_id") id: Int,
+            @Path("movie_id") id: Long,
             @Path("list") list: String,
             @Query("api_key") apiKey: String,
             @Query("language") language: String,
@@ -420,7 +416,7 @@ interface Api {
 
     @GET("movie/{movie_id}/reviews")
     fun reviews(
-        @Path("movie_id") id: Int,
+        @Path("movie_id") id: Long,
         @Query("api_key") apiKey: String,
         //@Query("language") language: String,
         @Query("page") page: Int

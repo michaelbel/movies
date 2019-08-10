@@ -1,7 +1,6 @@
 package org.michaelbel.moviemade.presentation.features.search
 
 import android.app.Activity.RESULT_OK
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognizerIntent
@@ -10,25 +9,21 @@ import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.inputmethod.EditorInfo
-import android.view.inputmethod.InputMethodManager
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_search.*
 import org.michaelbel.core.adapter.ListAdapter
+import org.michaelbel.domain.MoviesRepository
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.DeviceUtil
-import org.michaelbel.moviemade.core.ViewUtil
+import org.michaelbel.moviemade.core.*
 import org.michaelbel.moviemade.core.local.BuildUtil
-import org.michaelbel.moviemade.core.startActivity
 import org.michaelbel.moviemade.core.state.EmptyState
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_MOVIE
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
 import org.michaelbel.moviemade.presentation.common.TextChanger
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
-import org.michaelbel.moviemade.presentation.features.main.MoviesFactory
 import org.michaelbel.moviemade.presentation.features.main.MoviesModel
 import org.michaelbel.moviemade.presentation.features.movie.MovieActivity
 import org.michaelbel.moviemade.presentation.features.search.SearchActivity.Companion.EXTRA_QUERY
@@ -45,7 +40,7 @@ class SearchMoviesFragment: BaseFragment() {
         private const val ITEM_CLR = 1
         private const val ITEM_MIC = 2
 
-        internal fun newInstance(query: String): SearchMoviesFragment {
+        internal fun newInstance(query: String?): SearchMoviesFragment {
             val args = Bundle()
             args.putString(EXTRA_QUERY, query)
 
@@ -55,15 +50,15 @@ class SearchMoviesFragment: BaseFragment() {
         }
     }
 
-    private var iconActionMode = ITEM_MIC
+    private var iconActionMode: Int = ITEM_MIC
 
-    private var query: String = ""
+    private var query: String? = null
     private var actionMenu: Menu? = null
     private lateinit var adapter: ListAdapter
-    private lateinit var viewModel: MoviesModel
 
-    @Inject
-    lateinit var factory: MoviesFactory
+    @Inject lateinit var repository: MoviesRepository
+
+    private val viewModel: MoviesModel by lazy { getViewModel { MoviesModel(repository) } }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -87,11 +82,10 @@ class SearchMoviesFragment: BaseFragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         App[requireActivity().application].createFragmentComponent().inject(this)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        setHasOptionsMenu(true)
-        viewModel = ViewModelProviders.of(requireActivity(), factory).get(MoviesModel::class.java)
         return inflater.inflate(R.layout.fragment_search, container, false)
     }
 
@@ -108,7 +102,8 @@ class SearchMoviesFragment: BaseFragment() {
                     searchEditText.text?.clear()
                 }
                 changeActionIcon()
-                showKeyboard(searchEditText)
+                //showKeyboard(searchEditText)
+                searchEditText.showKeyboard()
             } else {
                 val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
                 intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
@@ -131,7 +126,9 @@ class SearchMoviesFragment: BaseFragment() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1)) {
-                    viewModel.searchMovies(query)
+                    if (query != null) {
+                        viewModel.searchMovies(query as String)
+                    }
                 }
             }
         })
@@ -151,13 +148,14 @@ class SearchMoviesFragment: BaseFragment() {
         searchEditText.setOnEditorActionListener { v, actionId, event ->
             if (event != null && event.keyCode == KeyEvent.KEYCODE_ENTER || actionId == EditorInfo.IME_ACTION_SEARCH) {
                 search(v.text.toString().trim())
-                hideKeyboard(searchEditText)
+                //hideKeyboard(searchEditText)
+                searchEditText.hideKeyboard()
                 return@setOnEditorActionListener true
             }
             return@setOnEditorActionListener false
         }
         searchEditText.setSelection(searchEditText.text.toString().length)
-        ViewUtil.clearCursorDrawable(searchEditText)
+        searchEditText.clearCursorDrawable()
 
         if (savedInstanceState != null) {
             iconActionMode = savedInstanceState.getInt(KEY_MENU_ICON)
@@ -166,21 +164,24 @@ class SearchMoviesFragment: BaseFragment() {
         changeActionIcon()
 
         // Start search with query argument.
-        query = arguments?.getString(EXTRA_QUERY) ?: ""
-        if (query != "") {
+        query = arguments?.getString(EXTRA_QUERY)
+        if (query != null) {
             searchEditText.setText(query)
             searchEditText.setSelection(searchEditText.text.toString().length)
-            search(query)
+            if (query != null) {
+                search(query as String)
+            }
         }
 
-        viewModel.loading.observe(viewLifecycleOwner, Observer {
+        viewModel.loading.reObserve(viewLifecycleOwner, Observer {
             progressBar.visibility = if (it) VISIBLE else GONE
         })
-        viewModel.content.observe(viewLifecycleOwner, Observer {
+        viewModel.content.reObserve(viewLifecycleOwner, Observer {
             adapter.setItems(it)
-            hideKeyboard(searchEditText)
+            //hideKeyboard(searchEditText)
+            searchEditText.hideKeyboard()
         })
-        viewModel.error.observe(viewLifecycleOwner, Observer { error ->
+        viewModel.error.reObserve(viewLifecycleOwner, Observer { error ->
             error.getContentIfNotHandled()?.let {
                 emptyView.visibility = VISIBLE
                 emptyView.setMode(it)
@@ -190,20 +191,23 @@ class SearchMoviesFragment: BaseFragment() {
                 }
             }
         })
-        viewModel.click.observe(viewLifecycleOwner, Observer {
+        viewModel.click.reObserve(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 requireActivity().startActivity<MovieActivity> {
                     putExtra(EXTRA_MOVIE, it)
                 }
             }
         })
-        viewModel.longClick.observe(viewLifecycleOwner, Observer {
+        viewModel.longClick.reObserve(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 requireActivity().startActivity<MovieActivity> {
                     putExtra(EXTRA_MOVIE, it)
                 }
             }
         })
+
+        searchEditText.requestFocus()
+        searchEditText.showKeyboard()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -229,18 +233,5 @@ class SearchMoviesFragment: BaseFragment() {
             iconActionMode = if (searchEmpty) ITEM_MIC else ITEM_CLR
             actionMenu?.getItem(MENU_ITEM_INDEX)?.setIcon(if (searchEmpty) R.drawable.ic_voice else R.drawable.ic_clear)
         }
-    }
-
-    private fun showKeyboard(view: View) {
-        val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT)
-    }
-
-    private fun hideKeyboard(view: View) {
-        val imm = view.context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        if (!imm.isActive) {
-            return
-        }
-        imm.hideSoftInputFromWindow(view.windowToken, 0)
     }
 }

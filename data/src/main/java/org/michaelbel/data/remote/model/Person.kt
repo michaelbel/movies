@@ -1,7 +1,6 @@
 package org.michaelbel.data.remote.model
 
 import com.google.gson.annotations.SerializedName
-import org.michaelbel.data.Movie
 import java.io.Serializable
 
 data class Person(
@@ -9,7 +8,7 @@ data class Person(
         @SerializedName("known_for_department") val knownForDepartment: String,
         @SerializedName("deathday") val deathDay: String,
         @SerializedName("id") val id: Int,
-        @SerializedName("name") val name: String,
+        @SerializedName("title") val name: String,
         @SerializedName("also_known_as") val also_known_as: List<String>,
         @SerializedName("gender") val gender: Int,
         @SerializedName("biography") val biography: String,

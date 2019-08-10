@@ -10,14 +10,16 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.setMargins
 import androidx.fragment.app.transaction
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager
 import kotlinx.android.synthetic.main.activity_parent.*
 import kotlinx.android.synthetic.main.fragment_lce.*
 import org.michaelbel.core.adapter.ListAdapter
-import org.michaelbel.data.Movie
+import org.michaelbel.data.remote.model.Movie
+import org.michaelbel.domain.KeywordsRepository
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.ViewUtil
+import org.michaelbel.moviemade.core.getViewModel
+import org.michaelbel.moviemade.core.reObserve
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.ContainerActivity
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
@@ -41,10 +43,10 @@ class KeywordsFragment: BaseFragment() {
 
     private lateinit var movie: Movie
     private lateinit var adapter: ListAdapter
-    private lateinit var viewModel: KeywordsModel
 
-    @Inject
-    lateinit var factory: KeywordsFactory
+    @Inject lateinit var repository: KeywordsRepository
+
+    private val viewModel: KeywordsModel by lazy { getViewModel { KeywordsModel(repository) } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,7 +54,6 @@ class KeywordsFragment: BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel = ViewModelProviders.of(requireActivity(), factory).get(KeywordsModel::class.java)
         return inflater.inflate(R.layout.fragment_lce, container, false)
     }
 
@@ -74,27 +75,27 @@ class KeywordsFragment: BaseFragment() {
 
         emptyView.setOnClickListener {
             emptyView.visibility = GONE
-            viewModel.keywords(movie.id)
+            viewModel.keywords(movie.id.toLong())
         }
 
-        viewModel.keywords(movie.id)
-        viewModel.loading.observe(viewLifecycleOwner, Observer {
+        viewModel.keywords(movie.id.toLong())
+        viewModel.loading.reObserve(viewLifecycleOwner, Observer {
             progressBar.visibility = if (it) VISIBLE else GONE
         })
-        viewModel.content.observe(viewLifecycleOwner, Observer {
+        viewModel.content.reObserve(viewLifecycleOwner, Observer {
             adapter.setItems(it)
         })
-        viewModel.error.observe(viewLifecycleOwner, Observer {
+        viewModel.error.reObserve(viewLifecycleOwner, Observer {
             emptyView.visibility = VISIBLE
             emptyView.setMode(it)
         })
-        viewModel.click.observe(viewLifecycleOwner, Observer {
+        viewModel.click.reObserve(viewLifecycleOwner, Observer {
             requireFragmentManager().transaction {
                 add((requireActivity() as ContainerActivity).container.id, MoviesFragment2.newInstance(it))
                 addToBackStack(tag)
             }
         })
-        viewModel.longClick.observe(viewLifecycleOwner, Observer {
+        viewModel.longClick.reObserve(viewLifecycleOwner, Observer {
             requireFragmentManager().transaction {
                 add((requireActivity() as ContainerActivity).container.id, MoviesFragment2.newInstance(it))
                 addToBackStack(tag)

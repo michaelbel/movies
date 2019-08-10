@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.michaelbel.core.adapter.ItemsManager
 import org.michaelbel.core.adapter.ListItem
-import org.michaelbel.data.Video
+import org.michaelbel.data.remote.model.Video
 import org.michaelbel.domain.TrailersRepository
 import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
 import org.michaelbel.moviemade.core.state.EmptyState
@@ -25,7 +25,7 @@ class TrailersModel(val repository: TrailersRepository): ViewModel() {
     var click = MutableLiveData<Video>()
     var longClick = MutableLiveData<Video>()
 
-    fun trailers(movieId: Int) {
+    fun trailers(movieId: Long) {
         loading.postValue(true)
 
         CoroutineScope(Dispatchers.IO).launch {

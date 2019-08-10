@@ -11,5 +11,5 @@ data class Company(
         @SerializedName("logo_path") val logoPath: String,
         @SerializedName("name") val name: String,
         @SerializedName("origin_country") val originCountry: String,
-        @SerializedName("parent_company") val parentCompany: Company
+        @SerializedName("parent_company") val parentCompany: Company? = null
 ): Serializable

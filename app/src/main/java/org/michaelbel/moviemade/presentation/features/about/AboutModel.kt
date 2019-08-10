@@ -9,6 +9,7 @@ import org.michaelbel.core.adapter.ListItem
 import org.michaelbel.domain.live.LiveDataEvent
 import org.michaelbel.moviemade.BuildConfig.*
 import org.michaelbel.moviemade.R
+import org.michaelbel.moviemade.core.time.DateUtil
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.listitem.AboutListItem
 import org.michaelbel.moviemade.presentation.listitem.AppUpdateListItem
@@ -45,7 +46,7 @@ class AboutModel(app: Application): AndroidViewModel(app) {
 
             items.add(AboutListItem(AboutListItem.Data(
                     getContext().getString(R.string.app_for_android, getContext().getString(R.string.app_name)),
-                    getContext().getString(R.string.version_build_date, VERSION_NAME, VERSION_CODE, VERSION_DATE)
+                    getContext().getString(R.string.version_build_date, VERSION_NAME, VERSION_CODE, DateUtil.formatSystemTime(VERSION_DATE))
             )))
 
             val rate = TextListItem(TextListItem.Data(R.drawable.ic_google_play, R.string.rate_google_play))

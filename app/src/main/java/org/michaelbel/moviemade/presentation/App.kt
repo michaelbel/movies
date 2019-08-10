@@ -5,6 +5,9 @@ import android.content.Context
 import android.os.Handler
 import android.util.Log
 import com.facebook.stetho.Stetho
+import com.singhajit.sherlock.core.Sherlock
+import com.tspoon.traceur.Traceur
+import org.michaelbel.core.analytics.Analytics
 import org.michaelbel.moviemade.BuildConfig.DEBUG
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_API_ENDPOINT
 import org.michaelbel.moviemade.presentation.di.component.ActivityComponent
@@ -21,9 +24,6 @@ class App: Application() {
 
     companion object {
         private const val TAG = "2580"
-
-        //private GoogleAnalytics googleAnalytics;
-        //private Tracker tracker;
 
         operator fun get(context: Context): App {
             return context as App
@@ -45,27 +45,22 @@ class App: Application() {
 
     override fun onCreate() {
         super.onCreate()
-        appHandler = Handler(applicationContext.mainLooper)
         appContext = applicationContext
+        appHandler = Handler(applicationContext.mainLooper)
 
+        Analytics.initialize(this)
         Stetho.initializeWithDefaults(this)
 
         Timber.plant(Timber.DebugTree())
         Timber.tag(TAG)
 
         if (DEBUG) {
-            //Traceur.enableLogging()
-            //Sherlock.init(this)
+            Sherlock.init(this)
+            Traceur.enableLogging()
             //LeakCanary.install(this)
-            //Timber.plant(Timber.DebugTree())
-            //Timber.tag(TAG)
-            Stetho.initializeWithDefaults(this)
         }
 
         initDI()
-
-        //MobileAds.initialize(getApplicationContext(), getString(R.string.ad_app_id));
-        //getTracker().send(new HitBuilders.EventBuilder().setCategory("Device Name").setAction(DeviceUtil.INSTANCE.getDeviceName()).build());
     }
 
     private fun initDI() {
@@ -78,18 +73,4 @@ class App: Application() {
     fun createActivityComponent(): ActivityComponent = appComponent.plus(ActivityModule())
 
     fun createFragmentComponent(): FragmentComponent = appComponent.plus(FragmentModule())
-
-    /*private GoogleAnalytics getGoogleAnalytics() {
-        if (googleAnalytics == null) {
-            googleAnalytics = GoogleAnalytics.getInstance(getApplicationContext());
-        }
-        return googleAnalytics;
-    }
-
-    synchronized public Tracker getTracker() {
-        if (tracker == null) {
-            tracker = getGoogleAnalytics().newTracker(R.xml.analytics);
-        }
-        return tracker;
-    }*/
 }

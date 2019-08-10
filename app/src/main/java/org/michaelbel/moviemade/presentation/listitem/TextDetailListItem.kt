@@ -18,8 +18,8 @@ import java.io.Serializable
 data class TextDetailListItem(internal var data: Data): ListItem {
 
     data class Data(
-            internal var text: String,
-            internal var info: String,
+            internal var text: String? = null,
+            internal var info: String? = null,
             internal val divider: Boolean = true
     ): Serializable
 
@@ -51,5 +51,5 @@ data class TextDetailListItem(internal var data: Data): ListItem {
         })
     }
 
-    class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
+    private inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
 }

@@ -25,6 +25,10 @@
     <string name="upcoming">Upcoming</string>
     <string name="no_movies">No movies</string>
     <!--movie-->
+    <string name="starring_only">Starring</string>
+    <string name="directed_only">Directed by</string>
+    <string name="written_only">Written by</string>
+    <string name="produced_only">Produced by</string>
     <string name="starring">Starring %s</string>
     <string name="directed">Directed by %s</string>
     <string name="written">Written by %s</string>
@@ -91,7 +95,7 @@
     <string name="loading">loading…</string>
     <string name="none">None</string>
     <string name="runtime">%1$s / %2$d min</string>
-    <string name="apply_as_background">Apply image as account background</string>
+    <string name="set_as_background">Set as account background</string>
     <string name="retry">RETRY</string>
     <!--Errors-->
     <string name="error_offline">You\'re offline</string>
@@ -107,8 +111,8 @@
     <string name="cancel">Cancel</string>
     <!--Messages-->
     <string name="msg_logout">Are you sure you want to log out?</string>
-    <string name="msg_enter_data">Enter Username and Password</string>
+    <string name="msg_enter_data">Enter **Username** and **Password**</string>
     <string name="msg_account_not_authorized">Your Themoviedb account is not authorized. \nPlease, sign in.</string>
-    <string name="msg_image_applied">Image applied as background</string>
+    <string name="msg_done">Done</string>
     <string name="msg_check_internet">Please, check your internet connection and try again</string>
 </resources>

@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.presentation.features.login
 
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
@@ -8,25 +7,24 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
-import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.core.content.edit
 import androidx.fragment.app.transaction
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
-import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_login.*
 import org.michaelbel.core.customtabs.Browser
+import org.michaelbel.domain.UsersRepository
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.TmdbConfig
 import org.michaelbel.moviemade.core.TmdbConfig.REDIRECT_URL
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_AUTH_URL
+import org.michaelbel.moviemade.core.TmdbConfig.TMDB_LOGO
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_PRIVACY_POLICY
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_REGISTER
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_RESET_PASSWORD
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_TERMS_OF_USE
-import org.michaelbel.moviemade.core.ViewUtil
+import org.michaelbel.moviemade.core.getViewModel
+import org.michaelbel.moviemade.core.loadImage
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_AVATAR
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_ID
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_LOGIN
@@ -34,11 +32,13 @@ import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_NAME
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_DATE_AUTHORISED
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_TOKEN
+import org.michaelbel.moviemade.core.reObserve
 import org.michaelbel.moviemade.core.state.ErrorState.ERR_AUTH_WITH_LOGIN
 import org.michaelbel.moviemade.core.state.ErrorState.ERR_CONNECTION_NO_TOKEN
 import org.michaelbel.moviemade.core.state.ErrorState.ERR_NOT_FOUND
 import org.michaelbel.moviemade.core.state.ErrorState.ERR_NO_CONNECTION
 import org.michaelbel.moviemade.core.state.ErrorState.ERR_UNAUTHORIZED
+import org.michaelbel.moviemade.core.text.SpannableUtil
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
 import org.michaelbel.moviemade.presentation.features.main.MainActivity
@@ -53,32 +53,29 @@ class LoginFragment: BaseFragment() {
         internal fun newInstance() = LoginFragment()
     }
 
-    private lateinit var viewModel: LoginModel
+    @Inject lateinit var repository: UsersRepository
+    @Inject lateinit var preferences: SharedPreferences
 
-    @Inject
-    lateinit var factory: LoginFactory
-
-    @Inject
-    lateinit var preferences: SharedPreferences
+    private val viewModel: LoginModel by lazy { getViewModel { LoginModel(repository) } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         App[requireActivity().application].createFragmentComponent().inject(this)
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        setHasOptionsMenu(true)
-        viewModel = ViewModelProviders.of(requireActivity(), factory).get(LoginModel::class.java)
         return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Glide.with(requireContext()).load(TmdbConfig.TMDB_LOGO).thumbnail(0.1F).into(logoImage)
+        logoImage.loadImage(TMDB_LOGO, resizeDimen = Pair(R.dimen.logo_image_size, R.dimen.logo_image_size))
 
-        ViewUtil.clearCursorDrawable(username)
-        ViewUtil.clearCursorDrawable(password)
+        username.clearCursorDrawable()
+
+        password.clearCursorDrawable()
         password.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == IME_ACTION_DONE) {
                 signInBtn.performClick()
@@ -88,13 +85,13 @@ class LoginFragment: BaseFragment() {
         }
 
         signInBtn.setOnClickListener {
-            val name = username.text.toString().trim()
-            val pass = password.text.toString().trim()
+            val name = username.text?.trim()
+            val pass = password.text?.trim()
 
-            if (name.isEmpty() || pass.isEmpty()) {
-                Toast.makeText(activity, R.string.msg_enter_data, Toast.LENGTH_SHORT).show()
+            if (name.isNullOrEmpty() || pass.isNullOrEmpty()) {
+                Toast.makeText(requireContext(), SpannableUtil.replaceTags(getString(R.string.msg_enter_data)), Toast.LENGTH_SHORT).show()
             } else {
-                viewModel.createRequestToken(name, pass)
+                viewModel.createRequestToken(name.toString(), pass.toString())
             }
         }
         signUpBtn.setOnClickListener { Browser.openUrl(requireContext(), TMDB_REGISTER) }
@@ -106,20 +103,20 @@ class LoginFragment: BaseFragment() {
         termsBtn.setOnClickListener { Browser.openUrl(requireContext(), TMDB_TERMS_OF_USE) }
         privacyBtn.setOnClickListener { Browser.openUrl(requireContext(), TMDB_PRIVACY_POLICY) }
 
-        viewModel.sessionCreated.observe(viewLifecycleOwner, Observer { sessionId ->
+        viewModel.sessionCreated.reObserve(viewLifecycleOwner, Observer { sessionId ->
             sessionId.getContentIfNotHandled()?.let {
                 username.text?.clear()
                 password.text?.clear()
 
                 preferences.edit().putString(KEY_SESSION_ID, it).apply()
-                hideKeyboard(password)
+                password.hideKeyboard()
 
                 requireFragmentManager().transaction {
                     replace((requireActivity() as MainActivity).container.id, UserFragment.newInstance(), FRAGMENT_TAG)
                 }
             }
         })
-        viewModel.error.observe(viewLifecycleOwner, Observer { error ->
+        viewModel.error.reObserve(viewLifecycleOwner, Observer { error ->
             error.getContentIfNotHandled()?.let {
                 when (it) {
                     ERR_UNAUTHORIZED -> preferences.edit().putString(KEY_SESSION_ID, "").apply()
@@ -130,7 +127,7 @@ class LoginFragment: BaseFragment() {
                 }
             }
         })
-        viewModel.throwable.observe(viewLifecycleOwner, Observer {
+        viewModel.throwable.reObserve(viewLifecycleOwner, Observer {
             val code = (it as HttpException).code()
             if (code == 401) {
                 preferences.edit().putString(KEY_SESSION_ID, "").apply()
@@ -138,21 +135,20 @@ class LoginFragment: BaseFragment() {
                 Toast.makeText(requireContext(), R.string.error_not_found, Toast.LENGTH_SHORT).show()
             }
         })
-        viewModel.account.observe(viewLifecycleOwner, Observer {
+        viewModel.account.reObserve(viewLifecycleOwner, Observer {
             preferences.edit {
-                putInt(KEY_ACCOUNT_ID, it.id)
+                putLong(KEY_ACCOUNT_ID, it.id.toLong())
                 putString(KEY_ACCOUNT_LOGIN, it.username)
                 putString(KEY_ACCOUNT_NAME, it.name)
                 putString(KEY_ACCOUNT_AVATAR, it.avatar.gravatar.hash)
             }
         })
-        viewModel.browserAuth.observe(viewLifecycleOwner, Observer { token ->
+        viewModel.browserAuth.reObserve(viewLifecycleOwner, Observer { token ->
             token.getContentIfNotHandled()?.let {
-                App.e("browser auth start")
                 Browser.openUrl(requireContext(), String.format(TMDB_AUTH_URL, it, REDIRECT_URL))
             }
         })
-        viewModel.token.observe(viewLifecycleOwner, Observer {
+        viewModel.token.reObserve(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 preferences.edit {
                     putString(KEY_TOKEN, it.requestToken)
@@ -164,16 +160,7 @@ class LoginFragment: BaseFragment() {
 
     override fun onNewIntent(action: String?, data: String?) {
         if (Intent.ACTION_VIEW == action && data != null) {
-            App.e("onNewIntent")
             viewModel.createSessionId(preferences.getString(KEY_TOKEN, "") ?: "")
         }
-    }
-
-    private fun hideKeyboard(view: View?) {
-        val imm = requireContext().getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
-        if (imm.isActive.not()) {
-            return
-        }
-        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 }

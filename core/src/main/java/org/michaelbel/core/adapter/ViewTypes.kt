@@ -11,4 +11,6 @@ object ViewTypes {
     const val REVIEW_ITEM =       8
     const val APP_UPDATE_ITEM =   9
     const val EMPTY_ITEM =       10
+    const val CREW_ITEM =        11
+    const val GENRE_ITEM =       12
 }

@@ -8,11 +8,12 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
-    <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>-->
-    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>-->
-    <!--<uses-permission android:name="android.permission.BODY_SENSORS"/>-->
-    <!--<uses-permission android:name="com.android.vending.BILLING"/>-->
-    <!--<uses-permission android:name="com.samsung.permission.SSENSOR"/>-->
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <!--<uses-permission android:title="android.permission.READ_EXTERNAL_STORAGE"/>-->
+    <!--<uses-permission android:title="android.permission.WRITE_EXTERNAL_STORAGE"/>-->
+    <!--<uses-permission android:title="android.permission.BODY_SENSORS"/>-->
+    <!--<uses-permission android:title="com.android.vending.BILLING"/>-->
+    <!--<uses-permission android:title="com.samsung.permission.SSENSOR"/>-->
 
     <application
         android:name=".presentation.App"
@@ -24,7 +25,7 @@
         android:fullBackupContent="true">
 
         <!--AdMob-->
-        <!--<meta-data android:name="com.google.android.gms.ads.APPLICATION_ID" android:value="@string/ad_app_id"/>-->
+        <!--<meta-data android:title="com.google.android.gms.ads.APPLICATION_ID" android:value="@string/ad_app_id"/>-->
         
         <activity
             android:name=".presentation.features.main.MainActivity"
@@ -49,9 +50,9 @@
             android:name=".presentation.features.movie.MovieActivity"
             android:theme="@style/AppTheme">
             <!--<intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:title="android.intent.action.VIEW"/>
+                <category android:title="android.intent.category.DEFAULT"/>
+                <category android:title="android.intent.category.BROWSABLE"/>
                 <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/movie/"/>
                 <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/movie"/>
             </intent-filter>-->

@@ -6,7 +6,7 @@ import kotlinx.android.synthetic.main.activity_parent.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.presentation.common.base.BaseActivity
 
-class SearchActivity: BaseActivity() {
+class SearchActivity: BaseActivity(R.layout.activity_parent) {
 
     companion object {
         const val EXTRA_QUERY = "query"
@@ -14,9 +14,7 @@ class SearchActivity: BaseActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_parent)
-
-        val query = if (intent.getStringExtra(EXTRA_QUERY) != null) intent.getStringExtra(EXTRA_QUERY) else ""
+        val query: String? = if (intent.getStringExtra(EXTRA_QUERY) != null) intent.getStringExtra(EXTRA_QUERY) else null
 
         if (savedInstanceState == null) {
             supportFragmentManager.transaction {

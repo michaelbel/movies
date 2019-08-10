@@ -6,8 +6,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.crashlytics.android.Crashlytics
 import com.google.gson.Gson
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
@@ -16,6 +16,8 @@ import kotlinx.android.synthetic.main.fragment_lce.*
 import org.michaelbel.core.adapter.ListAdapter
 import org.michaelbel.core.customtabs.Browser
 import org.michaelbel.moviemade.R
+import org.michaelbel.moviemade.core.getViewModel
+import org.michaelbel.moviemade.core.reObserve
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
 import java.io.IOException
 import java.io.Serializable
@@ -30,16 +32,16 @@ class SourcesFragment: BaseFragment() {
     }
 
     data class Source(
-            @Expose @SerializedName("name") val name: String,
-            @Expose @SerializedName("url") val url: String,
-            @Expose @SerializedName("license") val license: String
+            @Expose @SerializedName("name") val name: String? = null,
+            @Expose @SerializedName("url") val url: String? = null,
+            @Expose @SerializedName("license") val license: String? = null
     ): Serializable
 
     private val adapter = ListAdapter()
-    private lateinit var viewModel: SourcesModel
+
+    private val viewModel: SourcesModel by lazy { getViewModel<SourcesModel>() }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel = ViewModelProviders.of(requireActivity()).get(SourcesModel::class.java)
         return inflater.inflate(R.layout.fragment_lce, container, false)
     }
 
@@ -55,15 +57,15 @@ class SourcesFragment: BaseFragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(activity)
 
-        viewModel.items.observe(viewLifecycleOwner, Observer { adapter.setItems(it) })
-        viewModel.click.observe(viewLifecycleOwner, Observer {
+        viewModel.items.reObserve(viewLifecycleOwner, Observer { adapter.setItems(it) })
+        viewModel.click.reObserve(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let { url ->
                 Browser.openUrl(requireContext(), url)
             }
         })
     }
 
-    private fun loadJsonFromAsset(fileName: String): String {
+    private fun loadJsonFromAsset(fileName: String): String? {
         return try {
             val inputStream = requireContext().assets.open(fileName)
             val buffer = ByteArray(inputStream.available())
@@ -71,7 +73,8 @@ class SourcesFragment: BaseFragment() {
             inputStream.close()
             String(buffer, Charset.forName("utf-8"))
         } catch (ex: IOException) {
-            return ""
+            Crashlytics.logException(ex)
+            return null
         }
     }
 }
