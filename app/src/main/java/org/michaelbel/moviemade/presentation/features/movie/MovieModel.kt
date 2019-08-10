@@ -1,28 +1,34 @@
 package org.michaelbel.moviemade.presentation.features.movie
 
+import android.util.SparseArray
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import org.michaelbel.data.Movie
-import org.michaelbel.data.Movie.Companion.CREDITS
 import org.michaelbel.data.remote.model.AccountStates
 import org.michaelbel.data.remote.model.CreditsResponse
 import org.michaelbel.data.remote.model.Crew.Companion.DIRECTING
 import org.michaelbel.data.remote.model.Crew.Companion.PRODUCTION
 import org.michaelbel.data.remote.model.Crew.Companion.WRITING
 import org.michaelbel.data.remote.model.Mark
+import org.michaelbel.data.remote.model.Movie
+import org.michaelbel.data.remote.model.Movie.Companion.CREDITS
 import org.michaelbel.domain.MoviesRepository
 import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
 import org.michaelbel.moviemade.core.TmdbConfig.CONTENT_TYPE
-import org.michaelbel.moviemade.presentation.App
 import timber.log.Timber
 import java.util.*
-import kotlin.collections.HashMap
 
 class MovieModel(val repository: MoviesRepository): ViewModel() {
+
+    companion object {
+        const val KEY_ACTORS = 0
+        const val KEY_DIRECTORS = 1
+        const val KEY_WRITERS = 2
+        const val KEY_PRODUCERS = 3
+    }
 
     var movie = MutableLiveData<Movie>()
     var imdb = MutableLiveData<String>()
@@ -31,9 +37,9 @@ class MovieModel(val repository: MoviesRepository): ViewModel() {
     var favoriteChange = MutableLiveData<Mark>()
     var watchlistChange = MutableLiveData<Mark>()
     var accountStates = MutableLiveData<AccountStates>()
-    var credit = MutableLiveData<HashMap<String, String>>()
+    var credit = MutableLiveData<SparseArray<String>>()
 
-    fun movie(sessionId: String, movieId: Int) {
+    fun movie(sessionId: String, movieId: Long) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val result = repository.movie(movieId, TMDB_API_KEY, Locale.getDefault().language, CREDITS)
@@ -42,13 +48,11 @@ class MovieModel(val repository: MoviesRepository): ViewModel() {
                         result.body()?.let {
                             movie.postValue(result.body())
 
-                            it.imdbId?.let { imdbId ->
-                                imdb.postValue(imdbId)
-                            }
+                            accountStates(sessionId, movieId)
 
-                            it.homepage?.let { link ->
-                                homepage.postValue(link)
-                            }
+                            it.imdbId?.let { imdbId -> imdb.postValue(imdbId) }
+
+                            it.homepage?.let { link -> homepage.postValue(link) }
 
                             it.credits?.let { credits ->
                                 fixCredits(credits)
@@ -64,7 +68,7 @@ class MovieModel(val repository: MoviesRepository): ViewModel() {
         }
     }
 
-    fun markFavorite(sessionId: String, accountId: Int, mediaId: Int, favorite: Boolean) {
+    fun markFavorite(sessionId: String, accountId: Long, mediaId: Long, favorite: Boolean) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val result = repository.markFavorite(CONTENT_TYPE, accountId, TMDB_API_KEY, sessionId, mediaId, favorite)
@@ -81,7 +85,7 @@ class MovieModel(val repository: MoviesRepository): ViewModel() {
         }
     }
 
-    fun addWatchlist(sessionId: String, accountId: Int, mediaId: Int, watchlist: Boolean) {
+    fun addWatchlist(sessionId: String, accountId: Long, mediaId: Long, watchlist: Boolean) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val result = repository.addWatchlist(CONTENT_TYPE, accountId, sessionId, TMDB_API_KEY, mediaId, watchlist)
@@ -98,21 +102,18 @@ class MovieModel(val repository: MoviesRepository): ViewModel() {
         }
     }
 
-    private fun accountStates(sessionId: String, movieId: Int) {
+    private fun accountStates(sessionId: String, movieId: Long) {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 val result = repository.accountStates(movieId, TMDB_API_KEY, sessionId)
                 withContext(Dispatchers.Main) {
                     if (result.isSuccessful) {
-                        App.e("account states post: ${result.body()}")
                         accountStates.postValue(result.body())
                     } else {
-                        App.e("account states post error")
                         // todo smth
                     }
                 }
             } catch (e: Throwable) {
-                App.e("account states throwable: $e")
                 connectionError.postValue(e)
             }
         }
@@ -120,9 +121,10 @@ class MovieModel(val repository: MoviesRepository): ViewModel() {
 
     private fun fixCredits(credits: CreditsResponse) {
         val actorsBuilder = StringBuilder()
-        for (cast in credits.cast) {
-            actorsBuilder.append(cast.name)
-            if (cast != credits.cast[credits.cast.size - 1]) {
+
+        credits.cast.forEach {
+            actorsBuilder.append(it.name)
+            if (it != credits.cast[credits.cast.size - 1]) {
                 actorsBuilder.append(", ")
             }
         }
@@ -130,43 +132,44 @@ class MovieModel(val repository: MoviesRepository): ViewModel() {
         val directors = ArrayList<String>()
         val writers = ArrayList<String>()
         val producers = ArrayList<String>()
-        for (crew in credits.crew) {
-            when (crew.department) {
-                DIRECTING -> directors.add(crew.name)
-                WRITING -> writers.add(crew.name)
-                PRODUCTION -> producers.add(crew.name)
+
+        credits.crew.forEach {
+            when (it.department) {
+                DIRECTING -> directors.add(it.name)
+                WRITING -> writers.add(it.name)
+                PRODUCTION -> producers.add(it.name)
             }
         }
 
         val directorsBuilder = StringBuilder()
-        for (i in directors.indices) {
-            directorsBuilder.append(directors[i])
-            if (i != directors.size - 1) {
+        directors.indices.forEach {
+            directorsBuilder.append(directors[it])
+            if (it != directors.size - 1) {
                 directorsBuilder.append(", ")
             }
         }
 
         val writersBuilder = StringBuilder()
-        for (i in writers.indices) {
-            writersBuilder.append(writers[i])
-            if (i != writers.size - 1) {
+        writers.indices.forEach {
+            writersBuilder.append(writers[it])
+            if (it != writers.size - 1) {
                 writersBuilder.append(", ")
             }
         }
 
         val producersBuilder = StringBuilder()
-        for (i in producers.indices) {
-            producersBuilder.append(producers[i])
-            if (i != producers.size - 1) {
+        producers.indices.forEach {
+            producersBuilder.append(producers[it])
+            if (it != producers.size - 1) {
                 producersBuilder.append(", ")
             }
         }
 
-        val map: HashMap<String, String> = HashMap()
-        map["actors"] = actorsBuilder.toString()
-        map["directors"] = directorsBuilder.toString()
-        map["writers"] = writersBuilder.toString()
-        map["producers"] = producersBuilder.toString()
-        credit.postValue(map)
+        val sparse: SparseArray<String> = SparseArray()
+        sparse.put(KEY_ACTORS, actorsBuilder.toString())
+        sparse.put(KEY_DIRECTORS, directorsBuilder.toString())
+        sparse.put(KEY_WRITERS, writersBuilder.toString())
+        sparse.put(KEY_PRODUCERS, producersBuilder.toString())
+        credit.postValue(sparse)
     }
 }

@@ -8,14 +8,15 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.michaelbel.core.adapter.ItemsManager
 import org.michaelbel.core.adapter.ListItem
-import org.michaelbel.data.Movie
-import org.michaelbel.data.Movie.Companion.ASC
+import org.michaelbel.data.remote.model.Movie
+import org.michaelbel.data.remote.model.Movie.Companion.ASC
 import org.michaelbel.domain.MoviesRepository
 import org.michaelbel.domain.live.LiveDataEvent
 import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
 import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_CONNECTION
 import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_MOVIES
 import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_RESULTS
+import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.listitem.MovieListItem
 import java.util.*
 
@@ -56,6 +57,8 @@ class MoviesModel(val repository: MoviesRepository): ViewModel() {
                     }
                 }
             } catch (e: Throwable) {
+                App.e("ERRORIWE: " + e.message)
+
                 if (page == 1) {
                     error.postValue(LiveDataEvent(MODE_NO_CONNECTION))
                     loading.postValue(false)
@@ -64,7 +67,7 @@ class MoviesModel(val repository: MoviesRepository): ViewModel() {
         }
     }
 
-    fun moviesById(movieId: Int, list: String) {
+    fun moviesById(movieId: Long, list: String) {
         page += 1
         loading.postValue(page == 1)
 
@@ -97,7 +100,7 @@ class MoviesModel(val repository: MoviesRepository): ViewModel() {
         }
     }
 
-    fun moviesByKeyword(keywordId: Int) {
+    fun moviesByKeyword(keywordId: Long) {
         page += 1
         loading.postValue(page == 1)
 
@@ -168,7 +171,7 @@ class MoviesModel(val repository: MoviesRepository): ViewModel() {
         }
     }
 
-    fun moviesWatchlist(accountId: Int, sessionId: String) {
+    fun moviesWatchlist(accountId: Long, sessionId: String) {
         page += 1
         loading.postValue(page == 1)
 
@@ -202,7 +205,7 @@ class MoviesModel(val repository: MoviesRepository): ViewModel() {
         }
     }
 
-    fun moviesFavorite(accountId: Int, sessionId: String) {
+    fun moviesFavorite(accountId: Long, sessionId: String) {
         page += 1
         loading.postValue(page == 1)
 

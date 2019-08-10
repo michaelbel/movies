@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.michaelbel.moviemade.core.retrofit
+package org.michaelbel.core.retrofit
 
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Deferred
@@ -96,7 +96,7 @@ class CoroutineCallAdapterFactory private constructor(): CallAdapter.Factory() {
 
                 override fun onResponse(call: Call<T>, response: Response<T>) {
                     if (response.isSuccessful) {
-                        deferred.complete(response.body()!!)
+                        deferred.complete(response.body() as T)
                     } else {
                         deferred.completeExceptionally(HttpException(response))
                     }

@@ -1,26 +1,49 @@
 package org.michaelbel.domain
 
-import org.michaelbel.data.Video
+import android.util.Log
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.michaelbel.data.local.dao.TrailersDao
+import org.michaelbel.data.local.model.TrailerLocal
 import org.michaelbel.data.remote.Api
+import org.michaelbel.data.remote.model.Video
 import org.michaelbel.data.remote.model.base.Result
 import retrofit2.Response
 
 class TrailersRepository(private val api: Api, private val dao: TrailersDao): Repository() {
 
-    suspend fun trailers(movieId: Int, apiKey: String): Response<Result<Video>> {
+    //region Remote
+
+    suspend fun trailers(movieId: Long, apiKey: String): Response<Result<Video>> {
         return api.trailers(movieId, apiKey).await()
     }
 
-    fun add(movieId: Int, items: List<Video>) {
-        val trailers = ArrayList<Video>()
-        for (item in items) {
-            trailers.add(item.copy(movieId = movieId))
+    //endregion
+
+    // region Local
+
+    suspend fun addAll(items: List<Video>) {
+        val trailers = java.util.ArrayList<TrailerLocal>()
+        items.forEach {
+            val trailer = TrailerLocal(id = it.id, title = it.name)
+            trailers.add(trailer)
         }
 
-        /*dao.insert(trailers)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe()*/
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val result = dao.insert(trailers)
+                withContext(Dispatchers.Main) {
+                    Log.e("1488", "Вставка произошла успешно!")
+                }
+            } catch (e: Exception) {
+                Log.e("1488", "Exception: $e")
+            }
+        }
+
+        dao.insert(trailers)
     }
+
+    //endregion
 }

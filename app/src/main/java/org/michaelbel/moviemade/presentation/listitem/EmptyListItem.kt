@@ -28,5 +28,5 @@ data class EmptyListItem(internal var data: Data): ListItem {
         holder.itemView.emptyView.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, DeviceUtil.dp(holder.itemView.context, getData().height))
     }
 
-    class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
+    private inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
 }

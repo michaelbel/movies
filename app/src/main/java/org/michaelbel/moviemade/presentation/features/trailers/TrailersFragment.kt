@@ -10,17 +10,19 @@ import android.view.ViewGroup
 import androidx.core.net.toUri
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.pierfrancescosoffritti.androidyoutubeplayer.player.listeners.AbstractYouTubePlayerListener
 import kotlinx.android.synthetic.main.fragment_lce.*
 import kotlinx.android.synthetic.main.view_player_dialog.*
 import org.michaelbel.core.adapter.ListAdapter
-import org.michaelbel.data.Movie
+import org.michaelbel.data.remote.model.Movie
+import org.michaelbel.domain.TrailersRepository
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.DeviceUtil
 import org.michaelbel.moviemade.core.ViewUtil
+import org.michaelbel.moviemade.core.getViewModel
+import org.michaelbel.moviemade.core.reObserve
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
@@ -44,10 +46,10 @@ class TrailersFragment: BaseFragment() {
 
     private lateinit var movie: Movie
     private lateinit var adapter: ListAdapter
-    private lateinit var viewModel: TrailersModel
 
-    @Inject
-    lateinit var factory: TrailersFactory
+    @Inject lateinit var repository: TrailersRepository
+
+    private val viewModel: TrailersModel by lazy { getViewModel { TrailersModel(repository) } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,7 +57,6 @@ class TrailersFragment: BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel = ViewModelProviders.of(requireActivity(), factory).get(TrailersModel::class.java)
         return inflater.inflate(R.layout.fragment_lce, container, false)
     }
 
@@ -79,25 +80,25 @@ class TrailersFragment: BaseFragment() {
 
         emptyView.setOnClickListener {
             emptyView.visibility = GONE
-            viewModel.trailers(movie.id)
+            viewModel.trailers(movie.id.toLong())
         }
 
-        viewModel.trailers(movie.id)
-        viewModel.loading.observe(viewLifecycleOwner, Observer {
+        viewModel.trailers(movie.id.toLong())
+        viewModel.loading.reObserve(viewLifecycleOwner, Observer {
             progressBar.visibility = if (it) VISIBLE else GONE
         })
-        viewModel.content.observe(viewLifecycleOwner, Observer {
+        viewModel.content.reObserve(viewLifecycleOwner, Observer {
             adapter.setItems(it)
         })
-        viewModel.error.observe(viewLifecycleOwner, Observer {
+        viewModel.error.reObserve(viewLifecycleOwner, Observer {
             emptyView.visibility = VISIBLE
             emptyView.setMode(it)
         })
-        viewModel.click.observe(viewLifecycleOwner, Observer {
+        viewModel.click.reObserve(viewLifecycleOwner, Observer {
             val dialog = YoutubePlayerDialogFragment.newInstance(it.key.toUri().toString())
             dialog.show(requireActivity().supportFragmentManager, DIALOG_TAG)
         })
-        viewModel.longClick.observe(viewLifecycleOwner, Observer {
+        viewModel.longClick.reObserve(viewLifecycleOwner, Observer {
             startActivity(Intent(Intent.ACTION_VIEW, ("vnd.youtube:" + it.key).toUri()))
         })
     }

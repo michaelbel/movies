@@ -19,6 +19,10 @@
     <color name="backdropBlur">#99081c24</color>
     <color name="youtubeColor">#f44336</color>
 
+    <color name="strokeColor">#19000000</color>
+    <color name="placeHolderColor">#FFE0E0E0</color>
+    <color name="errorHolderColor">#FFE57373</color>
+
     <color name="transparent">#00000000</color>
     <color name="transparent10">#1a000000</color><!--10% opacity-->
     <color name="transparent20">#33000000</color><!--20% opacity-->

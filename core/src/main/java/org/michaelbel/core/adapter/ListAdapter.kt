@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
+import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -17,13 +18,10 @@ class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     private var recyclerView: RecyclerView? = null
     private var isCancelled = false
 
-    private val handler = Handler(Looper.getMainLooper())
-
-    private val executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())
-
     private val viewTypesPositions = SparseIntArray()
-
+    private val handler = Handler(Looper.getMainLooper())
     private var pendingUpdates: Queue<Collection<ListItem>> = ArrayDeque()
+    private val executorService: ExecutorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
         super.onAttachedToRecyclerView(recyclerView)
@@ -36,10 +34,10 @@ class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         setItems(listItems, false)
     }
 
-    fun setItems(listItems: ArrayList<ListItem>, isDiffUtilEnabled: Boolean){
-        var diffUtilCallback : DiffUtilCallback? = null
+    fun setItems(listItems: ArrayList<ListItem>, isDiffUtilEnabled: Boolean) {
+        var diffUtilCallback: DiffUtilCallback? = null
 
-        if (isDiffUtilEnabled){
+        if (isDiffUtilEnabled) {
             diffUtilCallback = DiffUtilCallback(items, listItems)
         }
 
@@ -59,6 +57,11 @@ class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
+    fun addItem(listItem: ListItem) {
+        items.add(listItem)
+        notifyDataSetChanged()
+    }
+
     fun clear() {
         items.clear()
         notifyDataSetChanged()
@@ -74,7 +77,7 @@ class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>) {
-        if (payloads.isEmpty() || !(items[position].onBindViewHolder(holder, position, payloads))){
+        if (payloads.isEmpty() || !(items[position].onBindViewHolder(holder, position, payloads))) {
             super.onBindViewHolder(holder, position, payloads)
         }
     }
@@ -122,7 +125,6 @@ class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         }
     }
 
-    var uuid = UUID.randomUUID()
     private fun postDiffResults(newItems: Collection<ListItem>, diffResult: DiffUtil.DiffResult, callback: DiffUtil.Callback) {
         if (!isCancelled) {
             handler.post {
@@ -151,7 +153,7 @@ class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
                 items.addAll(newItems)
 
                 if (pendingUpdates.size > 0) {
-                    updateData(pendingUpdates.peek(), callback)
+                    updateData(pendingUpdates.peek() as Collection<ListItem>, callback)
                 }
             }
         }
@@ -183,13 +185,5 @@ class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
             val newListItem = newListItems[newItemPosition]
             return oldListItem.getChangePayload(newListItem)
         }
-    }
-
-    fun cancel() {
-        isCancelled = true
-    }
-
-    fun reset() {
-        isCancelled = false
     }
 }

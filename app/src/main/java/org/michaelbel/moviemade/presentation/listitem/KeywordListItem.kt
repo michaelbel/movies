@@ -9,7 +9,7 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.listitem_keyword.view.*
 import org.michaelbel.core.adapter.ListItem
 import org.michaelbel.core.adapter.ViewTypes.KEYWORD_ITEM
-import org.michaelbel.data.Keyword
+import org.michaelbel.data.remote.model.Keyword
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
 
@@ -42,5 +42,5 @@ data class KeywordListItem(internal var keyword: Keyword): ListItem {
         })
     }
 
-    class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
+    private inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
 }

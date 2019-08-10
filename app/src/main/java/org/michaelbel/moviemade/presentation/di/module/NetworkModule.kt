@@ -10,10 +10,10 @@ import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import org.michaelbel.core.retrofit.CoroutineCallAdapterFactory
 import org.michaelbel.data.remote.Api
 import org.michaelbel.moviemade.BuildConfig
 import org.michaelbel.moviemade.core.TmdbConfig.GSON_DATE_FORMAT
-import org.michaelbel.moviemade.core.retrofit.CoroutineCallAdapterFactory
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import timber.log.Timber

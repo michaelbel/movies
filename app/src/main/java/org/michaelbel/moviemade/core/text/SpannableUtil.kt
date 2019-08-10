@@ -1,28 +1,14 @@
 package org.michaelbel.moviemade.core.text
 
-import android.content.Context
 import android.text.SpannableStringBuilder
 import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
-import android.text.style.ForegroundColorSpan
 import android.text.style.TypefaceSpan
-import androidx.core.content.ContextCompat
-import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.presentation.App
+import com.crashlytics.android.Crashlytics
+import java.util.*
 
 object SpannableUtil {
 
-    fun boldAndColoredText(title: String, allText: String): SpannableStringBuilder {
-        val spannable = SpannableStringBuilder(allText)
-
-        val startPos = 0
-        val endPos = title.length - 3 // without ' %s' chars.
-
-        spannable.setSpan(TypefaceSpan("sans-serif-medium"), startPos, endPos, SPAN_EXCLUSIVE_EXCLUSIVE)
-        spannable.setSpan(ForegroundColorSpan(ContextCompat.getColor(App.appContext, R.color.textColorPrimary)), startPos, endPos, SPAN_EXCLUSIVE_EXCLUSIVE)
-
-        return spannable
-    }
-
+    @Deprecated("")
     fun boldText(text: String, allText: String): SpannableStringBuilder {
         val spannable = SpannableStringBuilder(allText)
 
@@ -33,15 +19,32 @@ object SpannableUtil {
         return spannable
     }
 
-    @Suppress("unused")
-    fun linkText(context: Context, text: String): SpannableStringBuilder {
-        val spannable = SpannableStringBuilder(text)
+    fun replaceTags(str: String): SpannableStringBuilder {
+        try {
+            var start: Int
+            var end: Int
+            val stringBuilder = StringBuilder(str)
+            val bolds = ArrayList<Int>()
 
-        val startPos = 0
-        val endPos = text.length
+            while (stringBuilder.indexOf("**") != -1) {
+                start = stringBuilder.indexOf("**")
+                stringBuilder.replace(start, start + 2, "")
+                end = stringBuilder.indexOf("**")
+                if (end >= 0) {
+                    stringBuilder.replace(end, end + 2, "")
+                    bolds.add(start)
+                    bolds.add(end)
+                }
+            }
+            val spannableStringBuilder = SpannableStringBuilder(stringBuilder)
+            for (a in 0 until bolds.size / 2) {
+                spannableStringBuilder.setSpan(TypefaceSpan("sans-serif-medium"), bolds[a * 2], bolds[a * 2 + 1], SPAN_EXCLUSIVE_EXCLUSIVE)
+            }
+            return spannableStringBuilder
+        } catch (e: Exception) {
+            Crashlytics.logException(e)
+        }
 
-        spannable.setSpan(TypefaceSpan("sans-serif-medium"), startPos, endPos, SPAN_EXCLUSIVE_EXCLUSIVE)
-        spannable.setSpan(ForegroundColorSpan(ContextCompat.getColor(context, R.color.tmdbPrimary)), startPos, endPos, SPAN_EXCLUSIVE_EXCLUSIVE)
-        return spannable
+        return SpannableStringBuilder(str)
     }
 }

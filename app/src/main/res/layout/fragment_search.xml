@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="?actionBarSize">
 
-            <androidx.appcompat.widget.AppCompatEditText
+            <org.michaelbel.moviemade.presentation.widget.WidgetEditText
                 android:id="@+id/searchEditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

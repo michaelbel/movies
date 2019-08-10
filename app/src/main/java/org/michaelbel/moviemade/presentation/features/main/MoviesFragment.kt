@@ -7,14 +7,16 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.fragment_movies.*
 import org.michaelbel.core.adapter.ListAdapter
-import org.michaelbel.data.Movie.Companion.NOW_PLAYING
+import org.michaelbel.data.remote.model.Movie.Companion.NOW_PLAYING
+import org.michaelbel.domain.MoviesRepository
 import org.michaelbel.moviemade.R
+import org.michaelbel.moviemade.core.getViewModel
 import org.michaelbel.moviemade.core.local.BuildUtil
+import org.michaelbel.moviemade.core.reObserve
 import org.michaelbel.moviemade.core.startActivity
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_MOVIE
@@ -40,10 +42,10 @@ class MoviesFragment: BaseFragment() {
 
     private lateinit var list: String
     private lateinit var adapter: ListAdapter
-    private lateinit var viewModel: MoviesModel
 
-    @Inject
-    lateinit var factory: MoviesFactory
+    @Inject lateinit var repository: MoviesRepository
+
+    private val viewModel: MoviesModel by lazy { getViewModel { MoviesModel(repository) } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +53,6 @@ class MoviesFragment: BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel = ViewModelProviders.of(this, factory).get(MoviesModel::class.java)
         return inflater.inflate(R.layout.fragment_movies, container, false)
     }
 
@@ -81,13 +82,13 @@ class MoviesFragment: BaseFragment() {
         }
 
         viewModel.movies(list)
-        viewModel.loading.observe(viewLifecycleOwner, Observer {
+        viewModel.loading.reObserve(viewLifecycleOwner, Observer {
             progressBar.visibility = if (it) VISIBLE else GONE
         })
-        viewModel.content.observe(viewLifecycleOwner, Observer {
+        viewModel.content.reObserve(viewLifecycleOwner, Observer {
             adapter.setItems(it)
         })
-        viewModel.error.observe(viewLifecycleOwner, Observer { error ->
+        viewModel.error.reObserve(viewLifecycleOwner, Observer { error ->
             error.getContentIfNotHandled()?.let {
                 emptyView.visibility = VISIBLE
                 emptyView.setMode(it)
@@ -97,14 +98,14 @@ class MoviesFragment: BaseFragment() {
                 }
             }
         })
-        viewModel.click.observe(viewLifecycleOwner, Observer {
+        viewModel.click.reObserve(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 requireActivity().startActivity<MovieActivity> {
                     putExtra(EXTRA_MOVIE, it)
                 }
             }
         })
-        viewModel.longClick.observe(viewLifecycleOwner, Observer {
+        viewModel.longClick.reObserve(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 requireActivity().startActivity<MovieActivity> {
                     putExtra(EXTRA_MOVIE, it)

@@ -3,6 +3,7 @@ package org.michaelbel.moviemade.presentation.listitem
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import com.bumptech.glide.Glide
@@ -10,7 +11,7 @@ import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.listitem_trailer.view.*
 import org.michaelbel.core.adapter.ListItem
 import org.michaelbel.core.adapter.ViewTypes.TRAILER_ITEM
-import org.michaelbel.data.Video
+import org.michaelbel.data.remote.model.Video
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.TmdbConfig.YOUTUBE_IMAGE
 import org.michaelbel.moviemade.core.ViewUtil
@@ -43,7 +44,7 @@ data class TrailerListItem(internal var trailer: Video): ListItem {
 
         holder.itemView.playerIcon.setImageDrawable(if (trailer.site == "YouTube")
             ViewUtil.getIcon(holder.itemView.context, R.drawable.ic_youtube, R.color.youtubeColor) else
-            ViewUtil.getIcon(holder.itemView.context, R.drawable.ic_play_circle))
+            ContextCompat.getDrawable(holder.itemView.context, R.drawable.ic_play_circle))
 
         holder.itemView.setOnClickListener(object: DebouncingOnClickListener() {
             override fun doClick(v: View) {
@@ -61,5 +62,5 @@ data class TrailerListItem(internal var trailer: Video): ListItem {
         }
     }
 
-    class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
+    private inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
 }

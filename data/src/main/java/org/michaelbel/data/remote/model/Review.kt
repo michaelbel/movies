@@ -1,14 +1,11 @@
-package org.michaelbel.data
+package org.michaelbel.data.remote.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-@Entity(tableName = "reviews")
 data class Review(
-        @Expose @SerializedName("id") @PrimaryKey val id: String = "",
+        @Expose @SerializedName("id") val id: String = "",
         @Expose @SerializedName("author") val author: String = "",
         @Expose @SerializedName("content") val content: String = "",
         @Expose @SerializedName("iso_639_1") val lang: String = "",

@@ -5,15 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
-import com.bumptech.glide.Glide
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.listitem_movie.view.*
 import org.michaelbel.core.adapter.ListItem
 import org.michaelbel.core.adapter.ViewTypes.MOVIE_ITEM
-import org.michaelbel.data.Movie
+import org.michaelbel.data.remote.model.Movie
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.DeviceUtil
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_IMAGE
+import org.michaelbel.moviemade.core.loadImage
 import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
 import java.util.*
 
@@ -38,11 +38,7 @@ data class MovieListItem(internal var movie: Movie): ListItem {
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        Glide.with(holder.itemView.context)
-                .load(String.format(Locale.US, TMDB_IMAGE, "w342", movie.posterPath))
-                .thumbnail(0.1F)
-                .into(holder.itemView.poster)
-
+        holder.itemView.poster.loadImage(String.format(Locale.US, TMDB_IMAGE, "w342", movie.posterPath))
         holder.itemView.setOnClickListener(object: DebouncingOnClickListener() {
             override fun doClick(v: View) {
                 if (holder.adapterPosition != NO_POSITION) {
@@ -52,5 +48,5 @@ data class MovieListItem(internal var movie: Movie): ListItem {
         })
     }
 
-    class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
+    private inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
 }

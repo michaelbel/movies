@@ -8,16 +8,18 @@ import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.transaction
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_parent.*
 import kotlinx.android.synthetic.main.fragment_lce.*
 import org.michaelbel.core.adapter.ListAdapter
-import org.michaelbel.data.Movie
+import org.michaelbel.data.remote.model.Movie
+import org.michaelbel.domain.ReviewsRepository
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.DeviceUtil
 import org.michaelbel.moviemade.core.ViewUtil
+import org.michaelbel.moviemade.core.getViewModel
+import org.michaelbel.moviemade.core.reObserve
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.ContainerActivity
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_MOVIE
@@ -43,10 +45,10 @@ class ReviewsFragment: BaseFragment() {
 
     private lateinit var movie: Movie
     private lateinit var adapter: ListAdapter
-    private lateinit var viewModel: ReviewsModel
 
-    @Inject
-    lateinit var factory: ReviewsFactory
+    @Inject lateinit var repository: ReviewsRepository
+
+    private val viewModel: ReviewsModel by lazy { getViewModel { ReviewsModel(repository) } }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,7 +56,6 @@ class ReviewsFragment: BaseFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        viewModel = ViewModelProviders.of(requireActivity(), factory).get(ReviewsModel::class.java)
         return inflater.inflate(R.layout.fragment_lce, container, false)
     }
 
@@ -79,30 +80,30 @@ class ReviewsFragment: BaseFragment() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 if (!recyclerView.canScrollVertically(1) && adapter.itemCount != 0) {
-                    viewModel.reviews(movie.id)
+                    viewModel.reviews(movie.id.toLong())
                 }
             }
         })
 
         emptyView.setOnClickListener {
             emptyView.visibility = GONE
-            viewModel.reviews(movie.id)
+            viewModel.reviews(movie.id.toLong())
         }
 
-        viewModel.reviews(movie.id)
-        viewModel.loading.observe(viewLifecycleOwner, Observer {
+        viewModel.reviews(movie.id.toLong())
+        viewModel.loading.reObserve(viewLifecycleOwner, Observer {
             progressBar.visibility = if (it) VISIBLE else GONE
         })
-        viewModel.content.observe(viewLifecycleOwner, Observer {
+        viewModel.content.reObserve(viewLifecycleOwner, Observer {
             adapter.setItems(it)
         })
-        viewModel.error.observe(viewLifecycleOwner, Observer { error ->
+        viewModel.error.reObserve(viewLifecycleOwner, Observer { error ->
             error.getContentIfNotHandled()?.let {
                 emptyView.visibility = VISIBLE
                 emptyView.setMode(it)
             }
         })
-        viewModel.click.observe(viewLifecycleOwner, Observer {
+        viewModel.click.reObserve(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 requireFragmentManager().transaction {
                     add((requireActivity() as ContainerActivity).container.id, ReviewFragment.newInstance(it, movie))
@@ -110,7 +111,7 @@ class ReviewsFragment: BaseFragment() {
                 }
             }
         })
-        viewModel.longClick.observe(viewLifecycleOwner, Observer {
+        viewModel.longClick.reObserve(viewLifecycleOwner, Observer {
             it.getContentIfNotHandled()?.let {
                 requireFragmentManager().transaction {
                     add((requireActivity() as ContainerActivity).container.id, ReviewFragment.newInstance(it, movie))

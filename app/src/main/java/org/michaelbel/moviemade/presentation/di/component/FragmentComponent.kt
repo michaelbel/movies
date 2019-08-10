@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade.presentation.di.component
 
 import dagger.Subcomponent
-import org.michaelbel.moviemade.presentation.common.BackdropDialog
+import org.michaelbel.moviemade.presentation.common.BottomSheetDialog
 import org.michaelbel.moviemade.presentation.di.module.FragmentModule
 import org.michaelbel.moviemade.presentation.di.scope.FragmentScope
 import org.michaelbel.moviemade.presentation.features.keywords.KeywordsFragment
@@ -27,6 +27,6 @@ interface FragmentComponent {
     fun inject(target: SearchMoviesFragment)
     fun inject(target: ReviewsFragment)
     fun inject(target: KeywordsFragment)
-    fun inject(target: BackdropDialog)
+    fun inject(target: BottomSheetDialog)
     fun inject(target: UserFragment)
 }

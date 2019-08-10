@@ -8,7 +8,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.michaelbel.core.adapter.ItemsManager
 import org.michaelbel.core.adapter.ListItem
-import org.michaelbel.data.Review
+import org.michaelbel.data.remote.model.Review
 import org.michaelbel.domain.ReviewsRepository
 import org.michaelbel.domain.live.LiveDataEvent
 import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
@@ -28,7 +28,7 @@ class ReviewsModel(val repository: ReviewsRepository): ViewModel() {
     var click = MutableLiveData<LiveDataEvent<Review>>()
     var longClick = MutableLiveData<LiveDataEvent<Review>>()
 
-    fun reviews(movieId: Int) {
+    fun reviews(movieId: Long) {
         page += 1
         loading.postValue(page == 1)
 

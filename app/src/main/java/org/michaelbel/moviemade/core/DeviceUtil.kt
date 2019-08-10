@@ -1,13 +1,16 @@
 package org.michaelbel.moviemade.core
 
-import android.Manifest
+import android.Manifest.permission.VIBRATE
 import android.content.Context
 import android.content.Context.VIBRATOR_SERVICE
+import android.content.Context.WINDOW_SERVICE
 import android.content.res.Configuration.ORIENTATION_LANDSCAPE
 import android.os.Build
 import android.os.VibrationEffect
 import android.os.VibrationEffect.DEFAULT_AMPLITUDE
 import android.os.Vibrator
+import android.util.DisplayMetrics
+import android.view.WindowManager
 import androidx.annotation.RequiresPermission
 import org.michaelbel.moviemade.R
 import kotlin.math.ceil
@@ -27,16 +30,22 @@ object DeviceUtil {
     fun dp(context: Context, value: Float) =
             ceil((context.resources.displayMetrics.density * value).toDouble()).toInt()
 
-    @RequiresPermission(Manifest.permission.VIBRATE)
+    @Suppress("deprecation")
+    @RequiresPermission(VIBRATE)
     fun vibrate(context: Context, milliseconds: Int) {
         val vibrator = context.getSystemService(VIBRATOR_SERVICE) as Vibrator
         if (Build.VERSION.SDK_INT > 26) {
-            vibrator.vibrate(VibrationEffect.createOneShot(
-                    milliseconds.toLong(), DEFAULT_AMPLITUDE)
-            )
+            vibrator.vibrate(VibrationEffect.createOneShot(milliseconds.toLong(), DEFAULT_AMPLITUDE))
         } else {
             // Deprecated in API 26
             vibrator.vibrate(milliseconds.toLong())
         }
+    }
+
+    fun getScreenWidth(context: Context): Int {
+        val windowManager = context.getSystemService(WINDOW_SERVICE) as WindowManager
+        val displayMetrics = DisplayMetrics()
+        windowManager.defaultDisplay.getMetrics(displayMetrics)
+        return displayMetrics.widthPixels
     }
 }

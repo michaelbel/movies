@@ -4,11 +4,12 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.NO_ID
 
 interface ListItem {
     fun getData(): Any
     fun getViewType(): Int
-    fun getId(): Long = RecyclerView.NO_ID
+    fun getId(): Long = NO_ID
     fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
     fun getChangePayload(item: ListItem): Bundle? = null
     fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int)

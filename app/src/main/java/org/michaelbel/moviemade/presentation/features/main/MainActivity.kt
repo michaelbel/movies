@@ -11,9 +11,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.transaction
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
-import org.michaelbel.data.Movie.Companion.NOW_PLAYING
-import org.michaelbel.data.Movie.Companion.TOP_RATED
-import org.michaelbel.data.Movie.Companion.UPCOMING
+import org.michaelbel.data.remote.model.Movie.Companion.NOW_PLAYING
+import org.michaelbel.data.remote.model.Movie.Companion.TOP_RATED
+import org.michaelbel.data.remote.model.Movie.Companion.UPCOMING
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.DeviceUtil
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
@@ -27,7 +27,9 @@ import org.michaelbel.moviemade.presentation.features.settings.SettingsActivity
 import org.michaelbel.moviemade.presentation.features.user.UserFragment
 import javax.inject.Inject
 
-class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener, BottomNavigationView.OnNavigationItemReselectedListener {
+class MainActivity: BaseActivity(R.layout.activity_main),
+        BottomNavigationView.OnNavigationItemSelectedListener,
+        BottomNavigationView.OnNavigationItemReselectedListener {
 
     companion object {
         const val FRAGMENT_TAG = "fragment-tag"
@@ -38,8 +40,7 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
         private const val ARG_BOTTOM_BAR_POSITION = "pos"
     }
 
-    @Inject
-    lateinit var preferences: SharedPreferences
+    @Inject lateinit var preferences: SharedPreferences
 
     override fun setTheme(resid: Int) {
         super.setTheme(R.style.AppTheme_TransparentStatusBar)
@@ -70,7 +71,6 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
         App[application].createActivityComponent().inject(this)
 
         setSupportActionBar(toolbar)
@@ -90,40 +90,25 @@ class MainActivity: BaseActivity(), BottomNavigationView.OnNavigationItemSelecte
 
         when (itemId) {
             R.id.item_playing -> {
-                supportFragmentManager
-                        .beginTransaction()
-                        .replace(container.id, MoviesFragment.newInstance(NOW_PLAYING), FRAGMENT_TAG)
-                        .commitNow()
-
-                /*supportFragmentManager.transaction {
+                supportFragmentManager.transaction {
                     replace(container.id, MoviesFragment.newInstance(NOW_PLAYING), FRAGMENT_TAG)
-                }*/
+                }
             }
             R.id.item_rated -> {
-                supportFragmentManager
-                        .beginTransaction()
-                        .replace(container.id, MoviesFragment.newInstance(TOP_RATED), FRAGMENT_TAG)
-                        .commitNow()
-
-                /*supportFragmentManager.transaction {
+                supportFragmentManager.transaction {
                     replace(container.id, MoviesFragment.newInstance(TOP_RATED), FRAGMENT_TAG)
-                }*/
+                }
             }
             R.id.item_upcoming -> {
-                supportFragmentManager
-                        .beginTransaction()
-                        .replace(container.id, MoviesFragment.newInstance(UPCOMING), FRAGMENT_TAG)
-                        .commitNow()
-
-                /*supportFragmentManager.transaction {
+                supportFragmentManager.transaction {
                     replace(container.id, MoviesFragment.newInstance(UPCOMING), FRAGMENT_TAG)
-                }*/
+                }
             }
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
-        outState?.putInt(ARG_BOTTOM_BAR_POSITION, bottomNavigationView.selectedItemId)
+    override fun onSaveInstanceState(outState: Bundle, outPersistentState: PersistableBundle) {
+        outState.putInt(ARG_BOTTOM_BAR_POSITION, bottomNavigationView.selectedItemId)
         super.onSaveInstanceState(outState, outPersistentState)
     }
 

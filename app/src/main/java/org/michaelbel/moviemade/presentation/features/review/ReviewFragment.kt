@@ -16,8 +16,8 @@ import com.google.android.material.appbar.AppBarLayout.LayoutParams.SCROLL_FLAG_
 import com.google.android.material.appbar.AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
 import kotlinx.android.synthetic.main.fragment_review.*
 import org.michaelbel.core.customtabs.Browser
-import org.michaelbel.data.Movie
-import org.michaelbel.data.Review
+import org.michaelbel.data.remote.model.Movie
+import org.michaelbel.data.remote.model.Review
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.ViewUtil
 import org.michaelbel.moviemade.core.text.SpannableUtil
@@ -39,7 +39,7 @@ class ReviewFragment: BaseFragment() {
         private const val THEME_NIGHT = 2
 
         private const val TOOLBAR_PINNED = 0
-        private const val TOOLBAR_UNPINNED = SCROLL_FLAG_SCROLL or SCROLL_FLAG_ENTER_ALWAYS
+        private const val TOOLBAR_UNPINNED: Int = SCROLL_FLAG_SCROLL or SCROLL_FLAG_ENTER_ALWAYS
 
         private const val ANIM_DURATION = 300L
 
@@ -57,8 +57,7 @@ class ReviewFragment: BaseFragment() {
         }
     }
 
-    @Inject
-    lateinit var preferences: SharedPreferences
+    @Inject lateinit var preferences: SharedPreferences
 
     private lateinit var movie: Movie
     private lateinit var review: Review

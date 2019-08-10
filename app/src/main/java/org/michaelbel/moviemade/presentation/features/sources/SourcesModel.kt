@@ -18,7 +18,9 @@ class SourcesModel: ViewModel() {
             val listItem = TextDetailListItem(TextDetailListItem.Data(it.name, it.license, it != items[items.size - 1]))
             listItem.listener = object: TextDetailListItem.Listener {
                 override fun onClick() {
-                    click.postValue(LiveDataEvent(it.url))
+                    if (it.url != null) {
+                        click.postValue(LiveDataEvent(it.url))
+                    }
                 }
             }
             list.add(listItem)

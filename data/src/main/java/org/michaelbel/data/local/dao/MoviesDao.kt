@@ -1,21 +1,32 @@
 package org.michaelbel.data.local.dao
 
-import androidx.room.Dao
-import org.michaelbel.data.Movie
-import org.michaelbel.data.local.BaseDao
+import androidx.room.*
+import org.michaelbel.data.local.model.MovieLocal
 
 @Dao
-abstract class MoviesDao: BaseDao<Movie>() {
+abstract class MoviesDao {
 
-    /*@Query("select * from movies where id = :id")
-    abstract fun findById(id: Int): Flowable<Movie>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun insert(movie: MovieLocal)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun insert(vararg movies: MovieLocal)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun insert(movies: ArrayList<MovieLocal>)
+
+    @Update
+    abstract fun update(movie: MovieLocal)
+
+    @Delete
+    abstract fun delete(movie: MovieLocal)
 
     @Query("select * from movies")
-    abstract fun getAll(): List<Movie>
+    abstract fun getAll(): List<MovieLocal>
 
-    @Query("select * from movies where movieId = :id")
-    abstract fun getAll(id: Int): List<Movie>
+    @Query("select * from movies where movie_id = :id")
+    abstract fun getAll(id: Int): List<MovieLocal>
 
     @Query("delete from movies")
-    abstract fun deleteAll()*/
+    abstract fun deleteAll()
 }

@@ -90,5 +90,5 @@
     <dimen name="cell_icon_size">24dp</dimen>
     <dimen name="cell_icon_margin_start">16dp</dimen>
     <dimen name="cell_text_size">16sp</dimen>
-    <dimen name="cell_text_margin_start">56dp</dimen>
+    <dimen name="cell_text_margin_start">16dp</dimen>
 </resources>

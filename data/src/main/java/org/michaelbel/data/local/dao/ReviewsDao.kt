@@ -1,24 +1,32 @@
 package org.michaelbel.data.local.dao
 
-import androidx.room.Dao
-import org.michaelbel.data.Review
-import org.michaelbel.data.local.BaseDao
+import androidx.room.*
+import org.michaelbel.data.local.model.ReviewLocal
 
 @Dao
-abstract class ReviewsDao: BaseDao<Review>() {
+abstract class ReviewsDao {
 
-    /*@Query("select * from reviews where id = :id")
-    abstract fun findById(id: Int): Deferred<Review>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun insert(review: ReviewLocal)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract fun insert(vararg reviews: ReviewLocal)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    abstract suspend fun insert(reviews: ArrayList<ReviewLocal>)
+
+    @Update
+    abstract fun update(review: ReviewLocal)
+
+    @Delete
+    abstract fun delete(review: ReviewLocal)
 
     @Query("select * from reviews")
-    abstract fun getAll(): List<Review>
+    abstract fun getAll(): List<ReviewLocal>
 
-    @Query("select * from reviews where movieId = :id")
-    abstract fun getAll(id: Int): Deferred<List<Review>>
+    /*@Query("select * from reviews where review_id = :id")
+    abstract fun getAll(id: Long): List<ReviewLocal>*/
 
     @Query("delete from reviews")
     abstract fun deleteAll()
-
-    @Insert(onConflict = REPLACE)
-    abstract fun insert(items: List<Review>): Deferred<*>*/
 }

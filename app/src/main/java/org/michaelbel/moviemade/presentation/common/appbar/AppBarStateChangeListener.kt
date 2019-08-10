@@ -1,6 +1,7 @@
 package org.michaelbel.moviemade.presentation.common.appbar
 
 import com.google.android.material.appbar.AppBarLayout
+import kotlin.math.abs
 
 abstract class AppBarStateChangeListener: AppBarLayout.OnOffsetChangedListener {
 
@@ -20,7 +21,7 @@ abstract class AppBarStateChangeListener: AppBarLayout.OnOffsetChangedListener {
                 }
                 currentState = AppBarState.EXPANDED
             }
-            Math.abs(i) >= appBarLayout.totalScrollRange -> {
+            abs(i) >= appBarLayout.totalScrollRange -> {
                 if (currentState !== AppBarState.COLLAPSED) {
                     onStateChanged(appBarLayout, AppBarState.COLLAPSED)
                 }

@@ -28,5 +28,5 @@ data class PoweredListItem(internal var data: Data): ListItem {
         holder.itemView.poweredText.setText(getData().text)
     }
 
-    class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
+    private inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
 }

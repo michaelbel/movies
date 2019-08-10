@@ -1,5 +1,6 @@
 package org.michaelbel.moviemade.presentation.common
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -8,8 +9,10 @@ import androidx.appcompat.widget.AppCompatTextView
 import com.alexvasilkov.gestures.GestureController
 import com.alexvasilkov.gestures.State
 import com.alexvasilkov.gestures.views.interfaces.GestureView
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.roundToInt
 
-// fixme constructor
 open class GestureTextView: AppCompatTextView, GestureView {
 
     private val controller: GestureController = GestureController(this)
@@ -19,7 +22,6 @@ open class GestureTextView: AppCompatTextView, GestureView {
 
     init {
         controller.settings.setOverzoomFactor(1F).isPanEnabled = false
-        //controller.settings.initFromAttributes(context, attrs)
         controller.addOnStateChangeListener(object: GestureController.OnStateChangeListener {
             override fun onStateChanged(state: State) {
                 applyState(state)
@@ -39,6 +41,7 @@ open class GestureTextView: AppCompatTextView, GestureView {
 
     override fun getController(): GestureController = controller
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean = controller.onTouch(this, event)
 
     override fun setTextSize(size: Float) {
@@ -62,10 +65,10 @@ open class GestureTextView: AppCompatTextView, GestureView {
     protected fun applyState(state: State) {
         var size = origSize * state.zoom
         val maxSize = origSize * controller.settings.maxZoom
-        size = Math.max(origSize, Math.min(size, maxSize))
+        size = max(origSize, min(size, maxSize))
 
         // Bigger text size steps for smoother scaling.
-        size = Math.round(size).toFloat()
+        size = size.roundToInt().toFloat()
 
         if (!State.equals(this.size, size)) {
             this.size = size

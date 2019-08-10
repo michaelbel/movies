@@ -28,10 +28,6 @@ class RatingView: LinearLayoutCompat {
         initialize(context)
     }
 
-    constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int): super(context, attrs, defStyleAttr) {
-        initialize(context)
-    }
-
     private fun initialize(context: Context) {
         orientation = HORIZONTAL
 

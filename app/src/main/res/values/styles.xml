@@ -19,7 +19,7 @@
         <item name="materialCardViewStyle">@style/Widget.Moviemade.Card</item>
 
         <item name="android:windowLightStatusBar">false</item><!--Fixme: override res in values-v23-->
-        <!--<item name="android:windowContentOverlay">@null</item>-->
+        <!--<item title="android:windowContentOverlay">@null</item>-->
     </style>
 
     <style name="AppTheme.Launcher" parent="Theme.AppCompat.Light.NoActionBar">

@@ -1,14 +1,11 @@
-package org.michaelbel.data
+package org.michaelbel.data.remote.model
 
-import androidx.room.Entity
-import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
-@Entity(tableName = "trailers")
 data class Video(
-        @Expose @SerializedName("id") @PrimaryKey val id: String = "",
+        @Expose @SerializedName("id") val id: String = "",
         @Expose @SerializedName("iso_639_1") val lang: String = "",
         @Expose @SerializedName("iso_3166_1") val country: String = "",
         @Expose @SerializedName("key") val key: String = "",
