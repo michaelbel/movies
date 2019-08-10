@@ -6,17 +6,32 @@
     android:layout_height="64dp"
     android:background="?selectableItemBackground">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/iconView"
-        android:layout_width="@dimen/cell_icon_size"
-        android:layout_height="@dimen/cell_icon_size"
-        android:layout_gravity="start|center_vertical"
-        android:layout_marginStart="@dimen/cell_icon_margin_start"
+    <FrameLayout
+        android:id="@+id/actionLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        tools:src="@drawable/ic_update"
-        tools:tint="@color/accent_green"/>
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <ProgressBar
+            android:id="@+id/progressBar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:indeterminateTint="@color/accent_green"
+            android:visibility="gone"
+            tools:visibility="gone"/>
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/iconView"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            tools:visibility="visible"
+            tools:src="@drawable/ic_update"
+            tools:tint="@color/accent_green"/>
+
+    </FrameLayout>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/text"
@@ -32,7 +47,7 @@
         android:maxLines="1"
         android:singleLine="true"
         android:ellipsize="end"
-        app:layout_constraintStart_toEndOf="@id/iconView"
+        app:layout_constraintStart_toEndOf="@id/actionLayout"
         app:layout_constraintTop_toTopOf="parent"
         tools:textColor="@color/textColorPrimary"
         tools:text="@string/update_available"/>
@@ -50,7 +65,7 @@
         android:maxLines="1"
         android:singleLine="true"
         android:ellipsize="end"
-        app:layout_constraintStart_toEndOf="@id/iconView"
+        app:layout_constraintStart_toEndOf="@id/actionLayout"
         app:layout_constraintTop_toTopOf="parent"
         tools:textColor="@color/textColorSecondary"
         tools:text="@string/update_available_summary"/>

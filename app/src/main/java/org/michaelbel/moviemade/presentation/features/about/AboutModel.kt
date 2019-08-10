@@ -108,11 +108,12 @@ class AboutModel(app: Application): AndroidViewModel(app) {
         }
 
         fun updateAppUpdateItem() {
-            val update = AppUpdateListItem(AppUpdateListItem.Data(object: AppUpdateListItem.Listener {
+            val update = AppUpdateListItem(AppUpdateListItem.Data())
+            update.listener = object: AppUpdateListItem.Listener {
                 override fun onClick() {
                     click.postValue(LiveDataEvent("update"))
                 }
-            }))
+            }
             items.add(1, update)
         }
 
