@@ -12,7 +12,7 @@
 [minsdk-badge]:     https://img.shields.io/badge/minSdkVersion-21-F3745F.svg
 [kotlin-badge]:     https://img.shields.io/badge/Awesome-Kotlin-F18E33.svg
 
-<!------------------------------------------------------------------------------------------------------>
+<!----------------------------------------------------------------------------------------------------->
 <img src="screenshots/mockup2.png"/>
 <img src="../master/icons/ic_launcher_playstore.png" width="192" align="right" hspace="0"/>
 
