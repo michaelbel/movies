@@ -72,10 +72,6 @@
             android:name=".presentation.ContainerActivity"
             android:theme="@style/AppTheme"/>
 
-        <activity
-            android:name=".presentation.features.settings.SettingsActivity"
-            android:theme="@style/AppTheme"/>
-
     </application>
 
 </manifest>

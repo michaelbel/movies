@@ -8,8 +8,7 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        app:statusBarBackground="@color/transparent">
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.AppBarLayout
             android:id="@+id/appBar"
@@ -40,7 +39,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="?actionBarSize"
                     app:popupTheme="@style/ThemeOverlay.AppCompat"
-                    app:layout_scrollFlags="scroll|enterAlways"
                     app:layout_collapseMode="pin">
 
                     <androidx.appcompat.widget.AppCompatTextView
@@ -83,7 +81,7 @@
         android:id="@+id/fullBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?android:attr/shadowColor"
+        android:background="@color/shadowColor"
         android:visibility="gone"/>
 
     <com.alexvasilkov.gestures.views.GestureImageView

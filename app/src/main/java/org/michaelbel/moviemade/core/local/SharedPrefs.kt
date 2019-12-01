@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade.core.local
 
 object SharedPrefs {
-    const val SP_NAME = "mainconfig"
+    const val NAME = "mainconfig"
 
     const val KEY_TOKEN = "token"
     const val KEY_SESSION_ID = "session_id"
@@ -13,5 +13,5 @@ object SharedPrefs {
     const val KEY_ACCOUNT_AVATAR = "avatar"
     const val KEY_ACCOUNT_BACKDROP = "backdrop"
 
-    const val KEY_ADULT = "adult"
+    const val KEY_IN_APP_BROWSER = "key_in_app_browser"
 }

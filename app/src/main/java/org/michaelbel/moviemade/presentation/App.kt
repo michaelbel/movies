@@ -3,11 +3,13 @@ package org.michaelbel.moviemade.presentation
 import android.app.Application
 import android.content.Context
 import android.os.Handler
-import android.util.Log
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatDelegate.setDefaultNightMode
 import com.facebook.stetho.Stetho
 import com.singhajit.sherlock.core.Sherlock
 import com.tspoon.traceur.Traceur
-import org.michaelbel.core.analytics.Analytics
+import org.michaelbel.core.BuildConfig
+import org.michaelbel.core.CrashlyticsTree
 import org.michaelbel.moviemade.BuildConfig.DEBUG
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_API_ENDPOINT
 import org.michaelbel.moviemade.presentation.di.component.ActivityComponent
@@ -31,14 +33,6 @@ class App: Application() {
 
         lateinit var appHandler: Handler
         lateinit var appContext: Context
-
-        @JvmStatic fun d(msg: String) {
-            Log.d(TAG, msg)
-        }
-
-        @JvmStatic fun e(msg: String) {
-            Log.e(TAG, msg)
-        }
     }
 
     private lateinit var appComponent: AppComponent
@@ -48,10 +42,12 @@ class App: Application() {
         appContext = applicationContext
         appHandler = Handler(applicationContext.mainLooper)
 
-        Analytics.initialize(this)
+        setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+        //Analytics.initialize(this)
         Stetho.initializeWithDefaults(this)
 
-        Timber.plant(Timber.DebugTree())
+        Timber.plant(if (BuildConfig.DEBUG) Timber.DebugTree() else CrashlyticsTree())
         Timber.tag(TAG)
 
         if (DEBUG) {
@@ -70,7 +66,7 @@ class App: Application() {
                 .build()
     }
 
-    fun createActivityComponent(): ActivityComponent = appComponent.plus(ActivityModule())
+    val createActivityComponent: ActivityComponent = appComponent.plus(ActivityModule())
 
-    fun createFragmentComponent(): FragmentComponent = appComponent.plus(FragmentModule())
+    val createFragmentComponent: FragmentComponent = appComponent.plus(FragmentModule())
 }

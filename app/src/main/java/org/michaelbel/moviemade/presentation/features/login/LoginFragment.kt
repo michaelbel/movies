@@ -3,17 +3,15 @@ package org.michaelbel.moviemade.presentation.features.login
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.Toast
 import androidx.core.content.edit
-import androidx.fragment.app.transaction
+import androidx.fragment.app.commit
 import androidx.lifecycle.Observer
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_login.*
-import org.michaelbel.core.customtabs.Browser
+import org.michaelbel.core.Browser
 import org.michaelbel.domain.UsersRepository
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.TmdbConfig.REDIRECT_URL
@@ -23,8 +21,6 @@ import org.michaelbel.moviemade.core.TmdbConfig.TMDB_PRIVACY_POLICY
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_REGISTER
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_RESET_PASSWORD
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_TERMS_OF_USE
-import org.michaelbel.moviemade.core.getViewModel
-import org.michaelbel.moviemade.core.loadImage
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_AVATAR
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_ID
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_LOGIN
@@ -32,13 +28,13 @@ import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_NAME
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_DATE_AUTHORISED
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_TOKEN
-import org.michaelbel.moviemade.core.reObserve
 import org.michaelbel.moviemade.core.state.ErrorState.ERR_AUTH_WITH_LOGIN
 import org.michaelbel.moviemade.core.state.ErrorState.ERR_CONNECTION_NO_TOKEN
 import org.michaelbel.moviemade.core.state.ErrorState.ERR_NOT_FOUND
 import org.michaelbel.moviemade.core.state.ErrorState.ERR_NO_CONNECTION
 import org.michaelbel.moviemade.core.state.ErrorState.ERR_UNAUTHORIZED
 import org.michaelbel.moviemade.core.text.SpannableUtil
+import org.michaelbel.moviemade.ktx.*
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
 import org.michaelbel.moviemade.presentation.features.main.MainActivity
@@ -47,7 +43,7 @@ import org.michaelbel.moviemade.presentation.features.user.UserFragment
 import retrofit2.HttpException
 import javax.inject.Inject
 
-class LoginFragment: BaseFragment() {
+class LoginFragment: BaseFragment(R.layout.fragment_login) {
 
     companion object {
         internal fun newInstance() = LoginFragment()
@@ -60,12 +56,8 @@ class LoginFragment: BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        App[requireActivity().application].createFragmentComponent().inject(this)
+        App[requireActivity().application].createFragmentComponent.inject(this)
         setHasOptionsMenu(true)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_login, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -89,7 +81,7 @@ class LoginFragment: BaseFragment() {
             val pass = password.text?.trim()
 
             if (name.isNullOrEmpty() || pass.isNullOrEmpty()) {
-                Toast.makeText(requireContext(), SpannableUtil.replaceTags(getString(R.string.msg_enter_data)), Toast.LENGTH_SHORT).show()
+                requireContext().toast(SpannableUtil.replaceTags(getString(R.string.msg_enter_data)).toString())
             } else {
                 viewModel.createRequestToken(name.toString(), pass.toString())
             }
@@ -111,9 +103,7 @@ class LoginFragment: BaseFragment() {
                 preferences.edit().putString(KEY_SESSION_ID, it).apply()
                 password.hideKeyboard()
 
-                requireFragmentManager().transaction {
-                    replace((requireActivity() as MainActivity).container.id, UserFragment.newInstance(), FRAGMENT_TAG)
-                }
+                requireFragmentManager().commit { replace((requireActivity() as MainActivity).container.id, UserFragment.newInstance(), FRAGMENT_TAG) }
             }
         })
         viewModel.error.reObserve(viewLifecycleOwner, Observer { error ->
@@ -132,7 +122,7 @@ class LoginFragment: BaseFragment() {
             if (code == 401) {
                 preferences.edit().putString(KEY_SESSION_ID, "").apply()
             } else if (code == 404) {
-                Toast.makeText(requireContext(), R.string.error_not_found, Toast.LENGTH_SHORT).show()
+                toast(R.string.error_not_found)
             }
         })
         viewModel.account.reObserve(viewLifecycleOwner, Observer {

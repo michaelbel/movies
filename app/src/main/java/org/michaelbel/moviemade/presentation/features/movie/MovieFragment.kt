@@ -1,18 +1,20 @@
 package org.michaelbel.moviemade.presentation.features.movie
 
 import android.content.Intent
+import android.content.Intent.ACTION_SEND
 import android.content.SharedPreferences
 import android.graphics.drawable.Animatable
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.*
 import android.view.Gravity.CENTER
+import android.view.MenuItem.SHOW_AS_ACTION_IF_ROOM
 import android.view.MenuItem.SHOW_AS_ACTION_NEVER
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
-import androidx.core.content.ContextCompat
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.alexvasilkov.gestures.Settings
@@ -23,9 +25,9 @@ import com.beloo.widget.chipslayoutmanager.ChipsLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_movie.*
 import kotlinx.android.synthetic.main.fragment_movie_old.*
+import org.michaelbel.core.Browser
 import org.michaelbel.core.adapter.ListAdapter
 import org.michaelbel.core.adapter.ListItem
-import org.michaelbel.core.customtabs.Browser
 import org.michaelbel.data.remote.model.Country
 import org.michaelbel.data.remote.model.Genre
 import org.michaelbel.data.remote.model.Mark
@@ -34,13 +36,13 @@ import org.michaelbel.data.remote.model.Movie.Companion.RECOMMENDATIONS
 import org.michaelbel.data.remote.model.Movie.Companion.SIMILAR
 import org.michaelbel.domain.MoviesRepository
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.*
 import org.michaelbel.moviemade.core.TmdbConfig.IMDB_MOVIE
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_IMAGE
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_MOVIE
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_ID
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
 import org.michaelbel.moviemade.core.time.DateUtil
+import org.michaelbel.moviemade.ktx.*
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.ContainerActivity
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.FRAGMENT_NAME
@@ -52,24 +54,22 @@ import org.michaelbel.moviemade.presentation.features.search.SearchActivity
 import org.michaelbel.moviemade.presentation.features.search.SearchActivity.Companion.EXTRA_QUERY
 import org.michaelbel.moviemade.presentation.listitem.CrewListItem
 import org.michaelbel.moviemade.presentation.listitem.GenreListItem
+import org.michaelbel.moviemade.presentation.widget.FaveButton
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 import kotlin.math.max
 import kotlin.math.min
 
-class MovieFragment: BaseFragment() {
+class MovieFragment: BaseFragment(R.layout.fragment_movie_old) {
 
     companion object {
         private const val EXTRA_MOVIE = "movie"
 
-        internal fun newInstance(movie: Movie): MovieFragment {
-            val args = Bundle()
-            args.putSerializable(EXTRA_MOVIE, movie)
-
-            val fragment = MovieFragment()
-            fragment.arguments = args
-            return fragment
+        fun newInstance(movie: Movie): MovieFragment {
+            return MovieFragment().apply {
+                arguments = bundleOf(EXTRA_MOVIE to movie)
+            }
         }
     }
 
@@ -103,15 +103,15 @@ class MovieFragment: BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        App[requireActivity().application as App].createFragmentComponent().inject(this)
+        App[requireActivity().application as App].createFragmentComponent.inject(this)
         sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
         setHasOptionsMenu(true)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         actionMenu = menu
-        menuShare = menu.add(R.string.share).setIcon(R.drawable.ic_anim_share).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
-        menuTmdb = menu.add(R.string.view_on_tmdb).setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER)
+        menuShare = menu.add(R.string.share).setIcon(R.drawable.ic_anim_share).setShowAsActionFlags(SHOW_AS_ACTION_IF_ROOM)
+        menuTmdb = menu.add(R.string.view_on_tmdb).setShowAsActionFlags(SHOW_AS_ACTION_NEVER)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -122,9 +122,10 @@ class MovieFragment: BaseFragment() {
                     (icon as Animatable).start()
                 }
 
-                val intent = Intent(Intent.ACTION_SEND)
-                intent.type = "text/plain"
-                intent.putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, TMDB_MOVIE, movie.id))
+                val intent = Intent(ACTION_SEND).apply {
+                    type = "text/plain"
+                    putExtra(Intent.EXTRA_TEXT, String.format(Locale.US, TMDB_MOVIE, movie.id))
+                }
                 startActivity(Intent.createChooser(intent, getString(R.string.share_via)))
             }
             menuTmdb -> Browser.openUrl(requireContext(), String.format(Locale.US, TMDB_MOVIE, movie.id))
@@ -141,20 +142,17 @@ class MovieFragment: BaseFragment() {
         return true
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        fullBackground = (requireActivity() as MovieActivity).fullBackground
-        fullToolbar = (requireActivity() as MovieActivity).fullToolbar
-        fullImage = (requireActivity() as MovieActivity).fullImage
-        return inflater.inflate(R.layout.fragment_movie_old, container, false)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        runtimeIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_clock, R.color.iconActiveColor))
+        fullBackground = (requireActivity() as MovieActivity).fullBackground
+        fullToolbar = (requireActivity() as MovieActivity).fullToolbar
+        fullImage = (requireActivity() as MovieActivity).fullImage
+
+        runtimeIcon.setIcon(R.drawable.ic_clock, R.color.iconActiveColor)
         runtimeText.setText(R.string.loading)
 
-        langIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_earth, R.color.iconActiveColor))
+        langIcon.setIcon(R.drawable.ic_earth, R.color.iconActiveColor)
         langText.setText(R.string.loading)
 
         taglineText.setText(R.string.loading_tagline)
@@ -168,14 +166,8 @@ class MovieFragment: BaseFragment() {
         crewList.adapter = crewAdapter
         crewList.layoutManager = LinearLayoutManager(requireContext())
 
-        favoritesBtn.visibility = if (sessionId.isEmpty()) GONE else VISIBLE
-        favoritesBtn.setOnClickListener { viewModel.markFavorite(sessionId, preferences.getLong(KEY_ACCOUNT_ID, 0L), movie.id.toLong(), !favorite) }
-
-        watchlistBtn.visibility = if (sessionId.isEmpty()) GONE else VISIBLE
-        watchlistBtn.setOnClickListener { viewModel.addWatchlist(sessionId, preferences.getLong(KEY_ACCOUNT_ID, 0L), movie.id.toLong(), !watchlist) }
-
         poster.setOnClickListener {
-            if (requireContext().isNetworkAvailable().not()) {
+            if (!requireContext().isNetworkAvailable()) {
                 return@setOnClickListener
             }
 
@@ -252,11 +244,10 @@ class MovieFragment: BaseFragment() {
                 runtimeText.text = getString(R.string.runtime, DateUtil.formatRuntime(it.runtime), it.runtime)
             }
 
-            if (it.countries.isEmpty()) {
-                //parent.removeView(langIcon)
-                //parent.removeView(langText)
-                infoLayout.removeView(langLayout) // old layout
+            if (it.countries.isNullOrEmpty()) {
+                langLayout.gone()
             } else {
+                langLayout.visible()
                 langText.text = formatCountries(it.countries)
             }
 
@@ -285,39 +276,37 @@ class MovieFragment: BaseFragment() {
         viewModel.favoriteChange.reObserve(viewLifecycleOwner, Observer {
             when (it.statusCode) {
                 Mark.ADDED -> {
-                    favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart, R.color.accent_blue))
-                    favoritesText.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
                     favorite = true
+                    favoritesBtn.setData(FaveButton.Data(R.drawable.ic_heart, R.string.favorites, true), true)
                 }
                 Mark.DELETED -> {
-                    favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_heart_outline, R.color.textColorPrimary))
-                    favoritesText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
                     favorite = false
+                    favoritesBtn.setData(FaveButton.Data(R.drawable.ic_heart_outline, R.string.favorites, false), true)
                 }
             }
         })
         viewModel.watchlistChange.reObserve(viewLifecycleOwner, Observer {
             when (it.statusCode) {
                 Mark.ADDED -> {
-                    watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark, R.color.accent_blue))
-                    watchlistText.setTextColor(ContextCompat.getColor(requireContext(), R.color.accent_blue))
                     watchlist = true
+                    watchlistBtn.setData(FaveButton.Data(R.drawable.ic_bookmark, R.string.watchlist, true), true)
                 }
                 Mark.DELETED -> {
-                    watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_bookmark_outline, R.color.textColorPrimary))
-                    watchlistText.setTextColor(ContextCompat.getColor(requireContext(), R.color.textColorPrimary))
                     watchlist = false
+                    watchlistBtn.setData(FaveButton.Data(R.drawable.ic_bookmark_outline, R.string.watchlist, false), true)
                 }
             }
         })
         viewModel.accountStates.reObserve(viewLifecycleOwner, Observer {
             favorite = it.favorite
-            favoritesIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), if (favorite) R.drawable.ic_heart else R.drawable.ic_heart_outline, if (favorite) R.color.accent_blue else R.color.textColorPrimary))
-            favoritesText.setTextColor(ContextCompat.getColor(requireContext(), if (favorite) R.color.accent_blue else R.color.textColorPrimary))
+            favoritesBtn.setData(FaveButton.Data(if (favorite) R.drawable.ic_heart else R.drawable.ic_heart_outline, R.string.favorites, favorite), false)
+            favoritesBtn.setOnClickListener { viewModel.markFavorite(sessionId, preferences.getLong(KEY_ACCOUNT_ID, 0L), movie.id.toLong(), !favorite) }
+            favoritesBtn.visibility = if (sessionId.isEmpty()) GONE else VISIBLE
 
             watchlist = it.watchlist
-            watchlistIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), if (watchlist) R.drawable.ic_bookmark else R.drawable.ic_bookmark_outline, if (watchlist) R.color.accent_blue else R.color.textColorPrimary))
-            watchlistText.setTextColor(ContextCompat.getColor(requireContext(), if (watchlist) R.color.accent_blue else R.color.textColorPrimary))
+            watchlistBtn.setData(FaveButton.Data(if (watchlist) R.drawable.ic_bookmark else R.drawable.ic_bookmark_outline, R.string.watchlist, watchlist), false)
+            watchlistBtn.setOnClickListener { viewModel.addWatchlist(sessionId, preferences.getLong(KEY_ACCOUNT_ID, 0L), movie.id.toLong(), !watchlist) }
+            watchlistBtn.visibility = if (sessionId.isEmpty()) GONE else VISIBLE
         })
         viewModel.credit.reObserve(viewLifecycleOwner, Observer {
             val actors: String? = it.get(MovieModel.KEY_ACTORS)
@@ -325,11 +314,12 @@ class MovieFragment: BaseFragment() {
             val writers: String? = it.get(MovieModel.KEY_WRITERS)
             val producers: String? = it.get(MovieModel.KEY_PRODUCERS)
 
-            val items = ArrayList<ListItem>()
-            items.add(CrewListItem(CrewListItem.Data(R.string.starring_only, getString(R.string.starring, actors))))
-            items.add(CrewListItem(CrewListItem.Data(R.string.directed_only, getString(R.string.directed, directors))))
-            items.add(CrewListItem(CrewListItem.Data(R.string.written_only, getString(R.string.written, writers))))
-            items.add(CrewListItem(CrewListItem.Data(R.string.produced_only, getString(R.string.produced, producers))))
+            val items = mutableListOf<ListItem>(
+                CrewListItem(CrewListItem.Data(R.string.starring_only, getString(R.string.starring, actors))),
+                CrewListItem(CrewListItem.Data(R.string.directed_only, getString(R.string.directed, directors))),
+                CrewListItem(CrewListItem.Data(R.string.written_only, getString(R.string.written, writers))),
+                CrewListItem(CrewListItem.Data(R.string.produced_only, getString(R.string.produced, producers)))
+            )
             crewAdapter?.setItems(items)
         })
     }
@@ -337,7 +327,7 @@ class MovieFragment: BaseFragment() {
     private fun movieExtra(movie: Movie) {
         posterPath = movie.posterPath
         if (posterPath.isNullOrEmpty().not()) {
-            poster.visibility = VISIBLE
+            poster.visible()
             poster.loadImage(String.format(Locale.US, TMDB_IMAGE, "w342", posterPath))
         }
 
@@ -362,13 +352,18 @@ class MovieFragment: BaseFragment() {
             infoLayout.removeView(dateLayout) // old layout
         } else {
             movie.releaseDate?.let {
-                dateIcon.setImageDrawable(ViewUtil.getIcon(requireContext(), R.drawable.ic_calendar, R.color.iconActiveColor))
+                dateIcon.setIcon(R.drawable.ic_calendar, R.color.iconActiveColor)
                 dateText.text = DateUtil.formatReleaseDate(it)
             }
         }
 
         val items = ArrayList<ListItem>()
-        movie.genreIds.forEach { items.add(GenreListItem(Genre.getGenreById(it))) }
+        movie.genreIds.forEach {
+            val genre: Genre? = Genre.getGenreById(it)
+            if (genre != null) {
+                items.add(GenreListItem(genre))
+            }
+        }
         genresAdapter?.setItems(items)
     }
 
@@ -378,9 +373,7 @@ class MovieFragment: BaseFragment() {
         }
 
         val text = StringBuilder()
-        for (country in countries) {
-            text.append(country.name).append(", ")
-        }
+        countries.forEach { text.append(it.name).append(", ") }
 
         //text.delete(text.toString().length - 2, text.toString().length)
         text.delete(text.indexOf(","), text.length)
@@ -404,9 +397,7 @@ class MovieFragment: BaseFragment() {
 
                     val selectedText = view.text.subSequence(min, max).toString()
 
-                    requireActivity().startActivity<SearchActivity> {
-                        putExtra(EXTRA_QUERY, selectedText)
-                    }
+                    requireActivity().startActivity<SearchActivity> { putExtra(EXTRA_QUERY, selectedText) }
 
                     mode?.finish()
                     return true

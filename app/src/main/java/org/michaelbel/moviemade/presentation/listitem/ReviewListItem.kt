@@ -13,7 +13,7 @@ import org.michaelbel.data.remote.model.Review
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
 
-data class ReviewListItem(internal var review: Review): ListItem {
+data class ReviewListItem(private val review: Review): ListItem {
 
     interface Listener {
         fun onClick(review: Review) {}
@@ -22,9 +22,11 @@ data class ReviewListItem(internal var review: Review): ListItem {
 
     lateinit var listener: Listener
 
-    override fun getData() = review
+    override val id: Long
+        get() = RecyclerView.NO_ID
 
-    override fun getViewType() = REVIEW_ITEM
+    override val viewType: Int
+        get() = REVIEW_ITEM
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.listitem_review, parent, false))
@@ -37,7 +39,7 @@ data class ReviewListItem(internal var review: Review): ListItem {
         holder.itemView.setOnClickListener(object: DebouncingOnClickListener() {
             override fun doClick(v: View) {
                 if (holder.adapterPosition != NO_POSITION) {
-                    listener.onClick(getData())
+                    listener.onClick(review)
                 }
             }
         })

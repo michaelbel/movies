@@ -28,7 +28,7 @@ class NetworkModule(private val context: Context, private val baseUrl: String) {
         return Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .client(okHttpClient())
-                .addConverterFactory(GsonConverterFactory.create(gson()))
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(CoroutineCallAdapterFactory())
                 .build()
     }
@@ -41,19 +41,20 @@ class NetworkModule(private val context: Context, private val baseUrl: String) {
         val okHttpClient = OkHttpClient().newBuilder()
         if (BuildConfig.DEBUG) {
             okHttpClient.interceptors().add(ChuckInterceptor(context))
-            okHttpClient.interceptors().add(httpLoggingInterceptor())
+            okHttpClient.interceptors().add(httpLoggingInterceptor)
             okHttpClient.networkInterceptors().add(StethoInterceptor())
         }
         return okHttpClient.build()
     }
 
-    private fun httpLoggingInterceptor(): HttpLoggingInterceptor {
-        val httpLoggingInterceptor = HttpLoggingInterceptor { message -> Timber.d(message) }
-        httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
-        return httpLoggingInterceptor
-    }
+    private val httpLoggingInterceptor: HttpLoggingInterceptor
+        get() {
+            val httpLoggingInterceptor = HttpLoggingInterceptor { message -> Timber.d(message) }
+            httpLoggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+            return httpLoggingInterceptor
+        }
 
-    private fun gson(): Gson =
+    private val gson: Gson =
         GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
             .setDateFormat(GSON_DATE_FORMAT)

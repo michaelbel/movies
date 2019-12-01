@@ -15,7 +15,7 @@ class SourcesModel: ViewModel() {
         val list = ArrayList<ListItem>()
 
         items.forEach {
-            val listItem = TextDetailListItem(TextDetailListItem.Data(it.name, it.license, it != items[items.size - 1]))
+            val listItem = TextDetailListItem(TextDetailListItem.Data(it.name, it.license, divider = it != items[items.size - 1]))
             listItem.listener = object: TextDetailListItem.Listener {
                 override fun onClick() {
                     if (it.url != null) {

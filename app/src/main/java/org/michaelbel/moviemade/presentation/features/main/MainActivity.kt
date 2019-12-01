@@ -8,22 +8,25 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.transaction
+import androidx.fragment.app.commit
+import androidx.fragment.app.commitNow
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import org.michaelbel.data.remote.model.Movie.Companion.NOW_PLAYING
 import org.michaelbel.data.remote.model.Movie.Companion.TOP_RATED
 import org.michaelbel.data.remote.model.Movie.Companion.UPCOMING
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.DeviceUtil
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
-import org.michaelbel.moviemade.core.startActivity
+import org.michaelbel.moviemade.ktx.startActivity
+import org.michaelbel.moviemade.ktx.statusBarHeight
 import org.michaelbel.moviemade.presentation.App
+import org.michaelbel.moviemade.presentation.ContainerActivity
+import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.FRAGMENT_NAME
+import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.SETTINGS
 import org.michaelbel.moviemade.presentation.common.base.BaseActivity
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
 import org.michaelbel.moviemade.presentation.features.login.LoginFragment
 import org.michaelbel.moviemade.presentation.features.search.SearchActivity
-import org.michaelbel.moviemade.presentation.features.settings.SettingsActivity
 import org.michaelbel.moviemade.presentation.features.user.UserFragment
 import javax.inject.Inject
 
@@ -63,7 +66,7 @@ class MainActivity: BaseActivity(R.layout.activity_main),
         if (item.itemId == R.id.item_search) {
             startActivity<SearchActivity>()
         } else if (item.itemId == R.id.item_settings) {
-            startActivity<SettingsActivity>()
+            startActivity<ContainerActivity> { putExtra(FRAGMENT_NAME, SETTINGS) }
         }
 
         return super.onOptionsItemSelected(item)
@@ -71,7 +74,7 @@ class MainActivity: BaseActivity(R.layout.activity_main),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        App[application].createActivityComponent().inject(this)
+        App[application].createActivityComponent.inject(this)
 
         setSupportActionBar(toolbar)
         supportActionBar?.setTitle(R.string.app_name)
@@ -79,7 +82,7 @@ class MainActivity: BaseActivity(R.layout.activity_main),
         appBarLayout.setBackgroundColor(ContextCompat.getColor(this, R.color.transparent20))
 
         val params = appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
-        params.topMargin = DeviceUtil.statusBarHeight(this)
+        params.topMargin = this.statusBarHeight
 
         bottomNavigationView.setOnNavigationItemSelectedListener(this)
         bottomNavigationView.setOnNavigationItemReselectedListener(this)
@@ -90,17 +93,17 @@ class MainActivity: BaseActivity(R.layout.activity_main),
 
         when (itemId) {
             R.id.item_playing -> {
-                supportFragmentManager.transaction {
+                supportFragmentManager.commitNow {
                     replace(container.id, MoviesFragment.newInstance(NOW_PLAYING), FRAGMENT_TAG)
                 }
             }
             R.id.item_rated -> {
-                supportFragmentManager.transaction {
+                supportFragmentManager.commitNow {
                     replace(container.id, MoviesFragment.newInstance(TOP_RATED), FRAGMENT_TAG)
                 }
             }
             R.id.item_upcoming -> {
-                supportFragmentManager.transaction {
+                supportFragmentManager.commitNow {
                     replace(container.id, MoviesFragment.newInstance(UPCOMING), FRAGMENT_TAG)
                 }
             }
@@ -115,20 +118,20 @@ class MainActivity: BaseActivity(R.layout.activity_main),
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_playing ->
-                supportFragmentManager.transaction {
+                supportFragmentManager.commit {
                     replace(container.id, MoviesFragment.newInstance(NOW_PLAYING), FRAGMENT_TAG)
                 }
             R.id.item_rated ->
-                supportFragmentManager.transaction {
+                supportFragmentManager.commit {
                     replace(container.id, MoviesFragment.newInstance(TOP_RATED), FRAGMENT_TAG)
                 }
             R.id.item_upcoming ->
-                supportFragmentManager.transaction {
+                supportFragmentManager.commit {
                     replace(container.id, MoviesFragment.newInstance(UPCOMING), FRAGMENT_TAG)
                 }
             R.id.item_user -> {
                 val sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
-                supportFragmentManager.transaction {
+                supportFragmentManager.commit {
                     if (sessionId.isEmpty()) {
                         replace(container.id, LoginFragment.newInstance(), FRAGMENT_TAG)
                     } else {

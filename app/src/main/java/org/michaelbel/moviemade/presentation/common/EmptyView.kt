@@ -2,12 +2,10 @@ package org.michaelbel.moviemade.presentation.common
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.widget.FrameLayout
 import androidx.annotation.StringRes
 import kotlinx.android.synthetic.main.view_empty.view.*
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.ViewUtil
 import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_CONNECTION
 import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_KEYWORDS
 import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_MOVIES
@@ -15,20 +13,13 @@ import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_PEOPLE
 import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_RESULTS
 import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_REVIEWS
 import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_TRAILERS
+import org.michaelbel.moviemade.ktx.inflate
+import org.michaelbel.moviemade.ktx.setIcon
+import org.michaelbel.moviemade.ktx.visible
 
-class EmptyView: FrameLayout {
+class EmptyView(context: Context, attrs: AttributeSet?): FrameLayout(context, attrs) {
 
-    constructor(context: Context): super(context) {
-        initialize()
-    }
-
-    constructor(context: Context, attrs: AttributeSet): super(context, attrs) {
-        initialize()
-    }
-
-    private fun initialize() {
-        LayoutInflater.from(context).inflate(R.layout.view_empty, this, true)
-    }
+    init { inflate(R.layout.view_empty) }
 
     fun setMode(mode: Int): EmptyView {
         when (mode) {
@@ -66,7 +57,7 @@ class EmptyView: FrameLayout {
     }
 
     private fun setIcon(icon: Int) {
-        emptyIcon.setImageDrawable(ViewUtil.getIcon(context, icon, R.color.errorColor))
+        emptyIcon.setIcon(icon, R.color.errorColor)
     }
 
     private fun setText(@StringRes textId: Int) {
@@ -74,7 +65,7 @@ class EmptyView: FrameLayout {
     }
 
     fun setValue(@StringRes textId: Int) {
-        value.visibility = VISIBLE
-        value.text = context.getString(textId)
+        summary.visible()
+        summary.text = context.getString(textId)
     }
 }

@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade.presentation.features.search
 
 import android.os.Bundle
-import androidx.fragment.app.transaction
+import androidx.fragment.app.commit
 import kotlinx.android.synthetic.main.activity_parent.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.presentation.common.base.BaseActivity
@@ -17,9 +17,7 @@ class SearchActivity: BaseActivity(R.layout.activity_parent) {
         val query: String? = if (intent.getStringExtra(EXTRA_QUERY) != null) intent.getStringExtra(EXTRA_QUERY) else null
 
         if (savedInstanceState == null) {
-            supportFragmentManager.transaction {
-                replace(container.id, SearchMoviesFragment.newInstance(query))
-            }
+            supportFragmentManager.commit { replace(container.id, SearchMoviesFragment.newInstance(query)) }
         }
     }
 }

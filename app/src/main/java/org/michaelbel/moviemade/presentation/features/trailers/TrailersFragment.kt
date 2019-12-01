@@ -7,7 +7,9 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.core.net.toUri
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -19,28 +21,22 @@ import org.michaelbel.core.adapter.ListAdapter
 import org.michaelbel.data.remote.model.Movie
 import org.michaelbel.domain.TrailersRepository
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.DeviceUtil
-import org.michaelbel.moviemade.core.ViewUtil
-import org.michaelbel.moviemade.core.getViewModel
-import org.michaelbel.moviemade.core.reObserve
+import org.michaelbel.moviemade.ktx.*
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
 import javax.inject.Inject
 
-class TrailersFragment: BaseFragment() {
+class TrailersFragment: BaseFragment(R.layout.fragment_lce) {
 
     companion object {
         private const val ARG_MOVIE = "movie"
         private const val DIALOG_TAG = "dialog_youtube"
 
-        internal fun newInstance(movie: Movie): TrailersFragment {
-            val args = Bundle()
-            args.putSerializable(ARG_MOVIE, movie)
-
-            val fragment = TrailersFragment()
-            fragment.arguments = args
-            return fragment
+        fun newInstance(movie: Movie): TrailersFragment {
+            return TrailersFragment().apply {
+                arguments = bundleOf(ARG_MOVIE to movie)
+            }
         }
     }
 
@@ -53,22 +49,21 @@ class TrailersFragment: BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        App[requireActivity().application].createFragmentComponent().inject(this)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_lce, container, false)
+        App[requireActivity().application].createFragmentComponent.inject(this)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         movie = arguments?.getSerializable(ARG_MOVIE) as Movie
 
-        toolbar.title = getString(R.string.trailers)
-        toolbar.subtitle = movie.title
-        toolbar.setOnClickListener { onScrollToTop() }
-        toolbar.navigationIcon = ViewUtil.getIcon(requireContext(), R.drawable.ic_arrow_back, R.color.iconActiveColor)
-        toolbar.setNavigationOnClickListener { requireActivity().finish() }
+        toolbar.apply {
+            title = getString(R.string.trailers)
+            subtitle = movie.title
+            setOnClickListener { onScrollToTop() }
+            navigationIcon = getIcon(R.drawable.ic_arrow_back, R.color.iconActiveColor)
+            setNavigationOnClickListener { requireActivity().finish() }
+        }
 
         val spans = resources.getInteger(R.integer.trailers_span_layout_count)
 
@@ -76,31 +71,29 @@ class TrailersFragment: BaseFragment() {
 
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
-        recyclerView.addItemDecoration(GridSpacingItemDecoration(spans, DeviceUtil.dp(requireContext(), 5F)))
+        recyclerView.layoutAnimation = AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.recycler_layout_animation)
+        recyclerView.addItemDecoration(GridSpacingItemDecoration(spans, 5F.toDp(requireContext())))
 
         emptyView.setOnClickListener {
-            emptyView.visibility = GONE
+            emptyView.gone()
             viewModel.trailers(movie.id.toLong())
         }
 
         viewModel.trailers(movie.id.toLong())
-        viewModel.loading.reObserve(viewLifecycleOwner, Observer {
-            progressBar.visibility = if (it) VISIBLE else GONE
-        })
+        viewModel.loading.reObserve(viewLifecycleOwner, Observer { progressBar.visibility = if (it) VISIBLE else GONE })
         viewModel.content.reObserve(viewLifecycleOwner, Observer {
             adapter.setItems(it)
+            recyclerView.scheduleLayoutAnimation()
         })
         viewModel.error.reObserve(viewLifecycleOwner, Observer {
-            emptyView.visibility = VISIBLE
+            emptyView.visible()
             emptyView.setMode(it)
         })
         viewModel.click.reObserve(viewLifecycleOwner, Observer {
             val dialog = YoutubePlayerDialogFragment.newInstance(it.key.toUri().toString())
             dialog.show(requireActivity().supportFragmentManager, DIALOG_TAG)
         })
-        viewModel.longClick.reObserve(viewLifecycleOwner, Observer {
-            startActivity(Intent(Intent.ACTION_VIEW, ("vnd.youtube:" + it.key).toUri()))
-        })
+        viewModel.longClick.reObserve(viewLifecycleOwner, Observer { startActivity(Intent(Intent.ACTION_VIEW, ("vnd.youtube:" + it.key).toUri())) })
     }
 
     override fun onScrollToTop() {
@@ -113,12 +106,9 @@ class TrailersFragment: BaseFragment() {
             private const val KEY_VIDEO_URL = "video_url"
 
             fun newInstance(url: String): YoutubePlayerDialogFragment {
-                val args = Bundle()
-                args.putString(KEY_VIDEO_URL, url)
-
-                val fragment = YoutubePlayerDialogFragment()
-                fragment.arguments = args
-                return fragment
+                return YoutubePlayerDialogFragment().apply {
+                    arguments = bundleOf(KEY_VIDEO_URL to url)
+                }
             }
         }
 

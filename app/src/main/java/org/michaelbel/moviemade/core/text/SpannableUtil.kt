@@ -3,7 +3,7 @@ package org.michaelbel.moviemade.core.text
 import android.text.SpannableStringBuilder
 import android.text.Spanned.SPAN_EXCLUSIVE_EXCLUSIVE
 import android.text.style.TypefaceSpan
-import com.crashlytics.android.Crashlytics
+import timber.log.Timber
 import java.util.*
 
 object SpannableUtil {
@@ -42,7 +42,7 @@ object SpannableUtil {
             }
             return spannableStringBuilder
         } catch (e: Exception) {
-            Crashlytics.logException(e)
+            Timber.e(e)
         }
 
         return SpannableStringBuilder(str)

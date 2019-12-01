@@ -11,21 +11,23 @@ import org.michaelbel.core.adapter.ViewTypes.ABOUT_ITEM
 import org.michaelbel.moviemade.R
 import java.io.Serializable
 
-data class AboutListItem(internal var data: Data): ListItem {
+data class AboutListItem(private val data: Data): ListItem {
 
-    data class Data(internal var appName: String, internal var version: String): Serializable
+    data class Data(var appName: String, var version: String): Serializable
 
-    override fun getData() = data
+    override val id: Long
+        get() = RecyclerView.NO_ID
 
-    override fun getViewType() = ABOUT_ITEM
+    override val viewType: Int
+        get() = ABOUT_ITEM
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.listitem_about, parent, false))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.itemView.appName.text = getData().appName
-        holder.itemView.versionText.text = getData().version
+        holder.itemView.appName.text = data.appName
+        holder.itemView.versionText.text = data.version
     }
 
     private inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer

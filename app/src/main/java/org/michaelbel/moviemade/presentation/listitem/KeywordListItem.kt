@@ -13,7 +13,7 @@ import org.michaelbel.data.remote.model.Keyword
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
 
-data class KeywordListItem(internal var keyword: Keyword): ListItem {
+data class KeywordListItem(private val keyword: Keyword): ListItem {
 
     interface Listener {
         fun onClick(keyword: Keyword) {}
@@ -22,9 +22,11 @@ data class KeywordListItem(internal var keyword: Keyword): ListItem {
 
     lateinit var listener: Listener
 
-    override fun getData() = keyword
+    override val id: Long
+        get() = RecyclerView.NO_ID
 
-    override fun getViewType() = KEYWORD_ITEM
+    override val viewType: Int
+        get() = KEYWORD_ITEM
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.listitem_keyword, parent, false))
@@ -36,7 +38,7 @@ data class KeywordListItem(internal var keyword: Keyword): ListItem {
         holder.itemView.setOnClickListener(object: DebouncingOnClickListener() {
             override fun doClick(v: View) {
                 if (holder.adapterPosition != NO_POSITION) {
-                    listener.onClick(getData())
+                    listener.onClick(keyword)
                 }
             }
         })

@@ -12,20 +12,22 @@ import org.michaelbel.core.adapter.ViewTypes.POWERED_ITEM
 import org.michaelbel.moviemade.R
 import java.io.Serializable
 
-data class PoweredListItem(internal var data: Data): ListItem {
+data class PoweredListItem(private val data: Data): ListItem {
 
     data class Data(@StringRes internal var text: Int): Serializable
 
-    override fun getData() = data
+    override val id: Long
+        get() = RecyclerView.NO_ID
 
-    override fun getViewType() = POWERED_ITEM
+    override val viewType: Int
+        get() = POWERED_ITEM
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.listitem_powered, parent, false))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.itemView.poweredText.setText(getData().text)
+        holder.itemView.poweredText.setText(data.text)
     }
 
     private inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer

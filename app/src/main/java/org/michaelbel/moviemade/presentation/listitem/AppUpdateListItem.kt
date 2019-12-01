@@ -6,6 +6,8 @@ import android.animation.ValueAnimator.INFINITE
 import android.animation.ValueAnimator.REVERSE
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.SCALE_X
+import android.view.View.SCALE_Y
 import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
@@ -15,13 +17,13 @@ import kotlinx.android.synthetic.main.listitem_app_update.view.*
 import org.michaelbel.core.adapter.ListItem
 import org.michaelbel.core.adapter.ViewTypes.APP_UPDATE_ITEM
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.ViewUtil
+import org.michaelbel.moviemade.ktx.setIcon
 import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
 import java.io.Serializable
 
-data class AppUpdateListItem(internal var data: Data): ListItem {
+data class AppUpdateListItem(private val data: Data): ListItem {
 
-    data class Data(internal var downloadMode: Boolean = false): Serializable
+    data class Data(var downloadMode: Boolean = false): Serializable
 
     private var viewHolder: ViewHolder? = null
 
@@ -33,9 +35,11 @@ data class AppUpdateListItem(internal var data: Data): ListItem {
         fun onClick() {}
     }
 
-    override fun getData() = data
+    override val id: Long
+        get() = RecyclerView.NO_ID
 
-    override fun getViewType() = APP_UPDATE_ITEM
+    override val viewType: Int
+        get() = APP_UPDATE_ITEM
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         viewHolder = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.listitem_app_update, parent, false))
@@ -44,8 +48,8 @@ data class AppUpdateListItem(internal var data: Data): ListItem {
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         holder.itemView.text.setText(R.string.update_available)
-        holder.itemView.value.setText(R.string.update_available_summary)
-        holder.itemView.iconView.setImageDrawable(ViewUtil.getIcon(holder.itemView.context, R.drawable.ic_update, R.color.accent_green))
+        holder.itemView.summary.setText(R.string.update_available_summary)
+        holder.itemView.iconView.setIcon(R.drawable.ic_update, R.color.accent_green)
 
         holder.itemView.setOnClickListener(object: DebouncingOnClickListener() {
             override fun doClick(v: View) {
@@ -56,21 +60,25 @@ data class AppUpdateListItem(internal var data: Data): ListItem {
         })
     }
 
-    override fun setActive(itemView: View, position: Int) {
+    override fun activate(itemView: View, position: Int) {
         animateIcon(itemView.iconView)
     }
 
-    override fun setInactivate(itemView: View, position: Int) {
+    override fun deactivate(itemView: View, position: Int) {
         animator?.cancel()
         animator = null
     }
 
     private fun animateIcon(view: AppCompatImageView) {
-        animator = ObjectAnimator.ofPropertyValuesHolder(view, PropertyValuesHolder.ofFloat("scaleX", 1.15F), PropertyValuesHolder.ofFloat("scaleY", 1.15F))
-        animator?.repeatCount = INFINITE
-        animator?.repeatMode = REVERSE
-        animator?.duration = 750L
-        animator?.start()
+        animator = ObjectAnimator.ofPropertyValuesHolder(view,
+                PropertyValuesHolder.ofFloat(SCALE_X, 1.15F),
+                PropertyValuesHolder.ofFloat(SCALE_Y, 1.15F)
+        ).apply {
+            repeatCount = INFINITE
+            repeatMode = REVERSE
+            duration = 750L
+            start()
+        }
     }
 
     private inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer

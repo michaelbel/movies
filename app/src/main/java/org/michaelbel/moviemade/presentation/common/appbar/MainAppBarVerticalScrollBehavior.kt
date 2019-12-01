@@ -9,10 +9,6 @@ import java.lang.ref.WeakReference
 
 class MainAppBarVerticalScrollBehavior<V: View>: VerticalScrollingBehavior<V>() {
 
-    companion object {
-        private val INTERPOLATOR = FastOutSlowInInterpolator()
-    }
-
     private var bottomNavHeight: Int = 0
     private var viewRef: WeakReference<MainAppBar>? = null
 
@@ -44,7 +40,7 @@ class MainAppBarVerticalScrollBehavior<V: View>: VerticalScrollingBehavior<V>() 
 
     private fun updateSnackBarPosition(child: V, dependency: View?, translationY: Float = child.translationY - child.height) {
         if (dependency is Snackbar.SnackbarLayout) {
-            ViewCompat.animate(dependency).setInterpolator(INTERPOLATOR).setDuration(80).setStartDelay(0).translationY(translationY).start()
+            ViewCompat.animate(dependency).setInterpolator(FastOutSlowInInterpolator()).setDuration(80).setStartDelay(0).translationY(translationY).start()
         }
     }
 

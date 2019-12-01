@@ -12,7 +12,7 @@ import org.michaelbel.data.remote.model.Review
 import org.michaelbel.domain.ReviewsRepository
 import org.michaelbel.domain.live.LiveDataEvent
 import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
-import org.michaelbel.moviemade.core.state.EmptyState
+import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_CONNECTION
 import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_REVIEWS
 import org.michaelbel.moviemade.presentation.listitem.ReviewListItem
 import java.util.*
@@ -39,7 +39,9 @@ class ReviewsModel(val repository: ReviewsRepository): ViewModel() {
                     if (result.isSuccessful) {
                         val reviews = result.body()?.results
                         if (reviews.isNullOrEmpty()) {
-                            error.postValue(LiveDataEvent(MODE_NO_REVIEWS))
+                            if (page == 1) {
+                                error.postValue(LiveDataEvent(MODE_NO_REVIEWS))
+                            }
                         } else {
                             itemsManager.updateReviews(reviews, page == 1)
                             content.postValue(itemsManager.get())
@@ -54,7 +56,7 @@ class ReviewsModel(val repository: ReviewsRepository): ViewModel() {
                 }
             } catch (e: Throwable) {
                 if (page == 1) {
-                    error.postValue(LiveDataEvent(EmptyState.MODE_NO_CONNECTION))
+                    error.postValue(LiveDataEvent(MODE_NO_CONNECTION))
                     loading.postValue(false)
                 }
             }
@@ -86,8 +88,6 @@ class ReviewsModel(val repository: ReviewsRepository): ViewModel() {
             }
         }
 
-        override fun getItems(): ArrayList<ListItem> {
-            return reviews
-        }
+        override fun getItems(): ArrayList<ListItem> = reviews
     }
 }

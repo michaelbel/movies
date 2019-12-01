@@ -18,17 +18,19 @@ import kotlinx.android.synthetic.main.listitem_text.view.*
 import org.michaelbel.core.adapter.ListItem
 import org.michaelbel.core.adapter.ViewTypes.TEXT_ITEM
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.DeviceUtil
+import org.michaelbel.moviemade.ktx.gone
+import org.michaelbel.moviemade.ktx.toDp
+import org.michaelbel.moviemade.ktx.visible
 import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
 import java.io.Serializable
 
-data class TextListItem(internal var data: Data): ListItem {
+data class TextListItem(private val data: Data): ListItem {
 
     data class Data(
-            @DrawableRes internal val icon: Int = 0,
-            @StringRes internal var text: Int = 0,
-            internal val divider: Boolean = true,
-            internal val medium: Boolean = true
+            @DrawableRes val icon: Int = 0,
+            @StringRes var text: Int = 0,
+            val divider: Boolean = true,
+            val medium: Boolean = true
     ): Serializable
 
     interface Listener {
@@ -37,32 +39,36 @@ data class TextListItem(internal var data: Data): ListItem {
 
     lateinit var listener: Listener
 
-    override fun getData() = data
+    override val id: Long
+        get() = RecyclerView.NO_ID
 
-    override fun getViewType() = TEXT_ITEM
+    override val viewType: Int
+        get() = TEXT_ITEM
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.listitem_text, parent, false))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        val context = holder.itemView.context
+
         // Icon.
-        if (getData().icon != 0) {
-            holder.itemView.iconView.visibility = VISIBLE
-            holder.itemView.iconView.setImageResource(getData().icon)
+        if (data.icon != 0) {
+            holder.itemView.iconView.visible()
+            holder.itemView.iconView.setImageResource(data.icon)
         } else {
-            holder.itemView.iconView.visibility = GONE
+            holder.itemView.iconView.gone()
         }
 
         // Text.
-        holder.itemView.textView.setText(getData().text)
-        holder.itemView.textView.typeface = if (getData().medium) Typeface.create("sans-serif-medium", NORMAL) else DEFAULT
+        holder.itemView.textView.setText(data.text)
+        holder.itemView.textView.typeface = if (data.medium) Typeface.create("sans-serif-medium", NORMAL) else DEFAULT
 
         // Divider.
-        holder.itemView.divider.visibility = if (getData().divider) VISIBLE else GONE
+        holder.itemView.divider.visibility = if (data.divider) VISIBLE else GONE
 
         val params: ConstraintLayout.LayoutParams = holder.itemView.divider.layoutParams as ConstraintLayout.LayoutParams
-        params.marginStart = DeviceUtil.dp(holder.itemView.context, if (getData().icon == 0) 16F else 56F)
+        params.marginStart = if (data.icon == 0) 16F.toDp(context) else 56F.toDp(context)
         holder.itemView.divider.layoutParams = params
 
         // Click.

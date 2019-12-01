@@ -11,18 +11,20 @@ import org.michaelbel.core.adapter.ViewTypes.GENRE_ITEM
 import org.michaelbel.data.remote.model.Genre
 import org.michaelbel.moviemade.R
 
-data class GenreListItem(internal var genre: Genre): ListItem {
+data class GenreListItem(private val genre: Genre): ListItem {
 
-    override fun getData() = genre
+    override val id: Long
+        get() = RecyclerView.NO_ID
 
-    override fun getViewType() = GENRE_ITEM
+    override val viewType: Int
+        get() = GENRE_ITEM
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.listitem_genre, parent, false))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.itemView.chipName.text = getData().name
+        holder.itemView.chipName.text = genre.name
     }
 
     private inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer

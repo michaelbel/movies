@@ -16,7 +16,6 @@ import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
 import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_CONNECTION
 import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_MOVIES
 import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_RESULTS
-import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.listitem.MovieListItem
 import java.util.*
 
@@ -57,8 +56,6 @@ class MoviesModel(val repository: MoviesRepository): ViewModel() {
                     }
                 }
             } catch (e: Throwable) {
-                App.e("ERRORIWE: " + e.message)
-
                 if (page == 1) {
                     error.postValue(LiveDataEvent(MODE_NO_CONNECTION))
                     loading.postValue(false)

@@ -11,22 +11,26 @@ import org.michaelbel.core.adapter.ListItem
 import org.michaelbel.core.adapter.ViewTypes.CREW_ITEM
 import org.michaelbel.moviemade.R
 
-data class CrewListItem(internal var credits: Data): ListItem {
+data class CrewListItem(private val credits: Data): ListItem {
 
     data class Data(@StringRes val category: Int, val list: String?)
 
-    override fun getData() = credits
+    override val id: Long
+        get() = RecyclerView.NO_ID
 
-    override fun getViewType() = CREW_ITEM
+    override val viewType: Int
+        get() = CREW_ITEM
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.listitem_crew, parent, false))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.itemView.crewText.text = getData().list
-        holder.itemView.crewText.boldSpanText(holder.itemView.context.getString(getData().category))
-        holder.itemView.crewText.foregroundSpanText(holder.itemView.context.getString(getData().category), R.color.textColorPrimary)
+        val context = holder.itemView.context
+
+        holder.itemView.crewText.text = credits.list
+        holder.itemView.crewText.boldSpanText(context.getString(credits.category))
+        holder.itemView.crewText.foregroundSpanText(context.getString(credits.category), R.color.textColorPrimary)
     }
 
     private inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer

@@ -14,9 +14,9 @@ import kotlinx.android.synthetic.main.dialog_action.view.*
 import org.michaelbel.core.adapter.ListAdapter
 import org.michaelbel.core.adapter.ListItem
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.DeviceUtil
+import org.michaelbel.moviemade.ktx.toDp
 
-class BottomSheetDialog(val start: Float = 0F, val top: Float = 0F, val end: Float = 0F, val bottom: Float = 0F): BottomSheetDialogFragment() {
+class BottomSheetDialog(private val start: Float = 0F, private val top: Float = 0F, private val end: Float = 0F, private val bottom: Float = 0F): BottomSheetDialogFragment() {
 
     private var adapter: ListAdapter = ListAdapter()
     var onDismissListener: OnDismissListener? = null
@@ -50,18 +50,13 @@ class BottomSheetDialog(val start: Float = 0F, val top: Float = 0F, val end: Flo
         val contentView = View.inflate(context, R.layout.dialog_action, null)
         contentView.list.adapter = adapter
         contentView.list.layoutManager = LinearLayoutManager(requireContext())
-        contentView.list.setPadding(
-                DeviceUtil.dp(requireContext(), start),
-                DeviceUtil.dp(requireContext(), top),
-                DeviceUtil.dp(requireContext(), end),
-                DeviceUtil.dp(requireContext(), bottom)
-        )
+        contentView.list.setPadding(start.toDp(requireContext()), top.toDp(requireContext()), end.toDp(requireContext()), bottom.toDp(requireContext()))
 
         dialog.setContentView(contentView)
         val layoutParams = (contentView.parent as View).layoutParams as? CoordinatorLayout.LayoutParams?
         val behavior = layoutParams?.behavior
         if (behavior is BottomSheetBehavior<*>) {
-            behavior.setBottomSheetCallback(bottomSheetBehaviorCallback)
+            behavior.bottomSheetCallback = bottomSheetBehaviorCallback
         }
     }
 

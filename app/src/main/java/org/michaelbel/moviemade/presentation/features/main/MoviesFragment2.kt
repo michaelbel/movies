@@ -2,11 +2,10 @@ package org.michaelbel.moviemade.presentation.features.main
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
-import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -21,12 +20,12 @@ import org.michaelbel.data.remote.model.Movie.Companion.SIMILAR
 import org.michaelbel.data.remote.model.Movie.Companion.WATCHLIST
 import org.michaelbel.domain.MoviesRepository
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.ViewUtil
-import org.michaelbel.moviemade.core.getViewModel
 import org.michaelbel.moviemade.core.local.BuildUtil
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
-import org.michaelbel.moviemade.core.reObserve
-import org.michaelbel.moviemade.core.startActivity
+import org.michaelbel.moviemade.ktx.getIcon
+import org.michaelbel.moviemade.ktx.getViewModel
+import org.michaelbel.moviemade.ktx.reObserve
+import org.michaelbel.moviemade.ktx.startActivity
 import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_MOVIE
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
@@ -42,7 +41,7 @@ import javax.inject.Inject
  * Similar, Recommendations
  * Movies by Keyword
  */
-class MoviesFragment2: BaseFragment() {
+class MoviesFragment2: BaseFragment(R.layout.fragment_lce) {
 
     companion object {
         private const val ARG_LIST = "list"
@@ -50,42 +49,28 @@ class MoviesFragment2: BaseFragment() {
         private const val ARG_KEYWORD = "keyword"
         private const val ARG_ACCOUNT_ID = "account_id"
 
-        internal fun newInstance(list: String): MoviesFragment2 {
-            val args = Bundle()
-            args.putString(ARG_LIST, list)
-
-            val fragment = MoviesFragment2()
-            fragment.arguments = args
-            return fragment
+        fun newInstance(list: String): MoviesFragment2 {
+            return MoviesFragment2().apply {
+                arguments = bundleOf("list" to list)
+            }
         }
 
-        internal fun newInstance(list: String, movie: Movie): MoviesFragment2 {
-            val args = Bundle()
-            args.putString(ARG_LIST, list)
-            args.putSerializable(ARG_MOVIE, movie)
-
-            val fragment = MoviesFragment2()
-            fragment.arguments = args
-            return fragment
+        fun newInstance(list: String, movie: Movie): MoviesFragment2 {
+            return MoviesFragment2().apply {
+                arguments = bundleOf("list" to list, "movie" to movie)
+            }
         }
 
-        internal fun newInstance(keyword: Keyword): MoviesFragment2 {
-            val args = Bundle()
-            args.putSerializable(ARG_KEYWORD, keyword)
-
-            val fragment = MoviesFragment2()
-            fragment.arguments = args
-            return fragment
+        fun newInstance(keyword: Keyword): MoviesFragment2 {
+            return MoviesFragment2().apply {
+                arguments = bundleOf("keyword" to keyword)
+            }
         }
 
-        internal fun newInstance(list: String, accountId: Int): MoviesFragment2 {
-            val args = Bundle()
-            args.putString(ARG_LIST, list)
-            args.putInt(ARG_ACCOUNT_ID, accountId)
-
-            val fragment = MoviesFragment2()
-            fragment.arguments = args
-            return fragment
+        fun newInstance(list: String, accountId: Int): MoviesFragment2 {
+            return MoviesFragment2().apply {
+                arguments = bundleOf("list" to list, ARG_ACCOUNT_ID to accountId)
+            }
         }
     }
 
@@ -106,16 +91,13 @@ class MoviesFragment2: BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        App[requireActivity().application as App].createFragmentComponent().inject(this)
+        App[requireActivity().application as App].createFragmentComponent.inject(this)
         sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_lce, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         list = arguments?.getString(ARG_LIST) ?: NOW_PLAYING
         if (arguments?.getSerializable(ARG_MOVIE) != null) {
             movie = arguments?.getSerializable(ARG_MOVIE) as Movie
@@ -143,7 +125,7 @@ class MoviesFragment2: BaseFragment() {
         if (movieId != 0L) {
             toolbar.subtitle = movie?.title
         }
-        toolbar.navigationIcon = ViewUtil.getIcon(requireContext(), R.drawable.ic_arrow_back, R.color.iconActiveColor)
+        toolbar.navigationIcon = getIcon(R.drawable.ic_arrow_back, R.color.iconActiveColor)
         toolbar.setOnClickListener { onScrollToTop() }
         toolbar.setNavigationOnClickListener {
             if (keyword.id != 0L) {
@@ -190,18 +172,14 @@ class MoviesFragment2: BaseFragment() {
             list == WATCHLIST -> viewModel.moviesWatchlist(accountId, sessionId)
             else -> viewModel.moviesById(movieId, list)
         }
-        viewModel.loading.reObserve(viewLifecycleOwner, Observer {
-            progressBar.visibility = if (it) VISIBLE else GONE
-        })
-        viewModel.content.reObserve(viewLifecycleOwner, Observer {
-            adapter.setItems(it)
-        })
+        viewModel.loading.reObserve(viewLifecycleOwner, Observer { progressBar.visibility = if (it) VISIBLE else GONE })
+        viewModel.content.reObserve(viewLifecycleOwner, Observer { adapter.setItems(it) })
         viewModel.error.reObserve(viewLifecycleOwner, Observer { error ->
             error.getContentIfNotHandled()?.let {
                 emptyView.visibility = VISIBLE
                 emptyView.setMode(it)
 
-                if (BuildUtil.isApiKeyEmpty()) {
+                if (BuildUtil.isApiKeyEmpty) {
                     emptyView.setValue(R.string.error_empty_api_key)
                 }
             }

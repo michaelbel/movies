@@ -15,7 +15,6 @@ import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
 import org.michaelbel.moviemade.core.state.ErrorState.ERR_AUTH_WITH_LOGIN
 import org.michaelbel.moviemade.core.state.ErrorState.ERR_CONNECTION_NO_TOKEN
 import org.michaelbel.moviemade.core.state.ErrorState.ERR_NO_CONNECTION
-import org.michaelbel.moviemade.presentation.App
 
 class LoginModel(val repository: UsersRepository): ViewModel() {
 
@@ -80,21 +79,17 @@ class LoginModel(val repository: UsersRepository): ViewModel() {
                         val success = result.body()
                         if (success != null && success.success) {
                             token.postValue(LiveDataEvent(success))
-                            App.e("result.isSuccessful: $success")
 
                             val username = Username(name, pass, success.requestToken)
                             authWithLogin(username)
                         } else {
                             error.postValue(LiveDataEvent(ERR_CONNECTION_NO_TOKEN))
-                            App.e("error 1")
                         }
                     } else {
                         error.postValue(LiveDataEvent(ERR_CONNECTION_NO_TOKEN))
-                        App.e("error 2")
                     }
                 }
             } catch (e: Throwable) {
-                App.e("createRequestToken exception: ${e.message}")
                 error.postValue(LiveDataEvent(ERR_NO_CONNECTION))
             }
         }

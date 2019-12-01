@@ -6,11 +6,11 @@ import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import org.michaelbel.data.local.AppDatabase
-import org.michaelbel.moviemade.core.local.SharedPrefs.SP_NAME
+import org.michaelbel.moviemade.core.local.SharedPrefs.NAME
 import javax.inject.Singleton
 
 @Module
-class AppModule constructor(context: Context) {
+class AppModule(context: Context) {
 
     private val appContext: Context = context.applicationContext
 
@@ -20,8 +20,7 @@ class AppModule constructor(context: Context) {
 
     @Provides
     @Singleton
-    fun sharedPreferences(): SharedPreferences =
-            appContext.getSharedPreferences(SP_NAME, MODE_PRIVATE)
+    fun sharedPreferences(): SharedPreferences = appContext.getSharedPreferences(NAME, MODE_PRIVATE)
 
     @Provides
     @Singleton

@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.presentation.common
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.util.TypedValue
@@ -13,7 +12,7 @@ import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
 
-open class GestureTextView: AppCompatTextView, GestureView {
+open class GestureTextView(context: Context, attrs: AttributeSet?): AppCompatTextView(context, attrs), GestureView {
 
     private val controller: GestureController = GestureController(this)
 
@@ -35,13 +34,8 @@ open class GestureTextView: AppCompatTextView, GestureView {
         origSize = textSize
     }
 
-    constructor(context: Context): super(context)
-
-    constructor(context: Context, attrs: AttributeSet): super(context, attrs)
-
     override fun getController(): GestureController = controller
 
-    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean = controller.onTouch(this, event)
 
     override fun setTextSize(size: Float) {

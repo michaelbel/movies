@@ -186,7 +186,14 @@
                     android:orientation="horizontal">
 
                     <!--Watchlist-->
-                    <androidx.cardview.widget.CardView
+                    <org.michaelbel.moviemade.presentation.widget.FaveButton
+                        android:id="@+id/watchlistBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        tools:visibility="visible"/>
+
+                    <!--<androidx.cardview.widget.CardView
                         android:id="@+id/watchlistBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -228,10 +235,17 @@
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    </androidx.cardview.widget.CardView>
+                    </androidx.cardview.widget.CardView>-->
 
                     <!--Favorites-->
-                    <androidx.cardview.widget.CardView
+                    <org.michaelbel.moviemade.presentation.widget.FaveButton
+                        android:id="@+id/favoritesBtn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="invisible"
+                        tools:visibility="visible"/>
+
+                    <!--<androidx.cardview.widget.CardView
                         android:id="@+id/favoritesBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -273,7 +287,7 @@
 
                         </androidx.appcompat.widget.LinearLayoutCompat>
 
-                    </androidx.cardview.widget.CardView>
+                    </androidx.cardview.widget.CardView>-->
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 

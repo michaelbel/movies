@@ -15,37 +15,47 @@ import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
 import java.io.Serializable
 
-data class TextDetailListItem(internal var data: Data): ListItem {
+data class TextDetailListItem(private val info: Data): ListItem {
 
     data class Data(
-            internal var text: String? = null,
-            internal var info: String? = null,
-            internal val divider: Boolean = true
+            var text: String? = null,
+            var info: String? = null,
+            var checked: Boolean? = null,
+            val divider: Boolean = true
     ): Serializable
 
     interface Listener {
         fun onClick() {}
+        fun onChecked(checked: Boolean) {}
     }
 
     lateinit var listener: Listener
 
-    override fun getData() = data
+    override val id: Long
+        get() = RecyclerView.NO_ID
 
-    override fun getViewType() = TEXT_DETAIL_ITEM
+    override val viewType: Int
+        get() = TEXT_DETAIL_ITEM
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.listitem_text_info, parent, false))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.itemView.text.text = getData().text
-        holder.itemView.value.text = getData().info
-        holder.itemView.divider.visibility = if (getData().divider) VISIBLE else GONE
+        holder.itemView.text.text = info.text
+        holder.itemView.summary.text = info.info
+        holder.itemView.switchWidget.visibility = if (info.checked != null) VISIBLE else GONE
+        holder.itemView.switchWidget.isChecked = info.checked == true
+        holder.itemView.divider.visibility = if (info.divider) VISIBLE else GONE
 
         holder.itemView.setOnClickListener(object: DebouncingOnClickListener() {
             override fun doClick(v: View) {
                 if (holder.adapterPosition != NO_POSITION) {
                     listener.onClick()
+
+                    val newChecked: Boolean = info.checked != info.checked
+                    listener.onChecked(newChecked)
+                    holder.itemView.switchWidget.isChecked = newChecked
                 }
             }
         })

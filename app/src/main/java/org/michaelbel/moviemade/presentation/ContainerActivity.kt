@@ -2,6 +2,7 @@ package org.michaelbel.moviemade.presentation
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commitNow
 import kotlinx.android.synthetic.main.activity_parent.*
 import org.michaelbel.data.remote.model.Movie
 import org.michaelbel.data.remote.model.Movie.Companion.FAVORITE
@@ -14,6 +15,7 @@ import org.michaelbel.moviemade.presentation.features.about.AboutFragment
 import org.michaelbel.moviemade.presentation.features.keywords.KeywordsFragment
 import org.michaelbel.moviemade.presentation.features.main.MoviesFragment2
 import org.michaelbel.moviemade.presentation.features.reviews.ReviewsFragment
+import org.michaelbel.moviemade.presentation.features.settings.SettingsFragment
 import org.michaelbel.moviemade.presentation.features.trailers.TrailersFragment
 
 class ContainerActivity: BaseActivity(R.layout.activity_parent) {
@@ -28,6 +30,7 @@ class ContainerActivity: BaseActivity(R.layout.activity_parent) {
         const val REVIEWS = "reviews"
         const val KEYWORDS = "keywords"
         const val ABOUT = "about"
+        const val SETTINGS = "settings"
     }
 
     private var movie: Movie? = null
@@ -46,7 +49,8 @@ class ContainerActivity: BaseActivity(R.layout.activity_parent) {
                 TRAILERS -> TrailersFragment.newInstance(movie!!)
                 REVIEWS -> ReviewsFragment.newInstance(movie!!)
                 KEYWORDS -> KeywordsFragment.newInstance(movie!!)
-                ABOUT -> AboutFragment.newInstance()
+                ABOUT -> AboutFragment()
+                SETTINGS -> SettingsFragment()
                 FAVORITE -> MoviesFragment2.newInstance(FAVORITE, accountId)
                 WATCHLIST -> MoviesFragment2.newInstance(WATCHLIST, accountId)
                 SIMILAR -> MoviesFragment2.newInstance(SIMILAR, movie!!)
@@ -54,7 +58,7 @@ class ContainerActivity: BaseActivity(R.layout.activity_parent) {
                 else -> TrailersFragment.newInstance(movie!!)
             }
 
-            supportFragmentManager.beginTransaction().replace(container.id, screen).commit()
+            supportFragmentManager.commitNow { replace(container.id, screen) }
         }
     }
 }
