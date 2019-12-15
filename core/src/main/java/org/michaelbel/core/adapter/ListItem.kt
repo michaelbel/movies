@@ -4,16 +4,15 @@ import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.RecyclerView.NO_ID
 
 interface ListItem {
-    fun getData(): Any
-    fun getViewType(): Int
-    fun getId(): Long = NO_ID
+    val id: Long
+    val viewType: Int
+
     fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
     fun getChangePayload(item: ListItem): Bundle? = null
     fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int)
     fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int, payloads: MutableList<Any>): Boolean = false
-    fun setActive(itemView: View, position: Int) {}
-    fun setInactivate(itemView: View, position: Int) {}
+    fun activate(itemView: View, position: Int) {}
+    fun deactivate(itemView: View, position: Int) {}
 }

@@ -1,14 +1,8 @@
-package org.michaelbel.core.analytics
-
-import android.Manifest.permission.*
-import android.content.Context
-import android.os.Bundle
-import androidx.annotation.RequiresPermission
-import com.google.firebase.analytics.FirebaseAnalytics
+package org.michaelbel.core
 
 object Analytics {
 
-    const val EVENT_ACTION_CLICK = "event_action_click"
+    /*const val EVENT_ACTION_CLICK = "event_action_click"
 
     private var firebaseAnalytics: FirebaseAnalytics? = null
 
@@ -18,8 +12,9 @@ object Analytics {
     }
 
     fun logEvent(event: String, param: String) {
-        val bundle = Bundle()
-        bundle.putString(event, param)
+        val bundle = Bundle().apply {
+            putString(event, param)
+        }
         firebaseAnalytics?.logEvent(FirebaseAnalytics.Event.SELECT_CONTENT, bundle)
-    }
+    }*/
 }

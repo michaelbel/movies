@@ -25,6 +25,7 @@ android {
 
 dependencies {
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_version"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_version"
@@ -40,6 +41,8 @@ dependencies {
 
     api "com.google.firebase:firebase-core:$firebase_core_version"
     api "com.crashlytics.sdk.android:crashlytics:$crashlytics_version"
+
+    api "com.jakewharton.timber:timber:$timber_version"
 
     api "com.squareup.picasso:picasso:$picasso_version"
 

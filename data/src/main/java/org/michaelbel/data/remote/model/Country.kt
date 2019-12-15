@@ -5,5 +5,5 @@ import java.io.Serializable
 
 data class Country(
         @SerializedName("iso_3166_1") val country: String,
-        @SerializedName("title") val name: String
+        @SerializedName("name") val name: String
 ): Serializable
