@@ -1,19 +1,3 @@
-[github]:            https://github.com/michaelbel/moviemade
-[paypal-url]:        https://paypal.me/michaelbel
-[licence-url]:       https://apache.org/licenses/LICENSE-2.0
-[googleplay-url]:    https://play.google.com/store/apps/details?id=org.michaelbel.moviemade
-[tmdb-introduction]: https://developers.themoviedb.org/3/getting-started/introduction
-[kotlinlang]:        https://kotlinlang.org
-[prs]:               http://makeapullrequest.com
-
-[platform-badge]:   https://img.shields.io/badge/Platform-Android-F3745F.svg
-[paypal-badge]:     https://img.shields.io/badge/Donate-Paypal-F3745F.svg
-[license-badge]:    https://img.shields.io/badge/License-Apache_v2.0-F3745F.svg
-[googleplay-badge]: https://img.shields.io/badge/Google_Play-Demo-F3745F.svg
-[minsdk-badge]:     https://img.shields.io/badge/minSdkVersion-21-F3745F.svg
-[kotlin-badge]:     https://img.shields.io/badge/Awesome-Kotlin-F18E33.svg
-[prs-badge]:        https://img.shields.io/badge/PRs-welcome-brightgreen.svg
-
 <!------------------------------------------------------------------------------------------------------>
 <img src="screenshots/mockup2.png"/>
 <img src="../master/icons/ic_launcher_playstore.png" width="192" align="right" hspace="0"/>
@@ -21,18 +5,20 @@
 Moviemade
 =
 
-[![platform-badge]][github]
-[![minsdk-badge]][github]
-[![license-badge]][licence-url]
-[![paypal-badge]][paypal-url]
-[![googleplay-badge]][googleplay-url]
-[![kotlin-badge]][kotlinlang]
-[![prs-badge]][prs]
+[![platform-badge](https://img.shields.io/badge/Platform-Android-F3745F.svg)](https://github.com/michaelbel/moviemade)
+[![minsdk-badge](https://img.shields.io/badge/minSdkVersion-21-F3745F.svg)](https://github.com/michaelbel/moviemade)
+[![license-badge](https://img.shields.io/badge/License-Apache_v2.0-F3745F.svg)](https://apache.org/licenses/LICENSE-2.0)
+[![paypal-badge](https://img.shields.io/badge/Donate-Paypal-F3745F.svg)](https://paypal.me/michaelbel)
+[![googleplay-badge](https://img.shields.io/badge/Google_Play-Demo-F3745F.svg)](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
+[![kotlin-badge](https://img.shields.io/badge/Awesome-Kotlin-F18E33.svg)](https://kotlinlang.org)
+[![issues-badge](https://img.shields.io/github/issues-raw/michaelbel/moviemade?color=F3745F)](https://github.com/michaelbel/moviemade/issues)
+[![last-commit-badge](https://img.shields.io/github/last-commit/michaelbel/moviemade?color=F3745F)](https://github.com/michaelbel/moviemade/commits)
+[![prs-badge](https://img.shields.io/badge/PRs-welcome-F3745F.svg)](https://makeapullrequest.com)
 
 Moviemade - quick and easy way to discover popular movies. This is a simple TMDb client for Android with material design.
 
 ## Build
-Take a look at <b>`local.properties`</b> and fill it with [your own][tmdb-introduction] <b>tmdb_api_key</b> like this:
+Take a look at <b>`local.properties`</b> and fill it with [your own](https://developers.themoviedb.org/3/getting-started/introduction) <b>tmdb_api_key</b> like this:
 ```gradle
 tmdb_api_key=YOUR_OWN_TMDB_KEY
 ```
