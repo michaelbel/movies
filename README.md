@@ -5,12 +5,12 @@
 Moviemade
 =
 
+[![kotlin-badge](https://img.shields.io/badge/Awesome-Kotlin-F18E33.svg)](https://kotlinlang.org)
 [![platform-badge](https://img.shields.io/badge/Platform-Android-F3745F.svg)](https://github.com/michaelbel/moviemade)
 [![minsdk-badge](https://img.shields.io/badge/minSdkVersion-21-F3745F.svg)](https://github.com/michaelbel/moviemade)
 [![license-badge](https://img.shields.io/badge/License-Apache_v2.0-F3745F.svg)](https://apache.org/licenses/LICENSE-2.0)
 [![paypal-badge](https://img.shields.io/badge/Donate-Paypal-F3745F.svg)](https://paypal.me/michaelbel)
 [![googleplay-badge](https://img.shields.io/badge/Google_Play-Demo-F3745F.svg)](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
-[![kotlin-badge](https://img.shields.io/badge/Awesome-Kotlin-F18E33.svg)](https://kotlinlang.org)
 [![issues-badge](https://img.shields.io/github/issues-raw/michaelbel/moviemade?color=F3745F)](https://github.com/michaelbel/moviemade/issues)
 [![last-commit-badge](https://img.shields.io/github/last-commit/michaelbel/moviemade?color=F3745F)](https://github.com/michaelbel/moviemade/commits)
 [![prs-badge](https://img.shields.io/badge/PRs-welcome-F3745F.svg)](https://makeapullrequest.com)
