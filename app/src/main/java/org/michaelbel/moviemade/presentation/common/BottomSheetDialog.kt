@@ -17,14 +17,6 @@ import javax.inject.Inject
 
 class BottomSheetDialog: BottomSheetDialogFragment() {
 
-    companion object {
-        fun newInstance(path: String): BottomSheetDialog {
-            return BottomSheetDialog().apply {
-                arguments = bundleOf("path" to path)
-            }
-        }
-    }
-
     private val path: String? by argumentDelegate()
 
     @Inject
@@ -49,5 +41,13 @@ class BottomSheetDialog: BottomSheetDialogFragment() {
         }
 
         cancelBtn.setOnClickListener { dismiss() }
+    }
+
+    companion object {
+        fun newInstance(path: String): BottomSheetDialog {
+            return BottomSheetDialog().apply {
+                arguments = bundleOf("path" to path)
+            }
+        }
     }
 }
