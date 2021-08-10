@@ -1,8 +1,8 @@
 buildscript {
     ext {
-        compileSdkVersion = 30
+        compileSdkVersion = 29
         minSdkVersion = 21
-        targetSdkVersion = 30
+        targetSdkVersion = 29
         buildToolsVersion = '30.0.3'
         gradleVersion = '7.0.0'
         detektVersion = '1.18.0-RC2'
@@ -100,12 +100,10 @@ buildscript {
     ext.glide_version = '4.9.0'
     ext.dagger_version = '2.21'
     ext.traceur_version = '1.0.1'
-    ext.timber_version = '4.7.1'
     ext.stetho_version = '1.5.0'
     ext.sherlock_version = '1.0.4'
     ext.chuck_version = '1.1.0'
     ext.leakcanary_version = '2.0-alpha-1'
-    ext.picasso_version = '2.71828'
 
     ext.gms_version = '4.2.0'
     ext.fabric_version = '1.28.0'

@@ -5,20 +5,13 @@ plugins {
 }
 
 android {
-    compileSdkVersion 29
-
-    defaultConfig {
-        minSdkVersion rootProject.minSdkVersion
-        targetSdkVersion 29
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
+    compileSdkVersion rootProject.compileSdkVersion
 }
 
 dependencies {
+    api "com.squareup.picasso:picasso:$picassoVersion"
+    api "com.jakewharton.timber:timber:$timberVersion"
+
     api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     api "org.jetbrains.kotlin:kotlin-reflect:$kotlin_version"
 
@@ -37,9 +30,7 @@ dependencies {
     api "com.google.firebase:firebase-core:$firebase_core_version"
     api "com.crashlytics.sdk.android:crashlytics:$crashlytics_version"
 
-    api "com.jakewharton.timber:timber:$timber_version"
 
-    api "com.squareup.picasso:picasso:$picasso_version"
 
     api "com.squareup.retrofit2:retrofit:$retrofit_version"
 }
