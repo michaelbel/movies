@@ -42,7 +42,7 @@ class App: Application() {
         appContext = applicationContext
         appHandler = Handler(applicationContext.mainLooper)
         initDI()
-        setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
 
         //Analytics.initialize(this)
         Stetho.initializeWithDefaults(this)

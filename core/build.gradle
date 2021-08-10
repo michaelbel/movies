@@ -25,6 +25,5 @@ dependencies {
     api "androidx.recyclerview:recyclerview:1.0.0"
     api "androidx.collection:collection-ktx:1.0.0"
     api "com.google.firebase:firebase-core:17.2.0"
-    api "com.crashlytics.sdk.android:crashlytics:2.10.1"
     api "com.squareup.retrofit2:retrofit:2.6.2"
 }
