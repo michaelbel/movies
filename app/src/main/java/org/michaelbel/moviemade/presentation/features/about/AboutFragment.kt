@@ -39,7 +39,7 @@ class AboutFragment: BaseFragment(R.layout.fragment_lce) {
     }
 
     private val adapter = ListAdapter()
-    private val viewModel: AboutModel by lazy { getViewModel<AboutModel>() }
+    private val viewModel by lazy { getViewModel<AboutModel>() }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,8 +55,8 @@ class AboutFragment: BaseFragment(R.layout.fragment_lce) {
             this.layoutManager = LinearLayoutManager(requireContext())
         }
 
-        viewModel.items.reObserve(viewLifecycleOwner, Observer { adapter.setItems(it) })
-        viewModel.click.reObserve(viewLifecycleOwner, Observer {
+        /*viewModel.items.observe(viewLifecycleOwner, { adapter.setItems(it) })
+        viewModel.click.observe(viewLifecycleOwner, {
             it.getContentIfNotHandled()?.let { cell ->
                 when (cell) {
                     AboutModel.Keys.Rate -> {
@@ -106,7 +106,7 @@ class AboutFragment: BaseFragment(R.layout.fragment_lce) {
                     AboutModel.Keys.Update -> viewModel.appUpdateManager?.startUpdateFlowForResult(viewModel.appUpdateInfo?.result, AppUpdateType.IMMEDIATE, requireActivity(), APP_UPDATE_REQUEST_CODE)
                 }
             }
-        })
+        })*/
     }
 
     private fun feedbackEmail() {

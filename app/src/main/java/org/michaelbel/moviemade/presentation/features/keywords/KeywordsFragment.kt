@@ -6,6 +6,8 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.os.bundleOf
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.core.view.setMargins
 import androidx.fragment.app.commitNow
 import androidx.lifecycle.Observer
@@ -73,28 +75,28 @@ class KeywordsFragment: BaseFragment(R.layout.fragment_lce) {
         }
 
         emptyView.setOnClickListener {
-            emptyView.visibility = GONE
+            emptyView.isGone = true
             viewModel.keywords(movie?.id?.toLong() ?: 0L)
         }
 
         viewModel.keywords(movie?.id?.toLong() ?: 0L)
-        viewModel.loading.reObserve(viewLifecycleOwner, Observer { progressBar.visibility = if (it) VISIBLE else GONE })
-        viewModel.content.reObserve(viewLifecycleOwner, Observer { adapter.setItems(it) })
-        viewModel.error.reObserve(viewLifecycleOwner, Observer {
+        /*viewModel.loading.observe(viewLifecycleOwner, { progressBar.isVisible = it })
+        viewModel.content.observe(viewLifecycleOwner, { adapter.setItems(it) })
+        viewModel.error.observe(viewLifecycleOwner, {
             emptyView.visible()
             emptyView.setMode(it)
         })
-        viewModel.click.reObserve(viewLifecycleOwner, Observer {
+        viewModel.click.observe(viewLifecycleOwner, {
             requireFragmentManager().commitNow {
                 add((requireActivity() as ContainerActivity).container.id, MoviesFragment2.newInstance(it))
                 addToBackStack(tag)
             }
         })
-        viewModel.longClick.reObserve(viewLifecycleOwner, Observer {
+        viewModel.longClick.observe(viewLifecycleOwner, {
             requireFragmentManager().commitNow {
                 add((requireActivity() as ContainerActivity).container.id, MoviesFragment2.newInstance(it))
                 addToBackStack(tag)
             }
-        })
+        })*/
     }
 }

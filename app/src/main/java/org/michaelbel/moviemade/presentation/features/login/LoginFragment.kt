@@ -95,7 +95,7 @@ class LoginFragment: BaseFragment(R.layout.fragment_login) {
         termsBtn.setOnClickListener { Browser.openUrl(requireContext(), TMDB_TERMS_OF_USE) }
         privacyBtn.setOnClickListener { Browser.openUrl(requireContext(), TMDB_PRIVACY_POLICY) }
 
-        viewModel.sessionCreated.reObserve(viewLifecycleOwner, Observer { sessionId ->
+        /*viewModel.sessionCreated.observe(viewLifecycleOwner, { sessionId ->
             sessionId.getContentIfNotHandled()?.let {
                 username.text?.clear()
                 password.text?.clear()
@@ -103,10 +103,12 @@ class LoginFragment: BaseFragment(R.layout.fragment_login) {
                 preferences.edit().putString(KEY_SESSION_ID, it).apply()
                 password.hideKeyboard()
 
-                requireFragmentManager().commit { replace((requireActivity() as MainActivity).container.id, UserFragment.newInstance(), FRAGMENT_TAG) }
+                requireFragmentManager().commit {
+                    replace((requireActivity() as MainActivity).container.id, UserFragment.newInstance(), FRAGMENT_TAG)
+                }
             }
         })
-        viewModel.error.reObserve(viewLifecycleOwner, Observer { error ->
+        viewModel.error.observe(viewLifecycleOwner, { error ->
             error.getContentIfNotHandled()?.let {
                 when (it) {
                     ERR_UNAUTHORIZED -> preferences.edit().putString(KEY_SESSION_ID, "").apply()
@@ -117,7 +119,7 @@ class LoginFragment: BaseFragment(R.layout.fragment_login) {
                 }
             }
         })
-        viewModel.throwable.reObserve(viewLifecycleOwner, Observer {
+        viewModel.throwable.observe(viewLifecycleOwner, {
             val code = (it as HttpException).code()
             if (code == 401) {
                 preferences.edit().putString(KEY_SESSION_ID, "").apply()
@@ -125,7 +127,7 @@ class LoginFragment: BaseFragment(R.layout.fragment_login) {
                 toast(R.string.error_not_found)
             }
         })
-        viewModel.account.reObserve(viewLifecycleOwner, Observer {
+        viewModel.account.observe(viewLifecycleOwner, {
             preferences.edit {
                 putLong(KEY_ACCOUNT_ID, it.id.toLong())
                 putString(KEY_ACCOUNT_LOGIN, it.username)
@@ -133,19 +135,19 @@ class LoginFragment: BaseFragment(R.layout.fragment_login) {
                 putString(KEY_ACCOUNT_AVATAR, it.avatar.gravatar.hash)
             }
         })
-        viewModel.browserAuth.reObserve(viewLifecycleOwner, Observer { token ->
+        viewModel.browserAuth.observe(viewLifecycleOwner, { token ->
             token.getContentIfNotHandled()?.let {
                 Browser.openUrl(requireContext(), String.format(TMDB_AUTH_URL, it, REDIRECT_URL))
             }
         })
-        viewModel.token.reObserve(viewLifecycleOwner, Observer {
+        viewModel.token.observe(viewLifecycleOwner, {
             it.getContentIfNotHandled()?.let {
                 preferences.edit {
                     putString(KEY_TOKEN, it.requestToken)
                     putString(KEY_DATE_AUTHORISED, it.date)
                 }
             }
-        })
+        })*/
     }
 
     override fun onNewIntent(action: String?, data: String?) {

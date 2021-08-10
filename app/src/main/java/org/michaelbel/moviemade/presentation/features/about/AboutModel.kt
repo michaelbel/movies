@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.crashlytics.android.Crashlytics
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
@@ -22,6 +21,7 @@ import org.michaelbel.moviemade.presentation.listitem.AboutListItem
 import org.michaelbel.moviemade.presentation.listitem.AppUpdateListItem
 import org.michaelbel.moviemade.presentation.listitem.PoweredListItem
 import org.michaelbel.moviemade.presentation.listitem.TextListItem
+import timber.log.Timber
 
 class AboutModel(app: Application): AndroidViewModel(app) {
 
@@ -65,7 +65,7 @@ class AboutModel(app: Application): AndroidViewModel(app) {
                 items.postValue(itemsManager.get())
             }
         }
-        appUpdateInfo?.addOnFailureListener { Crashlytics.logException(it) }
+        appUpdateInfo?.addOnFailureListener { Timber.e(it) }
     }
 
     private inner class Manager: ItemsManager() {

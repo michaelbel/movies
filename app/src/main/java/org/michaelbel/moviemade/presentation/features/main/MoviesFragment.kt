@@ -5,6 +5,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -72,9 +73,9 @@ class MoviesFragment: BaseFragment(R.layout.fragment_movies) {
         }
 
         viewModel.movies(list ?: NOW_PLAYING)
-        viewModel.loading.reObserve(viewLifecycleOwner, Observer { progressBar.visibility = if (it) VISIBLE else GONE })
-        viewModel.content.reObserve(viewLifecycleOwner, Observer { adapter.setItems(it) })
-        viewModel.error.reObserve(viewLifecycleOwner, Observer { error ->
+        /*viewModel.loading.observe(viewLifecycleOwner, { progressBar.isVisible = it })
+        viewModel.content.observe(viewLifecycleOwner, { adapter.setItems(it) })
+        viewModel.error.observe(viewLifecycleOwner, { error ->
             error.getContentIfNotHandled()?.let {
                 emptyView.visible()
                 emptyView.setMode(it)
@@ -84,20 +85,20 @@ class MoviesFragment: BaseFragment(R.layout.fragment_movies) {
                 }
             }
         })
-        viewModel.click.reObserve(viewLifecycleOwner, Observer {
+        viewModel.click.observe(viewLifecycleOwner, {
             it.getContentIfNotHandled()?.let {
                 requireActivity().startActivity<MovieActivity> {
                     putExtra(EXTRA_MOVIE, it)
                 }
             }
         })
-        viewModel.longClick.reObserve(viewLifecycleOwner, Observer {
+        viewModel.longClick.observe(viewLifecycleOwner, {
             it.getContentIfNotHandled()?.let {
                 requireActivity().startActivity<MovieActivity> {
                     putExtra(EXTRA_MOVIE, it)
                 }
             }
-        })
+        })*/
     }
 
     override fun onScrollToTop() {

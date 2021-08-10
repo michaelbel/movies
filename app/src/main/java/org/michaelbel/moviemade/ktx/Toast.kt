@@ -14,7 +14,7 @@ inline fun Context.toast(message: String? = null, @StringRes messageRes: Int = 0
     val toastMessage: String? = if (!message.isNullOrEmpty()) message else if (messageRes != 0) getString(messageRes) else null
     if (toastMessage != null) {
         val toast = Toast.makeText(this, toastMessage, length)
-        val view: TextView = toast.view.findViewById(android.R.id.message) as TextView
+        val view: TextView = toast.view?.findViewById(android.R.id.message) as TextView
         view.gravity = gravity
         toast.show()
     }

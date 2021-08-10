@@ -29,19 +29,19 @@ class AppModule(context: Context) {
     //region Dao
 
     @Provides
-    fun trailersDao(db: AppDatabase) = db.trailersDao()
+    fun trailersDao(db: AppDatabase) = db.trailersDao
 
     @Provides
-    fun reviewsDao(db: AppDatabase) = db.reviewsDao()
+    fun reviewsDao(db: AppDatabase) = db.reviewsDao
 
     @Provides
-    fun keywordsDao(db: AppDatabase) = db.keywordsDao()
+    fun keywordsDao(db: AppDatabase) = db.keywordsDao
 
     @Provides
-    fun moviesDao(db: AppDatabase) = db.moviesDao()
+    fun moviesDao(db: AppDatabase) = db.moviesDao
 
     @Provides
-    fun usersDao(db: AppDatabase) = db.usersDao()
+    fun usersDao(db: AppDatabase) = db.usersDao
 
     //endregion
 }

@@ -172,7 +172,7 @@ class MoviesFragment2: BaseFragment(R.layout.fragment_lce) {
             list == WATCHLIST -> viewModel.moviesWatchlist(accountId, sessionId)
             else -> viewModel.moviesById(movieId, list)
         }
-        viewModel.loading.reObserve(viewLifecycleOwner, Observer { progressBar.visibility = if (it) VISIBLE else GONE })
+        //viewModel.loading.reObserve(viewLifecycleOwner, { progressBar.visibility = if (it) VISIBLE else GONE })
         viewModel.content.reObserve(viewLifecycleOwner, Observer { adapter.setItems(it) })
         viewModel.error.reObserve(viewLifecycleOwner, Observer { error ->
             error.getContentIfNotHandled()?.let {

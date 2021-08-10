@@ -41,7 +41,7 @@ class App: Application() {
         super.onCreate()
         appContext = applicationContext
         appHandler = Handler(applicationContext.mainLooper)
-
+        initDI()
         setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         //Analytics.initialize(this)
@@ -56,7 +56,7 @@ class App: Application() {
             //LeakCanary.install(this)
         }
 
-        initDI()
+
     }
 
     private fun initDI() {
@@ -66,7 +66,9 @@ class App: Application() {
                 .build()
     }
 
-    val createActivityComponent: ActivityComponent = appComponent.plus(ActivityModule())
+    val createActivityComponent: ActivityComponent
+        get() = appComponent.plus(ActivityModule())
 
-    val createFragmentComponent: FragmentComponent = appComponent.plus(FragmentModule())
+    val createFragmentComponent: FragmentComponent
+        get() = appComponent.plus(FragmentModule())
 }
