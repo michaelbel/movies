@@ -12,11 +12,10 @@ import android.view.ViewGroup
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.listitem_app_update.view.*
 import org.michaelbel.core.adapter.ListItem
 import org.michaelbel.core.adapter.ViewTypes.APP_UPDATE_ITEM
 import org.michaelbel.moviemade.R
+import org.michaelbel.moviemade.databinding.ListitemAppUpdateBinding
 import org.michaelbel.moviemade.ktx.setIcon
 import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
 import java.io.Serializable
@@ -42,14 +41,15 @@ data class AppUpdateListItem(private val data: Data): ListItem {
         get() = APP_UPDATE_ITEM
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        viewHolder = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.listitem_app_update, parent, false))
+        viewHolder = ViewHolder(ListitemAppUpdateBinding.inflate(LayoutInflater.from(parent.context), parent, false))
         return viewHolder as ViewHolder
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.itemView.text.setText(R.string.update_available)
-        holder.itemView.summary.setText(R.string.update_available_summary)
-        holder.itemView.iconView.setIcon(R.drawable.ic_update, R.color.accent_green)
+        holder as ViewHolder
+        holder.binding.text.setText(R.string.update_available)
+        holder.binding.summary.setText(R.string.update_available_summary)
+        holder.binding.iconView.setIcon(R.drawable.ic_update, R.color.accent_green)
 
         holder.itemView.setOnClickListener(object: DebouncingOnClickListener() {
             override fun doClick(v: View) {
@@ -61,7 +61,7 @@ data class AppUpdateListItem(private val data: Data): ListItem {
     }
 
     override fun activate(itemView: View, position: Int) {
-        animateIcon(itemView.iconView)
+        //animateIcon(itemView.iconView)
     }
 
     override fun deactivate(itemView: View, position: Int) {
@@ -81,5 +81,5 @@ data class AppUpdateListItem(private val data: Data): ListItem {
         }
     }
 
-    private inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
+    private inner class ViewHolder(val binding: ListitemAppUpdateBinding): RecyclerView.ViewHolder(binding.root)
 }

@@ -447,15 +447,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/similarText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         tools:textColor="@color/textColorPrimary"/>
 
-    <!--<com.google.android.gms.ads.AdView
+    <!--AdView-->
+    <com.google.android.gms.ads.AdView
         android:id="@+id/ad_view"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="center_horizontal"
-        app:adSize="BANNER"
-        app:adUnitId="@string/banner_ad_unit_id"/>-->
+        android:layout_width="320dp"
+        android:layout_height="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/recommendationsText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:adSize="LARGE_BANNER"
+        app:adUnitId="@string/admobBannerTestUnitId"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

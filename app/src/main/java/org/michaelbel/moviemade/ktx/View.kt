@@ -4,14 +4,20 @@ package org.michaelbel.moviemade.ktx
 
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.res.ColorStateList
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BlendMode
+import android.graphics.BlendModeColorFilter
+import android.graphics.Canvas
+import android.graphics.PorterDuff
+import android.graphics.Rect
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.RippleDrawable
 import android.os.Build
 import android.view.View
-import android.view.View.*
+import android.view.View.MeasureSpec
+import android.view.View.OnAttachStateChangeListener
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import android.view.inputmethod.InputMethodManager
@@ -24,22 +30,21 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.*
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.marginBottom
+import androidx.core.view.marginEnd
+import androidx.core.view.marginLeft
+import androidx.core.view.marginTop
 import timber.log.Timber
 
-inline fun View.visible() {
-    visibility = VISIBLE
-}
-
-inline fun View.invisible() {
-    visibility = INVISIBLE
-}
-
-inline fun View.gone() {
-    visibility = GONE
-}
-
-inline fun View.createGradientDrawable(@ColorRes color: Int = 0, topStartRadiusDimen: Float = 0F, topEndRadiusDimen: Float = 0F, bottomStartRadiusDimen: Float = 0F, bottomEndRadiusDimen: Float = 0F) {
+inline fun View.createGradientDrawable(
+    @ColorRes color: Int = 0,
+    topStartRadiusDimen: Float = 0F,
+    topEndRadiusDimen: Float = 0F,
+    bottomStartRadiusDimen: Float = 0F,
+    bottomEndRadiusDimen: Float = 0F
+) {
     val gradientDrawable = GradientDrawable()
     if (color != 0) {
         gradientDrawable.setColor(ContextCompat.getColor(context, color))
@@ -262,7 +267,14 @@ inline fun View.createFrameParams(@Px width: Int, @Px height: Int, gravity: Int)
     layoutParams = FrameLayout.LayoutParams(width, height, gravity)
 }
 
-inline fun View.createFrameParams(@Px width: Int, @Px height: Int, @Px start: Int = marginLeft, @Px top: Int = marginTop, @Px end: Int = marginEnd, @Px bottom: Int = marginBottom) {
+inline fun View.createFrameParams(
+    @Px width: Int,
+    @Px height: Int,
+    @Px start: Int = marginLeft,
+    @Px top: Int = marginTop,
+    @Px end: Int = marginEnd,
+    @Px bottom: Int = marginBottom
+) {
     val params = FrameLayout.LayoutParams(width, height)
     params.setMargins(start, top, end, bottom)
     layoutParams = params

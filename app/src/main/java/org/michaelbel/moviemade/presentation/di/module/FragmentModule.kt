@@ -2,12 +2,23 @@ package org.michaelbel.moviemade.presentation.di.module
 
 import dagger.Module
 import dagger.Provides
-import org.michaelbel.data.local.dao.*
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
+import org.michaelbel.data.local.dao.KeywordsDao
+import org.michaelbel.data.local.dao.MoviesDao
+import org.michaelbel.data.local.dao.ReviewsDao
+import org.michaelbel.data.local.dao.TrailersDao
+import org.michaelbel.data.local.dao.UsersDao
 import org.michaelbel.data.remote.Api
-import org.michaelbel.domain.*
+import org.michaelbel.domain.KeywordsRepository
+import org.michaelbel.domain.MoviesRepository
+import org.michaelbel.domain.ReviewsRepository
+import org.michaelbel.domain.TrailersRepository
+import org.michaelbel.domain.UsersRepository
 
 @Module
-class FragmentModule {
+@InstallIn(SingletonComponent::class)
+object FragmentModule {
 
     //region Repositories
 

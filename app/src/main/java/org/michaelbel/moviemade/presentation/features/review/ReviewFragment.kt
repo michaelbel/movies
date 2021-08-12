@@ -10,20 +10,22 @@ import android.view.View.FOCUS_UP
 import android.view.animation.DecelerateInterpolator
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.appbar.AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
 import com.google.android.material.appbar.AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
-import kotlinx.android.synthetic.main.fragment_review.*
+import dagger.hilt.android.AndroidEntryPoint
 import org.michaelbel.core.Browser
 import org.michaelbel.data.remote.model.Movie
 import org.michaelbel.data.remote.model.Review
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.text.SpannableUtil
+import org.michaelbel.moviemade.databinding.FragmentReviewBinding
 import org.michaelbel.moviemade.ktx.getIcon
-import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class ReviewFragment: BaseFragment(R.layout.fragment_review) {
 
     companion object {
@@ -37,7 +39,7 @@ class ReviewFragment: BaseFragment(R.layout.fragment_review) {
         private const val THEME_SEPIA = 1
         private const val THEME_NIGHT = 2
 
-        private const val TOOLBAR_PINNED = 0
+        private const val TOOLBAR_PINNED: Int = 0
         private const val TOOLBAR_UNPINNED: Int = SCROLL_FLAG_SCROLL or SCROLL_FLAG_ENTER_ALWAYS
 
         fun newInstance(review: Review, movie: Movie): ReviewFragment {
@@ -59,10 +61,7 @@ class ReviewFragment: BaseFragment(R.layout.fragment_review) {
     private var backgroundSepia: Int = 0
     private var backgroundNight: Int = 0
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        App[requireActivity().application as App].createFragmentComponent.inject(this)
-    }
+    private val binding: FragmentReviewBinding by viewBinding()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -76,14 +75,14 @@ class ReviewFragment: BaseFragment(R.layout.fragment_review) {
         movie = arguments?.getSerializable(ARG_MOVIE) as Movie
         review = arguments?.getSerializable(ARG_REVIEW) as Review
 
-        toolbar.title = movie.title
-        toolbar.subtitle = SpannableUtil.boldText(getString(R.string.review_by), getString(R.string.review_by, review.author))
-        toolbar.navigationIcon = getIcon(R.drawable.ic_arrow_back, R.color.iconActiveColor)
-        toolbar.setOnClickListener { onScrollToTop() }
-        toolbar.setOnLongClickListener { changePinning() }
-        toolbar.setNavigationOnClickListener { requireFragmentManager().popBackStack() }
-        toolbar.inflateMenu(R.menu.menu_review)
-        toolbar.setOnMenuItemClickListener {
+        binding.toolbar.title = movie.title
+        binding.toolbar.subtitle = SpannableUtil.boldText(getString(R.string.review_by), getString(R.string.review_by, review.author))
+        binding.toolbar.navigationIcon = getIcon(R.drawable.ic_arrow_back, R.color.iconActiveColor)
+        binding.toolbar.setOnClickListener { onScrollToTop() }
+        binding.toolbar.setOnLongClickListener { changePinning() }
+        binding.toolbar.setNavigationOnClickListener { parentFragmentManager.popBackStack() }
+        binding.toolbar.inflateMenu(R.menu.menu_review)
+        binding.toolbar.setOnMenuItemClickListener {
             when (it.itemId) {
                 R.id.item_url -> Browser.openUrl(requireContext(), review.url)
                 R.id.item_light -> {
@@ -105,8 +104,8 @@ class ReviewFragment: BaseFragment(R.layout.fragment_review) {
             return@setOnMenuItemClickListener true
         }
 
-        reviewText.text = review.content
-        reviewText.controller.settings.enableGestures()
+        binding.reviewText.text = review.content
+        binding.reviewText.controller.settings.enableGestures()
 
         //val pin = preferences.getBoolean(KEY_TOOLBAR_PINNED, false)
         //val params = toolbar.layoutParams as AppBarLayout.LayoutParams
@@ -115,22 +114,22 @@ class ReviewFragment: BaseFragment(R.layout.fragment_review) {
 
         when (preferences.getInt(KEY_REVIEW_THEME, THEME_NIGHT)) {
             THEME_LIGHT -> {
-                reviewText.setTextColor(textLight)
-                scrollView.setBackgroundColor(backgroundLight)
+                binding.reviewText.setTextColor(textLight)
+                binding.scrollView.setBackgroundColor(backgroundLight)
             }
             THEME_SEPIA -> {
-                reviewText.setTextColor(textSepia)
-                scrollView.setBackgroundColor(backgroundSepia)
+                binding.reviewText.setTextColor(textSepia)
+                binding.scrollView.setBackgroundColor(backgroundSepia)
             }
             THEME_NIGHT -> {
-                reviewText.setTextColor(textNight)
-                scrollView.setBackgroundColor(backgroundNight)
+                binding.reviewText.setTextColor(textNight)
+                binding.scrollView.setBackgroundColor(backgroundNight)
             }
         }
     }
 
     override fun onScrollToTop() {
-        scrollView.fullScroll(FOCUS_UP)
+        binding.scrollView.fullScroll(FOCUS_UP)
     }
 
     private fun changeTheme(oldTheme: Int, newTheme: Int) {
@@ -178,8 +177,8 @@ class ReviewFragment: BaseFragment(R.layout.fragment_review) {
 
         AnimatorSet().apply {
             playTogether(
-                    ObjectAnimator.ofObject(scrollView, "backgroundColor", ArgbEvaluator(), backgroundColorStart, backgroundColorEnd),
-                    ObjectAnimator.ofObject(reviewText, "textColor", ArgbEvaluator(), textColorStart, textColorEnd)
+                    ObjectAnimator.ofObject(binding.scrollView, "backgroundColor", ArgbEvaluator(), backgroundColorStart, backgroundColorEnd),
+                    ObjectAnimator.ofObject(binding.reviewText, "textColor", ArgbEvaluator(), textColorStart, textColorEnd)
             )
             duration = 300L
             interpolator = DecelerateInterpolator(2F)
@@ -192,9 +191,9 @@ class ReviewFragment: BaseFragment(R.layout.fragment_review) {
         val pin = preferences.getBoolean(KEY_TOOLBAR_PINNED, false)
         preferences.edit().putBoolean(KEY_TOOLBAR_PINNED, !pin).apply()
 
-        val params = toolbar.layoutParams as AppBarLayout.LayoutParams
+        val params = binding.toolbar.layoutParams as AppBarLayout.LayoutParams
         params.scrollFlags = if (pin) TOOLBAR_PINNED else TOOLBAR_UNPINNED
-        toolbar.layoutParams = params
+        binding.toolbar.layoutParams = params
 
         //Toast.makeText(requireContext(), if (!pin) R.string.msg_toolbar_pinned else R.string.msg_toolbar_unpinned, Toast.LENGTH_SHORT).show()
         return true

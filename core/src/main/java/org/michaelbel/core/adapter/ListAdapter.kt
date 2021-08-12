@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
-import java.util.*
+import java.util.ArrayDeque
+import java.util.ArrayList
+import java.util.Queue
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -30,11 +32,11 @@ class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun getItems(): ArrayList<ListItem> = items
 
-    fun setItems(listItems: MutableList<ListItem>) {
+    fun setItems(listItems: List<ListItem>) {
         setItems(listItems, false)
     }
 
-    fun setItems(listItems: MutableList<ListItem>, isDiffUtilEnabled: Boolean) {
+    fun setItems(listItems: List<ListItem>, isDiffUtilEnabled: Boolean) {
         var diffUtilCallback: DiffUtilCallback? = null
 
         if (isDiffUtilEnabled) {
@@ -44,7 +46,7 @@ class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         setItems(listItems, diffUtilCallback)
     }
 
-    fun setItems(listItems: MutableList<ListItem>, callback: DiffUtil.Callback?) {
+    fun setItems(listItems: List<ListItem>, callback: DiffUtil.Callback?) {
         if (callback != null) {
             pendingUpdates.add(listItems)
             if (pendingUpdates.size == 1) {
@@ -158,8 +160,8 @@ class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     inner class DiffUtilCallback(
-            private var oldListItems: MutableList<ListItem>,
-            private var newListItems: MutableList<ListItem>
+            private var oldListItems: List<ListItem>,
+            private var newListItems: List<ListItem>
     ): DiffUtil.Callback() {
 
         override fun getOldListSize() = oldListItems.size

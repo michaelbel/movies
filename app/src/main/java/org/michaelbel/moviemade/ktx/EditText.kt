@@ -4,21 +4,8 @@ package org.michaelbel.moviemade.ktx
 
 import android.text.InputFilter
 import android.widget.EditText
-import android.widget.TextView
-import timber.log.Timber
 
 private val PHONE_NUMBER_CHARS: CharArray = charArrayOf('+', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9')
-
-fun EditText.clearCursorDrawable() {
-    try {
-        TextView::class.java.getDeclaredField("mCursorDrawableRes").apply {
-            isAccessible = true
-            setInt(this, 0)
-        }
-    } catch (e: Exception) {
-        Timber.e(e)
-    }
-}
 
 /**
  * Устанавливает курсор в конец EditText'а

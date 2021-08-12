@@ -5,12 +5,6 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 
 abstract class VerticalScrollingBehavior<V: View>: CoordinatorLayout.Behavior<V>() {
 
-    companion object {
-        const val SCROLL_DIRECTION_UP = 1
-        const val SCROLL_DIRECTION_DOWN = -1
-        const val SCROLL_NONE = 0
-    }
-
     private var totalDyUnconsumed = -1
     private var totalDyConsumed = -1
     private var totalDy = -1
@@ -124,4 +118,10 @@ abstract class VerticalScrollingBehavior<V: View>: CoordinatorLayout.Behavior<V>
      * @return true if the Behavior consumed the fling
      */
     protected abstract fun onNestedDirectionFling(coordinatorLayout: CoordinatorLayout, child: V, target: View, velocityX: Float, velocityY: Float, consumed: Boolean, scrollDirection: Int): Boolean
+
+    companion object {
+        const val SCROLL_DIRECTION_UP = 1
+        const val SCROLL_DIRECTION_DOWN = -1
+        const val SCROLL_NONE = 0
+    }
 }

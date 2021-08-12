@@ -8,11 +8,15 @@ import com.google.gson.GsonBuilder
 import com.readystatesoftware.chuck.ChuckInterceptor
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.michaelbel.core.retrofit.CoroutineCallAdapterFactory
 import org.michaelbel.data.remote.Api
 import org.michaelbel.moviemade.BuildConfig
+import org.michaelbel.moviemade.core.TmdbConfig
 import org.michaelbel.moviemade.core.TmdbConfig.GSON_DATE_FORMAT
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -20,24 +24,25 @@ import timber.log.Timber
 import javax.inject.Singleton
 
 @Module
-class NetworkModule(private val context: Context, private val baseUrl: String) {
+@InstallIn(SingletonComponent::class)
+object NetworkModule {
 
     @Provides
     @Singleton
-    fun retrofit(): Retrofit {
+    fun retrofit(@ApplicationContext context: Context): Retrofit {
         return Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .client(okHttpClient())
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(CoroutineCallAdapterFactory())
-                .build()
+            .baseUrl(TmdbConfig.TMDB_API_ENDPOINT)
+            .client(okHttpClient(context))
+            .addConverterFactory(GsonConverterFactory.create(gson))
+            .addCallAdapterFactory(CoroutineCallAdapterFactory())
+            .build()
     }
 
     @Provides
     @Singleton
-    fun apiService(): Api = retrofit().create(Api::class.java)
+    fun apiService(@ApplicationContext context: Context): Api = retrofit(context).create(Api::class.java)
 
-    private fun okHttpClient(): OkHttpClient {
+    private fun okHttpClient(context: Context): OkHttpClient {
         val okHttpClient = OkHttpClient().newBuilder()
         if (BuildConfig.DEBUG) {
             okHttpClient.interceptors().add(ChuckInterceptor(context))
@@ -61,5 +66,5 @@ class NetworkModule(private val context: Context, private val baseUrl: String) {
             .create()
 
     @Suppress("unused")
-    inline fun <reified T> createService(): T = retrofit().create(T::class.java)
+    inline fun <reified T> createService(context: Context): T = retrofit(context).create(T::class.java)
 }

@@ -6,26 +6,21 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.os.bundleOf
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.dialog_backdrop.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_BACKDROP
+import org.michaelbel.moviemade.databinding.DialogBackdropBinding
 import org.michaelbel.moviemade.ktx.argumentDelegate
 import org.michaelbel.moviemade.ktx.toast
-import org.michaelbel.moviemade.presentation.App
 import javax.inject.Inject
 
 class BottomSheetDialog: BottomSheetDialogFragment() {
 
+    @Inject lateinit var preferences: SharedPreferences
+
     private val path: String? by argumentDelegate()
-
-    @Inject
-    lateinit var preferences: SharedPreferences
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        App[requireActivity().application as App].createFragmentComponent.inject(this)
-    }
+    private val binding: DialogBackdropBinding by viewBinding()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.dialog_backdrop, container, false)
@@ -34,13 +29,13 @@ class BottomSheetDialog: BottomSheetDialogFragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setBtn.setOnClickListener {
+        binding.setBtn.setOnClickListener {
             preferences.edit().putString(KEY_ACCOUNT_BACKDROP, path).apply()
             toast(R.string.msg_done)
             dismiss()
         }
 
-        cancelBtn.setOnClickListener { dismiss() }
+        binding.cancelBtn.setOnClickListener { dismiss() }
     }
 
     companion object {

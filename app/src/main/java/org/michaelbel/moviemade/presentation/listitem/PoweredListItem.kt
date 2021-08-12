@@ -1,15 +1,12 @@
 package org.michaelbel.moviemade.presentation.listitem
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.listitem_powered.view.*
 import org.michaelbel.core.adapter.ListItem
 import org.michaelbel.core.adapter.ViewTypes.POWERED_ITEM
-import org.michaelbel.moviemade.R
+import org.michaelbel.moviemade.databinding.ListitemPoweredBinding
 import java.io.Serializable
 
 data class PoweredListItem(private val data: Data): ListItem {
@@ -23,12 +20,13 @@ data class PoweredListItem(private val data: Data): ListItem {
         get() = POWERED_ITEM
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.listitem_powered, parent, false))
+        return ViewHolder(ListitemPoweredBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.itemView.poweredText.setText(data.text)
+        holder as ViewHolder
+        holder.binding.poweredText.setText(data.text)
     }
 
-    private inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
+    private inner class ViewHolder(val binding: ListitemPoweredBinding): RecyclerView.ViewHolder(binding.root)
 }

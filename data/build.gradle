@@ -2,24 +2,30 @@ plugins {
     id 'com.android.library'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'kotlin-android-extensions'
 }
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+    }
 }
 
 dependencies {
     api project(':core')
 
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.50"
-    api "com.squareup.retrofit2:converter-gson:2.6.2"
-    api "com.squareup.okhttp3:logging-interceptor:3.12.0"
-    api "androidx.lifecycle:lifecycle-livedata:2.1.0"
-    api "androidx.lifecycle:lifecycle-livedata-core:2.1.0"
-    api "androidx.lifecycle:lifecycle-extensions:2.1.0"
-    api "android.arch.lifecycle:common-java8:1.1.1"
-    api "androidx.room:room-runtime:2.2.0"
-    api "androidx.room:room-ktx:2.2.0"
-    kapt "androidx.room:room-compiler:2.2.0"
+    api "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    api "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion"
+    api "androidx.room:room-runtime:$roomVersion"
+   kapt "androidx.room:room-compiler:$roomVersion"
+    api "androidx.room:room-ktx:$roomVersion"
+
+    api "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    api "com.squareup.okhttp3:logging-interceptor:$okhttpLoggingInterceptorVersion"
 }

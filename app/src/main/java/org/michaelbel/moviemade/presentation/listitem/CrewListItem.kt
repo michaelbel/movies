@@ -1,15 +1,13 @@
 package org.michaelbel.moviemade.presentation.listitem
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.StringRes
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.listitem_crew.view.*
 import org.michaelbel.core.adapter.ListItem
 import org.michaelbel.core.adapter.ViewTypes.CREW_ITEM
 import org.michaelbel.moviemade.R
+import org.michaelbel.moviemade.databinding.ListitemCrewBinding
 
 data class CrewListItem(private val credits: Data): ListItem {
 
@@ -22,16 +20,17 @@ data class CrewListItem(private val credits: Data): ListItem {
         get() = CREW_ITEM
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.listitem_crew, parent, false))
+        return ViewHolder(ListitemCrewBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        holder as ViewHolder
         val context = holder.itemView.context
 
-        holder.itemView.crewText.text = credits.list
-        holder.itemView.crewText.boldSpanText(context.getString(credits.category))
-        holder.itemView.crewText.foregroundSpanText(context.getString(credits.category), R.color.textColorPrimary)
+        holder.binding.crewText.text = credits.list
+        holder.binding.crewText.boldSpanText(context.getString(credits.category))
+        holder.binding.crewText.foregroundSpanText(context.getString(credits.category), R.color.textColorPrimary)
     }
 
-    private inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
+    private inner class ViewHolder(val binding: ListitemCrewBinding): RecyclerView.ViewHolder(binding.root)
 }

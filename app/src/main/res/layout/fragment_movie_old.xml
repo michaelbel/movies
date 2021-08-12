@@ -467,6 +467,15 @@
             android:maxLines="1"
             android:text="@string/recommendations"/>
 
+        <!--AdView-->
+        <com.google.android.gms.ads.AdView
+            android:id="@+id/adView"
+            android:layout_width="320dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            app:adSize="LARGE_BANNER"
+            app:adUnitId="@string/admobBannerTestUnitId"/>
+
     </androidx.appcompat.widget.LinearLayoutCompat>
 
 </ScrollView>

@@ -9,16 +9,19 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContextCompat
 import androidx.core.content.edit
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 import androidx.fragment.app.commitNow
-import androidx.lifecycle.Observer
+import androidx.fragment.app.viewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_user.*
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.michaelbel.core.picasso.CircleTransformation
 import org.michaelbel.data.remote.model.Movie.Companion.FAVORITE
 import org.michaelbel.data.remote.model.Movie.Companion.WATCHLIST
-import org.michaelbel.domain.UsersRepository
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.TmdbConfig.GRAVATAR_URL
 import org.michaelbel.moviemade.core.local.SharedPrefs
@@ -27,8 +30,8 @@ import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_ID
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_LOGIN
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_NAME
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
+import org.michaelbel.moviemade.databinding.FragmentUserBinding
 import org.michaelbel.moviemade.ktx.*
-import org.michaelbel.moviemade.presentation.App
 import org.michaelbel.moviemade.presentation.ContainerActivity
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_ACCOUNT_ID
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.FRAGMENT_NAME
@@ -39,38 +42,34 @@ import org.michaelbel.moviemade.presentation.features.main.MainActivity.Companio
 import java.util.*
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class UserFragment: BaseFragment(R.layout.fragment_user) {
 
-    companion object {
-        fun newInstance() = UserFragment()
-    }
-
-    @Inject lateinit var repository: UsersRepository
     @Inject lateinit var preferences: SharedPreferences
 
-    private val viewModel: UserModel by lazy { getViewModel { UserModel(repository) } }
+    private val viewModel: UserModel by viewModels()
+    private val binding: FragmentUserBinding by viewBinding()
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         menu.add(R.string.logout)
-                .setIcon(R.drawable.ic_logout)
-                .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
-                .setOnMenuItemClickListener {
-                    AlertDialog.Builder(requireContext()).apply {
-                        setTitle(R.string.logout)
-                        setMessage(R.string.msg_logout)
-                        setNegativeButton(R.string.cancel, null)
-                        setPositiveButton(R.string.ok) { _, _ ->
-                            viewModel.deleteSession(preferences.getString(KEY_SESSION_ID, "") ?: "")
-                        }
-                        show()
+            .setIcon(R.drawable.ic_logout)
+            .setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            .setOnMenuItemClickListener {
+                AlertDialog.Builder(requireContext()).apply {
+                    setTitle(R.string.logout)
+                    setMessage(R.string.msg_logout)
+                    setNegativeButton(R.string.cancel, null)
+                    setPositiveButton(R.string.ok) { _, _ ->
+                        viewModel.deleteSession(preferences.getString(KEY_SESSION_ID, "") ?: "")
                     }
-                    return@setOnMenuItemClickListener true
+                    show()
                 }
+                return@setOnMenuItemClickListener true
+            }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        App[requireActivity().application].createFragmentComponent.inject(this)
         setHasOptionsMenu(true)
     }
 
@@ -79,20 +78,20 @@ class UserFragment: BaseFragment(R.layout.fragment_user) {
 
         val sessionId: String = preferences.getString(KEY_SESSION_ID, "") ?: ""
         if (sessionId.isEmpty()) {
-            requireFragmentManager().commitNow {
-                replace((requireActivity() as MainActivity).container.id, LoginFragment.newInstance(), FRAGMENT_TAG)
+            parentFragmentManager.commitNow {
+                replace((requireActivity() as MainActivity).containerId, LoginFragment.newInstance(), FRAGMENT_TAG)
             }
         }
 
         updateData()
 
-        favoritesText.setOnClickListener {
+        binding.favoritesText.setOnClickListener {
             requireActivity().startActivity<ContainerActivity> {
                 putExtra(FRAGMENT_NAME, FAVORITE)
                 putExtra(EXTRA_ACCOUNT_ID, preferences.getLong(KEY_ACCOUNT_ID, 0L))
             }
         }
-        watchlistText.setOnClickListener {
+        binding.watchlistText.setOnClickListener {
             requireActivity().startActivity<ContainerActivity> {
                 putExtra(FRAGMENT_NAME, WATCHLIST)
                 putExtra(EXTRA_ACCOUNT_ID, preferences.getLong(KEY_ACCOUNT_ID, 0L))
@@ -100,40 +99,45 @@ class UserFragment: BaseFragment(R.layout.fragment_user) {
         }
 
         viewModel.accountDetails(preferences.getString(KEY_SESSION_ID, "") ?: "")
-        viewModel.account.reObserve(viewLifecycleOwner, Observer {
-            preferences.edit {
-                putLong(KEY_ACCOUNT_ID, it.id.toLong())
-                putString(KEY_ACCOUNT_LOGIN, it.username)
-                putString(KEY_ACCOUNT_NAME, it.name)
-                putString(KEY_ACCOUNT_AVATAR, it.avatar.gravatar.hash)
-            }
 
-            updateData()
-        })
-        viewModel.sessionDeleted.reObserve(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled().let {
-                preferences.edit().putString(KEY_SESSION_ID, "").apply()
-
-                requireFragmentManager().commitNow {
-                    replace((requireActivity() as MainActivity).container.id, LoginFragment.newInstance(), FRAGMENT_TAG)
+        launchAndRepeatWithViewLifecycle {
+            launch {
+                viewModel.account.collect {
+                    preferences.edit {
+                        putLong(KEY_ACCOUNT_ID, it.id.toLong())
+                        putString(KEY_ACCOUNT_LOGIN, it.username)
+                        putString(KEY_ACCOUNT_NAME, it.name)
+                        putString(KEY_ACCOUNT_AVATAR, it.avatar.gravatar.hash)
+                    }
+                    updateData()
                 }
             }
-        })
-        viewModel.throwable.reObserve(viewLifecycleOwner, Observer {
-            //Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
-        })
+            launch {
+                viewModel.sessionDeleted.collect {
+                    preferences.edit().putString(KEY_SESSION_ID, "").apply()
+                    parentFragmentManager.commitNow {
+                        replace((requireActivity() as MainActivity).containerId, LoginFragment.newInstance(), FRAGMENT_TAG)
+                    }
+                }
+            }
+            launch {
+                viewModel.throwable.collect {
+                    //Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     private fun updateData() {
         val name = preferences.getString(KEY_ACCOUNT_NAME, "")
-        nameText.text = name
+        binding.nameText.text = name
 
         val login = preferences.getString(KEY_ACCOUNT_LOGIN, "")
-        loginText.text = login
+        binding.loginText.text = login
 
         val avatarPath: String = String.format(Locale.US, GRAVATAR_URL, preferences.getString(KEY_ACCOUNT_AVATAR, ""))
         if (avatarPath.trim().isNotEmpty()) {
-            avatar.loadImage(avatarPath,
+            binding.avatar.loadImage(avatarPath,
                     resize = Pair(72F.toDp(requireContext()), 72F.toDp(requireContext())),
                     placeholder = R.drawable.placeholder_circle,
                     error = R.drawable.error_circle,
@@ -141,14 +145,18 @@ class UserFragment: BaseFragment(R.layout.fragment_user) {
         }
 
         val backdrop = preferences.getString(SharedPrefs.KEY_ACCOUNT_BACKDROP, "http://null") ?: "http://null"
-        Picasso.get().load(backdrop).resize(requireContext().displayWidth, 220F.toDp(requireContext())).into(cover, object: Callback {
+        Picasso.get().load(backdrop).resize(requireContext().displayWidth, 220F.toDp(requireContext())).into(binding.cover, object: Callback {
             override fun onSuccess() {
-                blurLayout?.visible()
+                binding.blurLayout.isVisible = true
             }
 
             override fun onError(e: Exception?) {
-                blurLayout?.gone()
+                binding.blurLayout.isGone = true
             }
         })
+    }
+
+    companion object {
+        fun newInstance() = UserFragment()
     }
 }

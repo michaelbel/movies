@@ -1,15 +1,19 @@
 package org.michaelbel.moviemade.presentation.features.sources
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.launch
 import org.michaelbel.core.adapter.ListItem
-import org.michaelbel.domain.live.LiveDataEvent
 import org.michaelbel.moviemade.presentation.listitem.TextDetailListItem
+import javax.inject.Inject
 
-class SourcesModel: ViewModel() {
+@HiltViewModel
+class SourcesModel @Inject constructor(): ViewModel() {
 
-    var items = MutableLiveData<ArrayList<ListItem>>()
-    var click = MutableLiveData<LiveDataEvent<String>>()
+    var content = MutableSharedFlow<ArrayList<ListItem>>()
+    var click = MutableSharedFlow<String>()
 
     fun init(items: List<SourcesFragment.Source>) {
         val list = ArrayList<ListItem>()
@@ -19,13 +23,13 @@ class SourcesModel: ViewModel() {
             listItem.listener = object: TextDetailListItem.Listener {
                 override fun onClick() {
                     if (it.url != null) {
-                        click.postValue(LiveDataEvent(it.url))
+                        viewModelScope.launch { click.emit(it.url) }
                     }
                 }
             }
             list.add(listItem)
         }
 
-        this.items.postValue(list)
+        viewModelScope.launch { content.emit(list) }
     }
 }

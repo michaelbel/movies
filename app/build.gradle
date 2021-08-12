@@ -2,7 +2,9 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    id 'kotlin-android-extensions'
+    id 'kotlin-parcelize'
+    id 'dagger.hilt.android.plugin'
+    id 'com.google.gms.google-services'
 }
 
 def getProperty(String filename, String propName) {
@@ -26,6 +28,7 @@ keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
     compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
         minSdkVersion rootProject.minSdkVersion
@@ -36,7 +39,8 @@ android {
         project.ext.set("archivesBaseName", "moviemade-v" + versionName)
         buildConfigField "long", "VERSION_DATE", System.currentTimeMillis() + "L"
         buildConfigField "String", "TMDB_API_KEY", "\"${getProperty("local.properties", "TMDB_API_KEY")}\""
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
         vectorDrawables.useSupportLibrary = true
     }
 
@@ -53,67 +57,29 @@ android {
         debug {
             minifyEnabled false
             shrinkResources false
-            useProguard false
             applicationIdSuffix ".debug"
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
         release {
             minifyEnabled true
             shrinkResources true
-            useProguard true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
-    androidExtensions {
-        experimental = true
+    buildFeatures {
+        viewBinding true
     }
 
-    testOptions {
-        unitTests.includeAndroidResources = true
-    }
-
-    packagingOptions {
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'LICENSE'
-        exclude 'LICENSE.txt'
-        exclude 'NOTICE'
-        exclude 'NOTICE.txt'
-
-        exclude 'META-INF/DEPENDENCIES.txt'
-        exclude 'META-INF/rxjava.properties'
-        exclude 'META-INF/license/LICENSE.base64.txt'
-        exclude 'META-INF/services/javax.annotation.processing.Processor'
+    kotlinOptions {
+        jvmTarget = '1.8'
     }
 
     lintOptions {
         lintConfig file('lint.xml')
-
         checkReleaseBuilds false
-        // Or, if you prefer, you can continue to check for errors in release builds,
-        // but continue the build even when errors are found:
         abortOnError false
-
-        /*textOutput "stdout"
-        textReport true
-        checkAllWarnings true
-        warningsAsErrors true
-        showAll true
-        explainIssues true
-        ignoreWarnings false
-        checkReleaseBuilds true
-        htmlReport true
-        xmlReport true
-        lintConfig file("$projectDir/lint.xml")
-        fatal 'StopShip'*/
-        
-        //disable 'MissingTranslation'
-        //disable 'ExtraTranslation'
     }
 }
 
@@ -121,34 +87,48 @@ dependencies {
     implementation project(':core')
     implementation project(':domain')
 
-    implementation "android.arch.work:work-runtime:1.0.1"
-    implementation "android.arch.work:work-runtime-ktx:1.0.1"
-    implementation "com.google.android.play:core:1.6.3"
-    implementation "com.google.android.material:material:1.1.0-alpha10"
-    implementation "androidx.cardview:cardview:1.0.0"
-    implementation "com.github.bumptech.glide:glide:4.9.0"
-    kapt "com.github.bumptech.glide:compiler:4.9.0"
-    implementation "com.google.dagger:dagger:2.21"
-    kapt "com.google.dagger:dagger-compiler:2.21"
+    implementation "androidx.activity:activity-ktx:$activityVersion"
+    implementation "androidx.activity:activity-compose:$activityVersion"
+    implementation "androidx.appcompat:appcompat:$appcompatVersion"
+    implementation "androidx.cardview:cardview:$cardviewVersion"
+    implementation "androidx.constraintlayout:constraintlayout:$constraintlayoutVersion"
+    implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
+    implementation "androidx.paging:paging-runtime-ktx:$pagingVersion"
+    implementation "androidx.recyclerview:recyclerview:$recyclerviewVersion"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayoutVersion"
+    implementation "androidx.viewpager2:viewpager2:$viewpager2Version"
+
+    implementation "com.google.dagger:hilt-android:$daggerVersion"
+              kapt "com.google.dagger:hilt-compiler:$daggerVersion"
+    implementation "com.google.android.material:material:$materialVersion"
+    implementation "com.google.android.exoplayer:exoplayer:$exoplayerVersion"
+    implementation "com.google.android.exoplayer:exoplayer-core:$exoplayerVersion"
+    implementation "com.google.android.exoplayer:exoplayer-dash:$exoplayerVersion"
+    implementation "com.google.android.exoplayer:exoplayer-ui:$exoplayerVersion"
+    implementation "com.google.android.play:core-ktx:$playcoreVersion"
+    implementation "com.google.android.gms:play-services-ads:$adsVersion"
+    implementation "com.google.android.material:compose-theme-adapter:$composeVersion"
+    implementation "com.google.firebase:firebase-analytics:$firebaseAnalytics"
+    implementation "com.google.firebase:firebase-core:$firebaseCoreVersion"
+
+    implementation "com.github.kirich1409:viewbindingpropertydelegate:$viewBindingPropertyDelegateVersion"
+
+
+
+
+    implementation "com.github.bumptech.glide:glide:4.12.0"
+              kapt "com.github.bumptech.glide:compiler:4.12.0"
     implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7'
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:8.0.1'
     implementation 'com.alexvasilkov:events:1.0.0'
     implementation 'com.alexvasilkov:gesture-views:2.4.0'
     implementation 'com.alexvasilkov:android-commons:2.0.2'
-    implementation "androidx.activity:activity:1.1.0-beta01"
-    implementation "androidx.activity:activity-ktx:1.1.0-beta01"
-    implementation "androidx.appcompat:appcompat:1.1.0"
-    implementation "androidx.appcompat:appcompat-resources:1.1.0"
-    implementation "androidx.constraintlayout:constraintlayout:1.1.3"
-    implementation "androidx.vectordrawable:vectordrawable:1.1.0"
-    implementation "androidx.vectordrawable:vectordrawable-animated:1.1.0"
     implementation "com.tspoon.traceur:traceur:1.0.1"
-    implementation "com.facebook.stetho:stetho-okhttp3:1.5.0"
+    implementation "com.facebook.stetho:stetho-okhttp3:1.5.1"
     debugImplementation "com.github.ajitsing:sherlock:1.0.4"
     releaseImplementation "com.github.ajitsing:sherlock-no-op:1.0.4"
     debugImplementation "com.readystatesoftware.chuck:library:1.1.0"
     releaseImplementation "com.readystatesoftware.chuck:library-no-op:1.1.0"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:2.0-alpha-1"
 }
-
-apply plugin: 'com.google.gms.google-services'

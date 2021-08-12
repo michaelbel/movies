@@ -1,19 +1,12 @@
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="org.michaelbel.moviemade"
-    tools:ignore="BatteryLife">
+    package="org.michaelbel.moviemade">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <!--<uses-permission android:title="android.permission.READ_EXTERNAL_STORAGE"/>-->
-    <!--<uses-permission android:title="android.permission.WRITE_EXTERNAL_STORAGE"/>-->
-    <!--<uses-permission android:title="android.permission.BODY_SENSORS"/>-->
-    <!--<uses-permission android:title="com.android.vending.BILLING"/>-->
-    <!--<uses-permission android:title="com.samsung.permission.SSENSOR"/>-->
 
     <application
         android:name=".presentation.App"
@@ -22,13 +15,12 @@
         android:icon="@mipmap/ic_launcher_round"
         android:roundIcon="@mipmap/ic_launcher"
         android:allowBackup="true"
-        android:fullBackupContent="true">
+        android:fullBackupContent="true"
+        android:hardwareAccelerated="true">
 
-        <!--AdMob-->
-        <!--<meta-data android:title="com.google.android.gms.ads.APPLICATION_ID" android:value="@string/ad_app_id"/>-->
-        
         <activity
             android:name=".presentation.features.main.MainActivity"
+            android:exported="true"
             android:theme="@style/AppTheme.Launcher"
             android:launchMode="singleTask">
             <intent-filter>
@@ -48,6 +40,7 @@
         
         <activity
             android:name=".presentation.features.movie.MovieActivity"
+            android:exported="false"
             android:theme="@style/AppTheme">
             <!--<intent-filter>
                 <action android:title="android.intent.action.VIEW"/>
@@ -60,6 +53,7 @@
 
         <activity
             android:name=".presentation.features.search.SearchActivity"
+            android:exported="false"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -70,7 +64,13 @@
 
         <activity
             android:name=".presentation.ContainerActivity"
+            android:exported="false"
             android:theme="@style/AppTheme"/>
+
+        <!--AdMob-->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/admobAppId"/>
 
     </application>
 
