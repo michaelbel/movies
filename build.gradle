@@ -39,7 +39,7 @@ buildscript {
     ext.picasso_version = '2.71828'
 
     ext.gms_version = '4.2.0'
-    ext.fabric_version = '1.28.0'
+    ext.fabric_version = '1.31.2'
 
     repositories {
         jcenter()
