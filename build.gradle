@@ -38,7 +38,7 @@ buildscript {
     ext.leakcanary_version = '2.0-alpha-1'
     ext.picasso_version = '2.71828'
 
-    ext.gms_version = '4.2.0'
+    ext.gms_version = '4.3.10'
     ext.fabric_version = '1.28.0'
 
     repositories {
