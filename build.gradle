@@ -1,5 +1,5 @@
 buildscript {
-    ext.androidx_lifecycle_version = '2.0.0'
+    ext.androidx_lifecycle_version = '2.2.0'
     ext.androidx_appcompat_version = '1.1.0-rc01'
     ext.androidx_preference_version = '1.1.0-rc01'
     ext.androidx_vector_drawable_version = '1.1.0-rc01'
