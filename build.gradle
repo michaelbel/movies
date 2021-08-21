@@ -68,7 +68,7 @@ buildscript {
         retrofitVersion = '2.9.0'
         okhttpLoggingInterceptorVersion = '4.9.0'
         picassoVersion = '2.71828'
-        timberVersion = '4.7.1'
+        timberVersion = '5.0.1'
         ganderVersion = '3.1.0'
         viewBindingPropertyDelegateVersion = '1.4.7'
     }
