@@ -5,37 +5,22 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.os.bundleOf
+import by.kirich1409.viewbindingdelegate.viewBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import kotlinx.android.synthetic.main.dialog_backdrop.*
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_BACKDROP
-import org.michaelbel.moviemade.presentation.App
+import org.michaelbel.moviemade.databinding.DialogBackdropBinding
+import org.michaelbel.moviemade.ktx.argumentDelegate
+import org.michaelbel.moviemade.ktx.toast
 import javax.inject.Inject
 
 class BottomSheetDialog: BottomSheetDialogFragment() {
 
-    companion object {
-        private const val BACKDROP = "backdrop"
+    @Inject lateinit var preferences: SharedPreferences
 
-        internal fun newInstance(path: String): BottomSheetDialog {
-            val args = Bundle()
-            args.putString(BACKDROP, path)
-            val fragment = BottomSheetDialog()
-            fragment.arguments = args
-            return fragment
-        }
-    }
-
-    private var path: String? = null
-
-    @Inject
-    lateinit var preferences: SharedPreferences
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        App[requireActivity().application as App].createFragmentComponent().inject(this)
-    }
+    private val path: String? by argumentDelegate()
+    private val binding: DialogBackdropBinding by viewBinding()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.dialog_backdrop, container, false)
@@ -43,14 +28,21 @@ class BottomSheetDialog: BottomSheetDialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        path = arguments?.getString(BACKDROP) ?: ""
 
-        setBtn.setOnClickListener {
+        binding.setBtn.setOnClickListener {
             preferences.edit().putString(KEY_ACCOUNT_BACKDROP, path).apply()
-            Toast.makeText(activity, R.string.msg_done, Toast.LENGTH_SHORT).show()
+            toast(R.string.msg_done)
             dismiss()
         }
 
-        cancelBtn.setOnClickListener { dismiss() }
+        binding.cancelBtn.setOnClickListener { dismiss() }
+    }
+
+    companion object {
+        fun newInstance(path: String): BottomSheetDialog {
+            return BottomSheetDialog().apply {
+                arguments = bundleOf("path" to path)
+            }
+        }
     }
 }

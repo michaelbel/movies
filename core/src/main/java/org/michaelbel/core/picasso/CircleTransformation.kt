@@ -44,7 +44,7 @@ class CircleTransformation: Transformation {
         paint.shader = shader
         paint.isAntiAlias = true
 
-        val r = size / 2f
+        val r = size / 2F
 
         val paintBg = Paint()
         paintBg.color = borderColor

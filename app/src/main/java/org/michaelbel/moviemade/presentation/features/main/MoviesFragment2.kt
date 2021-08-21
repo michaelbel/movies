@@ -2,32 +2,27 @@ package org.michaelbel.moviemade.presentation.features.main
 
 import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
-import android.view.View.VISIBLE
-import android.view.ViewGroup
-import androidx.lifecycle.Observer
+import androidx.core.os.bundleOf
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.fragment_lce.*
+import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.michaelbel.core.adapter.ListAdapter
 import org.michaelbel.data.remote.model.Keyword
 import org.michaelbel.data.remote.model.Movie
-import org.michaelbel.data.remote.model.Movie.Companion.FAVORITE
-import org.michaelbel.data.remote.model.Movie.Companion.NOW_PLAYING
-import org.michaelbel.data.remote.model.Movie.Companion.RECOMMENDATIONS
-import org.michaelbel.data.remote.model.Movie.Companion.SIMILAR
-import org.michaelbel.data.remote.model.Movie.Companion.WATCHLIST
-import org.michaelbel.domain.MoviesRepository
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.ViewUtil
-import org.michaelbel.moviemade.core.getViewModel
 import org.michaelbel.moviemade.core.local.BuildUtil
-import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
-import org.michaelbel.moviemade.core.reObserve
-import org.michaelbel.moviemade.core.startActivity
-import org.michaelbel.moviemade.presentation.App
+import org.michaelbel.moviemade.databinding.FragmentLceBinding
+import org.michaelbel.moviemade.ktx.argumentDelegate
+import org.michaelbel.moviemade.ktx.assistedViewModels
+import org.michaelbel.moviemade.ktx.getIcon
+import org.michaelbel.moviemade.ktx.launchAndRepeatWithViewLifecycle
+import org.michaelbel.moviemade.ktx.startActivity
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_MOVIE
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
@@ -42,187 +37,115 @@ import javax.inject.Inject
  * Similar, Recommendations
  * Movies by Keyword
  */
-class MoviesFragment2: BaseFragment() {
+@AndroidEntryPoint
+class MoviesFragment2: BaseFragment(R.layout.fragment_lce) {
 
-    companion object {
-        private const val ARG_LIST = "list"
-        private const val ARG_MOVIE = "movie"
-        private const val ARG_KEYWORD = "keyword"
-        private const val ARG_ACCOUNT_ID = "account_id"
-
-        internal fun newInstance(list: String): MoviesFragment2 {
-            val args = Bundle()
-            args.putString(ARG_LIST, list)
-
-            val fragment = MoviesFragment2()
-            fragment.arguments = args
-            return fragment
-        }
-
-        internal fun newInstance(list: String, movie: Movie): MoviesFragment2 {
-            val args = Bundle()
-            args.putString(ARG_LIST, list)
-            args.putSerializable(ARG_MOVIE, movie)
-
-            val fragment = MoviesFragment2()
-            fragment.arguments = args
-            return fragment
-        }
-
-        internal fun newInstance(keyword: Keyword): MoviesFragment2 {
-            val args = Bundle()
-            args.putSerializable(ARG_KEYWORD, keyword)
-
-            val fragment = MoviesFragment2()
-            fragment.arguments = args
-            return fragment
-        }
-
-        internal fun newInstance(list: String, accountId: Int): MoviesFragment2 {
-            val args = Bundle()
-            args.putString(ARG_LIST, list)
-            args.putInt(ARG_ACCOUNT_ID, accountId)
-
-            val fragment = MoviesFragment2()
-            fragment.arguments = args
-            return fragment
-        }
-    }
-
-    private var movie: Movie? = null
-    private var movieId: Long = 0L
-    private var keyword: Keyword = Keyword(id = 0, name = "")
-
-    private var accountId: Long = 0L
-    private var sessionId: String = ""
-
-    private lateinit var list: String
-    private lateinit var adapter: ListAdapter
-
-    @Inject lateinit var repository: MoviesRepository
+    @Inject lateinit var factory: MoviesModel.Factory
     @Inject lateinit var preferences: SharedPreferences
 
-    private val viewModel: MoviesModel by lazy { getViewModel { MoviesModel(repository) } }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        App[requireActivity().application as App].createFragmentComponent().inject(this)
-        sessionId = preferences.getString(KEY_SESSION_ID, "") ?: ""
+    private val list: String? by argumentDelegate()
+    private val movie: Movie? by argumentDelegate()
+    private val accountId: Long? by argumentDelegate()
+    private val keyword: Keyword? by argumentDelegate()
+    private val binding: FragmentLceBinding by viewBinding()
+    private val viewModel: MoviesModel by assistedViewModels {
+        factory.create(list, keyword, movie, accountId)
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_lce, container, false)
-    }
+    private val listAdapter = ListAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        list = arguments?.getString(ARG_LIST) ?: NOW_PLAYING
-        if (arguments?.getSerializable(ARG_MOVIE) != null) {
-            movie = arguments?.getSerializable(ARG_MOVIE) as Movie
-            movieId = movie?.id?.toLong() ?: 0L
-        }
-        if (arguments?.getSerializable(ARG_KEYWORD) != null) {
-            keyword = arguments?.getSerializable(ARG_KEYWORD) as Keyword
-        }
 
-        accountId = arguments?.getLong(ARG_ACCOUNT_ID) ?: 0L
+        val spans: Int = resources.getInteger(R.integer.movies_span_layout_count)
 
-        toolbar.title = when(list) {
-            SIMILAR -> getString(R.string.similar_movies)
-            RECOMMENDATIONS -> getString(R.string.recommendations)
-            FAVORITE -> getString(R.string.favorites)
-            WATCHLIST -> getString(R.string.watchlist)
-            else -> {
-                if (keyword.id != 0L) {
-                    keyword.name
+        binding.toolbar.run {
+            navigationIcon = getIcon(R.drawable.ic_arrow_back, R.color.iconActiveColor)
+            setNavigationOnClickListener {
+                if (viewModel.keyword != null) {
+                    parentFragmentManager.popBackStack()
                 } else {
-                    ""
+                    requireActivity().finish()
                 }
             }
+            setOnClickListener { onScrollToTop() }
         }
-        if (movieId != 0L) {
-            toolbar.subtitle = movie?.title
-        }
-        toolbar.navigationIcon = ViewUtil.getIcon(requireContext(), R.drawable.ic_arrow_back, R.color.iconActiveColor)
-        toolbar.setOnClickListener { onScrollToTop() }
-        toolbar.setNavigationOnClickListener {
-            if (keyword.id != 0L) {
-                requireFragmentManager().popBackStack()
-            } else {
-                requireActivity().finish()
-            }
-        }
-
-        val spans = resources.getInteger(R.integer.movies_span_layout_count)
-
-        adapter = ListAdapter()
-
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), spans)
-        recyclerView.addItemDecoration(GridSpacingItemDecoration(spans, resources.getDimension(R.dimen.movies_list_spacing).toInt()))
-        recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1) && adapter.itemCount != 0) {
-                    when {
-                        keyword.id != 0L -> viewModel.moviesByKeyword(keyword.id)
-                        list == WATCHLIST -> viewModel.moviesWatchlist(accountId, sessionId)
-                        list == FAVORITE -> viewModel.moviesFavorite(accountId, sessionId)
-                        else -> viewModel.moviesById(movieId, list)
+        binding.recyclerView.run {
+            adapter = listAdapter
+            layoutManager = GridLayoutManager(requireContext(), spans)
+            addItemDecoration(GridSpacingItemDecoration(spans, resources.getDimension(R.dimen.movies_list_spacing).toInt()))
+            addOnScrollListener(object: RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (!recyclerView.canScrollVertically(1) && listAdapter.itemCount != 0) {
+                        viewModel.load()
                     }
                 }
-            }
-        })
-
-        emptyView.setOnClickListener {
-            emptyView.visibility = GONE
-            when {
-                keyword.id != 0L -> viewModel.moviesByKeyword(keyword.id)
-                list == FAVORITE -> viewModel.moviesFavorite(accountId, sessionId)
-                list == WATCHLIST -> viewModel.moviesWatchlist(accountId, sessionId)
-                else -> viewModel.moviesById(movieId, list)
-            }
+            })
+        }
+        binding.emptyView.setOnClickListener {
+            binding.emptyView.visibility = GONE
+            viewModel.load()
         }
 
-        when {
-            keyword.id != 0L -> viewModel.moviesByKeyword(keyword.id)
-            list == FAVORITE -> viewModel.moviesFavorite(accountId, sessionId)
-            list == WATCHLIST -> viewModel.moviesWatchlist(accountId, sessionId)
-            else -> viewModel.moviesById(movieId, list)
-        }
-        viewModel.loading.reObserve(viewLifecycleOwner, Observer {
-            progressBar.visibility = if (it) VISIBLE else GONE
-        })
-        viewModel.content.reObserve(viewLifecycleOwner, Observer {
-            adapter.setItems(it)
-        })
-        viewModel.error.reObserve(viewLifecycleOwner, Observer { error ->
-            error.getContentIfNotHandled()?.let {
-                emptyView.visibility = VISIBLE
-                emptyView.setMode(it)
+        launchAndRepeatWithViewLifecycle {
+            launch { viewModel.loading.collect { binding.progressBar.isVisible = it } }
+            launch { viewModel.content.collect { listAdapter.setItems(it) } }
+            launch { viewModel.error.collect {
+                binding.emptyView.isVisible = true
+                binding.emptyView.setMode(it)
 
-                if (BuildUtil.isApiKeyEmpty()) {
-                    emptyView.setValue(R.string.error_empty_api_key)
+                if (BuildUtil.isApiKeyEmpty) {
+                    binding.emptyView.setValue(R.string.error_empty_api_key)
                 }
-            }
-        })
-        viewModel.click.reObserve(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let {
+            } }
+            launch { viewModel.click.collect {
                 requireActivity().startActivity<MovieActivity> {
                     putExtra(EXTRA_MOVIE, it)
                 }
-            }
-        })
-        viewModel.longClick.reObserve(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let {
+            } }
+            launch { viewModel.longClick.collect {
                 requireActivity().startActivity<MovieActivity> {
                     putExtra(EXTRA_MOVIE, it)
                 }
-            }
-        })
+            } }
+            launch { viewModel.toolbarTitle.collect {
+                when (it) {
+                    is Int -> binding.toolbar.title = getString(it)
+                    is String -> binding.toolbar.title = it
+                }
+            } }
+            launch { viewModel.toolbarSubtitle.collect { binding.toolbar.subtitle = it } }
+        }
     }
 
     override fun onScrollToTop() {
-        recyclerView.smoothScrollToPosition(0)
+        binding.recyclerView.smoothScrollToPosition(0)
+    }
+
+    companion object {
+        fun newInstance(list: String): MoviesFragment2 {
+            return MoviesFragment2().apply {
+                arguments = bundleOf("list" to list)
+            }
+        }
+
+        fun newInstance(list: String, movie: Movie): MoviesFragment2 {
+            return MoviesFragment2().apply {
+                arguments = bundleOf("list" to list, "movie" to movie)
+            }
+        }
+
+        fun newInstance(keyword: Keyword): MoviesFragment2 {
+            return MoviesFragment2().apply {
+                arguments = bundleOf("keyword" to keyword)
+            }
+        }
+
+        fun newInstance(list: String, accountId: Int): MoviesFragment2 {
+            return MoviesFragment2().apply {
+                arguments = bundleOf("list" to list, "accountId" to accountId)
+            }
+        }
     }
 }

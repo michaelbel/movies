@@ -5,15 +5,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.listitem_review.view.*
 import org.michaelbel.core.adapter.ListItem
 import org.michaelbel.core.adapter.ViewTypes.REVIEW_ITEM
 import org.michaelbel.data.remote.model.Review
-import org.michaelbel.moviemade.R
+import org.michaelbel.moviemade.databinding.ListitemReviewBinding
 import org.michaelbel.moviemade.presentation.common.DebouncingOnClickListener
 
-data class ReviewListItem(internal var review: Review): ListItem {
+data class ReviewListItem(private val review: Review): ListItem {
 
     interface Listener {
         fun onClick(review: Review) {}
@@ -22,26 +20,29 @@ data class ReviewListItem(internal var review: Review): ListItem {
 
     lateinit var listener: Listener
 
-    override fun getData() = review
+    override val id: Long
+        get() = RecyclerView.NO_ID
 
-    override fun getViewType() = REVIEW_ITEM
+    override val viewType: Int
+        get() = REVIEW_ITEM
 
     override fun getViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.listitem_review, parent, false))
+        return ViewHolder(ListitemReviewBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        holder.itemView.authorName.text = review.author
-        holder.itemView.reviewText.text = review.content
+        holder as ViewHolder
+        holder.binding.authorName.text = review.author
+        holder.binding.reviewText.text = review.content
 
         holder.itemView.setOnClickListener(object: DebouncingOnClickListener() {
             override fun doClick(v: View) {
-                if (holder.adapterPosition != NO_POSITION) {
-                    listener.onClick(getData())
+                if (holder.bindingAdapterPosition != NO_POSITION) {
+                    listener.onClick(review)
                 }
             }
         })
     }
 
-    private inner class ViewHolder(override val containerView: View): RecyclerView.ViewHolder(containerView), LayoutContainer
+    private inner class ViewHolder(val binding: ListitemReviewBinding): RecyclerView.ViewHolder(binding.root)
 }

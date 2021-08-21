@@ -7,10 +7,10 @@ import android.widget.LinearLayout
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.LinearLayoutCompat
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.DeviceUtil
-import org.michaelbel.moviemade.core.ViewUtil
+import org.michaelbel.moviemade.ktx.getIcon
+import org.michaelbel.moviemade.ktx.toDp
 
-class RatingView: LinearLayoutCompat {
+class RatingView(context: Context, attrs: AttributeSet?): LinearLayoutCompat(context, attrs) {
 
     companion object {
         const val ICON_STAR = 0
@@ -20,21 +20,13 @@ class RatingView: LinearLayoutCompat {
 
     private val stars = arrayOfNulls<StarView>(5)
 
-    constructor(context: Context): super(context, null) {
-        initialize(context)
-    }
-
-    constructor(context: Context, attrs: AttributeSet?): super(context, attrs, 0) {
-        initialize(context)
-    }
-
-    private fun initialize(context: Context) {
+    init {
         orientation = HORIZONTAL
 
         val starCount = 5
         for (i in 0 until starCount) {
             val view = StarView(context)
-            view.layoutParams = LinearLayout.LayoutParams(DeviceUtil.dp(context, 20F), DeviceUtil.dp(context, 20F))
+            view.layoutParams = LinearLayout.LayoutParams(20F.toDp(context), 20F.toDp(context))
             addView(view)
             stars[i] = view
         }
@@ -132,9 +124,9 @@ class RatingView: LinearLayoutCompat {
 
         fun setIcon(style: Int) {
             when (style) {
-                ICON_STAR -> icon = ViewUtil.getIcon(context, R.drawable.ic_star, R.color.accent_yellow)
-                ICON_STAR_HALF -> icon = ViewUtil.getIcon(context, R.drawable.ic_star_half, R.color.accent_yellow)
-                ICON_STAR_BORDER -> icon = ViewUtil.getIcon(context, R.drawable.ic_star_border, R.color.accent_yellow)
+                ICON_STAR -> icon = getIcon(R.drawable.ic_star, R.color.accent_yellow)
+                ICON_STAR_HALF -> icon = getIcon(R.drawable.ic_star_half, R.color.accent_yellow)
+                ICON_STAR_BORDER -> icon = getIcon(R.drawable.ic_star_border, R.color.accent_yellow)
             }
 
             setImageDrawable(icon)

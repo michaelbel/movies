@@ -5,44 +5,42 @@ import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
 import org.michaelbel.data.local.AppDatabase
-import org.michaelbel.moviemade.core.local.SharedPrefs.SP_NAME
+import org.michaelbel.moviemade.core.local.SharedPrefs.NAME
 import javax.inject.Singleton
 
 @Module
-class AppModule constructor(context: Context) {
-
-    private val appContext: Context = context.applicationContext
-
-    @Provides
-    @Singleton
-    fun provideContext(): Context = appContext
+@InstallIn(SingletonComponent::class)
+object AppModule {
 
     @Provides
     @Singleton
-    fun sharedPreferences(): SharedPreferences =
-            appContext.getSharedPreferences(SP_NAME, MODE_PRIVATE)
+    fun sharedPreferences(@ApplicationContext context: Context): SharedPreferences =
+        context.getSharedPreferences(NAME, MODE_PRIVATE)
 
     @Provides
     @Singleton
-    fun appDatabase() = AppDatabase.getInstance(appContext)
+    fun appDatabase(@ApplicationContext context: Context) = AppDatabase.getInstance(context)
 
     //region Dao
 
     @Provides
-    fun trailersDao(db: AppDatabase) = db.trailersDao()
+    fun trailersDao(db: AppDatabase) = db.trailersDao
 
     @Provides
-    fun reviewsDao(db: AppDatabase) = db.reviewsDao()
+    fun reviewsDao(db: AppDatabase) = db.reviewsDao
 
     @Provides
-    fun keywordsDao(db: AppDatabase) = db.keywordsDao()
+    fun keywordsDao(db: AppDatabase) = db.keywordsDao
 
     @Provides
-    fun moviesDao(db: AppDatabase) = db.moviesDao()
+    fun moviesDao(db: AppDatabase) = db.moviesDao
 
     @Provides
-    fun usersDao(db: AppDatabase) = db.usersDao()
+    fun usersDao(db: AppDatabase) = db.usersDao
 
     //endregion
 }

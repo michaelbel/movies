@@ -1,9 +1,10 @@
 package org.michaelbel.moviemade.presentation.features.trailers
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.michaelbel.core.adapter.ItemsManager
@@ -14,49 +15,53 @@ import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
 import org.michaelbel.moviemade.core.state.EmptyState
 import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_TRAILERS
 import org.michaelbel.moviemade.presentation.listitem.TrailerListItem
+import javax.inject.Inject
 
-class TrailersModel(val repository: TrailersRepository): ViewModel() {
+@HiltViewModel
+class TrailersModel @Inject constructor(
+    val repository: TrailersRepository
+): ViewModel() {
 
     private val itemsManager = Manager()
 
-    var loading = MutableLiveData<Boolean>()
-    var content = MutableLiveData<ArrayList<ListItem>>()
-    var error = MutableLiveData<Int>()
-    var click = MutableLiveData<Video>()
-    var longClick = MutableLiveData<Video>()
+    var loading = MutableSharedFlow<Boolean>()
+    var content = MutableSharedFlow<List<ListItem>>()
+    var error = MutableSharedFlow<Int>()
+    var click = MutableSharedFlow<Video>()
+    var longClick = MutableSharedFlow<Video>()
 
     fun trailers(movieId: Long) {
-        loading.postValue(true)
+        viewModelScope.launch {
+            loading.emit(true)
 
-        CoroutineScope(Dispatchers.IO).launch {
             try {
                 val result = repository.trailers(movieId, TMDB_API_KEY)
                 withContext(Dispatchers.Main) {
                     if (result.isSuccessful) {
                         val list = result.body()?.results
                         if (list.isNullOrEmpty()) {
-                            error.postValue(MODE_NO_TRAILERS)
+                            error.emit(MODE_NO_TRAILERS)
                         } else {
                             itemsManager.updateTrailers(list)
-                            content.postValue(itemsManager.get())
+                            content.emit(itemsManager.get())
                         }
 
-                        loading.postValue(false)
+                        loading.emit(false)
                     } else {
-                        error.postValue(MODE_NO_TRAILERS)
-                        loading.postValue(false)
+                        error.emit(MODE_NO_TRAILERS)
+                        loading.emit(false)
                     }
                 }
             } catch (e: Throwable) {
-                error.postValue(EmptyState.MODE_NO_CONNECTION)
-                loading.postValue(false)
+                error.emit(EmptyState.MODE_NO_CONNECTION)
+                loading.emit(false)
             }
         }
     }
 
     private inner class Manager: ItemsManager() {
 
-        private val trailers = ArrayList<ListItem>()
+        private val trailers = mutableListOf<ListItem>()
 
         fun updateTrailers(items: List<Video>) {
             trailers.clear()
@@ -65,11 +70,11 @@ class TrailersModel(val repository: TrailersRepository): ViewModel() {
                 val videoItem = TrailerListItem(it)
                 videoItem.listener = object: TrailerListItem.Listener {
                     override fun onClick(video: Video) {
-                        click.postValue(video)
+                        viewModelScope.launch { click.emit(video) }
                     }
 
                     override fun onLongClick(video: Video): Boolean {
-                        longClick.postValue(video)
+                        viewModelScope.launch { longClick.emit(video) }
                         return true
                     }
                 }
@@ -77,7 +82,7 @@ class TrailersModel(val repository: TrailersRepository): ViewModel() {
             }
         }
 
-        override fun getItems(): ArrayList<ListItem> {
+        override fun getItems(): List<ListItem> {
             return trailers
         }
     }

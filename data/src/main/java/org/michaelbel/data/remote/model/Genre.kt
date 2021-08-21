@@ -2,7 +2,6 @@ package org.michaelbel.data.remote.model
 
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
-import java.util.*
 
 data class Genre(
         @SerializedName("id") val id: Int,
@@ -31,38 +30,30 @@ data class Genre(
         private const val GENRE_WESTERN = 37
 
         private val genres: List<Genre>
-            get() {
-                val genres = ArrayList<Genre>()
-                genres.add(Genre(GENRE_ACTION, "Action"))
-                genres.add(Genre(GENRE_ADVENTURE, "Adventure"))
-                genres.add(Genre(GENRE_ANIMATION, "Animation"))
-                genres.add(Genre(GENRE_COMEDY, "Comedy"))
-                genres.add(Genre(GENRE_CRIME, "Crime"))
-                genres.add(Genre(GENRE_DOCUMENTARY, "Documentary"))
-                genres.add(Genre(GENRE_DRAMA, "Drama"))
-                genres.add(Genre(GENRE_FAMILY, "Family"))
-                genres.add(Genre(GENRE_FANTASY, "Fantasy"))
-                genres.add(Genre(GENRE_HISTORY, "History"))
-                genres.add(Genre(GENRE_HORROR, "Horror"))
-                genres.add(Genre(GENRE_MUSIC, "Music"))
-                genres.add(Genre(GENRE_MYSTERY, "Mystery"))
-                genres.add(Genre(GENRE_ROMANCE, "Romance"))
-                genres.add(Genre(GENRE_SCIENCE_FICTION, "Science Fiction"))
-                genres.add(Genre(GENRE_TV_MOVIE, "TV Movie"))
-                genres.add(Genre(GENRE_THRILLER, "Thriller"))
-                genres.add(Genre(GENRE_WAR, "War"))
-                genres.add(Genre(GENRE_WESTERN, "Western"))
-                return genres
-            }
+            get() = listOf(
+                Genre(GENRE_ACTION, "Action"),
+                Genre(GENRE_ADVENTURE, "Adventure"),
+                Genre(GENRE_ANIMATION, "Animation"),
+                Genre(GENRE_COMEDY, "Comedy"),
+                Genre(GENRE_CRIME, "Crime"),
+                Genre(GENRE_DOCUMENTARY, "Documentary"),
+                Genre(GENRE_DRAMA, "Drama"),
+                Genre(GENRE_FAMILY, "Family"),
+                Genre(GENRE_FANTASY, "Fantasy"),
+                Genre(GENRE_HISTORY, "History"),
+                Genre(GENRE_HORROR, "Horror"),
+                Genre(GENRE_MUSIC, "Music"),
+                Genre(GENRE_MYSTERY, "Mystery"),
+                Genre(GENRE_ROMANCE, "Romance"),
+                Genre(GENRE_SCIENCE_FICTION, "Science Fiction"),
+                Genre(GENRE_TV_MOVIE, "TV Movie"),
+                Genre(GENRE_THRILLER, "Thriller"),
+                Genre(GENRE_WAR, "War"),
+                Genre(GENRE_WESTERN, "Western")
+            )
 
-        fun getGenreById(genreId: Int): Genre {
-            for (genre: Genre in genres) {
-                if (genre.id == genreId) {
-                    return genre
-                }
-            }
-
-            return Genre(-1, "")
+        fun getGenreById(genreId: Int): Genre? {
+            return genres.find { it.id == genreId }
         }
     }
 }

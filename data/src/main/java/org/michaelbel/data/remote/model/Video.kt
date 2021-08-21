@@ -1,18 +1,17 @@
 package org.michaelbel.data.remote.model
 
-import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class Video(
-        @Expose @SerializedName("id") val id: String = "",
-        @Expose @SerializedName("iso_639_1") val lang: String = "",
-        @Expose @SerializedName("iso_3166_1") val country: String = "",
-        @Expose @SerializedName("key") val key: String = "",
-        @Expose @SerializedName("name") val name: String = "",
-        @Expose @SerializedName("site") val site: String = "",
-        @Expose @SerializedName("size") val size: Int = 0,
-        @Expose @SerializedName("type") val type: String = "",
+        @SerializedName("id") val id: String = "",
+        @SerializedName("iso_639_1") val lang: String = "",
+        @SerializedName("iso_3166_1") val country: String = "",
+        @SerializedName("key") val key: String = "",
+        @SerializedName("name") val name: String = "",
+        @SerializedName("site") val site: String = "",
+        @SerializedName("size") val size: Int = 0,
+        @SerializedName("type") val type: String = "",
 
         val movieId: Int = 0
 ): Serializable {
@@ -27,5 +26,7 @@ data class Video(
         const val TEASER = "Teaser"
         const val CLIP = "Clip"
         const val FEATURETTE = "Featurette"
+
+        const val SITE_YOUTUBE = "YouTube"
     }
 }

@@ -1,44 +1,31 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-kapt'
-apply plugin: 'kotlin-android-extensions'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+}
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 29
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 }
 
 dependencies {
     api project(':core')
 
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
+    api "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion"
+    api "androidx.room:room-runtime:$roomVersion"
+   kapt "androidx.room:room-compiler:$roomVersion"
+    api "androidx.room:room-ktx:$roomVersion"
 
-    api "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    api "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
-
-    api "androidx.lifecycle:lifecycle-livedata:$androidx_lifecycle_version"
-    api "androidx.lifecycle:lifecycle-livedata-core:$androidx_lifecycle_version"
-    api "androidx.lifecycle:lifecycle-extensions:$androidx_lifecycle_version"
-
-    api "android.arch.lifecycle:common-java8:$arch_version" // fixme check
-
-    api "androidx.room:room-runtime:$androidx_room_version"
-    api "androidx.room:room-ktx:$androidx_room_version"
-    kapt "androidx.room:room-compiler:$androidx_room_version"
+    api "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    api "com.squareup.okhttp3:logging-interceptor:$okhttpLoggingInterceptorVersion"
 }

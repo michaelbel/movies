@@ -1,9 +1,10 @@
 package org.michaelbel.moviemade.presentation.features.keywords
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.michaelbel.core.adapter.ItemsManager
@@ -14,50 +15,52 @@ import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
 import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_CONNECTION
 import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_KEYWORDS
 import org.michaelbel.moviemade.presentation.listitem.KeywordListItem
+import javax.inject.Inject
 
-class KeywordsModel(val repository: KeywordsRepository): ViewModel() {
+@HiltViewModel
+class KeywordsModel @Inject constructor(val repository: KeywordsRepository): ViewModel() {
 
     private val itemsManager = Manager()
 
-    var loading = MutableLiveData<Boolean>()
-    var content = MutableLiveData<ArrayList<ListItem>>()
-    var error = MutableLiveData<Int>()
-    var click = MutableLiveData<Keyword>()
-    var longClick = MutableLiveData<Keyword>()
+    var loading = MutableSharedFlow<Boolean>()
+    var content = MutableSharedFlow<List<ListItem>>()
+    var error = MutableSharedFlow<Int>()
+    var click = MutableSharedFlow<Keyword>()
+    var longClick = MutableSharedFlow<Keyword>()
 
     fun keywords(movieId: Long) {
-        loading.postValue(true)
+        viewModelScope.launch {
+            loading.emit(true)
 
-        CoroutineScope(Dispatchers.IO).launch {
             try {
                 val result = repository.keywords(movieId, TMDB_API_KEY)
                 withContext(Dispatchers.Main) {
                     if (result.isSuccessful) {
                         val list = result.body()?.keywords
                         if (list.isNullOrEmpty()) {
-                            error.postValue(MODE_NO_KEYWORDS)
+                            error.emit(MODE_NO_KEYWORDS)
                         } else {
                             itemsManager.updateTrailers(list)
-                            content.postValue(itemsManager.get())
+                            content.emit(itemsManager.get())
                             repository.addAll(movieId, list)
                         }
 
-                        loading.postValue(false)
+                        loading.emit(false)
                     } else {
-                        error.postValue(MODE_NO_KEYWORDS)
-                        loading.postValue(false)
+                        error.emit(MODE_NO_KEYWORDS)
+                        loading.emit(false)
                     }
                 }
             } catch (e: Throwable) {
-                error.postValue(MODE_NO_CONNECTION)
-                loading.postValue(false)
+                error.emit(MODE_NO_CONNECTION)
+                loading.emit(false)
             }
         }
     }
 
     private inner class Manager: ItemsManager() {
 
-        private val keywords = ArrayList<ListItem>()
+        private val keywords = mutableListOf<ListItem>()
 
         fun updateTrailers(items: List<Keyword>) {
             keywords.clear()
@@ -66,11 +69,11 @@ class KeywordsModel(val repository: KeywordsRepository): ViewModel() {
                 val keywordItem = KeywordListItem(it)
                 keywordItem.listener = object: KeywordListItem.Listener {
                     override fun onClick(keyword: Keyword) {
-                        click.postValue(keyword)
+                        viewModelScope.launch { click.emit(keyword) }
                     }
 
                     override fun onLongClick(keyword: Keyword): Boolean {
-                        longClick.postValue(keyword)
+                        viewModelScope.launch { longClick.emit(keyword) }
                         return true
                     }
                 }
@@ -78,7 +81,7 @@ class KeywordsModel(val repository: KeywordsRepository): ViewModel() {
             }
         }
 
-        override fun getItems(): ArrayList<ListItem> {
+        override fun getItems(): List<ListItem> {
             return keywords
         }
     }

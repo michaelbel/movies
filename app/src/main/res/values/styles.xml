@@ -1,7 +1,5 @@
 <resources>
-    <!--Base Theme-->
-    <style name="AppTheme" parent="Theme.MaterialComponents.NoActionBar">
-        <!--Colors-->
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/primary</item>
         <item name="colorPrimaryDark">@color/primaryDark</item>
         <item name="colorAccent">@color/accent</item>
@@ -10,16 +8,11 @@
         <item name="android:colorBackground">@color/backgroundColor</item>
         <item name="android:textColorPrimary">@color/textColorPrimary</item>
         <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        <item name="android:textColorHint">@color/textColorHint</item>
         <item name="android:listDivider">@color/dividerColor</item>
         <item name="android:divider">@color/dividerColor</item>
-        <item name="android:textColorHint">@color/textColorHint</item>
-        <item name="android:shadowColor">@color/shadowColor</item>
-        <!--Styles-->
         <item name="switchStyle">@style/Widget.Moviemade.Switch</item>
         <item name="materialCardViewStyle">@style/Widget.Moviemade.Card</item>
-
-        <item name="android:windowLightStatusBar">false</item><!--Fixme: override res in values-v23-->
-        <!--<item title="android:windowContentOverlay">@null</item>-->
     </style>
 
     <style name="AppTheme.Launcher" parent="Theme.AppCompat.Light.NoActionBar">
@@ -27,19 +20,16 @@
         <item name="android:windowBackground">@drawable/splash_background</item>
     </style>
 
-    <!--MainActivity Theme-->
     <style name="AppTheme.TransparentStatusBar" parent="AppTheme">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
-    <!--CardView-->
     <style name="Widget.Moviemade.Card" parent="Widget.MaterialComponents.CardView">
-        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:foreground">?selectableItemBackground</item>
         <item name="cardBackgroundColor">@color/foregroundColor</item>
     </style>
 
-    <!--SwitchCompat-->
     <style name="Widget.Moviemade.Switch" parent="Widget.AppCompat.CompoundButton.Switch">
         <item name="colorControlActivated">?colorAccent</item>
     </style>

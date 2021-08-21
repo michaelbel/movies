@@ -1,47 +1,34 @@
-apply plugin: 'com.android.library'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+plugins {
+    id 'com.android.library'
+    id 'kotlin-android'
+}
 
 android {
-    compileSdkVersion 29
+    compileSdkVersion rootProject.compileSdkVersion
+    buildToolsVersion rootProject.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 29
-    }
-
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-        }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        minSdkVersion rootProject.minSdkVersion
+        targetSdkVersion rootProject.targetSdkVersion
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
     }
 }
 
 dependencies {
-    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion"
+    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutinesVersion"
 
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$kotlinx_version"
-    api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlinx_version"
+    api "androidx.browser:browser:$browserVersion"
+    api "androidx.collection:collection-ktx:$collectionVersion"
+    api "androidx.core:core-ktx:$coreVersion"
+    api "androidx.fragment:fragment-ktx:$fragmentVersion"
+    api "androidx.preference:preference-ktx:$preferenceVersion"
+    api "androidx.recyclerview:recyclerview:$recyclerviewVersion"
 
-    api "androidx.core:core-ktx:$androidx_core_ktx_version"
-    api "androidx.browser:browser:$androidx_browser_version"
-    api "androidx.preference:preference:$androidx_preference_version"
-    api "androidx.preference:preference-ktx:$androidx_preference_version"
-    api "androidx.fragment:fragment:$androidx_fragment_version"
-    api "androidx.fragment:fragment-ktx:$androidx_fragment_ktx_version"
-    api "androidx.recyclerview:recyclerview:$androidx_recyclerview_version"
-    api "androidx.collection:collection-ktx:$androidx_collection_ktx_version"
+    api "com.google.firebase:firebase-core:$firebaseCoreVersion"
 
-    api "com.google.firebase:firebase-core:$firebase_core_version"
-    api "com.crashlytics.sdk.android:crashlytics:$crashlytics_version"
-
-    api "com.squareup.picasso:picasso:$picasso_version"
-
-    api "com.squareup.retrofit2:retrofit:$retrofit_version"
+    api "com.squareup.picasso:picasso:$picassoVersion"
+    api "com.squareup.retrofit2:retrofit:$retrofitVersion"
+    api "com.jakewharton.timber:timber:$timberVersion"
 }

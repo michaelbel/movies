@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
-import java.util.*
+import java.util.ArrayDeque
+import java.util.ArrayList
+import java.util.Queue
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
@@ -30,11 +32,11 @@ class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun getItems(): ArrayList<ListItem> = items
 
-    fun setItems(listItems: ArrayList<ListItem>) {
+    fun setItems(listItems: List<ListItem>) {
         setItems(listItems, false)
     }
 
-    fun setItems(listItems: ArrayList<ListItem>, isDiffUtilEnabled: Boolean) {
+    fun setItems(listItems: List<ListItem>, isDiffUtilEnabled: Boolean) {
         var diffUtilCallback: DiffUtilCallback? = null
 
         if (isDiffUtilEnabled) {
@@ -44,7 +46,7 @@ class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         setItems(listItems, diffUtilCallback)
     }
 
-    fun setItems(listItems: ArrayList<ListItem>, callback: DiffUtil.Callback?) {
+    fun setItems(listItems: List<ListItem>, callback: DiffUtil.Callback?) {
         if (callback != null) {
             pendingUpdates.add(listItems)
             if (pendingUpdates.size == 1) {
@@ -69,7 +71,7 @@ class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val posViewHolder = viewTypesPositions.get(viewType)
-        return items[getPositionByViewHolderPosition(posViewHolder)].getViewHolder(parent, viewType)
+        return items[posViewHolder].getViewHolder(parent, viewType)
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
@@ -83,7 +85,7 @@ class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     override fun getItemViewType(position: Int): Int {
-        val viewType = items[position].getViewType()
+        val viewType = items[position].viewType
         viewTypesPositions.put(viewType, position)
         return viewType
     }
@@ -92,30 +94,28 @@ class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun getRealItemPosition(position: Int) = position
 
-    fun getPositionByViewHolderPosition(viewHolderPosition: Int) = viewHolderPosition
-
     override fun onViewAttachedToWindow(holder: RecyclerView.ViewHolder) {
         super.onViewAttachedToWindow(holder)
 
-        val position = getPositionByViewHolderPosition(holder.adapterPosition)
+        val position = holder.adapterPosition
         if (position >= 0 && position < items.size) {
             val listItem = items[position]
-            listItem.setActive(holder.itemView, position)
+            listItem.activate(holder.itemView, position)
         }
     }
 
     override fun onViewDetachedFromWindow(holder: RecyclerView.ViewHolder) {
         super.onViewDetachedFromWindow(holder)
 
-        val position = getPositionByViewHolderPosition(holder.adapterPosition)
+        val position = holder.adapterPosition
         if (position >= 0 && position < items.size) {
             val listItem = items[position]
-            listItem.setInactivate(holder.itemView, position)
+            listItem.deactivate(holder.itemView, position)
         }
     }
 
     override fun getItemId(position: Int): Long {
-        return items[position].getId()
+        return items[position].id
     }
 
     private fun updateData(newItems: Collection<ListItem>, callback: DiffUtil.Callback) {
@@ -160,8 +160,8 @@ class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     inner class DiffUtilCallback(
-            private var oldListItems: ArrayList<ListItem>,
-            private var newListItems: ArrayList<ListItem>
+            private var oldListItems: List<ListItem>,
+            private var newListItems: List<ListItem>
     ): DiffUtil.Callback() {
 
         override fun getOldListSize() = oldListItems.size
@@ -171,7 +171,7 @@ class ListAdapter: RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
             val oldListItem = oldListItems[oldItemPosition]
             val newListItem = newListItems[newItemPosition]
-            return oldListItem.getId() == newListItem.getId() && oldListItem.getViewType() == newListItem.getViewType()
+            return oldListItem.id == newListItem.id && oldListItem.viewType == newListItem.viewType
         }
 
         override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {

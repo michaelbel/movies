@@ -1,6 +1,6 @@
 <resources>
-    <color name="primary">#282828</color>
-    <color name="primaryDark">#202020</color>
+    <color name="primary">@color/md_white</color>
+    <color name="primaryDark">@color/md_red_200</color>
     <color name="accent">#ff5252</color>
 
     <color name="textColorPrimary">#ffffff</color>

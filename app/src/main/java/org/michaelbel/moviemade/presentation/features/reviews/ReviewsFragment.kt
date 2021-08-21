@@ -1,127 +1,119 @@
 package org.michaelbel.moviemade.presentation.features.reviews
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
-import android.view.ViewGroup
-import androidx.fragment.app.transaction
-import androidx.lifecycle.Observer
+import android.view.animation.AnimationUtils
+import androidx.core.os.bundleOf
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
+import androidx.fragment.app.commit
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.android.synthetic.main.activity_parent.*
-import kotlinx.android.synthetic.main.fragment_lce.*
+import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import org.michaelbel.core.adapter.ListAdapter
 import org.michaelbel.data.remote.model.Movie
-import org.michaelbel.domain.ReviewsRepository
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.core.DeviceUtil
-import org.michaelbel.moviemade.core.ViewUtil
-import org.michaelbel.moviemade.core.getViewModel
-import org.michaelbel.moviemade.core.reObserve
-import org.michaelbel.moviemade.presentation.App
+import org.michaelbel.moviemade.databinding.FragmentLceBinding
+import org.michaelbel.moviemade.ktx.getIcon
+import org.michaelbel.moviemade.ktx.launchAndRepeatWithViewLifecycle
+import org.michaelbel.moviemade.ktx.toDp
 import org.michaelbel.moviemade.presentation.ContainerActivity
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_MOVIE
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
 import org.michaelbel.moviemade.presentation.features.review.ReviewFragment
-import javax.inject.Inject
 
-class ReviewsFragment: BaseFragment() {
-
-    companion object {
-        private const val ARG_MOVIE = "movie"
-
-        internal fun newInstance(movie: Movie): ReviewsFragment {
-            val args = Bundle()
-            args.putSerializable(EXTRA_MOVIE, movie)
-
-            val fragment = ReviewsFragment()
-            fragment.arguments = args
-            return fragment
-        }
-    }
+@AndroidEntryPoint
+class ReviewsFragment: BaseFragment(R.layout.fragment_lce) {
 
     private lateinit var movie: Movie
-    private lateinit var adapter: ListAdapter
 
-    @Inject lateinit var repository: ReviewsRepository
+    private val viewModel: ReviewsModel by viewModels()
+    private val binding: FragmentLceBinding by viewBinding()
 
-    private val viewModel: ReviewsModel by lazy { getViewModel { ReviewsModel(repository) } }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        App[requireActivity().application].createFragmentComponent().inject(this)
-    }
-
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_lce, container, false)
-    }
+    private val listAdapter = ListAdapter()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         movie = arguments?.getSerializable(ARG_MOVIE) as Movie
 
-        toolbar.title = getString(R.string.reviews)
-        toolbar.subtitle = movie.title
-        toolbar.navigationIcon = ViewUtil.getIcon(requireContext(), R.drawable.ic_arrow_back, R.color.iconActiveColor)
-        toolbar.setOnClickListener { onScrollToTop() }
-        toolbar.setNavigationOnClickListener { requireActivity().finish() }
+        val spans: Int = resources.getInteger(R.integer.trailers_span_layout_count)
 
-        val spans = resources.getInteger(R.integer.trailers_span_layout_count)
-
-        adapter = ListAdapter()
-
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = GridLayoutManager(requireContext(), spans)
-        recyclerView.addItemDecoration(GridSpacingItemDecoration(spans, DeviceUtil.dp(requireContext(), 5F)))
-        recyclerView.addOnScrollListener(object: RecyclerView.OnScrollListener() {
-            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
-                super.onScrollStateChanged(recyclerView, newState)
-                if (!recyclerView.canScrollVertically(1) && adapter.itemCount != 0) {
-                    viewModel.reviews(movie.id.toLong())
+        binding.toolbar.run {
+            title = getString(R.string.reviews)
+            subtitle = movie.title
+            navigationIcon = getIcon(R.drawable.ic_arrow_back, R.color.iconActiveColor)
+            setOnClickListener { onScrollToTop() }
+            setNavigationOnClickListener { requireActivity().finish() }
+        }
+        binding.recyclerView.run {
+            adapter = listAdapter
+            layoutManager = GridLayoutManager(requireContext(), spans)
+            layoutAnimation = AnimationUtils.loadLayoutAnimation(requireContext(), R.anim.recycler_layout_animation)
+            addItemDecoration(GridSpacingItemDecoration(spans, 5F.toDp(requireContext())))
+            addOnScrollListener(object: RecyclerView.OnScrollListener() {
+                override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                    super.onScrollStateChanged(recyclerView, newState)
+                    if (!recyclerView.canScrollVertically(1) && listAdapter.itemCount != 0) {
+                        viewModel.reviews(movie.id.toLong())
+                    }
                 }
-            }
-        })
-
-        emptyView.setOnClickListener {
-            emptyView.visibility = GONE
+            })
+        }
+        binding.emptyView.setOnClickListener {
+            binding.emptyView.isGone = true
             viewModel.reviews(movie.id.toLong())
         }
 
         viewModel.reviews(movie.id.toLong())
-        viewModel.loading.reObserve(viewLifecycleOwner, Observer {
-            progressBar.visibility = if (it) VISIBLE else GONE
-        })
-        viewModel.content.reObserve(viewLifecycleOwner, Observer {
-            adapter.setItems(it)
-        })
-        viewModel.error.reObserve(viewLifecycleOwner, Observer { error ->
-            error.getContentIfNotHandled()?.let {
-                emptyView.visibility = VISIBLE
-                emptyView.setMode(it)
+
+        launchAndRepeatWithViewLifecycle {
+            launch {
+                viewModel.loading.collect { binding.progressBar.isVisible = it }
             }
-        })
-        viewModel.click.reObserve(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let {
-                requireFragmentManager().transaction {
-                    add((requireActivity() as ContainerActivity).container.id, ReviewFragment.newInstance(it, movie))
-                    addToBackStack(tag)
+            launch {
+                viewModel.content.collect {
+                    listAdapter.setItems(it)
+                    binding.recyclerView.scheduleLayoutAnimation()
                 }
             }
-        })
-        viewModel.longClick.reObserve(viewLifecycleOwner, Observer {
-            it.getContentIfNotHandled()?.let {
-                requireFragmentManager().transaction {
-                    add((requireActivity() as ContainerActivity).container.id, ReviewFragment.newInstance(it, movie))
-                    addToBackStack(tag)
+            launch {
+                viewModel.error.collect {
+                    binding.emptyView.isVisible = true
+                    binding.emptyView.setMode(it)
                 }
             }
-        })
+            launch {
+                viewModel.click.collect {
+                    parentFragmentManager.commit {
+                        add((requireActivity() as ContainerActivity).containerId, ReviewFragment.newInstance(it, movie), ReviewFragment::class.java.name)
+                        addToBackStack(ReviewFragment::class.java.name)
+                    }
+                }
+            }
+            launch {
+                viewModel.longClick.collect {
+
+                }
+            }
+        }
     }
 
     override fun onScrollToTop() {
-        recyclerView.smoothScrollToPosition(0)
+        binding.recyclerView.smoothScrollToPosition(0)
+    }
+
+    companion object {
+        private const val ARG_MOVIE = "movie"
+
+        fun newInstance(movie: Movie): ReviewsFragment {
+            return ReviewsFragment().apply {
+                arguments = bundleOf(EXTRA_MOVIE to movie)
+            }
+        }
     }
 }

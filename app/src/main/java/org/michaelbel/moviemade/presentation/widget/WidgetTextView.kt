@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.presentation.widget
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Typeface
 import android.text.SpannableStringBuilder
@@ -14,22 +13,7 @@ import androidx.appcompat.widget.AppCompatTextView
 import androidx.core.content.ContextCompat
 
 @Suppress("unused")
-@SuppressLint("ClickableViewAccessibility")
-open class WidgetTextView: AppCompatTextView {
-
-    constructor(context: Context): super(context) {
-        init()
-    }
-
-    constructor(context: Context, attrs: AttributeSet): super(context, attrs) {
-        init()
-    }
-
-    constructor(context: Context, attrs: AttributeSet, defStyle: Int): super(context, attrs, defStyle) {
-        init()
-    }
-
-    private fun init() {}
+open class WidgetTextView(context: Context, attrs: AttributeSet?): AppCompatTextView(context, attrs) {
 
     override fun scrollTo(x: Int, y: Int) {
         // do nothing.

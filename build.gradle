@@ -1,70 +1,110 @@
 buildscript {
-    ext.androidx_lifecycle_version = '2.0.0'
-    ext.androidx_appcompat_version = '1.1.0-rc01'
-    ext.androidx_preference_version = '1.1.0-rc01'
-    ext.androidx_vector_drawable_version = '1.1.0-rc01'
-    ext.androidx_room_version = '2.2.0-alpha01'
-    ext.androidx_core_ktx_version = '1.0.2'
-    ext.androidx_browser_version = '1.0.0'
-    ext.androidx_fragment_ktx_version = '1.0.0'
-    ext.androidx_recyclerview_version = '1.0.0'
-    ext.androidx_cardview_version = '1.0.0'
-    ext.androidx_collection_ktx_version = '1.0.0'
-    ext.androidx_constraint_version = '1.1.3'
-    ext.androidx_activity_version = '1.1.0-alpha01'
-    ext.androidx_fragment_version = '1.2.0-alpha01'
+    ext {
+        versionCode = 69
+        versionName = '1.3.2'
 
-    ext.google_material_version = '1.0.0'
-    ext.google_play_core_version = '1.6.1'
+        compileSdkVersion = 30
+        minSdkVersion = 21
+        targetSdkVersion = 30
+        buildToolsVersion = '30.0.3'
+        gradleVersion = '7.0.0'
+        detektVersion = '1.18.0-RC2'
 
-    ext.firebase_core_version = '17.0.1'
-    ext.crashlytics_version = '2.10.1'
+        // Kotlin
+        kotlinVersion = '1.5.10'
+        coroutinesVersion = '1.5.1'
 
-    ext.arch_version = '1.1.1'
-    ext.work_version = '1.0.1'
+        // AndroidX
+        activityVersion = '1.3.1'
+        annotationVersion = '1.2.0'
+        annotationExperimentalVersion = '1.1.0'
+        appcompatVersion = '1.3.1'
+        asynclayoutinflaterVersion = '1.0.0'
+        browserVersion = '1.3.0'
+        cardviewVersion = '1.0.0'
+        collectionVersion = '1.1.0'
+        constraintlayoutVersion = '2.1.0'
+        composeVersion = '1.0.1'
+        coreVersion = '1.6.0'
+        coreroleVersion = '1.0.0'
+        fragmentVersion = '1.3.6'
+        hiltNavigationFragmentVersion = '1.0.0'
+        hiltWorkVersion = '1.0.0'
+        lifecycleVersion = '2.4.0-alpha03'
+        navigationVersion = '2.3.5'
+        recyclerviewVersion = '1.2.1'
+        roomVersion = '2.3.0'
+        pagingVersion = '3.0.1'
+        preferenceVersion = '1.1.1'
+        savedstateVersion = '1.1.0'
+        sharetargetVersion = '1.1.0'
+        swiperefreshlayoutVersion = '1.1.0'
+        viewpager2Version = '1.0.0'
+        workVersion = '2.5.0'
 
-    ext.kotlin_version = '1.3.41'
-    ext.kotlinx_version = '1.1.1'
+        // Test
+        coreTestingVersion = '2.1.0'
+        junitVersion = '4.13.2'
+        testEspressoVersion = '3.4.0'
+        testJunitVersion = '1.1.3'
+        testRulesVersion = '1.4.0'
+        testUianimatorVersion = '2.2.0'
+        truthVersion = '1.1.2'
 
-    ext.retrofit_version = '2.5.0'
-    ext.okhttp_version = '3.12.0'
-    ext.glide_version = '4.9.0'
-    ext.dagger_version = '2.21'
-    ext.traceur_version = '1.0.1'
-    ext.timber_version = '4.7.1'
-    ext.stetho_version = '1.5.0'
-    ext.sherlock_version = '1.0.4'
-    ext.chuck_version = '1.1.0'
-    ext.leakcanary_version = '2.0-alpha-1'
-    ext.picasso_version = '2.71828'
+        // Google
+        adsVersion = '20.2.0'
+        crashlyticsVersion = '2.7.1'
+        daggerVersion = '2.37'
+        exoplayerVersion = '2.14.2'
+        googleServicesVersion = '4.3.10'
+        firebaseAppDistribution = '2.1.3'
+        firebaseAnalytics = '19.0.0'
+        firebaseCoreVersion = '19.0.0'
+        firebaseCrashlyticsVersion = '18.2.1'
+        materialVersion = '1.4.0'
+        playcoreVersion = '1.8.1'
 
-    ext.gms_version = '4.2.0'
-    ext.fabric_version = '1.28.0'
+        // Other
+        retrofitVersion = '2.9.0'
+        okhttpLoggingInterceptorVersion = '4.9.0'
+        picassoVersion = '2.71828'
+        timberVersion = '4.7.1'
+        ganderVersion = '3.1.0'
+        viewBindingPropertyDelegateVersion = '1.4.7'
+    }
 
     repositories {
-        jcenter()
         google()
-        maven { url 'https://maven.fabric.io/public' }
+        mavenCentral()
+        jcenter()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
-        classpath "io.fabric.tools:gradle:$fabric_version"
-        classpath "com.google.gms:google-services:$gms_version"
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "com.android.tools.build:gradle:$gradleVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$daggerVersion"
+        classpath "com.google.gms:google-services:$googleServicesVersion"
+        classpath "com.google.firebase:firebase-crashlytics-gradle:$crashlyticsVersion"
+        classpath "com.google.firebase:firebase-appdistribution-gradle:$firebaseAppDistribution"
+        classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$navigationVersion"
     }
 }
 
 allprojects {
     repositories {
-        jcenter()
         google()
+        mavenCentral()
         maven { url "https://jitpack.io" }
-        maven { url 'https://maven.fabric.io/public' }
-        flatDir { dirs '../aars' }
+        jcenter()
     }
 }
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
 }

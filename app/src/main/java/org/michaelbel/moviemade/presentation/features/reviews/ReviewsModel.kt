@@ -1,61 +1,66 @@
 package org.michaelbel.moviemade.presentation.features.reviews
 
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.michaelbel.core.adapter.ItemsManager
 import org.michaelbel.core.adapter.ListItem
 import org.michaelbel.data.remote.model.Review
 import org.michaelbel.domain.ReviewsRepository
-import org.michaelbel.domain.live.LiveDataEvent
 import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
-import org.michaelbel.moviemade.core.state.EmptyState
+import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_CONNECTION
 import org.michaelbel.moviemade.core.state.EmptyState.MODE_NO_REVIEWS
 import org.michaelbel.moviemade.presentation.listitem.ReviewListItem
-import java.util.*
+import java.util.ArrayList
+import java.util.Locale
+import javax.inject.Inject
 
-class ReviewsModel(val repository: ReviewsRepository): ViewModel() {
+@HiltViewModel
+class ReviewsModel @Inject constructor(val repository: ReviewsRepository): ViewModel() {
 
     private var page: Int = 0
     private val itemsManager = Manager()
 
-    var loading = MutableLiveData<Boolean>()
-    var content = MutableLiveData<ArrayList<ListItem>>()
-    var error = MutableLiveData<LiveDataEvent<Int>>()
-    var click = MutableLiveData<LiveDataEvent<Review>>()
-    var longClick = MutableLiveData<LiveDataEvent<Review>>()
+    var loading = MutableSharedFlow<Boolean>()
+    var content = MutableSharedFlow<List<ListItem>>()
+    var error = MutableSharedFlow<Int>()
+    var click = MutableSharedFlow<Review>()
+    var longClick = MutableSharedFlow<Review>()
 
     fun reviews(movieId: Long) {
-        page += 1
-        loading.postValue(page == 1)
+        viewModelScope.launch {
+            page += 1
+            loading.emit(page == 1)
 
-        CoroutineScope(Dispatchers.IO).launch {
             try {
                 val result = repository.reviews(movieId, TMDB_API_KEY, Locale.getDefault().language, page)
                 withContext(Dispatchers.Main) {
                     if (result.isSuccessful) {
                         val reviews = result.body()?.results
                         if (reviews.isNullOrEmpty()) {
-                            error.postValue(LiveDataEvent(MODE_NO_REVIEWS))
+                            if (page == 1) {
+                                error.emit(MODE_NO_REVIEWS)
+                            }
                         } else {
                             itemsManager.updateReviews(reviews, page == 1)
-                            content.postValue(itemsManager.get())
+                            content.emit(itemsManager.get())
                         }
 
-                        loading.postValue(false)
+                        loading.emit(false)
                     } else {
                         if (page == 1) {
-                            error.postValue(LiveDataEvent(MODE_NO_REVIEWS))
+                            error.emit(MODE_NO_REVIEWS)
                         }
                     }
                 }
             } catch (e: Throwable) {
                 if (page == 1) {
-                    error.postValue(LiveDataEvent(EmptyState.MODE_NO_CONNECTION))
-                    loading.postValue(false)
+                    error.emit(MODE_NO_CONNECTION)
+                    loading.emit(false)
                 }
             }
         }
@@ -74,11 +79,11 @@ class ReviewsModel(val repository: ReviewsRepository): ViewModel() {
                 val reviewItem = ReviewListItem(it)
                 reviewItem.listener = object: ReviewListItem.Listener {
                     override fun onClick(review: Review) {
-                        click.postValue(LiveDataEvent(review))
+                        viewModelScope.launch { click.emit(review) }
                     }
 
                     override fun onLongClick(review: Review): Boolean {
-                        longClick.postValue(LiveDataEvent(review))
+                        viewModelScope.launch { longClick.emit(review) }
                         return true
                     }
                 }
@@ -86,8 +91,6 @@ class ReviewsModel(val repository: ReviewsRepository): ViewModel() {
             }
         }
 
-        override fun getItems(): ArrayList<ListItem> {
-            return reviews
-        }
+        override fun getItems(): ArrayList<ListItem> = reviews
     }
 }

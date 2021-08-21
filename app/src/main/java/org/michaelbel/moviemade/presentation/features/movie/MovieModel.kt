@@ -1,10 +1,11 @@
 package org.michaelbel.moviemade.presentation.features.movie
 
 import android.util.SparseArray
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import kotlinx.coroutines.CoroutineScope
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.michaelbel.data.remote.model.AccountStates
@@ -19,40 +20,38 @@ import org.michaelbel.domain.MoviesRepository
 import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
 import org.michaelbel.moviemade.core.TmdbConfig.CONTENT_TYPE
 import timber.log.Timber
-import java.util.*
+import java.util.ArrayList
+import java.util.Locale
+import javax.inject.Inject
 
-class MovieModel(val repository: MoviesRepository): ViewModel() {
+@HiltViewModel
+class MovieModel @Inject constructor(
+    val repository: MoviesRepository
+): ViewModel() {
 
-    companion object {
-        const val KEY_ACTORS = 0
-        const val KEY_DIRECTORS = 1
-        const val KEY_WRITERS = 2
-        const val KEY_PRODUCERS = 3
-    }
-
-    var movie = MutableLiveData<Movie>()
-    var imdb = MutableLiveData<String>()
-    var homepage = MutableLiveData<String>()
-    var connectionError = MutableLiveData<Any>()
-    var favoriteChange = MutableLiveData<Mark>()
-    var watchlistChange = MutableLiveData<Mark>()
-    var accountStates = MutableLiveData<AccountStates>()
-    var credit = MutableLiveData<SparseArray<String>>()
+    var movie = MutableSharedFlow<Movie>()
+    var imdb = MutableSharedFlow<String>()
+    var homepage = MutableSharedFlow<String>()
+    var connectionError = MutableSharedFlow<Any>()
+    var favoriteChange = MutableSharedFlow<Mark>()
+    var watchlistChange = MutableSharedFlow<Mark>()
+    var accountStates = MutableSharedFlow<AccountStates>()
+    var credit = MutableSharedFlow<SparseArray<String>>()
 
     fun movie(sessionId: String, movieId: Long) {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch {
             try {
                 val result = repository.movie(movieId, TMDB_API_KEY, Locale.getDefault().language, CREDITS)
                 withContext(Dispatchers.Main) {
                     if (result.isSuccessful) {
                         result.body()?.let {
-                            movie.postValue(result.body())
+                            movie.emit(result.body()!!)
 
                             accountStates(sessionId, movieId)
 
-                            it.imdbId?.let { imdbId -> imdb.postValue(imdbId) }
+                            it.imdbId?.let { imdbId -> imdb.emit(imdbId) }
 
-                            it.homepage?.let { link -> homepage.postValue(link) }
+                            it.homepage?.let { link -> homepage.emit(link) }
 
                             it.credits?.let { credits ->
                                 fixCredits(credits)
@@ -69,52 +68,52 @@ class MovieModel(val repository: MoviesRepository): ViewModel() {
     }
 
     fun markFavorite(sessionId: String, accountId: Long, mediaId: Long, favorite: Boolean) {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch {
             try {
                 val result = repository.markFavorite(CONTENT_TYPE, accountId, TMDB_API_KEY, sessionId, mediaId, favorite)
                 withContext(Dispatchers.Main) {
                     if (result.isSuccessful) {
-                        favoriteChange.postValue(result.body())
+                        favoriteChange.emit(result.body()!!)
                     } else {
                         // todo smth
                     }
                 }
             } catch (e: Throwable) {
-                connectionError.postValue(e)
+                connectionError.emit(e)
             }
         }
     }
 
     fun addWatchlist(sessionId: String, accountId: Long, mediaId: Long, watchlist: Boolean) {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch {
             try {
                 val result = repository.addWatchlist(CONTENT_TYPE, accountId, sessionId, TMDB_API_KEY, mediaId, watchlist)
                 withContext(Dispatchers.Main) {
                     if (result.isSuccessful) {
-                        watchlistChange.postValue(result.body())
+                        watchlistChange.emit(result.body()!!)
                     } else {
                         // todo smth
                     }
                 }
             } catch (e: Throwable) {
-                connectionError.postValue(e)
+                connectionError.emit(e)
             }
         }
     }
 
     private fun accountStates(sessionId: String, movieId: Long) {
-        CoroutineScope(Dispatchers.IO).launch {
+        viewModelScope.launch {
             try {
                 val result = repository.accountStates(movieId, TMDB_API_KEY, sessionId)
                 withContext(Dispatchers.Main) {
                     if (result.isSuccessful) {
-                        accountStates.postValue(result.body())
+                        accountStates.emit(result.body()!!)
                     } else {
                         // todo smth
                     }
                 }
             } catch (e: Throwable) {
-                connectionError.postValue(e)
+                connectionError.emit(e)
             }
         }
     }
@@ -170,6 +169,14 @@ class MovieModel(val repository: MoviesRepository): ViewModel() {
         sparse.put(KEY_DIRECTORS, directorsBuilder.toString())
         sparse.put(KEY_WRITERS, writersBuilder.toString())
         sparse.put(KEY_PRODUCERS, producersBuilder.toString())
-        credit.postValue(sparse)
+
+        viewModelScope.launch { credit.emit(sparse) }
+    }
+
+    companion object {
+        const val KEY_ACTORS = 0
+        const val KEY_DIRECTORS = 1
+        const val KEY_WRITERS = 2
+        const val KEY_PRODUCERS = 3
     }
 }

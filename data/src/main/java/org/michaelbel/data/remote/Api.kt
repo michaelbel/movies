@@ -1,200 +1,227 @@
 package org.michaelbel.data.remote
 
-import kotlinx.coroutines.Deferred
-import org.michaelbel.data.remote.model.*
+import org.michaelbel.data.remote.model.Account
+import org.michaelbel.data.remote.model.AccountStates
 import org.michaelbel.data.remote.model.Collection
+import org.michaelbel.data.remote.model.Company
+import org.michaelbel.data.remote.model.CreditsResponse
+import org.michaelbel.data.remote.model.DeletedSession
+import org.michaelbel.data.remote.model.Fave
+import org.michaelbel.data.remote.model.GenresResponse
+import org.michaelbel.data.remote.model.GuestSession
+import org.michaelbel.data.remote.model.ImagesResponse
+import org.michaelbel.data.remote.model.Keyword
+import org.michaelbel.data.remote.model.KeywordsResponse
+import org.michaelbel.data.remote.model.Mark
+import org.michaelbel.data.remote.model.Movie
+import org.michaelbel.data.remote.model.Network
+import org.michaelbel.data.remote.model.Person
+import org.michaelbel.data.remote.model.RequestToken
+import org.michaelbel.data.remote.model.Review
+import org.michaelbel.data.remote.model.Session
+import org.michaelbel.data.remote.model.SessionId
+import org.michaelbel.data.remote.model.Token
+import org.michaelbel.data.remote.model.Username
+import org.michaelbel.data.remote.model.Video
+import org.michaelbel.data.remote.model.Watch
 import org.michaelbel.data.remote.model.base.Result
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.HTTP
+import retrofit2.http.Header
+import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface Api {
 
     //region Account
 
     @GET("account")
-    fun details(
-            @Query("api_key") apiKey: String,
-            @Query("session_id") sessionId: String
-    ): Deferred<Response<Account>>
+    suspend fun details(
+        @Query("api_key") apiKey: String,
+        @Query("session_id") sessionId: String
+    ): Response<Account>
 
     @GET("account/{account_id}/favorite/movies")
-    fun moviesFavorite(
-            @Path("account_id") accountId: Long,
-            @Query("api_key") apiKey: String,
-            @Query("session_id") sessionId: String,
-            @Query("language") lang: String,
-            @Query("sort_by") sort: String,
-            @Query("page") page: Int
-    ): Deferred<Response<Result<Movie>>>
+    suspend fun moviesFavorite(
+        @Path("account_id") accountId: Long,
+        @Query("api_key") apiKey: String,
+        @Query("session_id") sessionId: String,
+        @Query("language") lang: String,
+        @Query("sort_by") sort: String,
+        @Query("page") page: Int
+    ): Response<Result<Movie>>
 
     @POST("account/{account_id}/favorite")
-    fun markAsFavorite(
-            @Header("Content-Type") contentType: String,
-            @Path("account_id") id: Long,
-            @Query("api_key") apiKey: String,
-            @Query("session_id") sessionId: String,
-            @Body fave: Fave
-    ): Deferred<Response<Mark>>
+    suspend fun markAsFavorite(
+        @Header("Content-Type") contentType: String,
+        @Path("account_id") id: Long,
+        @Query("api_key") apiKey: String,
+        @Query("session_id") sessionId: String,
+        @Body fave: Fave
+    ): Response<Mark>
 
     @GET("account/{account_id}/watchlist/movies")
-    fun moviesWatchlist(
-            @Path("account_id") id: Long,
-            @Query("api_key") apiKey: String,
-            @Query("session_id") sessionId: String,
-            @Query("language") language: String,
-            @Query("sort_by") sort: String,
-            @Query("page") page: Int
-    ): Deferred<Response<Result<Movie>>>
+    suspend fun moviesWatchlist(
+        @Path("account_id") id: Long,
+        @Query("api_key") apiKey: String,
+        @Query("session_id") sessionId: String,
+        @Query("language") language: String,
+        @Query("sort_by") sort: String,
+        @Query("page") page: Int
+    ): Response<Result<Movie>>
 
     @POST("account/{account_id}/watchlist")
-    fun addToWatchlist(
-            @Header("Content-Type") contentType: String,
-            @Path("account_id") id: Long,
-            @Query("api_key") apiKey: String,
-            @Query("session_id") sessionId: String,
-            @Body watch: Watch
-    ): Deferred<Response<Mark>>
+    suspend fun addToWatchlist(
+        @Header("Content-Type") contentType: String,
+        @Path("account_id") id: Long,
+        @Query("api_key") apiKey: String,
+        @Query("session_id") sessionId: String,
+        @Body watch: Watch
+    ): Response<Mark>
 
     @GET("account/{account_id}/favorite/tv")
-    fun favoriteShows(
-            @Path("account_id") accountId: Int,
-            @Query("api_key") apiKey: String,
-            @Query("session_id") sessionId: String,
-            @Query("language") lang: String,
-            @Query("sort_by") sort: String
-    ): Deferred<Response<Result<Movie>>>
+    suspend fun favoriteShows(
+        @Path("account_id") accountId: Int,
+        @Query("api_key") apiKey: String,
+        @Query("session_id") sessionId: String,
+        @Query("language") lang: String,
+        @Query("sort_by") sort: String
+    ): Response<Result<Movie>>
 
     @GET("account/{account_id}/lists")
-    fun createdLists(
-            @Path("account_id") id: Int,
-            @Query("api_key") apiKey: String,
-            @Query("session_id") sessionId: String,
-            @Query("language") language: String
-    ): Deferred<Response<*>>
+    suspend fun createdLists(
+        @Path("account_id") id: Int,
+        @Query("api_key") apiKey: String,
+        @Query("session_id") sessionId: String,
+        @Query("language") language: String
+    ): Response<*>
 
     @GET("account/{account_id}/rated/parts")
-    fun ratedMovies(
-            @Path("account_id") id: Int,
-            @Query("api_key") apiKey: String,
-            @Query("session_id") sessionId: String,
-            @Query("language") language: String,
-            @Query("sort_by") sort: String
-    ): Deferred<Response<*>>
+    suspend fun ratedMovies(
+        @Path("account_id") id: Int,
+        @Query("api_key") apiKey: String,
+        @Query("session_id") sessionId: String,
+        @Query("language") language: String,
+        @Query("sort_by") sort: String
+    ): Response<*>
 
     @GET("account/{account_id}/rated/tv")
-    fun ratedShows(
-            @Path("account_id") id: Int,
-            @Query("api_key") apiKey: String,
-            @Query("session_id") sessionId: String,
-            @Query("language") language: String,
-            @Query("sort_by") sort: String
-    ): Deferred<Response<*>>
+    suspend fun ratedShows(
+        @Path("account_id") id: Int,
+        @Query("api_key") apiKey: String,
+        @Query("session_id") sessionId: String,
+        @Query("language") language: String,
+        @Query("sort_by") sort: String
+    ): Response<*>
 
     @GET("account/{account_id}/rated/tv/episodes")
-    fun ratedEpisodes(
-            @Path("account_id") id: Int,
-            @Query("api_key") apiKey: String,
-            @Query("session_id") sessionId: String,
-            @Query("language") language: String,
-            @Query("sort_by") sort: String
-    ): Deferred<Response<*>>
+    suspend fun ratedEpisodes(
+        @Path("account_id") id: Int,
+        @Query("api_key") apiKey: String,
+        @Query("session_id") sessionId: String,
+        @Query("language") language: String,
+        @Query("sort_by") sort: String
+    ): Response<*>
 
     @GET("account/{account_id}/watching/tv")
-    fun showsWatchlist(
-            @Path("account_id") id: Int,
-            @Query("api_key") apiKey: String,
-            @Query("session_id") sessionId: String,
-            @Query("language") language: String,
-            @Query("sort_by") sort: String
-    ): Deferred<Response<Result<Movie>>>
+    suspend fun showsWatchlist(
+        @Path("account_id") id: Int,
+        @Query("api_key") apiKey: String,
+        @Query("session_id") sessionId: String,
+        @Query("language") language: String,
+        @Query("sort_by") sort: String
+    ): Response<Result<Movie>>
 
     //endregion
 
     //region Auth
 
     @GET("authentication/guest_session/new?")
-    fun createGuestSession(
-            @Query("api_key") apiKey: String
-    ): Deferred<Response<GuestSession>>
+    suspend fun createGuestSession(
+        @Query("api_key") apiKey: String
+    ): Response<GuestSession>
 
     @GET("authentication/token/new?")
-    fun createRequestToken(@Query("api_key") apiKey: String): Deferred<Response<Token>>
+    suspend fun createRequestToken(@Query("api_key") apiKey: String): Response<Token>
 
     @POST("authentication/token/validate_with_login?")
-    fun createSessionWithLogin(
-            @Query("api_key") apiKey: String,
-            @Body username: Username
-    ): Deferred<Response<Token>>
+    suspend fun createSessionWithLogin(
+        @Query("api_key") apiKey: String,
+        @Body username: Username
+    ): Response<Token>
 
     @POST("authentication/session/new?")
-    fun createSession(
-            @Query("api_key") apiKey: String,
-            @Body authToken: RequestToken
-    ): Deferred<Response<Session>>
+    suspend fun createSession(
+        @Query("api_key") apiKey: String,
+        @Body authToken: RequestToken
+    ): Response<Session>
 
     // createSession (from api v4)
 
     @HTTP(method = "DELETE", path = "authentication/session?", hasBody = true)
-    fun deleteSession(
-            @Query("api_key") apiKey: String,
-            @Body sessionId: SessionId
-    ): Deferred<Response<DeletedSession>>
+    suspend fun deleteSession(
+        @Query("api_key") apiKey: String,
+        @Body sessionId: SessionId
+    ): Response<DeletedSession>
 
     //endregion
 
     //region Certifications
 
     @GET("certification/movie/list?")
-    fun movieCertifications(@Query("api_key") apiKey: String): Deferred<Response<*>>
+    suspend fun movieCertifications(@Query("api_key") apiKey: String): Response<*>
 
     @GET("certification/tv/list?")
-    fun showCertifications(@Query("api_key") apiKey: String): Deferred<Response<*>>
+    suspend fun showCertifications(@Query("api_key") apiKey: String): Response<*>
 
     //endregion
 
     //region Changes
 
     @GET("movie/changes?")
-    fun movieChangeList(
-            @Query("api_key") apiKey: String,
-            @Query("end_date") endDate: String,
-            @Query("start_date") startDate: String,
-            @Query("page") page: Int
-    ): Deferred<Response<*>>
+    suspend fun movieChangeList(
+        @Query("api_key") apiKey: String,
+        @Query("end_date") endDate: String,
+        @Query("start_date") startDate: String,
+        @Query("page") page: Int
+    ): Response<*>
 
     @GET("tv/changes?")
-    fun showsChangeList(
-            @Query("api_key") apiKey: String,
-            @Query("end_date") endDate: String,
-            @Query("start_date") startDate: String,
-            @Query("page") page: Int
-    ): Deferred<*>
+    suspend fun showsChangeList(
+        @Query("api_key") apiKey: String,
+        @Query("end_date") endDate: String,
+        @Query("start_date") startDate: String,
+        @Query("page") page: Int
+    ): Response<*>
 
     @GET("person/changes?")
-    fun personChangeList(
-            @Query("api_key") apiKey: String,
-            @Query("end_date") endDate: String,
-            @Query("start_date") startDate: String,
-            @Query("page") page: Int
-    ): Deferred<*>
+    suspend fun personChangeList(
+        @Query("api_key") apiKey: String,
+        @Query("end_date") endDate: String,
+        @Query("start_date") startDate: String,
+        @Query("page") page: Int
+    ): Response<*>
 
     //endregion
 
     //region Collections
 
     @GET("collection/{collection_id}?")
-    fun collection(
-            @Path("collection_id") id: Int,
-            @Query("api_key") apiKey: String,
-            @Query("language") language: String
-    ): Deferred<Collection>
+    suspend fun collection(
+        @Path("collection_id") id: Int,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String
+    ): Collection
 
     @GET("collection/{collection_id}/images?")
-    fun collectionImages(
-            @Path("collection_id") id: Int,
-            @Query("api_key") apiKey: String,
-            @Query("language") language: String
-    ): Deferred<ImagesResponse>
+    suspend fun collectionImages(
+        @Path("collection_id") id: Int,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String
+    ): ImagesResponse
 
     // getTranslations
 
@@ -203,10 +230,10 @@ interface Api {
     //region Companies
 
     @GET("company/{company_id}?")
-    fun company(
-            @Path("company_id") id: Int,
-            @Query("api_key") apiKey: String
-    ): Deferred<Company>
+    suspend fun company(
+        @Path("company_id") id: Int,
+        @Query("api_key") apiKey: String
+    ): Company
 
     // getAlternativeNames
 
@@ -217,55 +244,55 @@ interface Api {
     //region Configurations
 
     @GET("configuration?")
-    fun apiConfiguration(): Deferred<*>
+    suspend fun apiConfiguration(): Response<*>
 
     @GET("configuration/countries?")
-    fun countries(): Deferred<*>
+    suspend fun countries(): Response<*>
 
     @GET("configuration/jobs?")
-    fun jobs(): Deferred<*>
+    suspend fun jobs(): Response<*>
 
     @GET("configuration/languages?")
-    fun languages(): Deferred<*>
+    suspend fun languages(): Response<*>
 
     @GET("configuration/primary_translations?")
-    fun primaryTranslations(): Deferred<*>
+    suspend fun primaryTranslations(): Response<*>
 
     @GET("configuration/timezones?")
-    fun timezones(): Deferred<*>
+    suspend fun timezones(): Response<*>
 
     //endregion
 
     //region Credits
 
     @GET("credit/{credit_id}?")
-    fun credit(
-            @Path("credit_id") id: String,
-            @Query("api_key") apiKey: String
-    ): Deferred<*>
+    suspend fun credit(
+        @Path("credit_id") id: String,
+        @Query("api_key") apiKey: String
+    ): Response<*>
 
     //endregion
 
     //region Discover
 
     @GET("discover/movie?")
-    fun movieDiscover(): Deferred<*>
+    suspend fun movieDiscover(): Response<*>
 
     @GET("discover/tv?")
-    fun tvDiscover(): Deferred<*>
+    suspend fun tvDiscover(): Response<*>
 
     //endregion
 
     //region GuestSessions
 
     @GET("guest_session/{guest_session_id}/rated/parts?")
-    fun ratedMovies(): Deferred<*>
+    suspend fun ratedMovies(): Response<*>
 
     @GET("guest_session/{guest_session_id}/rated/tv?")
-    fun ratedShows(): Deferred<*>
+    suspend fun ratedShows(): Response<*>
 
     @GET("guest_session/{guest_session_id}/rated/tv/episodes?")
-    fun ratedEpisodes(): Deferred<*>
+    suspend fun ratedEpisodes(): Response<*>
 
     //endregion
 
@@ -285,160 +312,160 @@ interface Api {
     //region Genres
 
     @GET("genre/movie/list?")
-    fun movieList(
-            @Query("api_key") apiKey: String,
-            @Query("language") language: String
-    ): Deferred<GenresResponse>
+    suspend fun movieList(
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String
+    ): GenresResponse
 
     @GET("genre/tv/list?")
-    fun tvList(
-            @Query("api_key") apiKey: String,
-            @Query("language") language: String
-    ): Deferred<GenresResponse>
+    suspend fun tvList(
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String
+    ): GenresResponse
 
     //endregion
 
     //region Find
 
     @GET("find/{external_id}?")
-    fun findById(
-            @Path("external_id") id: String,
-            @Query("api_key") apiKey: String,
-            @Query("language") language: String,
-            @Query("external_source") ex_source: String
-    ): Deferred<*>
+    suspend fun findById(
+        @Path("external_id") id: String,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String,
+        @Query("external_source") ex_source: String
+    ): Response<*>
 
     //endregion
 
     //region Keywords
 
     @GET("keyword/{keyword_id}?")
-    fun keyword(
-            @Path("keyword_id") id: Int,
-            @Query("api_key") apiKey: String
-    ): Deferred<Keyword>
+    suspend fun keyword(
+        @Path("keyword_id") id: Int,
+        @Query("api_key") apiKey: String
+    ): Keyword
 
     @GET("keyword/{keyword_id}/movies")
-    fun moviesByKeyword(
-            @Path("keyword_id") id: Long,
-            @Query("api_key") apiKey: String,
-            @Query("language") language: String,
-            @Query("include_adult") adult: Boolean,
-            @Query("page") page: Int
-    ): Deferred<Response<Result<Movie>>>
+    suspend fun moviesByKeyword(
+        @Path("keyword_id") id: Long,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String,
+        @Query("include_adult") adult: Boolean,
+        @Query("page") page: Int
+    ): Response<Result<Movie>>
 
     //endregion
 
     //region Movies
 
     @GET("movie/{movie_id}")
-    fun movie(
+    suspend fun movie(
         @Path("movie_id") id: Long,
         @Query("api_key") apiKey: String,
         @Query("language") language: String,
         @Query("append_to_response") appendToResponse: String
-    ): Deferred<Response<Movie>>
+    ): Response<Movie>
 
     @GET("movie/{movie_id}/account_states")
-    fun accountStates(
+    suspend fun accountStates(
         @Path("movie_id") id: Long,
         @Query("api_key") apiKey: String,
         @Query("session_id") sessionId: String,
         @Query("guest_session_id") guestSessionId: String
-    ): Deferred<Response<AccountStates>>
+    ): Response<AccountStates>
 
     @GET("movie/{movie_id}/changes")
-    fun changes(
+    suspend fun changes(
         @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String,
         @Query("start_date") startDate: String,
         @Query("end_date") endDate: String,
         @Query("page") page: Int
-    ): Deferred<*>
+    ): Response<*>
 
     @GET("movie/{movie_id}/alternative_titles")
-    fun alternativeTitles(
+    suspend fun alternativeTitles(
         @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String,
         @Query("country") country: String
-    ): Deferred<*>
+    ): Response<*>
 
     @GET("movie/{movie_id}/credits")
-    fun movieCredits(
+    suspend fun movieCredits(
         @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String
-    ): Deferred<CreditsResponse>
+    ): CreditsResponse
 
     @GET("movie/{movie_id}/images")
-    fun movieImages(
+    suspend fun movieImages(
         @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String,
         @Query("include_image_language") lang: String
-    ): Deferred<ImagesResponse>
+    ): ImagesResponse
 
     @GET("movie/{movie_id}/keywords")
-    fun keywords(
+    suspend fun keywords(
         @Path("movie_id") id: Long,
         @Query("api_key") apiKey: String
-    ): Deferred<Response<KeywordsResponse>>
+    ): Response<KeywordsResponse>
 
     @GET("movie/{movie_id}/release_dates")
-    fun releaseDates(
+    suspend fun releaseDates(
         @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String
-    ): Deferred<*>
+    ): Response<*>
 
     @GET("movie/{movie_id}/videos")
-    fun trailers(
+    suspend fun trailers(
         @Path("movie_id") id: Long,
         @Query("api_key") apiKey: String
         //@Query("language") lang: String
-    ): Deferred<Response<Result<Video>>>
+    ): Response<Result<Video>>
 
     @GET("movie/{movie_id}/translations")
-    fun translations(
+    suspend fun translations(
         @Query("api_key") apiKey: String,
         @Query("language") lang: String
-    ): Deferred<Response<*>>
+    ): Response<*>
 
     /**
      * similar
      * recommendations
      */
     @GET("movie/{movie_id}/{list}")
-    fun moviesById(
-            @Path("movie_id") id: Long,
-            @Path("list") list: String,
-            @Query("api_key") apiKey: String,
-            @Query("language") language: String,
-            @Query("page") page: Int
-    ): Deferred<Response<Result<Movie>>>
+    suspend fun moviesById(
+        @Path("movie_id") id: Long,
+        @Path("list") list: String,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String,
+        @Query("page") page: Int
+    ): Response<Result<Movie>>
 
     @GET("movie/{movie_id}/reviews")
-    fun reviews(
+    suspend fun reviews(
         @Path("movie_id") id: Long,
         @Query("api_key") apiKey: String,
         //@Query("language") language: String,
         @Query("page") page: Int
-    ): Deferred<Response<Result<Review>>>
+    ): Response<Result<Review>>
 
     @GET("movie/{movie_id}/lists")
-    fun movieLists(
+    suspend fun movieLists(
         @Path("movie_id") param: String,
         @Query("api_key") apiKey: String,
         @Query("language") language: String,
         @Query("page") page: Int
-    ): Deferred<Response<Result<Movie>>>
+    ): Response<Result<Movie>>
 
     // rateMovie
 
     // deleteRating
 
     @GET("movie/latest")
-    fun movieLatest(
+    suspend fun movieLatest(
         @Query("api_key") apiKey: String,
         @Query("language") lang: String
-    ): Deferred<Response<*>>
+    ): Response<*>
 
     /**
      * now_playing
@@ -447,22 +474,22 @@ interface Api {
      * upcoming
      */
     @GET("movie/{list}")
-    fun movies(
-            @Path("list") list: String,
-            @Query("api_key") apiKey: String,
-            @Query("language") lang: String,
-            @Query("page") page: Int
-    ): Deferred<Response<Result<Movie>>>
+    suspend fun movies(
+        @Path("list") list: String,
+        @Query("api_key") apiKey: String,
+        @Query("language") lang: String,
+        @Query("page") page: Int
+    ): Response<Result<Movie>>
 
     //endregion
 
     //region Networks
 
     @GET("network/{network_id}?")
-    fun networkDetails(
-            @Path("network_id") id: Int,
-            @Query("api_key") apiKey: String
-    ): Deferred<Network>
+    suspend fun networkDetails(
+        @Path("network_id") id: Int,
+        @Query("api_key") apiKey: String
+    ): Network
 
     // getAlternativeNames
 
@@ -473,141 +500,141 @@ interface Api {
     //region People
 
     @GET("person/{person_id}?")
-    fun personDetails(
-            @Path("person_id") id: Int,
-            @Query("api_key") apiKey: String,
-            @Query("language") language: String,
-            @Query("append_to_response") response: String
-    ): Deferred<Person>
+    suspend fun personDetails(
+        @Path("person_id") id: Int,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String,
+        @Query("append_to_response") response: String
+    ): Person
 
     @GET("person/{person_id}/changes?")
-    fun personChanges(
-            @Path("person_id") id: Int,
-            @Query("api_key") apiKey: String,
-            @Query("end_date") endDate: String,
-            @Query("start_date") startDate: String,
-            @Query("page") page: Int
-    ): Deferred<*>
+    suspend fun personChanges(
+        @Path("person_id") id: Int,
+        @Query("api_key") apiKey: String,
+        @Query("end_date") endDate: String,
+        @Query("start_date") startDate: String,
+        @Query("page") page: Int
+    ): Nothing
 
     @GET("person/{person_id}/movie_credits?")
-    fun movieCredits(
-            @Path("person_id") id: Int,
-            @Query("api_key") apiKey: String,
-            @Query("language") language: String
-    ): Deferred<CreditsResponse>
+    suspend fun movieCredits(
+        @Path("person_id") id: Int,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String
+    ): CreditsResponse
 
     @GET("person/{person_id}/tv_credits?")
-    fun tvCredits(
-            @Path("person_id") id: Int,
-            @Query("api_key") apiKey: String,
-            @Query("language") language: String
-    ): Deferred<*>
+    suspend fun tvCredits(
+        @Path("person_id") id: Int,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String
+    ): Nothing
 
     @GET("person/{person_id}/combined_credits?")
-    fun combinedCredits(
-            @Path("person_id") id: Int,
-            @Query("api_key") apiKey: String,
-            @Query("language") language: String
-    ): Deferred<*>
+    suspend fun combinedCredits(
+        @Path("person_id") id: Int,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String
+    ): Nothing
 
     @GET("person/{person_id}/external_ids?")
-    fun externalIDs(
-            @Path("person_id") id: Int,
-            @Query("api_key") apiKey: String,
-            @Query("language") language: String
-    ): Deferred<*>
+    suspend fun externalIDs(
+        @Path("person_id") id: Int,
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String
+    ): Nothing
 
     @GET("person/{person_id}/images?")
-    fun personImages(
-            @Path("person_id") id: Int,
-            @Query("api_key") apiKey: String
-    ): Deferred<*>
+    suspend fun personImages(
+        @Path("person_id") id: Int,
+        @Query("api_key") apiKey: String
+    ): Nothing
 
     @GET("person/{person_id}/tagged_images?")
-    fun taggedImages(
-            @Path("person_id") id: Int,
-            @Query("api_key") apiKey: String,
-            @Query("page") page: Int
-    ): Deferred<*>
+    suspend fun taggedImages(
+        @Path("person_id") id: Int,
+        @Query("api_key") apiKey: String,
+        @Query("page") page: Int
+    ): Nothing
 
     // getTranslations
 
     @GET("person/latest?")
-    fun personLatest(
-            @Query("api_key") apiKey: String,
-            @Query("language") language: String
-    ): Deferred<*>
+    suspend fun personLatest(
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String
+    ): Nothing
 
     @GET("person/popular?")
-    fun personPopular(
-            @Query("api_key") apiKey: String,
-            @Query("language") language: String,
-            @Query("page") page: Int
-    ): Deferred<Result<Person>>
+    suspend fun personPopular(
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String,
+        @Query("page") page: Int
+    ): Result<Person>
 
     //endregion
 
     //region Reviews
 
     @GET("review/{review_id}?")
-    fun reviewDetails(
-            @Path("review_id") id: String,
-            @Query("api_key") apiKey: String
-    ): Deferred<Review>
+    suspend fun reviewDetails(
+        @Path("review_id") id: String,
+        @Query("api_key") apiKey: String
+    ): Review
 
     //endregion
 
     //region Search
 
     @GET("search/company?")
-    fun searchCompanies(
-            @Query("api_key") apiKey: String,
-            @Query("query") query: String,
-            @Query("page") page: Int
-    ): Deferred<Result<Company>>
+    suspend fun searchCompanies(
+        @Query("api_key") apiKey: String,
+        @Query("query") query: String,
+        @Query("page") page: Int
+    ): Result<Company>
 
     @GET("search/collection?")
-    fun searchCollections(
-            @Query("api_key") apiKey: String,
-            @Query("language") lang: String,
-            @Query("query") query: String,
-            @Query("page") page: Int
-    ): Deferred<Result<Collection>>
+    suspend fun searchCollections(
+        @Query("api_key") apiKey: String,
+        @Query("language") lang: String,
+        @Query("query") query: String,
+        @Query("page") page: Int
+    ): Result<Collection>
 
     @GET("search/keyword?")
-    fun searchKeywords(
-            @Query("api_key") apiKey: String,
-            @Query("query") query: String,
-            @Query("page") page: Int
-    ): Deferred<Result<Keyword>>
+    suspend fun searchKeywords(
+        @Query("api_key") apiKey: String,
+        @Query("query") query: String,
+        @Query("page") page: Int
+    ): Result<Keyword>
 
     @GET("search/movie?")
-    fun searchMovies(
-            @Query("api_key") apiKey: String,
-            @Query("language") lang: String,
-            @Query("query") query: String,
-            @Query("page") page: Int,
-            @Query("include_adult") adult: Boolean,
-            @Query("region") region: String
-            //@Query("year") int year,
-            //@Query("primary_release_year") int primaryReleaseYear
-    ): Deferred<Response<Result<Movie>>>
+    suspend fun searchMovies(
+        @Query("api_key") apiKey: String,
+        @Query("language") lang: String,
+        @Query("query") query: String,
+        @Query("page") page: Int,
+        @Query("include_adult") adult: Boolean,
+        @Query("region") region: String
+        //@Query("year") int year,
+        //@Query("primary_release_year") int primaryReleaseYear
+    ): Response<Result<Movie>>
 
     @GET("search/multi?")
-    fun searchMulti(): Deferred<*>
+    suspend fun searchMulti(): Response<*>
 
     @GET("search/person?")
-    fun searchPeople(
-            @Query("api_key") apiKey: String,
-            @Query("language") lang: String,
-            @Query("query") query: String,
-            @Query("page") page: Int,
-            @Query("include_adult") adult: Boolean,
-            @Query("region") region: String
-    ): Deferred<Result<Person>>
+    suspend fun searchPeople(
+        @Query("api_key") apiKey: String,
+        @Query("language") lang: String,
+        @Query("query") query: String,
+        @Query("page") page: Int,
+        @Query("include_adult") adult: Boolean,
+        @Query("region") region: String
+    ): Result<Person>
 
     @GET("search/tv?")
-    fun searchTvShows(): Deferred<*>
+    suspend fun searchTvShows(): Response<*>
 
     //endregion
 

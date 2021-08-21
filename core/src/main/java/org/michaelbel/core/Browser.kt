@@ -1,14 +1,14 @@
-package org.michaelbel.core.customtabs
+package org.michaelbel.core
 
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.ACTION_SEND
 import android.graphics.BitmapFactory
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import androidx.preference.PreferenceManager
-import org.michaelbel.core.R
 
 object Browser {
 
@@ -26,22 +26,25 @@ object Browser {
     }
 
     private fun openInAppUrl(context: Context, url: String) {
-        val shareIntent = Intent(Intent.ACTION_SEND)
-        shareIntent.type = "text/plain"
-        shareIntent.putExtra(Intent.EXTRA_TEXT, url)
+        val shareIntent = Intent(ACTION_SEND).apply {
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, url)
+        }
 
         val pendingIntent = PendingIntent.getActivity(context, REQUEST_CODE, shareIntent, PendingIntent.FLAG_UPDATE_CURRENT)
         val shareIcon = BitmapFactory.decodeResource(context.resources, R.drawable.ic_share)
 
-        val builder = CustomTabsIntent.Builder()
-        builder.addDefaultShareMenuItem()
-        builder.setShowTitle(true)
-        builder.setToolbarColor(ContextCompat.getColor(context, R.color.primary))
-        builder.setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.primary))
-        builder.setActionButton(shareIcon, context.getString(R.string.share_link), pendingIntent, true)
+        val builder = CustomTabsIntent.Builder().apply {
+            addDefaultShareMenuItem()
+            setShowTitle(true)
+            setToolbarColor(ContextCompat.getColor(context, R.color.primary))
+            setSecondaryToolbarColor(ContextCompat.getColor(context, R.color.primary))
+            setActionButton(shareIcon, context.getString(R.string.share_link), pendingIntent, true)
+        }
 
-        val intent = builder.build()
-        intent.launchUrl(context, url.toUri())
+        builder.build().apply {
+            launchUrl(context, url.toUri())
+        }
     }
 
     private fun openBrowserUrl(context: Context, url: String) {
