@@ -7,7 +7,7 @@ buildscript {
         minSdkVersion = 21
         targetSdkVersion = 30
         buildToolsVersion = '30.0.3'
-        gradleVersion = '7.0.0'
+        gradleVersion = '7.0.1'
         detektVersion = '1.18.0-RC2'
 
         // Kotlin
@@ -101,10 +101,4 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
-}
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
 }
