@@ -104,8 +104,8 @@ class ReviewFragment: BaseFragment(R.layout.fragment_review) {
             return@setOnMenuItemClickListener true
         }
 
-        binding.reviewText.text = review.content
-        binding.reviewText.controller.settings.enableGestures()
+        //binding.reviewText.text = review.content
+        //binding.reviewText.controller.settings.enableGestures()
 
         //val pin = preferences.getBoolean(KEY_TOOLBAR_PINNED, false)
         //val params = toolbar.layoutParams as AppBarLayout.LayoutParams
@@ -114,15 +114,15 @@ class ReviewFragment: BaseFragment(R.layout.fragment_review) {
 
         when (preferences.getInt(KEY_REVIEW_THEME, THEME_NIGHT)) {
             THEME_LIGHT -> {
-                binding.reviewText.setTextColor(textLight)
+                //binding.reviewText.setTextColor(textLight)
                 binding.scrollView.setBackgroundColor(backgroundLight)
             }
             THEME_SEPIA -> {
-                binding.reviewText.setTextColor(textSepia)
+                //binding.reviewText.setTextColor(textSepia)
                 binding.scrollView.setBackgroundColor(backgroundSepia)
             }
             THEME_NIGHT -> {
-                binding.reviewText.setTextColor(textNight)
+                //binding.reviewText.setTextColor(textNight)
                 binding.scrollView.setBackgroundColor(backgroundNight)
             }
         }
@@ -175,7 +175,7 @@ class ReviewFragment: BaseFragment(R.layout.fragment_review) {
             backgroundColorEnd = backgroundNight
         }
 
-        AnimatorSet().apply {
+        /*AnimatorSet().apply {
             playTogether(
                     ObjectAnimator.ofObject(binding.scrollView, "backgroundColor", ArgbEvaluator(), backgroundColorStart, backgroundColorEnd),
                     ObjectAnimator.ofObject(binding.reviewText, "textColor", ArgbEvaluator(), textColorStart, textColorEnd)
@@ -183,7 +183,7 @@ class ReviewFragment: BaseFragment(R.layout.fragment_review) {
             duration = 300L
             interpolator = DecelerateInterpolator(2F)
             start()
-        }
+        }*/
     }
 
     // fixme do not work.

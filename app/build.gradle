@@ -72,10 +72,6 @@ android {
         viewBinding true
     }
 
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
-
     lintOptions {
         lintConfig file('lint.xml')
         checkReleaseBuilds false
@@ -113,22 +109,15 @@ dependencies {
     implementation "com.google.firebase:firebase-core:$firebaseCoreVersion"
 
     implementation "com.github.kirich1409:viewbindingpropertydelegate:$viewBindingPropertyDelegateVersion"
+    implementation "com.facebook.stetho:stetho-okhttp3:$stethoOkhttpVersion"
+    implementation "com.beloo.widget:ChipsLayoutManager:$chipsLayoutManagerVersion"
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+              kapt "com.github.bumptech.glide:compiler:$glideVersion"
+    implementation "com.tspoon.traceur:traceur:$traceurVersion"
 
-
-
-
-    implementation "com.github.bumptech.glide:glide:4.12.0"
-              kapt "com.github.bumptech.glide:compiler:4.12.0"
-    implementation 'com.beloo.widget:ChipsLayoutManager:0.3.7'
-    implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:8.0.1'
-    implementation 'com.alexvasilkov:events:1.0.0'
-    implementation 'com.alexvasilkov:gesture-views:2.4.0'
-    implementation 'com.alexvasilkov:android-commons:2.0.2'
-    implementation "com.tspoon.traceur:traceur:1.0.1"
-    implementation "com.facebook.stetho:stetho-okhttp3:1.5.1"
-    debugImplementation "com.github.ajitsing:sherlock:1.0.4"
-    releaseImplementation "com.github.ajitsing:sherlock-no-op:1.0.4"
-    debugImplementation "com.readystatesoftware.chuck:library:1.1.0"
-    releaseImplementation "com.readystatesoftware.chuck:library-no-op:1.1.0"
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.0-alpha-1"
+    debugImplementation "com.github.ajitsing:sherlock:$sherlockVersion"
+    releaseImplementation "com.github.ajitsing:sherlock-no-op:$sherlockVersion"
+    debugImplementation "com.readystatesoftware.chuck:library:$chuckVersion"
+    releaseImplementation "com.readystatesoftware.chuck:library-no-op:$chuckVersion"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
 }
