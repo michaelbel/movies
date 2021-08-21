@@ -130,5 +130,5 @@ dependencies {
     releaseImplementation "com.github.ajitsing:sherlock-no-op:1.0.4"
     debugImplementation "com.readystatesoftware.chuck:library:1.1.0"
     releaseImplementation "com.readystatesoftware.chuck:library-no-op:1.1.0"
-    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.0-alpha-1"
+    debugImplementation "com.squareup.leakcanary:leakcanary-android:2.7"
 }
