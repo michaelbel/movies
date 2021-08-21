@@ -33,7 +33,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
 
-        <org.michaelbel.moviemade.presentation.common.GestureTextView
+        <TextView
             android:id="@+id/reviewText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
