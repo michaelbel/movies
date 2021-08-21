@@ -59,7 +59,7 @@ buildscript {
         googleServicesVersion = '4.3.10'
         firebaseAppDistribution = '2.1.3'
         firebaseAnalytics = '19.0.0'
-        firebaseCoreVersion = '19.0.0'
+        firebaseCoreVersion = '19.0.1'
         firebaseCrashlyticsVersion = '18.2.1'
         materialVersion = '1.4.0'
         playcoreVersion = '1.8.1'
