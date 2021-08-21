@@ -125,7 +125,7 @@ dependencies {
     implementation 'com.alexvasilkov:gesture-views:2.4.0'
     implementation 'com.alexvasilkov:android-commons:2.0.2'
     implementation "com.tspoon.traceur:traceur:1.0.1"
-    implementation "com.facebook.stetho:stetho-okhttp3:1.5.1"
+    implementation "com.facebook.stetho:stetho-okhttp3:1.6.0"
     debugImplementation "com.github.ajitsing:sherlock:1.0.4"
     releaseImplementation "com.github.ajitsing:sherlock-no-op:1.0.4"
     debugImplementation "com.readystatesoftware.chuck:library:1.1.0"
