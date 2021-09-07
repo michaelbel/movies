@@ -1,20 +1,17 @@
 package org.michaelbel.data.remote.model
 
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
 
 data class Video(
-        @SerializedName("id") val id: String = "",
-        @SerializedName("iso_639_1") val lang: String = "",
-        @SerializedName("iso_3166_1") val country: String = "",
-        @SerializedName("key") val key: String = "",
-        @SerializedName("name") val name: String = "",
-        @SerializedName("site") val site: String = "",
-        @SerializedName("size") val size: Int = 0,
-        @SerializedName("type") val type: String = "",
-
-        val movieId: Int = 0
-): Serializable {
+    @SerializedName("id") val id: String = "",
+    @SerializedName("iso_639_1") val lang: String = "",
+    @SerializedName("iso_3166_1") val country: String = "",
+    @SerializedName("key") val key: String = "",
+    @SerializedName("name") val name: String = "",
+    @SerializedName("site") val site: String = "",
+    @SerializedName("size") val size: Int = 0,
+    @SerializedName("type") val type: String = "",
+) {
 
     companion object {
         const val SIZE_360 = 360

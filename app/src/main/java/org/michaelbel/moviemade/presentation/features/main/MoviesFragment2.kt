@@ -22,11 +22,8 @@ import org.michaelbel.moviemade.ktx.argumentDelegate
 import org.michaelbel.moviemade.ktx.assistedViewModels
 import org.michaelbel.moviemade.ktx.getIcon
 import org.michaelbel.moviemade.ktx.launchAndRepeatWithViewLifecycle
-import org.michaelbel.moviemade.ktx.startActivity
-import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_MOVIE
 import org.michaelbel.moviemade.presentation.common.GridSpacingItemDecoration
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
-import org.michaelbel.moviemade.presentation.features.movie.MovieActivity
 import javax.inject.Inject
 
 /**
@@ -99,16 +96,8 @@ class MoviesFragment2: BaseFragment(R.layout.fragment_lce) {
                     binding.emptyView.setValue(R.string.error_empty_api_key)
                 }
             } }
-            launch { viewModel.click.collect {
-                requireActivity().startActivity<MovieActivity> {
-                    putExtra(EXTRA_MOVIE, it)
-                }
-            } }
-            launch { viewModel.longClick.collect {
-                requireActivity().startActivity<MovieActivity> {
-                    putExtra(EXTRA_MOVIE, it)
-                }
-            } }
+            launch { viewModel.click.collect {} }
+            launch { viewModel.longClick.collect {} }
             launch { viewModel.toolbarTitle.collect {
                 when (it) {
                     is Int -> binding.toolbar.title = getString(it)

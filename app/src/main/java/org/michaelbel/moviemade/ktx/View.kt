@@ -4,12 +4,7 @@ package org.michaelbel.moviemade.ktx
 
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.res.ColorStateList
-import android.graphics.Bitmap
-import android.graphics.BlendMode
-import android.graphics.BlendModeColorFilter
-import android.graphics.Canvas
-import android.graphics.PorterDuff
-import android.graphics.Rect
+import android.graphics.*
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.graphics.drawable.GradientDrawable
@@ -30,12 +25,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.marginBottom
-import androidx.core.view.marginEnd
-import androidx.core.view.marginLeft
-import androidx.core.view.marginTop
+import androidx.core.view.*
 import timber.log.Timber
 
 inline fun View.createGradientDrawable(
@@ -343,6 +333,10 @@ fun View.doOnApplyWindowInsets(block: (View, insets: WindowInsetsCompat, initial
     val initialPadding = recordInitialPaddingForView(this)
     ViewCompat.setOnApplyWindowInsetsListener(this) { v, insets -> block(v, insets, initialPadding) }
     requestApplyInsetsWhenAttached()
+}
+
+fun View.doOnApplyWindowInsets(block: (View, insets: WindowInsetsCompat) -> WindowInsetsCompat) {
+    ViewCompat.setOnApplyWindowInsetsListener(this) { v, insets -> block(v, insets) }
 }
 
 private fun recordInitialPaddingForView(view: View): Rect = Rect(view.paddingLeft, view.paddingTop, view.paddingRight, view.paddingBottom)

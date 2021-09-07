@@ -11,7 +11,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
-import androidx.fragment.app.commitNow
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.squareup.picasso.Callback
@@ -36,9 +35,6 @@ import org.michaelbel.moviemade.presentation.ContainerActivity
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_ACCOUNT_ID
 import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.FRAGMENT_NAME
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
-import org.michaelbel.moviemade.presentation.features.login.LoginFragment
-import org.michaelbel.moviemade.presentation.features.main.MainActivity
-import org.michaelbel.moviemade.presentation.features.main.MainActivity.Companion.FRAGMENT_TAG
 import java.util.*
 import javax.inject.Inject
 
@@ -78,9 +74,7 @@ class UserFragment: BaseFragment(R.layout.fragment_user) {
 
         val sessionId: String = preferences.getString(KEY_SESSION_ID, "") ?: ""
         if (sessionId.isEmpty()) {
-            parentFragmentManager.commitNow {
-                replace((requireActivity() as MainActivity).containerId, LoginFragment.newInstance(), FRAGMENT_TAG)
-            }
+
         }
 
         updateData()
@@ -115,9 +109,6 @@ class UserFragment: BaseFragment(R.layout.fragment_user) {
             launch {
                 viewModel.sessionDeleted.collect {
                     preferences.edit().putString(KEY_SESSION_ID, "").apply()
-                    parentFragmentManager.commitNow {
-                        replace((requireActivity() as MainActivity).containerId, LoginFragment.newInstance(), FRAGMENT_TAG)
-                    }
                 }
             }
             launch {

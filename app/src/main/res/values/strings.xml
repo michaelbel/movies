@@ -20,6 +20,8 @@
     <string name="keywords">Keywords</string>
     <string name="no_keywords">No keywords</string>
     <!--main-->
+    <string name="menu_item_view">View</string>
+
     <string name="now_playing">Now Playing</string>
     <string name="top_rated">Top Rated</string>
     <string name="upcoming">Upcoming</string>

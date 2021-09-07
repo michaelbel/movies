@@ -1,6 +1,5 @@
 package org.michaelbel.domain
 
-import org.michaelbel.data.local.dao.UsersDao
 import org.michaelbel.data.remote.Api
 import org.michaelbel.data.remote.model.Account
 import org.michaelbel.data.remote.model.DeletedSession
@@ -10,10 +9,11 @@ import org.michaelbel.data.remote.model.SessionId
 import org.michaelbel.data.remote.model.Token
 import org.michaelbel.data.remote.model.Username
 import retrofit2.Response
+import javax.inject.Inject
 
-class UsersRepository(private val api: Api, private val dao: UsersDao) {
-
-    //region Remote
+class UsersRepository @Inject constructor(
+    private val api: Api
+) {
 
     suspend fun createSessionId(apiKey: String, token: String): Response<Session> {
         return api.createSession(apiKey, RequestToken(token))
@@ -38,6 +38,4 @@ class UsersRepository(private val api: Api, private val dao: UsersDao) {
     suspend fun createRequestToken(apiKey: String, name: String, pass: String): Response<Token> {
         return api.createRequestToken(apiKey)
     }
-
-    //endregion
 }

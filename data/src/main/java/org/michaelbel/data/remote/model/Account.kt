@@ -1,7 +1,6 @@
 package org.michaelbel.data.remote.model
 
 import com.google.gson.annotations.SerializedName
-import java.io.Serializable
 
 data class Account(
     @SerializedName("avatar") val avatar: Avatar,
@@ -11,4 +10,4 @@ data class Account(
     @SerializedName("name") val name: String,
     @SerializedName("include_adult") val includeAdult: Boolean,
     @SerializedName("username") val username: String
-): Serializable
+)

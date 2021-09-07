@@ -40,8 +40,6 @@ import org.michaelbel.data.remote.model.Country
 import org.michaelbel.data.remote.model.Genre
 import org.michaelbel.data.remote.model.Mark
 import org.michaelbel.data.remote.model.Movie
-import org.michaelbel.data.remote.model.Movie.Companion.RECOMMENDATIONS
-import org.michaelbel.data.remote.model.Movie.Companion.SIMILAR
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.TmdbConfig.IMDB_MOVIE
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_IMAGE
@@ -53,15 +51,7 @@ import org.michaelbel.moviemade.databinding.FragmentMovieOldBinding
 import org.michaelbel.moviemade.ktx.launchAndRepeatWithViewLifecycle
 import org.michaelbel.moviemade.ktx.loadImage
 import org.michaelbel.moviemade.ktx.setIcon
-import org.michaelbel.moviemade.ktx.startActivity
-import org.michaelbel.moviemade.presentation.ContainerActivity
-import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.FRAGMENT_NAME
-import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.KEYWORDS
-import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.REVIEWS
-import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.TRAILERS
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
-import org.michaelbel.moviemade.presentation.features.search.SearchActivity
-import org.michaelbel.moviemade.presentation.features.search.SearchActivity.Companion.EXTRA_QUERY
 import org.michaelbel.moviemade.presentation.listitem.CrewListItem
 import org.michaelbel.moviemade.presentation.listitem.GenreListItem
 import org.michaelbel.moviemade.presentation.widget.FaveButton
@@ -154,36 +144,9 @@ class MovieFragment: BaseFragment(R.layout.fragment_movie_old) {
         binding.crewList.adapter = crewAdapter
         binding.crewList.layoutManager = LinearLayoutManager(requireContext())
 
-        binding.trailersText.setOnClickListener {
-            requireActivity().startActivity<ContainerActivity> {
-                putExtra(FRAGMENT_NAME, TRAILERS)
-                putExtra(EXTRA_MOVIE, movie)
-            }
-        }
-        binding.reviewsText.setOnClickListener {
-            requireActivity().startActivity<ContainerActivity> {
-                putExtra(FRAGMENT_NAME, REVIEWS)
-                putExtra(EXTRA_MOVIE, movie)
-            }
-        }
-        binding.keywordsText.setOnClickListener {
-            requireActivity().startActivity<ContainerActivity> {
-                putExtra(FRAGMENT_NAME, KEYWORDS)
-                putExtra(EXTRA_MOVIE, movie)
-            }
-        }
-        binding.similarText.setOnClickListener {
-            requireActivity().startActivity<ContainerActivity> {
-                putExtra(FRAGMENT_NAME, SIMILAR)
-                putExtra(EXTRA_MOVIE, movie)
-            }
-        }
-        binding.recommendationsText.setOnClickListener {
-            requireActivity().startActivity<ContainerActivity> {
-                putExtra(FRAGMENT_NAME, RECOMMENDATIONS)
-                putExtra(EXTRA_MOVIE, movie)
-            }
-        }
+        binding.trailersText.setOnClickListener {}
+        binding.similarText.setOnClickListener {}
+        binding.recommendationsText.setOnClickListener {}
 
         movie = arguments?.getSerializable(EXTRA_MOVIE) as Movie
         movieExtra(movie)
@@ -406,11 +369,6 @@ class MovieFragment: BaseFragment(R.layout.fragment_movie_old) {
                         min = max(0, min(start, end))
                         max = max(0, max(start, end))
                     }
-
-                    val selectedText = view.text.subSequence(min, max).toString()
-
-                    requireActivity().startActivity<SearchActivity> { putExtra(EXTRA_QUERY, selectedText) }
-
                     mode?.finish()
                     return true
                 }
