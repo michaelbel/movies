@@ -6,7 +6,6 @@ import android.view.View
 import android.view.inputmethod.EditorInfo.IME_ACTION_DONE
 import android.widget.Toast
 import androidx.core.content.edit
-import androidx.fragment.app.commit
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,9 +35,6 @@ import org.michaelbel.moviemade.core.text.SpannableUtil
 import org.michaelbel.moviemade.databinding.FragmentLoginBinding
 import org.michaelbel.moviemade.ktx.*
 import org.michaelbel.moviemade.presentation.common.base.BaseFragment
-import org.michaelbel.moviemade.presentation.features.main.MainActivity
-import org.michaelbel.moviemade.presentation.features.main.MainActivity.Companion.FRAGMENT_TAG
-import org.michaelbel.moviemade.presentation.features.user.UserFragment
 import retrofit2.HttpException
 
 @AndroidEntryPoint
@@ -87,10 +83,6 @@ class LoginFragment: BaseFragment(R.layout.fragment_login) {
 
                     viewModel.preferences.edit().putString(SharedPrefs.KEY_SESSION_ID, it).apply()
                     binding.password.hideKeyboard()
-
-                    parentFragmentManager.commit {
-                        replace((requireActivity() as MainActivity).containerId, UserFragment.newInstance(), FRAGMENT_TAG)
-                    }
                 }
             }
             launch {

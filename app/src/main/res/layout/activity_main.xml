@@ -1,38 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<androidx.fragment.app.FragmentContainerView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/parentLayout"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigationHostFragment"
+    android:name="androidx.navigation.fragment.NavHostFragment"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
-
-    <org.michaelbel.moviemade.presentation.common.appbar.MainAppBar
-        android:id="@+id/appBarLayout"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        app:elevation="@dimen/app_bar_elevation">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?actionBarSize"/>
-
-    </org.michaelbel.moviemade.presentation.common.appbar.MainAppBar>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/bottom_navigation_height"
-        android:layout_gravity="bottom"
-        app:menu="@menu/main_navigation"
-        app:labelVisibilityMode="labeled"
-        app:itemTextColor="@drawable/bottom_navigation_selector"
-        app:itemIconTint="@drawable/bottom_navigation_selector"
-        app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"/>
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    android:layout_height="match_parent"
+    app:defaultNavHost="true"
+    app:navGraph="@navigation/navigation_graph"
+    tools:context=".presentation.features.main.MainActivity"/>

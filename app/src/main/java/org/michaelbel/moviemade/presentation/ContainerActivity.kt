@@ -14,11 +14,8 @@ import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.databinding.ActivityParentBinding
 import org.michaelbel.moviemade.presentation.common.base.BaseActivity
 import org.michaelbel.moviemade.presentation.features.about.AboutFragment
-import org.michaelbel.moviemade.presentation.features.keywords.KeywordsFragment
 import org.michaelbel.moviemade.presentation.features.main.MoviesFragment2
-import org.michaelbel.moviemade.presentation.features.reviews.ReviewsFragment
 import org.michaelbel.moviemade.presentation.features.settings.SettingsFragment
-import org.michaelbel.moviemade.presentation.features.trailers.TrailersFragment
 
 @AndroidEntryPoint
 class ContainerActivity: BaseActivity(R.layout.activity_parent) {
@@ -41,16 +38,13 @@ class ContainerActivity: BaseActivity(R.layout.activity_parent) {
 
         if (savedInstanceState == null) {
             val screen: Fragment = when(fragment) {
-                TRAILERS -> TrailersFragment.newInstance(movie!!)
-                REVIEWS -> ReviewsFragment.newInstance(movie!!)
-                KEYWORDS -> KeywordsFragment.newInstance(movie!!)
                 ABOUT -> AboutFragment()
                 SETTINGS -> SettingsFragment()
                 FAVORITE -> MoviesFragment2.newInstance(FAVORITE, accountId)
                 WATCHLIST -> MoviesFragment2.newInstance(WATCHLIST, accountId)
                 SIMILAR -> MoviesFragment2.newInstance(SIMILAR, movie!!)
                 RECOMMENDATIONS -> MoviesFragment2.newInstance(RECOMMENDATIONS, movie!!)
-                else -> TrailersFragment.newInstance(movie!!)
+                else -> return
             }
 
             supportFragmentManager.commitNow { replace(containerId, screen) }
@@ -64,8 +58,6 @@ class ContainerActivity: BaseActivity(R.layout.activity_parent) {
         const val FRAGMENT_NAME = "fragment_name"
 
         const val TRAILERS = "trailers"
-        const val REVIEWS = "reviews"
-        const val KEYWORDS = "keywords"
         const val ABOUT = "about"
         const val SETTINGS = "settings"
     }

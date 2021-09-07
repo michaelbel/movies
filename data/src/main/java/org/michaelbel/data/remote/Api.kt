@@ -17,6 +17,7 @@ import org.michaelbel.data.remote.model.Movie
 import org.michaelbel.data.remote.model.Network
 import org.michaelbel.data.remote.model.Person
 import org.michaelbel.data.remote.model.RequestToken
+import org.michaelbel.data.remote.model.Result
 import org.michaelbel.data.remote.model.Review
 import org.michaelbel.data.remote.model.Session
 import org.michaelbel.data.remote.model.SessionId
@@ -24,7 +25,6 @@ import org.michaelbel.data.remote.model.Token
 import org.michaelbel.data.remote.model.Username
 import org.michaelbel.data.remote.model.Video
 import org.michaelbel.data.remote.model.Watch
-import org.michaelbel.data.remote.model.base.Result
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET

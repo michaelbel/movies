@@ -402,38 +402,6 @@
             android:maxLines="1"
             android:text="@string/trailers"/>
 
-        <!--Reviews-->
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/reviewsText"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textSize="20sp"
-            android:textColor="?android:attr/textColorPrimary"
-            android:fontFamily="sans-serif-medium"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center_vertical"
-            android:maxLines="1"
-            android:text="@string/reviews"/>
-
-        <!--Keywords-->
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/keywordsText"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:layout_gravity="center_vertical"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textSize="20sp"
-            android:textColor="?android:attr/textColorPrimary"
-            android:fontFamily="sans-serif-medium"
-            android:background="?attr/selectableItemBackground"
-            android:gravity="center_vertical"
-            android:maxLines="1"
-            android:text="@string/keywords"/>
-
         <!--Similar movies-->
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/similarText"

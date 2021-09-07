@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 }
 
 android {
@@ -26,6 +28,8 @@ dependencies {
     api "androidx.preference:preference-ktx:$preferenceVersion"
     api "androidx.recyclerview:recyclerview:$recyclerviewVersion"
 
+    api "com.google.dagger:hilt-android:$daggerVersion"
+    kapt "com.google.dagger:hilt-compiler:$daggerVersion"
     api "com.google.firebase:firebase-core:$firebaseCoreVersion"
 
     api "com.squareup.picasso:picasso:$picassoVersion"

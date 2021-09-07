@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="org.michaelbel.moviemade.presentation.features.main.MainFragment"
+        tools:layout="@layout/fragment_lce">
+
+        <argument
+            android:name="firstText"
+            app:argType="string"
+            app:nullable="true"/>
+
+        <argument
+            android:name="secondNumber"
+            android:defaultValue="0"
+            app:argType="integer"/>
+
+        <!--<action
+            android:id="@+id/action_mainFragment_to_navArgsFragment"
+            app:destination="@id/navArgsFragment"/>-->
+
+    </fragment>
+
+    <!--<fragment
+        android:id="@+id/reviewFragment"
+        android:name="org.michaelbel.template.review.ui.ReviewFragment"
+        tools:layout="@layout/fragment_review"/>-->
+
+</navigation>

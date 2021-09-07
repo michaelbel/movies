@@ -13,7 +13,6 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.michaelbel.core.retrofit.CoroutineCallAdapterFactory
 import org.michaelbel.data.remote.Api
 import org.michaelbel.moviemade.BuildConfig
 import org.michaelbel.moviemade.core.TmdbConfig
@@ -34,7 +33,6 @@ object NetworkModule {
             .baseUrl(TmdbConfig.TMDB_API_ENDPOINT)
             .client(okHttpClient(context))
             .addConverterFactory(GsonConverterFactory.create(gson))
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build()
     }
 
