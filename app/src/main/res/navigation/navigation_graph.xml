@@ -9,27 +9,23 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="org.michaelbel.moviemade.presentation.features.main.MainFragment"
-        tools:layout="@layout/fragment_lce">
+        tools:layout="@layout/fragment_main">
 
-        <argument
-            android:name="firstText"
-            app:argType="string"
-            app:nullable="true"/>
-
-        <argument
-            android:name="secondNumber"
-            android:defaultValue="0"
-            app:argType="integer"/>
-
-        <!--<action
-            android:id="@+id/action_mainFragment_to_navArgsFragment"
-            app:destination="@id/navArgsFragment"/>-->
+        <action
+            android:id="@+id/action_mainFragment_to_movieFragment"
+            app:destination="@id/movieFragment"/>
 
     </fragment>
 
-    <!--<fragment
-        android:id="@+id/reviewFragment"
-        android:name="org.michaelbel.template.review.ui.ReviewFragment"
-        tools:layout="@layout/fragment_review"/>-->
+    <fragment
+        android:id="@+id/movieFragment"
+        android:name="org.michaelbel.moviemade.presentation.features.movie.MovieFragment"
+        tools:layout="@layout/fragment_movie">
+
+        <argument
+            android:name="movie"
+            app:argType="org.michaelbel.data.remote.model.MovieResponse"/>
+
+    </fragment>
 
 </navigation>

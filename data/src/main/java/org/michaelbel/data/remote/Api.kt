@@ -1,38 +1,9 @@
 package org.michaelbel.data.remote
 
-import org.michaelbel.data.remote.model.Account
-import org.michaelbel.data.remote.model.AccountStates
+import org.michaelbel.data.remote.model.*
 import org.michaelbel.data.remote.model.Collection
-import org.michaelbel.data.remote.model.Company
-import org.michaelbel.data.remote.model.CreditsResponse
-import org.michaelbel.data.remote.model.DeletedSession
-import org.michaelbel.data.remote.model.Fave
-import org.michaelbel.data.remote.model.GenresResponse
-import org.michaelbel.data.remote.model.GuestSession
-import org.michaelbel.data.remote.model.ImagesResponse
-import org.michaelbel.data.remote.model.Keyword
-import org.michaelbel.data.remote.model.KeywordsResponse
-import org.michaelbel.data.remote.model.Mark
-import org.michaelbel.data.remote.model.Movie
-import org.michaelbel.data.remote.model.Network
-import org.michaelbel.data.remote.model.Person
-import org.michaelbel.data.remote.model.RequestToken
-import org.michaelbel.data.remote.model.Result
-import org.michaelbel.data.remote.model.Review
-import org.michaelbel.data.remote.model.Session
-import org.michaelbel.data.remote.model.SessionId
-import org.michaelbel.data.remote.model.Token
-import org.michaelbel.data.remote.model.Username
-import org.michaelbel.data.remote.model.Video
-import org.michaelbel.data.remote.model.Watch
 import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.HTTP
-import retrofit2.http.Header
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface Api {
 
@@ -362,6 +333,13 @@ interface Api {
     suspend fun movie(
         @Path("movie_id") id: Long,
         @Query("api_key") apiKey: String,
+        @Query("language") language: String
+    ): Response<Movie>
+
+    @GET("movie/{movie_id}")
+    suspend fun movie(
+        @Path("movie_id") id: Long,
+        @Query("api_key") apiKey: String,
         @Query("language") language: String,
         @Query("append_to_response") appendToResponse: String
     ): Response<Movie>
@@ -479,7 +457,7 @@ interface Api {
         @Query("api_key") apiKey: String,
         @Query("language") lang: String,
         @Query("page") page: Int
-    ): Response<Result<Movie>>
+    ): Response<Result<MovieResponse>>
 
     //endregion
 

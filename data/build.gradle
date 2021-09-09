@@ -22,6 +22,7 @@ dependencies {
     api "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycleVersion"
     api "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     api "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycleVersion"
+    api "androidx.paging:paging-runtime-ktx:$pagingVersion"
     api "androidx.room:room-runtime:$roomVersion"
    kapt "androidx.room:room-compiler:$roomVersion"
     api "androidx.room:room-ktx:$roomVersion"

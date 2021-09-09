@@ -7,7 +7,7 @@ data class Movie(
     @SerializedName("imdb_id") val imdbId: String? = null,
     @SerializedName("adult") val adult: Boolean = false,
     @SerializedName("backdrop_path") val backdropPath: String? = null,
-    @SerializedName("belongs_to_collection") val belongsToCollection: Collection,
+    @SerializedName("belongs_to_collection") val belongsToCollection: Collection = Collection(),
     @SerializedName("budget") val budget: Int = 0,
     @SerializedName("genres") val genres: List<Genre> = emptyList(),
     @SerializedName("homepage") val homepage: String? = null,
@@ -29,7 +29,7 @@ data class Movie(
     @SerializedName("vote_average") val voteAverage: Float = 0F,
     @SerializedName("vote_count") val voteCount: Int = 0,
     @SerializedName("media_type") val mediaType: String = "",
-    @SerializedName("genre_ids") val genreIds: List<Int>,
+    @SerializedName("genre_ids") val genreIds: List<Int> = emptyList(),
     @SerializedName("credits") val credits: CreditsResponse? = null
 ) {
 
