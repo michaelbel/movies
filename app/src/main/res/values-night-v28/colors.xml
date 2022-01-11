@@ -1,7 +1,6 @@
 <resources>
     <color name="primary">@color/md_white</color>
     <color name="primaryDark">@color/md_red_200</color>
-    <color name="accent">#ff5252</color>
 
     <color name="textColorPrimary">#ffffff</color>
     <color name="textColorSecondary">#b3ffffff</color>
@@ -19,7 +18,6 @@
     <color name="backdropBlur">#99081c24</color>
     <color name="youtubeColor">#f44336</color>
 
-    <color name="strokeColor">#19000000</color>
     <color name="placeHolderColor">#FFE0E0E0</color>
     <color name="errorHolderColor">#FFE57373</color>
 

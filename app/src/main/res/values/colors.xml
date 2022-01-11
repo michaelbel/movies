@@ -1,7 +1,47 @@
 <resources>
+    <color name="Background">#FFFBFE</color>
+    <color name="Error">#B3261E</color>
+    <color name="ErrorContainer">#F9DEDC</color>
+    <color name="InverseOnSurface">#F4EFF4</color>
+    <color name="InversePrimary">#D0BCFF</color>
+    <color name="InverseSurface">#313033</color>
+    <color name="OnBackground">#1C1B1F</color>
+    <color name="OnError">#FFFFFF</color>
+    <color name="OnErrorContainer">#410E0B</color>
+    <color name="OnPrimary">#FFFFFF</color>
+    <color name="OnPrimaryContainer">#21005D</color>
+    <color name="OnSecondary">#FFFFFF</color>
+    <color name="OnSecondaryContainer">#1D192B</color>
+    <color name="OnSurface">#1C1B1F</color>
+    <color name="OnSurfaceVariant">#49454F</color>
+    <color name="OnTertiary">#FFFFFF</color>
+    <color name="OnTertiaryContainer">#31111D</color>
+    <color name="Outline">#79747E</color>
+    <color name="Primary">#6750A4</color>
+    <color name="PrimaryContainer">#EADDFF</color>
+    <color name="Secondary">#625B71</color>
+    <color name="SecondaryContainer">#E8DEF8</color>
+    <color name="Surface">#FFFBFE</color>
+    <color name="SurfaceVariant">#E7E0EC</color>
+    <color name="Tertiary">#7D5260</color>
+    <color name="TertiaryContainer">#FFD8E4</color>
+
+
+
+    <color name="accent">#FF5252</color>
+    <color name="toolbarIconTint">#000000</color>
+    <color name="contentScrimColor">#FFFFFF</color>
+    <color name="surfaceColor">#F0F0F0</color>
+    <color name="statusBarColor">#99F0F0F0</color>
+    <color name="ratingIconTint">#FFC107</color>
+    <color name="splashScreenBackground">#034565</color>
+
+
+
+
     <color name="primary">@color/md_white</color>
     <color name="primaryDark">@color/md_red_200</color>
-    <color name="accent">#ff5252</color>
+
 
     <color name="textColorPrimary">#ffffff</color>
     <color name="textColorSecondary">#b3ffffff</color>
@@ -19,7 +59,6 @@
     <color name="backdropBlur">#99081c24</color>
     <color name="youtubeColor">#f44336</color>
 
-    <color name="strokeColor">#19000000</color>
     <color name="placeHolderColor">#FFE0E0E0</color>
     <color name="errorHolderColor">#FFE57373</color>
 

@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.presentation.common.base
+package org.michaelbel.moviemade.presentation
 
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.Fragment
@@ -6,6 +6,4 @@ import androidx.fragment.app.Fragment
 open class BaseFragment(@LayoutRes containerResId: Int): Fragment(containerResId) {
 
     open fun onNewIntent(action: String?, data: String?) {}
-
-    open fun onScrollToTop() {}
 }

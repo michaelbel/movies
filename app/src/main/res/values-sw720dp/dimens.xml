@@ -4,26 +4,6 @@
     <dimen name="backdrop_height">480dp</dimen>
     <dimen name="backdrop_margin">144dp</dimen>
 
-
-
-    <!--TrailersActivity-->
-    <dimen name="trailer_badge_text_size">11sp</dimen>
-    <!--AboutActivity-->
-    <dimen name="about_view_padding">48dp</dimen>
-    <dimen name="about_view_launcher_icon_size">200dp</dimen>
-    <dimen name="about_view_name_text_size">30sp</dimen>
-    <dimen name="about_view_name_margin">12dp</dimen>
-    <dimen name="about_version_text_size">22sp</dimen>
-    <dimen name="about_version_margin">8dp</dimen>
-
-    <dimen name="cell_height">56dp</dimen>
-    <dimen name="cell_icon_size">36dp</dimen>
-    <dimen name="cell_icon_margin_start">16dp</dimen>
-    <dimen name="cell_text_size">18sp</dimen>
-
-    <dimen name="powered_text_size">16sp</dimen>
-    <dimen name="powered_text_padding">20dp</dimen>
-
     <!--SearchMoviesFragment-->
     <integer name="movies_span_layout_count">4</integer>
 
@@ -33,9 +13,4 @@
     <!--layout/fragment_movie-->
     <dimen name="poster_image_width">250dp</dimen>
     <dimen name="poster_image_height">375dp</dimen>
-    <dimen name="poster_image_margin_start">16dp</dimen>
-    <dimen name="poster_image_margin_top">16dp</dimen>
-    <dimen name="poster_image_margin_bottom">16dp</dimen>
-    <dimen name="info_layout_margin_start">282dp</dimen><!-- poster_image_width + 16dp + 16dp -->
-    <dimen name="title_layout_margin_top">403dp</dimen><!-- poster_image_height + 16dp + 16dp -->
 </resources>

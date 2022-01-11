@@ -42,7 +42,7 @@
             app:cardElevation="2dp"
             app:cardBackgroundColor="@color/foregroundColor">
 
-            <org.michaelbel.moviemade.presentation.widget.WidgetEditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
             app:cardElevation="2dp"
             app:cardBackgroundColor="@color/foregroundColor">
 
-            <org.michaelbel.moviemade.presentation.widget.WidgetEditText
+            <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

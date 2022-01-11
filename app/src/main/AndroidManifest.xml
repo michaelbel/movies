@@ -11,17 +11,16 @@
     <application
         android:name=".presentation.App"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
         android:icon="@mipmap/ic_launcher_round"
         android:roundIcon="@mipmap/ic_launcher"
         android:allowBackup="true"
         android:fullBackupContent="true"
-        android:hardwareAccelerated="true">
+        android:hardwareAccelerated="true"
+        android:theme="@style/Theme.App.Starting">
 
         <activity
             android:name=".presentation.features.main.MainActivity"
-            android:exported="true"
-            android:launchMode="singleTask">
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -36,29 +35,29 @@
             </intent-filter>
             <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts"/>
         </activity>
-        
-        <activity
+
+        <!--<activity
             android:name=".presentation.features.movie.MovieActivity"
             android:exported="false"
             android:theme="@style/AppTheme">
-            <!--<intent-filter>
+            <intent-filter>
                 <action android:title="android.intent.action.VIEW"/>
                 <category android:title="android.intent.category.DEFAULT"/>
                 <category android:title="android.intent.category.BROWSABLE"/>
                 <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/movie/"/>
                 <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/movie"/>
-            </intent-filter>-->
-        </activity>
-
-        <activity
-            android:name=".presentation.ContainerActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme"/>
+            </intent-filter>
+        </activity>-->
 
         <!--AdMob-->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admobAppId"/>
+
+        <!-- Downloadable Fonts (https://d.android.com/guide/topics/ui/look-and-feel/downloadable-fonts) -->
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts"/>
 
     </application>
 

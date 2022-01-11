@@ -1,463 +1,129 @@
-<androidx.constraintlayout.widget.ConstraintLayout
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/parent"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:background="@color/backgroundColor">
+    android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/poster"
-        android:layout_width="@dimen/poster_image_width"
-        android:layout_height="@dimen/poster_image_height"
-        android:visibility="gone"
-        android:scaleType="fitXY"
-        android:layout_marginStart="@dimen/movie_content_margin"
-        android:layout_marginTop="@dimen/movie_content_margin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:visibility="visible"
-        tools:src="@drawable/example"/>
-
-    <org.michaelbel.moviemade.presentation.common.RatingView
-        android:id="@+id/ratingView"
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/movie_content_margin"
-        android:layout_marginTop="@dimen/movie_content_margin"
-        app:layout_constraintStart_toEndOf="@id/poster"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_width="100dp"/>
+        android:layout_gravity="top"
+        app:elevation="0dp">
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/ratingText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/rating_text_margin_start"
-        android:layout_marginTop="@dimen/movie_content_margin"
-        android:textSize="@dimen/rating_text_size"
-        android:textColor="?android:attr/textColorPrimary"
-        android:fontFamily="sans-serif-medium"
-        app:layout_constraintStart_toEndOf="@id/ratingView"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="8.5"
-        tools:textColor="@color/textColorPrimary"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/voteCountText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/movie_content_margin"
-        android:textSize="@dimen/vote_count_text_size"
-        android:textColor="?android:attr/textColorPrimary"
-        android:fontFamily="sans-serif-medium"
-        app:layout_constraintStart_toEndOf="@id/ratingText"
-        app:layout_constraintTop_toTopOf="@+id/ratingText"
-        app:layout_constraintBottom_toBottomOf="@+id/ratingText"
-        tools:text="2568"
-        tools:textColor="@color/textColorPrimary"/>
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/voteCountIcon"
-        android:layout_width="@dimen/vote_count_icon_size"
-        android:layout_height="@dimen/vote_count_icon_size"
-        android:layout_marginStart="@dimen/vote_count_icon_margin"
-        app:layout_constraintStart_toEndOf="@id/voteCountText"
-        app:layout_constraintBottom_toBottomOf="@id/voteCountText"
-        app:srcCompat="@drawable/ic_account_multiple"/>
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/dateIcon"
-        android:layout_width="@dimen/movie_info_icons_size"
-        android:layout_height="@dimen/movie_info_icons_size"
-        android:layout_marginStart="@dimen/movie_content_margin"
-        android:layout_marginTop="@dimen/movie_info_icons_margin"
-        app:layout_constraintStart_toEndOf="@id/poster"
-        app:layout_constraintTop_toBottomOf="@id/ratingView"
-        tools:src="@drawable/ic_calendar"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/dateText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/movie_info_text_margin"
-        android:textSize="@dimen/movie_info_text_size"
-        android:textColor="?android:attr/textColorPrimary"
-        android:fontFamily="sans-serif-medium"
-        android:maxLines="1"
-        app:layout_constraintStart_toEndOf="@id/dateIcon"
-        app:layout_constraintTop_toBottomOf="@id/dateIcon"
-        app:layout_constraintBottom_toTopOf="@id/dateIcon"
-        tools:text="25 Oct 2018"
-        tools:textColor="@color/textColorPrimary"/>
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/runtimeIcon"
-        android:layout_width="@dimen/movie_info_icons_size"
-        android:layout_height="@dimen/movie_info_icons_size"
-        android:layout_marginStart="@dimen/movie_content_margin"
-        android:layout_marginTop="@dimen/movie_info_icons_margin"
-        app:layout_constraintStart_toEndOf="@id/poster"
-        app:layout_constraintTop_toBottomOf="@id/dateIcon"
-        tools:src="@drawable/ic_clock"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/runtimeText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_marginStart="@dimen/movie_info_text_margin"
-        android:textSize="@dimen/movie_info_text_size"
-        android:textColor="?android:attr/textColorPrimary"
-        android:fontFamily="sans-serif-medium"
-        android:maxLines="1"
-        app:layout_constraintStart_toEndOf="@id/runtimeIcon"
-        app:layout_constraintTop_toBottomOf="@id/runtimeIcon"
-        app:layout_constraintBottom_toTopOf="@id/runtimeIcon"
-        tools:text="2:15 / 135 min"
-        tools:textColor="@color/textColorPrimary"/>
-
-    <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/langIcon"
-        android:layout_width="@dimen/movie_info_icons_size"
-        android:layout_height="@dimen/movie_info_icons_size"
-        android:layout_marginStart="@dimen/movie_content_margin"
-        android:layout_marginTop="@dimen/movie_info_icons_margin"
-        app:layout_constraintStart_toEndOf="@id/poster"
-        app:layout_constraintTop_toBottomOf="@id/runtimeIcon"
-        tools:src="@drawable/ic_earth"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/langText"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/movie_info_text_margin"
-        android:layout_marginEnd="16dp"
-        android:textSize="@dimen/movie_info_text_size"
-        android:textColor="?android:attr/textColorPrimary"
-        android:fontFamily="sans-serif-medium"
-        android:maxLines="1"
-        android:ellipsize="end"
-        app:layout_constraintStart_toEndOf="@id/langIcon"
-        app:layout_constraintTop_toBottomOf="@id/langIcon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/langIcon"
-        tools:text="United States of America"
-        tools:textColor="@color/textColorPrimary"/>
-
-    <!--Watchlist button-->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/watchlistBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/movie_content_margin"
-        android:foreground="?attr/selectableItemBackground"
-        android:visibility="invisible"
-        app:cardElevation="@dimen/state_button_elevation"
-        app:cardCornerRadius="@dimen/state_button_radius"
-        app:cardBackgroundColor="@color/backgroundColor"
-        app:layout_constraintBottom_toBottomOf="@+id/poster"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:visibility="visible">
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/state_button_padding_start"
-            android:paddingTop="@dimen/state_button_padding_top"
-            android:paddingEnd="@dimen/state_button_padding_end"
-            android:paddingBottom="@dimen/state_button_padding_bottom">
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolbarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            app:contentScrim="@color/contentScrimColor"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/watchlistIcon"
+                android:id="@+id/backdropImageView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/backdrop_margin"
+                android:layout_marginEnd="@dimen/backdrop_margin"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                tools:srcCompat="@tools:sample/backgrounds/scenic"
+                tools:visibility="gone"/>
+
+            <com.google.android.material.appbar.MaterialToolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?actionBarSize"
+                app:navigationIcon="@drawable/ic_clear"
+                app:menu="@menu/menu_movie"
+                app:navigationIconTint="@color/toolbarIconTint"
+                app:layout_collapseMode="pin"/>
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none"
+        android:clipToPadding="false"
+        android:paddingBottom="100dp"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/titleTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="16dp"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.Bold.24.PrimaryColor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="@tools:sample/lorem"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/detailsTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.Regular.16.SecondaryColor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/titleTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="2021 • Action, Fantasy • 2h 32m"/>
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/ratingTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                tools:src="@drawable/ic_bookmark_outline"/>
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.Medium.16.PrimaryColor"
+                android:drawablePadding="8dp"
+                app:drawableTint="@color/ratingIconTint"
+                app:drawableStartCompat="@drawable/ic_star"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/detailsTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                tools:text="7.5"/>
 
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/watchlistText"
-                android:layout_width="wrap_content"
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/overviewTextView"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:fontFamily="sans-serif-medium"
-                android:lines="1"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="@dimen/state_button_text_size"
-                android:text="@string/watchlist"
-                tools:textColor="@color/textColorPrimary"/>
+                android:layout_marginHorizontal="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:gravity="start"
+                android:textAppearance="@style/TextAppearance.Regular.16.SecondaryColor"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ratingTextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                tools:text="@tools:sample/lorem/random"/>
 
-        </androidx.appcompat.widget.LinearLayoutCompat>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.cardview.widget.CardView>
+    </androidx.core.widget.NestedScrollView>
 
-    <!--Favorite button-->
-    <androidx.cardview.widget.CardView
-        android:id="@+id/favoritesBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:foreground="?attr/selectableItemBackground"
-        android:visibility="invisible"
-        app:cardElevation="@dimen/state_button_elevation"
-        app:cardCornerRadius="@dimen/state_button_radius"
-        app:cardBackgroundColor="@color/backgroundColor"
-        app:layout_constraintBottom_toBottomOf="@+id/poster"
-        app:layout_constraintEnd_toStartOf="@id/watchlistBtn"
-        tools:visibility="visible">
-
-        <androidx.appcompat.widget.LinearLayoutCompat
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingStart="@dimen/state_button_padding_start"
-            android:paddingTop="@dimen/state_button_padding_top"
-            android:paddingEnd="@dimen/state_button_padding_end"
-            android:paddingBottom="@dimen/state_button_padding_bottom">
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/favoritesIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                tools:src="@drawable/ic_heart_outline"/>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/favoritesText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:fontFamily="sans-serif-medium"
-                android:lines="1"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColor="?android:attr/textColorPrimary"
-                android:textSize="@dimen/state_button_text_size"
-                android:text="@string/favorites"
-                tools:textColor="@color/textColorPrimary"/>
-
-        </androidx.appcompat.widget.LinearLayoutCompat>
-
-    </androidx.cardview.widget.CardView>
-
-    <!--Title-->
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/titleText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/movie_content_margin"
-        android:layout_marginTop="@dimen/movie_content_margin"
-        android:layout_marginEnd="@dimen/movie_content_margin"
-        android:textSize="@dimen/title_text_size"
-        android:textColor="?android:attr/textColorPrimary"
-        android:fontFamily="sans-serif-medium"
-        android:textIsSelectable="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/poster"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="How To Train Your Dragon 3"
-        tools:textColor="@color/textColorPrimary"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/taglineText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/movie_content_margin"
-        android:layout_marginEnd="@dimen/movie_content_margin"
-        android:textSize="@dimen/tagline_text_size"
-        android:textColor="?android:attr/textColorSecondary"
-        android:fontFamily="sans-serif-medium"
-        android:textIsSelectable="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/titleText"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Movie tagline"
-        tools:textColor="@color/textColorSecondary"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/genresList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/movie_content_margin"
-        android:layout_marginTop="@dimen/genres_list_margin"
-        android:layout_marginEnd="@dimen/movie_content_margin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/taglineText"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:orientation="horizontal"
-        tools:listitem="@layout/listitem_genre"
-        tools:itemCount="1"/>
-
-    <View
-        android:id="@+id/divider1"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/movie_divider_height"
-        android:layout_marginStart="@dimen/movie_content_margin"
-        android:layout_marginTop="@dimen/movie_divider_margin_top"
-        android:layout_marginEnd="@dimen/movie_content_margin"
-        android:background="?android:attr/divider"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/genresList"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/overviewText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/movie_content_margin"
-        android:layout_marginTop="@dimen/movie_divider_margin_top"
-        android:layout_marginEnd="@dimen/movie_content_margin"
-        android:textSize="@dimen/overview_text_size"
-        android:textColor="?android:attr/textColorSecondary"
-        android:fontFamily="sans-serif"
-        android:textIsSelectable="true"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider1"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:text="Movie overview here"
-        tools:textColor="@color/textColorSecondary"/>
-
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/movie_divider_height"
-        android:layout_marginStart="@dimen/movie_content_margin"
-        android:layout_marginTop="@dimen/movie_divider_margin_top"
-        android:layout_marginEnd="@dimen/movie_content_margin"
-        android:background="?android:attr/divider"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/overviewText"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/crewList"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/movie_content_margin"
-        android:layout_marginTop="@dimen/movie_divider_margin_top"
-        android:layout_marginEnd="@dimen/movie_content_margin"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider2"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:orientation="vertical"
-        tools:listitem="@layout/listitem_crew"
-        tools:itemCount="4"/>
-
-    <View
-        android:id="@+id/divider3"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/movie_divider_height"
-        android:layout_marginStart="@dimen/movie_content_margin"
-        android:layout_marginTop="@dimen/movie_divider_margin_top"
-        android:layout_marginEnd="@dimen/movie_content_margin"
-        android:background="?android:attr/divider"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/crewList"
-        app:layout_constraintEnd_toEndOf="parent"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/trailersText"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/movie_section_height"
-        android:paddingStart="@dimen/movie_content_margin"
-        android:paddingEnd="@dimen/movie_content_margin"
-        android:textSize="@dimen/movie_section_text_size"
-        android:textColor="?android:attr/textColorPrimary"
-        android:fontFamily="sans-serif-medium"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:text="@string/trailers"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/divider3"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:textColor="@color/textColorPrimary"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/reviewsText"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/movie_section_height"
-        android:paddingStart="@dimen/movie_content_margin"
-        android:paddingEnd="@dimen/movie_content_margin"
-        android:textSize="@dimen/movie_section_text_size"
-        android:textColor="?android:attr/textColorPrimary"
-        android:fontFamily="sans-serif-medium"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:text="@string/reviews"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/trailersText"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:textColor="@color/textColorPrimary"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/keywordsText"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/movie_section_height"
-        android:paddingStart="@dimen/movie_content_margin"
-        android:paddingEnd="@dimen/movie_content_margin"
-        android:textSize="@dimen/movie_section_text_size"
-        android:textColor="?android:attr/textColorPrimary"
-        android:fontFamily="sans-serif-medium"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:text="@string/keywords"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/reviewsText"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:textColor="@color/textColorPrimary"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/similarText"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/movie_section_height"
-        android:paddingStart="@dimen/movie_content_margin"
-        android:paddingEnd="@dimen/movie_content_margin"
-        android:textSize="@dimen/movie_section_text_size"
-        android:textColor="?android:attr/textColorPrimary"
-        android:fontFamily="sans-serif-medium"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:text="@string/similar_movies"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/keywordsText"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:textColor="@color/textColorPrimary"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/recommendationsText"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/movie_section_height"
-        android:layout_marginBottom="@dimen/movie_content_margin"
-        android:paddingStart="@dimen/movie_content_margin"
-        android:paddingEnd="@dimen/movie_content_margin"
-        android:textSize="@dimen/movie_section_text_size"
-        android:textColor="?android:attr/textColorPrimary"
-        android:fontFamily="sans-serif-medium"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:maxLines="1"
-        android:text="@string/recommendations"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/similarText"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:textColor="@color/textColorPrimary"/>
-
-    <!--AdView-->
     <com.google.android.gms.ads.AdView
-        android:id="@+id/ad_view"
-        android:layout_width="320dp"
-        android:layout_height="100dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/recommendationsText"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/adView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center_horizontal"
         app:adSize="LARGE_BANNER"
         app:adUnitId="@string/admobBannerTestUnitId"/>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

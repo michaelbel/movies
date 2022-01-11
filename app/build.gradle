@@ -4,6 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
     id 'dagger.hilt.android.plugin'
+    id 'androidx.navigation.safeargs'
     id 'com.google.gms.google-services'
 }
 
@@ -34,7 +35,7 @@ android {
         minSdkVersion rootProject.minSdkVersion
         targetSdkVersion rootProject.targetSdkVersion
         applicationId "org.michaelbel.moviemade"
-        versionCode rootProject.versionCode
+        versionCode rootProject.generateVersionCode()
         versionName rootProject.versionName
         project.ext.set("archivesBaseName", "moviemade-v" + versionName)
         buildConfigField "long", "VERSION_DATE", System.currentTimeMillis() + "L"
@@ -80,8 +81,8 @@ android {
 }
 
 dependencies {
-    implementation project(':core')
-    implementation project(':domain')
+    api project(':core')
+    api project(':domain')
 
     implementation "androidx.activity:activity-ktx:$activityVersion"
     implementation "androidx.activity:activity-compose:$activityVersion"
@@ -90,7 +91,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout:$constraintlayoutVersion"
     implementation "androidx.navigation:navigation-fragment-ktx:$navigationVersion"
     implementation "androidx.navigation:navigation-ui-ktx:$navigationVersion"
-    implementation "androidx.paging:paging-runtime-ktx:$pagingVersion"
+    implementation "androidx.palette:palette-ktx:1.0.0"
     implementation "androidx.recyclerview:recyclerview:$recyclerviewVersion"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayoutVersion"
     implementation "androidx.viewpager2:viewpager2:$viewpager2Version"
@@ -102,8 +103,6 @@ dependencies {
     implementation "com.google.android.exoplayer:exoplayer-core:$exoplayerVersion"
     implementation "com.google.android.exoplayer:exoplayer-dash:$exoplayerVersion"
     implementation "com.google.android.exoplayer:exoplayer-ui:$exoplayerVersion"
-    implementation "com.google.android.play:core-ktx:$playcoreVersion"
-    implementation "com.google.android.gms:play-services-ads:$adsVersion"
     implementation "com.google.android.material:compose-theme-adapter:$composeVersion"
     implementation "com.google.firebase:firebase-analytics:$firebaseAnalytics"
     implementation "com.google.firebase:firebase-core:$firebaseCoreVersion"
@@ -114,10 +113,14 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$glideVersion"
               kapt "com.github.bumptech.glide:compiler:$glideVersion"
     implementation "com.tspoon.traceur:traceur:$traceurVersion"
+    implementation "io.coil-kt:coil:1.4.0"
 
     debugImplementation "com.github.ajitsing:sherlock:$sherlockVersion"
     releaseImplementation "com.github.ajitsing:sherlock-no-op:$sherlockVersion"
-    debugImplementation "com.readystatesoftware.chuck:library:$chuckVersion"
-    releaseImplementation "com.readystatesoftware.chuck:library-no-op:$chuckVersion"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
+
+    testImplementation "junit:junit:4.13.2"
+    testImplementation "org.mockito:mockito-core:4.1.0"
+    testImplementation "io.mockk:mockk:1.12.0"
+    testImplementation "org.robolectric:robolectric:4.7.3"
 }

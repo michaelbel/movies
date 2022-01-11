@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.presentation.di.module
+package org.michaelbel.moviemade.presentation
 
 import android.content.Context
 import android.content.SharedPreferences

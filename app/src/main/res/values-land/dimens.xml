@@ -2,8 +2,4 @@
 <resources>
     <!--layout/activity_movie-->
     <dimen name="backdrop_margin">144dp</dimen>
-    <!--SearchMoviesFragment-->
-    <integer name="movies_span_layout_count">4</integer>
-    <!--TrailersFragment-->
-    <integer name="trailers_span_layout_count">2</integer>
 </resources>
