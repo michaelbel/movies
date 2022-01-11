@@ -1,5 +1,19 @@
 <resources>
+    <!--App-->
     <string name="app_name">Moviemade</string>
+    <!--Main-->
+    <string name="error_text">Error loading data. Please, check your internet connection and try again</string>
+    <string name="button_retry_text">Retry</string>
+    <string name="message_in_app_update_new_version_available">New version is available</string>
+    <string name="message_in_app_update_new_version_downloaded">Moviemade just downloaded an update</string>
+    <string name="action_update">Update</string>
+    <string name="action_reload">Reload</string>
+    <!--Movie-->
+    <string name="menu_item_share">Share</string>
+    <string name="movie_details_text">%s • %s</string>
+
+
+
     <!--account-->
     <string name="account">Account</string>
     <string name="logout">Log out</string>
@@ -42,23 +56,6 @@
     <string name="loading_tagline">Loading tagline…</string>
     <string name="share_via">Share via</string>
     <string name="photo_of">1 of 1</string>
-    <!--rcmd-->
-    <string name="recommendations">Recommendations</string>
-    <!--reviews-->
-    <string name="reviews">Reviews</string>
-    <string name="review_by">Review by %s</string>
-    <string name="light">Light</string>
-    <string name="sepia">Sepia</string>
-    <string name="night">Night</string>
-    <string name="msg_toolbar_pinned">Toolbar pinned</string>
-    <string name="msg_toolbar_unpinned">Toolbar unpinned</string>
-    <string name="no_reviews">No reviews</string>
-    <!--similar-->
-    <string name="similar_movies">Similar movies</string>
-    <!--trailers-->
-    <string name="trailers">Trailers</string>
-    <string name="video_size">%1$sp</string>
-    <string name="no_trailers">No trailers</string>
     <!--watchlist-->
     <string name="watchlist">Watchlist</string>
     <!--search-->
@@ -88,7 +85,7 @@
     <string name="update_available_summary">Download from Google Play</string>
 
     <string name="view_on_site">View on site</string>
-    <string name="share">Share</string>
+
     <string name="share_link">Share link</string>
     <string name="subject">Subject</string>
     <string name="no_people">No people</string>

@@ -7,7 +7,6 @@ import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContextCompat
 import androidx.core.content.edit
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
@@ -18,9 +17,6 @@ import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import org.michaelbel.core.picasso.CircleTransformation
-import org.michaelbel.data.remote.model.Movie.Companion.FAVORITE
-import org.michaelbel.data.remote.model.Movie.Companion.WATCHLIST
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.TmdbConfig.GRAVATAR_URL
 import org.michaelbel.moviemade.core.local.SharedPrefs
@@ -30,11 +26,10 @@ import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_LOGIN
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_NAME
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
 import org.michaelbel.moviemade.databinding.FragmentUserBinding
-import org.michaelbel.moviemade.ktx.*
-import org.michaelbel.moviemade.presentation.ContainerActivity
-import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.EXTRA_ACCOUNT_ID
-import org.michaelbel.moviemade.presentation.ContainerActivity.Companion.FRAGMENT_NAME
-import org.michaelbel.moviemade.presentation.common.base.BaseFragment
+import org.michaelbel.moviemade.ktx.displayWidth
+import org.michaelbel.moviemade.ktx.launchAndRepeatWithViewLifecycle
+import org.michaelbel.moviemade.ktx.toDp
+import org.michaelbel.moviemade.presentation.BaseFragment
 import java.util.*
 import javax.inject.Inject
 
@@ -79,19 +74,6 @@ class UserFragment: BaseFragment(R.layout.fragment_user) {
 
         updateData()
 
-        binding.favoritesText.setOnClickListener {
-            requireActivity().startActivity<ContainerActivity> {
-                putExtra(FRAGMENT_NAME, FAVORITE)
-                putExtra(EXTRA_ACCOUNT_ID, preferences.getLong(KEY_ACCOUNT_ID, 0L))
-            }
-        }
-        binding.watchlistText.setOnClickListener {
-            requireActivity().startActivity<ContainerActivity> {
-                putExtra(FRAGMENT_NAME, WATCHLIST)
-                putExtra(EXTRA_ACCOUNT_ID, preferences.getLong(KEY_ACCOUNT_ID, 0L))
-            }
-        }
-
         viewModel.accountDetails(preferences.getString(KEY_SESSION_ID, "") ?: "")
 
         launchAndRepeatWithViewLifecycle {
@@ -127,13 +109,7 @@ class UserFragment: BaseFragment(R.layout.fragment_user) {
         binding.loginText.text = login
 
         val avatarPath: String = String.format(Locale.US, GRAVATAR_URL, preferences.getString(KEY_ACCOUNT_AVATAR, ""))
-        if (avatarPath.trim().isNotEmpty()) {
-            binding.avatar.loadImage(avatarPath,
-                    resize = Pair(72F.toDp(requireContext()), 72F.toDp(requireContext())),
-                    placeholder = R.drawable.placeholder_circle,
-                    error = R.drawable.error_circle,
-                    transformation = CircleTransformation(ContextCompat.getColor(requireContext(), R.color.strokeColor), 1F.toDp(requireContext())))
-        }
+        if (avatarPath.trim().isNotEmpty()) {}
 
         val backdrop = preferences.getString(SharedPrefs.KEY_ACCOUNT_BACKDROP, "http://null") ?: "http://null"
         Picasso.get().load(backdrop).resize(requireContext().displayWidth, 220F.toDp(requireContext())).into(binding.cover, object: Callback {

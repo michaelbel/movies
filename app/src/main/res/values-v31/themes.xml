@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <!--
-    Night Theme
+    Day Theme
 
-    Android 8.1 (API level 27)
-    Android 9 (API level 28)
-    Android 10 (API level 29)
-    Android 11 (API level 30)
+    Android 12 (API level 31)
 
     Added:
-    windowLightNavigationBar
-    navigationBarDividerColor
+    windowSplashScreenBrandingImage
 -->
 
 <resources>
@@ -47,12 +43,21 @@
         <item name="android:colorPrimary">@color/Primary</item>
         <item name="android:colorAccent">@color/Primary</item>
 
-        <item name="android:statusBarColor">@color/statusBarColor</item>
+        <item name="android:statusBarColor">@color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarDividerColor">#0DFFFFFF</item>
+        <item name="android:navigationBarDividerColor">#26000000</item>
 
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">false</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/primary</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
+        <item name="postSplashScreenTheme">@style/Theme.App</item>
+        <item name="android:statusBarColor">@color/primary</item>
+        <item name="android:navigationBarColor">@color/primary</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
 </resources>

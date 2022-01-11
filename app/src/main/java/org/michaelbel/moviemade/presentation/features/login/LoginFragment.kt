@@ -33,8 +33,11 @@ import org.michaelbel.moviemade.core.state.ErrorState.ERR_NO_CONNECTION
 import org.michaelbel.moviemade.core.state.ErrorState.ERR_UNAUTHORIZED
 import org.michaelbel.moviemade.core.text.SpannableUtil
 import org.michaelbel.moviemade.databinding.FragmentLoginBinding
-import org.michaelbel.moviemade.ktx.*
-import org.michaelbel.moviemade.presentation.common.base.BaseFragment
+import org.michaelbel.moviemade.ktx.hideKeyboard
+import org.michaelbel.moviemade.ktx.launchAndRepeatWithViewLifecycle
+import org.michaelbel.moviemade.ktx.loadImage
+import org.michaelbel.moviemade.ktx.toast
+import org.michaelbel.moviemade.presentation.BaseFragment
 import retrofit2.HttpException
 
 @AndroidEntryPoint

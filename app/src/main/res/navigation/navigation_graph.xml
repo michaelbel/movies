@@ -9,6 +9,7 @@
     <fragment
         android:id="@+id/mainFragment"
         android:name="org.michaelbel.moviemade.presentation.features.main.MainFragment"
+        android:label="Main"
         tools:layout="@layout/fragment_main">
 
         <action
@@ -20,6 +21,7 @@
     <fragment
         android:id="@+id/movieFragment"
         android:name="org.michaelbel.moviemade.presentation.features.movie.MovieFragment"
+        android:label="Movie"
         tools:layout="@layout/fragment_movie">
 
         <argument

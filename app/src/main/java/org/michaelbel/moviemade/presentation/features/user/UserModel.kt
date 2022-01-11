@@ -9,14 +9,14 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import org.michaelbel.data.remote.model.Account
 import org.michaelbel.data.remote.model.SessionId
-import org.michaelbel.domain.UsersRepository
+import org.michaelbel.domain.repository.AuthRepository
 import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
 import org.michaelbel.moviemade.core.state.ErrorState
 import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
-class UserModel @Inject constructor(val repository: UsersRepository): ViewModel() {
+class UserModel @Inject constructor(val repository: AuthRepository): ViewModel() {
 
     var sessionDeleted = MutableSharedFlow<Boolean>()
     var error = MutableSharedFlow<Int>()

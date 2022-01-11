@@ -118,6 +118,16 @@ var View.bottomPadding: Int
     inline get() = paddingBottom
     set(value) = setPadding(paddingLeft, paddingTop, paddingRight, value)
 
+/*var View.topMargin: Int
+    inline get() = marginTop
+    set(value) {
+        val lp = layoutParams as? ViewGroup.MarginLayoutParams ?: return
+        lp.let {
+            lp.topMargin = value
+            layoutParams = lp
+        }
+    }*/
+
 inline fun View.setWidth(@Px value: Int) {
     val lp = layoutParams
     lp?.let {

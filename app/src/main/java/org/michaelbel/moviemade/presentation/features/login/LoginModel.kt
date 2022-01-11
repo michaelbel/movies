@@ -12,7 +12,7 @@ import kotlinx.coroutines.withContext
 import org.michaelbel.data.remote.model.Account
 import org.michaelbel.data.remote.model.Token
 import org.michaelbel.data.remote.model.Username
-import org.michaelbel.domain.UsersRepository
+import org.michaelbel.domain.repository.AuthRepository
 import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
 import org.michaelbel.moviemade.core.local.SharedPrefs
 import org.michaelbel.moviemade.core.state.ErrorState.ERR_AUTH_WITH_LOGIN
@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LoginModel @Inject constructor(
     val preferences: SharedPreferences,
-    private val repository: UsersRepository
+    private val repository: AuthRepository
 ): ViewModel() {
 
     var sessionCreated = MutableSharedFlow<String>()
