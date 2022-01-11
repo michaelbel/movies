@@ -27,6 +27,5 @@ dependencies {
    kapt "androidx.room:room-compiler:$roomVersion"
     api "androidx.room:room-ktx:$roomVersion"
 
-    api "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     api "com.squareup.okhttp3:logging-interceptor:$okhttpLoggingInterceptorVersion"
 }

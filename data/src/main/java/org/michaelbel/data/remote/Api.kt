@@ -457,7 +457,7 @@ interface Api {
         @Query("api_key") apiKey: String,
         @Query("language") lang: String,
         @Query("page") page: Int
-    ): Response<Result<MovieResponse>>
+    ): Result<MovieResponse>
 
     //endregion
 
