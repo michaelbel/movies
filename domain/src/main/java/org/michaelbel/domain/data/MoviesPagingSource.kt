@@ -18,14 +18,14 @@ class MoviesPagingSource(
         val position = params.key ?: MOVIES_STARTING_PAGE_INDEX
         return try {
             val response = api.movies(list, apiKey, language, position)
-            val repos = response.body()?.results.orEmpty()
-            val nextKey = if (repos.isEmpty()) {
+            val results = response.results
+            val nextKey = if (results.isEmpty()) {
                 null
             } else {
                 position.plus(1)
             }
             LoadResult.Page(
-                data = repos,
+                data = results,
                 prevKey = if (position == MOVIES_STARTING_PAGE_INDEX) null else position.minus(1),
                 nextKey = nextKey
             )
