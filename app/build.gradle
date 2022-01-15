@@ -95,6 +95,7 @@ dependencies {
     implementation "androidx.recyclerview:recyclerview:$recyclerviewVersion"
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:$swiperefreshlayoutVersion"
     implementation "androidx.viewpager2:viewpager2:$viewpager2Version"
+    implementation "androidx.work:work-runtime-ktx:$workVersion"
 
     implementation "com.google.dagger:hilt-android:$daggerVersion"
               kapt "com.google.dagger:hilt-compiler:$daggerVersion"
@@ -108,15 +109,8 @@ dependencies {
     implementation "com.google.firebase:firebase-core:$firebaseCoreVersion"
 
     implementation "com.github.kirich1409:viewbindingpropertydelegate:$viewBindingPropertyDelegateVersion"
-    implementation "com.facebook.stetho:stetho-okhttp3:$stethoOkhttpVersion"
-    implementation "com.beloo.widget:ChipsLayoutManager:$chipsLayoutManagerVersion"
-    implementation "com.github.bumptech.glide:glide:$glideVersion"
-              kapt "com.github.bumptech.glide:compiler:$glideVersion"
-    implementation "com.tspoon.traceur:traceur:$traceurVersion"
     implementation "io.coil-kt:coil:1.4.0"
 
-    debugImplementation "com.github.ajitsing:sherlock:$sherlockVersion"
-    releaseImplementation "com.github.ajitsing:sherlock-no-op:$sherlockVersion"
     debugImplementation "com.squareup.leakcanary:leakcanary-android:$leakcanaryVersion"
 
     testImplementation "junit:junit:4.13.2"

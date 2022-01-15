@@ -9,13 +9,11 @@ import androidx.core.content.edit
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.michaelbel.core.Browser
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.TmdbConfig.REDIRECT_URL
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_AUTH_URL
-import org.michaelbel.moviemade.core.TmdbConfig.TMDB_LOGO
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_PRIVACY_POLICY
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_REGISTER
 import org.michaelbel.moviemade.core.TmdbConfig.TMDB_RESET_PASSWORD
@@ -35,7 +33,6 @@ import org.michaelbel.moviemade.core.text.SpannableUtil
 import org.michaelbel.moviemade.databinding.FragmentLoginBinding
 import org.michaelbel.moviemade.ktx.hideKeyboard
 import org.michaelbel.moviemade.ktx.launchAndRepeatWithViewLifecycle
-import org.michaelbel.moviemade.ktx.loadImage
 import org.michaelbel.moviemade.ktx.toast
 import org.michaelbel.moviemade.presentation.BaseFragment
 import retrofit2.HttpException
@@ -54,7 +51,7 @@ class LoginFragment: BaseFragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.logoImage.loadImage(TMDB_LOGO, resizeDimen = Pair(R.dimen.logo_image_size, R.dimen.logo_image_size))
+        //binding.logoImage.loadImage(TMDB_LOGO, resizeDimen = Pair(R.dimen.logo_image_size, R.dimen.logo_image_size))
         binding.password.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == IME_ACTION_DONE) {
                 binding.signInBtn.performClick()
@@ -131,9 +128,5 @@ class LoginFragment: BaseFragment(R.layout.fragment_login) {
         if (Intent.ACTION_VIEW == action && data != null) {
             viewModel.createSessionId(viewModel.preferences.getString(KEY_TOKEN, "") ?: "")
         }
-    }
-
-    companion object {
-        internal fun newInstance() = LoginFragment()
     }
 }

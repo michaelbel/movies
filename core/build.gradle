@@ -35,11 +35,8 @@ dependencies {
     api "com.google.firebase:firebase-core:$firebaseCoreVersion"
     api "com.google.android.gms:play-services-ads:$adsVersion"
 
-    api "com.squareup.picasso:picasso:$picassoVersion"
     api "com.squareup.retrofit2:retrofit:$retrofitVersion"
     api "com.jakewharton.timber:timber:$timberVersion"
-    api "com.ashokvarma.android:gander-persistence:$ganderVersion"
-    api "com.ashokvarma.android:gander-imdb:$ganderVersion"
     api "com.squareup.retrofit2:converter-gson:$retrofitVersion"
 
     testApi 'org.mockito:mockito-core:4.1.0'

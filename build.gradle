@@ -11,8 +11,8 @@ buildscript {
         detektVersion = '1.19.0'
 
         // Kotlin
-        kotlinVersion = '1.5.31'
-        coroutinesVersion = '1.5.2'
+        kotlinVersion = '1.6.0'
+        coroutinesVersion = '1.6.0'
 
         // AndroidX
         activityVersion = '1.4.0'
@@ -26,7 +26,6 @@ buildscript {
         constraintlayoutVersion = '2.1.2'
         composeVersion = '1.0.5'
         coreVersion = '1.7.0'
-        coreroleVersion = '1.0.0'
         coreSplashScreenVersion = '1.0.0-alpha02'
         fragmentVersion = '1.4.0'
         hiltNavigationFragmentVersion = '1.0.0'
@@ -41,7 +40,7 @@ buildscript {
         sharetargetVersion = '1.1.0'
         swiperefreshlayoutVersion = '1.1.0'
         viewpager2Version = '1.0.0'
-        workVersion = '2.5.0'
+        workVersion = '2.7.1'
 
         // Google
         adsVersion = '20.5.0'
@@ -58,18 +57,10 @@ buildscript {
 
         // Other
         retrofitVersion = '2.9.0'
-        okhttpLoggingInterceptorVersion = '4.9.3'
-        picassoVersion = '2.71828'
         timberVersion = '5.0.1'
         ganderVersion = '3.1.0'
         viewBindingPropertyDelegateVersion = '1.5.6'
-        stethoOkhttpVersion = '1.6.0'
-        sherlockVersion = '1.0.4'
-        chuckVersion = '1.1.0'
         leakcanaryVersion = '2.7'
-        chipsLayoutManagerVersion = '0.3.7'
-        glideVersion = '4.12.0'
-        traceurVersion = '1.0.1'
 
         // Test
         coreTestingVersion = '2.1.0'
@@ -84,7 +75,7 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        jcenter()
+        //jcenter()
     }
 
     dependencies {
@@ -102,8 +93,8 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        maven { url "https://jitpack.io" }
-        jcenter()
+        //maven { url "https://jitpack.io" }
+        //jcenter()
     }
 }
 

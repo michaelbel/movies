@@ -8,14 +8,9 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.core.content.edit
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
-import com.squareup.picasso.Callback
-import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.core.TmdbConfig.GRAVATAR_URL
@@ -26,9 +21,7 @@ import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_LOGIN
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_ACCOUNT_NAME
 import org.michaelbel.moviemade.core.local.SharedPrefs.KEY_SESSION_ID
 import org.michaelbel.moviemade.databinding.FragmentUserBinding
-import org.michaelbel.moviemade.ktx.displayWidth
 import org.michaelbel.moviemade.ktx.launchAndRepeatWithViewLifecycle
-import org.michaelbel.moviemade.ktx.toDp
 import org.michaelbel.moviemade.presentation.BaseFragment
 import java.util.*
 import javax.inject.Inject
@@ -112,18 +105,5 @@ class UserFragment: BaseFragment(R.layout.fragment_user) {
         if (avatarPath.trim().isNotEmpty()) {}
 
         val backdrop = preferences.getString(SharedPrefs.KEY_ACCOUNT_BACKDROP, "http://null") ?: "http://null"
-        Picasso.get().load(backdrop).resize(requireContext().displayWidth, 220F.toDp(requireContext())).into(binding.cover, object: Callback {
-            override fun onSuccess() {
-                binding.blurLayout.isVisible = true
-            }
-
-            override fun onError(e: Exception?) {
-                binding.blurLayout.isGone = true
-            }
-        })
-    }
-
-    companion object {
-        fun newInstance() = UserFragment()
     }
 }

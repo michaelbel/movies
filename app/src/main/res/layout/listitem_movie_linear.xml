@@ -37,7 +37,7 @@
             app:layout_constraintTop_toBottomOf="@id/backdropImageView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            tools:text="@tools:sample/lorem/random"/>
+            tools:text="@sample/movies_titles"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

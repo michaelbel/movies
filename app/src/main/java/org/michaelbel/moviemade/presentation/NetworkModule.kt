@@ -1,13 +1,11 @@
 package org.michaelbel.moviemade.presentation
 
 import android.content.Context
-import com.ashokvarma.gander.GanderInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import okhttp3.Cache
 import okhttp3.OkHttpClient
 import org.michaelbel.data.remote.Api
 import org.michaelbel.moviemade.core.TmdbConfig
@@ -24,22 +22,13 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideOkHttp(
-        @ApplicationContext context: Context,
-        ganderInterceptor: GanderInterceptor
+        @ApplicationContext context: Context
     ): OkHttpClient {
-        val cacheSize: Long = 10 * 1024L * 1024L
-        val cache = Cache(
-            directory = context.cacheDir,
-            maxSize = cacheSize
-        )
         val callTimeoutDuration: Pair<Long, TimeUnit> = 0L to TimeUnit.SECONDS // суммарное время на выполнение запроса (нет ограничений).
         val connectTimeoutDuration: Pair<Long, TimeUnit> = 10L to TimeUnit.SECONDS // время на подключение к заданному хосту.
         val readTimeoutDuration: Pair<Long, TimeUnit> = 10L to TimeUnit.SECONDS // время на получение ответа сервера.
         val writeTimeoutDuration: Pair<Long, TimeUnit> = 10L to TimeUnit.SECONDS // время на передачу запроса серверу.
         val builder = OkHttpClient.Builder().apply {
-            cache(cache)
-            retryOnConnectionFailure(false)
-            addInterceptor(ganderInterceptor)
             callTimeout(callTimeoutDuration.first, callTimeoutDuration.second)
             connectTimeout(connectTimeoutDuration.first, connectTimeoutDuration.second)
             readTimeout(readTimeoutDuration.first, readTimeoutDuration.second)

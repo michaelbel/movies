@@ -26,6 +26,4 @@ dependencies {
     api "androidx.room:room-runtime:$roomVersion"
    kapt "androidx.room:room-compiler:$roomVersion"
     api "androidx.room:room-ktx:$roomVersion"
-
-    api "com.squareup.okhttp3:logging-interceptor:$okhttpLoggingInterceptorVersion"
 }
