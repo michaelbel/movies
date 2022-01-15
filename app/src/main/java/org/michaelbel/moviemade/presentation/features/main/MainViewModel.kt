@@ -1,333 +1,133 @@
 package org.michaelbel.moviemade.presentation.features.main
 
-import android.content.SharedPreferences
+import android.app.Activity
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.michaelbel.core.adapter.ItemsManager
-import org.michaelbel.core.adapter.ListItem
-import org.michaelbel.data.remote.model.Keyword
+import org.michaelbel.core.playcore.InAppUpdate
 import org.michaelbel.data.remote.model.Movie
-import org.michaelbel.domain.MoviesRepository
-import org.michaelbel.moviemade.BuildConfig.TMDB_API_KEY
-import org.michaelbel.moviemade.core.local.SharedPrefs
-import org.michaelbel.moviemade.core.state.EmptyState
-import org.michaelbel.moviemade.presentation.listitem.MovieListItem
+import org.michaelbel.data.remote.model.MovieResponse
+import org.michaelbel.domain.repository.MoviesRepository
+import org.michaelbel.moviemade.BuildConfig
+import org.michaelbel.moviemade.presentation.features.main.adapter.UiAction
+import org.michaelbel.moviemade.presentation.features.main.adapter.UiState
 import java.util.*
 
 class MainViewModel @AssistedInject constructor(
+    @Assisted private val savedStateHandle: SavedStateHandle,
     @Assisted val list: String?,
-    @Assisted val movie: Movie?,
-    @Assisted val keyword: Keyword?,
-    @Assisted val accountId: Long?,
     private val repository: MoviesRepository,
-    private val preferences: SharedPreferences
+    private val inAppUpdate: InAppUpdate
 ): ViewModel() {
 
-    private var page: Int = 0
-    private val itemsManager = Manager()
+    /**
+     * Stream of immutable states representative of the UI.
+     */
+    val state: StateFlow<UiState>
 
-    val loading = MutableSharedFlow<Boolean>()
-    val content = MutableSharedFlow<List<ListItem>>()
-    val error = MutableSharedFlow<Int>()
-    val click = MutableSharedFlow<Movie>()
-    val longClick = MutableSharedFlow<Movie>()
+    val pagingDataFlow: Flow<PagingData<MovieResponse>>
 
-    private val sessionId: String
-        get() = preferences.getString(SharedPrefs.KEY_SESSION_ID, "") ?: ""
+    /**
+     * Processor of side effects from the UI which in turn feedback into [state]
+     */
+    val accept: (UiAction) -> Unit
+
+    var updateAvailableMessage =  MutableSharedFlow<Boolean>()
+    var updateDownloadedMessage =  MutableSharedFlow<Boolean>()
 
     init {
-        load()
-    }
-
-    fun load() {
-        when {
-            list != null && list == Movie.SIMILAR -> movies()
-            list != null && list == Movie.RECOMMENDATIONS -> movies()
-            list != null && list == Movie.FAVORITE -> moviesFavorite()
-            list != null && list == Movie.WATCHLIST -> moviesWatchlist()
-            keyword != null -> moviesByKeyword()
-            movie != null -> moviesById()
-            else -> movies()
-        }
-    }
-
-    fun movies() = viewModelScope.launch {
-        page += 1
-        loading.emit(page == 1)
-
-        runCatching {
-            val result = repository.movies(list!!, TMDB_API_KEY, Locale.getDefault().language, page)
-            if (result.isSuccessful) {
-                val movies: List<Movie>? = result.body()?.results
-                if (movies.isNullOrEmpty()) {
-                    error.emit(EmptyState.MODE_NO_MOVIES)
-                } else {
-                    itemsManager.updateMovies(movies, page == 1)
-                    content.emit(itemsManager.get())
-                }
-
-                loading.emit(false)
-            } else {
-                if (page == 1) {
-                    error.emit(EmptyState.MODE_NO_MOVIES)
-                    loading.emit(false)
-                }
-            }
-        }.onFailure {
-            if (page == 1) {
-                error.emit(EmptyState.MODE_NO_CONNECTION)
-                loading.emit(false)
+        inAppUpdate.onUpdateAvailableListener = { updateAvailable ->
+            viewModelScope.launch {
+                updateAvailableMessage.emit(updateAvailable)
             }
         }
 
+        val actionStateFlow = MutableSharedFlow<UiAction>()
+        val searches = actionStateFlow
+            .filterIsInstance<UiAction.Search>()
+            .distinctUntilChanged()
+            .onStart { emit(UiAction.Search(query = Movie.NOW_PLAYING)) }
+        val queriesScrolled = actionStateFlow
+            .filterIsInstance<UiAction.Scroll>()
+            .distinctUntilChanged()
+            .shareIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
+                replay = 1
+            )
+            .onStart { emit(UiAction.Scroll(currentQuery = Movie.NOW_PLAYING)) }
+
+        pagingDataFlow = searches
+            .flatMapLatest { searchRepo() }
+            .cachedIn(viewModelScope)
+
+        state = searches
+            .flatMapLatest { search ->
+                combine(
+                    queriesScrolled,
+                    searchRepo(),
+                    ::Pair
+                )
+                    // Each unique PagingData should be submitted once, take the latest from
+                    // queriesScrolled
+                    .distinctUntilChangedBy { it.second }
+                    .map { (scroll, pagingData) ->
+                        UiState(
+                            list = search.query,
+                            hasNotScrolledForCurrentSearch = search.query != scroll.currentQuery
+                        )
+                    }
+            }
+            .stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(stopTimeoutMillis = 5000),
+                initialValue = UiState()
+            )
+
+        accept = { action ->
+            viewModelScope.launch { actionStateFlow.emit(action) }
+        }
+    }
+
+    fun snackBarActionUpdateClicked(activity: Activity) {
+        snackBarUpdateDismissed()
+        inAppUpdate.startUpdateFlow(activity)
+    }
+
+    fun completeUpdate() {}
+
+    fun snackBarUpdateDismissed() {
         viewModelScope.launch {
-            try {
-                val result = repository.movies(list!!, TMDB_API_KEY, Locale.getDefault().language, page)
-                withContext(Dispatchers.Main) {
-                    if (result.isSuccessful) {
-                        val movies: List<Movie>? = result.body()?.results
-                        if (movies.isNullOrEmpty()) {
-                            error.emit(EmptyState.MODE_NO_MOVIES)
-                        } else {
-                            itemsManager.updateMovies(movies, page == 1)
-                            content.emit(itemsManager.get())
-                        }
-
-                        loading.emit(false)
-                    } else {
-                        if (page == 1) {
-                            error.emit(EmptyState.MODE_NO_MOVIES)
-                            loading.emit(false)
-                        }
-                    }
-                }
-            } catch (e: Throwable) {
-                if (page == 1) {
-                    error.emit(EmptyState.MODE_NO_CONNECTION)
-                    loading.emit(false)
-                }
-            }
+            updateAvailableMessage.emit(false)
         }
     }
 
-    private fun moviesById() {
+    fun test() {
         viewModelScope.launch {
-            page += 1
-            loading.emit(page == 1)
-
-            try {
-                val result = repository.moviesById(movie!!.id.toLong(), list!!, TMDB_API_KEY, Locale.getDefault().language, page)
-                withContext(Dispatchers.Main) {
-                    if (result.isSuccessful) {
-                        val movies: List<Movie>? = result.body()?.results
-                        if (movies.isNullOrEmpty()) {
-                            error.emit(EmptyState.MODE_NO_MOVIES)
-                        } else {
-                            itemsManager.updateMovies(movies, page == 1)
-                            content.emit(itemsManager.get())
-                        }
-                        loading.emit(false)
-                    } else {
-                        if (page == 1) {
-                            error.emit(EmptyState.MODE_NO_MOVIES)
-                            loading.emit(false)
-                        }
-                    }
-                }
-            } catch (e: Throwable) {
-                if (page == 1) {
-                    error.emit(EmptyState.MODE_NO_CONNECTION)
-                    loading.emit(false)
-                }
-            }
+            updateAvailableMessage.emit(true)
         }
     }
 
-    private fun moviesByKeyword() {
-        viewModelScope.launch {
-            page += 1
-            loading.emit(page == 1)
-
-            try {
-                val result = repository.moviesByKeyword(keyword!!.id, TMDB_API_KEY, Locale.getDefault().language, true, page)
-                withContext(Dispatchers.Main) {
-                    if (result.isSuccessful) {
-                        val movies: List<Movie>? = result.body()?.results
-                        if (movies.isNullOrEmpty()) {
-                            error.emit(EmptyState.MODE_NO_MOVIES)
-                        } else {
-                            itemsManager.updateMovies(movies, page == 1)
-                            content.emit(itemsManager.get())
-                        }
-
-                        loading.emit(false)
-                    } else {
-                        if (page == 1) {
-                            error.emit(EmptyState.MODE_NO_MOVIES)
-                            loading.emit(false)
-                        }
-                    }
-                }
-            } catch (e: Throwable) {
-                if (page == 1) {
-                    error.emit(EmptyState.MODE_NO_CONNECTION)
-                    loading.emit(false)
-                }
-            }
-        }
-    }
-
-    fun searchMovies(query: String) {
-        viewModelScope.launch {
-            page += 1
-            loading.emit(page == 1)
-
-            try {
-                val result = repository.moviesSearch(TMDB_API_KEY, Locale.getDefault().language, query, page, true)
-                withContext(Dispatchers.Main) {
-                    if (result.isSuccessful) {
-                        val movies: List<Movie>? = result.body()?.results
-                        if (movies.isNullOrEmpty()) {
-                            error.emit(EmptyState.MODE_NO_RESULTS)
-                            page = 0
-                        } else {
-                            itemsManager.updateMovies(movies, page == 1)
-                            content.emit(itemsManager.get())
-                        }
-
-                        loading.emit(false)
-                    } else {
-                        if (page == 1) {
-                            error.emit(EmptyState.MODE_NO_RESULTS)
-                            loading.emit(false)
-                            page = 0
-                        }
-                    }
-                }
-            } catch (e: Throwable) {
-                if (page == 1) {
-                    error.emit(EmptyState.MODE_NO_CONNECTION)
-                    loading.emit(false)
-                    page = 0
-                }
-            }
-        }
-    }
-
-    private fun moviesWatchlist() {
-        viewModelScope.launch {
-            page += 1
-            loading.emit(page == 1)
-
-            try {
-                val result = repository.moviesWatchlist(accountId!!, TMDB_API_KEY, sessionId, Locale.getDefault().language, Movie.ASC, page)
-                withContext(Dispatchers.Main) {
-                    if (result.isSuccessful) {
-                        val movies: List<Movie>? = result.body()?.results
-                        if (movies.isNullOrEmpty()) {
-                            error.emit(EmptyState.MODE_NO_MOVIES)
-                        } else {
-                            itemsManager.updateMovies(movies, page == 1)
-                            content.emit(itemsManager.get())
-                        }
-
-                        loading.emit(false)
-                    } else {
-                        if (page == 1) {
-                            error.emit(EmptyState.MODE_NO_MOVIES)
-                            loading.emit(false)
-                        }
-                    }
-                }
-            } catch (e: Throwable) {
-                if (page == 1) {
-                    error.emit(EmptyState.MODE_NO_CONNECTION)
-                    loading.emit(false)
-                }
-            }
-        }
-    }
-
-    private fun moviesFavorite() {
-        viewModelScope.launch {
-            page += 1
-            loading.emit(page == 1)
-
-            try {
-                val result = repository.moviesFavorite(accountId!!, TMDB_API_KEY, sessionId, Locale.getDefault().language, Movie.ASC, page)
-                withContext(Dispatchers.Main) {
-                    if (result.isSuccessful) {
-                        val movies: List<Movie>? = result.body()?.results
-                        if (movies.isNullOrEmpty()) {
-                            error.emit(EmptyState.MODE_NO_MOVIES)
-                        } else {
-                            itemsManager.updateMovies(movies, page == 1)
-                            content.emit(itemsManager.get())
-                        }
-
-                        loading.emit(false)
-                    } else {
-                        if (page == 1) {
-                            error.emit(EmptyState.MODE_NO_MOVIES)
-                            loading.emit(false)
-                        }
-                    }
-                }
-            } catch (e: Throwable) {
-                if (page == 1) {
-                    error.emit(EmptyState.MODE_NO_CONNECTION)
-                    loading.emit(false)
-                }
-            }
-        }
-    }
-
-    private inner class Manager: ItemsManager() {
-
-        private val movies = mutableListOf<ListItem>()
-
-        fun updateMovies(items: List<Movie>, update: Boolean = true) {
-            if (update) {
-                movies.clear()
-            }
-
-            items.forEach {
-                val movieItem = MovieListItem(it)
-                movieItem.listener = object: MovieListItem.Listener {
-                    override fun onClick(movie: Movie) {
-                        viewModelScope.launch {
-                            click.emit(movie)
-                        }
-                    }
-
-                    override fun onLongClick(movie: Movie): Boolean {
-                        viewModelScope.launch {
-                            longClick.emit(movie)
-                        }
-                        return true
-                    }
-                }
-                movies.add(movieItem)
-            }
-        }
-
-        override fun getItems(): List<ListItem> = movies
-    }
+    private fun searchRepo(): Flow<PagingData<MovieResponse>> =
+        repository.moviesStream(Movie.NOW_PLAYING, BuildConfig.TMDB_API_KEY, Locale.getDefault().language)
+            .cachedIn(viewModelScope)
 
     @AssistedFactory
     interface Factory {
         fun create(
-            list: String?,
-            keyword: Keyword? = null,
-            movie: Movie? = null,
-            accountId: Long? = null
+            @Assisted handle: SavedStateHandle,
+            list: String?
         ): MainViewModel
     }
 }
+
+private const val LAST_QUERY_SCROLLED: String = "last_query_scrolled"
+private const val LAST_SEARCH_LIST: String = "last_search_query"
+const val DEFAULT_QUERY = "Android"

@@ -42,8 +42,6 @@ class MoviesPagingSource(
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
     }
-
-    private companion object {
-        private const val MOVIES_STARTING_PAGE_INDEX = 1
-    }
 }
+
+private const val MOVIES_STARTING_PAGE_INDEX = 1
