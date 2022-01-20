@@ -1,4 +1,0 @@
-<shape xmlns:android="http://schemas.android.com/apk/res/android" android:shape="oval">
-    <solid android:color="@color/errorHolderColor"/>
-    <stroke android:width="1px" android:color="@color/errorHolderColor"/>
-</shape>
