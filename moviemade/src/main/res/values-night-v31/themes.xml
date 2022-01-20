@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Day Theme
+
+    Android 12 (API level 31)
+
+    Added:
+    windowSplashScreenBrandingImage
+-->
+
+<resources>
+
+    <style name="Theme.App" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="background">@color/Background</item>
+        <item name="colorError">@color/Error</item>
+        <item name="colorErrorContainer">@color/ErrorContainer</item>
+        <item name="colorOnSurfaceInverse">@color/InverseOnSurface</item>
+        <item name="colorPrimaryInverse">@color/InversePrimary</item>
+        <item name="colorSurfaceInverse">@color/InverseSurface</item>
+        <item name="colorOnBackground">@color/OnBackground</item>
+        <item name="colorOnError">@color/OnError</item>
+        <item name="colorOnErrorContainer">@color/OnErrorContainer</item>
+        <item name="colorOnPrimary">@color/OnPrimary</item>
+        <item name="colorOnPrimaryContainer">@color/OnPrimaryContainer</item>
+        <item name="colorOnSecondary">@color/OnSecondary</item>
+        <item name="colorOnSecondaryContainer">@color/OnSecondaryContainer</item>
+        <item name="colorOnSurface">@color/OnSurface</item>
+        <item name="colorOnSurfaceVariant">@color/OnSurfaceVariant</item>
+        <item name="colorOnTertiary">@color/OnTertiary</item>
+        <item name="colorOnTertiaryContainer">@color/OnTertiaryContainer</item>
+        <item name="colorOutline">@color/Outline</item>
+        <item name="colorPrimary">@color/Primary</item>
+        <item name="colorPrimaryContainer">@color/PrimaryContainer</item>
+        <item name="colorSecondary">@color/Secondary</item>
+        <item name="colorSecondaryContainer">@color/SecondaryContainer</item>
+        <item name="colorSurface">@color/Surface</item>
+        <item name="colorSurfaceVariant">@color/SurfaceVariant</item>
+        <item name="colorTertiary">@color/Tertiary</item>
+        <item name="colorTertiaryContainer">@color/TertiaryContainer</item>
+
+        <item name="android:background">@color/Background</item>
+        <item name="android:colorPrimary">@color/Primary</item>
+        <item name="android:colorAccent">@color/Primary</item>
+
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarDividerColor">@android:color/transparent</item>
+
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
+
+    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/Surface</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
+        <item name="postSplashScreenTheme">@style/Theme.App</item>
+        <item name="android:statusBarColor">@color/Surface</item>
+        <item name="android:navigationBarColor">@color/Surface</item>
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+</resources>

@@ -1,0 +1,67 @@
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="org.michaelbel.moviemade">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
+    <application
+        android:name=".presentation.App"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/ic_launcher"
+        android:allowBackup="true"
+        android:fullBackupContent="true"
+        android:hardwareAccelerated="true"
+        android:theme="@style/Theme.App.Starting"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        tools:ignore="UnusedAttribute">
+
+        <activity
+            android:name=".presentation.features.main.MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <!--Authorization callback URL looks like this: moviemade://main-->
+                <data android:host="main" android:scheme="moviemade"/>
+            </intent-filter>
+            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts"/>
+        </activity>
+
+        <!--<activity
+            android:name=".presentation.features.movie.MovieActivity"
+            android:exported="false"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:title="android.intent.action.VIEW"/>
+                <category android:title="android.intent.category.DEFAULT"/>
+                <category android:title="android.intent.category.BROWSABLE"/>
+                <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/movie/"/>
+                <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/movie"/>
+            </intent-filter>
+        </activity>-->
+
+        <!--AdMob-->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="@string/admobAppId"/>
+
+        <!-- Downloadable Fonts (https://d.android.com/guide/topics/ui/look-and-feel/downloadable-fonts) -->
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts"/>
+
+    </application>
+
+</manifest>

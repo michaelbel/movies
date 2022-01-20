@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Button-->
+
+    <style name="OutlinedButton.LowerCase" parent="Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="fontFamily">@font/open_sans_semibold</item>
+        <item name="android:textAllCaps">false</item>
+    </style>
+
+    <style name="Button.Borderless" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:lines">1</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:gravity">start|center_vertical</item>
+        <item name="android:textColor">@color/tmdbPrimary</item>
+    </style>
+
+</resources>

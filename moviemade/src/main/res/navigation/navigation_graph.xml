@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/navigation_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="org.michaelbel.moviemade.presentation.features.main.MainFragment"
+        android:label="Main"/>
+
+    <fragment
+        android:id="@+id/movieFragment"
+        android:name="org.michaelbel.moviemade.presentation.features.movie.MovieFragment"
+        android:label="Movie">
+
+        <argument
+            android:name="movie"
+            app:argType="org.michaelbel.moviemade.data.model.MovieResponse"/>
+
+    </fragment>
+
+</navigation>

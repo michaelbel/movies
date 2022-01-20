@@ -1,0 +1,43 @@
+<resources>
+    <color name="Background">#FFFBFE</color>
+    <color name="Error">#B3261E</color>
+    <color name="ErrorContainer">#F9DEDC</color>
+    <color name="InverseOnSurface">#F4EFF4</color>
+    <color name="InversePrimary">#D0BCFF</color>
+    <color name="InverseSurface">#313033</color>
+    <color name="OnBackground">#1C1B1F</color>
+    <color name="OnError">#FFFFFF</color>
+    <color name="OnErrorContainer">#410E0B</color>
+    <color name="OnPrimary">#FFFFFF</color>
+    <color name="OnPrimaryContainer">#21005D</color>
+    <color name="OnSecondary">#FFFFFF</color>
+    <color name="OnSecondaryContainer">#1D192B</color>
+    <color name="OnSurface">#1C1B1F</color>
+    <color name="OnSurfaceVariant">#49454F</color>
+    <color name="OnTertiary">#FFFFFF</color>
+    <color name="OnTertiaryContainer">#31111D</color>
+    <color name="Outline">#79747E</color>
+    <color name="Primary">#6750A4</color>
+    <color name="PrimaryContainer">#EADDFF</color>
+    <color name="Secondary">#625B71</color>
+    <color name="SecondaryContainer">#E8DEF8</color>
+    <color name="Surface">#FFFBFE</color>
+    <color name="SurfaceVariant">#E7E0EC</color>
+    <color name="Tertiary">#7D5260</color>
+    <color name="TertiaryContainer">#FFD8E4</color>
+
+    <color name="ratingIconTint">#FFC107</color>
+    <color name="tmdbPrimary">#01d277</color>
+    <color name="tmdbSecondary">#081c24</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="transparent10">#1a000000</color><!--10% opacity-->
+    <color name="transparent20">#33000000</color><!--20% opacity-->
+    <color name="transparent30">#4d000000</color><!--30% opacity-->
+    <color name="transparent40">#66000000</color><!--40% opacity-->
+    <color name="transparent50">#80000000</color><!--50% opacity-->
+    <color name="transparent60">#99000000</color><!--60% opacity-->
+    <color name="transparent70">#b3000000</color><!--70% opacity-->
+    <color name="transparent80">#cc000000</color><!--80% opacity-->
+    <color name="transparent90">#e6000000</color><!--90% opacity-->
+</resources>
