@@ -36,7 +36,6 @@
                 <!--Authorization callback URL looks like this: moviemade://main-->
                 <data android:host="main" android:scheme="moviemade"/>
             </intent-filter>
-            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts"/>
         </activity>
 
         <!--<activity

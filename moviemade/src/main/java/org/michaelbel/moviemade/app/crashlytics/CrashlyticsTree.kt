@@ -1,21 +1,18 @@
 package org.michaelbel.moviemade.app.crashlytics
 
-import android.util.Log
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
 
 class CrashlyticsTree: Timber.Tree() {
 
-    override fun log(priority: Int, tag: String?, message: String, throwable: Throwable?) {
-        if (priority == Log.VERBOSE || priority == Log.DEBUG) {
-            return
+    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+        val exception: Throwable = t ?: Exception(message)
+        FirebaseCrashlytics.getInstance().run {
+            setCustomKey(CRASHLYTICS_KEY_PRIORITY, priority)
+            setCustomKey(CRASHLYTICS_KEY_TAG, tag.orEmpty())
+            setCustomKey(CRASHLYTICS_KEY_MESSAGE, message)
+            recordException(exception)
         }
-
-        val exception: Throwable = throwable ?: Exception(message)
-
-        //Crashlytics.setInt(CRASHLYTICS_KEY_PRIORITY, priority)
-        //Crashlytics.setString(CRASHLYTICS_KEY_TAG, tag)
-        //Crashlytics.setString(CRASHLYTICS_KEY_MESSAGE, message)
-        //Crashlytics.logException(t)
     }
 
     private companion object {

@@ -6,16 +6,17 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedFactory
 import dagger.assisted.AssistedInject
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.michaelbel.moviemade.BuildConfig
+import org.michaelbel.moviemade.app.playcore.InAppUpdate
 import org.michaelbel.moviemade.data.model.Movie
 import org.michaelbel.moviemade.data.model.MovieResponse
 import org.michaelbel.moviemade.domain.repo.MoviesRepository
-import org.michaelbel.moviemade.app.playcore.InAppUpdate
 import org.michaelbel.moviemade.presentation.features.main.adapter.UiAction
 import org.michaelbel.moviemade.presentation.features.main.adapter.UiState
 import java.util.*
@@ -23,6 +24,7 @@ import java.util.*
 class MainViewModel @AssistedInject constructor(
     @Assisted private val savedStateHandle: SavedStateHandle,
     @Assisted val list: String?,
+    private val firebaseRemoteConfig: FirebaseRemoteConfig,
     private val repository: MoviesRepository,
     private val inAppUpdate: InAppUpdate
 ): ViewModel() {
@@ -112,6 +114,10 @@ class MainViewModel @AssistedInject constructor(
     private fun searchRepo(): Flow<PagingData<MovieResponse>> =
         repository.moviesStream(Movie.NOW_PLAYING, BuildConfig.TMDB_API_KEY, Locale.getDefault().language)
             .cachedIn(viewModelScope)
+
+    /*fun takeBooleanParam() = viewModelScope.launch {
+        val customParam: Boolean = firebaseRemoteConfig.getBoolean(REMOTE_CONFIG_CUSTOM_BOOLEAN_PARAM)
+    }*/
 
     @AssistedFactory
     interface Factory {

@@ -17,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.michaelbel.moviemade.R
+import org.michaelbel.moviemade.app.analytics.Analytics
 import org.michaelbel.moviemade.app.ktx.*
 import org.michaelbel.moviemade.data.model.Movie
 import org.michaelbel.moviemade.data.model.MovieResponse
@@ -77,6 +78,11 @@ class MainFragment: Fragment(R.layout.fragment_main) {
                 }
             }
         }
+    }
+
+    @Inject
+    fun trackScreen(analytics: Analytics) {
+        analytics.trackScreen(MainFragment::class.simpleName)
     }
 
     private fun applyWindowInsets() {

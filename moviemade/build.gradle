@@ -6,6 +6,7 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
     id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
 }
 
 def getProperty(String filename, String propName) {
@@ -120,8 +121,10 @@ dependencies {
     implementation "com.google.android.material:compose-theme-adapter:$composeVersion"
     implementation "com.google.dagger:hilt-android:$daggerVersion"
               kapt "com.google.dagger:hilt-compiler:$daggerVersion"
-    implementation "com.google.firebase:firebase-analytics:$firebaseAnalytics"
+    implementation "com.google.firebase:firebase-analytics-ktx:$firebaseAnalytics"
     implementation "com.google.firebase:firebase-core:$firebaseCoreVersion"
+    implementation "com.google.firebase:firebase-crashlytics-ktx:$firebaseCrashlyticsVersion"
+    implementation "com.google.firebase:firebase-config-ktx:$firebaseConfigVersion"
 
     implementation "com.github.kirich1409:viewbindingpropertydelegate:$viewBindingPropertyDelegateVersion"
     implementation "com.jakewharton.timber:timber:$timberVersion"

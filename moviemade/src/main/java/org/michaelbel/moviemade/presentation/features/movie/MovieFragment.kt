@@ -26,6 +26,7 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 import com.google.android.material.appbar.AppBarLayout
 import dagger.hilt.android.AndroidEntryPoint
 import org.michaelbel.moviemade.R
+import org.michaelbel.moviemade.app.analytics.Analytics
 import org.michaelbel.moviemade.app.ktx.isDarkTheme
 import org.michaelbel.moviemade.app.ktx.setLightStatusBar
 import org.michaelbel.moviemade.app.ktx.statusBarHeight
@@ -81,6 +82,11 @@ class MovieFragment: Fragment(R.layout.fragment_movie) {
                 ContextCompat.getColor(requireContext(), R.color.toolbarIconTint)
             )*/
         }
+    }
+
+    @Inject
+    fun trackScreen(analytics: Analytics) {
+        analytics.trackScreen(MovieFragment::class.simpleName)
     }
 
     private fun applyWindowInsets() {
