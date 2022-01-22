@@ -24,7 +24,7 @@ object App {
 
 object Plugin {
     const val Gradle = "7.0.4"
-    const val Kotlin = "1.6.0"
+    const val Kotlin = "1.6.10"
     const val Navigation = "2.3.5"
     const val Dagger = "2.40.5"
     const val Google = "4.3.10"
