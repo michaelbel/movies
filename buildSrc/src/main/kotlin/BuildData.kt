@@ -29,7 +29,7 @@ object Plugin {
     const val Dagger = "2.40.5"
     const val Google = "4.3.10"
     const val Crashlytics = "2.8.1"
-    const val Appdistribution = "2.2.0"
+    const val Appdistribution = "3.0.0"
 }
 
 object Version {
