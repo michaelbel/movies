@@ -15,6 +15,8 @@ plugins {
     kotlin("kapt")
 }
 
+apply("../config.gradle")
+
 android {
     compileSdk = App.CompileSdk
     buildToolsVersion = App.BuildTools
@@ -47,13 +49,13 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = true
             isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
-        getByName("debug") {
+        debug {
             isDebuggable = true
             isMinifyEnabled = false
             isShrinkResources = false

@@ -11,7 +11,7 @@ object App {
 
     const val ApplicationId = "org.michaelbel.moviemade"
 
-    val generateVersionCode: Int
+    /*val generateVersionCode: Int
         get() {
             var result: String = Runtime.getRuntime().exec("git rev-list HEAD --count").toString().trim() // Unix
             print("result 1 = $result")
@@ -19,7 +19,7 @@ object App {
             print("result 2 = $result")
             if (result.isEmpty()) throw RuntimeException("Could not generate versioncode on this platform? Cmd output: $result")
             return result.toInt()
-        }
+        }*/
 }
 
 object Plugin {
