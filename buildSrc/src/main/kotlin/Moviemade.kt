@@ -29,7 +29,6 @@ object Plugin {
     const val Dagger = "2.40.5"
     const val Google = "4.3.10"
     const val Crashlytics = "2.8.1"
-    const val Appdistribution = "3.0.0"
 }
 
 object Version {
@@ -67,6 +66,8 @@ object Version {
 }
 
 object FirebaseAppDistribution {
+    const val Version = "3.0.0"
+
     const val MobileSdkAppId = "1:770317857182:android:876190afbc53df31"
     const val ArtifactType = "APK"
     const val Testers = "michaelbel24865@gmail.com"
