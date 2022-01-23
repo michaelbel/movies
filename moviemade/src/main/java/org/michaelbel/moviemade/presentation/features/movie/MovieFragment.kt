@@ -11,6 +11,7 @@ import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -148,9 +149,7 @@ class MovieFragment: Fragment(R.layout.fragment_movie) {
     }
 
     private fun renderAdView() {
-        val onInitializationCompleteListener = OnInitializationCompleteListener { status ->
-
-        }
+        val onInitializationCompleteListener = OnInitializationCompleteListener { status -> }
 
         val adViewListener = object: AdListener() {
             override fun onAdClosed() {}
@@ -159,7 +158,9 @@ class MovieFragment: Fragment(R.layout.fragment_movie) {
 
             override fun onAdOpened() {}
 
-            override fun onAdLoaded() {}
+            override fun onAdLoaded() {
+                binding.adView.isVisible = true
+            }
 
             override fun onAdClicked() {}
 
@@ -169,7 +170,9 @@ class MovieFragment: Fragment(R.layout.fragment_movie) {
         MobileAds.initialize(requireContext(), onInitializationCompleteListener)
 
         val adRequest: AdRequest = AdRequest.Builder().build()
-        binding.adView.loadAd(adRequest)
-        binding.adView.adListener = adViewListener
+        binding.adView.run {
+            loadAd(adRequest)
+            adListener = adViewListener
+        }
     }
 }

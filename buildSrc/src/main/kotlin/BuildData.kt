@@ -1,8 +1,8 @@
 package org.michaelbel.moviemade
 
 object App {
-    const val VersionCode = 69
-    const val VersionName = "1.3.7"
+    const val VersionCode = 71
+    const val VersionName = "1.3.8"
 
     const val MinSdk = 21
     const val TargetSdk = 31
@@ -64,4 +64,12 @@ object Version {
     const val Mockito = "4.2.0"
     const val Mockk = "1.12.2"
     const val Robolectric = "4.7.3"
+}
+
+object FirebaseAppDistribution {
+    const val MobileSdkAppId = "1:770317857182:android:876190afbc53df31"
+    const val ArtifactType = "APK"
+    const val Testers = "michaelbel24865@gmail.com"
+    const val Groups = "qa"
+    const val ReleaseNotes = "Release ${App.VersionName} (${App.VersionCode})"
 }

@@ -1,6 +1,8 @@
+
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.konan.properties.Properties
 import org.michaelbel.moviemade.App
+import org.michaelbel.moviemade.FirebaseAppDistribution
 import org.michaelbel.moviemade.Version
 import java.io.FileInputStream
 
@@ -9,6 +11,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("androidx.navigation.safeargs")
     id("com.google.gms.google-services")
+    id("com.google.firebase.appdistribution")
     id("com.google.firebase.crashlytics")
     id("kotlin-parcelize")
     kotlin("android")
@@ -33,6 +36,8 @@ android {
 
         buildConfigField("String", "VERSION_DATE", "\"${System.currentTimeMillis()}\"")
         buildConfigField("String", "TMDB_API_KEY", "\"${gradleLocalProperties(rootDir).getProperty("TMDB_API_KEY")}\"")
+        buildConfigField("String", "ADMOB_APP_ID", "\"${gradleLocalProperties(rootDir).getProperty("ADMOB_APP_ID")}\"")
+        buildConfigField("String", "ADMOB_BANNER_ID", "\"${gradleLocalProperties(rootDir).getProperty("ADMOB_BANNER_ID")}\"")
     }
 
     signingConfigs {
@@ -54,6 +59,15 @@ android {
             isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+            firebaseAppDistribution {
+                appId = FirebaseAppDistribution.MobileSdkAppId
+                artifactType = FirebaseAppDistribution.ArtifactType
+                testers = FirebaseAppDistribution.Testers
+                releaseNotes = FirebaseAppDistribution.ReleaseNotes
+                groups = FirebaseAppDistribution.Groups
+                serviceCredentialsFile = "$rootDir/config/firebase-app-distribution.json"
+            }
         }
         debug {
             isDebuggable = true

@@ -108,7 +108,6 @@
     <string name="cancel">Cancel</string>
     <!--Messages-->
     <string name="msg_logout">Are you sure you want to log out?</string>
-    <string name="msg_enter_data">Enter **Username** and **Password**</string>
     <string name="msg_account_not_authorized">Your Themoviedb account is not authorized. \nPlease, sign in.</string>
     <string name="msg_done">Done</string>
     <string name="msg_check_internet">Please, check your internet connection and try again</string>
