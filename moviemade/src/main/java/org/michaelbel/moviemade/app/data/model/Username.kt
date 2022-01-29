@@ -1,9 +1,11 @@
 package org.michaelbel.moviemade.app.data.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Username(
-    @SerializedName("username") val username: String? = null,
-    @SerializedName("password") val password: String? = null,
-    @SerializedName("request_token") val requestToken: String? = null
+    @SerialName("username") val username: String? = null,
+    @SerialName("password") val password: String? = null,
+    @SerialName("request_token") val requestToken: String? = null
 )

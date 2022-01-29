@@ -1,5 +1,6 @@
 package org.michaelbel.moviemade.ui.home
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -99,6 +100,7 @@ private fun Content(
             state = listState
         ) {
             items(movies) { movieItem ->
+                Log.e("2580", "movie item = $movieItem")
                 movieItem?.let { movie ->
                     MovieListItem(
                         movie = movie,

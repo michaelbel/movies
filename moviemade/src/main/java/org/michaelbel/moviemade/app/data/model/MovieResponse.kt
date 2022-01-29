@@ -1,29 +1,25 @@
 package org.michaelbel.moviemade.app.data.model
 
-import com.google.gson.annotations.SerializedName
-import java.io.Serializable
-import java.util.Calendar
-import java.util.Date
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class MovieResponse(
-    @SerializedName("id") val id: Int,
-    @SerializedName("overview") val overview: String?,
-    @SerializedName("poster_path") val posterPath: String,
-    @SerializedName("backdrop_path") val backdropPath: String?,
-    @SerializedName("release_date") val releaseDate: Date,
-    @SerializedName("title") val title: String,
-    @SerializedName("vote_average") val voteAverage: Float,
-    @SerializedName("genre_ids") val genreIds: List<Int>
-): Serializable {
+    @SerialName("id") val id: Int,
+    @SerialName("overview") val overview: String?,
+    @SerialName("poster_path") val posterPath: String,
+    @SerialName("backdrop_path") val backdropPath: String?,
+    @SerialName("release_date") val releaseDate: String,
+    @SerialName("title") val title: String,
+    @SerialName("vote_average") val voteAverage: Float,
+    @SerialName("genre_ids") val genreIds: List<Int>
+) {
 
     val backdropPathSafe: String
         get() = backdropPath ?: EMPTY_BACKDROP_PATH
 
     val overviewSafe: String
         get() = overview ?: EMPTY_OVERVIEW
-
-    val releaseYear: String
-        get() = Calendar.getInstance().apply { time = releaseDate }.get(Calendar.YEAR).toString()
 
     val genres: String
         get() = genreIds.take(2).joinToString(limit = 2, separator = ", ") {

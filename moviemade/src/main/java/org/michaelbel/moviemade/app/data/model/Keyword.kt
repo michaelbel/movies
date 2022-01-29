@@ -1,8 +1,10 @@
 package org.michaelbel.moviemade.app.data.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Keyword(
-    @SerializedName("id") val id: Long = 0L,
-    @SerializedName("name") val name: String? = null
+    @SerialName("id") val id: Long = 0L,
+    @SerialName("name") val name: String? = null
 )

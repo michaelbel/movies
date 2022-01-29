@@ -1,9 +1,11 @@
 package org.michaelbel.moviemade.app.data.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class GuestSession(
-    @SerializedName("success") val success: Boolean,
-    @SerializedName("guest_session_id") val guestSessionId: String,
-    @SerializedName("expires_at") val date: String
+    @SerialName("success") val success: Boolean,
+    @SerialName("guest_session_id") val guestSessionId: String,
+    @SerialName("expires_at") val date: String
 )

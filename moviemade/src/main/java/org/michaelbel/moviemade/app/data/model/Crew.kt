@@ -1,28 +1,30 @@
 package org.michaelbel.moviemade.app.data.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Crew(
-    @SerializedName("credit_id") val creditId: String,
-    @SerializedName("department") val department: String,
-    @SerializedName("gender") val gender: Int,
-    @SerializedName("id") val id: Int,
-    @SerializedName("job") val job: String,
-    @SerializedName("name") val name: String,
-    @SerializedName("profile_path") val profilePath: String,
-    @SerializedName("original_language") val originalLanguage: String,
-    @SerializedName("original_title") val originalTitle: String,
-    @SerializedName("overview") val overview: String,
-    @SerializedName("vote_count") val voteCount: Int,
-    @SerializedName("video") val video: Boolean,
-    @SerializedName("poster_path") val posterPath: String,
-    @SerializedName("backdrop_path") val backdropPath: String,
-    @SerializedName("title") val title: String,
-    @SerializedName("popularity") val popularity: Float,
-    @SerializedName("genre_ids") val genreIds: List<Int>,
-    @SerializedName("vote_average") val voteAverage: Float,
-    @SerializedName("adult") val adult: Boolean,
-    @SerializedName("release_date") val releaseDate: String
+    @SerialName("credit_id") val creditId: String,
+    @SerialName("department") val department: String,
+    @SerialName("gender") val gender: Int,
+    @SerialName("id") val id: Int,
+    @SerialName("job") val job: String,
+    @SerialName("name") val name: String,
+    @SerialName("profile_path") val profilePath: String,
+    @SerialName("original_language") val originalLanguage: String,
+    @SerialName("original_title") val originalTitle: String,
+    @SerialName("overview") val overview: String,
+    @SerialName("vote_count") val voteCount: Int,
+    @SerialName("video") val video: Boolean,
+    @SerialName("poster_path") val posterPath: String,
+    @SerialName("backdrop_path") val backdropPath: String,
+    @SerialName("title") val title: String,
+    @SerialName("popularity") val popularity: Float,
+    @SerialName("genre_ids") val genreIds: List<Int>,
+    @SerialName("vote_average") val voteAverage: Float,
+    @SerialName("adult") val adult: Boolean?,
+    @SerialName("release_date") val releaseDate: String
 ) {
 
     companion object {

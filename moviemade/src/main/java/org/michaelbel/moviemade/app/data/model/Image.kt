@@ -1,16 +1,18 @@
 package org.michaelbel.moviemade.app.data.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
 /**
  * Poster or Backdrop.
  */
+@Serializable
 data class Image(
-    @SerializedName("aspect_ratio") val aspectRatio: Float,
-    @SerializedName("file_path") val filePath: String,
-    @SerializedName("height") val height: Int,
-    @SerializedName("iso_639_1") val lang: String,
-    @SerializedName("vote_average") val voteAverage: Int,
-    @SerializedName("vote_count") val voteCount: Int,
-    @SerializedName("width") val width: Int
+    @SerialName("aspect_ratio") val aspectRatio: Float,
+    @SerialName("file_path") val filePath: String,
+    @SerialName("height") val height: Int,
+    @SerialName("iso_639_1") val lang: String,
+    @SerialName("vote_average") val voteAverage: Int,
+    @SerialName("vote_count") val voteCount: Int,
+    @SerialName("width") val width: Int
 )

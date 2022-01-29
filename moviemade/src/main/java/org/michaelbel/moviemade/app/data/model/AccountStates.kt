@@ -1,10 +1,12 @@
 package org.michaelbel.moviemade.app.data.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class AccountStates(
-    @SerializedName("id") val id: Int,
-    @SerializedName("favorite") val favorite: Boolean,
-    @SerializedName("watchlist") val watchlist: Boolean
-    //@SerializedName("rated") val rated: Rated
+    @SerialName("id") val id: Int,
+    @SerialName("favorite") val favorite: Boolean,
+    @SerialName("watchlist") val watchlist: Boolean
+    //@SerialName("rated") val rated: Rated
 )

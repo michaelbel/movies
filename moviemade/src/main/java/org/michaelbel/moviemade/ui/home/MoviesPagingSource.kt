@@ -1,5 +1,6 @@
 package org.michaelbel.moviemade.ui.home
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -33,6 +34,7 @@ class MoviesPagingSource(
                 nextKey = if (nextPage == result.totalPages) null else nextPage + 1
             )
         } catch (e: Exception) {
+            Log.e("2580", "Exception $e")
             LoadResult.Error(e)
         }
     }

@@ -1,8 +1,10 @@
 package org.michaelbel.moviemade.app.data.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Dates(
-    @SerializedName("minimum") val minimumDate: String,
-    @SerializedName("maximum") val maximumDate: String
+    @SerialName("minimum") val minimumDate: String,
+    @SerialName("maximum") val maximumDate: String
 )

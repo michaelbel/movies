@@ -1,10 +1,8 @@
 package org.michaelbel.moviemade.repository
 
-import javax.inject.Inject
 import org.junit.Before
 import org.junit.Test
 import org.michaelbel.moviemade.app.data.Api
-import org.michaelbel.moviemade.app.domain.repo.MoviesRepository
 import org.mockito.InjectMocks
 import org.mockito.MockitoAnnotations
 
@@ -20,9 +18,6 @@ class MoviesRepositoryTest {
 
     @InjectMocks
     lateinit var inAppUpdate: InAppUpdate
-
-    @Inject
-    lateinit var moviesRepository: MoviesRepository
 
     //private val mockMoviesRepository: MoviesRepository = mock(MoviesRepository::class.java)
 

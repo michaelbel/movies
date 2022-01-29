@@ -1,10 +1,12 @@
 package org.michaelbel.moviemade.app.data.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Mark(
-    @SerializedName("status_code") val statusCode: Int,
-    @SerializedName("status_message") val statusMessage: String
+    @SerialName("status_code") val statusCode: Int,
+    @SerialName("status_message") val statusMessage: String
 ) {
 
     companion object {

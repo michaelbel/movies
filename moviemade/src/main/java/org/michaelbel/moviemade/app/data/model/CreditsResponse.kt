@@ -1,9 +1,11 @@
 package org.michaelbel.moviemade.app.data.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class CreditsResponse(
-    @SerializedName("id") val id: Int,
-    @SerializedName("cast") val cast: List<Cast>,
-    @SerializedName("crew") val crew: List<Crew>
+    @SerialName("id") val id: Int,
+    @SerialName("cast") val cast: List<Cast>,
+    @SerialName("crew") val crew: List<Crew>
 )

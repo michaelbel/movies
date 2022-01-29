@@ -1,21 +1,23 @@
 package org.michaelbel.moviemade.app.data.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Person(
-    @SerializedName("birthday") val birthDay: String,
-    @SerializedName("known_for_department") val knownForDepartment: String,
-    @SerializedName("deathday") val deathDay: String,
-    @SerializedName("id") val id: Int,
-    @SerializedName("title") val name: String,
-    @SerializedName("also_known_as") val also_known_as: List<String>,
-    @SerializedName("gender") val gender: Int,
-    @SerializedName("biography") val biography: String,
-    @SerializedName("popularity") val popularity: Float,
-    @SerializedName("place_of_birth") val placeOfBirth: String,
-    @SerializedName("profile_path") val profilePath: String,
-    @SerializedName("adult") val adult: Boolean,
-    @SerializedName("imdb_id") val imdb_id: String,
-    @SerializedName("homepage") val homepage: String,
-    @SerializedName("known_for") val knownFor: List<Movie>
+    @SerialName("birthday") val birthDay: String,
+    @SerialName("known_for_department") val knownForDepartment: String,
+    @SerialName("deathday") val deathDay: String,
+    @SerialName("id") val id: Int,
+    @SerialName("title") val name: String,
+    @SerialName("also_known_as") val also_known_as: List<String>,
+    @SerialName("gender") val gender: Int,
+    @SerialName("biography") val biography: String,
+    @SerialName("popularity") val popularity: Float,
+    @SerialName("place_of_birth") val placeOfBirth: String,
+    @SerialName("profile_path") val profilePath: String,
+    @SerialName("adult") val adult: Boolean?,
+    @SerialName("imdb_id") val imdb_id: String,
+    @SerialName("homepage") val homepage: String,
+    @SerialName("known_for") val knownFor: List<Movie>
 )

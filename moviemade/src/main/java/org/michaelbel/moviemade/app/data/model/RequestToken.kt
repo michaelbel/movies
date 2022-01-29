@@ -1,7 +1,9 @@
 package org.michaelbel.moviemade.app.data.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class RequestToken(
-    @SerializedName("request_token") val requestToken: String
+    @SerialName("request_token") val requestToken: String
 )

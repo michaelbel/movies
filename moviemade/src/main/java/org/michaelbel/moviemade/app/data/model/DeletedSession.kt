@@ -1,7 +1,9 @@
 package org.michaelbel.moviemade.app.data.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class DeletedSession(
-    @SerializedName("success") val success: Boolean
+    @SerialName("success") val success: Boolean
 )

@@ -1,8 +1,10 @@
 package org.michaelbel.moviemade.app.data.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Language(
-    @SerializedName("iso_639_1") val language: String,
-    @SerializedName("name") val name: String
+    @SerialName("iso_639_1") val language: String,
+    @SerialName("name") val name: String
 )

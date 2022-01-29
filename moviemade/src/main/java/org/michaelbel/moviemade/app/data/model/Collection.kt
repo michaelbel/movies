@@ -1,12 +1,14 @@
 package org.michaelbel.moviemade.app.data.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Collection(
-    @SerializedName("id") val id: Int = 0,
-    @SerializedName("name") val name: String? = null,
-    @SerializedName("overview") val overview: String? = null,
-    @SerializedName("poster_path") val posterPath: String? = null,
-    @SerializedName("backdrop_path") val backdropPath: String? = null,
-    @SerializedName("parts") val parts: List<Movie> = emptyList()
+    @SerialName("id") val id: Int = 0,
+    @SerialName("name") val name: String? = null,
+    @SerialName("overview") val overview: String? = null,
+    @SerialName("poster_path") val posterPath: String? = null,
+    @SerialName("backdrop_path") val backdropPath: String? = null,
+    @SerialName("parts") val parts: List<Movie> = emptyList()
 )

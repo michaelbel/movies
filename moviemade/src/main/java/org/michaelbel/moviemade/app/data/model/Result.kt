@@ -1,13 +1,14 @@
 package org.michaelbel.moviemade.app.data.model
 
-import com.google.gson.annotations.SerializedName
-import java.io.Serializable
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-open class Result<T>: Serializable {
-    @SerializedName("id") val id: Int = 0
-    @SerializedName("page") val page: Int = 0
-    @SerializedName("results") val results: List<T> = emptyList()
-    @SerializedName("total_pages") val totalPages: Int = 0
-    @SerializedName("total_results") val totalResults: Int = 0
-    @SerializedName("dates") val dates: Dates? = null
+@Serializable
+open class Result<T> {
+    @SerialName("id") val id: Int = 0
+    @SerialName("page") val page: Int = 0
+    @SerialName("results") val results: List<T> = emptyList()
+    @SerialName("total_pages") val totalPages: Int = 0
+    @SerialName("total_results") val totalResults: Int = 0
+    @SerialName("dates") val dates: Dates? = null
 }

@@ -7,6 +7,7 @@ buildscript {
     dependencies {
         classpath(org.michaelbel.moviemade.Dependencies.Gradle)
         classpath(org.michaelbel.moviemade.Dependencies.KotlinPlugin)
+        classpath(org.michaelbel.moviemade.Dependencies.KotlinSerializationPlugin)
         classpath(org.michaelbel.moviemade.Dependencies.NavigationPlugin)
         classpath(org.michaelbel.moviemade.Dependencies.HiltPlugin)
         classpath(org.michaelbel.moviemade.Dependencies.GooglePlayServicesPlugin)

@@ -1,13 +1,15 @@
 package org.michaelbel.moviemade.app.data.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Account(
-    @SerializedName("avatar") val avatar: Avatar,
-    @SerializedName("id") val id: Int,
-    @SerializedName("iso_639_1") val lang: String,
-    @SerializedName("iso_3166_1") val country: String,
-    @SerializedName("name") val name: String,
-    @SerializedName("include_adult") val includeAdult: Boolean,
-    @SerializedName("username") val username: String
+    @SerialName("avatar") val avatar: Avatar,
+    @SerialName("id") val id: Int,
+    @SerialName("iso_639_1") val lang: String,
+    @SerialName("iso_3166_1") val country: String,
+    @SerialName("name") val name: String,
+    @SerialName("include_adult") val includeAdult: Boolean,
+    @SerialName("username") val username: String
 )

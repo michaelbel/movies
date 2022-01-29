@@ -1,14 +1,16 @@
 package org.michaelbel.moviemade.app.data.model
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Review(
-    @SerializedName("id") val id: String = "",
-    @SerializedName("author") val author: String = "",
-    @SerializedName("content") val content: String = "",
-    @SerializedName("iso_639_1") val lang: String = "",
-    @SerializedName("media_id") val mediaId: Int = 0,
-    @SerializedName("media_title") val mediaTitle: String = "",
-    @SerializedName("media_type") val mediaType: String = "",
-    @SerializedName("url") val url: String = ""
+    @SerialName("id") val id: String = "",
+    @SerialName("author") val author: String = "",
+    @SerialName("content") val content: String = "",
+    @SerialName("iso_639_1") val lang: String = "",
+    @SerialName("media_id") val mediaId: Int = 0,
+    @SerialName("media_title") val mediaTitle: String = "",
+    @SerialName("media_type") val mediaType: String = "",
+    @SerialName("url") val url: String = ""
 )
