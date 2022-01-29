@@ -2,11 +2,7 @@ package org.michaelbel.moviemade.presentation.features.main
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.os.bundleOf
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,7 +14,10 @@ import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.app.analytics.Analytics
-import org.michaelbel.moviemade.app.ktx.*
+import org.michaelbel.moviemade.app.ktx.dp
+import org.michaelbel.moviemade.app.ktx.launchAndRepeatWithViewLifecycle
+import org.michaelbel.moviemade.app.ktx.savedStateViewModels
+import org.michaelbel.moviemade.app.ktx.smartScrollToTop
 import org.michaelbel.moviemade.data.model.Movie
 import org.michaelbel.moviemade.data.model.MovieResponse
 import org.michaelbel.moviemade.databinding.FragmentMainBinding
@@ -42,8 +41,6 @@ class MainFragment: Fragment(R.layout.fragment_main) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        applyWindowInsets()
-        applyStatusBar()
 
         binding.toolbar.setOnClickListener { binding.recyclerView.smartScrollToTop() }
 
@@ -85,28 +82,15 @@ class MainFragment: Fragment(R.layout.fragment_main) {
         analytics.trackScreen(MainFragment::class.simpleName)
     }
 
-    private fun applyWindowInsets() {
+    /*private fun applyWindowInsets() {
         ViewCompat.setOnApplyWindowInsetsListener(binding.appBarLayout) { view, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             view.topPadding = systemBars.top
             WindowInsetsCompat.CONSUMED
         }
-    }
+    }*/
 
-    private fun applyStatusBar() {
-        if (requireContext().isDarkTheme) {
-            requireActivity().window.setLightStatusBar(false)
-        } else {
-            requireActivity().window.setLightStatusBar(true)
-        }
-    }
-
-    private fun showMovieFragment(movie: MovieResponse) {
-        findNavController().navigate(
-            R.id.movieFragment,
-            bundleOf("movie" to movie)
-        )
-    }
+    private fun showMovieFragment(movie: MovieResponse) {}
 
     private fun onAppUpdateClick(view: View) {
         viewModel.snackBarActionUpdateClicked(requireActivity())

@@ -38,19 +38,6 @@
             </intent-filter>
         </activity>
 
-        <!--<activity
-            android:name=".presentation.features.movie.MovieActivity"
-            android:exported="false"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:title="android.intent.action.VIEW"/>
-                <category android:title="android.intent.category.DEFAULT"/>
-                <category android:title="android.intent.category.BROWSABLE"/>
-                <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/movie/"/>
-                <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/movie"/>
-            </intent-filter>
-        </activity>-->
-
         <!--AdMob-->
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"

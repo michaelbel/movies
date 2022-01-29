@@ -5,6 +5,8 @@ import org.michaelbel.moviemade.App
 import org.michaelbel.moviemade.FirebaseAppDistribution
 import org.michaelbel.moviemade.Version
 import java.io.FileInputStream
+import org.michaelbel.moviemade.KotlinOptions
+import org.michaelbel.moviemade.Dependencies
 
 plugins {
     id("com.android.application")
@@ -18,8 +20,6 @@ plugins {
     kotlin("kapt")
 }
 
-apply("../config.gradle")
-
 android {
     compileSdk = App.CompileSdk
     buildToolsVersion = App.BuildTools
@@ -30,9 +30,10 @@ android {
         applicationId = App.ApplicationId
         versionCode = App.VersionCode
         versionName = App.VersionName
-        project.ext.set("archivesBaseName", "moviemade-v$versionName")
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
+
+        project.ext.set("archivesBaseName", "moviemade-v$versionName")
 
         buildConfigField("String", "VERSION_DATE", "\"${System.currentTimeMillis()}\"")
         buildConfigField("String", "TMDB_API_KEY", "\"${gradleLocalProperties(rootDir).getProperty("TMDB_API_KEY")}\"")
@@ -78,6 +79,7 @@ android {
     }
 
     buildFeatures {
+        compose = true
         viewBinding = true
     }
 
@@ -86,11 +88,36 @@ android {
         isCheckReleaseBuilds = false
         isAbortOnError = false
     }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = Dependencies.KotlinCompilerExtensionVersion
+    }
+
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + KotlinOptions.OptExperimentalMaterial3Api
+        freeCompilerArgs = freeCompilerArgs + KotlinOptions.OptExperimentalFoundationApi
+    }
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Version.Coroutines}")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Version.Coroutines}")
+    implementation(Dependencies.KotlinCoroutinesCore)
+    implementation(Dependencies.KotlinCoroutinesAndroid)
+    implementation(Dependencies.KotlinSerialization)
+    implementation(Dependencies.ComposeCompiler)
+    implementation(Dependencies.ComposeFoundation)
+    implementation(Dependencies.ComposeMaterial3)
+    implementation(Dependencies.ComposeRuntime)
+    implementation(Dependencies.ComposeUi)
+    implementation(Dependencies.ComposeUiTooling)
+    implementation(Dependencies.HiltNavigationCompose)
+    implementation(Dependencies.LifecycleViewModelCompose)
+    implementation(Dependencies.NavigationCompose)
+    implementation(Dependencies.PagingCompose)
+    implementation(Dependencies.AccompanistInsets)
+    implementation(Dependencies.AccompanistSwipeRefresh)
+    implementation(Dependencies.Material)
+    implementation(Dependencies.MaterialComposeThemeAdapter)
+    implementation(Dependencies.CoilCompose)
 
     implementation("androidx.activity:activity-ktx:${Version.Activity}")
     implementation("androidx.activity:activity-compose:${Version.Activity}")
@@ -111,8 +138,6 @@ dependencies {
 
     implementation("com.google.android.gms:play-services-ads:${Version.Ads}")
     implementation("com.google.android.play:core-ktx:${Version.PlayCore}")
-    implementation("com.google.android.material:material:${Version.Material}")
-    implementation("com.google.android.material:compose-theme-adapter:${Version.Compose}")
     implementation("com.google.dagger:hilt-android:${Version.Dagger}")
               kapt("com.google.dagger:hilt-compiler:${Version.Dagger}")
     implementation("com.google.firebase:firebase-analytics-ktx:${Version.FirebaseAnalytics}")
@@ -127,9 +152,4 @@ dependencies {
     implementation("io.coil-kt:coil:${Version.Coil}")
 
     debugImplementation("com.squareup.leakcanary:leakcanary-android:${Version.Leakcanary}")
-
-    testImplementation("junit:junit:${Version.Junit}")
-    testImplementation("org.mockito:mockito-core:${Version.Mockito}")
-    testImplementation("io.mockk:mockk:${Version.Mockk}")
-    testImplementation("org.robolectric:robolectric:${Version.Robolectric}")
 }

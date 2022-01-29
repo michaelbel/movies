@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import org.michaelbel.moviemade.data.Api
 import org.michaelbel.moviemade.data.model.Movie
 import org.michaelbel.moviemade.data.model.MovieResponse
+import org.michaelbel.moviemade.data.model.Result
 import org.michaelbel.moviemade.domain.data.MoviesPagingSource
 import retrofit2.Response
 import javax.inject.Inject
@@ -14,6 +15,15 @@ import javax.inject.Inject
 class MoviesRepository @Inject constructor(
     private val api: Api
 ) {
+
+    suspend fun movies(
+        list: String,
+        apiKey: String,
+        language: String,
+        page: Int
+    ): Result<MovieResponse> {
+        return api.movies(list, apiKey, language, page)
+    }
 
     fun moviesStream(
         list: String,

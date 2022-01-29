@@ -133,7 +133,7 @@
         android:layout_gravity="bottom|center_horizontal"
         android:visibility="invisible"
         app:adSize="LARGE_BANNER"
-        app:adUnitId="@string/admobBannerUnitId"
+        app:adUnitId="@string/admobBannerTestUnitId"
         tools:visibility="visible"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

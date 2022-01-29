@@ -5,21 +5,13 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:7.1.2")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.6.10")
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:2.4.0")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.41")
-        classpath("com.google.gms:google-services:4.3.10")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:2.8.1")
-        classpath("com.google.firebase:firebase-appdistribution-gradle:3.0.1")
-
-        /*classpath("com.android.tools.build:gradle:${org.michaelbel.moviemade.Plugin.Gradle}")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${org.michaelbel.moviemade.Plugin.Kotlin}")
-        classpath("androidx.navigation:navigation-safe-args-gradle-plugin:${org.michaelbel.moviemade.Plugin.Navigation}")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:${org.michaelbel.moviemade.Plugin.Dagger}")
-        classpath("com.google.gms:google-services:${org.michaelbel.moviemade.Plugin.Google}")
-        classpath("com.google.firebase:firebase-crashlytics-gradle:${org.michaelbel.moviemade.Plugin.Crashlytics}")
-        classpath("com.google.firebase:firebase-appdistribution-gradle:${org.michaelbel.moviemade.Plugin.Appdistribution}")*/
+        classpath(org.michaelbel.moviemade.Dependencies.Gradle)
+        classpath(org.michaelbel.moviemade.Dependencies.KotlinPlugin)
+        classpath(org.michaelbel.moviemade.Dependencies.NavigationPlugin)
+        classpath(org.michaelbel.moviemade.Dependencies.HiltPlugin)
+        classpath(org.michaelbel.moviemade.Dependencies.GooglePlayServicesPlugin)
+        classpath(org.michaelbel.moviemade.Dependencies.FirebaseCrashlyticsPlugin)
+        classpath(org.michaelbel.moviemade.Dependencies.FirebaseAppDistributionPlugin)
     }
 }
 
