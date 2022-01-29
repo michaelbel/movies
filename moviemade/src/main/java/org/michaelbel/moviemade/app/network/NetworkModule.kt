@@ -8,8 +8,8 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import org.michaelbel.moviemade.app.ktx.createService
-import org.michaelbel.moviemade.core.TMDB_API_ENDPOINT
-import org.michaelbel.moviemade.data.Api
+import org.michaelbel.moviemade.app.TMDB_API_ENDPOINT
+import org.michaelbel.moviemade.app.data.Api
 import retrofit2.Converter
 import retrofit2.Retrofit
 import java.util.concurrent.TimeUnit

@@ -1,6 +1,16 @@
 <resources>
     <!--App-->
     <string name="app_name">Moviemade</string>
+    <!--Home-->
+    <string name="title_home">Popular Movies</string>
+    <!--Settings-->
+    <string name="title_settings">Settings</string>
+    <!--About-->
+    <string name="title_about">About</string>
+
+
+
+
     <!--Main-->
     <string name="error_text">Error loading data. Please, check your internet connection and try again</string>
     <string name="button_retry_text">Retry</string>

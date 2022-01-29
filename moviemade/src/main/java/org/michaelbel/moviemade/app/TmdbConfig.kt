@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.core
+package org.michaelbel.moviemade.app
 
 import java.util.Locale.ENGLISH
 
