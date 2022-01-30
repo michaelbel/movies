@@ -3,7 +3,6 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.jetbrains.kotlin.konan.properties.Properties
 import org.michaelbel.moviemade.App
 import org.michaelbel.moviemade.FirebaseAppDistribution
-import org.michaelbel.moviemade.Version
 import java.io.FileInputStream
 import org.michaelbel.moviemade.KotlinOptions
 import org.michaelbel.moviemade.Dependencies
@@ -31,7 +30,7 @@ android {
         applicationId = App.ApplicationId
         versionCode = App.VersionCode
         versionName = App.VersionName
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = App.TestInstrumentationRunner
         vectorDrawables.useSupportLibrary = true
 
         project.ext.set("archivesBaseName", "moviemade-v$versionName")
@@ -104,56 +103,35 @@ android {
 dependencies {
     implementation(Dependencies.KotlinCoroutinesCore)
     implementation(Dependencies.KotlinCoroutinesAndroid)
-    implementation(Dependencies.KotlinSerialization)
+    implementation(Dependencies.KotlinSerializationJson)
+    implementation(Dependencies.ActivityCompose)
     implementation(Dependencies.ComposeCompiler)
     implementation(Dependencies.ComposeFoundation)
     implementation(Dependencies.ComposeMaterial3)
     implementation(Dependencies.ComposeRuntime)
     implementation(Dependencies.ComposeUi)
     implementation(Dependencies.ComposeUiTooling)
+    implementation(Dependencies.Core)
+    implementation(Dependencies.CoreSplashScreen)
     implementation(Dependencies.HiltNavigationCompose)
     implementation(Dependencies.LifecycleViewModelCompose)
     implementation(Dependencies.NavigationCompose)
     implementation(Dependencies.PagingCompose)
     implementation(Dependencies.AccompanistInsets)
     implementation(Dependencies.AccompanistSwipeRefresh)
-    implementation(Dependencies.Material)
-    implementation(Dependencies.MaterialComposeThemeAdapter)
-    implementation(Dependencies.CoilCompose)
-    implementation(Dependencies.CoreSplashScreen)
-    implementation(Dependencies.Core)
-    implementation(Dependencies.ActivityCompose)
-    implementation(Dependencies.GmsAds)
-    implementation(Dependencies.PlayCore)
-    implementation(Dependencies.Timber)
     implementation(Dependencies.HiltAndroid)
               kapt(Dependencies.HiltCompiler)
-    implementation(Dependencies.Retrofit)
+    implementation(Dependencies.Material)
+    implementation(Dependencies.MaterialComposeThemeAdapter)
+    implementation(Dependencies.PlayCore)
+    implementation(Dependencies.GmsAds)
     implementation(Dependencies.FirebaseAnalytics)
     implementation(Dependencies.FirebaseConfig)
     implementation(Dependencies.FirebaseCore)
     implementation(Dependencies.FirebaseCrashlytics)
+    implementation(Dependencies.CoilCompose)
+    implementation(Dependencies.Timber)
+    implementation(Dependencies.Retrofit)
     implementation(Dependencies.RetrofitConverterSerialization)
     implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
-
-    //implementation("androidx.activity:activity-ktx:${Version.Activity}")
-    //implementation("androidx.appcompat:appcompat:${Version.AppCompat}")
-    //implementation("androidx.cardview:cardview:${Version.CardView}")
-    //implementation("androidx.constraintlayout:constraintlayout:${Version.ConstraintLayout}")
-    //implementation("androidx.fragment:fragment-ktx:${Version.Fragment}")
-    //implementation("androidx.lifecycle:lifecycle-runtime-ktx:${Version.Lifecycle}")
-    //implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${Version.Lifecycle}")
-    //implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:${Version.Lifecycle}")
-    //implementation("androidx.navigation:navigation-fragment-ktx:${Version.Navigation}")
-    //implementation("androidx.navigation:navigation-ui-ktx:${Version.Navigation}")
-    //implementation("androidx.paging:paging-runtime-ktx:${Version.Paging}")
-    //implementation("androidx.palette:palette-ktx:${Version.Palette}")
-    //implementation("androidx.recyclerview:recyclerview:${Version.RecyclerView}")
-
-    //implementation("com.github.kirich1409:viewbindingpropertydelegate:${Version.ViewBindingPropertyDelegate}")
-    //implementation("com.jakewharton.timber:timber:${Version.Timber}")
-    //implementation("com.squareup.retrofit2:converter-gson:${Version.RetrofitVersion}")
-    //implementation("io.coil-kt:coil:${Version.Coil}")
-
-    //debugImplementation("com.squareup.leakcanary:leakcanary-android:${Version.Leakcanary}")
 }
