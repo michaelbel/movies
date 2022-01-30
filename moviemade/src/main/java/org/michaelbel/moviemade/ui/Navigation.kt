@@ -23,13 +23,14 @@ sealed class NavGraph(val route: String) {
 
 @Composable
 fun NavigationContent(
-    navController: NavHostController
+    navController: NavHostController,
+    onAppUpdateClicked: () -> Unit
 ) {
     NavHost(
         navController = navController,
         startDestination = NavGraph.Home.route
     ) {
-        composable(route = NavGraph.Home.route) { HomeScreen(navController) }
+        composable(route = NavGraph.Home.route) { HomeScreen(navController, onAppUpdateClicked) }
         composable(route = NavGraph.Settings.route) { SettingsScreen(navController) }
         composable(route = NavGraph.About.route) { AboutScreen(navController) }
         composable(

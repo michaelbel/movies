@@ -7,10 +7,15 @@ import androidx.navigation.compose.rememberNavController
 import org.michaelbel.moviemade.ui.NavigationContent
 
 @Composable
-fun MainScreen() {
+fun MainScreen(
+    onAppUpdateClicked: () -> Unit
+) {
     val navController: NavHostController = rememberNavController()
 
     Scaffold {
-        NavigationContent(navController = navController)
+        NavigationContent(
+            navController = navController,
+            onAppUpdateClicked = onAppUpdateClicked
+        )
     }
 }

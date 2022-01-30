@@ -1,16 +1,21 @@
 package org.michaelbel.moviemade.ui.main
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import com.google.accompanist.insets.ProvideWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
+import org.michaelbel.moviemade.app.playcore.InAppUpdate
 import org.michaelbel.moviemade.ui.AppTheme
 
 @AndroidEntryPoint
 class MainActivity: ComponentActivity() {
+
+    @Inject lateinit var inAppUpdate: InAppUpdate
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -19,9 +24,14 @@ class MainActivity: ComponentActivity() {
         setContent {
             ProvideWindowInsets {
                 AppTheme {
-                    MainScreen()
+                    MainScreen(::onAppUpdateClick)
                 }
             }
         }
+    }
+
+    private fun onAppUpdateClick() {
+        Log.e("2580", "onAppUpdateClick")
+        inAppUpdate.startUpdateFlow(this)
     }
 }
