@@ -11,12 +11,15 @@ import org.michaelbel.moviemade.ui.details.DetailsScreen
 import org.michaelbel.moviemade.ui.home.HomeScreen
 import org.michaelbel.moviemade.ui.settings.SettingsScreen
 
-const val ARG_MOVIE_TITLE = "movieTitle"
-
-const val ROUTE_HOME = "route_home"
-const val ROUTE_MOVIE = "movie?$ARG_MOVIE_TITLE={$ARG_MOVIE_TITLE}"
-const val ROUTE_SETTINGS = "route_settings"
-const val ROUTE_ABOUT = "route_about"
+sealed class NavGraph(val route: String) {
+    object Home: NavGraph("home")
+    object Settings: NavGraph("settings")
+    object About: NavGraph("about")
+    object Movie: NavGraph("movie") {
+        const val routeWithArgs: String = "movie/{movieId}"
+        const val argMovieId: String = "movieId"
+    }
+}
 
 @Composable
 fun NavigationContent(
@@ -24,20 +27,19 @@ fun NavigationContent(
 ) {
     NavHost(
         navController = navController,
-        startDestination = ROUTE_HOME
+        startDestination = NavGraph.Home.route
     ) {
-        composable(route = ROUTE_HOME) { HomeScreen(navController) }
-        composable(route = ROUTE_SETTINGS) { SettingsScreen(navController) }
-        composable(route = ROUTE_ABOUT) { AboutScreen(navController) }
+        composable(route = NavGraph.Home.route) { HomeScreen(navController) }
+        composable(route = NavGraph.Settings.route) { SettingsScreen(navController) }
+        composable(route = NavGraph.About.route) { AboutScreen(navController) }
         composable(
-            route = ROUTE_MOVIE,
-            arguments = listOf(navArgument(ARG_MOVIE_TITLE) { type = NavType.StringType })
+            route = NavGraph.Movie.routeWithArgs,
+            arguments = listOf(navArgument(NavGraph.Movie.argMovieId) { type = NavType.LongType })
         ) { backStackEntry ->
-            val movieTitle: String = backStackEntry.arguments?.getString(ARG_MOVIE_TITLE).orEmpty()
-
+            val movieId: Long = backStackEntry.arguments?.getLong(NavGraph.Movie.argMovieId) ?: return@composable
             DetailsScreen(
                 navController = navController,
-                movieTitle = movieTitle
+                movieId = movieId
             )
         }
     }

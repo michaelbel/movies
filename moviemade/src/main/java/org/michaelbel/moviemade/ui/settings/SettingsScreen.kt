@@ -15,7 +15,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.google.accompanist.insets.systemBarsPadding
 import org.michaelbel.moviemade.R
-import org.michaelbel.moviemade.ui.ROUTE_ABOUT
+import org.michaelbel.moviemade.ui.NavGraph
 
 @Composable
 fun SettingsScreen(
@@ -67,7 +67,7 @@ private fun Content(
                 )
             },
             onClick = {
-                navController.navigate(ROUTE_ABOUT)
+                navController.navigate(NavGraph.About.route)
             }
         )
     }
