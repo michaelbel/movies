@@ -97,6 +97,7 @@ android {
         freeCompilerArgs = freeCompilerArgs + KotlinOptions.OptExperimentalMaterial3Api
         freeCompilerArgs = freeCompilerArgs + KotlinOptions.OptExperimentalFoundationApi
         freeCompilerArgs = freeCompilerArgs + KotlinOptions.OptExperimentalSerializationApi
+        freeCompilerArgs = freeCompilerArgs + KotlinOptions.OptExperimentalCoroutinesApi
     }
 }
 
@@ -117,6 +118,9 @@ dependencies {
     implementation(Dependencies.LifecycleViewModelCompose)
     implementation(Dependencies.NavigationCompose)
     implementation(Dependencies.PagingCompose)
+    implementation(Dependencies.Room)
+              kapt(Dependencies.RoomCompiler)
+    implementation(Dependencies.Startup)
     implementation(Dependencies.AccompanistInsets)
     implementation(Dependencies.AccompanistSwipeRefresh)
     implementation(Dependencies.HiltAndroid)
