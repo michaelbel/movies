@@ -23,7 +23,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -101,7 +100,6 @@ private fun Content(
         )
         Text(
             text = movie?.title.orEmpty(),
-            color = Color.Black,
             maxLines = 10,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
@@ -110,7 +108,6 @@ private fun Content(
         )
         Text(
             text = movie?.overview.orEmpty(),
-            color = Color.Black,
             maxLines = 10,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier

@@ -1,7 +1,6 @@
 package org.michaelbel.moviemade.ui.main
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -31,7 +30,6 @@ class MainActivity: ComponentActivity() {
     }
 
     private fun onAppUpdateClick() {
-        Log.e("2580", "onAppUpdateClick")
         inAppUpdate.startUpdateFlow(this)
     }
 }

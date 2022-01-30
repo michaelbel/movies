@@ -1,25 +1,27 @@
 package org.michaelbel.moviemade.ui.home
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Scaffold
-import androidx.compose.material.ScaffoldState
-import androidx.compose.material.SnackbarDuration
-import androidx.compose.material.SnackbarResult
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Settings
-import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
@@ -45,16 +47,25 @@ fun HomeScreen(
     onAppUpdateClicked: () -> Unit
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
-    val listState: LazyListState = rememberLazyListState()
-    val scope: CoroutineScope = rememberCoroutineScope()
-    val scaffoldState: ScaffoldState = rememberScaffoldState()
     val movies: LazyPagingItems<MovieResponse> = viewModel.moviesStateFlow
         .collectAsLazyPagingItems()
-    val snackbarUpdateVisibleState: Boolean by rememberUpdatedState(viewModel.updateAvailableMessage)
+    val snackbarUpdateVisibleState: Boolean by rememberUpdatedState(
+        viewModel.updateAvailableMessage
+    )
+
+    val coroutineScope: CoroutineScope = rememberCoroutineScope()
+    val listState: LazyListState = rememberLazyListState()
+    val snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
+
+    val onScrollToTop: () -> Unit = {
+        coroutineScope.launch {
+            listState.animateScrollToItem(0)
+        }
+    }
 
     val onShowSnackbar: (message: String, actionLabel: String) -> Unit = { message, actionLabel ->
-        scope.launch {
-            val snackBarResult = scaffoldState.snackbarHostState.showSnackbar(
+        coroutineScope.launch {
+            val snackBarResult = snackbarHostState.showSnackbar(
                 message = message,
                 actionLabel = actionLabel,
                 duration = SnackbarDuration.Long
@@ -73,8 +84,8 @@ fun HomeScreen(
     }
 
     Scaffold(
-        scaffoldState = scaffoldState,
-        topBar = { Toolbar(navController) }
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
+        topBar = { Toolbar(navController, onScrollToTop) }
     ) {
         Content(
             navController,
@@ -86,7 +97,8 @@ fun HomeScreen(
 
 @Composable
 private fun Toolbar(
-    navController: NavController
+    navController: NavController,
+    onScrollToTopAction: () -> Unit
 ) {
     SmallTopAppBar(
         title = {
@@ -94,7 +106,7 @@ private fun Toolbar(
                 text = stringResource(R.string.title_home)
             )
         },
-        modifier = Modifier.systemBarsPadding(),
+        modifier = Modifier.systemBarsPadding().clickable { onScrollToTopAction() },
         actions = {
             IconButton(
                 onClick = {
