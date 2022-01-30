@@ -1,6 +1,5 @@
 package org.michaelbel.moviemade.ui.home
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,7 +28,7 @@ import androidx.paging.compose.items
 import com.google.accompanist.insets.systemBarsPadding
 import org.michaelbel.moviemade.R
 import org.michaelbel.moviemade.app.data.model.MovieResponse
-import org.michaelbel.moviemade.ui.ROUTE_SETTINGS
+import org.michaelbel.moviemade.ui.NavGraph
 
 @Composable
 fun HomeScreen(
@@ -65,7 +64,7 @@ private fun Toolbar(
         actions = {
             IconButton(
                 onClick = {
-                    navController.navigate(ROUTE_SETTINGS) {
+                    navController.navigate(NavGraph.Settings.route) {
                         navController.graph.startDestinationRoute?.let { route ->
                             popUpTo(route) {
                                 saveState = true
@@ -100,12 +99,11 @@ private fun Content(
             state = listState
         ) {
             items(movies) { movieItem ->
-                Log.e("2580", "movie item = $movieItem")
                 movieItem?.let { movie ->
                     MovieListItem(
                         movie = movie,
                         onClick = {
-                            navController.navigate("movie?movieTitle=${movie.title}")
+                            navController.navigate("${NavGraph.Movie.route}/${movie.id}")
                         },
                         modifier = Modifier.padding(1.dp)
                     )
