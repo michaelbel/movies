@@ -1,8 +1,10 @@
 package org.michaelbel.moviemade.app.data.model
 
+import androidx.compose.runtime.Immutable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+@Immutable
 @Serializable
 data class Company(
     @SerialName("description") val description: String,
@@ -12,5 +14,5 @@ data class Company(
     @SerialName("logo_path") val logoPath: String,
     @SerialName("name") val name: String,
     @SerialName("origin_country") val originCountry: String,
-    @SerialName("parent_company") val parentCompany: Company? = null
+    @SerialName("parent_company") val parentCompany: Company?
 )

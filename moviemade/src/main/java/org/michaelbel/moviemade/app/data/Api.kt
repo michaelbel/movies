@@ -1,8 +1,8 @@
 package org.michaelbel.moviemade.app.data
 
-import org.michaelbel.moviemade.app.data.model.Collection
 import org.michaelbel.moviemade.app.data.model.Account
 import org.michaelbel.moviemade.app.data.model.AccountStates
+import org.michaelbel.moviemade.app.data.model.Collection
 import org.michaelbel.moviemade.app.data.model.Company
 import org.michaelbel.moviemade.app.data.model.CreditsResponse
 import org.michaelbel.moviemade.app.data.model.DeletedSession
@@ -27,7 +27,13 @@ import org.michaelbel.moviemade.app.data.model.Username
 import org.michaelbel.moviemade.app.data.model.Video
 import org.michaelbel.moviemade.app.data.model.Watch
 import retrofit2.Response
-import retrofit2.http.*
+import retrofit2.http.Body
+import retrofit2.http.GET
+import retrofit2.http.HTTP
+import retrofit2.http.Header
+import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface Api {
 
@@ -358,7 +364,7 @@ interface Api {
         @Path("movie_id") id: Long,
         @Query("api_key") apiKey: String,
         @Query("language") language: String
-    ): Response<Movie>
+    ): Movie
 
     @GET("movie/{movie_id}")
     suspend fun movie(

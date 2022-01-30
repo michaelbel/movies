@@ -5,14 +5,14 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Video(
-    @SerialName("id") val id: String = "",
-    @SerialName("iso_639_1") val lang: String = "",
-    @SerialName("iso_3166_1") val country: String = "",
-    @SerialName("key") val key: String = "",
-    @SerialName("name") val name: String = "",
-    @SerialName("site") val site: String = "",
-    @SerialName("size") val size: Int = 0,
-    @SerialName("type") val type: String = "",
+    @SerialName("id") val id: String,
+    @SerialName("iso_639_1") val lang: String,
+    @SerialName("iso_3166_1") val country: String,
+    @SerialName("key") val key: String,
+    @SerialName("name") val name: String,
+    @SerialName("site") val site: String,
+    @SerialName("size") val size: Int,
+    @SerialName("type") val type: String
 ) {
 
     companion object {

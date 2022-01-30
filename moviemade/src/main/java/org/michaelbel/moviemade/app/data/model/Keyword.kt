@@ -5,6 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Keyword(
-    @SerialName("id") val id: Long = 0L,
-    @SerialName("name") val name: String? = null
+    @SerialName("id") val id: Long,
+    @SerialName("name") val name: String?
 )
