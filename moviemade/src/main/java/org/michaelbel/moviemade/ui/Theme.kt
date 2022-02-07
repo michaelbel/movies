@@ -2,6 +2,7 @@ package org.michaelbel.moviemade.ui
 
 import android.content.Context
 import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
@@ -18,7 +19,9 @@ private val DarkColorScheme = darkColorScheme()
 
 @Composable
 fun AppTheme(
+    theme: Int = AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
     darkTheme: Boolean = isSystemInDarkTheme(),
+    dynamicColors: Boolean = Build.VERSION.SDK_INT >= 31,
     content: @Composable () -> Unit
 ) {
     val context: Context = LocalContext.current
@@ -35,14 +38,25 @@ fun AppTheme(
         LightColorScheme
     }
 
-    val appColorScheme: ColorScheme = if (Build.VERSION.SDK_INT >= 31) {
-        dynamicColorScheme
-    } else {
-        autoColorScheme
+    val colorScheme: ColorScheme = when (theme) {
+        AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> {
+            if (dynamicColors) {
+                dynamicColorScheme
+            } else {
+                autoColorScheme
+            }
+        }
+        AppCompatDelegate.MODE_NIGHT_NO -> {
+            if (dynamicColors) dynamicLightColorScheme(context) else LightColorScheme
+        }
+        AppCompatDelegate.MODE_NIGHT_YES -> {
+            if (dynamicColors) dynamicDarkColorScheme(context) else DarkColorScheme
+        }
+        else -> throw Exception()
     }
 
     MaterialTheme(
-        colorScheme = appColorScheme,
+        colorScheme = colorScheme,
         content = content
     )
 }

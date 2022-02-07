@@ -1,2 +1,2 @@
 include(":moviemade")
-rootProject.name = "Moviemade"
+rootProject.name = "app"

@@ -83,11 +83,11 @@ android {
         viewBinding = true
     }
 
-    lint {
+    /*lint {
         lintConfig = file("lint.xml")
         isCheckReleaseBuilds = false
         isAbortOnError = false
-    }
+    }*/
 
     composeOptions {
         kotlinCompilerExtensionVersion = Dependencies.KotlinCompilerExtensionVersion
@@ -115,6 +115,9 @@ dependencies {
     implementation(Dependencies.ComposeUiTooling)
     implementation(Dependencies.Core)
     implementation(Dependencies.CoreSplashScreen)
+    implementation(Dependencies.DataStoreCore)
+    implementation(Dependencies.DataStorePreferences)
+    implementation(Dependencies.DataStorePreferencesCore)
     implementation(Dependencies.HiltNavigationCompose)
     implementation(Dependencies.LifecycleViewModelCompose)
     implementation(Dependencies.NavigationCompose)
