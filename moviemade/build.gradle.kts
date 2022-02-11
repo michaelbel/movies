@@ -1,11 +1,12 @@
 
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import java.io.FileInputStream
+import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
 import org.michaelbel.moviemade.App
-import org.michaelbel.moviemade.FirebaseAppDistribution
-import java.io.FileInputStream
-import org.michaelbel.moviemade.KotlinOptions
 import org.michaelbel.moviemade.Dependencies
+import org.michaelbel.moviemade.FirebaseAppDistribution
+import org.michaelbel.moviemade.KotlinOptions
 
 plugins {
     id("com.android.application")
@@ -20,6 +21,15 @@ plugins {
     kotlin("kapt")
 }
 
+val gitVersion: Int by lazy {
+    val stdout = ByteArrayOutputStream()
+    rootProject.exec {
+        commandLine("git", "rev-list", "--count", "HEAD")
+        standardOutput = stdout
+    }
+    stdout.toString().trim().toInt()
+}
+
 android {
     compileSdk = App.CompileSdk
     buildToolsVersion = App.BuildTools
@@ -28,17 +38,17 @@ android {
         minSdk = App.MinSdk
         targetSdk = App.TargetSdk
         applicationId = App.ApplicationId
-        versionCode = App.VersionCode
+        versionCode = gitVersion
         versionName = App.VersionName
         testInstrumentationRunner = App.TestInstrumentationRunner
         vectorDrawables.useSupportLibrary = true
-
-        project.ext.set("archivesBaseName", "moviemade-v$versionName")
 
         buildConfigField("String", "VERSION_DATE", "\"${System.currentTimeMillis()}\"")
         buildConfigField("String", "TMDB_API_KEY", "\"${gradleLocalProperties(rootDir).getProperty("TMDB_API_KEY")}\"")
         buildConfigField("String", "ADMOB_APP_ID", "\"${gradleLocalProperties(rootDir).getProperty("ADMOB_APP_ID")}\"")
         buildConfigField("String", "ADMOB_BANNER_ID", "\"${gradleLocalProperties(rootDir).getProperty("ADMOB_BANNER_ID")}\"")
+
+        setProperty("archivesBaseName", "moviemade-v$versionName($versionCode)")
     }
 
     signingConfigs {
