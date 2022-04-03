@@ -28,7 +28,7 @@ object Dependencies {
     private const val PlayCoreVersion = "1.8.1"
     private const val GmsAdsVersion = "20.5.0"
     private const val FirebaseAnalyticsVersion = "20.0.2"
-    private const val FirebaseAppDistributionPluginVersion = "3.0.0"
+    private const val FirebaseAppDistributionPluginVersion = "3.0.1"
     private const val FirebaseConfigVersion = "21.0.1"
     private const val FirebaseCoreVersion = "20.0.2"
     private const val FirebaseCrashlyticsVersion = "18.2.6"
