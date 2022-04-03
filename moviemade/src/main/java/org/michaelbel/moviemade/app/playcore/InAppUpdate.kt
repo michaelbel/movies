@@ -7,15 +7,15 @@ import com.google.android.play.core.appupdate.AppUpdateOptions
 import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.tasks.Task
-import timber.log.Timber
 import javax.inject.Inject
+import timber.log.Timber
 
 class InAppUpdate @Inject constructor(
     private val appUpdateManager: AppUpdateManager,
     googleApi: GoogleApi
 ) {
 
-    var onUpdateAvailableListener: (Boolean) -> Unit = {}
+    var onUpdateAvailableListener: () -> Unit = {}
 
     private val appUpdateInfo: Task<AppUpdateInfo> = appUpdateManager.appUpdateInfo
     private val appUpdateType: Int = AppUpdateType.IMMEDIATE
@@ -37,7 +37,7 @@ class InAppUpdate @Inject constructor(
 
     private fun onSuccessAppUpdate(appUpdateInfo: AppUpdateInfo) {
         if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
-            onUpdateAvailableListener(true)
+            onUpdateAvailableListener()
         }
     }
 }

@@ -1,18 +1,33 @@
+
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import java.io.FileInputStream
+import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
 import org.michaelbel.moviemade.App
-import org.michaelbel.moviemade.Version
-import java.io.FileInputStream
+import org.michaelbel.moviemade.Dependencies
+import org.michaelbel.moviemade.FirebaseAppDistribution
+import org.michaelbel.moviemade.KotlinOptions
 
 plugins {
     id("com.android.application")
     id("dagger.hilt.android.plugin")
     id("androidx.navigation.safeargs")
     id("com.google.gms.google-services")
+    id("com.google.firebase.appdistribution")
     id("com.google.firebase.crashlytics")
     id("kotlin-parcelize")
+    id("kotlinx-serialization")
     kotlin("android")
     kotlin("kapt")
+}
+
+val gitVersion: Int by lazy {
+    val stdout = ByteArrayOutputStream()
+    rootProject.exec {
+        commandLine("git", "rev-list", "--count", "HEAD")
+        standardOutput = stdout
+    }
+    stdout.toString().trim().toInt()
 }
 
 android {
@@ -23,14 +38,17 @@ android {
         minSdk = App.MinSdk
         targetSdk = App.TargetSdk
         applicationId = App.ApplicationId
-        versionCode = App.VersionCode
+        versionCode = gitVersion
         versionName = App.VersionName
-        project.ext.set("archivesBaseName", "moviemade-v$versionName")
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = App.TestInstrumentationRunner
         vectorDrawables.useSupportLibrary = true
 
         buildConfigField("String", "VERSION_DATE", "\"${System.currentTimeMillis()}\"")
         buildConfigField("String", "TMDB_API_KEY", "\"${gradleLocalProperties(rootDir).getProperty("TMDB_API_KEY")}\"")
+        buildConfigField("String", "ADMOB_APP_ID", "\"${gradleLocalProperties(rootDir).getProperty("ADMOB_APP_ID")}\"")
+        buildConfigField("String", "ADMOB_BANNER_ID", "\"${gradleLocalProperties(rootDir).getProperty("ADMOB_BANNER_ID")}\"")
+
+        setProperty("archivesBaseName", "moviemade-v$versionName($versionCode)")
     }
 
     signingConfigs {
@@ -47,13 +65,22 @@ android {
     }
 
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = true
             isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+            firebaseAppDistribution {
+                appId = FirebaseAppDistribution.MobileSdkAppId
+                artifactType = FirebaseAppDistribution.ArtifactType
+                testers = FirebaseAppDistribution.Testers
+                releaseNotes = FirebaseAppDistribution.ReleaseNotes
+                groups = FirebaseAppDistribution.Groups
+                serviceCredentialsFile = "$rootDir/config/firebase-app-distribution.json"
+            }
         }
-        getByName("debug") {
+        debug {
             isDebuggable = true
             isMinifyEnabled = false
             isShrinkResources = false
@@ -62,58 +89,68 @@ android {
     }
 
     buildFeatures {
+        compose = true
         viewBinding = true
     }
 
-    lint {
+    /*lint {
         lintConfig = file("lint.xml")
         isCheckReleaseBuilds = false
         isAbortOnError = false
+    }*/
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = Dependencies.KotlinCompilerExtensionVersion
+    }
+
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + KotlinOptions.OptExperimentalMaterial3Api
+        freeCompilerArgs = freeCompilerArgs + KotlinOptions.OptExperimentalFoundationApi
+        freeCompilerArgs = freeCompilerArgs + KotlinOptions.OptExperimentalSerializationApi
+        freeCompilerArgs = freeCompilerArgs + KotlinOptions.OptExperimentalCoroutinesApi
     }
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${Version.Coroutines}")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:${Version.Coroutines}")
-
-    implementation("androidx.activity:activity-ktx:${Version.Activity}")
-    implementation("androidx.activity:activity-compose:${Version.Activity}")
-    implementation("androidx.appcompat:appcompat:${Version.AppCompat}")
-    implementation("androidx.cardview:cardview:${Version.CardView}")
-    implementation("androidx.constraintlayout:constraintlayout:${Version.ConstraintLayout}")
-    implementation("androidx.core:core-ktx:${Version.Core}")
-    implementation("androidx.core:core-splashscreen:${Version.CoreSplashScreen}")
-    implementation("androidx.fragment:fragment-ktx:${Version.Fragment}")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:${Version.Lifecycle}")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:${Version.Lifecycle}")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-savedstate:${Version.Lifecycle}")
-    implementation("androidx.navigation:navigation-fragment-ktx:${Version.Navigation}")
-    implementation("androidx.navigation:navigation-ui-ktx:${Version.Navigation}")
-    implementation("androidx.paging:paging-runtime-ktx:${Version.Paging}")
-    implementation("androidx.palette:palette-ktx:${Version.Palette}")
-    implementation("androidx.recyclerview:recyclerview:${Version.RecyclerView}")
-
-    implementation("com.google.android.gms:play-services-ads:${Version.Ads}")
-    implementation("com.google.android.play:core-ktx:${Version.PlayCore}")
-    implementation("com.google.android.material:material:${Version.Material}")
-    implementation("com.google.android.material:compose-theme-adapter:${Version.Compose}")
-    implementation("com.google.dagger:hilt-android:${Version.Dagger}")
-              kapt("com.google.dagger:hilt-compiler:${Version.Dagger}")
-    implementation("com.google.firebase:firebase-analytics-ktx:${Version.FirebaseAnalytics}")
-    implementation("com.google.firebase:firebase-core:${Version.FirebaseCore}")
-    implementation("com.google.firebase:firebase-crashlytics-ktx:${Version.FirebaseCrashlytics}")
-    implementation("com.google.firebase:firebase-config-ktx:${Version.FirebaseConfig}")
-
-    implementation("com.github.kirich1409:viewbindingpropertydelegate:${Version.ViewBindingPropertyDelegate}")
-    implementation("com.jakewharton.timber:timber:${Version.Timber}")
-    implementation("com.squareup.retrofit2:retrofit:${Version.Retrofit}")
-    implementation("com.squareup.retrofit2:converter-gson:${Version.Retrofit}")
-    implementation("io.coil-kt:coil:${Version.Coil}")
-
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:${Version.Leakcanary}")
-
-    testImplementation("junit:junit:${Version.Junit}")
-    testImplementation("org.mockito:mockito-core:${Version.Mockito}")
-    testImplementation("io.mockk:mockk:${Version.Mockk}")
-    testImplementation("org.robolectric:robolectric:${Version.Robolectric}")
+    implementation(Dependencies.KotlinCoroutinesCore)
+    implementation(Dependencies.KotlinCoroutinesAndroid)
+    implementation(Dependencies.KotlinSerializationJson)
+    implementation(Dependencies.ActivityCompose)
+    implementation(Dependencies.ComposeCompiler)
+    implementation(Dependencies.ComposeFoundation)
+    implementation(Dependencies.ComposeFoundationLayout)
+    implementation(Dependencies.ComposeMaterial3)
+    implementation(Dependencies.ComposeRuntime)
+    implementation(Dependencies.ComposeUi)
+    implementation(Dependencies.ComposeUiTooling)
+    implementation(Dependencies.Core)
+    implementation(Dependencies.CoreSplashScreen)
+    implementation(Dependencies.DataStoreCore)
+    implementation(Dependencies.DataStorePreferences)
+    implementation(Dependencies.DataStorePreferencesCore)
+    implementation(Dependencies.HiltNavigationCompose)
+    implementation(Dependencies.LifecycleViewModelCompose)
+    implementation(Dependencies.NavigationCompose)
+    implementation(Dependencies.PagingCompose)
+    implementation(Dependencies.Room)
+              kapt(Dependencies.RoomCompiler)
+    implementation(Dependencies.Startup)
+    implementation(Dependencies.AccompanistInsets)
+    implementation(Dependencies.AccompanistInsetsUi)
+    implementation(Dependencies.AccompanistSwipeRefresh)
+    implementation(Dependencies.HiltAndroid)
+              kapt(Dependencies.HiltCompiler)
+    implementation(Dependencies.Material)
+    implementation(Dependencies.MaterialComposeThemeAdapter)
+    implementation(Dependencies.PlayCore)
+    implementation(Dependencies.GmsAds)
+    implementation(Dependencies.FirebaseAnalytics)
+    implementation(Dependencies.FirebaseConfig)
+    implementation(Dependencies.FirebaseCore)
+    implementation(Dependencies.FirebaseCrashlytics)
+    implementation(Dependencies.CoilCompose)
+    implementation(Dependencies.Timber)
+    implementation(Dependencies.Retrofit)
+    implementation(Dependencies.RetrofitConverterSerialization)
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
 }

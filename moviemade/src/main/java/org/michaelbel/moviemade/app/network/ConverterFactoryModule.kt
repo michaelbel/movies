@@ -1,13 +1,15 @@
 package org.michaelbel.moviemade.app.network
 
-import com.google.gson.Gson
+import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import retrofit2.Converter
-import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
+import kotlinx.serialization.json.Json
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaType
+import retrofit2.Converter
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -15,7 +17,9 @@ object ConverterFactoryModule {
 
     @Provides
     @Singleton
-    fun provideGsonConverterFactory(gson: Gson): Converter.Factory {
-        return GsonConverterFactory.create(gson)
+    fun provideSerializationConverterFactory(): Converter.Factory {
+        val contentType: MediaType = "application/json".toMediaType()
+        val format = Json { ignoreUnknownKeys = true }
+        return format.asConverterFactory(contentType)
     }
 }

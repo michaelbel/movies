@@ -1,12 +1,28 @@
 <resources>
     <!--App-->
     <string name="app_name">Moviemade</string>
+    <!--Home-->
+    <string name="title_home">Popular Movies</string>
+    <string name="message_in_app_update_new_version_available">New version is available</string>
+    <string name="action_update">Update</string>
+    <!--Settings-->
+    <string name="title_settings">Settings</string>
+    <string name="theme">Theme</string>
+    <string name="theme_system">Follow System</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <!--About-->
+    <string name="title_about">About</string>
+
+
+
+
     <!--Main-->
     <string name="error_text">Error loading data. Please, check your internet connection and try again</string>
     <string name="button_retry_text">Retry</string>
-    <string name="message_in_app_update_new_version_available">New version is available</string>
+
     <string name="message_in_app_update_new_version_downloaded">Moviemade just downloaded an update</string>
-    <string name="action_update">Update</string>
+
     <string name="action_reload">Reload</string>
     <!--Movie-->
     <string name="menu_item_share">Share</string>
@@ -108,7 +124,6 @@
     <string name="cancel">Cancel</string>
     <!--Messages-->
     <string name="msg_logout">Are you sure you want to log out?</string>
-    <string name="msg_enter_data">Enter **Username** and **Password**</string>
     <string name="msg_account_not_authorized">Your Themoviedb account is not authorized. \nPlease, sign in.</string>
     <string name="msg_done">Done</string>
     <string name="msg_check_internet">Please, check your internet connection and try again</string>

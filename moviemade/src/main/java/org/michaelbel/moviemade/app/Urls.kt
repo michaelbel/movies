@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.core
+package org.michaelbel.moviemade.app
 
 const val EMAIL = "michael-bel@outlook.com"
 const val TELEGRAM_URL = "https://t.me/michaelbel"

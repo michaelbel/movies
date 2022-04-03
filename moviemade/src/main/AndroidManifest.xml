@@ -10,7 +10,7 @@
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
-        android:name=".presentation.App"
+        android:name=".App"
         android:label="@string/app_name"
         android:icon="@mipmap/ic_launcher_round"
         android:roundIcon="@mipmap/ic_launcher"
@@ -22,7 +22,7 @@
         tools:ignore="UnusedAttribute">
 
         <activity
-            android:name=".presentation.features.main.MainActivity"
+            android:name="org.michaelbel.moviemade.ui.main.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -37,19 +37,29 @@
                 <data android:host="main" android:scheme="moviemade"/>
             </intent-filter>
         </activity>
-
-        <!--<activity
-            android:name=".presentation.features.movie.MovieActivity"
+        
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
             android:exported="false"
-            android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:title="android.intent.action.VIEW"/>
-                <category android:title="android.intent.category.DEFAULT"/>
-                <category android:title="android.intent.category.BROWSABLE"/>
-                <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/movie/"/>
-                <data android:scheme="https" android:host="www.themoviedb.org" android:pathPrefix="/movie"/>
-            </intent-filter>
-        </activity>-->
+            tools:node="merge">
+
+            <meta-data
+                android:name="org.michaelbel.moviemade.app.initializer.FirebaseCrashlyticsInitializer"
+                android:value="androidx.startup"
+                tools:node="remove"/>
+
+            <meta-data
+                android:name="org.michaelbel.moviemade.app.initializer.FirebaseConfigInitializer"
+                android:value="androidx.startup"
+                tools:node="remove"/>
+
+            <meta-data
+                android:name="org.michaelbel.moviemade.app.initializer.TimberInitializer"
+                android:value="androidx.startup"
+                tools:node="remove"/>
+
+        </provider>
 
         <!--AdMob-->
         <meta-data
