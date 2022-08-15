@@ -1,2 +1,7 @@
-include(":moviemade")
-rootProject.name = "app"
+include(
+    ":app",
+    ":features",
+    ":features:feed",
+    ":features:details"
+)
+rootProject.name = "Movies"

@@ -4,9 +4,9 @@ object App {
     const val VersionName = "1.3.8"
 
     const val MinSdk = 21
-    const val TargetSdk = 31
-    const val CompileSdk = 31
-    const val BuildTools = "31.0.0"
+    const val TargetSdk = 32
+    const val CompileSdk = 32
+    const val BuildTools = "32.0.0"
 
     const val ApplicationId = "org.michaelbel.moviemade"
 
