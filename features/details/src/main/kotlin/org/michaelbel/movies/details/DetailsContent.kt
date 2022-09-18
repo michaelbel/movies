@@ -1,15 +1,17 @@
 package org.michaelbel.movies.details
 
-import androidx.compose.foundation.Image
+import android.content.Context
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -24,35 +26,46 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.rememberImagePainter
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
-import org.michaelbel.movies.core.image
-import org.michaelbel.movies.core.model.Movie
+import org.michaelbel.movies.core.entities.MovieDetailsData
 
 @Composable
-fun DetailsScreen(
+fun DetailsContent(
     navController: NavController,
     movieId: Long
 ) {
     val viewModel: DetailsViewModel = hiltViewModel()
-    val movie: Movie? by viewModel.movieFlow.collectAsState(initial = null)
+    val movie: MovieDetailsData by viewModel.movieFlow.collectAsState(MovieDetailsData.EMPTY)
 
     LaunchedEffect(movieId) {
         viewModel.fetchMovieById(movieId)
     }
 
     Scaffold(
-        topBar = { Toolbar(navController, movie?.title.orEmpty()) }
-    ) {
-        Content(movie)
+        topBar = {
+            Toolbar(
+                navController = navController,
+                movieTitle = movie.title)
+        }
+    ) { paddingValues: PaddingValues ->
+        Content(
+            paddingValues = paddingValues,
+            movie = movie
+        )
     }
 }
 
@@ -64,7 +77,10 @@ private fun Toolbar(
     SmallTopAppBar(
         title = {
             Text(
-                text = movieTitle
+                text = movieTitle,
+                overflow = TextOverflow.Ellipsis,
+                maxLines = 1,
+
             )
         },
         modifier = Modifier
@@ -86,40 +102,62 @@ private fun Toolbar(
 
 @Composable
 private fun Content(
-    movie: Movie?
+    paddingValues: PaddingValues,
+    movie: MovieDetailsData
 ) {
+    val context: Context = LocalContext.current
     val scrollState: ScrollState = rememberScrollState()
 
     Column(
-        modifier = Modifier.verticalScroll(scrollState)
+        modifier = Modifier
+            .padding(paddingValues)
+            .verticalScroll(scrollState)
     ) {
-        val imagePainter = rememberImagePainter(
-            data = image(movie?.backdropPath ?: "http://null")
-        )
-        Image(
-            painter = imagePainter,
+        AsyncImage(
+            model = ImageRequest.Builder(context)
+                .data(movie.backdropPath)
+                .crossfade(true)
+                .build(),
             contentDescription = null,
-            contentScale = ContentScale.FillBounds,
             modifier = Modifier
+                .padding(8.dp)
                 .height(220.dp)
                 .fillMaxSize()
+                .clip(RoundedCornerShape(12f)),
+            contentScale = ContentScale.Crop
         )
+
         Text(
-            text = movie?.title.orEmpty(),
-            maxLines = 10,
+            text = movie.title,
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Medium,
+            maxLines = 3,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 8.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
+                .padding(
+                    start = 8.dp,
+                    top = 8.dp,
+                    end = 8.dp,
+                    bottom = 8.dp
+                )
         )
+
         Text(
-            text = movie?.overview.orEmpty(),
-            maxLines = 10,
+            text = movie.overview,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Normal,
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 8.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
+                .padding(
+                    start = 8.dp,
+                    top = 8.dp,
+                    end = 8.dp,
+                    bottom = 8.dp
+                )
         )
+
         Advert()
     }
 }

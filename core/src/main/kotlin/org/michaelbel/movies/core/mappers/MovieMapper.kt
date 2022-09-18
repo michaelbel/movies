@@ -3,6 +3,8 @@ package org.michaelbel.movies.core.mappers
 import java.util.Locale
 import javax.inject.Inject
 import org.michaelbel.movies.core.entities.MovieData
+import org.michaelbel.movies.core.entities.MovieDetailsData
+import org.michaelbel.movies.core.model.Movie
 import org.michaelbel.movies.core.model.MovieResponse
 
 class MovieMapper @Inject constructor() {
@@ -13,6 +15,10 @@ class MovieMapper @Inject constructor() {
 
     fun mapToMovieDataList(response: List<MovieResponse>): List<MovieData> {
         return response.map { movieResponse: MovieResponse -> movieResponse.toMovieData() }
+    }
+
+    fun mapToMovieDetailsData(response: Movie): MovieDetailsData {
+        return response.toMovieDetailsData()
     }
 
     private fun formatImageUrl(path: String, size: String): String {
@@ -34,6 +40,18 @@ class MovieMapper @Inject constructor() {
             title = title,
             voteAverage = voteAverage,
             genreIds = genreIds
+        )
+    }
+
+    private fun Movie.toMovieDetailsData(): MovieDetailsData {
+        return MovieDetailsData(
+            id = id,
+            overview = overview.orEmpty(),
+            posterPath = posterPath.orEmpty(),
+            backdropPath = formatImageUrl(backdropPath.orEmpty(), feedFileSize),
+            releaseDate = releaseDate.orEmpty(),
+            title = title.orEmpty(),
+            voteAverage = voteAverage
         )
     }
 
