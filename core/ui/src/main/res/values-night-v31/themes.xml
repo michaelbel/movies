@@ -47,7 +47,7 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
         <item name="android:navigationBarDividerColor">@android:color/transparent</item>
 
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowLightNavigationBar">true</item>
 
         <item name="windowActionBar">false</item>
@@ -56,11 +56,11 @@
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/Surface</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
+        <!--<item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>-->
         <item name="postSplashScreenTheme">@style/Theme.App</item>
         <item name="android:statusBarColor">@color/Surface</item>
         <item name="android:navigationBarColor">@color/Surface</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
 </resources>

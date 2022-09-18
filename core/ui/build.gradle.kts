@@ -2,6 +2,7 @@
 
 import org.michaelbel.moviemade.dependencies.apiAccompanistDependencies
 import org.michaelbel.moviemade.dependencies.apiCoreSplashScreenDependencies
+import org.michaelbel.moviemade.dependencies.implementationMaterialDependencies
 
 plugins {
     id("com.android.library")
@@ -15,4 +16,5 @@ android {
 dependencies {
     apiAccompanistDependencies()
     apiCoreSplashScreenDependencies()
+    implementationMaterialDependencies()
 }

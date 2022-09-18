@@ -1,5 +1,6 @@
 package org.michaelbel.movies.feed
 
+import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,13 +27,15 @@ fun MovieListItem(
     onClick: (MovieResponse) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context: Context = LocalContext.current
+
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(12F))
             .clickable { onClick(movie) }
     ) {
         AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
+            model = ImageRequest.Builder(context)
                 .data(image(movie.backdropPathSafe))
                 .crossfade(true)
                 .build(),
@@ -50,7 +53,12 @@ fun MovieListItem(
             overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(start = 8.dp, top = 8.dp, end = 8.dp, bottom = 8.dp)
+                .padding(
+                    start = 8.dp,
+                    top = 8.dp,
+                    end = 8.dp,
+                    bottom = 8.dp
+                )
         )
     }
 }

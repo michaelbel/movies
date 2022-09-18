@@ -3,10 +3,13 @@
 <!--
     Day Theme
 
-    Android 12 (API level 31)
+    Android 6 (API level 23)
+    Android 7 (API level 24)
+    Android 7.1 (API level 25)
+    Android 8 (API level 26)
 
     Added:
-    windowSplashScreenBrandingImage
+    windowLightStatusBar
 -->
 
 <resources>
@@ -45,10 +48,8 @@
 
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
-        <item name="android:navigationBarDividerColor">@android:color/transparent</item>
 
-        <item name="android:windowLightStatusBar">false</item>
-        <item name="android:windowLightNavigationBar">true</item>
+        <item name="android:windowLightStatusBar">true</item>
 
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
@@ -56,11 +57,11 @@
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/Surface</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>
+        <!--<item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>-->
         <item name="postSplashScreenTheme">@style/Theme.App</item>
         <item name="android:statusBarColor">@color/Surface</item>
         <item name="android:navigationBarColor">@color/Surface</item>
-        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
 </resources>
