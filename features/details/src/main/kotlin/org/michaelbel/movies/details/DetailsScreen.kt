@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -30,7 +31,6 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
-import com.google.accompanist.insets.systemBarsPadding
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
@@ -62,11 +62,18 @@ private fun Toolbar(
     movieTitle: String
 ) {
     SmallTopAppBar(
-        title = { Text(text = movieTitle) },
-        modifier = Modifier.systemBarsPadding(),
+        title = {
+            Text(
+                text = movieTitle
+            )
+        },
+        modifier = Modifier
+            .systemBarsPadding(),
         navigationIcon = {
             IconButton(
-                onClick = { navController.popBackStack() }
+                onClick = {
+                    navController.popBackStack()
+                }
             ) {
                 Icon(
                     imageVector = Icons.Filled.ArrowBack,

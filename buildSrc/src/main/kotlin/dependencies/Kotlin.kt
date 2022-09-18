@@ -32,8 +32,6 @@ private const val KotlinSerialization = "org.jetbrains.kotlinx:kotlinx-serializa
 
 const val OptExperimentalCoroutinesApi = "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
 const val OptExperimentalSerializationApi = "-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi"
-const val RequiresOptIn = "-Xopt-in=kotlin.RequiresOptIn"
-const val OptContextReceivers = "-Xcontext-receivers"
 
 fun DependencyHandler.apiKotlinDependencies() {
     api(KotlinCoroutinesCore)
