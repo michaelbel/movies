@@ -1,4 +1,4 @@
-package org.michaelbel.movies.ui.main
+package org.michaelbel.movies.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -12,7 +12,7 @@ import com.google.accompanist.insets.ProvideWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import org.michaelbel.movies.app.playcore.InAppUpdate
-import org.michaelbel.movies.ui.AppTheme
+import org.michaelbel.movies.theme.AppTheme
 
 @AndroidEntryPoint
 class MainActivity: ComponentActivity() {
@@ -25,12 +25,19 @@ class MainActivity: ComponentActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
+
         setContent {
-            val currentTheme = viewModel.currentTheme.collectAsState(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM).value
+            val currentTheme = viewModel.currentTheme.collectAsState(
+                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            ).value
 
             ProvideWindowInsets {
-                AppTheme(theme = currentTheme) {
-                    MainScreen(::onAppUpdateClick)
+                AppTheme(
+                    theme = currentTheme
+                ) {
+                    MainActivityContent(
+                        onAppUpdateClicked = ::onAppUpdateClick
+                    )
                 }
             }
         }

@@ -1,4 +1,4 @@
-package org.michaelbel.movies.ui.settings
+package org.michaelbel.movies.settings
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.Image

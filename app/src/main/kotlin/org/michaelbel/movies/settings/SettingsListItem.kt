@@ -1,4 +1,4 @@
-package org.michaelbel.movies.ui.settings
+package org.michaelbel.movies.settings
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement

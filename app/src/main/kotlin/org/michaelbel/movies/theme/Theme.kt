@@ -1,4 +1,4 @@
-package org.michaelbel.movies.ui
+package org.michaelbel.movies.theme
 
 import android.content.Context
 import android.os.Build
