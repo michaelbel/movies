@@ -14,7 +14,7 @@ import org.michaelbel.moviemade.extensions.implementation
  * @see <a href="https://github.com/google/accompanist">Repository</a>
  */
 
-private const val AccompanistVersion = "0.23.1"
+private const val AccompanistVersion = "0.25.1"
 
 private const val AccompanistAppCompat = "com.google.accompanist:accompanist-appcompat-theme:$AccompanistVersion"
 private const val AccompanistDrawablePainter = "com.google.accompanist:accompanist-drawablepainter:$AccompanistVersion"

@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.collectAsState
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
-import com.google.accompanist.insets.ProvideWindowInsets
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import org.michaelbel.movies.app.playcore.InAppUpdate
@@ -24,21 +23,19 @@ class MainActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, false)
+        WindowCompat.setDecorFitsSystemWindows(window, true)
 
         setContent {
             val currentTheme = viewModel.currentTheme.collectAsState(
                 AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
             ).value
 
-            ProvideWindowInsets {
-                AppTheme(
-                    theme = currentTheme
-                ) {
-                    MainActivityContent(
-                        onAppUpdateClicked = ::onAppUpdateClick
-                    )
-                }
+            AppTheme(
+                theme = currentTheme
+            ) {
+                MainActivityContent(
+                    onAppUpdateClicked = ::onAppUpdateClick
+                )
             }
         }
     }

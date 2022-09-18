@@ -3,8 +3,9 @@ package org.michaelbel.movies.feed
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -32,7 +33,6 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
-import com.google.accompanist.insets.systemBarsPadding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.core.model.MovieResponse
@@ -61,20 +61,26 @@ fun FeedScreen(
     }
 
     Scaffold(
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
-        topBar = { Toolbar(navController, onScrollToTop) }
-    ) {
+        topBar = {
+            Toolbar(
+                onScrollToTopAction = onScrollToTop
+            )
+        },
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
+        }
+    ) { paddingValues: PaddingValues ->
         Content(
-            navController,
-            listState,
-            movies
+            paddingValues = paddingValues,
+            navController = navController,
+            listState = listState,
+            movies = movies
         )
     }
 }
 
 @Composable
 private fun Toolbar(
-    navController: NavController,
     onScrollToTopAction: () -> Unit
 ) {
     SmallTopAppBar(
@@ -83,7 +89,9 @@ private fun Toolbar(
                 text = stringResource(R.string.title_home)
             )
         },
-        modifier = Modifier.systemBarsPadding().clickable { onScrollToTopAction() },
+        modifier = Modifier
+            .systemBarsPadding()
+            .clickable { onScrollToTopAction() },
         actions = {
             IconButton(
                 onClick = {}
@@ -100,15 +108,16 @@ private fun Toolbar(
 
 @Composable
 private fun Content(
+    paddingValues: PaddingValues,
     navController: NavController,
     listState: LazyListState,
     movies: LazyPagingItems<MovieResponse>
 ) {
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .padding(paddingValues)
     ) {
         LazyColumn(
-            //modifier = Modifier.padding(horizontal = 2.dp),
             state = listState
         ) {
             items(movies) { movieItem ->
