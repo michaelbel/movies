@@ -39,21 +39,55 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 
 ## Technologies
 
-* Multi-module Android project (core-modules, feature-modules)
-* Gradle Kotlin DSL
-
-* [**Retrofit**](https://github.com/square/retrofit)
-* [**OkHttp**](https://github.com/square/okhttp)
-* [**Gson**](https://github.com/google/gson)
-* [**RxJava2**](https://github.com/ReactiveX/RxJava)
-* [**Glide**](https://github.com/bumptech/glide)
-* [**Dagger2**](https://github.com/google/dagger)
-* [**Room**](https://developer.android.com/topic/libraries/architecture/room.html)
-* [**Kotlin**](https://github.com/JetBrains/kotlin)
-* [**GestureViews**](https://github.com/alexvasilkov/GestureViews)
-* [**ChipsLayoutManager**](https://github.com/BelooS/ChipsLayoutManager)
-* [**AndroidYouTubePlayer**](https://github.com/PierfrancescoSoffritti/android-youtube-player)
-* [**AndroidAnimatedMenuItems**](https://github.com/adonixis/android-animated-menu-items)
+- [x] Multi-module Android project
+- [x] 100% Kotlin, No XML
+- [x] MinSDK 21, CompileSDK 32, TargetSDK 32
+- [ ] MVVM
+- [ ] Gradle Kotlin DSL
+- [ ] 100% Jetpack Compose
+- [ ] OkHttp
+- [ ] Retrofit
+- [ ] Hilt
+- [ ] Room
+- [ ] Navigation (deep links)
+- [ ] KotlinX Serialization
+- [ ] Kotlin Coroutines & Flow
+- [ ] Coil
+- [ ] Clean Architecture
+- [ ] Unit Tests
+- [ ] UI Tests
+- [ ] Data Store
+- [ ] Material3
+- [ ] Night Theme
+- [ ] Startup
+- [ ] SplashScreen API
+- [ ] Firebase Crashlytics
+- [ ] Firebase Remote Config
+- [ ] Timber
+- [ ] Firebase Analytics
+- [ ] In-App Updates
+- [ ] In-App Review
+- [ ] Dynamic Colors
+- [ ] Dynamic App Icon
+- [ ] Accompanist
+- [ ] Chucker
+- [ ] App Shortcuts
+- [ ] Google Ads
+- [ ] Lifecycle API
+- [ ] Paging Library
+- [ ] Okhttp Logging Interceptor
+- [ ] Preloaded Fonts
+- [ ] TMDB API
+- [ ] Firebase App Distribution
+- [ ] WorkManager
+- [ ] ConstraintLayout
+- [ ] Detekt
+- [ ] Lint
+- [ ] KtLint
+- [ ] Spotless
+- [ ] Github Actions
+- [ ] OAuth
+- [ ] Animations
 
 ## Issues
 If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).
