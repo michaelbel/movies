@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade.dependencies
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
-import org.michaelbel.moviemade.extensions.implementation
+import org.michaelbel.moviemade.extensions.api
 
 /**
  * Coil
@@ -14,7 +14,7 @@ private const val CoilVersion = "2.1.0"
 private const val Coil = "io.coil-kt:coil:$CoilVersion"
 private const val CoilCompose = "io.coil-kt:coil-compose:$CoilVersion"
 
-fun DependencyHandler.implementationCoilDependencies() {
-    implementation(Coil)
-    implementation(CoilCompose)
+fun DependencyHandler.apiCoilDependencies() {
+    api(Coil)
+    api(CoilCompose)
 }

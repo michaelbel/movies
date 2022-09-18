@@ -2,7 +2,6 @@ package org.michaelbel.moviemade.dependencies
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.michaelbel.moviemade.extensions.api
-import org.michaelbel.moviemade.extensions.implementation
 
 /**
  * Material
@@ -18,11 +17,6 @@ private const val MaterialComposeThemeAdapter = "com.google.android.material:com
 
 const val OptExperimentalMaterialApi = "-Xopt-in=androidx.compose.material.ExperimentalMaterialApi"
 const val OptExperimentalMaterial3Api = "-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api"
-
-fun DependencyHandler.implementationMaterialDependencies() {
-    implementation(Material)
-    implementation(MaterialComposeThemeAdapter)
-}
 
 fun DependencyHandler.apiMaterialDependencies() {
     api(Material)

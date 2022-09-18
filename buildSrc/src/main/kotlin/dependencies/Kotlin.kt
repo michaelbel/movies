@@ -2,11 +2,8 @@ package org.michaelbel.moviemade.dependencies
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.michaelbel.moviemade.extensions.androidTestApi
-import org.michaelbel.moviemade.extensions.androidTestImplementation
 import org.michaelbel.moviemade.extensions.api
-import org.michaelbel.moviemade.extensions.implementation
 import org.michaelbel.moviemade.extensions.testApi
-import org.michaelbel.moviemade.extensions.testImplementation
 
 /**
  * Kotlin
@@ -37,14 +34,6 @@ const val OptExperimentalCoroutinesApi = "-Xopt-in=kotlinx.coroutines.Experiment
 const val OptExperimentalSerializationApi = "-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi"
 const val RequiresOptIn = "-Xopt-in=kotlin.RequiresOptIn"
 const val OptContextReceivers = "-Xcontext-receivers"
-
-fun DependencyHandler.implementationKotlinDependencies() {
-    implementation(KotlinCoroutinesCore)
-    implementation(KotlinCoroutinesAndroid)
-    implementation(KotlinSerialization)
-    testImplementation(KotlinCoroutinesTest)
-    androidTestImplementation(KotlinCoroutinesTest)
-}
 
 fun DependencyHandler.apiKotlinDependencies() {
     api(KotlinCoroutinesCore)

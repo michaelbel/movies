@@ -17,15 +17,7 @@ import org.michaelbel.moviemade.dependencies.OptExperimentalCoroutinesApi
 import org.michaelbel.moviemade.dependencies.OptExperimentalFoundationApi
 import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
 import org.michaelbel.moviemade.dependencies.OptExperimentalSerializationApi
-import org.michaelbel.moviemade.dependencies.implementationActivityDependencies
-import org.michaelbel.moviemade.dependencies.implementationChuckerDependencies
-import org.michaelbel.moviemade.dependencies.implementationCoilDependencies
-import org.michaelbel.moviemade.dependencies.implementationComposeDependencies
 import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
-import org.michaelbel.moviemade.dependencies.implementationKotlinDependencies
-import org.michaelbel.moviemade.dependencies.implementationMaterialDependencies
-import org.michaelbel.moviemade.dependencies.implementationNavigationDependencies
-import org.michaelbel.moviemade.dependencies.implementationTimberDependencies
 
 plugins {
     id("com.android.application")
@@ -133,13 +125,5 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":features"))
-    implementationCoilDependencies()
-    implementationChuckerDependencies()
-    implementationActivityDependencies()
-    implementationKotlinDependencies()
     implementationHiltDependencies()
-    implementationComposeDependencies()
-    implementationNavigationDependencies()
-    implementationMaterialDependencies()
-    implementationTimberDependencies()
 }

@@ -1,5 +1,6 @@
 @file:Suppress("UnstableApiUsage")
 
+import org.michaelbel.moviemade.App.CompileSdk
 import org.michaelbel.moviemade.dependencies.apiGooglePlayServicesAdsDependencies
 
 plugins {
@@ -9,7 +10,7 @@ plugins {
 
 android {
     namespace = "org.michaelbel.moviemade.ads"
-    compileSdk = 32
+    compileSdk = CompileSdk
 }
 
 dependencies {

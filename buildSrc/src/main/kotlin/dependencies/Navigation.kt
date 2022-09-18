@@ -2,9 +2,7 @@ package org.michaelbel.moviemade.dependencies
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.michaelbel.moviemade.extensions.androidTestApi
-import org.michaelbel.moviemade.extensions.androidTestImplementation
 import org.michaelbel.moviemade.extensions.api
-import org.michaelbel.moviemade.extensions.implementation
 
 /**
  * Navigation
@@ -29,12 +27,4 @@ fun DependencyHandler.apiNavigationDependencies() {
     api(NavigationFragment)
     api(NavigationUi)
     androidTestApi(NavigationTesting)
-}
-
-fun DependencyHandler.implementationNavigationDependencies() {
-    implementation(NavigationCompose)
-    implementation(NavigationDynamic)
-    implementation(NavigationFragment)
-    implementation(NavigationUi)
-    androidTestImplementation(NavigationTesting)
 }

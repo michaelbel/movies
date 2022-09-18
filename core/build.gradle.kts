@@ -2,11 +2,13 @@
 
 import org.michaelbel.moviemade.App.CompileSdk
 import org.michaelbel.moviemade.dependencies.OptExperimentalSerializationApi
+import org.michaelbel.moviemade.dependencies.apiActivityDependencies
+import org.michaelbel.moviemade.dependencies.apiChuckerDependencies
 import org.michaelbel.moviemade.dependencies.apiDataStoreDependencies
 import org.michaelbel.moviemade.dependencies.apiFirebaseDependencies
-import org.michaelbel.moviemade.dependencies.implementationChuckerDependencies
+import org.michaelbel.moviemade.dependencies.apiKotlinDependencies
+import org.michaelbel.moviemade.dependencies.apiTimberDependencies
 import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
-import org.michaelbel.moviemade.dependencies.implementationKotlinDependencies
 import org.michaelbel.moviemade.dependencies.implementationRetrofitDependencies
 
 plugins {
@@ -34,8 +36,10 @@ dependencies {
     api(project(":core:ui"))
     apiFirebaseDependencies()
     apiDataStoreDependencies()
-    implementationKotlinDependencies()
+    apiChuckerDependencies()
+    apiTimberDependencies()
+    apiActivityDependencies()
+    apiKotlinDependencies()
     implementationHiltDependencies()
     implementationRetrofitDependencies()
-    implementationChuckerDependencies()
 }

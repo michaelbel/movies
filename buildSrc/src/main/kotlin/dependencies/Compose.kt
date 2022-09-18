@@ -2,11 +2,8 @@ package org.michaelbel.moviemade.dependencies
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.michaelbel.moviemade.extensions.androidTestApi
-import org.michaelbel.moviemade.extensions.androidTestImplementation
 import org.michaelbel.moviemade.extensions.api
 import org.michaelbel.moviemade.extensions.debugApi
-import org.michaelbel.moviemade.extensions.debugImplementation
-import org.michaelbel.moviemade.extensions.implementation
 
 /**
  * Jetpack Compose
@@ -46,41 +43,24 @@ const val OptExperimentalAnimationApi = "-Xopt-in=androidx.compose.animation.Exp
 const val OptExperimentalComposeUiApi = "-Xopt-in=androidx.compose.ui.ExperimentalComposeUiApi"
 const val OptExperimentalFoundationApi = "-Xopt-in=androidx.compose.foundation.ExperimentalFoundationApi"
 
-fun DependencyHandler.implementationComposeDependencies() {
-    implementation(ComposeCompiler)
-    implementation(ComposeFoundation)
-    implementation(ComposeFoundationLayout)
-    //implementation(ComposeMaterialIconsCore)
-    //implementation(ComposeMaterialIconsExtended)
-    implementation(ComposeMaterial3)
-    //implementation(ComposeMaterial3Samples)
-    implementation(ComposeRuntime)
-    implementation(ComposeRuntimeLivedata)
-    implementation(ComposeUi)
-    implementation(ComposeUiViewBinding)
-    implementation(ComposeUiTooling)
-    debugImplementation(ComposeUiTestManifest)
-    androidTestImplementation(ComposeUiTest)
-}
-
 fun DependencyHandler.apiComposeDependencies() {
     api(ComposeCompiler)
     api(ComposeFoundation)
     api(ComposeFoundationLayout)
-    api(ComposeMaterialIconsCore)
-    api(ComposeMaterialIconsExtended)
+    //api(ComposeMaterialIconsCore)
+    //api(ComposeMaterialIconsExtended)
     api(ComposeMaterial3)
-    api(ComposeMaterial3Samples)
+    //api(ComposeMaterial3Samples)
     api(ComposeRuntime)
     api(ComposeRuntimeLivedata)
     api(ComposeUi)
     api(ComposeUiViewBinding)
     api(ComposeUiTooling)
-    debugApi(ComposeUiTestManifest)
-    androidTestApi(ComposeUiTest)
 }
 
-fun DependencyHandler.implementationComposeTestDependencies() {
-    androidTestImplementation(ComposeUiTest)
-    implementation(ComposeUiTestManifest)
+fun DependencyHandler.apiComposeTestDependencies() {
+    androidTestApi(ComposeUiTest)
+    androidTestApi(ComposeUiTest)
+    debugApi(ComposeUiTestManifest)
+    api(ComposeUiTestManifest)
 }

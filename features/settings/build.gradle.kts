@@ -3,7 +3,6 @@ import org.michaelbel.moviemade.dependencies.KotlinCompilerExtensionVersion
 import org.michaelbel.moviemade.dependencies.OptExperimentalCoroutinesApi
 import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
 import org.michaelbel.moviemade.dependencies.OptExperimentalMaterialApi
-import org.michaelbel.moviemade.dependencies.implementationComposeDependencies
 import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
 
 plugins {
@@ -36,5 +35,4 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":core:ads"))
     implementationHiltDependencies()
-    implementationComposeDependencies()
 }
