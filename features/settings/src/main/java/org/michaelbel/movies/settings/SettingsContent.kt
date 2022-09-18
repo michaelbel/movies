@@ -48,9 +48,17 @@ fun SettingsContent(
     navController: NavController
 ) {
     val viewModel: SettingsViewModel = hiltViewModel()
-    val modalBottomSheetState = rememberModalBottomSheetState(ModalBottomSheetValue.Hidden)
-    val coroutineScope: CoroutineScope = rememberCoroutineScope()
     var backHandlingEnabled: Boolean by remember { mutableStateOf(false) }
+    val modalBottomSheetState = rememberModalBottomSheetState(
+        initialValue = ModalBottomSheetValue.Hidden,
+        confirmStateChange = { value: ModalBottomSheetValue ->
+            if (value == ModalBottomSheetValue.Hidden) {
+                backHandlingEnabled = false
+            }
+            true
+        }
+    )
+    val coroutineScope: CoroutineScope = rememberCoroutineScope()
 
     fun showThemeModalBottomSheet() = coroutineScope.launch {
         modalBottomSheetState.show()
