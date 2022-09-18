@@ -2,6 +2,7 @@
 
 import org.michaelbel.moviemade.App.CompileSdk
 import org.michaelbel.moviemade.dependencies.OptExperimentalSerializationApi
+import org.michaelbel.moviemade.dependencies.apiDataStoreDependencies
 import org.michaelbel.moviemade.dependencies.apiFirebaseDependencies
 import org.michaelbel.moviemade.dependencies.implementationChuckerDependencies
 import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
@@ -32,6 +33,7 @@ dependencies {
     api(project(":core:navigation"))
     api(project(":core:ui"))
     apiFirebaseDependencies()
+    apiDataStoreDependencies()
     implementationKotlinDependencies()
     implementationHiltDependencies()
     implementationRetrofitDependencies()

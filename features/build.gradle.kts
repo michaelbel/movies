@@ -11,4 +11,5 @@ android {
 dependencies {
     api(project(":features:feed"))
     api(project(":features:details"))
+    api(project(":features:settings"))
 }

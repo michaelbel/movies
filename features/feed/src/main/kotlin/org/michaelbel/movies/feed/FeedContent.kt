@@ -39,7 +39,7 @@ import org.michaelbel.movies.core.entities.MovieData
 import org.michaelbel.movies.navigation.NavGraph
 
 @Composable
-fun FeedScreen(
+fun FeedContent(
     navController: NavController,
     onAppUpdateClicked: () -> Unit
 ) {
@@ -63,7 +63,10 @@ fun FeedScreen(
     Scaffold(
         topBar = {
             Toolbar(
-                onScrollToTopAction = onScrollToTop
+                onScrollToTopAction = onScrollToTop,
+                onSettingsIconClick = {
+                    navController.navigate(NavGraph.Settings.route)
+                }
             )
         },
         snackbarHost = {
@@ -81,12 +84,13 @@ fun FeedScreen(
 
 @Composable
 private fun Toolbar(
-    onScrollToTopAction: () -> Unit
+    onScrollToTopAction: () -> Unit,
+    onSettingsIconClick: () -> Unit
 ) {
     SmallTopAppBar(
         title = {
             Text(
-                text = stringResource(R.string.title_home)
+                text = stringResource(R.string.feed_title)
             )
         },
         modifier = Modifier
@@ -94,7 +98,7 @@ private fun Toolbar(
             .clickable { onScrollToTopAction() },
         actions = {
             IconButton(
-                onClick = {}
+                onClick = onSettingsIconClick
             ) {
                 Image(
                     imageVector = Icons.Outlined.Settings,

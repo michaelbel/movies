@@ -13,6 +13,7 @@ buildscript {
         classpath(org.michaelbel.moviemade.dependencies.GoogleServicesPlugin)
         classpath(org.michaelbel.moviemade.dependencies.FirebaseCrashlyticsPlugin)
         classpath(org.michaelbel.moviemade.dependencies.FirebaseAppDistributionPlugin)
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.10")
     }
 }
 

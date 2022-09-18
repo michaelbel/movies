@@ -31,7 +31,8 @@ class MainActivity: ComponentActivity() {
             ).value
 
             AppTheme(
-                theme = currentTheme
+                theme = currentTheme,
+                dynamicColors = false
             ) {
                 MainActivityContent(
                     onAppUpdateClicked = ::onAppUpdateClick

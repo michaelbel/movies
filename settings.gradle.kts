@@ -6,6 +6,7 @@ include(
     ":core:ui",
     ":features",
     ":features:feed",
-    ":features:details"
+    ":features:details",
+    ":features:settings"
 )
 rootProject.name = "Movies"

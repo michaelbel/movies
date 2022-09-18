@@ -21,7 +21,6 @@ import org.michaelbel.moviemade.dependencies.implementationActivityDependencies
 import org.michaelbel.moviemade.dependencies.implementationChuckerDependencies
 import org.michaelbel.moviemade.dependencies.implementationCoilDependencies
 import org.michaelbel.moviemade.dependencies.implementationComposeDependencies
-import org.michaelbel.moviemade.dependencies.implementationDataStoreDependencies
 import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
 import org.michaelbel.moviemade.dependencies.implementationKotlinDependencies
 import org.michaelbel.moviemade.dependencies.implementationMaterialDependencies
@@ -134,7 +133,6 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":features"))
-    implementationDataStoreDependencies()
     implementationCoilDependencies()
     implementationChuckerDependencies()
     implementationActivityDependencies()

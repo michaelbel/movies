@@ -9,8 +9,9 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import org.michaelbel.movies.details.DetailsScreen
-import org.michaelbel.movies.feed.FeedScreen
+import org.michaelbel.movies.feed.FeedContent
 import org.michaelbel.movies.navigation.NavGraph
+import org.michaelbel.movies.settings.SettingsContent
 
 @Composable
 fun MainActivityContent(
@@ -24,7 +25,7 @@ fun MainActivityContent(
             startDestination = NavGraph.Home.route
         ) {
             composable(route = NavGraph.Home.route) {
-                FeedScreen(navController, onAppUpdateClicked)
+                FeedContent(navController, onAppUpdateClicked)
             }
             composable(
                 route = NavGraph.Movie.routeWithArgs,
@@ -39,6 +40,9 @@ fun MainActivityContent(
                         movieId = movieId
                     )
                 }
+            }
+            composable(route = NavGraph.Settings.route) {
+                SettingsContent(navController)
             }
         }
     }

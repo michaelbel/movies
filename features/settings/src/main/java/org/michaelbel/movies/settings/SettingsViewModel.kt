@@ -12,25 +12,26 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import org.michaelbel.movies.settings.model.Theme
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ): ViewModel() {
 
-    val themes = listOf(
-        AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM,
-        AppCompatDelegate.MODE_NIGHT_NO,
-        AppCompatDelegate.MODE_NIGHT_YES
+    val themes: List<Theme> = listOf(
+        Theme(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM),
+        Theme(AppCompatDelegate.MODE_NIGHT_NO),
+        Theme(AppCompatDelegate.MODE_NIGHT_YES)
     )
 
-    val currentTheme: Flow<Int> = dataStore.data.map { preferences ->
-        return@map preferences[THEME_KEY] ?: themes.first()
+    val currentTheme: Flow<Theme> = dataStore.data.map { preferences ->
+        return@map Theme(preferences[THEME_KEY] ?: Theme.THEME_DEFAULT)
     }
 
-    fun selectTheme(theme: Int) = viewModelScope.launch {
+    fun selectTheme(theme: Theme) = viewModelScope.launch {
         dataStore.edit { preferences ->
-            preferences[THEME_KEY] = theme
+            preferences[THEME_KEY] = theme.value
         }
     }
 
