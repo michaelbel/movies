@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import java.io.FileInputStream
 import org.apache.commons.io.output.ByteArrayOutputStream
@@ -9,10 +11,12 @@ import org.michaelbel.moviemade.App.CompileSdk
 import org.michaelbel.moviemade.App.MinSdk
 import org.michaelbel.moviemade.App.TargetSdk
 import org.michaelbel.moviemade.App.VersionName
-import org.michaelbel.moviemade.Dependencies
 import org.michaelbel.moviemade.FirebaseAppDistribution
-import org.michaelbel.moviemade.KotlinOptions
 import org.michaelbel.moviemade.dependencies.KotlinCompilerExtensionVersion
+import org.michaelbel.moviemade.dependencies.OptExperimentalCoroutinesApi
+import org.michaelbel.moviemade.dependencies.OptExperimentalFoundationApi
+import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
+import org.michaelbel.moviemade.dependencies.OptExperimentalSerializationApi
 import org.michaelbel.moviemade.dependencies.implementationActivityDependencies
 import org.michaelbel.moviemade.dependencies.implementationChuckerDependencies
 import org.michaelbel.moviemade.dependencies.implementationCoilDependencies
@@ -22,6 +26,7 @@ import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
 import org.michaelbel.moviemade.dependencies.implementationKotlinDependencies
 import org.michaelbel.moviemade.dependencies.implementationMaterialDependencies
 import org.michaelbel.moviemade.dependencies.implementationNavigationDependencies
+import org.michaelbel.moviemade.dependencies.implementationTimberDependencies
 
 plugins {
     id("com.android.application")
@@ -119,14 +124,15 @@ android {
     }
 
     kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + KotlinOptions.OptExperimentalMaterial3Api
-        freeCompilerArgs = freeCompilerArgs + KotlinOptions.OptExperimentalFoundationApi
-        freeCompilerArgs = freeCompilerArgs + KotlinOptions.OptExperimentalSerializationApi
-        freeCompilerArgs = freeCompilerArgs + KotlinOptions.OptExperimentalCoroutinesApi
+        freeCompilerArgs = freeCompilerArgs + OptExperimentalMaterial3Api
+        freeCompilerArgs = freeCompilerArgs + OptExperimentalFoundationApi
+        freeCompilerArgs = freeCompilerArgs + OptExperimentalSerializationApi
+        freeCompilerArgs = freeCompilerArgs + OptExperimentalCoroutinesApi
     }
 }
 
 dependencies {
+    implementation(project(":core"))
     implementation(project(":features"))
     implementationDataStoreDependencies()
     implementationCoilDependencies()
@@ -137,25 +143,5 @@ dependencies {
     implementationComposeDependencies()
     implementationNavigationDependencies()
     implementationMaterialDependencies()
-
-    implementation(Dependencies.Core)
-    implementation(Dependencies.CoreSplashScreen)
-    implementation(Dependencies.LifecycleViewModelCompose)
-    implementation(Dependencies.PagingCompose)
-    implementation(Dependencies.Room)
-              kapt(Dependencies.RoomCompiler)
-    implementation(Dependencies.Startup)
-    implementation(Dependencies.AccompanistInsets)
-    implementation(Dependencies.AccompanistInsetsUi)
-    implementation(Dependencies.AccompanistSwipeRefresh)
-    implementation(Dependencies.PlayCore)
-    implementation(Dependencies.GmsAds)
-    implementation(Dependencies.FirebaseAnalytics)
-    implementation(Dependencies.FirebaseConfig)
-    implementation(Dependencies.FirebaseCore)
-    implementation(Dependencies.FirebaseCrashlytics)
-    implementation(Dependencies.Timber)
-    implementation(Dependencies.Retrofit)
-    implementation(Dependencies.RetrofitConverterSerialization)
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
+    implementationTimberDependencies()
 }

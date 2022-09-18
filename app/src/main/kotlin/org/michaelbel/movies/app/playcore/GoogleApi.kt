@@ -2,21 +2,19 @@ package org.michaelbel.movies.app.playcore
 
 import android.content.Context
 import android.os.Build
-import com.google.android.gms.common.ConnectionResult
-import com.google.android.gms.common.GoogleApiAvailability
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
 class GoogleApi @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val googleApiAvailability: GoogleApiAvailability
+    //private val googleApiAvailability: GoogleApiAvailability
 ) {
 
-    val isPlayServicesAvailable: Boolean
+    /*val isPlayServicesAvailable: Boolean
         get() {
             val status = googleApiAvailability.isGooglePlayServicesAvailable(context)
             return status == ConnectionResult.SUCCESS
-        }
+        }*/
 
     @Suppress("Deprecation")
     val isAppFromGooglePlay: Boolean

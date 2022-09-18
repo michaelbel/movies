@@ -1,5 +1,3 @@
-@file:Suppress("SpellCheckingInspection", "unused")
-
 package org.michaelbel.moviemade.dependencies
 
 import org.gradle.api.artifacts.dsl.DependencyHandler

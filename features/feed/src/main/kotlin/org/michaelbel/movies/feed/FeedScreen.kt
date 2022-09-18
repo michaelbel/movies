@@ -14,10 +14,8 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SmallTopAppBar
-import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -37,9 +35,8 @@ import androidx.paging.compose.items
 import com.google.accompanist.insets.systemBarsPadding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.michaelbel.moviemade.R
-import org.michaelbel.movies.app.data.model.MovieResponse
-import org.michaelbel.movies.ui.NavGraph
+import org.michaelbel.movies.core.model.MovieResponse
+import org.michaelbel.movies.navigation.NavGraph
 
 @Composable
 fun FeedScreen(
@@ -61,26 +58,6 @@ fun FeedScreen(
         coroutineScope.launch {
             listState.animateScrollToItem(0)
         }
-    }
-
-    val onShowSnackbar: (message: String, actionLabel: String) -> Unit = { message, actionLabel ->
-        coroutineScope.launch {
-            val snackBarResult = snackbarHostState.showSnackbar(
-                message = message,
-                actionLabel = actionLabel,
-                duration = SnackbarDuration.Long
-            )
-            if (snackBarResult == SnackbarResult.ActionPerformed) {
-                onAppUpdateClicked()
-            }
-        }
-    }
-
-    if (snackbarUpdateVisibleState) {
-        onShowSnackbar(
-            stringResource(R.string.message_in_app_update_new_version_available),
-            stringResource(R.string.action_update)
-        )
     }
 
     Scaffold(
@@ -109,17 +86,7 @@ private fun Toolbar(
         modifier = Modifier.systemBarsPadding().clickable { onScrollToTopAction() },
         actions = {
             IconButton(
-                onClick = {
-                    navController.navigate(NavGraph.Settings.route) {
-                        navController.graph.startDestinationRoute?.let { route ->
-                            popUpTo(route) {
-                                saveState = true
-                            }
-                        }
-                        restoreState = true
-                        launchSingleTop = true
-                    }
-                }
+                onClick = {}
             ) {
                 Image(
                     imageVector = Icons.Outlined.Settings,

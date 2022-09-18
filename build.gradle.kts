@@ -10,9 +10,9 @@ buildscript {
         classpath(org.michaelbel.moviemade.dependencies.KotlinSerializationPlugin)
         classpath(org.michaelbel.moviemade.dependencies.NavigationSafeArgsPlugin)
         classpath(org.michaelbel.moviemade.dependencies.HiltPlugin)
-        classpath(org.michaelbel.moviemade.Dependencies.GooglePlayServicesPlugin)
-        classpath(org.michaelbel.moviemade.Dependencies.FirebaseCrashlyticsPlugin)
-        classpath(org.michaelbel.moviemade.Dependencies.FirebaseAppDistributionPlugin)
+        classpath(org.michaelbel.moviemade.dependencies.GoogleServicesPlugin)
+        classpath(org.michaelbel.moviemade.dependencies.FirebaseCrashlyticsPlugin)
+        classpath(org.michaelbel.moviemade.dependencies.FirebaseAppDistributionPlugin)
     }
 }
 

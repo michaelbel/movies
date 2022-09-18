@@ -2,7 +2,6 @@
     <!--App-->
     <string name="app_name">Moviemade</string>
     <!--Home-->
-    <string name="title_home">Popular Movies</string>
     <string name="message_in_app_update_new_version_available">New version is available</string>
     <string name="action_update">Update</string>
     <!--Settings-->
