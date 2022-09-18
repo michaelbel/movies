@@ -15,7 +15,7 @@ Moviemade
 [![last-commit-badge](https://img.shields.io/github/last-commit/michaelbel/moviemade?color=F3745F)](https://github.com/michaelbel/moviemade/commits)
 [![prs-badge](https://img.shields.io/badge/PRs-welcome-F3745F.svg)](https://makeapullrequest.com)
 
-Moviemade - quick and easy way to discover popular movies. This is a simple TMDb client for Android with material design.
+Moviemade - easy way to discover popular movies. This is a simple TMDb client for Android with material design.
 
 ## Build
 Take a look at <b>`local.properties`</b> and fill it with [your own](https://developers.themoviedb.org/3/getting-started/introduction) <b>tmdb_api_key</b> like this:
@@ -37,24 +37,23 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
     <img src="screenshots/screen6.png" width="33%">
 </div>
 
-## Demo video
-https://www.youtube.com/watch?v=H5auyhQU9fU
-
 ## Technologies
-100% Kotlin
 
-* [**Retrofit**](https://github.com/square/retrofit) for REST API communication
-* [**OkHttp**](https://github.com/square/okhttp) for http & logging
-* [**Gson**](https://github.com/google/gson) to convert Java Objects into JSON and back
-* [**RxJava2**](https://github.com/ReactiveX/RxJava) for Retrofit & background threads
-* [**Glide**](https://github.com/bumptech/glide) for image loading
-* [**Dagger2**](https://github.com/google/dagger) for dependency injection
-* [**Room**](https://developer.android.com/topic/libraries/architecture/room.html) database
-* [**Kotlin**](https://github.com/JetBrains/kotlin) for simplicity
-* [**GestureViews**](https://github.com/alexvasilkov/GestureViews) for gestures control
-* [**ChipsLayoutManager**](https://github.com/BelooS/ChipsLayoutManager) for genres
-* [**AndroidYouTubePlayer**](https://github.com/PierfrancescoSoffritti/android-youtube-player) for playing videos
-* [**AndroidAnimatedMenuItems**](https://github.com/adonixis/android-animated-menu-items) for menu items
+* Multi-module Android project (core-modules, feature-modules)
+* Gradle Kotlin DSL
+
+* [**Retrofit**](https://github.com/square/retrofit)
+* [**OkHttp**](https://github.com/square/okhttp)
+* [**Gson**](https://github.com/google/gson)
+* [**RxJava2**](https://github.com/ReactiveX/RxJava)
+* [**Glide**](https://github.com/bumptech/glide)
+* [**Dagger2**](https://github.com/google/dagger)
+* [**Room**](https://developer.android.com/topic/libraries/architecture/room.html)
+* [**Kotlin**](https://github.com/JetBrains/kotlin)
+* [**GestureViews**](https://github.com/alexvasilkov/GestureViews)
+* [**ChipsLayoutManager**](https://github.com/BelooS/ChipsLayoutManager)
+* [**AndroidYouTubePlayer**](https://github.com/PierfrancescoSoffritti/android-youtube-player)
+* [**AndroidAnimatedMenuItems**](https://github.com/adonixis/android-animated-menu-items)
 
 ## Issues
 If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).
