@@ -9,6 +9,7 @@ plugins {
 }
 
 android {
+    namespace = "org.michaelbel.moviemade.navigation"
     compileSdk = CompileSdk
 }
 

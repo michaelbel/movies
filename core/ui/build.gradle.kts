@@ -15,6 +15,7 @@ plugins {
 }
 
 android {
+    namespace = "org.michaelbel.moviemade.ui"
     compileSdk = CompileSdk
 
     buildFeatures {

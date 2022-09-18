@@ -20,6 +20,7 @@ plugins {
 }
 
 android {
+    namespace = "org.michaelbel.moviemade.core"
     compileSdk = CompileSdk
 
     defaultConfig {

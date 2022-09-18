@@ -42,6 +42,7 @@ val gitVersion: Int by lazy {
 }
 
 android {
+    namespace = "org.michaelbel.moviemade"
     compileSdk = CompileSdk
     buildToolsVersion = BuildTools
 
