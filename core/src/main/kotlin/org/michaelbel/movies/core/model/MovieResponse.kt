@@ -13,20 +13,4 @@ data class MovieResponse(
     @SerialName("title") val title: String,
     @SerialName("vote_average") val voteAverage: Float,
     @SerialName("genre_ids") val genreIds: List<Int>
-) {
-
-    val backdropPathSafe: String
-        get() = backdropPath.orEmptyBackdropPath()
-
-    val overviewSafe: String
-        get() = overview.orEmptyOverview()
-
-    val genres: String
-        get() = genreIds.take(2).joinToString(limit = 2, separator = ", ") {
-            Genre.getGenreById(it)?.name.orEmpty()
-        }
-}
-
-fun String?.orEmptyBackdropPath(): String = this ?: "https://null"
-
-fun String?.orEmptyOverview(): String = this ?: "No Overview"
+)

@@ -16,11 +16,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import org.michaelbel.movies.core.Api
+import org.michaelbel.movies.core.mappers.MovieMapper
 import org.michaelbel.movies.core.model.Movie
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
-    private val api: Api
+    private val api: Api,
+    private val moviesMapper: MovieMapper
 ): ViewModel() {
 
     private val _isRefreshing: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -28,6 +30,7 @@ class FeedViewModel @Inject constructor(
     val moviesStateFlow = Pager(PagingConfig(pageSize = DEFAULT_PAGE_SIZE)) {
         MoviesPagingSource(
             api,
+            moviesMapper,
             Movie.NOW_PLAYING,
             "5a24c1bdde77b396b0af765355007f45",
             Locale.getDefault().language,

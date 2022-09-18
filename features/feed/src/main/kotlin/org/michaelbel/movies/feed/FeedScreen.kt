@@ -35,7 +35,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.michaelbel.movies.core.model.MovieResponse
+import org.michaelbel.movies.core.entities.MovieData
 import org.michaelbel.movies.navigation.NavGraph
 
 @Composable
@@ -44,7 +44,7 @@ fun FeedScreen(
     onAppUpdateClicked: () -> Unit
 ) {
     val viewModel: FeedViewModel = hiltViewModel()
-    val movies: LazyPagingItems<MovieResponse> = viewModel.moviesStateFlow
+    val movies: LazyPagingItems<MovieData> = viewModel.moviesStateFlow
         .collectAsLazyPagingItems()
     val snackbarUpdateVisibleState: Boolean by rememberUpdatedState(
         viewModel.updateAvailableMessage
@@ -111,7 +111,7 @@ private fun Content(
     paddingValues: PaddingValues,
     navController: NavController,
     listState: LazyListState,
-    movies: LazyPagingItems<MovieResponse>
+    movies: LazyPagingItems<MovieData>
 ) {
     Column(
         modifier = Modifier
@@ -122,7 +122,7 @@ private fun Content(
         ) {
             items(movies) { movieItem ->
                 movieItem?.let { movie ->
-                    MovieListItem(
+                    MovieBox(
                         movie = movie,
                         onClick = {
                             navController.navigate("${NavGraph.Movie.route}/${movie.id}")

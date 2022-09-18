@@ -18,13 +18,12 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import org.michaelbel.movies.core.image
-import org.michaelbel.movies.core.model.MovieResponse
+import org.michaelbel.movies.core.entities.MovieData
 
 @Composable
-fun MovieListItem(
-    movie: MovieResponse,
-    onClick: (MovieResponse) -> Unit,
+fun MovieBox(
+    movie: MovieData,
+    onClick: (MovieData) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context: Context = LocalContext.current
@@ -36,7 +35,7 @@ fun MovieListItem(
     ) {
         AsyncImage(
             model = ImageRequest.Builder(context)
-                .data(image(movie.backdropPathSafe))
+                .data(movie.backdropPath)
                 .crossfade(true)
                 .build(),
             contentDescription = null,
