@@ -42,6 +42,7 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [x] Multi-module Android project
 - [x] MinSDK 21, CompileSDK 33, TargetSDK 33
 - [x] 100% Kotlin, No XML
+- [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) 1.4.0
 - [x] [Chucker](https://github.com/ChuckerTeam/chucker) 3.5.2
 - [ ] MVVM
 - [ ] Gradle Kotlin DSL
@@ -51,7 +52,6 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [ ] Hilt
 - [ ] Room
 - [ ] Navigation (deep links)
-- [ ] KotlinX Serialization
 - [ ] Kotlin Coroutines & Flow
 - [ ] Coil
 - [ ] Clean Architecture
