@@ -4,15 +4,12 @@ import org.michaelbel.moviemade.App.CompileSdk
 import org.michaelbel.moviemade.dependencies.OptExperimentalCoroutinesApi
 import org.michaelbel.moviemade.dependencies.OptExperimentalFoundationApi
 import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
-import org.michaelbel.moviemade.dependencies.OptExperimentalSerializationApi
 import org.michaelbel.moviemade.dependencies.apiActivityDependencies
-import org.michaelbel.moviemade.dependencies.apiChuckerDependencies
 import org.michaelbel.moviemade.dependencies.apiDataStoreDependencies
 import org.michaelbel.moviemade.dependencies.apiFirebaseDependencies
 import org.michaelbel.moviemade.dependencies.apiKotlinDependencies
 import org.michaelbel.moviemade.dependencies.apiTimberDependencies
 import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
-import org.michaelbel.moviemade.dependencies.implementationRetrofitDependencies
 
 plugins {
     id("com.android.library")
@@ -23,15 +20,10 @@ plugins {
 }
 
 android {
-    namespace = "org.michaelbel.moviemade.core"
+    namespace = "org.michaelbel.movies.core"
     compileSdk = CompileSdk
 
-    defaultConfig {
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
     kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + OptExperimentalSerializationApi
         freeCompilerArgs = freeCompilerArgs + OptExperimentalMaterial3Api
         freeCompilerArgs = freeCompilerArgs + OptExperimentalFoundationApi
         freeCompilerArgs = freeCompilerArgs + OptExperimentalCoroutinesApi
@@ -41,12 +33,11 @@ android {
 dependencies {
     api(project(":core:navigation"))
     api(project(":core:ui"))
+    api(project(":core:entities"))
     apiFirebaseDependencies()
     apiDataStoreDependencies()
-    apiChuckerDependencies()
     apiTimberDependencies()
     apiActivityDependencies()
     apiKotlinDependencies()
     implementationHiltDependencies()
-    implementationRetrofitDependencies()
 }

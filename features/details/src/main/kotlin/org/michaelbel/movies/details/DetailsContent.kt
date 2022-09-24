@@ -41,7 +41,7 @@ import coil.request.ImageRequest
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
-import org.michaelbel.movies.core.entities.MovieDetailsData
+import org.michaelbel.movies.entities.MovieDetailsData
 
 @Composable
 fun DetailsContent(
@@ -123,7 +123,7 @@ private fun Content(
                 .padding(8.dp)
                 .height(220.dp)
                 .fillMaxSize()
-                .clip(RoundedCornerShape(12f)),
+                .clip(RoundedCornerShape(12F)),
             contentScale = ContentScale.Crop
         )
 

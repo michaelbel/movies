@@ -9,7 +9,7 @@ import org.michaelbel.moviemade.extensions.api
  * @see <a href="https://github.com/coil-kt/coil/releases">Coil</a>
  */
 
-private const val CoilVersion = "2.1.0"
+private const val CoilVersion = "2.2.1"
 
 private const val Coil = "io.coil-kt:coil:$CoilVersion"
 private const val CoilCompose = "io.coil-kt:coil-compose:$CoilVersion"

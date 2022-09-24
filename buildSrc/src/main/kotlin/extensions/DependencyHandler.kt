@@ -18,6 +18,17 @@ fun DependencyHandler.debugImplementation(dependencyNotation: String): Dependenc
 }
 
 /**
+ * Adds a dependency to the `releaseImplementation` configuration.
+ *
+ * @param dependencyNotation name of dependency to add at specific configuration
+ *
+ * @return the dependency
+ */
+fun DependencyHandler.releaseImplementation(dependencyNotation: String): Dependency? {
+    return add("releaseImplementation", dependencyNotation)
+}
+
+/**
  * Adds a dependency to the `implementation` configuration.
  *
  * @param dependencyNotation name of dependency to add at specific configuration

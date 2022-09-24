@@ -3,18 +3,12 @@ package org.michaelbel.movies.feed
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.michaelbel.movies.core.Api
-import org.michaelbel.movies.core.entities.MovieData
-import org.michaelbel.movies.core.mappers.MovieMapper
-import org.michaelbel.movies.core.model.MovieResponse
-import org.michaelbel.movies.core.model.Result
+import org.michaelbel.movies.domain.MovieRepository
+import org.michaelbel.movies.entities.MovieData
 
 class MoviesPagingSource(
-    private val api: Api,
-    private val moviesMapper: MovieMapper,
+    private val movieRepository: MovieRepository,
     private val list: String,
-    private val apiKey: String,
-    private val language: String,
     private val isLoadingFlow: MutableStateFlow<Boolean>
 ): PagingSource<Int, MovieData>() {
 
@@ -28,12 +22,12 @@ class MoviesPagingSource(
         return try {
             val nextPage = params.key ?: 1
             isLoadingFlow.emit(true)
-            val result: Result<MovieResponse> = api.movies(list, apiKey, language, nextPage)
+            val (items, totalPages) = movieRepository.movieList(list, nextPage)
             isLoadingFlow.emit(false)
             LoadResult.Page(
-                data = moviesMapper.mapToMovieDataList(result.results),
+                data = items,
                 prevKey = if (nextPage == 1) null else nextPage - 1,
-                nextKey = if (nextPage == result.totalPages) null else nextPage + 1
+                nextKey = if (nextPage == totalPages) null else nextPage + 1
             )
         } catch (e: Exception) {
             LoadResult.Error(e)

@@ -10,30 +10,23 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.Locale
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
-import org.michaelbel.movies.core.Api
-import org.michaelbel.movies.core.mappers.MovieMapper
-import org.michaelbel.movies.core.model.Movie
+import org.michaelbel.movies.domain.MovieRepository
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
-    private val api: Api,
-    private val moviesMapper: MovieMapper
+    private val movieRepository: MovieRepository
 ): ViewModel() {
 
     private val _isRefreshing: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
     val moviesStateFlow = Pager(PagingConfig(pageSize = DEFAULT_PAGE_SIZE)) {
         MoviesPagingSource(
-            api,
-            moviesMapper,
-            Movie.NOW_PLAYING,
-            "5a24c1bdde77b396b0af765355007f45",
-            Locale.getDefault().language,
+            movieRepository,
+            "now_playing",
             _isRefreshing
         )
     }.flow

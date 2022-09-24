@@ -35,7 +35,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.michaelbel.movies.core.entities.MovieData
+import org.michaelbel.movies.entities.MovieData
 import org.michaelbel.movies.navigation.NavGraph
 
 @Composable

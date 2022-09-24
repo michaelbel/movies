@@ -32,6 +32,7 @@ android {
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":core:domain"))
     implementationHiltDependencies()
     implementationPagingDependencies()
 }

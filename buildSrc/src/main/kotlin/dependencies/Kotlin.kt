@@ -3,6 +3,7 @@ package org.michaelbel.moviemade.dependencies
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.michaelbel.moviemade.extensions.androidTestApi
 import org.michaelbel.moviemade.extensions.api
+import org.michaelbel.moviemade.extensions.implementation
 import org.michaelbel.moviemade.extensions.testApi
 
 /**
@@ -36,7 +37,10 @@ const val OptExperimentalSerializationApi = "-Xopt-in=kotlinx.serialization.Expe
 fun DependencyHandler.apiKotlinDependencies() {
     api(KotlinCoroutinesCore)
     api(KotlinCoroutinesAndroid)
-    api(KotlinSerialization)
     testApi(KotlinCoroutinesTest)
     androidTestApi(KotlinCoroutinesTest)
+}
+
+fun DependencyHandler.implementationKotlinxSerializationDependencies() {
+    implementation(KotlinSerialization)
 }
