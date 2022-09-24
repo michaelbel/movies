@@ -40,8 +40,8 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 ## Technologies
 
 - [x] Multi-module Android project
+- [x] MinSDK 21, CompileSDK 33, TargetSDK 33
 - [x] 100% Kotlin, No XML
-- [x] MinSDK 21, CompileSDK 32, TargetSDK 32
 - [ ] MVVM
 - [ ] Gradle Kotlin DSL
 - [ ] 100% Jetpack Compose
