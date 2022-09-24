@@ -75,7 +75,6 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [ ] Google Ads
 - [ ] Lifecycle API
 - [ ] Paging Library
-- [ ] Okhttp Logging Interceptor
 - [ ] Preloaded Fonts
 - [ ] TMDB API
 - [ ] Firebase App Distribution
