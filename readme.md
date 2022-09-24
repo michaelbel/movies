@@ -42,6 +42,7 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [x] Multi-module Android project
 - [x] MinSDK 21, CompileSDK 33, TargetSDK 33
 - [x] 100% Kotlin, No XML
+- [x] [Chucker](https://github.com/ChuckerTeam/chucker) 3.5.2
 - [ ] MVVM
 - [ ] Gradle Kotlin DSL
 - [ ] 100% Jetpack Compose
@@ -70,7 +71,6 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [ ] Dynamic Colors
 - [ ] Dynamic App Icon
 - [ ] Accompanist
-- [ ] Chucker
 - [ ] App Shortcuts
 - [ ] Google Ads
 - [ ] Lifecycle API
