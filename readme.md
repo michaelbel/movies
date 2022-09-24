@@ -43,12 +43,12 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [x] MinSDK 21, CompileSDK 33, TargetSDK 33
 - [x] 100% Kotlin, No XML
 - [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) 1.4.0
+- [x] [OkHttp](https://github.com/square/okhttp) 4.10.0
 - [x] [Chucker](https://github.com/ChuckerTeam/chucker) 3.5.2
 - [x] [Coil](https://github.com/coil-kt/coil) 2.2.1
 - [ ] MVVM
 - [ ] Gradle Kotlin DSL
 - [ ] 100% Jetpack Compose
-- [ ] OkHttp
 - [ ] Retrofit
 - [ ] Hilt
 - [ ] Room
