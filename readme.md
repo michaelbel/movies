@@ -44,6 +44,7 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [x] 100% Kotlin, No XML
 - [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) 1.4.0
 - [x] [Chucker](https://github.com/ChuckerTeam/chucker) 3.5.2
+- [x] [Coil](https://github.com/coil-kt/coil) 2.2.1
 - [ ] MVVM
 - [ ] Gradle Kotlin DSL
 - [ ] 100% Jetpack Compose
@@ -53,7 +54,6 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [ ] Room
 - [ ] Navigation (deep links)
 - [ ] Kotlin Coroutines & Flow
-- [ ] Coil
 - [ ] Clean Architecture
 - [ ] Unit Tests
 - [ ] UI Tests
