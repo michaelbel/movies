@@ -49,6 +49,7 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [x] [Retrofit Kotlinx Converter Serialization](https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter) 0.8.0
 - [x] [Chucker](https://github.com/ChuckerTeam/chucker) 3.5.2
 - [x] [Coil](https://github.com/coil-kt/coil) 2.2.1
+- [x] [DataStore](https://d.android.com/datastore) 1.0.0
 - [ ] MVVM
 - [ ] Gradle Kotlin DSL
 - [ ] 100% Jetpack Compose, No XML
@@ -58,7 +59,6 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [ ] Clean Architecture
 - [ ] Unit Tests
 - [ ] UI Tests
-- [ ] Data Store
 - [ ] Material3
 - [ ] Night Theme
 - [ ] Startup
