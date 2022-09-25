@@ -43,6 +43,7 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [x] MinSDK 21, CompileSDK 33, TargetSDK 33
 - [x] 100% Kotlin 1.7.10
 - [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) 1.4.0
+- [x] [Dagger Hilt](https://github.com/google/dagger) 2.44
 - [x] [OkHttp](https://github.com/square/okhttp) 4.10.0
 - [x] [Retrofit](https://github.com/square/retrofit) 2.9.0
 - [x] [Retrofit Kotlinx Converter Serialization](https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter) 0.8.0
@@ -51,7 +52,6 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [ ] MVVM
 - [ ] Gradle Kotlin DSL
 - [ ] 100% Jetpack Compose, No XML
-- [ ] Hilt
 - [ ] Room
 - [ ] Navigation (deep links)
 - [ ] Kotlin Coroutines & Flow
