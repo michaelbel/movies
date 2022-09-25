@@ -3,7 +3,7 @@ package org.michaelbel.movies.feed
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.michaelbel.movies.domain.MovieRepository
+import org.michaelbel.movies.domain.repository.MovieRepository
 import org.michaelbel.movies.entities.MovieData
 
 class MoviesPagingSource(

@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
-import org.michaelbel.movies.domain.MovieRepository
+import org.michaelbel.movies.domain.repository.MovieRepository
 import org.michaelbel.movies.entities.MovieDetailsData
 
 @HiltViewModel

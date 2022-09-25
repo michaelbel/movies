@@ -14,7 +14,7 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
-import org.michaelbel.movies.domain.MovieRepository
+import org.michaelbel.movies.domain.repository.MovieRepository
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(

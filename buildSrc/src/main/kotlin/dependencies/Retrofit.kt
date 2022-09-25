@@ -1,6 +1,7 @@
 package org.michaelbel.moviemade.dependencies
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.michaelbel.moviemade.extensions.api
 import org.michaelbel.moviemade.extensions.implementation
 
 /**
@@ -16,7 +17,10 @@ private const val RetrofitConverterSerializationVersion = "0.8.0"
 private const val Retrofit = "com.squareup.retrofit2:retrofit:$RetrofitVersion"
 private const val RetrofitConverterSerialization = "com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:$RetrofitConverterSerializationVersion"
 
-fun DependencyHandler.implementationRetrofitDependencies() {
-    implementation(Retrofit)
+fun DependencyHandler.apiRetrofitDependencies() {
+    api(Retrofit)
+}
+
+fun DependencyHandler.implementationRetrofitConverterSerializationDependencies() {
     implementation(RetrofitConverterSerialization)
 }

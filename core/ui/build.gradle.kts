@@ -1,6 +1,5 @@
-@file:Suppress("UnstableApiUsage")
-
 import org.michaelbel.moviemade.App.CompileSdk
+import org.michaelbel.moviemade.App.namespace
 import org.michaelbel.moviemade.dependencies.KotlinCompilerExtensionVersion
 import org.michaelbel.moviemade.dependencies.apiAccompanistDependencies
 import org.michaelbel.moviemade.dependencies.apiCoilDependencies
@@ -15,7 +14,7 @@ plugins {
 }
 
 android {
-    namespace = "org.michaelbel.moviemade.ui"
+    namespace = namespace("ui")
     compileSdk = CompileSdk
 
     buildFeatures {

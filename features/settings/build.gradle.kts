@@ -1,4 +1,5 @@
 import org.michaelbel.moviemade.App.CompileSdk
+import org.michaelbel.moviemade.App.MinSdk
 import org.michaelbel.moviemade.dependencies.KotlinCompilerExtensionVersion
 import org.michaelbel.moviemade.dependencies.OptExperimentalCoroutinesApi
 import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
@@ -14,6 +15,10 @@ plugins {
 
 android {
     compileSdk = CompileSdk
+
+    defaultConfig {
+        minSdk = MinSdk
+    }
 
     composeOptions {
         kotlinCompilerExtensionVersion = KotlinCompilerExtensionVersion
@@ -34,5 +39,6 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":core:ads"))
+    implementation(project(":core:domain"))
     implementationHiltDependencies()
 }

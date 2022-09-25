@@ -4,14 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.runtime.collectAsState
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import org.michaelbel.movies.app.playcore.InAppUpdate
-import org.michaelbel.movies.theme.AppTheme
+import org.michaelbel.movies.theme.MoviesTheme
+import org.michaelbel.movies.ui.SystemTheme
 
 @AndroidEntryPoint
 class MainActivity: ComponentActivity() {
@@ -23,14 +23,13 @@ class MainActivity: ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        WindowCompat.setDecorFitsSystemWindows(window, true)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
-            val currentTheme = viewModel.currentTheme.collectAsState(
-                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
-            ).value
+            val currentTheme: SystemTheme = viewModel.currentTheme
+                .collectAsState(SystemTheme.FollowSystem).value
 
-            AppTheme(
+            MoviesTheme(
                 theme = currentTheme,
                 dynamicColors = false
             ) {

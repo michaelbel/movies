@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade.dependencies
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
-import org.michaelbel.moviemade.extensions.api
+import org.michaelbel.moviemade.extensions.implementation
 
 /**
  * DataStore
@@ -15,8 +15,8 @@ private const val DataStoreCore = "androidx.datastore:datastore-core:$DataStoreV
 private const val DataStorePreferences = "androidx.datastore:datastore-preferences:$DataStoreVersion"
 private const val DataStorePreferencesCore = "androidx.datastore:datastore-preferences-core:$DataStoreVersion"
 
-fun DependencyHandler.apiDataStoreDependencies() {
-    api(DataStoreCore)
-    api(DataStorePreferences)
-    api(DataStorePreferencesCore)
+fun DependencyHandler.implementationDataStoreDependencies() {
+    implementation(DataStoreCore)
+    implementation(DataStorePreferences)
+    implementation(DataStorePreferencesCore)
 }

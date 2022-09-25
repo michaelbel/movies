@@ -9,7 +9,7 @@
 
 <resources>
 
-    <style name="Theme.App" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Theme.Base.V21" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="background">@color/Background</item>
         <item name="colorError">@color/Error</item>
         <item name="colorErrorContainer">@color/ErrorContainer</item>
@@ -48,12 +48,6 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.App.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/Surface</item>
-        <!--<item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_round</item>-->
-        <item name="postSplashScreenTheme">@style/Theme.App</item>
-        <item name="android:statusBarColor">@color/Surface</item>
-        <item name="android:navigationBarColor">@color/Surface</item>
-    </style>
+    <style name="Theme.Movies" parent="Theme.Base.V21"/>
 
 </resources>

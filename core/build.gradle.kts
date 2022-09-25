@@ -1,11 +1,9 @@
-@file:Suppress("UnstableApiUsage")
-
 import org.michaelbel.moviemade.App.CompileSdk
+import org.michaelbel.moviemade.App.namespace
 import org.michaelbel.moviemade.dependencies.OptExperimentalCoroutinesApi
 import org.michaelbel.moviemade.dependencies.OptExperimentalFoundationApi
 import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
 import org.michaelbel.moviemade.dependencies.apiActivityDependencies
-import org.michaelbel.moviemade.dependencies.apiDataStoreDependencies
 import org.michaelbel.moviemade.dependencies.apiFirebaseDependencies
 import org.michaelbel.moviemade.dependencies.apiKotlinDependencies
 import org.michaelbel.moviemade.dependencies.apiTimberDependencies
@@ -20,7 +18,7 @@ plugins {
 }
 
 android {
-    namespace = "org.michaelbel.movies.core"
+    namespace = namespace("core")
     compileSdk = CompileSdk
 
     kotlinOptions {
@@ -35,7 +33,6 @@ dependencies {
     api(project(":core:ui"))
     api(project(":core:entities"))
     apiFirebaseDependencies()
-    apiDataStoreDependencies()
     apiTimberDependencies()
     apiActivityDependencies()
     apiKotlinDependencies()

@@ -2,7 +2,6 @@ package org.michaelbel.moviemade.dependencies
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.michaelbel.moviemade.extensions.api
-import org.michaelbel.moviemade.extensions.implementation
 
 /**
  * Google Accompanist
@@ -31,18 +30,11 @@ private const val AccompanistPlaceholderMaterial = "com.google.accompanist:accom
 private const val AccompanistSystemUiController = "com.google.accompanist:accompanist-systemuicontroller:$AccompanistVersion"
 private const val AccompanistSwipeRefresh = "com.google.accompanist:accompanist-swiperefresh:$AccompanistVersion"
 
-fun DependencyHandler.implementationAccompanistDependencies() {
-    implementation(AccompanistAppCompat)
-    implementation(AccompanistDrawablePainter)
-    implementation(AccompanistInsets)
-    implementation(AccompanistInsetsUi)
-    implementation(AccompanistNavigationAnimation)
-}
-
 fun DependencyHandler.apiAccompanistDependencies() {
     api(AccompanistAppCompat)
     api(AccompanistDrawablePainter)
     api(AccompanistInsets)
     api(AccompanistInsetsUi)
     api(AccompanistNavigationAnimation)
+    api(AccompanistSystemUiController)
 }

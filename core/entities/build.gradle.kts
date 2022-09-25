@@ -1,4 +1,5 @@
 import org.michaelbel.moviemade.App.CompileSdk
+import org.michaelbel.moviemade.App.namespace
 import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
 
 plugins {
@@ -10,7 +11,7 @@ plugins {
 }
 
 android {
-    namespace = "org.michaelbel.movies.entities"
+    namespace = namespace("entities")
     compileSdk = CompileSdk
 }
 

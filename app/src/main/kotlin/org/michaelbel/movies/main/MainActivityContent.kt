@@ -8,10 +8,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import org.michaelbel.movies.details.DetailsContent
+import org.michaelbel.movies.details.ui.DetailsContent
 import org.michaelbel.movies.feed.FeedContent
 import org.michaelbel.movies.navigation.NavGraph
-import org.michaelbel.movies.settings.SettingsContent
+import org.michaelbel.movies.settings.ui.SettingsContent
 
 @Composable
 fun MainActivityContent(

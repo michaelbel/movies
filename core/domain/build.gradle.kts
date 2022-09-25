@@ -1,4 +1,6 @@
 import org.michaelbel.moviemade.App.CompileSdk
+import org.michaelbel.moviemade.App.namespace
+import org.michaelbel.moviemade.dependencies.implementationDataStoreDependencies
 import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
 
 plugins {
@@ -10,13 +12,14 @@ plugins {
 }
 
 android {
-    namespace = "org.michaelbel.movies.domain"
+    namespace = namespace("domain")
     compileSdk = CompileSdk
 }
 
 dependencies {
     implementation(project(":core"))
-    implementation(project(":core:network"))
     implementation(project(":core:entities"))
+    implementation(project(":core:network"))
+    implementationDataStoreDependencies()
     implementationHiltDependencies()
 }

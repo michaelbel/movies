@@ -10,7 +10,7 @@ import org.michaelbel.moviemade.extensions.kapt
  * @see <a href="https://github.com/google/dagger/releases">Hilt</a>
  */
 
-private const val HiltVersion = "2.42"
+private const val HiltVersion = "2.44"
 private const val HiltViewModelVersion = "1.0.0-alpha03"
 private const val HiltNavigationVersion = "1.0.0"
 private const val HiltNavigationComposeVersion = "1.0.0"

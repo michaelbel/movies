@@ -17,7 +17,7 @@
         android:allowBackup="true"
         android:fullBackupContent="true"
         android:hardwareAccelerated="true"
-        android:theme="@style/Theme.App.Starting"
+        android:theme="@style/Theme.Movies.Starting"
         android:dataExtractionRules="@xml/data_extraction_rules"
         tools:ignore="UnusedAttribute">
 

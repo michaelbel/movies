@@ -1,6 +1,5 @@
-@file:Suppress("UnstableApiUsage")
-
 import org.michaelbel.moviemade.App.CompileSdk
+import org.michaelbel.moviemade.App.MinSdk
 import org.michaelbel.moviemade.dependencies.KotlinCompilerExtensionVersion
 import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
 import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
@@ -15,6 +14,10 @@ plugins {
 
 android {
     compileSdk = CompileSdk
+
+    defaultConfig {
+        minSdk = MinSdk
+    }
 
     composeOptions {
         kotlinCompilerExtensionVersion = KotlinCompilerExtensionVersion

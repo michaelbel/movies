@@ -1,6 +1,5 @@
-@file:Suppress("UnstableApiUsage")
-
 import org.michaelbel.moviemade.App.CompileSdk
+import org.michaelbel.moviemade.App.namespace
 import org.michaelbel.moviemade.dependencies.apiNavigationDependencies
 
 plugins {
@@ -9,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "org.michaelbel.moviemade.navigation"
+    namespace = namespace("navigation")
     compileSdk = CompileSdk
 }
 
