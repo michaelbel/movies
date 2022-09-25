@@ -39,8 +39,11 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 
 ## Technologies
 
-- [x] Multi-module Android project
-- [x] MinSDK 21, CompileSDK 33, TargetSDK 33
+- [x] Multi-module project
+- [x] MinSDK 21
+- [x] TargetSDK 33
+- [x] CompileSDK 33
+- [x] Dark theme
 - [x] 100% Kotlin 1.7.10
 - [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) 1.4.0
 - [x] [Dagger Hilt](https://github.com/google/dagger) 2.44
@@ -60,7 +63,6 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [ ] Unit Tests
 - [ ] UI Tests
 - [ ] Material3
-- [ ] Night Theme
 - [ ] Startup
 - [ ] SplashScreen API
 - [ ] Firebase Crashlytics
