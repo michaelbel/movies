@@ -43,7 +43,7 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [x] MinSDK 21
 - [x] TargetSDK 33
 - [x] CompileSDK 33
-- [x] Dark theme
+- [x] Dark Theme
 - [x] 100% Kotlin 1.7.10
 - [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) 1.4.0
 - [x] [Dagger Hilt](https://github.com/google/dagger) 2.44
