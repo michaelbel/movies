@@ -40,6 +40,7 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 ## Technologies
 
 - [x] Multi-module project
+- [x] Gradle Plugin 7.3.0
 - [x] MinSDK 21
 - [x] TargetSDK 33
 - [x] CompileSDK 33
