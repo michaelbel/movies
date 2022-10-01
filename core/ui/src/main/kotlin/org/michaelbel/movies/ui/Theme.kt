@@ -1,4 +1,4 @@
-package org.michaelbel.movies.theme
+package org.michaelbel.movies.ui
 
 import android.content.Context
 import android.os.Build
@@ -12,8 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import org.michaelbel.movies.ui.ComposeTheme
-import org.michaelbel.movies.ui.SystemTheme
 import org.michaelbel.movies.ui.ktx.dynamicColorScheme
 
 private val LightColorScheme = lightColorScheme()
@@ -23,16 +21,17 @@ private val DarkColorScheme = darkColorScheme()
 @Composable
 fun MoviesTheme(
     theme: SystemTheme = SystemTheme.FollowSystem,
-    dynamicColors: Boolean = Build.VERSION.SDK_INT >= 31,
+    dynamicColors: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val context: Context = LocalContext.current
     val systemUiController: SystemUiController = rememberSystemUiController()
+    val dynamicColorsAvailable: Boolean = Build.VERSION.SDK_INT >= 31
 
     val composeTheme: ComposeTheme = when (theme) {
         SystemTheme.NightNo -> {
             ComposeTheme(
-                colorScheme = if (dynamicColors) {
+                colorScheme = if (dynamicColorsAvailable && dynamicColors) {
                     dynamicLightColorScheme(context)
                 } else {
                     LightColorScheme
@@ -42,7 +41,7 @@ fun MoviesTheme(
         }
         SystemTheme.NightYes -> {
             ComposeTheme(
-                colorScheme = if (dynamicColors) {
+                colorScheme = if (dynamicColorsAvailable && dynamicColors) {
                     dynamicDarkColorScheme(context)
                 } else {
                     DarkColorScheme
@@ -52,8 +51,9 @@ fun MoviesTheme(
         }
         SystemTheme.FollowSystem -> {
             val darkTheme: Boolean = isSystemInDarkTheme()
+
             ComposeTheme(
-                colorScheme = if (dynamicColors) {
+                colorScheme = if (dynamicColorsAvailable && dynamicColors) {
                     context.dynamicColorScheme(darkTheme)
                 } else {
                     if (darkTheme) {

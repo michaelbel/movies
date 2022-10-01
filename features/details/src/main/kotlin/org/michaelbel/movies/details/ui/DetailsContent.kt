@@ -65,7 +65,8 @@ fun DetailsContent(
         }
     ) { paddingValues: PaddingValues ->
         Content(
-            paddingValues = paddingValues,
+            modifier = Modifier
+                .padding(paddingValues),
             movie = movie
         )
     }
@@ -104,15 +105,14 @@ private fun Toolbar(
 
 @Composable
 private fun Content(
-    paddingValues: PaddingValues,
+    modifier: Modifier,
     movie: MovieDetailsData
 ) {
     val context: Context = LocalContext.current
     val scrollState: ScrollState = rememberScrollState()
 
     Column(
-        modifier = Modifier
-            .padding(paddingValues)
+        modifier = modifier
             .verticalScroll(scrollState)
     ) {
         AsyncImage(

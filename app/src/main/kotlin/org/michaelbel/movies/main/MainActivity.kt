@@ -10,7 +10,7 @@ import androidx.core.view.WindowCompat
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 import org.michaelbel.movies.app.playcore.InAppUpdate
-import org.michaelbel.movies.theme.MoviesTheme
+import org.michaelbel.movies.ui.MoviesTheme
 import org.michaelbel.movies.ui.SystemTheme
 
 @AndroidEntryPoint
@@ -28,10 +28,11 @@ class MainActivity: ComponentActivity() {
         setContent {
             val currentTheme: SystemTheme = viewModel.currentTheme
                 .collectAsState(SystemTheme.FollowSystem).value
+            val dynamicColors: Boolean = viewModel.dynamicColors.collectAsState(false).value
 
             MoviesTheme(
                 theme = currentTheme,
-                dynamicColors = false
+                dynamicColors = dynamicColors
             ) {
                 MainActivityContent(
                     onAppUpdateClicked = ::onAppUpdateClick

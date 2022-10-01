@@ -13,4 +13,6 @@ class MainViewModel @Inject constructor(
 ): ViewModel() {
 
     val currentTheme: Flow<SystemTheme> = settingsRepository.currentTheme
+
+    val dynamicColors: Flow<Boolean> = settingsRepository.dynamicColors
 }

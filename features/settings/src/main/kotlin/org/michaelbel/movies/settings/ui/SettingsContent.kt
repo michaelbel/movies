@@ -1,9 +1,13 @@
 package org.michaelbel.movies.settings.ui
 
+import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -43,6 +47,7 @@ fun SettingsContent(
     val viewModel: SettingsViewModel = hiltViewModel()
     val currentTheme: SystemTheme = viewModel.currentTheme
         .collectAsState(SystemTheme.FollowSystem).value
+    val dynamicColors: Boolean = viewModel.dynamicColors.collectAsState(false).value
     var backHandlingEnabled: Boolean by remember { mutableStateOf(false) }
     val modalBottomSheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
@@ -80,7 +85,7 @@ fun SettingsContent(
     ) { paddingValues: PaddingValues ->
         ModalBottomSheetLayout(
             sheetContent = {
-                ThemeSetupBox(
+                SettingsThemeModalContent(
                     modifier = Modifier
                         .padding(
                             top = 8.dp,
@@ -99,7 +104,11 @@ fun SettingsContent(
             sheetBackgroundColor = MaterialTheme.colorScheme.surface
         ) {
             Content(
-                paddingValues = paddingValues,
+                modifier = Modifier
+                    .padding(paddingValues),
+                currentTheme = currentTheme,
+                isDynamicColorsEnabled = dynamicColors,
+                onDynamicColorsCheckedChange = viewModel::setDynamicColors,
                 onShowThemeBottomSheet = ::showThemeModalBottomSheet
             )
         }
@@ -136,20 +145,35 @@ private fun Toolbar(
 
 @Composable
 private fun Content(
-    paddingValues: PaddingValues,
-    onShowThemeBottomSheet: () -> Unit
+    modifier: Modifier,
+    currentTheme: SystemTheme,
+    isDynamicColorsEnabled: Boolean,
+    onShowThemeBottomSheet: () -> Unit,
+    onDynamicColorsCheckedChange: (Boolean) -> Unit
 ) {
     Column(
-        modifier = Modifier
-            .padding(paddingValues)
+        modifier = modifier
     ) {
-        SettingsBox(
-            title = {
-                Text(
-                    text = stringResource(R.string.settings_theme)
-                )
-            },
-            onClick = onShowThemeBottomSheet
+        SettingsThemeBox(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp)
+                .clickable {
+                    onShowThemeBottomSheet()
+                },
+            currentTheme = currentTheme
         )
+
+        if (Build.VERSION.SDK_INT >= 31) {
+            SettingsDynamicColorsBox(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .clickable {
+                        onDynamicColorsCheckedChange(!isDynamicColorsEnabled)
+                    },
+                isDynamicColorsEnabled = isDynamicColorsEnabled
+            )
+        }
     }
 }

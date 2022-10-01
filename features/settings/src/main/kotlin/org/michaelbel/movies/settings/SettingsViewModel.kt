@@ -21,7 +21,13 @@ class SettingsViewModel @Inject constructor(
     )
     val currentTheme: Flow<SystemTheme> = settingsRepository.currentTheme
 
+    val dynamicColors: Flow<Boolean> = settingsRepository.dynamicColors
+
     fun selectTheme(systemTheme: SystemTheme) = viewModelScope.launch {
         settingsRepository.selectTheme(systemTheme)
+    }
+
+    fun setDynamicColors(value: Boolean) = viewModelScope.launch {
+        settingsRepository.setDynamicColors(value)
     }
 }

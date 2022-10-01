@@ -5,6 +5,7 @@ import org.michaelbel.moviemade.dependencies.apiAccompanistDependencies
 import org.michaelbel.moviemade.dependencies.apiCoilDependencies
 import org.michaelbel.moviemade.dependencies.apiComposeDependencies
 import org.michaelbel.moviemade.dependencies.apiComposeTestDependencies
+import org.michaelbel.moviemade.dependencies.apiConstraintLayoutDependencies
 import org.michaelbel.moviemade.dependencies.apiCoreSplashScreenDependencies
 import org.michaelbel.moviemade.dependencies.apiMaterialDependencies
 
@@ -29,6 +30,7 @@ android {
 dependencies {
     apiAccompanistDependencies()
     apiComposeDependencies()
+    apiConstraintLayoutDependencies()
     apiComposeTestDependencies()
     apiCoreSplashScreenDependencies()
     apiMaterialDependencies()

@@ -74,7 +74,8 @@ fun FeedContent(
         }
     ) { paddingValues: PaddingValues ->
         Content(
-            paddingValues = paddingValues,
+            modifier = Modifier
+                .padding(paddingValues),
             navController = navController,
             listState = listState,
             movies = movies
@@ -112,14 +113,13 @@ private fun Toolbar(
 
 @Composable
 private fun Content(
-    paddingValues: PaddingValues,
+    modifier: Modifier,
     navController: NavController,
     listState: LazyListState,
     movies: LazyPagingItems<MovieData>
 ) {
     Column(
-        modifier = Modifier
-            .padding(paddingValues)
+        modifier = modifier
     ) {
         LazyColumn(
             state = listState
