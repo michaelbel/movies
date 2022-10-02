@@ -1,6 +1,17 @@
 package org.michaelbel.movies.entities
 
+import java.util.Locale
 import java.util.Locale.ENGLISH
+
+val tmdbApiKey: String
+    get() = BuildConfig.TMDB_API_KEY
+
+// fixme
+val isApiKeyEmpty: Boolean
+    get() = tmdbApiKey == "null"
+
+val language: String
+    get() = Locale.getDefault().language
 
 const val TMDB_API_ENDPOINT = "https://api.themoviedb.org/3/"
 

@@ -53,7 +53,6 @@ android {
         vectorDrawables.useSupportLibrary = true
 
         buildConfigField("String", "VERSION_DATE", "\"${System.currentTimeMillis()}\"")
-        buildConfigField("String", "TMDB_API_KEY", "\"${gradleLocalProperties(rootDir).getProperty("TMDB_API_KEY")}\"")
         buildConfigField("String", "ADMOB_APP_ID", "\"${gradleLocalProperties(rootDir).getProperty("ADMOB_APP_ID")}\"")
         buildConfigField("String", "ADMOB_BANNER_ID", "\"${gradleLocalProperties(rootDir).getProperty("ADMOB_BANNER_ID")}\"")
 

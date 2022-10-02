@@ -1,9 +1,9 @@
 package org.michaelbel.moviemade.dependencies
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
-import org.michaelbel.moviemade.extensions.androidTestApi
-import org.michaelbel.moviemade.extensions.api
-import org.michaelbel.moviemade.extensions.debugApi
+import org.michaelbel.moviemade.ktx.androidTestApi
+import org.michaelbel.moviemade.ktx.api
+import org.michaelbel.moviemade.ktx.debugApi
 
 /**
  * Jetpack Compose

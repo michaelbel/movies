@@ -13,8 +13,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import org.michaelbel.movies.details.ui.DetailsContent
-import org.michaelbel.movies.feed.FeedContent
+import org.michaelbel.movies.details.ui.DetailsScreenContent
+import org.michaelbel.movies.feed.ui.FeedContent
 import org.michaelbel.movies.navigation.NavGraph
 import org.michaelbel.movies.settings.ui.SettingsContent
 import org.michaelbel.movies.ui.MoviesTheme
@@ -42,14 +42,8 @@ fun MainActivityContent(
                 arguments = listOf(navArgument(NavGraph.Movie.argMovieId) {
                     type = NavType.LongType
                 })
-            ) { backStackEntry ->
-                val movieId: Long? = backStackEntry.arguments?.getLong(NavGraph.Movie.argMovieId)
-                if (movieId != null) {
-                    DetailsContent(
-                        navController = navController,
-                        movieId = movieId
-                    )
-                }
+            ) {
+                DetailsScreenContent(navController)
             }
             composable(
                 route = NavGraph.Settings.route

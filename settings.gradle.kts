@@ -3,15 +3,16 @@ include(
 
     ":core",
     ":core:ads",
-    ":core:navigation",
-    ":core:ui",
-    ":core:network",
-    ":core:entities",
+    ":core:analytics",
     ":core:domain",
+    ":core:entities",
+    ":core:navigation",
+    ":core:network",
+    ":core:ui",
 
     ":features",
-    ":features:feed",
     ":features:details",
+    ":features:feed",
     ":features:settings"
 )
 rootProject.name = "Movies"

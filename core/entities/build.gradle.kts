@@ -1,4 +1,6 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import org.michaelbel.moviemade.App.CompileSdk
+import org.michaelbel.moviemade.App.MinSdk
 import org.michaelbel.moviemade.App.namespace
 import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
 
@@ -13,6 +15,18 @@ plugins {
 android {
     namespace = namespace("entities")
     compileSdk = CompileSdk
+
+    defaultConfig {
+        minSdk = MinSdk
+        buildConfigField("String", "TMDB_API_KEY", "\"${gradleLocalProperties(rootDir).getProperty("TMDB_API_KEY")}\"")
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+    }
 }
 
 dependencies {

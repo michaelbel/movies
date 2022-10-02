@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade.dependencies
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
-import org.michaelbel.moviemade.extensions.api
+import org.michaelbel.moviemade.ktx.api
 
 /**
  * Coil

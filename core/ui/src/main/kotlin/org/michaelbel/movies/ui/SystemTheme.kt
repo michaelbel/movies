@@ -4,9 +4,17 @@ import androidx.appcompat.app.AppCompatDelegate
 import org.michaelbel.movies.ui.exceptions.InvalidThemeException
 
 sealed class SystemTheme(val theme: Int) {
-    object NightNo: SystemTheme(AppCompatDelegate.MODE_NIGHT_NO)
-    object NightYes: SystemTheme(AppCompatDelegate.MODE_NIGHT_YES)
-    object FollowSystem: SystemTheme(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+    object NightNo: SystemTheme(AppCompatDelegate.MODE_NIGHT_NO) {
+        override fun toString(): String = "Day"
+    }
+
+    object NightYes: SystemTheme(AppCompatDelegate.MODE_NIGHT_YES) {
+        override fun toString(): String = "Night"
+    }
+
+    object FollowSystem: SystemTheme(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
+        override fun toString(): String = "FollowSystem"
+    }
 
     companion object {
         fun transform(theme: Int): SystemTheme {

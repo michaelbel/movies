@@ -14,10 +14,18 @@ plugins {
 android {
     namespace = namespace("domain")
     compileSdk = CompileSdk
+
+    buildTypes {
+        release {
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+    }
 }
 
 dependencies {
     implementation(project(":core"))
+    implementation(project(":core:analytics"))
     implementation(project(":core:entities"))
     implementation(project(":core:network"))
     implementationDataStoreDependencies()

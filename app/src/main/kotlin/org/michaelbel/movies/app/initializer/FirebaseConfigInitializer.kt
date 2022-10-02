@@ -7,6 +7,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings
 import com.google.firebase.remoteconfig.ktx.remoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
+import org.michaelbel.movies.core.timber.TimberInitializer
 import timber.log.Timber
 
 @Suppress("unused")

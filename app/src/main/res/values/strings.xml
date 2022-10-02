@@ -1,11 +1,9 @@
 <resources>
     <!--App-->
-    <string name="app_name">Moviemade</string>
+    <string name="app_name">Movies</string>
     <!--Home-->
     <string name="message_in_app_update_new_version_available">New version is available</string>
     <string name="action_update">Update</string>
-    <!--About-->
-    <string name="title_about">About</string>
 
 
 
@@ -37,46 +35,11 @@
     <string name="reset_pass">Reset Password</string>
     <string name="sign_up">Sign up</string>
     <string name="sign_in">Sign in</string>
-    <!--favorites-->
-    <string name="favorites">Favorites</string>
-    <!--keywords-->
-    <string name="keywords">Keywords</string>
-    <string name="no_keywords">No keywords</string>
-    <!--main-->
-    <string name="menu_item_view">View</string>
 
     <string name="now_playing">Now Playing</string>
     <string name="top_rated">Top Rated</string>
     <string name="upcoming">Upcoming</string>
     <string name="no_movies">No movies</string>
-    <!--movie-->
-    <string name="starring_only">Starring</string>
-    <string name="directed_only">Directed by</string>
-    <string name="written_only">Written by</string>
-    <string name="produced_only">Produced by</string>
-    <string name="starring">Starring %s</string>
-    <string name="directed">Directed by %s</string>
-    <string name="written">Written by %s</string>
-    <string name="produced">Produced by %s</string>
-    <string name="view_on_tmdb">View on TMDb</string>
-    <string name="view_on_imdb">View on IMDb</string>
-    <string name="view_homepage">View Homepage</string>
-    <string name="no_overview">No Overview</string>
-    <string name="loading_tagline">Loading tagline…</string>
-    <string name="share_via">Share via</string>
-    <string name="photo_of">1 of 1</string>
-    <!--watchlist-->
-    <string name="watchlist">Watchlist</string>
-    <!--search-->
-    <string name="search">Search</string>
-    <string name="speak_now">Speak now</string>
-    <string name="no_results">No results</string>
-    <!--settings-->
-    <string name="settings">Settings</string>
-    <string name="include_adult">Include Adult</string>
-    <string name="include_adult_summary">Toggle the inclusion of adult content</string>
-    <string name="in_app_browser">In-App Browser</string>
-    <string name="in_app_browser_summary">Open external links within the app</string>
     <!--about-->
     <string name="about">About</string>
     <string name="app_for_android">%1$s for Android</string>

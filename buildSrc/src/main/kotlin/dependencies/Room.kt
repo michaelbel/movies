@@ -1,11 +1,11 @@
 package org.michaelbel.moviemade.dependencies
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
-import org.michaelbel.moviemade.extensions.api
-import org.michaelbel.moviemade.extensions.implementation
-import org.michaelbel.moviemade.extensions.ksp
-import org.michaelbel.moviemade.extensions.testApi
-import org.michaelbel.moviemade.extensions.testImplementation
+import org.michaelbel.moviemade.ktx.api
+import org.michaelbel.moviemade.ktx.implementation
+import org.michaelbel.moviemade.ktx.ksp
+import org.michaelbel.moviemade.ktx.testApi
+import org.michaelbel.moviemade.ktx.testImplementation
 
 /**
  * Room

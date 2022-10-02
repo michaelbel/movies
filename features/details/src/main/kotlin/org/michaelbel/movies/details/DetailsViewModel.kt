@@ -1,31 +1,45 @@
 package org.michaelbel.movies.details
 
-import androidx.annotation.WorkerThread
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import com.google.android.gms.ads.AdRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.flowOn
-import org.michaelbel.movies.domain.repository.MovieRepository
+import org.michaelbel.movies.analytics.Analytics
+import org.michaelbel.movies.analytics.model.AnalyticsScreen
+import org.michaelbel.movies.details.model.DetailsState
+import org.michaelbel.movies.domain.interactor.MovieInteractor
+import org.michaelbel.movies.entities.Either
 import org.michaelbel.movies.entities.MovieDetailsData
+import org.michaelbel.movies.entities.handle
 
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
-    private val movieRepository: MovieRepository
+    savedStateHandle: SavedStateHandle,
+    private val movieInteractor: MovieInteractor,
+    analytics: Analytics
 ): ViewModel() {
 
-    private val movieIdSharedFlow: MutableSharedFlow<Long> = MutableSharedFlow(replay = 1)
+    private val movieId: Long = requireNotNull(savedStateHandle["movieId"])
 
-    val movieFlow: Flow<MovieDetailsData> = movieIdSharedFlow.flatMapLatest(::loadMovieById)
+    val state: Flow<DetailsState> = flow {
+        emit(DetailsState.Loading)
+        val either: Either<MovieDetailsData> = movieInteractor.movieDetails(movieId)
+        either.handle(
+            success = { movieDetailsData ->
+                emit(DetailsState.Content(movieDetailsData))
+            },
+            failure = { throwable ->
+                emit(DetailsState.Failure(throwable))
+            }
+        )
+    }
 
-    @WorkerThread
-    private fun loadMovieById(movieId: Long): Flow<MovieDetailsData> = flow {
-        emit(movieRepository.movieDetails(movieId))
-    }.flowOn(Dispatchers.IO)
+    val adRequest: AdRequest = AdRequest.Builder().build()
 
-    fun fetchMovieById(id: Long): Boolean = movieIdSharedFlow.tryEmit(id)
+    init {
+        analytics.trackScreen(AnalyticsScreen.DETAILS)
+    }
 }

@@ -6,12 +6,15 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import org.michaelbel.movies.domain.repository.SettingsRepository
+import org.michaelbel.movies.analytics.Analytics
+import org.michaelbel.movies.analytics.model.AnalyticsScreen
+import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.ui.SystemTheme
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val settingsRepository: SettingsRepository
+    private val settingsInteractor: SettingsInteractor,
+    analytics: Analytics
 ): ViewModel() {
 
     val themes: List<SystemTheme> = listOf(
@@ -19,15 +22,19 @@ class SettingsViewModel @Inject constructor(
         SystemTheme.NightYes,
         SystemTheme.FollowSystem
     )
-    val currentTheme: Flow<SystemTheme> = settingsRepository.currentTheme
+    val currentTheme: Flow<SystemTheme> = settingsInteractor.currentTheme
 
-    val dynamicColors: Flow<Boolean> = settingsRepository.dynamicColors
+    val dynamicColors: Flow<Boolean> = settingsInteractor.dynamicColors
+
+    init {
+        analytics.trackScreen(AnalyticsScreen.SETTINGS)
+    }
 
     fun selectTheme(systemTheme: SystemTheme) = viewModelScope.launch {
-        settingsRepository.selectTheme(systemTheme)
+        settingsInteractor.selectTheme(systemTheme)
     }
 
     fun setDynamicColors(value: Boolean) = viewModelScope.launch {
-        settingsRepository.setDynamicColors(value)
+        settingsInteractor.setDynamicColors(value)
     }
 }

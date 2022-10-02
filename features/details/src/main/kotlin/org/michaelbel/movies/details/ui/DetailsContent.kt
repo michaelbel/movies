@@ -1,120 +1,49 @@
 package org.michaelbel.movies.details.ui
 
 import android.content.Context
+import android.content.res.Configuration
 import androidx.compose.foundation.ScrollState
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdView
-import org.michaelbel.movies.details.DetailsViewModel
-import org.michaelbel.movies.details.R
 import org.michaelbel.movies.entities.MovieDetailsData
+import org.michaelbel.movies.ui.MoviesTheme
 
 @Composable
 fun DetailsContent(
-    navController: NavController,
-    movieId: Long
-) {
-    val viewModel: DetailsViewModel = hiltViewModel()
-    val movie: MovieDetailsData by viewModel.movieFlow.collectAsState(MovieDetailsData.EMPTY)
-
-    LaunchedEffect(movieId) {
-        viewModel.fetchMovieById(movieId)
-    }
-
-    Scaffold(
-        topBar = {
-            Toolbar(
-                navController = navController,
-                movieTitle = movie.title)
-        }
-    ) { paddingValues: PaddingValues ->
-        Content(
-            modifier = Modifier
-                .padding(paddingValues),
-            movie = movie
-        )
-    }
-}
-
-@Composable
-private fun Toolbar(
-    navController: NavController,
-    movieTitle: String
-) {
-    SmallTopAppBar(
-        title = {
-            Text(
-                text = movieTitle,
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
-
-            )
-        },
-        modifier = Modifier
-            .statusBarsPadding(),
-        navigationIcon = {
-            IconButton(
-                onClick = {
-                    navController.popBackStack()
-                }
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = null
-                )
-            }
-        }
-    )
-}
-
-@Composable
-private fun Content(
     modifier: Modifier,
-    movie: MovieDetailsData
+    movie: MovieDetailsData,
+    adRequest: AdRequest
 ) {
     val context: Context = LocalContext.current
     val scrollState: ScrollState = rememberScrollState()
 
-    Column(
+    ConstraintLayout(
         modifier = modifier
             .verticalScroll(scrollState)
     ) {
+        val (image, title, overview, ad) = createRefs()
+
         AsyncImage(
             model = ImageRequest.Builder(context)
                 .data(movie.backdropPath)
@@ -122,68 +51,88 @@ private fun Content(
                 .build(),
             contentDescription = null,
             modifier = Modifier
-                .padding(8.dp)
-                .height(220.dp)
-                .fillMaxSize()
+                .constrainAs(image) {
+                    width = Dimension.fillToConstraints
+                    height = Dimension.value(220.dp)
+                    start.linkTo(parent.start, 16.dp)
+                    top.linkTo(parent.top, 16.dp)
+                    end.linkTo(parent.end, 16.dp)
+                }
                 .clip(RoundedCornerShape(12F)),
             contentScale = ContentScale.Crop
         )
 
         Text(
             text = movie.title,
+            modifier = Modifier
+                .constrainAs(title) {
+                    width = Dimension.fillToConstraints
+                    height = Dimension.wrapContent
+                    start.linkTo(parent.start, 16.dp)
+                    top.linkTo(image.bottom, 8.dp)
+                    end.linkTo(parent.end, 16.dp)
+                },
+            color = MaterialTheme.colorScheme.onBackground,
             fontSize = 24.sp,
             fontWeight = FontWeight.Medium,
-            maxLines = 3,
+            textAlign = TextAlign.Left,
             overflow = TextOverflow.Ellipsis,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = 8.dp,
-                    top = 8.dp,
-                    end = 8.dp,
-                    bottom = 8.dp
-                )
+            maxLines = 3
         )
 
         Text(
             text = movie.overview,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Normal,
-            overflow = TextOverflow.Ellipsis,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = 8.dp,
-                    top = 8.dp,
-                    end = 8.dp,
-                    bottom = 8.dp
-                )
+                .constrainAs(overview) {
+                    width = Dimension.fillToConstraints
+                    height = Dimension.wrapContent
+                    start.linkTo(parent.start, 16.dp)
+                    top.linkTo(title.bottom, 8.dp)
+                    end.linkTo(parent.end, 16.dp)
+                },
+            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium,
+            textAlign = TextAlign.Left,
+            overflow = TextOverflow.Ellipsis,
+            maxLines = 10
         )
 
-        Advert()
+        DetailsAdvert(
+            modifier = Modifier
+                .constrainAs(ad) {
+                    width = Dimension.fillToConstraints
+                    height = Dimension.wrapContent
+                    start.linkTo(parent.start, 16.dp)
+                    end.linkTo(parent.end, 16.dp)
+                    bottom.linkTo(parent.bottom)
+                },
+            adRequest = adRequest
+        )
     }
 }
 
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-private fun Advert(
-
-) {
-    val adRequest: AdRequest = AdRequest.Builder().build()
-
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Bottom,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        AndroidView(
-            factory = { context ->
-                AdView(context).apply {
-                    adSize = AdSize.LARGE_BANNER
-                    adUnitId = context.getString(R.string.admobBannerTestUnitId)
-                    loadAd(adRequest)
-                }
-            },
-            modifier = Modifier.padding(top = 8.dp)
+private fun DetailsFailurePreview() {
+    MoviesTheme {
+        DetailsContent(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.background),
+            movie = MovieDetailsData(
+                id = 438148,
+                overview = """Миллион лет миньоны искали самого великого и ужасного предводителя, 
+                    пока не встретили ЕГО. Знакомьтесь - Грю. Пусть он еще очень молод, но у него 
+                    в планах по-настоящему гадкие дела, которые заставят планету содрогнуться.""",
+                posterPath = "/19GXuePqcZSPD5JgT9MeVdeu9Tc.jpg",
+                backdropPath = "https://image.tmdb.org/t/p/w500//nmGWzTLMXy9x7mKd8NKPLmHtWGa.jpg",
+                releaseDate = "2022-06-29",
+                title = "Миньоны: Грювитация",
+                voteAverage = 7.589F
+            ),
+            adRequest = AdRequest.Builder().build()
         )
     }
 }

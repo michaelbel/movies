@@ -4,15 +4,15 @@ import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
-import org.michaelbel.movies.domain.repository.SettingsRepository
+import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.ui.SystemTheme
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    settingsRepository: SettingsRepository
+    settingsInteractor: SettingsInteractor
 ): ViewModel() {
 
-    val currentTheme: Flow<SystemTheme> = settingsRepository.currentTheme
+    val currentTheme: Flow<SystemTheme> = settingsInteractor.currentTheme
 
-    val dynamicColors: Flow<Boolean> = settingsRepository.dynamicColors
+    val dynamicColors: Flow<Boolean> = settingsInteractor.dynamicColors
 }

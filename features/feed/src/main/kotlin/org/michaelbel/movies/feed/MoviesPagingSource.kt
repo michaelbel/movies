@@ -3,11 +3,11 @@ package org.michaelbel.movies.feed
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import kotlinx.coroutines.flow.MutableStateFlow
-import org.michaelbel.movies.domain.repository.MovieRepository
+import org.michaelbel.movies.domain.interactor.MovieInteractor
 import org.michaelbel.movies.entities.MovieData
 
 class MoviesPagingSource(
-    private val movieRepository: MovieRepository,
+    private val movieInteractor: MovieInteractor,
     private val list: String,
     private val isLoadingFlow: MutableStateFlow<Boolean>
 ): PagingSource<Int, MovieData>() {
@@ -22,7 +22,7 @@ class MoviesPagingSource(
         return try {
             val nextPage = params.key ?: 1
             isLoadingFlow.emit(true)
-            val (items, totalPages) = movieRepository.movieList(list, nextPage)
+            val (items, totalPages) = movieInteractor.movieList(list, nextPage)
             isLoadingFlow.emit(false)
             LoadResult.Page(
                 data = items,

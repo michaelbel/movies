@@ -2,8 +2,8 @@ package org.michaelbel.moviemade.dependencies
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.michaelbel.moviemade.App.VersionName
-import org.michaelbel.moviemade.extensions.api
-import org.michaelbel.moviemade.extensions.implementation
+import org.michaelbel.moviemade.ktx.api
+import org.michaelbel.moviemade.ktx.implementation
 
 /**
  * Firebase
@@ -13,21 +13,22 @@ import org.michaelbel.moviemade.extensions.implementation
  * @see <a href="https://firebase.google.com/docs/app-distribution/android/distribute-gradle">Distribute</a>
  * @see <a href="https://mvnrepository.com/artifact/com.google.firebase/firebase-bom">Firebase BOM</a>
  * @see <a href="https://mvnrepository.com/artifact/com.google.firebase/firebase-core">Firebase Core</a>
+ * @see <a href="https://mvnrepository.com/artifact/com.google.firebase/firebase-crashlytics-gradle">Firebase Crashlytics Gradle</a>
  * @see <a href="https://mvnrepository.com/artifact/com.google.firebase/firebase-crashlytics-ktx">Firebase Crashlytics</a>
  * @see <a href="https://mvnrepository.com/artifact/com.google.firebase/firebase-config">Firebase Config</a>
  * @see <a href="https://mvnrepository.com/artifact/com.google.firebase/firebase-messaging">Firebase Messaging</a>
  */
 
-private const val FirebaseAbtVersion = "21.0.1"
-private const val FirebaseAnalyticsVersion = "21.0.0"
-private const val FirebaseAppDistributionVersion = "3.0.0"
-private const val FirebaseBomVersion = "30.3.1"
+private const val FirebaseAbtVersion = "21.0.2"
+private const val FirebaseAnalyticsVersion = "21.1.1"
+private const val FirebaseAppDistributionVersion = "3.0.3"
+private const val FirebaseBomVersion = "30.5.0"
 private const val FirebaseCommonVersion = "20.0.0"
-private const val FirebaseConfigVersion = "21.1.0"
-private const val FirebaseCoreVersion = "21.0.0"
-private const val FirebaseCrashlyticsPluginVersion = "2.8.1"
-private const val FirebaseCrashlyticsVersion = "18.2.10"
-private const val FirebaseMessagingVersion = "23.0.6"
+private const val FirebaseConfigVersion = "21.1.2"
+private const val FirebaseCoreVersion = "21.1.1"
+private const val FirebaseCrashlyticsPluginVersion = "2.9.2"
+private const val FirebaseCrashlyticsVersion = "18.2.13"
+private const val FirebaseMessagingVersion = "23.0.8"
 
 const val FirebaseAppDistributionPlugin = "com.google.firebase:firebase-appdistribution-gradle:$FirebaseAppDistributionVersion"
 const val FirebaseCrashlyticsPlugin = "com.google.firebase:firebase-crashlytics-gradle:$FirebaseCrashlyticsPluginVersion"
@@ -41,21 +42,18 @@ private const val FirebaseCore = "com.google.firebase:firebase-core:$FirebaseCor
 private const val FirebaseCrashlytics = "com.google.firebase:firebase-crashlytics-ktx:$FirebaseCrashlyticsVersion"
 private const val FirebaseMessaging = "com.google.firebase:firebase-messaging:$FirebaseMessagingVersion"
 
-fun DependencyHandler.implementationFirebaseDependencies() {
-    implementation(FirebaseAbt)
+fun DependencyHandler.implementationFirebaseAnalyticsDependencies() {
     implementation(FirebaseAnalytics)
-    implementation(FirebaseCommon)
-    implementation(FirebaseCore)
+}
+
+fun DependencyHandler.implementationFirebaseCrashlyticsDependencies() {
     implementation(FirebaseCrashlytics)
-    implementation(FirebaseConfig)
 }
 
 fun DependencyHandler.apiFirebaseDependencies() {
     api(FirebaseAbt)
-    api(FirebaseAnalytics)
     api(FirebaseCommon)
     api(FirebaseCore)
-    api(FirebaseCrashlytics)
     api(FirebaseConfig)
 }
 

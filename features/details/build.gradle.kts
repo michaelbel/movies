@@ -1,5 +1,6 @@
 import org.michaelbel.moviemade.App.CompileSdk
 import org.michaelbel.moviemade.App.MinSdk
+import org.michaelbel.moviemade.App.namespace
 import org.michaelbel.moviemade.dependencies.KotlinCompilerExtensionVersion
 import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
 import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
@@ -13,10 +14,18 @@ plugins {
 }
 
 android {
+    namespace = namespace("details")
     compileSdk = CompileSdk
 
     defaultConfig {
         minSdk = MinSdk
+    }
+
+    buildTypes {
+        release {
+            isMinifyEnabled = true
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
     }
 
     composeOptions {
@@ -37,6 +46,7 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":core:ads"))
+    implementation(project(":core:analytics"))
     implementation(project(":core:domain"))
     implementationHiltDependencies()
 }
