@@ -58,6 +58,8 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [x] [Coil](https://github.com/coil-kt/coil) 2.2.1
 - [x] [DataStore](https://d.android.com/datastore) 1.0.0
 - [x] [Startup](https://d.android.com/jetpack/androidx/releases/startup) 1.1.1
+- [x] [Timber](https://github.com/JakeWharton/timber) 5.0.1
+- [x] Crashlytics (Firebase)
 - [ ] Analytics (Firebase)
 - [ ] MVVM
 - [ ] Gradle Kotlin DSL
@@ -70,7 +72,6 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [ ] SplashScreen API
 - [ ] Firebase Crashlytics
 - [ ] Firebase Remote Config
-- [ ] Timber
 - [ ] Firebase Analytics
 - [ ] In-App Updates
 - [ ] In-App Review
