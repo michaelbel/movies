@@ -44,6 +44,7 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [x] MinSDK 21
 - [x] TargetSDK 33
 - [x] CompileSDK 33
+- [x] Material3
 - [x] Dark Theme
 - [x] Dynamic Colors
 - [x] 100% Kotlin 1.7.10
@@ -65,7 +66,6 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [ ] Clean Architecture
 - [ ] Unit Tests
 - [ ] UI Tests
-- [ ] Material3
 - [ ] Startup
 - [ ] SplashScreen API
 - [ ] Firebase Crashlytics
