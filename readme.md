@@ -91,7 +91,8 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [ ] Github Actions
 - [ ] OAuth
 - [ ] Animations
-- [ ] Landscape orientation
+- [ ] Landscape Orientation
+- [ ] Themed App Icon
 
 ## Issues
 If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).
