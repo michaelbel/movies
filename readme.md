@@ -70,9 +70,7 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [ ] Unit Tests
 - [ ] UI Tests
 - [ ] SplashScreen API
-- [ ] Firebase Crashlytics
 - [ ] Firebase Remote Config
-- [ ] Firebase Analytics
 - [ ] In-App Updates
 - [ ] In-App Review
 - [ ] Dynamic App Icon
