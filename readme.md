@@ -56,6 +56,7 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [x] [Chucker](https://github.com/ChuckerTeam/chucker) 3.5.2
 - [x] [Coil](https://github.com/coil-kt/coil) 2.2.1
 - [x] [DataStore](https://d.android.com/datastore) 1.0.0
+- [ ] Analytics (Firebase)
 - [ ] MVVM
 - [ ] Gradle Kotlin DSL
 - [ ] Room
