@@ -45,7 +45,9 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [x] TargetSDK 33
 - [x] CompileSDK 33
 - [x] Dark Theme
+- [x] Dynamic Colors
 - [x] 100% Kotlin 1.7.10
+- [x] 100% Jetpack Compose, No XML
 - [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) 1.4.0
 - [x] [Dagger Hilt](https://github.com/google/dagger) 2.44
 - [x] [OkHttp](https://github.com/square/okhttp) 4.10.0
@@ -56,7 +58,6 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [x] [DataStore](https://d.android.com/datastore) 1.0.0
 - [ ] MVVM
 - [ ] Gradle Kotlin DSL
-- [ ] 100% Jetpack Compose, No XML
 - [ ] Room
 - [ ] Navigation (deep links)
 - [ ] Kotlin Coroutines & Flow
@@ -72,7 +73,6 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [ ] Firebase Analytics
 - [ ] In-App Updates
 - [ ] In-App Review
-- [ ] Dynamic Colors
 - [ ] Dynamic App Icon
 - [ ] Accompanist
 - [ ] App Shortcuts
