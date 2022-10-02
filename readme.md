@@ -59,6 +59,7 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [x] [DataStore](https://d.android.com/datastore) 1.0.0
 - [x] [Startup](https://d.android.com/jetpack/androidx/releases/startup) 1.1.1
 - [x] [Timber](https://github.com/JakeWharton/timber) 5.0.1
+- [x] [Accompanist](https://github.com/google/accompanist) 0.25.1
 - [x] Crashlytics (Firebase)
 - [ ] Analytics (Firebase)
 - [ ] MVVM
@@ -74,7 +75,6 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [ ] In-App Updates
 - [ ] In-App Review
 - [ ] Dynamic App Icon
-- [ ] Accompanist
 - [ ] App Shortcuts
 - [ ] Google Ads
 - [ ] Lifecycle API
