@@ -74,7 +74,6 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [ ] Firebase Remote Config
 - [ ] In-App Updates
 - [ ] In-App Review
-- [ ] Dynamic App Icon
 - [ ] App Shortcuts
 - [ ] Google Ads
 - [ ] Lifecycle API
