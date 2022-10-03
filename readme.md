@@ -47,6 +47,7 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [x] Material3
 - [x] Dark Theme
 - [x] Dynamic Colors
+- [x] Themed App Icon
 - [x] 100% Kotlin 1.7.10
 - [x] 100% Jetpack Compose, No XML
 - [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) 1.4.0
@@ -91,7 +92,6 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [ ] OAuth
 - [ ] Animations
 - [ ] Landscape Orientation
-- [ ] Themed App Icon
 
 ## Issues
 If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).
