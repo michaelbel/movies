@@ -75,8 +75,8 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [ ] UI Tests
 - [ ] SplashScreen API
 - [ ] Firebase Remote Config
-- [ ] In-App Updates
-- [ ] In-App Review
+- [ ] [In-App Updates](https://d.android.com/guide/playcore/in-app-updates)
+- [ ] [In-App Reviews](https://d.android.com/guide/playcore/in-app-review)
 - [ ] App Shortcuts
 - [ ] Google Ads
 - [ ] Lifecycle API
