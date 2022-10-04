@@ -50,6 +50,7 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [x] Themed App Icon
 - [x] 100% Kotlin 1.7.10
 - [x] 100% Jetpack Compose, No XML
+- [x] [KotlinX Coroutines](https://github.com/Kotlin/kotlinx.coroutines) 1.6.4
 - [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) 1.4.0
 - [x] [Dagger Hilt](https://github.com/google/dagger) 2.44
 - [x] [OkHttp](https://github.com/square/okhttp) 4.10.0
@@ -61,14 +62,15 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [x] [Startup](https://d.android.com/jetpack/androidx/releases/startup) 1.1.1
 - [x] [Timber](https://github.com/JakeWharton/timber) 5.0.1
 - [x] [Accompanist](https://github.com/google/accompanist) 0.25.1
+- [x] [Paging](https://d.android.com/topic/libraries/architecture/paging/v3-overview)
+- [x] [ConstraintLayout](https://d.android.com/develop/ui/views/layout/constraint-layout)
 - [x] Crashlytics (Firebase)
 - [ ] Analytics (Firebase)
 - [ ] MVVM
 - [ ] Gradle Kotlin DSL
 - [ ] Room
 - [ ] Navigation (deep links)
-- [ ] Kotlin Coroutines & Flow
-- [ ] Clean Architecture
+- [ ] Clean Architecture (Interactor, Repository, UseCase)
 - [ ] Unit Tests
 - [ ] UI Tests
 - [ ] SplashScreen API
@@ -78,12 +80,10 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [ ] App Shortcuts
 - [ ] Google Ads
 - [ ] Lifecycle API
-- [ ] Paging Library
 - [ ] Preloaded Fonts
 - [ ] TMDB API
 - [ ] Firebase App Distribution
 - [ ] WorkManager
-- [ ] ConstraintLayout
 - [ ] Detekt
 - [ ] Lint
 - [ ] KtLint
