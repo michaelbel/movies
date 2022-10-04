@@ -11,12 +11,13 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import org.michaelbel.movies.analytics.Analytics
 import org.michaelbel.movies.analytics.model.AnalyticsScreen
 import org.michaelbel.movies.domain.interactor.MovieInteractor
+import org.michaelbel.movies.entities.MovieData
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
@@ -24,14 +25,12 @@ class FeedViewModel @Inject constructor(
     analytics: Analytics
 ): ViewModel() {
 
-    private val _isRefreshing: MutableStateFlow<Boolean> = MutableStateFlow(false)
-
-    val moviesStateFlow = Pager(PagingConfig(pageSize = DEFAULT_PAGE_SIZE)) {
-        MoviesPagingSource(
-            movieInteractor,
-            "now_playing",
-            _isRefreshing
+    val pagingItems: Flow<PagingData<MovieData>> = Pager(
+        PagingConfig(
+            pageSize = DEFAULT_PAGE_SIZE
         )
+    ) {
+        MoviesPagingSource(movieInteractor)
     }.flow
         .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
         .cachedIn(viewModelScope)

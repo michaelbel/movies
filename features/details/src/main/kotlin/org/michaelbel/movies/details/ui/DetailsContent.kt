@@ -92,7 +92,7 @@ fun DetailsContent(
                 },
             color = MaterialTheme.colorScheme.onSecondaryContainer,
             fontSize = 14.sp,
-            fontWeight = FontWeight.Medium,
+            fontWeight = FontWeight.Normal,
             textAlign = TextAlign.Left,
             overflow = TextOverflow.Ellipsis,
             maxLines = 10

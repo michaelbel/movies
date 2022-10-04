@@ -1,43 +1,45 @@
-package org.michaelbel.movies.details.ui
+package org.michaelbel.movies.feed.ui
 
 import android.content.res.Configuration
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material3.Icon
+import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import org.michaelbel.movies.feed.R
 import org.michaelbel.movies.ui.MoviesTheme
 
 @Composable
-fun DetailsToolbar(
+fun FeedToolbar(
     modifier: Modifier = Modifier,
-    onNavigationIconClick: () -> Unit,
-    movieTitle: String
+    onNavigationIconClick: () -> Unit
 ) {
     SmallTopAppBar(
         title = {
             Text(
-                text = movieTitle,
+                text = stringResource(R.string.feed_title),
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1
             )
         },
         modifier = modifier,
-        navigationIcon = {
+        actions = {
             IconButton(
-                onClick = {
-                    onNavigationIconClick()
-                }
+                onClick = onNavigationIconClick
             ) {
-                Icon(
-                    imageVector = Icons.Filled.ArrowBack,
-                    contentDescription = null
+                Image(
+                    imageVector = Icons.Outlined.Settings,
+                    contentDescription = null,
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
                 )
             }
         }
@@ -47,13 +49,12 @@ fun DetailsToolbar(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
-private fun DetailsToolbarPreview() {
+private fun FeedToolbarPreview() {
     MoviesTheme {
-        DetailsToolbar(
+        FeedToolbar(
             modifier = Modifier
                 .statusBarsPadding(),
-            onNavigationIconClick = {},
-            movieTitle = "How to train your dragon"
+            onNavigationIconClick = {}
         )
     }
 }

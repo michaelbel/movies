@@ -9,4 +9,8 @@ data class MovieData(
     val title: String,
     val voteAverage: Float,
     val genreIds: List<Int>
-)
+) {
+    companion object {
+        const val NOW_PLAYING = "now_playing"
+    }
+}

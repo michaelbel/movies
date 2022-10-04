@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="feed_title">Popular Movies</string>
+    <string name="feed_retry">Retry</string>
+    <string name="feed_error_loading">Error while loading movies</string>
 </resources>

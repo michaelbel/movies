@@ -2,13 +2,14 @@ package org.michaelbel.movies.feed.ui
 
 import android.content.Context
 import android.content.res.Configuration
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -21,19 +22,18 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import org.michaelbel.movies.entities.MovieData
+import org.michaelbel.movies.ui.MoviesTheme
 
 @Composable
-fun MovieBox(
-    movie: MovieData,
-    onClick: (MovieData) -> Unit,
-    modifier: Modifier = Modifier
+fun FeedMovieBox(
+    modifier: Modifier = Modifier,
+    movie: MovieData
 ) {
     val context: Context = LocalContext.current
 
     Column(
         modifier = modifier
             .clip(RoundedCornerShape(12F))
-            .clickable { onClick(movie) }
     ) {
         AsyncImage(
             model = ImageRequest.Builder(context)
@@ -44,22 +44,18 @@ fun MovieBox(
             modifier = Modifier
                 .height(220.dp)
                 .fillMaxSize()
-                .clip(RoundedCornerShape(12f)),
+                .clip(RoundedCornerShape(12F)),
             contentScale = ContentScale.Crop
         )
 
         Text(
             text = movie.title,
-            maxLines = 10,
-            overflow = TextOverflow.Ellipsis,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(
-                    start = 8.dp,
-                    top = 8.dp,
-                    end = 8.dp,
-                    bottom = 8.dp
-                )
+                .padding(8.dp),
+            color = MaterialTheme.colorScheme.onBackground,
+            maxLines = 10,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }
@@ -68,18 +64,22 @@ fun MovieBox(
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 private fun MovieBoxPreview() {
-    MovieBox(
-        movie = MovieData(
-            id = 0,
-            overview = "",
-            posterPath = "",
-            backdropPath = "",
-            releaseDate = "",
-            title = "",
-            voteAverage = 0F,
-            genreIds = emptyList()
-        ),
-        onClick = {},
-        modifier = Modifier
-    )
+    MoviesTheme {
+        FeedMovieBox(
+            modifier = Modifier
+                .background(MaterialTheme.colorScheme.background),
+            movie = MovieData(
+                id = 438148,
+                overview = """Миллион лет миньоны искали самого великого и ужасного предводителя, пока 
+                не встретили ЕГО. Знакомьтесь - Грю. Пусть он еще очень молод, но у него в планах 
+                по-настоящему гадкие дела, которые заставят планету содрогнуться.""",
+                posterPath = "/19GXuePqcZSPD5JgT9MeVdeu9Tc.jpg",
+                backdropPath = "https://image.tmdb.org/t/p/w500//nmGWzTLMXy9x7mKd8NKPLmHtWGa.jpg",
+                releaseDate = "2022-06-29",
+                title = "Миньоны: Грювитация",
+                voteAverage = 7.6F,
+                genreIds = listOf(16, 12, 35, 14)
+            )
+        )
+    }
 }

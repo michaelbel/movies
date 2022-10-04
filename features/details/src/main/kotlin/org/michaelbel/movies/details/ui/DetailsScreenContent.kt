@@ -33,7 +33,9 @@ fun DetailsScreenContent(
             DetailsToolbar(
                 modifier = Modifier
                     .statusBarsPadding(),
-                navController = navController,
+                onNavigationIconClick = {
+                    navController.popBackStack()
+                },
                 movieTitle = state.toolbarTitle(context)
             )
         }

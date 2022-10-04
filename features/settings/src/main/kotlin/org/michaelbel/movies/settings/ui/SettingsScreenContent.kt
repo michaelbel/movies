@@ -2,7 +2,6 @@ package org.michaelbel.movies.settings.ui
 
 import android.os.Build
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -13,14 +12,9 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.rememberModalBottomSheetState
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SmallTopAppBar
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -29,19 +23,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.michaelbel.movies.settings.R
 import org.michaelbel.movies.settings.SettingsViewModel
 import org.michaelbel.movies.ui.SystemTheme
 
 @Composable
-fun SettingsContent(
+fun SettingsScreenContent(
     navController: NavController
 ) {
     val viewModel: SettingsViewModel = hiltViewModel()
@@ -78,8 +69,12 @@ fun SettingsContent(
 
     Scaffold(
         topBar = {
-            Toolbar(
-                navController = navController
+            SettingsToolbar(
+                modifier = Modifier
+                    .statusBarsPadding(),
+                onNavigationIconClick = {
+                    navController.popBackStack()
+                }
             )
         }
     ) { paddingValues: PaddingValues ->
@@ -88,8 +83,7 @@ fun SettingsContent(
                 SettingsThemeModalContent(
                     modifier = Modifier
                         .padding(
-                            top = 8.dp,
-                            bottom = 8.dp
+                            vertical = 8.dp
                         ),
                     themes = viewModel.themes,
                     currentTheme = currentTheme,
@@ -113,34 +107,6 @@ fun SettingsContent(
             )
         }
     }
-}
-
-@Composable
-private fun Toolbar(
-    navController: NavController
-) {
-    SmallTopAppBar(
-        title = {
-            Text(
-                text = stringResource(R.string.settings_title)
-            )
-        },
-        modifier = Modifier
-            .statusBarsPadding(),
-        navigationIcon = {
-            IconButton(
-                onClick = {
-                    navController.popBackStack()
-                }
-            ) {
-                Image(
-                    imageVector = Icons.Outlined.ArrowBack,
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
-                )
-            }
-        }
-    )
 }
 
 @Composable
