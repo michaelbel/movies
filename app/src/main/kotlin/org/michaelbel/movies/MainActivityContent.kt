@@ -1,4 +1,4 @@
-package org.michaelbel.movies.main
+package org.michaelbel.movies
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.PaddingValues
@@ -20,9 +20,7 @@ import org.michaelbel.movies.settings.ui.SettingsScreenContent
 import org.michaelbel.movies.ui.MoviesTheme
 
 @Composable
-fun MainActivityContent(
-    onAppUpdateClicked: () -> Unit
-) {
+fun MainActivityContent() {
     val navController: NavHostController = rememberNavController()
 
     Scaffold { paddingValues: PaddingValues ->
@@ -35,7 +33,7 @@ fun MainActivityContent(
             composable(
                 route = NavGraph.Home.route
             ) {
-                FeedScreenContent(navController, onAppUpdateClicked)
+                FeedScreenContent(navController)
             }
             composable(
                 route = NavGraph.Movie.routeWithArgs,
@@ -59,8 +57,6 @@ fun MainActivityContent(
 @Composable
 private fun MainActivityContentPreview() {
     MoviesTheme {
-        MainActivityContent(
-            onAppUpdateClicked = {}
-        )
+        MainActivityContent()
     }
 }

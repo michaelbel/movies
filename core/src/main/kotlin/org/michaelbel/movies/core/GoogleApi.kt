@@ -1,4 +1,4 @@
-package org.michaelbel.movies.app.playcore
+package org.michaelbel.movies.core
 
 import android.content.Context
 import android.os.Build

@@ -1,5 +1,7 @@
 package org.michaelbel.movies.settings.ui
 
+import android.app.Activity
+import android.content.Context
 import android.os.Build
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.clickable
@@ -23,11 +25,16 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.google.android.play.core.review.ReviewInfo
+import com.google.android.play.core.review.ReviewManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.michaelbel.movies.core.review.rememberReviewManager
+import org.michaelbel.movies.core.review.rememberReviewTask
 import org.michaelbel.movies.settings.SettingsViewModel
 import org.michaelbel.movies.ui.SystemTheme
 
@@ -49,16 +56,25 @@ fun SettingsScreenContent(
             true
         }
     )
-    val coroutineScope: CoroutineScope = rememberCoroutineScope()
+    val context: Context = LocalContext.current
+    val scope: CoroutineScope = rememberCoroutineScope()
+    val reviewManager: ReviewManager = rememberReviewManager()
+    val reviewInfo: ReviewInfo? = rememberReviewTask(reviewManager)
 
-    fun showThemeModalBottomSheet() = coroutineScope.launch {
+    fun showThemeModalBottomSheet() = scope.launch {
         modalBottomSheetState.show()
         backHandlingEnabled = true
     }
 
-    fun hideThemeModalBottomSheet() = coroutineScope.launch {
+    fun hideThemeModalBottomSheet() = scope.launch {
         modalBottomSheetState.hide()
         backHandlingEnabled = false
+    }
+
+    fun onLaunchReviewFlow() {
+        reviewInfo?.let {
+            reviewManager.launchReviewFlow(context as Activity, reviewInfo)
+        }
     }
 
     BackHandler(backHandlingEnabled) {
@@ -103,7 +119,8 @@ fun SettingsScreenContent(
                 currentTheme = currentTheme,
                 isDynamicColorsEnabled = dynamicColors,
                 onDynamicColorsCheckedChange = viewModel::setDynamicColors,
-                onShowThemeBottomSheet = ::showThemeModalBottomSheet
+                onShowThemeBottomSheet = ::showThemeModalBottomSheet,
+                onReviewClick = { onLaunchReviewFlow() }
             )
         }
     }
@@ -115,7 +132,8 @@ private fun Content(
     currentTheme: SystemTheme,
     isDynamicColorsEnabled: Boolean,
     onShowThemeBottomSheet: () -> Unit,
-    onDynamicColorsCheckedChange: (Boolean) -> Unit
+    onDynamicColorsCheckedChange: (Boolean) -> Unit,
+    onReviewClick: () -> Unit
 ) {
     Column(
         modifier = modifier
@@ -141,5 +159,14 @@ private fun Content(
                 isDynamicColorsEnabled = isDynamicColorsEnabled
             )
         }
+
+        SettingsReviewBox(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp)
+                .clickable {
+                    onReviewClick()
+                }
+        )
     }
 }

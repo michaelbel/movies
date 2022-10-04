@@ -2,6 +2,7 @@ package org.michaelbel.movies.domain.repository.impl
 
 import javax.inject.Inject
 import org.michaelbel.movies.domain.datasource.MovieNetwork
+import org.michaelbel.movies.domain.exceptions.checkApiKeyNotNullException
 import org.michaelbel.movies.domain.repository.MovieRepository
 import org.michaelbel.movies.entities.Either
 import org.michaelbel.movies.entities.MovieData
@@ -20,6 +21,8 @@ class MovieRepositoryImpl @Inject constructor(
 ): MovieRepository {
 
     override suspend fun movieList(list: String, page: Int): Pair<List<MovieData>, Int> {
+        checkApiKeyNotNullException()
+
         val result: Result<MovieResponse> = movieApi.movies(
             list = list,
             apiKey = tmdbApiKey,

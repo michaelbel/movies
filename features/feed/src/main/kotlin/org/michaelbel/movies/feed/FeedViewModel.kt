@@ -1,10 +1,5 @@
 package org.michaelbel.movies.feed
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -16,6 +11,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.stateIn
 import org.michaelbel.movies.analytics.Analytics
 import org.michaelbel.movies.analytics.model.AnalyticsScreen
+import org.michaelbel.movies.core.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.interactor.MovieInteractor
 import org.michaelbel.movies.entities.MovieData
 
@@ -23,7 +19,7 @@ import org.michaelbel.movies.entities.MovieData
 class FeedViewModel @Inject constructor(
     private val movieInteractor: MovieInteractor,
     analytics: Analytics
-): ViewModel() {
+): BaseViewModel() {
 
     val pagingItems: Flow<PagingData<MovieData>> = Pager(
         PagingConfig(
@@ -32,10 +28,8 @@ class FeedViewModel @Inject constructor(
     ) {
         MoviesPagingSource(movieInteractor)
     }.flow
-        .stateIn(viewModelScope, SharingStarted.Lazily, PagingData.empty())
-        .cachedIn(viewModelScope)
-
-    var updateAvailableMessage: Boolean by mutableStateOf(false)
+        .stateIn(this, SharingStarted.Lazily, PagingData.empty())
+        .cachedIn(this)
 
     init {
         analytics.trackScreen(AnalyticsScreen.FEED)

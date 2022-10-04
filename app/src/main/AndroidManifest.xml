@@ -21,7 +21,7 @@
         tools:ignore="UnusedAttribute">
 
         <activity
-            android:name="org.michaelbel.movies.main.MainActivity"
+            android:name="org.michaelbel.movies.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

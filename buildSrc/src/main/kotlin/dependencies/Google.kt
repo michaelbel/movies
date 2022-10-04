@@ -4,7 +4,6 @@ package org.michaelbel.moviemade.dependencies
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.michaelbel.moviemade.ktx.api
-import org.michaelbel.moviemade.ktx.implementation
 
 /**
  * Google Play services, Play Core
@@ -57,6 +56,8 @@ private const val OssLicensesPluginVersion = "0.10.4"
 private const val StrictPluginVersion = "1.2.2"
 
 private const val PlayCoreVersion = "1.8.1"
+private const val PlayCoreReviewVersion = "2.0.0"
+private const val PlayCoreUpdateVersion = "2.0.0"
 
 private const val Ads = "com.google.android.gms:play-services-ads:$GmsAds"
 private const val AdsIdentifier = "com.google.android.gms:play-services-ads-identifier:$GmsAdsIdentifier"
@@ -100,18 +101,11 @@ private const val Wearable = "com.google.android.gms:play-services-wearable:$Gms
 const val GoogleServicesPlugin = "com.google.gms:google-services:$GoogleServicesPluginVersion"
 
 private const val PlayCore = "com.google.android.play:core-ktx:$PlayCoreVersion"
+private const val PlayCoreReview = "com.google.android.play:review-ktx:$PlayCoreReviewVersion"
+private const val PlayCoreUpdate = "com.google.android.play:app-update-ktx:$PlayCoreUpdateVersion"
 
 fun DependencyHandler.apiGooglePlayServicesAdsDependencies() {
     api(Ads)
-}
-
-fun DependencyHandler.apiGooglePlayServicesDependencies() {
-    api(Auth)
-    api(Base)
-}
-
-fun DependencyHandler.implementationPlayCoreDependency() {
-    implementation(PlayCore)
 }
 
 fun DependencyHandler.apiPlayCoreDependencies() {

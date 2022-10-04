@@ -1,13 +1,12 @@
 package org.michaelbel.movies.settings
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.analytics.Analytics
 import org.michaelbel.movies.analytics.model.AnalyticsScreen
+import org.michaelbel.movies.core.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.ui.SystemTheme
 
@@ -15,7 +14,7 @@ import org.michaelbel.movies.ui.SystemTheme
 class SettingsViewModel @Inject constructor(
     private val settingsInteractor: SettingsInteractor,
     analytics: Analytics
-): ViewModel() {
+): BaseViewModel() {
 
     val themes: List<SystemTheme> = listOf(
         SystemTheme.NightNo,
@@ -30,11 +29,11 @@ class SettingsViewModel @Inject constructor(
         analytics.trackScreen(AnalyticsScreen.SETTINGS)
     }
 
-    fun selectTheme(systemTheme: SystemTheme) = viewModelScope.launch {
+    fun selectTheme(systemTheme: SystemTheme) = launch {
         settingsInteractor.selectTheme(systemTheme)
     }
 
-    fun setDynamicColors(value: Boolean) = viewModelScope.launch {
+    fun setDynamicColors(value: Boolean) = launch {
         settingsInteractor.setDynamicColors(value)
     }
 }

@@ -1,4 +1,4 @@
-package org.michaelbel.movies.app
+package org.michaelbel.movies.core
 
 const val EMAIL = "michael-bel@outlook.com"
 const val TELEGRAM_URL = "https://t.me/michaelbel"

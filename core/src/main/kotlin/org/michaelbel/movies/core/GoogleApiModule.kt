@@ -1,4 +1,4 @@
-package org.michaelbel.movies.app.playcore.di
+package org.michaelbel.movies.core
 
 import dagger.Module
 import dagger.hilt.InstallIn

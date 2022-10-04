@@ -1,4 +1,4 @@
-package org.michaelbel.movies.app.initializer
+package org.michaelbel.movies.core.config
 
 import android.content.Context
 import androidx.startup.Initializer

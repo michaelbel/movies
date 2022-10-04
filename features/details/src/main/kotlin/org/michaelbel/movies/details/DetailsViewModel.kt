@@ -1,7 +1,6 @@
 package org.michaelbel.movies.details
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.ViewModel
 import com.google.android.gms.ads.AdRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -9,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import org.michaelbel.movies.analytics.Analytics
 import org.michaelbel.movies.analytics.model.AnalyticsScreen
+import org.michaelbel.movies.core.viewmodel.BaseViewModel
 import org.michaelbel.movies.details.model.DetailsState
 import org.michaelbel.movies.domain.interactor.MovieInteractor
 import org.michaelbel.movies.entities.Either
@@ -20,7 +20,7 @@ class DetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val movieInteractor: MovieInteractor,
     analytics: Analytics
-): ViewModel() {
+): BaseViewModel() {
 
     private val movieId: Long = requireNotNull(savedStateHandle["movieId"])
 

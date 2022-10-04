@@ -1,4 +1,4 @@
-package org.michaelbel.movies.main
+package org.michaelbel.movies
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -8,15 +8,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
-import org.michaelbel.movies.app.playcore.InAppUpdate
 import org.michaelbel.movies.ui.MoviesTheme
 import org.michaelbel.movies.ui.SystemTheme
 
 @AndroidEntryPoint
 class MainActivity: ComponentActivity() {
-
-    @Inject lateinit var inAppUpdate: InAppUpdate
 
     private val viewModel: MainViewModel by viewModels()
 
@@ -34,14 +30,8 @@ class MainActivity: ComponentActivity() {
                 theme = currentTheme,
                 dynamicColors = dynamicColors
             ) {
-                MainActivityContent(
-                    onAppUpdateClicked = ::onAppUpdateClick
-                )
+                MainActivityContent()
             }
         }
-    }
-
-    private fun onAppUpdateClick() {
-        inAppUpdate.startUpdateFlow(this)
     }
 }

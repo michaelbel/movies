@@ -5,4 +5,5 @@
     <string name="settings_theme_light">Light</string>
     <string name="settings_theme_dark">Dark</string>
     <string name="settings_dynamic_colors">Dynamic Colors</string>
+    <string name="settings_review">Review</string>
 </resources>

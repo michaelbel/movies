@@ -1,4 +1,4 @@
-package org.michaelbel.movies.main
+package org.michaelbel.movies
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

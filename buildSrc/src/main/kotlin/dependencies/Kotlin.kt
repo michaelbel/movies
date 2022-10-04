@@ -16,12 +16,12 @@ import org.michaelbel.moviemade.ktx.testApi
  * @see <a href="https://d.android.com/jetpack/androidx/releases/compose-kotlin">Compose to Kotlin Compatibility Map</a>
  */
 
-const val KotlinVersion = "1.7.10"
+const val KotlinVersion = "1.7.20"
 
 private const val KotlinCoroutinesVersion = "1.6.4"
 private const val KotlinSerializationVersion = "1.4.0"
 
-const val KotlinCompilerExtensionVersion = "1.3.0"
+const val KotlinCompilerExtensionVersion = "1.3.2"
 
 const val KotlinPlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$KotlinVersion"
 const val KotlinSerializationPlugin = "org.jetbrains.kotlin:kotlin-serialization:$KotlinVersion"
