@@ -48,7 +48,7 @@ tmdb_api_key=YOUR_OWN_TMDB_KEY
 - [x] Dark Theme
 - [x] Dynamic Colors
 - [x] Themed App Icon
-- [x] 100% Kotlin 1.7.10
+- [x] 100% Kotlin 1.7.20
 - [x] 100% Jetpack Compose, No XML
 - [x] [KotlinX Coroutines](https://github.com/Kotlin/kotlinx.coroutines) 1.6.4
 - [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) 1.4.0
