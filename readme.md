@@ -37,6 +37,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] Multi-module project
 - [x] MVVM
 - [x] TMDB API
+- [x] Gradle Kotlin DSL
 - [x] Gradle Plugin 7.3.0
 - [x] MinSDK 21
 - [x] TargetSDK 33
@@ -66,7 +67,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Dependabot](https://github.com/dependabot)
 - [x] Github Actions CI
 - [ ] Analytics (Firebase)
-- [ ] Gradle Kotlin DSL
 - [ ] Room
 - [ ] Navigation (deep links)
 - [ ] Clean Architecture (Interactor, Repository, UseCase)
