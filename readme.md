@@ -40,6 +40,8 @@ TMDB_API_KEY=your_own_tmdb_api_key
 ## Technologies
 
 - [x] Multi-module project
+- [x] MVVM
+- [x] TMDB API
 - [x] Gradle Plugin 7.3.0
 - [x] MinSDK 21
 - [x] TargetSDK 33
@@ -64,9 +66,9 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Accompanist](https://github.com/google/accompanist) 0.25.1
 - [x] [Paging](https://d.android.com/topic/libraries/architecture/paging/v3-overview)
 - [x] [ConstraintLayout](https://d.android.com/develop/ui/views/layout/constraint-layout)
+- [x] ViewModel
 - [x] Crashlytics (Firebase)
 - [ ] Analytics (Firebase)
-- [ ] MVVM
 - [ ] Gradle Kotlin DSL
 - [ ] Room
 - [ ] Navigation (deep links)
@@ -81,7 +83,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] Google Ads
 - [ ] Lifecycle API
 - [ ] Preloaded Fonts
-- [ ] TMDB API
 - [ ] Firebase App Distribution
 - [ ] WorkManager
 - [ ] Detekt
