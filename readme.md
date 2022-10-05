@@ -64,7 +64,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] ViewModel
 - [x] Crashlytics (Firebase)
 - [x] [Dependabot](https://github.com/dependabot)
-- [x] CI Github Actions
+- [x] Github Actions CI
 - [ ] Analytics (Firebase)
 - [ ] Gradle Kotlin DSL
 - [ ] Room
