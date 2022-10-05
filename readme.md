@@ -2,7 +2,7 @@
 <img src="screenshots/mockup2.png"/>
 <img src="../master/icons/ic_launcher_playstore.png" width="192" align="right" hspace="0"/>
 
-Moviemade
+Movies
 =
 
 [![kotlin-badge](https://img.shields.io/badge/Awesome-Kotlin-F18E33.svg)](https://kotlinlang.org)
@@ -15,12 +15,12 @@ Moviemade
 [![last-commit-badge](https://img.shields.io/github/last-commit/michaelbel/moviemade?color=F3745F)](https://github.com/michaelbel/moviemade/commits)
 [![prs-badge](https://img.shields.io/badge/PRs-welcome-F3745F.svg)](https://makeapullrequest.com)
 
-Moviemade - easy way to discover popular movies. This is a simple TMDb client for Android with material design.
+Movies - easy way to discover popular movies. This is a simple TMDb client for Android with material design.
 
 ## Build
 Take a look at <b>`local.properties`</b> and fill it with [your own](https://developers.themoviedb.org/3/getting-started/introduction) <b>tmdb_api_key</b> like this:
 ```gradle
-tmdb_api_key=YOUR_OWN_TMDB_KEY
+TMDB_API_KEY=your_own_tmdb_api_key
 ```
 
 ## Download
