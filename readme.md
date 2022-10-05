@@ -5,15 +5,10 @@
 Movies
 =
 
-[![kotlin-badge](https://img.shields.io/badge/Awesome-Kotlin-F18E33.svg)](https://kotlinlang.org)
-[![platform-badge](https://img.shields.io/badge/Platform-Android-F3745F.svg)](https://github.com/michaelbel/moviemade)
-[![minsdk-badge](https://img.shields.io/badge/minSdk-21-F3745F.svg)](https://github.com/michaelbel/moviemade)
-[![license-badge](https://img.shields.io/badge/License-Apache_v2.0-F3745F.svg)](https://apache.org/licenses/LICENSE-2.0)
-[![paypal-badge](https://img.shields.io/badge/Donate-Paypal-F3745F.svg)](https://paypal.me/michaelbel)
-[![googleplay-badge](https://img.shields.io/badge/Google_Play-Demo-F3745F.svg)](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
-[![issues-badge](https://img.shields.io/github/issues-raw/michaelbel/moviemade?color=F3745F)](https://github.com/michaelbel/moviemade/issues)
-[![last-commit-badge](https://img.shields.io/github/last-commit/michaelbel/moviemade?color=F3745F)](https://github.com/michaelbel/moviemade/commits)
-[![prs-badge](https://img.shields.io/badge/PRs-welcome-F3745F.svg)](https://makeapullrequest.com)
+[![check-pr-badge](https://github.com/michaelbel/movies/actions/workflows/check_pr.yml/badge.svg?branch=master)](https://github.com/michaelbel/movies/actions/workflows/check_pr.yml)
+[![code-size-badge](https://img.shields.io/github/languages/code-size/michaelbel/android-app-template?color=FF5252)]()
+[![paypal-badge](https://img.shields.io/badge/Donate-Paypal-FF5252.svg)](https://paypal.me/michaelbel)
+[![last-commit-badge](https://img.shields.io/github/last-commit/michaelbel/moviemade?color=FF5252)](https://github.com/michaelbel/moviemade/commits)
 
 Movies - easy way to discover popular movies. This is a simple TMDb client for Android with material design.
 
@@ -69,6 +64,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] ViewModel
 - [x] Crashlytics (Firebase)
 - [x] [Dependabot](https://github.com/dependabot)
+- [x] CI Github Actions
 - [ ] Analytics (Firebase)
 - [ ] Gradle Kotlin DSL
 - [ ] Room
@@ -90,7 +86,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] Lint
 - [ ] KtLint
 - [ ] Spotless
-- [ ] Github Actions
+- [ ] CD Firebase AppDistribution
 - [ ] OAuth
 - [ ] Animations
 - [ ] Landscape Orientation
