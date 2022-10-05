@@ -68,6 +68,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [ConstraintLayout](https://d.android.com/develop/ui/views/layout/constraint-layout)
 - [x] ViewModel
 - [x] Crashlytics (Firebase)
+- [x] [Dependabot](https://github.com/dependabot)
 - [ ] Analytics (Firebase)
 - [ ] Gradle Kotlin DSL
 - [ ] Room
