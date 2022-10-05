@@ -71,8 +71,6 @@ android {
             keystoreProperties["storeFile"] = System.getenv("KEYSTORE_FILE").orEmpty()
         }
 
-        keystoreProperties.load(FileInputStream(keystorePropertiesFile))
-
         create("release") {
             keyAlias = keystoreProperties["keyAlias"] as String
             keyPassword = keystoreProperties["keyPassword"] as String
