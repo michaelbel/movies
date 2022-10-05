@@ -9,15 +9,16 @@ on:
 concurrency:
   group: environment-${{ github.ref }}
   cancel-in-progress: true
+  
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  KEYSTORE_FILE: ${{ secrets.KEYSTORE_FILE }}
+  KEYSTORE_KEY_ALIAS: ${{ secrets.KEYSTORE_KEY_ALIAS }}
+  KEYSTORE_KEY_PASSWORD: ${{ secrets.KEYSTORE_KEY_PASSWORD }}
+  KEYSTORE_STORE_PASSWORD: ${{ secrets.KEYSTORE_STORE_PASSWORD }}
 
 jobs:
   pr:
-    env:
-      KEYSTORE_FILE: ${{secrets.KEYSTORE_FILE}}
-      KEYSTORE_KEY_ALIAS: ${{secrets.KEYSTORE_KEY_ALIAS}}
-      KEYSTORE_KEY_PASSWORD: ${{secrets.KEYSTORE_KEY_PASSWORD}}
-      KEYSTORE_STORE_PASSWORD: ${{secrets.KEYSTORE_STORE_PASSWORD}}
-    
     runs-on: macos-latest
     timeout-minutes: 60
     
@@ -29,6 +30,16 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 1.11
+          
+      - name: Decode Keystore File
+        id: decode_keystore_file
+        uses: timheuer/base64-to-file@v1
+        with:
+          fileName: 'keystore_release.jks'
+          encodedString: ${{ secrets.KEYSTORE_FILE }}
+          
+      - name: Set Decoded File Location as Environment
+        run: echo "KEYSTORE_FILE=${{ steps.decode_keystore_file.outputs.filePath }}" >> $GITHUB_ENV
           
       - name: Make Gradlew Executable
         run: chmod +x ./gradlew
