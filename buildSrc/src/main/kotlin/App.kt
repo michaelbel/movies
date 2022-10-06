@@ -1,7 +1,7 @@
 package org.michaelbel.moviemade
 
 object App {
-    const val VersionName = "1.3.8"
+    const val VersionName = "1.3.9"
 
     const val MinSdk = 21
     const val TargetSdk = 33
