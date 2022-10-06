@@ -12,13 +12,25 @@ plugins {
     kotlin("kapt")
 }
 
+val localTmdbApiKey: String by lazy {
+    gradleLocalProperties(rootDir).getProperty("TMDB_API_KEY")
+}
+
+val remoteTmdbApiKey: String by lazy {
+    System.getenv("TMDB_API_KEY").orEmpty()
+}
+
+val tmdbApiKey: String by lazy {
+    if (localTmdbApiKey != "null") localTmdbApiKey else remoteTmdbApiKey
+}
+
 android {
     namespace = namespace("entities")
     compileSdk = CompileSdk
 
     defaultConfig {
         minSdk = MinSdk
-        buildConfigField("String", "TMDB_API_KEY", "\"${gradleLocalProperties(rootDir).getProperty("TMDB_API_KEY")}\"")
+        buildConfigField("String", "TMDB_API_KEY", "\"$tmdbApiKey\"")
     }
 
     buildTypes {
