@@ -28,11 +28,3 @@ fun DependencyHandler.implementationRoomDependencies() {
     ksp(RoomCompiler)
     testImplementation(RoomTesting)
 }
-
-fun DependencyHandler.apiRoomDependencies() {
-    api(Room)
-    api(RoomPaging)
-    api(RoomRuntime)
-    ksp(RoomCompiler)
-    testApi(RoomTesting)
-}
