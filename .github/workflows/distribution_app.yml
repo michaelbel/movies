@@ -31,6 +31,9 @@ jobs:
         with:
           java-version: 1.11
           
+      - name: Make Gradlew Executable
+        run: chmod +x ./gradlew
+          
       - name: Decode Keystore File
         id: decode_keystore_file
         uses: timheuer/base64-to-file@v1
