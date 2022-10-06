@@ -12,7 +12,7 @@ plugins {
     kotlin("kapt")
 }
 
-val localTmdbApiKey: String by lazy {
+val localTmdbApiKey: String? by lazy {
     gradleLocalProperties(rootDir).getProperty("TMDB_API_KEY")
 }
 
@@ -21,7 +21,7 @@ val remoteTmdbApiKey: String by lazy {
 }
 
 val tmdbApiKey: String by lazy {
-    if (localTmdbApiKey != "null") localTmdbApiKey else remoteTmdbApiKey
+    if (localTmdbApiKey != null) localTmdbApiKey.orEmpty() else remoteTmdbApiKey
 }
 
 android {

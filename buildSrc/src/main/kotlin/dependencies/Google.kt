@@ -1,4 +1,4 @@
-@file:Suppress("SpellCheckingInspection", "unused")
+@file:Suppress("SpellCheckingInspection")
 
 package org.michaelbel.moviemade.dependencies
 
@@ -49,11 +49,8 @@ private const val GmsTagManager = "18.0.1"
 private const val GmsTasks = "18.0.1"
 private const val GmsVision = "20.1.3"
 private const val GmsWallet = "19.1.0"
-private const val GmsWearable = "17.1.0"
 
 private const val GoogleServicesPluginVersion = "4.3.10"
-private const val OssLicensesPluginVersion = "0.10.4"
-private const val StrictPluginVersion = "1.2.2"
 
 private const val PlayCoreVersion = "1.8.1"
 private const val PlayCoreReviewVersion = "2.0.0"
@@ -96,7 +93,6 @@ private const val Tagmanager = "com.google.android.gms:play-services-tagmanager:
 private const val Tasks = "com.google.android.gms:play-services-tasks:$GmsTasks"
 private const val Vision = "com.google.android.gms:play-services-vision:$GmsVision"
 private const val Wallet = "com.google.android.gms:play-services-wallet:$GmsWallet"
-private const val Wearable = "com.google.android.gms:play-services-wearable:$GmsWearable"
 
 const val GoogleServicesPlugin = "com.google.gms:google-services:$GoogleServicesPluginVersion"
 

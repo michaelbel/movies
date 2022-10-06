@@ -11,10 +11,8 @@ import org.michaelbel.moviemade.ktx.api
 
 private const val CoilVersion = "2.2.1"
 
-private const val Coil = "io.coil-kt:coil:$CoilVersion"
 private const val CoilCompose = "io.coil-kt:coil-compose:$CoilVersion"
 
 fun DependencyHandler.apiCoilDependencies() {
-    api(Coil)
     api(CoilCompose)
 }
