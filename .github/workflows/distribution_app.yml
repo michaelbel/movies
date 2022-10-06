@@ -48,18 +48,18 @@ jobs:
 #      - name: Build Debug Artifacts
 #        run: ./gradlew app:assembleDebug
           
-      - name: Build Release Artifacts
-        run: ./gradlew app:assembleRelease
+#      - name: Build Release Artifacts
+#        run: ./gradlew app:assembleRelease
         
-      - name: Build Bundle Artifacts
-        run: ./gradlew app:bundleRelease
+#      - name: Build Bundle Artifacts
+#        run: ./gradlew app:bundleRelease
  
-      - name: Upload Artifacts to Outputs
-        uses: actions/upload-artifact@v2
-        with:
-          path: |
-            app/build/outputs/apk
-            app/build/outputs/bundle
+#      - name: Upload Artifacts to Outputs
+#        uses: actions/upload-artifact@v2
+#        with:
+#          path: |
+#            app/build/outputs/apk
+#            app/build/outputs/bundle
       
 #     - name: Create GitHub Release
 #       uses: softprops/action-gh-release@v1
