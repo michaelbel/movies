@@ -63,33 +63,35 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Paging](https://d.android.com/topic/libraries/architecture/paging/v3-overview)
 - [x] [ConstraintLayout](https://d.android.com/develop/ui/views/layout/constraint-layout)
 - [x] ViewModel
-- [x] Crashlytics (Firebase)
+- [x] Firebase Crashlytics
 - [x] [Dependabot](https://github.com/dependabot)
-- [x] Github Actions CI
-- [ ] Analytics (Firebase)
+- [x] Github Actions CI (build)
+- [x] Github Actions CD (distribute via telegram)
+- [ ] Firebase Analytics
+- [ ] Firebase Remote Config
+- [ ] Firebase AppDistribution
 - [ ] Room
 - [ ] Navigation (deep links)
 - [ ] Clean Architecture (Interactor, Repository, UseCase)
 - [ ] Unit Tests
 - [ ] UI Tests
 - [ ] SplashScreen API
-- [ ] Firebase Remote Config
 - [ ] [In-App Updates](https://d.android.com/guide/playcore/in-app-updates)
 - [ ] [In-App Reviews](https://d.android.com/guide/playcore/in-app-review)
 - [ ] App Shortcuts
 - [ ] Google Ads
 - [ ] Lifecycle API
 - [ ] Preloaded Fonts
-- [ ] Firebase App Distribution
 - [ ] WorkManager
 - [ ] Detekt
 - [ ] Lint
 - [ ] KtLint
 - [ ] Spotless
-- [ ] CD Firebase AppDistribution
 - [ ] OAuth
 - [ ] Animations
 - [ ] Landscape Orientation
+- [ ] Create Github Releases
+- [ ] Upload Bundle to Google Play Console
 
 ## Issues
 If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).
