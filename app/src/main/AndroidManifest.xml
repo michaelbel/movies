@@ -36,19 +36,6 @@
                 <data android:host="main" android:scheme="moviemade"/>
             </intent-filter>
         </activity>
-        
-        <provider
-            android:name="androidx.startup.InitializationProvider"
-            android:authorities="${applicationId}.androidx-startup"
-            android:exported="false"
-            tools:node="merge">
-
-            <meta-data
-                android:name="org.michaelbel.movies.app.initializer.FirebaseConfigInitializer"
-                android:value="androidx.startup"
-                tools:node="remove"/>
-
-        </provider>
 
         <!--AdMob-->
         <meta-data
