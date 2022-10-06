@@ -5,5 +5,4 @@ object FirebaseAppDistribution {
     const val ArtifactType = "APK"
     const val Testers = "michaelbel24865@gmail.com"
     const val Groups = "qa"
-    const val ReleaseNotes = "Release ${App.VersionName}"
 }
