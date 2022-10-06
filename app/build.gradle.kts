@@ -50,6 +50,20 @@ val admobBannerId: String by lazy {
     gradleLocalProperties(rootDir).getProperty("ADMOB_BANNER_ID")
 }
 
+tasks.register("prepareReleaseNotes") {
+    doLast {
+        exec {
+            workingDir(rootDir)
+            executable("./scripts/gitlog.sh")
+        }
+    }
+}
+
+afterEvaluate {
+    tasks.findByName("assembleDebug")?.finalizedBy("prepareReleaseNotes")
+    tasks.findByName("assembleRelease")?.finalizedBy("prepareReleaseNotes")
+}
+
 android {
     namespace = "org.michaelbel.moviemade"
     compileSdk = CompileSdk
@@ -102,7 +116,7 @@ android {
                 appId = FirebaseAppDistribution.MobileSdkAppId
                 artifactType = FirebaseAppDistribution.ArtifactType
                 testers = FirebaseAppDistribution.Testers
-                releaseNotes = FirebaseAppDistribution.ReleaseNotes
+                releaseNotesFile="$rootProject.rootDir/releaseNotes.txt"
                 groups = FirebaseAppDistribution.Groups
                 serviceCredentialsFile = "$rootDir/config/firebase-app-distribution.json"
             }
