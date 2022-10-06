@@ -38,6 +38,32 @@ val gitVersion: Int by lazy {
     stdout.toString().trim().toInt()
 }
 
+val currentTime: Long by lazy {
+    System.currentTimeMillis()
+}
+
+val admobAppId: String by lazy {
+    gradleLocalProperties(rootDir).getProperty("ADMOB_APP_ID")
+}
+
+val admobBannerId: String by lazy {
+    gradleLocalProperties(rootDir).getProperty("ADMOB_BANNER_ID")
+}
+
+tasks.register("prepareReleaseNotes") {
+    doLast {
+        exec {
+            workingDir(rootDir)
+            executable("./scripts/gitlog.sh")
+        }
+    }
+}
+
+afterEvaluate {
+    tasks.findByName("assembleDebug")?.finalizedBy("prepareReleaseNotes")
+    tasks.findByName("assembleRelease")?.finalizedBy("prepareReleaseNotes")
+}
+
 android {
     namespace = "org.michaelbel.moviemade"
     compileSdk = CompileSdk
@@ -52,9 +78,9 @@ android {
         testInstrumentationRunner = App.TestInstrumentationRunner
         vectorDrawables.useSupportLibrary = true
 
-        buildConfigField("String", "VERSION_DATE", "\"${System.currentTimeMillis()}\"")
-        buildConfigField("String", "ADMOB_APP_ID", "\"${gradleLocalProperties(rootDir).getProperty("ADMOB_APP_ID")}\"")
-        buildConfigField("String", "ADMOB_BANNER_ID", "\"${gradleLocalProperties(rootDir).getProperty("ADMOB_BANNER_ID")}\"")
+        buildConfigField("String", "VERSION_DATE", "\"$currentTime\"")
+        buildConfigField("String", "ADMOB_APP_ID", "\"$admobAppId\"")
+        buildConfigField("String", "ADMOB_BANNER_ID", "\"$admobBannerId\"")
 
         setProperty("archivesBaseName", "Movies-v$versionName($versionCode)")
     }
@@ -90,7 +116,7 @@ android {
                 appId = FirebaseAppDistribution.MobileSdkAppId
                 artifactType = FirebaseAppDistribution.ArtifactType
                 testers = FirebaseAppDistribution.Testers
-                releaseNotes = FirebaseAppDistribution.ReleaseNotes
+                releaseNotesFile="$rootProject.rootDir/releaseNotes.txt"
                 groups = FirebaseAppDistribution.Groups
                 serviceCredentialsFile = "$rootDir/config/firebase-app-distribution.json"
             }
