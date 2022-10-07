@@ -116,7 +116,7 @@ android {
                 artifactType = "APK"
                 testers = "michaelbel24865@gmail.com"
                 groups = "qa"
-                releaseNotesFile="$rootProject.rootDir/releaseNotes.txt"
+                //releaseNotesFile="$rootProject.rootDir/releaseNotes.txt"
                 //serviceCredentialsFile = "$rootDir/config/firebase-app-distribution.json"
             }
         }
