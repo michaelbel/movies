@@ -68,10 +68,10 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Dependabot](https://github.com/dependabot)
 - [x] Github Actions CI/CD
 - [x] Distribute App via Telegram Bot
+- [x] [Navigation](https://d.android.com/guide/navigation) 2.5.2
 - [ ] [Google Analytics for Firebase](https://firebase.google.com/products/analytics)
 - [ ] [Firebase Remote Config](https://firebase.google.com/products/remote-config)
 - [ ] [Room](https://d.android.com/training/data-storage/room)
-- [ ] [Navigation](https://d.android.com/guide/navigation)
 - [ ] Deep Links
 - [ ] Clean Architecture (Interactor, Repository, UseCase)
 - [ ] Unit Tests
