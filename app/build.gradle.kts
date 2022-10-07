@@ -11,7 +11,6 @@ import org.michaelbel.moviemade.App.CompileSdk
 import org.michaelbel.moviemade.App.MinSdk
 import org.michaelbel.moviemade.App.TargetSdk
 import org.michaelbel.moviemade.App.VersionName
-import org.michaelbel.moviemade.FirebaseAppDistribution
 import org.michaelbel.moviemade.dependencies.KotlinCompilerExtensionVersion
 import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
 import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
@@ -113,12 +112,12 @@ android {
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
 
             firebaseAppDistribution {
-                appId = FirebaseAppDistribution.MobileSdkAppId
-                artifactType = FirebaseAppDistribution.ArtifactType
-                testers = FirebaseAppDistribution.Testers
+                appId = "1:770317857182:android:876190afbc53df31"
+                artifactType = "APK"
+                testers = "michaelbel24865@gmail.com"
+                groups = "qa"
                 releaseNotesFile="$rootProject.rootDir/releaseNotes.txt"
-                groups = FirebaseAppDistribution.Groups
-                serviceCredentialsFile = "$rootDir/config/firebase-app-distribution.json"
+                //serviceCredentialsFile = "$rootDir/config/firebase-app-distribution.json"
             }
         }
         debug {
