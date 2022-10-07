@@ -3,8 +3,6 @@ package org.michaelbel.movies.details.ui
 import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,10 +17,11 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.details.R
-import org.michaelbel.movies.ui.MoviesTheme
+import org.michaelbel.movies.ui.theme.MoviesTheme
+import org.michaelbel.movies.ui.icon.MoviesIcons
 
 @Composable
-fun DetailsFailure(
+internal fun DetailsFailure(
     modifier: Modifier
 ) {
     ConstraintLayout(
@@ -31,7 +30,7 @@ fun DetailsFailure(
         val (image, text) = createRefs()
 
         Icon(
-            imageVector = Icons.Filled.Info,
+            imageVector = MoviesIcons.Info,
             contentDescription = null,
             modifier = Modifier
                 .constrainAs(image) {

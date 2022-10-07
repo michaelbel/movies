@@ -1,62 +1,46 @@
 package org.michaelbel.movies
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
-import org.michaelbel.movies.details.ui.DetailsScreenContent
-import org.michaelbel.movies.feed.ui.FeedScreenContent
-import org.michaelbel.movies.navigation.NavGraph
-import org.michaelbel.movies.settings.ui.SettingsScreenContent
-import org.michaelbel.movies.ui.MoviesTheme
+import org.michaelbel.movies.details.navigation.DetailsDestination
+import org.michaelbel.movies.details.navigation.detailsGraph
+import org.michaelbel.movies.feed.navigation.FeedDestination
+import org.michaelbel.movies.feed.navigation.feedGraph
+import org.michaelbel.movies.settings.navigation.SettingsDestination
+import org.michaelbel.movies.settings.navigation.settingsGraph
 
 @Composable
-fun MainActivityContent() {
-    val navController: NavHostController = rememberNavController()
-
+fun MainActivityContent(
+    modifier: Modifier = Modifier,
+    navHostController: NavHostController = rememberNavController(),
+    startDestination: String = FeedDestination.route
+) {
     Scaffold { paddingValues: PaddingValues ->
         NavHost(
-            navController = navController,
-            startDestination = NavGraph.Home.route,
-            modifier = Modifier
-                .padding(paddingValues)
+            navController = navHostController,
+            startDestination = startDestination,
+            modifier = modifier.padding(paddingValues)
         ) {
-            composable(
-                route = NavGraph.Home.route
-            ) {
-                FeedScreenContent(navController)
-            }
-            composable(
-                route = NavGraph.Movie.routeWithArgs,
-                arguments = listOf(navArgument(NavGraph.Movie.argMovieId) {
-                    type = NavType.LongType
-                })
-            ) {
-                DetailsScreenContent(navController)
-            }
-            composable(
-                route = NavGraph.Settings.route
-            ) {
-                SettingsScreenContent(navController)
-            }
+            feedGraph(
+                navigateToSettings = {
+                    navHostController.navigate(SettingsDestination.route)
+                },
+                navigateToDetails = { movieId ->
+                    navHostController.navigate(DetailsDestination.createNavigationRoute(movieId))
+                }
+            )
+            detailsGraph(
+                onBackClick = navHostController::popBackStack
+            )
+            settingsGraph(
+                onBackClick = navHostController::popBackStack
+            )
         }
-    }
-}
-
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-private fun MainActivityContentPreview() {
-    MoviesTheme {
-        MainActivityContent()
     }
 }

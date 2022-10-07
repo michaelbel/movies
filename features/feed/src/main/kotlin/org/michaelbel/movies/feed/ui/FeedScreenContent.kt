@@ -17,7 +17,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.CoroutineScope
@@ -29,16 +28,33 @@ import org.michaelbel.movies.feed.R
 import org.michaelbel.movies.feed.ktx.isFailure
 import org.michaelbel.movies.feed.ktx.isLoading
 import org.michaelbel.movies.feed.ktx.throwable
-import org.michaelbel.movies.navigation.NavGraph
 
 @Composable
-fun FeedScreenContent(
-    navController: NavController
+internal fun FeedRoute(
+    onNavigateToSettings: () -> Unit,
+    onNavigateToDetails: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: FeedViewModel = hiltViewModel()
+) {
+    val pagingItems: LazyPagingItems<MovieData> = viewModel.pagingItems.collectAsLazyPagingItems()
+
+    FeedScreenContent(
+        onNavigateToSettings = onNavigateToSettings,
+        onNavigateToDetails = onNavigateToDetails,
+        modifier = modifier,
+        pagingItems = pagingItems
+    )
+}
+
+@Composable
+internal fun FeedScreenContent(
+    onNavigateToSettings: () -> Unit,
+    onNavigateToDetails: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+    pagingItems: LazyPagingItems<MovieData>
 ) {
     val scope: CoroutineScope = rememberCoroutineScope()
     val listState: LazyListState = rememberLazyListState()
-    val viewModel: FeedViewModel = hiltViewModel()
-    val pagingItems: LazyPagingItems<MovieData> = viewModel.pagingItems.collectAsLazyPagingItems()
     val snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
 
     val onScrollToTop: () -> Unit = {
@@ -61,14 +77,13 @@ fun FeedScreenContent(
     }
 
     Scaffold(
+        modifier = modifier,
         topBar = {
             FeedToolbar(
                 modifier = Modifier
                     .statusBarsPadding()
                     .clickable { onScrollToTop() },
-                onNavigationIconClick = {
-                    navController.navigate(NavGraph.Settings.route)
-                }
+                onNavigationIconClick = onNavigateToSettings
             )
         },
         snackbarHost = {
@@ -99,9 +114,7 @@ fun FeedScreenContent(
                         .fillMaxSize(),
                     listState = listState,
                     pagingItems = pagingItems,
-                    onMovieClick = { movieId: Int ->
-                        navController.navigate("${NavGraph.Movie.route}/$movieId")
-                    }
+                    onMovieClick = onNavigateToDetails
                 )
             }
         }

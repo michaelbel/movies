@@ -17,7 +17,7 @@ import org.michaelbel.movies.feed.ktx.isPagingFailure
 import org.michaelbel.movies.feed.ktx.isPagingLoading
 
 @Composable
-fun FeedContent(
+internal fun FeedContent(
     modifier: Modifier,
     listState: LazyListState,
     pagingItems: LazyPagingItems<MovieData>,

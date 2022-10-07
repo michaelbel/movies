@@ -23,19 +23,19 @@ class FeedViewModel @Inject constructor(
 
     val pagingItems: Flow<PagingData<MovieData>> = Pager(
         PagingConfig(
-            pageSize = DEFAULT_PAGE_SIZE
+            pageSize = MovieData.DEFAULT_PAGE_SIZE
         )
     ) {
         MoviesPagingSource(movieInteractor)
     }.flow
-        .stateIn(this, SharingStarted.Lazily, PagingData.empty())
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = PagingData.empty()
+        )
         .cachedIn(this)
 
     init {
         analytics.trackScreen(AnalyticsScreen.FEED)
-    }
-
-    private companion object {
-        private const val DEFAULT_PAGE_SIZE = 10
     }
 }

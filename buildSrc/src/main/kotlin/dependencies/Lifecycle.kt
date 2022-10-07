@@ -2,8 +2,6 @@ package org.michaelbel.moviemade.dependencies
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
 import org.michaelbel.moviemade.ktx.api
-import org.michaelbel.moviemade.ktx.implementation
-import org.michaelbel.moviemade.ktx.kapt
 
 /**
  * Lifecycle
@@ -11,19 +9,14 @@ import org.michaelbel.moviemade.ktx.kapt
  * @see <a href="https://d.android.com/jetpack/androidx/releases/lifecycle">Lifecycle</a>
  */
 
-private const val LifecycleVersion = "2.5.1"
+private const val LifecycleVersion = "2.6.0-alpha01"
 
-private const val LifecycleCommon = "androidx.lifecycle:lifecycle-common-java8:$LifecycleVersion"
-private const val LifecycleRuntime = "androidx.lifecycle:lifecycle-runtime-ktx:$LifecycleVersion"
-private const val LifecycleViewModel = "androidx.lifecycle:lifecycle-viewmodel-ktx:$LifecycleVersion"
+private const val LifecycleRuntimeCompose = "androidx.lifecycle:lifecycle-runtime-compose:$LifecycleVersion"
 private const val LifecycleViewModelCompose = "androidx.lifecycle:lifecycle-viewmodel-compose:$LifecycleVersion"
-private const val LifecycleViewModelSavedState = "androidx.lifecycle:lifecycle-viewmodel-savedstate:$LifecycleVersion"
-private const val LifecycleService = "androidx.lifecycle:lifecycle-service:$LifecycleVersion"
 
-fun DependencyHandler.implementationLifecycleDependencies() {
-    implementation(LifecycleCommon)
-    implementation(LifecycleRuntime)
-    implementation(LifecycleViewModel)
-    implementation(LifecycleViewModelSavedState)
-    kapt(LifecycleCommon)
+const val OptExperimentalLifecycleComposeApi = "-Xopt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi"
+
+fun DependencyHandler.apiLifecycleDependencies() {
+    api(LifecycleRuntimeCompose)
+    api(LifecycleViewModelCompose)
 }

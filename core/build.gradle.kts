@@ -9,6 +9,7 @@ import org.michaelbel.moviemade.dependencies.apiActivityDependencies
 import org.michaelbel.moviemade.dependencies.apiCoreDependencies
 import org.michaelbel.moviemade.dependencies.apiFirebaseDependencies
 import org.michaelbel.moviemade.dependencies.apiKotlinDependencies
+import org.michaelbel.moviemade.dependencies.apiLifecycleDependencies
 import org.michaelbel.moviemade.dependencies.apiPlayCoreDependencies
 import org.michaelbel.moviemade.dependencies.apiTimberDependencies
 import org.michaelbel.moviemade.dependencies.implementationFirebaseCrashlyticsDependencies
@@ -34,7 +35,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -55,7 +59,6 @@ android {
 
 dependencies {
     api(project(":core:entities"))
-    api(project(":core:navigation"))
     api(project(":core:ui"))
     apiCoreDependencies()
     apiFirebaseDependencies()
@@ -63,6 +66,7 @@ dependencies {
     apiActivityDependencies()
     apiKotlinDependencies()
     apiPlayCoreDependencies()
+    apiLifecycleDependencies()
     implementationHiltDependencies()
     implementationStartupDependencies()
     implementationFirebaseCrashlyticsDependencies()

@@ -22,7 +22,7 @@ sealed class SystemTheme(val theme: Int) {
                 AppCompatDelegate.MODE_NIGHT_NO -> NightNo
                 AppCompatDelegate.MODE_NIGHT_YES -> NightYes
                 AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> FollowSystem
-                else -> throw InvalidThemeException()
+                else -> throw InvalidThemeException
             }
         }
     }

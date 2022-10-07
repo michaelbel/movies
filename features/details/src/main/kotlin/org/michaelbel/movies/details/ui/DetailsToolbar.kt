@@ -2,8 +2,6 @@ package org.michaelbel.movies.details.ui
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.SmallTopAppBar
@@ -12,10 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import org.michaelbel.movies.ui.MoviesTheme
+import org.michaelbel.movies.ui.theme.MoviesTheme
+import org.michaelbel.movies.ui.icon.MoviesIcons
 
 @Composable
-fun DetailsToolbar(
+internal fun DetailsToolbar(
     modifier: Modifier = Modifier,
     onNavigationIconClick: () -> Unit,
     movieTitle: String
@@ -36,7 +35,7 @@ fun DetailsToolbar(
                 }
             ) {
                 Icon(
-                    imageVector = Icons.Filled.ArrowBack,
+                    imageVector = MoviesIcons.ArrowBack,
                     contentDescription = null
                 )
             }

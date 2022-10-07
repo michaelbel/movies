@@ -5,6 +5,7 @@ import org.michaelbel.moviemade.dependencies.KotlinCompilerExtensionVersion
 import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
 import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
 import org.michaelbel.moviemade.dependencies.OptExperimentalCoroutinesApi
+import org.michaelbel.moviemade.dependencies.OptExperimentalLifecycleComposeApi
 
 plugins {
     id("com.android.library")
@@ -24,7 +25,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -40,6 +44,7 @@ android {
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + OptExperimentalMaterial3Api
         freeCompilerArgs = freeCompilerArgs + OptExperimentalCoroutinesApi
+        freeCompilerArgs = freeCompilerArgs + OptExperimentalLifecycleComposeApi
     }
 }
 
@@ -47,6 +52,7 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":core:ads"))
     implementation(project(":core:analytics"))
+    implementation(project(":core:navigation"))
     implementation(project(":core:domain"))
     implementationHiltDependencies()
 }

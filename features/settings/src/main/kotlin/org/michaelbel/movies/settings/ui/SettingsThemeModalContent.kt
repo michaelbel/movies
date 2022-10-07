@@ -19,11 +19,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.settings.ktx.themeTextRes
-import org.michaelbel.movies.ui.MoviesTheme
+import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.ui.SystemTheme
 
 @Composable
-fun SettingsThemeModalContent(
+internal fun SettingsThemeModalContent(
     modifier: Modifier = Modifier,
     themes: List<SystemTheme>,
     currentTheme: SystemTheme,

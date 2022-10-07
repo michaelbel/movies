@@ -14,33 +14,50 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.android.gms.ads.AdRequest
 import org.michaelbel.movies.details.DetailsViewModel
 import org.michaelbel.movies.details.ktx.toolbarTitle
 import org.michaelbel.movies.details.model.DetailsState
-import org.michaelbel.movies.ui.MoviesTheme
+import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun DetailsScreenContent(
-    navController: NavController
+internal fun DetailsRoute(
+    onBackClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: DetailsViewModel = hiltViewModel()
+) {
+    val detailsState: DetailsState by viewModel.detailsState.collectAsStateWithLifecycle()
+
+    DetailsScreenContent(
+        onBackClick = onBackClick,
+        modifier = modifier,
+        detailsState = detailsState,
+        adRequest = viewModel.adRequest
+    )
+}
+
+@Composable
+internal fun DetailsScreenContent(
+    onBackClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    detailsState: DetailsState,
+    adRequest: AdRequest
 ) {
     val context: Context = LocalContext.current
-    val viewModel: DetailsViewModel = hiltViewModel()
-    val state: DetailsState by viewModel.state.collectAsState(DetailsState.Loading)
 
     Scaffold(
+        modifier = modifier,
         topBar = {
             DetailsToolbar(
                 modifier = Modifier
                     .statusBarsPadding(),
-                onNavigationIconClick = {
-                    navController.popBackStack()
-                },
-                movieTitle = state.toolbarTitle(context)
+                onNavigationIconClick = onBackClick,
+                movieTitle = detailsState.toolbarTitle(context)
             )
         }
     ) { paddingValues: PaddingValues ->
-        when (state) {
+        when (detailsState) {
             is DetailsState.Loading -> {
                 DetailsLoading(
                     modifier = Modifier
@@ -53,8 +70,8 @@ fun DetailsScreenContent(
                     modifier = Modifier
                         .padding(paddingValues)
                         .fillMaxSize(),
-                    movie = (state as DetailsState.Content).movie,
-                    adRequest = viewModel.adRequest
+                    movie = detailsState.movie,
+                    adRequest = adRequest
                 )
             }
             is DetailsState.Failure -> {
@@ -65,16 +82,5 @@ fun DetailsScreenContent(
                 )
             }
         }
-    }
-}
-
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-private fun DetailsScreenContentPreview() {
-    MoviesTheme {
-        DetailsScreenContent(
-            navController = NavController(LocalContext.current)
-        )
     }
 }

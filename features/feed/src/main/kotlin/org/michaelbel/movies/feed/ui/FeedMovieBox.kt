@@ -22,10 +22,10 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import org.michaelbel.movies.entities.MovieData
-import org.michaelbel.movies.ui.MoviesTheme
+import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun FeedMovieBox(
+internal fun FeedMovieBox(
     modifier: Modifier = Modifier,
     movie: MovieData
 ) {

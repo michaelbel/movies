@@ -1,4 +1,5 @@
 import org.michaelbel.moviemade.App.CompileSdk
+import org.michaelbel.moviemade.App.MinSdk
 import org.michaelbel.moviemade.App.namespace
 import org.michaelbel.moviemade.dependencies.implementationDataStoreDependencies
 import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
@@ -14,6 +15,10 @@ plugins {
 android {
     namespace = namespace("domain")
     compileSdk = CompileSdk
+
+    defaultConfig {
+        minSdk = MinSdk
+    }
 
     buildTypes {
         release {

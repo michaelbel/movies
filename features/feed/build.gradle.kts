@@ -45,6 +45,7 @@ android {
 dependencies {
     implementation(project(":core"))
     implementation(project(":core:analytics"))
+    implementation(project(":core:navigation"))
     implementation(project(":core:domain"))
     implementationHiltDependencies()
     implementationPagingDependencies()

@@ -4,8 +4,10 @@ import androidx.lifecycle.SavedStateHandle
 import com.google.android.gms.ads.AdRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.stateIn
 import org.michaelbel.movies.analytics.Analytics
 import org.michaelbel.movies.analytics.model.AnalyticsScreen
 import org.michaelbel.movies.core.viewmodel.BaseViewModel
@@ -24,7 +26,7 @@ class DetailsViewModel @Inject constructor(
 
     private val movieId: Long = requireNotNull(savedStateHandle["movieId"])
 
-    val state: Flow<DetailsState> = flow {
+    val detailsState: StateFlow<DetailsState> = flow {
         emit(DetailsState.Loading)
         val either: Either<MovieDetailsData> = movieInteractor.movieDetails(movieId)
         either.handle(
@@ -35,7 +37,11 @@ class DetailsViewModel @Inject constructor(
                 emit(DetailsState.Failure(throwable))
             }
         )
-    }
+    }.stateIn(
+        scope = this,
+        started = SharingStarted.Lazily,
+        initialValue = DetailsState.Loading
+    )
 
     val adRequest: AdRequest = AdRequest.Builder().build()
 

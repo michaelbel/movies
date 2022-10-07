@@ -10,12 +10,7 @@ import org.michaelbel.moviemade.ktx.api
  * @see <a href="https://developer.android.com/jetpack/androidx/releases/navigation">Navigation</a>
  */
 
-private const val NavigationVersion = "2.5.0"
-
-private const val NavigationFragment = "androidx.navigation:navigation-fragment-ktx:$NavigationVersion"
-private const val NavigationUi = "androidx.navigation:navigation-ui-ktx:$NavigationVersion"
-private const val NavigationDynamic = "androidx.navigation:navigation-dynamic-features-fragment:$NavigationVersion"
-private const val NavigationTesting = "androidx.navigation:navigation-testing:$NavigationVersion"
+private const val NavigationVersion = "2.5.2"
 
 const val NavigationSafeArgsPlugin = "androidx.navigation:navigation-safe-args-gradle-plugin:$NavigationVersion"
 
@@ -23,8 +18,4 @@ private const val NavigationCompose = "androidx.navigation:navigation-compose:$N
 
 fun DependencyHandler.apiNavigationDependencies() {
     api(NavigationCompose)
-    api(NavigationDynamic)
-    api(NavigationFragment)
-    api(NavigationUi)
-    androidTestApi(NavigationTesting)
 }

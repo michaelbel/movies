@@ -3,8 +3,6 @@ package org.michaelbel.movies.feed.ui
 import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SmallTopAppBar
@@ -16,10 +14,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.feed.R
-import org.michaelbel.movies.ui.MoviesTheme
+import org.michaelbel.movies.ui.theme.MoviesTheme
+import org.michaelbel.movies.ui.icon.MoviesIcons
 
 @Composable
-fun FeedToolbar(
+internal fun FeedToolbar(
     modifier: Modifier = Modifier,
     onNavigationIconClick: () -> Unit
 ) {
@@ -37,7 +36,7 @@ fun FeedToolbar(
                 onClick = onNavigationIconClick
             ) {
                 Image(
-                    imageVector = Icons.Outlined.Settings,
+                    imageVector = MoviesIcons.Settings,
                     contentDescription = null,
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
                 )

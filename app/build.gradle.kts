@@ -12,6 +12,7 @@ import org.michaelbel.moviemade.App.MinSdk
 import org.michaelbel.moviemade.App.TargetSdk
 import org.michaelbel.moviemade.App.VersionName
 import org.michaelbel.moviemade.dependencies.KotlinCompilerExtensionVersion
+import org.michaelbel.moviemade.dependencies.OptExperimentalLifecycleComposeApi
 import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
 import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
 
@@ -145,12 +146,14 @@ android {
 
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + OptExperimentalMaterial3Api
+        freeCompilerArgs = freeCompilerArgs + OptExperimentalLifecycleComposeApi
     }
 }
 
 dependencies {
     implementation(project(":core"))
     implementation(project(":core:domain"))
+    implementation(project(":core:navigation"))
     implementation(project(":features"))
     implementationHiltDependencies()
 }
