@@ -24,12 +24,12 @@ TMDB_API_KEY=your_own_tmdb_api_key
 
 ## Screenshots
 <div style="dispaly:flex">
-    <img src="screenshots/screen1.png" width="33%">
-    <img src="screenshots/screen2.png" width="33%">
-    <img src="screenshots/screen3.png" width="33%">
-    <img src="screenshots/screen4.png" width="33%">
-    <img src="screenshots/screen5.png" width="33%">
-    <img src="screenshots/screen6.png" width="33%">
+    <img src="screenshots/screen1.png" width="32%">
+    <img src="screenshots/screen2.png" width="32%">
+    <img src="screenshots/screen3.png" width="32%">
+    <img src="screenshots/screen4.png" width="32%">
+    <img src="screenshots/screen5.png" width="32%">
+    <img src="screenshots/screen6.png" width="32%">
 </div>
 
 ## Technologies
@@ -62,31 +62,31 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Accompanist](https://github.com/google/accompanist) 0.25.1
 - [x] [Paging](https://d.android.com/topic/libraries/architecture/paging/v3-overview)
 - [x] [ConstraintLayout](https://d.android.com/develop/ui/views/layout/constraint-layout)
-- [x] ViewModel
-- [x] Firebase Crashlytics
+- [x] [ViewModel](https://d.android.com/topic/libraries/architecture/viewmodel)
+- [x] [Firebase Crashlytics](https://firebase.google.com/products/crashlytics)
+- [x] [Firebase App Distribution](https://firebase.google.com/products/app-distribution)
 - [x] [Dependabot](https://github.com/dependabot)
-- [x] Github Actions CI (build)
-- [x] Github Actions CD (distribute via telegram)
-- [ ] Firebase Analytics
-- [ ] Firebase Remote Config
-- [ ] Firebase AppDistribution
-- [ ] Room
-- [ ] Navigation (deep links)
+- [x] Github Actions CI/CD
+- [x] Distribute App via Telegram Bot
+- [ ] [Google Analytics for Firebase](https://firebase.google.com/products/analytics)
+- [ ] [Firebase Remote Config](https://firebase.google.com/products/remote-config)
+- [ ] [Room](https://d.android.com/training/data-storage/room)
+- [ ] [Navigation](https://d.android.com/guide/navigation)
+- [ ] Deep Links
 - [ ] Clean Architecture (Interactor, Repository, UseCase)
 - [ ] Unit Tests
 - [ ] UI Tests
-- [ ] SplashScreen API
+- [ ] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen)
 - [ ] [In-App Updates](https://d.android.com/guide/playcore/in-app-updates)
 - [ ] [In-App Reviews](https://d.android.com/guide/playcore/in-app-review)
-- [ ] App Shortcuts
-- [ ] Google Ads
-- [ ] Lifecycle API
-- [ ] Preloaded Fonts
-- [ ] WorkManager
-- [ ] Detekt
-- [ ] Lint
-- [ ] KtLint
-- [ ] Spotless
+- [ ] [App Shortcuts](https://d.android.com/develop/ui/views/launch/shortcuts)
+- [ ] [Google Admob](https://developers.google.com/admob)
+- [ ] [Downloadable Fonts](https://d.android.com/develop/ui/views/text-and-emoji/downloadable-fonts)
+- [ ] [WorkManager](https://d.android.google.cn/topic/libraries/architecture/workmanager)
+- [ ] [Lint](https://d.android.com/studio/write/lint)
+- [ ] [KtLint](https://github.com/pinterest/ktlint)
+- [ ] [Detekt](https://github.com/detekt/detekt)
+- [ ] [Spotless](https://github.com/diffplug/spotless)
 - [ ] OAuth
 - [ ] Animations
 - [ ] Landscape Orientation
