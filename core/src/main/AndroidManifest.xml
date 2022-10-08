@@ -17,11 +17,6 @@
                 tools:node="remove"/>
 
             <meta-data
-                android:name="org.michaelbel.movies.core.config.FirebaseConfigInitializer"
-                android:value="androidx.startup"
-                tools:node="remove"/>
-
-            <meta-data
                 android:name="org.michaelbel.movies.core.timber.TimberInitializer"
                 android:value="androidx.startup"
                 tools:node="remove"/>
