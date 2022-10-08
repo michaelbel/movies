@@ -36,16 +36,16 @@ TMDB_API_KEY=your_own_tmdb_api_key
 
 - [x] Multi-module project
 - [x] MVVM
-- [x] TMDB API
+- [x] [TMDB API](https://developers.themoviedb.org/3/getting-started)
 - [x] Gradle Kotlin DSL
 - [x] Gradle Plugin 7.3.0
 - [x] MinSDK 21
 - [x] TargetSDK 33
 - [x] CompileSDK 33
-- [x] Material3
+- [x] [Material3](https://m3.material.io)
 - [x] Dark Theme
 - [x] Dynamic Colors
-- [x] Themed App Icon
+- [x] [Themed App Icon](https://d.android.com/develop/ui/views/launch/icon_design_adaptive)
 - [x] 100% Kotlin 1.7.20
 - [x] 100% Jetpack Compose, No XML
 - [x] [KotlinX Coroutines](https://github.com/Kotlin/kotlinx.coroutines) 1.6.4
@@ -60,27 +60,27 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Startup](https://d.android.com/jetpack/androidx/releases/startup) 1.1.1
 - [x] [Timber](https://github.com/JakeWharton/timber) 5.0.1
 - [x] [Accompanist](https://github.com/google/accompanist) 0.25.1
+- [x] [Navigation](https://d.android.com/guide/navigation) 2.5.2
 - [x] [Paging](https://d.android.com/topic/libraries/architecture/paging/v3-overview)
 - [x] [ConstraintLayout](https://d.android.com/develop/ui/views/layout/constraint-layout)
 - [x] [ViewModel](https://d.android.com/topic/libraries/architecture/viewmodel)
 - [x] [Firebase Crashlytics](https://firebase.google.com/products/crashlytics)
 - [x] [Firebase App Distribution](https://firebase.google.com/products/app-distribution)
+- [x] [App Shortcuts](https://d.android.com/develop/ui/views/launch/shortcuts)
 - [x] [Dependabot](https://github.com/dependabot)
 - [x] Github Actions CI/CD
 - [x] Distribute App via Telegram Bot
-- [x] [Navigation](https://d.android.com/guide/navigation) 2.5.2
 - [ ] [Lifecycle](https://d.android.com/topic/libraries/architecture/lifecycle) 2.6.0-alpha01
 - [ ] [Google Analytics for Firebase](https://firebase.google.com/products/analytics)
 - [ ] [Firebase Remote Config](https://firebase.google.com/products/remote-config)
 - [ ] [Room](https://d.android.com/training/data-storage/room)
 - [ ] Deep Links
-- [ ] Clean Architecture (Interactor, Repository, UseCase)
+- [ ] [Clean Architecture](https://d.android.com/topic/architecture) (Interactor, Repository, UseCase)
 - [ ] Unit Tests
 - [ ] UI Tests
 - [ ] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen)
 - [ ] [In-App Updates](https://d.android.com/guide/playcore/in-app-updates)
 - [ ] [In-App Reviews](https://d.android.com/guide/playcore/in-app-review)
-- [ ] [App Shortcuts](https://d.android.com/develop/ui/views/launch/shortcuts)
 - [ ] [Google Admob](https://developers.google.com/admob)
 - [ ] [Downloadable Fonts](https://d.android.com/develop/ui/views/text-and-emoji/downloadable-fonts)
 - [ ] [WorkManager](https://d.android.google.cn/topic/libraries/architecture/workmanager)
