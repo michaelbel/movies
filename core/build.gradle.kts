@@ -7,7 +7,7 @@ import org.michaelbel.moviemade.dependencies.OptExperimentalFoundationApi
 import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
 import org.michaelbel.moviemade.dependencies.apiActivityDependencies
 import org.michaelbel.moviemade.dependencies.apiCoreDependencies
-import org.michaelbel.moviemade.dependencies.apiFirebaseDependencies
+import org.michaelbel.moviemade.dependencies.apiFirebaseRemoteConfigDependencies
 import org.michaelbel.moviemade.dependencies.apiKotlinDependencies
 import org.michaelbel.moviemade.dependencies.apiLifecycleDependencies
 import org.michaelbel.moviemade.dependencies.apiPlayCoreDependencies
@@ -61,12 +61,12 @@ dependencies {
     api(project(":core:entities"))
     api(project(":core:ui"))
     apiCoreDependencies()
-    apiFirebaseDependencies()
     apiTimberDependencies()
     apiActivityDependencies()
     apiKotlinDependencies()
     apiPlayCoreDependencies()
     apiLifecycleDependencies()
+    apiFirebaseRemoteConfigDependencies()
     implementationHiltDependencies()
     implementationStartupDependencies()
     implementationFirebaseCrashlyticsDependencies()

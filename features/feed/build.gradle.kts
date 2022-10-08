@@ -2,6 +2,7 @@ import org.michaelbel.moviemade.App.CompileSdk
 import org.michaelbel.moviemade.App.MinSdk
 import org.michaelbel.moviemade.App.namespace
 import org.michaelbel.moviemade.dependencies.KotlinCompilerExtensionVersion
+import org.michaelbel.moviemade.dependencies.OptExperimentalLifecycleComposeApi
 import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
 import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
 import org.michaelbel.moviemade.dependencies.implementationPagingDependencies
@@ -24,7 +25,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
 
@@ -39,6 +43,7 @@ android {
 
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + OptExperimentalMaterial3Api
+        freeCompilerArgs = freeCompilerArgs + OptExperimentalLifecycleComposeApi
     }
 }
 

@@ -12,7 +12,7 @@ import org.michaelbel.movies.entities.MovieDetailsData
 
 class MovieInteractorImpl @Inject constructor(
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
-    private val movieRepository: MovieRepository,
+    private val movieRepository: MovieRepository
 ): MovieInteractor {
 
     override suspend fun movieList(list: String, page: Int): Pair<List<MovieData>, Int> {
