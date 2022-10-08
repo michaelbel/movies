@@ -140,6 +140,18 @@ android {
         isAbortOnError = false
     }*/
 
+    packagingOptions {
+        resources {
+            excludes.add("/META-INF/{AL2.0,LGPL2.1}")
+        }
+    }
+
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
+
     composeOptions {
         kotlinCompilerExtensionVersion = KotlinCompilerExtensionVersion
     }
@@ -154,6 +166,8 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":core:domain"))
     implementation(project(":core:navigation"))
-    implementation(project(":features"))
+    implementation(project(":features:details"))
+    implementation(project(":features:feed"))
+    implementation(project(":features:settings"))
     implementationHiltDependencies()
 }

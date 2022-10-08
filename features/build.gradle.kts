@@ -12,13 +12,10 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
         }
     }
-}
-
-dependencies {
-    api(project(":features:details"))
-    api(project(":features:feed"))
-    api(project(":features:settings"))
 }

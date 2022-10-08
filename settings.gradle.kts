@@ -1,3 +1,12 @@
+pluginManagement {
+    includeBuild("build-logic")
+    repositories {
+        google()
+        mavenCentral()
+        gradlePluginPortal()
+    }
+}
+
 include(
     ":app",
 
@@ -15,4 +24,5 @@ include(
     ":features:feed",
     ":features:settings"
 )
+
 rootProject.name = "Movies"
