@@ -27,10 +27,10 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.google.android.gms.ads.AdRequest
 import org.michaelbel.movies.entities.MovieDetailsData
-import org.michaelbel.movies.ui.MoviesTheme
+import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun DetailsContent(
+internal fun DetailsContent(
     modifier: Modifier,
     movie: MovieDetailsData,
     adRequest: AdRequest

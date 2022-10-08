@@ -13,10 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.michaelbel.movies.ui.MoviesTheme
+import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun FeedLoadingBox(
+internal fun FeedLoadingBox(
     modifier: Modifier = Modifier
 ) {
     Column(

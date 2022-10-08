@@ -10,10 +10,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import org.michaelbel.movies.ui.MoviesTheme
+import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun FeedLoading(
+internal fun FeedLoading(
     modifier: Modifier
 ) {
     ConstraintLayout(

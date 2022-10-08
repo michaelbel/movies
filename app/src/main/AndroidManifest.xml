@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <application
         android:name="org.michaelbel.movies.App"
@@ -23,18 +24,20 @@
         <activity
             android:name="org.michaelbel.movies.MainActivity"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
             </intent-filter>
+
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <!--Authorization callback URL looks like this: moviemade://main-->
-                <data android:host="main" android:scheme="moviemade"/>
+                <data android:host="settings" android:scheme="shortcut"/>
             </intent-filter>
+
         </activity>
 
         <!--AdMob-->

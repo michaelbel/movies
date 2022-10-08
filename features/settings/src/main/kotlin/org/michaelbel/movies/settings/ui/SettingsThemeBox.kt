@@ -15,11 +15,11 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.settings.R
 import org.michaelbel.movies.settings.ktx.themeTextRes
-import org.michaelbel.movies.ui.MoviesTheme
+import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.ui.SystemTheme
 
 @Composable
-fun SettingsThemeBox(
+internal fun SettingsThemeBox(
     modifier: Modifier = Modifier,
     currentTheme: SystemTheme
 ) {

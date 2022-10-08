@@ -12,5 +12,6 @@ data class MovieData(
 ) {
     companion object {
         const val NOW_PLAYING = "now_playing"
+        const val DEFAULT_PAGE_SIZE = 10
     }
 }

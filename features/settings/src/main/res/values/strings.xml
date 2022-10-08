@@ -5,5 +5,8 @@
     <string name="settings_theme_light">Light</string>
     <string name="settings_theme_dark">Dark</string>
     <string name="settings_dynamic_colors">Dynamic Colors</string>
+    <string name="settings_post_notifications">Notifications</string>
     <string name="settings_review">Review</string>
+    <string name="settings_post_notifications_should_request">Notifications are disabled. Please go to app settings to activate them</string>
+    <string name="settings_action_go">Go</string>
 </resources>

@@ -9,6 +9,8 @@ interface SettingsInteractor {
 
     val dynamicColors: Flow<Boolean>
 
+    val areNotificationsEnabled: Boolean
+
     suspend fun selectTheme(systemTheme: SystemTheme)
 
     suspend fun setDynamicColors(value: Boolean)

@@ -1,4 +1,4 @@
-package org.michaelbel.movies.ui
+package org.michaelbel.movies.ui.theme
 
 import android.content.Context
 import android.os.Build
@@ -12,12 +12,27 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import org.michaelbel.movies.ui.ComposeTheme
+import org.michaelbel.movies.ui.SystemTheme
 import org.michaelbel.movies.ui.ktx.dynamicColorScheme
 
+/**
+ * Light default theme color scheme.
+ */
 private val LightColorScheme = lightColorScheme()
 
+/**
+ * Dark default theme color scheme.
+ */
 private val DarkColorScheme = darkColorScheme()
 
+/**
+ * Movies theme.
+ *
+ * @param theme
+ * @param dynamicColors
+ * @param content
+ */
 @Composable
 fun MoviesTheme(
     theme: SystemTheme = SystemTheme.FollowSystem,

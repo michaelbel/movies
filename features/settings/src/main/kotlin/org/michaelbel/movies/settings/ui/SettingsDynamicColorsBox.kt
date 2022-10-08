@@ -15,10 +15,10 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.settings.R
-import org.michaelbel.movies.ui.MoviesTheme
+import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun SettingsDynamicColorsBox(
+internal fun SettingsDynamicColorsBox(
     modifier: Modifier = Modifier,
     isDynamicColorsEnabled: Boolean
 ) {

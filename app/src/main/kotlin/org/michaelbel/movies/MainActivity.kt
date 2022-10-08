@@ -4,12 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
-import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
-import org.michaelbel.movies.ui.MoviesTheme
+import org.michaelbel.movies.core.shortcuts.installShortcuts
 import org.michaelbel.movies.ui.SystemTheme
+import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @AndroidEntryPoint
 class MainActivity: ComponentActivity() {
@@ -20,11 +22,10 @@ class MainActivity: ComponentActivity() {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
+        installShortcuts()
         setContent {
-            val currentTheme: SystemTheme = viewModel.currentTheme
-                .collectAsState(SystemTheme.FollowSystem).value
-            val dynamicColors: Boolean = viewModel.dynamicColors.collectAsState(false).value
+            val currentTheme: SystemTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
+            val dynamicColors: Boolean by viewModel.dynamicColors.collectAsStateWithLifecycle()
 
             MoviesTheme(
                 theme = currentTheme,

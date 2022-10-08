@@ -15,10 +15,10 @@ import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import org.michaelbel.movies.details.R
-import org.michaelbel.movies.ui.MoviesTheme
+import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun DetailsAdvert(
+internal fun DetailsAdvert(
     modifier: Modifier = Modifier,
     adRequest: AdRequest
 ) {
