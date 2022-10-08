@@ -64,15 +64,15 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Paging](https://d.android.com/topic/libraries/architecture/paging/v3-overview)
 - [x] [ConstraintLayout](https://d.android.com/develop/ui/views/layout/constraint-layout)
 - [x] [ViewModel](https://d.android.com/topic/libraries/architecture/viewmodel)
-- [x] [Firebase Crashlytics](https://firebase.google.com/products/crashlytics)
-- [x] [Firebase App Distribution](https://firebase.google.com/products/app-distribution)
+- [x] [Lifecycle](https://d.android.com/topic/libraries/architecture/lifecycle) 2.6.0-alpha01
+- [x] [Firebase Crashlytics](https://firebase.google.com/products/crashlytics) 18.2.13
+- [x] [Firebase App Distribution](https://firebase.google.com/products/app-distribution) 3.0.3
+- [x] [Firebase Remote Config](https://firebase.google.com/products/remote-config) 21.1.2
 - [x] [App Shortcuts](https://d.android.com/develop/ui/views/launch/shortcuts)
 - [x] [Dependabot](https://github.com/dependabot)
 - [x] Github Actions CI/CD
 - [x] Distribute App via Telegram Bot
-- [ ] [Lifecycle](https://d.android.com/topic/libraries/architecture/lifecycle) 2.6.0-alpha01
-- [ ] [Google Analytics for Firebase](https://firebase.google.com/products/analytics)
-- [ ] [Firebase Remote Config](https://firebase.google.com/products/remote-config)
+- [ ] [Google Analytics for Firebase](https://firebase.google.com/products/analytics) 21.1.1
 - [ ] [Room](https://d.android.com/training/data-storage/room)
 - [ ] Deep Links
 - [ ] [Clean Architecture](https://d.android.com/topic/architecture) (Interactor, Repository, UseCase)
