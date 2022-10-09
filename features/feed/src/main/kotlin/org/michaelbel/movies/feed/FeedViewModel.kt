@@ -8,16 +8,19 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import org.michaelbel.movies.analytics.Analytics
 import org.michaelbel.movies.analytics.model.AnalyticsScreen
 import org.michaelbel.movies.core.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.interactor.MovieInteractor
+import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.entities.MovieData
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
     private val movieInteractor: MovieInteractor,
+    settingsInteractor: SettingsInteractor,
     analytics: Analytics
 ): BaseViewModel() {
 
@@ -34,6 +37,13 @@ class FeedViewModel @Inject constructor(
             initialValue = PagingData.empty()
         )
         .cachedIn(this)
+
+    val isSettingsIconVisible: StateFlow<Boolean> = settingsInteractor.isSettingsIconVisible
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = true
+        )
 
     init {
         analytics.trackScreen(AnalyticsScreen.FEED)

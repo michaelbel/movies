@@ -11,6 +11,8 @@ interface SettingsInteractor {
 
     val areNotificationsEnabled: Boolean
 
+    val isSettingsIconVisible: Flow<Boolean>
+
     suspend fun selectTheme(systemTheme: SystemTheme)
 
     suspend fun setDynamicColors(value: Boolean)

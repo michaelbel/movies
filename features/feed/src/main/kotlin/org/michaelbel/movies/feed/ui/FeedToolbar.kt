@@ -20,6 +20,7 @@ import org.michaelbel.movies.ui.icon.MoviesIcons
 @Composable
 internal fun FeedToolbar(
     modifier: Modifier = Modifier,
+    isSettingsIconVisible: Boolean,
     onNavigationIconClick: () -> Unit
 ) {
     SmallTopAppBar(
@@ -32,14 +33,16 @@ internal fun FeedToolbar(
         },
         modifier = modifier,
         actions = {
-            IconButton(
-                onClick = onNavigationIconClick
-            ) {
-                Image(
-                    imageVector = MoviesIcons.Settings,
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
-                )
+            if (isSettingsIconVisible) {
+                IconButton(
+                    onClick = onNavigationIconClick
+                ) {
+                    Image(
+                        imageVector = MoviesIcons.Settings,
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
+                    )
+                }
             }
         }
     )
@@ -53,6 +56,7 @@ private fun FeedToolbarPreview() {
         FeedToolbar(
             modifier = Modifier
                 .statusBarsPadding(),
+            isSettingsIconVisible = true,
             onNavigationIconClick = {}
         )
     }

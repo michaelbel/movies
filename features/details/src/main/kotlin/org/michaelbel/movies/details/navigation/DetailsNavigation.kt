@@ -1,12 +1,13 @@
 package org.michaelbel.movies.details.navigation
 
 import androidx.navigation.NamedNavArgument
+import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavType
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import androidx.navigation.navDeepLink
 import org.michaelbel.movies.details.ui.DetailsRoute
-import org.michaelbel.movies.details.ui.DetailsScreenContent
 import org.michaelbel.movies.navigation.MoviesNavigationDestination
 
 private val DETAILS_MOVIE_NAV_ARGUMENT: NamedNavArgument = navArgument(
@@ -15,6 +16,10 @@ private val DETAILS_MOVIE_NAV_ARGUMENT: NamedNavArgument = navArgument(
         type = NavType.LongType
     }
 )
+
+private val DETAILS_MOVIE_DEEP_LINK: NavDeepLink = navDeepLink {
+    uriPattern = "https://www.themoviedb.org/movie/{movieId}}"
+}
 
 object DetailsDestination: MoviesNavigationDestination {
 
@@ -34,7 +39,8 @@ fun NavGraphBuilder.detailsGraph(
 ) {
     composable(
         route = DetailsDestination.route,
-        arguments = listOf(DETAILS_MOVIE_NAV_ARGUMENT)
+        arguments = listOf(DETAILS_MOVIE_NAV_ARGUMENT),
+        deepLinks = listOf(DETAILS_MOVIE_DEEP_LINK)
     ) {
         DetailsRoute(
             onBackClick = onBackClick

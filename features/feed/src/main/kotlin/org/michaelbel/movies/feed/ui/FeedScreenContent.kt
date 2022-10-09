@@ -12,11 +12,13 @@ import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.CoroutineScope
@@ -37,12 +39,14 @@ internal fun FeedRoute(
     viewModel: FeedViewModel = hiltViewModel()
 ) {
     val pagingItems: LazyPagingItems<MovieData> = viewModel.pagingItems.collectAsLazyPagingItems()
+    val isSettingsIconVisible: Boolean by viewModel.isSettingsIconVisible.collectAsStateWithLifecycle()
 
     FeedScreenContent(
         onNavigateToSettings = onNavigateToSettings,
         onNavigateToDetails = onNavigateToDetails,
         modifier = modifier,
-        pagingItems = pagingItems
+        pagingItems = pagingItems,
+        isSettingsIconVisible = isSettingsIconVisible
     )
 }
 
@@ -51,7 +55,8 @@ internal fun FeedScreenContent(
     onNavigateToSettings: () -> Unit,
     onNavigateToDetails: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    pagingItems: LazyPagingItems<MovieData>
+    pagingItems: LazyPagingItems<MovieData>,
+    isSettingsIconVisible: Boolean
 ) {
     val scope: CoroutineScope = rememberCoroutineScope()
     val listState: LazyListState = rememberLazyListState()
@@ -83,6 +88,7 @@ internal fun FeedScreenContent(
                 modifier = Modifier
                     .statusBarsPadding()
                     .clickable { onScrollToTop() },
+                isSettingsIconVisible = isSettingsIconVisible,
                 onNavigationIconClick = onNavigateToSettings
             )
         },
