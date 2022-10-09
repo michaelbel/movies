@@ -11,14 +11,15 @@ import kotlinx.coroutines.withContext
 import org.michaelbel.movies.analytics.Analytics
 import org.michaelbel.movies.analytics.event.ChangeDynamicColorsEvent
 import org.michaelbel.movies.analytics.event.SelectThemeEvent
-import org.michaelbel.movies.core.config.RemoteParams
-import org.michaelbel.movies.core.coroutines.MainDispatcher
+import org.michaelbel.movies.common.config.RemoteParams
+import org.michaelbel.movies.common.coroutines.Dispatcher
+import org.michaelbel.movies.common.coroutines.MoviesDispatchers
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.domain.repository.SettingsRepository
 import org.michaelbel.movies.ui.SystemTheme
 
 class SettingsInteractorImpl @Inject constructor(
-    @MainDispatcher private val dispatcher: CoroutineDispatcher,
+    @Dispatcher(MoviesDispatchers.Main) private val dispatcher: CoroutineDispatcher,
     private val settingsRepository: SettingsRepository,
     private val notificationManager: NotificationManager,
     firebaseRemoteConfig: FirebaseRemoteConfig,

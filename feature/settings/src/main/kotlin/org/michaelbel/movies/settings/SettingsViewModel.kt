@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.analytics.Analytics
 import org.michaelbel.movies.analytics.model.AnalyticsScreen
-import org.michaelbel.movies.core.viewmodel.BaseViewModel
+import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.ui.SystemTheme
 

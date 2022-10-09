@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.stateIn
 import org.michaelbel.movies.analytics.Analytics
 import org.michaelbel.movies.analytics.model.AnalyticsScreen
-import org.michaelbel.movies.core.viewmodel.BaseViewModel
+import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.details.model.DetailsState
 import org.michaelbel.movies.domain.interactor.MovieInteractor
 import org.michaelbel.movies.entities.Either

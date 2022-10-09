@@ -1,9 +1,9 @@
 include(
     ":app",
 
-    ":core",
     ":core:ads",
     ":core:analytics",
+    ":core:common",
     ":core:domain",
     ":core:entities",
     ":core:navigation",
@@ -14,4 +14,5 @@ include(
     ":feature:feed",
     ":feature:settings"
 )
-rootProject.name = "Movies"
+
+rootProject.name = "movies"

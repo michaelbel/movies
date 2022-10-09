@@ -49,9 +49,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
     implementation(project(":core:ads"))
     implementation(project(":core:analytics"))
+    implementation(project(":core:common"))
     implementation(project(":core:navigation"))
     implementation(project(":core:domain"))
     implementationHiltDependencies()

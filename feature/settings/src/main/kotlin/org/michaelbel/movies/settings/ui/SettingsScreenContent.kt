@@ -44,9 +44,9 @@ import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.michaelbel.movies.core.permissions.denied
-import org.michaelbel.movies.core.review.rememberReviewManager
-import org.michaelbel.movies.core.review.rememberReviewTask
+import org.michaelbel.movies.common.permissions.denied
+import org.michaelbel.movies.common.review.rememberReviewManager
+import org.michaelbel.movies.common.review.rememberReviewTask
 import org.michaelbel.movies.settings.R
 import org.michaelbel.movies.settings.SettingsViewModel
 import org.michaelbel.movies.ui.SystemTheme

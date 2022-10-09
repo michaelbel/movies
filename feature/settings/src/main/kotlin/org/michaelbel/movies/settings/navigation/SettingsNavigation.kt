@@ -4,7 +4,7 @@ import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
-import org.michaelbel.movies.core.shortcuts.INTENT_ACTION_SETTINGS
+import org.michaelbel.movies.common.shortcuts.INTENT_ACTION_SETTINGS
 import org.michaelbel.movies.navigation.MoviesNavigationDestination
 import org.michaelbel.movies.settings.ui.SettingsRoute
 
