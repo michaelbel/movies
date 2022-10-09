@@ -6,9 +6,6 @@ import java.util.Locale.ENGLISH
 val tmdbApiKey: String
     get() = BuildConfig.TMDB_API_KEY
 
-val isApiKeyEmpty: Boolean
-    get() = tmdbApiKey == "null"
-
 val language: String
     get() = Locale.getDefault().language
 
