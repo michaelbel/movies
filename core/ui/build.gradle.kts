@@ -1,4 +1,5 @@
 import org.michaelbel.moviemade.App.CompileSdk
+import org.michaelbel.moviemade.App.MinSdk
 import org.michaelbel.moviemade.App.namespace
 import org.michaelbel.moviemade.dependencies.KotlinCompilerExtensionVersion
 import org.michaelbel.moviemade.dependencies.apiAccompanistDependencies
@@ -17,6 +18,10 @@ plugins {
 android {
     namespace = namespace("ui")
     compileSdk = CompileSdk
+
+    defaultConfig {
+        minSdk = MinSdk
+    }
 
     buildTypes {
         release {

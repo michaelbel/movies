@@ -1,6 +1,8 @@
-* Merge remote-tracking branch 'origin/develop' into develop
-* Features refactor (#87)
+* Update project
 * Merge branch 'master' into develop
+* Develop (#85)
+* Core refactor (#88)
+* Features refactor (#87)
 * Develop (#85)
 * Merge branch 'master' into develop
 * Delete source-to-classes.tab.values.at
