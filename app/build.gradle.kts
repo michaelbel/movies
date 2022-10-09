@@ -166,8 +166,8 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":core:domain"))
     implementation(project(":core:navigation"))
-    implementation(project(":features:details"))
-    implementation(project(":features:feed"))
-    implementation(project(":features:settings"))
+    implementation(project(":feature:details"))
+    implementation(project(":feature:feed"))
+    implementation(project(":feature:settings"))
     implementationHiltDependencies()
 }
