@@ -15,4 +15,4 @@ include(
     ":feature:settings"
 )
 
-rootProject.name = "Movies"
+rootProject.name = "movies"
