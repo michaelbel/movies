@@ -154,6 +154,8 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":core:domain"))
     implementation(project(":core:navigation"))
-    implementation(project(":features"))
+    implementation(project(":feature:details"))
+    implementation(project(":feature:feed"))
+    implementation(project(":feature:settings"))
     implementationHiltDependencies()
 }

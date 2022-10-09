@@ -10,9 +10,8 @@ include(
     ":core:network",
     ":core:ui",
 
-    ":features",
-    ":features:details",
-    ":features:feed",
-    ":features:settings"
+    ":feature:details",
+    ":feature:feed",
+    ":feature:settings"
 )
 rootProject.name = "Movies"
