@@ -13,7 +13,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.settings.R
 import org.michaelbel.movies.settings.ktx.themeTextRes
-import org.michaelbel.movies.ui.SystemTheme
+import org.michaelbel.movies.ui.theme.SystemTheme
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 

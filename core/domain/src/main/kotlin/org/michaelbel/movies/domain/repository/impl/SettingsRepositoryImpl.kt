@@ -11,7 +11,7 @@ import org.michaelbel.movies.domain.datasource.ktx.PREFERENCE_THEME_KEY
 import org.michaelbel.movies.domain.datasource.ktx.orDefaultDynamicColorsEnabled
 import org.michaelbel.movies.domain.datasource.ktx.orDefaultTheme
 import org.michaelbel.movies.domain.repository.SettingsRepository
-import org.michaelbel.movies.ui.SystemTheme
+import org.michaelbel.movies.ui.theme.SystemTheme
 
 class SettingsRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>

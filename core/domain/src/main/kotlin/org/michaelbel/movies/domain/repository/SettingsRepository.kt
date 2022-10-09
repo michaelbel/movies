@@ -1,7 +1,7 @@
 package org.michaelbel.movies.domain.repository
 
 import kotlinx.coroutines.flow.Flow
-import org.michaelbel.movies.ui.SystemTheme
+import org.michaelbel.movies.ui.theme.SystemTheme
 
 interface SettingsRepository {
 

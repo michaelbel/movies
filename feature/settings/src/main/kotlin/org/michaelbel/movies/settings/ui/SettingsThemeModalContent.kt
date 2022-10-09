@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.settings.ktx.themeTextRes
-import org.michaelbel.movies.ui.SystemTheme
+import org.michaelbel.movies.ui.theme.SystemTheme
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 

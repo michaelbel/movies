@@ -16,7 +16,7 @@ import org.michaelbel.movies.common.coroutines.Dispatcher
 import org.michaelbel.movies.common.coroutines.MoviesDispatchers
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.domain.repository.SettingsRepository
-import org.michaelbel.movies.ui.SystemTheme
+import org.michaelbel.movies.ui.theme.SystemTheme
 
 class SettingsInteractorImpl @Inject constructor(
     @Dispatcher(MoviesDispatchers.Main) private val dispatcher: CoroutineDispatcher,
