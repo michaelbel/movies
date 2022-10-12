@@ -93,6 +93,8 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] Landscape Orientation
 - [ ] Create Github Releases
 - [ ] Upload Bundle to Google Play Console
+- [ ] Gradle Version Catalog
+- [ ] Baseline Profiles
 
 ## Issues
 If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).
