@@ -1,15 +1,13 @@
-import org.michaelbel.moviemade.App.CompileSdk
 import org.michaelbel.moviemade.App.namespace
+import org.michaelbel.moviemade.dependencies.apiHiltNavigationDependencies
 import org.michaelbel.moviemade.dependencies.apiNavigationDependencies
 
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    id("movies-android-library")
 }
 
 android {
     namespace = namespace("navigation")
-    compileSdk = CompileSdk
 
     buildTypes {
         release {
@@ -24,4 +22,5 @@ android {
 
 dependencies {
     apiNavigationDependencies()
+    apiHiltNavigationDependencies()
 }

@@ -1,27 +1,17 @@
-import org.michaelbel.moviemade.App.CompileSdk
-import org.michaelbel.moviemade.App.MinSdk
 import org.michaelbel.moviemade.App.namespace
-import org.michaelbel.moviemade.dependencies.KotlinCompilerExtensionVersion
 import org.michaelbel.moviemade.dependencies.OptExperimentalCoroutinesApi
 import org.michaelbel.moviemade.dependencies.OptExperimentalLifecycleComposeApi
 import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
 import org.michaelbel.moviemade.dependencies.OptExperimentalMaterialApi
-import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
 
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("dagger.hilt.android.plugin")
-    kotlin("kapt")
+    id("movies-android-library")
+    id("movies-android-library-compose")
+    id("movies-android-hilt")
 }
 
 android {
     namespace = namespace("settings")
-    compileSdk = CompileSdk
-
-    defaultConfig {
-        minSdk = MinSdk
-    }
 
     buildTypes {
         release {
@@ -33,13 +23,8 @@ android {
         }
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = KotlinCompilerExtensionVersion
-    }
-
     buildFeatures {
         buildConfig = true
-        compose = true
     }
 
     kotlinOptions {
@@ -57,5 +42,4 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:navigation"))
     implementation(project(":core:ui"))
-    implementationHiltDependencies()
 }
