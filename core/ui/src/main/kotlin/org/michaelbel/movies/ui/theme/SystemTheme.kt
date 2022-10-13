@@ -1,7 +1,7 @@
-package org.michaelbel.movies.ui
+package org.michaelbel.movies.ui.theme
 
 import androidx.appcompat.app.AppCompatDelegate
-import org.michaelbel.movies.ui.exceptions.InvalidThemeException
+import org.michaelbel.movies.ui.theme.exceptions.InvalidThemeException
 
 sealed class SystemTheme(val theme: Int) {
     object NightNo: SystemTheme(AppCompatDelegate.MODE_NIGHT_NO) {

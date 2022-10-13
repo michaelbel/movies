@@ -1,24 +1,13 @@
-import org.michaelbel.moviemade.App.CompileSdk
-import org.michaelbel.moviemade.App.MinSdk
 import org.michaelbel.moviemade.App.namespace
 import org.michaelbel.moviemade.dependencies.implementationDataStoreDependencies
-import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
 
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("dagger.hilt.android.plugin")
-    id("kotlinx-serialization")
-    kotlin("kapt")
+    id("movies-android-library")
+    id("movies-android-hilt")
 }
 
 android {
     namespace = namespace("domain")
-    compileSdk = CompileSdk
-
-    defaultConfig {
-        minSdk = MinSdk
-    }
 
     buildTypes {
         release {
@@ -37,5 +26,4 @@ dependencies {
     implementation(project(":core:entities"))
     implementation(project(":core:network"))
     implementationDataStoreDependencies()
-    implementationHiltDependencies()
 }

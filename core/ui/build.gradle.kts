@@ -1,6 +1,4 @@
-import org.michaelbel.moviemade.App.CompileSdk
 import org.michaelbel.moviemade.App.namespace
-import org.michaelbel.moviemade.dependencies.KotlinCompilerExtensionVersion
 import org.michaelbel.moviemade.dependencies.apiAccompanistDependencies
 import org.michaelbel.moviemade.dependencies.apiCoilDependencies
 import org.michaelbel.moviemade.dependencies.apiComposeDependencies
@@ -10,13 +8,12 @@ import org.michaelbel.moviemade.dependencies.apiCoreSplashScreenDependencies
 import org.michaelbel.moviemade.dependencies.apiMaterialDependencies
 
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
+    id("movies-android-library")
+    id("movies-android-library-compose")
 }
 
 android {
     namespace = namespace("ui")
-    compileSdk = CompileSdk
 
     buildTypes {
         release {
@@ -26,14 +23,6 @@ android {
                 "proguard-rules.pro"
             )
         }
-    }
-
-    buildFeatures {
-        compose = true
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = KotlinCompilerExtensionVersion
     }
 }
 

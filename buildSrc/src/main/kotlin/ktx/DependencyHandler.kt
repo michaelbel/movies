@@ -13,7 +13,7 @@ import org.gradle.kotlin.dsl.add
  *
  * @return the dependency
  */
-fun DependencyHandler.debugImplementation(dependencyNotation: String): Dependency? {
+internal fun DependencyHandler.debugImplementation(dependencyNotation: String): Dependency? {
     return add("debugImplementation", dependencyNotation)
 }
 
@@ -24,7 +24,7 @@ fun DependencyHandler.debugImplementation(dependencyNotation: String): Dependenc
  *
  * @return the dependency
  */
-fun DependencyHandler.releaseImplementation(dependencyNotation: String): Dependency? {
+internal fun DependencyHandler.releaseImplementation(dependencyNotation: String): Dependency? {
     return add("releaseImplementation", dependencyNotation)
 }
 
@@ -35,7 +35,7 @@ fun DependencyHandler.releaseImplementation(dependencyNotation: String): Depende
  *
  * @return the dependency
  */
-fun DependencyHandler.implementation(dependencyNotation: String): Dependency? {
+internal fun DependencyHandler.implementation(dependencyNotation: String): Dependency? {
     return add("implementation", dependencyNotation)
 }
 
@@ -46,7 +46,7 @@ fun DependencyHandler.implementation(dependencyNotation: String): Dependency? {
  *
  * @return the dependency
  */
-fun DependencyHandler.api(dependencyNotation: String): Dependency? {
+internal fun DependencyHandler.api(dependencyNotation: String): Dependency? {
     return add("api", dependencyNotation)
 }
 
@@ -57,7 +57,7 @@ fun DependencyHandler.api(dependencyNotation: String): Dependency? {
  *
  * @return the dependency
  */
-fun DependencyHandler.kapt(dependencyNotation: String): Dependency? {
+internal fun DependencyHandler.kapt(dependencyNotation: String): Dependency? {
     return add("kapt", dependencyNotation)
 }
 
@@ -69,8 +69,9 @@ fun DependencyHandler.kapt(dependencyNotation: String): Dependency? {
  *
  * @see [DependencyHandler.add]
  */
-fun DependencyHandler.ksp(dependencyNotation: String): Dependency? =
-    add("ksp", dependencyNotation)
+internal fun DependencyHandler.ksp(dependencyNotation: String): Dependency? {
+    return add("ksp", dependencyNotation)
+}
 
 /**
  * Adds a dependency to the `testImplementation` configuration.
@@ -79,7 +80,7 @@ fun DependencyHandler.ksp(dependencyNotation: String): Dependency? =
  *
  * @return the dependency
  */
-fun DependencyHandler.testImplementation(dependencyNotation: String): Dependency? {
+internal fun DependencyHandler.testImplementation(dependencyNotation: String): Dependency? {
     return add("testImplementation", dependencyNotation)
 }
 
@@ -90,7 +91,7 @@ fun DependencyHandler.testImplementation(dependencyNotation: String): Dependency
  *
  * @return the dependency
  */
-fun DependencyHandler.testApi(dependencyNotation: String): Dependency? {
+internal fun DependencyHandler.testApi(dependencyNotation: String): Dependency? {
     return add("testApi", dependencyNotation)
 }
 
@@ -101,7 +102,7 @@ fun DependencyHandler.testApi(dependencyNotation: String): Dependency? {
  *
  * @return the dependency
  */
-fun DependencyHandler.debugApi(dependencyNotation: String): Dependency? {
+internal fun DependencyHandler.debugApi(dependencyNotation: String): Dependency? {
     return add("debugApi", dependencyNotation)
 }
 
@@ -112,7 +113,7 @@ fun DependencyHandler.debugApi(dependencyNotation: String): Dependency? {
  *
  * @return the dependency
  */
-fun DependencyHandler.releaseApi(dependencyNotation: String): Dependency? {
+internal fun DependencyHandler.releaseApi(dependencyNotation: String): Dependency? {
     return add("releaseApi", dependencyNotation)
 }
 
@@ -123,7 +124,7 @@ fun DependencyHandler.releaseApi(dependencyNotation: String): Dependency? {
  *
  * @return the dependency
  */
-fun DependencyHandler.androidTestImplementation(dependencyNotation: String): Dependency? {
+internal fun DependencyHandler.androidTestImplementation(dependencyNotation: String): Dependency? {
     return add("androidTestImplementation", dependencyNotation)
 }
 
@@ -134,6 +135,6 @@ fun DependencyHandler.androidTestImplementation(dependencyNotation: String): Dep
  *
  * @return the dependency
  */
-fun DependencyHandler.androidTestApi(dependencyNotation: String): Dependency? {
+internal fun DependencyHandler.androidTestApi(dependencyNotation: String): Dependency? {
     return add("androidTestApi", dependencyNotation)
 }

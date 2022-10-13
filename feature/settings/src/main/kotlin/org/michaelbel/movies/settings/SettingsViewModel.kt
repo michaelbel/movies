@@ -15,7 +15,7 @@ import org.michaelbel.movies.analytics.Analytics
 import org.michaelbel.movies.analytics.model.AnalyticsScreen
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
-import org.michaelbel.movies.ui.SystemTheme
+import org.michaelbel.movies.ui.theme.SystemTheme
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(

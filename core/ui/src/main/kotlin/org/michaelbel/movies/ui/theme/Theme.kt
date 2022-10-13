@@ -12,9 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import org.michaelbel.movies.ui.ComposeTheme
-import org.michaelbel.movies.ui.SystemTheme
-import org.michaelbel.movies.ui.ktx.dynamicColorScheme
+import org.michaelbel.movies.ui.theme.ktx.dynamicColorScheme
 
 /**
  * Light default theme color scheme.

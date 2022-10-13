@@ -1,15 +1,9 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import org.michaelbel.moviemade.App.CompileSdk
-import org.michaelbel.moviemade.App.MinSdk
 import org.michaelbel.moviemade.App.namespace
-import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
 
 plugins {
-    id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("dagger.hilt.android.plugin")
-    id("kotlinx-serialization")
-    kotlin("kapt")
+    id("movies-android-library")
+    id("movies-android-hilt")
 }
 
 val localTmdbApiKey: String? by lazy {
@@ -26,10 +20,8 @@ val tmdbApiKey: String by lazy {
 
 android {
     namespace = namespace("entities")
-    compileSdk = CompileSdk
 
     defaultConfig {
-        minSdk = MinSdk
         buildConfigField("String", "TMDB_API_KEY", "\"$tmdbApiKey\"")
     }
 
@@ -46,5 +38,4 @@ android {
 
 dependencies {
     implementation(project(":core:network"))
-    implementationHiltDependencies()
 }

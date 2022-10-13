@@ -1,4 +1,4 @@
-package org.michaelbel.movies.ui.ktx
+package org.michaelbel.movies.ui.theme.ktx
 
 import android.content.Context
 import android.os.Build

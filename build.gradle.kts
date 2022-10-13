@@ -1,7 +1,7 @@
 buildscript {
     repositories {
-        google()
         mavenCentral()
+        google()
     }
 
     dependencies {
@@ -13,13 +13,6 @@ buildscript {
         classpath(org.michaelbel.moviemade.dependencies.GoogleServicesPlugin)
         classpath(org.michaelbel.moviemade.dependencies.FirebaseCrashlyticsPlugin)
         classpath(org.michaelbel.moviemade.dependencies.FirebaseAppDistributionPlugin)
-    }
-}
-
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
     }
 }
 
