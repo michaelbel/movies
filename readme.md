@@ -34,7 +34,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 
 ## Technologies
 
-- [x] Multi-module project
+- [x] Modularization
 - [x] MVVM
 - [x] [TMDB API](https://developers.themoviedb.org/3/getting-started)
 - [x] Gradle Kotlin DSL
