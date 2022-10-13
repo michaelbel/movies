@@ -14,11 +14,11 @@ import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
 plugins {
     id("movies-android-application")
     id("movies-android-application-compose")
+    id("movies-android-hilt")
     id("androidx.navigation.safeargs")
     id("com.google.gms.google-services")
     id("com.google.firebase.appdistribution")
     id("com.google.firebase.crashlytics")
-    id("movies-android-hilt")
 }
 
 val gitVersion: Int by lazy {
