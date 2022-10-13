@@ -1,6 +1,5 @@
 package org.michaelbel.movies.settings.ui
 
-import android.content.res.Configuration
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -10,10 +9,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.settings.R
-import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.ui.icon.MoviesIcons
+import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 internal fun SettingsToolbar(
@@ -42,9 +41,8 @@ internal fun SettingsToolbar(
     )
 }
 
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
+@DevicePreviews
 private fun SettingsToolbarPreview() {
     MoviesTheme {
         SettingsToolbar(

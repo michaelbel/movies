@@ -10,7 +10,7 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import dagger.hilt.android.AndroidEntryPoint
 import org.michaelbel.movies.common.shortcuts.installShortcuts
-import org.michaelbel.movies.ui.SystemTheme
+import org.michaelbel.movies.ui.theme.SystemTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @AndroidEntryPoint

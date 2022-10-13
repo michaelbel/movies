@@ -1,4 +1,4 @@
-package org.michaelbel.movies.ui
+package org.michaelbel.movies.ui.theme
 
 import androidx.compose.material3.ColorScheme
 
