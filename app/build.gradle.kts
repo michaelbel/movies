@@ -7,26 +7,18 @@ import org.jetbrains.kotlin.konan.properties.Properties
 import org.michaelbel.moviemade.App
 import org.michaelbel.moviemade.App.ApplicationId
 import org.michaelbel.moviemade.App.BuildTools
-import org.michaelbel.moviemade.App.CompileSdk
-import org.michaelbel.moviemade.App.MinSdk
-import org.michaelbel.moviemade.App.TargetSdk
 import org.michaelbel.moviemade.App.VersionName
-import org.michaelbel.moviemade.dependencies.KotlinCompilerExtensionVersion
 import org.michaelbel.moviemade.dependencies.OptExperimentalLifecycleComposeApi
 import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
-import org.michaelbel.moviemade.dependencies.implementationHiltDependencies
 
 plugins {
-    id("com.android.application")
-    id("dagger.hilt.android.plugin")
+    id("movies-android-application")
+    id("movies-android-application-compose")
     id("androidx.navigation.safeargs")
     id("com.google.gms.google-services")
     id("com.google.firebase.appdistribution")
     id("com.google.firebase.crashlytics")
-    id("kotlin-parcelize")
-    id("kotlinx-serialization")
-    kotlin("android")
-    kotlin("kapt")
+    id("movies-android-hilt")
 }
 
 val gitVersion: Int by lazy {
@@ -66,12 +58,9 @@ afterEvaluate {
 
 android {
     namespace = "org.michaelbel.moviemade"
-    compileSdk = CompileSdk
     buildToolsVersion = BuildTools
 
     defaultConfig {
-        minSdk = MinSdk
-        targetSdk = TargetSdk
         applicationId = ApplicationId
         versionCode = gitVersion
         versionName = VersionName
@@ -133,7 +122,6 @@ android {
     }
 
     buildFeatures {
-        compose = true
         viewBinding = true
     }
 
@@ -142,10 +130,6 @@ android {
         isCheckReleaseBuilds = false
         isAbortOnError = false
     }*/
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = KotlinCompilerExtensionVersion
-    }
 
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + OptExperimentalMaterial3Api
@@ -160,5 +144,4 @@ dependencies {
     implementation(project(":feature:details"))
     implementation(project(":feature:feed"))
     implementation(project(":feature:settings"))
-    implementationHiltDependencies()
 }
