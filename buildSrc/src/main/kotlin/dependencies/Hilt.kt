@@ -1,6 +1,7 @@
 package org.michaelbel.moviemade.dependencies
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
+import org.michaelbel.moviemade.ktx.api
 import org.michaelbel.moviemade.ktx.implementation
 import org.michaelbel.moviemade.ktx.kapt
 
@@ -26,10 +27,11 @@ private const val HiltNavigationCompose = "androidx.hilt:hilt-navigation-compose
 private const val HiltNavigationFragment = "androidx.hilt:hilt-navigation-fragment:$HiltNavigationFragmentVersion"
 private const val HiltWork = "androidx.hilt:hilt-work:$HiltWorkVersion"
 
-fun DependencyHandler.implementationHiltDependencies() {
+internal fun DependencyHandler.implementationHiltDependencies() {
     implementation(HiltAndroid)
-    implementation(HiltNavigationCompose)
-    implementation(HiltNavigationFragment)
-    implementation(HiltWork)
     kapt(HiltCompiler)
+}
+
+fun DependencyHandler.apiHiltNavigationDependencies() {
+    api(HiltNavigationCompose)
 }
