@@ -23,10 +23,6 @@ android {
         }
     }
 
-    buildFeatures {
-        buildConfig = true
-    }
-
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + OptExperimentalMaterialApi
         freeCompilerArgs = freeCompilerArgs + OptExperimentalMaterial3Api
