@@ -8,14 +8,14 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.ui.theme.SystemTheme
 import timber.log.Timber
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    settingsInteractor: SettingsInteractor,
-    private val firebaseRemoteConfig: FirebaseRemoteConfig
+    private val settingsInteractor: SettingsInteractor
 ): ViewModel() {
 
     val currentTheme: StateFlow<SystemTheme> = settingsInteractor.currentTheme
@@ -33,12 +33,8 @@ class MainViewModel @Inject constructor(
         )
 
     init {
-        fetchRemoteConfig()
-    }
-
-    private fun fetchRemoteConfig() {
-        firebaseRemoteConfig
-            .fetchAndActivate()
-            .addOnFailureListener(Timber::e)
+        viewModelScope.launch {
+            settingsInteractor.fetchRemoteConfig()
+        }
     }
 }

@@ -16,4 +16,6 @@ interface SettingsInteractor {
     suspend fun selectTheme(systemTheme: SystemTheme)
 
     suspend fun setDynamicColors(value: Boolean)
+
+    suspend fun fetchRemoteConfig()
 }

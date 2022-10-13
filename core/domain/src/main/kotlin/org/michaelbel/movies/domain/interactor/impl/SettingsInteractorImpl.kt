@@ -17,12 +17,13 @@ import org.michaelbel.movies.common.coroutines.MoviesDispatchers
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.domain.repository.SettingsRepository
 import org.michaelbel.movies.ui.theme.SystemTheme
+import timber.log.Timber
 
 class SettingsInteractorImpl @Inject constructor(
     @Dispatcher(MoviesDispatchers.Main) private val dispatcher: CoroutineDispatcher,
     private val settingsRepository: SettingsRepository,
     private val notificationManager: NotificationManager,
-    firebaseRemoteConfig: FirebaseRemoteConfig,
+    private val firebaseRemoteConfig: FirebaseRemoteConfig,
     private val analytics: Analytics
 ): SettingsInteractor {
 
@@ -49,5 +50,13 @@ class SettingsInteractorImpl @Inject constructor(
     override suspend fun setDynamicColors(value: Boolean) = withContext(dispatcher) {
         settingsRepository.setDynamicColors(value)
         analytics.logEvent(ChangeDynamicColorsEvent(value))
+    }
+
+    override suspend fun fetchRemoteConfig() {
+        withContext(dispatcher) {
+            firebaseRemoteConfig
+                .fetchAndActivate()
+                .addOnFailureListener(Timber::e)
+        }
     }
 }
