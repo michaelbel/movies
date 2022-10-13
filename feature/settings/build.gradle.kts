@@ -24,10 +24,12 @@ android {
     }
 
     kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + OptExperimentalMaterialApi
-        freeCompilerArgs = freeCompilerArgs + OptExperimentalMaterial3Api
-        freeCompilerArgs = freeCompilerArgs + OptExperimentalCoroutinesApi
-        freeCompilerArgs = freeCompilerArgs + OptExperimentalLifecycleComposeApi
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            OptExperimentalMaterialApi,
+            OptExperimentalMaterial3Api,
+            OptExperimentalCoroutinesApi,
+            OptExperimentalLifecycleComposeApi
+        )
     }
 }
 

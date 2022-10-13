@@ -32,9 +32,11 @@ android {
     }
 
     kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + OptExperimentalMaterial3Api
-        freeCompilerArgs = freeCompilerArgs + OptExperimentalFoundationApi
-        freeCompilerArgs = freeCompilerArgs + OptExperimentalCoroutinesApi
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            OptExperimentalMaterial3Api,
+            OptExperimentalFoundationApi,
+            OptExperimentalCoroutinesApi
+        )
     }
 }
 
