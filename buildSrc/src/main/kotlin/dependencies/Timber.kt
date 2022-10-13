@@ -1,7 +1,6 @@
 package org.michaelbel.moviemade.dependencies
 
 import org.gradle.api.artifacts.dsl.DependencyHandler
-import org.michaelbel.moviemade.ktx.implementation
 import org.michaelbel.moviemade.ktx.api
 
 /**
