@@ -91,6 +91,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] OAuth
 - [ ] Animations
 - [ ] Landscape Orientation
+- [ ] Tablet and large screen support
 - [ ] Create Github Releases
 - [ ] Upload Bundle to Google Play Console
 - [ ] Gradle Version Catalog
