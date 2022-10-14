@@ -48,6 +48,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Themed App Icon](https://d.android.com/develop/ui/views/launch/icon_design_adaptive)
 - [x] 100% Kotlin 1.7.20
 - [x] 100% Jetpack Compose, No XML
+- [x] [Compose PreviewParameterProvider](https://d.android.com/jetpack/compose/tooling#previewparameter)
 - [x] [KotlinX Coroutines](https://github.com/Kotlin/kotlinx.coroutines) 1.6.4
 - [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) 1.4.0
 - [x] [Dagger Hilt](https://github.com/google/dagger) 2.44
@@ -97,7 +98,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] Gradle Version Catalog
 - [ ] Baseline Profiles
 - [ ] ExoPlayer
-- [ ] [Compose PreviewParameterProvider](https://d.android.com/jetpack/compose/tooling#previewparameter)
 
 ## Issues
 If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).
