@@ -7,6 +7,7 @@ import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.provideDelegate
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
+import org.michaelbel.moviemade.App
 import org.michaelbel.moviemade.App.CompileSdk
 import org.michaelbel.moviemade.App.MinSdk
 import org.michaelbel.moviemade.dependencies.KotlinCompilerExtensionVersion
@@ -15,7 +16,7 @@ import org.michaelbel.moviemade.dependencies.KotlinCompilerExtensionVersion
  * Configure Compose-specific options
  */
 internal fun Project.configureAndroidCompose(
-    commonExtension: CommonExtension<*, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *>
 ) {
     commonExtension.apply {
         buildFeatures {
@@ -36,7 +37,7 @@ internal fun Project.configureAndroidCompose(
  * Configure base Kotlin with Android options
  */
 internal fun Project.configureKotlinAndroid(
-    commonExtension: CommonExtension<*, *, *, *>,
+    commonExtension: CommonExtension<*, *, *, *>
 ) {
     commonExtension.apply {
         compileSdk = CompileSdk
@@ -66,6 +67,37 @@ internal fun Project.configureKotlinAndroid(
 
             // Set JVM target to 1.8
             jvmTarget = JavaVersion.VERSION_1_8.toString()
+        }
+    }
+}
+
+internal fun Project.configureLintCheck(
+    commonExtension: CommonExtension<*, *, *, *>
+) {
+    commonExtension.apply {
+        lint {
+            /**
+             * If set to true, turns off analysis progress reporting by lint.
+             */
+            quiet = true
+
+            /**
+             * If set to true (default), stops the build if errors are found.
+             */
+            abortOnError = false
+
+            /**
+             * If true, only report errors.
+             */
+            ignoreWarnings = true
+
+            /**
+             * If true, lint also checks all dependencies as part of its analysis. Recommended for
+             * projects consisting of an app with library dependencies.
+             */
+            checkDependencies = true
+
+            lintConfig = file("${project.rootDir}/codestyle/lint.xml")
         }
     }
 }

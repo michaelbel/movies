@@ -50,6 +50,9 @@ jobs:
           
       - name: Make Gradlew Executable
         run: chmod +x ./gradlew
+
+      - name: Lint
+        run: ./gradlew lint
         
       - name: Build
         run: ./gradlew compileDebugKotlin
