@@ -11,8 +11,6 @@ import org.michaelbel.moviemade.ktx.api
 
 private const val NavigationVersion = "2.5.2"
 
-const val NavigationSafeArgsPlugin = "androidx.navigation:navigation-safe-args-gradle-plugin:$NavigationVersion"
-
 private const val NavigationCompose = "androidx.navigation:navigation-compose:$NavigationVersion"
 
 fun DependencyHandler.apiNavigationDependencies() {

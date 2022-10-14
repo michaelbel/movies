@@ -18,7 +18,6 @@ private const val HiltNavigationComposeVersion = "1.0.0"
 private const val HiltNavigationFragmentVersion = "1.0.0"
 private const val HiltWorkVersion = "1.0.0"
 
-const val HiltPlugin = "com.google.dagger:hilt-android-gradle-plugin:$HiltVersion"
 private const val HiltAndroid = "com.google.dagger:hilt-android:$HiltVersion"
 private const val HiltCompiler = "com.google.dagger:hilt-compiler:$HiltVersion"
 private const val HiltViewModel = "androidx.hilt:hilt-lifecycle-viewmodel:$HiltViewModelVersion"

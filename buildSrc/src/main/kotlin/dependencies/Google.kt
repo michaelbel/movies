@@ -23,8 +23,6 @@ private const val PlayCoreVersion = "1.8.1"
 private const val Ads = "com.google.android.gms:play-services-ads:$GmsAds"
 private const val Base = "com.google.android.gms:play-services-base:$GmsBase"
 
-const val GoogleServicesPlugin = "com.google.gms:google-services:$GoogleServicesPluginVersion"
-
 private const val PlayCore = "com.google.android.play:core-ktx:$PlayCoreVersion"
 
 fun DependencyHandler.implementationGooglePlayServicesBaseDependencies() {
