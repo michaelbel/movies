@@ -10,6 +10,7 @@ import org.michaelbel.moviemade.dependencies.apiLifecycleDependencies
 import org.michaelbel.moviemade.dependencies.apiPlayCoreDependencies
 import org.michaelbel.moviemade.dependencies.apiTimberDependencies
 import org.michaelbel.moviemade.dependencies.implementationFirebaseCrashlyticsDependencies
+import org.michaelbel.moviemade.dependencies.implementationGooglePlayServicesBaseDependencies
 import org.michaelbel.moviemade.dependencies.implementationStartupDependencies
 
 plugins {
@@ -52,4 +53,5 @@ dependencies {
     apiFirebaseRemoteConfigDependencies()
     implementationStartupDependencies()
     implementationFirebaseCrashlyticsDependencies()
+    implementationGooglePlayServicesBaseDependencies()
 }

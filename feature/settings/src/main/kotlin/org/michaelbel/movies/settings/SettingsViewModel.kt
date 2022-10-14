@@ -47,6 +47,20 @@ class SettingsViewModel @Inject constructor(
             initialValue = false
         )
 
+    val isPlayServicesAvailable: StateFlow<Boolean> = settingsInteractor.isPlayServicesAvailable
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = false
+        )
+
+    val isAppFromGooglePlay: StateFlow<Boolean> = settingsInteractor.isAppFromGooglePlay
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = false
+        )
+
     private val _areNotificationsEnabled: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val areNotificationsEnabled: StateFlow<Boolean> = _areNotificationsEnabled.asStateFlow()
 

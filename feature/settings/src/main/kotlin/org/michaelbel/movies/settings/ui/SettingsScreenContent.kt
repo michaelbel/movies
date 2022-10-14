@@ -60,6 +60,8 @@ internal fun SettingsRoute(
 ) {
     val currentTheme: SystemTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
     val dynamicColors: Boolean by viewModel.dynamicColors.collectAsStateWithLifecycle()
+    val isPlayServicesAvailable: Boolean by viewModel.isPlayServicesAvailable.collectAsStateWithLifecycle()
+    val isAppFromGooglePlay: Boolean by viewModel.isAppFromGooglePlay.collectAsStateWithLifecycle()
     val areNotificationsEnabled: Boolean by viewModel.areNotificationsEnabled.collectAsStateWithLifecycle()
 
     SettingsScreenContent(
@@ -73,7 +75,9 @@ internal fun SettingsRoute(
         onSetDynamicColors = viewModel::setDynamicColors,
         isPostNotificationsFeatureEnabled = viewModel.isPostNotificationsFeatureEnabled,
         areNotificationsEnabled = areNotificationsEnabled,
-        onNotificationsStatusChanged = viewModel::checkNotificationsEnabled
+        onNotificationsStatusChanged = viewModel::checkNotificationsEnabled,
+        isPlayServicesAvailable = isPlayServicesAvailable,
+        isAppFromGooglePlay = isAppFromGooglePlay
     )
 }
 
@@ -89,7 +93,9 @@ internal fun SettingsScreenContent(
     onSetDynamicColors: (Boolean) -> Unit,
     isPostNotificationsFeatureEnabled: Boolean,
     areNotificationsEnabled: Boolean,
-    onNotificationsStatusChanged: () -> Unit
+    onNotificationsStatusChanged: () -> Unit,
+    isPlayServicesAvailable: Boolean,
+    isAppFromGooglePlay: Boolean
 ) {
     var backHandlingEnabled: Boolean by remember { mutableStateOf(false) }
     val modalBottomSheetState = rememberModalBottomSheetState(
@@ -151,6 +157,15 @@ internal fun SettingsScreenContent(
         }
     }
 
+    val onShowSnackbar: (String) -> Unit = { message ->
+        scope.launch {
+            snackbarHostState.showSnackbar(
+                message = message,
+                duration = SnackbarDuration.Short
+            )
+        }
+    }
+
     fun showThemeModalBottomSheet() = scope.launch {
         modalBottomSheetState.show()
         backHandlingEnabled = true
@@ -162,8 +177,18 @@ internal fun SettingsScreenContent(
     }
 
     fun onLaunchReviewFlow() {
-        reviewInfo?.let {
-            reviewManager.launchReviewFlow(context as Activity, reviewInfo)
+        when {
+            !isPlayServicesAvailable -> {
+                onShowSnackbar(context.getString(R.string.settings_error_play_services_not_available))
+            }
+            !isAppFromGooglePlay -> {
+                onShowSnackbar(context.getString(R.string.settings_error_app_from_google_play))
+            }
+            else -> {
+                reviewInfo?.let {
+                    reviewManager.launchReviewFlow(context as Activity, reviewInfo)
+                }
+            }
         }
     }
 

@@ -13,6 +13,10 @@ interface SettingsInteractor {
 
     val isSettingsIconVisible: Flow<Boolean>
 
+    val isPlayServicesAvailable: Flow<Boolean>
+
+    val isAppFromGooglePlay: Flow<Boolean>
+
     suspend fun selectTheme(systemTheme: SystemTheme)
 
     suspend fun setDynamicColors(value: Boolean)

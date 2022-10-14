@@ -14,6 +14,7 @@ import org.michaelbel.movies.analytics.event.SelectThemeEvent
 import org.michaelbel.movies.common.config.RemoteParams
 import org.michaelbel.movies.common.coroutines.Dispatcher
 import org.michaelbel.movies.common.coroutines.MoviesDispatchers
+import org.michaelbel.movies.common.googleapi.GoogleApi
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.domain.repository.SettingsRepository
 import org.michaelbel.movies.ui.theme.SystemTheme
@@ -22,8 +23,9 @@ import timber.log.Timber
 class SettingsInteractorImpl @Inject constructor(
     @Dispatcher(MoviesDispatchers.Main) private val dispatcher: CoroutineDispatcher,
     private val settingsRepository: SettingsRepository,
-    private val notificationManager: NotificationManager,
+    notificationManager: NotificationManager,
     private val firebaseRemoteConfig: FirebaseRemoteConfig,
+    googleApi: GoogleApi,
     private val analytics: Analytics
 ): SettingsInteractor {
 
@@ -31,16 +33,19 @@ class SettingsInteractorImpl @Inject constructor(
 
     override val dynamicColors: Flow<Boolean> = settingsRepository.dynamicColors
 
-    override val areNotificationsEnabled: Boolean
-        get() = if (Build.VERSION.SDK_INT >= 24) {
-            notificationManager.areNotificationsEnabled()
-        } else {
-            true
-        }
+    override val areNotificationsEnabled: Boolean = if (Build.VERSION.SDK_INT >= 24) {
+        notificationManager.areNotificationsEnabled()
+    } else {
+        true
+    }
 
     override val isSettingsIconVisible: Flow<Boolean> = flowOf(
         firebaseRemoteConfig.getBoolean(RemoteParams.PARAM_SETTINGS_ICON_VISIBLE)
     )
+
+    override val isPlayServicesAvailable: Flow<Boolean> = flowOf(googleApi.isPlayServicesAvailable)
+
+    override val isAppFromGooglePlay: Flow<Boolean> = flowOf(googleApi.isAppFromGooglePlay)
 
     override suspend fun selectTheme(systemTheme: SystemTheme) = withContext(dispatcher) {
         settingsRepository.selectTheme(systemTheme)
