@@ -13,13 +13,11 @@
 
             <meta-data
                 android:name="org.michaelbel.movies.common.crashlytics.FirebaseCrashlyticsInitializer"
-                android:value="androidx.startup"
-                tools:node="remove"/>
+                android:value="androidx.startup"/>
 
             <meta-data
                 android:name="org.michaelbel.movies.common.timber.TimberInitializer"
-                android:value="androidx.startup"
-                tools:node="remove"/>
+                android:value="androidx.startup"/>
 
         </provider>
 

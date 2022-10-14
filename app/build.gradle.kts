@@ -123,12 +123,6 @@ android {
         viewBinding = true
     }
 
-    /*lint {
-        lintConfig = file("lint.xml")
-        isCheckReleaseBuilds = false
-        isAbortOnError = false
-    }*/
-
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
             OptExperimentalMaterial3Api,
