@@ -72,6 +72,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Dependabot](https://github.com/dependabot)
 - [x] Github Actions CI/CD
 - [x] Distribute App via Telegram Bot
+- [x] [In-App Reviews](https://d.android.com/guide/playcore/in-app-review)
 - [ ] [Google Analytics for Firebase](https://firebase.google.com/products/analytics) 21.1.1
 - [ ] [Room](https://d.android.com/training/data-storage/room)
 - [ ] Deep Links
@@ -80,7 +81,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] UI Tests
 - [ ] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen)
 - [ ] [In-App Updates](https://d.android.com/guide/playcore/in-app-updates)
-- [ ] [In-App Reviews](https://d.android.com/guide/playcore/in-app-review)
 - [ ] [Google Admob](https://developers.google.com/admob)
 - [ ] [Downloadable Fonts](https://d.android.com/develop/ui/views/text-and-emoji/downloadable-fonts)
 - [ ] [WorkManager](https://d.android.google.cn/topic/libraries/architecture/workmanager)
