@@ -30,6 +30,7 @@ import org.michaelbel.movies.feed.R
 import org.michaelbel.movies.feed.ktx.isFailure
 import org.michaelbel.movies.feed.ktx.isLoading
 import org.michaelbel.movies.feed.ktx.throwable
+import org.michaelbel.movies.ui.theme.ktx.clickableWithoutRipple
 
 @Composable
 internal fun FeedRoute(
@@ -87,7 +88,7 @@ internal fun FeedScreenContent(
             FeedToolbar(
                 modifier = Modifier
                     .statusBarsPadding()
-                    .clickable { onScrollToTop() },
+                    .clickableWithoutRipple { onScrollToTop() },
                 isSettingsIconVisible = isSettingsIconVisible,
                 onNavigationIconClick = onNavigateToSettings
             )
