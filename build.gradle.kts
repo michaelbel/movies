@@ -1,3 +1,7 @@
+plugins {
+    id("com.diffplug.spotless") version "6.11.0"
+}
+
 buildscript {
     repositories {
         mavenCentral()
@@ -16,6 +20,14 @@ buildscript {
     }
 }
 
-tasks.register("clean").configure {
+/*allprojects {
+    spotless {
+        kotlinGradle {
+            ktlint()
+        }
+    }
+}*/
+
+/*tasks.register("clean").configure {
     delete("build")
-}
+}*/

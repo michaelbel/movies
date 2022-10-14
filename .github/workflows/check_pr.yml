@@ -53,6 +53,9 @@ jobs:
 
       - name: Lint
         run: ./gradlew lint
-        
+
+      - name: Spotless
+        run: ./gradlew spotlessCheck
+
       - name: Build
         run: ./gradlew compileDebugKotlin

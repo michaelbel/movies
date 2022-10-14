@@ -39,7 +39,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Clean Architecture](https://d.android.com/topic/architecture)
 - [x] [TMDB API](https://developers.themoviedb.org/3/getting-started)
 - [x] Gradle Kotlin DSL
-- [x] Gradle Plugin 7.3.0
+- [x] Gradle Plugin 7.3.1
 - [x] MinSDK 21
 - [x] TargetSDK 33
 - [x] CompileSDK 33
@@ -76,6 +76,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Dependabot](https://github.com/dependabot)
 - [x] Github Actions CI/CD
 - [x] [Lint](https://d.android.com/studio/write/lint)
+- [x] [Spotless](https://github.com/diffplug/spotless) 6.11.0
 - [x] Distribute App via Telegram Bot
 - [ ] [Room](https://d.android.com/training/data-storage/room)
 - [ ] Deep Links
@@ -88,7 +89,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] [WorkManager](https://d.android.google.cn/topic/libraries/architecture/workmanager)
 - [ ] [KtLint](https://github.com/pinterest/ktlint)
 - [ ] [Detekt](https://github.com/detekt/detekt)
-- [ ] [Spotless](https://github.com/diffplug/spotless)
 - [ ] OAuth
 - [ ] Animations
 - [ ] Landscape Orientation
