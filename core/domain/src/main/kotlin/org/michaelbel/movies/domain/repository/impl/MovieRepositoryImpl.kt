@@ -15,7 +15,7 @@ import org.michaelbel.movies.network.model.Movie
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
 
-class MovieRepositoryImpl @Inject constructor(
+internal class MovieRepositoryImpl @Inject constructor(
     private val movieApi: MovieNetwork,
     private val movieMapper: MovieMapper
 ): MovieRepository {

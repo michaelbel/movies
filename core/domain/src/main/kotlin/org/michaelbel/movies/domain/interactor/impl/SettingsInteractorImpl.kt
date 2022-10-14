@@ -8,7 +8,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
-import org.michaelbel.movies.analytics.Analytics
+import org.michaelbel.movies.analytics.MoviesAnalytics
 import org.michaelbel.movies.analytics.event.ChangeDynamicColorsEvent
 import org.michaelbel.movies.analytics.event.SelectThemeEvent
 import org.michaelbel.movies.common.config.RemoteParams
@@ -20,13 +20,13 @@ import org.michaelbel.movies.domain.repository.SettingsRepository
 import org.michaelbel.movies.ui.theme.SystemTheme
 import timber.log.Timber
 
-class SettingsInteractorImpl @Inject constructor(
+internal class SettingsInteractorImpl @Inject constructor(
     @Dispatcher(MoviesDispatchers.Main) private val dispatcher: CoroutineDispatcher,
     private val settingsRepository: SettingsRepository,
     notificationManager: NotificationManager,
     private val firebaseRemoteConfig: FirebaseRemoteConfig,
     googleApi: GoogleApi,
-    private val analytics: Analytics
+    private val analytics: MoviesAnalytics
 ): SettingsInteractor {
 
     override val currentTheme: Flow<SystemTheme> = settingsRepository.currentTheme

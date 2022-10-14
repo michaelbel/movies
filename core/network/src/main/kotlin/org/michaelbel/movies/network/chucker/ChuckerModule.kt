@@ -12,7 +12,7 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ChuckerModule {
+internal object ChuckerModule {
 
     @Provides
     fun provideChuckerInterceptor(

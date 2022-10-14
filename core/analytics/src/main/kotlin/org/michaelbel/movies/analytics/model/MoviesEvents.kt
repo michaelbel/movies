@@ -1,9 +1,10 @@
 package org.michaelbel.movies.analytics.model
 
-object AnalyticsEvents {
+import com.google.firebase.analytics.FirebaseAnalytics
+
+object MoviesEvents {
+    const val SCREEN_VIEW = FirebaseAnalytics.Event.SCREEN_VIEW
+
     const val SETTINGS_SELECT_THEME = "select_theme"
     const val SETTINGS_CHANGE_DYNAMIC_COLORS = "change_dynamic_colors"
-
-    const val PARAM_SELECTED_THEME = "param_selected_theme"
-    const val PARAM_DYNAMIC_COLORS_ENABLED = "param_dynamic_colors_enabled"
 }

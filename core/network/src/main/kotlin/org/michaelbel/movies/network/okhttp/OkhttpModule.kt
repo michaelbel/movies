@@ -11,7 +11,7 @@ import okhttp3.OkHttpClient
 
 @Module
 @InstallIn(SingletonComponent::class)
-object OkhttpModule {
+internal object OkhttpModule {
 
     /**
      * Суммарное время на выполнение запроса (0 - нет ограничений).

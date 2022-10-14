@@ -9,7 +9,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object GoogleApiModule {
+internal object GoogleApiModule {
 
     @Provides
     @Singleton

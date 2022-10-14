@@ -13,7 +13,7 @@ import org.michaelbel.movies.domain.datasource.ktx.orDefaultTheme
 import org.michaelbel.movies.domain.repository.SettingsRepository
 import org.michaelbel.movies.ui.theme.SystemTheme
 
-class SettingsRepositoryImpl @Inject constructor(
+internal class SettingsRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ): SettingsRepository {
 

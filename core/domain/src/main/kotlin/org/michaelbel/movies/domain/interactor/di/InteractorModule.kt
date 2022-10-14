@@ -12,7 +12,7 @@ import org.michaelbel.movies.domain.interactor.impl.SettingsInteractorImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface InteractorModule {
+internal interface InteractorModule {
 
     @Binds
     @Singleton

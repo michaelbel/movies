@@ -11,7 +11,7 @@ import retrofit2.Retrofit
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RetrofitModule {
+internal object RetrofitModule {
 
     private const val TMDB_API_ENDPOINT = "https://api.themoviedb.org/3/"
 

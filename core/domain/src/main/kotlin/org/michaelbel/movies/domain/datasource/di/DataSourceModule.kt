@@ -11,7 +11,7 @@ import retrofit2.Retrofit
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DataSourceModule {
+internal object DataSourceModule {
 
     @Provides
     @Singleton

@@ -11,16 +11,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import org.michaelbel.movies.analytics.Analytics
-import org.michaelbel.movies.analytics.model.AnalyticsScreen
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
+import org.michaelbel.movies.domain.usecase.SelectThemeCase
 import org.michaelbel.movies.ui.theme.SystemTheme
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val settingsInteractor: SettingsInteractor,
-    analytics: Analytics
+    private val selectThemeCase: SelectThemeCase
 ): BaseViewModel() {
 
     val isDynamicColorsFeatureEnabled: Boolean = Build.VERSION.SDK_INT >= 31
@@ -65,12 +64,11 @@ class SettingsViewModel @Inject constructor(
     val areNotificationsEnabled: StateFlow<Boolean> = _areNotificationsEnabled.asStateFlow()
 
     init {
-        analytics.trackScreen(AnalyticsScreen.SETTINGS)
         checkNotificationsEnabled()
     }
 
     fun selectTheme(systemTheme: SystemTheme) = launch {
-        settingsInteractor.selectTheme(systemTheme)
+        selectThemeCase(systemTheme)
     }
 
     fun setDynamicColors(value: Boolean) = launch {
