@@ -3,7 +3,6 @@ plugins {
     //id("com.android.library") version "7.3.1" apply false
     //id("org.jetbrains.kotlin.android") version "1.7.20" apply false
     //id("org.jetbrains.kotlin.kapt") version "1.7.20" apply false
-    //id("org.jetbrains.kotlin.plugin.parcelize") version "1.7.20" apply false
     id("org.jetbrains.kotlin.plugin.serialization") version "1.7.20" apply false
     id("com.google.gms.google-services") version "4.3.10" apply false
     id("com.google.firebase.crashlytics") version "2.9.2" apply false
@@ -16,12 +15,11 @@ plugins {
 buildscript {
     repositories {
         mavenCentral()
-        google()
     }
 
     dependencies {
-        classpath(org.michaelbel.moviemade.dependencies.Gradle)
-        classpath(org.michaelbel.moviemade.dependencies.KotlinPlugin)
+        classpath("com.android.tools.build:gradle:7.3.1")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
     }
 }
 
