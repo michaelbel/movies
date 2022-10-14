@@ -8,6 +8,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import org.michaelbel.movies.ui.icon.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -42,15 +44,24 @@ internal fun DetailsToolbar(
     )
 }
 
+private class TitlePreviewParameterProvider: PreviewParameterProvider<String> {
+    override val values: Sequence<String> = sequenceOf(
+        "How to Train Your Dragon",
+        "Three Billboards Outside Ebbing, Missouri"
+    )
+}
+
 @Composable
 @DevicePreviews
-private fun DetailsToolbarPreview() {
+private fun DetailsToolbarPreview(
+    @PreviewParameter(TitlePreviewParameterProvider::class) title: String
+) {
     MoviesTheme {
         DetailsToolbar(
             modifier = Modifier
                 .statusBarsPadding(),
             onNavigationIconClick = {},
-            movieTitle = "How to train your dragon"
+            movieTitle = title
         )
     }
 }

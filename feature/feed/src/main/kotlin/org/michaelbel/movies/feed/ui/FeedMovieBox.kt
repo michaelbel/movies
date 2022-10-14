@@ -16,6 +16,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -59,25 +61,31 @@ internal fun FeedMovieBox(
     }
 }
 
+private class MoviePreviewParameterProvider: PreviewParameterProvider<MovieData> {
+    override val values: Sequence<MovieData> = sequenceOf(
+        MovieData(
+            id = 438148,
+            overview = "",
+            posterPath = "/19GXuePqcZSPD5JgT9MeVdeu9Tc.jpg",
+            backdropPath = "https://image.tmdb.org/t/p/w500//nmGWzTLMXy9x7mKd8NKPLmHtWGa.jpg",
+            releaseDate = "2022-06-29",
+            title = "Миньоны: Грювитация",
+            voteAverage = 7.6F,
+            genreIds = listOf(16, 12, 35, 14)
+        )
+    )
+}
+
 @Composable
 @DevicePreviews
-private fun MovieBoxPreview() {
+private fun MovieBoxPreview(
+    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MovieData
+) {
     MoviesTheme {
         FeedMovieBox(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background),
-            movie = MovieData(
-                id = 438148,
-                overview = """Миллион лет миньоны искали самого великого и ужасного предводителя, пока 
-                не встретили ЕГО. Знакомьтесь - Грю. Пусть он еще очень молод, но у него в планах 
-                по-настоящему гадкие дела, которые заставят планету содрогнуться.""",
-                posterPath = "/19GXuePqcZSPD5JgT9MeVdeu9Tc.jpg",
-                backdropPath = "https://image.tmdb.org/t/p/w500//nmGWzTLMXy9x7mKd8NKPLmHtWGa.jpg",
-                releaseDate = "2022-06-29",
-                title = "Миньоны: Грювитация",
-                voteAverage = 7.6F,
-                genreIds = listOf(16, 12, 35, 14)
-            )
+            movie = movie
         )
     }
 }

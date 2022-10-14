@@ -15,16 +15,6 @@ import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.michaelbel.movies.ui.theme.ktx.dynamicColorScheme
 
 /**
- * Light default theme color scheme.
- */
-private val LightColorScheme = lightColorScheme()
-
-/**
- * Dark default theme color scheme.
- */
-private val DarkColorScheme = darkColorScheme()
-
-/**
  * Movies theme.
  *
  * @param theme
@@ -86,6 +76,8 @@ fun MoviesTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
+        shapes = MoviesShapes,
+        typography = MoviesTypography,
         content = content
     )
 }

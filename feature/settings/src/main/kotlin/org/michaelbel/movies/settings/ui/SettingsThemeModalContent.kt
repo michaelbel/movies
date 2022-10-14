@@ -15,6 +15,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.settings.ktx.themeTextRes
 import org.michaelbel.movies.ui.theme.SystemTheme
@@ -67,9 +69,19 @@ internal fun SettingsThemeModalContent(
     }
 }
 
+private class ThemePreviewParameterProvider: PreviewParameterProvider<SystemTheme> {
+    override val values: Sequence<SystemTheme> = sequenceOf(
+        SystemTheme.FollowSystem,
+        SystemTheme.NightNo,
+        SystemTheme.NightYes
+    )
+}
+
 @Composable
 @DevicePreviews
-private fun SettingsThemeModalContentPreview() {
+private fun SettingsThemeModalContentPreview(
+    @PreviewParameter(ThemePreviewParameterProvider::class) theme: SystemTheme
+) {
     MoviesTheme {
         SettingsThemeModalContent(
             modifier = Modifier
@@ -79,7 +91,7 @@ private fun SettingsThemeModalContentPreview() {
                 SystemTheme.NightYes,
                 SystemTheme.FollowSystem
             ),
-            currentTheme = SystemTheme.FollowSystem,
+            currentTheme = theme,
             onThemeSelected = {}
         )
     }

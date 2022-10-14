@@ -113,7 +113,7 @@ internal fun DetailsContent(
 
 @Composable
 @DevicePreviews
-private fun DetailsFailurePreview() {
+private fun DetailsContentPreview() {
     MoviesTheme {
         DetailsContent(
             modifier = Modifier

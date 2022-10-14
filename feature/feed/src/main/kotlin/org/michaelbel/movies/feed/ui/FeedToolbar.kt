@@ -11,6 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import org.michaelbel.movies.feed.R
 import org.michaelbel.movies.ui.icon.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
@@ -47,14 +49,23 @@ internal fun FeedToolbar(
     )
 }
 
+private class SettingsIconPreviewParameterProvider: PreviewParameterProvider<Boolean> {
+    override val values: Sequence<Boolean> = sequenceOf(
+        true,
+        false
+    )
+}
+
 @Composable
 @DevicePreviews
-private fun FeedToolbarPreview() {
+private fun FeedToolbarPreview(
+    @PreviewParameter(SettingsIconPreviewParameterProvider::class) visible: Boolean
+) {
     MoviesTheme {
         FeedToolbar(
             modifier = Modifier
                 .statusBarsPadding(),
-            isSettingsIconVisible = true,
+            isSettingsIconVisible = visible,
             onNavigationIconClick = {}
         )
     }
