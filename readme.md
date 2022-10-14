@@ -97,6 +97,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] Gradle Version Catalog
 - [ ] Baseline Profiles
 - [ ] ExoPlayer
+- [ ] [Compose PreviewParameterProvider](https://d.android.com/jetpack/compose/tooling#previewparameter)
 
 ## Issues
 If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).
