@@ -36,6 +36,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 
 - [x] Modularization
 - [x] MVVM
+- [x] [Clean Architecture](https://d.android.com/topic/architecture)
 - [x] [TMDB API](https://developers.themoviedb.org/3/getting-started)
 - [x] Gradle Kotlin DSL
 - [x] Gradle Plugin 7.3.0
@@ -77,7 +78,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] Distribute App via Telegram Bot
 - [ ] [Room](https://d.android.com/training/data-storage/room)
 - [ ] Deep Links
-- [ ] [Clean Architecture](https://d.android.com/topic/architecture) (Interactor, Repository, UseCase)
 - [ ] Unit Tests
 - [ ] UI Tests
 - [ ] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen)
