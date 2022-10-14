@@ -13,7 +13,7 @@ import org.michaelbel.movies.domain.usecase.MovieDetailsCase
 import org.michaelbel.movies.entities.lce.ScreenState
 
 @HiltViewModel
-class DetailsViewModel @Inject constructor(
+internal class DetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val movieDetails: MovieDetailsCase
 ): BaseViewModel() {

@@ -16,7 +16,7 @@ import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.entities.MovieData
 
 @HiltViewModel
-class FeedViewModel @Inject constructor(
+internal class FeedViewModel @Inject constructor(
     private val movieInteractor: MovieInteractor,
     settingsInteractor: SettingsInteractor
 ): BaseViewModel() {

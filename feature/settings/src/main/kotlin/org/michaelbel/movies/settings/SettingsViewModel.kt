@@ -17,7 +17,7 @@ import org.michaelbel.movies.domain.usecase.SelectThemeCase
 import org.michaelbel.movies.ui.theme.SystemTheme
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(
+internal class SettingsViewModel @Inject constructor(
     private val settingsInteractor: SettingsInteractor,
     private val selectThemeCase: SelectThemeCase
 ): BaseViewModel() {
