@@ -1,9 +1,7 @@
-@file:Suppress("UnstableApiUsage")
-
 pluginManagement {
     repositories {
-        mavenCentral()
         google()
+        mavenCentral()
         gradlePluginPortal()
     }
 }
@@ -13,9 +11,10 @@ dependencyResolutionManagement {
     repositories {
         mavenCentral()
         google()
-        gradlePluginPortal()
     }
 }
+
+rootProject.name = "movies"
 
 include(
     ":app",
@@ -33,5 +32,3 @@ include(
     ":feature:feed",
     ":feature:settings"
 )
-
-rootProject.name = "movies"
