@@ -3,6 +3,7 @@ package org.michaelbel.movies.details.ui
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +26,8 @@ internal fun DetailsToolbar(
             Text(
                 text = movieTitle,
                 overflow = TextOverflow.Ellipsis,
-                maxLines = 1
+                maxLines = 1,
+                style = MaterialTheme.typography.titleLarge
             )
         },
         modifier = modifier,

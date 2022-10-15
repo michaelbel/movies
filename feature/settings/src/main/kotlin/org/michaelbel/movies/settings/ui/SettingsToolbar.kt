@@ -3,6 +3,7 @@ package org.michaelbel.movies.settings.ui
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,7 +25,8 @@ internal fun SettingsToolbar(
             Text(
                 text = stringResource(R.string.settings_title),
                 overflow = TextOverflow.Ellipsis,
-                maxLines = 1
+                maxLines = 1,
+                style = MaterialTheme.typography.titleLarge
             )
         },
         modifier = modifier,

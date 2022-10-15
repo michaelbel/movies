@@ -34,7 +34,8 @@ internal fun SettingsReviewBox(
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)
                 },
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
+            style = MaterialTheme.typography.bodyLarge
         )
     }
 }

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,7 +33,8 @@ internal fun FeedMovieBox(
 
     Column(
         modifier = modifier
-            .clip(RoundedCornerShape(12F))
+            .clip(MaterialTheme.shapes.small)
+            .background(MaterialTheme.colorScheme.primaryContainer)
     ) {
         AsyncImage(
             model = ImageRequest.Builder(context)
@@ -44,8 +44,7 @@ internal fun FeedMovieBox(
             contentDescription = null,
             modifier = Modifier
                 .height(220.dp)
-                .fillMaxSize()
-                .clip(RoundedCornerShape(12F)),
+                .fillMaxSize(),
             contentScale = ContentScale.Crop
         )
 
@@ -53,10 +52,16 @@ internal fun FeedMovieBox(
             text = movie.title,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
-            color = MaterialTheme.colorScheme.onBackground,
+                .padding(
+                    start = 16.dp,
+                    top = 16.dp,
+                    end = 16.dp,
+                    bottom = 16.dp
+                ),
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
             maxLines = 10,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.bodyLarge
         )
     }
 }
@@ -83,8 +88,7 @@ private fun MovieBoxPreview(
 ) {
     MoviesTheme {
         FeedMovieBox(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background),
+            modifier = Modifier,
             movie = movie
         )
     }

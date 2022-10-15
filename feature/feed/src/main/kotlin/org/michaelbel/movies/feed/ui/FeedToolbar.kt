@@ -29,7 +29,8 @@ internal fun FeedToolbar(
             Text(
                 text = stringResource(R.string.feed_title),
                 overflow = TextOverflow.Ellipsis,
-                maxLines = 1
+                maxLines = 1,
+                style = MaterialTheme.typography.titleLarge
             )
         },
         modifier = modifier,

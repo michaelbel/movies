@@ -19,9 +19,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.settings.ktx.themeTextRes
-import org.michaelbel.movies.ui.theme.SystemTheme
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
+import org.michaelbel.movies.ui.theme.SystemTheme
 
 @Composable
 internal fun SettingsThemeModalContent(
@@ -62,7 +62,8 @@ internal fun SettingsThemeModalContent(
                         .padding(
                             start = 8.dp
                         ),
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onBackground,
+                    style = MaterialTheme.typography.bodyLarge
                 )
             }
         }

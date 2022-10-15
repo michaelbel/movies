@@ -33,7 +33,12 @@ internal fun FeedContent(
                 movieItem?.let { movie ->
                     FeedMovieBox(
                         modifier = Modifier
-                            .padding(2.dp)
+                            .padding(
+                                start = 16.dp,
+                                top = 4.dp,
+                                end = 16.dp,
+                                bottom = 4.dp
+                            )
                             .clickable {
                                 onMovieClick(movie.id)
                             },

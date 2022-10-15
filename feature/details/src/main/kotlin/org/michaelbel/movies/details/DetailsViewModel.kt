@@ -1,7 +1,6 @@
 package org.michaelbel.movies.details
 
 import androidx.lifecycle.SavedStateHandle
-import com.google.android.gms.ads.AdRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
@@ -27,6 +26,4 @@ internal class DetailsViewModel @Inject constructor(
         started = SharingStarted.Lazily,
         initialValue = ScreenState.Loading
     )
-
-    val adRequest: AdRequest = AdRequest.Builder().build()
 }

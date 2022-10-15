@@ -15,9 +15,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.settings.R
 import org.michaelbel.movies.settings.ktx.themeTextRes
-import org.michaelbel.movies.ui.theme.SystemTheme
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
+import org.michaelbel.movies.ui.theme.SystemTheme
 
 @Composable
 internal fun SettingsThemeBox(
@@ -39,7 +39,8 @@ internal fun SettingsThemeBox(
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)
                 },
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
+            style = MaterialTheme.typography.bodyLarge
         )
 
         Text(
@@ -52,7 +53,8 @@ internal fun SettingsThemeBox(
                     end.linkTo(parent.end, 16.dp)
                     bottom.linkTo(parent.bottom)
                 },
-            color = MaterialTheme.colorScheme.primary
+            color = MaterialTheme.colorScheme.primary,
+            style = MaterialTheme.typography.bodyLarge
         )
     }
 }
