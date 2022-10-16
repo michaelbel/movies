@@ -5,6 +5,7 @@ plugins {
     id("com.google.firebase.appdistribution") version "3.0.3" apply false
     id("androidx.navigation.safeargs.kotlin") version "2.5.2" apply false
     id("com.google.dagger.hilt.android") version "2.44" apply false
+    id("io.gitlab.arturbosch.detekt") version "1.21.0"
     id("com.diffplug.spotless") version "6.11.0"
 }
 
