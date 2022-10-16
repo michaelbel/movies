@@ -12,7 +12,5 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:entities"))
     implementation(project(":core:network"))
-    implementation(libs.datastore.core)
-    implementation(libs.datastore.preferences)
-    implementation(libs.datastore.preferences.core)
+    implementation(libs.bundles.datastore)
 }

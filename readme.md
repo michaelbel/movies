@@ -40,6 +40,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [TMDB API](https://developers.themoviedb.org/3/getting-started)
 - [x] Gradle Kotlin DSL
 - [x] Gradle Plugin 7.3.1
+- [x] Gradle Version Catalog
 - [x] MinSDK 21
 - [x] TargetSDK 33
 - [x] CompileSDK 33
@@ -96,7 +97,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] Support RTL
 - [ ] Create Github Releases
 - [ ] Upload Bundle to Google Play Console
-- [ ] Gradle Version Catalog
 - [ ] Baseline Profiles
 - [ ] ExoPlayer
 
