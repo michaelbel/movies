@@ -7,5 +7,5 @@ android {
 }
 
 dependencies {
-    api(libs.google.ads)
+    api(libs.play.services.ads)
 }

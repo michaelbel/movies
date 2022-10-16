@@ -1,8 +1,3 @@
-import org.michaelbel.moviemade.App.namespace
-import org.michaelbel.moviemade.dependencies.OptExperimentalCoroutinesApi
-import org.michaelbel.moviemade.dependencies.OptExperimentalLifecycleComposeApi
-import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
-
 plugins {
     id("movies-android-library")
     id("movies-android-library-compose")
@@ -10,23 +5,13 @@ plugins {
 }
 
 android {
-    namespace = namespace("details")
-
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
+    namespace = "org.michaelbel.movies.details"
 
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
-            OptExperimentalMaterial3Api,
-            OptExperimentalCoroutinesApi,
-            OptExperimentalLifecycleComposeApi
+            "-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+            "-Xopt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
+            "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
         )
     }
 }

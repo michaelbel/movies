@@ -6,8 +6,6 @@ import org.michaelbel.moviemade.App
 import org.michaelbel.moviemade.App.ApplicationId
 import org.michaelbel.moviemade.App.BuildTools
 import org.michaelbel.moviemade.App.VersionName
-import org.michaelbel.moviemade.dependencies.OptExperimentalLifecycleComposeApi
-import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
 
 plugins {
     id("movies-android-application")
@@ -125,8 +123,8 @@ android {
 
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
-            OptExperimentalMaterial3Api,
-            OptExperimentalLifecycleComposeApi
+            "-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+            "-Xopt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi"
         )
     }
 }

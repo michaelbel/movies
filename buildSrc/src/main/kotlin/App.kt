@@ -11,8 +11,4 @@ object App {
     const val ApplicationId = "org.michaelbel.moviemade"
 
     const val TestInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-    fun namespace(module: String): String {
-        return "org.michaelbel.movies.$module"
-    }
 }

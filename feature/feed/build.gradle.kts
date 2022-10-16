@@ -1,8 +1,3 @@
-import org.michaelbel.moviemade.App.namespace
-import org.michaelbel.moviemade.dependencies.OptExperimentalLifecycleComposeApi
-import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
-import org.michaelbel.moviemade.dependencies.implementationPagingDependencies
-
 plugins {
     id("movies-android-library")
     id("movies-android-library-compose")
@@ -10,22 +5,12 @@ plugins {
 }
 
 android {
-    namespace = namespace("feed")
-
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
+    namespace = "org.michaelbel.movies.feed"
 
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
-            OptExperimentalMaterial3Api,
-            OptExperimentalLifecycleComposeApi
+            "-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+            "-Xopt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi"
         )
     }
 }
@@ -34,5 +19,5 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:navigation"))
     implementation(project(":core:domain"))
-    implementationPagingDependencies()
+    implementation(libs.paging.compose)
 }
