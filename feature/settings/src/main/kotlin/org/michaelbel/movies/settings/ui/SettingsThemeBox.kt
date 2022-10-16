@@ -39,7 +39,7 @@ internal fun SettingsThemeBox(
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)
                 },
-            color = MaterialTheme.colorScheme.onBackground,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
             style = MaterialTheme.typography.bodyLarge
         )
 
@@ -77,7 +77,7 @@ private fun SettingsThemeBoxPreview(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
-                .background(MaterialTheme.colorScheme.background),
+                .background(MaterialTheme.colorScheme.primaryContainer),
             currentTheme = theme
         )
     }

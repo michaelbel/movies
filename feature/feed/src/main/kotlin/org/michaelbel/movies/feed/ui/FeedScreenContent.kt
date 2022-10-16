@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
@@ -15,7 +16,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
@@ -87,6 +90,10 @@ internal fun FeedScreenContent(
             FeedToolbar(
                 modifier = Modifier
                     .statusBarsPadding()
+                    .padding(
+                        horizontal = 16.dp
+                    )
+                    .clip(MaterialTheme.shapes.extraLarge)
                     .clickableWithoutRipple { onScrollToTop() },
                 isSettingsIconVisible = isSettingsIconVisible,
                 onNavigationIconClick = onNavigateToSettings
@@ -96,7 +103,8 @@ internal fun FeedScreenContent(
             SnackbarHost(
                 hostState = snackbarHostState
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.primaryContainer
     ) { paddingValues: PaddingValues ->
         when {
             pagingItems.isLoading -> {

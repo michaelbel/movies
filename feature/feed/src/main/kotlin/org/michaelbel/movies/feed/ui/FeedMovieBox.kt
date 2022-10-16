@@ -34,7 +34,7 @@ internal fun FeedMovieBox(
     Column(
         modifier = modifier
             .clip(MaterialTheme.shapes.small)
-            .background(MaterialTheme.colorScheme.primaryContainer)
+            .background(MaterialTheme.colorScheme.inversePrimary)
     ) {
         AsyncImage(
             model = ImageRequest.Builder(context)

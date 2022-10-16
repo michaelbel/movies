@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -49,7 +50,8 @@ internal fun DetailsScreenContent(
                 onNavigationIconClick = onBackClick,
                 movieTitle = detailsState.toolbarTitle(context)
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.primaryContainer
     ) { paddingValues: PaddingValues ->
         when (detailsState) {
             is ScreenState.Loading -> {

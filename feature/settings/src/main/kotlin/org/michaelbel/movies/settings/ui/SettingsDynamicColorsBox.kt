@@ -38,7 +38,7 @@ internal fun SettingsDynamicColorsBox(
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)
                 },
-            color = MaterialTheme.colorScheme.onBackground,
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
             style = MaterialTheme.typography.bodyLarge
         )
 
@@ -74,7 +74,7 @@ private fun SettingsDynamicColorsBoxPreview(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
-                .background(MaterialTheme.colorScheme.background),
+                .background(MaterialTheme.colorScheme.primaryContainer),
             isDynamicColorsEnabled = isEnabled
         )
     }

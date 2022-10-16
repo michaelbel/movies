@@ -93,6 +93,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] Animations
 - [ ] Landscape Orientation
 - [ ] Tablet and large screen support
+- [ ] Support RTL
 - [ ] Create Github Releases
 - [ ] Upload Bundle to Google Play Console
 - [ ] Gradle Version Catalog

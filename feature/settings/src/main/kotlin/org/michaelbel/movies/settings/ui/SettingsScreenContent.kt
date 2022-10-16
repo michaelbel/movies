@@ -48,8 +48,8 @@ import org.michaelbel.movies.common.review.rememberReviewManager
 import org.michaelbel.movies.common.review.rememberReviewTask
 import org.michaelbel.movies.settings.R
 import org.michaelbel.movies.settings.SettingsViewModel
-import org.michaelbel.movies.ui.theme.SystemTheme
 import org.michaelbel.movies.ui.component.OnLifecycleEvent
+import org.michaelbel.movies.ui.theme.SystemTheme
 
 @Composable
 internal fun SettingsRoute(
@@ -222,7 +222,8 @@ internal fun SettingsScreenContent(
             SnackbarHost(
                 hostState = snackbarHostState
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.primaryContainer
     ) { paddingValues: PaddingValues ->
         ModalBottomSheetLayout(
             sheetContent = {
