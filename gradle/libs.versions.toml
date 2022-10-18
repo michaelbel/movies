@@ -62,7 +62,6 @@ compose-foundation = { group = "androidx.compose.foundation", name = "foundation
 compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "compose" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "compose-material3" }
 compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "compose" }
-compose-runtime-livedata = { group = "androidx.compose.runtime", name = "runtime-livedata", version.ref = "compose" }
 compose-ui = { group = "androidx.compose.ui", name = "ui", version.ref = "compose" }
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "compose" }
 compose-ui-viewbinding = { group = "androidx.compose.ui", name = "ui-viewbinding", version.ref = "compose" }
@@ -98,6 +97,7 @@ kotlin-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin",
 [bundles]
 kotlin-coroutines = ["kotlin-coroutines-core", "kotlin-coroutines-android"]
 accompanist = ["accompanist-appcompat-theme", "accompanist-drawablepainter", "accompanist-insets", "accompanist-insets-ui", "accompanist-navigation-animation", "accompanist-systemuicontroller"]
+compose = ["compose-compiler", "compose-foundation", "compose-foundation-layout", "compose-material3", "compose-runtime", "compose-ui", "compose-ui-tooling", "compose-ui-viewbinding"]
 datastore = ["datastore-core", "datastore-preferences", "datastore-preferences-core"]
 lifecycle = ["lifecycle-runtime-compose", "lifecycle-viewmodel-compose"]
 material = ["material", "material-compose-theme-adapter"]
