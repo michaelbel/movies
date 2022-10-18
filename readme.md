@@ -1,6 +1,6 @@
 <!------------------------------------------------------------------------------------------------------>
-<img src="screenshots/mockup2.png"/>
-<img src="../master/icons/ic_launcher_playstore.png" width="192" align="right" hspace="0"/>
+<img src="config/screenshots/mockup2.png"/>
+<img src="config/icons/play_store_512.png" width="192" align="right" hspace="0"/>
 
 Movies
 =
@@ -13,23 +13,26 @@ Movies
 Movies - easy way to discover popular movies. This is a simple TMDb client for Android with material design.
 
 ## Build
+
 Take a look at <b>`local.properties`</b> and fill it with [your own](https://developers.themoviedb.org/3/getting-started/introduction) <b>tmdb_api_key</b> like this:
 ```gradle
 TMDB_API_KEY=your_own_tmdb_api_key
 ```
 
 ## Download
+
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="" height="80">](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
-[<img src="screenshots/direct-apk.png" alt="" height="80">](https://github.com/michaelbel/Moviemade/releases/download/1.3.1/moviemade-v1.3.1-release.apk)
+[<img src="config/screenshots/direct-apk.png" alt="" height="80">](https://github.com/michaelbel/Moviemade/releases/download/1.3.1/moviemade-v1.3.1-release.apk)
 
 ## Screenshots
+
 <div style="dispaly:flex">
-    <img src="screenshots/screen1.png" width="32%">
-    <img src="screenshots/screen2.png" width="32%">
-    <img src="screenshots/screen3.png" width="32%">
-    <img src="screenshots/screen4.png" width="32%">
-    <img src="screenshots/screen5.png" width="32%">
-    <img src="screenshots/screen6.png" width="32%">
+    <img src="config/screenshots/screen1.png" width="32%">
+    <img src="config/screenshots/screen2.png" width="32%">
+    <img src="config/screenshots/screen3.png" width="32%">
+    <img src="config/screenshots/screen4.png" width="32%">
+    <img src="config/screenshots/screen5.png" width="32%">
+    <img src="config/screenshots/screen6.png" width="32%">
 </div>
 
 ## Technologies
@@ -105,7 +108,7 @@ If you find any problems or would like to suggest a feature, please feel free to
 
 ## License
 <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
-  <img alt="Apache License 2.0" src="screenshots/apache.png" height="110"/>
+  <img alt="Apache License 2.0" src="config/screenshots/apache.png" height="110"/>
 </a>
 
     Copyright 2017 Michael Bely

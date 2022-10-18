@@ -42,7 +42,7 @@ tasks.register("prepareReleaseNotes") {
     doLast {
         exec {
             workingDir(rootDir)
-            executable("./scripts/gitlog.sh")
+            executable("./config/scripts/gitlog.sh")
         }
     }
 }

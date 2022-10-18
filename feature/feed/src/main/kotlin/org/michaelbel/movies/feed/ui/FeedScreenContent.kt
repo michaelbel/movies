@@ -23,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import java.net.UnknownHostException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.domain.exceptions.ApiKeyNotNullException
@@ -32,6 +33,7 @@ import org.michaelbel.movies.feed.R
 import org.michaelbel.movies.feed.ktx.isFailure
 import org.michaelbel.movies.feed.ktx.isLoading
 import org.michaelbel.movies.feed.ktx.throwable
+import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.ui.theme.ktx.clickableWithoutRipple
 
 @Composable
@@ -43,12 +45,14 @@ internal fun FeedRoute(
 ) {
     val pagingItems: LazyPagingItems<MovieData> = viewModel.pagingItems.collectAsLazyPagingItems()
     val isSettingsIconVisible: Boolean by viewModel.isSettingsIconVisible.collectAsStateWithLifecycle()
+    val networkStatus: NetworkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
 
     FeedScreenContent(
         onNavigateToSettings = onNavigateToSettings,
         onNavigateToDetails = onNavigateToDetails,
         modifier = modifier,
         pagingItems = pagingItems,
+        networkStatus = networkStatus,
         isSettingsIconVisible = isSettingsIconVisible
     )
 }
@@ -59,6 +63,7 @@ internal fun FeedScreenContent(
     onNavigateToDetails: (Int) -> Unit,
     modifier: Modifier = Modifier,
     pagingItems: LazyPagingItems<MovieData>,
+    networkStatus: NetworkStatus,
     isSettingsIconVisible: Boolean
 ) {
     val scope: CoroutineScope = rememberCoroutineScope()
@@ -82,6 +87,10 @@ internal fun FeedScreenContent(
 
     if (pagingItems.isFailure && pagingItems.throwable is ApiKeyNotNullException) {
         onShowSnackbar(stringResource(R.string.feed_error_api_key_null))
+    }
+
+    if (networkStatus == NetworkStatus.Available && pagingItems.isFailure && pagingItems.throwable is UnknownHostException) {
+        pagingItems.retry()
     }
 
     Scaffold(

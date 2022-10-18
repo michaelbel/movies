@@ -20,5 +20,6 @@ dependencies {
     implementation(project(":core:ads"))
     implementation(project(":core:common"))
     implementation(project(":core:navigation"))
+    implementation(project(":core:network"))
     implementation(project(":core:domain"))
 }

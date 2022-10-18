@@ -14,11 +14,14 @@ import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.interactor.MovieInteractor
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.entities.MovieData
+import org.michaelbel.movies.network.connectivity.NetworkManager
+import org.michaelbel.movies.network.connectivity.NetworkStatus
 
 @HiltViewModel
 internal class FeedViewModel @Inject constructor(
     private val movieInteractor: MovieInteractor,
-    settingsInteractor: SettingsInteractor
+    settingsInteractor: SettingsInteractor,
+    networkManager: NetworkManager
 ): BaseViewModel() {
 
     val pagingItems: Flow<PagingData<MovieData>> = Pager(
@@ -34,6 +37,13 @@ internal class FeedViewModel @Inject constructor(
             initialValue = PagingData.empty()
         )
         .cachedIn(this)
+
+    val networkStatus: StateFlow<NetworkStatus> = networkManager.status
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = NetworkStatus.Unavailable
+        )
 
     val isSettingsIconVisible: StateFlow<Boolean> = settingsInteractor.isSettingsIconVisible
         .stateIn(

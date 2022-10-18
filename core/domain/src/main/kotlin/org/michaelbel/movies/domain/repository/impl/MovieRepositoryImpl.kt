@@ -2,7 +2,7 @@ package org.michaelbel.movies.domain.repository.impl
 
 import javax.inject.Inject
 import org.michaelbel.movies.domain.datasource.MovieNetwork
-import org.michaelbel.movies.domain.exceptions.checkApiKeyNotNullException
+import org.michaelbel.movies.domain.exceptions.ktx.checkApiKeyNotNullException
 import org.michaelbel.movies.domain.repository.MovieRepository
 import org.michaelbel.movies.entities.Either
 import org.michaelbel.movies.entities.MovieData

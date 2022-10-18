@@ -13,10 +13,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import java.net.UnknownHostException
 import org.michaelbel.movies.details.DetailsViewModel
 import org.michaelbel.movies.details.ktx.movie
 import org.michaelbel.movies.details.ktx.toolbarTitle
 import org.michaelbel.movies.entities.lce.ScreenState
+import org.michaelbel.movies.entities.lce.ktx.isFailure
+import org.michaelbel.movies.entities.lce.ktx.throwable
+import org.michaelbel.movies.network.connectivity.NetworkStatus
 
 @Composable
 internal fun DetailsRoute(
@@ -25,11 +29,14 @@ internal fun DetailsRoute(
     viewModel: DetailsViewModel = hiltViewModel()
 ) {
     val detailsState: ScreenState by viewModel.detailsState.collectAsStateWithLifecycle()
+    val networkStatus: NetworkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
 
     DetailsScreenContent(
         onBackClick = onBackClick,
         modifier = modifier,
-        detailsState = detailsState
+        detailsState = detailsState,
+        networkStatus = networkStatus,
+        onRetry = viewModel::retry
     )
 }
 
@@ -37,9 +44,15 @@ internal fun DetailsRoute(
 internal fun DetailsScreenContent(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    detailsState: ScreenState
+    detailsState: ScreenState,
+    networkStatus: NetworkStatus,
+    onRetry: () -> Unit
 ) {
     val context: Context = LocalContext.current
+
+    if (networkStatus == NetworkStatus.Available && detailsState.isFailure && detailsState.throwable is UnknownHostException) {
+        onRetry()
+    }
 
     Scaffold(
         modifier = modifier,
