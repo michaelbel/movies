@@ -5,11 +5,11 @@ import org.michaelbel.movies.ui.theme.exceptions.InvalidThemeException
 
 sealed class SystemTheme(val theme: Int) {
     object NightNo: SystemTheme(AppCompatDelegate.MODE_NIGHT_NO) {
-        override fun toString(): String = "Day"
+        override fun toString(): String = "NightNo"
     }
 
     object NightYes: SystemTheme(AppCompatDelegate.MODE_NIGHT_YES) {
-        override fun toString(): String = "Night"
+        override fun toString(): String = "NightYes"
     }
 
     object FollowSystem: SystemTheme(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
