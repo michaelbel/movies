@@ -17,7 +17,7 @@ import org.michaelbel.movies.settings.R
 import org.michaelbel.movies.settings.ktx.themeTextRes
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
-import org.michaelbel.movies.ui.theme.SystemTheme
+import org.michaelbel.movies.ui.theme.model.SystemTheme
 
 @Composable
 internal fun SettingsThemeBox(

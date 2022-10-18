@@ -49,7 +49,7 @@ import org.michaelbel.movies.common.review.rememberReviewTask
 import org.michaelbel.movies.settings.R
 import org.michaelbel.movies.settings.SettingsViewModel
 import org.michaelbel.movies.ui.component.OnLifecycleEvent
-import org.michaelbel.movies.ui.theme.SystemTheme
+import org.michaelbel.movies.ui.theme.model.SystemTheme
 
 @Composable
 internal fun SettingsRoute(

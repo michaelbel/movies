@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.analytics.MoviesAnalytics
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
-import org.michaelbel.movies.ui.theme.SystemTheme
+import org.michaelbel.movies.ui.theme.model.SystemTheme
 
 @HiltViewModel
 class MainViewModel @Inject constructor(

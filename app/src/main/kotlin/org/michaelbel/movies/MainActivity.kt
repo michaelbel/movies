@@ -12,7 +12,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.michaelbel.movies.common.shortcuts.installShortcuts
-import org.michaelbel.movies.ui.theme.SystemTheme
+import org.michaelbel.movies.ui.theme.model.SystemTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @AndroidEntryPoint

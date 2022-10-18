@@ -1,7 +1,7 @@
 package org.michaelbel.movies.domain.interactor
 
 import kotlinx.coroutines.flow.Flow
-import org.michaelbel.movies.ui.theme.SystemTheme
+import org.michaelbel.movies.ui.theme.model.SystemTheme
 
 interface SettingsInteractor {
 

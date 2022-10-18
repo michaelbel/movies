@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.domain.usecase.SelectThemeCase
-import org.michaelbel.movies.ui.theme.SystemTheme
+import org.michaelbel.movies.ui.theme.model.SystemTheme
 
 @HiltViewModel
 internal class SettingsViewModel @Inject constructor(

@@ -1,4 +1,4 @@
-package org.michaelbel.movies.ui.theme
+package org.michaelbel.movies.ui.theme.model
 
 import androidx.appcompat.app.AppCompatDelegate
 import org.michaelbel.movies.ui.theme.exceptions.InvalidThemeException

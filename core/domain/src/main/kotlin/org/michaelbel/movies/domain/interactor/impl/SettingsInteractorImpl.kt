@@ -17,7 +17,7 @@ import org.michaelbel.movies.common.coroutines.MoviesDispatchers
 import org.michaelbel.movies.common.googleapi.GoogleApi
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.domain.repository.SettingsRepository
-import org.michaelbel.movies.ui.theme.SystemTheme
+import org.michaelbel.movies.ui.theme.model.SystemTheme
 import timber.log.Timber
 
 internal class SettingsInteractorImpl @Inject constructor(

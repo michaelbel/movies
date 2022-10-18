@@ -11,6 +11,8 @@ import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.michaelbel.movies.ui.theme.ktx.dynamicColorScheme
+import org.michaelbel.movies.ui.theme.model.ComposeTheme
+import org.michaelbel.movies.ui.theme.model.SystemTheme
 
 /**
  * Movies theme.

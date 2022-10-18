@@ -1,7 +1,7 @@
 package org.michaelbel.movies.settings.ktx
 
 import org.michaelbel.movies.settings.R
-import org.michaelbel.movies.ui.theme.SystemTheme
+import org.michaelbel.movies.ui.theme.model.SystemTheme
 
 internal val SystemTheme.themeTextRes: Int
     get() = when (this) {

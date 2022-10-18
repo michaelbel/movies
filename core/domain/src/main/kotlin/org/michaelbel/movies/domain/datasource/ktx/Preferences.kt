@@ -1,7 +1,7 @@
 package org.michaelbel.movies.domain.datasource.ktx
 
 import android.os.Build
-import org.michaelbel.movies.ui.theme.SystemTheme
+import org.michaelbel.movies.ui.theme.model.SystemTheme
 
 fun Int?.orDefaultTheme(): Int {
     return this ?: SystemTheme.FollowSystem.theme
