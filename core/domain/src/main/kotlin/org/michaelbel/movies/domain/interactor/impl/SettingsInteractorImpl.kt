@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
 import org.michaelbel.movies.analytics.MoviesAnalytics
 import org.michaelbel.movies.analytics.event.ChangeDynamicColorsEvent
+import org.michaelbel.movies.analytics.event.ChangeRtlEnabledEvent
 import org.michaelbel.movies.analytics.event.SelectThemeEvent
 import org.michaelbel.movies.common.config.RemoteParams
 import org.michaelbel.movies.common.coroutines.Dispatcher
@@ -33,6 +34,8 @@ internal class SettingsInteractorImpl @Inject constructor(
 
     override val dynamicColors: Flow<Boolean> = settingsRepository.dynamicColors
 
+    override val rtlEnabled: Flow<Boolean> = settingsRepository.rtlEnabled
+
     override val areNotificationsEnabled: Boolean = if (Build.VERSION.SDK_INT >= 24) {
         notificationManager.areNotificationsEnabled()
     } else {
@@ -55,6 +58,11 @@ internal class SettingsInteractorImpl @Inject constructor(
     override suspend fun setDynamicColors(value: Boolean) = withContext(dispatcher) {
         settingsRepository.setDynamicColors(value)
         analytics.logEvent(ChangeDynamicColorsEvent(value))
+    }
+
+    override suspend fun setRtlEnabled(value: Boolean) = withContext(dispatcher) {
+        settingsRepository.setRtlEnabled(value)
+        analytics.logEvent(ChangeRtlEnabledEvent(value))
     }
 
     override suspend fun fetchRemoteConfig() {

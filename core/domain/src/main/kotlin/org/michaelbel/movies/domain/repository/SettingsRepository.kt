@@ -9,7 +9,11 @@ interface SettingsRepository {
 
     val dynamicColors: Flow<Boolean>
 
+    val rtlEnabled: Flow<Boolean>
+
     suspend fun selectTheme(systemTheme: SystemTheme)
 
     suspend fun setDynamicColors(value: Boolean)
+
+    suspend fun setRtlEnabled(value: Boolean)
 }

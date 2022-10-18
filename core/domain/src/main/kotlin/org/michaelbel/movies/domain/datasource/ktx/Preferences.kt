@@ -10,3 +10,7 @@ fun Int?.orDefaultTheme(): Int {
 fun Boolean?.orDefaultDynamicColorsEnabled(): Boolean {
     return this ?: (Build.VERSION.SDK_INT >= 31)
 }
+
+fun Boolean?.orDefaultRtlEnabled(): Boolean {
+    return this ?: false
+}

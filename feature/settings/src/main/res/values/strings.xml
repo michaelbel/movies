@@ -11,4 +11,5 @@
     <string name="settings_action_go">Go</string>
     <string name="settings_error_play_services_not_available">Google play services are not available</string>
     <string name="settings_error_app_from_google_play">Your version of app must be downloaded from Google Play</string>
+    <string name="settings_enable_rtl">Enable RTL</string>
 </resources>

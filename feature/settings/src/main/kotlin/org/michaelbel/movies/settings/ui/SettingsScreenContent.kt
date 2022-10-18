@@ -59,6 +59,7 @@ internal fun SettingsRoute(
 ) {
     val currentTheme: SystemTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
     val dynamicColors: Boolean by viewModel.dynamicColors.collectAsStateWithLifecycle()
+    val rtlEnabled: Boolean by viewModel.rtlEnabled.collectAsStateWithLifecycle()
     val isPlayServicesAvailable: Boolean by viewModel.isPlayServicesAvailable.collectAsStateWithLifecycle()
     val isAppFromGooglePlay: Boolean by viewModel.isAppFromGooglePlay.collectAsStateWithLifecycle()
     val areNotificationsEnabled: Boolean by viewModel.areNotificationsEnabled.collectAsStateWithLifecycle()
@@ -72,6 +73,8 @@ internal fun SettingsRoute(
         isDynamicColorsFeatureEnabled = viewModel.isDynamicColorsFeatureEnabled,
         dynamicColors = dynamicColors,
         onSetDynamicColors = viewModel::setDynamicColors,
+        isRtlEnabled = rtlEnabled,
+        onEnableRtlChanged = viewModel::setRtlEnabled,
         isPostNotificationsFeatureEnabled = viewModel.isPostNotificationsFeatureEnabled,
         areNotificationsEnabled = areNotificationsEnabled,
         onNotificationsStatusChanged = viewModel::checkNotificationsEnabled,
@@ -90,6 +93,8 @@ internal fun SettingsScreenContent(
     isDynamicColorsFeatureEnabled: Boolean,
     dynamicColors: Boolean,
     onSetDynamicColors: (Boolean) -> Unit,
+    isRtlEnabled: Boolean,
+    onEnableRtlChanged: (Boolean) -> Unit,
     isPostNotificationsFeatureEnabled: Boolean,
     areNotificationsEnabled: Boolean,
     onNotificationsStatusChanged: () -> Unit,
@@ -269,6 +274,16 @@ internal fun SettingsScreenContent(
                         isDynamicColorsEnabled = dynamicColors
                     )
                 }
+
+                SettingsRtlBox(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
+                        .clickable {
+                            onEnableRtlChanged(!isRtlEnabled)
+                        },
+                    isRtlEnabled = isRtlEnabled
+                )
 
                 if (isPostNotificationsFeatureEnabled) {
                     SettingsPostNotificationsBox(

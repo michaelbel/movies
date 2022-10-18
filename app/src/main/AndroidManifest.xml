@@ -20,7 +20,7 @@
         android:hardwareAccelerated="true"
         android:theme="@style/Theme.Movies.Starting"
         android:dataExtractionRules="@xml/data_extraction_rules"
-        android:supportsRtl="false"
+        android:supportsRtl="true"
         tools:ignore="UnusedAttribute">
 
         <activity

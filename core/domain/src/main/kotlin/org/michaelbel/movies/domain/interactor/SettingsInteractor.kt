@@ -9,6 +9,8 @@ interface SettingsInteractor {
 
     val dynamicColors: Flow<Boolean>
 
+    val rtlEnabled: Flow<Boolean>
+
     val areNotificationsEnabled: Boolean
 
     val isSettingsIconVisible: Flow<Boolean>
@@ -20,6 +22,8 @@ interface SettingsInteractor {
     suspend fun selectTheme(systemTheme: SystemTheme)
 
     suspend fun setDynamicColors(value: Boolean)
+
+    suspend fun setRtlEnabled(value: Boolean)
 
     suspend fun fetchRemoteConfig()
 }

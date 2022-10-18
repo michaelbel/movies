@@ -13,7 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -69,7 +68,6 @@ internal fun DetailsContent(
                     end.linkTo(parent.end, 16.dp)
                 },
             color = MaterialTheme.colorScheme.onPrimaryContainer,
-            textAlign = TextAlign.Left,
             overflow = TextOverflow.Ellipsis,
             maxLines = 3,
             style = MaterialTheme.typography.titleLarge
@@ -86,7 +84,6 @@ internal fun DetailsContent(
                     end.linkTo(parent.end, 16.dp)
                 },
             color = MaterialTheme.colorScheme.onPrimaryContainer,
-            textAlign = TextAlign.Left,
             overflow = TextOverflow.Ellipsis,
             maxLines = 10,
             style = MaterialTheme.typography.bodyMedium

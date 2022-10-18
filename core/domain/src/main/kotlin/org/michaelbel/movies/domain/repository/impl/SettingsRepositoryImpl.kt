@@ -7,8 +7,10 @@ import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.michaelbel.movies.domain.datasource.ktx.PREFERENCE_DYNAMIC_COLORS_KEY
+import org.michaelbel.movies.domain.datasource.ktx.PREFERENCE_RTL_ENABLED_KEY
 import org.michaelbel.movies.domain.datasource.ktx.PREFERENCE_THEME_KEY
 import org.michaelbel.movies.domain.datasource.ktx.orDefaultDynamicColorsEnabled
+import org.michaelbel.movies.domain.datasource.ktx.orDefaultRtlEnabled
 import org.michaelbel.movies.domain.datasource.ktx.orDefaultTheme
 import org.michaelbel.movies.domain.repository.SettingsRepository
 import org.michaelbel.movies.ui.theme.model.SystemTheme
@@ -25,6 +27,10 @@ internal class SettingsRepositoryImpl @Inject constructor(
         return@map preferences[PREFERENCE_DYNAMIC_COLORS_KEY].orDefaultDynamicColorsEnabled()
     }
 
+    override val rtlEnabled: Flow<Boolean> = dataStore.data.map { preferences: Preferences ->
+        return@map preferences[PREFERENCE_RTL_ENABLED_KEY].orDefaultRtlEnabled()
+    }
+
     override suspend fun selectTheme(systemTheme: SystemTheme) {
         dataStore.edit { preferences ->
             preferences[PREFERENCE_THEME_KEY] = systemTheme.theme
@@ -34,6 +40,12 @@ internal class SettingsRepositoryImpl @Inject constructor(
     override suspend fun setDynamicColors(value: Boolean) {
         dataStore.edit { preferences ->
             preferences[PREFERENCE_DYNAMIC_COLORS_KEY] = value
+        }
+    }
+
+    override suspend fun setRtlEnabled(value: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[PREFERENCE_RTL_ENABLED_KEY] = value
         }
     }
 }

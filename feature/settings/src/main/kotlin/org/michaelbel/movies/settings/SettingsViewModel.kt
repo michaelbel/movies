@@ -46,6 +46,13 @@ internal class SettingsViewModel @Inject constructor(
             initialValue = false
         )
 
+    val rtlEnabled: StateFlow<Boolean> = settingsInteractor.rtlEnabled
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = false
+        )
+
     val isPlayServicesAvailable: StateFlow<Boolean> = settingsInteractor.isPlayServicesAvailable
         .stateIn(
             scope = this,
@@ -73,6 +80,10 @@ internal class SettingsViewModel @Inject constructor(
 
     fun setDynamicColors(value: Boolean) = launch {
         settingsInteractor.setDynamicColors(value)
+    }
+
+    fun setRtlEnabled(value: Boolean) = launch {
+        settingsInteractor.setRtlEnabled(value)
     }
 
     fun checkNotificationsEnabled() {
