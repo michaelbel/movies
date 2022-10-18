@@ -96,8 +96,8 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] Animations
 - [ ] Landscape Orientation
 - [ ] Tablet and large screen support
-- [ ] Support RTL
-- [ ] Create Github Releases
+- [ ] Support RTL (in progress)
+- [ ] Create Github Releases (in progress)
 - [ ] Upload Bundle to Google Play Console
 - [ ] Baseline Profiles
 - [ ] ExoPlayer

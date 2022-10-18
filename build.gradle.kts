@@ -5,8 +5,8 @@ plugins {
     alias(libs.plugins.kotlin.serialization) apply false
     alias(libs.plugins.navigation.safeargs) apply false
     alias(libs.plugins.hilt) apply false
-    alias(libs.plugins.spotless) apply false
-    alias(libs.plugins.detekt) apply false
+    alias(libs.plugins.spotless)
+    alias(libs.plugins.detekt)
 }
 
 buildscript {
