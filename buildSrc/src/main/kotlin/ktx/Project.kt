@@ -10,7 +10,6 @@ import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.provideDelegate
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-import org.michaelbel.moviemade.App
 import org.michaelbel.moviemade.App.CompileSdk
 import org.michaelbel.moviemade.App.MinSdk
 
@@ -101,7 +100,7 @@ internal fun Project.configureLintCheck(
              */
             checkDependencies = true
 
-            lintConfig = file("${project.rootDir}/codestyle/lint.xml")
+            lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
         }
     }
 }
