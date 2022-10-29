@@ -1,5 +1,3 @@
-@file:Suppress("UnstableApiUsage")
-
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import java.io.FileInputStream
 import org.apache.commons.io.output.ByteArrayOutputStream
@@ -8,17 +6,15 @@ import org.michaelbel.moviemade.App
 import org.michaelbel.moviemade.App.ApplicationId
 import org.michaelbel.moviemade.App.BuildTools
 import org.michaelbel.moviemade.App.VersionName
-import org.michaelbel.moviemade.dependencies.OptExperimentalLifecycleComposeApi
-import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
 
 plugins {
     id("movies-android-application")
     id("movies-android-application-compose")
+    id("movies-android-hilt")
     id("androidx.navigation.safeargs")
     id("com.google.gms.google-services")
     id("com.google.firebase.appdistribution")
     id("com.google.firebase.crashlytics")
-    id("movies-android-hilt")
 }
 
 val gitVersion: Int by lazy {
@@ -46,7 +42,7 @@ tasks.register("prepareReleaseNotes") {
     doLast {
         exec {
             workingDir(rootDir)
-            executable("./scripts/gitlog.sh")
+            executable("./config/scripts/gitlog.sh")
         }
     }
 }
@@ -125,19 +121,16 @@ android {
         viewBinding = true
     }
 
-    /*lint {
-        lintConfig = file("lint.xml")
-        isCheckReleaseBuilds = false
-        isAbortOnError = false
-    }*/
-
     kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + OptExperimentalMaterial3Api
-        freeCompilerArgs = freeCompilerArgs + OptExperimentalLifecycleComposeApi
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+            "-Xopt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi"
+        )
     }
 }
 
 dependencies {
+    implementation(project(":core:analytics"))
     implementation(project(":core:common"))
     implementation(project(":core:domain"))
     implementation(project(":core:navigation"))

@@ -9,7 +9,7 @@ import org.michaelbel.moviemade.ktx.configureAndroidCompose
 class AndroidComposeLibraryConventionPlugin: Plugin<Project> {
 
     override fun apply(target: Project) {
-        with(target) {
+        target.run {
             pluginManager.apply("com.android.library")
             val extension: LibraryExtension = extensions.getByType()
             configureAndroidCompose(extension)

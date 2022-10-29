@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
@@ -19,14 +20,15 @@
         android:hardwareAccelerated="true"
         android:theme="@style/Theme.Movies.Starting"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:supportsRtl="true"
         tools:ignore="UnusedAttribute">
 
         <activity
             android:name="org.michaelbel.movies.MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
 
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER"/>
             </intent-filter>
@@ -46,6 +48,21 @@
             </intent-filter>
 
         </activity>
+        
+        <activity-alias
+            android:name=".DEFAULT"
+            android:targetActivity="org.michaelbel.movies.MainActivity"
+            android:label="@string/app_name"
+            android:icon="@mipmap/ic_launcher"
+            android:enabled="true"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+
+        </activity-alias>
 
         <!--AdMob-->
         <meta-data

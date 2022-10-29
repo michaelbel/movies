@@ -4,25 +4,15 @@ import android.content.Context
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.michaelbel.movies.ui.theme.ktx.dynamicColorScheme
-
-/**
- * Light default theme color scheme.
- */
-private val LightColorScheme = lightColorScheme()
-
-/**
- * Dark default theme color scheme.
- */
-private val DarkColorScheme = darkColorScheme()
+import org.michaelbel.movies.ui.theme.model.ComposeTheme
+import org.michaelbel.movies.ui.theme.model.SystemTheme
 
 /**
  * Movies theme.
@@ -86,6 +76,8 @@ fun MoviesTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
+        shapes = MoviesShapes,
+        typography = MoviesTypography,
         content = content
     )
 }

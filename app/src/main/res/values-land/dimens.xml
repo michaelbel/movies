@@ -1,5 +1,0 @@
-<!--Landscape Phone-->
-<resources>
-    <!--layout/activity_movie-->
-    <dimen name="backdrop_margin">144dp</dimen>
-</resources>

@@ -9,6 +9,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -36,7 +38,8 @@ internal fun SettingsPostNotificationsBox(
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)
                 },
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            style = MaterialTheme.typography.bodyLarge
         )
 
         Switch(
@@ -54,16 +57,25 @@ internal fun SettingsPostNotificationsBox(
     }
 }
 
+private class NotificationsPreviewParameterProvider: PreviewParameterProvider<Boolean> {
+    override val values: Sequence<Boolean> = sequenceOf(
+        true,
+        false
+    )
+}
+
 @Composable
 @DevicePreviews
-private fun SettingsPostNotificationsBoxPreview() {
+private fun SettingsPostNotificationsBoxPreview(
+    @PreviewParameter(NotificationsPreviewParameterProvider::class) isEnabled: Boolean
+) {
     MoviesTheme {
         SettingsPostNotificationsBox(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
-                .background(MaterialTheme.colorScheme.background),
-            areNotificationsEnabled = true
+                .background(MaterialTheme.colorScheme.primaryContainer),
+            areNotificationsEnabled = isEnabled
         )
     }
 }

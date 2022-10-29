@@ -1,51 +1,46 @@
 package org.michaelbel.movies.details
 
 import androidx.lifecycle.SavedStateHandle
-import com.google.android.gms.ads.AdRequest
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
-import org.michaelbel.movies.analytics.Analytics
-import org.michaelbel.movies.analytics.model.AnalyticsScreen
+import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
-import org.michaelbel.movies.details.model.DetailsState
-import org.michaelbel.movies.domain.interactor.MovieInteractor
-import org.michaelbel.movies.entities.Either
-import org.michaelbel.movies.entities.MovieDetailsData
-import org.michaelbel.movies.entities.handle
+import org.michaelbel.movies.domain.usecase.MovieDetailsCase
+import org.michaelbel.movies.entities.lce.ScreenState
+import org.michaelbel.movies.network.connectivity.NetworkManager
+import org.michaelbel.movies.network.connectivity.NetworkStatus
 
 @HiltViewModel
-class DetailsViewModel @Inject constructor(
+internal class DetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val movieInteractor: MovieInteractor,
-    analytics: Analytics
+    private val movieDetails: MovieDetailsCase,
+    networkManager: NetworkManager
 ): BaseViewModel() {
 
     private val movieId: Long = requireNotNull(savedStateHandle["movieId"])
 
-    val detailsState: StateFlow<DetailsState> = flow {
-        emit(DetailsState.Loading)
-        val either: Either<MovieDetailsData> = movieInteractor.movieDetails(movieId)
-        either.handle(
-            success = { movieDetailsData ->
-                emit(DetailsState.Content(movieDetailsData))
-            },
-            failure = { throwable ->
-                emit(DetailsState.Failure(throwable))
-            }
-        )
-    }.stateIn(
-        scope = this,
-        started = SharingStarted.Lazily,
-        initialValue = DetailsState.Loading
-    )
+    private val _detailsState: MutableStateFlow<ScreenState> = MutableStateFlow(ScreenState.Loading)
+    val detailsState: StateFlow<ScreenState> = _detailsState.asStateFlow()
 
-    val adRequest: AdRequest = AdRequest.Builder().build()
+    val networkStatus: StateFlow<NetworkStatus> = networkManager.status
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = NetworkStatus.Unavailable
+        )
 
     init {
-        analytics.trackScreen(AnalyticsScreen.DETAILS)
+        loadMovie()
+    }
+
+    fun retry() = loadMovie()
+
+    private fun loadMovie() = launch {
+        _detailsState.tryEmit(movieDetails(movieId))
     }
 }

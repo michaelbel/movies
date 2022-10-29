@@ -6,6 +6,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
 import org.michaelbel.moviemade.ktx.configureKotlinAndroid
 import org.michaelbel.moviemade.App.TargetSdk
+import org.michaelbel.moviemade.ktx.configureLintCheck
 
 class AndroidApplicationConventionPlugin: Plugin<Project> {
 
@@ -15,9 +16,11 @@ class AndroidApplicationConventionPlugin: Plugin<Project> {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.android")
             }
+
             extensions.configure<ApplicationExtension> {
-                configureKotlinAndroid(this)
                 defaultConfig.targetSdk = TargetSdk
+                configureKotlinAndroid(this)
+                configureLintCheck(this)
             }
         }
     }

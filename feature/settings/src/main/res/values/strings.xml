@@ -9,4 +9,7 @@
     <string name="settings_review">Review</string>
     <string name="settings_post_notifications_should_request">Notifications are disabled. Please go to app settings to activate them</string>
     <string name="settings_action_go">Go</string>
+    <string name="settings_error_play_services_not_available">Google play services are not available</string>
+    <string name="settings_error_app_from_google_play">Your version of app must be downloaded from Google Play</string>
+    <string name="settings_enable_rtl">Enable RTL</string>
 </resources>

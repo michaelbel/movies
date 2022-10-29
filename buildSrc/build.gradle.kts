@@ -2,20 +2,10 @@ plugins {
     `kotlin-dsl`
 }
 
-java {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
-}
-
-repositories {
-    mavenCentral()
-    google()
-}
-
 dependencies {
-    implementation("com.android.tools.build:gradle:7.3.0")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
-    implementation("com.squareup:javapoet:1.13.0")
+    implementation(libs.gradle.plugin)
+    implementation(libs.kotlin.plugin)
+    implementation(libs.javapoet)
 }
 
 gradlePlugin {

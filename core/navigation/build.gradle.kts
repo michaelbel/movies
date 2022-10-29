@@ -1,26 +1,12 @@
-import org.michaelbel.moviemade.App.namespace
-import org.michaelbel.moviemade.dependencies.apiHiltNavigationDependencies
-import org.michaelbel.moviemade.dependencies.apiNavigationDependencies
-
 plugins {
     id("movies-android-library")
 }
 
 android {
-    namespace = namespace("navigation")
-
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            proguardFiles(getDefaultProguardFile(
-                "proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
+    namespace = "org.michaelbel.movies.navigation"
 }
 
 dependencies {
-    apiNavigationDependencies()
-    apiHiltNavigationDependencies()
+    api(libs.hilt.navigation.compose)
+    api(libs.navigation.compose)
 }

@@ -25,7 +25,8 @@ fun MainActivityContent(
         NavHost(
             navController = navHostController,
             startDestination = startDestination,
-            modifier = modifier.padding(paddingValues)
+            modifier = modifier
+                .padding(paddingValues)
         ) {
             feedGraph(
                 navigateToSettings = {

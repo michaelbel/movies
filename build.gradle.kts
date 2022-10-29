@@ -1,21 +1,17 @@
-buildscript {
-    repositories {
-        mavenCentral()
-        google()
-    }
-
-    dependencies {
-        classpath(org.michaelbel.moviemade.dependencies.Gradle)
-        classpath(org.michaelbel.moviemade.dependencies.KotlinPlugin)
-        classpath(org.michaelbel.moviemade.dependencies.KotlinSerializationPlugin)
-        classpath(org.michaelbel.moviemade.dependencies.NavigationSafeArgsPlugin)
-        classpath(org.michaelbel.moviemade.dependencies.HiltPlugin)
-        classpath(org.michaelbel.moviemade.dependencies.GoogleServicesPlugin)
-        classpath(org.michaelbel.moviemade.dependencies.FirebaseCrashlyticsPlugin)
-        classpath(org.michaelbel.moviemade.dependencies.FirebaseAppDistributionPlugin)
-    }
+plugins {
+    alias(libs.plugins.firebase.appdistribution) apply false
+    alias(libs.plugins.firebase.crashlytics) apply false
+    alias(libs.plugins.google.services) apply false
+    alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.navigation.safeargs) apply false
+    alias(libs.plugins.hilt) apply false
+    alias(libs.plugins.spotless)
+    alias(libs.plugins.detekt)
 }
 
-tasks.register("clean").configure {
-    delete("build")
+buildscript {
+    dependencies {
+        classpath("com.android.tools.build:gradle:7.3.1")
+        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.20")
+    }
 }

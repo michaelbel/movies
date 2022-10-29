@@ -27,7 +27,8 @@ internal fun FeedErrorBox(
     ) {
         Text(
             text = stringResource(R.string.feed_retry),
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
+            style = MaterialTheme.typography.bodyLarge
         )
     }
 }

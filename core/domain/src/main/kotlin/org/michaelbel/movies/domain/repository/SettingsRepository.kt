@@ -1,7 +1,7 @@
 package org.michaelbel.movies.domain.repository
 
 import kotlinx.coroutines.flow.Flow
-import org.michaelbel.movies.ui.theme.SystemTheme
+import org.michaelbel.movies.ui.theme.model.SystemTheme
 
 interface SettingsRepository {
 
@@ -9,7 +9,11 @@ interface SettingsRepository {
 
     val dynamicColors: Flow<Boolean>
 
+    val rtlEnabled: Flow<Boolean>
+
     suspend fun selectTheme(systemTheme: SystemTheme)
 
     suspend fun setDynamicColors(value: Boolean)
+
+    suspend fun setRtlEnabled(value: Boolean)
 }

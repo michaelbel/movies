@@ -11,16 +11,15 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import org.michaelbel.movies.analytics.Analytics
-import org.michaelbel.movies.analytics.model.AnalyticsScreen
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
-import org.michaelbel.movies.ui.theme.SystemTheme
+import org.michaelbel.movies.domain.usecase.SelectThemeCase
+import org.michaelbel.movies.ui.theme.model.SystemTheme
 
 @HiltViewModel
-class SettingsViewModel @Inject constructor(
+internal class SettingsViewModel @Inject constructor(
     private val settingsInteractor: SettingsInteractor,
-    analytics: Analytics
+    private val selectThemeCase: SelectThemeCase
 ): BaseViewModel() {
 
     val isDynamicColorsFeatureEnabled: Boolean = Build.VERSION.SDK_INT >= 31
@@ -47,20 +46,44 @@ class SettingsViewModel @Inject constructor(
             initialValue = false
         )
 
+    val rtlEnabled: StateFlow<Boolean> = settingsInteractor.rtlEnabled
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = false
+        )
+
+    val isPlayServicesAvailable: StateFlow<Boolean> = settingsInteractor.isPlayServicesAvailable
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = false
+        )
+
+    val isAppFromGooglePlay: StateFlow<Boolean> = settingsInteractor.isAppFromGooglePlay
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = false
+        )
+
     private val _areNotificationsEnabled: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val areNotificationsEnabled: StateFlow<Boolean> = _areNotificationsEnabled.asStateFlow()
 
     init {
-        analytics.trackScreen(AnalyticsScreen.SETTINGS)
         checkNotificationsEnabled()
     }
 
     fun selectTheme(systemTheme: SystemTheme) = launch {
-        settingsInteractor.selectTheme(systemTheme)
+        selectThemeCase(systemTheme)
     }
 
     fun setDynamicColors(value: Boolean) = launch {
         settingsInteractor.setDynamicColors(value)
+    }
+
+    fun setRtlEnabled(value: Boolean) = launch {
+        settingsInteractor.setRtlEnabled(value)
     }
 
     fun checkNotificationsEnabled() {

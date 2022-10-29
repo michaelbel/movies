@@ -17,7 +17,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.rememberModalBottomSheetState
@@ -49,8 +48,8 @@ import org.michaelbel.movies.common.review.rememberReviewManager
 import org.michaelbel.movies.common.review.rememberReviewTask
 import org.michaelbel.movies.settings.R
 import org.michaelbel.movies.settings.SettingsViewModel
-import org.michaelbel.movies.ui.theme.SystemTheme
 import org.michaelbel.movies.ui.component.OnLifecycleEvent
+import org.michaelbel.movies.ui.theme.model.SystemTheme
 
 @Composable
 internal fun SettingsRoute(
@@ -60,6 +59,9 @@ internal fun SettingsRoute(
 ) {
     val currentTheme: SystemTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
     val dynamicColors: Boolean by viewModel.dynamicColors.collectAsStateWithLifecycle()
+    val rtlEnabled: Boolean by viewModel.rtlEnabled.collectAsStateWithLifecycle()
+    val isPlayServicesAvailable: Boolean by viewModel.isPlayServicesAvailable.collectAsStateWithLifecycle()
+    val isAppFromGooglePlay: Boolean by viewModel.isAppFromGooglePlay.collectAsStateWithLifecycle()
     val areNotificationsEnabled: Boolean by viewModel.areNotificationsEnabled.collectAsStateWithLifecycle()
 
     SettingsScreenContent(
@@ -71,9 +73,13 @@ internal fun SettingsRoute(
         isDynamicColorsFeatureEnabled = viewModel.isDynamicColorsFeatureEnabled,
         dynamicColors = dynamicColors,
         onSetDynamicColors = viewModel::setDynamicColors,
+        isRtlEnabled = rtlEnabled,
+        onEnableRtlChanged = viewModel::setRtlEnabled,
         isPostNotificationsFeatureEnabled = viewModel.isPostNotificationsFeatureEnabled,
         areNotificationsEnabled = areNotificationsEnabled,
-        onNotificationsStatusChanged = viewModel::checkNotificationsEnabled
+        onNotificationsStatusChanged = viewModel::checkNotificationsEnabled,
+        isPlayServicesAvailable = isPlayServicesAvailable,
+        isAppFromGooglePlay = isAppFromGooglePlay
     )
 }
 
@@ -87,9 +93,13 @@ internal fun SettingsScreenContent(
     isDynamicColorsFeatureEnabled: Boolean,
     dynamicColors: Boolean,
     onSetDynamicColors: (Boolean) -> Unit,
+    isRtlEnabled: Boolean,
+    onEnableRtlChanged: (Boolean) -> Unit,
     isPostNotificationsFeatureEnabled: Boolean,
     areNotificationsEnabled: Boolean,
-    onNotificationsStatusChanged: () -> Unit
+    onNotificationsStatusChanged: () -> Unit,
+    isPlayServicesAvailable: Boolean,
+    isAppFromGooglePlay: Boolean
 ) {
     var backHandlingEnabled: Boolean by remember { mutableStateOf(false) }
     val modalBottomSheetState = rememberModalBottomSheetState(
@@ -151,6 +161,15 @@ internal fun SettingsScreenContent(
         }
     }
 
+    val onShowSnackbar: (String) -> Unit = { message ->
+        scope.launch {
+            snackbarHostState.showSnackbar(
+                message = message,
+                duration = SnackbarDuration.Short
+            )
+        }
+    }
+
     fun showThemeModalBottomSheet() = scope.launch {
         modalBottomSheetState.show()
         backHandlingEnabled = true
@@ -162,8 +181,18 @@ internal fun SettingsScreenContent(
     }
 
     fun onLaunchReviewFlow() {
-        reviewInfo?.let {
-            reviewManager.launchReviewFlow(context as Activity, reviewInfo)
+        when {
+            !isPlayServicesAvailable -> {
+                onShowSnackbar(context.getString(R.string.settings_error_play_services_not_available))
+            }
+            !isAppFromGooglePlay -> {
+                onShowSnackbar(context.getString(R.string.settings_error_app_from_google_play))
+            }
+            else -> {
+                reviewInfo?.let {
+                    reviewManager.launchReviewFlow(context as Activity, reviewInfo)
+                }
+            }
         }
     }
 
@@ -198,7 +227,8 @@ internal fun SettingsScreenContent(
             SnackbarHost(
                 hostState = snackbarHostState
             )
-        }
+        },
+        containerColor = MaterialTheme.colorScheme.primaryContainer
     ) { paddingValues: PaddingValues ->
         ModalBottomSheetLayout(
             sheetContent = {
@@ -216,7 +246,7 @@ internal fun SettingsScreenContent(
                 )
             },
             sheetState = modalBottomSheetState,
-            sheetShape = RoundedCornerShape(8.dp),
+            sheetShape = MaterialTheme.shapes.small,
             sheetBackgroundColor = MaterialTheme.colorScheme.surface
         ) {
             Column(
@@ -244,6 +274,16 @@ internal fun SettingsScreenContent(
                         isDynamicColorsEnabled = dynamicColors
                     )
                 }
+
+                SettingsRtlBox(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
+                        .clickable {
+                            onEnableRtlChanged(!isRtlEnabled)
+                        },
+                    isRtlEnabled = isRtlEnabled
+                )
 
                 if (isPostNotificationsFeatureEnabled) {
                     SettingsPostNotificationsBox(

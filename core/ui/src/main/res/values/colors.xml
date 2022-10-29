@@ -25,19 +25,4 @@
     <color name="SurfaceVariant">#E7E0EC</color>
     <color name="Tertiary">#7D5260</color>
     <color name="TertiaryContainer">#FFD8E4</color>
-
-    <color name="ratingIconTint">#FFC107</color>
-    <color name="tmdbPrimary">#01d277</color>
-    <color name="tmdbSecondary">#081c24</color>
-
-    <color name="transparent">#00000000</color>
-    <color name="transparent10">#1A000000</color><!--10% opacity-->
-    <color name="transparent20">#33000000</color><!--20% opacity-->
-    <color name="transparent30">#4D000000</color><!--30% opacity-->
-    <color name="transparent40">#66000000</color><!--40% opacity-->
-    <color name="transparent50">#80000000</color><!--50% opacity-->
-    <color name="transparent60">#99000000</color><!--60% opacity-->
-    <color name="transparent70">#B3000000</color><!--70% opacity-->
-    <color name="transparent80">#CC000000</color><!--80% opacity-->
-    <color name="transparent90">#E6000000</color><!--90% opacity-->
 </resources>

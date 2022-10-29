@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 
 @Module
 @InstallIn(SingletonComponent::class)
-object CoroutinesDispatchersModule {
+internal object CoroutinesDispatchersModule {
 
     @Provides
     @Dispatcher(MoviesDispatchers.Default)

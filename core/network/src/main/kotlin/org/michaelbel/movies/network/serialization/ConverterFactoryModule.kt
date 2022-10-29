@@ -13,7 +13,7 @@ import retrofit2.Converter
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ConverterFactoryModule {
+internal object ConverterFactoryModule {
 
     private const val MEDIA_TYPE_APPLICATION_JSON = "application/json"
 

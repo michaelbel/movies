@@ -3,7 +3,6 @@ package org.michaelbel.movies.feed.navigation
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import org.michaelbel.movies.feed.ui.FeedRoute
-import org.michaelbel.movies.feed.ui.FeedScreenContent
 import org.michaelbel.movies.navigation.MoviesNavigationDestination
 
 object FeedDestination: MoviesNavigationDestination {

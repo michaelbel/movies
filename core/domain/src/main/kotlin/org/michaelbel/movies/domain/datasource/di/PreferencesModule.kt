@@ -13,7 +13,7 @@ import org.michaelbel.movies.domain.datasource.ktx.dataStore
 
 @Module
 @InstallIn(SingletonComponent::class)
-object PreferencesModule {
+internal object PreferencesModule {
 
     @Provides
     @Singleton

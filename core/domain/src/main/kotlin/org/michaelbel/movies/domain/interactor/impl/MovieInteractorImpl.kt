@@ -11,7 +11,7 @@ import org.michaelbel.movies.entities.Either
 import org.michaelbel.movies.entities.MovieData
 import org.michaelbel.movies.entities.MovieDetailsData
 
-class MovieInteractorImpl @Inject constructor(
+internal class MovieInteractorImpl @Inject constructor(
     @Dispatcher(MoviesDispatchers.IO) private val dispatcher: CoroutineDispatcher,
     private val movieRepository: MovieRepository
 ): MovieInteractor {

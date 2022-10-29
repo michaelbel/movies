@@ -12,7 +12,7 @@ import org.michaelbel.movies.domain.repository.impl.SettingsRepositoryImpl
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface RepositoryModule {
+internal interface RepositoryModule {
 
     @Binds
     @Singleton

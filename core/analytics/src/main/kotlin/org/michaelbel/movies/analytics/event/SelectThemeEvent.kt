@@ -1,13 +1,14 @@
 package org.michaelbel.movies.analytics.event
 
-import org.michaelbel.movies.analytics.model.AnalyticsEvents
+import org.michaelbel.movies.analytics.model.MoviesEvents
 import org.michaelbel.movies.analytics.model.BaseEvent
+import org.michaelbel.movies.analytics.model.MoviesParams
 
 class SelectThemeEvent(
     theme: String
-): BaseEvent(AnalyticsEvents.SETTINGS_SELECT_THEME) {
+): BaseEvent(MoviesEvents.SETTINGS_SELECT_THEME) {
 
     init {
-        add(AnalyticsEvents.PARAM_SELECTED_THEME, theme)
+        add(MoviesParams.PARAM_SELECTED_THEME, theme)
     }
 }

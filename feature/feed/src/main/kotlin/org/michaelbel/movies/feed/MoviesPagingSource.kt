@@ -5,7 +5,7 @@ import androidx.paging.PagingState
 import org.michaelbel.movies.domain.interactor.MovieInteractor
 import org.michaelbel.movies.entities.MovieData
 
-class MoviesPagingSource(
+internal class MoviesPagingSource(
     private val movieInteractor: MovieInteractor
 ): PagingSource<Int, MovieData>() {
 

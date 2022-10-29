@@ -13,7 +13,7 @@ import org.michaelbel.movies.common.config.RemoteParams
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RemoteConfigModule {
+internal object RemoteConfigModule {
 
     private const val FETCH_INTERVAL_IN_SECONDS = 5L
 

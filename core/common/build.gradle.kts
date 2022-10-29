@@ -1,17 +1,3 @@
-import org.michaelbel.moviemade.App.namespace
-import org.michaelbel.moviemade.dependencies.OptExperimentalCoroutinesApi
-import org.michaelbel.moviemade.dependencies.OptExperimentalFoundationApi
-import org.michaelbel.moviemade.dependencies.OptExperimentalMaterial3Api
-import org.michaelbel.moviemade.dependencies.apiActivityDependencies
-import org.michaelbel.moviemade.dependencies.apiCoreDependencies
-import org.michaelbel.moviemade.dependencies.apiFirebaseRemoteConfigDependencies
-import org.michaelbel.moviemade.dependencies.apiKotlinDependencies
-import org.michaelbel.moviemade.dependencies.apiLifecycleDependencies
-import org.michaelbel.moviemade.dependencies.apiPlayCoreDependencies
-import org.michaelbel.moviemade.dependencies.apiTimberDependencies
-import org.michaelbel.moviemade.dependencies.implementationFirebaseCrashlyticsDependencies
-import org.michaelbel.moviemade.dependencies.implementationStartupDependencies
-
 plugins {
     id("movies-android-library")
     id("movies-android-library-compose")
@@ -19,35 +5,30 @@ plugins {
 }
 
 android {
-    namespace = namespace("common")
-
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
+    namespace = "org.michaelbel.movies.common"
 
     kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + OptExperimentalMaterial3Api
-        freeCompilerArgs = freeCompilerArgs + OptExperimentalFoundationApi
-        freeCompilerArgs = freeCompilerArgs + OptExperimentalCoroutinesApi
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+            "-Xopt-in=androidx.compose.foundation.ExperimentalFoundationApi",
+            "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+        )
     }
 }
 
 dependencies {
     api(project(":core:entities"))
     api(project(":core:ui"))
-    apiCoreDependencies()
-    apiTimberDependencies()
-    apiActivityDependencies()
-    apiKotlinDependencies()
-    apiPlayCoreDependencies()
-    apiLifecycleDependencies()
-    apiFirebaseRemoteConfigDependencies()
-    implementationStartupDependencies()
-    implementationFirebaseCrashlyticsDependencies()
+    api(libs.bundles.kotlin.coroutines)
+    api(libs.firebase.config)
+    api(libs.play.services.base)
+    api(libs.play.core)
+    api(libs.core)
+    api(libs.activity.compose)
+    api(libs.bundles.lifecycle)
+    api(libs.timber)
+    implementation(libs.firebase.crashlytics)
+    implementation(libs.startup.runtime)
+    testApi(libs.kotlin.coroutines.test)
+    androidTestApi(libs.kotlin.coroutines.test)
 }

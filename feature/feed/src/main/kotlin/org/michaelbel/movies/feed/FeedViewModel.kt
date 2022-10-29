@@ -10,18 +10,18 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
-import org.michaelbel.movies.analytics.Analytics
-import org.michaelbel.movies.analytics.model.AnalyticsScreen
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.interactor.MovieInteractor
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.entities.MovieData
+import org.michaelbel.movies.network.connectivity.NetworkManager
+import org.michaelbel.movies.network.connectivity.NetworkStatus
 
 @HiltViewModel
-class FeedViewModel @Inject constructor(
+internal class FeedViewModel @Inject constructor(
     private val movieInteractor: MovieInteractor,
     settingsInteractor: SettingsInteractor,
-    analytics: Analytics
+    networkManager: NetworkManager
 ): BaseViewModel() {
 
     val pagingItems: Flow<PagingData<MovieData>> = Pager(
@@ -38,14 +38,17 @@ class FeedViewModel @Inject constructor(
         )
         .cachedIn(this)
 
+    val networkStatus: StateFlow<NetworkStatus> = networkManager.status
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = NetworkStatus.Unavailable
+        )
+
     val isSettingsIconVisible: StateFlow<Boolean> = settingsInteractor.isSettingsIconVisible
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
             initialValue = true
         )
-
-    init {
-        analytics.trackScreen(AnalyticsScreen.FEED)
-    }
 }

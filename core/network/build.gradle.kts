@@ -1,11 +1,3 @@
-import org.michaelbel.moviemade.App.namespace
-import org.michaelbel.moviemade.dependencies.OptExperimentalSerializationApi
-import org.michaelbel.moviemade.dependencies.apiRetrofitDependencies
-import org.michaelbel.moviemade.dependencies.implementationChuckerDependencies
-import org.michaelbel.moviemade.dependencies.implementationKotlinxSerializationDependencies
-import org.michaelbel.moviemade.dependencies.implementationOkhttpDependencies
-import org.michaelbel.moviemade.dependencies.implementationRetrofitConverterSerializationDependencies
-
 plugins {
     id("movies-android-library")
     id("movies-android-hilt")
@@ -13,27 +5,20 @@ plugins {
 }
 
 android {
-    namespace = namespace("network")
-
-    buildTypes {
-        release {
-            isMinifyEnabled = true
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
-            )
-        }
-    }
+    namespace = "org.michaelbel.movies.network"
 
     kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + OptExperimentalSerializationApi
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi"
+        )
     }
 }
 
 dependencies {
-    apiRetrofitDependencies()
-    implementationOkhttpDependencies()
-    implementationRetrofitConverterSerializationDependencies()
-    implementationKotlinxSerializationDependencies()
-    implementationChuckerDependencies()
+    implementation(libs.kotlin.serialization)
+    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.retrofit.converter.serialization)
+    api(libs.retrofit)
+    debugImplementation(libs.chucker.library)
+    releaseImplementation(libs.chucker.library.no.op)
 }

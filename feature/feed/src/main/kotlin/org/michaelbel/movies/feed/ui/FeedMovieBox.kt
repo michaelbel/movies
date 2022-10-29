@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +15,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -32,7 +33,8 @@ internal fun FeedMovieBox(
 
     Column(
         modifier = modifier
-            .clip(RoundedCornerShape(12F))
+            .clip(MaterialTheme.shapes.small)
+            .background(MaterialTheme.colorScheme.inversePrimary)
     ) {
         AsyncImage(
             model = ImageRequest.Builder(context)
@@ -42,8 +44,7 @@ internal fun FeedMovieBox(
             contentDescription = null,
             modifier = Modifier
                 .height(220.dp)
-                .fillMaxSize()
-                .clip(RoundedCornerShape(12F)),
+                .fillMaxSize(),
             contentScale = ContentScale.Crop
         )
 
@@ -51,33 +52,44 @@ internal fun FeedMovieBox(
             text = movie.title,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(8.dp),
-            color = MaterialTheme.colorScheme.onBackground,
+                .padding(
+                    start = 16.dp,
+                    top = 16.dp,
+                    end = 16.dp,
+                    bottom = 16.dp
+                ),
+            color = MaterialTheme.colorScheme.onPrimaryContainer,
             maxLines = 10,
-            overflow = TextOverflow.Ellipsis
+            overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.bodyLarge
         )
     }
 }
 
+private class MoviePreviewParameterProvider: PreviewParameterProvider<MovieData> {
+    override val values: Sequence<MovieData> = sequenceOf(
+        MovieData(
+            id = 438148,
+            overview = "",
+            posterPath = "/19GXuePqcZSPD5JgT9MeVdeu9Tc.jpg",
+            backdropPath = "https://image.tmdb.org/t/p/w500//nmGWzTLMXy9x7mKd8NKPLmHtWGa.jpg",
+            releaseDate = "2022-06-29",
+            title = "Миньоны: Грювитация",
+            voteAverage = 7.6F,
+            genreIds = listOf(16, 12, 35, 14)
+        )
+    )
+}
+
 @Composable
 @DevicePreviews
-private fun MovieBoxPreview() {
+private fun MovieBoxPreview(
+    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MovieData
+) {
     MoviesTheme {
         FeedMovieBox(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background),
-            movie = MovieData(
-                id = 438148,
-                overview = """Миллион лет миньоны искали самого великого и ужасного предводителя, пока 
-                не встретили ЕГО. Знакомьтесь - Грю. Пусть он еще очень молод, но у него в планах 
-                по-настоящему гадкие дела, которые заставят планету содрогнуться.""",
-                posterPath = "/19GXuePqcZSPD5JgT9MeVdeu9Tc.jpg",
-                backdropPath = "https://image.tmdb.org/t/p/w500//nmGWzTLMXy9x7mKd8NKPLmHtWGa.jpg",
-                releaseDate = "2022-06-29",
-                title = "Миньоны: Грювитация",
-                voteAverage = 7.6F,
-                genreIds = listOf(16, 12, 35, 14)
-            )
+            modifier = Modifier,
+            movie = movie
         )
     }
 }

@@ -3,7 +3,7 @@ package org.michaelbel.movies.common.crashlytics
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import timber.log.Timber
 
-class CrashlyticsTree: Timber.Tree() {
+internal class CrashlyticsTree: Timber.Tree() {
 
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
         val exception: Throwable = t ?: Exception(message)
