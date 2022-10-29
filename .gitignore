@@ -443,3 +443,4 @@
 /buildSrc/build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/supertypes.tab_i.len
 /buildSrc/build/reports/plugin-development/validation-report.txt
 /.idea/workspace.xml
+/.idea/vcs.xml
