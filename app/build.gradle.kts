@@ -124,7 +124,8 @@ android {
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
             "-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-            "-Xopt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi"
+            "-Xopt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
+            "-Xopt-in=androidx.compose.animation.ExperimentalAnimationApi"
         )
     }
 }
