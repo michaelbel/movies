@@ -444,3 +444,6 @@
 /buildSrc/build/reports/plugin-development/validation-report.txt
 /.idea/workspace.xml
 /.idea/vcs.xml
+/.idea/compiler.xml
+/.idea/gradle.xml
+/releaseNotes.txt
