@@ -97,6 +97,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] Landscape Orientation
 - [ ] Tablet and large screen support
 - [ ] Support RTL (in progress)
+- [ ] [Support Display Cutouts](https://d.android.com/develop/ui/views/layout/display-cutout)
 - [ ] Create Github Releases (in progress)
 - [ ] Upload Bundle to Google Play Console
 - [ ] Baseline Profiles
