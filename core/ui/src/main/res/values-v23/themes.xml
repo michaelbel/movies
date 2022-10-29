@@ -16,7 +16,6 @@
 
     <style name="Theme.Base.V23" parent="Theme.Base.V21">
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
     </style>
 
     <style name="Theme.Movies" parent="Theme.Base.V23"/>
