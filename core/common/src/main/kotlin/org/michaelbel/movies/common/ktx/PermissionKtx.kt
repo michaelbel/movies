@@ -1,4 +1,4 @@
-package org.michaelbel.movies.common.permissions
+package org.michaelbel.movies.common.ktx
 
 import android.content.Context
 import android.content.pm.PackageManager

@@ -1,5 +1,3 @@
-@file:Suppress("InlinedApi")
-
 package org.michaelbel.movies.settings.ui
 
 import android.Manifest
@@ -43,7 +41,7 @@ import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.michaelbel.movies.common.permissions.denied
+import org.michaelbel.movies.common.ktx.denied
 import org.michaelbel.movies.common.review.rememberReviewManager
 import org.michaelbel.movies.common.review.rememberReviewTask
 import org.michaelbel.movies.settings.R
