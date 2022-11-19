@@ -13,9 +13,7 @@ import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 import org.michaelbel.moviemade.App.CompileSdk
 import org.michaelbel.moviemade.App.MinSdk
 
-/**
- * Configure Compose-specific options
- */
+/** Configure Compose-specific options. */
 internal fun Project.configureAndroidCompose(
     commonExtension: CommonExtension<*, *, *, *>
 ) {
@@ -36,9 +34,7 @@ internal fun Project.configureAndroidCompose(
     }
 }
 
-/**
- * Configure base Kotlin with Android options
- */
+/** Configure base Kotlin with Android options. */
 internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *>
 ) {
@@ -62,7 +58,6 @@ internal fun Project.configureKotlinAndroid(
 
             freeCompilerArgs = freeCompilerArgs + listOf(
                 "-opt-in=kotlin.RequiresOptIn",
-                // Enable experimental coroutines APIs, including Flow
                 "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
                 "-opt-in=kotlinx.coroutines.FlowPreview",
                 "-opt-in=kotlin.Experimental",
@@ -79,19 +74,13 @@ internal fun Project.configureLintCheck(
 ) {
     commonExtension.apply {
         lint {
-            /**
-             * If set to true, turns off analysis progress reporting by lint.
-             */
+            /** If set to true, turns off analysis progress reporting by lint. */
             quiet = true
 
-            /**
-             * If set to true (default), stops the build if errors are found.
-             */
+            /** If set to true (default), stops the build if errors are found. */
             abortOnError = false
 
-            /**
-             * If true, only report errors.
-             */
+            /** If true, only report errors. */
             ignoreWarnings = true
 
             /**

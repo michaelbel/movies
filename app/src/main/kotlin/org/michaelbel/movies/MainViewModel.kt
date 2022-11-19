@@ -17,7 +17,7 @@ import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.ui.theme.model.SystemTheme
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+internal class MainViewModel @Inject constructor(
     private val settingsInteractor: SettingsInteractor,
     private val analytics: MoviesAnalytics
 ): ViewModel() {

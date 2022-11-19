@@ -6,7 +6,7 @@ import org.gradle.api.Project
 import org.gradle.kotlin.dsl.getByType
 import org.michaelbel.moviemade.ktx.configureAndroidCompose
 
-class AndroidComposeApplicationConventionPlugin: Plugin<Project> {
+internal class AndroidComposeApplicationConventionPlugin: Plugin<Project> {
 
     override fun apply(target: Project) {
         target.run {

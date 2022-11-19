@@ -19,7 +19,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.ui.theme.model.SystemTheme
 
 @AndroidEntryPoint
-class MainActivity: ComponentActivity() {
+internal class MainActivity: ComponentActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 
