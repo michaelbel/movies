@@ -1,5 +1,3 @@
-@file:Suppress("AnnotateVersionCheck")
-
 package org.michaelbel.movies.settings
 
 import android.os.Build

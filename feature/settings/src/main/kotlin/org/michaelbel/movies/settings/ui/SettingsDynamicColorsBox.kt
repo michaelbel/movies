@@ -10,11 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.settings.R
+import org.michaelbel.movies.ui.preview.BooleanPreviewParameterProvider
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
@@ -57,17 +57,10 @@ internal fun SettingsDynamicColorsBox(
     }
 }
 
-private class DynamicColorsPreviewParameterProvider: PreviewParameterProvider<Boolean> {
-    override val values: Sequence<Boolean> = sequenceOf(
-        true,
-        false
-    )
-}
-
 @Composable
 @DevicePreviews
 private fun SettingsDynamicColorsBoxPreview(
-    @PreviewParameter(DynamicColorsPreviewParameterProvider::class) isEnabled: Boolean
+    @PreviewParameter(BooleanPreviewParameterProvider::class) isEnabled: Boolean
 ) {
     MoviesTheme {
         SettingsDynamicColorsBox(

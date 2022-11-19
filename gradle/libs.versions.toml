@@ -44,6 +44,7 @@ retrofit-converter-serialization = "0.8.0"
 chucker = "3.5.2"
 timber = "5.0.1"
 javapoet = "1.13.0"
+room = "2.4.3"
 
 [libraries]
 kotlin-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
@@ -95,6 +96,10 @@ chucker-library = { group = "com.github.chuckerteam.chucker", name = "library", 
 chucker-library-no-op = { group = "com.github.chuckerteam.chucker", name = "library-no-op", version.ref = "chucker" }
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber" }
 javapoet = { group = "com.squareup", name = "javapoet", version.ref = "javapoet" }
+room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
+room-paging = { group = "androidx.room", name = "room-paging", version.ref = "room" }
 
 gradle-plugin = { group = "com.android.tools.build", name = "gradle", version.ref = "gradle" }
 kotlin-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
