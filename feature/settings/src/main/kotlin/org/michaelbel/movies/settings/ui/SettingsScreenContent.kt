@@ -32,10 +32,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
@@ -46,7 +47,6 @@ import org.michaelbel.movies.common.review.rememberReviewManager
 import org.michaelbel.movies.common.review.rememberReviewTask
 import org.michaelbel.movies.settings.R
 import org.michaelbel.movies.settings.SettingsViewModel
-import org.michaelbel.movies.ui.component.OnLifecycleEvent
 import org.michaelbel.movies.ui.theme.model.SystemTheme
 
 @Composable
@@ -61,6 +61,9 @@ internal fun SettingsRoute(
     val isPlayServicesAvailable: Boolean by viewModel.isPlayServicesAvailable.collectAsStateWithLifecycle()
     val isAppFromGooglePlay: Boolean by viewModel.isAppFromGooglePlay.collectAsStateWithLifecycle()
     val areNotificationsEnabled: Boolean by viewModel.areNotificationsEnabled.collectAsStateWithLifecycle()
+
+    val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+    lifecycleOwner.lifecycle.addObserver(viewModel)
 
     SettingsScreenContent(
         onBackClick = onBackClick,
@@ -203,12 +206,6 @@ internal fun SettingsScreenContent(
     BackHandler(backHandlingEnabled) {
         if (modalBottomSheetState.isVisible) {
             hideThemeModalBottomSheet()
-        }
-    }
-    
-    OnLifecycleEvent { _, event ->
-        if (event == Lifecycle.Event.ON_RESUME) {
-            onNotificationsStatusChanged()
         }
     }
 

@@ -1,6 +1,8 @@
 package org.michaelbel.movies.settings
 
 import android.os.Build
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,7 +20,7 @@ import org.michaelbel.movies.ui.theme.model.SystemTheme
 internal class SettingsViewModel @Inject constructor(
     private val settingsInteractor: SettingsInteractor,
     private val selectThemeCase: SelectThemeCase
-): BaseViewModel() {
+): BaseViewModel(), DefaultLifecycleObserver {
 
     val isDynamicColorsFeatureEnabled: Boolean = Build.VERSION.SDK_INT >= 31
 
@@ -69,6 +71,11 @@ internal class SettingsViewModel @Inject constructor(
     val areNotificationsEnabled: StateFlow<Boolean> = _areNotificationsEnabled.asStateFlow()
 
     init {
+        checkNotificationsEnabled()
+    }
+
+    override fun onResume(owner: LifecycleOwner) {
+        super.onResume(owner)
         checkNotificationsEnabled()
     }
 
