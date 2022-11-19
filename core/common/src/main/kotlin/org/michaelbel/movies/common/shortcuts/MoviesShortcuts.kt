@@ -8,7 +8,6 @@ import android.graphics.drawable.Icon
 import android.os.Build
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
-import org.michaelbel.movies.common.R
 
 private const val SETTINGS_SHORTCUT_ID = "settingsShortcutId"
 
@@ -17,10 +16,10 @@ const val INTENT_ACTION_SETTINGS = "shortcut://settings"
 fun Context.installShortcuts() {
     if (Build.VERSION.SDK_INT >= 25) {
         val settingsShortcut = ShortcutInfo.Builder(this, SETTINGS_SHORTCUT_ID)
-            .setShortLabel(getString(R.string.shortcuts_settings_title))
-            .setLongLabel(getString(R.string.shortcuts_settings_title))
+            .setShortLabel(getString(org.michaelbel.movies.ui.R.string.shortcuts_settings_title))
+            .setLongLabel(getString(org.michaelbel.movies.ui.R.string.shortcuts_settings_title))
             .setRank(1)
-            .setIcon(Icon.createWithResource(this, R.drawable.ic_shortcut_cog_outline))
+            .setIcon(Icon.createWithResource(this, org.michaelbel.movies.ui.R.drawable.ic_shortcut_cog_outline))
             .setIntent(Intent(Intent.ACTION_VIEW, INTENT_ACTION_SETTINGS.toUri()))
             .build()
 
