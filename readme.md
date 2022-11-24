@@ -80,7 +80,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Dependabot](https://github.com/dependabot)
 - [x] Github Actions CI/CD
 - [x] [Lint](https://d.android.com/studio/write/lint)
-- [x] [Detekt](https://github.com/detekt/detekt) 1.21.0
+- [x] [Detekt](https://github.com/detekt/detekt) 1.22.0
 - [x] [Spotless](https://github.com/diffplug/spotless) 6.11.0
 - [x] Distribute App via Telegram Bot
 - [x] Non-Transitive R classes
