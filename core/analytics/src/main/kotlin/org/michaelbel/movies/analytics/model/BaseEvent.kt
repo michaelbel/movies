@@ -6,7 +6,6 @@ import androidx.core.os.bundleOf
 open class BaseEvent(
     val name: String
 ) {
-
     val params: Bundle = bundleOf()
 
     fun add(key: String, value: Any) {

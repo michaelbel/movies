@@ -18,7 +18,7 @@ import org.michaelbel.movies.common.coroutines.MoviesDispatchers
 import org.michaelbel.movies.common.googleapi.GoogleApi
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.domain.repository.SettingsRepository
-import org.michaelbel.movies.ui.theme.model.SystemTheme
+import org.michaelbel.movies.ui.theme.model.AppTheme
 import timber.log.Timber
 
 internal class SettingsInteractorImpl @Inject constructor(
@@ -30,7 +30,7 @@ internal class SettingsInteractorImpl @Inject constructor(
     private val analytics: MoviesAnalytics
 ): SettingsInteractor {
 
-    override val currentTheme: Flow<SystemTheme> = settingsRepository.currentTheme
+    override val currentTheme: Flow<AppTheme> = settingsRepository.currentTheme
 
     override val dynamicColors: Flow<Boolean> = settingsRepository.dynamicColors
 
@@ -50,9 +50,9 @@ internal class SettingsInteractorImpl @Inject constructor(
 
     override val isAppFromGooglePlay: Flow<Boolean> = flowOf(googleApi.isAppFromGooglePlay)
 
-    override suspend fun selectTheme(systemTheme: SystemTheme) = withContext(dispatcher) {
-        settingsRepository.selectTheme(systemTheme)
-        analytics.logEvent(SelectThemeEvent(systemTheme.toString()))
+    override suspend fun selectTheme(theme: AppTheme) = withContext(dispatcher) {
+        settingsRepository.selectTheme(theme)
+        analytics.logEvent(SelectThemeEvent(theme.toString()))
     }
 
     override suspend fun setDynamicColors(value: Boolean) = withContext(dispatcher) {

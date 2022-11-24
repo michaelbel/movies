@@ -7,10 +7,3 @@ import javax.inject.Qualifier
 annotation class Dispatcher(
     val dispatcher: MoviesDispatchers
 )
-
-enum class MoviesDispatchers {
-    Default,
-    IO,
-    Main,
-    MainImmediate
-}

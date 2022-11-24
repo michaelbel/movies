@@ -57,6 +57,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Downloadable Fonts](https://d.android.com/develop/ui/views/text-and-emoji/downloadable-fonts)
 - [x] [KotlinX Coroutines](https://github.com/Kotlin/kotlinx.coroutines) 1.6.4
 - [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) 1.4.0
+- [x] [Appcompat](https://d.android.com/jetpack/androidx/releases/appcompat) 1.6.0-rc01
 - [x] [Dagger Hilt](https://github.com/google/dagger) 2.44
 - [x] [ViewModel](https://d.android.com/topic/libraries/architecture/viewmodel)
 - [x] [Lifecycle](https://d.android.com/topic/libraries/architecture/lifecycle) 2.6.0-alpha03
@@ -85,6 +86,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] Distribute App via Telegram Bot
 - [x] Non-Transitive R classes
 - [x] Kotlin Internal Visibility Modifier
+- [x] [Per-App Language Preferences](https://d.android.com/guide/topics/resources/app-languages)
 - [ ] [Room](https://d.android.com/training/data-storage/room)
 - [ ] Deep Links
 - [ ] Unit Tests

@@ -16,35 +16,35 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.settings.ktx.themeTextRes
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
-import org.michaelbel.movies.ui.theme.model.SystemTheme
+import org.michaelbel.movies.ui.theme.model.AppTheme
+import org.michaelbel.movies.ui.theme.preview.ThemesPreviewParameterProvider
 
 @Composable
 internal fun SettingsThemeModalContent(
     modifier: Modifier = Modifier,
-    themes: List<SystemTheme>,
-    currentTheme: SystemTheme,
-    onThemeSelected: (SystemTheme) -> Unit
+    themes: List<AppTheme>,
+    currentTheme: AppTheme,
+    onThemeSelected: (AppTheme) -> Unit
 ) {
     Column(
         modifier = modifier
     ) {
-        themes.forEach { systemTheme: SystemTheme ->
+        themes.forEach { theme: AppTheme ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp)
                     .clickable {
-                        onThemeSelected(systemTheme)
+                        onThemeSelected(theme)
                     },
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                    selected = currentTheme == systemTheme,
+                    selected = currentTheme == theme,
                     onClick = null,
                     colors = RadioButtonDefaults.colors(
                         selectedColor = MaterialTheme.colorScheme.primary,
@@ -57,7 +57,7 @@ internal fun SettingsThemeModalContent(
                 )
 
                 Text(
-                    text = stringResource(systemTheme.themeTextRes),
+                    text = stringResource(theme.themeTextRes),
                     modifier = Modifier
                         .padding(
                             start = 8.dp
@@ -70,27 +70,19 @@ internal fun SettingsThemeModalContent(
     }
 }
 
-private class ThemePreviewParameterProvider: PreviewParameterProvider<SystemTheme> {
-    override val values: Sequence<SystemTheme> = sequenceOf(
-        SystemTheme.FollowSystem,
-        SystemTheme.NightNo,
-        SystemTheme.NightYes
-    )
-}
-
 @Composable
 @DevicePreviews
 private fun SettingsThemeModalContentPreview(
-    @PreviewParameter(ThemePreviewParameterProvider::class) theme: SystemTheme
+    @PreviewParameter(ThemesPreviewParameterProvider::class) theme: AppTheme
 ) {
     MoviesTheme {
         SettingsThemeModalContent(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.background),
             themes = listOf(
-                SystemTheme.NightNo,
-                SystemTheme.NightYes,
-                SystemTheme.FollowSystem
+                AppTheme.NightNo,
+                AppTheme.NightYes,
+                AppTheme.FollowSystem
             ),
             currentTheme = theme,
             onThemeSelected = {}

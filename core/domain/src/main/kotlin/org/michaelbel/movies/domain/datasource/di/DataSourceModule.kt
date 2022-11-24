@@ -15,7 +15,5 @@ internal object DataSourceModule {
 
     @Provides
     @Singleton
-    fun provideMovieApi(retrofit: Retrofit): MovieNetwork {
-        return retrofit.createService()
-    }
+    fun provideMovieApi(retrofit: Retrofit): MovieNetwork = retrofit.createService()
 }

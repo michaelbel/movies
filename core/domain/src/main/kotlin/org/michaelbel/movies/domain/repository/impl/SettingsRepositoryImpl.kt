@@ -13,14 +13,14 @@ import org.michaelbel.movies.domain.datasource.ktx.orDefaultDynamicColorsEnabled
 import org.michaelbel.movies.domain.datasource.ktx.orDefaultRtlEnabled
 import org.michaelbel.movies.domain.datasource.ktx.orDefaultTheme
 import org.michaelbel.movies.domain.repository.SettingsRepository
-import org.michaelbel.movies.ui.theme.model.SystemTheme
+import org.michaelbel.movies.ui.theme.model.AppTheme
 
 internal class SettingsRepositoryImpl @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ): SettingsRepository {
 
-    override val currentTheme: Flow<SystemTheme> = dataStore.data.map { preferences: Preferences ->
-        return@map SystemTheme.transform(preferences[PREFERENCE_THEME_KEY].orDefaultTheme())
+    override val currentTheme: Flow<AppTheme> = dataStore.data.map { preferences: Preferences ->
+        return@map AppTheme.transform(preferences[PREFERENCE_THEME_KEY].orDefaultTheme())
     }
 
     override val dynamicColors: Flow<Boolean> = dataStore.data.map { preferences: Preferences ->
@@ -31,9 +31,9 @@ internal class SettingsRepositoryImpl @Inject constructor(
         return@map preferences[PREFERENCE_RTL_ENABLED_KEY].orDefaultRtlEnabled()
     }
 
-    override suspend fun selectTheme(systemTheme: SystemTheme) {
+    override suspend fun selectTheme(theme: AppTheme) {
         dataStore.edit { preferences ->
-            preferences[PREFERENCE_THEME_KEY] = systemTheme.theme
+            preferences[PREFERENCE_THEME_KEY] = theme.theme
         }
     }
 

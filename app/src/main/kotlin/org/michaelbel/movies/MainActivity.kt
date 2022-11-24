@@ -1,9 +1,9 @@
 package org.michaelbel.movies
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -16,10 +16,13 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.michaelbel.movies.common.shortcuts.installShortcuts
 import org.michaelbel.movies.ui.theme.MoviesTheme
-import org.michaelbel.movies.ui.theme.model.SystemTheme
+import org.michaelbel.movies.ui.theme.model.AppTheme
 
+/**
+ * Per-App Language depends on AppCompatActivity (not ComponentActivity).
+ */
 @AndroidEntryPoint
-internal class MainActivity: ComponentActivity() {
+internal class MainActivity: AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 
@@ -29,7 +32,7 @@ internal class MainActivity: ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         installShortcuts()
         setContent {
-            val currentTheme: SystemTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
+            val currentTheme: AppTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
             val dynamicColors: Boolean by viewModel.dynamicColors.collectAsStateWithLifecycle()
             val layoutDirection: LayoutDirection by viewModel.layoutDirection.collectAsStateWithLifecycle()
 

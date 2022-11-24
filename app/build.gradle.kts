@@ -62,6 +62,7 @@ android {
         versionName = VersionName
         testInstrumentationRunner = App.TestInstrumentationRunner
         vectorDrawables.useSupportLibrary = true
+        resourceConfigurations.addAll(listOf("en", "ru"))
 
         buildConfigField("String", "VERSION_DATE", "\"$currentTime\"")
         buildConfigField("String", "ADMOB_APP_ID", "\"$admobAppId\"")

@@ -12,4 +12,7 @@
     <string name="settings_error_play_services_not_available">Google play services are not available</string>
     <string name="settings_error_app_from_google_play">Your version of app must be downloaded from Google Play</string>
     <string name="settings_enable_rtl">Enable RTL</string>
+    <string name="settings_language">Language</string>
+    <string name="settings_language_en">English</string>
+    <string name="settings_language_ru">Русский</string>
 </resources>

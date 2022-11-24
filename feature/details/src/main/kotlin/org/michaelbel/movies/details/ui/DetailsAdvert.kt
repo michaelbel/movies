@@ -12,6 +12,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
+import org.michaelbel.movies.ads.R
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
@@ -29,7 +30,7 @@ internal fun DetailsAdvert(
             factory = { context ->
                 AdView(context).apply {
                     adSize = AdSize.LARGE_BANNER
-                    adUnitId = context.getString(org.michaelbel.movies.ads.R.string.admobBannerTestUnitId)
+                    adUnitId = context.getString(R.string.admobBannerTestUnitId)
                     loadAd(adRequest)
                 }
             },

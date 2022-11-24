@@ -33,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -47,7 +48,10 @@ import org.michaelbel.movies.common.review.rememberReviewManager
 import org.michaelbel.movies.common.review.rememberReviewTask
 import org.michaelbel.movies.settings.R
 import org.michaelbel.movies.settings.SettingsViewModel
-import org.michaelbel.movies.ui.theme.model.SystemTheme
+import org.michaelbel.movies.settings.model.ModalBottomSheetType
+import org.michaelbel.movies.ui.language.model.AppLanguage
+import org.michaelbel.movies.ui.theme.model.AppTheme
+import org.michaelbel.movies.ui.R as UiR
 
 @Composable
 internal fun SettingsRoute(
@@ -55,7 +59,8 @@ internal fun SettingsRoute(
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
-    val currentTheme: SystemTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
+    val currentLanguage: AppLanguage = AppLanguage.transform(stringResource(UiR.string.language_code))
+    val currentTheme: AppTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
     val dynamicColors: Boolean by viewModel.dynamicColors.collectAsStateWithLifecycle()
     val rtlEnabled: Boolean by viewModel.rtlEnabled.collectAsStateWithLifecycle()
     val isPlayServicesAvailable: Boolean by viewModel.isPlayServicesAvailable.collectAsStateWithLifecycle()
@@ -68,6 +73,9 @@ internal fun SettingsRoute(
     SettingsScreenContent(
         onBackClick = onBackClick,
         modifier = modifier,
+        languages = viewModel.languages,
+        currentLanguage = currentLanguage,
+        onLanguageSelect = viewModel::selectLanguage,
         themes = viewModel.themes,
         currentTheme = currentTheme,
         onThemeSelect = viewModel::selectTheme,
@@ -88,9 +96,12 @@ internal fun SettingsRoute(
 internal fun SettingsScreenContent(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    themes: List<SystemTheme>,
-    currentTheme: SystemTheme,
-    onThemeSelect: (SystemTheme) -> Unit,
+    languages: List<AppLanguage>,
+    currentLanguage: AppLanguage,
+    onLanguageSelect: (AppLanguage) -> Unit,
+    themes: List<AppTheme>,
+    currentTheme: AppTheme,
+    onThemeSelect: (AppTheme) -> Unit,
     isDynamicColorsFeatureEnabled: Boolean,
     dynamicColors: Boolean,
     onSetDynamicColors: (Boolean) -> Unit,
@@ -103,6 +114,9 @@ internal fun SettingsScreenContent(
     isAppFromGooglePlay: Boolean
 ) {
     var backHandlingEnabled: Boolean by remember { mutableStateOf(false) }
+    var modalBottomSheetType: ModalBottomSheetType by remember {
+        mutableStateOf(ModalBottomSheetType.Language)
+    }
     val modalBottomSheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
         confirmStateChange = { value: ModalBottomSheetValue ->
@@ -171,12 +185,13 @@ internal fun SettingsScreenContent(
         }
     }
 
-    fun showThemeModalBottomSheet() = scope.launch {
+    fun showModalBottomSheet(type: ModalBottomSheetType) = scope.launch {
+        modalBottomSheetType = type
         modalBottomSheetState.show()
         backHandlingEnabled = true
     }
 
-    fun hideThemeModalBottomSheet() = scope.launch {
+    fun hideModalBottomSheet() = scope.launch {
         modalBottomSheetState.hide()
         backHandlingEnabled = false
     }
@@ -205,7 +220,7 @@ internal fun SettingsScreenContent(
 
     BackHandler(backHandlingEnabled) {
         if (modalBottomSheetState.isVisible) {
-            hideThemeModalBottomSheet()
+            hideModalBottomSheet()
         }
     }
 
@@ -227,18 +242,36 @@ internal fun SettingsScreenContent(
     ) { paddingValues: PaddingValues ->
         ModalBottomSheetLayout(
             sheetContent = {
-                SettingsThemeModalContent(
-                    modifier = Modifier
-                        .padding(
-                            vertical = 8.dp
-                        ),
-                    themes = themes,
-                    currentTheme = currentTheme,
-                    onThemeSelected = { systemTheme ->
-                        onThemeSelect(systemTheme)
-                        hideThemeModalBottomSheet()
+                when (modalBottomSheetType) {
+                    is ModalBottomSheetType.Language -> {
+                        SettingsLanguageModalContent(
+                            modifier = Modifier
+                                .padding(
+                                    vertical = 8.dp
+                                ),
+                            languages = languages,
+                            currentLanguage = currentLanguage,
+                            onLanguageSelected = { language ->
+                                onLanguageSelect(language)
+                                hideModalBottomSheet()
+                            }
+                        )
                     }
-                )
+                    is ModalBottomSheetType.Theme -> {
+                        SettingsThemeModalContent(
+                            modifier = Modifier
+                                .padding(
+                                    vertical = 8.dp
+                                ),
+                            themes = themes,
+                            currentTheme = currentTheme,
+                            onThemeSelected = { theme ->
+                                onThemeSelect(theme)
+                                hideModalBottomSheet()
+                            }
+                        )
+                    }
+                }
             },
             sheetState = modalBottomSheetState,
             sheetShape = MaterialTheme.shapes.small,
@@ -248,12 +281,22 @@ internal fun SettingsScreenContent(
                 modifier = Modifier
                     .padding(paddingValues)
             ) {
+                SettingsLanguageBox(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
+                        .clickable {
+                            showModalBottomSheet(ModalBottomSheetType.Language)
+                        },
+                    currentLanguage = currentLanguage
+                )
+
                 SettingsThemeBox(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
                         .clickable {
-                            showThemeModalBottomSheet()
+                            showModalBottomSheet(ModalBottomSheetType.Theme)
                         },
                     currentTheme = currentTheme
                 )
