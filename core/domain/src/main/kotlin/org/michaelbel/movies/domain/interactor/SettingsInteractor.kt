@@ -1,11 +1,11 @@
 package org.michaelbel.movies.domain.interactor
 
 import kotlinx.coroutines.flow.Flow
-import org.michaelbel.movies.ui.theme.model.SystemTheme
+import org.michaelbel.movies.ui.theme.model.AppTheme
 
 interface SettingsInteractor {
 
-    val currentTheme: Flow<SystemTheme>
+    val currentTheme: Flow<AppTheme>
 
     val dynamicColors: Flow<Boolean>
 
@@ -19,7 +19,7 @@ interface SettingsInteractor {
 
     val isAppFromGooglePlay: Flow<Boolean>
 
-    suspend fun selectTheme(systemTheme: SystemTheme)
+    suspend fun selectTheme(theme: AppTheme)
 
     suspend fun setDynamicColors(value: Boolean)
 

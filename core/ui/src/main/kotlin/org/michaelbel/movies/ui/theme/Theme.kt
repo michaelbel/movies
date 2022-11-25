@@ -11,8 +11,8 @@ import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.michaelbel.movies.ui.theme.ktx.dynamicColorScheme
+import org.michaelbel.movies.ui.theme.model.AppTheme
 import org.michaelbel.movies.ui.theme.model.ComposeTheme
-import org.michaelbel.movies.ui.theme.model.SystemTheme
 
 /**
  * Movies theme.
@@ -23,7 +23,7 @@ import org.michaelbel.movies.ui.theme.model.SystemTheme
  */
 @Composable
 fun MoviesTheme(
-    theme: SystemTheme = SystemTheme.FollowSystem,
+    theme: AppTheme = AppTheme.FollowSystem,
     dynamicColors: Boolean = false,
     content: @Composable () -> Unit
 ) {
@@ -32,7 +32,7 @@ fun MoviesTheme(
     val dynamicColorsAvailable: Boolean = Build.VERSION.SDK_INT >= 31
 
     val composeTheme: ComposeTheme = when (theme) {
-        SystemTheme.NightNo -> {
+        AppTheme.NightNo -> {
             ComposeTheme(
                 colorScheme = if (dynamicColorsAvailable && dynamicColors) {
                     dynamicLightColorScheme(context)
@@ -42,7 +42,7 @@ fun MoviesTheme(
                 statusBarDarkContentEnabled = true
             )
         }
-        SystemTheme.NightYes -> {
+        AppTheme.NightYes -> {
             ComposeTheme(
                 colorScheme = if (dynamicColorsAvailable && dynamicColors) {
                     dynamicDarkColorScheme(context)
@@ -52,7 +52,7 @@ fun MoviesTheme(
                 statusBarDarkContentEnabled = false
             )
         }
-        SystemTheme.FollowSystem -> {
+        AppTheme.FollowSystem -> {
             val darkTheme: Boolean = isSystemInDarkTheme()
 
             ComposeTheme(

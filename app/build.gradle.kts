@@ -62,6 +62,7 @@ android {
         versionName = VersionName
         testInstrumentationRunner = App.TestInstrumentationRunner
         vectorDrawables.useSupportLibrary = true
+        resourceConfigurations.addAll(listOf("en", "ru"))
 
         buildConfigField("String", "VERSION_DATE", "\"$currentTime\"")
         buildConfigField("String", "ADMOB_APP_ID", "\"$admobAppId\"")
@@ -124,7 +125,8 @@ android {
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
             "-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-            "-Xopt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi"
+            "-Xopt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
+            "-Xopt-in=androidx.compose.animation.ExperimentalAnimationApi"
         )
     }
 }

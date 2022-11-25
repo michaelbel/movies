@@ -16,7 +16,7 @@ import org.michaelbel.movies.settings.navigation.SettingsDestination
 import org.michaelbel.movies.settings.navigation.settingsGraph
 
 @Composable
-fun MainActivityContent(
+internal fun MainActivityContent(
     modifier: Modifier = Modifier,
     navHostController: NavHostController = rememberNavController(),
     startDestination: String = FeedDestination.route

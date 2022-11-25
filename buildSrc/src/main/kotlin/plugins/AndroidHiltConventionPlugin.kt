@@ -9,7 +9,7 @@ import org.gradle.kotlin.dsl.getByType
 import org.michaelbel.moviemade.ktx.implementation
 import org.michaelbel.moviemade.ktx.kapt
 
-class AndroidHiltConventionPlugin: Plugin<Project> {
+internal class AndroidHiltConventionPlugin: Plugin<Project> {
 
     override fun apply(target: Project) {
         target.run {

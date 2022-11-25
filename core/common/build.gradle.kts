@@ -17,6 +17,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:analytics"))
     api(project(":core:entities"))
     api(project(":core:ui"))
     api(libs.bundles.kotlin.coroutines)
@@ -27,6 +28,7 @@ dependencies {
     api(libs.activity.compose)
     api(libs.bundles.lifecycle)
     api(libs.timber)
+    implementation(libs.bundles.appcompat)
     implementation(libs.firebase.crashlytics)
     implementation(libs.startup.runtime)
     testApi(libs.kotlin.coroutines.test)

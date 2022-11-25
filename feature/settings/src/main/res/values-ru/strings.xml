@@ -1,0 +1,18 @@
+<resources>
+    <string name="settings_title">Настройки</string>
+    <string name="settings_theme">Тема</string>
+    <string name="settings_theme_system">По умолчанию</string>
+    <string name="settings_theme_light">Светлая</string>
+    <string name="settings_theme_dark">Темная</string>
+    <string name="settings_dynamic_colors">Цвета обоев</string>
+    <string name="settings_post_notifications">Уведомления</string>
+    <string name="settings_review">Оценить приложение</string>
+    <string name="settings_post_notifications_should_request">Уведомления отключены. Активируйте их в настройках приложения</string>
+    <string name="settings_action_go">Перейти</string>
+    <string name="settings_error_play_services_not_available">Сервисы Google play недоступны</string>
+    <string name="settings_error_app_from_google_play">Приложение должно быть загружено из Google Play</string>
+    <string name="settings_enable_rtl">Включить RTL</string>
+    <string name="settings_language">Язык</string>
+    <string name="settings_language_en">English</string>
+    <string name="settings_language_ru">Русский</string>
+</resources>

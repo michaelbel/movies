@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -17,12 +16,13 @@ import org.michaelbel.movies.settings.R
 import org.michaelbel.movies.settings.ktx.themeTextRes
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
-import org.michaelbel.movies.ui.theme.model.SystemTheme
+import org.michaelbel.movies.ui.theme.model.AppTheme
+import org.michaelbel.movies.ui.theme.preview.ThemesPreviewParameterProvider
 
 @Composable
 internal fun SettingsThemeBox(
     modifier: Modifier = Modifier,
-    currentTheme: SystemTheme
+    currentTheme: AppTheme
 ) {
     ConstraintLayout(
         modifier = modifier
@@ -59,18 +59,10 @@ internal fun SettingsThemeBox(
     }
 }
 
-private class ThemesPreviewParameterProvider: PreviewParameterProvider<SystemTheme> {
-    override val values: Sequence<SystemTheme> = sequenceOf(
-        SystemTheme.FollowSystem,
-        SystemTheme.NightNo,
-        SystemTheme.NightYes
-    )
-}
-
 @Composable
 @DevicePreviews
 private fun SettingsThemeBoxPreview(
-    @PreviewParameter(ThemesPreviewParameterProvider::class) theme: SystemTheme
+    @PreviewParameter(ThemesPreviewParameterProvider::class) theme: AppTheme
 ) {
     MoviesTheme {
         SettingsThemeBox(

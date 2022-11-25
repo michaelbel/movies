@@ -8,7 +8,7 @@ import android.graphics.drawable.Icon
 import android.os.Build
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
-import org.michaelbel.movies.common.R
+import org.michaelbel.movies.ui.R
 
 private const val SETTINGS_SHORTCUT_ID = "settingsShortcutId"
 

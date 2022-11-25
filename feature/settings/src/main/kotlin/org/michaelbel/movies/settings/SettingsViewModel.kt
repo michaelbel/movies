@@ -1,8 +1,8 @@
-@file:Suppress("AnnotateVersionCheck")
-
 package org.michaelbel.movies.settings
 
 import android.os.Build
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -13,30 +13,38 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
+import org.michaelbel.movies.domain.usecase.SelectLanguageCase
 import org.michaelbel.movies.domain.usecase.SelectThemeCase
-import org.michaelbel.movies.ui.theme.model.SystemTheme
+import org.michaelbel.movies.ui.language.model.AppLanguage
+import org.michaelbel.movies.ui.theme.model.AppTheme
 
 @HiltViewModel
 internal class SettingsViewModel @Inject constructor(
     private val settingsInteractor: SettingsInteractor,
+    private val selectLanguageCase: SelectLanguageCase,
     private val selectThemeCase: SelectThemeCase
-): BaseViewModel() {
+): BaseViewModel(), DefaultLifecycleObserver {
 
     val isDynamicColorsFeatureEnabled: Boolean = Build.VERSION.SDK_INT >= 31
 
     val isPostNotificationsFeatureEnabled: Boolean = Build.VERSION.SDK_INT >= 33
 
-    val themes: List<SystemTheme> = listOf(
-        SystemTheme.NightNo,
-        SystemTheme.NightYes,
-        SystemTheme.FollowSystem
+    val languages: List<AppLanguage> = listOf(
+        AppLanguage.English,
+        AppLanguage.Russian
     )
 
-    val currentTheme: StateFlow<SystemTheme> = settingsInteractor.currentTheme
+    val themes: List<AppTheme> = listOf(
+        AppTheme.NightNo,
+        AppTheme.NightYes,
+        AppTheme.FollowSystem
+    )
+
+    val currentTheme: StateFlow<AppTheme> = settingsInteractor.currentTheme
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
-            initialValue = SystemTheme.FollowSystem
+            initialValue = AppTheme.FollowSystem
         )
 
     val dynamicColors: StateFlow<Boolean> = settingsInteractor.dynamicColors
@@ -74,8 +82,17 @@ internal class SettingsViewModel @Inject constructor(
         checkNotificationsEnabled()
     }
 
-    fun selectTheme(systemTheme: SystemTheme) = launch {
-        selectThemeCase(systemTheme)
+    override fun onResume(owner: LifecycleOwner) {
+        super.onResume(owner)
+        checkNotificationsEnabled()
+    }
+
+    fun selectLanguage(language: AppLanguage) = launch {
+        selectLanguageCase(language)
+    }
+
+    fun selectTheme(theme: AppTheme) = launch {
+        selectThemeCase(theme)
     }
 
     fun setDynamicColors(value: Boolean) = launch {

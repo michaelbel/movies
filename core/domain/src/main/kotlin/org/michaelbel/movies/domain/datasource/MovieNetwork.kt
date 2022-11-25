@@ -7,7 +7,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface MovieNetwork {
+internal interface MovieNetwork {
 
     @GET("movie/{movie_id}")
     suspend fun movie(

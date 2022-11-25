@@ -14,19 +14,19 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.analytics.MoviesAnalytics
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
-import org.michaelbel.movies.ui.theme.model.SystemTheme
+import org.michaelbel.movies.ui.theme.model.AppTheme
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+internal class MainViewModel @Inject constructor(
     private val settingsInteractor: SettingsInteractor,
     private val analytics: MoviesAnalytics
 ): ViewModel() {
 
-    val currentTheme: StateFlow<SystemTheme> = settingsInteractor.currentTheme
+    val currentTheme: StateFlow<AppTheme> = settingsInteractor.currentTheme
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,
-            initialValue = SystemTheme.FollowSystem
+            initialValue = AppTheme.FollowSystem
         )
 
     val dynamicColors: StateFlow<Boolean> = settingsInteractor.dynamicColors

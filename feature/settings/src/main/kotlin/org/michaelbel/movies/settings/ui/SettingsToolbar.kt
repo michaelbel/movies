@@ -4,8 +4,8 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SmallTopAppBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -22,7 +22,7 @@ internal fun SettingsToolbar(
     modifier: Modifier = Modifier,
     onNavigationIconClick: () -> Unit
 ) {
-    SmallTopAppBar(
+    TopAppBar(
         title = {
             Text(
                 text = stringResource(R.string.settings_title),

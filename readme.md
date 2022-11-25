@@ -50,13 +50,14 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] Dark Theme
 - [x] Dynamic Colors
 - [x] [Themed App Icon](https://d.android.com/develop/ui/views/launch/icon_design_adaptive)
-- [x] 100% Kotlin 1.7.20
-- [x] 100% Jetpack Compose 1.3.0, No XML
-- [x] [Accompanist](https://github.com/google/accompanist) 0.27.0
+- [x] 100% Kotlin 1.7.21
+- [x] 100% Jetpack Compose 1.3.1, No XML
+- [x] [Accompanist](https://github.com/google/accompanist) 0.27.1
 - [x] [Compose PreviewParameterProvider](https://d.android.com/jetpack/compose/tooling#previewparameter)
 - [x] [Downloadable Fonts](https://d.android.com/develop/ui/views/text-and-emoji/downloadable-fonts)
 - [x] [KotlinX Coroutines](https://github.com/Kotlin/kotlinx.coroutines) 1.6.4
 - [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) 1.4.0
+- [x] [Appcompat](https://d.android.com/jetpack/androidx/releases/appcompat) 1.6.0-rc01
 - [x] [Dagger Hilt](https://github.com/google/dagger) 2.44
 - [x] [ViewModel](https://d.android.com/topic/libraries/architecture/viewmodel)
 - [x] [Lifecycle](https://d.android.com/topic/libraries/architecture/lifecycle) 2.6.0-alpha03
@@ -80,9 +81,12 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Dependabot](https://github.com/dependabot)
 - [x] Github Actions CI/CD
 - [x] [Lint](https://d.android.com/studio/write/lint)
-- [x] [Detekt](https://github.com/detekt/detekt) 1.21.0
+- [x] [Detekt](https://github.com/detekt/detekt) 1.22.0
 - [x] [Spotless](https://github.com/diffplug/spotless) 6.11.0
 - [x] Distribute App via Telegram Bot
+- [x] Non-Transitive R classes
+- [x] Kotlin Internal Visibility Modifier
+- [x] [Per-App Language Preferences](https://d.android.com/guide/topics/resources/app-languages)
 - [ ] [Room](https://d.android.com/training/data-storage/room)
 - [ ] Deep Links
 - [ ] Unit Tests
@@ -97,10 +101,12 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] Landscape Orientation
 - [ ] Tablet and large screen support
 - [ ] Support RTL (in progress)
+- [ ] [Support Display Cutouts](https://d.android.com/develop/ui/views/layout/display-cutout)
 - [ ] Create Github Releases (in progress)
 - [ ] Upload Bundle to Google Play Console
 - [ ] Baseline Profiles
 - [ ] ExoPlayer
+- [ ] Documentation
 
 ## Issues
 If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).

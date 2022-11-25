@@ -4,11 +4,11 @@ import com.android.build.api.dsl.ApplicationExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
-import org.michaelbel.moviemade.ktx.configureKotlinAndroid
 import org.michaelbel.moviemade.App.TargetSdk
+import org.michaelbel.moviemade.ktx.configureKotlinAndroid
 import org.michaelbel.moviemade.ktx.configureLintCheck
 
-class AndroidApplicationConventionPlugin: Plugin<Project> {
+internal class AndroidApplicationConventionPlugin: Plugin<Project> {
 
     override fun apply(target: Project) {
         target.run {

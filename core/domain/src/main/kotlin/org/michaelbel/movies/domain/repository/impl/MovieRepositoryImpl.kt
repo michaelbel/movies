@@ -1,13 +1,13 @@
 package org.michaelbel.movies.domain.repository.impl
 
 import javax.inject.Inject
+import org.michaelbel.movies.common.localization.LocaleController
 import org.michaelbel.movies.domain.datasource.MovieNetwork
 import org.michaelbel.movies.domain.exceptions.ktx.checkApiKeyNotNullException
 import org.michaelbel.movies.domain.repository.MovieRepository
 import org.michaelbel.movies.entities.Either
 import org.michaelbel.movies.entities.MovieData
 import org.michaelbel.movies.entities.MovieDetailsData
-import org.michaelbel.movies.entities.language
 import org.michaelbel.movies.entities.mapper.MovieMapper
 import org.michaelbel.movies.entities.response
 import org.michaelbel.movies.entities.tmdbApiKey
@@ -17,7 +17,8 @@ import org.michaelbel.movies.network.model.Result
 
 internal class MovieRepositoryImpl @Inject constructor(
     private val movieApi: MovieNetwork,
-    private val movieMapper: MovieMapper
+    private val movieMapper: MovieMapper,
+    private val localeController: LocaleController
 ): MovieRepository {
 
     override suspend fun movieList(list: String, page: Int): Pair<List<MovieData>, Int> {
@@ -26,7 +27,7 @@ internal class MovieRepositoryImpl @Inject constructor(
         val result: Result<MovieResponse> = movieApi.movies(
             list = list,
             apiKey = tmdbApiKey,
-            language = language,
+            language = localeController.language,
             page = page
         )
         return movieMapper.mapToMovieDataList(result.results) to result.totalPages
@@ -37,7 +38,7 @@ internal class MovieRepositoryImpl @Inject constructor(
             val movie: Movie = movieApi.movie(
                 id = movieId,
                 apiKey = tmdbApiKey,
-                language = language
+                language = localeController.language
             )
             movieMapper.mapToMovieDetailsData(movie)
         }
