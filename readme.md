@@ -80,6 +80,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [App Shortcuts](https://d.android.com/develop/ui/views/launch/shortcuts)
 - [x] [Dependabot](https://github.com/dependabot)
 - [x] Github Actions CI/CD
+- [x] Github Releases
 - [x] [Lint](https://d.android.com/studio/write/lint)
 - [x] [Detekt](https://github.com/detekt/detekt) 1.22.0
 - [x] [Spotless](https://github.com/diffplug/spotless) 6.11.0
@@ -102,7 +103,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] Tablet and large screen support
 - [ ] Support RTL (in progress)
 - [ ] [Support Display Cutouts](https://d.android.com/develop/ui/views/layout/display-cutout)
-- [ ] Create Github Releases (in progress)
 - [ ] Upload Bundle to Google Play Console
 - [ ] Baseline Profiles
 - [ ] ExoPlayer
