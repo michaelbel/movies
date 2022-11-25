@@ -2,10 +2,6 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import java.io.FileInputStream
 import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
-import org.michaelbel.moviemade.App
-import org.michaelbel.moviemade.App.ApplicationId
-import org.michaelbel.moviemade.App.BuildTools
-import org.michaelbel.moviemade.App.VersionName
 
 plugins {
     id("movies-android-application")
@@ -17,7 +13,7 @@ plugins {
     id("com.google.firebase.crashlytics")
 }
 
-val gitVersion: Int by lazy {
+val gitCommitsCount: Int by lazy {
     val stdout = ByteArrayOutputStream()
     rootProject.exec {
         commandLine("git", "rev-list", "--count", "HEAD")
@@ -54,13 +50,13 @@ afterEvaluate {
 
 android {
     namespace = "org.michaelbel.moviemade"
-    buildToolsVersion = BuildTools
+    buildToolsVersion = libs.versions.build.tools.get()
 
     defaultConfig {
-        applicationId = ApplicationId
-        versionCode = gitVersion
-        versionName = VersionName
-        testInstrumentationRunner = App.TestInstrumentationRunner
+        applicationId = "org.michaelbel.moviemade"
+        versionCode = gitCommitsCount
+        versionName = "1.4.1"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         resourceConfigurations.addAll(listOf("en", "ru"))
 

@@ -10,8 +10,6 @@ import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.provideDelegate
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-import org.michaelbel.moviemade.App.CompileSdk
-import org.michaelbel.moviemade.App.MinSdk
 
 /** Configure Compose-specific options. */
 internal fun Project.configureAndroidCompose(
@@ -38,11 +36,13 @@ internal fun Project.configureAndroidCompose(
 internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *>
 ) {
+    val libs: VersionCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
+
     commonExtension.apply {
-        compileSdk = CompileSdk
+        compileSdk = libs.findVersion("compile-sdk").get().requiredVersion.toInt()
 
         defaultConfig {
-            minSdk = MinSdk
+            minSdk = libs.findVersion("min-sdk").get().requiredVersion.toInt()
         }
 
         compileOptions {
