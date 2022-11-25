@@ -51,19 +51,14 @@ jobs:
       - name: Make Gradlew Executable
         run: chmod +x ./gradlew
 
-#      - name: Lint
-#        run: ./gradlew lint
+      - name: Lint
+        run: ./gradlew lint
 
-#      - name: Detekt
-#        run: ./gradlew detekt
+      - name: Detekt
+        run: ./gradlew detekt
 
-#      - name: Spotless
-#        run: ./gradlew spotlessCheck
+      - name: Spotless
+        run: ./gradlew spotlessCheck
 
-#      - name: Build
-#        run: ./gradlew compileDebugKotlin
-
-# check and text:
-      - name: Create Release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
+      - name: Build
+        run: ./gradlew compileDebugKotlin
