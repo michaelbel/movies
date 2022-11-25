@@ -1,6 +1,7 @@
 package org.michaelbel.movies.settings
 
 import android.os.Build
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -54,11 +55,11 @@ internal class SettingsViewModel @Inject constructor(
             initialValue = false
         )
 
-    val rtlEnabled: StateFlow<Boolean> = settingsInteractor.rtlEnabled
+    val layoutDirection: StateFlow<LayoutDirection> = settingsInteractor.layoutDirection
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
-            initialValue = false
+            initialValue = LayoutDirection.Ltr
         )
 
     val isPlayServicesAvailable: StateFlow<Boolean> = settingsInteractor.isPlayServicesAvailable
