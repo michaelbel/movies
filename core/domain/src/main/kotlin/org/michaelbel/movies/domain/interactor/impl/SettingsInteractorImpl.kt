@@ -2,6 +2,7 @@ package org.michaelbel.movies.domain.interactor.impl
 
 import android.app.NotificationManager
 import android.os.Build
+import androidx.compose.ui.unit.LayoutDirection
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -34,7 +35,7 @@ internal class SettingsInteractorImpl @Inject constructor(
 
     override val dynamicColors: Flow<Boolean> = settingsRepository.dynamicColors
 
-    override val rtlEnabled: Flow<Boolean> = settingsRepository.rtlEnabled
+    override val layoutDirection: Flow<LayoutDirection> = settingsRepository.layoutDirection
 
     override val areNotificationsEnabled: Boolean = if (Build.VERSION.SDK_INT >= 24) {
         notificationManager.areNotificationsEnabled()

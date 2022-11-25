@@ -1,5 +1,6 @@
 package org.michaelbel.movies.domain.repository
 
+import androidx.compose.ui.unit.LayoutDirection
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.ui.theme.model.AppTheme
 
@@ -9,7 +10,7 @@ interface SettingsRepository {
 
     val dynamicColors: Flow<Boolean>
 
-    val rtlEnabled: Flow<Boolean>
+    val layoutDirection: Flow<LayoutDirection>
 
     suspend fun selectTheme(theme: AppTheme)
 

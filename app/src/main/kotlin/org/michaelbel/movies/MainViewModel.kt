@@ -9,7 +9,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.analytics.MoviesAnalytics
@@ -36,8 +35,7 @@ internal class MainViewModel @Inject constructor(
             initialValue = false
         )
 
-    val layoutDirection: StateFlow<LayoutDirection> = settingsInteractor.rtlEnabled
-        .map { enabled -> if (enabled) LayoutDirection.Rtl else LayoutDirection.Ltr }
+    val layoutDirection: StateFlow<LayoutDirection> = settingsInteractor.layoutDirection
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.Lazily,

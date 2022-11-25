@@ -1,5 +1,6 @@
 package org.michaelbel.movies.domain.interactor
 
+import androidx.compose.ui.unit.LayoutDirection
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.ui.theme.model.AppTheme
 
@@ -9,7 +10,7 @@ interface SettingsInteractor {
 
     val dynamicColors: Flow<Boolean>
 
-    val rtlEnabled: Flow<Boolean>
+    val layoutDirection: Flow<LayoutDirection>
 
     val areNotificationsEnabled: Boolean
 
