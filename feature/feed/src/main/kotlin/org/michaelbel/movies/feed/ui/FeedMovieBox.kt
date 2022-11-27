@@ -33,8 +33,6 @@ internal fun FeedMovieBox(
 
     Column(
         modifier = modifier
-            .clip(MaterialTheme.shapes.small)
-            .background(MaterialTheme.colorScheme.inversePrimary)
     ) {
         AsyncImage(
             model = ImageRequest.Builder(context)
@@ -88,7 +86,15 @@ private fun MovieBoxPreview(
 ) {
     MoviesTheme {
         FeedMovieBox(
-            modifier = Modifier,
+            modifier = Modifier
+                .padding(
+                    start = 16.dp,
+                    top = 4.dp,
+                    end = 16.dp,
+                    bottom = 4.dp
+                )
+                .clip(MaterialTheme.shapes.small)
+                .background(MaterialTheme.colorScheme.inversePrimary),
             movie = movie
         )
     }

@@ -4,14 +4,10 @@ import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.ui.graphics.Color
 
-/**
- * Light default theme color scheme.
- */
+/** Light default theme color scheme. */
 val LightColorScheme = lightColorScheme()
 
-/**
- * Dark default theme color scheme.
- */
+/** Dark default theme color scheme. */
 val DarkColorScheme = darkColorScheme()
 
 @Suppress("unused")
