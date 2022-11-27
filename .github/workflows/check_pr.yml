@@ -1,13 +1,13 @@
 name: Check PR
 
 on:
-  push:
-    branches:
-      '**'
-    paths-ignore:
-      - '**.md'
-      - '.idea/**'
-      - '.github/**'
+#  push:
+#    branches:
+#      '**'
+#    paths-ignore:
+#      - '**.md'
+#     - '.idea/**'
+#      - '.github/**'
   pull_request:
     branches:
       '**'

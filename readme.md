@@ -86,7 +86,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Spotless](https://github.com/diffplug/spotless) 6.11.0
 - [x] Distribute App via Telegram Bot
 - [x] Non-Transitive R classes
-- [x] Kotlin Internal Visibility Modifier
 - [x] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen)
 - [x] [Per-App Language Preferences](https://d.android.com/guide/topics/resources/app-languages)
 - [ ] [Room](https://d.android.com/training/data-storage/room)
