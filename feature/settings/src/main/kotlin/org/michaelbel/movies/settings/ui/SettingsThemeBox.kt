@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -20,12 +21,13 @@ import org.michaelbel.movies.ui.theme.model.AppTheme
 import org.michaelbel.movies.ui.theme.preview.ThemesPreviewParameterProvider
 
 @Composable
-internal fun SettingsThemeBox(
+fun SettingsThemeBox(
     modifier: Modifier = Modifier,
     currentTheme: AppTheme
 ) {
     ConstraintLayout(
         modifier = modifier
+            .testTag("ConstraintLayout")
     ) {
         val (title, value) = createRefs()
 
@@ -38,7 +40,8 @@ internal fun SettingsThemeBox(
                     start.linkTo(parent.start, 16.dp)
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)
-                },
+                }
+                .testTag("TitleText"),
             color = MaterialTheme.colorScheme.onPrimaryContainer,
             style = MaterialTheme.typography.bodyLarge
         )
@@ -52,7 +55,8 @@ internal fun SettingsThemeBox(
                     top.linkTo(parent.top)
                     end.linkTo(parent.end, 16.dp)
                     bottom.linkTo(parent.bottom)
-                },
+                }
+                .testTag("ValueText"),
             color = MaterialTheme.colorScheme.primary,
             style = MaterialTheme.typography.bodyLarge
         )

@@ -7,6 +7,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -16,11 +17,12 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun SettingsReviewBox(
+fun SettingsReviewBox(
     modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
         modifier = modifier
+            .testTag("ConstraintLayout")
     ) {
         val (title) = createRefs()
 
@@ -33,7 +35,8 @@ internal fun SettingsReviewBox(
                     start.linkTo(parent.start, 16.dp)
                     top.linkTo(parent.top)
                     bottom.linkTo(parent.bottom)
-                },
+                }
+                .testTag("Text"),
             color = MaterialTheme.colorScheme.onPrimaryContainer,
             style = MaterialTheme.typography.bodyLarge
         )

@@ -14,25 +14,24 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.unit.dp
 import org.junit.Rule
 import org.junit.Test
-import org.michaelbel.movies.settings.ui.SettingsLanguageBox
-import org.michaelbel.movies.ui.language.model.AppLanguage
+import org.michaelbel.movies.settings.ui.SettingsPostNotificationsBox
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
-class SettingsLanguageBoxTest {
+class SettingsPostNotificationsBoxTest {
 
     @get:Rule
     val composeTestRule: ComposeContentTestRule = createComposeRule()
 
     @Test
-    fun testSettingsLanguageBox() {
+    fun testSettingsPostNotificationsBox() {
         composeTestRule.setContent {
             MoviesTheme {
-                SettingsLanguageBox(
+                SettingsPostNotificationsBox(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
                         .clickable {},
-                    currentLanguage = CURRENT_LANGUAGE
+                    areNotificationsEnabled = ARE_NOTIFICATIONS_ENABLED
                 )
             }
         }
@@ -42,17 +41,17 @@ class SettingsLanguageBoxTest {
             .assert(hasClickAction())
 
         composeTestRule
-            .onNodeWithTag(testTag = "TitleText", useUnmergedTree = true)
+            .onNodeWithTag(testTag = "Text", useUnmergedTree = true)
             .assertIsDisplayed()
             .assert(hasNoClickAction())
 
         composeTestRule
-            .onNodeWithTag(testTag = "ValueText", useUnmergedTree = true)
+            .onNodeWithTag(testTag = "Switch", useUnmergedTree = true)
             .assertIsDisplayed()
             .assert(hasNoClickAction())
     }
 
     private companion object {
-        private val CURRENT_LANGUAGE = AppLanguage.English
+        private const val ARE_NOTIFICATIONS_ENABLED = true
     }
 }

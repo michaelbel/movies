@@ -14,25 +14,25 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.unit.dp
 import org.junit.Rule
 import org.junit.Test
-import org.michaelbel.movies.settings.ui.SettingsLanguageBox
-import org.michaelbel.movies.ui.language.model.AppLanguage
+import org.michaelbel.movies.settings.ui.SettingsThemeBox
 import org.michaelbel.movies.ui.theme.MoviesTheme
+import org.michaelbel.movies.ui.theme.model.AppTheme
 
-class SettingsLanguageBoxTest {
+class SettingsThemeBoxTest {
 
     @get:Rule
     val composeTestRule: ComposeContentTestRule = createComposeRule()
 
     @Test
-    fun testSettingsLanguageBox() {
+    fun testSettingsThemeBox() {
         composeTestRule.setContent {
             MoviesTheme {
-                SettingsLanguageBox(
+                SettingsThemeBox(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
                         .clickable {},
-                    currentLanguage = CURRENT_LANGUAGE
+                    currentTheme = CURRENT_THEME
                 )
             }
         }
@@ -53,6 +53,6 @@ class SettingsLanguageBoxTest {
     }
 
     private companion object {
-        private val CURRENT_LANGUAGE = AppLanguage.English
+        private val CURRENT_THEME = AppTheme.FollowSystem
     }
 }
