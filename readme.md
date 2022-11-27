@@ -87,12 +87,12 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] Distribute App via Telegram Bot
 - [x] Non-Transitive R classes
 - [x] Kotlin Internal Visibility Modifier
+- [x] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen)
 - [x] [Per-App Language Preferences](https://d.android.com/guide/topics/resources/app-languages)
 - [ ] [Room](https://d.android.com/training/data-storage/room)
 - [ ] Deep Links
 - [ ] Unit Tests
 - [ ] UI Tests
-- [ ] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen)
 - [ ] [In-App Updates](https://d.android.com/guide/playcore/in-app-updates)
 - [ ] [Google Admob](https://developers.google.com/admob)
 - [ ] [WorkManager](https://d.android.google.cn/topic/libraries/architecture/workmanager)

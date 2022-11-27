@@ -29,7 +29,10 @@ internal class MainActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
+
+        /** Configure edge-to-edge display. */
         WindowCompat.setDecorFitsSystemWindows(window, false)
+
         installShortcuts()
         setContent {
             val currentTheme: AppTheme by viewModel.currentTheme.collectAsStateWithLifecycle()

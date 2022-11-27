@@ -18,6 +18,6 @@
         <item name="android:windowLightStatusBar">false</item>
     </style>
 
-    <style name="Theme.App.Starting" parent="Theme.Base.Starting.V23"/>
+    <style name="Theme.Movies.Starting" parent="Theme.Base.Starting.V23"/>
 
 </resources>

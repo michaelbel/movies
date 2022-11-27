@@ -14,9 +14,9 @@
 <resources>
 
     <style name="Theme.Base.Starting.V31" parent="Theme.Base.Starting.V27">
-        <!--<item name="android:windowSplashScreenBrandingImage">@drawable/splash_screen_branding_layer_list</item>-->
+        <item name="android:windowSplashScreenBrandingImage">@drawable/ic_splash_screen_branding_image</item>
     </style>
 
-    <style name="Theme.App.Starting" parent="Theme.Base.Starting.V31"/>
+    <style name="Theme.Movies.Starting" parent="Theme.Base.Starting.V31"/>
 
 </resources>
