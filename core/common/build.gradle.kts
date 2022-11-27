@@ -31,6 +31,4 @@ dependencies {
     implementation(libs.bundles.appcompat)
     implementation(libs.firebase.crashlytics)
     implementation(libs.startup.runtime)
-    testApi(libs.kotlin.coroutines.test)
-    androidTestApi(libs.kotlin.coroutines.test)
 }

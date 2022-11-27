@@ -92,7 +92,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] [Room](https://d.android.com/training/data-storage/room)
 - [ ] Deep Links
 - [ ] Unit Tests
-- [ ] UI Tests
+- [ ] UI Tests (in progress)
 - [ ] [In-App Updates](https://d.android.com/guide/playcore/in-app-updates)
 - [ ] [Google Admob](https://developers.google.com/admob)
 - [ ] [WorkManager](https://d.android.google.cn/topic/libraries/architecture/workmanager)

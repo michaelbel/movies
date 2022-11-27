@@ -23,4 +23,9 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:navigation"))
     implementation(project(":core:ui"))
+
+    testImplementation(libs.junit)
+    debugImplementation(libs.compose.ui.test.manifest)
+    androidTestImplementation(libs.compose.ui.test.junit4)
+    androidTestImplementation(libs.test.ext.junit.ktx)
 }

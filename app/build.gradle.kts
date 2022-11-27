@@ -135,4 +135,9 @@ dependencies {
     implementation(project(":feature:details"))
     implementation(project(":feature:feed"))
     implementation(project(":feature:settings"))
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.test.ext.junit.ktx)
+    androidTestImplementation(libs.espresso.core)
+    androidTestImplementation(libs.compose.ui.test.junit4)
 }
