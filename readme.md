@@ -88,6 +88,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] Non-Transitive R classes
 - [x] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen)
 - [x] [Per-App Language Preferences](https://d.android.com/guide/topics/resources/app-languages)
+- [x] [Settings Panel](https://d.android.com/reference/android/provider/Settings.Panel)
 - [ ] [Room](https://d.android.com/training/data-storage/room)
 - [ ] Deep Links
 - [ ] Unit Tests

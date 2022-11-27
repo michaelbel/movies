@@ -1,9 +1,11 @@
 package org.michaelbel.movies.feed.ui
 
+import android.os.Build
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -19,12 +21,13 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 internal fun FeedFailure(
-    modifier: Modifier
+    modifier: Modifier,
+    onCheckConnectivityClick: () -> Unit
 ) {
     ConstraintLayout(
         modifier = modifier
     ) {
-        val (image, text) = createRefs()
+        val (image, text, button) = createRefs()
 
         Icon(
             imageVector = MoviesIcons.Info,
@@ -55,6 +58,24 @@ internal fun FeedFailure(
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyMedium
         )
+
+        if (Build.VERSION.SDK_INT >= 29) {
+            OutlinedButton(
+                onClick = onCheckConnectivityClick,
+                modifier = Modifier
+                    .constrainAs(button) {
+                        width = Dimension.wrapContent
+                        height = Dimension.wrapContent
+                        start.linkTo(parent.start, 16.dp)
+                        top.linkTo(text.bottom, 8.dp)
+                        end.linkTo(parent.end, 16.dp)
+                    }
+            ) {
+                Text(
+                    text = stringResource(R.string.feed_error_check_internet_connectivity)
+                )
+            }
+        }
     }
 }
 
@@ -65,7 +86,8 @@ private fun FeedFailurePreview() {
         FeedFailure(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
+                .background(MaterialTheme.colorScheme.background),
+            onCheckConnectivityClick = {}
         )
     }
 }

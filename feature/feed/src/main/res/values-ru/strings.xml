@@ -3,5 +3,6 @@
     <string name="feed_title">Популярные фильмы</string>
     <string name="feed_retry">Повторить</string>
     <string name="feed_error_loading">При загрузке фильмов произошла ошибка</string>
+    <string name="feed_error_check_internet_connectivity">Проверить подключение к интернету</string>
     <string name="feed_error_api_key_null">TMDB API не может быть пустым</string>
 </resources>
