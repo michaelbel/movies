@@ -71,5 +71,8 @@ jobs:
       - name: Spotless
         run: ./gradlew spotlessCheck
 
+      - name: Test
+        run: ./gradlew testDebug
+
       - name: Build
         run: ./gradlew compileDebugKotlin
