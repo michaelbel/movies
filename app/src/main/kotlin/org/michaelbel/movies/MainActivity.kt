@@ -22,7 +22,7 @@ import org.michaelbel.movies.ui.theme.model.AppTheme
  * Per-App Language depends on AppCompatActivity (not ComponentActivity).
  */
 @AndroidEntryPoint
-internal class MainActivity: AppCompatActivity() {
+class MainActivity: AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModels()
 

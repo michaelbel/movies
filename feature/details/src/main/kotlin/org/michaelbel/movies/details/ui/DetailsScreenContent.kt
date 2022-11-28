@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import java.net.UnknownHostException
@@ -55,7 +56,8 @@ internal fun DetailsScreenContent(
     }
 
     Scaffold(
-        modifier = modifier,
+        modifier = modifier
+            .testTag("DetailsContent"),
         topBar = {
             DetailsToolbar(
                 modifier = Modifier

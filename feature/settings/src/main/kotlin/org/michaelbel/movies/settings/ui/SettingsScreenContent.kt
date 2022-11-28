@@ -33,6 +33,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -226,7 +227,8 @@ internal fun SettingsScreenContent(
     }
 
     Scaffold(
-        modifier = modifier,
+        modifier = modifier
+            .testTag("SettingsContent"),
         topBar = {
             SettingsToolbar(
                 modifier = Modifier

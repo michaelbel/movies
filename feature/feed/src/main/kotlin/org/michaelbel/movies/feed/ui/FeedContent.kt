@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
@@ -46,7 +47,8 @@ internal fun FeedContent(
                             .background(MaterialTheme.colorScheme.inversePrimary)
                             .clickable {
                                 onMovieClick(movie.id)
-                            },
+                            }
+                            .testTag("FeedMovieBox"),
                         movie = movie
                     )
                 }
