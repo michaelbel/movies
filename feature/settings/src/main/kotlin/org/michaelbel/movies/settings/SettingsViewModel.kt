@@ -76,6 +76,13 @@ internal class SettingsViewModel @Inject constructor(
             initialValue = false
         )
 
+    val networkRequestDelay: StateFlow<Int> = settingsInteractor.networkRequestDelay
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = 0
+        )
+
     private val _areNotificationsEnabled: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val areNotificationsEnabled: StateFlow<Boolean> = _areNotificationsEnabled.asStateFlow()
 
@@ -102,6 +109,10 @@ internal class SettingsViewModel @Inject constructor(
 
     fun setRtlEnabled(value: Boolean) = launch {
         settingsInteractor.setRtlEnabled(value)
+    }
+
+    fun setNetworkRequestDelay(value: Int) = launch {
+        settingsInteractor.setNetworkRequestDelay(value)
     }
 
     fun checkNotificationsEnabled() {

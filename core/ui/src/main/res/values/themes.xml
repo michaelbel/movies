@@ -10,36 +10,36 @@
 <resources>
 
     <style name="Theme.Base.V21" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="background">@color/Background</item>
-        <item name="colorError">@color/Error</item>
-        <item name="colorErrorContainer">@color/ErrorContainer</item>
-        <item name="colorOnSurfaceInverse">@color/InverseOnSurface</item>
-        <item name="colorPrimaryInverse">@color/InversePrimary</item>
-        <item name="colorSurfaceInverse">@color/InverseSurface</item>
-        <item name="colorOnBackground">@color/OnBackground</item>
-        <item name="colorOnError">@color/OnError</item>
-        <item name="colorOnErrorContainer">@color/OnErrorContainer</item>
-        <item name="colorOnPrimary">@color/OnPrimary</item>
-        <item name="colorOnPrimaryContainer">@color/OnPrimaryContainer</item>
-        <item name="colorOnSecondary">@color/OnSecondary</item>
-        <item name="colorOnSecondaryContainer">@color/OnSecondaryContainer</item>
-        <item name="colorOnSurface">@color/OnSurface</item>
-        <item name="colorOnSurfaceVariant">@color/OnSurfaceVariant</item>
-        <item name="colorOnTertiary">@color/OnTertiary</item>
-        <item name="colorOnTertiaryContainer">@color/OnTertiaryContainer</item>
-        <item name="colorOutline">@color/Outline</item>
-        <item name="colorPrimary">@color/Primary</item>
-        <item name="colorPrimaryContainer">@color/PrimaryContainer</item>
-        <item name="colorSecondary">@color/Secondary</item>
-        <item name="colorSecondaryContainer">@color/SecondaryContainer</item>
-        <item name="colorSurface">@color/Surface</item>
-        <item name="colorSurfaceVariant">@color/SurfaceVariant</item>
-        <item name="colorTertiary">@color/Tertiary</item>
-        <item name="colorTertiaryContainer">@color/TertiaryContainer</item>
+        <item name="background">@color/background</item>
+        <item name="colorError">@color/error</item>
+        <item name="colorErrorContainer">@color/errorContainer</item>
+        <item name="colorOnSurfaceInverse">@color/inverseOnSurface</item>
+        <item name="colorPrimaryInverse">@color/inversePrimary</item>
+        <item name="colorSurfaceInverse">@color/inverseSurface</item>
+        <item name="colorOnBackground">@color/onBackground</item>
+        <item name="colorOnError">@color/onError</item>
+        <item name="colorOnErrorContainer">@color/onErrorContainer</item>
+        <item name="colorOnPrimary">@color/onPrimary</item>
+        <item name="colorOnPrimaryContainer">@color/onPrimaryContainer</item>
+        <item name="colorOnSecondary">@color/onSecondary</item>
+        <item name="colorOnSecondaryContainer">@color/onSecondaryContainer</item>
+        <item name="colorOnSurface">@color/onSurface</item>
+        <item name="colorOnSurfaceVariant">@color/onSurfaceVariant</item>
+        <item name="colorOnTertiary">@color/onTertiary</item>
+        <item name="colorOnTertiaryContainer">@color/onTertiaryContainer</item>
+        <item name="colorOutline">@color/outline</item>
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryContainer">@color/primaryContainer</item>
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorSecondaryContainer">@color/secondaryContainer</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorSurfaceVariant">@color/surfaceVariant</item>
+        <item name="colorTertiary">@color/tertiary</item>
+        <item name="colorTertiaryContainer">@color/tertiaryContainer</item>
 
-        <item name="android:background">@color/Background</item>
-        <item name="android:colorPrimary">@color/Primary</item>
-        <item name="android:colorAccent">@color/Primary</item>
+        <item name="android:background">@color/background</item>
+        <item name="android:colorPrimary">@color/primary</item>
+        <item name="android:colorAccent">@color/primary</item>
 
         <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:navigationBarColor">@android:color/transparent</item>
