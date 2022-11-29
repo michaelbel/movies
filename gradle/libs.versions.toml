@@ -129,7 +129,7 @@ kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 [bundles]
 kotlin-coroutines = [
     "kotlin-coroutines-android",
-    "kotlin-coroutines-core",
+    "kotlin-coroutines-core"
 ]
 accompanist = [
     "accompanist-appcompat-theme",
@@ -139,11 +139,11 @@ accompanist = [
     "accompanist-navigation-animation",
     "accompanist-placeholder",
     "accompanist-placeholder-material",
-    "accompanist-systemuicontroller",
+    "accompanist-systemuicontroller"
 ]
 appcompat = [
     "appcompat",
-    "appcompat-resources",
+    "appcompat-resources"
 ]
 compose = [
     "compose-compiler",
@@ -153,20 +153,20 @@ compose = [
     "compose-runtime",
     "compose-ui",
     "compose-ui-tooling",
-    "compose-ui-viewbinding",
+    "compose-ui-viewbinding"
 ]
 datastore = [
     "datastore-core",
     "datastore-preferences",
-    "datastore-preferences-core",
+    "datastore-preferences-core"
 ]
 lifecycle = [
     "lifecycle-runtime-compose",
-    "lifecycle-viewmodel-compose",
+    "lifecycle-viewmodel-compose"
 ]
 material = [
     "material",
-    "material-compose-theme-adapter",
+    "material-compose-theme-adapter"
 ]
 
 [plugins]
