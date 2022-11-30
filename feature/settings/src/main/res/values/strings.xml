@@ -15,4 +15,6 @@
     <string name="settings_language">Language</string>
     <string name="settings_language_en">English</string>
     <string name="settings_language_ru">Русский</string>
+    <string name="settings_network_request_delay">Network Request Delay</string>
+    <string name="settings_network_request_delay_ms">%s ms</string>
 </resources>

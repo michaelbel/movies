@@ -12,9 +12,15 @@ interface SettingsRepository {
 
     val layoutDirection: Flow<LayoutDirection>
 
+    val networkRequestDelay: Flow<Int>
+
+    suspend fun networkRequestDelay(): Long
+
     suspend fun selectTheme(theme: AppTheme)
 
     suspend fun setDynamicColors(value: Boolean)
 
     suspend fun setRtlEnabled(value: Boolean)
+
+    suspend fun setNetworkRequestDelay(value: Int)
 }
