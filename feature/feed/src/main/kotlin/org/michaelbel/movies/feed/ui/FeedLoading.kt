@@ -1,6 +1,7 @@
 package org.michaelbel.movies.feed.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -17,10 +18,12 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 internal fun FeedLoading(
-    modifier: Modifier
+    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues = PaddingValues(),
 ) {
     LazyColumn(
-        modifier = modifier
+        modifier = modifier,
+        contentPadding = paddingValues
     ) {
         items(MovieData.DEFAULT_PAGE_SIZE) {
             FeedMovieBox(

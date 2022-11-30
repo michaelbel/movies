@@ -47,6 +47,7 @@ import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.ktx.denied
 import org.michaelbel.movies.common.review.rememberReviewManager
 import org.michaelbel.movies.common.review.rememberReviewTask
+import org.michaelbel.movies.settings.BuildConfig
 import org.michaelbel.movies.settings.R
 import org.michaelbel.movies.settings.SettingsViewModel
 import org.michaelbel.movies.settings.model.ModalBottomSheetType
@@ -67,6 +68,7 @@ internal fun SettingsRoute(
     val isPlayServicesAvailable: Boolean by viewModel.isPlayServicesAvailable.collectAsStateWithLifecycle()
     val isAppFromGooglePlay: Boolean by viewModel.isAppFromGooglePlay.collectAsStateWithLifecycle()
     val areNotificationsEnabled: Boolean by viewModel.areNotificationsEnabled.collectAsStateWithLifecycle()
+    val networkRequestDelay: Int by viewModel.networkRequestDelay.collectAsStateWithLifecycle()
 
     val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
     lifecycleOwner.lifecycle.addObserver(viewModel)
@@ -89,7 +91,9 @@ internal fun SettingsRoute(
         areNotificationsEnabled = areNotificationsEnabled,
         onNotificationsStatusChanged = viewModel::checkNotificationsEnabled,
         isPlayServicesAvailable = isPlayServicesAvailable,
-        isAppFromGooglePlay = isAppFromGooglePlay
+        isAppFromGooglePlay = isAppFromGooglePlay,
+        networkRequestDelay = networkRequestDelay,
+        onDelayChangeFinished = viewModel::setNetworkRequestDelay
     )
 }
 
@@ -112,7 +116,9 @@ internal fun SettingsScreenContent(
     areNotificationsEnabled: Boolean,
     onNotificationsStatusChanged: () -> Unit,
     isPlayServicesAvailable: Boolean,
-    isAppFromGooglePlay: Boolean
+    isAppFromGooglePlay: Boolean,
+    networkRequestDelay: Int,
+    onDelayChangeFinished: (Int) -> Unit
 ) {
     var backHandlingEnabled: Boolean by remember { mutableStateOf(false) }
     var modalBottomSheetType: ModalBottomSheetType by remember {
@@ -348,6 +354,15 @@ internal fun SettingsScreenContent(
                             onLaunchReviewFlow()
                         }
                 )
+
+                if (BuildConfig.DEBUG) {
+                    SettingsNetworkRequestDelayBox(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        delay = networkRequestDelay,
+                        onDelayChangeFinished = onDelayChangeFinished
+                    )
+                }
             }
         }
     }

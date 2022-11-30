@@ -17,7 +17,7 @@
                 android:scaleY="0.25">
                 <path
                     android:pathData="M66,38L70,44H64L60,38H56L60,44H54L50,38H46L50,44H44L40,38H38C35.8,38 34,39.8 34,42V66C34,68.2 35.8,70 38,70H70C72.2,70 74,68.2 74,66V38H66ZM52.5,60.5L50,66L47.5,60.5L42,58L47.5,55.5L50,50L52.5,55.5L58,58L52.5,60.5ZM63.88,53.88L62,58L60.12,53.88L56,52L60.12,50.12L62,46L63.88,50.12L68,52L63.88,53.88Z"
-                    android:fillColor="@color/Primary"/>
+                    android:fillColor="@color/primary"/>
             </group>
         </vector>
     </aapt:attr>

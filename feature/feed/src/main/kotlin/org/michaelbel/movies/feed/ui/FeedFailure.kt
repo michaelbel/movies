@@ -21,7 +21,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 internal fun FeedFailure(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     onCheckConnectivityClick: () -> Unit
 ) {
     ConstraintLayout(

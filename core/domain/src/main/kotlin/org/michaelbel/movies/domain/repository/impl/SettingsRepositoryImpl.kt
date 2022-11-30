@@ -1,18 +1,18 @@
 package org.michaelbel.movies.domain.repository.impl
 
+import android.os.Build
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import org.michaelbel.movies.domain.datasource.ktx.PREFERENCE_DYNAMIC_COLORS_KEY
+import org.michaelbel.movies.domain.datasource.ktx.PREFERENCE_NETWORK_REQUEST_DELAY
 import org.michaelbel.movies.domain.datasource.ktx.PREFERENCE_RTL_ENABLED_KEY
 import org.michaelbel.movies.domain.datasource.ktx.PREFERENCE_THEME_KEY
-import org.michaelbel.movies.domain.datasource.ktx.orDefaultDynamicColorsEnabled
-import org.michaelbel.movies.domain.datasource.ktx.orDefaultRtlEnabled
-import org.michaelbel.movies.domain.datasource.ktx.orDefaultTheme
 import org.michaelbel.movies.domain.repository.SettingsRepository
 import org.michaelbel.movies.ui.theme.model.AppTheme
 
@@ -21,16 +21,24 @@ internal class SettingsRepositoryImpl @Inject constructor(
 ): SettingsRepository {
 
     override val currentTheme: Flow<AppTheme> = dataStore.data.map { preferences ->
-        return@map AppTheme.transform(preferences[PREFERENCE_THEME_KEY].orDefaultTheme())
+        AppTheme.transform(preferences[PREFERENCE_THEME_KEY] ?: AppTheme.FollowSystem.theme)
     }
 
     override val dynamicColors: Flow<Boolean> = dataStore.data.map { preferences ->
-        return@map preferences[PREFERENCE_DYNAMIC_COLORS_KEY].orDefaultDynamicColorsEnabled()
+        preferences[PREFERENCE_DYNAMIC_COLORS_KEY] ?: (Build.VERSION.SDK_INT >= 31)
     }
 
     override val layoutDirection: Flow<LayoutDirection> = dataStore.data.map { preferences ->
-        val isRtl: Boolean = preferences[PREFERENCE_RTL_ENABLED_KEY].orDefaultRtlEnabled()
-        return@map if (isRtl) LayoutDirection.Rtl else LayoutDirection.Ltr
+        val isRtl: Boolean = preferences[PREFERENCE_RTL_ENABLED_KEY] ?: false
+        if (isRtl) LayoutDirection.Rtl else LayoutDirection.Ltr
+    }
+
+    override val networkRequestDelay: Flow<Int> = dataStore.data.map { preferences ->
+        preferences[PREFERENCE_NETWORK_REQUEST_DELAY] ?: 0
+    }
+
+    override suspend fun networkRequestDelay(): Long {
+        return dataStore.data.first()[PREFERENCE_NETWORK_REQUEST_DELAY]?.toLong() ?: 0L
     }
 
     override suspend fun selectTheme(theme: AppTheme) {
@@ -48,6 +56,12 @@ internal class SettingsRepositoryImpl @Inject constructor(
     override suspend fun setRtlEnabled(value: Boolean) {
         dataStore.edit { preferences ->
             preferences[PREFERENCE_RTL_ENABLED_KEY] = value
+        }
+    }
+
+    override suspend fun setNetworkRequestDelay(value: Int) {
+        dataStore.edit { preferences ->
+            preferences[PREFERENCE_NETWORK_REQUEST_DELAY] = value
         }
     }
 }
