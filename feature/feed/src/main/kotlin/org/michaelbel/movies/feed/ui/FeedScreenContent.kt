@@ -147,8 +147,8 @@ internal fun FeedScreenContent(
             else -> {
                 FeedContent(
                     modifier = Modifier
-                        .padding(paddingValues)
                         .fillMaxSize(),
+                    paddingValues = paddingValues,
                     listState = listState,
                     pagingItems = pagingItems,
                     onMovieClick = onNavigateToDetails

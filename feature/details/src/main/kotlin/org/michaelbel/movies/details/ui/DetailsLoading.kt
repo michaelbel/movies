@@ -13,7 +13,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 internal fun DetailsLoading(
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
         modifier = modifier

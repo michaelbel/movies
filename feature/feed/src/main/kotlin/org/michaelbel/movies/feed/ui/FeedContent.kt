@@ -3,6 +3,7 @@ package org.michaelbel.movies.feed.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,7 +22,8 @@ import org.michaelbel.movies.feed.ktx.isPagingLoading
 
 @Composable
 internal fun FeedContent(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues = PaddingValues(),
     listState: LazyListState,
     pagingItems: LazyPagingItems<MovieData>,
     onMovieClick: (Int) -> Unit
@@ -30,7 +32,8 @@ internal fun FeedContent(
         modifier = modifier
     ) {
         LazyColumn(
-            state = listState
+            state = listState,
+            contentPadding = paddingValues
         ) {
             items(pagingItems) { movieItem ->
                 movieItem?.let { movie ->

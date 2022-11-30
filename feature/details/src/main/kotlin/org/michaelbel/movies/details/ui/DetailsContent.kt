@@ -27,7 +27,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 internal fun DetailsContent(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     movie: MovieDetailsData
 ) {
     val context: Context = LocalContext.current
