@@ -52,7 +52,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Themed App Icon](https://d.android.com/develop/ui/views/launch/icon_design_adaptive)
 - [x] 100% Kotlin 1.7.21
 - [x] 100% Jetpack Compose 1.3.1, No XML
-- [x] [Accompanist](https://github.com/google/accompanist) 0.27.1
+- [x] [Accompanist](https://github.com/google/accompanist) 0.28.0
 - [x] [Compose PreviewParameterProvider](https://d.android.com/jetpack/compose/tooling#previewparameter)
 - [x] [Downloadable Fonts](https://d.android.com/develop/ui/views/text-and-emoji/downloadable-fonts)
 - [x] [KotlinX Coroutines](https://github.com/Kotlin/kotlinx.coroutines) 1.6.4
