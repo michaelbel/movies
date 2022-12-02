@@ -1,6 +1,8 @@
 package org.michaelbel.movies.details.ui
 
 import android.content.Context
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,10 +11,15 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
@@ -24,7 +31,9 @@ import coil.request.ImageRequest
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.fade
 import com.google.accompanist.placeholder.placeholder
+import org.michaelbel.movies.details.R
 import org.michaelbel.movies.entities.MovieDetailsData
+import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
@@ -36,12 +45,13 @@ internal fun DetailsContent(
 ) {
     val context: Context = LocalContext.current
     val scrollState: ScrollState = rememberScrollState()
+    var isNoImageVisible: Boolean by remember { mutableStateOf(false) }
 
     ConstraintLayout(
         modifier = modifier
             .verticalScroll(scrollState)
     ) {
-        val (image, title, overview) = createRefs()
+        val (image, noImageText, title, overview) = createRefs()
 
         val imageRequest: ImageRequest? = if (placeHolder) {
             null
@@ -83,8 +93,31 @@ internal fun DetailsContent(
             model = imageRequest,
             contentDescription = null,
             modifier = imageModifier,
+            onState = { state ->
+                isNoImageVisible = state.isErrorOrEmpty
+            },
             contentScale = ContentScale.Crop
         )
+
+        AnimatedVisibility(
+            visible = isNoImageVisible,
+            modifier = Modifier
+                .constrainAs(noImageText) {
+                    width = Dimension.wrapContent
+                    height = Dimension.wrapContent
+                    start.linkTo(parent.start)
+                    top.linkTo(parent.top)
+                    end.linkTo(parent.end)
+                    bottom.linkTo(title.top)
+                },
+            enter = fadeIn()
+        ) {
+            Text(
+                text = stringResource(R.string.details_no_image),
+                color = MaterialTheme.colorScheme.secondary,
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
 
         val titleModifier: Modifier = if (placeHolder) {
             Modifier

@@ -1,26 +1,34 @@
 package org.michaelbel.movies.feed.ui
 
 import android.content.Context
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
+import androidx.constraintlayout.compose.ConstraintLayout
+import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import org.michaelbel.movies.entities.MovieData
+import org.michaelbel.movies.feed.R
+import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
@@ -30,10 +38,13 @@ internal fun FeedMovieBox(
     movie: MovieData
 ) {
     val context: Context = LocalContext.current
+    var isNoImageVisible: Boolean by remember { mutableStateOf(false) }
 
-    Column(
+    ConstraintLayout(
         modifier = modifier
     ) {
+        val (image, noImageText, text) = createRefs()
+
         AsyncImage(
             model = ImageRequest.Builder(context)
                 .data(movie.backdropPath)
@@ -41,21 +52,50 @@ internal fun FeedMovieBox(
                 .build(),
             contentDescription = null,
             modifier = Modifier
-                .height(220.dp)
-                .fillMaxSize(),
+                .constrainAs(image) {
+                    width = Dimension.fillToConstraints
+                    height = Dimension.value(220.dp)
+                    start.linkTo(parent.start)
+                    top.linkTo(parent.top)
+                    end.linkTo(parent.end)
+                },
+            onState = { state ->
+                isNoImageVisible = state.isErrorOrEmpty
+            },
             contentScale = ContentScale.Crop
         )
+
+        AnimatedVisibility(
+            visible = isNoImageVisible,
+            modifier = Modifier
+                .constrainAs(noImageText) {
+                    width = Dimension.wrapContent
+                    height = Dimension.wrapContent
+                    start.linkTo(parent.start)
+                    top.linkTo(parent.top)
+                    end.linkTo(parent.end)
+                    bottom.linkTo(text.top)
+                },
+            enter = fadeIn()
+        ) {
+            Text(
+                text = stringResource(R.string.feed_no_image),
+                color = MaterialTheme.colorScheme.secondary,
+                style = MaterialTheme.typography.bodyLarge
+            )
+        }
 
         Text(
             text = movie.title,
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(
-                    start = 16.dp,
-                    top = 16.dp,
-                    end = 16.dp,
-                    bottom = 16.dp
-                ),
+                .constrainAs(text) {
+                    width = Dimension.fillToConstraints
+                    height = Dimension.wrapContent
+                    start.linkTo(parent.start, 16.dp)
+                    top.linkTo(image.bottom, 16.dp)
+                    end.linkTo(parent.end, 16.dp)
+                    bottom.linkTo(parent.bottom, 16.dp)
+                },
             color = MaterialTheme.colorScheme.onPrimaryContainer,
             maxLines = 10,
             overflow = TextOverflow.Ellipsis,
@@ -87,6 +127,7 @@ private fun MovieBoxPreview(
     MoviesTheme {
         FeedMovieBox(
             modifier = Modifier
+                .fillMaxWidth()
                 .padding(
                     start = 16.dp,
                     top = 4.dp,

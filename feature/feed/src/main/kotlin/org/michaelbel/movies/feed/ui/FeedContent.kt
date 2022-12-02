@@ -39,6 +39,7 @@ internal fun FeedContent(
                 movieItem?.let { movie ->
                     FeedMovieBox(
                         modifier = Modifier
+                            .fillMaxWidth()
                             .padding(
                                 start = 16.dp,
                                 top = 4.dp,

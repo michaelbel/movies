@@ -3,6 +3,7 @@ package org.michaelbel.movies.feed.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
@@ -28,6 +29,7 @@ internal fun FeedLoading(
         items(MovieData.DEFAULT_PAGE_SIZE) {
             FeedMovieBox(
                 modifier = Modifier
+                    .fillMaxWidth()
                     .padding(
                         start = 16.dp,
                         top = 4.dp,
