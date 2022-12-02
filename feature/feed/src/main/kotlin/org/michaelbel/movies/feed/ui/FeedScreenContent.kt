@@ -128,8 +128,8 @@ internal fun FeedScreenContent(
             pagingItems.isLoading -> {
                 FeedLoading(
                     modifier = Modifier
-                        .padding(paddingValues)
-                        .fillMaxSize()
+                        .fillMaxSize(),
+                    paddingValues = paddingValues
                 )
             }
             pagingItems.isFailure -> {
