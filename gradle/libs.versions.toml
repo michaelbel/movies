@@ -2,14 +2,21 @@
 # https://d.android.com/jetpack/androidx/releases/compose-kotlin
 
 [versions]
+# @keep
 min-sdk = "21"
+# @keep
 compile-sdk = "33"
+# @keep
 target-sdk = "33"
+# @keep
 build-tools = "33.0.0"
+# @pin
 gradle = "7.3.1"
+# @pin update when updating compose compiler
 kotlin = "1.7.21"
 kotlin-coroutines = "1.6.4"
 kotlin-serialization = "1.4.1"
+# @pin update when updating kotlin
 kotlin-compiler-extension = "1.4.0-alpha02"
 detekt = "1.22.0"
 spotless = "6.12.0"
