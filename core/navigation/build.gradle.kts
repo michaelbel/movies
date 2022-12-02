@@ -10,6 +10,14 @@ android {
         compileSdk = libs.versions.compile.sdk.get().toInt()
     }
 
+    buildTypes {
+        create("benchmark") {
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            initWith(getByName("release"))
+        }
+    }
+
     lint {
         quiet = true
         abortOnError = false

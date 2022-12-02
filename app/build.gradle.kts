@@ -119,6 +119,13 @@ android {
             isShrinkResources = false
             applicationIdSuffix = ".debug"
         }
+        create("benchmark") {
+            initWith(getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks.add("release")
+            proguardFiles("benchmark-rules.pro")
+            isDebuggable = false
+        }
     }
 
     buildFeatures {
@@ -128,9 +135,9 @@ android {
 
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
-            "-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-            "-Xopt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
-            "-Xopt-in=androidx.compose.animation.ExperimentalAnimationApi"
+            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+            "-opt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
+            "-opt-in=androidx.compose.animation.ExperimentalAnimationApi"
         )
     }
 
@@ -156,8 +163,11 @@ dependencies {
     implementation(project(":feature:feed"))
     implementation(project(":feature:settings"))
 
+    implementation(libs.androidx.profile.installer)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit.ktx)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.androidx.benchmark.junit)
 }
