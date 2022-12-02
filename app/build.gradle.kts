@@ -50,7 +50,6 @@ afterEvaluate {
 
 android {
     namespace = "org.michaelbel.moviemade"
-    buildToolsVersion = libs.versions.build.tools.get()
 
     defaultConfig {
         applicationId = "org.michaelbel.moviemade"

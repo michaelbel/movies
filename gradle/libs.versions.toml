@@ -8,8 +8,6 @@ min-sdk = "21"
 compile-sdk = "33"
 # @keep
 target-sdk = "33"
-# @keep
-build-tools = "33.0.0"
 # @pin
 gradle = "7.3.1"
 # @pin update when updating compose compiler
