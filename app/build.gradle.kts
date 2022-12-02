@@ -136,7 +136,7 @@ dependencies {
     implementation(project(":feature:settings"))
 
     testImplementation(libs.junit)
-    androidTestImplementation(libs.test.ext.junit.ktx)
-    androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(libs.compose.ui.test.junit4)
+    androidTestImplementation(libs.androidx.test.ext.junit.ktx)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
 }
