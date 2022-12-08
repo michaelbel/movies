@@ -53,6 +53,9 @@ android {
 
     defaultConfig {
         applicationId = "org.michaelbel.moviemade"
+        minSdk = libs.versions.min.sdk.get().toInt()
+        compileSdk = libs.versions.compile.sdk.get().toInt()
+        targetSdk = libs.versions.target.sdk.get().toInt()
         versionCode = gitCommitsCount
         versionName = "1.4.1"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -115,6 +118,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        compose = true
     }
 
     kotlinOptions {
@@ -123,6 +127,18 @@ android {
             "-Xopt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
             "-Xopt-in=androidx.compose.animation.ExperimentalAnimationApi"
         )
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.kotlin.compiler.extension.get()
+    }
+
+    lint {
+        quiet = true
+        abortOnError = false
+        ignoreWarnings = true
+        checkDependencies = true
+        lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
     }
 }
 

@@ -1,4 +1,8 @@
 plugins {
+    alias(libs.plugins.application) apply false
+    alias(libs.plugins.library) apply false
+    alias(libs.plugins.test) apply false
+    alias(libs.plugins.kotlin) apply false
     alias(libs.plugins.firebase.appdistribution) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.google.services) apply false
@@ -10,13 +14,6 @@ plugins {
 
     id("com.github.ben-manes.versions") version "0.44.0"
     id("nl.littlerobots.version-catalog-update") version "0.7.0"
-}
-
-buildscript {
-    dependencies {
-        classpath("com.android.tools.build:gradle:7.3.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.21")
-    }
 }
 
 /**

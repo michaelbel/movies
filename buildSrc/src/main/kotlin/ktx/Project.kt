@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.ktx
+package ktx
 
 import com.android.build.api.dsl.CommonExtension
 import java.io.File
@@ -10,6 +10,9 @@ import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.provideDelegate
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
+
+internal val Project.libs: VersionCatalog
+    get() = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
 /** Configure Compose-specific options. */
 internal fun Project.configureAndroidCompose(
