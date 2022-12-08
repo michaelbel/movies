@@ -5,6 +5,19 @@ plugins {
 
 android {
     namespace = "org.michaelbel.movies.ui"
+
+    defaultConfig {
+        minSdk = libs.versions.min.sdk.get().toInt()
+        compileSdk = libs.versions.compile.sdk.get().toInt()
+    }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.kotlin.compiler.extension.get()
+    }
 }
 
 dependencies {

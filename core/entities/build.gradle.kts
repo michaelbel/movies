@@ -15,6 +15,8 @@ android {
     namespace = "org.michaelbel.movies.entities"
 
     defaultConfig {
+        minSdk = libs.versions.min.sdk.get().toInt()
+        compileSdk = libs.versions.compile.sdk.get().toInt()
         buildConfigField("String", "TMDB_API_KEY", "\"$tmdbApiKey\"")
     }
 }

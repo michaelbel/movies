@@ -7,6 +7,11 @@ plugins {
 android {
     namespace = "org.michaelbel.movies.network"
 
+    defaultConfig {
+        minSdk = libs.versions.min.sdk.get().toInt()
+        compileSdk = libs.versions.compile.sdk.get().toInt()
+    }
+
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
             "-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi"

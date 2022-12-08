@@ -1,13 +1,11 @@
-package org.michaelbel.moviemade.plugins
+package plugins
 
+import ktx.implementation
+import ktx.kapt
+import ktx.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalog
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
-import org.michaelbel.moviemade.ktx.implementation
-import org.michaelbel.moviemade.ktx.kapt
 
 internal class AndroidHiltConventionPlugin: Plugin<Project> {
 
@@ -17,7 +15,7 @@ internal class AndroidHiltConventionPlugin: Plugin<Project> {
                 apply("org.jetbrains.kotlin.kapt")
                 apply("dagger.hilt.android.plugin")
             }
-            val libs: VersionCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
+
             dependencies {
                 implementation(libs.findLibrary("hilt.android").get())
                 kapt(libs.findLibrary("hilt.compiler").get())

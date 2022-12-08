@@ -173,6 +173,7 @@ material = [
 ]
 
 [plugins]
+kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 firebase-appdistribution = { id = "com.google.firebase.appdistribution", version.ref = "firebase-appdistribution" }
@@ -181,3 +182,6 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 androidx-navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidx-navigation" }
+application = { id = "com.android.application", version.ref = "gradle" }
+library = { id = "com.android.library", version.ref = "gradle" }
+test = { id = "com.android.test", version.ref = "gradle" }
