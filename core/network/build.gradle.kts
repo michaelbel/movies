@@ -17,6 +17,14 @@ android {
             "-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi"
         )
     }
+
+    lint {
+        quiet = true
+        abortOnError = false
+        ignoreWarnings = true
+        checkDependencies = true
+        lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
+    }
 }
 
 dependencies {

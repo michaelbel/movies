@@ -19,6 +19,14 @@ android {
         compileSdk = libs.versions.compile.sdk.get().toInt()
         buildConfigField("String", "TMDB_API_KEY", "\"$tmdbApiKey\"")
     }
+
+    lint {
+        quiet = true
+        abortOnError = false
+        ignoreWarnings = true
+        checkDependencies = true
+        lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
+    }
 }
 
 dependencies {
