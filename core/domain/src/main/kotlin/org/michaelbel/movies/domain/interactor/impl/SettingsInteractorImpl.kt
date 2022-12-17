@@ -20,6 +20,7 @@ import org.michaelbel.movies.common.googleapi.GoogleApi
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.domain.repository.SettingsRepository
 import org.michaelbel.movies.ui.theme.model.AppTheme
+import org.michaelbel.movies.ui.version.AppVersionData
 import timber.log.Timber
 
 internal class SettingsInteractorImpl @Inject constructor(
@@ -52,6 +53,8 @@ internal class SettingsInteractorImpl @Inject constructor(
     override val isPlayServicesAvailable: Flow<Boolean> = flowOf(googleApi.isPlayServicesAvailable)
 
     override val isAppFromGooglePlay: Flow<Boolean> = flowOf(googleApi.isAppFromGooglePlay)
+
+    override val appVersionData: Flow<AppVersionData> = settingsRepository.appVersionData
 
     override suspend fun networkRequestDelay(): Long {
         return settingsRepository.networkRequestDelay()

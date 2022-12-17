@@ -11,6 +11,7 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.appdistribution")
     id("com.google.firebase.crashlytics")
+    id("com.palantir.git-version")
 }
 
 val gitCommitsCount: Int by lazy {
@@ -33,6 +34,10 @@ val admobAppId: String by lazy {
 val admobBannerId: String by lazy {
     gradleLocalProperties(rootDir).getProperty("ADMOB_BANNER_ID")
 }
+
+val gitVersion: groovy.lang.Closure<String> by extra
+val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
+val versionLastTag: String = versionDetails().lastTag
 
 tasks.register("prepareReleaseNotes") {
     doLast {
@@ -57,7 +62,7 @@ android {
         compileSdk = libs.versions.compile.sdk.get().toInt()
         targetSdk = libs.versions.target.sdk.get().toInt()
         versionCode = gitCommitsCount
-        versionName = "1.4.1"
+        versionName = versionLastTag
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         resourceConfigurations.addAll(listOf("en", "ru"))

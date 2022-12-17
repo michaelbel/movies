@@ -18,6 +18,7 @@ import org.michaelbel.movies.domain.usecase.SelectLanguageCase
 import org.michaelbel.movies.domain.usecase.SelectThemeCase
 import org.michaelbel.movies.ui.language.model.AppLanguage
 import org.michaelbel.movies.ui.theme.model.AppTheme
+import org.michaelbel.movies.ui.version.AppVersionData
 
 @HiltViewModel
 internal class SettingsViewModel @Inject constructor(
@@ -81,6 +82,13 @@ internal class SettingsViewModel @Inject constructor(
             scope = this,
             started = SharingStarted.Lazily,
             initialValue = 0
+        )
+
+    val appVersionData: StateFlow<AppVersionData> = settingsInteractor.appVersionData
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = AppVersionData.None
         )
 
     private val _areNotificationsEnabled: MutableStateFlow<Boolean> = MutableStateFlow(false)
