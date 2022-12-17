@@ -40,7 +40,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] MVVM
 - [x] [Clean Architecture](https://d.android.com/topic/architecture)
 - [x] [TMDB API](https://developers.themoviedb.org/3/getting-started)
-- [x] Gradle Kotlin DSL
+- [x] KTS Gradle Files
 - [x] Gradle Plugin 7.3.1
 - [x] Gradle Version Catalog
 - [x] MinSDK 21
