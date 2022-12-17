@@ -9,7 +9,7 @@ Movies
 [![paypal-badge](https://img.shields.io/badge/Donate-Paypal-FF5252.svg)](https://paypal.me/michaelbel)
 [![last-commit-badge](https://img.shields.io/github/last-commit/michaelbel/moviemade?color=FF5252)](https://github.com/michaelbel/moviemade/commits)
 
-Movies - easy way to discover popular movies. This is a simple TMDb client for Android with material design.
+Movies - easy way to discover popular movies. This is a simple TMDb client for Android
 
 ## Build
 
