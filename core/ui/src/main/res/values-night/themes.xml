@@ -37,7 +37,6 @@
         <item name="colorTertiary">@color/tertiary</item>
         <item name="colorTertiaryContainer">@color/tertiaryContainer</item>
 
-        <item name="android:background">@color/background</item>
         <item name="android:colorPrimary">@color/primary</item>
         <item name="android:colorAccent">@color/primary</item>
 

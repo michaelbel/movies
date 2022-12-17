@@ -3,6 +3,7 @@ package org.michaelbel.movies.domain.interactor
 import androidx.compose.ui.unit.LayoutDirection
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.ui.theme.model.AppTheme
+import org.michaelbel.movies.ui.version.AppVersionData
 
 interface SettingsInteractor {
 
@@ -21,6 +22,8 @@ interface SettingsInteractor {
     val isAppFromGooglePlay: Flow<Boolean>
 
     val networkRequestDelay: Flow<Int>
+
+    val appVersionData: Flow<AppVersionData>
 
     suspend fun networkRequestDelay(): Long
 

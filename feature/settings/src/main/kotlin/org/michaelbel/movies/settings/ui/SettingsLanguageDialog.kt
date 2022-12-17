@@ -1,45 +1,103 @@
 package org.michaelbel.movies.settings.ui
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Text
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
-import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.DialogProperties
+import org.michaelbel.movies.settings.R
 import org.michaelbel.movies.settings.ktx.languageTextRes
+import org.michaelbel.movies.ui.icon.MoviesIcons
 import org.michaelbel.movies.ui.language.model.AppLanguage
 import org.michaelbel.movies.ui.language.preview.LanguagesPreviewParameterProvider
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun SettingsLanguageModalContent(
-    modifier: Modifier = Modifier,
+internal fun SettingLanguageDialog(
     languages: List<AppLanguage>,
     currentLanguage: AppLanguage,
-    onLanguageSelected: (AppLanguage) -> Unit
+    onLanguageSelect: (AppLanguage) -> Unit,
+    onDismissRequest: () -> Unit
 ) {
-    Column(
-        modifier = modifier
-    ) {
+    AlertDialog(
+        onDismissRequest = onDismissRequest,
+        confirmButton = {
+            TextButton(
+                onClick = onDismissRequest,
+            ) {
+                Text(
+                    text = stringResource(R.string.settings_action_cancel),
+                    color = MaterialTheme.colorScheme.primary,
+                    style = MaterialTheme.typography.labelLarge
+                )
+            }
+        },
+        icon = {
+            Icon(
+                painter = painterResource(MoviesIcons.Language),
+                contentDescription = null
+            )
+        },
+        title = {
+            Text(
+                text = stringResource(R.string.settings_language),
+                color = MaterialTheme.colorScheme.onSurface,
+                style = MaterialTheme.typography.headlineSmall
+            )
+        },
+        text = {
+            SettingLanguageDialogContent(
+                languages = languages,
+                currentLanguage = currentLanguage,
+                onLanguageSelect = { language ->
+                    onLanguageSelect(language)
+                    onDismissRequest()
+                }
+            )
+        },
+        shape = RoundedCornerShape(28.dp),
+        containerColor = MaterialTheme.colorScheme.surface,
+        iconContentColor = MaterialTheme.colorScheme.secondary,
+        titleContentColor = MaterialTheme.colorScheme.onSurface,
+        properties = DialogProperties(
+            dismissOnBackPress = true,
+            dismissOnClickOutside = false
+        )
+    )
+}
+
+@Composable
+private fun SettingLanguageDialogContent(
+    languages: List<AppLanguage>,
+    currentLanguage: AppLanguage,
+    onLanguageSelect: (AppLanguage) -> Unit
+) {
+    Column {
         languages.forEach { language: AppLanguage ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(48.dp)
                     .clickable {
-                        onLanguageSelected(language)
+                        onLanguageSelect(language)
                     },
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -72,19 +130,18 @@ internal fun SettingsLanguageModalContent(
 
 @Composable
 @DevicePreviews
-private fun SettingsLanguageModalContentPreview(
+private fun SettingLanguageDialogPreview(
     @PreviewParameter(LanguagesPreviewParameterProvider::class) language: AppLanguage
 ) {
     MoviesTheme {
-        SettingsLanguageModalContent(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.background),
+        SettingLanguageDialog(
             languages = listOf(
                 AppLanguage.English,
                 AppLanguage.Russian
             ),
             currentLanguage = language,
-            onLanguageSelected = {}
+            onLanguageSelect = {},
+            onDismissRequest = {}
         )
     }
 }

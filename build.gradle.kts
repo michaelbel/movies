@@ -14,6 +14,7 @@ plugins {
 
     id("com.github.ben-manes.versions") version "0.44.0"
     id("nl.littlerobots.version-catalog-update") version "0.7.0"
+    id("com.palantir.git-version") version "0.15.0"
 }
 
 /**
