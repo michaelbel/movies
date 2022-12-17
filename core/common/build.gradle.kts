@@ -14,10 +14,18 @@ android {
 
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
-            "-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-            "-Xopt-in=androidx.compose.foundation.ExperimentalFoundationApi",
-            "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+            "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
+            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
         )
+    }
+
+    buildTypes {
+        create("benchmark") {
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            initWith(getByName("release"))
+        }
     }
 
     buildFeatures {

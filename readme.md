@@ -89,6 +89,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen)
 - [x] [Per-App Language Preferences](https://d.android.com/guide/topics/resources/app-languages)
 - [x] [Settings Panel](https://d.android.com/reference/android/provider/Settings.Panel)
+- [x] [Benchmark](https://d.android.com/topic/performance/benchmarking/benchmarking-overview)
 - [ ] [Room](https://d.android.com/training/data-storage/room)
 - [ ] Deep Links
 - [ ] Unit Tests
@@ -97,14 +98,14 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] [Google Admob](https://developers.google.com/admob)
 - [ ] [WorkManager](https://d.android.google.cn/topic/libraries/architecture/workmanager)
 - [ ] [KtLint](https://github.com/pinterest/ktlint)
+- [ ] [Support Display Cutouts](https://d.android.com/develop/ui/views/layout/display-cutout)
+- [ ] [Baseline Profiles](https://d.android.com/topic/performance/baselineprofiles/overview)
+- [ ] [Tablet and large screen support](https://d.android.com/about/versions/13/features/large-screens)
 - [ ] OAuth
 - [ ] Animations
 - [ ] Landscape Orientation
-- [ ] Tablet and large screen support
 - [ ] Support RTL (in progress)
-- [ ] [Support Display Cutouts](https://d.android.com/develop/ui/views/layout/display-cutout)
 - [ ] Upload Bundle to Google Play Console
-- [ ] Baseline Profiles
 - [ ] ExoPlayer
 - [ ] Documentation
 

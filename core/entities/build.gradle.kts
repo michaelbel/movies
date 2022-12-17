@@ -20,6 +20,14 @@ android {
         buildConfigField("String", "TMDB_API_KEY", "\"$tmdbApiKey\"")
     }
 
+    buildTypes {
+        create("benchmark") {
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            initWith(getByName("release"))
+        }
+    }
+
     lint {
         quiet = true
         abortOnError = false

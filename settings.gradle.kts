@@ -19,6 +19,8 @@ rootProject.name = "movies"
 include(
     ":app",
 
+    ":benchmark",
+
     ":core:ads",
     ":core:analytics",
     ":core:common",
