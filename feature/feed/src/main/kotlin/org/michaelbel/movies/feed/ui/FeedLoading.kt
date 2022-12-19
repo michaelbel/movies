@@ -1,36 +1,50 @@
 package org.michaelbel.movies.feed.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
+import androidx.compose.ui.unit.dp
+import com.google.accompanist.placeholder.PlaceholderHighlight
+import com.google.accompanist.placeholder.material.fade
+import com.google.accompanist.placeholder.placeholder
+import org.michaelbel.movies.entities.MovieData
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 internal fun FeedLoading(
-    modifier: Modifier
+    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues = PaddingValues(),
 ) {
-    ConstraintLayout(
-        modifier = modifier
+    LazyColumn(
+        modifier = modifier,
+        contentPadding = paddingValues
     ) {
-        val (progress) = createRefs()
-
-        CircularProgressIndicator(
-            modifier = Modifier
-                .constrainAs(progress) {
-                    width = Dimension.wrapContent
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start)
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end)
-                    bottom.linkTo(parent.bottom)
-                }
-        )
+        items(MovieData.DEFAULT_PAGE_SIZE) {
+            FeedMovieBox(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = 16.dp,
+                        top = 4.dp,
+                        end = 16.dp,
+                        bottom = 4.dp
+                    )
+                    .placeholder(
+                        visible = true,
+                        color = MaterialTheme.colorScheme.inversePrimary,
+                        shape = MaterialTheme.shapes.small,
+                        highlight = PlaceholderHighlight.fade()
+                    ),
+                movie = MovieData()
+            )
+        }
     }
 }
 

@@ -1,17 +1,31 @@
 plugins {
+    alias(libs.plugins.application) apply false
+    alias(libs.plugins.library) apply false
+    alias(libs.plugins.test) apply false
+    alias(libs.plugins.kotlin) apply false
     alias(libs.plugins.firebase.appdistribution) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.kotlin.serialization) apply false
-    alias(libs.plugins.navigation.safeargs) apply false
+    alias(libs.plugins.androidx.navigation.safeargs) apply false
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.spotless)
     alias(libs.plugins.detekt)
+
+    id("com.github.ben-manes.versions") version "0.44.0"
+    id("nl.littlerobots.version-catalog-update") version "0.7.0"
+    id("com.palantir.git-version") version "0.15.0"
 }
 
-buildscript {
-    dependencies {
-        classpath("com.android.tools.build:gradle:7.3.1")
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.7.21")
+/**
+ * https://github.com/littlerobots/version-catalog-update-plugin
+ * ./gradlew versionCatalogUpdate
+ */
+versionCatalogUpdate {
+    sortByKey.set(false)
+    keep {
+        keepUnusedVersions.set(true)
+        keepUnusedLibraries.set(true)
+        keepUnusedPlugins.set(true)
     }
 }

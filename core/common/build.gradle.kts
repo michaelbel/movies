@@ -7,12 +7,41 @@ plugins {
 android {
     namespace = "org.michaelbel.movies.common"
 
+    defaultConfig {
+        minSdk = libs.versions.min.sdk.get().toInt()
+        compileSdk = libs.versions.compile.sdk.get().toInt()
+    }
+
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
-            "-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-            "-Xopt-in=androidx.compose.foundation.ExperimentalFoundationApi",
-            "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+            "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
+            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
         )
+    }
+
+    buildTypes {
+        create("benchmark") {
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            initWith(getByName("release"))
+        }
+    }
+
+    buildFeatures {
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.kotlin.compiler.extension.get()
+    }
+
+    lint {
+        quiet = true
+        abortOnError = false
+        ignoreWarnings = true
+        checkDependencies = true
+        lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
     }
 }
 
@@ -24,13 +53,11 @@ dependencies {
     api(libs.firebase.config)
     api(libs.play.services.base)
     api(libs.play.core)
-    api(libs.core)
-    api(libs.activity.compose)
+    api(libs.androidx.core)
+    api(libs.androidx.activity.compose)
     api(libs.bundles.lifecycle)
     api(libs.timber)
     implementation(libs.bundles.appcompat)
     implementation(libs.firebase.crashlytics)
-    implementation(libs.startup.runtime)
-    testApi(libs.kotlin.coroutines.test)
-    androidTestApi(libs.kotlin.coroutines.test)
+    implementation(libs.androidx.startup.runtime)
 }

@@ -9,7 +9,7 @@ Movies
 [![paypal-badge](https://img.shields.io/badge/Donate-Paypal-FF5252.svg)](https://paypal.me/michaelbel)
 [![last-commit-badge](https://img.shields.io/github/last-commit/michaelbel/moviemade?color=FF5252)](https://github.com/michaelbel/moviemade/commits)
 
-Movies - easy way to discover popular movies. This is a simple TMDb client for Android with material design.
+Movies - easy way to discover popular movies. This is a simple TMDb client for Android
 
 ## Build
 
@@ -40,7 +40,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] MVVM
 - [x] [Clean Architecture](https://d.android.com/topic/architecture)
 - [x] [TMDB API](https://developers.themoviedb.org/3/getting-started)
-- [x] Gradle Kotlin DSL
+- [x] KTS Gradle Files
 - [x] Gradle Plugin 7.3.1
 - [x] Gradle Version Catalog
 - [x] MinSDK 21
@@ -52,13 +52,13 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Themed App Icon](https://d.android.com/develop/ui/views/launch/icon_design_adaptive)
 - [x] 100% Kotlin 1.7.21
 - [x] 100% Jetpack Compose 1.3.1, No XML
-- [x] [Accompanist](https://github.com/google/accompanist) 0.27.1
+- [x] [Accompanist](https://github.com/google/accompanist) 0.28.0
 - [x] [Compose PreviewParameterProvider](https://d.android.com/jetpack/compose/tooling#previewparameter)
 - [x] [Downloadable Fonts](https://d.android.com/develop/ui/views/text-and-emoji/downloadable-fonts)
 - [x] [KotlinX Coroutines](https://github.com/Kotlin/kotlinx.coroutines) 1.6.4
-- [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) 1.4.0
+- [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) 1.4.1
 - [x] [Appcompat](https://d.android.com/jetpack/androidx/releases/appcompat) 1.6.0-rc01
-- [x] [Dagger Hilt](https://github.com/google/dagger) 2.44
+- [x] [Dagger Hilt](https://github.com/google/dagger) 2.44.2
 - [x] [ViewModel](https://d.android.com/topic/libraries/architecture/viewmodel)
 - [x] [Lifecycle](https://d.android.com/topic/libraries/architecture/lifecycle) 2.6.0-alpha03
 - [x] [DataStore](https://d.android.com/datastore) 1.0.0
@@ -70,41 +70,42 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Retrofit](https://github.com/square/retrofit) 2.9.0
 - [x] [Retrofit Kotlinx Converter Serialization](https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter) 0.8.0
 - [x] [Chucker](https://github.com/ChuckerTeam/chucker) 3.5.2
-- [x] [Coil](https://github.com/coil-kt/coil) 2.2.1
+- [x] [Coil](https://github.com/coil-kt/coil) 2.2.2
 - [x] [Timber](https://github.com/JakeWharton/timber) 5.0.1
-- [x] [Firebase Crashlytics](https://firebase.google.com/products/crashlytics) 18.2.13
-- [x] [Firebase App Distribution](https://firebase.google.com/products/app-distribution) 3.0.3
-- [x] [Firebase Remote Config](https://firebase.google.com/products/remote-config) 21.1.2
-- [x] [Google Analytics for Firebase](https://firebase.google.com/products/analytics) 21.1.1
+- [x] [Firebase Crashlytics](https://firebase.google.com/products/crashlytics) 18.3.2
+- [x] [Firebase App Distribution](https://firebase.google.com/products/app-distribution) 3.1.1
+- [x] [Firebase Remote Config](https://firebase.google.com/products/remote-config) 21.2.0
+- [x] [Google Analytics for Firebase](https://firebase.google.com/products/analytics) 21.2.0
 - [x] [In-App Reviews](https://d.android.com/guide/playcore/in-app-review)
 - [x] [App Shortcuts](https://d.android.com/develop/ui/views/launch/shortcuts)
 - [x] [Dependabot](https://github.com/dependabot)
 - [x] Github Actions CI/CD
+- [x] Github Releases
 - [x] [Lint](https://d.android.com/studio/write/lint)
 - [x] [Detekt](https://github.com/detekt/detekt) 1.22.0
-- [x] [Spotless](https://github.com/diffplug/spotless) 6.11.0
+- [x] [Spotless](https://github.com/diffplug/spotless) 6.12.0
 - [x] Distribute App via Telegram Bot
 - [x] Non-Transitive R classes
-- [x] Kotlin Internal Visibility Modifier
+- [x] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen)
 - [x] [Per-App Language Preferences](https://d.android.com/guide/topics/resources/app-languages)
+- [x] [Settings Panel](https://d.android.com/reference/android/provider/Settings.Panel)
+- [x] [Benchmark](https://d.android.com/topic/performance/benchmarking/benchmarking-overview)
 - [ ] [Room](https://d.android.com/training/data-storage/room)
 - [ ] Deep Links
 - [ ] Unit Tests
-- [ ] UI Tests
-- [ ] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen)
+- [ ] UI Tests (in progress)
 - [ ] [In-App Updates](https://d.android.com/guide/playcore/in-app-updates)
 - [ ] [Google Admob](https://developers.google.com/admob)
 - [ ] [WorkManager](https://d.android.google.cn/topic/libraries/architecture/workmanager)
 - [ ] [KtLint](https://github.com/pinterest/ktlint)
+- [ ] [Support Display Cutouts](https://d.android.com/develop/ui/views/layout/display-cutout)
+- [ ] [Baseline Profiles](https://d.android.com/topic/performance/baselineprofiles/overview)
+- [ ] [Tablet and large screen support](https://d.android.com/about/versions/13/features/large-screens)
 - [ ] OAuth
 - [ ] Animations
 - [ ] Landscape Orientation
-- [ ] Tablet and large screen support
 - [ ] Support RTL (in progress)
-- [ ] [Support Display Cutouts](https://d.android.com/develop/ui/views/layout/display-cutout)
-- [ ] Create Github Releases (in progress)
 - [ ] Upload Bundle to Google Play Console
-- [ ] Baseline Profiles
 - [ ] ExoPlayer
 - [ ] Documentation
 

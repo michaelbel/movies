@@ -29,8 +29,8 @@ internal fun DetailsAdvert(
         AndroidView(
             factory = { context ->
                 AdView(context).apply {
-                    adSize = AdSize.LARGE_BANNER
                     adUnitId = context.getString(R.string.admobBannerTestUnitId)
+                    setAdSize(AdSize.LARGE_BANNER)
                     loadAd(adRequest)
                 }
             },

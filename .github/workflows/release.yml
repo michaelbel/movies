@@ -18,3 +18,5 @@ jobs:
       - uses: ncipollo/release-action@v1
         with:
           artifacts: "release.tar.gz,foo/*.txt"
+          artifactErrorsFailBuild: false
+          generateReleaseNotes: true

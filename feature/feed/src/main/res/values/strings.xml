@@ -3,5 +3,7 @@
     <string name="feed_title">Popular Movies</string>
     <string name="feed_retry">Retry</string>
     <string name="feed_error_loading">Error while loading movies</string>
+    <string name="feed_error_check_internet_connectivity">Check Internet Connectivity</string>
     <string name="feed_error_api_key_null">TMDB API key is null</string>
+    <string name="feed_no_image">No Image</string>
 </resources>

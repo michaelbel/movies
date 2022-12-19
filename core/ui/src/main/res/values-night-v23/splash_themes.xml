@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Night Theme
+
+    Android 6 (API level 23)
+    Android 7 (API level 24)
+    Android 7.1 (API level 25)
+    Android 8 (API level 26)
+
+    Added:
+    windowLightStatusBar
+-->
+
+<resources>
+
+    <style name="Theme.Base.Starting.V23" parent="Theme.Base.Starting.V21">
+        <item name="android:windowLightStatusBar">false</item>
+    </style>
+
+    <style name="Theme.Movies.Starting" parent="Theme.Base.Starting.V23"/>
+
+</resources>

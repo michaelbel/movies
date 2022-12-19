@@ -1,4 +1,4 @@
-package org.michaelbel.moviemade.ktx
+package ktx
 
 import com.android.build.api.dsl.CommonExtension
 import java.io.File
@@ -10,8 +10,9 @@ import org.gradle.api.plugins.ExtensionAware
 import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.provideDelegate
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
-import org.michaelbel.moviemade.App.CompileSdk
-import org.michaelbel.moviemade.App.MinSdk
+
+internal val Project.libs: VersionCatalog
+    get() = extensions.getByType<VersionCatalogsExtension>().named("libs")
 
 /** Configure Compose-specific options. */
 internal fun Project.configureAndroidCompose(
@@ -38,11 +39,13 @@ internal fun Project.configureAndroidCompose(
 internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *>
 ) {
+    val libs: VersionCatalog = extensions.getByType<VersionCatalogsExtension>().named("libs")
+
     commonExtension.apply {
-        compileSdk = CompileSdk
+        compileSdk = libs.findVersion("compile-sdk").get().requiredVersion.toInt()
 
         defaultConfig {
-            minSdk = MinSdk
+            minSdk = libs.findVersion("min-sdk").get().requiredVersion.toInt()
         }
 
         compileOptions {

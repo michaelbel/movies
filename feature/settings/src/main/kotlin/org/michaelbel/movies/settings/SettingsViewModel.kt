@@ -1,6 +1,7 @@
 package org.michaelbel.movies.settings
 
 import android.os.Build
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,6 +18,7 @@ import org.michaelbel.movies.domain.usecase.SelectLanguageCase
 import org.michaelbel.movies.domain.usecase.SelectThemeCase
 import org.michaelbel.movies.ui.language.model.AppLanguage
 import org.michaelbel.movies.ui.theme.model.AppTheme
+import org.michaelbel.movies.ui.version.AppVersionData
 
 @HiltViewModel
 internal class SettingsViewModel @Inject constructor(
@@ -54,11 +56,11 @@ internal class SettingsViewModel @Inject constructor(
             initialValue = false
         )
 
-    val rtlEnabled: StateFlow<Boolean> = settingsInteractor.rtlEnabled
+    val layoutDirection: StateFlow<LayoutDirection> = settingsInteractor.layoutDirection
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
-            initialValue = false
+            initialValue = LayoutDirection.Ltr
         )
 
     val isPlayServicesAvailable: StateFlow<Boolean> = settingsInteractor.isPlayServicesAvailable
@@ -73,6 +75,20 @@ internal class SettingsViewModel @Inject constructor(
             scope = this,
             started = SharingStarted.Lazily,
             initialValue = false
+        )
+
+    val networkRequestDelay: StateFlow<Int> = settingsInteractor.networkRequestDelay
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = 0
+        )
+
+    val appVersionData: StateFlow<AppVersionData> = settingsInteractor.appVersionData
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = AppVersionData.None
         )
 
     private val _areNotificationsEnabled: MutableStateFlow<Boolean> = MutableStateFlow(false)
@@ -101,6 +117,10 @@ internal class SettingsViewModel @Inject constructor(
 
     fun setRtlEnabled(value: Boolean) = launch {
         settingsInteractor.setRtlEnabled(value)
+    }
+
+    fun setNetworkRequestDelay(value: Int) = launch {
+        settingsInteractor.setNetworkRequestDelay(value)
     }
 
     fun checkNotificationsEnabled() {

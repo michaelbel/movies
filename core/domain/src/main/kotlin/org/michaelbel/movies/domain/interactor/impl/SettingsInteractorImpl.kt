@@ -2,6 +2,7 @@ package org.michaelbel.movies.domain.interactor.impl
 
 import android.app.NotificationManager
 import android.os.Build
+import androidx.compose.ui.unit.LayoutDirection
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
@@ -19,6 +20,7 @@ import org.michaelbel.movies.common.googleapi.GoogleApi
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.domain.repository.SettingsRepository
 import org.michaelbel.movies.ui.theme.model.AppTheme
+import org.michaelbel.movies.ui.version.AppVersionData
 import timber.log.Timber
 
 internal class SettingsInteractorImpl @Inject constructor(
@@ -34,7 +36,9 @@ internal class SettingsInteractorImpl @Inject constructor(
 
     override val dynamicColors: Flow<Boolean> = settingsRepository.dynamicColors
 
-    override val rtlEnabled: Flow<Boolean> = settingsRepository.rtlEnabled
+    override val layoutDirection: Flow<LayoutDirection> = settingsRepository.layoutDirection
+
+    override val networkRequestDelay: Flow<Int> = settingsRepository.networkRequestDelay
 
     override val areNotificationsEnabled: Boolean = if (Build.VERSION.SDK_INT >= 24) {
         notificationManager.areNotificationsEnabled()
@@ -50,6 +54,12 @@ internal class SettingsInteractorImpl @Inject constructor(
 
     override val isAppFromGooglePlay: Flow<Boolean> = flowOf(googleApi.isAppFromGooglePlay)
 
+    override val appVersionData: Flow<AppVersionData> = settingsRepository.appVersionData
+
+    override suspend fun networkRequestDelay(): Long {
+        return settingsRepository.networkRequestDelay()
+    }
+
     override suspend fun selectTheme(theme: AppTheme) = withContext(dispatcher) {
         settingsRepository.selectTheme(theme)
         analytics.logEvent(SelectThemeEvent(theme.toString()))
@@ -63,6 +73,10 @@ internal class SettingsInteractorImpl @Inject constructor(
     override suspend fun setRtlEnabled(value: Boolean) = withContext(dispatcher) {
         settingsRepository.setRtlEnabled(value)
         analytics.logEvent(ChangeRtlEnabledEvent(value))
+    }
+
+    override suspend fun setNetworkRequestDelay(value: Int) = withContext(dispatcher) {
+        settingsRepository.setNetworkRequestDelay(value)
     }
 
     override suspend fun fetchRemoteConfig() {

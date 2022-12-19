@@ -15,7 +15,25 @@ android {
     namespace = "org.michaelbel.movies.entities"
 
     defaultConfig {
+        minSdk = libs.versions.min.sdk.get().toInt()
+        compileSdk = libs.versions.compile.sdk.get().toInt()
         buildConfigField("String", "TMDB_API_KEY", "\"$tmdbApiKey\"")
+    }
+
+    buildTypes {
+        create("benchmark") {
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks += listOf("release")
+            initWith(getByName("release"))
+        }
+    }
+
+    lint {
+        quiet = true
+        abortOnError = false
+        ignoreWarnings = true
+        checkDependencies = true
+        lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
     }
 }
 

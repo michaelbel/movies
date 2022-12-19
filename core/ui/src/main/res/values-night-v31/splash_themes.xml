@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+    Night Theme
+
+    Android 12 (API level 31)
+    Android 12L (API level 32)
+    Android 13 (API level 33)
+
+    Added:
+    windowSplashScreenBrandingImage
+-->
+
+<resources>
+
+    <style name="Theme.Base.Starting.V31" parent="Theme.Base.Starting.V23">
+        <item name="android:windowSplashScreenBrandingImage">@drawable/ic_splash_screen_branding_image</item>
+    </style>
+
+    <style name="Theme.Movies.Starting" parent="Theme.Base.Starting.V31"/>
+
+</resources>

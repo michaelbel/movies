@@ -1,5 +1,10 @@
 package org.michaelbel.movies.feed.ui
 
+import android.content.Intent
+import android.os.Build
+import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -93,6 +98,10 @@ internal fun FeedScreenContent(
         pagingItems.retry()
     }
 
+    val resultContract = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {}
+
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -119,22 +128,27 @@ internal fun FeedScreenContent(
             pagingItems.isLoading -> {
                 FeedLoading(
                     modifier = Modifier
-                        .padding(paddingValues)
-                        .fillMaxSize()
+                        .fillMaxSize(),
+                    paddingValues = paddingValues
                 )
             }
             pagingItems.isFailure -> {
                 FeedFailure(
                     modifier = Modifier
                         .padding(paddingValues)
-                        .fillMaxSize()
+                        .fillMaxSize(),
+                    onCheckConnectivityClick = {
+                        if (Build.VERSION.SDK_INT >= 29) {
+                            resultContract.launch(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
+                        }
+                    }
                 )
             }
             else -> {
                 FeedContent(
                     modifier = Modifier
-                        .padding(paddingValues)
                         .fillMaxSize(),
+                    paddingValues = paddingValues,
                     listState = listState,
                     pagingItems = pagingItems,
                     onMovieClick = onNavigateToDetails

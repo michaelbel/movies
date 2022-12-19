@@ -9,6 +9,7 @@
 /buildSrc/build/classes/kotlin/main/org/michaelbel/moviemade/plugins/AndroidLibraryConventionPlugin.class
 /buildSrc/build/classes/kotlin/main/org/michaelbel/moviemade/plugins/AndroidApplicationConventionPlugin.class
 /.idea/kotlinc.xml
+/.idea/assetWizardSettings.xml.xml
 /buildSrc/build/classes/kotlin/main/org/michaelbel/moviemade/plugins/AndroidComposeLibraryConventionPlugin$$special$$inlined$getByType$1.class
 /buildSrc/build/classes/kotlin/main/org/michaelbel/moviemade/plugins/AndroidComposeLibraryConventionPlugin.class
 /buildSrc/build/classes/kotlin/main/org/michaelbel/moviemade/plugins/AndroidHiltConventionPlugin$$special$$inlined$getByType$1.class

@@ -5,7 +5,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.provider.Settings
-import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
@@ -13,11 +12,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material.ModalBottomSheetLayout
-import androidx.compose.material.ModalBottomSheetValue
-import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
@@ -34,6 +31,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -46,11 +44,12 @@ import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.ktx.denied
 import org.michaelbel.movies.common.review.rememberReviewManager
 import org.michaelbel.movies.common.review.rememberReviewTask
+import org.michaelbel.movies.settings.BuildConfig
 import org.michaelbel.movies.settings.R
 import org.michaelbel.movies.settings.SettingsViewModel
-import org.michaelbel.movies.settings.model.ModalBottomSheetType
 import org.michaelbel.movies.ui.language.model.AppLanguage
 import org.michaelbel.movies.ui.theme.model.AppTheme
+import org.michaelbel.movies.ui.version.AppVersionData
 import org.michaelbel.movies.ui.R as UiR
 
 @Composable
@@ -62,10 +61,12 @@ internal fun SettingsRoute(
     val currentLanguage: AppLanguage = AppLanguage.transform(stringResource(UiR.string.language_code))
     val currentTheme: AppTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
     val dynamicColors: Boolean by viewModel.dynamicColors.collectAsStateWithLifecycle()
-    val rtlEnabled: Boolean by viewModel.rtlEnabled.collectAsStateWithLifecycle()
+    val layoutDirection: LayoutDirection by viewModel.layoutDirection.collectAsStateWithLifecycle()
     val isPlayServicesAvailable: Boolean by viewModel.isPlayServicesAvailable.collectAsStateWithLifecycle()
     val isAppFromGooglePlay: Boolean by viewModel.isAppFromGooglePlay.collectAsStateWithLifecycle()
     val areNotificationsEnabled: Boolean by viewModel.areNotificationsEnabled.collectAsStateWithLifecycle()
+    val networkRequestDelay: Int by viewModel.networkRequestDelay.collectAsStateWithLifecycle()
+    val appVersionData: AppVersionData by viewModel.appVersionData.collectAsStateWithLifecycle()
 
     val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
     lifecycleOwner.lifecycle.addObserver(viewModel)
@@ -82,13 +83,16 @@ internal fun SettingsRoute(
         isDynamicColorsFeatureEnabled = viewModel.isDynamicColorsFeatureEnabled,
         dynamicColors = dynamicColors,
         onSetDynamicColors = viewModel::setDynamicColors,
-        isRtlEnabled = rtlEnabled,
+        isRtlEnabled = layoutDirection == LayoutDirection.Rtl,
         onEnableRtlChanged = viewModel::setRtlEnabled,
         isPostNotificationsFeatureEnabled = viewModel.isPostNotificationsFeatureEnabled,
         areNotificationsEnabled = areNotificationsEnabled,
         onNotificationsStatusChanged = viewModel::checkNotificationsEnabled,
         isPlayServicesAvailable = isPlayServicesAvailable,
-        isAppFromGooglePlay = isAppFromGooglePlay
+        isAppFromGooglePlay = isAppFromGooglePlay,
+        networkRequestDelay = networkRequestDelay,
+        onDelayChangeFinished = viewModel::setNetworkRequestDelay,
+        appVersionData = appVersionData
     )
 }
 
@@ -111,26 +115,41 @@ internal fun SettingsScreenContent(
     areNotificationsEnabled: Boolean,
     onNotificationsStatusChanged: () -> Unit,
     isPlayServicesAvailable: Boolean,
-    isAppFromGooglePlay: Boolean
+    isAppFromGooglePlay: Boolean,
+    networkRequestDelay: Int,
+    onDelayChangeFinished: (Int) -> Unit,
+    appVersionData: AppVersionData
 ) {
-    var backHandlingEnabled: Boolean by remember { mutableStateOf(false) }
-    var modalBottomSheetType: ModalBottomSheetType by remember {
-        mutableStateOf(ModalBottomSheetType.Language)
-    }
-    val modalBottomSheetState = rememberModalBottomSheetState(
-        initialValue = ModalBottomSheetValue.Hidden,
-        confirmStateChange = { value: ModalBottomSheetValue ->
-            if (value == ModalBottomSheetValue.Hidden) {
-                backHandlingEnabled = false
-            }
-            true
-        }
-    )
     val context: Context = LocalContext.current
     val scope: CoroutineScope = rememberCoroutineScope()
     val snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
     val reviewManager: ReviewManager = rememberReviewManager()
     val reviewInfo: ReviewInfo? = rememberReviewTask(reviewManager)
+
+    var languageDialog: Boolean by remember { mutableStateOf(false) }
+    var themeDialog: Boolean by remember { mutableStateOf(false) }
+
+    if (languageDialog) {
+        SettingLanguageDialog(
+            languages = languages,
+            currentLanguage = currentLanguage,
+            onLanguageSelect = onLanguageSelect,
+            onDismissRequest = {
+                languageDialog = false
+            }
+        )
+    }
+
+    if (themeDialog) {
+        SettingThemeDialog(
+            themes = themes,
+            currentTheme = currentTheme,
+            onThemeSelect = onThemeSelect,
+            onDismissRequest = {
+                themeDialog = false
+            }
+        )
+    }
 
     val resultContract = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -185,17 +204,6 @@ internal fun SettingsScreenContent(
         }
     }
 
-    fun showModalBottomSheet(type: ModalBottomSheetType) = scope.launch {
-        modalBottomSheetType = type
-        modalBottomSheetState.show()
-        backHandlingEnabled = true
-    }
-
-    fun hideModalBottomSheet() = scope.launch {
-        modalBottomSheetState.hide()
-        backHandlingEnabled = false
-    }
-
     fun onLaunchReviewFlow() {
         when {
             !isPlayServicesAvailable -> {
@@ -218,12 +226,6 @@ internal fun SettingsScreenContent(
         }
     }
 
-    BackHandler(backHandlingEnabled) {
-        if (modalBottomSheetState.isVisible) {
-            hideModalBottomSheet()
-        }
-    }
-
     Scaffold(
         modifier = modifier,
         topBar = {
@@ -233,6 +235,14 @@ internal fun SettingsScreenContent(
                 onNavigationIconClick = onBackClick
             )
         },
+        bottomBar = {
+            SettingsLanguageBox(
+                modifier = Modifier
+                    .navigationBarsPadding()
+                    .fillMaxWidth(),
+                appVersionData = appVersionData
+            )
+        },
         snackbarHost = {
             SnackbarHost(
                 hostState = snackbarHostState
@@ -240,112 +250,83 @@ internal fun SettingsScreenContent(
         },
         containerColor = MaterialTheme.colorScheme.primaryContainer
     ) { paddingValues: PaddingValues ->
-        ModalBottomSheetLayout(
-            sheetContent = {
-                when (modalBottomSheetType) {
-                    is ModalBottomSheetType.Language -> {
-                        SettingsLanguageModalContent(
-                            modifier = Modifier
-                                .padding(
-                                    vertical = 8.dp
-                                ),
-                            languages = languages,
-                            currentLanguage = currentLanguage,
-                            onLanguageSelected = { language ->
-                                onLanguageSelect(language)
-                                hideModalBottomSheet()
-                            }
-                        )
-                    }
-                    is ModalBottomSheetType.Theme -> {
-                        SettingsThemeModalContent(
-                            modifier = Modifier
-                                .padding(
-                                    vertical = 8.dp
-                                ),
-                            themes = themes,
-                            currentTheme = currentTheme,
-                            onThemeSelected = { theme ->
-                                onThemeSelect(theme)
-                                hideModalBottomSheet()
-                            }
-                        )
-                    }
-                }
-            },
-            sheetState = modalBottomSheetState,
-            sheetShape = MaterialTheme.shapes.small,
-            sheetBackgroundColor = MaterialTheme.colorScheme.surface
+        Column(
+            modifier = Modifier
+                .padding(paddingValues)
         ) {
-            Column(
+            SettingsLanguageBox(
                 modifier = Modifier
-                    .padding(paddingValues)
-            ) {
-                SettingsLanguageBox(
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .clickable {
+                        languageDialog = true
+                    },
+                currentLanguage = currentLanguage
+            )
+
+            SettingsThemeBox(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .clickable {
+                        themeDialog = true
+                    },
+                currentTheme = currentTheme
+            )
+
+            if (isDynamicColorsFeatureEnabled) {
+                SettingsDynamicColorsBox(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
                         .clickable {
-                            showModalBottomSheet(ModalBottomSheetType.Language)
+                            onSetDynamicColors(!dynamicColors)
                         },
-                    currentLanguage = currentLanguage
+                    isDynamicColorsEnabled = dynamicColors
                 )
+            }
 
-                SettingsThemeBox(
+            SettingsRtlBox(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .clickable {
+                        onEnableRtlChanged(!isRtlEnabled)
+                    },
+                isRtlEnabled = isRtlEnabled
+            )
+
+            if (isPostNotificationsFeatureEnabled) {
+                SettingsPostNotificationsBox(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
                         .clickable {
-                            showModalBottomSheet(ModalBottomSheetType.Theme)
+                            if (areNotificationsEnabled) {
+                                onStartAppSettingsIntent()
+                            } else {
+                                onLaunchPostNotificationsPermission()
+                            }
                         },
-                    currentTheme = currentTheme
+                    areNotificationsEnabled = areNotificationsEnabled
                 )
+            }
 
-                if (isDynamicColorsFeatureEnabled) {
-                    SettingsDynamicColorsBox(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(48.dp)
-                            .clickable {
-                                onSetDynamicColors(!dynamicColors)
-                            },
-                        isDynamicColorsEnabled = dynamicColors
-                    )
-                }
+            SettingsReviewBox(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
+                    .clickable {
+                        onLaunchReviewFlow()
+                    }
+            )
 
-                SettingsRtlBox(
+            if (BuildConfig.DEBUG) {
+                SettingsNetworkRequestDelayBox(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                        .clickable {
-                            onEnableRtlChanged(!isRtlEnabled)
-                        },
-                    isRtlEnabled = isRtlEnabled
-                )
-
-                if (isPostNotificationsFeatureEnabled) {
-                    SettingsPostNotificationsBox(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(48.dp)
-                            .clickable {
-                                if (areNotificationsEnabled) {
-                                    onStartAppSettingsIntent()
-                                } else {
-                                    onLaunchPostNotificationsPermission()
-                                }
-                            },
-                        areNotificationsEnabled = areNotificationsEnabled
-                    )
-                }
-
-                SettingsReviewBox(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                        .clickable {
-                            onLaunchReviewFlow()
-                        }
+                        .fillMaxWidth(),
+                    delay = networkRequestDelay,
+                    onDelayChangeFinished = onDelayChangeFinished
                 )
             }
         }

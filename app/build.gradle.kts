@@ -2,10 +2,6 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import java.io.FileInputStream
 import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
-import org.michaelbel.moviemade.App
-import org.michaelbel.moviemade.App.ApplicationId
-import org.michaelbel.moviemade.App.BuildTools
-import org.michaelbel.moviemade.App.VersionName
 
 plugins {
     id("movies-android-application")
@@ -15,9 +11,10 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.appdistribution")
     id("com.google.firebase.crashlytics")
+    id("com.palantir.git-version")
 }
 
-val gitVersion: Int by lazy {
+val gitCommitsCount: Int by lazy {
     val stdout = ByteArrayOutputStream()
     rootProject.exec {
         commandLine("git", "rev-list", "--count", "HEAD")
@@ -38,6 +35,10 @@ val admobBannerId: String by lazy {
     gradleLocalProperties(rootDir).getProperty("ADMOB_BANNER_ID")
 }
 
+val gitVersion: groovy.lang.Closure<String> by extra
+val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
+val versionLastTag: String = versionDetails().lastTag
+
 tasks.register("prepareReleaseNotes") {
     doLast {
         exec {
@@ -54,13 +55,15 @@ afterEvaluate {
 
 android {
     namespace = "org.michaelbel.moviemade"
-    buildToolsVersion = BuildTools
 
     defaultConfig {
-        applicationId = ApplicationId
-        versionCode = gitVersion
-        versionName = VersionName
-        testInstrumentationRunner = App.TestInstrumentationRunner
+        applicationId = "org.michaelbel.moviemade"
+        minSdk = libs.versions.min.sdk.get().toInt()
+        compileSdk = libs.versions.compile.sdk.get().toInt()
+        targetSdk = libs.versions.target.sdk.get().toInt()
+        versionCode = gitCommitsCount
+        versionName = versionLastTag
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         resourceConfigurations.addAll(listOf("en", "ru"))
 
@@ -116,18 +119,38 @@ android {
             isShrinkResources = false
             applicationIdSuffix = ".debug"
         }
+        create("benchmark") {
+            initWith(getByName("release"))
+            signingConfig = signingConfigs.getByName("debug")
+            matchingFallbacks.add("release")
+            proguardFiles("benchmark-rules.pro")
+            isDebuggable = false
+        }
     }
 
     buildFeatures {
         viewBinding = true
+        compose = true
     }
 
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
-            "-Xopt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-            "-Xopt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
-            "-Xopt-in=androidx.compose.animation.ExperimentalAnimationApi"
+            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
+            "-opt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
+            "-opt-in=androidx.compose.animation.ExperimentalAnimationApi"
         )
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.kotlin.compiler.extension.get()
+    }
+
+    lint {
+        quiet = true
+        abortOnError = false
+        ignoreWarnings = true
+        checkDependencies = true
+        lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
     }
 }
 
@@ -139,4 +162,12 @@ dependencies {
     implementation(project(":feature:details"))
     implementation(project(":feature:feed"))
     implementation(project(":feature:settings"))
+
+    implementation(libs.androidx.profile.installer)
+
+    testImplementation(libs.junit)
+    androidTestImplementation(libs.androidx.test.ext.junit.ktx)
+    androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
+    androidTestImplementation(libs.androidx.benchmark.junit)
 }
