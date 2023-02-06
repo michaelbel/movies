@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import org.michaelbel.movies.details.ui.preview.TitlePreviewParameterProvider
 import org.michaelbel.movies.ui.icon.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -48,13 +48,6 @@ internal fun DetailsToolbar(
         colors = TopAppBarDefaults.smallTopAppBarColors(
             containerColor = Color.Transparent
         )
-    )
-}
-
-private class TitlePreviewParameterProvider: PreviewParameterProvider<String> {
-    override val values: Sequence<String> = sequenceOf(
-        "How to Train Your Dragon",
-        "Three Billboards Outside Ebbing, Missouri"
     )
 }
 

@@ -2,7 +2,6 @@ package org.michaelbel.movies.feed.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -28,53 +27,50 @@ internal fun FeedContent(
     pagingItems: LazyPagingItems<MovieData>,
     onMovieClick: (Int) -> Unit
 ) {
-    Column(
-        modifier = modifier
+    LazyColumn(
+        modifier = modifier,
+        state = listState,
+        contentPadding = paddingValues
     ) {
-        LazyColumn(
-            state = listState,
-            contentPadding = paddingValues
-        ) {
-            items(pagingItems) { movieItem ->
-                movieItem?.let { movie ->
-                    FeedMovieBox(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(
-                                start = 16.dp,
-                                top = 4.dp,
-                                end = 16.dp,
-                                bottom = 4.dp
-                            )
-                            .clip(MaterialTheme.shapes.small)
-                            .background(MaterialTheme.colorScheme.inversePrimary)
-                            .clickable {
-                                onMovieClick(movie.id)
-                            },
-                        movie = movie
-                    )
-                }
+        items(pagingItems) { movieItem ->
+            movieItem?.let { movie ->
+                FeedMovieBox(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(
+                            start = 16.dp,
+                            top = 4.dp,
+                            end = 16.dp,
+                            bottom = 4.dp
+                        )
+                        .clip(MaterialTheme.shapes.small)
+                        .background(MaterialTheme.colorScheme.inversePrimary)
+                        .clickable {
+                            onMovieClick(movie.id)
+                        },
+                    movie = movie
+                )
             }
-            pagingItems.apply {
-                when {
-                    isPagingLoading -> {
-                        item {
-                            FeedLoadingBox(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(80.dp)
-                            )
-                        }
+        }
+        pagingItems.apply {
+            when {
+                isPagingLoading -> {
+                    item {
+                        FeedLoadingBox(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(80.dp)
+                        )
                     }
-                    isPagingFailure -> {
-                        item {
-                            FeedErrorBox(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(80.dp)
-                                    .clickable { retry() }
-                            )
-                        }
+                }
+                isPagingFailure -> {
+                    item {
+                        FeedErrorBox(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(80.dp)
+                                .clickable { retry() }
+                        )
                     }
                 }
             }

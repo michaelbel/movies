@@ -20,7 +20,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -28,6 +27,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import org.michaelbel.movies.entities.MovieData
 import org.michaelbel.movies.feed.R
+import org.michaelbel.movies.feed.ui.preview.MoviePreviewParameterProvider
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -102,21 +102,6 @@ internal fun FeedMovieBox(
             style = MaterialTheme.typography.bodyLarge
         )
     }
-}
-
-private class MoviePreviewParameterProvider: PreviewParameterProvider<MovieData> {
-    override val values: Sequence<MovieData> = sequenceOf(
-        MovieData(
-            id = 438148,
-            overview = "",
-            posterPath = "/19GXuePqcZSPD5JgT9MeVdeu9Tc.jpg",
-            backdropPath = "https://image.tmdb.org/t/p/w500//nmGWzTLMXy9x7mKd8NKPLmHtWGa.jpg",
-            releaseDate = "2022-06-29",
-            title = "Миньоны: Грювитация",
-            voteAverage = 7.6F,
-            genreIds = listOf(16, 12, 35, 14)
-        )
-    )
 }
 
 @Composable

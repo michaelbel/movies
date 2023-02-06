@@ -14,14 +14,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import kotlin.math.roundToInt
 import org.michaelbel.movies.settings.R
+import org.michaelbel.movies.settings.ui.preview.SliderPreviewParameterProvider
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
+import kotlin.math.roundToInt
 
 @Composable
 fun SettingsNetworkRequestDelayBox(
@@ -88,14 +88,6 @@ fun SettingsNetworkRequestDelayBox(
             )
         )
     }
-}
-
-private class SliderPreviewParameterProvider: PreviewParameterProvider<Int> {
-    override val values: Sequence<Int> = sequenceOf(
-        0,
-        5000,
-        10000
-    )
 }
 
 @Composable
