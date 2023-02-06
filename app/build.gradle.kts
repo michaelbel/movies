@@ -1,7 +1,8 @@
+
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import java.io.FileInputStream
 import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
+import java.io.FileInputStream
 
 plugins {
     id("movies-android-application")
@@ -159,9 +160,9 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:domain"))
     implementation(project(":core:navigation"))
-    implementation(project(":feature:details"))
-    implementation(project(":feature:feed"))
-    implementation(project(":feature:settings"))
+    implementation(project(":feature:details-impl"))
+    implementation(project(":feature:feed-impl"))
+    implementation(project(":feature:settings-impl"))
 
     implementation(libs.androidx.profile.installer)
 
