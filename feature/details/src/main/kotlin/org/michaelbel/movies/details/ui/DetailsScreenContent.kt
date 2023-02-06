@@ -1,6 +1,5 @@
 package org.michaelbel.movies.details.ui
 
-import android.content.Context
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -10,7 +9,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import java.net.UnknownHostException
@@ -48,8 +46,6 @@ internal fun DetailsScreenContent(
     networkStatus: NetworkStatus,
     onRetry: () -> Unit
 ) {
-    val context: Context = LocalContext.current
-
     if (networkStatus == NetworkStatus.Available && detailsState.isFailure && detailsState.throwable is UnknownHostException) {
         onRetry()
     }
@@ -61,7 +57,7 @@ internal fun DetailsScreenContent(
                 modifier = Modifier
                     .statusBarsPadding(),
                 onNavigationIconClick = onBackClick,
-                movieTitle = detailsState.toolbarTitle(context)
+                movieTitle = detailsState.toolbarTitle
             )
         },
         containerColor = MaterialTheme.colorScheme.primaryContainer

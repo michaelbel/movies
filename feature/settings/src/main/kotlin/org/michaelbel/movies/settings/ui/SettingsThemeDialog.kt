@@ -114,7 +114,7 @@ private fun SettingThemeDialogContent(
                         )
                 )
 
-                androidx.compose.material3.Text(
+                Text(
                     text = stringResource(theme.themeTextRes),
                     modifier = Modifier
                         .padding(
