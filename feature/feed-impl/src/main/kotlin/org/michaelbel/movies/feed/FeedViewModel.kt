@@ -5,7 +5,6 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -16,9 +15,10 @@ import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.entities.MovieData
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
+import javax.inject.Inject
 
 @HiltViewModel
-internal class FeedViewModel @Inject constructor(
+class FeedViewModel @Inject constructor(
     private val movieInteractor: MovieInteractor,
     settingsInteractor: SettingsInteractor,
     networkManager: NetworkManager

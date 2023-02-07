@@ -30,7 +30,10 @@ include(
     ":core:network",
     ":core:ui",
 
+    ":feature:details",
     ":feature:details-impl",
+    ":feature:feed",
     ":feature:feed-impl",
+    ":feature:settings",
     ":feature:settings-impl"
 )

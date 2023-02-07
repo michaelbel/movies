@@ -1,4 +1,4 @@
-package org.michaelbel.movies.settings.navigation
+package org.michaelbel.movies.settings
 
 import androidx.navigation.NavDeepLink
 import androidx.navigation.NavGraphBuilder

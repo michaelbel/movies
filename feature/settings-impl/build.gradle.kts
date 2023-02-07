@@ -47,10 +47,10 @@ android {
 }
 
 dependencies {
+    api(project(":core:navigation"))
+    api(project(":core:common"))
     implementation(project(":core:ads"))
-    implementation(project(":core:common"))
     implementation(project(":core:domain"))
-    implementation(project(":core:navigation"))
     implementation(project(":core:ui"))
 
     testImplementation(libs.junit)

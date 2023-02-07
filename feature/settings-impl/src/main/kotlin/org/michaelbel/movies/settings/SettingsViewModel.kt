@@ -5,7 +5,6 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -19,9 +18,10 @@ import org.michaelbel.movies.domain.usecase.SelectThemeCase
 import org.michaelbel.movies.ui.language.model.AppLanguage
 import org.michaelbel.movies.ui.theme.model.AppTheme
 import org.michaelbel.movies.ui.version.AppVersionData
+import javax.inject.Inject
 
 @HiltViewModel
-internal class SettingsViewModel @Inject constructor(
+class SettingsViewModel @Inject constructor(
     private val settingsInteractor: SettingsInteractor,
     private val selectLanguageCase: SelectLanguageCase,
     private val selectThemeCase: SelectThemeCase

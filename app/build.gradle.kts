@@ -160,9 +160,9 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:domain"))
     implementation(project(":core:navigation"))
-    implementation(project(":feature:details-impl"))
-    implementation(project(":feature:feed-impl"))
-    implementation(project(":feature:settings-impl"))
+    implementation(project(":feature:details"))
+    implementation(project(":feature:feed"))
+    implementation(project(":feature:settings"))
 
     implementation(libs.androidx.profile.installer)
 

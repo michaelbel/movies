@@ -44,16 +44,16 @@ import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.ktx.denied
 import org.michaelbel.movies.common.review.rememberReviewManager
 import org.michaelbel.movies.common.review.rememberReviewTask
+import org.michaelbel.movies.settings.SettingsViewModel
 import org.michaelbel.movies.settings_impl.BuildConfig
 import org.michaelbel.movies.settings_impl.R
-import org.michaelbel.movies.settings.SettingsViewModel
 import org.michaelbel.movies.ui.language.model.AppLanguage
 import org.michaelbel.movies.ui.theme.model.AppTheme
 import org.michaelbel.movies.ui.version.AppVersionData
 import org.michaelbel.movies.ui.R as UiR
 
 @Composable
-internal fun SettingsRoute(
+fun SettingsRoute(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = hiltViewModel()

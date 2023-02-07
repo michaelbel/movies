@@ -1,4 +1,4 @@
-package org.michaelbel.movies.details.navigation
+package org.michaelbel.movies.details
 
 import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavDeepLink

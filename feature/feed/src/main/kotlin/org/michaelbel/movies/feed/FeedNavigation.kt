@@ -1,4 +1,4 @@
-package org.michaelbel.movies.feed.navigation
+package org.michaelbel.movies.feed
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
