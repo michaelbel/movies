@@ -8,7 +8,7 @@ compile-sdk = "33"
 # @keep
 target-sdk = "33"
 # @pin
-gradle = "7.4.0"
+gradle = "7.4.1"
 # @pin update when updating compose compiler
 kotlin = "1.8.0"
 kotlin-coroutines = "1.6.4"
