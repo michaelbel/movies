@@ -83,7 +83,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] Github Releases
 - [x] [Lint](https://d.android.com/studio/write/lint)
 - [x] [Detekt](https://github.com/detekt/detekt) 1.22.0
-- [x] [Spotless](https://github.com/diffplug/spotless) 6.13.0
+- [x] [Spotless](https://github.com/diffplug/spotless) 6.14.1
 - [x] Distribute App via Telegram Bot
 - [x] Non-Transitive R classes
 - [x] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen)
