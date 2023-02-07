@@ -15,8 +15,8 @@ internal fun DetailsLoading(
 ) {
     DetailsContent(
         modifier = modifier,
-        movie = MovieDetailsData(),
-        placeHolder = true
+        movie = MovieDetailsData.Empty,
+        placeholder = true
     )
 }
 

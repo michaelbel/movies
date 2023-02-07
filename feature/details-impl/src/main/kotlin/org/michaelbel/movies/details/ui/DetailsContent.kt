@@ -30,9 +30,10 @@ import coil.request.ImageRequest
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.fade
 import com.google.accompanist.placeholder.placeholder
-import org.michaelbel.movies.details_impl.R
 import org.michaelbel.movies.details.ui.preview.MoviePreviewParameterProvider
+import org.michaelbel.movies.details_impl.R
 import org.michaelbel.movies.entities.MovieDetailsData
+import org.michaelbel.movies.entities.ktx.isNotEmpty
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -41,7 +42,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 internal fun DetailsContent(
     movie: MovieDetailsData,
     modifier: Modifier = Modifier,
-    placeHolder: Boolean = false
+    placeholder: Boolean = false
 ) {
     val context: Context = LocalContext.current
     val scrollState: ScrollState = rememberScrollState()
@@ -53,7 +54,7 @@ internal fun DetailsContent(
     ) {
         val (image, noImageText, title, overview) = createRefs()
 
-        val imageRequest: ImageRequest? = if (placeHolder) {
+        val imageRequest: ImageRequest? = if (placeholder) {
             null
         } else {
             ImageRequest.Builder(context)
@@ -62,7 +63,7 @@ internal fun DetailsContent(
                 .build()
         }
 
-        val imageModifier: Modifier = if (placeHolder) {
+        val imageModifier: Modifier = if (placeholder) {
             Modifier
                 .constrainAs(image) {
                     width = Dimension.fillToConstraints
@@ -94,7 +95,7 @@ internal fun DetailsContent(
             contentDescription = null,
             modifier = imageModifier,
             onState = { state ->
-                isNoImageVisible = state.isErrorOrEmpty
+                isNoImageVisible = movie.isNotEmpty && state.isErrorOrEmpty
             },
             contentScale = ContentScale.Crop
         )
@@ -119,7 +120,7 @@ internal fun DetailsContent(
             )
         }
 
-        val titleModifier: Modifier = if (placeHolder) {
+        val titleModifier: Modifier = if (placeholder) {
             Modifier
                 .constrainAs(title) {
                     width = Dimension.fillToConstraints
@@ -154,7 +155,7 @@ internal fun DetailsContent(
             style = MaterialTheme.typography.titleLarge
         )
 
-        val overviewModifier: Modifier = if (placeHolder) {
+        val overviewModifier: Modifier = if (placeholder) {
             Modifier
                 .constrainAs(overview) {
                     width = Dimension.fillToConstraints
