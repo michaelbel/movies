@@ -31,10 +31,8 @@ internal fun FeedLoading(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
-                        start = 16.dp,
-                        top = 4.dp,
-                        end = 16.dp,
-                        bottom = 4.dp
+                        horizontal = 16.dp,
+                        vertical = 4.dp
                     )
                     .placeholder(
                         visible = true,
@@ -42,7 +40,7 @@ internal fun FeedLoading(
                         shape = MaterialTheme.shapes.small,
                         highlight = PlaceholderHighlight.fade()
                     ),
-                movie = MovieData()
+                movie = MovieData.Empty
             )
         }
     }
