@@ -31,6 +31,9 @@ include(
     ":core:ui",
 
     ":feature:details",
+    ":feature:details-impl",
     ":feature:feed",
-    ":feature:settings"
+    ":feature:feed-impl",
+    ":feature:settings",
+    ":feature:settings-impl"
 )

@@ -41,7 +41,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Clean Architecture](https://d.android.com/topic/architecture)
 - [x] [TMDB API](https://developers.themoviedb.org/3/getting-started)
 - [x] KTS Gradle Files
-- [x] Gradle Plugin 7.3.1
+- [x] Gradle Plugin 7.4.1
 - [x] Gradle Version Catalog
 - [x] MinSDK 21
 - [x] TargetSDK 33
@@ -50,7 +50,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] Dark Theme
 - [x] Dynamic Colors
 - [x] [Themed App Icon](https://d.android.com/develop/ui/views/launch/icon_design_adaptive)
-- [x] 100% Kotlin 1.7.21
+- [x] 100% Kotlin 1.8.0
 - [x] 100% Jetpack Compose 1.3.1, No XML
 - [x] [Accompanist](https://github.com/google/accompanist) 0.28.0
 - [x] [Compose PreviewParameterProvider](https://d.android.com/jetpack/compose/tooling#previewparameter)
@@ -72,9 +72,9 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Chucker](https://github.com/ChuckerTeam/chucker) 3.5.2
 - [x] [Coil](https://github.com/coil-kt/coil) 2.2.2
 - [x] [Timber](https://github.com/JakeWharton/timber) 5.0.1
-- [x] [Firebase Crashlytics](https://firebase.google.com/products/crashlytics) 18.3.2
-- [x] [Firebase App Distribution](https://firebase.google.com/products/app-distribution) 3.1.1
-- [x] [Firebase Remote Config](https://firebase.google.com/products/remote-config) 21.2.0
+- [x] [Firebase Crashlytics](https://firebase.google.com/products/crashlytics) 18.3.3
+- [x] [Firebase App Distribution](https://firebase.google.com/products/app-distribution) 3.2.0
+- [x] [Firebase Remote Config](https://firebase.google.com/products/remote-config) 21.2.1
 - [x] [Google Analytics for Firebase](https://firebase.google.com/products/analytics) 21.2.0
 - [x] [In-App Reviews](https://d.android.com/guide/playcore/in-app-review)
 - [x] [App Shortcuts](https://d.android.com/develop/ui/views/launch/shortcuts)
@@ -83,7 +83,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] Github Releases
 - [x] [Lint](https://d.android.com/studio/write/lint)
 - [x] [Detekt](https://github.com/detekt/detekt) 1.22.0
-- [x] [Spotless](https://github.com/diffplug/spotless) 6.12.0
+- [x] [Spotless](https://github.com/diffplug/spotless) 6.14.1
 - [x] Distribute App via Telegram Bot
 - [x] Non-Transitive R classes
 - [x] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen)

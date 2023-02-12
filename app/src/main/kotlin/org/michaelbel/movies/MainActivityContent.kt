@@ -4,12 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import org.michaelbel.movies.details.navigation.DetailsDestination
-import org.michaelbel.movies.details.navigation.detailsGraph
-import org.michaelbel.movies.feed.navigation.FeedDestination
-import org.michaelbel.movies.feed.navigation.feedGraph
-import org.michaelbel.movies.settings.navigation.SettingsDestination
-import org.michaelbel.movies.settings.navigation.settingsGraph
+import org.michaelbel.movies.details.DetailsDestination
+import org.michaelbel.movies.details.detailsGraph
+import org.michaelbel.movies.feed.FeedDestination
+import org.michaelbel.movies.feed.feedGraph
+import org.michaelbel.movies.settings.SettingsDestination
+import org.michaelbel.movies.settings.settingsGraph
 
 @Composable
 internal fun MainActivityContent(

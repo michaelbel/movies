@@ -1,7 +1,6 @@
 plugins {
     id("movies-android-library")
     id("movies-android-library-compose")
-    id("movies-android-hilt")
 }
 
 android {
@@ -18,14 +17,6 @@ android {
             matchingFallbacks += listOf("release")
             initWith(getByName("release"))
         }
-    }
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + listOf(
-            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-            "-opt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
-            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-        )
     }
 
     buildFeatures {
@@ -46,9 +37,5 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:ads"))
-    implementation(project(":core:common"))
-    implementation(project(":core:navigation"))
-    implementation(project(":core:network"))
-    implementation(project(":core:domain"))
+    implementation(project(":feature:details-impl"))
 }
