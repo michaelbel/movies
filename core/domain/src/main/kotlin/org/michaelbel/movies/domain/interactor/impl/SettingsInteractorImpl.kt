@@ -38,8 +38,6 @@ internal class SettingsInteractorImpl @Inject constructor(
 
     override val layoutDirection: Flow<LayoutDirection> = settingsRepository.layoutDirection
 
-    override val networkRequestDelay: Flow<Int> = settingsRepository.networkRequestDelay
-
     override val areNotificationsEnabled: Boolean = if (Build.VERSION.SDK_INT >= 24) {
         notificationManager.areNotificationsEnabled()
     } else {
@@ -56,10 +54,6 @@ internal class SettingsInteractorImpl @Inject constructor(
 
     override val appVersionData: Flow<AppVersionData> = settingsRepository.appVersionData
 
-    override suspend fun networkRequestDelay(): Long {
-        return settingsRepository.networkRequestDelay()
-    }
-
     override suspend fun selectTheme(theme: AppTheme) = withContext(dispatcher) {
         settingsRepository.selectTheme(theme)
         analytics.logEvent(SelectThemeEvent(theme.toString()))
@@ -73,10 +67,6 @@ internal class SettingsInteractorImpl @Inject constructor(
     override suspend fun setRtlEnabled(value: Boolean) = withContext(dispatcher) {
         settingsRepository.setRtlEnabled(value)
         analytics.logEvent(ChangeRtlEnabledEvent(value))
-    }
-
-    override suspend fun setNetworkRequestDelay(value: Int) = withContext(dispatcher) {
-        settingsRepository.setNetworkRequestDelay(value)
     }
 
     override suspend fun fetchRemoteConfig() {

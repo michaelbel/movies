@@ -9,13 +9,11 @@ import androidx.datastore.preferences.core.edit
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import org.michaelbel.movies.common.ktx.code
 import org.michaelbel.movies.common.ktx.packageInfo
 import org.michaelbel.movies.domain.datasource.ktx.PREFERENCE_DYNAMIC_COLORS_KEY
-import org.michaelbel.movies.domain.datasource.ktx.PREFERENCE_NETWORK_REQUEST_DELAY
 import org.michaelbel.movies.domain.datasource.ktx.PREFERENCE_RTL_ENABLED_KEY
 import org.michaelbel.movies.domain.datasource.ktx.PREFERENCE_THEME_KEY
 import org.michaelbel.movies.domain.repository.SettingsRepository
@@ -40,20 +38,12 @@ internal class SettingsRepositoryImpl @Inject constructor(
         if (isRtl) LayoutDirection.Rtl else LayoutDirection.Ltr
     }
 
-    override val networkRequestDelay: Flow<Int> = dataStore.data.map { preferences ->
-        preferences[PREFERENCE_NETWORK_REQUEST_DELAY] ?: 0
-    }
-
     override val appVersionData: Flow<AppVersionData> = flowOf(
         AppVersionData(
             version = context.packageInfo.versionName,
             code = context.packageInfo.code
         )
     )
-
-    override suspend fun networkRequestDelay(): Long {
-        return dataStore.data.first()[PREFERENCE_NETWORK_REQUEST_DELAY]?.toLong() ?: 0L
-    }
 
     override suspend fun selectTheme(theme: AppTheme) {
         dataStore.edit { preferences ->
@@ -70,12 +60,6 @@ internal class SettingsRepositoryImpl @Inject constructor(
     override suspend fun setRtlEnabled(value: Boolean) {
         dataStore.edit { preferences ->
             preferences[PREFERENCE_RTL_ENABLED_KEY] = value
-        }
-    }
-
-    override suspend fun setNetworkRequestDelay(value: Int) {
-        dataStore.edit { preferences ->
-            preferences[PREFERENCE_NETWORK_REQUEST_DELAY] = value
         }
     }
 }
