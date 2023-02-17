@@ -58,7 +58,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [KotlinX Coroutines](https://github.com/Kotlin/kotlinx.coroutines) 1.6.4
 - [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) 1.4.1
 - [x] [Appcompat](https://d.android.com/jetpack/androidx/releases/appcompat) 1.6.0-rc01
-- [x] [Dagger Hilt](https://github.com/google/dagger) 2.44.2
+- [x] [Dagger Hilt](https://github.com/google/dagger) 2.45
 - [x] [ViewModel](https://d.android.com/topic/libraries/architecture/viewmodel)
 - [x] [Lifecycle](https://d.android.com/topic/libraries/architecture/lifecycle) 2.6.0-alpha03
 - [x] [DataStore](https://d.android.com/datastore) 1.0.0
@@ -72,7 +72,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Chucker](https://github.com/ChuckerTeam/chucker) 3.5.2
 - [x] [Coil](https://github.com/coil-kt/coil) 2.2.2
 - [x] [Timber](https://github.com/JakeWharton/timber) 5.0.1
-- [x] [Firebase Crashlytics](https://firebase.google.com/products/crashlytics) 18.3.3
+- [x] [Firebase Crashlytics](https://firebase.google.com/products/crashlytics) 18.3.5
 - [x] [Firebase App Distribution](https://firebase.google.com/products/app-distribution) 3.2.0
 - [x] [Firebase Remote Config](https://firebase.google.com/products/remote-config) 21.2.1
 - [x] [Google Analytics for Firebase](https://firebase.google.com/products/analytics) 21.2.0
@@ -83,7 +83,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] Github Releases
 - [x] [Lint](https://d.android.com/studio/write/lint)
 - [x] [Detekt](https://github.com/detekt/detekt) 1.22.0
-- [x] [Spotless](https://github.com/diffplug/spotless) 6.14.1
+- [x] [Spotless](https://github.com/diffplug/spotless) 6.15.0
 - [x] Distribute App via Telegram Bot
 - [x] Non-Transitive R classes
 - [x] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen)
