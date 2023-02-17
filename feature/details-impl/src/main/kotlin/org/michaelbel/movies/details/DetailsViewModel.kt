@@ -2,6 +2,7 @@ package org.michaelbel.movies.details
 
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -14,7 +15,6 @@ import org.michaelbel.movies.domain.usecase.MovieDetailsCase
 import org.michaelbel.movies.entities.lce.ScreenState
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
-import javax.inject.Inject
 
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
@@ -23,7 +23,7 @@ class DetailsViewModel @Inject constructor(
     networkManager: NetworkManager
 ): BaseViewModel() {
 
-    private val movieId: Long = savedStateHandle.require("movieId")
+    private val movieId: Int = savedStateHandle.require("movieId")
 
     private val _detailsState: MutableStateFlow<ScreenState> = MutableStateFlow(ScreenState.Loading)
     val detailsState: StateFlow<ScreenState> = _detailsState.asStateFlow()

@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Movie(
-    @SerialName("id") val id: Int = 0,
+    @SerialName("id") val id: Int,
     @SerialName("imdb_id") val imdbId: String?,
     @SerialName("adult") val adult: Boolean?,
     @SerialName("backdrop_path") val backdropPath: String?,

@@ -32,15 +32,15 @@ import com.google.accompanist.placeholder.material.fade
 import com.google.accompanist.placeholder.placeholder
 import org.michaelbel.movies.details.ui.preview.MoviePreviewParameterProvider
 import org.michaelbel.movies.details_impl.R
-import org.michaelbel.movies.entities.MovieDetailsData
-import org.michaelbel.movies.entities.ktx.isNotEmpty
+import org.michaelbel.movies.domain.data.entity.MovieDb
+import org.michaelbel.movies.domain.data.ktx.isNotEmpty
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 internal fun DetailsContent(
-    movie: MovieDetailsData,
+    movie: MovieDb,
     modifier: Modifier = Modifier,
     placeholder: Boolean = false
 ) {
@@ -195,7 +195,7 @@ internal fun DetailsContent(
 @Composable
 @DevicePreviews
 private fun DetailsContentPreview(
-    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MovieDetailsData
+    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MovieDb
 ) {
     MoviesTheme {
         DetailsContent(

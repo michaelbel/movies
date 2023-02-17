@@ -11,7 +11,7 @@ internal interface MovieNetwork {
 
     @GET("movie/{movie_id}")
     suspend fun movie(
-        @Path("movie_id") id: Long,
+        @Path("movie_id") id: Int,
         @Query("api_key") apiKey: String,
         @Query("language") language: String
     ): Movie
