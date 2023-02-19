@@ -137,6 +137,9 @@ internal fun FeedScreenContent(
                     modifier = Modifier
                         .padding(paddingValues)
                         .fillMaxSize(),
+                    onRetryClick = {
+                        pagingItems.retry()
+                    },
                     onCheckConnectivityClick = {
                         if (Build.VERSION.SDK_INT >= 29) {
                             resultContract.launch(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
