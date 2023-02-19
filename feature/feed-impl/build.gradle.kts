@@ -23,7 +23,8 @@ android {
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
             "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-            "-opt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi"
+            "-opt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
+            "-opt-in=androidx.paging.ExperimentalPagingApi"
         )
     }
 

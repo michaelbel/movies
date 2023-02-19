@@ -15,7 +15,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
-import org.michaelbel.movies.entities.MovieData
+import org.michaelbel.movies.domain.data.entity.MovieDb
 import org.michaelbel.movies.feed.ktx.isPagingFailure
 import org.michaelbel.movies.feed.ktx.isPagingLoading
 
@@ -24,7 +24,7 @@ internal fun FeedContent(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues = PaddingValues(),
     listState: LazyListState,
-    pagingItems: LazyPagingItems<MovieData>,
+    pagingItems: LazyPagingItems<MovieDb>,
     onMovieClick: (Int) -> Unit
 ) {
     LazyColumn(
@@ -46,7 +46,7 @@ internal fun FeedContent(
                         .clip(MaterialTheme.shapes.small)
                         .background(MaterialTheme.colorScheme.inversePrimary)
                         .clickable {
-                            onMovieClick(movie.id)
+                            onMovieClick(movie.movieId)
                         },
                     movie = movie
                 )

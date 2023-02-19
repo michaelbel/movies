@@ -19,6 +19,12 @@ android {
         }
     }
 
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "-opt-in=androidx.paging.ExperimentalPagingApi"
+        )
+    }
+
     lint {
         quiet = true
         abortOnError = false

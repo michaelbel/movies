@@ -1,9 +1,8 @@
 package org.michaelbel.movies.domain.ktx
 
-import java.util.Locale
 import org.michaelbel.movies.domain.data.entity.MovieDb
-import org.michaelbel.movies.entities.MovieData
 import org.michaelbel.movies.network.model.MovieResponse
+import java.util.Locale
 
 private const val TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/%s/%s"
 private const val TMDB_IMAGE_FILE_SIZE_ORIGINAL = "original"
@@ -23,25 +22,17 @@ fun formatImageUrl(path: String, size: String = feedFileSize): String {
     }
 }
 
-internal val MovieResponse.mapToMovieDb: MovieDb
-    get() = MovieDb(
+internal fun MovieResponse.mapToMovieDb(movieList: String, position: Int): MovieDb {
+    return MovieDb(
+        movieList = movieList,
+        dateAdded = System.currentTimeMillis(),
+        position = position,
         movieId = id,
         overview = overview.orEmpty(),
-        posterPath = posterPath,
+        posterPath = posterPath.orEmpty(),
         backdropPath = formatImageUrl(backdropPath.orEmpty()),
         releaseDate = releaseDate,
         title = title,
         voteAverage = voteAverage
     )
-
-internal val MovieResponse.mapToMovieData: MovieData
-    get() = MovieData(
-        id = id,
-        overview = overview.orEmpty(),
-        posterPath = posterPath,
-        backdropPath = formatImageUrl(backdropPath.orEmpty()),
-        releaseDate = releaseDate,
-        title = title,
-        voteAverage = voteAverage,
-        genreIds = genreIds
-    )
+}

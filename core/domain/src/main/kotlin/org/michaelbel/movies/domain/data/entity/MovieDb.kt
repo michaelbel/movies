@@ -6,6 +6,9 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "movies")
 data class MovieDb(
+    val movieList: String,
+    val dateAdded: Long,
+    val position: Int,
     @PrimaryKey @ColumnInfo(name = "id") val movieId: Int,
     val overview: String,
     val posterPath: String,
@@ -16,6 +19,9 @@ data class MovieDb(
 ) {
     companion object {
         val Empty: MovieDb = MovieDb(
+            movieList = "",
+            dateAdded = 0L,
+            position = 0,
             movieId = 0,
             overview = "",
             posterPath = "",

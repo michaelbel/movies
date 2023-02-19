@@ -25,9 +25,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import org.michaelbel.movies.entities.MovieData
-import org.michaelbel.movies.feed_impl.R
+import org.michaelbel.movies.domain.data.entity.MovieDb
 import org.michaelbel.movies.feed.ui.preview.MoviePreviewParameterProvider
+import org.michaelbel.movies.feed_impl.R
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -35,7 +35,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 @Composable
 internal fun FeedMovieBox(
     modifier: Modifier = Modifier,
-    movie: MovieData
+    movie: MovieDb
 ) {
     val context: Context = LocalContext.current
     var isNoImageVisible: Boolean by remember { mutableStateOf(false) }
@@ -107,7 +107,7 @@ internal fun FeedMovieBox(
 @Composable
 @DevicePreviews
 private fun MovieBoxPreview(
-    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MovieData
+    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MovieDb
 ) {
     MoviesTheme {
         FeedMovieBox(

@@ -65,7 +65,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [DataStore](https://d.android.com/datastore) 1.0.0
 - [x] [Startup](https://d.android.com/jetpack/androidx/releases/startup) 1.1.1
 - [x] [Navigation](https://d.android.com/guide/navigation) 2.5.3
-- [x] [Paging](https://d.android.com/topic/libraries/architecture/paging/v3-overview)
+- [x] [Paging](https://d.android.com/topic/libraries/architecture/paging/v3-overview) (RemoteMediator & PagingSource)
 - [x] [ConstraintLayout](https://d.android.com/develop/ui/views/layout/constraint-layout)
 - [x] [OkHttp](https://github.com/square/okhttp) 4.10.0
 - [x] [Retrofit](https://github.com/square/retrofit) 2.9.0

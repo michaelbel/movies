@@ -6,7 +6,7 @@ import java.util.Calendar
 /**
  * Type converters to allow Room to reference complex data types.
  */
-internal object Converters {
+internal object CalendarConverter {
 
     @TypeConverter
     fun calendarToDatestamp(calendar: Calendar): Long {

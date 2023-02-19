@@ -28,11 +28,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import java.net.UnknownHostException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.michaelbel.movies.domain.data.entity.MovieDb
 import org.michaelbel.movies.domain.exceptions.ApiKeyNotNullException
-import org.michaelbel.movies.entities.MovieData
 import org.michaelbel.movies.feed.FeedViewModel
 import org.michaelbel.movies.feed.ktx.isFailure
 import org.michaelbel.movies.feed.ktx.isLoading
@@ -40,6 +39,7 @@ import org.michaelbel.movies.feed.ktx.throwable
 import org.michaelbel.movies.feed_impl.R
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.ui.theme.ktx.clickableWithoutRipple
+import java.net.UnknownHostException
 
 @Composable
 fun FeedRoute(
@@ -48,7 +48,7 @@ fun FeedRoute(
     modifier: Modifier = Modifier,
     viewModel: FeedViewModel = hiltViewModel()
 ) {
-    val pagingItems: LazyPagingItems<MovieData> = viewModel.pagingItems.collectAsLazyPagingItems()
+    val pagingItems: LazyPagingItems<MovieDb> = viewModel.pagingItems.collectAsLazyPagingItems()
     val isSettingsIconVisible: Boolean by viewModel.isSettingsIconVisible.collectAsStateWithLifecycle()
     val networkStatus: NetworkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
 
@@ -67,7 +67,7 @@ internal fun FeedScreenContent(
     onNavigateToSettings: () -> Unit,
     onNavigateToDetails: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    pagingItems: LazyPagingItems<MovieData>,
+    pagingItems: LazyPagingItems<MovieDb>,
     networkStatus: NetworkStatus,
     isSettingsIconVisible: Boolean
 ) {
