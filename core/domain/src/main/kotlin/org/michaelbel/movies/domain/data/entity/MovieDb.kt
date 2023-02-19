@@ -1,7 +1,12 @@
-package org.michaelbel.movies.entities
+package org.michaelbel.movies.domain.data.entity
 
-data class MovieDetailsData(
-    val id: Int,
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+
+@Entity(tableName = "movies")
+data class MovieDb(
+    @PrimaryKey @ColumnInfo(name = "id") val movieId: Int,
     val overview: String,
     val posterPath: String,
     val backdropPath: String,
@@ -10,8 +15,8 @@ data class MovieDetailsData(
     val voteAverage: Float
 ) {
     companion object {
-        val Empty: MovieDetailsData = MovieDetailsData(
-            id = 0,
+        val Empty: MovieDb = MovieDb(
+            movieId = 0,
             overview = "",
             posterPath = "",
             backdropPath = "",

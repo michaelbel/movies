@@ -34,4 +34,6 @@ dependencies {
     implementation(project(":core:entities"))
     implementation(project(":core:network"))
     implementation(libs.bundles.datastore)
+    implementation(libs.bundles.room)
+    kapt(libs.androidx.room.compiler)
 }

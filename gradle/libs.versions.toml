@@ -177,6 +177,11 @@ material = [
     "material",
     "material-compose-theme-adapter",
 ]
+room = [
+    "androidx-room-runtime",
+    "androidx-room-ktx",
+    "androidx-room-paging",
+]
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }

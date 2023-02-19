@@ -28,6 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
+import java.net.UnknownHostException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.domain.exceptions.ApiKeyNotNullException
@@ -39,7 +40,6 @@ import org.michaelbel.movies.feed.ktx.throwable
 import org.michaelbel.movies.feed_impl.R
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.ui.theme.ktx.clickableWithoutRipple
-import java.net.UnknownHostException
 
 @Composable
 fun FeedRoute(
