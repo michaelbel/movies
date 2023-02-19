@@ -10,7 +10,7 @@ import org.michaelbel.movies.domain.data.entity.MovieDb
  * The Data Access Object for the [MovieDb] class.
  */
 @Dao
-interface MovieDao {
+internal interface MovieDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(movies: List<MovieDb>)

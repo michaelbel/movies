@@ -18,7 +18,7 @@ import org.michaelbel.movies.domain.data.entity.MovieDb
     exportSchema = false
 )
 @TypeConverters(Converters::class)
-abstract class AppDatabase : RoomDatabase() {
+internal abstract class AppDatabase: RoomDatabase() {
     abstract fun movieDao(): MovieDao
 
     companion object {
