@@ -61,6 +61,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Dagger Hilt](https://github.com/google/dagger) 2.45
 - [x] [ViewModel](https://d.android.com/topic/libraries/architecture/viewmodel)
 - [x] [Lifecycle](https://d.android.com/topic/libraries/architecture/lifecycle) 2.6.0-alpha03
+- [x] [Room](https://d.android.com/training/data-storage/room) 2.5.0
 - [x] [DataStore](https://d.android.com/datastore) 1.0.0
 - [x] [Startup](https://d.android.com/jetpack/androidx/releases/startup) 1.1.1
 - [x] [Navigation](https://d.android.com/guide/navigation) 2.5.3
@@ -90,7 +91,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Per-App Language Preferences](https://d.android.com/guide/topics/resources/app-languages)
 - [x] [Settings Panel](https://d.android.com/reference/android/provider/Settings.Panel)
 - [x] [Benchmark](https://d.android.com/topic/performance/benchmarking/benchmarking-overview)
-- [ ] [Room](https://d.android.com/training/data-storage/room)
 - [ ] Deep Links
 - [ ] Unit Tests
 - [ ] UI Tests (in progress)
