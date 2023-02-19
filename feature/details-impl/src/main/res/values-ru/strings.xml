@@ -3,4 +3,5 @@
     <string name="details_title">Детали фильма</string>
     <string name="details_error_loading">Во время загрузки произошла ошибка</string>
     <string name="details_no_image">Картинка не загрузилась</string>
+    <string name="details_share_via">Поделиться через</string>
 </resources>

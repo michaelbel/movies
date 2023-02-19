@@ -13,6 +13,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.michaelbel.movies.details.DetailsViewModel
 import org.michaelbel.movies.details.ktx.movie
+import org.michaelbel.movies.details.ktx.movieUrl
 import org.michaelbel.movies.details.ktx.toolbarTitle
 import org.michaelbel.movies.entities.lce.ScreenState
 import org.michaelbel.movies.entities.lce.ktx.isFailure
@@ -57,7 +58,8 @@ internal fun DetailsScreenContent(
                 modifier = Modifier
                     .statusBarsPadding(),
                 onNavigationIconClick = onBackClick,
-                movieTitle = detailsState.toolbarTitle
+                movieTitle = detailsState.toolbarTitle,
+                movieUrl = detailsState.movieUrl
             )
         },
         containerColor = MaterialTheme.colorScheme.primaryContainer
