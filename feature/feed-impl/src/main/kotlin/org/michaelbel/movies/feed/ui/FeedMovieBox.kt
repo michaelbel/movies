@@ -114,10 +114,8 @@ private fun MovieBoxPreview(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
-                    start = 16.dp,
-                    top = 4.dp,
-                    end = 16.dp,
-                    bottom = 4.dp
+                    horizontal = 16.dp,
+                    vertical = 4.dp
                 )
                 .clip(MaterialTheme.shapes.small)
                 .background(MaterialTheme.colorScheme.inversePrimary),
