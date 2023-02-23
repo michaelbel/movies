@@ -114,7 +114,7 @@ internal fun FeedScreenContent(
                     .clip(MaterialTheme.shapes.extraLarge)
                     .clickableWithoutRipple { onScrollToTop() },
                 isSettingsIconVisible = isSettingsIconVisible,
-                onNavigationIconClick = onNavigateToSettings
+                onSettingsIconClick = onNavigateToSettings
             )
         },
         snackbarHost = {
