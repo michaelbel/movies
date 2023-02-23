@@ -1,4 +1,4 @@
-<img src="config/icons/play_store_512.png" width="192" align="right" hspace="0"/>
+<img src="config/icons/play_store_512.png" width="144" align="right" hspace="0"/>
 
 Movies
 =
