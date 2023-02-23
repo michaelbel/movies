@@ -12,7 +12,7 @@ plugins {
     alias(libs.plugins.spotless)
     alias(libs.plugins.detekt)
 
-    id("com.github.ben-manes.versions") version "0.45.0"
+    id("com.github.ben-manes.versions") version "0.46.0"
     id("nl.littlerobots.version-catalog-update") version "0.7.0"
     id("com.palantir.git-version") version "1.0.0"
 }
