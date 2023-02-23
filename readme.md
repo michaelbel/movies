@@ -1,5 +1,3 @@
-<img src="config/icons/play_store_512.png" width="144" align="left" hspace="0"/>
-
 Movies
 =
 
