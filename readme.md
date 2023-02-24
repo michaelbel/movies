@@ -53,6 +53,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [ViewModel](https://d.android.com/topic/libraries/architecture/viewmodel)
 - [x] [Lifecycle](https://d.android.com/topic/libraries/architecture/lifecycle) 2.6.0-alpha03
 - [x] [Room](https://d.android.com/training/data-storage/room) 2.5.0
+- [x] [WorkManager](https://d.android.com/topic/libraries/architecture/workmanager) 2.8.0
 - [x] [DataStore](https://d.android.com/datastore) 1.0.0
 - [x] [Startup](https://d.android.com/jetpack/androidx/releases/startup) 1.1.1
 - [x] [Navigation](https://d.android.com/guide/navigation) 2.5.3
@@ -87,7 +88,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] UI Tests (in progress)
 - [ ] [In-App Updates](https://d.android.com/guide/playcore/in-app-updates)
 - [ ] [Google Admob](https://developers.google.com/admob)
-- [ ] [WorkManager](https://d.android.google.cn/topic/libraries/architecture/workmanager)
 - [ ] [KtLint](https://github.com/pinterest/ktlint)
 - [ ] [Support Display Cutouts](https://d.android.com/develop/ui/views/layout/display-cutout)
 - [ ] [Baseline Profiles](https://d.android.com/topic/performance/baselineprofiles/overview)

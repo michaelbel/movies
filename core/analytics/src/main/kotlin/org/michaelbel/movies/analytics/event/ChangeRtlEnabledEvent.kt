@@ -1,8 +1,8 @@
 package org.michaelbel.movies.analytics.event
 
 import org.michaelbel.movies.analytics.model.BaseEvent
-import org.michaelbel.movies.analytics.model.MoviesEvents
-import org.michaelbel.movies.analytics.model.MoviesParams
+import org.michaelbel.movies.analytics.constants.MoviesEvents
+import org.michaelbel.movies.analytics.constants.MoviesParams
 
 class ChangeRtlEnabledEvent(
     enabled: Boolean

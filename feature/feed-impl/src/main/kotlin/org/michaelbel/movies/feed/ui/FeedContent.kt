@@ -16,6 +16,8 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import org.michaelbel.movies.domain.data.entity.MovieDb
+import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
+import org.michaelbel.movies.feed.ktx.isNotEmpty
 import org.michaelbel.movies.feed.ktx.isPagingFailure
 import org.michaelbel.movies.feed.ktx.isPagingLoading
 
@@ -47,6 +49,15 @@ internal fun FeedContent(
                             onMovieClick(movie.movieId)
                         },
                     movie = movie
+                )
+            }
+        }
+        if (isTmdbApiKeyEmpty && pagingItems.isNotEmpty) {
+            item {
+                FeedApiKeyBox(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 16.dp)
                 )
             }
         }

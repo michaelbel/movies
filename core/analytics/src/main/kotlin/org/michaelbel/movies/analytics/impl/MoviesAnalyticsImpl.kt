@@ -5,9 +5,9 @@ import androidx.core.os.bundleOf
 import com.google.firebase.analytics.FirebaseAnalytics
 import javax.inject.Inject
 import org.michaelbel.movies.analytics.MoviesAnalytics
+import org.michaelbel.movies.analytics.constants.MoviesEvents
+import org.michaelbel.movies.analytics.constants.MoviesParams
 import org.michaelbel.movies.analytics.model.BaseEvent
-import org.michaelbel.movies.analytics.model.MoviesEvents
-import org.michaelbel.movies.analytics.model.MoviesParams
 
 internal class MoviesAnalyticsImpl @Inject constructor(
     private val firebaseAnalytics: FirebaseAnalytics

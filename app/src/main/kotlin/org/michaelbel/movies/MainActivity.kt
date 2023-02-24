@@ -13,8 +13,12 @@ import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import dagger.hilt.android.AndroidEntryPoint
 import org.michaelbel.movies.common.shortcuts.installShortcuts
+import org.michaelbel.movies.domain.workers.MoviesDatabaseWorker
 import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.ui.theme.model.AppTheme
 
@@ -56,5 +60,18 @@ internal class MainActivity: AppCompatActivity() {
                 }
             }
         }
+
+        prepopulateDatabase()
+    }
+
+    private fun prepopulateDatabase() {
+        val request = OneTimeWorkRequestBuilder<MoviesDatabaseWorker>()
+            .setInputData(workDataOf(MoviesDatabaseWorker.KEY_FILENAME to MOVIES_DATA_FILENAME))
+            .build()
+        WorkManager.getInstance(this).enqueue(request)
+    }
+
+    private companion object {
+        private const val MOVIES_DATA_FILENAME = "movies.json"
     }
 }

@@ -1,9 +1,12 @@
 package org.michaelbel.movies.domain.repository.impl
 
 import androidx.paging.PagingSource
+import javax.inject.Inject
+import javax.inject.Singleton
 import org.michaelbel.movies.common.localization.LocaleController
 import org.michaelbel.movies.domain.data.dao.MovieDao
 import org.michaelbel.movies.domain.data.dao.PagingKeyDao
+import org.michaelbel.movies.domain.data.dao.ktx.isEmpty
 import org.michaelbel.movies.domain.data.entity.MovieDb
 import org.michaelbel.movies.domain.data.entity.PagingKeyDb
 import org.michaelbel.movies.domain.datasource.MovieNetwork
@@ -11,13 +14,14 @@ import org.michaelbel.movies.domain.exceptions.ktx.checkApiKeyNotNullException
 import org.michaelbel.movies.domain.ktx.mapToMovieDb
 import org.michaelbel.movies.domain.repository.MovieRepository
 import org.michaelbel.movies.entities.Either
+import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
 import org.michaelbel.movies.entities.response
 import org.michaelbel.movies.entities.tmdbApiKey
 import org.michaelbel.movies.network.model.Movie
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
-import javax.inject.Inject
 
+@Singleton
 internal class MovieRepositoryImpl @Inject constructor(
     private val movieApi: MovieNetwork,
     private val movieDao: MovieDao,
@@ -30,7 +34,9 @@ internal class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun moviesResult(movieList: String, page: Int): Result<MovieResponse> {
-        checkApiKeyNotNullException()
+        if (isTmdbApiKeyEmpty && movieDao.isEmpty(MovieDb.MOVIES_LOCAL_LIST)) {
+            checkApiKeyNotNullException()
+        }
 
         return movieApi.movies(
             list = movieList,

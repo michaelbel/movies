@@ -27,4 +27,7 @@ interface MovieDao {
 
     @Query("SELECT MAX(position) from movies WHERE movieList = :movieList")
     suspend fun maxPosition(movieList: String): Int?
+
+    @Query("SELECT COUNT(*) FROM movies WHERE movieList = :movieList")
+    suspend fun moviesCount(movieList: String): Int
 }

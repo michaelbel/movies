@@ -1,0 +1,32 @@
+[
+  {
+    "id": 505642,
+    "overview": "Queen Ramonda, Shuri, M’Baku, Okoye and the Dora Milaje fight to protect their nation from intervening world powers in the wake of King T’Challa’s death.  As the Wakandans strive to embrace their next chapter, the heroes must band together with the help of War Dog Nakia and Everett Ross and forge a new path for the kingdom of Wakanda.",
+    "poster_path": "/sv1xJUazXeYqALzczSZ3O6nkH75.jpg",
+    "backdrop_path": "/xDMIl84Qo5Tsu62c9DGWhmPI67A.jpg",
+    "release_date": "2022-11-09",
+    "title": "Black Panther: Wakanda Forever",
+    "vote_average": 7.4,
+    "genre_ids": [28, 12, 878]
+  },
+  {
+    "id": 640146,
+    "overview": "Super-Hero partners Scott Lang and Hope van Dyne, along with with Hope's parents Janet van Dyne and Hank Pym, and Scott's daughter Cassie Lang, find themselves exploring the Quantum Realm, interacting with strange new creatures and embarking on an adventure that will push them beyond the limits of what they thought possible.",
+    "poster_path": "/ngl2FKBlU4fhbdsrtdom9LVLBXw.jpg",
+    "backdrop_path": "/8YFL5QQVPy3AgrEQxNYVSgiPEbe.jpg",
+    "release_date": "2023-02-10",
+    "title": "Ant-Man and the Wasp: Quantumania",
+    "vote_average": 6.5,
+    "genre_ids": [12, 878, 35]
+  },
+  {
+    "id": 49046,
+    "overview": "Paul Baumer and his friends Albert and Muller, egged on by romantic dreams of heroism, voluntarily enlist in the German army. Full of excitement and patriotic fervour, the boys enthusiastically march into a war they believe in. But once on the Western Front, they discover the soul-destroying horror of World War I.",
+    "poster_path": "/hYqOjJ7Gh1fbqXrxlIao1g8ZehF.jpg",
+    "backdrop_path": "/mqsPyyeDCBAghXyjbw4TfEYwljw.jpg",
+    "release_date": "2022-10-07",
+    "title": "All Quiet on the Western Front",
+    "vote_average": 7.8,
+    "genre_ids": [28, 18, 10752]
+  }
+]
