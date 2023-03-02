@@ -1,7 +1,7 @@
 package org.michaelbel.movies.domain.usecase
 
 import javax.inject.Inject
-import org.michaelbel.movies.domain.interactor.MovieInteractor
+import org.michaelbel.movies.domain.interactor.movie.MovieInteractor
 import org.michaelbel.movies.entities.handle
 import org.michaelbel.movies.entities.lce.ScreenState
 

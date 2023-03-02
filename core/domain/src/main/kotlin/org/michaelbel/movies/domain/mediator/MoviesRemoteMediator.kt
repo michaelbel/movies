@@ -6,7 +6,7 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import org.michaelbel.movies.domain.data.AppDatabase
 import org.michaelbel.movies.domain.data.entity.MovieDb
-import org.michaelbel.movies.domain.interactor.MovieInteractor
+import org.michaelbel.movies.domain.interactor.movie.MovieInteractor
 import org.michaelbel.movies.network.ktx.isPaginationReached
 import org.michaelbel.movies.network.ktx.nextPage
 import org.michaelbel.movies.network.model.MovieResponse

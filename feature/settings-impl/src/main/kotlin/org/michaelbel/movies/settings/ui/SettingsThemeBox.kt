@@ -13,8 +13,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import org.michaelbel.movies.settings.ktx.themeText
 import org.michaelbel.movies.settings_impl.R
-import org.michaelbel.movies.settings.ktx.themeTextRes
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.ui.theme.model.AppTheme
@@ -47,7 +47,7 @@ fun SettingsThemeBox(
         )
 
         Text(
-            text = stringResource(currentTheme.themeTextRes),
+            text = currentTheme.themeText,
             modifier = Modifier
                 .constrainAs(value) {
                     width = Dimension.wrapContent

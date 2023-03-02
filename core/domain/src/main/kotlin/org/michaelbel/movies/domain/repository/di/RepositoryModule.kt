@@ -5,10 +5,10 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-import org.michaelbel.movies.domain.repository.MovieRepository
-import org.michaelbel.movies.domain.repository.SettingsRepository
-import org.michaelbel.movies.domain.repository.impl.MovieRepositoryImpl
-import org.michaelbel.movies.domain.repository.impl.SettingsRepositoryImpl
+import org.michaelbel.movies.domain.repository.movie.MovieRepository
+import org.michaelbel.movies.domain.repository.settings.SettingsRepository
+import org.michaelbel.movies.domain.repository.movie.impl.MovieRepositoryImpl
+import org.michaelbel.movies.domain.repository.settings.impl.SettingsRepositoryImpl
 
 @Module
 @InstallIn(SingletonComponent::class)

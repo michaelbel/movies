@@ -13,8 +13,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import org.michaelbel.movies.settings.ktx.languageText
 import org.michaelbel.movies.settings_impl.R
-import org.michaelbel.movies.settings.ktx.languageTextRes
 import org.michaelbel.movies.ui.language.model.AppLanguage
 import org.michaelbel.movies.ui.language.preview.LanguagesPreviewParameterProvider
 import org.michaelbel.movies.ui.preview.DevicePreviews
@@ -47,7 +47,7 @@ fun SettingsLanguageBox(
         )
 
         Text(
-            text = stringResource(currentLanguage.languageTextRes),
+            text = currentLanguage.languageText,
             modifier = Modifier
                 .constrainAs(value) {
                     width = Dimension.wrapContent

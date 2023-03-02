@@ -22,8 +22,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import org.michaelbel.movies.settings.ktx.languageText
 import org.michaelbel.movies.settings_impl.R
-import org.michaelbel.movies.settings.ktx.languageTextRes
 import org.michaelbel.movies.ui.icon.MoviesIcons
 import org.michaelbel.movies.ui.language.model.AppLanguage
 import org.michaelbel.movies.ui.language.preview.LanguagesPreviewParameterProvider
@@ -115,7 +115,7 @@ private fun SettingLanguageDialogContent(
                 )
 
                 Text(
-                    text = stringResource(language.languageTextRes),
+                    text = language.languageText,
                     modifier = Modifier
                         .padding(
                             start = 8.dp

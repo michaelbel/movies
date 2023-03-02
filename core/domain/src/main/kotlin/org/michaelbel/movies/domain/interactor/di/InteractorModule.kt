@@ -4,11 +4,11 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import org.michaelbel.movies.domain.interactor.movie.MovieInteractor
+import org.michaelbel.movies.domain.interactor.movie.impl.MovieInteractorImpl
+import org.michaelbel.movies.domain.interactor.settings.SettingsInteractor
+import org.michaelbel.movies.domain.interactor.settings.impl.SettingsInteractorImpl
 import javax.inject.Singleton
-import org.michaelbel.movies.domain.interactor.MovieInteractor
-import org.michaelbel.movies.domain.interactor.SettingsInteractor
-import org.michaelbel.movies.domain.interactor.impl.MovieInteractorImpl
-import org.michaelbel.movies.domain.interactor.impl.SettingsInteractorImpl
 
 @Module
 @InstallIn(SingletonComponent::class)

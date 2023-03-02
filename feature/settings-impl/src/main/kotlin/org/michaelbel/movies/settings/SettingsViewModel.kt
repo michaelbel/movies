@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
-import org.michaelbel.movies.domain.interactor.SettingsInteractor
+import org.michaelbel.movies.domain.interactor.settings.SettingsInteractor
 import org.michaelbel.movies.domain.usecase.DelayUseCase
 import org.michaelbel.movies.domain.usecase.SelectLanguageCase
 import org.michaelbel.movies.domain.usecase.SelectThemeCase
