@@ -5,6 +5,7 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -15,10 +16,10 @@ import org.michaelbel.movies.domain.data.entity.MovieDb
 import org.michaelbel.movies.domain.interactor.MovieInteractor
 import org.michaelbel.movies.domain.interactor.SettingsInteractor
 import org.michaelbel.movies.domain.mediator.MoviesRemoteMediator
+import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.network.model.MovieResponse
-import javax.inject.Inject
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
@@ -27,6 +28,9 @@ class FeedViewModel @Inject constructor(
     settingsInteractor: SettingsInteractor,
     networkManager: NetworkManager
 ): BaseViewModel() {
+
+    private val moviesList: String
+        get() = if (isTmdbApiKeyEmpty) MovieDb.MOVIES_LOCAL_LIST else MovieResponse.NOW_PLAYING
 
     val pagingItems: Flow<PagingData<MovieDb>> = Pager(
         config = PagingConfig(
@@ -37,7 +41,7 @@ class FeedViewModel @Inject constructor(
             movieInteractor = movieInteractor,
             movieList = MovieResponse.NOW_PLAYING
         ),
-        pagingSourceFactory = { movieInteractor.moviesPagingSource(MovieResponse.NOW_PLAYING) }
+        pagingSourceFactory = { movieInteractor.moviesPagingSource(moviesList) }
     ).flow
         .stateIn(
             scope = this,

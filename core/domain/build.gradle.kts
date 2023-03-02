@@ -21,7 +21,8 @@ android {
 
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
-            "-opt-in=androidx.paging.ExperimentalPagingApi"
+            "-opt-in=androidx.paging.ExperimentalPagingApi",
+            "-opt-in=kotlinx.serialization.ExperimentalSerializationApi"
         )
     }
 
@@ -41,5 +42,8 @@ dependencies {
     implementation(project(":core:network"))
     implementation(libs.bundles.datastore)
     implementation(libs.bundles.room)
+    api(libs.androidx.hilt.work)
+    kapt(libs.androidx.hilt.compiler)
+    api(libs.androidx.work.runtime.ktx)
     kapt(libs.androidx.room.compiler)
 }

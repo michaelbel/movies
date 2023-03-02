@@ -3,21 +3,24 @@ package org.michaelbel.movies.domain.data.entity
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import org.jetbrains.annotations.NotNull
 
 @Entity(tableName = "movies")
 data class MovieDb(
-    val movieList: String,
-    val dateAdded: Long,
-    val position: Int,
-    @PrimaryKey @ColumnInfo(name = "id") val movieId: Int,
-    val overview: String,
-    val posterPath: String,
-    val backdropPath: String,
-    val releaseDate: String,
-    val title: String,
-    val voteAverage: Float
+    @NotNull val movieList: String,
+    @NotNull val dateAdded: Long,
+    @NotNull val position: Int,
+    @NotNull @PrimaryKey @ColumnInfo(name = "id") val movieId: Int,
+    @NotNull val overview: String,
+    @NotNull val posterPath: String,
+    @NotNull val backdropPath: String,
+    @NotNull val releaseDate: String,
+    @NotNull val title: String,
+    @NotNull val voteAverage: Float
 ) {
     companion object {
+        const val MOVIES_LOCAL_LIST = "movies_local"
+
         val Empty: MovieDb = MovieDb(
             movieList = "",
             dateAdded = 0L,

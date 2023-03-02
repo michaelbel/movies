@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.compose.ui.unit.LayoutDirection
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -23,6 +24,7 @@ import org.michaelbel.movies.ui.theme.model.AppTheme
 import org.michaelbel.movies.ui.version.AppVersionData
 import timber.log.Timber
 
+@Singleton
 internal class SettingsInteractorImpl @Inject constructor(
     @Dispatcher(MoviesDispatchers.Main) private val dispatcher: CoroutineDispatcher,
     private val settingsRepository: SettingsRepository,

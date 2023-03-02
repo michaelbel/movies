@@ -1,4 +1,4 @@
-package org.michaelbel.movies.analytics.model
+package org.michaelbel.movies.analytics.constants
 
 import com.google.firebase.analytics.FirebaseAnalytics
 

@@ -30,7 +30,7 @@ abstract class AppDatabase: RoomDatabase() {
 
     companion object {
         private const val DATABASE_NAME = "movies-db"
-        const val DATABASE_VERSION = 8
+        const val DATABASE_VERSION = 13
 
         @Volatile
         private var instance: AppDatabase? = null

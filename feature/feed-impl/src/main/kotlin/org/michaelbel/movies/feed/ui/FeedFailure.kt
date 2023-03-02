@@ -2,7 +2,6 @@ package org.michaelbel.movies.feed.ui
 
 import android.os.Build
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -23,12 +22,10 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 @Composable
 internal fun FeedFailure(
     modifier: Modifier = Modifier,
-    onRetryClick: () -> Unit,
     onCheckConnectivityClick: () -> Unit
 ) {
     ConstraintLayout(
         modifier = modifier
-            .clickable { onRetryClick() }
     ) {
         val (image, text, button) = createRefs()
 
@@ -90,7 +87,6 @@ private fun FeedFailurePreview() {
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background),
-            onRetryClick = {},
             onCheckConnectivityClick = {}
         )
     }
