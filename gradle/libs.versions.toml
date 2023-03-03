@@ -8,13 +8,14 @@ compile-sdk = "33"
 # @keep
 target-sdk = "33"
 # @pin
-gradle = "7.4.1"
+gradle = "7.4.2"
 # @pin update when updating compose compiler
-kotlin = "1.8.0"
+kotlin = "1.8.10"
+kotlin-ksp = "1.8.10-1.0.9"
 kotlin-coroutines = "1.6.4"
 kotlin-serialization = "1.4.1"
 # @pin update when updating kotlin
-kotlin-compiler-extension = "1.4.0"
+compose-compiler = "1.4.3"
 detekt = "1.22.0"
 spotless = "6.15.0"
 google-services = "4.3.15"
@@ -191,6 +192,7 @@ room = [
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 firebase-appdistribution = { id = "com.google.firebase.appdistribution", version.ref = "firebase-appdistribution" }

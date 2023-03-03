@@ -1,6 +1,7 @@
 plugins {
     id("movies-android-library")
     id("movies-android-hilt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -45,5 +46,5 @@ dependencies {
     api(libs.androidx.hilt.work)
     kapt(libs.androidx.hilt.compiler)
     api(libs.androidx.work.runtime.ktx)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
 }

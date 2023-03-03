@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.library) apply false
     alias(libs.plugins.test) apply false
     alias(libs.plugins.kotlin) apply false
+    alias(libs.plugins.kotlin.ksp) apply false
     alias(libs.plugins.firebase.appdistribution) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.google.services) apply false

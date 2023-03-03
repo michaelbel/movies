@@ -32,7 +32,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Clean Architecture](https://d.android.com/topic/architecture)
 - [x] [TMDB API](https://developers.themoviedb.org/3/getting-started)
 - [x] KTS Gradle Files
-- [x] Gradle Plugin 7.4.1
+- [x] Gradle Plugin 7.4.2
 - [x] Gradle Version Catalog
 - [x] MinSDK 21
 - [x] TargetSDK 33
@@ -41,8 +41,9 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] Dark Theme
 - [x] Dynamic Colors
 - [x] [Themed App Icon](https://d.android.com/develop/ui/views/launch/icon_design_adaptive)
-- [x] 100% Kotlin 1.8.0
-- [x] 100% Jetpack Compose 1.3.1, No XML
+- [x] 100% Kotlin 1.8.10
+- [x] 100% Jetpack Compose 1.4.3
+- [x] Kotlin Symbol Processing API 1.8.10-1.0.9
 - [x] [Accompanist](https://github.com/google/accompanist) 0.28.0
 - [x] [Compose PreviewParameterProvider](https://d.android.com/jetpack/compose/tooling#previewparameter)
 - [x] [Downloadable Fonts](https://d.android.com/develop/ui/views/text-and-emoji/downloadable-fonts)
@@ -57,7 +58,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [DataStore](https://d.android.com/datastore) 1.0.0
 - [x] [Startup](https://d.android.com/jetpack/androidx/releases/startup) 1.1.1
 - [x] [Navigation](https://d.android.com/guide/navigation) 2.5.3
-- [x] [Paging](https://d.android.com/topic/libraries/architecture/paging/v3-overview) (RemoteMediator & PagingSource)
+- [x] [Paging](https://d.android.com/topic/libraries/architecture/paging/v3-overview) (RemoteMediator & PagingSource) 1.0.0-alpha18
 - [x] [ConstraintLayout](https://d.android.com/develop/ui/views/layout/constraint-layout)
 - [x] [OkHttp](https://github.com/square/okhttp) 4.10.0
 - [x] [Retrofit](https://github.com/square/retrofit) 2.9.0
