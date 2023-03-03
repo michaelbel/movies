@@ -3,7 +3,7 @@ package org.michaelbel.movies.feed.ktx
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 
-private val <T: Any> LazyPagingItems<T>.isNotEmpty: Boolean
+internal val <T: Any> LazyPagingItems<T>.isNotEmpty: Boolean
     get() = itemCount > 0
 
 internal val <T: Any> LazyPagingItems<T>.isEmpty: Boolean

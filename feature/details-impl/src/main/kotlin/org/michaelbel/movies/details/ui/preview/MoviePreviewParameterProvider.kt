@@ -1,20 +1,26 @@
 package org.michaelbel.movies.details.ui.preview
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import org.michaelbel.movies.entities.MovieDetailsData
+import org.michaelbel.movies.domain.data.entity.MovieDb
+import org.michaelbel.movies.network.model.Movie
 
-internal class MoviePreviewParameterProvider: PreviewParameterProvider<MovieDetailsData> {
-    override val values: Sequence<MovieDetailsData> = sequenceOf(
-        MovieDetailsData(
-            id = 438148,
-            overview = """Миллион лет миньоны искали самого великого и ужасного предводителя, 
-                    пока не встретили ЕГО. Знакомьтесь - Грю. Пусть он еще очень молод, но у него 
-                    в планах по-настоящему гадкие дела, которые заставят планету содрогнуться.""",
-            posterPath = "/19GXuePqcZSPD5JgT9MeVdeu9Tc.jpg",
-            backdropPath = "https://image.tmdb.org/t/p/w500//nmGWzTLMXy9x7mKd8NKPLmHtWGa.jpg",
-            releaseDate = "2022-06-29",
-            title = "Миньоны: Грювитация",
-            voteAverage = 7.6F
+internal class MoviePreviewParameterProvider: PreviewParameterProvider<MovieDb> {
+    override val values: Sequence<MovieDb> = sequenceOf(
+        MovieDb(
+            movieList = Movie.NOW_PLAYING,
+            dateAdded = System.currentTimeMillis(),
+            position = 0,
+            movieId = 438148,
+            overview = """Queen Ramonda, Shuri, M’Baku, Okoye and the Dora Milaje fight to protect 
+                their nation from intervening world powers in the wake of King T’Challa’s death. 
+                As the Wakandans strive to embrace their next chapter, the heroes must band 
+                together with the help of War Dog Nakia and Everett Ross and forge a new path for 
+                the kingdom of Wakanda.""",
+            posterPath = "",
+            backdropPath = "",
+            releaseDate = "2022-11-09",
+            title = "Black Panther: Wakanda Forever",
+            voteAverage = 7.5F
         )
     )
 }

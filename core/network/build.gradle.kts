@@ -36,7 +36,7 @@ android {
 }
 
 dependencies {
-    implementation(libs.kotlin.serialization)
+    api(libs.kotlin.serialization)
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.retrofit.converter.serialization)
     api(libs.retrofit)

@@ -1,11 +1,16 @@
 package org.michaelbel.movies.settings.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -13,20 +18,38 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import org.michaelbel.movies.settings.ktx.languageText
 import org.michaelbel.movies.settings_impl.R
-import org.michaelbel.movies.settings.ktx.languageTextRes
 import org.michaelbel.movies.ui.language.model.AppLanguage
-import org.michaelbel.movies.ui.language.preview.LanguagesPreviewParameterProvider
+import org.michaelbel.movies.ui.language.preview.LanguagePreviewParameterProvider
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun SettingsLanguageBox(
     modifier: Modifier = Modifier,
-    currentLanguage: AppLanguage
+    languages: List<AppLanguage>,
+    currentLanguage: AppLanguage,
+    onLanguageSelect: (AppLanguage) -> Unit
 ) {
+    var languageDialog: Boolean by remember { mutableStateOf(false) }
+
+    if (languageDialog) {
+        SettingLanguageDialog(
+            languages = languages,
+            currentLanguage = currentLanguage,
+            onLanguageSelect = onLanguageSelect,
+            onDismissRequest = {
+                languageDialog = false
+            }
+        )
+    }
+
     ConstraintLayout(
         modifier = modifier
+            .clickable {
+                languageDialog = true
+            }
             .testTag("ConstraintLayout")
     ) {
         val (title, value) = createRefs()
@@ -47,7 +70,7 @@ fun SettingsLanguageBox(
         )
 
         Text(
-            text = stringResource(currentLanguage.languageTextRes),
+            text = currentLanguage.languageText,
             modifier = Modifier
                 .constrainAs(value) {
                     width = Dimension.wrapContent
@@ -66,7 +89,7 @@ fun SettingsLanguageBox(
 @Composable
 @DevicePreviews
 private fun SettingsLanguageBoxPreview(
-    @PreviewParameter(LanguagesPreviewParameterProvider::class) language: AppLanguage
+    @PreviewParameter(LanguagePreviewParameterProvider::class) language: AppLanguage
 ) {
     MoviesTheme {
         SettingsLanguageBox(
@@ -74,7 +97,9 @@ private fun SettingsLanguageBoxPreview(
                 .fillMaxWidth()
                 .height(48.dp)
                 .background(MaterialTheme.colorScheme.primaryContainer),
-            currentLanguage = language
+            languages = listOf(AppLanguage.English, AppLanguage.Russian),
+            currentLanguage = language,
+            onLanguageSelect = {}
         )
     }
 }

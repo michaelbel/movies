@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import org.michaelbel.movies.common.ktx.require
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
+import org.michaelbel.movies.details.ktx.require
 import org.michaelbel.movies.domain.usecase.MovieDetailsCase
 import org.michaelbel.movies.entities.lce.ScreenState
 import org.michaelbel.movies.network.connectivity.NetworkManager
@@ -23,7 +23,7 @@ class DetailsViewModel @Inject constructor(
     networkManager: NetworkManager
 ): BaseViewModel() {
 
-    private val movieId: Long = savedStateHandle.require("movieId")
+    private val movieId: Int = savedStateHandle.require("movieId")
 
     private val _detailsState: MutableStateFlow<ScreenState> = MutableStateFlow(ScreenState.Loading)
     val detailsState: StateFlow<ScreenState> = _detailsState.asStateFlow()

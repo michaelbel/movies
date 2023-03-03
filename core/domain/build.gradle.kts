@@ -1,6 +1,7 @@
 plugins {
     id("movies-android-library")
     id("movies-android-hilt")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -19,6 +20,13 @@ android {
         }
     }
 
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "-opt-in=androidx.paging.ExperimentalPagingApi",
+            "-opt-in=kotlinx.serialization.ExperimentalSerializationApi"
+        )
+    }
+
     lint {
         quiet = true
         abortOnError = false
@@ -34,4 +42,9 @@ dependencies {
     implementation(project(":core:entities"))
     implementation(project(":core:network"))
     implementation(libs.bundles.datastore)
+    implementation(libs.bundles.room)
+    api(libs.androidx.hilt.work)
+    kapt(libs.androidx.hilt.compiler)
+    api(libs.androidx.work.runtime.ktx)
+    ksp(libs.androidx.room.compiler)
 }

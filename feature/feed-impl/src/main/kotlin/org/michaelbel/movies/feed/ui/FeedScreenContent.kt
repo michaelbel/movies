@@ -30,8 +30,8 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.michaelbel.movies.domain.data.entity.MovieDb
 import org.michaelbel.movies.domain.exceptions.ApiKeyNotNullException
-import org.michaelbel.movies.entities.MovieData
 import org.michaelbel.movies.feed.FeedViewModel
 import org.michaelbel.movies.feed.ktx.isFailure
 import org.michaelbel.movies.feed.ktx.isLoading
@@ -48,7 +48,7 @@ fun FeedRoute(
     modifier: Modifier = Modifier,
     viewModel: FeedViewModel = hiltViewModel()
 ) {
-    val pagingItems: LazyPagingItems<MovieData> = viewModel.pagingItems.collectAsLazyPagingItems()
+    val pagingItems: LazyPagingItems<MovieDb> = viewModel.pagingItems.collectAsLazyPagingItems()
     val isSettingsIconVisible: Boolean by viewModel.isSettingsIconVisible.collectAsStateWithLifecycle()
     val networkStatus: NetworkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
 
@@ -67,7 +67,7 @@ internal fun FeedScreenContent(
     onNavigateToSettings: () -> Unit,
     onNavigateToDetails: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    pagingItems: LazyPagingItems<MovieData>,
+    pagingItems: LazyPagingItems<MovieDb>,
     networkStatus: NetworkStatus,
     isSettingsIconVisible: Boolean
 ) {
@@ -114,7 +114,7 @@ internal fun FeedScreenContent(
                     .clip(MaterialTheme.shapes.extraLarge)
                     .clickableWithoutRipple { onScrollToTop() },
                 isSettingsIconVisible = isSettingsIconVisible,
-                onNavigationIconClick = onNavigateToSettings
+                onSettingsIconClick = onNavigateToSettings
             )
         },
         snackbarHost = {
@@ -136,10 +136,13 @@ internal fun FeedScreenContent(
                 FeedFailure(
                     modifier = Modifier
                         .padding(paddingValues)
-                        .fillMaxSize(),
+                        .fillMaxSize()
+                        .clickableWithoutRipple { pagingItems.retry() },
                     onCheckConnectivityClick = {
                         if (Build.VERSION.SDK_INT >= 29) {
-                            resultContract.launch(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
+                            resultContract.launch(
+                                Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY)
+                            )
                         }
                     }
                 )

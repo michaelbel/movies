@@ -13,7 +13,8 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.fade
 import com.google.accompanist.placeholder.placeholder
-import org.michaelbel.movies.entities.MovieData
+import org.michaelbel.movies.domain.data.entity.MovieDb
+import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
@@ -26,7 +27,7 @@ internal fun FeedLoading(
         modifier = modifier,
         contentPadding = paddingValues
     ) {
-        items(MovieData.DEFAULT_PAGE_SIZE) {
+        items(MovieResponse.DEFAULT_PAGE_SIZE) {
             FeedMovieBox(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -40,7 +41,7 @@ internal fun FeedLoading(
                         shape = MaterialTheme.shapes.small,
                         highlight = PlaceholderHighlight.fade()
                     ),
-                movie = MovieData.Empty
+                movie = MovieDb.Empty
             )
         }
     }

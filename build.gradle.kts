@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.library) apply false
     alias(libs.plugins.test) apply false
     alias(libs.plugins.kotlin) apply false
+    alias(libs.plugins.kotlin.ksp) apply false
     alias(libs.plugins.firebase.appdistribution) apply false
     alias(libs.plugins.firebase.crashlytics) apply false
     alias(libs.plugins.google.services) apply false
@@ -12,9 +13,9 @@ plugins {
     alias(libs.plugins.spotless)
     alias(libs.plugins.detekt)
 
-    id("com.github.ben-manes.versions") version "0.45.0"
+    id("com.github.ben-manes.versions") version "0.46.0"
     id("nl.littlerobots.version-catalog-update") version "0.7.0"
-    id("com.palantir.git-version") version "0.15.0"
+    id("com.palantir.git-version") version "1.0.0"
 }
 
 /**

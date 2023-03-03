@@ -23,7 +23,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 internal fun FeedToolbar(
     modifier: Modifier = Modifier,
     isSettingsIconVisible: Boolean,
-    onNavigationIconClick: () -> Unit
+    onSettingsIconClick: () -> Unit
 ) {
     TopAppBar(
         title = {
@@ -39,7 +39,7 @@ internal fun FeedToolbar(
         actions = {
             if (isSettingsIconVisible) {
                 IconButton(
-                    onClick = onNavigationIconClick
+                    onClick = onSettingsIconClick
                 ) {
                     Image(
                         imageVector = MoviesIcons.Settings,
@@ -65,7 +65,7 @@ private fun FeedToolbarPreview(
             modifier = Modifier
                 .statusBarsPadding(),
             isSettingsIconVisible = visible,
-            onNavigationIconClick = {}
+            onSettingsIconClick = {}
         )
     }
 }

@@ -22,11 +22,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import org.michaelbel.movies.settings.ktx.languageText
 import org.michaelbel.movies.settings_impl.R
-import org.michaelbel.movies.settings.ktx.languageTextRes
 import org.michaelbel.movies.ui.icon.MoviesIcons
 import org.michaelbel.movies.ui.language.model.AppLanguage
-import org.michaelbel.movies.ui.language.preview.LanguagesPreviewParameterProvider
+import org.michaelbel.movies.ui.language.preview.LanguagePreviewParameterProvider
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
@@ -115,7 +115,7 @@ private fun SettingLanguageDialogContent(
                 )
 
                 Text(
-                    text = stringResource(language.languageTextRes),
+                    text = language.languageText,
                     modifier = Modifier
                         .padding(
                             start = 8.dp
@@ -131,7 +131,7 @@ private fun SettingLanguageDialogContent(
 @Composable
 @DevicePreviews
 private fun SettingLanguageDialogPreview(
-    @PreviewParameter(LanguagesPreviewParameterProvider::class) language: AppLanguage
+    @PreviewParameter(LanguagePreviewParameterProvider::class) language: AppLanguage
 ) {
     MoviesTheme {
         SettingLanguageDialog(
