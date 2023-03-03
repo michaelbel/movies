@@ -26,7 +26,7 @@ import org.michaelbel.movies.settings.ktx.languageText
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.icon.MoviesIcons
 import org.michaelbel.movies.ui.language.model.AppLanguage
-import org.michaelbel.movies.ui.language.preview.LanguagesPreviewParameterProvider
+import org.michaelbel.movies.ui.language.preview.LanguagePreviewParameterProvider
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
@@ -131,7 +131,7 @@ private fun SettingLanguageDialogContent(
 @Composable
 @DevicePreviews
 private fun SettingLanguageDialogPreview(
-    @PreviewParameter(LanguagesPreviewParameterProvider::class) language: AppLanguage
+    @PreviewParameter(LanguagePreviewParameterProvider::class) language: AppLanguage
 ) {
     MoviesTheme {
         SettingLanguageDialog(

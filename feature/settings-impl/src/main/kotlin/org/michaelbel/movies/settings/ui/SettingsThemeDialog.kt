@@ -28,7 +28,7 @@ import org.michaelbel.movies.ui.icon.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.ui.theme.model.AppTheme
-import org.michaelbel.movies.ui.theme.preview.ThemesPreviewParameterProvider
+import org.michaelbel.movies.ui.theme.preview.ThemePreviewParameterProvider
 
 @Composable
 internal fun SettingThemeDialog(
@@ -131,7 +131,7 @@ private fun SettingThemeDialogContent(
 @Composable
 @DevicePreviews
 private fun SettingThemeDialogPreview(
-    @PreviewParameter(ThemesPreviewParameterProvider::class) theme: AppTheme
+    @PreviewParameter(ThemePreviewParameterProvider::class) theme: AppTheme
 ) {
     MoviesTheme {
         SettingThemeDialog(

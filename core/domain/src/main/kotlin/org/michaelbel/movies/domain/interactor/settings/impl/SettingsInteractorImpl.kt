@@ -1,7 +1,5 @@
 package org.michaelbel.movies.domain.interactor.settings.impl
 
-import android.app.NotificationManager
-import android.os.Build
 import androidx.compose.ui.unit.LayoutDirection
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import kotlinx.coroutines.CoroutineDispatcher
@@ -28,7 +26,6 @@ import javax.inject.Singleton
 internal class SettingsInteractorImpl @Inject constructor(
     @Dispatcher(MoviesDispatchers.Main) private val dispatcher: CoroutineDispatcher,
     private val settingsRepository: SettingsRepository,
-    notificationManager: NotificationManager,
     private val firebaseRemoteConfig: FirebaseRemoteConfig,
     googleApi: GoogleApi,
     private val analytics: MoviesAnalytics
@@ -39,12 +36,6 @@ internal class SettingsInteractorImpl @Inject constructor(
     override val dynamicColors: Flow<Boolean> = settingsRepository.dynamicColors
 
     override val layoutDirection: Flow<LayoutDirection> = settingsRepository.layoutDirection
-
-    override val areNotificationsEnabled: Boolean = if (Build.VERSION.SDK_INT >= 24) {
-        notificationManager.areNotificationsEnabled()
-    } else {
-        true
-    }
 
     override val isSettingsIconVisible: Flow<Boolean> = flowOf(
         firebaseRemoteConfig.getBoolean(RemoteParams.PARAM_SETTINGS_ICON_VISIBLE)

@@ -1,11 +1,16 @@
 package org.michaelbel.movies.settings.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -18,15 +23,33 @@ import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.ui.theme.model.AppTheme
-import org.michaelbel.movies.ui.theme.preview.ThemesPreviewParameterProvider
+import org.michaelbel.movies.ui.theme.preview.ThemePreviewParameterProvider
 
 @Composable
 fun SettingsThemeBox(
     modifier: Modifier = Modifier,
-    currentTheme: AppTheme
+    themes: List<AppTheme>,
+    currentTheme: AppTheme,
+    onThemeSelect: (AppTheme) -> Unit
 ) {
+    var themeDialog: Boolean by remember { mutableStateOf(false) }
+
+    if (themeDialog) {
+        SettingThemeDialog(
+            themes = themes,
+            currentTheme = currentTheme,
+            onThemeSelect = onThemeSelect,
+            onDismissRequest = {
+                themeDialog = false
+            }
+        )
+    }
+
     ConstraintLayout(
         modifier = modifier
+            .clickable {
+                themeDialog = true
+            }
             .testTag("ConstraintLayout")
     ) {
         val (title, value) = createRefs()
@@ -66,7 +89,7 @@ fun SettingsThemeBox(
 @Composable
 @DevicePreviews
 private fun SettingsThemeBoxPreview(
-    @PreviewParameter(ThemesPreviewParameterProvider::class) theme: AppTheme
+    @PreviewParameter(ThemePreviewParameterProvider::class) theme: AppTheme
 ) {
     MoviesTheme {
         SettingsThemeBox(
@@ -74,7 +97,9 @@ private fun SettingsThemeBoxPreview(
                 .fillMaxWidth()
                 .height(48.dp)
                 .background(MaterialTheme.colorScheme.primaryContainer),
-            currentTheme = theme
+            themes = listOf(AppTheme.FollowSystem, AppTheme.NightNo, AppTheme.NightYes),
+            currentTheme = theme,
+            onThemeSelect = {}
         )
     }
 }

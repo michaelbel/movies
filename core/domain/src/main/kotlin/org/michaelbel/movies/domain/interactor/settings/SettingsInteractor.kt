@@ -13,8 +13,6 @@ interface SettingsInteractor {
 
     val layoutDirection: Flow<LayoutDirection>
 
-    val areNotificationsEnabled: Boolean
-
     val isSettingsIconVisible: Flow<Boolean>
 
     val isPlayServicesAvailable: Flow<Boolean>
