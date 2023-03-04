@@ -75,6 +75,7 @@ fun SettingsRoute(
         onSetDynamicColors = viewModel::setDynamicColors,
         isRtlEnabled = layoutDirection == LayoutDirection.Rtl,
         onEnableRtlChanged = viewModel::setRtlEnabled,
+        isRtlFeatureEnabled = viewModel.isRtlFeatureEnabled,
         isPostNotificationsFeatureEnabled = viewModel.isPostNotificationsFeatureEnabled,
         isPlayServicesAvailable = isPlayServicesAvailable,
         isAppFromGooglePlay = isAppFromGooglePlay,
@@ -99,6 +100,7 @@ internal fun SettingsScreenContent(
     onSetDynamicColors: (Boolean) -> Unit,
     isRtlEnabled: Boolean,
     onEnableRtlChanged: (Boolean) -> Unit,
+    isRtlFeatureEnabled: Boolean,
     isPostNotificationsFeatureEnabled: Boolean,
     isPlayServicesAvailable: Boolean,
     isAppFromGooglePlay: Boolean,
@@ -224,15 +226,17 @@ internal fun SettingsScreenContent(
                 )
             }
 
-            SettingsRtlBox(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp)
-                    .clickable {
-                        onEnableRtlChanged(!isRtlEnabled)
-                    },
-                isRtlEnabled = isRtlEnabled
-            )
+            if (isRtlFeatureEnabled) {
+                SettingsRtlBox(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
+                        .clickable {
+                            onEnableRtlChanged(!isRtlEnabled)
+                        },
+                    isRtlEnabled = isRtlEnabled
+                )
+            }
 
             if (isPostNotificationsFeatureEnabled) {
                 SettingsPostNotificationsBox(

@@ -28,6 +28,8 @@ class SettingsViewModel @Inject constructor(
 
     val isDynamicColorsFeatureEnabled: Boolean = Build.VERSION.SDK_INT >= 31
 
+    val isRtlFeatureEnabled: Boolean = false
+
     val isPostNotificationsFeatureEnabled: Boolean = Build.VERSION.SDK_INT >= 33
 
     val languages: List<AppLanguage> = listOf(
