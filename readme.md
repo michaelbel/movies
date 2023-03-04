@@ -27,23 +27,23 @@ TMDB_API_KEY=your_own_tmdb_api_key
 
 ## Technologies
 
-- [x] Modularization
+- [x] [Modularization](https://d.android.com/topic/modularization)
 - [x] MVVM
 - [x] [Clean Architecture](https://d.android.com/topic/architecture)
 - [x] [TMDB API](https://developers.themoviedb.org/3/getting-started)
-- [x] KTS Gradle Files
-- [x] Gradle Plugin 7.4.2
+- [x] [KTS Gradle Files](https://d.android.com/studio/build/migrate-to-kts)
+- [x] [Kotlin Symbol Processing API](https://d.android.com/studio/build/migrate-to-ksp) 1.8.10-1.0.9
+- [x] [Gradle Plugin](https://d.android.com/studio/releases/gradle-plugin) 7.4.2
 - [x] Gradle Version Catalog
 - [x] MinSDK 21
 - [x] TargetSDK 33
 - [x] CompileSDK 33
 - [x] [Material3](https://m3.material.io)
-- [x] Dark Theme
-- [x] Dynamic Colors
+- [x] [Dark Theme](https://d.android.com/develop/ui/views/theming/darktheme)
+- [x] [Dynamic Colors](https://d.android.com/develop/ui/views/theming/dynamic-colors)
 - [x] [Themed App Icon](https://d.android.com/develop/ui/views/launch/icon_design_adaptive)
-- [x] 100% Kotlin 1.8.10
-- [x] 100% Jetpack Compose 1.4.3
-- [x] Kotlin Symbol Processing API 1.8.10-1.0.9
+- [x] 100% [Kotlin](https://d.android.com/kotlin) 1.8.10
+- [x] 100% [Jetpack Compose](https://d.android.com/jetpack/compose) 1.4.3
 - [x] [Accompanist](https://github.com/google/accompanist) 0.28.0
 - [x] [Compose PreviewParameterProvider](https://d.android.com/jetpack/compose/tooling#previewparameter)
 - [x] [Downloadable Fonts](https://d.android.com/develop/ui/views/text-and-emoji/downloadable-fonts)
@@ -73,20 +73,21 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [In-App Reviews](https://d.android.com/guide/playcore/in-app-review)
 - [x] [App Shortcuts](https://d.android.com/develop/ui/views/launch/shortcuts)
 - [x] [Dependabot](https://github.com/dependabot)
-- [x] Github Actions CI/CD
-- [x] Github Releases
+- [x] [Github Actions](https://github.com/michaelbel/movies/tree/develop/.github/workflows) CI/CD
+- [x] [Github Releases](https://github.com/michaelbel/movies/releases)
 - [x] [Lint](https://d.android.com/studio/write/lint)
 - [x] [Detekt](https://github.com/detekt/detekt) 1.22.0
 - [x] [Spotless](https://github.com/diffplug/spotless) 6.15.0
-- [x] Distribute App via Telegram Bot
-- [x] Non-Transitive R classes
+- [x] [Distribute App via Telegram Bot](https://github.com/appleboy/telegram-action)
+- [x] [Non-Transitive R classes](https://d.android.com/studio/build/optimize-your-build#use-non-transitive-r-classes)
 - [x] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen)
 - [x] [Per-App Language Preferences](https://d.android.com/guide/topics/resources/app-languages)
 - [x] [Settings Panel](https://d.android.com/reference/android/provider/Settings.Panel)
 - [x] [Benchmark](https://d.android.com/topic/performance/benchmarking/benchmarking-overview)
-- [ ] Deep Links
-- [ ] Unit Tests
-- [ ] UI Tests (in progress)
+- [x] [Support Localization](https://d.android.com/guide/topics/resources/localization)
+- [ ] [Deep Links](https://d.android.com/training/app-links/deep-linking)
+- [ ] [Unit Tests](https://d.android.com/training/testing/local-tests)
+- [ ] [UI Tests](https://d.android.com/training/testing/instrumented-tests/ui-tests)
 - [ ] [In-App Updates](https://d.android.com/guide/playcore/in-app-updates)
 - [ ] [Google Admob](https://developers.google.com/admob)
 - [ ] [KtLint](https://github.com/pinterest/ktlint)
@@ -94,12 +95,11 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] [Baseline Profiles](https://d.android.com/topic/performance/baselineprofiles/overview)
 - [ ] [Tablet and large screen support](https://d.android.com/about/versions/13/features/large-screens)
 - [ ] OAuth
-- [ ] Animations
+- [ ] [Animations](https://d.android.com/develop/ui/views/animations)
 - [ ] Landscape Orientation
-- [ ] Support RTL (in progress)
+- [ ] [Support layout mirroring](https://d.android.com/training/basics/supporting-devices/languages#SupportLayoutMirroring)
 - [ ] Upload Bundle to Google Play Console
-- [ ] ExoPlayer
-- [ ] Documentation
+- [ ] [ExoPlayer](https://d.android.com/guide/topics/media/exoplayer)
 
 ## Issues
 If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).
