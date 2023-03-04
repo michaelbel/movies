@@ -5,14 +5,14 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
-import org.michaelbel.movies.domain.data.AppDatabase
+import org.michaelbel.movies.domain.data.entity.AccountDb
 import org.michaelbel.movies.domain.data.entity.MovieDb
+import org.michaelbel.movies.domain.interactor.account.AccountInteractor
 import org.michaelbel.movies.domain.interactor.movie.MovieInteractor
 import org.michaelbel.movies.domain.interactor.settings.SettingsInteractor
 import org.michaelbel.movies.domain.mediator.MoviesRemoteMediator
@@ -20,13 +20,14 @@ import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.network.model.MovieResponse
+import javax.inject.Inject
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
     private val movieInteractor: MovieInteractor,
-    appDatabase: AppDatabase,
+    accountInteractor: AccountInteractor,
     settingsInteractor: SettingsInteractor,
-    networkManager: NetworkManager
+    networkManager: NetworkManager,
 ): BaseViewModel() {
 
     private val moviesList: String
@@ -37,7 +38,6 @@ class FeedViewModel @Inject constructor(
             pageSize = MovieResponse.DEFAULT_PAGE_SIZE
         ),
         remoteMediator = MoviesRemoteMediator(
-            appDatabase = appDatabase,
             movieInteractor = movieInteractor,
             movieList = MovieResponse.NOW_PLAYING
         ),
@@ -49,6 +49,13 @@ class FeedViewModel @Inject constructor(
             initialValue = PagingData.empty()
         )
         .cachedIn(this)
+
+    val account: StateFlow<AccountDb?> = accountInteractor.account
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = AccountDb.Empty
+        )
 
     val networkStatus: StateFlow<NetworkStatus> = networkManager.status
         .stateIn(

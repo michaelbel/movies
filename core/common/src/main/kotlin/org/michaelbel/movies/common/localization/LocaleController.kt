@@ -1,7 +1,7 @@
 package org.michaelbel.movies.common.localization
 
 import kotlinx.coroutines.flow.Flow
-import org.michaelbel.movies.ui.language.model.AppLanguage
+import org.michaelbel.movies.common.localization.model.AppLanguage
 
 interface LocaleController {
 

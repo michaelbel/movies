@@ -18,11 +18,11 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import org.michaelbel.movies.common.localization.model.AppLanguage
 import org.michaelbel.movies.settings.ktx.languageText
 import org.michaelbel.movies.settings_impl.R
-import org.michaelbel.movies.ui.language.model.AppLanguage
-import org.michaelbel.movies.ui.language.preview.LanguagePreviewParameterProvider
 import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.preview.provider.LanguagePreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable

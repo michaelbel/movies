@@ -1,6 +1,5 @@
 package org.michaelbel.movies.feed.ui
 
-import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
@@ -16,7 +15,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -26,10 +24,11 @@ import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import org.michaelbel.movies.domain.data.entity.MovieDb
-import org.michaelbel.movies.feed.ui.preview.MoviePreviewParameterProvider
 import org.michaelbel.movies.feed_impl.R
+import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
 import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.preview.provider.MoviePreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -37,7 +36,6 @@ internal fun FeedMovieBox(
     modifier: Modifier = Modifier,
     movie: MovieDb
 ) {
-    val context: Context = LocalContext.current
     var isNoImageVisible: Boolean by remember { mutableStateOf(false) }
 
     ConstraintLayout(

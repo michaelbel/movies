@@ -1,6 +1,5 @@
 package org.michaelbel.movies.details.ui
 
-import android.content.Context
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.ScrollState
@@ -18,7 +17,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -30,12 +28,13 @@ import coil.request.ImageRequest
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.fade
 import com.google.accompanist.placeholder.placeholder
-import org.michaelbel.movies.details.ui.preview.MoviePreviewParameterProvider
 import org.michaelbel.movies.details_impl.R
 import org.michaelbel.movies.domain.data.entity.MovieDb
 import org.michaelbel.movies.domain.data.ktx.isNotEmpty
+import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
 import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.preview.provider.MovieDbPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -44,7 +43,6 @@ internal fun DetailsContent(
     modifier: Modifier = Modifier,
     placeholder: Boolean = false
 ) {
-    val context: Context = LocalContext.current
     val scrollState: ScrollState = rememberScrollState()
     var isNoImageVisible: Boolean by remember { mutableStateOf(false) }
 
@@ -195,7 +193,7 @@ internal fun DetailsContent(
 @Composable
 @DevicePreviews
 private fun DetailsContentPreview(
-    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MovieDb
+    @PreviewParameter(MovieDbPreviewParameterProvider::class) movie: MovieDb
 ) {
     MoviesTheme {
         DetailsContent(

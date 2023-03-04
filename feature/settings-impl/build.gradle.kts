@@ -49,9 +49,9 @@ android {
 dependencies {
     api(project(":core:navigation"))
     api(project(":core:common"))
+    api(project(":core:ui"))
     implementation(project(":core:ads"))
     implementation(project(":core:domain"))
-    implementation(project(":core:ui"))
 
     testImplementation(libs.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)

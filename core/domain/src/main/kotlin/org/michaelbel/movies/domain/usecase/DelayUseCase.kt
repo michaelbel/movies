@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.map
 import org.michaelbel.movies.common.coroutines.Dispatcher
 import org.michaelbel.movies.common.coroutines.MoviesDispatchers
 import org.michaelbel.movies.common.usecase.UseCase
-import org.michaelbel.movies.domain.preferences.constants.PREFERENCE_NETWORK_REQUEST_DELAY
+import org.michaelbel.movies.domain.preferences.constants.PREFERENCE_NETWORK_REQUEST_DELAY_KEY
 import javax.inject.Inject
 
 class DelayUseCase @Inject constructor(
@@ -19,16 +19,16 @@ class DelayUseCase @Inject constructor(
 ): UseCase<Int, Unit>(dispatcher) {
 
     val networkRequestDelay: Flow<Int> = dataStore.data.map { preferences ->
-        preferences[PREFERENCE_NETWORK_REQUEST_DELAY] ?: 0
+        preferences[PREFERENCE_NETWORK_REQUEST_DELAY_KEY] ?: 0
     }
 
     suspend fun networkRequestDelay(): Long {
-        return dataStore.data.first()[PREFERENCE_NETWORK_REQUEST_DELAY]?.toLong() ?: 0L
+        return dataStore.data.first()[PREFERENCE_NETWORK_REQUEST_DELAY_KEY]?.toLong() ?: 0L
     }
 
     override suspend fun execute(parameters: Int) {
         dataStore.edit { preferences ->
-            preferences[PREFERENCE_NETWORK_REQUEST_DELAY] = parameters
+            preferences[PREFERENCE_NETWORK_REQUEST_DELAY_KEY] = parameters
         }
     }
 }

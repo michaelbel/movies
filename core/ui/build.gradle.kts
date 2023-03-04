@@ -37,10 +37,14 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:common"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:network"))
     api(libs.androidx.core.splashscreen)
     api(libs.androidx.constraintlayout.compose)
     api(libs.coil.compose)
     api(libs.bundles.material)
     api(libs.bundles.accompanist)
     api(libs.bundles.compose)
+    api(libs.androidx.paging.compose)
 }

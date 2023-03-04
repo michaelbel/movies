@@ -129,16 +129,7 @@ android {
     }
 
     buildFeatures {
-        viewBinding = true
         compose = true
-    }
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + listOf(
-            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-            "-opt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
-            "-opt-in=androidx.compose.animation.ExperimentalAnimationApi"
-        )
     }
 
     composeOptions {
@@ -159,6 +150,10 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:domain"))
     implementation(project(":core:navigation"))
+    implementation(project(":core:ui"))
+
+    implementation(project(":feature:auth"))
+    implementation(project(":feature:account"))
     implementation(project(":feature:details"))
     implementation(project(":feature:feed"))
     implementation(project(":feature:settings"))

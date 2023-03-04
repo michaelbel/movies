@@ -24,7 +24,8 @@ android {
         freeCompilerArgs = freeCompilerArgs + listOf(
             "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
             "-opt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
-            "-opt-in=androidx.paging.ExperimentalPagingApi"
+            "-opt-in=androidx.paging.ExperimentalPagingApi",
+            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
         )
     }
 
@@ -47,8 +48,8 @@ android {
 
 dependencies {
     api(project(":core:navigation"))
+    api(project(":core:ui"))
     implementation(project(":core:common"))
-    implementation(project(":core:network"))
     implementation(project(":core:domain"))
-    implementation(libs.androidx.paging.compose)
+    implementation(project(":core:network"))
 }
