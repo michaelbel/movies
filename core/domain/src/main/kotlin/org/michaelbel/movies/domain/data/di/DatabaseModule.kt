@@ -7,6 +7,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import org.michaelbel.movies.domain.data.AppDatabase
+import org.michaelbel.movies.domain.data.dao.AccountDao
 import org.michaelbel.movies.domain.data.dao.MovieDao
 import org.michaelbel.movies.domain.data.dao.PagingKeyDao
 import javax.inject.Singleton
@@ -23,6 +24,9 @@ internal object DatabaseModule {
 
     @Provides
     fun provideMovieDao(appDatabase: AppDatabase): MovieDao = appDatabase.movieDao()
+
+    @Provides
+    fun provideAccountDao(appDatabase: AppDatabase): AccountDao = appDatabase.accountDao()
 
     @Provides
     fun providePagingKeyDao(appDatabase: AppDatabase): PagingKeyDao = appDatabase.pagingKeyDao()

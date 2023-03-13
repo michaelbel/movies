@@ -17,9 +17,9 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.items
 import org.michaelbel.movies.domain.data.entity.MovieDb
 import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
-import org.michaelbel.movies.feed.ktx.isNotEmpty
-import org.michaelbel.movies.feed.ktx.isPagingFailure
-import org.michaelbel.movies.feed.ktx.isPagingLoading
+import org.michaelbel.movies.ui.ktx.isNotEmpty
+import org.michaelbel.movies.ui.ktx.isPagingFailure
+import org.michaelbel.movies.ui.ktx.isPagingLoading
 
 @Composable
 internal fun FeedContent(

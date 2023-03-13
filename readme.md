@@ -60,6 +60,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Navigation](https://d.android.com/guide/navigation) 2.5.3
 - [x] [Paging](https://d.android.com/topic/libraries/architecture/paging/v3-overview) (RemoteMediator & PagingSource) 1.0.0-alpha18
 - [x] [ConstraintLayout](https://d.android.com/develop/ui/views/layout/constraint-layout)
+- [x] [Browser](https://d.android.com/jetpack/androidx/releases/browser) 1.5.0
 - [x] [OkHttp](https://github.com/square/okhttp) 4.10.0
 - [x] [Retrofit](https://github.com/square/retrofit) 2.9.0
 - [x] [Retrofit Kotlinx Converter Serialization](https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter) 0.8.0

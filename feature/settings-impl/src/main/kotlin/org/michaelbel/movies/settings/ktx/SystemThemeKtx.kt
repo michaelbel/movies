@@ -2,8 +2,8 @@ package org.michaelbel.movies.settings.ktx
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
+import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.settings_impl.R
-import org.michaelbel.movies.ui.theme.model.AppTheme
 
 internal val AppTheme.themeText: String
     @Composable get() = when (this) {

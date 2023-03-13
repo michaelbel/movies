@@ -23,7 +23,7 @@ import javax.inject.Singleton
 
 @Singleton
 internal class MovieRepositoryImpl @Inject constructor(
-    private val movieApi: MovieService,
+    private val movieService: MovieService,
     private val movieDao: MovieDao,
     private val pagingKeyDao: PagingKeyDao,
     private val localeController: LocaleController
@@ -38,7 +38,7 @@ internal class MovieRepositoryImpl @Inject constructor(
             checkApiKeyNotNullException()
         }
 
-        return movieApi.movies(
+        return movieService.movies(
             list = movieList,
             apiKey = tmdbApiKey,
             language = localeController.language,
@@ -53,7 +53,7 @@ internal class MovieRepositoryImpl @Inject constructor(
             if (movieDb != null) {
                 movieDb
             } else {
-                val movie: Movie = movieApi.movie(
+                val movie: Movie = movieService.movie(
                     id = movieId,
                     apiKey = tmdbApiKey,
                     language = localeController.language

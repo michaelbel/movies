@@ -22,13 +22,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
+import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.settings.ktx.themeText
 import org.michaelbel.movies.settings_impl.R
-import org.michaelbel.movies.ui.icon.MoviesIcons
+import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.preview.provider.ThemePreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
-import org.michaelbel.movies.ui.theme.model.AppTheme
-import org.michaelbel.movies.ui.theme.preview.ThemePreviewParameterProvider
 
 @Composable
 internal fun SettingThemeDialog(

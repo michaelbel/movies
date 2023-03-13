@@ -10,14 +10,14 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import org.michaelbel.movies.common.theme.AppTheme
+import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.domain.ktx.code
 import org.michaelbel.movies.domain.ktx.packageInfo
 import org.michaelbel.movies.domain.preferences.constants.PREFERENCE_DYNAMIC_COLORS_KEY
 import org.michaelbel.movies.domain.preferences.constants.PREFERENCE_RTL_ENABLED_KEY
 import org.michaelbel.movies.domain.preferences.constants.PREFERENCE_THEME_KEY
 import org.michaelbel.movies.domain.repository.settings.SettingsRepository
-import org.michaelbel.movies.ui.theme.model.AppTheme
-import org.michaelbel.movies.ui.version.AppVersionData
 import javax.inject.Inject
 import javax.inject.Singleton
 

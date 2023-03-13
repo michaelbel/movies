@@ -18,8 +18,8 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.settings_impl.R
-import org.michaelbel.movies.settings.ui.preview.SliderPreviewParameterProvider
 import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.preview.provider.SliderPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 import kotlin.math.roundToInt
 

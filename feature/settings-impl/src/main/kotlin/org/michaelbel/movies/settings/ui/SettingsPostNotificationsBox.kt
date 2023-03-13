@@ -28,9 +28,9 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.core.net.toUri
-import org.michaelbel.movies.settings.ktx.notificationManager
-import org.michaelbel.movies.settings.ui.lifecycle.OnResume
+import org.michaelbel.movies.common.ktx.notificationManager
 import org.michaelbel.movies.settings_impl.R
+import org.michaelbel.movies.ui.lifecycle.OnResume
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 

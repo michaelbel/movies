@@ -3,8 +3,6 @@ package org.michaelbel.movies.domain.mediator
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import androidx.room.withTransaction
-import org.michaelbel.movies.domain.data.AppDatabase
 import org.michaelbel.movies.domain.data.entity.MovieDb
 import org.michaelbel.movies.domain.interactor.movie.MovieInteractor
 import org.michaelbel.movies.network.ktx.isPaginationReached
@@ -13,7 +11,6 @@ import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
 
 class MoviesRemoteMediator(
-    private val appDatabase: AppDatabase,
     private val movieInteractor: MovieInteractor,
     private val movieList: String
 ): RemoteMediator<Int, MovieDb>() {
@@ -41,17 +38,15 @@ class MoviesRemoteMediator(
                 page = loadKey ?: 1
             )
 
-            appDatabase.withTransaction {
-                if (loadType == LoadType.REFRESH) {
-                    movieInteractor.run {
-                        removePagingKey(movieList)
-                        removeAllMovies(movieList)
-                    }
-                }
+            if (loadType == LoadType.REFRESH) {
                 movieInteractor.run {
-                    insertPagingKey(movieList, moviesResult.nextPage)
-                    insertAllMovies(movieList, moviesResult.results)
+                    removePagingKey(movieList)
+                    removeAllMovies(movieList)
                 }
+            }
+            movieInteractor.run {
+                insertPagingKey(movieList, moviesResult.nextPage)
+                insertAllMovies(movieList, moviesResult.results)
             }
 
             MediatorResult.Success(endOfPaginationReached = moviesResult.isPaginationReached)

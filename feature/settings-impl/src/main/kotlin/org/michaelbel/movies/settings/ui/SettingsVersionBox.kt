@@ -10,19 +10,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.settings_impl.R
-import org.michaelbel.movies.ui.icon.MoviesIcons
+import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.preview.provider.VersionPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
-import org.michaelbel.movies.ui.version.AppVersionData
-import org.michaelbel.movies.ui.version.preview.VersionPreviewParameterProvider
 
 @Composable
 fun SettingsLanguageBox(
@@ -37,7 +36,7 @@ fun SettingsLanguageBox(
         createHorizontalChain(icon, version, code, chainStyle = ChainStyle.Packed)
 
         Icon(
-            painter = painterResource(MoviesIcons.MovieFilter),
+            imageVector = MoviesIcons.MovieFilter,
             contentDescription = null,
             modifier = Modifier
                 .constrainAs(icon) {

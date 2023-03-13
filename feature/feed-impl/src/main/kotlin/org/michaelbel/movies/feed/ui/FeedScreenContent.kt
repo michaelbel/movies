@@ -1,5 +1,6 @@
 package org.michaelbel.movies.feed.ui
 
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings
@@ -7,8 +8,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
@@ -21,56 +22,68 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.michaelbel.movies.domain.data.entity.AccountDb
 import org.michaelbel.movies.domain.data.entity.MovieDb
+import org.michaelbel.movies.domain.data.ktx.orEmpty
 import org.michaelbel.movies.domain.exceptions.ApiKeyNotNullException
+import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
 import org.michaelbel.movies.feed.FeedViewModel
-import org.michaelbel.movies.feed.ktx.isFailure
-import org.michaelbel.movies.feed.ktx.isLoading
-import org.michaelbel.movies.feed.ktx.throwable
 import org.michaelbel.movies.feed_impl.R
 import org.michaelbel.movies.network.connectivity.NetworkStatus
-import org.michaelbel.movies.ui.theme.ktx.clickableWithoutRipple
+import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
+import org.michaelbel.movies.ui.ktx.isFailure
+import org.michaelbel.movies.ui.ktx.isLoading
+import org.michaelbel.movies.ui.ktx.throwable
 import java.net.UnknownHostException
 
 @Composable
 fun FeedRoute(
+    onNavigateToAccount: () -> Unit,
+    onNavigateToAuth: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToDetails: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: FeedViewModel = hiltViewModel()
 ) {
     val pagingItems: LazyPagingItems<MovieDb> = viewModel.pagingItems.collectAsLazyPagingItems()
+    val account: AccountDb? by viewModel.account.collectAsStateWithLifecycle()
     val isSettingsIconVisible: Boolean by viewModel.isSettingsIconVisible.collectAsStateWithLifecycle()
     val networkStatus: NetworkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
 
     FeedScreenContent(
-        onNavigateToSettings = onNavigateToSettings,
-        onNavigateToDetails = onNavigateToDetails,
         modifier = modifier,
         pagingItems = pagingItems,
+        account = account.orEmpty,
         networkStatus = networkStatus,
-        isSettingsIconVisible = isSettingsIconVisible
+        isSettingsIconVisible = isSettingsIconVisible,
+        onNavigateToAuth = onNavigateToAuth,
+        onNavigateToAccount = onNavigateToAccount,
+        onNavigateToSettings = onNavigateToSettings,
+        onNavigateToDetails = onNavigateToDetails
     )
 }
 
 @Composable
-internal fun FeedScreenContent(
-    onNavigateToSettings: () -> Unit,
-    onNavigateToDetails: (Int) -> Unit,
+private fun FeedScreenContent(
     modifier: Modifier = Modifier,
     pagingItems: LazyPagingItems<MovieDb>,
+    account: AccountDb,
     networkStatus: NetworkStatus,
-    isSettingsIconVisible: Boolean
+    isSettingsIconVisible: Boolean,
+    onNavigateToAuth: () -> Unit,
+    onNavigateToAccount: () -> Unit,
+    onNavigateToSettings: () -> Unit,
+    onNavigateToDetails: (Int) -> Unit
 ) {
+    val context: Context = LocalContext.current
     val scope: CoroutineScope = rememberCoroutineScope()
     val listState: LazyListState = rememberLazyListState()
     val snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
@@ -107,13 +120,18 @@ internal fun FeedScreenContent(
         topBar = {
             FeedToolbar(
                 modifier = Modifier
-                    .statusBarsPadding()
-                    .padding(
-                        horizontal = 16.dp
-                    )
-                    .clip(MaterialTheme.shapes.extraLarge)
+                    .fillMaxWidth()
                     .clickableWithoutRipple { onScrollToTop() },
+                account = account,
                 isSettingsIconVisible = isSettingsIconVisible,
+                onAuthIconClick = {
+                    if (isTmdbApiKeyEmpty) {
+                        onShowSnackbar(context.getString(R.string.feed_error_api_key_null))
+                    } else {
+                        onNavigateToAuth()
+                    }
+                },
+                onAccountIconClick = onNavigateToAccount,
                 onSettingsIconClick = onNavigateToSettings
             )
         },

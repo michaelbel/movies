@@ -11,12 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import org.michaelbel.movies.details.ui.preview.MoviePreviewParameterProvider
 import org.michaelbel.movies.details_impl.R
 import org.michaelbel.movies.domain.data.entity.MovieDb
 import org.michaelbel.movies.domain.data.ktx.url
-import org.michaelbel.movies.ui.icon.MoviesIcons
+import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.preview.provider.MovieDbPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -52,7 +52,7 @@ internal fun ShareButton(
 @Composable
 @DevicePreviews
 private fun ShareButtonPreview(
-    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MovieDb
+    @PreviewParameter(MovieDbPreviewParameterProvider::class) movie: MovieDb
 ) {
     MoviesTheme {
         ShareButton(

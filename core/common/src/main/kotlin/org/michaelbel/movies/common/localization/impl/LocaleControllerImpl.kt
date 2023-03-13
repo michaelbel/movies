@@ -2,7 +2,6 @@ package org.michaelbel.movies.common.localization.impl
 
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.os.LocaleListCompat
-import javax.inject.Inject
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
@@ -12,7 +11,8 @@ import org.michaelbel.movies.analytics.event.SelectLanguageEvent
 import org.michaelbel.movies.common.coroutines.Dispatcher
 import org.michaelbel.movies.common.coroutines.MoviesDispatchers
 import org.michaelbel.movies.common.localization.LocaleController
-import org.michaelbel.movies.ui.language.model.AppLanguage
+import org.michaelbel.movies.common.localization.model.AppLanguage
+import javax.inject.Inject
 
 internal class LocaleControllerImpl @Inject constructor(
     @Dispatcher(MoviesDispatchers.Main) private val dispatcher: CoroutineDispatcher,

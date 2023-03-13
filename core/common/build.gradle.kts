@@ -48,7 +48,6 @@ android {
 dependencies {
     implementation(project(":core:analytics"))
     api(project(":core:entities"))
-    api(project(":core:ui"))
     api(libs.bundles.kotlin.coroutines)
     api(libs.firebase.config)
     api(libs.play.services.base)
@@ -60,4 +59,5 @@ dependencies {
     implementation(libs.bundles.appcompat)
     implementation(libs.firebase.crashlytics)
     implementation(libs.androidx.startup.runtime)
+    implementation(libs.androidx.browser)
 }

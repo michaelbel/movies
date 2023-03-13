@@ -2,8 +2,8 @@ package org.michaelbel.movies.domain.interactor.settings
 
 import androidx.compose.ui.unit.LayoutDirection
 import kotlinx.coroutines.flow.Flow
-import org.michaelbel.movies.ui.theme.model.AppTheme
-import org.michaelbel.movies.ui.version.AppVersionData
+import org.michaelbel.movies.common.theme.AppTheme
+import org.michaelbel.movies.common.version.AppVersionData
 
 interface SettingsInteractor {
 

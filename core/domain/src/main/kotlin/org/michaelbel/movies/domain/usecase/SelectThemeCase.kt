@@ -1,8 +1,8 @@
 package org.michaelbel.movies.domain.usecase
 
-import javax.inject.Inject
+import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.domain.interactor.settings.SettingsInteractor
-import org.michaelbel.movies.ui.theme.model.AppTheme
+import javax.inject.Inject
 
 class SelectThemeCase @Inject constructor(
     private val settingsInteractor: SettingsInteractor
