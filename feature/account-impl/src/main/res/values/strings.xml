@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="account_title">Account</string>
+    <string name="account_logout">Log out</string>
+</resources>

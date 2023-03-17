@@ -13,6 +13,8 @@ object FeedDestination: MoviesNavigationDestination {
 }
 
 fun NavGraphBuilder.feedGraph(
+    navigateToAccount: () -> Unit,
+    navigateToAuth: () -> Unit,
     navigateToSettings: () -> Unit,
     navigateToDetails: (Int) -> Unit
 ) {
@@ -20,6 +22,8 @@ fun NavGraphBuilder.feedGraph(
         route = FeedDestination.route
     ) {
         FeedRoute(
+            onNavigateToAccount = navigateToAccount,
+            onNavigateToAuth = navigateToAuth,
             onNavigateToSettings = navigateToSettings,
             onNavigateToDetails = navigateToDetails
         )

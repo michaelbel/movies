@@ -6,8 +6,10 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import org.michaelbel.movies.domain.data.converter.CalendarConverter
+import org.michaelbel.movies.domain.data.dao.AccountDao
 import org.michaelbel.movies.domain.data.dao.MovieDao
 import org.michaelbel.movies.domain.data.dao.PagingKeyDao
+import org.michaelbel.movies.domain.data.entity.AccountDb
 import org.michaelbel.movies.domain.data.entity.MovieDb
 import org.michaelbel.movies.domain.data.entity.PagingKeyDb
 
@@ -17,6 +19,7 @@ import org.michaelbel.movies.domain.data.entity.PagingKeyDb
 @Database(
     entities = [
         MovieDb::class,
+        AccountDb::class,
         PagingKeyDb::class
     ],
     version = AppDatabase.DATABASE_VERSION,
@@ -26,11 +29,12 @@ import org.michaelbel.movies.domain.data.entity.PagingKeyDb
 abstract class AppDatabase: RoomDatabase() {
 
     abstract fun movieDao(): MovieDao
+    abstract fun accountDao(): AccountDao
     abstract fun pagingKeyDao(): PagingKeyDao
 
     companion object {
         private const val DATABASE_NAME = "movies-db"
-        const val DATABASE_VERSION = 13
+        const val DATABASE_VERSION = 14
 
         @Volatile
         private var instance: AppDatabase? = null

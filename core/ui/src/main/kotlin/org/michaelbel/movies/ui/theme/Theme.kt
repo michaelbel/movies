@@ -1,17 +1,15 @@
 package org.michaelbel.movies.ui.theme
 
-import android.content.Context
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalContext
 import com.google.accompanist.systemuicontroller.SystemUiController
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
-import org.michaelbel.movies.ui.theme.ktx.dynamicColorScheme
-import org.michaelbel.movies.ui.theme.model.AppTheme
+import org.michaelbel.movies.common.theme.AppTheme
+import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.theme.model.ComposeTheme
 
 /**
@@ -27,7 +25,6 @@ fun MoviesTheme(
     dynamicColors: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    val context: Context = LocalContext.current
     val systemUiController: SystemUiController = rememberSystemUiController()
     val dynamicColorsAvailable: Boolean = Build.VERSION.SDK_INT >= 31
 
@@ -57,7 +54,11 @@ fun MoviesTheme(
 
             ComposeTheme(
                 colorScheme = if (dynamicColorsAvailable && dynamicColors) {
-                    context.dynamicColorScheme(darkTheme)
+                    if (darkTheme) {
+                        dynamicDarkColorScheme(context)
+                    } else {
+                        dynamicLightColorScheme(context)
+                    }
                 } else {
                     if (darkTheme) {
                         DarkColorScheme

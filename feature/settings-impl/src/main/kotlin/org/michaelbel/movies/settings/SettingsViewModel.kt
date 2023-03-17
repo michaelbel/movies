@@ -8,14 +8,14 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.michaelbel.movies.common.localization.model.AppLanguage
+import org.michaelbel.movies.common.theme.AppTheme
+import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.interactor.settings.SettingsInteractor
 import org.michaelbel.movies.domain.usecase.DelayUseCase
 import org.michaelbel.movies.domain.usecase.SelectLanguageCase
 import org.michaelbel.movies.domain.usecase.SelectThemeCase
-import org.michaelbel.movies.ui.language.model.AppLanguage
-import org.michaelbel.movies.ui.theme.model.AppTheme
-import org.michaelbel.movies.ui.version.AppVersionData
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,6 +27,8 @@ class SettingsViewModel @Inject constructor(
 ): BaseViewModel(), DefaultLifecycleObserver {
 
     val isDynamicColorsFeatureEnabled: Boolean = Build.VERSION.SDK_INT >= 31
+
+    val isRtlFeatureEnabled: Boolean = false
 
     val isPostNotificationsFeatureEnabled: Boolean = Build.VERSION.SDK_INT >= 33
 

@@ -17,10 +17,10 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import dagger.hilt.android.AndroidEntryPoint
-import org.michaelbel.movies.common.shortcuts.installShortcuts
+import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.domain.workers.MoviesDatabaseWorker
+import org.michaelbel.movies.ui.shortcuts.installShortcuts
 import org.michaelbel.movies.ui.theme.MoviesTheme
-import org.michaelbel.movies.ui.theme.model.AppTheme
 
 /**
  * Per-App Language depends on AppCompatActivity (not ComponentActivity).

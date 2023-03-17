@@ -19,6 +19,7 @@ import org.michaelbel.movies.entities.lce.ScreenState
 import org.michaelbel.movies.entities.lce.ktx.isFailure
 import org.michaelbel.movies.entities.lce.ktx.throwable
 import org.michaelbel.movies.network.connectivity.NetworkStatus
+import org.michaelbel.movies.network.connectivity.ktx.isAvailable
 import java.net.UnknownHostException
 
 @Composable
@@ -40,14 +41,14 @@ fun DetailsRoute(
 }
 
 @Composable
-internal fun DetailsScreenContent(
+private fun DetailsScreenContent(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
     detailsState: ScreenState,
     networkStatus: NetworkStatus,
     onRetry: () -> Unit
 ) {
-    if (networkStatus == NetworkStatus.Available && detailsState.isFailure && detailsState.throwable is UnknownHostException) {
+    if (networkStatus.isAvailable && detailsState.isFailure && detailsState.throwable is UnknownHostException) {
         onRetry()
     }
 

@@ -1,8 +1,8 @@
 package org.michaelbel.movies.domain.usecase
 
-import javax.inject.Inject
 import org.michaelbel.movies.common.localization.LocaleController
-import org.michaelbel.movies.ui.language.model.AppLanguage
+import org.michaelbel.movies.common.localization.model.AppLanguage
+import javax.inject.Inject
 
 class SelectLanguageCase @Inject constructor(
     private val localeController: LocaleController

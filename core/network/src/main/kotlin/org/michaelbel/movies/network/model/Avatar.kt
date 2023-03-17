@@ -5,5 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Avatar(
-    @SerialName("gravatar") val gravatar: GrAvatar
+    @SerialName("gravatar") val grAvatar: GrAvatar?,
+    @SerialName("tmdb") val tmdbAvatar: TmdbAvatar?
 )
