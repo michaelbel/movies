@@ -13,7 +13,7 @@ gradle = "7.4.2"
 kotlin = "1.8.10"
 kotlin-ksp = "1.8.10-1.0.9"
 kotlin-coroutines = "1.6.4"
-kotlin-serialization = "1.4.1"
+kotlin-serialization = "1.5.0"
 # @pin update when updating kotlin
 compose-compiler = "1.4.3"
 detekt = "1.22.0"
