@@ -3,6 +3,8 @@ package org.michaelbel.movies.domain.repository.account.impl
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
@@ -11,14 +13,13 @@ import org.michaelbel.movies.domain.data.dao.AccountDao
 import org.michaelbel.movies.domain.data.entity.AccountDb
 import org.michaelbel.movies.domain.exceptions.AccountDetailsException
 import org.michaelbel.movies.domain.ktx.mapToAccountDb
+import org.michaelbel.movies.domain.preferences.constants.PREFERENCE_ACCOUNT_EXPIRE_TIME_KEY
 import org.michaelbel.movies.domain.preferences.constants.PREFERENCE_ACCOUNT_ID_KEY
 import org.michaelbel.movies.domain.preferences.constants.PREFERENCE_SESSION_ID_KEY
 import org.michaelbel.movies.domain.repository.account.AccountRepository
 import org.michaelbel.movies.domain.service.account.AccountService
 import org.michaelbel.movies.entities.tmdbApiKey
 import org.michaelbel.movies.network.model.Account
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
 internal class AccountRepositoryImpl @Inject constructor(
@@ -40,6 +41,7 @@ internal class AccountRepositoryImpl @Inject constructor(
             )
             dataStore.edit { preferences ->
                 preferences[PREFERENCE_ACCOUNT_ID_KEY] = account.id
+                preferences[PREFERENCE_ACCOUNT_EXPIRE_TIME_KEY] = System.currentTimeMillis()
             }
             accountDao.insert(account.mapToAccountDb)
         } catch (e: Exception) {

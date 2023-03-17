@@ -13,6 +13,7 @@ import kotlinx.serialization.json.decodeFromStream
 import org.michaelbel.movies.common.coroutines.Dispatcher
 import org.michaelbel.movies.common.coroutines.MoviesDispatchers
 import org.michaelbel.movies.domain.data.dao.MovieDao
+import org.michaelbel.movies.domain.data.dao.ktx.isEmpty
 import org.michaelbel.movies.domain.data.entity.MovieDb
 import org.michaelbel.movies.domain.ktx.mapToMovieDb
 import org.michaelbel.movies.network.model.MovieResponse
@@ -29,7 +30,7 @@ class MoviesDatabaseWorker @AssistedInject constructor(
         return withContext(dispatcher) {
             try {
                 val filename: String? = inputData.getString(KEY_FILENAME)
-                if (filename != null) {
+                if (filename != null && movieDao.isEmpty(MovieDb.MOVIES_LOCAL_LIST)) {
                     applicationContext.assets.open(filename).use { inputStream ->
                         val format = Json { ignoreUnknownKeys = true }
                         val moviesJsonData: List<MovieResponse> = format.decodeFromStream(inputStream)
@@ -40,11 +41,9 @@ class MoviesDatabaseWorker @AssistedInject constructor(
                             )
                         }
                         movieDao.insertAllMovies(moviesDb)
-                        Result.success()
                     }
-                } else {
-                    Result.failure()
                 }
+                Result.success()
             } catch (e: Exception) {
                 Result.failure()
             }
