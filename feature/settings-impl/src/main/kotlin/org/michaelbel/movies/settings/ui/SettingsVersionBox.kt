@@ -63,8 +63,9 @@ fun SettingsLanguageBox(
                 }
                 .padding(start = 4.dp)
                 .testTag("TitleText"),
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium.copy(
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
         )
 
         Text(
@@ -80,8 +81,9 @@ fun SettingsLanguageBox(
                 }
                 .padding(start = 2.dp)
                 .testTag("ValueText"),
-            color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.bodySmall.copy(
+                color = MaterialTheme.colorScheme.primary
+            )
         )
     }
 }

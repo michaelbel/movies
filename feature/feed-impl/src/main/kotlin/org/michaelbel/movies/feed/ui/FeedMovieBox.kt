@@ -78,8 +78,9 @@ internal fun FeedMovieBox(
         ) {
             Text(
                 text = stringResource(R.string.feed_no_image),
-                color = MaterialTheme.colorScheme.secondary,
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    color = MaterialTheme.colorScheme.secondary
+                )
             )
         }
 
@@ -94,10 +95,11 @@ internal fun FeedMovieBox(
                     end.linkTo(parent.end, 16.dp)
                     bottom.linkTo(parent.bottom, 16.dp)
                 },
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
             maxLines = 10,
             overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge.copy(
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
         )
     }
 }

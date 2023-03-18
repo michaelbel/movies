@@ -45,8 +45,9 @@ internal fun SettingThemeDialog(
             ) {
                 Text(
                     text = stringResource(R.string.settings_action_cancel),
-                    color = MaterialTheme.colorScheme.primary,
-                    style = MaterialTheme.typography.labelLarge
+                    style = MaterialTheme.typography.labelLarge.copy(
+                        color = MaterialTheme.colorScheme.primary
+                    )
                 )
             }
         },
@@ -59,8 +60,9 @@ internal fun SettingThemeDialog(
         title = {
             Text(
                 text = stringResource(R.string.settings_theme),
-                color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.headlineSmall
+                style = MaterialTheme.typography.headlineSmall.copy(
+                    color = MaterialTheme.colorScheme.onSurface
+                )
             )
         },
         text = {
@@ -109,19 +111,16 @@ private fun SettingThemeDialogContent(
                         unselectedColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6F)
                     ),
                     modifier = Modifier
-                        .padding(
-                            start = 16.dp
-                        )
+                        .padding(start = 16.dp)
                 )
 
                 Text(
                     text = theme.themeText,
                     modifier = Modifier
-                        .padding(
-                            start = 8.dp
-                        ),
-                    color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.bodyLarge
+                        .padding(start = 8.dp),
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
                 )
             }
         }

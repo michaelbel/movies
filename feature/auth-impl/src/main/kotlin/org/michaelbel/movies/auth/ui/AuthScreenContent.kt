@@ -86,9 +86,7 @@ internal fun AuthScreenContent(
 
     ConstraintLayout(
         modifier
-            .padding(
-                horizontal = 16.dp
-            )
+            .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .background(
                 color = MaterialTheme.colorScheme.primaryContainer,

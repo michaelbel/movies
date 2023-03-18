@@ -62,9 +62,7 @@ internal fun AccountScreenContent(
 ) {
     ConstraintLayout(
         modifier
-            .padding(
-                horizontal = 16.dp
-            )
+            .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .background(
                 color = MaterialTheme.colorScheme.primaryContainer,
@@ -122,20 +120,22 @@ internal fun AccountScreenContent(
             if (account.name.isNotEmpty()) {
                 Text(
                     text = account.name,
-                    color = MaterialTheme.colorScheme.primary,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        color = MaterialTheme.colorScheme.primary
+                    )
                 )
             }
 
             if (account.username.isNotEmpty()) {
                 Text(
                     text = account.username,
-                    color = MaterialTheme.colorScheme.secondary,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.secondary
+                    )
                 )
             }
         }

@@ -56,22 +56,19 @@ internal fun AuthLinksBox(
             Text(
                 text = stringResource(R.string.auth_terms_of_use),
                 modifier = Modifier
-                    .padding(
-                        vertical = 16.dp
-                    )
+                    .padding(vertical = 16.dp)
                     .clickableWithoutRipple {
                         openUrl(resultContract, toolbarColor, TMDB_TERMS_OF_USE)
                     },
-                color = MaterialTheme.colorScheme.primary,
                 maxLines = 1,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.primary
+                )
             )
 
             Box(
                 modifier = Modifier
-                    .padding(
-                        horizontal = 8.dp
-                    )
+                    .padding(horizontal = 8.dp)
                     .size(3.dp)
                     .clip(CircleShape)
                     .background(MaterialTheme.colorScheme.primary)
@@ -80,15 +77,14 @@ internal fun AuthLinksBox(
             Text(
                 text = stringResource(R.string.auth_privacy_policy),
                 modifier = Modifier
-                    .padding(
-                        vertical = 16.dp
-                    )
+                    .padding(vertical = 16.dp)
                     .clickableWithoutRipple {
                         openUrl(resultContract, toolbarColor, TMDB_PRIVACY_POLICY)
                     },
-                color = MaterialTheme.colorScheme.primary,
                 maxLines = 1,
-                style = MaterialTheme.typography.bodyMedium
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.primary
+                )
             )
         }
     }

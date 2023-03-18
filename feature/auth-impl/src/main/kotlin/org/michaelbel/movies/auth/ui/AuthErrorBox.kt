@@ -42,9 +42,7 @@ internal fun AuthErrorBox(
         Text(
             text = error.text,
             modifier = Modifier
-                .padding(
-                    start = 4.dp
-                ),
+                .padding(start = 4.dp),
             color = MaterialTheme.colorScheme.error,
             fontSize = 13.sp,
             textAlign = TextAlign.Start,

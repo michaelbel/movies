@@ -27,8 +27,9 @@ internal fun FeedApiKeyBox(
     ) {
         Text(
             text = stringResource(R.string.feed_error_api_key_null),
-            color = MaterialTheme.colorScheme.onBackground,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge.copy(
+                color = MaterialTheme.colorScheme.onBackground
+            )
         )
     }
 }

@@ -113,8 +113,9 @@ internal fun DetailsContent(
         ) {
             Text(
                 text = stringResource(R.string.details_no_image),
-                color = MaterialTheme.colorScheme.secondary,
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    color = MaterialTheme.colorScheme.secondary
+                )
             )
         }
 
@@ -147,10 +148,11 @@ internal fun DetailsContent(
         Text(
             text = movie.title,
             modifier = titleModifier,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
             overflow = TextOverflow.Ellipsis,
             maxLines = 3,
-            style = MaterialTheme.typography.titleLarge
+            style = MaterialTheme.typography.titleLarge.copy(
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
         )
 
         val overviewModifier: Modifier = if (placeholder) {
@@ -182,10 +184,11 @@ internal fun DetailsContent(
         Text(
             text = movie.overview,
             modifier = overviewModifier,
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
             overflow = TextOverflow.Ellipsis,
             maxLines = 10,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium.copy(
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
         )
     }
 }

@@ -46,8 +46,9 @@ fun SettingsNetworkRequestDelayBox(
                     start.linkTo(parent.start, 16.dp)
                     top.linkTo(parent.top, 8.dp)
                 },
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge.copy(
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
         )
 
         Text(
@@ -59,8 +60,9 @@ fun SettingsNetworkRequestDelayBox(
                     top.linkTo(parent.top, 8.dp)
                     end.linkTo(parent.end, 16.dp)
                 },
-            color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge.copy(
+                color = MaterialTheme.colorScheme.primary
+            )
         )
 
         Slider(

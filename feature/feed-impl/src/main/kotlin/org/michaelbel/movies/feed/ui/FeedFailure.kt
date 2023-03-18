@@ -54,9 +54,10 @@ internal fun FeedFailure(
                     top.linkTo(image.bottom, 8.dp)
                     end.linkTo(parent.end, 16.dp)
                 },
-            color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium.copy(
+                color = MaterialTheme.colorScheme.onBackground
+            )
         )
 
         if (Build.VERSION.SDK_INT >= 29) {

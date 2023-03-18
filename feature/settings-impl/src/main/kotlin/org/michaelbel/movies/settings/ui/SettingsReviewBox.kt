@@ -37,8 +37,9 @@ fun SettingsReviewBox(
                     bottom.linkTo(parent.bottom)
                 }
                 .testTag("Text"),
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge.copy(
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
         )
     }
 }
