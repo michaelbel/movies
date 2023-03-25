@@ -53,8 +53,8 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Dagger Hilt](https://github.com/google/dagger) 2.45
 - [x] [ViewModel](https://d.android.com/topic/libraries/architecture/viewmodel)
 - [x] [Lifecycle](https://d.android.com/topic/libraries/architecture/lifecycle) 2.6.0-alpha03
-- [x] [Room](https://d.android.com/training/data-storage/room) 2.5.0
-- [x] [WorkManager](https://d.android.com/topic/libraries/architecture/workmanager) 2.8.0
+- [x] [Room](https://d.android.com/training/data-storage/room) 2.5.1
+- [x] [WorkManager](https://d.android.com/topic/libraries/architecture/workmanager) 2.8.1
 - [x] [DataStore](https://d.android.com/datastore) 1.0.0
 - [x] [Startup](https://d.android.com/jetpack/androidx/releases/startup) 1.1.1
 - [x] [Navigation](https://d.android.com/guide/navigation) 2.5.3
@@ -67,9 +67,9 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Chucker](https://github.com/ChuckerTeam/chucker) 3.5.2
 - [x] [Coil](https://github.com/coil-kt/coil) 2.2.2
 - [x] [Timber](https://github.com/JakeWharton/timber) 5.0.1
-- [x] [Firebase Crashlytics](https://firebase.google.com/products/crashlytics) 18.3.5
+- [x] [Firebase Crashlytics](https://firebase.google.com/products/crashlytics) 18.3.6
 - [x] [Firebase App Distribution](https://firebase.google.com/products/app-distribution) 3.2.0
-- [x] [Firebase Remote Config](https://firebase.google.com/products/remote-config) 21.2.1
+- [x] [Firebase Remote Config](https://firebase.google.com/products/remote-config) 21.3.0
 - [x] [Google Analytics for Firebase](https://firebase.google.com/products/analytics) 21.2.0
 - [x] [In-App Reviews](https://d.android.com/guide/playcore/in-app-review)
 - [x] [App Shortcuts](https://d.android.com/develop/ui/views/launch/shortcuts)

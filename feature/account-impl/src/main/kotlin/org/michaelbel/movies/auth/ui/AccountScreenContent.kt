@@ -37,12 +37,11 @@ fun AccountRoute(
     viewModel: AccountViewModel = hiltViewModel()
 ) {
     val account: AccountDb? by viewModel.account.collectAsStateWithLifecycle()
-    val loading: Boolean by viewModel.loading.collectAsStateWithLifecycle()
 
     AccountScreenContent(
         modifier = modifier,
         account = account.orEmpty,
-        loading = loading,
+        loading = viewModel.loading,
         onBackClick = onBackClick,
         onLogoutClick = {
             viewModel.onLogoutClick {

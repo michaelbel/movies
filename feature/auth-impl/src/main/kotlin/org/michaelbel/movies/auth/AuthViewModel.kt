@@ -1,9 +1,9 @@
 package org.michaelbel.movies.auth
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.exceptions.AccountDetailsException
@@ -21,35 +21,32 @@ class AuthViewModel @Inject constructor(
     private val accountInteractor: AccountInteractor
 ): BaseViewModel() {
 
-    private val _error: MutableStateFlow<Throwable?> = MutableStateFlow(null)
-    val error: StateFlow<Throwable?> = _error.asStateFlow()
-
-    private val _loading: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val loading: StateFlow<Boolean> = _loading.asStateFlow()
+    var loading: Boolean by mutableStateOf(false)
+    var error: Throwable? by mutableStateOf(null)
 
     override fun handleError(throwable: Throwable) {
-        _loading.value = false
+        loading = false
 
         when (throwable) {
             is CreateRequestTokenException -> {
-                _error.value = CreateRequestTokenException
+                error = CreateRequestTokenException
             }
             is CreateSessionWithLoginException -> {
-                _error.value = CreateSessionWithLoginException
+                error = CreateSessionWithLoginException
             }
             is CreateSessionException -> {
-                _error.value = CreateSessionException
+                error = CreateSessionException
             }
             is AccountDetailsException -> {
-                _error.value = AccountDetailsException
+                error = AccountDetailsException
             }
             else -> super.handleError(throwable)
         }
     }
 
     fun onSignInClick(username: String, password: String, onResult: () -> Unit) = launch {
-        _error.value = null
-        _loading.value = true
+        error = null
+        loading = true
 
         val token: Token = authenticationInteractor.createRequestToken()
         val sessionToken: Token = authenticationInteractor.createSessionWithLogin(
