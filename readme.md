@@ -44,11 +44,11 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Themed App Icon](https://d.android.com/develop/ui/views/launch/icon_design_adaptive)
 - [x] 100% [Kotlin](https://d.android.com/kotlin) 1.8.10
 - [x] 100% [Jetpack Compose](https://d.android.com/jetpack/compose) 1.4.3
-- [x] [Accompanist](https://github.com/google/accompanist) 0.28.0
+- [x] [Accompanist](https://github.com/google/accompanist) 0.30.0
 - [x] [Compose PreviewParameterProvider](https://d.android.com/jetpack/compose/tooling#previewparameter)
 - [x] [Downloadable Fonts](https://d.android.com/develop/ui/views/text-and-emoji/downloadable-fonts)
 - [x] [KotlinX Coroutines](https://github.com/Kotlin/kotlinx.coroutines) 1.6.4
-- [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) 1.4.1
+- [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) 1.5.0
 - [x] [Appcompat](https://d.android.com/jetpack/androidx/releases/appcompat) 1.6.0-rc01
 - [x] [Dagger Hilt](https://github.com/google/dagger) 2.45
 - [x] [ViewModel](https://d.android.com/topic/libraries/architecture/viewmodel)
@@ -78,7 +78,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Github Releases](https://github.com/michaelbel/movies/releases)
 - [x] [Lint](https://d.android.com/studio/write/lint)
 - [x] [Detekt](https://github.com/detekt/detekt) 1.22.0
-- [x] [Spotless](https://github.com/diffplug/spotless) 6.15.0
+- [x] [Spotless](https://github.com/diffplug/spotless) 6.17.0
 - [x] [Distribute App via Telegram Bot](https://github.com/appleboy/telegram-action)
 - [x] [Non-Transitive R classes](https://d.android.com/studio/build/optimize-your-build#use-non-transitive-r-classes)
 - [x] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen)
