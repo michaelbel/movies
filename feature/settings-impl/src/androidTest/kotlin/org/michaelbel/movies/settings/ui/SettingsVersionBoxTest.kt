@@ -26,7 +26,7 @@ internal class SettingsVersionBoxTest {
                     modifier = Modifier
                         .navigationBarsPadding()
                         .fillMaxWidth(),
-                    appVersionData = App_VERSION_DATA
+                    appVersionData = APP_VERSION_DATA
                 )
             }
         }
@@ -53,6 +53,6 @@ internal class SettingsVersionBoxTest {
     }
 
     private companion object {
-        private val App_VERSION_DATA: AppVersionData = AppVersionData("1.0.0", 1L)
+        private val APP_VERSION_DATA: AppVersionData = AppVersionData("1.0.0", 1L)
     }
 }
