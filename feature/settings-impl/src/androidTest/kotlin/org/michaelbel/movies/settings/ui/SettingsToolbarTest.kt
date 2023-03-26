@@ -2,10 +2,9 @@ package org.michaelbel.movies.settings.ui
 
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertHasClickAction
+import androidx.compose.ui.test.assertHasNoClickAction
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasClickAction
-import androidx.compose.ui.test.hasNoClickAction
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -33,21 +32,21 @@ internal class SettingsToolbarTest {
         composeTestRule
             .onNodeWithTag(testTag = "TopAppBar", useUnmergedTree = true)
             .assertIsDisplayed()
-            .assert(hasNoClickAction())
+            .assertHasNoClickAction()
 
         composeTestRule
             .onNodeWithTag(testTag = "TitleText", useUnmergedTree = true)
             .assertIsDisplayed()
-            .assert(hasNoClickAction())
+            .assertHasNoClickAction()
 
         composeTestRule
             .onNodeWithTag(testTag = "BackIconButton", useUnmergedTree = true)
             .assertIsDisplayed()
-            .assert(hasClickAction())
+            .assertHasClickAction()
 
         composeTestRule
             .onNodeWithTag(testTag = "BackImage", useUnmergedTree = true)
             .assertIsDisplayed()
-            .assert(hasNoClickAction())
+            .assertHasNoClickAction()
     }
 }

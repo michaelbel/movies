@@ -1,9 +1,8 @@
 package org.michaelbel.movies.settings.ui
 
-import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertHasClickAction
+import androidx.compose.ui.test.assertHasNoClickAction
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasClickAction
-import androidx.compose.ui.test.hasNoClickAction
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -33,22 +32,22 @@ internal class SettingsLanguageDialogTest {
         composeTestRule
             .onNodeWithTag(testTag = "ConfirmTextButton", useUnmergedTree = true)
             .assertIsDisplayed()
-            .assert(hasClickAction())
+            .assertHasClickAction()
 
         composeTestRule
             .onNodeWithTag(testTag = "ConfirmText", useUnmergedTree = true)
             .assertIsDisplayed()
-            .assert(hasNoClickAction())
+            .assertHasNoClickAction()
 
         composeTestRule
             .onNodeWithTag(testTag = "Icon", useUnmergedTree = true)
             .assertIsDisplayed()
-            .assert(hasNoClickAction())
+            .assertHasNoClickAction()
 
         composeTestRule
             .onNodeWithTag(testTag = "Title", useUnmergedTree = true)
             .assertIsDisplayed()
-            .assert(hasNoClickAction())
+            .assertHasNoClickAction()
 
         composeTestRule
             .onNodeWithTag(testTag = "Content", useUnmergedTree = true)

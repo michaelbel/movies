@@ -3,9 +3,8 @@ package org.michaelbel.movies.settings.ui
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.test.assert
+import androidx.compose.ui.test.assertHasNoClickAction
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasNoClickAction
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -35,22 +34,22 @@ internal class SettingsVersionBoxTest {
         composeTestRule
             .onNodeWithTag(testTag = "ConstraintLayout", useUnmergedTree = true)
             .assertIsDisplayed()
-            .assert(hasNoClickAction())
+            .assertHasNoClickAction()
 
         composeTestRule
             .onNodeWithTag(testTag = "Icon", useUnmergedTree = true)
             .assertIsDisplayed()
-            .assert(hasNoClickAction())
+            .assertHasNoClickAction()
 
         composeTestRule
             .onNodeWithTag(testTag = "TitleText", useUnmergedTree = true)
             .assertIsDisplayed()
-            .assert(hasNoClickAction())
+            .assertHasNoClickAction()
 
         composeTestRule
             .onNodeWithTag(testTag = "ValueText", useUnmergedTree = true)
             .assertIsDisplayed()
-            .assert(hasNoClickAction())
+            .assertHasNoClickAction()
     }
 
     private companion object {
