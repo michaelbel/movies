@@ -17,6 +17,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -42,9 +43,13 @@ internal fun SettingThemeDialog(
         confirmButton = {
             TextButton(
                 onClick = onDismissRequest,
+                modifier = Modifier
+                    .testTag("ConfirmTextButton")
             ) {
                 Text(
                     text = stringResource(R.string.settings_action_cancel),
+                    modifier = Modifier
+                        .testTag("ConfirmText"),
                     style = MaterialTheme.typography.labelLarge.copy(
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -54,12 +59,16 @@ internal fun SettingThemeDialog(
         icon = {
             Icon(
                 painter = painterResource(MoviesIcons.ThemeLightDark),
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier
+                    .testTag("Icon")
             )
         },
         title = {
             Text(
                 text = stringResource(R.string.settings_theme),
+                modifier = Modifier
+                    .testTag("Title"),
                 style = MaterialTheme.typography.headlineSmall.copy(
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -67,6 +76,8 @@ internal fun SettingThemeDialog(
         },
         text = {
             SettingThemeDialogContent(
+                modifier = Modifier
+                    .testTag("Content"),
                 themes = themes,
                 currentTheme = currentTheme,
                 onThemeSelect = { theme ->
@@ -88,11 +99,14 @@ internal fun SettingThemeDialog(
 
 @Composable
 private fun SettingThemeDialogContent(
+    modifier: Modifier,
     themes: List<AppTheme>,
     currentTheme: AppTheme,
     onThemeSelect: (AppTheme) -> Unit
 ) {
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         themes.forEach { theme: AppTheme ->
             Row(
                 modifier = Modifier

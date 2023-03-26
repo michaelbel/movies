@@ -24,7 +24,7 @@ import org.michaelbel.movies.ui.preview.provider.VersionPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun SettingsLanguageBox(
+fun SettingsVersionBox(
     modifier: Modifier = Modifier,
     appVersionData: AppVersionData
 ) {
@@ -46,7 +46,8 @@ fun SettingsLanguageBox(
                     top.linkTo(parent.top)
                     end.linkTo(version.start)
                     bottom.linkTo(parent.bottom)
-                },
+                }
+                .testTag("Icon"),
             tint = MaterialTheme.colorScheme.primary
         )
 
@@ -90,11 +91,11 @@ fun SettingsLanguageBox(
 
 @Composable
 @DevicePreviews
-private fun SettingsLanguageBoxPreview(
+private fun SettingsVersionBoxPreview(
     @PreviewParameter(VersionPreviewParameterProvider::class) appVersionData: AppVersionData
 ) {
     MoviesTheme {
-        SettingsLanguageBox(
+        SettingsVersionBox(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()

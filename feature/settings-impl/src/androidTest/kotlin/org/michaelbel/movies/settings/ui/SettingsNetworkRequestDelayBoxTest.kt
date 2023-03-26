@@ -1,57 +1,57 @@
-package org.michaelbel.movies
+package org.michaelbel.movies.settings.ui
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertIsDisplayed
-import androidx.compose.ui.test.hasClickAction
 import androidx.compose.ui.test.hasNoClickAction
 import androidx.compose.ui.test.junit4.ComposeContentTestRule
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.unit.dp
 import org.junit.Rule
 import org.junit.Test
-import org.michaelbel.movies.settings.ui.SettingsPostNotificationsBox
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
-class SettingsPostNotificationsBoxTest {
+internal class SettingsNetworkRequestDelayBoxTest {
 
     @get:Rule
     val composeTestRule: ComposeContentTestRule = createComposeRule()
 
     @Test
-    fun testSettingsPostNotificationsBox() {
+    fun testSettingsNetworkRequestDelayBox() {
         composeTestRule.setContent {
             MoviesTheme {
-                SettingsPostNotificationsBox(
+                SettingsNetworkRequestDelayBox(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp)
-                        .clickable {},
-                    areNotificationsEnabled = ARE_NOTIFICATIONS_ENABLED
+                        .fillMaxWidth(),
+                    delay = NETWORK_REQUEST_DELAY,
+                    onDelayChangeFinished = {}
                 )
             }
         }
 
         composeTestRule
             .onNodeWithTag(testTag = "ConstraintLayout", useUnmergedTree = true)
-            .assert(hasClickAction())
-
-        composeTestRule
-            .onNodeWithTag(testTag = "Text", useUnmergedTree = true)
             .assertIsDisplayed()
             .assert(hasNoClickAction())
 
         composeTestRule
-            .onNodeWithTag(testTag = "Switch", useUnmergedTree = true)
+            .onNodeWithTag(testTag = "TitleText", useUnmergedTree = true)
+            .assertIsDisplayed()
+            .assert(hasNoClickAction())
+
+        composeTestRule
+            .onNodeWithTag(testTag = "ValueText", useUnmergedTree = true)
+            .assertIsDisplayed()
+            .assert(hasNoClickAction())
+
+        composeTestRule
+            .onNodeWithTag(testTag = "Slider", useUnmergedTree = true)
             .assertIsDisplayed()
             .assert(hasNoClickAction())
     }
 
     private companion object {
-        private const val ARE_NOTIFICATIONS_ENABLED = true
+        private const val NETWORK_REQUEST_DELAY: Int = 0
     }
 }

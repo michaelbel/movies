@@ -28,5 +28,5 @@ android {
 }
 
 dependencies {
-    api(libs.play.services.ads)
+    /*api(libs.play.services.ads)*/
 }

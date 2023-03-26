@@ -1,4 +1,4 @@
-package org.michaelbel.movies
+package org.michaelbel.movies.settings.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,30 +14,30 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.unit.dp
 import org.junit.Rule
 import org.junit.Test
-import org.michaelbel.movies.settings.ui.SettingsDynamicColorsBox
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
-class SettingsDynamicColorsBoxTest {
+internal class SettingsRtlBoxTest {
 
     @get:Rule
     val composeTestRule: ComposeContentTestRule = createComposeRule()
 
     @Test
-    fun testSettingsDynamicColorsBox() {
+    fun testSettingsRtlBox() {
         composeTestRule.setContent {
             MoviesTheme {
-                SettingsDynamicColorsBox(
+                SettingsRtlBox(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
                         .clickable {},
-                    isDynamicColorsEnabled = IS_DYNAMIC_COLORS_ENABLED
+                    isRtlEnabled = IS_RTL_ENABLED
                 )
             }
         }
 
         composeTestRule
             .onNodeWithTag(testTag = "ConstraintLayout", useUnmergedTree = true)
+            .assertIsDisplayed()
             .assert(hasClickAction())
 
         composeTestRule
@@ -52,6 +52,6 @@ class SettingsDynamicColorsBoxTest {
     }
 
     private companion object {
-        private const val IS_DYNAMIC_COLORS_ENABLED = true
+        private const val IS_RTL_ENABLED = true
     }
 }

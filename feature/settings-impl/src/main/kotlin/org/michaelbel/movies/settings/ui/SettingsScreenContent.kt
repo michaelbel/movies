@@ -178,7 +178,7 @@ private fun SettingsScreenContent(
             )
         },
         bottomBar = {
-            SettingsLanguageBox(
+            SettingsVersionBox(
                 modifier = Modifier
                     .navigationBarsPadding()
                     .fillMaxWidth(),

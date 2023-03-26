@@ -95,9 +95,9 @@
         </service>
 
         <!-- AdMob -->
-        <meta-data
+        <!--<meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
-            android:value="@string/admobAppId" />
+            android:value="@string/admobAppId" />-->
 
         <!-- Downloadable Fonts (https://d.android.com/guide/topics/ui/look-and-feel/downloadable-fonts) -->
         <meta-data

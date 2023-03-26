@@ -1,4 +1,4 @@
-package org.michaelbel.movies
+package org.michaelbel.movies.settings.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,45 +14,34 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.unit.dp
 import org.junit.Rule
 import org.junit.Test
-import org.michaelbel.movies.settings.ui.SettingsThemeBox
 import org.michaelbel.movies.ui.theme.MoviesTheme
-import org.michaelbel.movies.ui.theme.model.AppTheme
 
-class SettingsThemeBoxTest {
+internal class SettingsReviewBoxTest {
 
     @get:Rule
     val composeTestRule: ComposeContentTestRule = createComposeRule()
 
     @Test
-    fun testSettingsThemeBox() {
+    fun testSettingsReviewBox() {
         composeTestRule.setContent {
             MoviesTheme {
-                SettingsThemeBox(
+                SettingsReviewBox(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
-                        .clickable {},
-                    currentTheme = CURRENT_THEME
+                        .clickable {}
                 )
             }
         }
 
         composeTestRule
             .onNodeWithTag(testTag = "ConstraintLayout", useUnmergedTree = true)
+            .assertIsDisplayed()
             .assert(hasClickAction())
 
         composeTestRule
-            .onNodeWithTag(testTag = "TitleText", useUnmergedTree = true)
+            .onNodeWithTag(testTag = "Text", useUnmergedTree = true)
             .assertIsDisplayed()
             .assert(hasNoClickAction())
-
-        composeTestRule
-            .onNodeWithTag(testTag = "ValueText", useUnmergedTree = true)
-            .assertIsDisplayed()
-            .assert(hasNoClickAction())
-    }
-
-    private companion object {
-        private val CURRENT_THEME = AppTheme.FollowSystem
     }
 }

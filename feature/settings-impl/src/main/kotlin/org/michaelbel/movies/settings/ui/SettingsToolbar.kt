@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import org.michaelbel.movies.settings_impl.R
@@ -27,6 +28,8 @@ internal fun SettingsToolbar(
         title = {
             Text(
                 text = stringResource(R.string.settings_title),
+                modifier = Modifier
+                    .testTag("TitleText"),
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 style = MaterialTheme.typography.titleLarge.copy(
@@ -34,14 +37,19 @@ internal fun SettingsToolbar(
                 )
             )
         },
-        modifier = modifier,
+        modifier = modifier
+            .testTag("TopAppBar"),
         navigationIcon = {
             IconButton(
-                onClick = onNavigationIconClick
+                onClick = onNavigationIconClick,
+                modifier = Modifier
+                    .testTag("BackIconButton")
             ) {
                 Image(
                     imageVector = MoviesIcons.ArrowBack,
                     contentDescription = null,
+                    modifier = Modifier
+                        .testTag("BackImage"),
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
                 )
             }
