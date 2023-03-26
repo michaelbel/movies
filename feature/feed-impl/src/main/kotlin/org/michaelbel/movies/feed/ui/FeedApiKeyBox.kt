@@ -17,7 +17,7 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun FeedApiKeyBox(
+fun FeedApiKeyBox(
     modifier: Modifier = Modifier
 ) {
     Column(

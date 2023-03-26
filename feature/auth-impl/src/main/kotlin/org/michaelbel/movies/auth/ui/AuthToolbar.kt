@@ -19,7 +19,7 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun AuthToolbar(
+fun AuthToolbar(
     modifier: Modifier = Modifier,
     onNavigationIconClick: () -> Unit
 ) {

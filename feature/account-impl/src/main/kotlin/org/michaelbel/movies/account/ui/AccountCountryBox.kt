@@ -1,4 +1,4 @@
-package org.michaelbel.movies.auth.ui
+package org.michaelbel.movies.account.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,7 +19,7 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun AccountCountryBox(
+fun AccountCountryBox(
     modifier: Modifier = Modifier,
     country: String
 ) {

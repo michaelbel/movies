@@ -26,7 +26,7 @@ import org.michaelbel.movies.ui.preview.provider.BooleanPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun FeedToolbar(
+fun FeedToolbar(
     modifier: Modifier = Modifier,
     account: AccountDb,
     isSettingsIconVisible: Boolean,

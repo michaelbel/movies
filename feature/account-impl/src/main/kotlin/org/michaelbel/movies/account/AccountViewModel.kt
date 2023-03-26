@@ -1,4 +1,4 @@
-package org.michaelbel.movies.auth
+package org.michaelbel.movies.account
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf

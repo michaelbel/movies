@@ -21,7 +21,7 @@ import org.michaelbel.movies.ui.preview.provider.TitlePreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun DetailsToolbar(
+fun DetailsToolbar(
     modifier: Modifier = Modifier,
     onNavigationIconClick: () -> Unit,
     movieTitle: String,
@@ -45,7 +45,7 @@ internal fun DetailsToolbar(
                 enter = fadeIn()
             ) {
                 if (movieUrl != null) {
-                    ShareButton(
+                    DetailsShareButton(
                         movieUrl = movieUrl
                     )
                 }

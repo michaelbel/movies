@@ -32,7 +32,7 @@ import org.michaelbel.movies.ui.preview.provider.MoviePreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun FeedMovieBox(
+fun FeedMovieBox(
     modifier: Modifier = Modifier,
     movie: MovieDb
 ) {

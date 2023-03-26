@@ -38,7 +38,7 @@ import org.michaelbel.movies.ui.preview.provider.MovieDbPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun DetailsContent(
+fun DetailsContent(
     movie: MovieDb,
     modifier: Modifier = Modifier,
     placeholder: Boolean = false

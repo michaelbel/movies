@@ -1,4 +1,4 @@
-package org.michaelbel.movies.auth.ui
+package org.michaelbel.movies.account.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,8 +23,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.michaelbel.movies.account.AccountViewModel
 import org.michaelbel.movies.account_impl.R
-import org.michaelbel.movies.auth.AccountViewModel
 import org.michaelbel.movies.domain.data.entity.AccountDb
 import org.michaelbel.movies.domain.data.ktx.orEmpty
 import org.michaelbel.movies.ui.compose.AccountAvatar

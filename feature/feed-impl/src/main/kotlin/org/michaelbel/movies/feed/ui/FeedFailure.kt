@@ -20,7 +20,7 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun FeedFailure(
+fun FeedFailure(
     modifier: Modifier = Modifier,
     onCheckConnectivityClick: () -> Unit
 ) {

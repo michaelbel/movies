@@ -22,7 +22,7 @@ import org.michaelbel.movies.ui.ktx.isPagingFailure
 import org.michaelbel.movies.ui.ktx.isPagingLoading
 
 @Composable
-internal fun FeedContent(
+fun FeedContent(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues = PaddingValues(),
     listState: LazyListState,

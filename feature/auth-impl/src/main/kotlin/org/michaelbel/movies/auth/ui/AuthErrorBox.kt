@@ -22,7 +22,7 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun AuthErrorBox(
+fun AuthErrorBox(
     modifier: Modifier = Modifier,
     error: Throwable?
 ) {

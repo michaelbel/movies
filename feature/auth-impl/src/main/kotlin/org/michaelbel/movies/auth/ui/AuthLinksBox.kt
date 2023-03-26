@@ -29,7 +29,7 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun AuthLinksBox(
+fun AuthLinksBox(
     modifier: Modifier = Modifier
 ) {
     val toolbarColor: Int = MaterialTheme.colorScheme.primary.toArgb()
