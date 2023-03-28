@@ -26,7 +26,7 @@ import org.michaelbel.movies.domain.data.entity.PagingKeyDb
     exportSchema = false
 )
 @TypeConverters(CalendarConverter::class)
-abstract class AppDatabase: RoomDatabase() {
+internal abstract class AppDatabase: RoomDatabase() {
 
     abstract fun movieDao(): MovieDao
     abstract fun accountDao(): AccountDao

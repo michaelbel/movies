@@ -11,7 +11,7 @@ import org.michaelbel.movies.domain.data.entity.AccountDb
  * The Data Access Object for the [AccountDb] class.
  */
 @Dao
-interface AccountDao {
+internal interface AccountDao {
 
     @Query("SELECT * FROM accounts WHERE id = :accountId")
     fun accountById(accountId: Int): Flow<AccountDb?>
