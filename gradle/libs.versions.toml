@@ -11,7 +11,7 @@ target-sdk = "33"
 gradle = "7.4.2"
 # @pin update when updating compose compiler
 kotlin = "1.8.10"
-kotlin-ksp = "1.8.10-1.0.9"
+kotlin-ksp = "1.8.20-1.0.11"
 kotlin-coroutines = "1.6.4"
 kotlin-serialization = "1.5.0"
 # @pin update when updating kotlin
