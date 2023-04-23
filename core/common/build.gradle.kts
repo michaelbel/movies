@@ -66,4 +66,6 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.androidx.startup.runtime)
     implementation(libs.androidx.browser)
+
+    lintChecks(libs.lint.checks)
 }

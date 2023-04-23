@@ -43,4 +43,6 @@ android {
 
 dependencies {
     implementation(project(":feature:feed-impl"))
+
+    lintChecks(libs.lint.checks)
 }

@@ -49,4 +49,6 @@ android {
 
 dependencies {
     implementation(project(":feature:account-impl"))
+
+    lintChecks(libs.lint.checks)
 }

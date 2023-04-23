@@ -49,4 +49,6 @@ android {
 
 dependencies {
     implementation(project(":feature:auth-impl"))
+
+    lintChecks(libs.lint.checks)
 }

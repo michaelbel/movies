@@ -65,4 +65,6 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.benchmark.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    lintChecks(libs.lint.checks)
 }

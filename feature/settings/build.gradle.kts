@@ -43,4 +43,6 @@ android {
 
 dependencies {
     implementation(project(":feature:settings-impl"))
+
+    lintChecks(libs.lint.checks)
 }
