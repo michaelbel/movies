@@ -70,7 +70,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Firebase Crashlytics](https://firebase.google.com/products/crashlytics) 18.3.6
 - [x] [Firebase App Distribution](https://firebase.google.com/products/app-distribution) 3.2.0
 - [x] [Firebase Remote Config](https://firebase.google.com/products/remote-config) 21.3.0
-- [x] [Google Analytics for Firebase](https://firebase.google.com/products/analytics) 21.2.0
+- [x] [Google Analytics for Firebase](https://firebase.google.com/products/analytics) 21.2.2
 - [x] [In-App Reviews](https://d.android.com/guide/playcore/in-app-review)
 - [x] [App Shortcuts](https://d.android.com/develop/ui/views/launch/shortcuts)
 - [x] [Dependabot](https://github.com/dependabot)
@@ -81,7 +81,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Spotless](https://github.com/diffplug/spotless) 6.17.0
 - [x] [Distribute App via Telegram Bot](https://github.com/appleboy/telegram-action)
 - [x] [Non-Transitive R classes](https://d.android.com/studio/build/optimize-your-build#use-non-transitive-r-classes)
-- [x] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen)
+- [x] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen) 1.0.1
 - [x] [Per-App Language Preferences](https://d.android.com/guide/topics/resources/app-languages)
 - [x] [Settings Panel](https://d.android.com/reference/android/provider/Settings.Panel)
 - [x] [Benchmark](https://d.android.com/topic/performance/benchmarking/benchmarking-overview)

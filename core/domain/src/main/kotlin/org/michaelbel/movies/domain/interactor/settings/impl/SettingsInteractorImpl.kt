@@ -2,7 +2,6 @@ package org.michaelbel.movies.domain.interactor.settings.impl
 
 import androidx.compose.ui.unit.LayoutDirection
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
@@ -11,8 +10,7 @@ import org.michaelbel.movies.analytics.event.ChangeDynamicColorsEvent
 import org.michaelbel.movies.analytics.event.ChangeRtlEnabledEvent
 import org.michaelbel.movies.analytics.event.SelectThemeEvent
 import org.michaelbel.movies.common.config.RemoteParams
-import org.michaelbel.movies.common.coroutines.Dispatcher
-import org.michaelbel.movies.common.coroutines.MoviesDispatchers
+import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.common.googleapi.GoogleApi
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
@@ -24,7 +22,7 @@ import javax.inject.Singleton
 
 @Singleton
 internal class SettingsInteractorImpl @Inject constructor(
-    @Dispatcher(MoviesDispatchers.Main) private val dispatcher: CoroutineDispatcher,
+    private val dispatchers: MoviesDispatchers,
     private val settingsRepository: SettingsRepository,
     private val firebaseRemoteConfig: FirebaseRemoteConfig,
     googleApi: GoogleApi,
@@ -47,23 +45,23 @@ internal class SettingsInteractorImpl @Inject constructor(
 
     override val appVersionData: Flow<AppVersionData> = settingsRepository.appVersionData
 
-    override suspend fun selectTheme(theme: AppTheme) = withContext(dispatcher) {
+    override suspend fun selectTheme(theme: AppTheme) = withContext(dispatchers.main) {
         settingsRepository.selectTheme(theme)
         analytics.logEvent(SelectThemeEvent(theme.toString()))
     }
 
-    override suspend fun setDynamicColors(value: Boolean) = withContext(dispatcher) {
+    override suspend fun setDynamicColors(value: Boolean) = withContext(dispatchers.main) {
         settingsRepository.setDynamicColors(value)
         analytics.logEvent(ChangeDynamicColorsEvent(value))
     }
 
-    override suspend fun setRtlEnabled(value: Boolean) = withContext(dispatcher) {
+    override suspend fun setRtlEnabled(value: Boolean) = withContext(dispatchers.main) {
         settingsRepository.setRtlEnabled(value)
         analytics.logEvent(ChangeRtlEnabledEvent(value))
     }
 
     override suspend fun fetchRemoteConfig() {
-        withContext(dispatcher) {
+        withContext(dispatchers.main) {
             firebaseRemoteConfig
                 .fetchAndActivate()
                 .addOnFailureListener(Timber::e)
