@@ -78,7 +78,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Github Releases](https://github.com/michaelbel/movies/releases)
 - [x] [Lint](https://d.android.com/studio/write/lint)
 - [x] [Detekt](https://github.com/detekt/detekt) 1.22.0
-- [x] [Spotless](https://github.com/diffplug/spotless) 6.17.0
+- [x] [Spotless](https://github.com/diffplug/spotless) 6.18.0
 - [x] [Distribute App via Telegram Bot](https://github.com/appleboy/telegram-action)
 - [x] [Non-Transitive R classes](https://d.android.com/studio/build/optimize-your-build#use-non-transitive-r-classes)
 - [x] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen) 1.0.1
