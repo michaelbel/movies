@@ -65,7 +65,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Retrofit](https://github.com/square/retrofit) 2.9.0
 - [x] [Retrofit Kotlinx Converter Serialization](https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter) 0.8.0
 - [x] [Chucker](https://github.com/ChuckerTeam/chucker) 3.5.2
-- [x] [Coil](https://github.com/coil-kt/coil) 2.2.2
+- [x] [Coil](https://github.com/coil-kt/coil) 2.3.0
 - [x] [Timber](https://github.com/JakeWharton/timber) 5.0.1
 - [x] [Firebase Crashlytics](https://firebase.google.com/products/crashlytics) 18.3.6
 - [x] [Firebase App Distribution](https://firebase.google.com/products/app-distribution) 3.2.0
