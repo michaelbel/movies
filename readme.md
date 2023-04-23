@@ -33,7 +33,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [TMDB API](https://developers.themoviedb.org/3/getting-started)
 - [x] [KTS Gradle Files](https://d.android.com/studio/build/migrate-to-kts)
 - [x] [Kotlin Symbol Processing API](https://d.android.com/studio/build/migrate-to-ksp) 1.8.20-1.0.11
-- [x] [Gradle Plugin](https://d.android.com/studio/releases/gradle-plugin) 7.4.2
+- [x] [Gradle Plugin](https://d.android.com/studio/releases/gradle-plugin) 8.0.0
 - [x] Gradle Version Catalog
 - [x] MinSDK 21
 - [x] TargetSDK 33

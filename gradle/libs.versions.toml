@@ -8,7 +8,7 @@ compile-sdk = "33"
 # @keep
 target-sdk = "33"
 # @pin
-gradle = "7.4.2"
+gradle = "8.0.0"
 # @pin update when updating compose compiler
 kotlin = "1.8.20"
 kotlin-ksp = "1.8.20-1.0.11"
