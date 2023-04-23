@@ -32,7 +32,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Clean Architecture](https://d.android.com/topic/architecture)
 - [x] [TMDB API](https://developers.themoviedb.org/3/getting-started)
 - [x] [KTS Gradle Files](https://d.android.com/studio/build/migrate-to-kts)
-- [x] [Kotlin Symbol Processing API](https://d.android.com/studio/build/migrate-to-ksp) 1.8.10-1.0.9
+- [x] [Kotlin Symbol Processing API](https://d.android.com/studio/build/migrate-to-ksp) 1.8.20-1.0.11
 - [x] [Gradle Plugin](https://d.android.com/studio/releases/gradle-plugin) 7.4.2
 - [x] Gradle Version Catalog
 - [x] MinSDK 21
@@ -42,8 +42,8 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Dark Theme](https://d.android.com/develop/ui/views/theming/darktheme)
 - [x] [Dynamic Colors](https://d.android.com/develop/ui/views/theming/dynamic-colors)
 - [x] [Themed App Icon](https://d.android.com/develop/ui/views/launch/icon_design_adaptive)
-- [x] 100% [Kotlin](https://d.android.com/kotlin) 1.8.10
-- [x] 100% [Jetpack Compose](https://d.android.com/jetpack/compose) 1.4.3
+- [x] 100% [Kotlin](https://d.android.com/kotlin) 1.8.20
+- [x] 100% [Jetpack Compose](https://d.android.com/jetpack/compose) 1.4.6
 - [x] [Accompanist](https://github.com/google/accompanist) 0.30.1
 - [x] [Compose PreviewParameterProvider](https://d.android.com/jetpack/compose/tooling#previewparameter)
 - [x] [Downloadable Fonts](https://d.android.com/develop/ui/views/text-and-emoji/downloadable-fonts)
