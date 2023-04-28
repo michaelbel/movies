@@ -25,12 +25,12 @@ internal class SettingsThemeBoxTest {
         composeTestRule.setContent {
             MoviesTheme {
                 SettingsThemeBox(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp),
                     themes = THEMES,
                     currentTheme = CURRENT_THEME,
-                    onThemeSelect = {}
+                    onThemeSelect = {},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
                 )
             }
         }

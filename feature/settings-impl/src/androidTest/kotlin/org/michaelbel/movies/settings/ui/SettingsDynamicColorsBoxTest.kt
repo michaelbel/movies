@@ -25,11 +25,11 @@ internal class SettingsDynamicColorsBoxTest {
         composeTestRule.setContent {
             MoviesTheme {
                 SettingsDynamicColorsBox(
+                    isDynamicColorsEnabled = IS_DYNAMIC_COLORS_ENABLED,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
-                        .clickable {},
-                    isDynamicColorsEnabled = IS_DYNAMIC_COLORS_ENABLED
+                        .clickable {}
                 )
             }
         }

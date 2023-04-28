@@ -1,6 +1,7 @@
+@Suppress("dsl_scope_violation")
 plugins {
-    id("movies-android-library")
-    id("movies-android-library-compose")
+    alias(libs.plugins.library)
+    alias(libs.plugins.kotlin)
 }
 
 android {
@@ -27,6 +28,11 @@ android {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
     lint {
         quiet = true
         abortOnError = false
@@ -47,4 +53,6 @@ dependencies {
     api(libs.bundles.accompanist)
     api(libs.bundles.compose)
     api(libs.androidx.paging.compose)
+
+    lintChecks(libs.lint.checks)
 }

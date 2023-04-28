@@ -23,10 +23,10 @@ internal class SettingsVersionBoxTest {
         composeTestRule.setContent {
             MoviesTheme {
                 SettingsVersionBox(
+                    appVersionData = APP_VERSION_DATA,
                     modifier = Modifier
                         .navigationBarsPadding()
-                        .fillMaxWidth(),
-                    appVersionData = APP_VERSION_DATA
+                        .fillMaxWidth()
                 )
             }
         }

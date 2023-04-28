@@ -25,12 +25,11 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun SettingsVersionBox(
-    modifier: Modifier = Modifier,
-    appVersionData: AppVersionData
+    appVersionData: AppVersionData,
+    modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
-        modifier = modifier
-            .testTag("ConstraintLayout")
+        modifier = modifier.testTag("ConstraintLayout")
     ) {
         val (icon, version, code) = createRefs()
         createHorizontalChain(icon, version, code, chainStyle = ChainStyle.Packed)
@@ -96,11 +95,11 @@ private fun SettingsVersionBoxPreview(
 ) {
     MoviesTheme {
         SettingsVersionBox(
+            appVersionData = appVersionData,
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .background(MaterialTheme.colorScheme.primaryContainer),
-            appVersionData = appVersionData
+                .background(MaterialTheme.colorScheme.primaryContainer)
         )
     }
 }

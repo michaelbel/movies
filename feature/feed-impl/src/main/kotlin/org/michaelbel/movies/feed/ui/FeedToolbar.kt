@@ -27,12 +27,12 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun FeedToolbar(
-    modifier: Modifier = Modifier,
     account: AccountDb,
     isSettingsIconVisible: Boolean,
     onAuthIconClick: () -> Unit,
     onAccountIconClick: () -> Unit,
-    onSettingsIconClick: () -> Unit
+    onSettingsIconClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     TopAppBar(
         title = {
@@ -70,10 +70,9 @@ fun FeedToolbar(
                     )
                 } else {
                     AccountAvatar(
-                        modifier = Modifier
-                            .size(32.dp),
                         account = account,
-                        fontSize = account.lettersTextFontSizeSmall
+                        fontSize = account.lettersTextFontSizeSmall,
+                        modifier = Modifier.size(32.dp)
                     )
                 }
             }
@@ -91,13 +90,12 @@ private fun FeedToolbarPreview(
 ) {
     MoviesTheme {
         FeedToolbar(
-            modifier = Modifier
-                .statusBarsPadding(),
             account = AccountDb.Empty,
             isSettingsIconVisible = visible,
             onAccountIconClick = {},
             onAuthIconClick = {},
-            onSettingsIconClick = {}
+            onSettingsIconClick = {},
+            modifier = Modifier.statusBarsPadding()
         )
     }
 }

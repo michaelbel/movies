@@ -23,8 +23,8 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun AuthErrorBox(
-    modifier: Modifier = Modifier,
-    error: Throwable?
+    error: Throwable?,
+    modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier,
@@ -34,15 +34,13 @@ fun AuthErrorBox(
         Icon(
             imageVector = MoviesIcons.Error,
             contentDescription = null,
-            modifier = Modifier
-                .size(24.dp),
+            modifier = Modifier.size(24.dp),
             tint = MaterialTheme.colorScheme.error
         )
 
         Text(
             text = error.text,
-            modifier = Modifier
-                .padding(start = 4.dp),
+            modifier = Modifier.padding(start = 4.dp),
             color = MaterialTheme.colorScheme.error,
             fontSize = 13.sp,
             textAlign = TextAlign.Start,
@@ -58,9 +56,9 @@ private fun AuthErrorBoxPreview(
 ) {
     MoviesTheme {
         AuthErrorBox(
+            error = error,
             modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer),
-            error = error
+                .background(MaterialTheme.colorScheme.primaryContainer)
         )
     }
 }

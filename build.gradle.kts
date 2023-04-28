@@ -1,3 +1,4 @@
+@Suppress("dsl_scope_violation")
 plugins {
     alias(libs.plugins.application) apply false
     alias(libs.plugins.library) apply false
@@ -12,10 +13,9 @@ plugins {
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.spotless)
     alias(libs.plugins.detekt)
-
-    id("com.github.ben-manes.versions") version "0.46.0"
-    id("nl.littlerobots.version-catalog-update") version "0.8.0"
-    id("com.palantir.git-version") version "2.0.0"
+    alias(libs.plugins.palantir.git)
+    alias(libs.plugins.ben.manes.versions)
+    alias(libs.plugins.littlerobots.version.catalog.update)
 }
 
 /**

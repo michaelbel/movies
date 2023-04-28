@@ -25,12 +25,12 @@ internal class SettingsLanguageBoxTest {
         composeTestRule.setContent {
             MoviesTheme {
                 SettingsLanguageBox(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(48.dp),
                     languages = LANGUAGES,
                     currentLanguage = CURRENT_LANGUAGE,
-                    onLanguageSelect = {}
+                    onLanguageSelect = {},
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(48.dp)
                 )
             }
         }

@@ -29,6 +29,7 @@ fun FeedLoading(
     ) {
         items(MovieResponse.DEFAULT_PAGE_SIZE) {
             FeedMovieBox(
+                movie = MovieDb.Empty,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
@@ -40,8 +41,7 @@ fun FeedLoading(
                         color = MaterialTheme.colorScheme.inversePrimary,
                         shape = MaterialTheme.shapes.small,
                         highlight = PlaceholderHighlight.fade()
-                    ),
-                movie = MovieDb.Empty
+                    )
             )
         }
     }

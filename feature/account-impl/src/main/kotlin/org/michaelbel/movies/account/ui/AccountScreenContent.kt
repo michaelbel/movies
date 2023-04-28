@@ -39,7 +39,6 @@ fun AccountRoute(
     val account: AccountDb? by viewModel.account.collectAsStateWithLifecycle()
 
     AccountScreenContent(
-        modifier = modifier,
         account = account.orEmpty,
         loading = viewModel.loading,
         onBackClick = onBackClick,
@@ -47,17 +46,18 @@ fun AccountRoute(
             viewModel.onLogoutClick {
                 onBackClick()
             }
-        }
+        },
+        modifier = modifier
     )
 }
 
 @Composable
 internal fun AccountScreenContent(
-    modifier: Modifier = Modifier,
     account: AccountDb,
     loading: Boolean,
     onBackClick: () -> Unit,
-    onLogoutClick: () -> Unit
+    onLogoutClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
         modifier
@@ -92,15 +92,15 @@ internal fun AccountScreenContent(
         )
 
         AccountAvatar(
+            account = account,
+            fontSize = account.lettersTextFontSizeLarge,
             modifier = Modifier
                 .constrainAs(accountAvatar) {
                     width = Dimension.value(64.dp)
                     height = Dimension.value(64.dp)
                     start.linkTo(parent.start, 16.dp)
                     top.linkTo(toolbar.bottom)
-                },
-            account = account,
-            fontSize = account.lettersTextFontSizeLarge
+                }
         )
 
         Column(
@@ -141,6 +141,7 @@ internal fun AccountScreenContent(
 
         if (account.country.isNotEmpty()) {
             AccountCountryBox(
+                country = account.country,
                 modifier = Modifier
                     .constrainAs(countryBox) {
                         width = Dimension.fillToConstraints
@@ -148,8 +149,7 @@ internal fun AccountScreenContent(
                         start.linkTo(parent.start, 16.dp)
                         top.linkTo(accountAvatar.bottom, 8.dp)
                         end.linkTo(parent.end, 16.dp)
-                    },
-                country = account.country
+                    }
             )
         }
 

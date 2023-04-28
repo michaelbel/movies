@@ -1,7 +1,9 @@
+@Suppress("dsl_scope_violation")
 plugins {
-    id("movies-android-library")
+    alias(libs.plugins.library)
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlin.ksp)
     id("movies-android-hilt")
-    id("com.google.devtools.ksp")
 }
 
 android {
@@ -28,6 +30,11 @@ android {
         )
     }
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
     lint {
         quiet = true
         abortOnError = false
@@ -45,7 +52,6 @@ dependencies {
     implementation(libs.bundles.datastore)
     implementation(libs.bundles.room)
     api(libs.androidx.hilt.work)
-    kapt(libs.androidx.hilt.compiler)
     api(libs.androidx.work.runtime.ktx)
     ksp(libs.androidx.room.compiler)
 }

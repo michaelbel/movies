@@ -1,6 +1,7 @@
+@Suppress("dsl_scope_violation")
 plugins {
-    id("movies-android-library")
-    id("movies-android-library-compose")
+    alias(libs.plugins.library)
+    alias(libs.plugins.kotlin)
     id("movies-android-hilt")
 }
 
@@ -37,6 +38,11 @@ android {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
     lint {
         quiet = true
         abortOnError = false
@@ -60,4 +66,6 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.benchmark.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+
+    lintChecks(libs.lint.checks)
 }

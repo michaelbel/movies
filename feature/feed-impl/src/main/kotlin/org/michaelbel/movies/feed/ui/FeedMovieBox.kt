@@ -33,8 +33,8 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun FeedMovieBox(
-    modifier: Modifier = Modifier,
-    movie: MovieDb
+    movie: MovieDb,
+    modifier: Modifier = Modifier
 ) {
     var isNoImageVisible: Boolean by remember { mutableStateOf(false) }
 
@@ -111,6 +111,7 @@ private fun MovieBoxPreview(
 ) {
     MoviesTheme {
         FeedMovieBox(
+            movie = movie,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
@@ -118,8 +119,7 @@ private fun MovieBoxPreview(
                     vertical = 4.dp
                 )
                 .clip(MaterialTheme.shapes.small)
-                .background(MaterialTheme.colorScheme.inversePrimary),
-            movie = movie
+                .background(MaterialTheme.colorScheme.inversePrimary)
         )
     }
 }

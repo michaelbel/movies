@@ -76,14 +76,13 @@ internal fun SettingThemeDialog(
         },
         text = {
             SettingThemeDialogContent(
-                modifier = Modifier
-                    .testTag("Content"),
                 themes = themes,
                 currentTheme = currentTheme,
                 onThemeSelect = { theme ->
                     onThemeSelect(theme)
                     onDismissRequest()
-                }
+                },
+                modifier = Modifier.testTag("Content")
             )
         },
         shape = RoundedCornerShape(28.dp),
@@ -99,10 +98,10 @@ internal fun SettingThemeDialog(
 
 @Composable
 private fun SettingThemeDialogContent(
-    modifier: Modifier,
     themes: List<AppTheme>,
     currentTheme: AppTheme,
-    onThemeSelect: (AppTheme) -> Unit
+    onThemeSelect: (AppTheme) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier

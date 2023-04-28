@@ -52,7 +52,6 @@ fun AuthRoute(
     viewModel: AuthViewModel = hiltViewModel()
 ) {
     AuthScreenContent(
-        modifier = modifier,
         error = viewModel.error,
         loading = viewModel.loading,
         onBackClick = onBackClick,
@@ -60,17 +59,18 @@ fun AuthRoute(
             viewModel.onSignInClick(username, password) {
                 onBackClick()
             }
-        }
+        },
+        modifier = modifier
     )
 }
 
 @Composable
 internal fun AuthScreenContent(
-    modifier: Modifier = Modifier,
     error: Throwable?,
     loading: Boolean,
     onBackClick: () -> Unit,
-    onSignInClick: (String, String) -> Unit
+    onSignInClick: (String, String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val focusManager: FocusManager = LocalFocusManager.current
     val focusRequester: FocusRequester = remember { FocusRequester() }
