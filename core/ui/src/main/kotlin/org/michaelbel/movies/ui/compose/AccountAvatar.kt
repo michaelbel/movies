@@ -26,9 +26,9 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun AccountAvatar(
-    modifier: Modifier = Modifier,
     account: AccountDb,
-    fontSize: TextUnit
+    fontSize: TextUnit,
+    modifier: Modifier = Modifier
 ) {
     if (account.avatarUrl.isNotEmpty()) {
         AsyncImage(
@@ -68,10 +68,9 @@ private fun AccountAvatarPreview(
 ) {
     MoviesTheme {
         AccountAvatar(
-            modifier = Modifier
-                .size(32.dp),
             account = account,
-            fontSize = account.lettersTextFontSizeSmall
+            fontSize = account.lettersTextFontSizeSmall,
+            modifier = Modifier.size(32.dp),
         )
     }
 }

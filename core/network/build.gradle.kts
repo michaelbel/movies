@@ -1,6 +1,8 @@
+@Suppress("dsl_scope_violation")
 plugins {
-    id("movies-android-library")
-    id("kotlinx-serialization")
+    alias(libs.plugins.library)
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlin.serialization)
     id("movies-android-hilt")
 }
 
@@ -20,10 +22,19 @@ android {
         }
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
             "-opt-in=kotlinx.serialization.ExperimentalSerializationApi"
         )
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     lint {

@@ -1,5 +1,7 @@
+@Suppress("dsl_scope_violation")
 plugins {
-    id("movies-android-library")
+    alias(libs.plugins.library)
+    alias(libs.plugins.kotlin)
 }
 
 android {
@@ -18,6 +20,11 @@ android {
         }
     }
 
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+    }
+
     lint {
         quiet = true
         abortOnError = false
@@ -28,5 +35,5 @@ android {
 }
 
 dependencies {
-    api(libs.play.services.ads)
+    /*api(libs.play.services.ads)*/
 }

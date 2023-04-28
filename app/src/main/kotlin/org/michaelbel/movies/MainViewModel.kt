@@ -3,7 +3,11 @@ package org.michaelbel.movies
 import android.os.Bundle
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.navigation.NavDestination
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -12,11 +16,13 @@ import org.michaelbel.movies.analytics.MoviesAnalytics
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.interactor.settings.SettingsInteractor
-import javax.inject.Inject
+import org.michaelbel.movies.domain.workers.AccountUpdateWorker
+import org.michaelbel.movies.domain.workers.MoviesDatabaseWorker
 
 @HiltViewModel
 internal class MainViewModel @Inject constructor(
     private val settingsInteractor: SettingsInteractor,
+    private val workManager: WorkManager,
     private val analytics: MoviesAnalytics
 ): BaseViewModel() {
 
@@ -43,6 +49,8 @@ internal class MainViewModel @Inject constructor(
 
     init {
         fetchRemoteConfig()
+        prepopulateDatabase()
+        updateAccountDetails()
     }
 
     fun analyticsTrackDestination(destination: NavDestination, arguments: Bundle?) {
@@ -51,5 +59,22 @@ internal class MainViewModel @Inject constructor(
 
     private fun fetchRemoteConfig() = launch {
         settingsInteractor.fetchRemoteConfig()
+    }
+
+    private fun prepopulateDatabase() {
+        val request = OneTimeWorkRequestBuilder<MoviesDatabaseWorker>()
+            .setInputData(workDataOf(MoviesDatabaseWorker.KEY_FILENAME to MOVIES_DATA_FILENAME))
+            .build()
+        workManager.enqueue(request)
+    }
+
+    private fun updateAccountDetails() {
+        val request = OneTimeWorkRequestBuilder<AccountUpdateWorker>()
+            .build()
+        workManager.enqueue(request)
+    }
+
+    private companion object {
+        private const val MOVIES_DATA_FILENAME = "movies.json"
     }
 }

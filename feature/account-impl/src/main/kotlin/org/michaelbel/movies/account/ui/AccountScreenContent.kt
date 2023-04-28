@@ -1,4 +1,4 @@
-package org.michaelbel.movies.auth.ui
+package org.michaelbel.movies.account.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -23,8 +23,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.michaelbel.movies.account.AccountViewModel
 import org.michaelbel.movies.account_impl.R
-import org.michaelbel.movies.auth.AccountViewModel
 import org.michaelbel.movies.domain.data.entity.AccountDb
 import org.michaelbel.movies.domain.data.ktx.orEmpty
 import org.michaelbel.movies.ui.compose.AccountAvatar
@@ -37,34 +37,31 @@ fun AccountRoute(
     viewModel: AccountViewModel = hiltViewModel()
 ) {
     val account: AccountDb? by viewModel.account.collectAsStateWithLifecycle()
-    val loading: Boolean by viewModel.loading.collectAsStateWithLifecycle()
 
     AccountScreenContent(
-        modifier = modifier,
         account = account.orEmpty,
-        loading = loading,
+        loading = viewModel.loading,
         onBackClick = onBackClick,
         onLogoutClick = {
             viewModel.onLogoutClick {
                 onBackClick()
             }
-        }
+        },
+        modifier = modifier
     )
 }
 
 @Composable
 internal fun AccountScreenContent(
-    modifier: Modifier = Modifier,
     account: AccountDb,
     loading: Boolean,
     onBackClick: () -> Unit,
-    onLogoutClick: () -> Unit
+    onLogoutClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
         modifier
-            .padding(
-                horizontal = 16.dp
-            )
+            .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .background(
                 color = MaterialTheme.colorScheme.primaryContainer,
@@ -95,15 +92,15 @@ internal fun AccountScreenContent(
         )
 
         AccountAvatar(
+            account = account,
+            fontSize = account.lettersTextFontSizeLarge,
             modifier = Modifier
                 .constrainAs(accountAvatar) {
                     width = Dimension.value(64.dp)
                     height = Dimension.value(64.dp)
                     start.linkTo(parent.start, 16.dp)
                     top.linkTo(toolbar.bottom)
-                },
-            account = account,
-            fontSize = account.lettersTextFontSizeLarge
+                }
         )
 
         Column(
@@ -122,26 +119,29 @@ internal fun AccountScreenContent(
             if (account.name.isNotEmpty()) {
                 Text(
                     text = account.name,
-                    color = MaterialTheme.colorScheme.primary,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        color = MaterialTheme.colorScheme.primary
+                    )
                 )
             }
 
             if (account.username.isNotEmpty()) {
                 Text(
                     text = account.username,
-                    color = MaterialTheme.colorScheme.secondary,
                     overflow = TextOverflow.Ellipsis,
                     maxLines = 1,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.secondary
+                    )
                 )
             }
         }
 
         if (account.country.isNotEmpty()) {
             AccountCountryBox(
+                country = account.country,
                 modifier = Modifier
                     .constrainAs(countryBox) {
                         width = Dimension.fillToConstraints
@@ -149,8 +149,7 @@ internal fun AccountScreenContent(
                         start.linkTo(parent.start, 16.dp)
                         top.linkTo(accountAvatar.bottom, 8.dp)
                         end.linkTo(parent.end, 16.dp)
-                    },
-                country = account.country
+                    }
             )
         }
 

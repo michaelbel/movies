@@ -18,7 +18,7 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun DetailsFailure(
+fun DetailsFailure(
     modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
@@ -51,9 +51,10 @@ internal fun DetailsFailure(
                     top.linkTo(image.bottom, 8.dp)
                     end.linkTo(parent.end, 16.dp)
                 },
-            color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium.copy(
+                color = MaterialTheme.colorScheme.onBackground
+            )
         )
     }
 }

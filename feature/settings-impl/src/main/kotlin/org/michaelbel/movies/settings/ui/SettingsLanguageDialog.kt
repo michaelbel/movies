@@ -17,6 +17,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -30,7 +31,7 @@ import org.michaelbel.movies.ui.preview.provider.LanguagePreviewParameterProvide
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun SettingLanguageDialog(
+fun SettingLanguageDialog(
     languages: List<AppLanguage>,
     currentLanguage: AppLanguage,
     onLanguageSelect: (AppLanguage) -> Unit,
@@ -41,25 +42,35 @@ internal fun SettingLanguageDialog(
         confirmButton = {
             TextButton(
                 onClick = onDismissRequest,
+                modifier = Modifier
+                    .testTag("ConfirmTextButton")
             ) {
                 Text(
                     text = stringResource(R.string.settings_action_cancel),
-                    color = MaterialTheme.colorScheme.primary,
-                    style = MaterialTheme.typography.labelLarge
+                    modifier = Modifier
+                        .testTag("ConfirmText"),
+                    style = MaterialTheme.typography.labelLarge.copy(
+                        color = MaterialTheme.colorScheme.primary
+                    )
                 )
             }
         },
         icon = {
             Icon(
                 imageVector = MoviesIcons.Language,
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier
+                    .testTag("Icon")
             )
         },
         title = {
             Text(
                 text = stringResource(R.string.settings_language),
-                color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.headlineSmall
+                modifier = Modifier
+                    .testTag("Title"),
+                style = MaterialTheme.typography.headlineSmall.copy(
+                    color = MaterialTheme.colorScheme.onSurface
+                )
             )
         },
         text = {
@@ -69,7 +80,8 @@ internal fun SettingLanguageDialog(
                 onLanguageSelect = { language ->
                     onLanguageSelect(language)
                     onDismissRequest()
-                }
+                },
+                modifier = Modifier.testTag("Content")
             )
         },
         shape = RoundedCornerShape(28.dp),
@@ -87,9 +99,12 @@ internal fun SettingLanguageDialog(
 private fun SettingLanguageDialogContent(
     languages: List<AppLanguage>,
     currentLanguage: AppLanguage,
-    onLanguageSelect: (AppLanguage) -> Unit
+    onLanguageSelect: (AppLanguage) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         languages.forEach { language: AppLanguage ->
             Row(
                 modifier = Modifier
@@ -108,19 +123,16 @@ private fun SettingLanguageDialogContent(
                         unselectedColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6F)
                     ),
                     modifier = Modifier
-                        .padding(
-                            start = 16.dp
-                        )
+                        .padding(start = 16.dp)
                 )
 
                 Text(
                     text = language.languageText,
                     modifier = Modifier
-                        .padding(
-                            start = 8.dp
-                        ),
-                    color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.bodyLarge
+                        .padding(start = 8.dp),
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
                 )
             }
         }

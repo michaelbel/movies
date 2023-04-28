@@ -19,7 +19,7 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun AuthToolbar(
+fun AuthToolbar(
     modifier: Modifier = Modifier,
     onNavigationIconClick: () -> Unit
 ) {
@@ -27,10 +27,11 @@ internal fun AuthToolbar(
         title = {
             Text(
                 text = stringResource(R.string.auth_title),
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge.copy(
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
             )
         },
         modifier = modifier,

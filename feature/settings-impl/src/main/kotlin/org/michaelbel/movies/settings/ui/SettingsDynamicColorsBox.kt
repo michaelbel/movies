@@ -21,12 +21,11 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun SettingsDynamicColorsBox(
-    modifier: Modifier = Modifier,
-    isDynamicColorsEnabled: Boolean
+    isDynamicColorsEnabled: Boolean,
+    modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
-        modifier = modifier
-            .testTag("ConstraintLayout")
+        modifier = modifier.testTag("ConstraintLayout")
     ) {
         val (title, value) = createRefs()
 
@@ -41,8 +40,9 @@ fun SettingsDynamicColorsBox(
                     bottom.linkTo(parent.bottom)
                 }
                 .testTag("Text"),
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge.copy(
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
         )
 
         Switch(
@@ -68,11 +68,11 @@ private fun SettingsDynamicColorsBoxPreview(
 ) {
     MoviesTheme {
         SettingsDynamicColorsBox(
+            isDynamicColorsEnabled = isEnabled,
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
-                .background(MaterialTheme.colorScheme.primaryContainer),
-            isDynamicColorsEnabled = isEnabled
+                .background(MaterialTheme.colorScheme.primaryContainer)
         )
     }
 }

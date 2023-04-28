@@ -8,6 +8,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -20,8 +21,9 @@ import org.michaelbel.movies.ui.preview.provider.MovieDbPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun ShareButton(
-    movieUrl: String
+fun DetailsShareButton(
+    movieUrl: String,
+    modifier: Modifier = Modifier
 ) {
     val context: Context = LocalContext.current
     val resultContract = rememberLauncherForActivityResult(
@@ -39,7 +41,8 @@ internal fun ShareButton(
                     Intent.createChooser(intent, context.getString(R.string.details_share_via))
                 )
             }
-        }
+        },
+        modifier = modifier
     ) {
         Image(
             imageVector = MoviesIcons.Share,
@@ -55,7 +58,7 @@ private fun ShareButtonPreview(
     @PreviewParameter(MovieDbPreviewParameterProvider::class) movie: MovieDb
 ) {
     MoviesTheme {
-        ShareButton(
+        DetailsShareButton(
             movieUrl = movie.url
         )
     }

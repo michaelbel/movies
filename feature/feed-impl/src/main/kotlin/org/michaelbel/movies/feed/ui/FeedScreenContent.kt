@@ -59,7 +59,6 @@ fun FeedRoute(
     val networkStatus: NetworkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
 
     FeedScreenContent(
-        modifier = modifier,
         pagingItems = pagingItems,
         account = account.orEmpty,
         networkStatus = networkStatus,
@@ -67,13 +66,13 @@ fun FeedRoute(
         onNavigateToAuth = onNavigateToAuth,
         onNavigateToAccount = onNavigateToAccount,
         onNavigateToSettings = onNavigateToSettings,
-        onNavigateToDetails = onNavigateToDetails
+        onNavigateToDetails = onNavigateToDetails,
+        modifier = modifier
     )
 }
 
 @Composable
 private fun FeedScreenContent(
-    modifier: Modifier = Modifier,
     pagingItems: LazyPagingItems<MovieDb>,
     account: AccountDb,
     networkStatus: NetworkStatus,
@@ -81,7 +80,8 @@ private fun FeedScreenContent(
     onNavigateToAuth: () -> Unit,
     onNavigateToAccount: () -> Unit,
     onNavigateToSettings: () -> Unit,
-    onNavigateToDetails: (Int) -> Unit
+    onNavigateToDetails: (Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val context: Context = LocalContext.current
     val scope: CoroutineScope = rememberCoroutineScope()
@@ -167,12 +167,11 @@ private fun FeedScreenContent(
             }
             else -> {
                 FeedContent(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    paddingValues = paddingValues,
                     listState = listState,
                     pagingItems = pagingItems,
-                    onMovieClick = onNavigateToDetails
+                    onMovieClick = onNavigateToDetails,
+                    contentPadding = paddingValues,
+                    modifier = Modifier.fillMaxSize()
                 )
             }
         }

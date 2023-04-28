@@ -32,9 +32,9 @@ import org.michaelbel.movies.ui.preview.provider.MoviePreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun FeedMovieBox(
-    modifier: Modifier = Modifier,
-    movie: MovieDb
+fun FeedMovieBox(
+    movie: MovieDb,
+    modifier: Modifier = Modifier
 ) {
     var isNoImageVisible: Boolean by remember { mutableStateOf(false) }
 
@@ -78,8 +78,9 @@ internal fun FeedMovieBox(
         ) {
             Text(
                 text = stringResource(R.string.feed_no_image),
-                color = MaterialTheme.colorScheme.secondary,
-                style = MaterialTheme.typography.bodyLarge
+                style = MaterialTheme.typography.bodyLarge.copy(
+                    color = MaterialTheme.colorScheme.secondary
+                )
             )
         }
 
@@ -94,10 +95,11 @@ internal fun FeedMovieBox(
                     end.linkTo(parent.end, 16.dp)
                     bottom.linkTo(parent.bottom, 16.dp)
                 },
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
             maxLines = 10,
             overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge.copy(
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
         )
     }
 }
@@ -109,6 +111,7 @@ private fun MovieBoxPreview(
 ) {
     MoviesTheme {
         FeedMovieBox(
+            movie = movie,
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(
@@ -116,8 +119,7 @@ private fun MovieBoxPreview(
                     vertical = 4.dp
                 )
                 .clip(MaterialTheme.shapes.small)
-                .background(MaterialTheme.colorScheme.inversePrimary),
-            movie = movie
+                .background(MaterialTheme.colorScheme.inversePrimary)
         )
     }
 }

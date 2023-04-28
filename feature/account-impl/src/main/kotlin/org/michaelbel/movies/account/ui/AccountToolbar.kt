@@ -1,4 +1,4 @@
-package org.michaelbel.movies.auth.ui
+package org.michaelbel.movies.account.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,7 +19,7 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun AccountToolbar(
+fun AccountToolbar(
     modifier: Modifier = Modifier,
     onNavigationIconClick: () -> Unit
 ) {
@@ -27,10 +27,11 @@ internal fun AccountToolbar(
         title = {
             Text(
                 text = stringResource(R.string.account_title),
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge.copy(
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
             )
         },
         modifier = modifier,

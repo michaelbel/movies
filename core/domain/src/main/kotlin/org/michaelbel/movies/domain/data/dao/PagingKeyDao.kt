@@ -10,7 +10,7 @@ import org.michaelbel.movies.domain.data.entity.PagingKeyDb
  * The Data Access Object for the [PagingKeyDb] class.
  */
 @Dao
-interface PagingKeyDao {
+internal interface PagingKeyDao {
 
     @Query("SELECT * FROM pagingkeys WHERE movieList = :movieList")
     suspend fun pagingKey(movieList: String): PagingKeyDb?

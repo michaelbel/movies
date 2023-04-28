@@ -17,7 +17,7 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun FeedApiKeyBox(
+fun FeedApiKeyBox(
     modifier: Modifier = Modifier
 ) {
     Column(
@@ -27,8 +27,9 @@ internal fun FeedApiKeyBox(
     ) {
         Text(
             text = stringResource(R.string.feed_error_api_key_null),
-            color = MaterialTheme.colorScheme.onBackground,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge.copy(
+                color = MaterialTheme.colorScheme.onBackground
+            )
         )
     }
 }

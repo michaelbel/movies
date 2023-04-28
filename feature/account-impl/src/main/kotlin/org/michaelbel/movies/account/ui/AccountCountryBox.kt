@@ -1,4 +1,4 @@
-package org.michaelbel.movies.auth.ui
+package org.michaelbel.movies.account.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -19,9 +19,9 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun AccountCountryBox(
-    modifier: Modifier = Modifier,
-    country: String
+fun AccountCountryBox(
+    country: String,
+    modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier,
@@ -31,21 +31,18 @@ internal fun AccountCountryBox(
         Icon(
             imageVector = MoviesIcons.LocationOn,
             contentDescription = null,
-            modifier = Modifier
-                .size(24.dp),
+            modifier = Modifier.size(24.dp),
             tint = MaterialTheme.colorScheme.onPrimaryContainer
         )
 
         Text(
             text = country,
-            modifier = Modifier
-                .padding(
-                    start = 4.dp
-                ),
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
+            modifier = Modifier.padding(start = 4.dp),
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.bodySmall.copy(
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
         )
     }
 }
@@ -55,10 +52,10 @@ internal fun AccountCountryBox(
 private fun AccountCountryBoxPreview() {
     MoviesTheme {
         AccountCountryBox(
+            country = "Finland",
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.primaryContainer),
-            country = "Finland"
+                .background(MaterialTheme.colorScheme.primaryContainer)
         )
     }
 }

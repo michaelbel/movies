@@ -19,7 +19,7 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun FeedLoading(
+fun FeedLoading(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues = PaddingValues(),
 ) {
@@ -29,6 +29,7 @@ internal fun FeedLoading(
     ) {
         items(MovieResponse.DEFAULT_PAGE_SIZE) {
             FeedMovieBox(
+                movie = MovieDb.Empty,
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(
@@ -40,8 +41,7 @@ internal fun FeedLoading(
                         color = MaterialTheme.colorScheme.inversePrimary,
                         shape = MaterialTheme.shapes.small,
                         highlight = PlaceholderHighlight.fade()
-                    ),
-                movie = MovieDb.Empty
+                    )
             )
         }
     }

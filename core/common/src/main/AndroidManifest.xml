@@ -11,9 +11,9 @@
             android:exported="false"
             tools:node="merge">
 
-            <meta-data
+            <!--<meta-data
                 android:name="org.michaelbel.movies.common.crashlytics.FirebaseCrashlyticsInitializer"
-                android:value="androidx.startup"/>
+                android:value="androidx.startup"/>-->
 
             <meta-data
                 android:name="org.michaelbel.movies.common.timber.TimberInitializer"

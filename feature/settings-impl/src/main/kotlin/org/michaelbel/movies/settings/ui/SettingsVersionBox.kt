@@ -24,13 +24,12 @@ import org.michaelbel.movies.ui.preview.provider.VersionPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun SettingsLanguageBox(
-    modifier: Modifier = Modifier,
-    appVersionData: AppVersionData
+fun SettingsVersionBox(
+    appVersionData: AppVersionData,
+    modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
-        modifier = modifier
-            .testTag("ConstraintLayout")
+        modifier = modifier.testTag("ConstraintLayout")
     ) {
         val (icon, version, code) = createRefs()
         createHorizontalChain(icon, version, code, chainStyle = ChainStyle.Packed)
@@ -46,7 +45,8 @@ fun SettingsLanguageBox(
                     top.linkTo(parent.top)
                     end.linkTo(version.start)
                     bottom.linkTo(parent.bottom)
-                },
+                }
+                .testTag("Icon"),
             tint = MaterialTheme.colorScheme.primary
         )
 
@@ -63,8 +63,9 @@ fun SettingsLanguageBox(
                 }
                 .padding(start = 4.dp)
                 .testTag("TitleText"),
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium.copy(
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
         )
 
         Text(
@@ -80,24 +81,25 @@ fun SettingsLanguageBox(
                 }
                 .padding(start = 2.dp)
                 .testTag("ValueText"),
-            color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.bodySmall
+            style = MaterialTheme.typography.bodySmall.copy(
+                color = MaterialTheme.colorScheme.primary
+            )
         )
     }
 }
 
 @Composable
 @DevicePreviews
-private fun SettingsLanguageBoxPreview(
+private fun SettingsVersionBoxPreview(
     @PreviewParameter(VersionPreviewParameterProvider::class) appVersionData: AppVersionData
 ) {
     MoviesTheme {
-        SettingsLanguageBox(
+        SettingsVersionBox(
+            appVersionData = appVersionData,
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight()
-                .background(MaterialTheme.colorScheme.primaryContainer),
-            appVersionData = appVersionData
+                .background(MaterialTheme.colorScheme.primaryContainer)
         )
     }
 }

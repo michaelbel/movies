@@ -22,21 +22,22 @@ import org.michaelbel.movies.ui.ktx.isPagingFailure
 import org.michaelbel.movies.ui.ktx.isPagingLoading
 
 @Composable
-internal fun FeedContent(
-    modifier: Modifier = Modifier,
-    paddingValues: PaddingValues = PaddingValues(),
+fun FeedContent(
     listState: LazyListState,
     pagingItems: LazyPagingItems<MovieDb>,
-    onMovieClick: (Int) -> Unit
+    onMovieClick: (Int) -> Unit,
+    contentPadding: PaddingValues,
+    modifier: Modifier = Modifier,
 ) {
     LazyColumn(
         modifier = modifier,
         state = listState,
-        contentPadding = paddingValues
+        contentPadding = contentPadding
     ) {
         items(pagingItems) { movieItem ->
             movieItem?.let { movie ->
                 FeedMovieBox(
+                    movie = movie,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(
@@ -47,8 +48,7 @@ internal fun FeedContent(
                         .background(MaterialTheme.colorScheme.inversePrimary)
                         .clickable {
                             onMovieClick(movie.movieId)
-                        },
-                    movie = movie
+                        }
                 )
             }
         }

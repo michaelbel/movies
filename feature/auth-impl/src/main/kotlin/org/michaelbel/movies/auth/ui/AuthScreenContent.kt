@@ -41,7 +41,6 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.michaelbel.movies.auth.AuthViewModel
 import org.michaelbel.movies.auth_impl.R
 import org.michaelbel.movies.ui.icons.MoviesIcons
@@ -52,29 +51,26 @@ fun AuthRoute(
     modifier: Modifier = Modifier,
     viewModel: AuthViewModel = hiltViewModel()
 ) {
-    val error: Throwable? by viewModel.error.collectAsStateWithLifecycle()
-    val loading: Boolean by viewModel.loading.collectAsStateWithLifecycle()
-
     AuthScreenContent(
-        modifier = modifier,
-        error = error,
-        loading = loading,
+        error = viewModel.error,
+        loading = viewModel.loading,
         onBackClick = onBackClick,
         onSignInClick = { username, password ->
             viewModel.onSignInClick(username, password) {
                 onBackClick()
             }
-        }
+        },
+        modifier = modifier
     )
 }
 
 @Composable
 internal fun AuthScreenContent(
-    modifier: Modifier = Modifier,
     error: Throwable?,
     loading: Boolean,
     onBackClick: () -> Unit,
-    onSignInClick: (String, String) -> Unit
+    onSignInClick: (String, String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val focusManager: FocusManager = LocalFocusManager.current
     val focusRequester: FocusRequester = remember { FocusRequester() }
@@ -86,9 +82,7 @@ internal fun AuthScreenContent(
 
     ConstraintLayout(
         modifier
-            .padding(
-                horizontal = 16.dp
-            )
+            .padding(horizontal = 16.dp)
             .fillMaxWidth()
             .background(
                 color = MaterialTheme.colorScheme.primaryContainer,

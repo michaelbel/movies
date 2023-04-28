@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.startup.Initializer
 import org.michaelbel.movies.common.BuildConfig
 import org.michaelbel.movies.common.crashlytics.CrashlyticsTree
-import org.michaelbel.movies.common.crashlytics.FirebaseCrashlyticsInitializer
 import timber.log.Timber
 
 @Suppress("unused")
@@ -15,6 +14,6 @@ internal class TimberInitializer: Initializer<Unit> {
     }
 
     override fun dependencies(): List<Class<out Initializer<*>>> {
-        return listOf(FirebaseCrashlyticsInitializer::class.java)
+        return emptyList() /*listOf(FirebaseCrashlyticsInitializer::class.java)*/
     }
 }

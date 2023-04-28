@@ -63,7 +63,6 @@ fun SettingsRoute(
 
     SettingsScreenContent(
         onBackClick = onBackClick,
-        modifier = modifier,
         languages = viewModel.languages,
         currentLanguage = currentLanguage,
         onLanguageSelect = viewModel::selectLanguage,
@@ -81,14 +80,14 @@ fun SettingsRoute(
         isAppFromGooglePlay = isAppFromGooglePlay,
         networkRequestDelay = networkRequestDelay,
         onDelayChangeFinished = viewModel::setNetworkRequestDelay,
-        appVersionData = appVersionData
+        appVersionData = appVersionData,
+        modifier = modifier
     )
 }
 
 @Composable
 private fun SettingsScreenContent(
     onBackClick: () -> Unit,
-    modifier: Modifier = Modifier,
     languages: List<AppLanguage>,
     currentLanguage: AppLanguage,
     onLanguageSelect: (AppLanguage) -> Unit,
@@ -106,7 +105,8 @@ private fun SettingsScreenContent(
     isAppFromGooglePlay: Boolean,
     networkRequestDelay: Int,
     onDelayChangeFinished: (Int) -> Unit,
-    appVersionData: AppVersionData
+    appVersionData: AppVersionData,
+    modifier: Modifier = Modifier
 ) {
     val context: Context = LocalContext.current
     val scope: CoroutineScope = rememberCoroutineScope()
@@ -178,11 +178,11 @@ private fun SettingsScreenContent(
             )
         },
         bottomBar = {
-            SettingsLanguageBox(
+            SettingsVersionBox(
+                appVersionData = appVersionData,
                 modifier = Modifier
                     .navigationBarsPadding()
-                    .fillMaxWidth(),
-                appVersionData = appVersionData
+                    .fillMaxWidth()
             )
         },
         snackbarHost = {
@@ -193,48 +193,47 @@ private fun SettingsScreenContent(
         containerColor = MaterialTheme.colorScheme.primaryContainer
     ) { paddingValues: PaddingValues ->
         Column(
-            modifier = Modifier
-                .padding(paddingValues)
+            modifier = Modifier.padding(paddingValues)
         ) {
             SettingsLanguageBox(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp),
                 languages = languages,
                 currentLanguage = currentLanguage,
-                onLanguageSelect = onLanguageSelect
+                onLanguageSelect = onLanguageSelect,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
             )
 
             SettingsThemeBox(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp),
                 themes = themes,
                 currentTheme = currentTheme,
-                onThemeSelect = onThemeSelect
+                onThemeSelect = onThemeSelect,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(48.dp)
             )
 
             if (isDynamicColorsFeatureEnabled) {
                 SettingsDynamicColorsBox(
+                    isDynamicColorsEnabled = dynamicColors,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
                         .clickable {
                             onSetDynamicColors(!dynamicColors)
-                        },
-                    isDynamicColorsEnabled = dynamicColors
+                        }
                 )
             }
 
             if (isRtlFeatureEnabled) {
                 SettingsRtlBox(
+                    isRtlEnabled = isRtlEnabled,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
                         .clickable {
                             onEnableRtlChanged(!isRtlEnabled)
-                        },
-                    isRtlEnabled = isRtlEnabled
+                        }
                 )
             }
 
@@ -258,10 +257,9 @@ private fun SettingsScreenContent(
 
             if (BuildConfig.DEBUG) {
                 SettingsNetworkRequestDelayBox(
-                    modifier = Modifier
-                        .fillMaxWidth(),
                     delay = networkRequestDelay,
-                    onDelayChangeFinished = onDelayChangeFinished
+                    onDelayChangeFinished = onDelayChangeFinished,
+                    modifier = Modifier.fillMaxWidth()
                 )
             }
         }

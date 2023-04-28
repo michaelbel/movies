@@ -27,10 +27,10 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun SettingsLanguageBox(
-    modifier: Modifier = Modifier,
     languages: List<AppLanguage>,
     currentLanguage: AppLanguage,
-    onLanguageSelect: (AppLanguage) -> Unit
+    onLanguageSelect: (AppLanguage) -> Unit,
+    modifier: Modifier = Modifier,
 ) {
     var languageDialog: Boolean by remember { mutableStateOf(false) }
 
@@ -65,8 +65,9 @@ fun SettingsLanguageBox(
                     bottom.linkTo(parent.bottom)
                 }
                 .testTag("TitleText"),
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge.copy(
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
         )
 
         Text(
@@ -80,8 +81,9 @@ fun SettingsLanguageBox(
                     bottom.linkTo(parent.bottom)
                 }
                 .testTag("ValueText"),
-            color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge.copy(
+                color = MaterialTheme.colorScheme.primary
+            )
         )
     }
 }
@@ -93,13 +95,13 @@ private fun SettingsLanguageBoxPreview(
 ) {
     MoviesTheme {
         SettingsLanguageBox(
+            languages = listOf(AppLanguage.English, AppLanguage.Russian),
+            currentLanguage = language,
+            onLanguageSelect = {},
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
-                .background(MaterialTheme.colorScheme.primaryContainer),
-            languages = listOf(AppLanguage.English, AppLanguage.Russian),
-            currentLanguage = language,
-            onLanguageSelect = {}
+                .background(MaterialTheme.colorScheme.primaryContainer)
         )
     }
 }

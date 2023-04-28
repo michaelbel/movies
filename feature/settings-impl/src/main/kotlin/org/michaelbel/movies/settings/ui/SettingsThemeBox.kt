@@ -27,10 +27,10 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun SettingsThemeBox(
-    modifier: Modifier = Modifier,
     themes: List<AppTheme>,
     currentTheme: AppTheme,
-    onThemeSelect: (AppTheme) -> Unit
+    onThemeSelect: (AppTheme) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     var themeDialog: Boolean by remember { mutableStateOf(false) }
 
@@ -65,8 +65,9 @@ fun SettingsThemeBox(
                     bottom.linkTo(parent.bottom)
                 }
                 .testTag("TitleText"),
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge.copy(
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
         )
 
         Text(
@@ -80,8 +81,9 @@ fun SettingsThemeBox(
                     bottom.linkTo(parent.bottom)
                 }
                 .testTag("ValueText"),
-            color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.bodyLarge
+            style = MaterialTheme.typography.bodyLarge.copy(
+                color = MaterialTheme.colorScheme.primary
+            )
         )
     }
 }
@@ -93,13 +95,13 @@ private fun SettingsThemeBoxPreview(
 ) {
     MoviesTheme {
         SettingsThemeBox(
+            themes = listOf(AppTheme.FollowSystem, AppTheme.NightNo, AppTheme.NightYes),
+            currentTheme = theme,
+            onThemeSelect = {},
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
-                .background(MaterialTheme.colorScheme.primaryContainer),
-            themes = listOf(AppTheme.FollowSystem, AppTheme.NightNo, AppTheme.NightYes),
-            currentTheme = theme,
-            onThemeSelect = {}
+                .background(MaterialTheme.colorScheme.primaryContainer)
         )
     }
 }

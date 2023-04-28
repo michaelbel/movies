@@ -26,22 +26,23 @@ import org.michaelbel.movies.ui.preview.provider.BooleanPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun FeedToolbar(
-    modifier: Modifier = Modifier,
+fun FeedToolbar(
     account: AccountDb,
     isSettingsIconVisible: Boolean,
     onAuthIconClick: () -> Unit,
     onAccountIconClick: () -> Unit,
-    onSettingsIconClick: () -> Unit
+    onSettingsIconClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     TopAppBar(
         title = {
             Text(
                 text = stringResource(R.string.feed_title),
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge.copy(
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
             )
         },
         modifier = modifier,
@@ -69,10 +70,9 @@ internal fun FeedToolbar(
                     )
                 } else {
                     AccountAvatar(
-                        modifier = Modifier
-                            .size(32.dp),
                         account = account,
-                        fontSize = account.lettersTextFontSizeSmall
+                        fontSize = account.lettersTextFontSizeSmall,
+                        modifier = Modifier.size(32.dp)
                     )
                 }
             }
@@ -90,13 +90,12 @@ private fun FeedToolbarPreview(
 ) {
     MoviesTheme {
         FeedToolbar(
-            modifier = Modifier
-                .statusBarsPadding(),
             account = AccountDb.Empty,
             isSettingsIconVisible = visible,
             onAccountIconClick = {},
             onAuthIconClick = {},
-            onSettingsIconClick = {}
+            onSettingsIconClick = {},
+            modifier = Modifier.statusBarsPadding()
         )
     }
 }

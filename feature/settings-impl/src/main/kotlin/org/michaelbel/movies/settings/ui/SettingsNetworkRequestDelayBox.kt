@@ -12,6 +12,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -25,15 +26,16 @@ import kotlin.math.roundToInt
 
 @Composable
 fun SettingsNetworkRequestDelayBox(
-    modifier: Modifier = Modifier,
     delay: Int,
-    onDelayChangeFinished: (Int) -> Unit
+    onDelayChangeFinished: (Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     var sliderPosition: Float by remember { mutableStateOf(delay.toFloat()) }
     sliderPosition = delay.toFloat()
 
     ConstraintLayout(
         modifier = modifier
+            .testTag("ConstraintLayout")
     ) {
         val (title, value, slider) = createRefs()
 
@@ -45,9 +47,11 @@ fun SettingsNetworkRequestDelayBox(
                     height = Dimension.wrapContent
                     start.linkTo(parent.start, 16.dp)
                     top.linkTo(parent.top, 8.dp)
-                },
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
-            style = MaterialTheme.typography.bodyLarge
+                }
+                .testTag("TitleText"),
+            style = MaterialTheme.typography.bodyLarge.copy(
+                color = MaterialTheme.colorScheme.onPrimaryContainer
+            )
         )
 
         Text(
@@ -58,9 +62,11 @@ fun SettingsNetworkRequestDelayBox(
                     height = Dimension.wrapContent
                     top.linkTo(parent.top, 8.dp)
                     end.linkTo(parent.end, 16.dp)
-                },
-            color = MaterialTheme.colorScheme.primary,
-            style = MaterialTheme.typography.bodyLarge
+                }
+                .testTag("ValueText"),
+            style = MaterialTheme.typography.bodyLarge.copy(
+                color = MaterialTheme.colorScheme.primary
+            )
         )
 
         Slider(
@@ -76,7 +82,8 @@ fun SettingsNetworkRequestDelayBox(
                     top.linkTo(title.bottom, 4.dp)
                     end.linkTo(parent.end, 16.dp)
                     bottom.linkTo(parent.bottom, 8.dp)
-                },
+                }
+                .testTag("Slider"),
             valueRange = 0F..10000F,
             steps = 9,
             onValueChangeFinished = {

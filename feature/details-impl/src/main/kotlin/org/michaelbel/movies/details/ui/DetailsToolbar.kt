@@ -21,20 +21,21 @@ import org.michaelbel.movies.ui.preview.provider.TitlePreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun DetailsToolbar(
-    modifier: Modifier = Modifier,
-    onNavigationIconClick: () -> Unit,
+fun DetailsToolbar(
     movieTitle: String,
-    movieUrl: String?
+    movieUrl: String?,
+    onNavigationIconClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     TopAppBar(
         title = {
             Text(
                 text = movieTitle,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
-                style = MaterialTheme.typography.titleLarge
+                style = MaterialTheme.typography.titleLarge.copy(
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
             )
         },
         modifier = modifier,
@@ -44,7 +45,7 @@ internal fun DetailsToolbar(
                 enter = fadeIn()
             ) {
                 if (movieUrl != null) {
-                    ShareButton(
+                    DetailsShareButton(
                         movieUrl = movieUrl
                     )
                 }
@@ -76,11 +77,10 @@ private fun DetailsToolbarPreview(
 ) {
     MoviesTheme {
         DetailsToolbar(
-            modifier = Modifier
-                .statusBarsPadding(),
-            onNavigationIconClick = {},
             movieTitle = title,
-            movieUrl = null
+            movieUrl = null,
+            onNavigationIconClick = {},
+            modifier = Modifier.statusBarsPadding()
         )
     }
 }

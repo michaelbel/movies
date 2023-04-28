@@ -17,6 +17,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -42,25 +43,35 @@ internal fun SettingThemeDialog(
         confirmButton = {
             TextButton(
                 onClick = onDismissRequest,
+                modifier = Modifier
+                    .testTag("ConfirmTextButton")
             ) {
                 Text(
                     text = stringResource(R.string.settings_action_cancel),
-                    color = MaterialTheme.colorScheme.primary,
-                    style = MaterialTheme.typography.labelLarge
+                    modifier = Modifier
+                        .testTag("ConfirmText"),
+                    style = MaterialTheme.typography.labelLarge.copy(
+                        color = MaterialTheme.colorScheme.primary
+                    )
                 )
             }
         },
         icon = {
             Icon(
                 painter = painterResource(MoviesIcons.ThemeLightDark),
-                contentDescription = null
+                contentDescription = null,
+                modifier = Modifier
+                    .testTag("Icon")
             )
         },
         title = {
             Text(
                 text = stringResource(R.string.settings_theme),
-                color = MaterialTheme.colorScheme.onSurface,
-                style = MaterialTheme.typography.headlineSmall
+                modifier = Modifier
+                    .testTag("Title"),
+                style = MaterialTheme.typography.headlineSmall.copy(
+                    color = MaterialTheme.colorScheme.onSurface
+                )
             )
         },
         text = {
@@ -70,7 +81,8 @@ internal fun SettingThemeDialog(
                 onThemeSelect = { theme ->
                     onThemeSelect(theme)
                     onDismissRequest()
-                }
+                },
+                modifier = Modifier.testTag("Content")
             )
         },
         shape = RoundedCornerShape(28.dp),
@@ -88,9 +100,12 @@ internal fun SettingThemeDialog(
 private fun SettingThemeDialogContent(
     themes: List<AppTheme>,
     currentTheme: AppTheme,
-    onThemeSelect: (AppTheme) -> Unit
+    onThemeSelect: (AppTheme) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    Column {
+    Column(
+        modifier = modifier
+    ) {
         themes.forEach { theme: AppTheme ->
             Row(
                 modifier = Modifier
@@ -109,19 +124,16 @@ private fun SettingThemeDialogContent(
                         unselectedColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6F)
                     ),
                     modifier = Modifier
-                        .padding(
-                            start = 16.dp
-                        )
+                        .padding(start = 16.dp)
                 )
 
                 Text(
                     text = theme.themeText,
                     modifier = Modifier
-                        .padding(
-                            start = 8.dp
-                        ),
-                    color = MaterialTheme.colorScheme.onBackground,
-                    style = MaterialTheme.typography.bodyLarge
+                        .padding(start = 8.dp),
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
                 )
             }
         }
