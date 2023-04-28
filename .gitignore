@@ -708,3 +708,7 @@
 /.gradle/7.6/checksums/sha1-checksums.bin
 /buildSrc/.gradle/7.6/checksums/sha1-checksums.bin
 /config/movies.jks
+/.gradle/
+/.idea/
+/buildSrc/build/classes/kotlin/main/ktx/
+/buildSrc/.gradle/
