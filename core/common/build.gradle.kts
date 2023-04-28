@@ -1,6 +1,7 @@
+@Suppress("dsl_scope_violation")
 plugins {
-    id("movies-android-library")
-    id("movies-android-library-compose")
+    alias(libs.plugins.library)
+    alias(libs.plugins.kotlin)
     id("movies-android-hilt")
 }
 
@@ -29,11 +30,17 @@ android {
     }
 
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     lint {
@@ -60,4 +67,6 @@ dependencies {
     implementation(libs.firebase.crashlytics)
     implementation(libs.androidx.startup.runtime)
     implementation(libs.androidx.browser)
+
+    lintChecks(libs.lint.checks)
 }

@@ -1,5 +1,7 @@
+@Suppress("dsl_scope_violation")
 plugins {
-    id("movies-android-library")
+    alias(libs.plugins.library)
+    alias(libs.plugins.kotlin)
     id("movies-android-hilt")
 }
 
@@ -17,6 +19,11 @@ android {
             matchingFallbacks += listOf("release")
             initWith(getByName("release"))
         }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     lint {

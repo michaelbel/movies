@@ -75,14 +75,13 @@ fun SettingLanguageDialog(
         },
         text = {
             SettingLanguageDialogContent(
-                modifier = Modifier
-                    .testTag("Content"),
                 languages = languages,
                 currentLanguage = currentLanguage,
                 onLanguageSelect = { language ->
                     onLanguageSelect(language)
                     onDismissRequest()
-                }
+                },
+                modifier = Modifier.testTag("Content")
             )
         },
         shape = RoundedCornerShape(28.dp),
@@ -98,10 +97,10 @@ fun SettingLanguageDialog(
 
 @Composable
 private fun SettingLanguageDialogContent(
-    modifier: Modifier,
     languages: List<AppLanguage>,
     currentLanguage: AppLanguage,
-    onLanguageSelect: (AppLanguage) -> Unit
+    onLanguageSelect: (AppLanguage) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier

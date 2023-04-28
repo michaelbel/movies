@@ -32,8 +32,8 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Clean Architecture](https://d.android.com/topic/architecture)
 - [x] [TMDB API](https://developers.themoviedb.org/3/getting-started)
 - [x] [KTS Gradle Files](https://d.android.com/studio/build/migrate-to-kts)
-- [x] [Kotlin Symbol Processing API](https://d.android.com/studio/build/migrate-to-ksp) 1.8.10-1.0.9
-- [x] [Gradle Plugin](https://d.android.com/studio/releases/gradle-plugin) 7.4.2
+- [x] [Kotlin Symbol Processing API](https://d.android.com/studio/build/migrate-to-ksp) 1.8.20-1.0.11
+- [x] [Gradle Plugin](https://d.android.com/studio/releases/gradle-plugin) 8.0.0
 - [x] Gradle Version Catalog
 - [x] MinSDK 21
 - [x] TargetSDK 33
@@ -42,9 +42,9 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Dark Theme](https://d.android.com/develop/ui/views/theming/darktheme)
 - [x] [Dynamic Colors](https://d.android.com/develop/ui/views/theming/dynamic-colors)
 - [x] [Themed App Icon](https://d.android.com/develop/ui/views/launch/icon_design_adaptive)
-- [x] 100% [Kotlin](https://d.android.com/kotlin) 1.8.10
-- [x] 100% [Jetpack Compose](https://d.android.com/jetpack/compose) 1.4.3
-- [x] [Accompanist](https://github.com/google/accompanist) 0.30.0
+- [x] 100% [Kotlin](https://d.android.com/kotlin) 1.8.20
+- [x] 100% [Jetpack Compose](https://d.android.com/jetpack/compose) 1.4.6
+- [x] [Accompanist](https://github.com/google/accompanist) 0.30.1
 - [x] [Compose PreviewParameterProvider](https://d.android.com/jetpack/compose/tooling#previewparameter)
 - [x] [Downloadable Fonts](https://d.android.com/develop/ui/views/text-and-emoji/downloadable-fonts)
 - [x] [KotlinX Coroutines](https://github.com/Kotlin/kotlinx.coroutines) 1.6.4
@@ -61,16 +61,16 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Paging](https://d.android.com/topic/libraries/architecture/paging/v3-overview) (RemoteMediator & PagingSource) 1.0.0-alpha18
 - [x] [ConstraintLayout](https://d.android.com/develop/ui/views/layout/constraint-layout)
 - [x] [Browser](https://d.android.com/jetpack/androidx/releases/browser) 1.5.0
-- [x] [OkHttp](https://github.com/square/okhttp) 4.10.0
+- [x] [OkHttp](https://github.com/square/okhttp) 4.11.0
 - [x] [Retrofit](https://github.com/square/retrofit) 2.9.0
 - [x] [Retrofit Kotlinx Converter Serialization](https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter) 0.8.0
 - [x] [Chucker](https://github.com/ChuckerTeam/chucker) 3.5.2
-- [x] [Coil](https://github.com/coil-kt/coil) 2.2.2
+- [x] [Coil](https://github.com/coil-kt/coil) 2.3.0
 - [x] [Timber](https://github.com/JakeWharton/timber) 5.0.1
 - [x] [Firebase Crashlytics](https://firebase.google.com/products/crashlytics) 18.3.6
 - [x] [Firebase App Distribution](https://firebase.google.com/products/app-distribution) 3.2.0
 - [x] [Firebase Remote Config](https://firebase.google.com/products/remote-config) 21.3.0
-- [x] [Google Analytics for Firebase](https://firebase.google.com/products/analytics) 21.2.0
+- [x] [Google Analytics for Firebase](https://firebase.google.com/products/analytics) 21.2.2
 - [x] [In-App Reviews](https://d.android.com/guide/playcore/in-app-review)
 - [x] [App Shortcuts](https://d.android.com/develop/ui/views/launch/shortcuts)
 - [x] [Dependabot](https://github.com/dependabot)
@@ -78,10 +78,10 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Github Releases](https://github.com/michaelbel/movies/releases)
 - [x] [Lint](https://d.android.com/studio/write/lint)
 - [x] [Detekt](https://github.com/detekt/detekt) 1.22.0
-- [x] [Spotless](https://github.com/diffplug/spotless) 6.17.0
+- [x] [Spotless](https://github.com/diffplug/spotless) 6.18.0
 - [x] [Distribute App via Telegram Bot](https://github.com/appleboy/telegram-action)
 - [x] [Non-Transitive R classes](https://d.android.com/studio/build/optimize-your-build#use-non-transitive-r-classes)
-- [x] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen)
+- [x] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen) 1.0.1
 - [x] [Per-App Language Preferences](https://d.android.com/guide/topics/resources/app-languages)
 - [x] [Settings Panel](https://d.android.com/reference/android/provider/Settings.Panel)
 - [x] [Benchmark](https://d.android.com/topic/performance/benchmarking/benchmarking-overview)

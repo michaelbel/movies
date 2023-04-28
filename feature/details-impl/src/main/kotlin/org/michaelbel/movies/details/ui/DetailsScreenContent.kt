@@ -33,20 +33,20 @@ fun DetailsRoute(
 
     DetailsScreenContent(
         onBackClick = onBackClick,
-        modifier = modifier,
         detailsState = detailsState,
         networkStatus = networkStatus,
-        onRetry = viewModel::retry
+        onRetry = viewModel::retry,
+        modifier = modifier
     )
 }
 
 @Composable
 private fun DetailsScreenContent(
     onBackClick: () -> Unit,
-    modifier: Modifier = Modifier,
     detailsState: ScreenState,
     networkStatus: NetworkStatus,
-    onRetry: () -> Unit
+    onRetry: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     if (networkStatus.isAvailable && detailsState.isFailure && detailsState.throwable is UnknownHostException) {
         onRetry()
@@ -56,11 +56,10 @@ private fun DetailsScreenContent(
         modifier = modifier,
         topBar = {
             DetailsToolbar(
-                modifier = Modifier
-                    .statusBarsPadding(),
-                onNavigationIconClick = onBackClick,
                 movieTitle = detailsState.toolbarTitle,
-                movieUrl = detailsState.movieUrl
+                movieUrl = detailsState.movieUrl,
+                onNavigationIconClick = onBackClick,
+                modifier = Modifier.statusBarsPadding()
             )
         },
         containerColor = MaterialTheme.colorScheme.primaryContainer

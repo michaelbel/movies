@@ -26,9 +26,9 @@ import kotlin.math.roundToInt
 
 @Composable
 fun SettingsNetworkRequestDelayBox(
-    modifier: Modifier = Modifier,
     delay: Int,
-    onDelayChangeFinished: (Int) -> Unit
+    onDelayChangeFinished: (Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     var sliderPosition: Float by remember { mutableStateOf(delay.toFloat()) }
     sliderPosition = delay.toFloat()

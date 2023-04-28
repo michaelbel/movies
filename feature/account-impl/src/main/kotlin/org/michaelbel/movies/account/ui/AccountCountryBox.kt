@@ -20,8 +20,8 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun AccountCountryBox(
-    modifier: Modifier = Modifier,
-    country: String
+    country: String,
+    modifier: Modifier = Modifier
 ) {
     Row(
         modifier = modifier,
@@ -31,15 +31,13 @@ fun AccountCountryBox(
         Icon(
             imageVector = MoviesIcons.LocationOn,
             contentDescription = null,
-            modifier = Modifier
-                .size(24.dp),
+            modifier = Modifier.size(24.dp),
             tint = MaterialTheme.colorScheme.onPrimaryContainer
         )
 
         Text(
             text = country,
-            modifier = Modifier
-                .padding(start = 4.dp),
+            modifier = Modifier.padding(start = 4.dp),
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
             style = MaterialTheme.typography.bodySmall.copy(
@@ -54,10 +52,10 @@ fun AccountCountryBox(
 private fun AccountCountryBoxPreview() {
     MoviesTheme {
         AccountCountryBox(
+            country = "Finland",
             modifier = Modifier
                 .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.primaryContainer),
-            country = "Finland"
+                .background(MaterialTheme.colorScheme.primaryContainer)
         )
     }
 }

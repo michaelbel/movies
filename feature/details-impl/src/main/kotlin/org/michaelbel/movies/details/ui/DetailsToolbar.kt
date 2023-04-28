@@ -22,10 +22,10 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun DetailsToolbar(
-    modifier: Modifier = Modifier,
-    onNavigationIconClick: () -> Unit,
     movieTitle: String,
-    movieUrl: String?
+    movieUrl: String?,
+    onNavigationIconClick: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     TopAppBar(
         title = {
@@ -77,11 +77,10 @@ private fun DetailsToolbarPreview(
 ) {
     MoviesTheme {
         DetailsToolbar(
-            modifier = Modifier
-                .statusBarsPadding(),
-            onNavigationIconClick = {},
             movieTitle = title,
-            movieUrl = null
+            movieUrl = null,
+            onNavigationIconClick = {},
+            modifier = Modifier.statusBarsPadding()
         )
     }
 }

@@ -25,11 +25,11 @@ internal class SettingsRtlBoxTest {
         composeTestRule.setContent {
             MoviesTheme {
                 SettingsRtlBox(
+                    isRtlEnabled = IS_RTL_ENABLED,
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(48.dp)
-                        .clickable {},
-                    isRtlEnabled = IS_RTL_ENABLED
+                        .clickable {}
                 )
             }
         }

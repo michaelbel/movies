@@ -1,17 +1,18 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
-import java.io.FileInputStream
 import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
+import java.io.FileInputStream
 
+@Suppress("dsl_scope_violation")
 plugins {
-    id("movies-android-application")
-    id("movies-android-application-compose")
+    alias(libs.plugins.application)
+    alias(libs.plugins.kotlin)
+    alias(libs.plugins.androidx.navigation.safeargs)
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.appdistribution)
+    alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.palantir.git)
     id("movies-android-hilt")
-    id("androidx.navigation.safeargs")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.appdistribution")
-    id("com.google.firebase.crashlytics")
-    id("com.palantir.git-version")
 }
 
 val gitCommitsCount: Int by lazy {
@@ -27,11 +28,11 @@ val currentTime: Long by lazy {
     System.currentTimeMillis()
 }
 
-val admobAppId: String by lazy {
+val admobAppId: String? by lazy {
     gradleLocalProperties(rootDir).getProperty("ADMOB_APP_ID")
 }
 
-val admobBannerId: String by lazy {
+val admobBannerId: String? by lazy {
     gradleLocalProperties(rootDir).getProperty("ADMOB_BANNER_ID")
 }
 
@@ -129,11 +130,17 @@ android {
     }
 
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
 
     lint {
@@ -165,4 +172,6 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.benchmark.junit)
+
+    lintChecks(libs.lint.checks)
 }

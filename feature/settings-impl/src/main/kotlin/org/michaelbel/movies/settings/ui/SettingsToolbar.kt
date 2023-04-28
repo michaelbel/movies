@@ -28,8 +28,7 @@ internal fun SettingsToolbar(
         title = {
             Text(
                 text = stringResource(R.string.settings_title),
-                modifier = Modifier
-                    .testTag("TitleText"),
+                modifier = Modifier.testTag("TitleText"),
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 style = MaterialTheme.typography.titleLarge.copy(
@@ -37,19 +36,16 @@ internal fun SettingsToolbar(
                 )
             )
         },
-        modifier = modifier
-            .testTag("TopAppBar"),
+        modifier = modifier.testTag("TopAppBar"),
         navigationIcon = {
             IconButton(
                 onClick = onNavigationIconClick,
-                modifier = Modifier
-                    .testTag("BackIconButton")
+                modifier = Modifier.testTag("BackIconButton")
             ) {
                 Image(
                     imageVector = MoviesIcons.ArrowBack,
                     contentDescription = null,
-                    modifier = Modifier
-                        .testTag("BackImage"),
+                    modifier = Modifier.testTag("BackImage"),
                     colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
                 )
             }
@@ -65,8 +61,7 @@ internal fun SettingsToolbar(
 private fun SettingsToolbarPreview() {
     MoviesTheme {
         SettingsToolbar(
-            modifier = Modifier
-                .statusBarsPadding(),
+            modifier = Modifier.statusBarsPadding(),
             onNavigationIconClick = {}
         )
     }
