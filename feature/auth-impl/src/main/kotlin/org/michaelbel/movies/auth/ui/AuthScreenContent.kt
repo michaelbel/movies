@@ -56,9 +56,7 @@ fun AuthRoute(
         loading = viewModel.loading,
         onBackClick = onBackClick,
         onSignInClick = { username, password ->
-            viewModel.onSignInClick(username, password) {
-                onBackClick()
-            }
+            viewModel.onSignInClick(username, password, onBackClick)
         },
         modifier = modifier
     )

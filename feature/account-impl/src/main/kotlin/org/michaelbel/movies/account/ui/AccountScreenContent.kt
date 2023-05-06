@@ -43,9 +43,7 @@ fun AccountRoute(
         loading = viewModel.loading,
         onBackClick = onBackClick,
         onLogoutClick = {
-            viewModel.onLogoutClick {
-                onBackClick()
-            }
+            viewModel.onLogoutClick(onBackClick)
         },
         modifier = modifier
     )
