@@ -8,7 +8,7 @@ compile-sdk = "33"
 # @keep
 target-sdk = "33"
 # @pin
-gradle = "8.0.0"
+gradle = "8.0.1"
 # @pin update when updating compose compiler
 kotlin = "1.8.20"
 kotlin-ksp = "1.8.20-1.0.11"
@@ -26,6 +26,7 @@ firebase-appdistribution = "3.2.0"
 firebase-config = "21.3.0"
 firebase-crashlytics-plugin = "2.9.4"
 firebase-crashlytics = "18.3.6"
+firebase-messaging = "23.1.2"
 play-core = "1.8.1"
 accompanist = "0.30.1"
 material = "1.8.0"
@@ -81,6 +82,7 @@ play-services-base = { module = "com.google.android.gms:play-services-base", ver
 firebase-analytics = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebase-analytics" }
 firebase-config = { module = "com.google.firebase:firebase-config-ktx", version.ref = "firebase-config" }
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebase-crashlytics" }
+firebase-messaging = { module = "com.google.firebase:firebase-messaging-ktx", version.ref = "firebase-messaging" }
 play-core = { module = "com.google.android.play:core-ktx", version.ref = "play-core" }
 accompanist-appcompat-theme = { module = "com.google.accompanist:accompanist-appcompat-theme", version.ref = "accompanist" }
 accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanist" }

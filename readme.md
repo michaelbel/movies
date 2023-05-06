@@ -33,7 +33,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [TMDB API](https://developers.themoviedb.org/3/getting-started)
 - [x] [KTS Gradle Files](https://d.android.com/studio/build/migrate-to-kts)
 - [x] [Kotlin Symbol Processing API](https://d.android.com/studio/build/migrate-to-ksp) 1.8.20-1.0.11
-- [x] [Gradle Plugin](https://d.android.com/studio/releases/gradle-plugin) 8.0.0
+- [x] [Gradle Plugin](https://d.android.com/studio/releases/gradle-plugin) 8.0.1
 - [x] Gradle Version Catalog
 - [x] MinSDK 21
 - [x] TargetSDK 33
@@ -70,6 +70,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Firebase Crashlytics](https://firebase.google.com/products/crashlytics) 18.3.6
 - [x] [Firebase App Distribution](https://firebase.google.com/products/app-distribution) 3.2.0
 - [x] [Firebase Remote Config](https://firebase.google.com/products/remote-config) 21.3.0
+- [ ] [Firebase Messaging](https://firebase.google.com/products/cloud-messaging) 23.1.2
 - [x] [Google Analytics for Firebase](https://firebase.google.com/products/analytics) 21.2.2
 - [x] [In-App Reviews](https://d.android.com/guide/playcore/in-app-review)
 - [x] [App Shortcuts](https://d.android.com/develop/ui/views/launch/shortcuts)
