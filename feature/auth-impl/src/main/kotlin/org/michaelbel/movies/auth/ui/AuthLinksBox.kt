@@ -1,7 +1,5 @@
 package org.michaelbel.movies.auth.ui
 
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -17,27 +15,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.auth_impl.R
-import org.michaelbel.movies.common.browser.openUrl
-import org.michaelbel.movies.entities.TMDB_PRIVACY_POLICY
-import org.michaelbel.movies.entities.TMDB_TERMS_OF_USE
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun AuthLinksBox(
+    onTermsOfUseClick: () -> Unit,
+    onPrivacyPolicyClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val toolbarColor: Int = MaterialTheme.colorScheme.primary.toArgb()
-
-    val resultContract = rememberLauncherForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {}
-
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Top,
@@ -58,7 +48,7 @@ fun AuthLinksBox(
                 modifier = Modifier
                     .padding(vertical = 16.dp)
                     .clickableWithoutRipple {
-                        openUrl(resultContract, toolbarColor, TMDB_TERMS_OF_USE)
+                        onTermsOfUseClick()
                     },
                 maxLines = 1,
                 style = MaterialTheme.typography.bodyMedium.copy(
@@ -79,7 +69,7 @@ fun AuthLinksBox(
                 modifier = Modifier
                     .padding(vertical = 16.dp)
                     .clickableWithoutRipple {
-                        openUrl(resultContract, toolbarColor, TMDB_PRIVACY_POLICY)
+                        onPrivacyPolicyClick()
                     },
                 maxLines = 1,
                 style = MaterialTheme.typography.bodyMedium.copy(
@@ -95,6 +85,8 @@ fun AuthLinksBox(
 private fun AuthLinksBoxPreview() {
     MoviesTheme {
         AuthLinksBox(
+            onTermsOfUseClick = {},
+            onPrivacyPolicyClick = {},
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.primaryContainer)
         )

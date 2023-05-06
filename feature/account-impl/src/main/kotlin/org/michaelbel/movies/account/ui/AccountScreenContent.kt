@@ -175,7 +175,7 @@ internal fun AccountScreenContent(
                 )
             } else {
                 Text(
-                    text = stringResource(R.string.account_logout).uppercase(),
+                    text = stringResource(R.string.account_logout),
                 )
             }
         }

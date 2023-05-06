@@ -5,6 +5,7 @@
     <string name="auth_label_password">Пароль</string>
     <string name="auth_reset_password">Сбросить пароль</string>
     <string name="auth_sign_in">Войти</string>
+    <string name="auth_sign_up">Зарегистрироваться</string>
     <string name="auth_login">Войти с Themoviedb</string>
     <string name="auth_terms_of_use">Terms of Use</string>
     <string name="auth_privacy_policy">Privacy Policy</string>

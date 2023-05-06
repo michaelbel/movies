@@ -1,5 +1,7 @@
 package org.michaelbel.movies.auth.ui
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -17,6 +19,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -28,6 +31,7 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.platform.SoftwareKeyboardController
@@ -44,7 +48,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import org.michaelbel.movies.auth.AuthViewModel
 import org.michaelbel.movies.auth.ktx.text
 import org.michaelbel.movies.auth_impl.R
+import org.michaelbel.movies.common.browser.openUrl
+import org.michaelbel.movies.domain.exceptions.CreateSessionWithLoginException
+import org.michaelbel.movies.entities.TMDB_PRIVACY_POLICY
+import org.michaelbel.movies.entities.TMDB_REGISTER
+import org.michaelbel.movies.entities.TMDB_RESET_PASSWORD
+import org.michaelbel.movies.entities.TMDB_TERMS_OF_USE
+import org.michaelbel.movies.entities.TMDB_URL
 import org.michaelbel.movies.ui.icons.MoviesIcons
+import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 
 @Composable
 fun AuthRoute(
@@ -71,6 +83,11 @@ internal fun AuthScreenContent(
     onSignInClick: (String, String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val resultContract = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {}
+    val toolbarColor: Int = MaterialTheme.colorScheme.primary.toArgb()
+
     val focusManager: FocusManager = LocalFocusManager.current
     val focusRequester: FocusRequester = remember { FocusRequester() }
     val keyboardController: SoftwareKeyboardController? = LocalSoftwareKeyboardController.current
@@ -93,8 +110,8 @@ internal fun AuthScreenContent(
             logo,
             usernameField,
             passwordField,
-            resetPasswordText,
-            errorBox,
+            resetPasswordButton,
+            signUpButton,
             signInButton,
             divider,
             loginButton,
@@ -123,6 +140,9 @@ internal fun AuthScreenContent(
                     start.linkTo(parent.start, 16.dp)
                     top.linkTo(toolbar.bottom, 8.dp)
                     end.linkTo(parent.end, 16.dp)
+                }
+                .clickableWithoutRipple {
+                    openUrl(resultContract, toolbarColor, TMDB_URL)
                 },
             tint = MaterialTheme.colorScheme.onPrimaryContainer
         )
@@ -162,6 +182,7 @@ internal fun AuthScreenContent(
                     focusManager.moveFocus(FocusDirection.Down)
                 }
             ),
+            singleLine = true,
             maxLines = 1
         )
 
@@ -228,22 +249,56 @@ internal fun AuthScreenContent(
                     onSignInClick(username, password)
                 }
             ),
+            singleLine = true,
             maxLines = 1
         )
 
-        /*Text(
-            text = stringResource(R.string.auth_reset_password),
+        AnimatedVisibility(
+            visible = error != null && error is CreateSessionWithLoginException,
             modifier = Modifier
-                .constrainAs(resetPasswordText) {
+                .constrainAs(resetPasswordButton) {
                     width = Dimension.wrapContent
                     height = Dimension.wrapContent
-                    start.linkTo(parent.start, 18.dp)
-                    top.linkTo(passwordField.bottom, 8.dp)
+                    start.linkTo(parent.start, 6.dp)
+                    top.linkTo(passwordField.bottom, 4.dp)
                 },
-            color = MaterialTheme.colorScheme.onPrimaryContainer,
-            fontSize = 12.sp,
-            maxLines = 1
-        )*/
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            TextButton(
+                onClick = {
+                    openUrl(resultContract, toolbarColor, TMDB_RESET_PASSWORD)
+                }
+            ) {
+                Text(
+                    text = stringResource(R.string.auth_reset_password)
+                )
+            }
+        }
+
+        AnimatedVisibility(
+            visible = error != null && error is CreateSessionWithLoginException,
+            modifier = Modifier
+                .constrainAs(signUpButton) {
+                    width = Dimension.wrapContent
+                    height = Dimension.wrapContent
+                    start.linkTo(resetPasswordButton.end, 2.dp)
+                    top.linkTo(resetPasswordButton.top)
+                    bottom.linkTo(resetPasswordButton.bottom)
+                },
+            enter = fadeIn(),
+            exit = fadeOut()
+        ) {
+            TextButton(
+                onClick = {
+                    openUrl(resultContract, toolbarColor, TMDB_REGISTER)
+                }
+            ) {
+                Text(
+                    text = stringResource(R.string.auth_sign_up)
+                )
+            }
+        }
 
         Button(
             onClick = {
@@ -254,7 +309,7 @@ internal fun AuthScreenContent(
                     width = Dimension.fillToConstraints
                     height = Dimension.wrapContent
                     start.linkTo(parent.start, 16.dp)
-                    top.linkTo(passwordField.bottom, 32.dp)
+                    top.linkTo(if (error != null && error is CreateSessionWithLoginException) resetPasswordButton.bottom else passwordField.bottom, 16.dp)
                     end.linkTo(parent.end, 16.dp)
                 },
             enabled = username.isNotEmpty() && password.isNotEmpty() && !loading,
@@ -271,7 +326,7 @@ internal fun AuthScreenContent(
                 )
             } else {
                 Text(
-                    text = stringResource(R.string.auth_sign_in).uppercase(),
+                    text = stringResource(R.string.auth_sign_in)
                 )
             }
         }
@@ -315,6 +370,12 @@ internal fun AuthScreenContent(
         }*/
 
         AuthLinksBox(
+            onTermsOfUseClick = {
+                openUrl(resultContract, toolbarColor, TMDB_TERMS_OF_USE)
+            },
+            onPrivacyPolicyClick = {
+                openUrl(resultContract, toolbarColor, TMDB_PRIVACY_POLICY)
+            },
             modifier = Modifier
                 .constrainAs(linksBox) {
                     width = Dimension.fillToConstraints
