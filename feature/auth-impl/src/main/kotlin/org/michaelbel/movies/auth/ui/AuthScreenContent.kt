@@ -42,6 +42,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import org.michaelbel.movies.auth.AuthViewModel
+import org.michaelbel.movies.auth.ktx.text
 import org.michaelbel.movies.auth_impl.R
 import org.michaelbel.movies.ui.icons.MoviesIcons
 
@@ -151,6 +152,7 @@ internal fun AuthScreenContent(
                     text = stringResource(R.string.auth_label_username)
                 )
             },
+            isError = error != null,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
@@ -206,6 +208,15 @@ internal fun AuthScreenContent(
                     }
                 }
             },
+            supportingText = {
+                if (error != null) {
+                    Text(
+                        text = error.text,
+                        color = MaterialTheme.colorScheme.error
+                    )
+                }
+            },
+            isError = error != null,
             visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Password,
@@ -219,24 +230,6 @@ internal fun AuthScreenContent(
             ),
             maxLines = 1
         )
-
-        AnimatedVisibility(
-            visible = error != null,
-            modifier = Modifier
-                .constrainAs(errorBox) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(passwordField.bottom, 8.dp)
-                    end.linkTo(parent.end, 16.dp)
-                },
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
-            AuthErrorBox(
-                error = error
-            )
-        }
 
         /*Text(
             text = stringResource(R.string.auth_reset_password),
@@ -261,7 +254,7 @@ internal fun AuthScreenContent(
                     width = Dimension.fillToConstraints
                     height = Dimension.wrapContent
                     start.linkTo(parent.start, 16.dp)
-                    top.linkTo(if (error != null) errorBox.bottom else passwordField.bottom, 32.dp)
+                    top.linkTo(passwordField.bottom, 32.dp)
                     end.linkTo(parent.end, 16.dp)
                 },
             enabled = username.isNotEmpty() && password.isNotEmpty() && !loading,

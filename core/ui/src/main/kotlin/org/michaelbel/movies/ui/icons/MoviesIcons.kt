@@ -5,7 +5,6 @@ import androidx.compose.material.icons.filled.MovieFilter
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Close
-import androidx.compose.material.icons.outlined.ErrorOutline
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.LocationOn
@@ -28,7 +27,6 @@ object MoviesIcons {
     val ArrowBack = Icons.Outlined.ArrowBack
     val Close = Icons.Outlined.Close
     val Info = Icons.Outlined.Info
-    val Error = Icons.Outlined.ErrorOutline
     val Language = Icons.Outlined.Language
     val LocationOn = Icons.Outlined.LocationOn
     val MovieFilter = Icons.Filled.MovieFilter
