@@ -12,7 +12,7 @@ gradle = "8.0.1"
 # @pin update when updating compose compiler
 kotlin = "1.8.20"
 kotlin-ksp = "1.8.20-1.0.11"
-kotlin-coroutines = "1.6.4"
+kotlin-coroutines = "1.7.0"
 kotlin-serialization = "1.5.0"
 # @pin update when updating kotlin
 compose-compiler = "1.4.6"
