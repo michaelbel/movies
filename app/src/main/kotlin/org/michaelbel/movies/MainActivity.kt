@@ -4,9 +4,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
@@ -15,6 +13,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import org.michaelbel.movies.common.theme.AppTheme
+import org.michaelbel.movies.navigation.ktx.addOnDestinationChangedListener
 import org.michaelbel.movies.ui.shortcuts.installShortcuts
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
@@ -40,20 +39,16 @@ internal class MainActivity: AppCompatActivity() {
             val layoutDirection: LayoutDirection by viewModel.layoutDirection.collectAsStateWithLifecycle()
 
             val navHostController: NavHostController = rememberNavController().apply {
-                addOnDestinationChangedListener { _, destination, arguments ->
-                    viewModel.analyticsTrackDestination(destination, arguments)
-                }
+                addOnDestinationChangedListener(viewModel::analyticsTrackDestination)
             }
 
             MoviesTheme(
                 theme = currentTheme,
                 dynamicColors = dynamicColors
             ) {
-                CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
-                    MainActivityContent(
-                        navHostController = navHostController
-                    )
-                }
+                MainActivityContent(
+                    navHostController = navHostController
+                )
             }
         }
     }
