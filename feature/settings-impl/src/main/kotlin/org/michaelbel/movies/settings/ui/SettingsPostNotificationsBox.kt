@@ -41,7 +41,9 @@ fun SettingsPostNotificationsBox(
 ) {
     val context: Context = LocalContext.current
     val notificationManager: NotificationManager = context.notificationManager
-    var areNotificationsEnabled: Boolean by remember { mutableStateOf(notificationManager.areNotificationsEnabled()) }
+    var areNotificationsEnabled: Boolean by remember {
+        mutableStateOf(notificationManager.areNotificationsEnabled())
+    }
 
     val resultContract = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()

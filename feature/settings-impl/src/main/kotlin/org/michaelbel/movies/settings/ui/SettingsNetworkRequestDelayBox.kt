@@ -18,11 +18,11 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import kotlin.math.roundToInt
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.SliderPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
-import kotlin.math.roundToInt
 
 @Composable
 fun SettingsNetworkRequestDelayBox(
@@ -34,8 +34,7 @@ fun SettingsNetworkRequestDelayBox(
     sliderPosition = delay.toFloat()
 
     ConstraintLayout(
-        modifier = modifier
-            .testTag("ConstraintLayout")
+        modifier = modifier.testTag("ConstraintLayout")
     ) {
         val (title, value, slider) = createRefs()
 

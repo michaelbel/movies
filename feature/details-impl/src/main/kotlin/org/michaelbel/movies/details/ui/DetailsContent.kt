@@ -47,8 +47,7 @@ fun DetailsContent(
     var isNoImageVisible: Boolean by remember { mutableStateOf(false) }
 
     ConstraintLayout(
-        modifier = modifier
-            .verticalScroll(scrollState)
+        modifier = modifier.verticalScroll(scrollState)
     ) {
         val (image, noImageText, title, overview) = createRefs()
 
