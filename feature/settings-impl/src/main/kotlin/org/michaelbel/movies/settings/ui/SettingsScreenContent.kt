@@ -172,8 +172,7 @@ private fun SettingsScreenContent(
         modifier = modifier,
         topBar = {
             SettingsToolbar(
-                modifier = Modifier
-                    .statusBarsPadding(),
+                modifier = Modifier.statusBarsPadding(),
                 onNavigationIconClick = onBackClick
             )
         },

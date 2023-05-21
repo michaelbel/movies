@@ -58,7 +58,6 @@ dependencies {
     api(project(":core:navigation"))
     api(project(":core:common"))
     api(project(":core:ui"))
-    implementation(project(":core:ads"))
     implementation(project(":core:domain"))
 
     testImplementation(libs.junit)

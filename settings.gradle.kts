@@ -21,7 +21,6 @@ include(
 
     ":benchmark",
 
-    ":core:ads",
     ":core:analytics",
     ":core:common",
     ":core:domain",

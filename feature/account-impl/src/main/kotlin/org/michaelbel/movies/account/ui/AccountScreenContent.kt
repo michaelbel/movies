@@ -43,9 +43,7 @@ fun AccountRoute(
         loading = viewModel.loading,
         onBackClick = onBackClick,
         onLogoutClick = {
-            viewModel.onLogoutClick {
-                onBackClick()
-            }
+            viewModel.onLogoutClick(onBackClick)
         },
         modifier = modifier
     )
@@ -177,7 +175,7 @@ internal fun AccountScreenContent(
                 )
             } else {
                 Text(
-                    text = stringResource(R.string.account_logout).uppercase(),
+                    text = stringResource(R.string.account_logout),
                 )
             }
         }

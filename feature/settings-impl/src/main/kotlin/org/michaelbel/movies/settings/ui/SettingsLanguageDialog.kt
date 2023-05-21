@@ -42,13 +42,11 @@ fun SettingLanguageDialog(
         confirmButton = {
             TextButton(
                 onClick = onDismissRequest,
-                modifier = Modifier
-                    .testTag("ConfirmTextButton")
+                modifier = Modifier.testTag("ConfirmTextButton")
             ) {
                 Text(
                     text = stringResource(R.string.settings_action_cancel),
-                    modifier = Modifier
-                        .testTag("ConfirmText"),
+                    modifier = Modifier.testTag("ConfirmText"),
                     style = MaterialTheme.typography.labelLarge.copy(
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -59,15 +57,13 @@ fun SettingLanguageDialog(
             Icon(
                 imageVector = MoviesIcons.Language,
                 contentDescription = null,
-                modifier = Modifier
-                    .testTag("Icon")
+                modifier = Modifier.testTag("Icon")
             )
         },
         title = {
             Text(
                 text = stringResource(R.string.settings_language),
-                modifier = Modifier
-                    .testTag("Title"),
+                modifier = Modifier.testTag("Title"),
                 style = MaterialTheme.typography.headlineSmall.copy(
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -122,14 +118,12 @@ private fun SettingLanguageDialogContent(
                         selectedColor = MaterialTheme.colorScheme.primary,
                         unselectedColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6F)
                     ),
-                    modifier = Modifier
-                        .padding(start = 16.dp)
+                    modifier = Modifier.padding(start = 16.dp)
                 )
 
                 Text(
                     text = language.languageText,
-                    modifier = Modifier
-                        .padding(start = 8.dp),
+                    modifier = Modifier.padding(start = 8.dp),
                     style = MaterialTheme.typography.bodyLarge.copy(
                         color = MaterialTheme.colorScheme.onBackground
                     )

@@ -23,7 +23,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 ## Download
 
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="" height="80">](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
-[<img src="config/screenshots/direct-apk.png" alt="" height="80">](https://github.com/michaelbel/movies/releases/download/1.4.5/Movies-v1.4.5.1178.-release.apk)
+[<img src="config/screenshots/direct-apk.png" alt="" height="80">](https://github.com/michaelbel/movies/releases/download/1.4.6/Movies-v1.4.6.1196.-release.apk)
 
 ## Technologies
 
@@ -32,8 +32,8 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Clean Architecture](https://d.android.com/topic/architecture)
 - [x] [TMDB API](https://developers.themoviedb.org/3/getting-started)
 - [x] [KTS Gradle Files](https://d.android.com/studio/build/migrate-to-kts)
-- [x] [Kotlin Symbol Processing API](https://d.android.com/studio/build/migrate-to-ksp) 1.8.20-1.0.11
-- [x] [Gradle Plugin](https://d.android.com/studio/releases/gradle-plugin) 8.0.0
+- [x] [Kotlin Symbol Processing API](https://d.android.com/studio/build/migrate-to-ksp)
+- [x] [Gradle Plugin](https://d.android.com/studio/releases/gradle-plugin)
 - [x] Gradle Version Catalog
 - [x] MinSDK 21
 - [x] TargetSDK 33
@@ -42,46 +42,47 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Dark Theme](https://d.android.com/develop/ui/views/theming/darktheme)
 - [x] [Dynamic Colors](https://d.android.com/develop/ui/views/theming/dynamic-colors)
 - [x] [Themed App Icon](https://d.android.com/develop/ui/views/launch/icon_design_adaptive)
-- [x] 100% [Kotlin](https://d.android.com/kotlin) 1.8.20
-- [x] 100% [Jetpack Compose](https://d.android.com/jetpack/compose) 1.4.6
-- [x] [Accompanist](https://github.com/google/accompanist) 0.30.1
+- [x] 100% [Kotlin](https://d.android.com/kotlin)
+- [x] 100% [Jetpack Compose](https://d.android.com/jetpack/compose)
+- [x] [Accompanist](https://github.com/google/accompanist)
 - [x] [Compose PreviewParameterProvider](https://d.android.com/jetpack/compose/tooling#previewparameter)
 - [x] [Downloadable Fonts](https://d.android.com/develop/ui/views/text-and-emoji/downloadable-fonts)
-- [x] [KotlinX Coroutines](https://github.com/Kotlin/kotlinx.coroutines) 1.6.4
-- [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization) 1.5.0
-- [x] [Appcompat](https://d.android.com/jetpack/androidx/releases/appcompat) 1.6.0-rc01
-- [x] [Dagger Hilt](https://github.com/google/dagger) 2.45
+- [x] [KotlinX Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
+- [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization)
+- [x] [Appcompat](https://d.android.com/jetpack/androidx/releases/appcompat)
+- [x] [Dagger Hilt](https://github.com/google/dagger)
 - [x] [ViewModel](https://d.android.com/topic/libraries/architecture/viewmodel)
-- [x] [Lifecycle](https://d.android.com/topic/libraries/architecture/lifecycle) 2.6.0-alpha03
-- [x] [Room](https://d.android.com/training/data-storage/room) 2.5.1
-- [x] [WorkManager](https://d.android.com/topic/libraries/architecture/workmanager) 2.8.1
-- [x] [DataStore](https://d.android.com/datastore) 1.0.0
-- [x] [Startup](https://d.android.com/jetpack/androidx/releases/startup) 1.1.1
-- [x] [Navigation](https://d.android.com/guide/navigation) 2.5.3
-- [x] [Paging](https://d.android.com/topic/libraries/architecture/paging/v3-overview) (RemoteMediator & PagingSource) 1.0.0-alpha18
+- [x] [Lifecycle](https://d.android.com/topic/libraries/architecture/lifecycle)
+- [x] [Room](https://d.android.com/training/data-storage/room)
+- [x] [WorkManager](https://d.android.com/topic/libraries/architecture/workmanager)
+- [x] [DataStore](https://d.android.com/datastore)
+- [x] [Startup](https://d.android.com/jetpack/androidx/releases/startup)
+- [x] [Navigation](https://d.android.com/guide/navigation)
+- [x] [Paging](https://d.android.com/topic/libraries/architecture/paging/v3-overview) (RemoteMediator & PagingSource)
 - [x] [ConstraintLayout](https://d.android.com/develop/ui/views/layout/constraint-layout)
-- [x] [Browser](https://d.android.com/jetpack/androidx/releases/browser) 1.5.0
-- [x] [OkHttp](https://github.com/square/okhttp) 4.11.0
-- [x] [Retrofit](https://github.com/square/retrofit) 2.9.0
-- [x] [Retrofit Kotlinx Converter Serialization](https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter) 0.8.0
-- [x] [Chucker](https://github.com/ChuckerTeam/chucker) 3.5.2
-- [x] [Coil](https://github.com/coil-kt/coil) 2.3.0
-- [x] [Timber](https://github.com/JakeWharton/timber) 5.0.1
-- [x] [Firebase Crashlytics](https://firebase.google.com/products/crashlytics) 18.3.6
-- [x] [Firebase App Distribution](https://firebase.google.com/products/app-distribution) 3.2.0
-- [x] [Firebase Remote Config](https://firebase.google.com/products/remote-config) 21.3.0
-- [x] [Google Analytics for Firebase](https://firebase.google.com/products/analytics) 21.2.2
+- [x] [Browser](https://d.android.com/jetpack/androidx/releases/browser)
+- [x] [OkHttp](https://github.com/square/okhttp)
+- [x] [Retrofit](https://github.com/square/retrofit)
+- [x] [Retrofit Kotlinx Converter Serialization](https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter)
+- [x] [Chucker](https://github.com/ChuckerTeam/chucker)
+- [x] [Coil](https://github.com/coil-kt/coil)
+- [x] [Timber](https://github.com/JakeWharton/timber)
+- [x] [Firebase Crashlytics](https://firebase.google.com/products/crashlytics)
+- [x] [Firebase App Distribution](https://firebase.google.com/products/app-distribution)
+- [x] [Firebase Remote Config](https://firebase.google.com/products/remote-config)
+- [ ] [Firebase Messaging](https://firebase.google.com/products/cloud-messaging)
+- [x] [Google Analytics for Firebase](https://firebase.google.com/products/analytics)
 - [x] [In-App Reviews](https://d.android.com/guide/playcore/in-app-review)
 - [x] [App Shortcuts](https://d.android.com/develop/ui/views/launch/shortcuts)
 - [x] [Dependabot](https://github.com/dependabot)
 - [x] [Github Actions](https://github.com/michaelbel/movies/tree/develop/.github/workflows) CI/CD
 - [x] [Github Releases](https://github.com/michaelbel/movies/releases)
 - [x] [Lint](https://d.android.com/studio/write/lint)
-- [x] [Detekt](https://github.com/detekt/detekt) 1.22.0
-- [x] [Spotless](https://github.com/diffplug/spotless) 6.18.0
+- [x] [Detekt](https://github.com/detekt/detekt)
+- [x] [Spotless](https://github.com/diffplug/spotless)
 - [x] [Distribute App via Telegram Bot](https://github.com/appleboy/telegram-action)
 - [x] [Non-Transitive R classes](https://d.android.com/studio/build/optimize-your-build#use-non-transitive-r-classes)
-- [x] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen) 1.0.1
+- [x] [SplashScreen API](https://d.android.com/develop/ui/views/launch/splash-screen)
 - [x] [Per-App Language Preferences](https://d.android.com/guide/topics/resources/app-languages)
 - [x] [Settings Panel](https://d.android.com/reference/android/provider/Settings.Panel)
 - [x] [Benchmark](https://d.android.com/topic/performance/benchmarking/benchmarking-overview)

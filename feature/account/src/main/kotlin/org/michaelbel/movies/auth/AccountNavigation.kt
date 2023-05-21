@@ -1,20 +1,17 @@
 package org.michaelbel.movies.auth
 
 import androidx.compose.ui.window.DialogProperties
+import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.dialog
 import org.michaelbel.movies.account.ui.AccountRoute
-import org.michaelbel.movies.navigation.MoviesNavigationDestination
 
-object AccountDestination: MoviesNavigationDestination {
-
-    override val route: String = "account"
-
-    override val destination: String = "account"
+fun NavController.navigateToAccount() {
+    navigate(AccountDestination.route)
 }
 
 fun NavGraphBuilder.accountGraph(
-    onBackClick: () -> Unit
+    navigateBack: () -> Unit
 ) {
     dialog(
         route = AccountDestination.route,
@@ -23,7 +20,7 @@ fun NavGraphBuilder.accountGraph(
         )
     ) {
         AccountRoute(
-            onBackClick = onBackClick
+            onBackClick = navigateBack
         )
     }
 }
