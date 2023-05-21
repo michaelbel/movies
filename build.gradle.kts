@@ -1,4 +1,3 @@
-@Suppress("dsl_scope_violation")
 plugins {
     alias(libs.plugins.application) apply false
     alias(libs.plugins.library) apply false
@@ -14,19 +13,4 @@ plugins {
     alias(libs.plugins.spotless)
     alias(libs.plugins.detekt)
     alias(libs.plugins.palantir.git)
-    alias(libs.plugins.ben.manes.versions)
-    alias(libs.plugins.littlerobots.version.catalog.update)
-}
-
-/**
- * https://github.com/littlerobots/version-catalog-update-plugin
- * ./gradlew versionCatalogUpdate
- */
-versionCatalogUpdate {
-    sortByKey.set(false)
-    keep {
-        keepUnusedVersions.set(true)
-        keepUnusedLibraries.set(true)
-        keepUnusedPlugins.set(true)
-    }
 }
