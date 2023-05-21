@@ -1,21 +1,15 @@
 # Compose to Kotlin Compatibility Map:
 # https://d.android.com/jetpack/androidx/releases/compose-kotlin
 [versions]
-# @keep
 min-sdk = "21"
-# @keep
 compile-sdk = "33"
-# @keep
 target-sdk = "33"
-# @pin
 gradle = "8.0.1"
-# @pin update when updating compose compiler
-kotlin = "1.8.20"
+kotlin = "1.8.21"
 kotlin-ksp = "1.8.20-1.0.11"
 kotlin-coroutines = "1.6.4"
 kotlin-serialization = "1.5.0"
-# @pin update when updating kotlin
-compose-compiler = "1.4.6"
+compose-compiler = "1.4.7"
 detekt = "1.22.0"
 spotless = "6.18.0"
 google-services = "4.3.15"

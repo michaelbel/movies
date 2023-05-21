@@ -1,7 +1,7 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import java.io.FileInputStream
 import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
-import java.io.FileInputStream
 
 @Suppress("dsl_scope_violation")
 plugins {
