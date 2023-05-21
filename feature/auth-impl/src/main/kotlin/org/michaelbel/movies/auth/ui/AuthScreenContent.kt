@@ -29,12 +29,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusManager
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalFocusManager
-import androidx.compose.ui.platform.LocalSoftwareKeyboardController
-import androidx.compose.ui.platform.SoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
@@ -89,8 +85,6 @@ internal fun AuthScreenContent(
     val toolbarColor: Int = MaterialTheme.colorScheme.primary.toArgb()
 
     val focusManager: FocusManager = LocalFocusManager.current
-    val focusRequester: FocusRequester = remember { FocusRequester() }
-    val keyboardController: SoftwareKeyboardController? = LocalSoftwareKeyboardController.current
 
     var username: String by remember { mutableStateOf("") }
     var password: String by remember { mutableStateOf("") }
@@ -159,14 +153,13 @@ internal fun AuthScreenContent(
                     start.linkTo(parent.start, 16.dp)
                     top.linkTo(logo.bottom, 8.dp)
                     end.linkTo(parent.end, 16.dp)
-                }
+                },
                 /*.autofill(
                     autofillTypes = listOf(AutofillType.Username),
                     onFill = { usernameFilled ->
                         username = usernameFilled
                     }
                 )*/
-                .focusRequester(focusRequester),
             label = {
                 Text(
                     text = stringResource(R.string.auth_label_username)
@@ -198,14 +191,13 @@ internal fun AuthScreenContent(
                     start.linkTo(parent.start, 16.dp)
                     top.linkTo(usernameField.bottom, 4.dp)
                     end.linkTo(parent.end, 16.dp)
-                }
+                },
                 /*.autofill(
                     autofillTypes = listOf(AutofillType.Password),
                     onFill = { passwordFilled ->
                         password = passwordFilled
                     }
                 )*/
-                .focusRequester(focusRequester),
             label = {
                 Text(
                     text = stringResource(R.string.auth_label_password)
@@ -245,7 +237,7 @@ internal fun AuthScreenContent(
             ),
             keyboardActions = KeyboardActions(
                 onDone = {
-                    keyboardController?.hide()
+                    focusManager.clearFocus()
                     onSignInClick(username, password)
                 }
             ),
