@@ -55,7 +55,6 @@ android {
 dependencies {
     api(project(":core:navigation"))
     api(project(":core:ui"))
-    implementation(project(":core:ads"))
     implementation(project(":core:common"))
     implementation(project(":core:domain"))
     implementation(project(":core:network"))

@@ -1,4 +1,3 @@
-import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import java.io.FileInputStream
 import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
@@ -26,14 +25,6 @@ val gitCommitsCount: Int by lazy {
 
 val currentTime: Long by lazy {
     System.currentTimeMillis()
-}
-
-val admobAppId: String? by lazy {
-    gradleLocalProperties(rootDir).getProperty("ADMOB_APP_ID")
-}
-
-val admobBannerId: String? by lazy {
-    gradleLocalProperties(rootDir).getProperty("ADMOB_BANNER_ID")
 }
 
 val gitVersion: groovy.lang.Closure<String> by extra
@@ -69,8 +60,6 @@ android {
         resourceConfigurations.addAll(listOf("en", "ru"))
 
         buildConfigField("String", "VERSION_DATE", "\"$currentTime\"")
-        buildConfigField("String", "ADMOB_APP_ID", "\"$admobAppId\"")
-        buildConfigField("String", "ADMOB_BANNER_ID", "\"$admobBannerId\"")
 
         setProperty("archivesBaseName", "Movies-v$versionName($versionCode)")
     }
