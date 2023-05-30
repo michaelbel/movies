@@ -5,7 +5,6 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -36,7 +35,6 @@ internal class MainActivity: AppCompatActivity() {
         setContent {
             val currentTheme: AppTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
             val dynamicColors: Boolean by viewModel.dynamicColors.collectAsStateWithLifecycle()
-            val layoutDirection: LayoutDirection by viewModel.layoutDirection.collectAsStateWithLifecycle()
 
             val navHostController: NavHostController = rememberNavController().apply {
                 addOnDestinationChangedListener(viewModel::analyticsTrackDestination)
