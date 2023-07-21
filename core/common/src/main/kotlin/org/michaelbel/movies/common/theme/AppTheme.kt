@@ -6,17 +6,11 @@ import org.michaelbel.movies.common.theme.exceptions.InvalidThemeException
 sealed class AppTheme(
     val theme: Int
 ) {
-    object NightNo: AppTheme(AppCompatDelegate.MODE_NIGHT_NO) {
-        override fun toString(): String = "NightNo"
-    }
+    data object NightNo: AppTheme(AppCompatDelegate.MODE_NIGHT_NO)
 
-    object NightYes: AppTheme(AppCompatDelegate.MODE_NIGHT_YES) {
-        override fun toString(): String = "NightYes"
-    }
+    data object NightYes: AppTheme(AppCompatDelegate.MODE_NIGHT_YES)
 
-    object FollowSystem: AppTheme(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
-        override fun toString(): String = "FollowSystem"
-    }
+    data object FollowSystem: AppTheme(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
 
     companion object {
         fun transform(theme: Int): AppTheme {

@@ -57,8 +57,7 @@ fun AccountToolbar(
 private fun AccountToolbarPreview() {
     MoviesTheme {
         AccountToolbar(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer),
+            modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer),
             onNavigationIconClick = {}
         )
     }

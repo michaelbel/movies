@@ -77,7 +77,7 @@ fun FeedToolbar(
                 }
             }
         },
-        colors = TopAppBarDefaults.smallTopAppBarColors(
+        colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.inversePrimary
         )
     )
