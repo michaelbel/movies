@@ -14,7 +14,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.items
+import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
 import org.michaelbel.movies.domain.data.entity.MovieDb
 import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
 import org.michaelbel.movies.ui.ktx.isNotEmpty
@@ -34,10 +35,15 @@ fun FeedContent(
         state = listState,
         contentPadding = contentPadding
     ) {
-        items(pagingItems) { movieItem ->
-            movieItem?.let { movie ->
+        items(
+            count = pagingItems.itemCount,
+            key = pagingItems.itemKey(),
+            contentType = pagingItems.itemContentType()
+        ) { index ->
+            val movieDb: MovieDb? = pagingItems[index]
+            if (movieDb != null) {
                 FeedMovieBox(
-                    movie = movie,
+                    movie = movieDb,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(
@@ -47,7 +53,7 @@ fun FeedContent(
                         .clip(MaterialTheme.shapes.small)
                         .background(MaterialTheme.colorScheme.inversePrimary)
                         .clickable {
-                            onMovieClick(movie.movieId)
+                            onMovieClick(movieDb.movieId)
                         }
                 )
             }

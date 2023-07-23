@@ -57,8 +57,7 @@ fun AuthToolbar(
 private fun AuthToolbarPreview() {
     MoviesTheme {
         AuthToolbar(
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer),
+            modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer),
             onNavigationIconClick = {}
         )
     }

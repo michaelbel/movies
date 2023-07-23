@@ -1,13 +1,11 @@
 package org.michaelbel.movies
 
 import android.os.Bundle
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.navigation.NavDestination
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -18,6 +16,7 @@ import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.interactor.settings.SettingsInteractor
 import org.michaelbel.movies.domain.workers.AccountUpdateWorker
 import org.michaelbel.movies.domain.workers.MoviesDatabaseWorker
+import javax.inject.Inject
 
 @HiltViewModel
 internal class MainViewModel @Inject constructor(
@@ -38,13 +37,6 @@ internal class MainViewModel @Inject constructor(
             scope = this,
             started = SharingStarted.Lazily,
             initialValue = false
-        )
-
-    val layoutDirection: StateFlow<LayoutDirection> = settingsInteractor.layoutDirection
-        .stateIn(
-            scope = this,
-            started = SharingStarted.Lazily,
-            initialValue = LayoutDirection.Ltr
         )
 
     init {

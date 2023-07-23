@@ -5,13 +5,9 @@ import org.michaelbel.movies.common.localization.exceptions.InvalidLocaleExcepti
 sealed class AppLanguage(
     val code: String
 ) {
-    object English: AppLanguage("en") {
-        override fun toString(): String = "English"
-    }
+    data object English: AppLanguage("en")
 
-    object Russian: AppLanguage("ru") {
-        override fun toString(): String = "Russian"
-    }
+    data object Russian: AppLanguage("ru")
 
     companion object {
         fun transform(code: String): AppLanguage {

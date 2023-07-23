@@ -87,8 +87,7 @@ private fun AuthLinksBoxPreview() {
         AuthLinksBox(
             onTermsOfUseClick = {},
             onPrivacyPolicyClick = {},
-            modifier = Modifier
-                .background(MaterialTheme.colorScheme.primaryContainer)
+            modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)
         )
     }
 }

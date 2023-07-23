@@ -36,5 +36,5 @@ android {
 }
 
 dependencies {
-    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.analytics.ktx)
 }

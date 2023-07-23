@@ -47,7 +47,7 @@ jobs:
           java-version: 17
           
       - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
+        uses: gradle/gradle-build-action@v2.4.2
           
       - name: Decode Keystore File
         id: decode_keystore_file
