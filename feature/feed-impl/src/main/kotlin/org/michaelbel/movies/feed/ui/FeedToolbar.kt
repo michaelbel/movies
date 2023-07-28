@@ -28,9 +28,11 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 @Composable
 fun FeedToolbar(
     account: AccountDb,
+    isUpdateIconVisible: Boolean,
     isSettingsIconVisible: Boolean,
     onAuthIconClick: () -> Unit,
     onAccountIconClick: () -> Unit,
+    onUpdateIconClick: () -> Unit,
     onSettingsIconClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -47,6 +49,18 @@ fun FeedToolbar(
         },
         modifier = modifier,
         actions = {
+            if (isUpdateIconVisible) {
+                IconButton(
+                    onClick = onUpdateIconClick
+                ) {
+                    Image(
+                        imageVector = MoviesIcons.SystemUpdate,
+                        contentDescription = null,
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
+                    )
+                }
+            }
+
             if (isSettingsIconVisible) {
                 IconButton(
                     onClick = onSettingsIconClick
@@ -91,9 +105,11 @@ private fun FeedToolbarPreview(
     MoviesTheme {
         FeedToolbar(
             account = AccountDb.Empty,
+            isUpdateIconVisible = true,
             isSettingsIconVisible = visible,
             onAccountIconClick = {},
             onAuthIconClick = {},
+            onUpdateIconClick = {},
             onSettingsIconClick = {},
             modifier = Modifier.statusBarsPadding()
         )

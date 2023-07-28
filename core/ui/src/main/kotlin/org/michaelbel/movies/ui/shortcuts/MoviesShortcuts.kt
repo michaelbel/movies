@@ -7,6 +7,7 @@ import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.net.toUri
 import org.michaelbel.movies.ui.R
+import org.michaelbel.movies.ui.icons.MoviesIcons
 
 private const val SETTINGS_SHORTCUT_ID = "settingsShortcutId"
 
@@ -20,7 +21,7 @@ fun Context.installShortcuts() {
         .setShortLabel(getString(R.string.shortcuts_settings_title))
         .setLongLabel(getString(R.string.shortcuts_settings_title))
         .setRank(1)
-        .setIcon(IconCompat.createWithResource(this, R.drawable.ic_shortcut_settings_outline_48))
+        .setIcon(IconCompat.createWithResource(this, MoviesIcons.ShortcutSettingsOutline))
         .setIntent(Intent(Intent.ACTION_VIEW, INTENT_ACTION_SETTINGS.toUri()))
         .build()
     ShortcutManagerCompat.pushDynamicShortcut(this, settingsShortcut)

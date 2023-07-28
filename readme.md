@@ -74,6 +74,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] [Firebase Messaging](https://firebase.google.com/products/cloud-messaging)
 - [x] [Google Analytics for Firebase](https://firebase.google.com/products/analytics)
 - [x] [In-App Reviews](https://d.android.com/guide/playcore/in-app-review)
+- [x] [In-App Updates](https://d.android.com/guide/playcore/in-app-updates)
 - [x] [App Shortcuts](https://d.android.com/develop/ui/views/launch/shortcuts)
 - [x] [Dependabot](https://github.com/dependabot)
 - [x] [Github Actions](https://github.com/michaelbel/movies/tree/develop/.github/workflows) CI/CD
@@ -91,7 +92,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] [Deep Links](https://d.android.com/training/app-links/deep-linking)
 - [ ] [Unit Tests](https://d.android.com/training/testing/local-tests)
 - [ ] [UI Tests](https://d.android.com/training/testing/instrumented-tests/ui-tests)
-- [ ] [In-App Updates](https://d.android.com/guide/playcore/in-app-updates)
 - [ ] [Google Admob](https://developers.google.com/admob)
 - [ ] [KtLint](https://github.com/pinterest/ktlint)
 - [ ] [Support Display Cutouts](https://d.android.com/develop/ui/views/layout/display-cutout)

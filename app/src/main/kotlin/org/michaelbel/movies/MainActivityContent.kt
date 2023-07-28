@@ -18,7 +18,8 @@ import org.michaelbel.movies.settings.settingsGraph
 @Composable
 internal fun MainActivityContent(
     navHostController: NavHostController = rememberNavController(),
-    startDestination: String = FeedDestination.route
+    startDestination: String = FeedDestination.route,
+    onStartUpdateFlow: () -> Unit
 ) {
     NavHost(
         navController = navHostController,
@@ -34,7 +35,8 @@ internal fun MainActivityContent(
             navigateToAuth = navHostController::navigateToAuth,
             navigateToAccount = navHostController::navigateToAccount,
             navigateToSettings = navHostController::navigateToSettings,
-            navigateToDetails = navHostController::navigateToDetails
+            navigateToDetails = navHostController::navigateToDetails,
+            onStartUpdateFlow = onStartUpdateFlow
         )
         detailsGraph(
             navigateBack = navHostController::popBackStack

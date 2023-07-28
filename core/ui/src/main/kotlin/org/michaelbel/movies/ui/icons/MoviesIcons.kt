@@ -1,5 +1,6 @@
 package org.michaelbel.movies.ui.icons
 
+import androidx.annotation.DrawableRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MovieFilter
 import androidx.compose.material.icons.outlined.AccountCircle
@@ -10,6 +11,7 @@ import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Share
+import androidx.compose.material.icons.outlined.SystemUpdate
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -19,19 +21,20 @@ import org.michaelbel.movies.ui.R
  * Movies icons. Material icons are [ImageVector]s, custom icons are drawable resource IDs.
  */
 object MoviesIcons {
-    val TmdbLogo = R.drawable.ic_tmdb_logo
+    @DrawableRes val TmdbLogo: Int = R.drawable.ic_tmdb_logo
+    @DrawableRes val ThemeLightDark: Int = R.drawable.ic_theme_light_dark_24
+    @DrawableRes val ShortcutSettingsOutline: Int = R.drawable.ic_shortcut_settings_outline_48
 
-    val ThemeLightDark = R.drawable.ic_theme_light_dark_24
-
-    val Account = Icons.Outlined.AccountCircle
-    val ArrowBack = Icons.Outlined.ArrowBack
-    val Close = Icons.Outlined.Close
-    val Info = Icons.Outlined.Info
-    val Language = Icons.Outlined.Language
-    val LocationOn = Icons.Outlined.LocationOn
-    val MovieFilter = Icons.Filled.MovieFilter
-    val Settings = Icons.Outlined.Settings
-    val Share = Icons.Outlined.Share
-    val Visibility = Icons.Outlined.Visibility
+    val Account: ImageVector = Icons.Outlined.AccountCircle
+    val ArrowBack: ImageVector = Icons.Outlined.ArrowBack
+    val Close: ImageVector = Icons.Outlined.Close
+    val Info: ImageVector = Icons.Outlined.Info
+    val Language: ImageVector = Icons.Outlined.Language
+    val LocationOn: ImageVector = Icons.Outlined.LocationOn
+    val MovieFilter: ImageVector = Icons.Filled.MovieFilter
+    val Settings: ImageVector = Icons.Outlined.Settings
+    val Share: ImageVector = Icons.Outlined.Share
+    val SystemUpdate: ImageVector = Icons.Outlined.SystemUpdate
+    val Visibility: ImageVector = Icons.Outlined.Visibility
     val VisibilityOff = Icons.Outlined.VisibilityOff
 }

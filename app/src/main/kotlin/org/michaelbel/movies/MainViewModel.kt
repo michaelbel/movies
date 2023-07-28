@@ -1,5 +1,6 @@
 package org.michaelbel.movies
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.navigation.NavDestination
 import androidx.work.OneTimeWorkRequestBuilder
@@ -11,6 +12,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.analytics.MoviesAnalytics
+import org.michaelbel.movies.common.inappupdate.di.InAppUpdate
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.interactor.settings.SettingsInteractor
@@ -21,6 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 internal class MainViewModel @Inject constructor(
     private val settingsInteractor: SettingsInteractor,
+    private val inAppUpdate: InAppUpdate,
     private val workManager: WorkManager,
     private val analytics: MoviesAnalytics
 ): BaseViewModel() {
@@ -47,6 +50,10 @@ internal class MainViewModel @Inject constructor(
 
     fun analyticsTrackDestination(destination: NavDestination, arguments: Bundle?) {
         analytics.trackDestination(destination.route, arguments)
+    }
+
+    fun startUpdateFlow(activity: Activity) {
+        inAppUpdate.startUpdateFlow(activity)
     }
 
     private fun fetchRemoteConfig() = launch {
