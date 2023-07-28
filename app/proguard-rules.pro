@@ -1,5 +1,5 @@
--ignorewarnings
+#-ignorewarnings
 
--keep class * {
-    public private *;
-}
+#-keep class * {
+#    public private *;
+#}
