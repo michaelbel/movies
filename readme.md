@@ -29,13 +29,13 @@ TMDB_API_KEY=your_own_tmdb_api_key
 ## Technologies
 
 - [x] [Modularization](https://d.android.com/topic/modularization)
-- [x] MVVM
+- [x] [MVVM](https://d.android.com/topic/architecture)
 - [x] [Clean Architecture](https://d.android.com/topic/architecture)
 - [x] [TMDB API](https://developers.themoviedb.org/3/getting-started)
 - [x] [KTS Gradle Files](https://d.android.com/studio/build/migrate-to-kts)
 - [x] [Kotlin Symbol Processing API](https://d.android.com/studio/build/migrate-to-ksp)
 - [x] [Gradle Plugin](https://d.android.com/studio/releases/gradle-plugin)
-- [x] Gradle Version Catalog
+- [x] [Gradle Version Catalog](https://d.android.com/build/migrate-to-catalogs)
 - [x] MinSDK 21
 - [x] TargetSDK 33
 - [x] CompileSDK 33
