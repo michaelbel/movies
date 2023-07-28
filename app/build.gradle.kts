@@ -1,6 +1,6 @@
-import java.io.FileInputStream
 import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
+import java.io.FileInputStream
 
 @Suppress("dsl_scope_violation")
 plugins {
@@ -87,7 +87,7 @@ android {
     buildTypes {
         release {
             isMinifyEnabled = true
-            isShrinkResources = true
+            isShrinkResources = false
             signingConfig = signingConfigs.getByName("release")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
