@@ -8,7 +8,7 @@ open class BaseEvent(
 ) {
     val params: Bundle = bundleOf()
 
-    fun add(key: String, value: Any) {
+    protected open fun add(key: String, value: Any) {
         params.putString(key, value.toString())
     }
 }
