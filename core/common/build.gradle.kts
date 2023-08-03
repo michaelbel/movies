@@ -65,9 +65,7 @@ dependencies {
     api(libs.timber)
     implementation(libs.bundles.appcompat)
     implementation(libs.firebase.crashlytics.ktx)
-    implementation(libs.firebase.messaging.ktx)
     implementation(libs.androidx.startup.runtime)
     implementation(libs.androidx.browser)
-
     lintChecks(libs.lint.checks)
 }

@@ -17,8 +17,12 @@ private val DETAILS_MOVIE_NAV_ARGUMENT: NamedNavArgument = navArgument(
     }
 )
 
-private val DETAILS_MOVIE_DEEP_LINK: NavDeepLink = navDeepLink {
-    uriPattern = "https://www.themoviedb.org/movie/{movieId}}"
+private val DETAILS_MOVIE_WEB_DEEP_LINK: NavDeepLink = navDeepLink {
+    uriPattern = "https://www.themoviedb.org/movie/{movieId}"
+}
+
+private val DETAILS_MOVIE_PUSH_DEEP_LINK: NavDeepLink = navDeepLink {
+    uriPattern = "movies://details/{movieId}"
 }
 
 fun NavController.navigateToDetails(movieId: Int) {
@@ -31,7 +35,7 @@ fun NavGraphBuilder.detailsGraph(
     composable(
         route = DetailsDestination.route,
         arguments = listOf(DETAILS_MOVIE_NAV_ARGUMENT),
-        deepLinks = listOf(DETAILS_MOVIE_DEEP_LINK)
+        deepLinks = listOf(DETAILS_MOVIE_WEB_DEEP_LINK, DETAILS_MOVIE_PUSH_DEEP_LINK)
     ) {
         DetailsRoute(
             onBackClick = navigateBack

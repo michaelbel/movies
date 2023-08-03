@@ -146,6 +146,7 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:domain"))
     implementation(project(":core:navigation"))
+    implementation(project(":core:notifications"))
     implementation(project(":core:ui"))
 
     implementation(project(":feature:auth"))

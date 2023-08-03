@@ -24,6 +24,7 @@ object MoviesIcons {
     @DrawableRes val TmdbLogo: Int = R.drawable.ic_tmdb_logo
     @DrawableRes val ThemeLightDark: Int = R.drawable.ic_theme_light_dark_24
     @DrawableRes val ShortcutSettingsOutline: Int = R.drawable.ic_shortcut_settings_outline_48
+    @DrawableRes val NotificationSmallIconMovieFilter = R.drawable.ic_movie_filter_24
 
     val Account: ImageVector = Icons.Outlined.AccountCircle
     val ArrowBack: ImageVector = Icons.Outlined.ArrowBack

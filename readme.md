@@ -71,7 +71,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Firebase Crashlytics](https://firebase.google.com/products/crashlytics)
 - [x] [Firebase App Distribution](https://firebase.google.com/products/app-distribution)
 - [x] [Firebase Remote Config](https://firebase.google.com/products/remote-config)
-- [ ] [Firebase Messaging](https://firebase.google.com/products/cloud-messaging)
+- [x] [Firebase Messaging](https://firebase.google.com/products/cloud-messaging)
 - [x] [Google Analytics for Firebase](https://firebase.google.com/products/analytics)
 - [x] [In-App Reviews](https://d.android.com/guide/playcore/in-app-review)
 - [x] [In-App Updates](https://d.android.com/guide/playcore/in-app-updates)
