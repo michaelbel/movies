@@ -37,8 +37,8 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Gradle Plugin](https://d.android.com/studio/releases/gradle-plugin)
 - [x] [Gradle Version Catalog](https://d.android.com/build/migrate-to-catalogs)
 - [x] MinSDK 21
-- [x] TargetSDK 33
-- [x] CompileSDK 33
+- [x] TargetSDK 34
+- [x] CompileSDK 34
 - [x] [Material3](https://m3.material.io)
 - [x] [Dark Theme](https://d.android.com/develop/ui/views/theming/darktheme)
 - [x] [Dynamic Colors](https://d.android.com/develop/ui/views/theming/dynamic-colors)
