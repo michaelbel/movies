@@ -14,13 +14,13 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildTypes {
+    /*buildTypes {
         create("benchmark") {
             signingConfig = signingConfigs.getByName("debug")
             matchingFallbacks += listOf("release")
             initWith(getByName("release"))
         }
-    }
+    }*/
 
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(

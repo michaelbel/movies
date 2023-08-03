@@ -21,13 +21,13 @@ android {
         )
     }
 
-    buildTypes {
+    /*buildTypes {
         create("benchmark") {
             signingConfig = signingConfigs.getByName("debug")
             matchingFallbacks += listOf("release")
             initWith(getByName("release"))
         }
-    }
+    }*/
 
     buildFeatures {
         buildConfig = true

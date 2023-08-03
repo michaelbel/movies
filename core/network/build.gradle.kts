@@ -14,13 +14,13 @@ android {
         compileSdk = libs.versions.compile.sdk.get().toInt()
     }
 
-    buildTypes {
+    /*buildTypes {
         create("benchmark") {
             signingConfig = signingConfigs.getByName("debug")
             matchingFallbacks += listOf("release")
             initWith(getByName("release"))
         }
-    }
+    }*/
 
     buildFeatures {
         buildConfig = true
