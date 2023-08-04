@@ -10,14 +10,14 @@ data class Person(
     @SerialName("deathday") val deathDay: String,
     @SerialName("id") val id: Int,
     @SerialName("title") val name: String,
-    @SerialName("also_known_as") val also_known_as: List<String>,
+    @SerialName("also_known_as") val alsoKnownAs: List<String>,
     @SerialName("gender") val gender: Int,
     @SerialName("biography") val biography: String,
     @SerialName("popularity") val popularity: Float,
     @SerialName("place_of_birth") val placeOfBirth: String,
     @SerialName("profile_path") val profilePath: String,
     @SerialName("adult") val adult: Boolean?,
-    @SerialName("imdb_id") val imdb_id: String,
+    @SerialName("imdb_id") val imdbId: String,
     @SerialName("homepage") val homepage: String,
     @SerialName("known_for") val knownFor: List<Movie>
 )

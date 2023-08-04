@@ -1,6 +1,6 @@
-import java.io.FileInputStream
 import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
+import java.io.FileInputStream
 
 @Suppress("dsl_scope_violation")
 plugins {
@@ -89,9 +89,11 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
+            applicationIdSuffix = MoviesBuildType.RELEASE.applicationIdSuffix
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
+                "retrofit2.pro"
             )
 
             firebaseAppDistribution {
@@ -107,14 +109,16 @@ android {
             isDebuggable = true
             isMinifyEnabled = false
             isShrinkResources = false
-            applicationIdSuffix = ".debug"
+            applicationIdSuffix = MoviesBuildType.DEBUG.applicationIdSuffix
         }
         create("benchmark") {
             initWith(getByName("release"))
-            signingConfig = signingConfigs.getByName("debug")
             matchingFallbacks.add("release")
+            signingConfig = signingConfigs.getByName("debug")
             proguardFiles("benchmark-rules.pro")
             isDebuggable = false
+            isMinifyEnabled = true
+            applicationIdSuffix = MoviesBuildType.BENCHMARK.applicationIdSuffix
         }
     }
 
@@ -146,6 +150,7 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:domain"))
     implementation(project(":core:navigation"))
+    implementation(project(":core:notifications"))
     implementation(project(":core:ui"))
 
     implementation(project(":feature:auth"))

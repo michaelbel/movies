@@ -7,7 +7,13 @@ class VersionPreviewParameterProvider: PreviewParameterProvider<AppVersionData> 
     override val values: Sequence<AppVersionData> = sequenceOf(
         AppVersionData(
             version = "1.0.0",
-            code = 100L
+            code = 100L,
+            isDebug = true
+        ),
+        AppVersionData(
+            version = "1.0.0",
+            code = 100L,
+            isDebug = false
         )
     )
 }

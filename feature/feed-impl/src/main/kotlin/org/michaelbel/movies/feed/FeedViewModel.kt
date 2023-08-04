@@ -1,5 +1,8 @@
 package org.michaelbel.movies.feed
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -9,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
+import org.michaelbel.movies.common.inappupdate.di.InAppUpdate
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.data.entity.AccountDb
 import org.michaelbel.movies.domain.data.entity.MovieDb
@@ -28,6 +32,7 @@ class FeedViewModel @Inject constructor(
     accountInteractor: AccountInteractor,
     settingsInteractor: SettingsInteractor,
     networkManager: NetworkManager,
+    inAppUpdate: InAppUpdate
 ): BaseViewModel() {
 
     private val moviesList: String
@@ -70,4 +75,12 @@ class FeedViewModel @Inject constructor(
             started = SharingStarted.Lazily,
             initialValue = true
         )
+
+    var updateAvailableMessage: Boolean by mutableStateOf(false)
+
+    init {
+        inAppUpdate.onUpdateAvailableListener = { updateAvailable ->
+            updateAvailableMessage = updateAvailable
+        }
+    }
 }

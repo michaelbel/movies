@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_channel_id" translatable="false">movies_channel_id</string>
+    <string name="notification_channel_name">Notifications</string>
+    <string name="notification_channel_description">Good notifications</string>
+</resources>

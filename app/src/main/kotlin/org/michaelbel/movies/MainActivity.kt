@@ -45,7 +45,8 @@ internal class MainActivity: AppCompatActivity() {
                 dynamicColors = dynamicColors
             ) {
                 MainActivityContent(
-                    navHostController = navHostController
+                    navHostController = navHostController,
+                    onStartUpdateFlow = { viewModel.startUpdateFlow(this) }
                 )
             }
         }

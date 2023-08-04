@@ -19,5 +19,6 @@
     <string name="settings_network_request_delay_ms">%s мс</string>
     <string name="settings_app_version_name">Movies v%s</string>
     <string name="settings_app_version_code">(%s)</string>
+    <string name="settings_app_debug">Debug</string>
     <string name="settings_action_cancel">Отмена</string>
 </resources>

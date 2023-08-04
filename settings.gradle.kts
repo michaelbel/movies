@@ -27,6 +27,7 @@ include(
     ":core:entities",
     ":core:navigation",
     ":core:network",
+    ":core:notifications",
     ":core:ui",
 
     ":feature:account",

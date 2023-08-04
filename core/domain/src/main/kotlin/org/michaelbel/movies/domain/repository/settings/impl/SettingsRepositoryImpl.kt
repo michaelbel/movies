@@ -10,6 +10,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
+import org.michaelbel.movies.common.BuildConfig
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.domain.ktx.code
@@ -43,7 +44,8 @@ internal class SettingsRepositoryImpl @Inject constructor(
     override val appVersionData: Flow<AppVersionData> = flowOf(
         AppVersionData(
             version = context.packageInfo.versionName,
-            code = context.packageInfo.code
+            code = context.packageInfo.code,
+            isDebug = BuildConfig.DEBUG
         )
     )
 

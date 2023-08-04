@@ -9,9 +9,10 @@ Movies
 Movies - easy way to discover popular movies. This is a simple TMDb client for Android
 
 <div style="dispaly:flex">
-    <img src="config/screenshots/screen1.png" width="32%">
-    <img src="config/screenshots/screen2.png" width="32%">
-    <img src="config/screenshots/screen3.png" width="32%">
+    <img src="config/screenshots/screen1.png" width="24%">
+    <img src="config/screenshots/screen2.png" width="24%">
+    <img src="config/screenshots/screen3.png" width="24%">
+    <img src="config/screenshots/screen4.png" width="24%">
 </div>
 
 ## Build
@@ -29,16 +30,16 @@ TMDB_API_KEY=your_own_tmdb_api_key
 ## Technologies
 
 - [x] [Modularization](https://d.android.com/topic/modularization)
-- [x] MVVM
+- [x] [MVVM](https://d.android.com/topic/architecture)
 - [x] [Clean Architecture](https://d.android.com/topic/architecture)
 - [x] [TMDB API](https://developers.themoviedb.org/3/getting-started)
 - [x] [KTS Gradle Files](https://d.android.com/studio/build/migrate-to-kts)
 - [x] [Kotlin Symbol Processing API](https://d.android.com/studio/build/migrate-to-ksp)
 - [x] [Gradle Plugin](https://d.android.com/studio/releases/gradle-plugin)
-- [x] Gradle Version Catalog
+- [x] [Gradle Version Catalog](https://d.android.com/build/migrate-to-catalogs)
 - [x] MinSDK 21
-- [x] TargetSDK 33
-- [x] CompileSDK 33
+- [x] TargetSDK 34
+- [x] CompileSDK 34
 - [x] [Material3](https://m3.material.io)
 - [x] [Dark Theme](https://d.android.com/develop/ui/views/theming/darktheme)
 - [x] [Dynamic Colors](https://d.android.com/develop/ui/views/theming/dynamic-colors)
@@ -68,12 +69,13 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Chucker](https://github.com/ChuckerTeam/chucker)
 - [x] [Coil](https://github.com/coil-kt/coil)
 - [x] [Timber](https://github.com/JakeWharton/timber)
+- [x] [Firebase Analytics](https://firebase.google.com/products/analytics)
 - [x] [Firebase Crashlytics](https://firebase.google.com/products/crashlytics)
 - [x] [Firebase App Distribution](https://firebase.google.com/products/app-distribution)
 - [x] [Firebase Remote Config](https://firebase.google.com/products/remote-config)
-- [ ] [Firebase Messaging](https://firebase.google.com/products/cloud-messaging)
-- [x] [Google Analytics for Firebase](https://firebase.google.com/products/analytics)
+- [x] [Firebase Messaging](https://firebase.google.com/products/cloud-messaging)
 - [x] [In-App Reviews](https://d.android.com/guide/playcore/in-app-review)
+- [x] [In-App Updates](https://d.android.com/guide/playcore/in-app-updates)
 - [x] [App Shortcuts](https://d.android.com/develop/ui/views/launch/shortcuts)
 - [x] [Dependabot](https://github.com/dependabot)
 - [x] [Github Actions](https://github.com/michaelbel/movies/tree/develop/.github/workflows) CI/CD
@@ -91,7 +93,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] [Deep Links](https://d.android.com/training/app-links/deep-linking)
 - [ ] [Unit Tests](https://d.android.com/training/testing/local-tests)
 - [ ] [UI Tests](https://d.android.com/training/testing/instrumented-tests/ui-tests)
-- [ ] [In-App Updates](https://d.android.com/guide/playcore/in-app-updates)
 - [ ] [Google Admob](https://developers.google.com/admob)
 - [ ] [KtLint](https://github.com/pinterest/ktlint)
 - [ ] [Support Display Cutouts](https://d.android.com/develop/ui/views/layout/display-cutout)

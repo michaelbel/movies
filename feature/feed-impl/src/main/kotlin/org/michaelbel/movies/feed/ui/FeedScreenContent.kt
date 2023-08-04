@@ -21,6 +21,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -28,7 +29,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import java.net.UnknownHostException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.domain.data.entity.AccountDb
@@ -43,6 +43,7 @@ import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.isFailure
 import org.michaelbel.movies.ui.ktx.isLoading
 import org.michaelbel.movies.ui.ktx.throwable
+import java.net.UnknownHostException
 
 @Composable
 fun FeedRoute(
@@ -50,6 +51,7 @@ fun FeedRoute(
     onNavigateToAuth: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToDetails: (Int) -> Unit,
+    onStartUpdateFlow: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: FeedViewModel = hiltViewModel()
 ) {
@@ -57,16 +59,19 @@ fun FeedRoute(
     val account: AccountDb? by viewModel.account.collectAsStateWithLifecycle()
     val isSettingsIconVisible: Boolean by viewModel.isSettingsIconVisible.collectAsStateWithLifecycle()
     val networkStatus: NetworkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
+    val isUpdateAvailable: Boolean by rememberUpdatedState(viewModel.updateAvailableMessage)
 
     FeedScreenContent(
         pagingItems = pagingItems,
         account = account.orEmpty,
         networkStatus = networkStatus,
         isSettingsIconVisible = isSettingsIconVisible,
+        isUpdateIconVisible = isUpdateAvailable,
         onNavigateToAuth = onNavigateToAuth,
         onNavigateToAccount = onNavigateToAccount,
         onNavigateToSettings = onNavigateToSettings,
         onNavigateToDetails = onNavigateToDetails,
+        onUpdateIconClick = onStartUpdateFlow,
         modifier = modifier
     )
 }
@@ -77,10 +82,12 @@ private fun FeedScreenContent(
     account: AccountDb,
     networkStatus: NetworkStatus,
     isSettingsIconVisible: Boolean,
+    isUpdateIconVisible: Boolean,
     onNavigateToAuth: () -> Unit,
     onNavigateToAccount: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToDetails: (Int) -> Unit,
+    onUpdateIconClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context: Context = LocalContext.current
@@ -123,6 +130,7 @@ private fun FeedScreenContent(
                     .fillMaxWidth()
                     .clickableWithoutRipple { onScrollToTop() },
                 account = account,
+                isUpdateIconVisible = isUpdateIconVisible,
                 isSettingsIconVisible = isSettingsIconVisible,
                 onAuthIconClick = {
                     if (isTmdbApiKeyEmpty) {
@@ -132,6 +140,7 @@ private fun FeedScreenContent(
                     }
                 },
                 onAccountIconClick = onNavigateToAccount,
+                onUpdateIconClick = onUpdateIconClick,
                 onSettingsIconClick = onNavigateToSettings
             )
         },

@@ -2,7 +2,7 @@ package org.michaelbel.movies.entities.lce
 
 sealed interface ScreenState {
 
-    object Loading: ScreenState
+    data object Loading: ScreenState
 
     data class Content<T>(val data: T): ScreenState
 

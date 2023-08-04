@@ -37,11 +37,11 @@ android {
     experimentalProperties["android.experimental.self-instrumenting"] = true
 }
 
-androidComponents {
+/*androidComponents {
     beforeVariants(selector().all()) {
         it.enabled = it.buildType == "benchmark"
     }
-}
+}*/
 
 dependencies {
     implementation(libs.androidx.benchmark.macro.junit)

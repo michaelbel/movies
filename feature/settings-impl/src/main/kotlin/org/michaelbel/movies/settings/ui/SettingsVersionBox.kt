@@ -31,8 +31,8 @@ fun SettingsVersionBox(
     ConstraintLayout(
         modifier = modifier.testTag("ConstraintLayout")
     ) {
-        val (icon, version, code) = createRefs()
-        createHorizontalChain(icon, version, code, chainStyle = ChainStyle.Packed)
+        val (icon, version, code, debug) = createRefs()
+        createHorizontalChain(icon, version, code, debug, chainStyle = ChainStyle.Packed)
 
         Icon(
             imageVector = MoviesIcons.MovieFilter,
@@ -76,7 +76,7 @@ fun SettingsVersionBox(
                     height = Dimension.wrapContent
                     start.linkTo(version.end)
                     top.linkTo(version.top)
-                    end.linkTo(parent.end)
+                    end.linkTo(debug.start)
                     bottom.linkTo(version.bottom)
                 }
                 .padding(start = 2.dp)
@@ -85,6 +85,26 @@ fun SettingsVersionBox(
                 color = MaterialTheme.colorScheme.primary
             )
         )
+
+        if (appVersionData.isDebug) {
+            Text(
+                text = stringResource(R.string.settings_app_debug),
+                modifier = Modifier
+                    .constrainAs(debug) {
+                        width = Dimension.wrapContent
+                        height = Dimension.wrapContent
+                        start.linkTo(code.end)
+                        top.linkTo(version.top)
+                        end.linkTo(parent.end)
+                        bottom.linkTo(version.bottom)
+                    }
+                    .padding(start = 2.dp)
+                    .testTag("DebugText"),
+                style = MaterialTheme.typography.bodySmall.copy(
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            )
+        }
     }
 }
 
