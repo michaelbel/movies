@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import org.michaelbel.movies.common.BuildConfig
 import org.michaelbel.movies.domain.data.converter.CalendarConverter
 import org.michaelbel.movies.domain.data.dao.AccountDao
 import org.michaelbel.movies.domain.data.dao.MovieDao
@@ -33,7 +34,7 @@ internal abstract class AppDatabase: RoomDatabase() {
     abstract fun pagingKeyDao(): PagingKeyDao
 
     companion object {
-        private const val DATABASE_NAME = "movies-db"
+        private val DATABASE_NAME: String = if (BuildConfig.DEBUG) "movies-db-debug" else "movies-db"
         const val DATABASE_VERSION = 14
 
         @Volatile
