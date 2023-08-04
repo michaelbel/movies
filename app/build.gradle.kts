@@ -93,7 +93,9 @@ android {
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
-                "retrofit2.pro"
+                "retrofit2.pro",
+                "okhttp3.pro",
+                "coroutines.pro"
             )
 
             firebaseAppDistribution {
