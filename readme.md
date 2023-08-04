@@ -9,9 +9,10 @@ Movies
 Movies - easy way to discover popular movies. This is a simple TMDb client for Android
 
 <div style="dispaly:flex">
-    <img src="config/screenshots/screen1.png" width="32%">
-    <img src="config/screenshots/screen2.png" width="32%">
-    <img src="config/screenshots/screen3.png" width="32%">
+    <img src="config/screenshots/screen1.png" width="24%">
+    <img src="config/screenshots/screen2.png" width="24%">
+    <img src="config/screenshots/screen3.png" width="24%">
+    <img src="config/screenshots/screen4.png" width="24%">
 </div>
 
 ## Build
