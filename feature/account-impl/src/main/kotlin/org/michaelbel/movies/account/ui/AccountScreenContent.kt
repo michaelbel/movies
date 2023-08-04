@@ -9,12 +9,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -28,7 +30,10 @@ import org.michaelbel.movies.account_impl.R
 import org.michaelbel.movies.domain.data.entity.AccountDb
 import org.michaelbel.movies.domain.data.ktx.orEmpty
 import org.michaelbel.movies.ui.compose.AccountAvatar
+import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.lettersTextFontSizeLarge
+import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun AccountRoute(
@@ -73,6 +78,7 @@ internal fun AccountScreenContent(
             nameText,
             usernameText,
             countryBox,
+            adultIcon,
             logoutButton
         ) = createRefs()
         createVerticalChain(nameText, usernameText, chainStyle = ChainStyle.Packed)
@@ -100,6 +106,25 @@ internal fun AccountScreenContent(
                     top.linkTo(toolbar.bottom)
                 }
         )
+
+        if (account.adult) {
+            Icon(
+                painter = painterResource(MoviesIcons.AdultOutline),
+                contentDescription = null,
+                modifier = Modifier
+                    .constrainAs(adultIcon) {
+                        width = Dimension.value(24.dp)
+                        height = Dimension.value(24.dp)
+                        end.linkTo(accountAvatar.end)
+                        bottom.linkTo(accountAvatar.bottom)
+                    }
+                    .background(
+                        color = MaterialTheme.colorScheme.primaryContainer,
+                        shape = MaterialTheme.shapes.small
+                    ),
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+        }
 
         Column(
             modifier = Modifier
@@ -146,7 +171,6 @@ internal fun AccountScreenContent(
                         height = Dimension.wrapContent
                         start.linkTo(parent.start, 16.dp)
                         top.linkTo(accountAvatar.bottom, 8.dp)
-                        end.linkTo(parent.end, 16.dp)
                     }
             )
         }
@@ -178,5 +202,26 @@ internal fun AccountScreenContent(
                 )
             }
         }
+    }
+}
+
+@Composable
+@DevicePreviews
+private fun AccountScreenContentPreview() {
+    MoviesTheme {
+        AccountScreenContent(
+            account = AccountDb(
+                accountId = 0,
+                avatarUrl = "",
+                language = "",
+                country = "Finland",
+                name = "Michael Bely",
+                adult = true,
+                username = "michaelbel"
+            ),
+            loading = false,
+            onBackClick = {},
+            onLogoutClick = {}
+        )
     }
 }
