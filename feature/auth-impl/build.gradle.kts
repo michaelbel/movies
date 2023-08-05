@@ -60,6 +60,8 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:network"))
 
+    implementation(libs.androidx.autofill)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit.ktx)
     androidTestImplementation(libs.androidx.espresso.core)

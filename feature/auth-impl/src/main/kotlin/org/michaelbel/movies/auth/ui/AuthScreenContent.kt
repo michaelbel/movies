@@ -154,12 +154,6 @@ internal fun AuthScreenContent(
                     top.linkTo(logo.bottom, 8.dp)
                     end.linkTo(parent.end, 16.dp)
                 },
-                /*.autofill(
-                    autofillTypes = listOf(AutofillType.Username),
-                    onFill = { usernameFilled ->
-                        username = usernameFilled
-                    }
-                )*/
             label = {
                 Text(
                     text = stringResource(R.string.auth_label_username)
@@ -192,12 +186,6 @@ internal fun AuthScreenContent(
                     top.linkTo(usernameField.bottom, 4.dp)
                     end.linkTo(parent.end, 16.dp)
                 },
-                /*.autofill(
-                    autofillTypes = listOf(AutofillType.Password),
-                    onFill = { passwordFilled ->
-                        password = passwordFilled
-                    }
-                )*/
             label = {
                 Text(
                     text = stringResource(R.string.auth_label_password)
