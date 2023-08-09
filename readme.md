@@ -95,7 +95,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] [UI Tests](https://d.android.com/training/testing/instrumented-tests/ui-tests)
 - [ ] [Google Admob](https://developers.google.com/admob)
 - [ ] [KtLint](https://github.com/pinterest/ktlint)
-- [ ] [Support Display Cutouts](https://d.android.com/develop/ui/views/layout/display-cutout)
 - [ ] [Baseline Profiles](https://d.android.com/topic/performance/baselineprofiles/overview)
 - [ ] [Tablet and large screen support](https://d.android.com/about/versions/13/features/large-screens)
 - [ ] OAuth
