@@ -5,7 +5,6 @@ import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
 
-@Suppress("Deprecation")
 val Context.packageInfo: PackageInfo
     get() {
         return if (Build.VERSION.SDK_INT >= 33) {
