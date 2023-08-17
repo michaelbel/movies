@@ -8,20 +8,20 @@ import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import java.util.concurrent.TimeUnit
 import kotlinx.coroutines.flow.first
 import org.michaelbel.movies.common.ktx.isTimePasses
-import org.michaelbel.movies.domain.interactor.account.AccountInteractor
+import org.michaelbel.movies.domain.interactor.Interactor
 import org.michaelbel.movies.domain.preferences.constants.PREFERENCE_ACCOUNT_EXPIRE_TIME_KEY
 import org.michaelbel.movies.domain.preferences.constants.PREFERENCE_ACCOUNT_ID_KEY
 import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
+import java.util.concurrent.TimeUnit
 
 @HiltWorker
 class AccountUpdateWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
     private val dataStore: DataStore<Preferences>,
-    private val accountInteractor: AccountInteractor
+    private val interactor: Interactor
 ): CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -34,7 +34,7 @@ class AccountUpdateWorker @AssistedInject constructor(
             val expireTime: Long = dataStore.data.first()[PREFERENCE_ACCOUNT_EXPIRE_TIME_KEY] ?: 0L
             val currentTime: Long = System.currentTimeMillis()
             if (isTimePasses(ONE_DAY_MILLS, expireTime, currentTime)) {
-                accountInteractor.accountDetails()
+                interactor.accountDetails()
             }
             Result.success()
         } catch (e: Exception) {

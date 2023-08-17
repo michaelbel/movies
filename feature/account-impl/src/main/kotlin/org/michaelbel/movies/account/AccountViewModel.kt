@@ -10,19 +10,17 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.data.entity.AccountDb
-import org.michaelbel.movies.domain.interactor.account.AccountInteractor
-import org.michaelbel.movies.domain.interactor.authentication.AuthenticationInteractor
+import org.michaelbel.movies.domain.interactor.Interactor
 import javax.inject.Inject
 
 @HiltViewModel
 class AccountViewModel @Inject constructor(
-    private val authenticationInteractor: AuthenticationInteractor,
-    accountInteractor: AccountInteractor,
+    private val interactor: Interactor
 ): BaseViewModel() {
 
     var loading: Boolean by mutableStateOf(false)
 
-    val account: StateFlow<AccountDb?> = accountInteractor.account
+    val account: StateFlow<AccountDb?> = interactor.account
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
@@ -37,7 +35,7 @@ class AccountViewModel @Inject constructor(
     fun onLogoutClick(onResult: () -> Unit) = launch {
         loading = true
 
-        authenticationInteractor.deleteSession()
+        interactor.deleteSession()
         onResult()
     }
 }

@@ -17,28 +17,28 @@ import org.michaelbel.movies.analytics.MoviesAnalytics
 import org.michaelbel.movies.common.inappupdate.di.InAppUpdate
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
-import org.michaelbel.movies.domain.interactor.settings.SettingsInteractor
+import org.michaelbel.movies.domain.interactor.Interactor
 import org.michaelbel.movies.domain.workers.AccountUpdateWorker
 import org.michaelbel.movies.domain.workers.MoviesDatabaseWorker
 import javax.inject.Inject
 
 @HiltViewModel
 internal class MainViewModel @Inject constructor(
-    private val settingsInteractor: SettingsInteractor,
+    private val interactor: Interactor,
     private val inAppUpdate: InAppUpdate,
     private val workManager: WorkManager,
     private val analytics: MoviesAnalytics,
     private val firebaseMessaging: FirebaseMessaging
 ): BaseViewModel() {
 
-    val currentTheme: StateFlow<AppTheme> = settingsInteractor.currentTheme
+    val currentTheme: StateFlow<AppTheme> = interactor.currentTheme
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
             initialValue = AppTheme.FollowSystem
         )
 
-    val dynamicColors: StateFlow<Boolean> = settingsInteractor.dynamicColors
+    val dynamicColors: StateFlow<Boolean> = interactor.dynamicColors
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
@@ -61,7 +61,7 @@ internal class MainViewModel @Inject constructor(
     }
 
     private fun fetchRemoteConfig() = launch {
-        settingsInteractor.fetchRemoteConfig()
+        interactor.fetchRemoteConfig()
     }
 
     private fun fetchFirebaseMessagingToken() {

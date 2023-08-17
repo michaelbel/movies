@@ -1,15 +1,15 @@
 package org.michaelbel.movies.domain.usecase
 
-import javax.inject.Inject
-import org.michaelbel.movies.domain.interactor.movie.MovieInteractor
+import org.michaelbel.movies.domain.interactor.Interactor
 import org.michaelbel.movies.entities.handle
 import org.michaelbel.movies.entities.lce.ScreenState
+import javax.inject.Inject
 
 class MovieDetailsCase @Inject constructor(
-    private val movieInteractor: MovieInteractor
+    private val interactor: Interactor
 ) {
     suspend operator fun invoke(movieId: Int): ScreenState {
-        movieInteractor.movieDetails(movieId).handle(
+        interactor.movieDetails(movieId).handle(
             success = { movieDetailsData ->
                 return ScreenState.Content(movieDetailsData)
             },
