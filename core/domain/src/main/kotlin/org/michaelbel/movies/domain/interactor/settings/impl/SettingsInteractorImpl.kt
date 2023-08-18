@@ -45,9 +45,9 @@ internal class SettingsInteractorImpl @Inject constructor(
 
     override val appVersionData: Flow<AppVersionData> = settingsRepository.appVersionData
 
-    override suspend fun selectTheme(theme: AppTheme) = withContext(dispatchers.main) {
-        settingsRepository.selectTheme(theme)
-        analytics.logEvent(SelectThemeEvent(theme.toString()))
+    override suspend fun selectTheme(appTheme: AppTheme) = withContext(dispatchers.main) {
+        settingsRepository.selectTheme(appTheme)
+        analytics.logEvent(SelectThemeEvent(appTheme.toString()))
     }
 
     override suspend fun setDynamicColors(value: Boolean) = withContext(dispatchers.main) {

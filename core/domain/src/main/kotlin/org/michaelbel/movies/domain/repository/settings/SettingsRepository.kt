@@ -15,7 +15,7 @@ interface SettingsRepository {
 
     val appVersionData: Flow<AppVersionData>
 
-    suspend fun selectTheme(theme: AppTheme)
+    suspend fun selectTheme(appTheme: AppTheme)
 
     suspend fun setDynamicColors(value: Boolean)
 
