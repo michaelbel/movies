@@ -12,9 +12,9 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import org.michaelbel.moviemade.BuildConfig
 import org.michaelbel.movies.analytics.MoviesAnalytics
 import org.michaelbel.movies.common.inappupdate.di.InAppUpdate
+import org.michaelbel.movies.common.ktx.printlnDebug
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.interactor.Interactor
@@ -67,9 +67,7 @@ internal class MainViewModel @Inject constructor(
     private fun fetchFirebaseMessagingToken() {
         firebaseMessaging.token.addOnCompleteListener { task ->
             val token: String = task.result
-            if (BuildConfig.DEBUG) {
-                println("firebase messaging token: $token")
-            }
+            printlnDebug("firebase messaging token: $token")
         }
     }
 
