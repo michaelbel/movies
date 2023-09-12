@@ -161,8 +161,6 @@ dependencies {
     implementation(project(":feature:feed"))
     implementation(project(":feature:settings"))
 
-    implementation(libs.androidx.profile.installer)
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit.ktx)
     androidTestImplementation(libs.androidx.espresso.core)
