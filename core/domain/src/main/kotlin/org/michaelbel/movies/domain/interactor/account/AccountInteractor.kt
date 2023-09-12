@@ -1,7 +1,7 @@
 package org.michaelbel.movies.domain.interactor.account
 
 import kotlinx.coroutines.flow.Flow
-import org.michaelbel.movies.domain.data.entity.AccountDb
+import org.michaelbel.movies.persistence.database.entity.AccountDb
 
 interface AccountInteractor {
 

@@ -1,12 +1,9 @@
 package org.michaelbel.movies.domain.repository.authentication.impl
 
-import org.michaelbel.movies.domain.data.dao.AccountDao
 import org.michaelbel.movies.domain.exceptions.CreateRequestTokenException
 import org.michaelbel.movies.domain.exceptions.CreateSessionException
 import org.michaelbel.movies.domain.exceptions.CreateSessionWithLoginException
 import org.michaelbel.movies.domain.exceptions.DeleteSessionException
-import org.michaelbel.movies.domain.preferences.MoviesPreferences
-import org.michaelbel.movies.domain.repository.authentication.AuthenticationRepository
 import org.michaelbel.movies.domain.service.authentication.AuthenticationService
 import org.michaelbel.movies.entities.tmdbApiKey
 import org.michaelbel.movies.network.model.DeletedSession
@@ -15,6 +12,9 @@ import org.michaelbel.movies.network.model.Session
 import org.michaelbel.movies.network.model.SessionRequest
 import org.michaelbel.movies.network.model.Token
 import org.michaelbel.movies.network.model.Username
+import org.michaelbel.movies.persistence.database.dao.AccountDao
+import org.michaelbel.movies.persistence.datastore.MoviesPreferences
+import org.michaelbel.movies.repository.AuthenticationRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 

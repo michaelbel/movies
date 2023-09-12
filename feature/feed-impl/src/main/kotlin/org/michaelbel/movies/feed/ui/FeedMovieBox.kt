@@ -23,8 +23,8 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import org.michaelbel.movies.domain.data.entity.MovieDb
 import org.michaelbel.movies.feed_impl.R
+import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
 import org.michaelbel.movies.ui.preview.DevicePreviews

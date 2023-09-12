@@ -29,8 +29,8 @@ import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.fade
 import com.google.accompanist.placeholder.placeholder
 import org.michaelbel.movies.details_impl.R
-import org.michaelbel.movies.domain.data.entity.MovieDb
-import org.michaelbel.movies.domain.data.ktx.isNotEmpty
+import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.ktx.isNotEmpty
 import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
 import org.michaelbel.movies.ui.preview.DevicePreviews

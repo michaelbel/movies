@@ -12,8 +12,8 @@ import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.domain.ktx.code
 import org.michaelbel.movies.domain.ktx.packageInfo
-import org.michaelbel.movies.domain.preferences.MoviesPreferences
-import org.michaelbel.movies.domain.repository.settings.SettingsRepository
+import org.michaelbel.movies.persistence.datastore.MoviesPreferences
+import org.michaelbel.movies.repository.SettingsRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 

@@ -3,15 +3,15 @@ package org.michaelbel.movies.domain.repository.account.impl
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
-import org.michaelbel.movies.domain.data.dao.AccountDao
-import org.michaelbel.movies.domain.data.entity.AccountDb
 import org.michaelbel.movies.domain.exceptions.AccountDetailsException
 import org.michaelbel.movies.domain.ktx.mapToAccountDb
-import org.michaelbel.movies.domain.preferences.MoviesPreferences
-import org.michaelbel.movies.domain.repository.account.AccountRepository
 import org.michaelbel.movies.domain.service.account.AccountService
 import org.michaelbel.movies.entities.tmdbApiKey
 import org.michaelbel.movies.network.model.Account
+import org.michaelbel.movies.persistence.database.dao.AccountDao
+import org.michaelbel.movies.persistence.database.entity.AccountDb
+import org.michaelbel.movies.persistence.datastore.MoviesPreferences
+import org.michaelbel.movies.repository.AccountRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 

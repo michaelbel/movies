@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.common.usecase.UseCase
-import org.michaelbel.movies.domain.preferences.MoviesPreferences
+import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import javax.inject.Inject
 
 class DelayUseCase @Inject constructor(

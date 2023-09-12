@@ -4,13 +4,13 @@ import androidx.paging.PagingSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
-import org.michaelbel.movies.domain.data.entity.MovieDb
 import org.michaelbel.movies.domain.interactor.movie.MovieInteractor
-import org.michaelbel.movies.domain.repository.movie.MovieRepository
 import org.michaelbel.movies.domain.usecase.DelayUseCase
 import org.michaelbel.movies.entities.Either
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
+import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.repository.MovieRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 

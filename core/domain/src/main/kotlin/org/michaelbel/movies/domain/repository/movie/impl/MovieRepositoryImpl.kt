@@ -2,14 +2,8 @@ package org.michaelbel.movies.domain.repository.movie.impl
 
 import androidx.paging.PagingSource
 import org.michaelbel.movies.common.localization.LocaleController
-import org.michaelbel.movies.domain.data.dao.MovieDao
-import org.michaelbel.movies.domain.data.dao.PagingKeyDao
-import org.michaelbel.movies.domain.data.dao.ktx.isEmpty
-import org.michaelbel.movies.domain.data.entity.MovieDb
-import org.michaelbel.movies.domain.data.entity.PagingKeyDb
 import org.michaelbel.movies.domain.exceptions.ktx.checkApiKeyNotNullException
 import org.michaelbel.movies.domain.ktx.mapToMovieDb
-import org.michaelbel.movies.domain.repository.movie.MovieRepository
 import org.michaelbel.movies.domain.service.movie.MovieService
 import org.michaelbel.movies.entities.Either
 import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
@@ -18,6 +12,12 @@ import org.michaelbel.movies.entities.tmdbApiKey
 import org.michaelbel.movies.network.model.Movie
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
+import org.michaelbel.movies.persistence.database.dao.MovieDao
+import org.michaelbel.movies.persistence.database.dao.PagingKeyDao
+import org.michaelbel.movies.persistence.database.dao.ktx.isEmpty
+import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.entity.PagingKeyDb
+import org.michaelbel.movies.repository.MovieRepository
 import javax.inject.Inject
 import javax.inject.Singleton
 

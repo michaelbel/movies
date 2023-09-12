@@ -28,6 +28,8 @@ include(
     ":core:navigation",
     ":core:network",
     ":core:notifications",
+    ":core:persistence",
+    ":core:repository",
     ":core:ui",
 
     ":feature:account",

@@ -15,9 +15,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import org.michaelbel.movies.domain.data.entity.AccountDb
-import org.michaelbel.movies.domain.data.ktx.isEmpty
 import org.michaelbel.movies.feed_impl.R
+import org.michaelbel.movies.persistence.database.entity.AccountDb
+import org.michaelbel.movies.persistence.database.ktx.isEmpty
 import org.michaelbel.movies.ui.compose.AccountAvatar
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.lettersTextFontSizeSmall

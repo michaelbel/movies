@@ -21,8 +21,8 @@ import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImagePainter
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
-import org.michaelbel.movies.domain.data.entity.AccountDb
-import org.michaelbel.movies.domain.data.ktx.letters
+import org.michaelbel.movies.persistence.database.entity.AccountDb
+import org.michaelbel.movies.persistence.database.ktx.letters
 import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.ktx.lettersTextFontSizeSmall
 import org.michaelbel.movies.ui.preview.DevicePreviews

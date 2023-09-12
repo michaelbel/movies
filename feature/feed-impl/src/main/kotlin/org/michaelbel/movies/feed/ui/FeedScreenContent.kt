@@ -31,14 +31,14 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.michaelbel.movies.domain.data.entity.AccountDb
-import org.michaelbel.movies.domain.data.entity.MovieDb
-import org.michaelbel.movies.domain.data.ktx.orEmpty
 import org.michaelbel.movies.domain.exceptions.ApiKeyNotNullException
 import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
 import org.michaelbel.movies.feed.FeedViewModel
 import org.michaelbel.movies.feed_impl.R
 import org.michaelbel.movies.network.connectivity.NetworkStatus
+import org.michaelbel.movies.persistence.database.entity.AccountDb
+import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.isFailure
 import org.michaelbel.movies.ui.ktx.isLoading

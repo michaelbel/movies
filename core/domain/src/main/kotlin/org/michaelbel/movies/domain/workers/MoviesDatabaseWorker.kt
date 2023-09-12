@@ -10,11 +10,11 @@ import kotlinx.coroutines.withContext
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
-import org.michaelbel.movies.domain.data.dao.MovieDao
-import org.michaelbel.movies.domain.data.dao.ktx.isEmpty
-import org.michaelbel.movies.domain.data.entity.MovieDb
 import org.michaelbel.movies.domain.ktx.mapToMovieDb
 import org.michaelbel.movies.network.model.MovieResponse
+import org.michaelbel.movies.persistence.database.dao.MovieDao
+import org.michaelbel.movies.persistence.database.dao.ktx.isEmpty
+import org.michaelbel.movies.persistence.database.entity.MovieDb
 
 @HiltWorker
 class MoviesDatabaseWorker @AssistedInject constructor(

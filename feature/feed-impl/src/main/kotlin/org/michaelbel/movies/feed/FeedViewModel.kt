@@ -14,14 +14,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import org.michaelbel.movies.common.inappupdate.di.InAppUpdate
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
-import org.michaelbel.movies.domain.data.entity.AccountDb
-import org.michaelbel.movies.domain.data.entity.MovieDb
 import org.michaelbel.movies.domain.interactor.Interactor
 import org.michaelbel.movies.domain.mediator.MoviesRemoteMediator
 import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.network.model.MovieResponse
+import org.michaelbel.movies.persistence.database.entity.AccountDb
+import org.michaelbel.movies.persistence.database.entity.MovieDb
 import javax.inject.Inject
 
 @HiltViewModel

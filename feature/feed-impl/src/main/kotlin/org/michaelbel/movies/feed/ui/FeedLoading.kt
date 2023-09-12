@@ -13,8 +13,8 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.placeholder.PlaceholderHighlight
 import com.google.accompanist.placeholder.material.fade
 import com.google.accompanist.placeholder.placeholder
-import org.michaelbel.movies.domain.data.entity.MovieDb
 import org.michaelbel.movies.network.model.MovieResponse
+import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 

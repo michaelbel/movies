@@ -2,7 +2,6 @@
 plugins {
     alias(libs.plugins.library)
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.kotlin.ksp)
     id("movies-android-hilt")
 }
 
@@ -45,13 +44,13 @@ android {
 }
 
 dependencies {
+    api(project(":core:persistence"))
     implementation(project(":core:analytics"))
     implementation(project(":core:common"))
     implementation(project(":core:entities"))
     implementation(project(":core:network"))
-    implementation(libs.bundles.datastore)
-    implementation(libs.bundles.room)
+    implementation(project(":core:repository"))
     api(libs.androidx.hilt.work)
     api(libs.androidx.work.runtime.ktx)
-    ksp(libs.androidx.room.compiler)
+    implementation(libs.androidx.paging.compose)
 }

@@ -1,9 +1,9 @@
 package org.michaelbel.movies.domain.ktx
 
-import org.michaelbel.movies.domain.data.entity.AccountDb
 import org.michaelbel.movies.entities.GRAVATAR_URL
 import org.michaelbel.movies.entities.image.formatProfileImage
 import org.michaelbel.movies.network.model.Account
+import org.michaelbel.movies.persistence.database.entity.AccountDb
 import java.util.Locale
 
 internal val Account.mapToAccountDb: AccountDb
