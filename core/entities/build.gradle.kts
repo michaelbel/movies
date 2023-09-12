@@ -47,7 +47,3 @@ android {
         lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
     }
 }
-
-dependencies {
-    implementation(project(":core:network"))
-}
