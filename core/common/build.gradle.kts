@@ -13,14 +13,6 @@ android {
         compileSdk = libs.versions.compile.sdk.get().toInt()
     }
 
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + listOf(
-            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-            "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
-            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-        )
-    }
-
     /*buildTypes {
         create("benchmark") {
             signingConfig = signingConfigs.getByName("debug")

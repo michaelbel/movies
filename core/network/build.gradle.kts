@@ -26,12 +26,6 @@ android {
         buildConfig = true
     }
 
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + listOf(
-            "-opt-in=kotlinx.serialization.ExperimentalSerializationApi"
-        )
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
