@@ -17,9 +17,9 @@ import org.michaelbel.movies.common.inappupdate.di.InAppUpdate
 import org.michaelbel.movies.common.ktx.printlnDebug
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
-import org.michaelbel.movies.domain.interactor.Interactor
 import org.michaelbel.movies.domain.workers.AccountUpdateWorker
 import org.michaelbel.movies.domain.workers.MoviesDatabaseWorker
+import org.michaelbel.movies.interactor.Interactor
 import javax.inject.Inject
 
 @HiltViewModel

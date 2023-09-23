@@ -1,4 +1,4 @@
-package org.michaelbel.movies.domain.interactor.account
+package org.michaelbel.movies.interactor
 
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.persistence.database.entity.AccountDb

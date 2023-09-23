@@ -10,7 +10,7 @@ import org.michaelbel.movies.domain.exceptions.AccountDetailsException
 import org.michaelbel.movies.domain.exceptions.CreateRequestTokenException
 import org.michaelbel.movies.domain.exceptions.CreateSessionException
 import org.michaelbel.movies.domain.exceptions.CreateSessionWithLoginException
-import org.michaelbel.movies.domain.interactor.Interactor
+import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.network.model.Token
 import javax.inject.Inject
 

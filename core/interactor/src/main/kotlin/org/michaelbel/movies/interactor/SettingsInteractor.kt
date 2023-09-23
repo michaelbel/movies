@@ -1,4 +1,4 @@
-package org.michaelbel.movies.domain.interactor.settings
+package org.michaelbel.movies.interactor
 
 import androidx.compose.ui.unit.LayoutDirection
 import kotlinx.coroutines.flow.Flow

@@ -1,4 +1,4 @@
-package org.michaelbel.movies.domain.interactor.authentication
+package org.michaelbel.movies.interactor
 
 import org.michaelbel.movies.network.model.Session
 import org.michaelbel.movies.network.model.Token

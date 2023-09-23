@@ -4,14 +4,14 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import org.michaelbel.movies.domain.interactor.account.AccountInteractor
 import org.michaelbel.movies.domain.interactor.account.impl.AccountInteractorImpl
-import org.michaelbel.movies.domain.interactor.authentication.AuthenticationInteractor
 import org.michaelbel.movies.domain.interactor.authentication.impl.AuthenticationInteractorImpl
-import org.michaelbel.movies.domain.interactor.movie.MovieInteractor
 import org.michaelbel.movies.domain.interactor.movie.impl.MovieInteractorImpl
-import org.michaelbel.movies.domain.interactor.settings.SettingsInteractor
 import org.michaelbel.movies.domain.interactor.settings.impl.SettingsInteractorImpl
+import org.michaelbel.movies.interactor.AccountInteractor
+import org.michaelbel.movies.interactor.AuthenticationInteractor
+import org.michaelbel.movies.interactor.MovieInteractor
+import org.michaelbel.movies.interactor.SettingsInteractor
 import javax.inject.Singleton
 
 @Module

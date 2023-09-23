@@ -4,9 +4,9 @@ import androidx.paging.PagingSource
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
-import org.michaelbel.movies.domain.interactor.movie.MovieInteractor
 import org.michaelbel.movies.domain.usecase.DelayUseCase
 import org.michaelbel.movies.entities.Either
+import org.michaelbel.movies.interactor.MovieInteractor
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
 import org.michaelbel.movies.persistence.database.entity.MovieDb

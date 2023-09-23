@@ -1,7 +1,7 @@
 package org.michaelbel.movies.domain.usecase
 
 import org.michaelbel.movies.common.theme.AppTheme
-import org.michaelbel.movies.domain.interactor.Interactor
+import org.michaelbel.movies.interactor.Interactor
 import javax.inject.Inject
 
 class SelectThemeCase @Inject constructor(

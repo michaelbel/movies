@@ -1,8 +1,8 @@
 package org.michaelbel.movies.domain.usecase
 
-import org.michaelbel.movies.domain.interactor.Interactor
 import org.michaelbel.movies.entities.handle
 import org.michaelbel.movies.entities.lce.ScreenState
+import org.michaelbel.movies.interactor.Interactor
 import javax.inject.Inject
 
 class MovieDetailsCase @Inject constructor(

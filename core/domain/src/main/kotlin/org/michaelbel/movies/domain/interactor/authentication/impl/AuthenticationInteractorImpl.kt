@@ -3,8 +3,8 @@ package org.michaelbel.movies.domain.interactor.authentication.impl
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
-import org.michaelbel.movies.domain.interactor.authentication.AuthenticationInteractor
 import org.michaelbel.movies.domain.usecase.DelayUseCase
+import org.michaelbel.movies.interactor.AuthenticationInteractor
 import org.michaelbel.movies.network.model.Session
 import org.michaelbel.movies.network.model.Token
 import org.michaelbel.movies.repository.AuthenticationRepository

@@ -4,8 +4,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
-import org.michaelbel.movies.domain.interactor.account.AccountInteractor
 import org.michaelbel.movies.domain.usecase.DelayUseCase
+import org.michaelbel.movies.interactor.AccountInteractor
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.repository.AccountRepository
 import javax.inject.Inject

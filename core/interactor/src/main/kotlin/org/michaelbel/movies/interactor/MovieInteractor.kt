@@ -1,4 +1,4 @@
-package org.michaelbel.movies.domain.interactor.movie
+package org.michaelbel.movies.interactor
 
 import androidx.paging.PagingSource
 import org.michaelbel.movies.entities.Either

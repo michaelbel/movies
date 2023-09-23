@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "org.michaelbel.movies.domain"
+    namespace = "org.michaelbel.movies.interactor"
 
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
@@ -20,12 +20,6 @@ android {
             initWith(getByName("release"))
         }
     }*/
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + listOf(
-            "-opt-in=androidx.paging.ExperimentalPagingApi"
-        )
-    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -42,14 +36,8 @@ android {
 }
 
 dependencies {
-    api(project(":core:interactor"))
-    api(project(":core:persistence"))
-    implementation(project(":core:analytics"))
     implementation(project(":core:common"))
     implementation(project(":core:entities"))
     implementation(project(":core:network"))
-    implementation(project(":core:repository"))
-    api(libs.androidx.hilt.work)
-    api(libs.androidx.work.runtime.ktx)
-    implementation(libs.androidx.paging.compose)
+    implementation(project(":core:persistence"))
 }

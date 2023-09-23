@@ -14,7 +14,7 @@ import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.common.googleapi.GoogleApi
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
-import org.michaelbel.movies.domain.interactor.settings.SettingsInteractor
+import org.michaelbel.movies.interactor.SettingsInteractor
 import org.michaelbel.movies.repository.SettingsRepository
 import timber.log.Timber
 import javax.inject.Inject

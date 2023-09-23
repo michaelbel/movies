@@ -3,7 +3,7 @@ package org.michaelbel.movies.domain.mediator
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import org.michaelbel.movies.domain.interactor.Interactor
+import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.network.ktx.isPaginationReached
 import org.michaelbel.movies.network.ktx.nextPage
 import org.michaelbel.movies.network.model.MovieResponse

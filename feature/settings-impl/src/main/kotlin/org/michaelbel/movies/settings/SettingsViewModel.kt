@@ -12,10 +12,10 @@ import org.michaelbel.movies.common.localization.model.AppLanguage
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
-import org.michaelbel.movies.domain.interactor.Interactor
 import org.michaelbel.movies.domain.usecase.DelayUseCase
 import org.michaelbel.movies.domain.usecase.SelectLanguageCase
 import org.michaelbel.movies.domain.usecase.SelectThemeCase
+import org.michaelbel.movies.interactor.Interactor
 import javax.inject.Inject
 
 @HiltViewModel

@@ -14,9 +14,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import org.michaelbel.movies.common.inappupdate.di.InAppUpdate
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
-import org.michaelbel.movies.domain.interactor.Interactor
 import org.michaelbel.movies.domain.mediator.MoviesRemoteMediator
 import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
+import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.network.model.MovieResponse

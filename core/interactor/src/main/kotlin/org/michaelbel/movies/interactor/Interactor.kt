@@ -1,9 +1,5 @@
-package org.michaelbel.movies.domain.interactor
+package org.michaelbel.movies.interactor
 
-import org.michaelbel.movies.domain.interactor.account.AccountInteractor
-import org.michaelbel.movies.domain.interactor.authentication.AuthenticationInteractor
-import org.michaelbel.movies.domain.interactor.movie.MovieInteractor
-import org.michaelbel.movies.domain.interactor.settings.SettingsInteractor
 import javax.inject.Inject
 
 class Interactor @Inject constructor(

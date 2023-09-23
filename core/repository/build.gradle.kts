@@ -40,5 +40,4 @@ dependencies {
     implementation(project(":core:entities"))
     implementation(project(":core:network"))
     implementation(project(":core:persistence"))
-    implementation(libs.androidx.paging.compose)
 }

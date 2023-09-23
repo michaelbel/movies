@@ -25,6 +25,7 @@ include(
     ":core:common",
     ":core:domain",
     ":core:entities",
+    ":core:interactor",
     ":core:navigation",
     ":core:network",
     ":core:notifications",

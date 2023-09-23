@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
-import org.michaelbel.movies.domain.interactor.Interactor
+import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import javax.inject.Inject
 

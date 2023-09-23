@@ -7,8 +7,8 @@ import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import org.michaelbel.movies.common.ktx.isTimePasses
-import org.michaelbel.movies.domain.interactor.Interactor
 import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
+import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import java.util.concurrent.TimeUnit
 
