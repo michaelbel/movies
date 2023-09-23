@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.ktx.require
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
-import org.michaelbel.movies.domain.usecase.MovieDetailsCase
 import org.michaelbel.movies.entities.lce.ScreenState
+import org.michaelbel.movies.interactor.usecase.MovieDetailsCase
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import javax.inject.Inject

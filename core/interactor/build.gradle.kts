@@ -36,8 +36,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common"))
+    api(project(":core:analytics"))
+    api(project(":core:common"))
+    api(project(":core:network"))
+    api(project(":core:persistence"))
+    api(project(":core:repository"))
     implementation(project(":core:entities"))
-    implementation(project(":core:network"))
-    implementation(project(":core:persistence"))
 }

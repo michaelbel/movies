@@ -1,4 +1,4 @@
-package org.michaelbel.movies.domain.usecase
+package org.michaelbel.movies.interactor.usecase
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map

@@ -1,4 +1,4 @@
-package org.michaelbel.movies.domain.usecase
+package org.michaelbel.movies.interactor.usecase
 
 import org.michaelbel.movies.common.localization.LocaleController
 import org.michaelbel.movies.common.localization.model.AppLanguage
