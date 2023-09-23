@@ -31,7 +31,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import org.michaelbel.movies.domain.exceptions.ApiKeyNotNullException
+import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
 import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
 import org.michaelbel.movies.feed.FeedViewModel
 import org.michaelbel.movies.feed_impl.R

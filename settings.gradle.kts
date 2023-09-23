@@ -31,6 +31,7 @@ include(
     ":core:notifications",
     ":core:persistence",
     ":core:repository",
+    ":core:repository-impl",
     ":core:ui",
 
     ":feature:account",

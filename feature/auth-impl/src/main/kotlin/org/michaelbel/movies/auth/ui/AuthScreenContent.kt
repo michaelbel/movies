@@ -45,7 +45,7 @@ import org.michaelbel.movies.auth.AuthViewModel
 import org.michaelbel.movies.auth.ktx.text
 import org.michaelbel.movies.auth_impl.R
 import org.michaelbel.movies.common.browser.openUrl
-import org.michaelbel.movies.domain.exceptions.CreateSessionWithLoginException
+import org.michaelbel.movies.common.exceptions.CreateSessionWithLoginException
 import org.michaelbel.movies.entities.TMDB_PRIVACY_POLICY
 import org.michaelbel.movies.entities.TMDB_REGISTER
 import org.michaelbel.movies.entities.TMDB_RESET_PASSWORD

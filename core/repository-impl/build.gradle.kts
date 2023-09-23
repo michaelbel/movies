@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "org.michaelbel.movies.repository"
+    namespace = "org.michaelbel.movies.repository_impl"
 
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
@@ -36,8 +36,5 @@ android {
 }
 
 dependencies {
-    api(project(":core:common"))
-    api(project(":core:entities"))
-    api(project(":core:network"))
-    api(project(":core:persistence"))
+    api(project(":core:repository"))
 }

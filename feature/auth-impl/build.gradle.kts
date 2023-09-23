@@ -51,10 +51,10 @@ android {
 }
 
 dependencies {
+    api(project(":core:domain"))
     api(project(":core:navigation"))
     api(project(":core:ui"))
     implementation(project(":core:common"))
-    implementation(project(":core:domain"))
     implementation(project(":core:network"))
 
     implementation(libs.androidx.autofill)

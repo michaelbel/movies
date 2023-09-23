@@ -48,7 +48,7 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:entities"))
     implementation(project(":core:network"))
-    implementation(project(":core:repository"))
+    implementation(project(":core:repository-impl"))
     api(libs.androidx.hilt.work)
     api(libs.androidx.work.runtime.ktx)
     implementation(libs.androidx.paging.compose)
