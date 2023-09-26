@@ -150,7 +150,7 @@ kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 [bundles]
 kotlin-coroutines = [
     "kotlin-coroutines-android",
-    "kotlin-coroutines-core",
+    "kotlin-coroutines-core"
 ]
 accompanist = [
     "accompanist-appcompat-theme",
@@ -160,11 +160,11 @@ accompanist = [
     "accompanist-navigation-animation",
     "accompanist-placeholder",
     "accompanist-placeholder-material",
-    "accompanist-systemuicontroller",
+    "accompanist-systemuicontroller"
 ]
 appcompat = [
     "androidx-appcompat",
-    "androidx-appcompat-resources",
+    "androidx-appcompat-resources"
 ]
 compose = [
     "androidx-compose-compiler",
@@ -175,26 +175,26 @@ compose = [
     "androidx-compose-runtime",
     "androidx-compose-ui",
     "androidx-compose-ui-tooling",
-    "androidx-compose-ui-viewbinding",
+    "androidx-compose-ui-viewbinding"
 ]
 datastore = [
     "androidx-datastore-core",
     "androidx-datastore-preferences",
-    "androidx-datastore-preferences-core",
+    "androidx-datastore-preferences-core"
 ]
 lifecycle = [
     "androidx-lifecycle-runtime-compose",
     "androidx-lifecycle-viewmodel-compose",
-    "androidx-lifecycle-process",
+    "androidx-lifecycle-process"
 ]
 material = [
     "material",
-    "material-compose-theme-adapter",
+    "material-compose-theme-adapter"
 ]
 room = [
     "androidx-room-runtime",
     "androidx-room-ktx",
-    "androidx-room-paging",
+    "androidx-room-paging"
 ]
 
 [plugins]

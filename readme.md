@@ -90,6 +90,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Settings Panel](https://d.android.com/reference/android/provider/Settings.Panel)
 - [x] [Benchmark](https://d.android.com/topic/performance/benchmarking/benchmarking-overview)
 - [x] [Support Localization](https://d.android.com/guide/topics/resources/localization)
+- [x] [Notification Runtime Permission](https://d.android.com/develop/ui/views/notifications/notification-permission)
 - [ ] [Unit Tests](https://d.android.com/training/testing/local-tests)
 - [ ] [UI Tests](https://d.android.com/training/testing/instrumented-tests/ui-tests)
 - [ ] [Baseline Profiles](https://d.android.com/topic/performance/baselineprofiles/overview)
