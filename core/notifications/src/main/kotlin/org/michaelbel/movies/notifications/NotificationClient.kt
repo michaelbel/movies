@@ -10,6 +10,10 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import org.michaelbel.movies.notifications.ktx.isPostNotificationsPermissionGranted
 import org.michaelbel.movies.notifications.model.MoviesPush
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import javax.inject.Inject
@@ -18,8 +22,16 @@ class NotificationClient @Inject constructor(
     @ApplicationContext private val context: Context,
     private val notificationManager: NotificationManagerCompat
 ) {
+
     private val channelId: String
         get() = context.getString(R.string.notification_channel_id)
+
+    fun notificationsPermissionRequired(time: Long): Flow<Boolean> {
+        return flow {
+            delay(time)
+            emit(!context.isPostNotificationsPermissionGranted)
+        }
+    }
 
     fun send(push: MoviesPush) {
         createChannel()

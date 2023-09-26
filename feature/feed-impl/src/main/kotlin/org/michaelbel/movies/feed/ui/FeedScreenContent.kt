@@ -1,5 +1,6 @@
 package org.michaelbel.movies.feed.ui
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -58,6 +59,7 @@ fun FeedRoute(
     val pagingItems: LazyPagingItems<MovieDb> = viewModel.pagingItems.collectAsLazyPagingItems()
     val account: AccountDb? by viewModel.account.collectAsStateWithLifecycle()
     val isSettingsIconVisible: Boolean by viewModel.isSettingsIconVisible.collectAsStateWithLifecycle()
+    val notificationsPermissionRequired: Boolean by viewModel.notificationsPermissionRequired.collectAsStateWithLifecycle()
     val networkStatus: NetworkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
     val isUpdateAvailable: Boolean by rememberUpdatedState(viewModel.updateAvailableMessage)
 
@@ -66,6 +68,7 @@ fun FeedRoute(
         account = account.orEmpty,
         networkStatus = networkStatus,
         isSettingsIconVisible = isSettingsIconVisible,
+        notificationsPermissionRequired = notificationsPermissionRequired,
         isUpdateIconVisible = isUpdateAvailable,
         onNavigateToAuth = onNavigateToAuth,
         onNavigateToAccount = onNavigateToAccount,
@@ -82,6 +85,7 @@ private fun FeedScreenContent(
     account: AccountDb,
     networkStatus: NetworkStatus,
     isSettingsIconVisible: Boolean,
+    notificationsPermissionRequired: Boolean,
     isUpdateIconVisible: Boolean,
     onNavigateToAuth: () -> Unit,
     onNavigateToAccount: () -> Unit,
@@ -118,9 +122,17 @@ private fun FeedScreenContent(
         pagingItems.retry()
     }
 
-    val resultContract = rememberLauncherForActivityResult(
+    val settingsPanelContract = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {}
+
+    val permissionContract = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) {}
+
+    if (notificationsPermissionRequired) {
+        permissionContract.launch(Manifest.permission.POST_NOTIFICATIONS)
+    }
 
     Scaffold(
         modifier = modifier,
@@ -166,7 +178,7 @@ private fun FeedScreenContent(
                         .clickableWithoutRipple { pagingItems.retry() },
                     onCheckConnectivityClick = {
                         if (Build.VERSION.SDK_INT >= 29) {
-                            resultContract.launch(
+                            settingsPanelContract.launch(
                                 Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY)
                             )
                         }

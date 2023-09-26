@@ -20,6 +20,7 @@ import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.network.model.MovieResponse
+import org.michaelbel.movies.notifications.NotificationClient
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import javax.inject.Inject
@@ -27,6 +28,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FeedViewModel @Inject constructor(
     private val interactor: Interactor,
+    notificationClient: NotificationClient,
     networkManager: NetworkManager,
     inAppUpdate: InAppUpdate
 ): BaseViewModel() {
@@ -72,11 +74,23 @@ class FeedViewModel @Inject constructor(
             initialValue = true
         )
 
+    val notificationsPermissionRequired: StateFlow<Boolean> = notificationClient
+        .notificationsPermissionRequired(NOTIFICATIONS_PERMISSION_DELAY)
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = false
+        )
+
     var updateAvailableMessage: Boolean by mutableStateOf(false)
 
     init {
         inAppUpdate.onUpdateAvailableListener = { updateAvailable ->
             updateAvailableMessage = updateAvailable
         }
+    }
+
+    private companion object {
+        private const val NOTIFICATIONS_PERMISSION_DELAY = 2_000L
     }
 }
