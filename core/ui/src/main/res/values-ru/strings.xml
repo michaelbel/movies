@@ -2,4 +2,8 @@
 <resources>
     <string name="language_code">ru</string>
     <string name="shortcuts_settings_title">Настройки</string>
+    <string name="notification_enable_title">Включите Уведомления\nдля Movies</string>
+    <string name="notification_enable_subtitle">Пожалуйста позвольте Movies отправлять вам уведомления</string>
+    <string name="notification_continue">Продолжить</string>
+    <string name="notification_go_to_settings">В Настройки</string>
 </resources>

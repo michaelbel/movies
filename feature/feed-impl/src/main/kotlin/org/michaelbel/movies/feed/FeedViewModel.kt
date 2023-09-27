@@ -9,9 +9,12 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.inappupdate.di.InAppUpdate
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.mediator.MoviesRemoteMediator
@@ -28,7 +31,7 @@ import javax.inject.Inject
 @HiltViewModel
 class FeedViewModel @Inject constructor(
     private val interactor: Interactor,
-    notificationClient: NotificationClient,
+    private val notificationClient: NotificationClient,
     networkManager: NetworkManager,
     inAppUpdate: InAppUpdate
 ): BaseViewModel() {
@@ -74,13 +77,8 @@ class FeedViewModel @Inject constructor(
             initialValue = true
         )
 
-    val notificationsPermissionRequired: StateFlow<Boolean> = notificationClient
-        .notificationsPermissionRequired(NOTIFICATIONS_PERMISSION_DELAY)
-        .stateIn(
-            scope = this,
-            started = SharingStarted.Lazily,
-            initialValue = false
-        )
+    private var _notificationsPermissionRequired: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    val notificationsPermissionRequired: StateFlow<Boolean> = _notificationsPermissionRequired.asStateFlow()
 
     var updateAvailableMessage: Boolean by mutableStateOf(false)
 
@@ -88,6 +86,18 @@ class FeedViewModel @Inject constructor(
         inAppUpdate.onUpdateAvailableListener = { updateAvailable ->
             updateAvailableMessage = updateAvailable
         }
+        subscribeNotificationsPermissionRequired()
+    }
+
+    fun onNotificationBottomSheetHide() = launch {
+        _notificationsPermissionRequired.tryEmit(false)
+        notificationClient.updateNotificationExpireTime()
+    }
+
+    private fun subscribeNotificationsPermissionRequired() = launch {
+        _notificationsPermissionRequired.tryEmit(
+            notificationClient.notificationsPermissionRequired(NOTIFICATIONS_PERMISSION_DELAY)
+        )
     }
 
     private companion object {

@@ -11,26 +11,34 @@ import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import org.michaelbel.movies.common.ktx.isTimePasses
 import org.michaelbel.movies.notifications.ktx.isPostNotificationsPermissionGranted
 import org.michaelbel.movies.notifications.model.MoviesPush
+import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import org.michaelbel.movies.ui.icons.MoviesIcons
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class NotificationClient @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val notificationManager: NotificationManagerCompat
+    private val notificationManager: NotificationManagerCompat,
+    private val preferences: MoviesPreferences
 ) {
 
     private val channelId: String
         get() = context.getString(R.string.notification_channel_id)
 
-    fun notificationsPermissionRequired(time: Long): Flow<Boolean> {
-        return flow {
-            delay(time)
-            emit(!context.isPostNotificationsPermissionGranted)
-        }
+    suspend fun notificationsPermissionRequired(time: Long): Boolean {
+        val expireTime: Long = preferences.getNotificationExpireTime() ?: 0L
+        val currentTime: Long = System.currentTimeMillis()
+        val isTimePasses: Boolean = isTimePasses(ONE_DAY_MILLS, expireTime, currentTime)
+        delay(time)
+        return !context.isPostNotificationsPermissionGranted && isTimePasses
+    }
+
+    suspend fun updateNotificationExpireTime() {
+        val currentTime: Long = System.currentTimeMillis()
+        preferences.setNotificationExpireTime(currentTime)
     }
 
     fun send(push: MoviesPush) {
@@ -80,5 +88,6 @@ class NotificationClient @Inject constructor(
         private const val TAG = "PUSH"
         private const val GROUP_NAME = "App"
         private val VIBRATE_PATTERN: LongArray = longArrayOf(1000)
+        private val ONE_DAY_MILLS: Long = TimeUnit.DAYS.toMillis(1)
     }
 }

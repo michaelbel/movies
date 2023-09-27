@@ -1,6 +1,5 @@
 package org.michaelbel.movies.details.ui
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -63,7 +62,7 @@ private fun DetailsScreenContent(
             )
         },
         containerColor = MaterialTheme.colorScheme.primaryContainer
-    ) { paddingValues: PaddingValues ->
+    ) { paddingValues ->
         when (detailsState) {
             is ScreenState.Loading -> {
                 DetailsLoading(

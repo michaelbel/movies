@@ -2,4 +2,8 @@
 <resources>
     <string name="language_code">en</string>
     <string name="shortcuts_settings_title">Settings</string>
+    <string name="notification_enable_title">Turn on Notifications\nFor Movies</string>
+    <string name="notification_enable_subtitle">Please allow Movies to send you notifications</string>
+    <string name="notification_continue">Continue</string>
+    <string name="notification_go_to_settings">Go To Settings</string>
 </resources>

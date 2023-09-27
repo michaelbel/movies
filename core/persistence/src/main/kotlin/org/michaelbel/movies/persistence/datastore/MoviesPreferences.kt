@@ -100,6 +100,16 @@ class MoviesPreferences @Inject constructor(
         }
     }
 
+    suspend fun getNotificationExpireTime(): Long? {
+        return dataStore.data.first()[PREFERENCE_NOTIFICATION_EXPIRE_TIME_KEY]
+    }
+
+    suspend fun setNotificationExpireTime(expireTime: Long) {
+        dataStore.edit { preferences ->
+            preferences[PREFERENCE_NOTIFICATION_EXPIRE_TIME_KEY] = expireTime
+        }
+    }
+
     private companion object {
         private val PREFERENCE_THEME_KEY: Preferences.Key<Int> = intPreferencesKey("theme")
         private val PREFERENCE_DYNAMIC_COLORS_KEY: Preferences.Key<Boolean> = booleanPreferencesKey("dynamic_colors")
@@ -108,5 +118,6 @@ class MoviesPreferences @Inject constructor(
         private val PREFERENCE_SESSION_ID_KEY: Preferences.Key<String> = stringPreferencesKey("session_id")
         private val PREFERENCE_ACCOUNT_ID_KEY: Preferences.Key<Int> = intPreferencesKey("account_id")
         private val PREFERENCE_ACCOUNT_EXPIRE_TIME_KEY: Preferences.Key<Long> = longPreferencesKey("account_expire_time")
+        private val PREFERENCE_NOTIFICATION_EXPIRE_TIME_KEY: Preferences.Key<Long> = longPreferencesKey("notification_expire_time")
     }
 }

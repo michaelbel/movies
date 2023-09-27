@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Build
 import androidx.core.content.ContextCompat
+import org.michaelbel.movies.common.ktx.notificationManager
 
 internal val Context.isPostNotificationsPermissionGranted: Boolean
     get() = if (Build.VERSION.SDK_INT >= 33) {
@@ -13,5 +14,5 @@ internal val Context.isPostNotificationsPermissionGranted: Boolean
             Manifest.permission.POST_NOTIFICATIONS
         ) == PackageManager.PERMISSION_GRANTED
     } else {
-        true
+        notificationManager.areNotificationsEnabled()
     }
