@@ -61,7 +61,7 @@ fun AuthLinksBox(
                     .padding(horizontal = 8.dp)
                     .size(3.dp)
                     .clip(CircleShape)
-                    .background(MaterialTheme.colorScheme.primary)
+                    .background(MaterialTheme.colorScheme.onPrimaryContainer)
             )
 
             Text(
