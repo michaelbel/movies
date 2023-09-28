@@ -124,6 +124,7 @@ private fun FeedScreenContent(
     val onNotificationBottomSheetHide: () -> Unit = {
         scope.launch {
             notificationBottomSheetScaffoldState.bottomSheetState.hide()
+            onNotificationBottomSheetHideClick()
         }
     }
 
