@@ -2,6 +2,7 @@
 # https://d.android.com/jetpack/androidx/releases/compose-kotlin
 [versions]
 min-sdk = "21"
+benchmark-min-sdk = "23"
 compile-sdk = "34"
 target-sdk = "34"
 gradle = "8.1.2"
