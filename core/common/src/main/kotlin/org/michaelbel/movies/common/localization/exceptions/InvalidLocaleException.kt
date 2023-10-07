@@ -1,3 +1,5 @@
 package org.michaelbel.movies.common.localization.exceptions
 
-internal object InvalidLocaleException: Exception("Invalid locale")
+internal data object InvalidLocaleException: Exception("Invalid locale") {
+    private fun readResolve(): Any = InvalidLocaleException
+}

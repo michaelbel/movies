@@ -1,3 +1,5 @@
 package org.michaelbel.movies.common.theme.exceptions
 
-internal object InvalidThemeException: Exception("Invalid theme")
+internal data object InvalidThemeException: Exception("Invalid theme") {
+    private fun readResolve(): Any = InvalidThemeException
+}
