@@ -15,7 +15,6 @@ import org.michaelbel.movies.common.ktx.isTimePasses
 import org.michaelbel.movies.notifications.ktx.isPostNotificationsPermissionGranted
 import org.michaelbel.movies.notifications.model.MoviesPush
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
-import org.michaelbel.movies.ui.icons.MoviesIcons
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -47,9 +46,9 @@ class NotificationClient @Inject constructor(
         val notification = NotificationCompat.Builder(context, channelId).apply {
             setContentTitle(push.notificationTitle)
             setContentText(push.notificationDescription)
-            setSmallIcon(MoviesIcons.NotificationSmallIconMovieFilter)
+            setSmallIcon(R.drawable.ic_movie_filter_24)
             setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
-            color = ContextCompat.getColor(context, org.michaelbel.movies.ui.R.color.primary)
+            color = ContextCompat.getColor(context, R.color.primary)
             setDefaults(NotificationCompat.DEFAULT_LIGHTS)
             setGroupSummary(true)
             setGroup(GROUP_NAME)

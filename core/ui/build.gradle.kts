@@ -46,6 +46,7 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:domain"))
     implementation(project(":core:network"))
+    implementation(project(":core:notifications"))
     api(libs.androidx.core.splashscreen)
     api(libs.androidx.constraintlayout.compose)
     api(libs.coil.compose)

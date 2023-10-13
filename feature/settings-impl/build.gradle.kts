@@ -56,6 +56,7 @@ dependencies {
     api(project(":core:common"))
     api(project(":core:ui"))
     implementation(project(":core:domain"))
+    implementation(project(":core:notifications"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit.ktx)

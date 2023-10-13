@@ -2,8 +2,6 @@ package org.michaelbel.movies.settings.ui
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
@@ -28,7 +26,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.play.core.review.ReviewInfo
@@ -40,6 +37,7 @@ import org.michaelbel.movies.common.review.rememberReviewManager
 import org.michaelbel.movies.common.review.rememberReviewTask
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
+import org.michaelbel.movies.notifications.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.settings.SettingsViewModel
 import org.michaelbel.movies.settings_impl.BuildConfig
 import org.michaelbel.movies.settings_impl.R
@@ -117,18 +115,6 @@ private fun SettingsScreenContent(
         ActivityResultContracts.StartActivityForResult()
     ) {}
 
-    val onStartAppSettingsIntent: () -> Unit = {
-        Intent(
-            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-            "package:${context.packageName}".toUri()
-        ).apply {
-            addCategory(Intent.CATEGORY_DEFAULT)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }.also { intent: Intent ->
-            resultContract.launch(intent)
-        }
-    }
-
     val onShowPermissionSnackbar: () -> Unit = {
         scope.launch {
             val result: SnackbarResult = snackbarHostState.showSnackbar(
@@ -137,7 +123,7 @@ private fun SettingsScreenContent(
                 duration = SnackbarDuration.Long
             )
             if (result == SnackbarResult.ActionPerformed) {
-                onStartAppSettingsIntent()
+                resultContract.launch(context.appNotificationSettingsIntent)
             }
         }
     }

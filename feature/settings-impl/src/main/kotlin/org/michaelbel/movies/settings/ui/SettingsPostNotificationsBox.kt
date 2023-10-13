@@ -4,8 +4,6 @@ import android.Manifest
 import android.app.Activity
 import android.app.NotificationManager
 import android.content.Context
-import android.content.Intent
-import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -27,8 +25,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.core.net.toUri
 import org.michaelbel.movies.common.ktx.notificationManager
+import org.michaelbel.movies.notifications.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.lifecycle.OnResume
 import org.michaelbel.movies.ui.preview.DevicePreviews
@@ -48,18 +46,6 @@ fun SettingsPostNotificationsBox(
     val resultContract = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {}
-
-    val onStartAppSettingsIntent: () -> Unit = {
-        Intent(
-            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-            "package:${context.packageName}".toUri()
-        ).apply {
-            addCategory(Intent.CATEGORY_DEFAULT)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }.also { intent: Intent ->
-            resultContract.launch(intent)
-        }
-    }
 
     val postNotificationsPermission = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -84,7 +70,7 @@ fun SettingsPostNotificationsBox(
         modifier = modifier
             .clickable {
                 if (areNotificationsEnabled) {
-                    onStartAppSettingsIntent()
+                    resultContract.launch(context.appNotificationSettingsIntent)
                 } else {
                     postNotificationsPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
                 }
