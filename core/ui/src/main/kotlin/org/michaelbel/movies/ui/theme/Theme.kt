@@ -12,13 +12,6 @@ import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.theme.model.ComposeTheme
 
-/**
- * Movies theme.
- *
- * @param theme
- * @param dynamicColors
- * @param content
- */
 @Composable
 fun MoviesTheme(
     theme: AppTheme = AppTheme.FollowSystem,
