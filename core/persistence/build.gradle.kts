@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.library)
     alias(libs.plugins.kotlin)
     alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.detekt)
     id("movies-android-hilt")
 }
 

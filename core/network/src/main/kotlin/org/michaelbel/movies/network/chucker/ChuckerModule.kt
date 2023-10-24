@@ -25,8 +25,10 @@ internal object ChuckerModule {
         )
         return ChuckerInterceptor.Builder(context)
             .collector(chuckerCollector)
-            .maxContentLength(250_000L)
+            .maxContentLength(MAX_CONTENT_LENGTH)
             .alwaysReadResponseBody(true)
             .build()
     }
+
+    private const val MAX_CONTENT_LENGTH = 250_000L
 }

@@ -37,7 +37,7 @@ internal class AccountRepositoryImpl @Inject constructor(
                 setAccountExpireTime(System.currentTimeMillis())
             }
             accountDao.insert(account.mapToAccountDb)
-        } catch (e: Exception) {
+        } catch (ignored: Exception) {
             throw AccountDetailsException
         }
     }

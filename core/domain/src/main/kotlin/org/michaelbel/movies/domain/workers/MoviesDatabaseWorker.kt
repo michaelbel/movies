@@ -42,7 +42,7 @@ class MoviesDatabaseWorker @AssistedInject constructor(
                     }
                 }
                 Result.success()
-            } catch (e: Exception) {
+            } catch (ignored: Exception) {
                 Result.failure()
             }
         }

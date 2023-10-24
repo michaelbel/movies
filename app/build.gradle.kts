@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.firebase.appdistribution)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.palantir.git)
+    alias(libs.plugins.detekt)
     id("movies-android-hilt")
 }
 

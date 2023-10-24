@@ -33,7 +33,7 @@ class AccountUpdateWorker @AssistedInject constructor(
                 interactor.accountDetails()
             }
             Result.success()
-        } catch (e: Exception) {
+        } catch (ignored: Exception) {
             Result.failure()
         }
     }

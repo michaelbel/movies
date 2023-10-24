@@ -2,6 +2,7 @@ plugins {
     id("com.android.test")
     id("org.jetbrains.kotlin.android")
     id("kotlin-android")
+    alias(libs.plugins.detekt)
 }
 
 android {

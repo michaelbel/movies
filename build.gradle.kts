@@ -14,3 +14,7 @@ plugins {
     alias(libs.plugins.detekt)
     alias(libs.plugins.palantir.git)
 }
+
+detekt {
+    config.setFrom("$projectDir/config/detekt/detekt.yml")
+}

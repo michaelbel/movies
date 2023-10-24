@@ -56,24 +56,6 @@ val <T> Either<T>.throwable: Throwable?
     get() = (this as? Either.Failure)?.exception
 
 /**
- * Unwrap and receive the success result data or do a function with *return*
- * ```kotlin
- * val data = useCase.getData()
- *     .takeOrReturn {
- *         Log.d("LOG", "it is an error again")
- *         return
- *     }
- * ```
- */
-inline fun <T> Either<T>.takeOrReturn(f: (Throwable) -> Unit): T = when (this) {
-    is Either.Success -> this.value
-    is Either.Failure -> {
-        f(this.exception)
-        throw IllegalStateException("You must write 'return' in the failure lambda")
-    }
-}
-
-/**
  * Unwrap and receive the success result data or receive the default value in failure case
  * ```kotlin
  * val data = useCase.getData()

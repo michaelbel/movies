@@ -31,7 +31,7 @@ internal class AuthenticationRepositoryImpl @Inject constructor(
                 throw CreateRequestTokenException
             }
             token
-        } catch (e: Exception) {
+        } catch (ignored: Exception) {
             throw CreateRequestTokenException
         }
     }
@@ -54,7 +54,7 @@ internal class AuthenticationRepositoryImpl @Inject constructor(
                 throw CreateSessionWithLoginException
             }
             token
-        } catch (e: Exception) {
+        } catch (ignored: Exception) {
             throw CreateSessionWithLoginException
         }
     }
@@ -71,7 +71,7 @@ internal class AuthenticationRepositoryImpl @Inject constructor(
                 throw CreateSessionException
             }
             session
-        } catch (e: Exception) {
+        } catch (ignored: Exception) {
             throw CreateSessionException
         }
     }
@@ -94,7 +94,7 @@ internal class AuthenticationRepositoryImpl @Inject constructor(
             } else {
                 throw DeleteSessionException
             }
-        } catch (e: Exception) {
+        } catch (ignored: Exception) {
             throw DeleteSessionException
         }
     }
