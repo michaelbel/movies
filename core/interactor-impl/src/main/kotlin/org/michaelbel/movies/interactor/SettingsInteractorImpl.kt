@@ -8,7 +8,9 @@ import kotlinx.coroutines.withContext
 import org.michaelbel.movies.analytics.MoviesAnalytics
 import org.michaelbel.movies.analytics.event.ChangeDynamicColorsEvent
 import org.michaelbel.movies.analytics.event.ChangeRtlEnabledEvent
+import org.michaelbel.movies.analytics.event.SelectFeedViewEvent
 import org.michaelbel.movies.analytics.event.SelectThemeEvent
+import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.config.RemoteParams
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.common.googleapi.GoogleApi
@@ -30,6 +32,8 @@ internal class SettingsInteractorImpl @Inject constructor(
 
     override val currentTheme: Flow<AppTheme> = settingsRepository.currentTheme
 
+    override val currentFeedView: Flow<FeedView> = settingsRepository.currentFeedView
+
     override val dynamicColors: Flow<Boolean> = settingsRepository.dynamicColors
 
     override val layoutDirection: Flow<LayoutDirection> = settingsRepository.layoutDirection
@@ -47,6 +51,11 @@ internal class SettingsInteractorImpl @Inject constructor(
     override suspend fun selectTheme(appTheme: AppTheme) = withContext(dispatchers.main) {
         settingsRepository.selectTheme(appTheme)
         analytics.logEvent(SelectThemeEvent(appTheme.toString()))
+    }
+
+    override suspend fun selectFeedView(feedView: FeedView) = withContext(dispatchers.main) {
+        settingsRepository.selectFeedView(feedView)
+        analytics.logEvent(SelectFeedViewEvent(feedView.toString()))
     }
 
     override suspend fun setDynamicColors(value: Boolean) = withContext(dispatchers.main) {

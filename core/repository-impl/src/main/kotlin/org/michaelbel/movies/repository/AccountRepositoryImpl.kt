@@ -21,7 +21,7 @@ internal class AccountRepositoryImpl @Inject constructor(
     private val preferences: MoviesPreferences
 ): AccountRepository {
 
-    override val account: Flow<AccountDb?> = preferences.accountId
+    override val account: Flow<AccountDb?> = preferences.accountIdFlow
         .map { accountId -> accountId ?: 0 }
         .flatMapLatest(accountDao::accountById)
 

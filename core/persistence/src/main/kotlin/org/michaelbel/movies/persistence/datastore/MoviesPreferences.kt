@@ -15,8 +15,24 @@ import javax.inject.Inject
 class MoviesPreferences @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) {
-    val theme: Flow<Int?>
+
+    val themeFlow: Flow<Int?>
         get() = dataStore.data.map { preferences -> preferences[PREFERENCE_THEME_KEY] }
+
+    val feedViewFlow: Flow<String?>
+        get() = dataStore.data.map { preferences -> preferences[PREFERENCE_FEED_VIEW_KEY] }
+
+    val isDynamicColorsFlow: Flow<Boolean?>
+        get() = dataStore.data.map { preferences -> preferences[PREFERENCE_DYNAMIC_COLORS_KEY] }
+
+    val isRtlEnabledFlow: Flow<Boolean?>
+        get() = dataStore.data.map { preferences -> preferences[PREFERENCE_RTL_ENABLED_KEY] }
+
+    val networkRequestDelayFlow: Flow<Int?>
+        get() = dataStore.data.map { preferences -> preferences[PREFERENCE_NETWORK_REQUEST_DELAY_KEY] }
+
+    val accountIdFlow: Flow<Int?>
+        get() = dataStore.data.map { preferences -> preferences[PREFERENCE_ACCOUNT_ID_KEY] }
 
     suspend fun setTheme(theme: Int) {
         dataStore.edit { preferences ->
@@ -24,8 +40,11 @@ class MoviesPreferences @Inject constructor(
         }
     }
 
-    val isDynamicColors: Flow<Boolean?>
-        get() = dataStore.data.map { preferences -> preferences[PREFERENCE_DYNAMIC_COLORS_KEY] }
+    suspend fun setFeedView(feedView: String) {
+        dataStore.edit { preferences ->
+            preferences[PREFERENCE_FEED_VIEW_KEY] = feedView
+        }
+    }
 
     suspend fun setDynamicColors(isDynamicColors: Boolean) {
         dataStore.edit { preferences ->
@@ -33,17 +52,11 @@ class MoviesPreferences @Inject constructor(
         }
     }
 
-    val isRtlEnabled: Flow<Boolean?>
-        get() = dataStore.data.map { preferences -> preferences[PREFERENCE_RTL_ENABLED_KEY] }
-
     suspend fun setRtlEnabled(isRtlEnabled: Boolean) {
         dataStore.edit { preferences ->
             preferences[PREFERENCE_RTL_ENABLED_KEY] = isRtlEnabled
         }
     }
-
-    val networkRequestDelay: Flow<Int?>
-        get() = dataStore.data.map { preferences -> preferences[PREFERENCE_NETWORK_REQUEST_DELAY_KEY] }
 
     suspend fun getNetworkRequestDelay(): Long? {
         return dataStore.data.first()[PREFERENCE_NETWORK_REQUEST_DELAY_KEY]?.toLong()
@@ -70,9 +83,6 @@ class MoviesPreferences @Inject constructor(
             preferences.remove(PREFERENCE_SESSION_ID_KEY)
         }
     }
-
-    val accountId: Flow<Int?>
-        get() = dataStore.data.map { preferences -> preferences[PREFERENCE_ACCOUNT_ID_KEY] }
 
     suspend fun getAccountId(): Int? {
         return dataStore.data.first()[PREFERENCE_ACCOUNT_ID_KEY]
@@ -112,6 +122,7 @@ class MoviesPreferences @Inject constructor(
 
     private companion object {
         private val PREFERENCE_THEME_KEY: Preferences.Key<Int> = intPreferencesKey("theme")
+        private val PREFERENCE_FEED_VIEW_KEY: Preferences.Key<String> = stringPreferencesKey("feed_view")
         private val PREFERENCE_DYNAMIC_COLORS_KEY: Preferences.Key<Boolean> = booleanPreferencesKey("dynamic_colors")
         private val PREFERENCE_RTL_ENABLED_KEY: Preferences.Key<Boolean> = booleanPreferencesKey("rtl_enabled")
         private val PREFERENCE_NETWORK_REQUEST_DELAY_KEY: Preferences.Key<Int> = intPreferencesKey("network_request_delay")

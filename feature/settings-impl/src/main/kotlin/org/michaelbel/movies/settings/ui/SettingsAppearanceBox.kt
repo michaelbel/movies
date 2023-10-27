@@ -18,29 +18,29 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import org.michaelbel.movies.common.localization.model.AppLanguage
-import org.michaelbel.movies.settings.ktx.languageText
+import org.michaelbel.movies.common.appearance.FeedView
+import org.michaelbel.movies.settings.ktx.feedViewText
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.preview.DevicePreviews
-import org.michaelbel.movies.ui.preview.provider.LanguagePreviewParameterProvider
+import org.michaelbel.movies.ui.preview.provider.AppearancePreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun SettingsLanguageBox(
-    languages: List<AppLanguage>,
-    currentLanguage: AppLanguage,
-    onLanguageSelect: (AppLanguage) -> Unit,
+fun SettingsAppearanceBox(
+    feedViews: List<FeedView>,
+    currentFeedView: FeedView,
+    onFeedViewSelect: (FeedView) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var languageDialog: Boolean by remember { mutableStateOf(false) }
+    var feedViewDialog: Boolean by remember { mutableStateOf(false) }
 
-    if (languageDialog) {
-        SettingLanguageDialog(
-            languages = languages,
-            currentLanguage = currentLanguage,
-            onLanguageSelect = onLanguageSelect,
+    if (feedViewDialog) {
+        SettingsAppearanceDialog(
+            feedViews = feedViews,
+            currentFeedView = currentFeedView,
+            onFeedViewSelect = onFeedViewSelect,
             onDismissRequest = {
-                languageDialog = false
+                feedViewDialog = false
             }
         )
     }
@@ -48,14 +48,14 @@ fun SettingsLanguageBox(
     ConstraintLayout(
         modifier = modifier
             .clickable {
-                languageDialog = true
+                feedViewDialog = true
             }
             .testTag("ConstraintLayout")
     ) {
         val (title, value) = createRefs()
 
         Text(
-            text = stringResource(R.string.settings_language),
+            text = stringResource(R.string.settings_appearance),
             modifier = Modifier
                 .constrainAs(title) {
                     width = Dimension.wrapContent
@@ -71,7 +71,7 @@ fun SettingsLanguageBox(
         )
 
         Text(
-            text = currentLanguage.languageText,
+            text = currentFeedView.feedViewText,
             modifier = Modifier
                 .constrainAs(value) {
                     width = Dimension.wrapContent
@@ -90,14 +90,14 @@ fun SettingsLanguageBox(
 
 @Composable
 @DevicePreviews
-private fun SettingsLanguageBoxPreview(
-    @PreviewParameter(LanguagePreviewParameterProvider::class) language: AppLanguage
+private fun SettingsAppearanceBoxPreview(
+    @PreviewParameter(AppearancePreviewParameterProvider::class) feedView: FeedView
 ) {
     MoviesTheme {
-        SettingsLanguageBox(
-            languages = listOf(AppLanguage.English, AppLanguage.Russian),
-            currentLanguage = language,
-            onLanguageSelect = {},
+        SettingsAppearanceBox(
+            feedViews = listOf(FeedView.List, FeedView.Grid),
+            currentFeedView = feedView,
+            onFeedViewSelect = {},
             modifier = Modifier
                 .fillMaxWidth()
                 .height(52.dp)

@@ -2,12 +2,15 @@ package org.michaelbel.movies.interactor
 
 import androidx.compose.ui.unit.LayoutDirection
 import kotlinx.coroutines.flow.Flow
+import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 
 interface SettingsInteractor {
 
     val currentTheme: Flow<AppTheme>
+
+    val currentFeedView: Flow<FeedView>
 
     val dynamicColors: Flow<Boolean>
 
@@ -22,6 +25,8 @@ interface SettingsInteractor {
     val appVersionData: Flow<AppVersionData>
 
     suspend fun selectTheme(appTheme: AppTheme)
+
+    suspend fun selectFeedView(feedView: FeedView)
 
     suspend fun setDynamicColors(value: Boolean)
 

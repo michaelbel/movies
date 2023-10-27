@@ -8,6 +8,9 @@ package org.michaelbel.movies.entities.image
 private const val TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/%s%s"
 private const val IMAGE_EMPTY_URL = "https://null"
 
+val String.formatPosterImage: String
+    get() = String.format(TMDB_IMAGE_BASE_URL, PosterSize.W780.size, this).ifEmpty { IMAGE_EMPTY_URL }
+
 val String.formatBackdropImage: String
     get() = String.format(TMDB_IMAGE_BASE_URL, BackdropSize.W1280.size, this).ifEmpty { IMAGE_EMPTY_URL }
 

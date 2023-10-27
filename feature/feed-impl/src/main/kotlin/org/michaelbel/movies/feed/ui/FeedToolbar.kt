@@ -29,7 +29,6 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 fun FeedToolbar(
     account: AccountDb,
     isUpdateIconVisible: Boolean,
-    isSettingsIconVisible: Boolean,
     onAuthIconClick: () -> Unit,
     onAccountIconClick: () -> Unit,
     onUpdateIconClick: () -> Unit,
@@ -61,16 +60,14 @@ fun FeedToolbar(
                 }
             }
 
-            if (isSettingsIconVisible) {
-                IconButton(
-                    onClick = onSettingsIconClick
-                ) {
-                    Image(
-                        imageVector = MoviesIcons.Settings,
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
-                    )
-                }
+            IconButton(
+                onClick = onSettingsIconClick
+            ) {
+                Image(
+                    imageVector = MoviesIcons.Settings,
+                    contentDescription = null,
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
+                )
             }
 
             IconButton(
@@ -105,8 +102,7 @@ private fun FeedToolbarPreview(
     MoviesTheme {
         FeedToolbar(
             account = AccountDb.Empty,
-            isUpdateIconVisible = true,
-            isSettingsIconVisible = visible,
+            isUpdateIconVisible = visible,
             onAccountIconClick = {},
             onAuthIconClick = {},
             onUpdateIconClick = {},

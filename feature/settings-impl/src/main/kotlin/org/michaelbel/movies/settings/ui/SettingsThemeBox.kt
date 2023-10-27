@@ -100,7 +100,7 @@ private fun SettingsThemeBoxPreview(
             onThemeSelect = {},
             modifier = Modifier
                 .fillMaxWidth()
-                .height(48.dp)
+                .height(52.dp)
                 .background(MaterialTheme.colorScheme.primaryContainer)
         )
     }

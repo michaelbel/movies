@@ -32,6 +32,7 @@ import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.localization.model.AppLanguage
 import org.michaelbel.movies.common.review.rememberReviewManager
 import org.michaelbel.movies.common.review.rememberReviewTask
@@ -51,6 +52,7 @@ fun SettingsRoute(
 ) {
     val currentLanguage: AppLanguage = AppLanguage.transform(stringResource(UiR.string.language_code))
     val currentTheme: AppTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
+    val currentFeedView: FeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()
     val dynamicColors: Boolean by viewModel.dynamicColors.collectAsStateWithLifecycle()
     val layoutDirection: LayoutDirection by viewModel.layoutDirection.collectAsStateWithLifecycle()
     val isPlayServicesAvailable: Boolean by viewModel.isPlayServicesAvailable.collectAsStateWithLifecycle()
@@ -66,6 +68,9 @@ fun SettingsRoute(
         themes = viewModel.themes,
         currentTheme = currentTheme,
         onThemeSelect = viewModel::selectTheme,
+        feedViews = viewModel.feedViews,
+        currentFeedView = currentFeedView,
+        onFeedViewSelect = viewModel::selectFeedView,
         isDynamicColorsFeatureEnabled = viewModel.isDynamicColorsFeatureEnabled,
         dynamicColors = dynamicColors,
         onSetDynamicColors = viewModel::setDynamicColors,
@@ -91,6 +96,9 @@ private fun SettingsScreenContent(
     themes: List<AppTheme>,
     currentTheme: AppTheme,
     onThemeSelect: (AppTheme) -> Unit,
+    feedViews: List<FeedView>,
+    currentFeedView: FeedView,
+    onFeedViewSelect: (FeedView) -> Unit,
     isDynamicColorsFeatureEnabled: Boolean,
     dynamicColors: Boolean,
     onSetDynamicColors: (Boolean) -> Unit,
@@ -185,7 +193,7 @@ private fun SettingsScreenContent(
                 onLanguageSelect = onLanguageSelect,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp)
+                    .height(52.dp)
             )
 
             SettingsThemeBox(
@@ -194,7 +202,16 @@ private fun SettingsScreenContent(
                 onThemeSelect = onThemeSelect,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp)
+                    .height(52.dp)
+            )
+
+            SettingsAppearanceBox(
+                feedViews = feedViews,
+                currentFeedView = currentFeedView,
+                onFeedViewSelect = onFeedViewSelect,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp)
             )
 
             if (isDynamicColorsFeatureEnabled) {
@@ -202,7 +219,7 @@ private fun SettingsScreenContent(
                     isDynamicColorsEnabled = dynamicColors,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(48.dp)
+                        .height(52.dp)
                         .clickable {
                             onSetDynamicColors(!dynamicColors)
                         }
@@ -214,7 +231,7 @@ private fun SettingsScreenContent(
                     isRtlEnabled = isRtlEnabled,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(48.dp)
+                        .height(52.dp)
                         .clickable {
                             onEnableRtlChanged(!isRtlEnabled)
                         }
@@ -225,7 +242,7 @@ private fun SettingsScreenContent(
                 SettingsPostNotificationsBox(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(48.dp),
+                        .height(52.dp),
                     onShowPermissionSnackbar = onShowPermissionSnackbar
                 )
             }
@@ -233,7 +250,7 @@ private fun SettingsScreenContent(
             SettingsReviewBox(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp)
+                    .height(52.dp)
                     .clickable {
                         onLaunchReviewFlow()
                     }

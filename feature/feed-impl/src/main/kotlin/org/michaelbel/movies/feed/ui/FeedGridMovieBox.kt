@@ -32,7 +32,7 @@ import org.michaelbel.movies.ui.preview.provider.MoviePreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun FeedMovieBox(
+fun FeedGridMovieBox(
     movie: MovieDb,
     modifier: Modifier = Modifier
 ) {
@@ -45,7 +45,7 @@ fun FeedMovieBox(
 
         AsyncImage(
             model = ImageRequest.Builder(context)
-                .data(movie.backdropPath)
+                .data(movie.posterPath)
                 .crossfade(true)
                 .build(),
             contentDescription = null,
@@ -106,11 +106,11 @@ fun FeedMovieBox(
 
 @Composable
 @DevicePreviews
-private fun MovieBoxPreview(
+private fun FeedGridMovieBoxPreview(
     @PreviewParameter(MoviePreviewParameterProvider::class) movie: MovieDb
 ) {
     MoviesTheme {
-        FeedMovieBox(
+        FeedGridMovieBox(
             movie = movie,
             modifier = Modifier
                 .fillMaxWidth()

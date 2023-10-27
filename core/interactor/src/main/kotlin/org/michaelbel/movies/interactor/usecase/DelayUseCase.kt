@@ -12,7 +12,7 @@ class DelayUseCase @Inject constructor(
     private val preferences: MoviesPreferences
 ): UseCase<Int, Unit>(dispatchers.io) {
 
-    val networkRequestDelay: Flow<Int> = preferences.networkRequestDelay.map { networkRequestDelay ->
+    val networkRequestDelay: Flow<Int> = preferences.networkRequestDelayFlow.map { networkRequestDelay ->
         networkRequestDelay ?: 0
     }
 

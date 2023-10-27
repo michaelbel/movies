@@ -13,8 +13,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.inappupdate.di.InAppUpdate
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.mediator.MoviesRemoteMediator
@@ -75,6 +78,13 @@ class FeedViewModel @Inject constructor(
             scope = this,
             started = SharingStarted.Lazily,
             initialValue = true
+        )
+
+    val currentFeedView: StateFlow<FeedView> = interactor.currentFeedView
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = runBlocking { interactor.currentFeedView.first() }
         )
 
     private var _notificationsPermissionRequired: MutableStateFlow<Boolean> = MutableStateFlow(false)

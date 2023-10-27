@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import org.michaelbel.movies.common.BuildConfig
+import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
@@ -22,15 +23,19 @@ internal class SettingsRepositoryImpl @Inject constructor(
     private val preferences: MoviesPreferences
 ): SettingsRepository {
 
-    override val currentTheme: Flow<AppTheme> = preferences.theme.map { theme ->
+    override val currentTheme: Flow<AppTheme> = preferences.themeFlow.map { theme ->
         AppTheme.transform(theme ?: AppTheme.FollowSystem.theme)
     }
 
-    override val dynamicColors: Flow<Boolean> = preferences.isDynamicColors.map { isDynamicColors ->
+    override val currentFeedView: Flow<FeedView> = preferences.feedViewFlow.map { feedView ->
+        FeedView.transform(feedView ?: FeedView.List.toString())
+    }
+
+    override val dynamicColors: Flow<Boolean> = preferences.isDynamicColorsFlow.map { isDynamicColors ->
         isDynamicColors ?: (Build.VERSION.SDK_INT >= 31)
     }
 
-    override val layoutDirection: Flow<LayoutDirection> = preferences.isRtlEnabled.map { isRtlEnabled ->
+    override val layoutDirection: Flow<LayoutDirection> = preferences.isRtlEnabledFlow.map { isRtlEnabled ->
         if (isRtlEnabled == true) LayoutDirection.Rtl else LayoutDirection.Ltr
     }
 
@@ -44,6 +49,10 @@ internal class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun selectTheme(appTheme: AppTheme) {
         preferences.setTheme(appTheme.theme)
+    }
+
+    override suspend fun selectFeedView(feedView: FeedView) {
+        preferences.setFeedView(feedView.toString())
     }
 
     override suspend fun setDynamicColors(value: Boolean) {

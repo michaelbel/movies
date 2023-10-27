@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -36,6 +38,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
 import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
 import org.michaelbel.movies.feed.FeedViewModel
@@ -63,7 +66,7 @@ fun FeedRoute(
 ) {
     val pagingItems: LazyPagingItems<MovieDb> = viewModel.pagingItems.collectAsLazyPagingItems()
     val account: AccountDb? by viewModel.account.collectAsStateWithLifecycle()
-    val isSettingsIconVisible: Boolean by viewModel.isSettingsIconVisible.collectAsStateWithLifecycle()
+    val currentFeedView: FeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()
     val notificationsPermissionRequired: Boolean by viewModel.notificationsPermissionRequired.collectAsStateWithLifecycle()
     val networkStatus: NetworkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
     val isUpdateAvailable: Boolean by rememberUpdatedState(viewModel.updateAvailableMessage)
@@ -72,7 +75,7 @@ fun FeedRoute(
         pagingItems = pagingItems,
         account = account.orEmpty,
         networkStatus = networkStatus,
-        isSettingsIconVisible = isSettingsIconVisible,
+        currentFeedView = currentFeedView,
         notificationsPermissionRequired = notificationsPermissionRequired,
         isUpdateIconVisible = isUpdateAvailable,
         onNavigateToAuth = onNavigateToAuth,
@@ -90,7 +93,7 @@ private fun FeedScreenContent(
     pagingItems: LazyPagingItems<MovieDb>,
     account: AccountDb,
     networkStatus: NetworkStatus,
-    isSettingsIconVisible: Boolean,
+    currentFeedView: FeedView,
     notificationsPermissionRequired: Boolean,
     isUpdateIconVisible: Boolean,
     onNavigateToAuth: () -> Unit,
@@ -103,7 +106,8 @@ private fun FeedScreenContent(
 ) {
     val context: Context = LocalContext.current
     val scope: CoroutineScope = rememberCoroutineScope()
-    val listState: LazyListState = rememberLazyListState()
+    val lazyListState: LazyListState = rememberLazyListState()
+    val lazyStaggeredGridState: LazyStaggeredGridState = rememberLazyStaggeredGridState()
     val snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
     val notificationBottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(
@@ -130,7 +134,10 @@ private fun FeedScreenContent(
 
     val onScrollToTop: () -> Unit = {
         scope.launch {
-            listState.animateScrollToItem(0)
+            lazyListState.animateScrollToItem(0)
+        }
+        scope.launch {
+            lazyStaggeredGridState.animateScrollToItem(0)
         }
     }
 
@@ -182,7 +189,6 @@ private fun FeedScreenContent(
                         .clickableWithoutRipple { onScrollToTop() },
                     account = account,
                     isUpdateIconVisible = isUpdateIconVisible,
-                    isSettingsIconVisible = isSettingsIconVisible,
                     onAuthIconClick = {
                         when {
                             isTmdbApiKeyEmpty -> onShowSnackbar(context.getString(R.string.feed_error_api_key_null))
@@ -203,10 +209,22 @@ private fun FeedScreenContent(
         ) { paddingValues ->
             when {
                 pagingItems.isLoading -> {
-                    FeedLoading(
-                        modifier = Modifier.fillMaxSize(),
-                        paddingValues = paddingValues
-                    )
+                    when (currentFeedView) {
+                        is FeedView.List -> {
+                            FeedCellLoading(
+                                modifier = Modifier.fillMaxSize().padding(top = 4.dp),
+                                paddingValues = paddingValues
+                            )
+                        }
+                        is FeedView.Grid -> {
+                            FeedGridLoading(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(start = 8.dp, top = 8.dp, end = 8.dp),
+                                paddingValues = paddingValues
+                            )
+                        }
+                    }
                 }
                 pagingItems.isFailure -> {
                     FeedFailure(
@@ -225,7 +243,9 @@ private fun FeedScreenContent(
                 }
                 else -> {
                     FeedContent(
-                        listState = listState,
+                        currentFeedView = currentFeedView,
+                        lazyListState = lazyListState,
+                        lazyStaggeredGridState = lazyStaggeredGridState,
                         pagingItems = pagingItems,
                         onMovieClick = onNavigateToDetails,
                         contentPadding = paddingValues,

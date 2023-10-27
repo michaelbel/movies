@@ -8,12 +8,14 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.localization.model.AppLanguage
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.interactor.usecase.DelayUseCase
+import org.michaelbel.movies.interactor.usecase.SelectFeedViewCase
 import org.michaelbel.movies.interactor.usecase.SelectLanguageCase
 import org.michaelbel.movies.interactor.usecase.SelectThemeCase
 import javax.inject.Inject
@@ -23,6 +25,7 @@ class SettingsViewModel @Inject constructor(
     private val interactor: Interactor,
     private val selectLanguageCase: SelectLanguageCase,
     private val selectThemeCase: SelectThemeCase,
+    private val selectFeedViewCase: SelectFeedViewCase,
     private val delayUseCase: DelayUseCase
 ): BaseViewModel(), DefaultLifecycleObserver {
 
@@ -43,11 +46,23 @@ class SettingsViewModel @Inject constructor(
         AppTheme.FollowSystem
     )
 
+    val feedViews: List<FeedView> = listOf(
+        FeedView.List,
+        FeedView.Grid
+    )
+
     val currentTheme: StateFlow<AppTheme> = interactor.currentTheme
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
             initialValue = AppTheme.FollowSystem
+        )
+
+    val currentFeedView: StateFlow<FeedView> = interactor.currentFeedView
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = FeedView.List
         )
 
     val dynamicColors: StateFlow<Boolean> = interactor.dynamicColors
@@ -98,6 +113,10 @@ class SettingsViewModel @Inject constructor(
 
     fun selectTheme(theme: AppTheme) = launch {
         selectThemeCase(theme)
+    }
+
+    fun selectFeedView(feedView: FeedView) = launch {
+        selectFeedViewCase(feedView)
     }
 
     fun setDynamicColors(value: Boolean) = launch {

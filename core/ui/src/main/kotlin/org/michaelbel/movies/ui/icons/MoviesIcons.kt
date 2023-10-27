@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.MovieFilter
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.LocationOn
@@ -32,6 +33,7 @@ object MoviesIcons {
     val ArrowBack: ImageVector = Icons.Outlined.ArrowBack
     val Close: ImageVector = Icons.Outlined.Close
     val Info: ImageVector = Icons.Outlined.Info
+    val GridView: ImageVector = Icons.Outlined.GridView
     val Language: ImageVector = Icons.Outlined.Language
     val LocationOn: ImageVector = Icons.Outlined.LocationOn
     val MovieFilter: ImageVector = Icons.Filled.MovieFilter
