@@ -8,6 +8,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -33,6 +34,7 @@ fun FeedToolbar(
     onAccountIconClick: () -> Unit,
     onUpdateIconClick: () -> Unit,
     onSettingsIconClick: () -> Unit,
+    topAppBarScrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
@@ -89,8 +91,10 @@ fun FeedToolbar(
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.inversePrimary
-        )
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            scrolledContainerColor = MaterialTheme.colorScheme.inversePrimary
+        ),
+        scrollBehavior = topAppBarScrollBehavior
     )
 }
 
@@ -107,6 +111,7 @@ private fun FeedToolbarPreview(
             onAuthIconClick = {},
             onUpdateIconClick = {},
             onSettingsIconClick = {},
+            topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
             modifier = Modifier.statusBarsPadding()
         )
     }

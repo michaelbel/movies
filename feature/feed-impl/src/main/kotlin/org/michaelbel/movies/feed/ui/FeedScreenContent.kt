@@ -21,6 +21,8 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
@@ -29,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -180,8 +183,12 @@ private fun FeedScreenContent(
         scaffoldState = notificationBottomSheetScaffoldState,
         sheetPeekHeight = 0.dp
     ) { bottomSheetPaddingValues ->
+        val topAppBarScrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
         Scaffold(
-            modifier = modifier.padding(bottomSheetPaddingValues),
+            modifier = modifier
+                .padding(bottomSheetPaddingValues)
+                .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
             topBar = {
                 FeedToolbar(
                     modifier = Modifier
@@ -197,6 +204,7 @@ private fun FeedScreenContent(
                     },
                     onAccountIconClick = onNavigateToAccount,
                     onUpdateIconClick = onUpdateIconClick,
+                    topAppBarScrollBehavior = topAppBarScrollBehavior,
                     onSettingsIconClick = onNavigateToSettings
                 )
             },
