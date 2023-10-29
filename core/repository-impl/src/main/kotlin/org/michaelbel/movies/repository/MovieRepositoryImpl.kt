@@ -6,6 +6,7 @@ import org.michaelbel.movies.entities.Either
 import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
 import org.michaelbel.movies.entities.response
 import org.michaelbel.movies.entities.tmdbApiKey
+import org.michaelbel.movies.network.model.ImagesResponse
 import org.michaelbel.movies.network.model.Movie
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
@@ -60,6 +61,13 @@ internal class MovieRepositoryImpl @Inject constructor(
                 movie.mapToMovieDb
             }
         }
+    }
+
+    override suspend fun movieImages(movieId: Int): ImagesResponse {
+        return movieService.images(
+            id = movieId,
+            apiKey = tmdbApiKey
+        )
     }
 
     override suspend fun removeAllMovies(movieList: String) {

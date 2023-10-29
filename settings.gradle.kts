@@ -43,6 +43,8 @@ include(
     ":feature:details-impl",
     ":feature:feed",
     ":feature:feed-impl",
+    ":feature:gallery",
+    ":feature:gallery-impl",
     ":feature:settings",
     ":feature:settings-impl"
 )

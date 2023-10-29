@@ -24,6 +24,7 @@ import java.net.UnknownHostException
 @Composable
 fun DetailsRoute(
     onBackClick: () -> Unit,
+    onNavigateToGallery: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: DetailsViewModel = hiltViewModel()
 ) {
@@ -32,6 +33,7 @@ fun DetailsRoute(
 
     DetailsScreenContent(
         onBackClick = onBackClick,
+        onNavigateToGallery = onNavigateToGallery,
         detailsState = detailsState,
         networkStatus = networkStatus,
         onRetry = viewModel::retry,
@@ -42,6 +44,7 @@ fun DetailsRoute(
 @Composable
 private fun DetailsScreenContent(
     onBackClick: () -> Unit,
+    onNavigateToGallery: (Int) -> Unit,
     detailsState: ScreenState,
     networkStatus: NetworkStatus,
     onRetry: () -> Unit,
@@ -76,7 +79,8 @@ private fun DetailsScreenContent(
                     modifier = Modifier
                         .padding(paddingValues)
                         .fillMaxSize(),
-                    movie = detailsState.movie
+                    movie = detailsState.movie,
+                    onNavigateToGallery = onNavigateToGallery
                 )
             }
             is ScreenState.Failure -> {

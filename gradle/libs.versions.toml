@@ -16,13 +16,13 @@ google-services = "4.4.0"
 gms-play-services-ads = "22.4.0"
 gms-play-services-base = "18.2.0"
 firebase-analytics-ktx = "21.4.0"
-firebase-appdistribution = "4.0.0"
+firebase-appdistribution = "4.0.1"
 firebase-config-ktx = "21.5.0"
 firebase-crashlytics-plugin = "2.9.9"
-firebase-crashlytics-ktx = "18.5.0"
-firebase-messaging-ktx = "23.3.0"
+firebase-crashlytics-ktx = "18.5.1"
+firebase-messaging-ktx = "23.3.1"
 play-core-ktx = "1.8.1"
-accompanist = "0.30.1"
+accompanist = "0.32.0"
 material = "1.10.0"
 material-compose-theme-adapter = "1.2.1"
 hilt = "2.48.1"
@@ -79,7 +79,6 @@ firebase-messaging-ktx = { module = "com.google.firebase:firebase-messaging-ktx"
 play-core-ktx = { module = "com.google.android.play:core-ktx", version.ref = "play-core-ktx" }
 accompanist-appcompat-theme = { module = "com.google.accompanist:accompanist-appcompat-theme", version.ref = "accompanist" }
 accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanist" }
-accompanist-insets = { module = "com.google.accompanist:accompanist-insets", version.ref = "accompanist" }
 accompanist-insets-ui = { module = "com.google.accompanist:accompanist-insets-ui", version.ref = "accompanist" }
 accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist" }
 accompanist-placeholder = { module = "com.google.accompanist:accompanist-placeholder", version.ref = "accompanist" }
@@ -156,7 +155,6 @@ kotlin-coroutines = [
 accompanist = [
     "accompanist-appcompat-theme",
     "accompanist-drawablepainter",
-    "accompanist-insets",
     "accompanist-insets-ui",
     "accompanist-navigation-animation",
     "accompanist-placeholder",

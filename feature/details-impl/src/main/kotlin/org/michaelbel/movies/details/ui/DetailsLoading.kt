@@ -16,6 +16,7 @@ fun DetailsLoading(
     DetailsContent(
         modifier = modifier,
         movie = MovieDb.Empty,
+        onNavigateToGallery = {},
         placeholder = true
     )
 }

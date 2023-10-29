@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -40,6 +41,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 @Composable
 fun DetailsContent(
     movie: MovieDb,
+    onNavigateToGallery: (Int) -> Unit,
     modifier: Modifier = Modifier,
     placeholder: Boolean = false
 ) {
@@ -85,6 +87,7 @@ fun DetailsContent(
                     end.linkTo(parent.end, 16.dp)
                 }
                 .clip(MaterialTheme.shapes.small)
+                .clickable { onNavigateToGallery(movie.movieId) }
         }
 
         AsyncImage(
@@ -202,7 +205,8 @@ private fun DetailsContentPreview(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background),
-            movie = movie
+            movie = movie,
+            onNavigateToGallery = {}
         )
     }
 }

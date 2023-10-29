@@ -30,7 +30,8 @@ fun NavController.navigateToDetails(movieId: Int) {
 }
 
 fun NavGraphBuilder.detailsGraph(
-    navigateBack: () -> Unit
+    navigateBack: () -> Unit,
+    navigateToGallery: (Int) -> Unit
 ) {
     composable(
         route = DetailsDestination.route,
@@ -38,7 +39,8 @@ fun NavGraphBuilder.detailsGraph(
         deepLinks = listOf(DETAILS_MOVIE_WEB_DEEP_LINK, DETAILS_MOVIE_PUSH_DEEP_LINK)
     ) {
         DetailsRoute(
-            onBackClick = navigateBack
+            onBackClick = navigateBack,
+            onNavigateToGallery = navigateToGallery
         )
     }
 }
