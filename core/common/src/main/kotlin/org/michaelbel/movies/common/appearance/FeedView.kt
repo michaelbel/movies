@@ -4,15 +4,20 @@ import org.michaelbel.movies.common.appearance.exceptions.InvalidFeedViewExcepti
 
 sealed interface FeedView {
 
-    data object List: FeedView
+    data object FeedList: FeedView
 
-    data object Grid: FeedView
+    data object FeedGrid: FeedView
 
     companion object {
+        val VALUES: List<FeedView> = listOf(
+            FeedList,
+            FeedGrid
+        )
+
         fun transform(name: String): FeedView {
             return when (name) {
-                List.toString() -> List
-                Grid.toString() -> Grid
+                FeedList.toString() -> FeedList
+                FeedGrid.toString() -> FeedGrid
                 else -> throw InvalidFeedViewException
             }
         }

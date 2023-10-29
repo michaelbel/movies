@@ -33,7 +33,6 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 internal fun SettingThemeDialog(
-    themes: List<AppTheme>,
     currentTheme: AppTheme,
     onThemeSelect: (AppTheme) -> Unit,
     onDismissRequest: () -> Unit
@@ -72,7 +71,6 @@ internal fun SettingThemeDialog(
         },
         text = {
             SettingThemeDialogContent(
-                themes = themes,
                 currentTheme = currentTheme,
                 onThemeSelect = { theme ->
                     onThemeSelect(theme)
@@ -94,7 +92,6 @@ internal fun SettingThemeDialog(
 
 @Composable
 private fun SettingThemeDialogContent(
-    themes: List<AppTheme>,
     currentTheme: AppTheme,
     onThemeSelect: (AppTheme) -> Unit,
     modifier: Modifier = Modifier
@@ -102,7 +99,7 @@ private fun SettingThemeDialogContent(
     Column(
         modifier = modifier
     ) {
-        themes.forEach { theme: AppTheme ->
+        AppTheme.VALUES.forEach { theme: AppTheme ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -141,11 +138,6 @@ private fun SettingThemeDialogPreview(
 ) {
     MoviesTheme {
         SettingThemeDialog(
-            themes = listOf(
-                AppTheme.NightNo,
-                AppTheme.NightYes,
-                AppTheme.FollowSystem
-            ),
             currentTheme = theme,
             onThemeSelect = {},
             onDismissRequest = {}

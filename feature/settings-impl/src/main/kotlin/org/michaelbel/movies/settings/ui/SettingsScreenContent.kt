@@ -64,16 +64,12 @@ fun SettingsRoute(
 
     SettingsScreenContent(
         onBackClick = onBackClick,
-        languages = viewModel.languages,
         currentLanguage = currentLanguage,
         onLanguageSelect = viewModel::selectLanguage,
-        themes = viewModel.themes,
         currentTheme = currentTheme,
         onThemeSelect = viewModel::selectTheme,
-        feedViews = viewModel.feedViews,
         currentFeedView = currentFeedView,
         onFeedViewSelect = viewModel::selectFeedView,
-        movieLists = viewModel.movieLists,
         currentMovieList = currentMovieList,
         onMovieListSelect = viewModel::selectMovieList,
         isDynamicColorsFeatureEnabled = viewModel.isDynamicColorsFeatureEnabled,
@@ -95,16 +91,12 @@ fun SettingsRoute(
 @Composable
 private fun SettingsScreenContent(
     onBackClick: () -> Unit,
-    languages: List<AppLanguage>,
     currentLanguage: AppLanguage,
     onLanguageSelect: (AppLanguage) -> Unit,
-    themes: List<AppTheme>,
     currentTheme: AppTheme,
     onThemeSelect: (AppTheme) -> Unit,
-    feedViews: List<FeedView>,
     currentFeedView: FeedView,
     onFeedViewSelect: (FeedView) -> Unit,
-    movieLists: List<MovieList>,
     currentMovieList: MovieList,
     onMovieListSelect: (MovieList) -> Unit,
     isDynamicColorsFeatureEnabled: Boolean,
@@ -196,7 +188,6 @@ private fun SettingsScreenContent(
             modifier = Modifier.padding(paddingValues)
         ) {
             SettingsLanguageBox(
-                languages = languages,
                 currentLanguage = currentLanguage,
                 onLanguageSelect = onLanguageSelect,
                 modifier = Modifier
@@ -205,7 +196,6 @@ private fun SettingsScreenContent(
             )
 
             SettingsThemeBox(
-                themes = themes,
                 currentTheme = currentTheme,
                 onThemeSelect = onThemeSelect,
                 modifier = Modifier
@@ -214,7 +204,6 @@ private fun SettingsScreenContent(
             )
 
             SettingsAppearanceBox(
-                feedViews = feedViews,
                 currentFeedView = currentFeedView,
                 onFeedViewSelect = onFeedViewSelect,
                 modifier = Modifier
@@ -223,7 +212,6 @@ private fun SettingsScreenContent(
             )
 
             SettingsMovieListBox(
-                movieLists = movieLists,
                 currentMovieList = currentMovieList,
                 onMovieListSelect = onMovieListSelect,
                 modifier = Modifier

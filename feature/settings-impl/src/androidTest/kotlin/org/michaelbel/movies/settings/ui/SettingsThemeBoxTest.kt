@@ -25,7 +25,6 @@ internal class SettingsThemeBoxTest {
         composeTestRule.setContent {
             MoviesTheme {
                 SettingsThemeBox(
-                    themes = THEMES,
                     currentTheme = CURRENT_THEME,
                     onThemeSelect = {},
                     modifier = Modifier
@@ -52,11 +51,6 @@ internal class SettingsThemeBoxTest {
     }
 
     private companion object {
-        private val THEMES: List<AppTheme> = listOf(
-            AppTheme.NightNo,
-            AppTheme.NightYes,
-            AppTheme.FollowSystem
-        )
         private val CURRENT_THEME = AppTheme.FollowSystem
     }
 }

@@ -38,29 +38,6 @@ class SettingsViewModel @Inject constructor(
 
     val isPostNotificationsFeatureEnabled: Boolean = Build.VERSION.SDK_INT >= 33
 
-    val languages: List<AppLanguage> = listOf(
-        AppLanguage.English,
-        AppLanguage.Russian
-    )
-
-    val themes: List<AppTheme> = listOf(
-        AppTheme.NightNo,
-        AppTheme.NightYes,
-        AppTheme.FollowSystem
-    )
-
-    val feedViews: List<FeedView> = listOf(
-        FeedView.List,
-        FeedView.Grid
-    )
-
-    val movieLists: List<MovieList> = listOf(
-        MovieList.NowPlaying,
-        MovieList.Popular,
-        MovieList.TopRated,
-        MovieList.Upcoming
-    )
-
     val currentTheme: StateFlow<AppTheme> = interactor.currentTheme
         .stateIn(
             scope = this,
@@ -72,7 +49,7 @@ class SettingsViewModel @Inject constructor(
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
-            initialValue = FeedView.List
+            initialValue = FeedView.FeedList
         )
 
     val currentMovieList: StateFlow<MovieList> = interactor.currentMovieList

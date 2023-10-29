@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
 import org.michaelbel.movies.common.list.MovieList
-import org.michaelbel.movies.settings.ktx.title
+import org.michaelbel.movies.settings.ktx.listText
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
@@ -32,7 +32,6 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun SettingsMovieListDialog(
-    movieLists: List<MovieList>,
     currentMovieList: MovieList,
     onMovieListSelect: (MovieList) -> Unit,
     onDismissRequest: () -> Unit
@@ -71,7 +70,6 @@ fun SettingsMovieListDialog(
         },
         text = {
             SettingMovieListDialogContent(
-                movieLists = movieLists,
                 currentMovieList = currentMovieList,
                 onMovieListSelect = { movieList ->
                     onMovieListSelect(movieList)
@@ -93,15 +91,21 @@ fun SettingsMovieListDialog(
 
 @Composable
 private fun SettingMovieListDialogContent(
-    movieLists: List<MovieList>,
     currentMovieList: MovieList,
     onMovieListSelect: (MovieList) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val movieLists: List<MovieList> = listOf(
+        MovieList.NowPlaying,
+        MovieList.Popular,
+        MovieList.TopRated,
+        MovieList.Upcoming
+    )
+
     Column(
         modifier = modifier
     ) {
-        movieLists.forEach { movieList: MovieList ->
+        movieLists.forEach { movieList ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -122,7 +126,7 @@ private fun SettingMovieListDialogContent(
                 )
 
                 Text(
-                    text = movieList.title,
+                    text = movieList.listText,
                     modifier = Modifier.padding(start = 8.dp),
                     style = MaterialTheme.typography.bodyLarge.copy(
                         color = MaterialTheme.colorScheme.onBackground
@@ -140,12 +144,6 @@ private fun SettingsMovieListDialogPreview(
 ) {
     MoviesTheme {
         SettingsMovieListDialog(
-            movieLists = listOf(
-                MovieList.NowPlaying,
-                MovieList.Popular,
-                MovieList.TopRated,
-                MovieList.Upcoming
-            ),
             currentMovieList = movieList,
             onMovieListSelect = {},
             onDismissRequest = {}

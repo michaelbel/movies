@@ -10,6 +10,11 @@ sealed class AppLanguage(
     data object Russian: AppLanguage("ru")
 
     companion object {
+        val VALUES: List<AppLanguage> = listOf(
+            English,
+            Russian
+        )
+
         fun transform(code: String): AppLanguage {
             return when (code) {
                 "en" -> English

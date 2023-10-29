@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.common.list.MovieList
-import org.michaelbel.movies.settings.ktx.title
+import org.michaelbel.movies.settings.ktx.listText
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.MovieListPreviewParameterProvider
@@ -27,7 +27,6 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun SettingsMovieListBox(
-    movieLists: List<MovieList>,
     currentMovieList: MovieList,
     onMovieListSelect: (MovieList) -> Unit,
     modifier: Modifier = Modifier,
@@ -36,7 +35,6 @@ fun SettingsMovieListBox(
 
     if (movieListDialog) {
         SettingsMovieListDialog(
-            movieLists = movieLists,
             currentMovieList = currentMovieList,
             onMovieListSelect = onMovieListSelect,
             onDismissRequest = {
@@ -71,7 +69,7 @@ fun SettingsMovieListBox(
         )
 
         Text(
-            text = currentMovieList.title,
+            text = currentMovieList.listText,
             modifier = Modifier
                 .constrainAs(value) {
                     width = Dimension.wrapContent
@@ -95,7 +93,6 @@ private fun SettingsMovieListBoxPreview(
 ) {
     MoviesTheme {
         SettingsMovieListBox(
-            movieLists = listOf(MovieList.NowPlaying, MovieList.Popular, MovieList.TopRated, MovieList.Upcoming),
             currentMovieList = movieList,
             onMovieListSelect = {},
             modifier = Modifier

@@ -7,6 +7,6 @@ import org.michaelbel.movies.settings_impl.R
 
 internal val FeedView.feedViewText: String
     @Composable get() = when (this) {
-        is FeedView.List -> stringResource(R.string.settings_appearance_list)
-        is FeedView.Grid -> stringResource(R.string.settings_appearance_grid)
+        is FeedView.FeedList -> stringResource(R.string.settings_appearance_list)
+        is FeedView.FeedGrid -> stringResource(R.string.settings_appearance_grid)
     }

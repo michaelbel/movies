@@ -27,7 +27,6 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun SettingsLanguageBox(
-    languages: List<AppLanguage>,
     currentLanguage: AppLanguage,
     onLanguageSelect: (AppLanguage) -> Unit,
     modifier: Modifier = Modifier,
@@ -36,7 +35,6 @@ fun SettingsLanguageBox(
 
     if (languageDialog) {
         SettingLanguageDialog(
-            languages = languages,
             currentLanguage = currentLanguage,
             onLanguageSelect = onLanguageSelect,
             onDismissRequest = {
@@ -95,7 +93,6 @@ private fun SettingsLanguageBoxPreview(
 ) {
     MoviesTheme {
         SettingsLanguageBox(
-            languages = listOf(AppLanguage.English, AppLanguage.Russian),
             currentLanguage = language,
             onLanguageSelect = {},
             modifier = Modifier

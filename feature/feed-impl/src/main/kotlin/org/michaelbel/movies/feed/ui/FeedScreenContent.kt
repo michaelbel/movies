@@ -218,13 +218,13 @@ private fun FeedScreenContent(
             when {
                 pagingItems.isLoading -> {
                     when (currentFeedView) {
-                        is FeedView.List -> {
+                        is FeedView.FeedList -> {
                             FeedCellLoading(
                                 modifier = Modifier.fillMaxSize().padding(top = 4.dp),
                                 paddingValues = paddingValues
                             )
                         }
-                        is FeedView.Grid -> {
+                        is FeedView.FeedGrid -> {
                             FeedGridLoading(
                                 modifier = Modifier
                                     .fillMaxSize()

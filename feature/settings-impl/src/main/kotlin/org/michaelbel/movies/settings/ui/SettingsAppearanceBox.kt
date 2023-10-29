@@ -27,7 +27,6 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun SettingsAppearanceBox(
-    feedViews: List<FeedView>,
     currentFeedView: FeedView,
     onFeedViewSelect: (FeedView) -> Unit,
     modifier: Modifier = Modifier,
@@ -36,7 +35,6 @@ fun SettingsAppearanceBox(
 
     if (feedViewDialog) {
         SettingsAppearanceDialog(
-            feedViews = feedViews,
             currentFeedView = currentFeedView,
             onFeedViewSelect = onFeedViewSelect,
             onDismissRequest = {
@@ -95,7 +93,6 @@ private fun SettingsAppearanceBoxPreview(
 ) {
     MoviesTheme {
         SettingsAppearanceBox(
-            feedViews = listOf(FeedView.List, FeedView.Grid),
             currentFeedView = feedView,
             onFeedViewSelect = {},
             modifier = Modifier

@@ -32,7 +32,6 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun SettingsAppearanceDialog(
-    feedViews: List<FeedView>,
     currentFeedView: FeedView,
     onFeedViewSelect: (FeedView) -> Unit,
     onDismissRequest: () -> Unit
@@ -71,7 +70,6 @@ fun SettingsAppearanceDialog(
         },
         text = {
             SettingAppearanceDialogContent(
-                feedViews = feedViews,
                 currentFeedView = currentFeedView,
                 onFeedViewSelect = { feedView ->
                     onFeedViewSelect(feedView)
@@ -93,7 +91,6 @@ fun SettingsAppearanceDialog(
 
 @Composable
 private fun SettingAppearanceDialogContent(
-    feedViews: List<FeedView>,
     currentFeedView: FeedView,
     onFeedViewSelect: (FeedView) -> Unit,
     modifier: Modifier = Modifier
@@ -101,7 +98,7 @@ private fun SettingAppearanceDialogContent(
     Column(
         modifier = modifier
     ) {
-        feedViews.forEach { feedView: FeedView ->
+        FeedView.VALUES.forEach { feedView: FeedView ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -140,10 +137,6 @@ private fun SettingsAppearanceDialogPreview(
 ) {
     MoviesTheme {
         SettingsAppearanceDialog(
-            feedViews = listOf(
-                FeedView.List,
-                FeedView.Grid
-            ),
             currentFeedView = feeView,
             onFeedViewSelect = {},
             onDismissRequest = {}

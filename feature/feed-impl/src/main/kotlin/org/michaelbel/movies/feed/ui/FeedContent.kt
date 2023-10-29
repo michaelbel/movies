@@ -38,7 +38,7 @@ fun FeedContent(
     modifier: Modifier = Modifier,
 ) {
     when (currentFeedView) {
-        is FeedView.List -> {
+        is FeedView.FeedList -> {
             LazyColumn(
                 modifier = modifier.padding(top = 4.dp),
                 state = lazyListState,
@@ -103,7 +103,7 @@ fun FeedContent(
                 }
             }
         }
-        is FeedView.Grid -> {
+        is FeedView.FeedGrid -> {
             LazyVerticalStaggeredGrid(
                 columns = StaggeredGridCells.Fixed(2),
                 modifier = modifier.padding(start = 8.dp, top = 8.dp, end = 8.dp),

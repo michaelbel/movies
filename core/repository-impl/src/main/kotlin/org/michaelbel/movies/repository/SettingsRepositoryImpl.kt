@@ -29,7 +29,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
     }
 
     override val currentFeedView: Flow<FeedView> = preferences.feedViewFlow.map { name ->
-        FeedView.transform(name ?: FeedView.List.toString())
+        FeedView.transform(name ?: FeedView.FeedList.toString())
     }
 
     override val currentMovieList: Flow<MovieList> = preferences.movieListFlow.map { name ->

@@ -14,6 +14,13 @@ sealed class MovieList(
     data object Upcoming: MovieList("upcoming")
 
     companion object {
+        val VALUES: List<MovieList> = listOf(
+            NowPlaying,
+            Popular,
+            TopRated,
+            Upcoming
+        )
+
         fun transform(name: String): MovieList {
             return when (name) {
                 NowPlaying.toString() -> NowPlaying
