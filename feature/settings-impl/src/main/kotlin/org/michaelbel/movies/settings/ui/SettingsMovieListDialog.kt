@@ -18,24 +18,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogProperties
-import org.michaelbel.movies.common.theme.AppTheme
-import org.michaelbel.movies.settings.ktx.themeText
+import org.michaelbel.movies.common.list.MovieList
+import org.michaelbel.movies.settings.ktx.title
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
-import org.michaelbel.movies.ui.preview.provider.ThemePreviewParameterProvider
+import org.michaelbel.movies.ui.preview.provider.MovieListPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun SettingThemeDialog(
-    themes: List<AppTheme>,
-    currentTheme: AppTheme,
-    onThemeSelect: (AppTheme) -> Unit,
+fun SettingsMovieListDialog(
+    movieLists: List<MovieList>,
+    currentMovieList: MovieList,
+    onMovieListSelect: (MovieList) -> Unit,
     onDismissRequest: () -> Unit
 ) {
     AlertDialog(
@@ -56,14 +55,14 @@ internal fun SettingThemeDialog(
         },
         icon = {
             Icon(
-                painter = painterResource(MoviesIcons.ThemeLightDark),
+                imageVector = MoviesIcons.LocalMovies,
                 contentDescription = null,
                 modifier = Modifier.testTag("Icon")
             )
         },
         title = {
             Text(
-                text = stringResource(R.string.settings_theme),
+                text = stringResource(R.string.settings_movie_list),
                 modifier = Modifier.testTag("Title"),
                 style = MaterialTheme.typography.headlineSmall.copy(
                     color = MaterialTheme.colorScheme.onSurface
@@ -71,11 +70,11 @@ internal fun SettingThemeDialog(
             )
         },
         text = {
-            SettingThemeDialogContent(
-                themes = themes,
-                currentTheme = currentTheme,
-                onThemeSelect = { theme ->
-                    onThemeSelect(theme)
+            SettingMovieListDialogContent(
+                movieLists = movieLists,
+                currentMovieList = currentMovieList,
+                onMovieListSelect = { movieList ->
+                    onMovieListSelect(movieList)
                     onDismissRequest()
                 },
                 modifier = Modifier.testTag("Content")
@@ -93,27 +92,27 @@ internal fun SettingThemeDialog(
 }
 
 @Composable
-private fun SettingThemeDialogContent(
-    themes: List<AppTheme>,
-    currentTheme: AppTheme,
-    onThemeSelect: (AppTheme) -> Unit,
+private fun SettingMovieListDialogContent(
+    movieLists: List<MovieList>,
+    currentMovieList: MovieList,
+    onMovieListSelect: (MovieList) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier
     ) {
-        themes.forEach { theme: AppTheme ->
+        movieLists.forEach { movieList: MovieList ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp)
                     .clickable {
-                        onThemeSelect(theme)
+                        onMovieListSelect(movieList)
                     },
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                    selected = currentTheme == theme,
+                    selected = currentMovieList == movieList,
                     onClick = null,
                     colors = RadioButtonDefaults.colors(
                         selectedColor = MaterialTheme.colorScheme.primary,
@@ -123,7 +122,7 @@ private fun SettingThemeDialogContent(
                 )
 
                 Text(
-                    text = theme.themeText,
+                    text = movieList.title,
                     modifier = Modifier.padding(start = 8.dp),
                     style = MaterialTheme.typography.bodyLarge.copy(
                         color = MaterialTheme.colorScheme.onBackground
@@ -136,18 +135,19 @@ private fun SettingThemeDialogContent(
 
 @Composable
 @DevicePreviews
-private fun SettingThemeDialogPreview(
-    @PreviewParameter(ThemePreviewParameterProvider::class) theme: AppTheme
+private fun SettingsMovieListDialogPreview(
+    @PreviewParameter(MovieListPreviewParameterProvider::class) movieList: MovieList
 ) {
     MoviesTheme {
-        SettingThemeDialog(
-            themes = listOf(
-                AppTheme.NightNo,
-                AppTheme.NightYes,
-                AppTheme.FollowSystem
+        SettingsMovieListDialog(
+            movieLists = listOf(
+                MovieList.NowPlaying,
+                MovieList.Popular,
+                MovieList.TopRated,
+                MovieList.Upcoming
             ),
-            currentTheme = theme,
-            onThemeSelect = {},
+            currentMovieList = movieList,
+            onMovieListSelect = {},
             onDismissRequest = {}
         )
     }

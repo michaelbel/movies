@@ -22,6 +22,9 @@ class MoviesPreferences @Inject constructor(
     val feedViewFlow: Flow<String?>
         get() = dataStore.data.map { preferences -> preferences[PREFERENCE_FEED_VIEW_KEY] }
 
+    val movieListFlow: Flow<String?>
+        get() = dataStore.data.map { preferences -> preferences[PREFERENCE_MOVIE_LIST_KEY] }
+
     val isDynamicColorsFlow: Flow<Boolean?>
         get() = dataStore.data.map { preferences -> preferences[PREFERENCE_DYNAMIC_COLORS_KEY] }
 
@@ -43,6 +46,12 @@ class MoviesPreferences @Inject constructor(
     suspend fun setFeedView(feedView: String) {
         dataStore.edit { preferences ->
             preferences[PREFERENCE_FEED_VIEW_KEY] = feedView
+        }
+    }
+
+    suspend fun setMovieList(movieList: String) {
+        dataStore.edit { preferences ->
+            preferences[PREFERENCE_MOVIE_LIST_KEY] = movieList
         }
     }
 
@@ -123,6 +132,7 @@ class MoviesPreferences @Inject constructor(
     private companion object {
         private val PREFERENCE_THEME_KEY: Preferences.Key<Int> = intPreferencesKey("theme")
         private val PREFERENCE_FEED_VIEW_KEY: Preferences.Key<String> = stringPreferencesKey("feed_view")
+        private val PREFERENCE_MOVIE_LIST_KEY: Preferences.Key<String> = stringPreferencesKey("movie_list")
         private val PREFERENCE_DYNAMIC_COLORS_KEY: Preferences.Key<Boolean> = booleanPreferencesKey("dynamic_colors")
         private val PREFERENCE_RTL_ENABLED_KEY: Preferences.Key<Boolean> = booleanPreferencesKey("rtl_enabled")
         private val PREFERENCE_NETWORK_REQUEST_DELAY_KEY: Preferences.Key<Int> = intPreferencesKey("network_request_delay")

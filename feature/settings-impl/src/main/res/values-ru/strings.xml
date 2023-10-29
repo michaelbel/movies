@@ -18,6 +18,11 @@
     <string name="settings_appearance">Вид</string>
     <string name="settings_appearance_list">Список</string>
     <string name="settings_appearance_grid">Сетка</string>
+    <string name="settings_movie_list">Список фильмов</string>
+    <string name="settings_movie_list_now_playing">Премьеры</string>
+    <string name="settings_movie_list_popular">Популярные</string>
+    <string name="settings_movie_list_top_rated">Топ</string>
+    <string name="settings_movie_list_upcoming">Скоро</string>
     <string name="settings_network_request_delay">Задержка сетевого запроса</string>
     <string name="settings_network_request_delay_ms">%s мс</string>
     <string name="settings_app_version_name">Movies v%s</string>

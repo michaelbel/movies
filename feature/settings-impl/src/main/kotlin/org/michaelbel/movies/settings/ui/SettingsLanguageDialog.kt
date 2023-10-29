@@ -105,7 +105,7 @@ private fun SettingLanguageDialogContent(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp)
+                    .height(52.dp)
                     .clickable {
                         onLanguageSelect(language)
                     },

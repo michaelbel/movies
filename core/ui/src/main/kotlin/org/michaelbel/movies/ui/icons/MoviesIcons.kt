@@ -9,6 +9,7 @@ import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Language
+import androidx.compose.material.icons.outlined.LocalMovies
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Settings
@@ -37,6 +38,7 @@ object MoviesIcons {
     val Language: ImageVector = Icons.Outlined.Language
     val LocationOn: ImageVector = Icons.Outlined.LocationOn
     val MovieFilter: ImageVector = Icons.Filled.MovieFilter
+    val LocalMovies: ImageVector = Icons.Outlined.LocalMovies
     val Notifications: ImageVector = Icons.Outlined.Notifications
     val Settings: ImageVector = Icons.Outlined.Settings
     val Share: ImageVector = Icons.Outlined.Share

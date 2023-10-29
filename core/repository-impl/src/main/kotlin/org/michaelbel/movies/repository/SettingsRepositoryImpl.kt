@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import org.michaelbel.movies.common.BuildConfig
 import org.michaelbel.movies.common.appearance.FeedView
+import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
@@ -29,6 +30,10 @@ internal class SettingsRepositoryImpl @Inject constructor(
 
     override val currentFeedView: Flow<FeedView> = preferences.feedViewFlow.map { feedView ->
         FeedView.transform(feedView ?: FeedView.List.toString())
+    }
+
+    override val currentMovieList: Flow<MovieList> = preferences.movieListFlow.map { movieList ->
+        MovieList.transform(movieList ?: MovieList.NowPlaying.toString())
     }
 
     override val dynamicColors: Flow<Boolean> = preferences.isDynamicColorsFlow.map { isDynamicColors ->
@@ -53,6 +58,10 @@ internal class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun selectFeedView(feedView: FeedView) {
         preferences.setFeedView(feedView.toString())
+    }
+
+    override suspend fun selectMovieList(movieList: MovieList) {
+        preferences.setMovieList(movieList.toString())
     }
 
     override suspend fun setDynamicColors(value: Boolean) {

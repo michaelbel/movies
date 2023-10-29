@@ -30,7 +30,7 @@ internal class SettingsLanguageBoxTest {
                     onLanguageSelect = {},
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(48.dp)
+                        .height(52.dp)
                 )
             }
         }

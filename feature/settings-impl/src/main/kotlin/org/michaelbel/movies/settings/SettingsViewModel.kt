@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.appearance.FeedView
+import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.localization.model.AppLanguage
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
@@ -17,6 +18,7 @@ import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.interactor.usecase.DelayUseCase
 import org.michaelbel.movies.interactor.usecase.SelectFeedViewCase
 import org.michaelbel.movies.interactor.usecase.SelectLanguageCase
+import org.michaelbel.movies.interactor.usecase.SelectMovieListCase
 import org.michaelbel.movies.interactor.usecase.SelectThemeCase
 import javax.inject.Inject
 
@@ -26,6 +28,7 @@ class SettingsViewModel @Inject constructor(
     private val selectLanguageCase: SelectLanguageCase,
     private val selectThemeCase: SelectThemeCase,
     private val selectFeedViewCase: SelectFeedViewCase,
+    private val selectMovieListCase: SelectMovieListCase,
     private val delayUseCase: DelayUseCase
 ): BaseViewModel(), DefaultLifecycleObserver {
 
@@ -51,6 +54,13 @@ class SettingsViewModel @Inject constructor(
         FeedView.Grid
     )
 
+    val movieLists: List<MovieList> = listOf(
+        MovieList.NowPlaying,
+        MovieList.Popular,
+        MovieList.TopRated,
+        MovieList.Upcoming
+    )
+
     val currentTheme: StateFlow<AppTheme> = interactor.currentTheme
         .stateIn(
             scope = this,
@@ -63,6 +73,13 @@ class SettingsViewModel @Inject constructor(
             scope = this,
             started = SharingStarted.Lazily,
             initialValue = FeedView.List
+        )
+
+    val currentMovieList: StateFlow<MovieList> = interactor.currentMovieList
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = MovieList.NowPlaying
         )
 
     val dynamicColors: StateFlow<Boolean> = interactor.dynamicColors
@@ -117,6 +134,10 @@ class SettingsViewModel @Inject constructor(
 
     fun selectFeedView(feedView: FeedView) = launch {
         selectFeedViewCase(feedView)
+    }
+
+    fun selectMovieList(movieList: MovieList) = launch {
+        selectMovieListCase(movieList)
     }
 
     fun setDynamicColors(value: Boolean) = launch {

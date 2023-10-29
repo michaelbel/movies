@@ -9,11 +9,13 @@ import org.michaelbel.movies.analytics.MoviesAnalytics
 import org.michaelbel.movies.analytics.event.ChangeDynamicColorsEvent
 import org.michaelbel.movies.analytics.event.ChangeRtlEnabledEvent
 import org.michaelbel.movies.analytics.event.SelectFeedViewEvent
+import org.michaelbel.movies.analytics.event.SelectMovieListEvent
 import org.michaelbel.movies.analytics.event.SelectThemeEvent
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.config.RemoteParams
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.common.googleapi.GoogleApi
+import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.repository.SettingsRepository
@@ -33,6 +35,8 @@ internal class SettingsInteractorImpl @Inject constructor(
     override val currentTheme: Flow<AppTheme> = settingsRepository.currentTheme
 
     override val currentFeedView: Flow<FeedView> = settingsRepository.currentFeedView
+
+    override val currentMovieList: Flow<MovieList> = settingsRepository.currentMovieList
 
     override val dynamicColors: Flow<Boolean> = settingsRepository.dynamicColors
 
@@ -56,6 +60,11 @@ internal class SettingsInteractorImpl @Inject constructor(
     override suspend fun selectFeedView(feedView: FeedView) = withContext(dispatchers.main) {
         settingsRepository.selectFeedView(feedView)
         analytics.logEvent(SelectFeedViewEvent(feedView.toString()))
+    }
+
+    override suspend fun selectMovieList(movieList: MovieList) = withContext(dispatchers.main) {
+        settingsRepository.selectMovieList(movieList)
+        analytics.logEvent(SelectMovieListEvent(movieList.toString()))
     }
 
     override suspend fun setDynamicColors(value: Boolean) = withContext(dispatchers.main) {

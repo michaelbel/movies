@@ -28,7 +28,7 @@ internal class SettingsDynamicColorsBoxTest {
                     isDynamicColorsEnabled = IS_DYNAMIC_COLORS_ENABLED,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(48.dp)
+                        .height(52.dp)
                         .clickable {}
                 )
             }

@@ -33,6 +33,7 @@ import com.google.android.play.core.review.ReviewManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.appearance.FeedView
+import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.localization.model.AppLanguage
 import org.michaelbel.movies.common.review.rememberReviewManager
 import org.michaelbel.movies.common.review.rememberReviewTask
@@ -53,6 +54,7 @@ fun SettingsRoute(
     val currentLanguage: AppLanguage = AppLanguage.transform(stringResource(UiR.string.language_code))
     val currentTheme: AppTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
     val currentFeedView: FeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()
+    val currentMovieList: MovieList by viewModel.currentMovieList.collectAsStateWithLifecycle()
     val dynamicColors: Boolean by viewModel.dynamicColors.collectAsStateWithLifecycle()
     val layoutDirection: LayoutDirection by viewModel.layoutDirection.collectAsStateWithLifecycle()
     val isPlayServicesAvailable: Boolean by viewModel.isPlayServicesAvailable.collectAsStateWithLifecycle()
@@ -71,6 +73,9 @@ fun SettingsRoute(
         feedViews = viewModel.feedViews,
         currentFeedView = currentFeedView,
         onFeedViewSelect = viewModel::selectFeedView,
+        movieLists = viewModel.movieLists,
+        currentMovieList = currentMovieList,
+        onMovieListSelect = viewModel::selectMovieList,
         isDynamicColorsFeatureEnabled = viewModel.isDynamicColorsFeatureEnabled,
         dynamicColors = dynamicColors,
         onSetDynamicColors = viewModel::setDynamicColors,
@@ -99,6 +104,9 @@ private fun SettingsScreenContent(
     feedViews: List<FeedView>,
     currentFeedView: FeedView,
     onFeedViewSelect: (FeedView) -> Unit,
+    movieLists: List<MovieList>,
+    currentMovieList: MovieList,
+    onMovieListSelect: (MovieList) -> Unit,
     isDynamicColorsFeatureEnabled: Boolean,
     dynamicColors: Boolean,
     onSetDynamicColors: (Boolean) -> Unit,
@@ -209,6 +217,15 @@ private fun SettingsScreenContent(
                 feedViews = feedViews,
                 currentFeedView = currentFeedView,
                 onFeedViewSelect = onFeedViewSelect,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp)
+            )
+
+            SettingsMovieListBox(
+                movieLists = movieLists,
+                currentMovieList = currentMovieList,
+                onMovieListSelect = onMovieListSelect,
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp)
