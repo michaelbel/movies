@@ -24,16 +24,16 @@ internal class SettingsRepositoryImpl @Inject constructor(
     private val preferences: MoviesPreferences
 ): SettingsRepository {
 
-    override val currentTheme: Flow<AppTheme> = preferences.themeFlow.map { theme ->
-        AppTheme.transform(theme ?: AppTheme.FollowSystem.theme)
+    override val currentTheme: Flow<AppTheme> = preferences.themeFlow.map { name ->
+        AppTheme.transform(name ?: AppTheme.FollowSystem.toString())
     }
 
-    override val currentFeedView: Flow<FeedView> = preferences.feedViewFlow.map { feedView ->
-        FeedView.transform(feedView ?: FeedView.List.toString())
+    override val currentFeedView: Flow<FeedView> = preferences.feedViewFlow.map { name ->
+        FeedView.transform(name ?: FeedView.List.toString())
     }
 
-    override val currentMovieList: Flow<MovieList> = preferences.movieListFlow.map { movieList ->
-        MovieList.transform(movieList ?: MovieList.NowPlaying.toString())
+    override val currentMovieList: Flow<MovieList> = preferences.movieListFlow.map { name ->
+        MovieList.transform(name ?: MovieList.NowPlaying.toString())
     }
 
     override val dynamicColors: Flow<Boolean> = preferences.isDynamicColorsFlow.map { isDynamicColors ->
@@ -53,7 +53,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
     )
 
     override suspend fun selectTheme(appTheme: AppTheme) {
-        preferences.setTheme(appTheme.theme)
+        preferences.setTheme(appTheme.toString())
     }
 
     override suspend fun selectFeedView(feedView: FeedView) {

@@ -16,7 +16,7 @@ class MoviesPreferences @Inject constructor(
     private val dataStore: DataStore<Preferences>
 ) {
 
-    val themeFlow: Flow<Int?>
+    val themeFlow: Flow<String?>
         get() = dataStore.data.map { preferences -> preferences[PREFERENCE_THEME_KEY] }
 
     val feedViewFlow: Flow<String?>
@@ -37,7 +37,7 @@ class MoviesPreferences @Inject constructor(
     val accountIdFlow: Flow<Int?>
         get() = dataStore.data.map { preferences -> preferences[PREFERENCE_ACCOUNT_ID_KEY] }
 
-    suspend fun setTheme(theme: Int) {
+    suspend fun setTheme(theme: String) {
         dataStore.edit { preferences ->
             preferences[PREFERENCE_THEME_KEY] = theme
         }
@@ -130,7 +130,7 @@ class MoviesPreferences @Inject constructor(
     }
 
     private companion object {
-        private val PREFERENCE_THEME_KEY: Preferences.Key<Int> = intPreferencesKey("theme")
+        private val PREFERENCE_THEME_KEY: Preferences.Key<String> = stringPreferencesKey("theme")
         private val PREFERENCE_FEED_VIEW_KEY: Preferences.Key<String> = stringPreferencesKey("feed_view")
         private val PREFERENCE_MOVIE_LIST_KEY: Preferences.Key<String> = stringPreferencesKey("movie_list")
         private val PREFERENCE_DYNAMIC_COLORS_KEY: Preferences.Key<Boolean> = booleanPreferencesKey("dynamic_colors")
