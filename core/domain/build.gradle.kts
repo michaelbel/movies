@@ -24,6 +24,7 @@ android {
 
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
+            "-opt-in=kotlinx.serialization.ExperimentalSerializationApi",
             "-opt-in=androidx.paging.ExperimentalPagingApi"
         )
     }

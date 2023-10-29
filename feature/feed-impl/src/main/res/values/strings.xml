@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="feed_title">Popular Movies</string>
+    <string name="feed_title_now_playing">Now Playing Movies</string>
+    <string name="feed_title_popular">Popular Movies</string>
+    <string name="feed_title_top_rated">Top Rated Movies</string>
+    <string name="feed_title_upcoming">Upcoming Movies</string>
     <string name="feed_retry">Retry</string>
     <string name="feed_error_loading">Error while loading movies</string>
     <string name="feed_error_check_internet_connectivity">Check Internet Connectivity</string>

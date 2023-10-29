@@ -28,6 +28,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun FeedToolbar(
+    title: String,
     account: AccountDb,
     isUpdateIconVisible: Boolean,
     onAuthIconClick: () -> Unit,
@@ -40,7 +41,7 @@ fun FeedToolbar(
     TopAppBar(
         title = {
             Text(
-                text = stringResource(R.string.feed_title),
+                text = title,
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 style = MaterialTheme.typography.titleLarge.copy(
@@ -105,6 +106,7 @@ private fun FeedToolbarPreview(
 ) {
     MoviesTheme {
         FeedToolbar(
+            title = stringResource(R.string.feed_title_now_playing),
             account = AccountDb.Empty,
             isUpdateIconVisible = visible,
             onAccountIconClick = {},

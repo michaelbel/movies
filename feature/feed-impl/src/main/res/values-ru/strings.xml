@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="feed_title">Популярные фильмы</string>
+    <string name="feed_title_now_playing">Фильмы премьеры</string>
+    <string name="feed_title_popular">Популярные фильмы</string>
+    <string name="feed_title_top_rated">Топ фильмов</string>
+    <string name="feed_title_upcoming">Предстоящие фильмы</string>
     <string name="feed_retry">Повторить</string>
     <string name="feed_error_loading">При загрузке фильмов произошла ошибка</string>
     <string name="feed_error_check_internet_connectivity">Проверить подключение к интернету</string>

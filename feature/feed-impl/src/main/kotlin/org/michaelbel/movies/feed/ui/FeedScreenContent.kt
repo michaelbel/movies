@@ -43,8 +43,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
+import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
 import org.michaelbel.movies.feed.FeedViewModel
+import org.michaelbel.movies.feed.ktx.titleText
 import org.michaelbel.movies.feed_impl.R
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.persistence.database.entity.AccountDb
@@ -70,6 +72,7 @@ fun FeedRoute(
     val pagingItems: LazyPagingItems<MovieDb> = viewModel.pagingItems.collectAsLazyPagingItems()
     val account: AccountDb? by viewModel.account.collectAsStateWithLifecycle()
     val currentFeedView: FeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()
+    val currentMovieList: MovieList by viewModel.currentMovieList.collectAsStateWithLifecycle()
     val notificationsPermissionRequired: Boolean by viewModel.notificationsPermissionRequired.collectAsStateWithLifecycle()
     val networkStatus: NetworkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
     val isUpdateAvailable: Boolean by rememberUpdatedState(viewModel.updateAvailableMessage)
@@ -79,6 +82,7 @@ fun FeedRoute(
         account = account.orEmpty,
         networkStatus = networkStatus,
         currentFeedView = currentFeedView,
+        currentMovieList = currentMovieList,
         notificationsPermissionRequired = notificationsPermissionRequired,
         isUpdateIconVisible = isUpdateAvailable,
         onNavigateToAuth = onNavigateToAuth,
@@ -97,6 +101,7 @@ private fun FeedScreenContent(
     account: AccountDb,
     networkStatus: NetworkStatus,
     currentFeedView: FeedView,
+    currentMovieList: MovieList,
     notificationsPermissionRequired: Boolean,
     isUpdateIconVisible: Boolean,
     onNavigateToAuth: () -> Unit,
@@ -191,6 +196,7 @@ private fun FeedScreenContent(
                 .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
             topBar = {
                 FeedToolbar(
+                    title = currentMovieList.titleText,
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickableWithoutRipple { onScrollToTop() },

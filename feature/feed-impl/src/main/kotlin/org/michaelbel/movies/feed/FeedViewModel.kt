@@ -14,14 +14,16 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.inappupdate.di.InAppUpdate
+import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.domain.mediator.MoviesRemoteMediator
-import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
+import org.michaelbel.movies.feed.ktx.nameOrLocalList
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
@@ -38,26 +40,6 @@ class FeedViewModel @Inject constructor(
     networkManager: NetworkManager,
     inAppUpdate: InAppUpdate
 ): BaseViewModel() {
-
-    private val moviesList: String
-        get() = if (isTmdbApiKeyEmpty) MovieDb.MOVIES_LOCAL_LIST else MovieResponse.NOW_PLAYING
-
-    val pagingItems: Flow<PagingData<MovieDb>> = Pager(
-        config = PagingConfig(
-            pageSize = MovieResponse.DEFAULT_PAGE_SIZE
-        ),
-        remoteMediator = MoviesRemoteMediator(
-            interactor = interactor,
-            movieList = MovieResponse.NOW_PLAYING
-        ),
-        pagingSourceFactory = { interactor.moviesPagingSource(moviesList) }
-    ).flow
-        .stateIn(
-            scope = this,
-            started = SharingStarted.Lazily,
-            initialValue = PagingData.empty()
-        )
-        .cachedIn(this)
 
     val account: StateFlow<AccountDb?> = interactor.account
         .stateIn(
@@ -86,6 +68,32 @@ class FeedViewModel @Inject constructor(
             started = SharingStarted.Lazily,
             initialValue = runBlocking { interactor.currentFeedView.first() }
         )
+
+    val currentMovieList: StateFlow<MovieList> = interactor.currentMovieList
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = runBlocking { interactor.currentMovieList.first() }
+        )
+
+    val pagingItems: Flow<PagingData<MovieDb>> = currentMovieList.flatMapLatest { movieList ->
+        Pager(
+            config = PagingConfig(
+                pageSize = MovieResponse.DEFAULT_PAGE_SIZE
+            ),
+            remoteMediator = MoviesRemoteMediator(
+                interactor = interactor,
+                movieList = movieList.name
+            ),
+            pagingSourceFactory = { interactor.moviesPagingSource(movieList.nameOrLocalList) }
+        ).flow
+            .stateIn(
+                scope = this,
+                started = SharingStarted.Lazily,
+                initialValue = PagingData.empty()
+            )
+            .cachedIn(this)
+    }
 
     private var _notificationsPermissionRequired: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val notificationsPermissionRequired: StateFlow<Boolean> = _notificationsPermissionRequired.asStateFlow()

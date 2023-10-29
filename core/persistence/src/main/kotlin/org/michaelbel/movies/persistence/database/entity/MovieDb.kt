@@ -2,15 +2,14 @@ package org.michaelbel.movies.persistence.database.entity
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
-import androidx.room.PrimaryKey
 import org.jetbrains.annotations.NotNull
 
-@Entity(tableName = "movies")
+@Entity(tableName = "movies", primaryKeys = ["movieList", "id"])
 data class MovieDb(
     @NotNull val movieList: String,
     @NotNull val dateAdded: Long,
     @NotNull val position: Int,
-    @NotNull @PrimaryKey @ColumnInfo(name = "id") val movieId: Int,
+    @NotNull @ColumnInfo(name = "id") val movieId: Int,
     @NotNull val overview: String,
     @NotNull val posterPath: String,
     @NotNull val backdropPath: String,

@@ -15,7 +15,7 @@ import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.entity.PagingKeyDb
 
 /**
- * The Room database for this app
+ * The Room database for this app.
  */
 @Database(
     entities = [
@@ -35,7 +35,7 @@ internal abstract class AppDatabase: RoomDatabase() {
 
     companion object {
         private val DATABASE_NAME: String = if (BuildConfig.DEBUG) "movies-db-debug" else "movies-db"
-        const val DATABASE_VERSION = 14
+        const val DATABASE_VERSION = 15
 
         @Volatile
         private var instance: AppDatabase? = null
