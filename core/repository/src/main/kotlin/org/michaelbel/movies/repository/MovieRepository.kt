@@ -1,6 +1,7 @@
 package org.michaelbel.movies.repository
 
 import androidx.paging.PagingSource
+import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.entities.Either
 import org.michaelbel.movies.network.model.ImagesResponse
 import org.michaelbel.movies.network.model.MovieResponse
@@ -10,6 +11,8 @@ import org.michaelbel.movies.persistence.database.entity.MovieDb
 interface MovieRepository {
 
     fun moviesPagingSource(movieList: String): PagingSource<Int, MovieDb>
+
+    fun movieImage(movieId: Int): Flow<String>
 
     suspend fun moviesResult(movieList: String, page: Int): Result<MovieResponse>
 

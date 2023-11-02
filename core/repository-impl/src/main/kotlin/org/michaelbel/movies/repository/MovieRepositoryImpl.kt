@@ -1,6 +1,9 @@
 package org.michaelbel.movies.repository
 
 import androidx.paging.PagingSource
+import javax.inject.Inject
+import javax.inject.Singleton
+import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.common.localization.LocaleController
 import org.michaelbel.movies.entities.Either
 import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
@@ -18,8 +21,6 @@ import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.entity.PagingKeyDb
 import org.michaelbel.movies.repository.ktx.checkApiKeyNotNullException
 import org.michaelbel.movies.repository.ktx.mapToMovieDb
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
 internal class MovieRepositoryImpl @Inject constructor(
@@ -31,6 +32,10 @@ internal class MovieRepositoryImpl @Inject constructor(
 
     override fun moviesPagingSource(movieList: String): PagingSource<Int, MovieDb> {
         return movieDao.pagingSource(movieList)
+    }
+
+    override fun movieImage(movieId: Int): Flow<String> {
+        return movieDao.movieImage(movieId)
     }
 
     override suspend fun moviesResult(movieList: String, page: Int): Result<MovieResponse> {

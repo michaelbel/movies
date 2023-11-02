@@ -10,13 +10,13 @@ fun NavController.navigateToGallery(movieId: Int) {
 }
 
 fun NavGraphBuilder.galleryGraph(
-
+    navigateBack: () -> Unit,
 ) {
     composable(
         route = GalleryDestination.route
     ) {
         GalleryRoute(
-
+            onBackClick = navigateBack
         )
     }
 }
