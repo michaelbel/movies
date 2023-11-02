@@ -3,16 +3,16 @@ package org.michaelbel.movies.gallery.ui
 import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerScope
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -31,8 +31,8 @@ import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.gallery.GalleryViewModel
-import org.michaelbel.movies.gallery.photo.PhotoBox
-import org.michaelbel.movies.gallery.photo.rememberPhotoState
+import org.michaelbel.movies.gallery.zoomable.rememberZoomState
+import org.michaelbel.movies.gallery.zoomable.zoomable
 import org.michaelbel.movies.ui.icons.MoviesIcons
 
 @Composable
@@ -57,78 +57,69 @@ private fun GalleryScreenContent(
     modifier: Modifier = Modifier
 ) {
     val context: Context = LocalContext.current
+    val coroutineScope = rememberCoroutineScope()
 
-    Scaffold(
-        modifier = modifier,
-        containerColor = MaterialTheme.colorScheme.primaryContainer
-    ) { paddingValues ->
-        ConstraintLayout(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
+    ConstraintLayout(
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.primaryContainer)
+    ) {
+        val (pager, backIcon) = createRefs()
+
+        LoopHorizontalPager(
+            count = 1,
+            modifier = Modifier.constrainAs(pager) {
+                width = Dimension.fillToConstraints
+                height = Dimension.wrapContent
+                start.linkTo(parent.start)
+                top.linkTo(parent.top)
+                end.linkTo(parent.end)
+                bottom.linkTo(parent.bottom)
+            }
         ) {
-            val (pager, backIcon) = createRefs()
-
-            LoopHorizontalPager(
-                count = 1,
-                modifier = Modifier.constrainAs(pager) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start)
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end)
-                    bottom.linkTo(parent.bottom)
-                }
+            Box(
+                contentAlignment = Alignment.Center
             ) {
-                Box(
-                    contentAlignment = Alignment.Center
-                ) {
-                    val photoState = rememberPhotoState()
+                val zoomState = rememberZoomState()
 
-                    PhotoBox(
-                        state = photoState
-                    ) {
-                        AsyncImage(
-                            model = ImageRequest.Builder(context)
-                                .data(movieImage)
-                                .crossfade(true)
-                                .build(),
-                            contentDescription = null,
-                            modifier = Modifier.fillMaxSize(),
-                            transform = { state ->
-                                if (state is AsyncImagePainter.State.Success) {
-                                    photoState.setPhotoIntrinsicSize(state.painter.intrinsicSize)
-                                }
-                                state
-                            },
-                            contentScale = ContentScale.Fit
-                        )
-                    }
-
-                    val coroutineScope = rememberCoroutineScope()
-                    BackHandler(enabled = photoState.isScaled) {
-                        coroutineScope.launch {
-                            photoState.animateToInitialState()
-                        }
-                    }
-                }
-            }
-
-            IconButton(
-                onClick = onBackClick,
-                modifier = Modifier.constrainAs(backIcon) {
-                    width = Dimension.wrapContent
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start, 4.dp)
-                    top.linkTo(parent.top, 8.dp)
-                }
-            ) {
-                Image(
-                    imageVector = MoviesIcons.ArrowBack,
+                AsyncImage(
+                    model = ImageRequest.Builder(context)
+                        .data(movieImage)
+                        .crossfade(true)
+                        .build(),
                     contentDescription = null,
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .zoomable(zoomState),
+                    transform = { state ->
+                        if (state is AsyncImagePainter.State.Success) {
+                            zoomState.setContentSize(state.painter.intrinsicSize)
+                        }
+                        state
+                    },
+                    contentScale = ContentScale.Fit
                 )
+
+                BackHandler(zoomState.isScaled) {
+                    coroutineScope.launch { zoomState.reset() }
+                }
             }
+        }
+
+        IconButton(
+            onClick = onBackClick,
+            modifier = Modifier.constrainAs(backIcon) {
+                width = Dimension.wrapContent
+                height = Dimension.wrapContent
+                start.linkTo(parent.start, 4.dp)
+                top.linkTo(parent.top, 8.dp)
+            }.statusBarsPadding()
+        ) {
+            Image(
+                imageVector = MoviesIcons.ArrowBack,
+                contentDescription = null,
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
+            )
         }
     }
 }
