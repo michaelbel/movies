@@ -105,6 +105,15 @@ TMDB_API_KEY=your_own_tmdb_api_key
 ## Issues
 If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).
 
+## Star History
+<a href="https://star-history.com/#michaelbel/movies&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=michaelbel/movies&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=michaelbel/movies&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=michaelbel/movies&type=Date" />
+  </picture>
+</a>
+
 ## License
 <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
   <img alt="Apache License 2.0" src="config/screenshots/apache.png" height="110"/>
