@@ -16,3 +16,14 @@ val String.formatBackdropImage: String
 
 val String.formatProfileImage: String
     get() = String.format(TMDB_IMAGE_BASE_URL, ProfileSize.W185.size, this).ifEmpty { IMAGE_EMPTY_URL }
+
+val String.original: String
+    get() {
+        return when {
+            this.isNotEmpty() -> {
+                val size: String = substring(indexOf("/p").plus(3), lastIndexOf("/"))
+                replace(size, BackdropSize.ORIGINAL.size)
+            }
+            else -> this
+        }
+    }

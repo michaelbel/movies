@@ -15,7 +15,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
@@ -30,6 +33,7 @@ import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
 import kotlinx.coroutines.launch
+import org.michaelbel.movies.entities.image.original
 import org.michaelbel.movies.gallery.GalleryViewModel
 import org.michaelbel.movies.gallery.zoomable.rememberZoomState
 import org.michaelbel.movies.gallery.zoomable.zoomable
@@ -59,6 +63,10 @@ private fun GalleryScreenContent(
     val context: Context = LocalContext.current
     val coroutineScope = rememberCoroutineScope()
 
+    var imageDiskCacheKey: String? by remember { mutableStateOf(null) }
+    var image: String by remember { mutableStateOf("") }
+    image = movieImage
+
     ConstraintLayout(
         modifier = modifier
             .fillMaxSize()
@@ -84,8 +92,9 @@ private fun GalleryScreenContent(
 
                 AsyncImage(
                     model = ImageRequest.Builder(context)
-                        .data(movieImage)
+                        .data(image)
                         .crossfade(true)
+                        .placeholderMemoryCacheKey(imageDiskCacheKey)
                         .build(),
                     contentDescription = null,
                     modifier = Modifier
@@ -94,6 +103,10 @@ private fun GalleryScreenContent(
                     transform = { state ->
                         if (state is AsyncImagePainter.State.Success) {
                             zoomState.setContentSize(state.painter.intrinsicSize)
+                            imageDiskCacheKey = state.result.diskCacheKey
+                            if (image != image.original) {
+                                image = image.original
+                            }
                         }
                         state
                     },
