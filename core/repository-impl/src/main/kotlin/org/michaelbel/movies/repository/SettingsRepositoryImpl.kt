@@ -4,6 +4,8 @@ import android.content.Context
 import android.os.Build
 import androidx.compose.ui.unit.LayoutDirection
 import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -15,8 +17,6 @@ import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import org.michaelbel.movies.repository.ktx.code
 import org.michaelbel.movies.repository.ktx.packageInfo
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
 internal class SettingsRepositoryImpl @Inject constructor(
