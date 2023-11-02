@@ -7,7 +7,7 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    //repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
         mavenCentral()
         google()
@@ -17,9 +17,10 @@ dependencyResolutionManagement {
 rootProject.name = "movies"
 
 include(
-    ":app",
+    ":android-app",
     ":instant",
     ":benchmark",
+    ":shared",
 
     ":core:analytics",
     ":core:common",

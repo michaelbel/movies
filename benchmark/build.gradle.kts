@@ -33,7 +33,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    targetProjectPath = ":app"
+    targetProjectPath = ":android-app"
 
     experimentalProperties["android.experimental.self-instrumenting"] = true
 }
