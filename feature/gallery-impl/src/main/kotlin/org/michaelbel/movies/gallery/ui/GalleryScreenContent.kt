@@ -1,26 +1,39 @@
 package org.michaelbel.movies.gallery.ui
 
+import android.content.Context
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerScope
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
+import kotlinx.coroutines.launch
 import org.michaelbel.movies.gallery.GalleryViewModel
+import org.michaelbel.movies.gallery.photo.PhotoBox
+import org.michaelbel.movies.gallery.photo.rememberPhotoState
 import org.michaelbel.movies.ui.icons.MoviesIcons
-import org.michaelbel.movies.ui.ktx.context
 
 @Composable
 fun GalleryRoute(
@@ -43,6 +56,8 @@ private fun GalleryScreenContent(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val context: Context = LocalContext.current
+
     Scaffold(
         modifier = modifier,
         containerColor = MaterialTheme.colorScheme.primaryContainer
@@ -52,24 +67,52 @@ private fun GalleryScreenContent(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
-            val (image, backIcon) = createRefs()
+            val (pager, backIcon) = createRefs()
 
-            AsyncImage(
-                model = ImageRequest.Builder(context)
-                    .data(movieImage)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = null,
-                modifier = Modifier.constrainAs(image) {
+            LoopHorizontalPager(
+                count = 1,
+                modifier = Modifier.constrainAs(pager) {
                     width = Dimension.fillToConstraints
                     height = Dimension.wrapContent
                     start.linkTo(parent.start)
                     top.linkTo(parent.top)
                     end.linkTo(parent.end)
                     bottom.linkTo(parent.bottom)
-                },
-                contentScale = ContentScale.Fit
-            )
+                }
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center
+                ) {
+                    val photoState = rememberPhotoState()
+
+                    PhotoBox(
+                        state = photoState
+                    ) {
+                        AsyncImage(
+                            model = ImageRequest.Builder(context)
+                                .data(movieImage)
+                                .crossfade(true)
+                                .build(),
+                            contentDescription = null,
+                            modifier = Modifier.fillMaxSize(),
+                            transform = { state ->
+                                if (state is AsyncImagePainter.State.Success) {
+                                    photoState.setPhotoIntrinsicSize(state.painter.intrinsicSize)
+                                }
+                                state
+                            },
+                            contentScale = ContentScale.Fit
+                        )
+                    }
+
+                    val coroutineScope = rememberCoroutineScope()
+                    BackHandler(enabled = photoState.isScaled) {
+                        coroutineScope.launch {
+                            photoState.animateToInitialState()
+                        }
+                    }
+                }
+            }
 
             IconButton(
                 onClick = onBackClick,
@@ -88,4 +131,33 @@ private fun GalleryScreenContent(
             }
         }
     }
+}
+
+@Composable
+private fun LoopHorizontalPager(
+    count: Int,
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues(0.dp),
+    content: @Composable PagerScope.(page: Int) -> Unit,
+) {
+    val startIndex: Int = Int.MAX_VALUE / 2
+    val pagerState = rememberPagerState(
+        initialPage = startIndex,
+        initialPageOffsetFraction = 0F,
+        pageCount = { count }
+    )
+    HorizontalPager(
+        state = pagerState,
+        modifier = modifier,
+        contentPadding = contentPadding,
+        pageContent = { index ->
+            val page = (index - startIndex).floorMod(count)
+            content(page)
+        }
+    )
+}
+
+private fun Int.floorMod(other: Int): Int = when (other) {
+    0 -> this
+    else -> this - floorDiv(other) * other
 }

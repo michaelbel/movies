@@ -87,7 +87,11 @@ fun DetailsContent(
                     end.linkTo(parent.end, 16.dp)
                 }
                 .clip(MaterialTheme.shapes.small)
-                .clickable { onNavigateToGallery(movie.movieId) }
+                .clickable {
+                    if (!isNoImageVisible) {
+                        onNavigateToGallery(movie.movieId)
+                    }
+                }
         }
 
         AsyncImage(
