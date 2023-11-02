@@ -81,8 +81,6 @@ accompanist-appcompat-theme = { module = "com.google.accompanist:accompanist-app
 accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanist" }
 accompanist-insets-ui = { module = "com.google.accompanist:accompanist-insets-ui", version.ref = "accompanist" }
 accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist" }
-accompanist-placeholder = { module = "com.google.accompanist:accompanist-placeholder", version.ref = "accompanist" }
-accompanist-placeholder-material = { module = "com.google.accompanist:accompanist-placeholder-material", version.ref = "accompanist" }
 accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 material-compose-theme-adapter = { module = "com.google.android.material:compose-theme-adapter", version.ref = "material-compose-theme-adapter" }
@@ -158,8 +156,6 @@ accompanist = [
     "accompanist-drawablepainter",
     "accompanist-insets-ui",
     "accompanist-navigation-animation",
-    "accompanist-placeholder",
-    "accompanist-placeholder-material",
     "accompanist-systemuicontroller"
 ]
 appcompat = [
