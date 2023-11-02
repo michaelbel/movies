@@ -62,23 +62,10 @@ fun DetailsContent(
                 .build()
         }
 
-        val imageModifier: Modifier = if (placeholder) {
-            Modifier
-                .constrainAs(image) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.value(220.dp)
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(parent.top, 16.dp)
-                    end.linkTo(parent.end, 16.dp)
-                }
-                .placeholder(
-                    visible = true,
-                    color = MaterialTheme.colorScheme.inversePrimary,
-                    shape = MaterialTheme.shapes.small,
-                    highlight = PlaceholderHighlight.fade()
-                )
-        } else {
-            Modifier
+        AsyncImage(
+            model = imageRequest,
+            contentDescription = null,
+            modifier = Modifier
                 .constrainAs(image) {
                     width = Dimension.fillToConstraints
                     height = Dimension.value(220.dp)
@@ -87,17 +74,17 @@ fun DetailsContent(
                     end.linkTo(parent.end, 16.dp)
                 }
                 .clip(MaterialTheme.shapes.small)
+                .placeholder(
+                    visible = placeholder,
+                    color = MaterialTheme.colorScheme.inversePrimary,
+                    shape = MaterialTheme.shapes.small,
+                    highlight = PlaceholderHighlight.fade()
+                )
                 .clickable {
-                    if (!isNoImageVisible) {
+                    if (!placeholder && !isNoImageVisible) {
                         onNavigateToGallery(movie.movieId)
                     }
-                }
-        }
-
-        AsyncImage(
-            model = imageRequest,
-            contentDescription = null,
-            modifier = imageModifier,
+                },
             onState = { state ->
                 isNoImageVisible = movie.isNotEmpty && state.isErrorOrEmpty
             },
@@ -125,8 +112,9 @@ fun DetailsContent(
             )
         }
 
-        val titleModifier: Modifier = if (placeholder) {
-            Modifier
+        Text(
+            text = movie.title,
+            modifier = Modifier
                 .constrainAs(title) {
                     width = Dimension.fillToConstraints
                     height = Dimension.wrapContent
@@ -135,25 +123,11 @@ fun DetailsContent(
                     end.linkTo(parent.end, 16.dp)
                 }
                 .placeholder(
-                    visible = true,
+                    visible = placeholder,
                     color = MaterialTheme.colorScheme.inversePrimary,
                     shape = MaterialTheme.shapes.small,
                     highlight = PlaceholderHighlight.fade()
-                )
-        } else {
-            Modifier
-                .constrainAs(title) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(image.bottom, 8.dp)
-                    end.linkTo(parent.end, 16.dp)
-                }
-        }
-
-        Text(
-            text = movie.title,
-            modifier = titleModifier,
+                ),
             overflow = TextOverflow.Ellipsis,
             maxLines = 3,
             style = MaterialTheme.typography.titleLarge.copy(
@@ -161,8 +135,9 @@ fun DetailsContent(
             )
         )
 
-        val overviewModifier: Modifier = if (placeholder) {
-            Modifier
+        Text(
+            text = movie.overview,
+            modifier = Modifier
                 .constrainAs(overview) {
                     width = Dimension.fillToConstraints
                     height = Dimension.wrapContent
@@ -171,25 +146,11 @@ fun DetailsContent(
                     end.linkTo(parent.end, 16.dp)
                 }
                 .placeholder(
-                    visible = true,
+                    visible = placeholder,
                     color = MaterialTheme.colorScheme.inversePrimary,
                     shape = MaterialTheme.shapes.small,
                     highlight = PlaceholderHighlight.fade()
-                )
-        } else {
-            Modifier
-                .constrainAs(overview) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(title.bottom, 8.dp)
-                    end.linkTo(parent.end, 16.dp)
-                }
-        }
-
-        Text(
-            text = movie.overview,
-            modifier = overviewModifier,
+                ),
             overflow = TextOverflow.Ellipsis,
             maxLines = 10,
             style = MaterialTheme.typography.bodyMedium.copy(

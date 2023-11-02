@@ -47,9 +47,7 @@ fun AuthLinksBox(
                 text = stringResource(R.string.auth_terms_of_use),
                 modifier = Modifier
                     .padding(vertical = 16.dp)
-                    .clickableWithoutRipple {
-                        onTermsOfUseClick()
-                    },
+                    .clickableWithoutRipple { onTermsOfUseClick() },
                 maxLines = 1,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     color = MaterialTheme.colorScheme.primary
@@ -68,9 +66,7 @@ fun AuthLinksBox(
                 text = stringResource(R.string.auth_privacy_policy),
                 modifier = Modifier
                     .padding(vertical = 16.dp)
-                    .clickableWithoutRipple {
-                        onPrivacyPolicyClick()
-                    },
+                    .clickableWithoutRipple { onPrivacyPolicyClick() },
                 maxLines = 1,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     color = MaterialTheme.colorScheme.primary
