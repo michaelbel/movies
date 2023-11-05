@@ -18,7 +18,7 @@ rootProject.name = "movies"
 
 include(
     ":app",
-
+    ":instant",
     ":benchmark",
 
     ":core:analytics",
