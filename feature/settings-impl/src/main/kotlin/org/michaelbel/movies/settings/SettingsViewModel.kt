@@ -98,7 +98,7 @@ class SettingsViewModel @Inject constructor(
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
-            initialValue = AppVersionData.None
+            initialValue = AppVersionData.Empty
         )
 
     fun selectLanguage(language: AppLanguage) = launch {

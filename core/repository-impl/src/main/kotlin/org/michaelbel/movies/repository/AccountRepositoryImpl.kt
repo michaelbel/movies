@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import org.michaelbel.movies.common.exceptions.AccountDetailsException
-import org.michaelbel.movies.entities.tmdbApiKey
+import org.michaelbel.movies.network.tmdbApiKey
 import org.michaelbel.movies.network.model.Account
 import org.michaelbel.movies.network.service.account.AccountService
 import org.michaelbel.movies.persistence.database.dao.AccountDao

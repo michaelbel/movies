@@ -23,6 +23,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import org.michaelbel.movies.network.formatBackdropImage
 import org.michaelbel.movies.feed_impl.R
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.ui.ktx.context
@@ -45,7 +46,7 @@ fun FeedCellMovieBox(
 
         AsyncImage(
             model = ImageRequest.Builder(context)
-                .data(movie.backdropPath)
+                .data(movie.backdropPath.formatBackdropImage)
                 .crossfade(true)
                 .build(),
             contentDescription = null,

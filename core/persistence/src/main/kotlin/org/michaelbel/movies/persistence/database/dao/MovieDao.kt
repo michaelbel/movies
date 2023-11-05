@@ -5,7 +5,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 
 /**
@@ -18,7 +17,7 @@ interface MovieDao {
     fun pagingSource(movieList: String): PagingSource<Int, MovieDb>
 
     @Query("SELECT backdropPath FROM movies WHERE id = :movieId")
-    fun movieImage(movieId: Int): Flow<String>
+    suspend fun movieBackdropPath(movieId: Int): String
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllMovies(movies: List<MovieDb>)

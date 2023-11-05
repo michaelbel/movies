@@ -3,7 +3,7 @@ package org.michaelbel.movies.details.ktx
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import org.michaelbel.movies.details_impl.R
-import org.michaelbel.movies.entities.lce.ScreenState
+import org.michaelbel.movies.network.ScreenState
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.url
 

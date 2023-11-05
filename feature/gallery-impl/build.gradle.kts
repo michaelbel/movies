@@ -2,7 +2,6 @@
 plugins {
     alias(libs.plugins.library)
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.detekt)
     id("movies-android-hilt")
 }
 
@@ -52,13 +51,17 @@ android {
         checkDependencies = true
         lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
     }
+
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 dependencies {
     api(project(":core:navigation"))
     api(project(":core:ui"))
     implementation(project(":core:common"))
-    implementation(project(":core:domain"))
+    implementation(project(":core:interactor"))
     implementation(project(":core:network"))
 
     testImplementation(libs.junit)

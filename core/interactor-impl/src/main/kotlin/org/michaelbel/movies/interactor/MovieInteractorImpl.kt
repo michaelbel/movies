@@ -4,12 +4,10 @@ import androidx.paging.PagingSource
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
-import org.michaelbel.movies.entities.Either
 import org.michaelbel.movies.interactor.usecase.DelayUseCase
-import org.michaelbel.movies.network.model.ImagesResponse
+import org.michaelbel.movies.network.Either
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
 import org.michaelbel.movies.persistence.database.entity.MovieDb
@@ -26,8 +24,8 @@ internal class MovieInteractorImpl @Inject constructor(
         return movieRepository.moviesPagingSource(movieList)
     }
 
-    override fun movieImage(movieId: Int): Flow<String> {
-        return movieRepository.movieImage(movieId)
+    override suspend fun backdropPosition(movieId: Int): Int {
+        return movieRepository.backdropPosition(movieId)
     }
 
     override suspend fun moviesResult(movieList: String, page: Int): Result<MovieResponse> {
@@ -43,12 +41,6 @@ internal class MovieInteractorImpl @Inject constructor(
 
         return withContext(dispatchers.io) {
             movieRepository.movieDetails(movieId)
-        }
-    }
-
-    override suspend fun movieImages(movieId: Int): ImagesResponse {
-        return withContext(dispatchers.io) {
-            movieRepository.movieImages(movieId)
         }
     }
 

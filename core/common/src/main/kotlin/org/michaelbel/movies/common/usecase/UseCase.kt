@@ -2,7 +2,7 @@ package org.michaelbel.movies.common.usecase
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import org.michaelbel.movies.entities.Either
+import org.michaelbel.movies.network.Either
 import timber.log.Timber
 
 abstract class UseCase<in P, R>(

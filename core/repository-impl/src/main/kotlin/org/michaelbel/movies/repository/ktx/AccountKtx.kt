@@ -1,7 +1,7 @@
 package org.michaelbel.movies.repository.ktx
 
-import org.michaelbel.movies.entities.GRAVATAR_URL
-import org.michaelbel.movies.entities.image.formatProfileImage
+import org.michaelbel.movies.network.GRAVATAR_URL
+import org.michaelbel.movies.network.formatProfileImage
 import org.michaelbel.movies.network.model.Account
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import java.util.Locale

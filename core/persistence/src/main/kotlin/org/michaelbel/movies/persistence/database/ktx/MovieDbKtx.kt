@@ -1,6 +1,6 @@
 package org.michaelbel.movies.persistence.database.ktx
 
-import org.michaelbel.movies.entities.TMDB_MOVIE_URL
+import org.michaelbel.movies.network.TMDB_MOVIE_URL
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import java.util.Locale
 

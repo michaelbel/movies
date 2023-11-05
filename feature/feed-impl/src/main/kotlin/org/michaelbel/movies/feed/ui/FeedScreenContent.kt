@@ -44,7 +44,7 @@ import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
 import org.michaelbel.movies.common.list.MovieList
-import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
+import org.michaelbel.movies.network.isTmdbApiKeyEmpty
 import org.michaelbel.movies.feed.FeedViewModel
 import org.michaelbel.movies.feed.ktx.titleText
 import org.michaelbel.movies.feed_impl.R

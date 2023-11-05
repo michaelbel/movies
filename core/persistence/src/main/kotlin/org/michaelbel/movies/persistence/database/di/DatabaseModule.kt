@@ -6,11 +6,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 import org.michaelbel.movies.persistence.database.AppDatabase
 import org.michaelbel.movies.persistence.database.dao.AccountDao
+import org.michaelbel.movies.persistence.database.dao.ImageDao
 import org.michaelbel.movies.persistence.database.dao.MovieDao
 import org.michaelbel.movies.persistence.database.dao.PagingKeyDao
-import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -24,6 +25,9 @@ internal object DatabaseModule {
 
     @Provides
     fun provideMovieDao(appDatabase: AppDatabase): MovieDao = appDatabase.movieDao()
+
+    @Provides
+    fun provideImagesDao(appDatabase: AppDatabase): ImageDao = appDatabase.imageDao()
 
     @Provides
     fun provideAccountDao(appDatabase: AppDatabase): AccountDao = appDatabase.accountDao()

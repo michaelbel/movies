@@ -7,6 +7,6 @@ import kotlinx.serialization.Serializable
 data class ImagesResponse(
     @SerialName("id") val id: Int,
     @SerialName("backdrops") val backdrops: List<Image>,
-    @SerialName("posters") val crew: List<Image>,
+    @SerialName("posters") val posters: List<Image>,
     @SerialName("logos") val logos: List<Image>
 )

@@ -53,6 +53,10 @@ internal class SettingsVersionBoxTest {
     }
 
     private companion object {
-        private val APP_VERSION_DATA: AppVersionData = AppVersionData("1.0.0", 1L)
+        private val APP_VERSION_DATA: AppVersionData = AppVersionData(
+            version = "1.0.0",
+            code = 1L,
+            isDebug = true
+        )
     }
 }

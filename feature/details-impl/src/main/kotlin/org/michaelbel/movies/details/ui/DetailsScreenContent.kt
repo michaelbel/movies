@@ -10,16 +10,16 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import java.net.UnknownHostException
 import org.michaelbel.movies.details.DetailsViewModel
 import org.michaelbel.movies.details.ktx.movie
 import org.michaelbel.movies.details.ktx.movieUrl
 import org.michaelbel.movies.details.ktx.toolbarTitle
-import org.michaelbel.movies.entities.lce.ScreenState
-import org.michaelbel.movies.entities.lce.ktx.isFailure
-import org.michaelbel.movies.entities.lce.ktx.throwable
+import org.michaelbel.movies.network.ScreenState
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.network.connectivity.ktx.isAvailable
-import java.net.UnknownHostException
+import org.michaelbel.movies.network.ktx.isFailure
+import org.michaelbel.movies.network.ktx.throwable
 
 @Composable
 fun DetailsRoute(

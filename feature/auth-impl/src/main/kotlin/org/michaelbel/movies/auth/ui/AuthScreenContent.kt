@@ -46,11 +46,11 @@ import org.michaelbel.movies.auth.ktx.text
 import org.michaelbel.movies.auth_impl.R
 import org.michaelbel.movies.common.browser.openUrl
 import org.michaelbel.movies.common.exceptions.CreateSessionWithLoginException
-import org.michaelbel.movies.entities.TMDB_PRIVACY_POLICY
-import org.michaelbel.movies.entities.TMDB_REGISTER
-import org.michaelbel.movies.entities.TMDB_RESET_PASSWORD
-import org.michaelbel.movies.entities.TMDB_TERMS_OF_USE
-import org.michaelbel.movies.entities.TMDB_URL
+import org.michaelbel.movies.network.TMDB_PRIVACY_POLICY
+import org.michaelbel.movies.network.TMDB_REGISTER
+import org.michaelbel.movies.network.TMDB_RESET_PASSWORD
+import org.michaelbel.movies.network.TMDB_TERMS_OF_USE
+import org.michaelbel.movies.network.TMDB_URL
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 

@@ -3,7 +3,6 @@ plugins {
     alias(libs.plugins.library)
     alias(libs.plugins.kotlin)
     alias(libs.plugins.kotlin.ksp)
-    alias(libs.plugins.detekt)
     id("movies-android-hilt")
 }
 
@@ -23,6 +22,10 @@ android {
         }
     }*/
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -35,10 +38,14 @@ android {
         checkDependencies = true
         lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
     }
+
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 dependencies {
-    implementation(project(":core:entities"))
+    implementation(project(":core:network"))
     implementation(libs.bundles.datastore)
     implementation(libs.bundles.room)
     ksp(libs.androidx.room.compiler)

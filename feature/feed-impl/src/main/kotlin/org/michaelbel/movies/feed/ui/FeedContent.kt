@@ -21,7 +21,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import org.michaelbel.movies.common.appearance.FeedView
-import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
+import org.michaelbel.movies.network.isTmdbApiKeyEmpty
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.ui.ktx.isNotEmpty
 import org.michaelbel.movies.ui.ktx.isPagingFailure

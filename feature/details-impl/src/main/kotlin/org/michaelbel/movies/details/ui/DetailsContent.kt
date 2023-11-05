@@ -27,6 +27,7 @@ import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import org.michaelbel.movies.details_impl.R
+import org.michaelbel.movies.network.formatBackdropImage
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.isNotEmpty
 import org.michaelbel.movies.ui.ktx.context
@@ -57,7 +58,7 @@ fun DetailsContent(
             null
         } else {
             ImageRequest.Builder(context)
-                .data(movie.backdropPath)
+                .data(movie.backdropPath.formatBackdropImage)
                 .crossfade(true)
                 .build()
         }

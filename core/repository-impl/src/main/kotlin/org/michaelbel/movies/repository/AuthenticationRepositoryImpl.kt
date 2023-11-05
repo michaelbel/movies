@@ -4,7 +4,7 @@ import org.michaelbel.movies.common.exceptions.CreateRequestTokenException
 import org.michaelbel.movies.common.exceptions.CreateSessionException
 import org.michaelbel.movies.common.exceptions.CreateSessionWithLoginException
 import org.michaelbel.movies.common.exceptions.DeleteSessionException
-import org.michaelbel.movies.entities.tmdbApiKey
+import org.michaelbel.movies.network.tmdbApiKey
 import org.michaelbel.movies.network.model.DeletedSession
 import org.michaelbel.movies.network.model.RequestToken
 import org.michaelbel.movies.network.model.Session

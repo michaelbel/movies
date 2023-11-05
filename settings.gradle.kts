@@ -23,8 +23,6 @@ include(
 
     ":core:analytics",
     ":core:common",
-    ":core:domain",
-    ":core:entities",
     ":core:interactor",
     ":core:interactor-impl",
     ":core:navigation",
@@ -34,6 +32,7 @@ include(
     ":core:repository",
     ":core:repository-impl",
     ":core:ui",
+    ":core:work",
 
     ":feature:account",
     ":feature:account-impl",
