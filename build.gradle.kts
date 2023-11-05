@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.application) apply false
     alias(libs.plugins.library) apply false
+    alias(libs.plugins.dynamic.feature) apply false
     alias(libs.plugins.test) apply false
     alias(libs.plugins.kotlin) apply false
     alias(libs.plugins.kotlin.ksp) apply false
@@ -13,4 +14,8 @@ plugins {
     alias(libs.plugins.spotless)
     alias(libs.plugins.detekt)
     alias(libs.plugins.palantir.git)
+}
+
+detekt {
+    config.setFrom("$projectDir/config/detekt/detekt.yml")
 }

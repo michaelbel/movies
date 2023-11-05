@@ -18,6 +18,9 @@ class GoogleApi @Inject constructor(
             return status == ConnectionResult.SUCCESS
         }
 
+    /**
+     * Don't work on Android 11+
+     */
     @Suppress("Deprecation")
     val isAppFromGooglePlay: Boolean
         get() {

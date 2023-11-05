@@ -45,7 +45,7 @@ import org.michaelbel.movies.auth.AuthViewModel
 import org.michaelbel.movies.auth.ktx.text
 import org.michaelbel.movies.auth_impl.R
 import org.michaelbel.movies.common.browser.openUrl
-import org.michaelbel.movies.domain.exceptions.CreateSessionWithLoginException
+import org.michaelbel.movies.common.exceptions.CreateSessionWithLoginException
 import org.michaelbel.movies.entities.TMDB_PRIVACY_POLICY
 import org.michaelbel.movies.entities.TMDB_REGISTER
 import org.michaelbel.movies.entities.TMDB_RESET_PASSWORD
@@ -135,9 +135,7 @@ internal fun AuthScreenContent(
                     top.linkTo(toolbar.bottom, 8.dp)
                     end.linkTo(parent.end, 16.dp)
                 }
-                .clickableWithoutRipple {
-                    openUrl(resultContract, toolbarColor, TMDB_URL)
-                },
+                .clickableWithoutRipple { openUrl(resultContract, toolbarColor, TMDB_URL) },
             tint = MaterialTheme.colorScheme.onPrimaryContainer
         )
 
@@ -154,12 +152,6 @@ internal fun AuthScreenContent(
                     top.linkTo(logo.bottom, 8.dp)
                     end.linkTo(parent.end, 16.dp)
                 },
-                /*.autofill(
-                    autofillTypes = listOf(AutofillType.Username),
-                    onFill = { usernameFilled ->
-                        username = usernameFilled
-                    }
-                )*/
             label = {
                 Text(
                     text = stringResource(R.string.auth_label_username)
@@ -192,12 +184,6 @@ internal fun AuthScreenContent(
                     top.linkTo(usernameField.bottom, 4.dp)
                     end.linkTo(parent.end, 16.dp)
                 },
-                /*.autofill(
-                    autofillTypes = listOf(AutofillType.Password),
-                    onFill = { passwordFilled ->
-                        password = passwordFilled
-                    }
-                )*/
             label = {
                 Text(
                     text = stringResource(R.string.auth_label_password)
@@ -258,9 +244,7 @@ internal fun AuthScreenContent(
             exit = fadeOut()
         ) {
             TextButton(
-                onClick = {
-                    openUrl(resultContract, toolbarColor, TMDB_RESET_PASSWORD)
-                }
+                onClick = { openUrl(resultContract, toolbarColor, TMDB_RESET_PASSWORD) }
             ) {
                 Text(
                     text = stringResource(R.string.auth_reset_password)
@@ -282,9 +266,7 @@ internal fun AuthScreenContent(
             exit = fadeOut()
         ) {
             TextButton(
-                onClick = {
-                    openUrl(resultContract, toolbarColor, TMDB_REGISTER)
-                }
+                onClick = { openUrl(resultContract, toolbarColor, TMDB_REGISTER) }
             ) {
                 Text(
                     text = stringResource(R.string.auth_sign_up)
@@ -362,12 +344,8 @@ internal fun AuthScreenContent(
         }*/
 
         AuthLinksBox(
-            onTermsOfUseClick = {
-                openUrl(resultContract, toolbarColor, TMDB_TERMS_OF_USE)
-            },
-            onPrivacyPolicyClick = {
-                openUrl(resultContract, toolbarColor, TMDB_PRIVACY_POLICY)
-            },
+            onTermsOfUseClick = { openUrl(resultContract, toolbarColor, TMDB_TERMS_OF_USE) },
+            onPrivacyPolicyClick = { openUrl(resultContract, toolbarColor, TMDB_PRIVACY_POLICY) },
             modifier = Modifier
                 .constrainAs(linksBox) {
                     width = Dimension.fillToConstraints

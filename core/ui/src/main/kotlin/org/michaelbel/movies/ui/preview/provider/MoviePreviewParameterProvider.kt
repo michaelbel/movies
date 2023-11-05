@@ -1,8 +1,8 @@
 package org.michaelbel.movies.ui.preview.provider
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import org.michaelbel.movies.domain.data.entity.MovieDb
 import org.michaelbel.movies.network.model.Movie
+import org.michaelbel.movies.persistence.database.entity.MovieDb
 
 class MoviePreviewParameterProvider: PreviewParameterProvider<MovieDb> {
     override val values: Sequence<MovieDb> = sequenceOf(

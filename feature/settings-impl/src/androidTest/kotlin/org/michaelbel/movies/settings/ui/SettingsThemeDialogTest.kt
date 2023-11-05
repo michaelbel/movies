@@ -21,7 +21,6 @@ internal class SettingsThemeDialogTest {
         composeTestRule.setContent {
             MoviesTheme {
                 SettingThemeDialog(
-                    themes = THEMES,
                     currentTheme = CURRENT_THEME,
                     onThemeSelect = {},
                     onDismissRequest = {}
@@ -55,11 +54,6 @@ internal class SettingsThemeDialogTest {
     }
 
     private companion object {
-        private val THEMES: List<AppTheme> = listOf(
-            AppTheme.NightNo,
-            AppTheme.NightYes,
-            AppTheme.FollowSystem
-        )
         private val CURRENT_THEME = AppTheme.FollowSystem
     }
 }

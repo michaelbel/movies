@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.library)
     alias(libs.plugins.kotlin)
+    alias(libs.plugins.detekt)
 }
 
 android {
@@ -25,7 +26,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
     }
 
     compileOptions {
@@ -46,6 +47,7 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:domain"))
     implementation(project(":core:network"))
+    implementation(project(":core:notifications"))
     api(libs.androidx.core.splashscreen)
     api(libs.androidx.constraintlayout.compose)
     api(libs.coil.compose)

@@ -18,16 +18,21 @@ rootProject.name = "movies"
 
 include(
     ":app",
-
+    ":instant",
     ":benchmark",
 
     ":core:analytics",
     ":core:common",
     ":core:domain",
     ":core:entities",
+    ":core:interactor",
+    ":core:interactor-impl",
     ":core:navigation",
     ":core:network",
     ":core:notifications",
+    ":core:persistence",
+    ":core:repository",
+    ":core:repository-impl",
     ":core:ui",
 
     ":feature:account",
@@ -38,6 +43,8 @@ include(
     ":feature:details-impl",
     ":feature:feed",
     ":feature:feed-impl",
+    ":feature:gallery",
+    ":feature:gallery-impl",
     ":feature:settings",
     ":feature:settings-impl"
 )

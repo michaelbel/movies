@@ -12,33 +12,33 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import org.michaelbel.moviemade.BuildConfig
 import org.michaelbel.movies.analytics.MoviesAnalytics
 import org.michaelbel.movies.common.inappupdate.di.InAppUpdate
+import org.michaelbel.movies.common.ktx.printlnDebug
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
-import org.michaelbel.movies.domain.interactor.settings.SettingsInteractor
 import org.michaelbel.movies.domain.workers.AccountUpdateWorker
 import org.michaelbel.movies.domain.workers.MoviesDatabaseWorker
+import org.michaelbel.movies.interactor.Interactor
 import javax.inject.Inject
 
 @HiltViewModel
 internal class MainViewModel @Inject constructor(
-    private val settingsInteractor: SettingsInteractor,
+    private val interactor: Interactor,
     private val inAppUpdate: InAppUpdate,
     private val workManager: WorkManager,
     private val analytics: MoviesAnalytics,
     private val firebaseMessaging: FirebaseMessaging
 ): BaseViewModel() {
 
-    val currentTheme: StateFlow<AppTheme> = settingsInteractor.currentTheme
+    val currentTheme: StateFlow<AppTheme> = interactor.currentTheme
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
             initialValue = AppTheme.FollowSystem
         )
 
-    val dynamicColors: StateFlow<Boolean> = settingsInteractor.dynamicColors
+    val dynamicColors: StateFlow<Boolean> = interactor.dynamicColors
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
@@ -61,15 +61,13 @@ internal class MainViewModel @Inject constructor(
     }
 
     private fun fetchRemoteConfig() = launch {
-        settingsInteractor.fetchRemoteConfig()
+        interactor.fetchRemoteConfig()
     }
 
     private fun fetchFirebaseMessagingToken() {
         firebaseMessaging.token.addOnCompleteListener { task ->
             val token: String = task.result
-            if (BuildConfig.DEBUG) {
-                println("firebase messaging token: $token")
-            }
+            printlnDebug("firebase messaging token: $token")
         }
     }
 

@@ -1,23 +1,27 @@
 package org.michaelbel.movies.common.theme
 
-import androidx.appcompat.app.AppCompatDelegate
 import org.michaelbel.movies.common.theme.exceptions.InvalidThemeException
 
-sealed class AppTheme(
-    val theme: Int
-) {
-    data object NightNo: AppTheme(AppCompatDelegate.MODE_NIGHT_NO)
+sealed interface AppTheme {
 
-    data object NightYes: AppTheme(AppCompatDelegate.MODE_NIGHT_YES)
+    data object NightNo: AppTheme
 
-    data object FollowSystem: AppTheme(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+    data object NightYes: AppTheme
+
+    data object FollowSystem: AppTheme
 
     companion object {
-        fun transform(theme: Int): AppTheme {
-            return when (theme) {
-                AppCompatDelegate.MODE_NIGHT_NO -> NightNo
-                AppCompatDelegate.MODE_NIGHT_YES -> NightYes
-                AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM -> FollowSystem
+        val VALUES: List<AppTheme> = listOf(
+            NightNo,
+            NightYes,
+            FollowSystem
+        )
+
+        fun transform(name: String): AppTheme {
+            return when (name) {
+                NightNo.toString() -> NightNo
+                NightYes.toString() -> NightYes
+                FollowSystem.toString() -> FollowSystem
                 else -> throw InvalidThemeException
             }
         }

@@ -3,15 +3,15 @@ package org.michaelbel.movies.domain.mediator
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import org.michaelbel.movies.domain.data.entity.MovieDb
-import org.michaelbel.movies.domain.interactor.movie.MovieInteractor
+import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.network.ktx.isPaginationReached
 import org.michaelbel.movies.network.ktx.nextPage
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
+import org.michaelbel.movies.persistence.database.entity.MovieDb
 
 class MoviesRemoteMediator(
-    private val movieInteractor: MovieInteractor,
+    private val interactor: Interactor,
     private val movieList: String
 ): RemoteMediator<Int, MovieDb>() {
 
@@ -29,22 +29,22 @@ class MoviesRemoteMediator(
                     return reachedResult
                 }
                 LoadType.APPEND -> {
-                    movieInteractor.page(movieList) ?: return reachedResult
+                    interactor.page(movieList) ?: return reachedResult
                 }
             }
 
-            val moviesResult: Result<MovieResponse> = movieInteractor.moviesResult(
+            val moviesResult: Result<MovieResponse> = interactor.moviesResult(
                 movieList = movieList,
                 page = loadKey ?: 1
             )
 
             if (loadType == LoadType.REFRESH) {
-                movieInteractor.run {
+                interactor.run {
                     removePagingKey(movieList)
                     removeAllMovies(movieList)
                 }
             }
-            movieInteractor.run {
+            interactor.run {
                 insertPagingKey(movieList, moviesResult.nextPage)
                 insertAllMovies(movieList, moviesResult.results)
             }

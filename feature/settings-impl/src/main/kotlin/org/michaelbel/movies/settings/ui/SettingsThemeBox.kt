@@ -27,7 +27,6 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun SettingsThemeBox(
-    themes: List<AppTheme>,
     currentTheme: AppTheme,
     onThemeSelect: (AppTheme) -> Unit,
     modifier: Modifier = Modifier
@@ -36,7 +35,6 @@ fun SettingsThemeBox(
 
     if (themeDialog) {
         SettingThemeDialog(
-            themes = themes,
             currentTheme = currentTheme,
             onThemeSelect = onThemeSelect,
             onDismissRequest = {
@@ -95,12 +93,11 @@ private fun SettingsThemeBoxPreview(
 ) {
     MoviesTheme {
         SettingsThemeBox(
-            themes = listOf(AppTheme.FollowSystem, AppTheme.NightNo, AppTheme.NightYes),
             currentTheme = theme,
             onThemeSelect = {},
             modifier = Modifier
                 .fillMaxWidth()
-                .height(48.dp)
+                .height(52.dp)
                 .background(MaterialTheme.colorScheme.primaryContainer)
         )
     }

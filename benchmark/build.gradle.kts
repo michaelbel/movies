@@ -2,6 +2,7 @@ plugins {
     id("com.android.test")
     id("org.jetbrains.kotlin.android")
     id("kotlin-android")
+    alias(libs.plugins.detekt)
 }
 
 android {
@@ -15,7 +16,7 @@ android {
     }
 
     defaultConfig {
-        minSdk = 23
+        minSdk = libs.versions.benchmark.min.sdk.get().toInt()
         targetSdk = libs.versions.target.sdk.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

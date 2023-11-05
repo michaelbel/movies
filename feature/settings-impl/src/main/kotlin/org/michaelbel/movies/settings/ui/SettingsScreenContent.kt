@@ -2,13 +2,10 @@ package org.michaelbel.movies.settings.ui
 
 import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.provider.Settings
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -29,18 +26,20 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
-import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.android.play.core.review.ReviewInfo
 import com.google.android.play.core.review.ReviewManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import org.michaelbel.movies.common.appearance.FeedView
+import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.localization.model.AppLanguage
 import org.michaelbel.movies.common.review.rememberReviewManager
 import org.michaelbel.movies.common.review.rememberReviewTask
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
+import org.michaelbel.movies.notifications.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.settings.SettingsViewModel
 import org.michaelbel.movies.settings_impl.BuildConfig
 import org.michaelbel.movies.settings_impl.R
@@ -54,6 +53,8 @@ fun SettingsRoute(
 ) {
     val currentLanguage: AppLanguage = AppLanguage.transform(stringResource(UiR.string.language_code))
     val currentTheme: AppTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
+    val currentFeedView: FeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()
+    val currentMovieList: MovieList by viewModel.currentMovieList.collectAsStateWithLifecycle()
     val dynamicColors: Boolean by viewModel.dynamicColors.collectAsStateWithLifecycle()
     val layoutDirection: LayoutDirection by viewModel.layoutDirection.collectAsStateWithLifecycle()
     val isPlayServicesAvailable: Boolean by viewModel.isPlayServicesAvailable.collectAsStateWithLifecycle()
@@ -63,12 +64,14 @@ fun SettingsRoute(
 
     SettingsScreenContent(
         onBackClick = onBackClick,
-        languages = viewModel.languages,
         currentLanguage = currentLanguage,
         onLanguageSelect = viewModel::selectLanguage,
-        themes = viewModel.themes,
         currentTheme = currentTheme,
         onThemeSelect = viewModel::selectTheme,
+        currentFeedView = currentFeedView,
+        onFeedViewSelect = viewModel::selectFeedView,
+        currentMovieList = currentMovieList,
+        onMovieListSelect = viewModel::selectMovieList,
         isDynamicColorsFeatureEnabled = viewModel.isDynamicColorsFeatureEnabled,
         dynamicColors = dynamicColors,
         onSetDynamicColors = viewModel::setDynamicColors,
@@ -88,12 +91,14 @@ fun SettingsRoute(
 @Composable
 private fun SettingsScreenContent(
     onBackClick: () -> Unit,
-    languages: List<AppLanguage>,
     currentLanguage: AppLanguage,
     onLanguageSelect: (AppLanguage) -> Unit,
-    themes: List<AppTheme>,
     currentTheme: AppTheme,
     onThemeSelect: (AppTheme) -> Unit,
+    currentFeedView: FeedView,
+    onFeedViewSelect: (FeedView) -> Unit,
+    currentMovieList: MovieList,
+    onMovieListSelect: (MovieList) -> Unit,
     isDynamicColorsFeatureEnabled: Boolean,
     dynamicColors: Boolean,
     onSetDynamicColors: (Boolean) -> Unit,
@@ -118,18 +123,6 @@ private fun SettingsScreenContent(
         ActivityResultContracts.StartActivityForResult()
     ) {}
 
-    val onStartAppSettingsIntent: () -> Unit = {
-        Intent(
-            Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-            "package:${context.packageName}".toUri()
-        ).apply {
-            addCategory(Intent.CATEGORY_DEFAULT)
-            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        }.also { intent: Intent ->
-            resultContract.launch(intent)
-        }
-    }
-
     val onShowPermissionSnackbar: () -> Unit = {
         scope.launch {
             val result: SnackbarResult = snackbarHostState.showSnackbar(
@@ -138,7 +131,7 @@ private fun SettingsScreenContent(
                 duration = SnackbarDuration.Long
             )
             if (result == SnackbarResult.ActionPerformed) {
-                onStartAppSettingsIntent()
+                resultContract.launch(context.appNotificationSettingsIntent)
             }
         }
     }
@@ -190,26 +183,40 @@ private fun SettingsScreenContent(
             )
         },
         containerColor = MaterialTheme.colorScheme.primaryContainer
-    ) { paddingValues: PaddingValues ->
+    ) { paddingValues ->
         Column(
             modifier = Modifier.padding(paddingValues)
         ) {
             SettingsLanguageBox(
-                languages = languages,
                 currentLanguage = currentLanguage,
                 onLanguageSelect = onLanguageSelect,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp)
+                    .height(52.dp)
             )
 
             SettingsThemeBox(
-                themes = themes,
                 currentTheme = currentTheme,
                 onThemeSelect = onThemeSelect,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp)
+                    .height(52.dp)
+            )
+
+            SettingsAppearanceBox(
+                currentFeedView = currentFeedView,
+                onFeedViewSelect = onFeedViewSelect,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp)
+            )
+
+            SettingsMovieListBox(
+                currentMovieList = currentMovieList,
+                onMovieListSelect = onMovieListSelect,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(52.dp)
             )
 
             if (isDynamicColorsFeatureEnabled) {
@@ -217,7 +224,7 @@ private fun SettingsScreenContent(
                     isDynamicColorsEnabled = dynamicColors,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(48.dp)
+                        .height(52.dp)
                         .clickable {
                             onSetDynamicColors(!dynamicColors)
                         }
@@ -229,7 +236,7 @@ private fun SettingsScreenContent(
                     isRtlEnabled = isRtlEnabled,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(48.dp)
+                        .height(52.dp)
                         .clickable {
                             onEnableRtlChanged(!isRtlEnabled)
                         }
@@ -240,7 +247,7 @@ private fun SettingsScreenContent(
                 SettingsPostNotificationsBox(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(48.dp),
+                        .height(52.dp),
                     onShowPermissionSnackbar = onShowPermissionSnackbar
                 )
             }
@@ -248,7 +255,7 @@ private fun SettingsScreenContent(
             SettingsReviewBox(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp)
+                    .height(52.dp)
                     .clickable {
                         onLaunchReviewFlow()
                     }

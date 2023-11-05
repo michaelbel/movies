@@ -10,16 +10,35 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.delay
+import org.michaelbel.movies.common.ktx.isTimePasses
+import org.michaelbel.movies.notifications.ktx.isPostNotificationsPermissionGranted
 import org.michaelbel.movies.notifications.model.MoviesPush
-import org.michaelbel.movies.ui.icons.MoviesIcons
+import org.michaelbel.movies.persistence.datastore.MoviesPreferences
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class NotificationClient @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val notificationManager: NotificationManagerCompat
+    private val notificationManager: NotificationManagerCompat,
+    private val preferences: MoviesPreferences
 ) {
+
     private val channelId: String
         get() = context.getString(R.string.notification_channel_id)
+
+    suspend fun notificationsPermissionRequired(time: Long): Boolean {
+        val expireTime: Long = preferences.getNotificationExpireTime() ?: 0L
+        val currentTime: Long = System.currentTimeMillis()
+        val isTimePasses: Boolean = isTimePasses(ONE_DAY_MILLS, expireTime, currentTime)
+        delay(time)
+        return !context.isPostNotificationsPermissionGranted && isTimePasses
+    }
+
+    suspend fun updateNotificationExpireTime() {
+        val currentTime: Long = System.currentTimeMillis()
+        preferences.setNotificationExpireTime(currentTime)
+    }
 
     fun send(push: MoviesPush) {
         createChannel()
@@ -27,9 +46,9 @@ class NotificationClient @Inject constructor(
         val notification = NotificationCompat.Builder(context, channelId).apply {
             setContentTitle(push.notificationTitle)
             setContentText(push.notificationDescription)
-            setSmallIcon(MoviesIcons.NotificationSmallIconMovieFilter)
+            setSmallIcon(R.drawable.ic_movie_filter_24)
             setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
-            color = ContextCompat.getColor(context, org.michaelbel.movies.ui.R.color.primary)
+            color = ContextCompat.getColor(context, R.color.primary)
             setDefaults(NotificationCompat.DEFAULT_LIGHTS)
             setGroupSummary(true)
             setGroup(GROUP_NAME)
@@ -68,5 +87,6 @@ class NotificationClient @Inject constructor(
         private const val TAG = "PUSH"
         private const val GROUP_NAME = "App"
         private val VIBRATE_PATTERN: LongArray = longArrayOf(1000)
+        private val ONE_DAY_MILLS: Long = TimeUnit.DAYS.toMillis(1)
     }
 }

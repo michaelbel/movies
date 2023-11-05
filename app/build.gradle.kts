@@ -11,6 +11,7 @@ plugins {
     alias(libs.plugins.firebase.appdistribution)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.palantir.git)
+    alias(libs.plugins.detekt)
     id("movies-android-hilt")
 }
 
@@ -129,8 +130,10 @@ android {
         compose = true
     }
 
+    dynamicFeatures += setOf(":instant")
+
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
     }
 
     compileOptions {
@@ -159,9 +162,8 @@ dependencies {
     implementation(project(":feature:account"))
     implementation(project(":feature:details"))
     implementation(project(":feature:feed"))
+    implementation(project(":feature:gallery"))
     implementation(project(":feature:settings"))
-
-    implementation(libs.androidx.profile.installer)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit.ktx)

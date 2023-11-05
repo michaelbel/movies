@@ -4,6 +4,7 @@ import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 plugins {
     alias(libs.plugins.library)
     alias(libs.plugins.kotlin)
+    alias(libs.plugins.detekt)
     id("movies-android-hilt")
 }
 
@@ -46,8 +47,4 @@ android {
         checkDependencies = true
         lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
     }
-}
-
-dependencies {
-    implementation(project(":core:network"))
 }

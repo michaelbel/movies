@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.library)
     alias(libs.plugins.kotlin)
+    alias(libs.plugins.detekt)
     id("movies-android-hilt")
 }
 
@@ -24,10 +25,7 @@ android {
 
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
-            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-            "-opt-in=androidx.compose.ui.ExperimentalComposeUiApi",
-            "-opt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
-            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
+            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
         )
     }
 
@@ -36,7 +34,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
     }
 
     compileOptions {

@@ -14,11 +14,7 @@ internal class MoviesMessagingService: FirebaseMessagingService() {
 
     @Inject lateinit var notificationClient: NotificationClient
 
-    override fun onNewToken(token: String) {}
-
     override fun onMessageReceived(message: RemoteMessage) {
         notificationClient.send(message.mapToMoviesPush)
     }
-
-    override fun onDeletedMessages() {}
 }

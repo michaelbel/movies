@@ -21,7 +21,6 @@ internal class SettingsLanguageDialogTest {
         composeTestRule.setContent {
             MoviesTheme {
                 SettingLanguageDialog(
-                    languages = LANGUAGES,
                     currentLanguage = CURRENT_LANGUAGE,
                     onLanguageSelect = {},
                     onDismissRequest = {}
@@ -55,10 +54,6 @@ internal class SettingsLanguageDialogTest {
     }
 
     private companion object {
-        private val LANGUAGES: List<AppLanguage> = listOf(
-            AppLanguage.English,
-            AppLanguage.Russian
-        )
         private val CURRENT_LANGUAGE: AppLanguage = AppLanguage.English
     }
 }

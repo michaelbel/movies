@@ -1,43 +1,39 @@
 package org.michaelbel.movies.domain.workers
 
 import android.content.Context
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
 import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import java.util.concurrent.TimeUnit
-import kotlinx.coroutines.flow.first
 import org.michaelbel.movies.common.ktx.isTimePasses
-import org.michaelbel.movies.domain.interactor.account.AccountInteractor
-import org.michaelbel.movies.domain.preferences.constants.PREFERENCE_ACCOUNT_EXPIRE_TIME_KEY
-import org.michaelbel.movies.domain.preferences.constants.PREFERENCE_ACCOUNT_ID_KEY
 import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
+import org.michaelbel.movies.interactor.Interactor
+import org.michaelbel.movies.persistence.datastore.MoviesPreferences
+import java.util.concurrent.TimeUnit
 
 @HiltWorker
 class AccountUpdateWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val dataStore: DataStore<Preferences>,
-    private val accountInteractor: AccountInteractor
+    private val interactor: Interactor,
+    private val preferences: MoviesPreferences
 ): CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
         return try {
-            val accountId: Int? = dataStore.data.first()[PREFERENCE_ACCOUNT_ID_KEY]
+            val accountId: Int? = preferences.getAccountId()
             if (isTmdbApiKeyEmpty || accountId == null) {
                 return Result.success()
             }
 
-            val expireTime: Long = dataStore.data.first()[PREFERENCE_ACCOUNT_EXPIRE_TIME_KEY] ?: 0L
+            val expireTime: Long = preferences.getAccountExpireTime() ?: 0L
             val currentTime: Long = System.currentTimeMillis()
             if (isTimePasses(ONE_DAY_MILLS, expireTime, currentTime)) {
-                accountInteractor.accountDetails()
+                interactor.accountDetails()
             }
             Result.success()
-        } catch (e: Exception) {
+        } catch (ignored: Exception) {
             Result.failure()
         }
     }

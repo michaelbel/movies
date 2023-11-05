@@ -27,7 +27,7 @@ internal class SettingsReviewBoxTest {
                 SettingsReviewBox(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(48.dp)
+                        .height(52.dp)
                         .clickable {}
                 )
             }

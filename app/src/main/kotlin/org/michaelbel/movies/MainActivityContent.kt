@@ -12,6 +12,8 @@ import org.michaelbel.movies.details.detailsGraph
 import org.michaelbel.movies.details.navigateToDetails
 import org.michaelbel.movies.feed.FeedDestination
 import org.michaelbel.movies.feed.feedGraph
+import org.michaelbel.movies.gallery.galleryGraph
+import org.michaelbel.movies.gallery.navigateToGallery
 import org.michaelbel.movies.settings.navigateToSettings
 import org.michaelbel.movies.settings.settingsGraph
 
@@ -39,6 +41,10 @@ internal fun MainActivityContent(
             onStartUpdateFlow = onStartUpdateFlow
         )
         detailsGraph(
+            navigateBack = navHostController::popBackStack,
+            navigateToGallery = navHostController::navigateToGallery
+        )
+        galleryGraph(
             navigateBack = navHostController::popBackStack
         )
         settingsGraph(

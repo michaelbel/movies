@@ -9,10 +9,14 @@ Movies
 Movies - easy way to discover popular movies. This is a simple TMDb client for Android
 
 <div style="dispaly:flex">
-    <img src="config/screenshots/screen1.png" width="24%">
-    <img src="config/screenshots/screen2.png" width="24%">
-    <img src="config/screenshots/screen3.png" width="24%">
-    <img src="config/screenshots/screen4.png" width="24%">
+    <img src="config/images/1.png" width="24%">
+    <img src="config/images/2.png" width="24%">
+    <img src="config/images/3.png" width="24%">
+    <img src="config/images/4.png" width="24%">
+    <img src="config/images/5.png" width="24%">
+    <img src="config/images/6.png" width="24%">
+    <img src="config/images/7.png" width="24%">
+    <img src="config/images/8.png" width="24%">
 </div>
 
 ## Build
@@ -25,7 +29,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 ## Download
 
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="" height="80">](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
-[<img src="config/screenshots/direct-apk.png" alt="" height="80">](https://github.com/michaelbel/movies/releases/download/1.4.6/Movies-v1.4.6.1196.-release.apk)
+[<img src="config/images/direct-apk.png" alt="" height="80">](https://github.com/michaelbel/movies/releases/download/1.4.6/Movies-v1.4.6.1196.-release.apk)
 
 ## Technologies
 
@@ -90,12 +94,9 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Settings Panel](https://d.android.com/reference/android/provider/Settings.Panel)
 - [x] [Benchmark](https://d.android.com/topic/performance/benchmarking/benchmarking-overview)
 - [x] [Support Localization](https://d.android.com/guide/topics/resources/localization)
-- [ ] [Deep Links](https://d.android.com/training/app-links/deep-linking)
+- [x] [Notification Runtime Permission](https://d.android.com/develop/ui/views/notifications/notification-permission)
 - [ ] [Unit Tests](https://d.android.com/training/testing/local-tests)
 - [ ] [UI Tests](https://d.android.com/training/testing/instrumented-tests/ui-tests)
-- [ ] [Google Admob](https://developers.google.com/admob)
-- [ ] [KtLint](https://github.com/pinterest/ktlint)
-- [ ] [Support Display Cutouts](https://d.android.com/develop/ui/views/layout/display-cutout)
 - [ ] [Baseline Profiles](https://d.android.com/topic/performance/baselineprofiles/overview)
 - [ ] [Tablet and large screen support](https://d.android.com/about/versions/13/features/large-screens)
 - [ ] OAuth
@@ -108,9 +109,18 @@ TMDB_API_KEY=your_own_tmdb_api_key
 ## Issues
 If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).
 
+## Star History
+<a href="https://star-history.com/#michaelbel/movies&Date">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=michaelbel/movies&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=michaelbel/movies&type=Date" />
+    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=michaelbel/movies&type=Date" />
+  </picture>
+</a>
+
 ## License
 <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
-  <img alt="Apache License 2.0" src="config/screenshots/apache.png" height="110"/>
+  <img alt="Apache License 2.0" src="config/images/apache.png" height="110"/>
 </a>
 
     Copyright 2017 Michael Bely

@@ -1,6 +1,5 @@
 package org.michaelbel.movies.details.ui
 
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
@@ -25,6 +24,7 @@ import java.net.UnknownHostException
 @Composable
 fun DetailsRoute(
     onBackClick: () -> Unit,
+    onNavigateToGallery: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: DetailsViewModel = hiltViewModel()
 ) {
@@ -33,6 +33,7 @@ fun DetailsRoute(
 
     DetailsScreenContent(
         onBackClick = onBackClick,
+        onNavigateToGallery = onNavigateToGallery,
         detailsState = detailsState,
         networkStatus = networkStatus,
         onRetry = viewModel::retry,
@@ -43,6 +44,7 @@ fun DetailsRoute(
 @Composable
 private fun DetailsScreenContent(
     onBackClick: () -> Unit,
+    onNavigateToGallery: (Int) -> Unit,
     detailsState: ScreenState,
     networkStatus: NetworkStatus,
     onRetry: () -> Unit,
@@ -63,7 +65,7 @@ private fun DetailsScreenContent(
             )
         },
         containerColor = MaterialTheme.colorScheme.primaryContainer
-    ) { paddingValues: PaddingValues ->
+    ) { paddingValues ->
         when (detailsState) {
             is ScreenState.Loading -> {
                 DetailsLoading(
@@ -77,7 +79,8 @@ private fun DetailsScreenContent(
                     modifier = Modifier
                         .padding(paddingValues)
                         .fillMaxSize(),
-                    movie = detailsState.movie
+                    movie = detailsState.movie,
+                    onNavigateToGallery = onNavigateToGallery
                 )
             }
             is ScreenState.Failure -> {

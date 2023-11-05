@@ -32,7 +32,6 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun SettingLanguageDialog(
-    languages: List<AppLanguage>,
     currentLanguage: AppLanguage,
     onLanguageSelect: (AppLanguage) -> Unit,
     onDismissRequest: () -> Unit
@@ -71,7 +70,6 @@ fun SettingLanguageDialog(
         },
         text = {
             SettingLanguageDialogContent(
-                languages = languages,
                 currentLanguage = currentLanguage,
                 onLanguageSelect = { language ->
                     onLanguageSelect(language)
@@ -93,7 +91,6 @@ fun SettingLanguageDialog(
 
 @Composable
 private fun SettingLanguageDialogContent(
-    languages: List<AppLanguage>,
     currentLanguage: AppLanguage,
     onLanguageSelect: (AppLanguage) -> Unit,
     modifier: Modifier = Modifier
@@ -101,11 +98,11 @@ private fun SettingLanguageDialogContent(
     Column(
         modifier = modifier
     ) {
-        languages.forEach { language: AppLanguage ->
+        AppLanguage.VALUES.forEach { language: AppLanguage ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(48.dp)
+                    .height(52.dp)
                     .clickable {
                         onLanguageSelect(language)
                     },
@@ -140,10 +137,6 @@ private fun SettingLanguageDialogPreview(
 ) {
     MoviesTheme {
         SettingLanguageDialog(
-            languages = listOf(
-                AppLanguage.English,
-                AppLanguage.Russian
-            ),
             currentLanguage = language,
             onLanguageSelect = {},
             onDismissRequest = {}

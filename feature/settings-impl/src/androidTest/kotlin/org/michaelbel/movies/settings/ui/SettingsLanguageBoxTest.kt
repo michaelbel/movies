@@ -25,12 +25,11 @@ internal class SettingsLanguageBoxTest {
         composeTestRule.setContent {
             MoviesTheme {
                 SettingsLanguageBox(
-                    languages = LANGUAGES,
                     currentLanguage = CURRENT_LANGUAGE,
                     onLanguageSelect = {},
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(48.dp)
+                        .height(52.dp)
                 )
             }
         }
@@ -52,10 +51,6 @@ internal class SettingsLanguageBoxTest {
     }
 
     private companion object {
-        private val LANGUAGES: List<AppLanguage> = listOf(
-            AppLanguage.English,
-            AppLanguage.Russian
-        )
         private val CURRENT_LANGUAGE: AppLanguage = AppLanguage.English
     }
 }

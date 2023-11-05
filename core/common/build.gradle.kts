@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.library)
     alias(libs.plugins.kotlin)
+    alias(libs.plugins.detekt)
     id("movies-android-hilt")
 }
 
@@ -11,14 +12,6 @@ android {
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
         compileSdk = libs.versions.compile.sdk.get().toInt()
-    }
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + listOf(
-            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-            "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi",
-            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi"
-        )
     }
 
     /*buildTypes {
@@ -35,7 +28,7 @@ android {
     }
 
     composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
+        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
     }
 
     compileOptions {
@@ -59,8 +52,9 @@ dependencies {
     api(libs.firebase.config.ktx)
     api(libs.gms.play.services.base)
     api(libs.play.core.ktx)
-    api(libs.androidx.core.ktx)
     api(libs.androidx.activity.compose)
+    api(libs.androidx.core.ktx)
+    api(libs.androidx.paging.compose)
     api(libs.bundles.lifecycle)
     api(libs.timber)
     implementation(libs.bundles.appcompat)

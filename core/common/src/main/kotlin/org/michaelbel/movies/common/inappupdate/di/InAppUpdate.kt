@@ -22,9 +22,9 @@ class InAppUpdate @Inject constructor(
     private val appUpdateType: Int = AppUpdateType.IMMEDIATE
 
     init {
-        if (googleApi.isAppFromGooglePlay) {
+        if (googleApi.isPlayServicesAvailable) {
             appUpdateInfo.addOnSuccessListener(::onSuccessAppUpdate)
-            appUpdateInfo.addOnFailureListener(Timber::e)
+            appUpdateInfo.addOnFailureListener(::onFailureAppUpdate)
         }
     }
 
@@ -40,5 +40,9 @@ class InAppUpdate @Inject constructor(
         if (appUpdateInfo.updateAvailability() == UpdateAvailability.UPDATE_AVAILABLE) {
             onUpdateAvailableListener(true)
         }
+    }
+
+    private fun onFailureAppUpdate(throwable: Throwable) {
+        Timber.e(throwable)
     }
 }

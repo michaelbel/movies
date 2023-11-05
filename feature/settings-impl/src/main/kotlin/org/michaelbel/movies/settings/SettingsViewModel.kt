@@ -8,21 +8,27 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.michaelbel.movies.common.appearance.FeedView
+import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.localization.model.AppLanguage
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
-import org.michaelbel.movies.domain.interactor.settings.SettingsInteractor
-import org.michaelbel.movies.domain.usecase.DelayUseCase
-import org.michaelbel.movies.domain.usecase.SelectLanguageCase
-import org.michaelbel.movies.domain.usecase.SelectThemeCase
+import org.michaelbel.movies.interactor.Interactor
+import org.michaelbel.movies.interactor.usecase.DelayUseCase
+import org.michaelbel.movies.interactor.usecase.SelectFeedViewCase
+import org.michaelbel.movies.interactor.usecase.SelectLanguageCase
+import org.michaelbel.movies.interactor.usecase.SelectMovieListCase
+import org.michaelbel.movies.interactor.usecase.SelectThemeCase
 import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val settingsInteractor: SettingsInteractor,
+    private val interactor: Interactor,
     private val selectLanguageCase: SelectLanguageCase,
     private val selectThemeCase: SelectThemeCase,
+    private val selectFeedViewCase: SelectFeedViewCase,
+    private val selectMovieListCase: SelectMovieListCase,
     private val delayUseCase: DelayUseCase
 ): BaseViewModel(), DefaultLifecycleObserver {
 
@@ -32,46 +38,49 @@ class SettingsViewModel @Inject constructor(
 
     val isPostNotificationsFeatureEnabled: Boolean = Build.VERSION.SDK_INT >= 33
 
-    val languages: List<AppLanguage> = listOf(
-        AppLanguage.English,
-        AppLanguage.Russian
-    )
-
-    val themes: List<AppTheme> = listOf(
-        AppTheme.NightNo,
-        AppTheme.NightYes,
-        AppTheme.FollowSystem
-    )
-
-    val currentTheme: StateFlow<AppTheme> = settingsInteractor.currentTheme
+    val currentTheme: StateFlow<AppTheme> = interactor.currentTheme
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
             initialValue = AppTheme.FollowSystem
         )
 
-    val dynamicColors: StateFlow<Boolean> = settingsInteractor.dynamicColors
+    val currentFeedView: StateFlow<FeedView> = interactor.currentFeedView
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = FeedView.FeedList
+        )
+
+    val currentMovieList: StateFlow<MovieList> = interactor.currentMovieList
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = MovieList.NowPlaying
+        )
+
+    val dynamicColors: StateFlow<Boolean> = interactor.dynamicColors
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
             initialValue = false
         )
 
-    val layoutDirection: StateFlow<LayoutDirection> = settingsInteractor.layoutDirection
+    val layoutDirection: StateFlow<LayoutDirection> = interactor.layoutDirection
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
             initialValue = LayoutDirection.Ltr
         )
 
-    val isPlayServicesAvailable: StateFlow<Boolean> = settingsInteractor.isPlayServicesAvailable
+    val isPlayServicesAvailable: StateFlow<Boolean> = interactor.isPlayServicesAvailable
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
             initialValue = false
         )
 
-    val isAppFromGooglePlay: StateFlow<Boolean> = settingsInteractor.isAppFromGooglePlay
+    val isAppFromGooglePlay: StateFlow<Boolean> = interactor.isAppFromGooglePlay
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
@@ -85,7 +94,7 @@ class SettingsViewModel @Inject constructor(
             initialValue = 0
         )
 
-    val appVersionData: StateFlow<AppVersionData> = settingsInteractor.appVersionData
+    val appVersionData: StateFlow<AppVersionData> = interactor.appVersionData
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
@@ -100,12 +109,20 @@ class SettingsViewModel @Inject constructor(
         selectThemeCase(theme)
     }
 
+    fun selectFeedView(feedView: FeedView) = launch {
+        selectFeedViewCase(feedView)
+    }
+
+    fun selectMovieList(movieList: MovieList) = launch {
+        selectMovieListCase(movieList)
+    }
+
     fun setDynamicColors(value: Boolean) = launch {
-        settingsInteractor.setDynamicColors(value)
+        interactor.setDynamicColors(value)
     }
 
     fun setRtlEnabled(value: Boolean) = launch {
-        settingsInteractor.setRtlEnabled(value)
+        interactor.setRtlEnabled(value)
     }
 
     fun setNetworkRequestDelay(value: Int) = launch {

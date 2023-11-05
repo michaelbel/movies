@@ -3,10 +3,10 @@ package org.michaelbel.movies.auth.ktx
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import org.michaelbel.movies.auth_impl.R
-import org.michaelbel.movies.domain.exceptions.AccountDetailsException
-import org.michaelbel.movies.domain.exceptions.CreateRequestTokenException
-import org.michaelbel.movies.domain.exceptions.CreateSessionException
-import org.michaelbel.movies.domain.exceptions.CreateSessionWithLoginException
+import org.michaelbel.movies.common.exceptions.AccountDetailsException
+import org.michaelbel.movies.common.exceptions.CreateRequestTokenException
+import org.michaelbel.movies.common.exceptions.CreateSessionException
+import org.michaelbel.movies.common.exceptions.CreateSessionWithLoginException
 
 internal val Throwable?.text: String
     @Composable get() = when (this) {

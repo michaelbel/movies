@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -25,14 +26,14 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import com.google.accompanist.placeholder.PlaceholderHighlight
-import com.google.accompanist.placeholder.material.fade
-import com.google.accompanist.placeholder.placeholder
 import org.michaelbel.movies.details_impl.R
-import org.michaelbel.movies.domain.data.entity.MovieDb
-import org.michaelbel.movies.domain.data.ktx.isNotEmpty
+import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.ktx.isNotEmpty
 import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
+import org.michaelbel.movies.ui.placeholder.PlaceholderHighlight
+import org.michaelbel.movies.ui.placeholder.material3.fade
+import org.michaelbel.movies.ui.placeholder.placeholder
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.MovieDbPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -40,6 +41,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 @Composable
 fun DetailsContent(
     movie: MovieDb,
+    onNavigateToGallery: (Int) -> Unit,
     modifier: Modifier = Modifier,
     placeholder: Boolean = false
 ) {
@@ -60,23 +62,10 @@ fun DetailsContent(
                 .build()
         }
 
-        val imageModifier: Modifier = if (placeholder) {
-            Modifier
-                .constrainAs(image) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.value(220.dp)
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(parent.top, 16.dp)
-                    end.linkTo(parent.end, 16.dp)
-                }
-                .placeholder(
-                    visible = true,
-                    color = MaterialTheme.colorScheme.inversePrimary,
-                    shape = MaterialTheme.shapes.small,
-                    highlight = PlaceholderHighlight.fade()
-                )
-        } else {
-            Modifier
+        AsyncImage(
+            model = imageRequest,
+            contentDescription = null,
+            modifier = Modifier
                 .constrainAs(image) {
                     width = Dimension.fillToConstraints
                     height = Dimension.value(220.dp)
@@ -85,12 +74,17 @@ fun DetailsContent(
                     end.linkTo(parent.end, 16.dp)
                 }
                 .clip(MaterialTheme.shapes.small)
-        }
-
-        AsyncImage(
-            model = imageRequest,
-            contentDescription = null,
-            modifier = imageModifier,
+                .placeholder(
+                    visible = placeholder,
+                    color = MaterialTheme.colorScheme.inversePrimary,
+                    shape = MaterialTheme.shapes.small,
+                    highlight = PlaceholderHighlight.fade()
+                )
+                .clickable {
+                    if (!placeholder && !isNoImageVisible) {
+                        onNavigateToGallery(movie.movieId)
+                    }
+                },
             onState = { state ->
                 isNoImageVisible = movie.isNotEmpty && state.isErrorOrEmpty
             },
@@ -118,8 +112,9 @@ fun DetailsContent(
             )
         }
 
-        val titleModifier: Modifier = if (placeholder) {
-            Modifier
+        Text(
+            text = movie.title,
+            modifier = Modifier
                 .constrainAs(title) {
                     width = Dimension.fillToConstraints
                     height = Dimension.wrapContent
@@ -128,25 +123,11 @@ fun DetailsContent(
                     end.linkTo(parent.end, 16.dp)
                 }
                 .placeholder(
-                    visible = true,
+                    visible = placeholder,
                     color = MaterialTheme.colorScheme.inversePrimary,
                     shape = MaterialTheme.shapes.small,
                     highlight = PlaceholderHighlight.fade()
-                )
-        } else {
-            Modifier
-                .constrainAs(title) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(image.bottom, 8.dp)
-                    end.linkTo(parent.end, 16.dp)
-                }
-        }
-
-        Text(
-            text = movie.title,
-            modifier = titleModifier,
+                ),
             overflow = TextOverflow.Ellipsis,
             maxLines = 3,
             style = MaterialTheme.typography.titleLarge.copy(
@@ -154,8 +135,9 @@ fun DetailsContent(
             )
         )
 
-        val overviewModifier: Modifier = if (placeholder) {
-            Modifier
+        Text(
+            text = movie.overview,
+            modifier = Modifier
                 .constrainAs(overview) {
                     width = Dimension.fillToConstraints
                     height = Dimension.wrapContent
@@ -164,25 +146,11 @@ fun DetailsContent(
                     end.linkTo(parent.end, 16.dp)
                 }
                 .placeholder(
-                    visible = true,
+                    visible = placeholder,
                     color = MaterialTheme.colorScheme.inversePrimary,
                     shape = MaterialTheme.shapes.small,
                     highlight = PlaceholderHighlight.fade()
-                )
-        } else {
-            Modifier
-                .constrainAs(overview) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(title.bottom, 8.dp)
-                    end.linkTo(parent.end, 16.dp)
-                }
-        }
-
-        Text(
-            text = movie.overview,
-            modifier = overviewModifier,
+                ),
             overflow = TextOverflow.Ellipsis,
             maxLines = 10,
             style = MaterialTheme.typography.bodyMedium.copy(
@@ -202,7 +170,8 @@ private fun DetailsContentPreview(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background),
-            movie = movie
+            movie = movie,
+            onNavigateToGallery = {}
         )
     }
 }
