@@ -1,13 +1,9 @@
 package org.michaelbel.movies.benchmark
 
-import androidx.benchmark.macro.junit4.BaselineProfileRule
-import org.junit.Rule
-import org.junit.Test
-
 /**
  * ./gradlew :benchmark:connectedCheck
  */
-internal class BaselineProfileGenerator {
+/*internal class BaselineProfileGenerator {
 
     @get:Rule
     val baselineProfileRule = BaselineProfileRule()
@@ -21,4 +17,4 @@ internal class BaselineProfileGenerator {
             startActivityAndWait()
             device.waitForIdle()
         }
-}
+}*/
