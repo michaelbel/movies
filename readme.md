@@ -105,6 +105,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] [Support layout mirroring](https://d.android.com/training/basics/supporting-devices/languages#SupportLayoutMirroring)
 - [ ] Upload Bundle to Google Play Console
 - [ ] [ExoPlayer](https://d.android.com/guide/topics/media/exoplayer)
+- [ ] [Google Play Instant](https://d.android.com/topic/google-play-instant/overview)
 
 ## Issues
 If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).
