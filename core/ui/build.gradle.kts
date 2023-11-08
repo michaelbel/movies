@@ -45,7 +45,6 @@ android {
 dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:network"))
-    implementation(project(":core:notifications"))
     implementation(project(":core:persistence"))
     api(libs.androidx.core.splashscreen)
     api(libs.androidx.constraintlayout.compose)

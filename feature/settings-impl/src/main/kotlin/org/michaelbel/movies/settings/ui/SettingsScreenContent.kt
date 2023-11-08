@@ -39,7 +39,7 @@ import org.michaelbel.movies.common.review.rememberReviewManager
 import org.michaelbel.movies.common.review.rememberReviewTask
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
-import org.michaelbel.movies.notifications.ktx.appNotificationSettingsIntent
+import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.settings.SettingsViewModel
 import org.michaelbel.movies.settings_impl.BuildConfig
 import org.michaelbel.movies.settings_impl.R

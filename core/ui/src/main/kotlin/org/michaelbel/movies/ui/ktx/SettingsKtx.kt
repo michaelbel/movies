@@ -1,4 +1,4 @@
-package org.michaelbel.movies.notifications.ktx
+package org.michaelbel.movies.ui.ktx
 
 import android.content.Context
 import android.content.Intent
