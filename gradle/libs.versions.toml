@@ -1,11 +1,10 @@
-# Compose to Kotlin Compatibility Map:
-# https://d.android.com/jetpack/androidx/releases/compose-kotlin
+# Compose to Kotlin Compatibility Map: https://d.android.com/jetpack/androidx/releases/compose-kotlin
 [versions]
 min-sdk = "23"
 benchmark-min-sdk = "23"
 compile-sdk = "34"
 target-sdk = "34"
-gradle = "8.1.2"
+gradle = "8.1.3"
 kotlin = "1.9.20"
 kotlin-ksp = "1.9.20-1.0.14"
 kotlin-coroutines = "1.7.3"
