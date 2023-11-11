@@ -50,5 +50,6 @@ dependencies {
     implementation(project(":core:repository-impl"))
     api(libs.androidx.hilt.work)
     api(libs.androidx.work.runtime.ktx)
+    ksp(libs.androidx.hilt.compiler)
     implementation(libs.androidx.paging.compose)
 }

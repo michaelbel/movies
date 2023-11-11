@@ -39,14 +39,11 @@ android {
         checkDependencies = true
         lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
     }
-
-    kapt {
-        correctErrorTypes = true
-    }
 }
 
 dependencies {
     api(project(":core:repository"))
+
     testImplementation(libs.kotlin.coroutines.test)
     testImplementation(libs.junit)
 }

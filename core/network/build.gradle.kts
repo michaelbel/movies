@@ -47,10 +47,6 @@ android {
         checkDependencies = true
         lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
     }
-
-    kapt {
-        correctErrorTypes = true
-    }
 }
 
 dependencies {

@@ -1,7 +1,7 @@
 package plugins
 
 import ktx.implementation
-import ktx.kapt
+import ktx.ksp
 import ktx.libs
 import org.gradle.api.Plugin
 import org.gradle.api.Project
@@ -13,12 +13,12 @@ internal class AndroidHiltConventionPlugin: Plugin<Project> {
         target.run {
             pluginManager.run {
                 apply("dagger.hilt.android.plugin")
-                apply("org.jetbrains.kotlin.kapt")
+                apply("com.google.devtools.ksp")
             }
 
             dependencies {
                 implementation(libs.findLibrary("hilt.android").get())
-                kapt(libs.findLibrary("hilt.compiler").get())
+                ksp(libs.findLibrary("hilt.compiler").get())
             }
         }
     }

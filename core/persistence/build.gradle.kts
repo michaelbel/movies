@@ -2,7 +2,6 @@
 plugins {
     alias(libs.plugins.library)
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.kotlin.ksp)
     id("movies-android-hilt")
 }
 
@@ -37,10 +36,6 @@ android {
         ignoreWarnings = true
         checkDependencies = true
         lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
-    }
-
-    kapt {
-        correctErrorTypes = true
     }
 }
 

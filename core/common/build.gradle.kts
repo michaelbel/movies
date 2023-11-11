@@ -42,10 +42,6 @@ android {
         checkDependencies = true
         lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
     }
-
-    kapt {
-        correctErrorTypes = true
-    }
 }
 
 dependencies {
@@ -66,5 +62,6 @@ dependencies {
     implementation(libs.firebase.crashlytics.ktx)
     implementation(libs.androidx.startup.runtime)
     implementation(libs.androidx.browser)
+
     lintChecks(libs.lint.checks)
 }

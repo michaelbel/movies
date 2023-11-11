@@ -10,8 +10,8 @@ internal fun DependencyHandlerScope.implementation(
     "implementation"(dependency)
 }
 
-internal fun DependencyHandlerScope.kapt(
+internal fun DependencyHandlerScope.ksp(
     dependency: Provider<MinimalExternalModuleDependency>
 ) {
-    "kapt"(dependency)
+    "ksp"(dependency)
 }
