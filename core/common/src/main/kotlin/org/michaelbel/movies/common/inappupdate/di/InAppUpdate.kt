@@ -4,12 +4,14 @@ import android.app.Activity
 import com.google.android.play.core.appupdate.AppUpdateInfo
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateOptions
+import com.google.android.play.core.install.InstallException
 import com.google.android.play.core.install.model.AppUpdateType
+import com.google.android.play.core.install.model.InstallErrorCode
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.tasks.Task
+import javax.inject.Inject
 import org.michaelbel.movies.common.googleapi.GoogleApi
 import timber.log.Timber
-import javax.inject.Inject
 
 class InAppUpdate @Inject constructor(
     private val appUpdateManager: AppUpdateManager,
@@ -43,6 +45,7 @@ class InAppUpdate @Inject constructor(
     }
 
     private fun onFailureAppUpdate(throwable: Throwable) {
+        if (throwable is InstallException && throwable.errorCode == InstallErrorCode.ERROR_APP_NOT_OWNED) return
         Timber.e(throwable)
     }
 }
