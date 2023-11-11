@@ -14,7 +14,8 @@ data class ImageDb(
     @NotNull val aspectRatio: Float,
     @NotNull val voteAverage: Float,
     @NotNull val voteCount: Int,
-    @Nullable val lang: String?
+    @Nullable val lang: String?,
+    @NotNull val position: Int
 ) {
     companion object {
         val Empty: ImageDb = ImageDb(
@@ -26,7 +27,8 @@ data class ImageDb(
             aspectRatio = 0F,
             voteAverage = 0F,
             voteCount = 0,
-            lang = null
+            lang = null,
+            position = 0
         )
     }
 

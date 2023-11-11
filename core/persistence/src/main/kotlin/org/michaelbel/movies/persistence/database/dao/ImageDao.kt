@@ -13,7 +13,7 @@ import org.michaelbel.movies.persistence.database.entity.ImageDb
 @Dao
 interface ImageDao {
 
-    @Query("SELECT * FROM images WHERE movieId = :movieId")
+    @Query("SELECT * FROM images WHERE movieId = :movieId ORDER BY position ASC")
     fun imagesFlow(movieId: Int): Flow<List<ImageDb>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

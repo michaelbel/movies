@@ -3,7 +3,11 @@ package org.michaelbel.movies.persistence.database.ktx
 import org.michaelbel.movies.network.model.Image
 import org.michaelbel.movies.persistence.database.entity.ImageDb
 
-fun Image.imageDb(movieId: Int, type: ImageDb.Type): ImageDb {
+fun Image.imageDb(
+    movieId: Int,
+    type: ImageDb.Type,
+    position: Int
+): ImageDb {
     return ImageDb(
         movieId = movieId,
         filePath = filePath,
@@ -13,6 +17,7 @@ fun Image.imageDb(movieId: Int, type: ImageDb.Type): ImageDb {
         aspectRatio = aspectRatio,
         voteAverage = voteAverage,
         voteCount = voteCount,
-        lang = lang
+        lang = lang,
+        position = position
     )
 }

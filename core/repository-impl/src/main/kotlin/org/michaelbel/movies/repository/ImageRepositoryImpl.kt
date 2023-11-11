@@ -21,15 +21,27 @@ internal class ImageRepositoryImpl @Inject constructor(
 
     override suspend fun images(movieId: Int) {
         val imageResponse: ImagesResponse = imageService.images(movieId)
-        val backdrops: List<ImageDb> = imageResponse.backdrops.map { image ->
-            image.imageDb(movieId, ImageDb.Type.BACKDROP)
+        val posters: List<ImageDb> = imageResponse.posters.mapIndexed { index, image ->
+            image.imageDb(
+                movieId = movieId,
+                type = ImageDb.Type.POSTER,
+                position = index
+            )
         }
-        val posters: List<ImageDb> = imageResponse.posters.map { image ->
-            image.imageDb(movieId, ImageDb.Type.POSTER)
+        val backdrops: List<ImageDb> = imageResponse.backdrops.mapIndexed { index, image ->
+            image.imageDb(
+                movieId = movieId,
+                type = ImageDb.Type.BACKDROP,
+                position = posters.count().plus(index)
+            )
         }
-        val logos: List<ImageDb> = imageResponse.logos.map { image ->
-            image.imageDb(movieId, ImageDb.Type.LOGO)
+        val logos: List<ImageDb> = imageResponse.logos.mapIndexed { index, image ->
+            image.imageDb(
+                movieId = movieId,
+                type = ImageDb.Type.LOGO,
+                position = posters.count().plus(backdrops.count()).plus(index)
+            )
         }
-        imageDao.insert(backdrops + posters + logos)
+        imageDao.insert(posters + backdrops + logos)
     }
 }
