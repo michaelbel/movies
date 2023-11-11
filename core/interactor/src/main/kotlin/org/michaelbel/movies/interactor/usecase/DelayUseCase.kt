@@ -1,12 +1,13 @@
 package org.michaelbel.movies.interactor.usecase
 
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.common.usecase.UseCase
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
-import javax.inject.Inject
 
+@Deprecated("")
 class DelayUseCase @Inject constructor(
     dispatchers: MoviesDispatchers,
     private val preferences: MoviesPreferences
