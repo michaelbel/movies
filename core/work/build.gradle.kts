@@ -43,13 +43,12 @@ android {
 }
 
 dependencies {
-    api(project(":core:interactor-impl"))
-    api(project(":core:persistence"))
+    implementation(project(":core:interactor-impl"))
     implementation(project(":core:common"))
     implementation(project(":core:network"))
     implementation(project(":core:repository-impl"))
-    api(libs.androidx.hilt.work)
-    api(libs.androidx.work.runtime.ktx)
-    ksp(libs.androidx.hilt.compiler)
     implementation(libs.androidx.paging.compose)
+    implementation(libs.androidx.hilt.work)
+    implementation(libs.androidx.work.runtime.ktx)
+    ksp(libs.androidx.hilt.compiler)
 }

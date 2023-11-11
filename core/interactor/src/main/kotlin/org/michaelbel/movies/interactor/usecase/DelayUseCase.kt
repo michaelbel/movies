@@ -18,7 +18,7 @@ class DelayUseCase @Inject constructor(
     }
 
     suspend fun networkRequestDelay(): Long {
-        return preferences.getNetworkRequestDelay() ?: 0L
+        return preferences.networkRequestDelay() ?: 0L
     }
 
     override suspend fun execute(parameters: Int) {

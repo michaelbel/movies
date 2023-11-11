@@ -10,7 +10,7 @@ internal class NotificationRepositoryImpl @Inject constructor(
 ): NotificationRepository {
 
     override suspend fun notificationExpireTime(): Long {
-        return preferences.getNotificationExpireTime() ?: 0L
+        return preferences.notificationExpireTime() ?: 0L
     }
 
     override suspend fun updateNotificationExpireTime() {

@@ -157,7 +157,6 @@ dependencies {
     implementation(project(":core:notifications"))
     implementation(project(":core:ui"))
     implementation(project(":core:work"))
-
     implementation(project(":feature:auth"))
     implementation(project(":feature:account"))
     implementation(project(":feature:details"))

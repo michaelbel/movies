@@ -24,9 +24,17 @@ internal class AccountRepositoryImpl @Inject constructor(
         .map { accountId -> accountId ?: 0 }
         .flatMapLatest(accountDao::accountById)
 
+    override suspend fun accountId(): Int? {
+        return preferences.accountId()
+    }
+
+    override suspend fun accountExpireTime(): Long? {
+        return preferences.accountExpireTime()
+    }
+
     override suspend fun accountDetails() {
         try {
-            val sessionId: String = preferences.getSessionId().orEmpty()
+            val sessionId: String = preferences.sessionId().orEmpty()
             val account: Account = accountService.accountDetails(sessionId)
             preferences.run {
                 setAccountId(account.id)

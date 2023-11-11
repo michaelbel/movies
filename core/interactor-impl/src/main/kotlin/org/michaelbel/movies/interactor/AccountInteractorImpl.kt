@@ -1,5 +1,7 @@
 package org.michaelbel.movies.interactor
 
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
@@ -7,8 +9,6 @@ import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.interactor.usecase.DelayUseCase
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.repository.AccountRepository
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
 internal class AccountInteractorImpl @Inject constructor(
@@ -19,9 +19,22 @@ internal class AccountInteractorImpl @Inject constructor(
 
     override val account: Flow<AccountDb?> = accountRepository.account
 
-    override suspend fun accountDetails() {
-        delay(delayUseCase.networkRequestDelay())
+    override suspend fun accountId(): Int? {
+        return withContext(dispatchers.io) {
+            accountRepository.accountId()
+        }
+    }
 
-        return withContext(dispatchers.io) { accountRepository.accountDetails() }
+    override suspend fun accountExpireTime(): Long? {
+        return withContext(dispatchers.io) {
+            accountRepository.accountExpireTime()
+        }
+    }
+
+    override suspend fun accountDetails() {
+        return withContext(dispatchers.io) {
+            delay(delayUseCase.networkRequestDelay())
+            accountRepository.accountDetails()
+        }
     }
 }
