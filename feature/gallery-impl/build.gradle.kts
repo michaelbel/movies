@@ -59,6 +59,7 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:interactor"))
     implementation(project(":core:network"))
+    implementation(project(":core:work"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit.ktx)
