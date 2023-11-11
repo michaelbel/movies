@@ -7,7 +7,7 @@ const val TMDB_REGISTER = "https://themoviedb.org/signup"
 const val TMDB_RESET_PASSWORD = "https://themoviedb.org/reset-password"
 const val TMDB_MOVIE_URL = "https://themoviedb.org/movie/%d"
 
-val tmdbApiKey: String
+private val tmdbApiKey: String
     get() = BuildConfig.TMDB_API_KEY
 
 val isTmdbApiKeyEmpty: Boolean

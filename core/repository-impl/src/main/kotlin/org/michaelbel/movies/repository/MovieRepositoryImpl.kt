@@ -11,7 +11,6 @@ import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
 import org.michaelbel.movies.network.response
 import org.michaelbel.movies.network.service.movie.MovieService
-import org.michaelbel.movies.network.tmdbApiKey
 import org.michaelbel.movies.persistence.database.dao.MovieDao
 import org.michaelbel.movies.persistence.database.dao.PagingKeyDao
 import org.michaelbel.movies.persistence.database.dao.ktx.isEmpty
@@ -44,7 +43,6 @@ internal class MovieRepositoryImpl @Inject constructor(
 
         return movieService.movies(
             list = movieList,
-            apiKey = tmdbApiKey,
             language = localeController.language,
             page = page
         )
@@ -59,7 +57,6 @@ internal class MovieRepositoryImpl @Inject constructor(
             } else {
                 val movie: Movie = movieService.movie(
                     id = movieId,
-                    apiKey = tmdbApiKey,
                     language = localeController.language
                 )
                 movie.mapToMovieDb
