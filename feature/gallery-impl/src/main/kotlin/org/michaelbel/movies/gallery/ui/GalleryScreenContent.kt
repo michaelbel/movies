@@ -41,10 +41,10 @@ import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
 import kotlinx.coroutines.launch
-import org.michaelbel.movies.network.isNotOriginal
 import org.michaelbel.movies.gallery.GalleryViewModel
 import org.michaelbel.movies.gallery.zoomable.rememberZoomState
 import org.michaelbel.movies.gallery.zoomable.zoomable
+import org.michaelbel.movies.network.isNotOriginal
 import org.michaelbel.movies.persistence.database.entity.ImageDb
 import org.michaelbel.movies.persistence.database.ktx.original
 import org.michaelbel.movies.ui.icons.MoviesIcons
@@ -56,11 +56,9 @@ fun GalleryRoute(
     viewModel: GalleryViewModel = hiltViewModel()
 ) {
     val movieImages: List<ImageDb> by viewModel.movieImagesFlow.collectAsStateWithLifecycle()
-    val backdropPosition: Int by viewModel.backdropPositionFlow.collectAsStateWithLifecycle()
 
     GalleryScreenContent(
         movieImages = movieImages,
-        backdropPosition = backdropPosition,
         onBackClick = onBackClick,
         modifier = modifier
     )
@@ -69,7 +67,6 @@ fun GalleryRoute(
 @Composable
 private fun GalleryScreenContent(
     movieImages: List<ImageDb>,
-    backdropPosition: Int,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {

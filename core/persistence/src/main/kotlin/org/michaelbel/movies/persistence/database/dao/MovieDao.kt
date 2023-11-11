@@ -16,9 +16,6 @@ interface MovieDao {
     @Query("SELECT * FROM movies WHERE movieList = :movieList ORDER BY position ASC")
     fun pagingSource(movieList: String): PagingSource<Int, MovieDb>
 
-    @Query("SELECT backdropPath FROM movies WHERE id = :movieId")
-    suspend fun movieBackdropPath(movieId: Int): String
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAllMovies(movies: List<MovieDb>)
 

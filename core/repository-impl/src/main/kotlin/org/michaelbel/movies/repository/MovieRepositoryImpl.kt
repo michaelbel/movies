@@ -31,11 +31,6 @@ internal class MovieRepositoryImpl @Inject constructor(
         return movieDao.pagingSource(movieList)
     }
 
-    override suspend fun backdropPosition(movieId: Int): Int {
-        val backdropPath: String = movieDao.movieBackdropPath(movieId)
-        return 0
-    }
-
     override suspend fun moviesResult(movieList: String, page: Int): Result<MovieResponse> {
         if (isTmdbApiKeyEmpty && movieDao.isEmpty(MovieDb.MOVIES_LOCAL_LIST)) {
             checkApiKeyNotNullException()

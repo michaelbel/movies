@@ -3,10 +3,8 @@ package org.michaelbel.movies.gallery
 import androidx.lifecycle.SavedStateHandle
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.ktx.require
@@ -29,15 +27,11 @@ class GalleryViewModel @Inject constructor(
             initialValue = emptyList()
         )
 
-    private val _backdropPositionFlow: MutableStateFlow<Int> = MutableStateFlow(0)
-    val backdropPositionFlow: StateFlow<Int> = _backdropPositionFlow.asStateFlow()
-
     init {
         loadMovieImages(movieId.toInt())
     }
 
     private fun loadMovieImages(movieId: Int) = launch {
         interactor.images(movieId)
-        _backdropPositionFlow.value = interactor.backdropPosition(movieId)
     }
 }

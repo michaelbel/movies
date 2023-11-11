@@ -24,10 +24,6 @@ internal class MovieInteractorImpl @Inject constructor(
         return movieRepository.moviesPagingSource(movieList)
     }
 
-    override suspend fun backdropPosition(movieId: Int): Int {
-        return movieRepository.backdropPosition(movieId)
-    }
-
     override suspend fun moviesResult(movieList: String, page: Int): Result<MovieResponse> {
         delay(delayUseCase.networkRequestDelay())
 

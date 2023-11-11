@@ -10,8 +10,6 @@ interface MovieInteractor {
 
     fun moviesPagingSource(movieList: String): PagingSource<Int, MovieDb>
 
-    suspend fun backdropPosition(movieId: Int): Int
-
     suspend fun moviesResult(movieList: String, page: Int): Result<MovieResponse>
 
     suspend fun movieDetails(movieId: Int): Either<MovieDb>
