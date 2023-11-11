@@ -41,6 +41,6 @@ android {
 
 dependencies {
     implementation(project(":core:common"))
-    implementation(project(":core:persistence"))
+    implementation(project(":core:interactor"))
     api(libs.firebase.messaging.ktx)
 }

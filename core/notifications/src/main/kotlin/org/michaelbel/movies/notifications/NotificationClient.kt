@@ -17,18 +17,19 @@ import org.michaelbel.movies.notifications.model.MoviesPush
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
+import org.michaelbel.movies.interactor.Interactor
 
 class NotificationClient @Inject constructor(
     @ApplicationContext private val context: Context,
     private val notificationManager: NotificationManagerCompat,
-    private val preferences: MoviesPreferences
+    private val interactor: Interactor
 ) {
 
     private val channelId: String
         get() = context.getString(R.string.notification_channel_id)
 
     suspend fun notificationsPermissionRequired(time: Long): Boolean {
-        val expireTime: Long = preferences.getNotificationExpireTime() ?: 0L
+        val expireTime: Long = interactor.notificationExpireTime()
         val currentTime: Long = System.currentTimeMillis()
         val isTimePasses: Boolean = isTimePasses(ONE_DAY_MILLS, expireTime, currentTime)
         delay(time)
@@ -36,8 +37,7 @@ class NotificationClient @Inject constructor(
     }
 
     suspend fun updateNotificationExpireTime() {
-        val currentTime: Long = System.currentTimeMillis()
-        preferences.setNotificationExpireTime(currentTime)
+        interactor.updateNotificationExpireTime()
     }
 
     fun send(push: MoviesPush) {

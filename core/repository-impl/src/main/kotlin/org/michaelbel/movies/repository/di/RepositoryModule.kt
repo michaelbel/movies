@@ -13,6 +13,8 @@ import org.michaelbel.movies.repository.ImageRepository
 import org.michaelbel.movies.repository.ImageRepositoryImpl
 import org.michaelbel.movies.repository.MovieRepository
 import org.michaelbel.movies.repository.MovieRepositoryImpl
+import org.michaelbel.movies.repository.NotificationRepository
+import org.michaelbel.movies.repository.NotificationRepositoryImpl
 import org.michaelbel.movies.repository.SettingsRepository
 import org.michaelbel.movies.repository.SettingsRepositoryImpl
 
@@ -22,15 +24,9 @@ internal interface RepositoryModule {
 
     @Binds
     @Singleton
-    fun provideMovieRepository(
-        repository: MovieRepositoryImpl
-    ): MovieRepository
-
-    @Binds
-    @Singleton
-    fun provideImageRepository(
-        repository: ImageRepositoryImpl
-    ): ImageRepository
+    fun provideAccountRepository(
+        repository: AccountRepositoryImpl
+    ): AccountRepository
 
     @Binds
     @Singleton
@@ -40,9 +36,21 @@ internal interface RepositoryModule {
 
     @Binds
     @Singleton
-    fun provideAccountRepository(
-        repository: AccountRepositoryImpl
-    ): AccountRepository
+    fun provideImageRepository(
+        repository: ImageRepositoryImpl
+    ): ImageRepository
+
+    @Binds
+    @Singleton
+    fun provideMovieRepository(
+        repository: MovieRepositoryImpl
+    ): MovieRepository
+
+    @Binds
+    @Singleton
+    fun provideNotificationRepository(
+        repository: NotificationRepositoryImpl
+    ): NotificationRepository
 
     @Binds
     @Singleton

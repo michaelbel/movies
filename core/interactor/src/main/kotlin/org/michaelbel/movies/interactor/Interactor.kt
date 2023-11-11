@@ -7,9 +7,11 @@ class Interactor @Inject constructor(
     authenticationInteractor: AuthenticationInteractor,
     imageInteractor: ImageInteractor,
     movieInteractor: MovieInteractor,
+    notificationInteractor: NotificationInteractor,
     settingsInteractor: SettingsInteractor
 ): AccountInteractor by accountInteractor,
    AuthenticationInteractor by authenticationInteractor,
    ImageInteractor by imageInteractor,
    MovieInteractor by movieInteractor,
+    NotificationInteractor by notificationInteractor,
    SettingsInteractor by settingsInteractor
