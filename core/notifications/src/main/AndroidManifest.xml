@@ -16,7 +16,7 @@
 
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_channel_id"
-            android:value="@string/notification_channel_id" />
+            android:value="@string/notification_new_movies_channel_id" />
 
         <!-- Set custom default icon. This is used when no icon is set for incoming notification
              messages. -->

@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.MovieFilter
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Language
@@ -26,7 +27,8 @@ import org.michaelbel.movies.ui.R
 object MoviesIcons {
     @DrawableRes val TmdbLogo: Int = R.drawable.ic_tmdb_logo
     @DrawableRes val ThemeLightDark: Int = R.drawable.ic_theme_light_dark_24
-    @DrawableRes val NotificationSmallIconMovieFilter = R.drawable.ic_movie_filter_24
+    @DrawableRes val MovieFilter24 = R.drawable.ic_movie_filter_24
+    @DrawableRes val FileDownload24 = R.drawable.ic_file_download_24
     @DrawableRes val AdultOutline = R.drawable.ic_18_up_rating_outline_24
     @DrawableRes val ShortcutSettingsOutline: Int = R.drawable.ic_shortcut_settings_outline_48
 
@@ -34,6 +36,7 @@ object MoviesIcons {
     val ArrowBack: ImageVector = Icons.Outlined.ArrowBack
     val Close: ImageVector = Icons.Outlined.Close
     val Info: ImageVector = Icons.Outlined.Info
+    val FileDownload: ImageVector = Icons.Outlined.FileDownload
     val GridView: ImageVector = Icons.Outlined.GridView
     val Language: ImageVector = Icons.Outlined.Language
     val LocationOn: ImageVector = Icons.Outlined.LocationOn
