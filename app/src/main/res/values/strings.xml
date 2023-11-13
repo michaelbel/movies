@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name" translatable="false">Movies</string>
+    <string name="app_name_dev" translatable="false">Movies Dev</string>
 </resources>

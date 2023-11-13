@@ -24,7 +24,7 @@
         android:fullBackupContent="true"
         android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="${appName}"
         android:localeConfig="@xml/locale_config"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
@@ -93,7 +93,7 @@
             android:enabled="true"
             android:exported="true"
             android:icon="@mipmap/ic_launcher"
-            android:label="@string/app_name"
+            android:label="${appName}"
             android:targetActivity="org.michaelbel.movies.MainActivity">
 
             <intent-filter>

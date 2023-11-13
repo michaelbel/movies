@@ -90,6 +90,7 @@ android {
             isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
             applicationIdSuffix = MoviesBuildType.RELEASE.applicationIdSuffix
+            manifestPlaceholders += mapOf("appName" to "@string/app_name")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
@@ -97,7 +98,6 @@ android {
                 "okhttp3.pro",
                 "coroutines.pro"
             )
-
             firebaseAppDistribution {
                 appId = "1:770317857182:android:876190afbc53df31"
                 artifactType = "APK"
@@ -112,6 +112,7 @@ android {
             isMinifyEnabled = false
             isShrinkResources = false
             applicationIdSuffix = MoviesBuildType.DEBUG.applicationIdSuffix
+            manifestPlaceholders += mapOf("appName" to "@string/app_name_dev")
         }
         create("benchmark") {
             initWith(getByName("release"))
