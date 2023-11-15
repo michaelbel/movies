@@ -8,7 +8,7 @@ android {
     namespace = "org.michaelbel.movies.benchmark"
 
     defaultConfig {
-        minSdk = libs.versions.benchmark.min.sdk.get().toInt()
+        minSdk = libs.versions.min.sdk.get().toInt()
         compileSdk = libs.versions.compile.sdk.get().toInt()
         targetSdk = libs.versions.target.sdk.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

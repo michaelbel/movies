@@ -41,7 +41,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Kotlin Symbol Processing API](https://d.android.com/studio/build/migrate-to-ksp)
 - [x] [Gradle Plugin](https://d.android.com/studio/releases/gradle-plugin)
 - [x] [Gradle Version Catalog](https://d.android.com/build/migrate-to-catalogs)
-- [x] MinSDK 21
+- [x] MinSDK 23
 - [x] TargetSDK 34
 - [x] CompileSDK 34
 - [x] [Material3](https://m3.material.io)
