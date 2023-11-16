@@ -5,6 +5,8 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.common.exceptions.MovieDetailsException
+import org.michaelbel.movies.common.exceptions.MoviesUpcomingException
+import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.localization.LocaleController
 import org.michaelbel.movies.network.isTmdbApiKeyEmpty
 import org.michaelbel.movies.network.model.MovieResponse
@@ -12,6 +14,8 @@ import org.michaelbel.movies.network.model.Result
 import org.michaelbel.movies.network.service.movie.MovieService
 import org.michaelbel.movies.persistence.database.dao.MovieDao
 import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
+import org.michaelbel.movies.persistence.database.ktx.movieDb
 import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.repository.MovieRepository
 import org.michaelbel.movies.repository.ktx.checkApiKeyNotNullException
@@ -53,6 +57,29 @@ internal class MovieRepositoryImpl @Inject constructor(
             movieDao.movieById(pagingKey, movieId) ?: movieService.movie(movieId, localeController.language).mapToMovieDb
         } catch (e: Exception) {
             throw MovieDetailsException
+        }
+    }
+
+    override suspend fun moviesWidget(): List<MovieDbMini> {
+        return try {
+            val movieResult = movieService.movies(
+                list = MovieList.Upcoming.name,
+                language = localeController.language,
+                page = 1
+            )
+            val moviesDb = movieResult.results.mapIndexed { index, movieResponse ->
+                movieResponse.movieDb(
+                    movieList = MovieDb.MOVIES_WIDGET,
+                    position = index.plus(1)
+                )
+            }
+            movieDao.removeMovies(MovieDb.MOVIES_WIDGET)
+            movieDao.insertMovies(moviesDb)
+            movieDao.moviesMini(MovieDb.MOVIES_WIDGET, MovieResponse.DEFAULT_PAGE_SIZE)
+        } catch (e: Exception) {
+            movieDao.moviesMini(MovieDb.MOVIES_WIDGET, MovieResponse.DEFAULT_PAGE_SIZE).ifEmpty {
+                throw MoviesUpcomingException
+            }
         }
     }
 

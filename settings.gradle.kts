@@ -38,6 +38,7 @@ include(
     ":core:platform-services:interactor",
     ":core:repository",
     ":core:ui",
+    ":core:widget",
     ":core:work",
 
     ":feature:account",

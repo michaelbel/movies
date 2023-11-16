@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appwidget_description">Display upcoming movies</string>
+    <string name="appwidget_title">Upcoming Movies</string>
+    <string name="appwidget_configure">Configure AppWidget</string>
+    <string name="appwidget_configure_soon">Configure soon...</string>
+    <string name="appwidget_pinned_message">Widget pinned on homescreen</string>
+    <string name="appwidget_failure_empty">Movies List is Empty</string>
+</resources>

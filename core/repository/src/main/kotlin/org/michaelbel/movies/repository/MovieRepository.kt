@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
 import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
 
 interface MovieRepository {
 
@@ -17,6 +18,8 @@ interface MovieRepository {
     suspend fun movie(pagingKey: String, movieId: Int): MovieDb
 
     suspend fun movieDetails(pagingKey: String, movieId: Int): MovieDb
+
+    suspend fun moviesWidget(): List<MovieDbMini>
 
     suspend fun removeMovies(pagingKey: String)
 

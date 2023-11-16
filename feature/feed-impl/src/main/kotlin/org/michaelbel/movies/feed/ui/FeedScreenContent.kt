@@ -18,7 +18,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
@@ -207,7 +206,7 @@ private fun FeedScreenContent(
         scaffoldState = notificationBottomSheetScaffoldState,
         sheetPeekHeight = 0.dp
     ) { bottomSheetInnerPadding ->
-        val topAppBarScrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+        val topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
         Scaffold(
             modifier = modifier

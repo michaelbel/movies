@@ -8,6 +8,7 @@ import androidx.room.Query
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
 
 /**
  * The Data Access Object for the [MovieDb] class.
@@ -25,7 +26,9 @@ interface MovieDao {
     @Query("SELECT * FROM movies WHERE movieList = :movieList ORDER BY position ASC LIMIT :limit")
     suspend fun movies(movieList: String, limit: Int): List<MovieDb>
 
-    @Transaction
+    @Query("SELECT * FROM movies WHERE movieList = :movieList ORDER BY position ASC LIMIT :limit")
+    suspend fun moviesMini(movieList: String, limit: Int): List<MovieDbMini>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovies(movies: List<MovieDb>)
 

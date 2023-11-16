@@ -17,6 +17,7 @@ import org.michaelbel.movies.interactor.remote.SearchMoviesRemoteMediator
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.persistence.database.AppDatabase
 import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
 import org.michaelbel.movies.repository.MovieRepository
 import org.michaelbel.movies.repository.PagingKeyRepository
 import org.michaelbel.movies.repository.SearchRepository
@@ -69,6 +70,10 @@ internal class MovieInteractorImpl @Inject constructor(
 
     override fun moviesFlow(pagingKey: String, limit: Int): Flow<List<MovieDb>> {
         return movieRepository.moviesFlow(pagingKey, limit)
+    }
+
+    override suspend fun moviesWidget(): List<MovieDbMini> {
+        return withContext(dispatchers.io) { movieRepository.moviesWidget() }
     }
 
     override suspend fun movie(pagingKey: String, movieId: Int): MovieDb {
