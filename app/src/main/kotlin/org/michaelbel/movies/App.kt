@@ -6,6 +6,7 @@ import androidx.work.Configuration
 import com.google.firebase.FirebaseApp
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
+import org.michaelbel.movies.ui.appicon.installLauncherIcon
 
 @HiltAndroidApp
 internal class App: Application(), Configuration.Provider {
@@ -17,6 +18,7 @@ internal class App: Application(), Configuration.Provider {
 
     override fun onCreate() {
         super.onCreate()
+        installLauncherIcon()
         FirebaseApp.initializeApp(this)
     }
 }

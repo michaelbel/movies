@@ -25,8 +25,8 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 internal fun MainActivityContent(
-    viewModel: MainViewModel = hiltViewModel(),
-    onStartUpdateFlow: () -> Unit
+    onStartUpdateFlow: () -> Unit,
+    viewModel: MainViewModel = hiltViewModel()
 ) {
     val currentTheme: AppTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
     val dynamicColors: Boolean by viewModel.dynamicColors.collectAsStateWithLifecycle()
