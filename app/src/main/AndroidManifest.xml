@@ -27,7 +27,9 @@
         android:label="${appName}"
         android:localeConfig="@xml/locale_config"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Movies.Starting">
+        android:theme="@style/Theme.Movies.Starting"
+        android:icon="@mipmap/ic_launcher_red"
+        android:roundIcon="@mipmap/ic_launcher_red">
 
         <profileable
             android:shell="true"
