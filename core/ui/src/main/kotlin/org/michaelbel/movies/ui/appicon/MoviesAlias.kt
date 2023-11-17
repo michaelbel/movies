@@ -3,6 +3,8 @@ package org.michaelbel.movies.ui.appicon
 import android.content.ComponentName
 import android.content.Context
 import android.content.pm.PackageManager
+import androidx.annotation.DrawableRes
+import org.michaelbel.movies.ui.R
 
 private fun Context.componentName(iconAlias: IconAlias): ComponentName {
     return ComponentName(packageName, "org.michaelbel.movies.${iconAlias.key}")
@@ -31,3 +33,11 @@ fun Context.installLauncherIcon() {
     }
     setIcon(IconAlias.Red)
 }
+
+internal val Context.shortcutSettingsIconRes: Int
+    @DrawableRes get() = when {
+        isEnabled(IconAlias.Red) -> R.drawable.ic_shortcut_settings_outline_red_48
+        isEnabled(IconAlias.Purple) -> R.drawable.ic_shortcut_settings_outline_purple_48
+        isEnabled(IconAlias.Brown) -> R.drawable.ic_shortcut_settings_outline_brown_48
+        else -> 0
+    }
