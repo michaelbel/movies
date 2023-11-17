@@ -25,9 +25,10 @@ fun FeedCellLoading(
 ) {
     LazyColumn(
         modifier = modifier,
-        contentPadding = paddingValues
+        contentPadding = paddingValues,
+        userScrollEnabled = false
     ) {
-        items(MovieResponse.DEFAULT_PAGE_SIZE) {
+        items(MovieResponse.DEFAULT_PAGE_SIZE.div(2)) {
             FeedCellMovieBox(
                 movie = MovieDb.Empty,
                 modifier = Modifier

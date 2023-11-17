@@ -31,8 +31,9 @@ fun FeedGridLoading(
         contentPadding = paddingValues,
         verticalItemSpacing = 8.dp,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
+        userScrollEnabled = false
     ) {
-        items(MovieResponse.DEFAULT_PAGE_SIZE) {
+        items(MovieResponse.DEFAULT_PAGE_SIZE.div(2)) {
             FeedGridMovieBox(
                 movie = MovieDb.Empty,
                 modifier = Modifier
