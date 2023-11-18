@@ -96,6 +96,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Support Localization](https://d.android.com/guide/topics/resources/localization)
 - [x] [Notification Runtime Permission](https://d.android.com/develop/ui/views/notifications/notification-permission)
 - [x] [Changing Launcher App Icon](https://d.android.com/guide/topics/manifest/activity-alias-element)
+- [ ] [Predictive Back Gesture](https://d.android.com/guide/navigation/custom-back/predictive-back-gesture)
 - [ ] [Unit Tests](https://d.android.com/training/testing/local-tests)
 - [ ] [UI Tests](https://d.android.com/training/testing/instrumented-tests/ui-tests)
 - [ ] [Baseline Profiles](https://d.android.com/topic/performance/baselineprofiles/overview)
