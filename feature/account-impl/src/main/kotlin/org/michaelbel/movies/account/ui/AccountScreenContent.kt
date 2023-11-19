@@ -31,6 +31,7 @@ import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.ui.compose.AccountAvatar
 import org.michaelbel.movies.ui.icons.MoviesIcons
+import org.michaelbel.movies.ui.ktx.isPortrait
 import org.michaelbel.movies.ui.ktx.lettersTextFontSizeLarge
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -64,7 +65,7 @@ internal fun AccountScreenContent(
 ) {
     ConstraintLayout(
         modifier
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = if (isPortrait) 16.dp else 64.dp)
             .fillMaxWidth()
             .background(
                 color = MaterialTheme.colorScheme.primaryContainer,

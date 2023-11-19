@@ -25,12 +25,12 @@ import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.feed.ktx.gridColumnsCount
-import org.michaelbel.movies.feed.ktx.isPortrait
 import org.michaelbel.movies.network.isTmdbApiKeyEmpty
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.ui.ktx.isNotEmpty
 import org.michaelbel.movies.ui.ktx.isPagingFailure
 import org.michaelbel.movies.ui.ktx.isPagingLoading
+import org.michaelbel.movies.ui.ktx.isPortrait
 
 @Composable
 fun FeedContent(
@@ -58,7 +58,8 @@ fun FeedContent(
                     lazyGridState = lazyGridState,
                     pagingItems = pagingItems,
                     onMovieClick = onMovieClick,
-                    contentPadding = contentPadding
+                    contentPadding = contentPadding,
+                    modifier = modifier
                 )
             }
         }

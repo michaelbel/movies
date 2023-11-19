@@ -11,6 +11,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerDefaults
 import androidx.compose.foundation.pager.PagerScope
@@ -61,6 +62,7 @@ import org.michaelbel.movies.network.isNotOriginal
 import org.michaelbel.movies.persistence.database.entity.ImageDb
 import org.michaelbel.movies.persistence.database.ktx.original
 import org.michaelbel.movies.ui.icons.MoviesIcons
+import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.work.DownloadImageWorker
 
 @Composable
@@ -260,7 +262,8 @@ private fun GalleryScreenContent(
                         enter = fadeIn()
                     ) {
                         IconButton(
-                            onClick = { onDownloadClick(imageDb) }
+                            onClick = { onDownloadClick(imageDb) },
+                            modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
                         ) {
                             Image(
                                 imageVector = MoviesIcons.FileDownload,
@@ -286,6 +289,7 @@ private fun GalleryScreenContent(
                         top.linkTo(parent.top, 8.dp)
                     }
                     .statusBarsPadding()
+                    .windowInsetsPadding(displayCutoutWindowInsets)
             ) {
                 Image(
                     imageVector = MoviesIcons.ArrowBack,
