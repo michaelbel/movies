@@ -99,6 +99,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Predictive Back Gesture](https://d.android.com/guide/navigation/custom-back/predictive-back-gesture)
 - [x] [Codebeat Automated Code Review](https://codebeat.co/projects/github-com-michaelbel-movies-develop)
 - [x] [Codacy Static Code Analysis](https://app.codacy.com/gh/michaelbel/movies/dashboard)
+- [x] [Display Content Edge-to-Edge](https://d.android.com/develop/ui/views/layout/edge-to-edge)
 - [x] [Support Landscape Orientation](https://d.android.com/guide/topics/large-screens/support-different-screen-sizes)
 - [ ] [Unit Tests](https://d.android.com/training/testing/local-tests)
 - [ ] [UI Tests](https://d.android.com/training/testing/instrumented-tests/ui-tests)
