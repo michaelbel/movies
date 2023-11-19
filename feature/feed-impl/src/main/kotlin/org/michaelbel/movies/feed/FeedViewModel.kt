@@ -20,7 +20,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.michaelbel.movies.common.appearance.FeedView
-import org.michaelbel.movies.common.inappupdate.di.InAppUpdate
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.feed.ktx.nameOrLocalList
@@ -32,13 +31,15 @@ import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.notifications.NotificationClient
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.platform.main.update.UpdateListener
+import org.michaelbel.movies.platform.main.update.UpdateService
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
     private val interactor: Interactor,
     private val notificationClient: NotificationClient,
     networkManager: NetworkManager,
-    inAppUpdate: InAppUpdate
+    updateService: UpdateService
 ): BaseViewModel() {
 
     val account: StateFlow<AccountDb?> = interactor.account
@@ -101,9 +102,11 @@ class FeedViewModel @Inject constructor(
     var updateAvailableMessage: Boolean by mutableStateOf(false)
 
     init {
-        inAppUpdate.onUpdateAvailableListener = { updateAvailable ->
-            updateAvailableMessage = updateAvailable
-        }
+        updateService.setUpdateAvailableListener(object: UpdateListener {
+            override fun onAvailable(result: Boolean) {
+                updateAvailableMessage = result
+            }
+        })
         subscribeNotificationsPermissionRequired()
     }
 

@@ -6,7 +6,6 @@ import androidx.navigation.NavDestination
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
-import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
@@ -14,20 +13,22 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.analytics.MoviesAnalytics
-import org.michaelbel.movies.common.inappupdate.di.InAppUpdate
 import org.michaelbel.movies.common.ktx.printlnDebug
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
+import org.michaelbel.movies.platform.main.messaging.MessagingService
+import org.michaelbel.movies.platform.main.messaging.TokenListener
+import org.michaelbel.movies.platform.main.update.UpdateService
 import org.michaelbel.movies.work.AccountUpdateWorker
 import org.michaelbel.movies.work.MoviesDatabaseWorker
 
 @HiltViewModel
 internal class MainViewModel @Inject constructor(
     private val interactor: Interactor,
-    private val inAppUpdate: InAppUpdate,
+    private val updateService: UpdateService,
     private val analytics: MoviesAnalytics,
-    private val firebaseMessaging: FirebaseMessaging,
+    private val messagingService: MessagingService,
     private val workManager: WorkManager
 ): BaseViewModel() {
 
@@ -57,7 +58,7 @@ internal class MainViewModel @Inject constructor(
     }
 
     fun startUpdateFlow(activity: Activity) {
-        inAppUpdate.startUpdateFlow(activity)
+        updateService.startUpdate(activity)
     }
 
     private fun fetchRemoteConfig() = launch {
@@ -65,10 +66,11 @@ internal class MainViewModel @Inject constructor(
     }
 
     private fun fetchFirebaseMessagingToken() {
-        firebaseMessaging.token.addOnCompleteListener { task ->
-            val token: String = task.result
-            printlnDebug("firebase messaging token: $token")
-        }
+        messagingService.setTokenListener(object: TokenListener {
+            override fun onNewToken(token: String) {
+                printlnDebug("firebase messaging token: $token")
+            }
+        })
     }
 
     private fun prepopulateDatabase() {

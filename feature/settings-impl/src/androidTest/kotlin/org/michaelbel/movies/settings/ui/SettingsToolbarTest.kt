@@ -22,8 +22,7 @@ internal class SettingsToolbarTest {
         composeTestRule.setContent {
             MoviesTheme {
                 SettingsToolbar(
-                    modifier = Modifier
-                        .statusBarsPadding(),
+                    modifier = Modifier.statusBarsPadding(),
                     onNavigationIconClick = {}
                 )
             }

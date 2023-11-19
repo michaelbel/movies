@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_channel_name">Новые фильмы</string>
+    <string name="notification_channel_description">Уведомления о новых фильмах</string>
+    <string name="notification_gallery_channel_name">Загрузка изображений</string>
+    <string name="notification_gallery_channel_description">Скачать изображение из галереи</string>
+</resources>

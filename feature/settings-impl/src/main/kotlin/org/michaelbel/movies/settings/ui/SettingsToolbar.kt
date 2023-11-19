@@ -20,8 +20,8 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 internal fun SettingsToolbar(
-    topAppBarScrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier,
+    topAppBarScrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
     onNavigationIconClick: () -> Unit,
 ) {
     TopAppBar(
@@ -59,8 +59,7 @@ private fun SettingsToolbarPreview() {
     MoviesTheme {
         SettingsToolbar(
             modifier = Modifier.statusBarsPadding(),
-            onNavigationIconClick = {},
-            topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+            onNavigationIconClick = {}
         )
     }
 }

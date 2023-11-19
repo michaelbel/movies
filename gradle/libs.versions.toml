@@ -150,10 +150,6 @@ gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "grad
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 [bundles]
-kotlin-coroutines = [
-    "kotlin-coroutines-android",
-    "kotlin-coroutines-core"
-]
 accompanist = [
     "accompanist-appcompat-theme",
     "accompanist-drawablepainter",
@@ -182,10 +178,25 @@ datastore = [
     "androidx-datastore-preferences",
     "androidx-datastore-preferences-core"
 ]
+gms = [
+#   "gms-play-services-ads",
+    "gms-play-services-base",
+    "gms-play-services-instantapps"
+]
+kotlin-coroutines = [
+    "kotlin-coroutines-android",
+    "kotlin-coroutines-core"
+]
 lifecycle = [
     "androidx-lifecycle-runtime-compose",
     "androidx-lifecycle-viewmodel-compose",
     "androidx-lifecycle-process"
+]
+firebase = [
+    "firebase-analytics-ktx",
+    "firebase-config-ktx",
+    "firebase-crashlytics-ktx",
+    "firebase-messaging-ktx"
 ]
 material = [
     "material",

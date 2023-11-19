@@ -185,10 +185,6 @@
                 android:value="androidx.startup"/>-->
 
             <meta-data
-                android:name="org.michaelbel.movies.common.timber.TimberInitializer"
-                android:value="androidx.startup" />
-
-            <meta-data
                 android:name="org.michaelbel.movies.network.flaker.FlakerInitializer"
                 android:value="androidx.startup" />
 

@@ -23,8 +23,6 @@ interface SettingsInteractor {
 
     val isPlayServicesAvailable: Flow<Boolean>
 
-    val isAppFromGooglePlay: Flow<Boolean>
-
     val appVersionData: Flow<AppVersionData>
 
     suspend fun selectTheme(appTheme: AppTheme)

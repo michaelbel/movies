@@ -7,9 +7,7 @@ plugins {
     alias(libs.plugins.application)
     alias(libs.plugins.kotlin)
     alias(libs.plugins.androidx.navigation.safeargs)
-    alias(libs.plugins.google.services)
     alias(libs.plugins.firebase.appdistribution)
-    alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.palantir.git)
     id("movies-android-hilt")
 }
@@ -47,6 +45,7 @@ afterEvaluate {
 
 android {
     namespace = "org.michaelbel.movies.app"
+    flavorDimensions += "version"
 
     defaultConfig {
         applicationId = "org.michaelbel.moviemade"
@@ -130,6 +129,17 @@ android {
         compose = true
     }
 
+    productFlavors {
+        create("gms") {
+            dimension = "version"
+            applicationId = "org.michaelbel.moviemade"
+        }
+        create("hms") {
+            dimension = "version"
+            applicationId = "org.michaelbel.movies"
+        }
+    }
+
     dynamicFeatures += setOf(":instant")
 
     composeOptions {
@@ -150,12 +160,15 @@ android {
     }
 }
 
+val gmsImplementation: Configuration by configurations
 dependencies {
+    gmsImplementation(project(":core:platform-services:gms"))
+
     implementation(project(":core:analytics"))
     implementation(project(":core:common"))
     implementation(project(":core:interactor"))
     implementation(project(":core:navigation"))
-    implementation(project(":core:notifications"))
+    implementation(project(":core:platform-services:interactor"))
     implementation(project(":core:ui"))
     implementation(project(":core:work"))
     implementation(project(":feature:auth"))
@@ -174,3 +187,6 @@ dependencies {
 
     lintChecks(libs.lint.checks)
 }
+
+apply(plugin = libs.plugins.google.services.get().pluginId)
+apply(plugin = libs.plugins.firebase.crashlytics.get().pluginId)

@@ -29,5 +29,5 @@ android {
 }
 
 dependencies {
-    implementation(libs.firebase.analytics.ktx)
+    implementation(project(":core:platform-services:gms"))
 }

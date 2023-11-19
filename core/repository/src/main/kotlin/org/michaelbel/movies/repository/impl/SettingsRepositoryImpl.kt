@@ -49,6 +49,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
         AppVersionData(
             version = context.packageInfo.versionName,
             code = context.packageInfo.code,
+            flavor = "GMS",
             isDebug = BuildConfig.DEBUG
         )
     )
