@@ -24,7 +24,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.settings.ktx.listText
 import org.michaelbel.movies.settings_impl.R
@@ -84,11 +83,7 @@ fun SettingsMovieListDialog(
         shape = RoundedCornerShape(28.dp),
         containerColor = MaterialTheme.colorScheme.surface,
         iconContentColor = MaterialTheme.colorScheme.secondary,
-        titleContentColor = MaterialTheme.colorScheme.onSurface,
-        properties = DialogProperties(
-            dismissOnBackPress = true,
-            dismissOnClickOutside = false
-        )
+        titleContentColor = MaterialTheme.colorScheme.onSurface
     )
 }
 
@@ -114,9 +109,7 @@ private fun SettingMovieListDialogContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp)
-                    .clickable {
-                        onMovieListSelect(movieList)
-                    },
+                    .clickable { onMovieListSelect(movieList) },
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(

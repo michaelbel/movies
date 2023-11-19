@@ -25,7 +25,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.settings.ktx.themeText
 import org.michaelbel.movies.settings_impl.R
@@ -85,11 +84,7 @@ internal fun SettingThemeDialog(
         shape = RoundedCornerShape(28.dp),
         containerColor = MaterialTheme.colorScheme.surface,
         iconContentColor = MaterialTheme.colorScheme.secondary,
-        titleContentColor = MaterialTheme.colorScheme.onSurface,
-        properties = DialogProperties(
-            dismissOnBackPress = true,
-            dismissOnClickOutside = false
-        )
+        titleContentColor = MaterialTheme.colorScheme.onSurface
     )
 }
 
@@ -109,9 +104,7 @@ private fun SettingThemeDialogContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp)
-                    .clickable {
-                        onThemeSelect(theme)
-                    },
+                    .clickable { onThemeSelect(theme) },
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(

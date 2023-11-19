@@ -24,7 +24,6 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.DialogProperties
 import org.michaelbel.movies.common.localization.model.AppLanguage
 import org.michaelbel.movies.settings.ktx.languageText
 import org.michaelbel.movies.settings_impl.R
@@ -84,11 +83,7 @@ fun SettingLanguageDialog(
         shape = RoundedCornerShape(28.dp),
         containerColor = MaterialTheme.colorScheme.surface,
         iconContentColor = MaterialTheme.colorScheme.secondary,
-        titleContentColor = MaterialTheme.colorScheme.onSurface,
-        properties = DialogProperties(
-            dismissOnBackPress = true,
-            dismissOnClickOutside = false
-        )
+        titleContentColor = MaterialTheme.colorScheme.onSurface
     )
 }
 
@@ -108,9 +103,7 @@ private fun SettingLanguageDialogContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp)
-                    .clickable {
-                        onLanguageSelect(language)
-                    },
+                    .clickable { onLanguageSelect(language) },
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
