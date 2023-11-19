@@ -17,8 +17,8 @@ Movies - easy way to discover popular movies. This is a simple TMDb client for A
     <img src="config/images/6.png" width="24%">
     <img src="config/images/7.png" width="24%">
     <img src="config/images/8.png" width="24%">
-    <img src="config/images/9.png" width="50%">
-    <img src="config/images/10.png" width="50%">
+    <img src="config/images/9.png" width="49%">
+    <img src="config/images/10.png" width="49%">
 </div>
 
 ## Build
