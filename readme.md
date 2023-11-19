@@ -97,6 +97,8 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Notification Runtime Permission](https://d.android.com/develop/ui/views/notifications/notification-permission)
 - [x] [Changing Launcher App Icon](https://d.android.com/guide/topics/manifest/activity-alias-element)
 - [x] [Predictive Back Gesture](https://d.android.com/guide/navigation/custom-back/predictive-back-gesture)
+- [x] [Codebeat Automated Code Review](https://codebeat.co/projects/github-com-michaelbel-movies-develop)
+- [x] [Codacy Static Code Analysis](https://app.codacy.com/gh/michaelbel/movies/dashboard)
 - [ ] [Unit Tests](https://d.android.com/training/testing/local-tests)
 - [ ] [UI Tests](https://d.android.com/training/testing/instrumented-tests/ui-tests)
 - [ ] [Baseline Profiles](https://d.android.com/topic/performance/baselineprofiles/overview)
