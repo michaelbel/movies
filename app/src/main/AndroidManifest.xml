@@ -29,7 +29,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Movies.Starting"
         android:icon="@mipmap/ic_launcher_red"
-        android:roundIcon="@mipmap/ic_launcher_red">
+        android:roundIcon="@mipmap/ic_launcher_red"
+        android:enableOnBackInvokedCallback="true">
 
         <profileable
             android:shell="true"
