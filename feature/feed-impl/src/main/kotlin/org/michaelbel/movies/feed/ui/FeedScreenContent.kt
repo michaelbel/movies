@@ -10,6 +10,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
@@ -59,6 +60,7 @@ import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.ui.compose.NotificationBottomSheet
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
+import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.ktx.isFailure
 import org.michaelbel.movies.ui.ktx.isLoading
 import org.michaelbel.movies.ui.ktx.throwable
@@ -206,9 +208,7 @@ private fun FeedScreenContent(
             topBar = {
                 FeedToolbar(
                     title = currentMovieList.titleText,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickableWithoutRipple { onScrollToTop() },
+                    modifier = Modifier.clickableWithoutRipple { onScrollToTop() },
                     account = account,
                     isUpdateIconVisible = isUpdateIconVisible,
                     onAuthIconClick = {
@@ -234,7 +234,7 @@ private fun FeedScreenContent(
                 pagingItems.isLoading -> {
                     FeedLoading(
                         feedView = currentFeedView,
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets),
                         paddingValues = paddingValues
                     )
                 }
@@ -242,6 +242,7 @@ private fun FeedScreenContent(
                     FeedFailure(
                         modifier = Modifier
                             .padding(paddingValues)
+                            .windowInsetsPadding(displayCutoutWindowInsets)
                             .fillMaxSize()
                             .clickableWithoutRipple { pagingItems.retry() },
                         onCheckConnectivityClick = {
@@ -262,7 +263,7 @@ private fun FeedScreenContent(
                         pagingItems = pagingItems,
                         onMovieClick = onNavigateToDetails,
                         contentPadding = paddingValues,
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
                     )
                 }
             }

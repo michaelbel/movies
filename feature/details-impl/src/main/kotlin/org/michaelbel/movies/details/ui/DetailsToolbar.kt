@@ -4,6 +4,7 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -16,6 +17,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import org.michaelbel.movies.ui.icons.MoviesIcons
+import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.TitlePreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -43,6 +45,7 @@ fun DetailsToolbar(
         actions = {
             AnimatedVisibility(
                 visible = movieUrl != null,
+                modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets),
                 enter = fadeIn()
             ) {
                 if (movieUrl != null) {
@@ -54,9 +57,8 @@ fun DetailsToolbar(
         },
         navigationIcon = {
             IconButton(
-                onClick = {
-                    onNavigationIconClick()
-                }
+                onClick = { onNavigationIconClick() },
+                modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
             ) {
                 Image(
                     imageVector = MoviesIcons.ArrowBack,

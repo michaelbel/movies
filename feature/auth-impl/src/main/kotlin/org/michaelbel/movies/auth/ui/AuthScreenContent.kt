@@ -55,6 +55,7 @@ import org.michaelbel.movies.network.TMDB_TERMS_OF_USE
 import org.michaelbel.movies.network.TMDB_URL
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
+import org.michaelbel.movies.ui.ktx.isPortrait
 
 @Composable
 fun AuthRoute(
@@ -95,7 +96,7 @@ internal fun AuthScreenContent(
 
     ConstraintLayout(
         modifier
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = if (isPortrait) 16.dp else 64.dp)
             .fillMaxWidth()
             .background(
                 color = MaterialTheme.colorScheme.primaryContainer,

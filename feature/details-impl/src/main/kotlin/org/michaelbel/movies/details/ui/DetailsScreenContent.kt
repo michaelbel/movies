@@ -3,6 +3,7 @@ package org.michaelbel.movies.details.ui
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
@@ -23,6 +24,7 @@ import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.network.connectivity.ktx.isAvailable
 import org.michaelbel.movies.network.ktx.isFailure
 import org.michaelbel.movies.network.ktx.throwable
+import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 
 @Composable
 fun DetailsRoute(
@@ -78,6 +80,7 @@ private fun DetailsScreenContent(
                 DetailsLoading(
                     modifier = Modifier
                         .padding(paddingValues)
+                        .windowInsetsPadding(displayCutoutWindowInsets)
                         .fillMaxSize()
                 )
             }
@@ -85,6 +88,7 @@ private fun DetailsScreenContent(
                 DetailsContent(
                     modifier = Modifier
                         .padding(paddingValues)
+                        .windowInsetsPadding(displayCutoutWindowInsets)
                         .fillMaxSize(),
                     movie = detailsState.movie,
                     onNavigateToGallery = onNavigateToGallery
@@ -94,6 +98,7 @@ private fun DetailsScreenContent(
                 DetailsFailure(
                     modifier = Modifier
                         .padding(paddingValues)
+                        .windowInsetsPadding(displayCutoutWindowInsets)
                         .fillMaxSize()
                 )
             }

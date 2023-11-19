@@ -9,6 +9,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -49,6 +50,7 @@ import org.michaelbel.movies.settings_impl.BuildConfig
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
+import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.R as UiR
 
 @Composable
@@ -192,6 +194,7 @@ private fun SettingsScreenContent(
                 appVersionData = appVersionData,
                 modifier = Modifier
                     .navigationBarsPadding()
+                    .windowInsetsPadding(displayCutoutWindowInsets)
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.primaryContainer)
             )
@@ -204,7 +207,9 @@ private fun SettingsScreenContent(
         containerColor = MaterialTheme.colorScheme.primaryContainer
     ) { paddingValues ->
         LazyColumn(
-            modifier = Modifier.navigationBarsPadding(),
+            modifier = Modifier
+                .navigationBarsPadding()
+                .windowInsetsPadding(displayCutoutWindowInsets),
             state = lazyListState,
             contentPadding = paddingValues
         ) {
