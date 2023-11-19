@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.grid.LazyGridState
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
@@ -117,6 +119,7 @@ private fun FeedScreenContent(
     val context: Context = LocalContext.current
     val scope: CoroutineScope = rememberCoroutineScope()
     val lazyListState: LazyListState = rememberLazyListState()
+    val lazyGridState: LazyGridState = rememberLazyGridState()
     val lazyStaggeredGridState: LazyStaggeredGridState = rememberLazyStaggeredGridState()
     val snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
     val notificationBottomSheetScaffoldState = rememberBottomSheetScaffoldState(
@@ -145,6 +148,9 @@ private fun FeedScreenContent(
     val onScrollToTop: () -> Unit = {
         scope.launch {
             lazyListState.animateScrollToItem(0)
+        }
+        scope.launch {
+            lazyGridState.animateScrollToItem(0)
         }
         scope.launch {
             lazyStaggeredGridState.animateScrollToItem(0)
@@ -226,24 +232,11 @@ private fun FeedScreenContent(
         ) { paddingValues ->
             when {
                 pagingItems.isLoading -> {
-                    when (currentFeedView) {
-                        is FeedView.FeedList -> {
-                            FeedCellLoading(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(top = 4.dp),
-                                paddingValues = paddingValues
-                            )
-                        }
-                        is FeedView.FeedGrid -> {
-                            FeedGridLoading(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(start = 8.dp, top = 8.dp, end = 8.dp),
-                                paddingValues = paddingValues
-                            )
-                        }
-                    }
+                    FeedLoading(
+                        feedView = currentFeedView,
+                        modifier = Modifier.fillMaxSize(),
+                        paddingValues = paddingValues
+                    )
                 }
                 pagingItems.isFailure -> {
                     FeedFailure(
@@ -262,8 +255,9 @@ private fun FeedScreenContent(
                 }
                 else -> {
                     FeedContent(
-                        currentFeedView = currentFeedView,
+                        feedView = currentFeedView,
                         lazyListState = lazyListState,
+                        lazyGridState = lazyGridState,
                         lazyStaggeredGridState = lazyStaggeredGridState,
                         pagingItems = pagingItems,
                         onMovieClick = onNavigateToDetails,

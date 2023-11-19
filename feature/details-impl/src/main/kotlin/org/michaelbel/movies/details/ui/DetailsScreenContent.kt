@@ -1,13 +1,16 @@
 package org.michaelbel.movies.details.ui
 
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import java.net.UnknownHostException
@@ -50,18 +53,22 @@ private fun DetailsScreenContent(
     onRetry: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val topAppBarScrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+
     if (networkStatus.isAvailable && detailsState.isFailure && detailsState.throwable is UnknownHostException) {
         onRetry()
     }
 
     Scaffold(
-        modifier = modifier,
+        modifier = modifier
+            .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
         topBar = {
             DetailsToolbar(
                 movieTitle = detailsState.toolbarTitle,
                 movieUrl = detailsState.movieUrl,
                 onNavigationIconClick = onBackClick,
-                modifier = Modifier.statusBarsPadding()
+                topAppBarScrollBehavior = topAppBarScrollBehavior,
+                modifier = Modifier.fillMaxWidth()
             )
         },
         containerColor = MaterialTheme.colorScheme.primaryContainer

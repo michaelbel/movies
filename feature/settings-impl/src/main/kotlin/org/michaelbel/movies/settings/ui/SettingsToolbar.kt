@@ -7,9 +7,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -21,8 +21,9 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 internal fun SettingsToolbar(
+    topAppBarScrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier,
-    onNavigationIconClick: () -> Unit
+    onNavigationIconClick: () -> Unit,
 ) {
     TopAppBar(
         title = {
@@ -51,8 +52,10 @@ internal fun SettingsToolbar(
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.Transparent
-        )
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            scrolledContainerColor = MaterialTheme.colorScheme.inversePrimary
+        ),
+        scrollBehavior = topAppBarScrollBehavior
     )
 }
 
@@ -62,7 +65,8 @@ private fun SettingsToolbarPreview() {
     MoviesTheme {
         SettingsToolbar(
             modifier = Modifier.statusBarsPadding(),
-            onNavigationIconClick = {}
+            onNavigationIconClick = {},
+            topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
         )
     }
 }
