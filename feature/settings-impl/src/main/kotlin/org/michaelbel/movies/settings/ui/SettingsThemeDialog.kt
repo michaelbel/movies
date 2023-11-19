@@ -1,12 +1,15 @@
 package org.michaelbel.movies.settings.ui
 
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.Text
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
@@ -96,8 +99,10 @@ private fun SettingThemeDialogContent(
     onThemeSelect: (AppTheme) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val scrollState: ScrollState = rememberScrollState()
+
     Column(
-        modifier = modifier
+        modifier = modifier.verticalScroll(scrollState)
     ) {
         AppTheme.VALUES.forEach { theme: AppTheme ->
             Row(

@@ -99,13 +99,13 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Predictive Back Gesture](https://d.android.com/guide/navigation/custom-back/predictive-back-gesture)
 - [x] [Codebeat Automated Code Review](https://codebeat.co/projects/github-com-michaelbel-movies-develop)
 - [x] [Codacy Static Code Analysis](https://app.codacy.com/gh/michaelbel/movies/dashboard)
+- [ ] [Support Landscape Orientation](https://d.android.com/guide/topics/large-screens/support-different-screen-sizes)
 - [ ] [Unit Tests](https://d.android.com/training/testing/local-tests)
 - [ ] [UI Tests](https://d.android.com/training/testing/instrumented-tests/ui-tests)
 - [ ] [Baseline Profiles](https://d.android.com/topic/performance/baselineprofiles/overview)
 - [ ] [Tablet and large screen support](https://d.android.com/about/versions/13/features/large-screens)
 - [ ] OAuth
 - [ ] [Animations](https://d.android.com/develop/ui/views/animations)
-- [ ] Landscape Orientation
 - [ ] [Support layout mirroring](https://d.android.com/training/basics/supporting-devices/languages#SupportLayoutMirroring)
 - [ ] Upload Bundle to Google Play Console
 - [ ] [ExoPlayer](https://d.android.com/guide/topics/media/exoplayer)

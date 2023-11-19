@@ -5,13 +5,16 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -23,7 +26,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -85,9 +87,10 @@ internal fun AuthScreenContent(
     val toolbarColor: Int = MaterialTheme.colorScheme.primary.toArgb()
 
     val focusManager: FocusManager = LocalFocusManager.current
+    val scrollState: ScrollState = rememberScrollState()
 
-    var username: String by remember { mutableStateOf("") }
-    var password: String by remember { mutableStateOf("") }
+    var username: String by rememberSaveable { mutableStateOf("") }
+    var password: String by rememberSaveable { mutableStateOf("") }
     var passwordVisible: Boolean by rememberSaveable { mutableStateOf(false) }
 
     ConstraintLayout(
@@ -98,6 +101,7 @@ internal fun AuthScreenContent(
                 color = MaterialTheme.colorScheme.primaryContainer,
                 shape = MaterialTheme.shapes.small
             )
+            .verticalScroll(scrollState)
     ) {
         val (
             toolbar,

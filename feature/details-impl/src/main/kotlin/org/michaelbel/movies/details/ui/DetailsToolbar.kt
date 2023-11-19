@@ -9,9 +9,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -25,6 +25,7 @@ fun DetailsToolbar(
     movieTitle: String,
     movieUrl: String?,
     onNavigationIconClick: () -> Unit,
+    topAppBarScrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
@@ -65,8 +66,10 @@ fun DetailsToolbar(
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.Transparent
-        )
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            scrolledContainerColor = MaterialTheme.colorScheme.inversePrimary
+        ),
+        scrollBehavior = topAppBarScrollBehavior
     )
 }
 
@@ -80,6 +83,7 @@ private fun DetailsToolbarPreview(
             movieTitle = title,
             movieUrl = null,
             onNavigationIconClick = {},
+            topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
             modifier = Modifier.statusBarsPadding()
         )
     }
