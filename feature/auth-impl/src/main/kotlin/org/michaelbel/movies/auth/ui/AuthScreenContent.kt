@@ -276,7 +276,7 @@ internal fun AuthScreenContent(
 
         Button(
             onClick = {
-                onSignInClick(username, password)
+                onSignInClick(username.trim(), password.trim())
             },
             modifier = Modifier
                 .constrainAs(signInButton) {
@@ -287,10 +287,7 @@ internal fun AuthScreenContent(
                     end.linkTo(parent.end, 16.dp)
                 },
             enabled = username.isNotEmpty() && password.isNotEmpty() && !loading,
-            contentPadding = PaddingValues(
-                horizontal = 24.dp,
-                vertical = 0.dp
-            )
+            contentPadding = PaddingValues(horizontal = 24.dp)
         ) {
             if (loading) {
                 CircularProgressIndicator(
