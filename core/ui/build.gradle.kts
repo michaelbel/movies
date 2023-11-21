@@ -2,7 +2,6 @@
 plugins {
     alias(libs.plugins.library)
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.detekt)
 }
 
 android {
@@ -45,9 +44,8 @@ android {
 
 dependencies {
     implementation(project(":core:common"))
-    implementation(project(":core:domain"))
     implementation(project(":core:network"))
-    implementation(project(":core:notifications"))
+    implementation(project(":core:persistence"))
     api(libs.androidx.core.splashscreen)
     api(libs.androidx.constraintlayout.compose)
     api(libs.coil.compose)

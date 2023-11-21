@@ -4,24 +4,29 @@ import android.app.Activity
 import android.content.Context
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.LayoutDirection
@@ -39,10 +44,13 @@ import org.michaelbel.movies.common.review.rememberReviewManager
 import org.michaelbel.movies.common.review.rememberReviewTask
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
-import org.michaelbel.movies.notifications.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.settings.SettingsViewModel
+import org.michaelbel.movies.settings.ktx.iconSnackbarText
 import org.michaelbel.movies.settings_impl.BuildConfig
 import org.michaelbel.movies.settings_impl.R
+import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
+import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
+import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.R as UiR
 
 @Composable
@@ -118,6 +126,8 @@ private fun SettingsScreenContent(
     val snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
     val reviewManager: ReviewManager = rememberReviewManager()
     val reviewInfo: ReviewInfo? = rememberReviewTask(reviewManager)
+    val topAppBarScrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val lazyListState: LazyListState = rememberLazyListState()
 
     val resultContract = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -145,6 +155,12 @@ private fun SettingsScreenContent(
         }
     }
 
+    val onScrollToTop: () -> Unit = {
+        scope.launch {
+            lazyListState.animateScrollToItem(0)
+        }
+    }
+
     fun onLaunchReviewFlow() {
         when {
             !isPlayServicesAvailable -> {
@@ -162,10 +178,14 @@ private fun SettingsScreenContent(
     }
 
     Scaffold(
-        modifier = modifier,
+        modifier = modifier
+            .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
         topBar = {
             SettingsToolbar(
-                modifier = Modifier.statusBarsPadding(),
+                topAppBarScrollBehavior = topAppBarScrollBehavior,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickableWithoutRipple { onScrollToTop() },
                 onNavigationIconClick = onBackClick
             )
         },
@@ -174,7 +194,9 @@ private fun SettingsScreenContent(
                 appVersionData = appVersionData,
                 modifier = Modifier
                     .navigationBarsPadding()
+                    .windowInsetsPadding(displayCutoutWindowInsets)
                     .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.primaryContainer)
             )
         },
         snackbarHost = {
@@ -184,87 +206,109 @@ private fun SettingsScreenContent(
         },
         containerColor = MaterialTheme.colorScheme.primaryContainer
     ) { paddingValues ->
-        Column(
-            modifier = Modifier.padding(paddingValues)
+        LazyColumn(
+            modifier = Modifier
+                .navigationBarsPadding()
+                .windowInsetsPadding(displayCutoutWindowInsets),
+            state = lazyListState,
+            contentPadding = paddingValues
         ) {
-            SettingsLanguageBox(
-                currentLanguage = currentLanguage,
-                onLanguageSelect = onLanguageSelect,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp)
-            )
-
-            SettingsThemeBox(
-                currentTheme = currentTheme,
-                onThemeSelect = onThemeSelect,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp)
-            )
-
-            SettingsAppearanceBox(
-                currentFeedView = currentFeedView,
-                onFeedViewSelect = onFeedViewSelect,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp)
-            )
-
-            SettingsMovieListBox(
-                currentMovieList = currentMovieList,
-                onMovieListSelect = onMovieListSelect,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp)
-            )
-
-            if (isDynamicColorsFeatureEnabled) {
-                SettingsDynamicColorsBox(
-                    isDynamicColorsEnabled = dynamicColors,
+            item {
+                SettingsLanguageBox(
+                    currentLanguage = currentLanguage,
+                    onLanguageSelect = onLanguageSelect,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp)
+                )
+            }
+            item {
+                SettingsThemeBox(
+                    currentTheme = currentTheme,
+                    onThemeSelect = onThemeSelect,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp)
+                )
+            }
+            item {
+                SettingsAppearanceBox(
+                    currentFeedView = currentFeedView,
+                    onFeedViewSelect = onFeedViewSelect,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp)
+                )
+            }
+            item {
+                SettingsMovieListBox(
+                    currentMovieList = currentMovieList,
+                    onMovieListSelect = onMovieListSelect,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp)
+                )
+            }
+            item {
+                if (isDynamicColorsFeatureEnabled) {
+                    SettingsDynamicColorsBox(
+                        isDynamicColorsEnabled = dynamicColors,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(52.dp)
+                            .clickable {
+                                onSetDynamicColors(!dynamicColors)
+                            }
+                    )
+                }
+            }
+            item {
+                if (isRtlFeatureEnabled) {
+                    SettingsRtlBox(
+                        isRtlEnabled = isRtlEnabled,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(52.dp)
+                            .clickable {
+                                onEnableRtlChanged(!isRtlEnabled)
+                            }
+                    )
+                }
+            }
+            item {
+                if (isPostNotificationsFeatureEnabled) {
+                    SettingsPostNotificationsBox(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(52.dp),
+                        onShowPermissionSnackbar = onShowPermissionSnackbar
+                    )
+                }
+            }
+            item {
+                SettingsReviewBox(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(52.dp)
                         .clickable {
-                            onSetDynamicColors(!dynamicColors)
+                            onLaunchReviewFlow()
                         }
                 )
             }
-
-            if (isRtlFeatureEnabled) {
-                SettingsRtlBox(
-                    isRtlEnabled = isRtlEnabled,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp)
-                        .clickable {
-                            onEnableRtlChanged(!isRtlEnabled)
-                        }
-                )
+            item {
+                if (BuildConfig.DEBUG) {
+                    SettingsNetworkRequestDelayBox(
+                        delay = networkRequestDelay,
+                        onDelayChangeFinished = onDelayChangeFinished,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
-
-            if (isPostNotificationsFeatureEnabled) {
-                SettingsPostNotificationsBox(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp),
-                    onShowPermissionSnackbar = onShowPermissionSnackbar
-                )
-            }
-
-            SettingsReviewBox(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(52.dp)
-                    .clickable {
-                        onLaunchReviewFlow()
-                    }
-            )
-
-            if (BuildConfig.DEBUG) {
-                SettingsNetworkRequestDelayBox(
-                    delay = networkRequestDelay,
-                    onDelayChangeFinished = onDelayChangeFinished,
+            item {
+                SettingsAppIconBox(
+                    onAppIconChanged = { iconAlias ->
+                        onShowSnackbar(context.getString(R.string.settings_app_launcher_icon_changed_to, iconAlias.iconSnackbarText(context)))
+                    },
                     modifier = Modifier.fillMaxWidth()
                 )
             }

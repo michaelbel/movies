@@ -6,7 +6,7 @@ data class AppVersionData(
     val isDebug: Boolean
 ) {
     companion object {
-        val None: AppVersionData = AppVersionData(
+        val Empty: AppVersionData = AppVersionData(
             version = "",
             code = 0L,
             isDebug = false

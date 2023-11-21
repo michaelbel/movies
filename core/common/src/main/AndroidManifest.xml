@@ -11,6 +11,11 @@
             android:exported="false"
             tools:node="merge">
 
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+
             <!--<meta-data
                 android:name="org.michaelbel.movies.common.crashlytics.FirebaseCrashlyticsInitializer"
                 android:value="androidx.startup"/>-->

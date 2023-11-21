@@ -5,13 +5,16 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
@@ -23,7 +26,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
@@ -46,13 +48,14 @@ import org.michaelbel.movies.auth.ktx.text
 import org.michaelbel.movies.auth_impl.R
 import org.michaelbel.movies.common.browser.openUrl
 import org.michaelbel.movies.common.exceptions.CreateSessionWithLoginException
-import org.michaelbel.movies.entities.TMDB_PRIVACY_POLICY
-import org.michaelbel.movies.entities.TMDB_REGISTER
-import org.michaelbel.movies.entities.TMDB_RESET_PASSWORD
-import org.michaelbel.movies.entities.TMDB_TERMS_OF_USE
-import org.michaelbel.movies.entities.TMDB_URL
+import org.michaelbel.movies.network.TMDB_PRIVACY_POLICY
+import org.michaelbel.movies.network.TMDB_REGISTER
+import org.michaelbel.movies.network.TMDB_RESET_PASSWORD
+import org.michaelbel.movies.network.TMDB_TERMS_OF_USE
+import org.michaelbel.movies.network.TMDB_URL
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
+import org.michaelbel.movies.ui.ktx.isPortrait
 
 @Composable
 fun AuthRoute(
@@ -85,19 +88,21 @@ internal fun AuthScreenContent(
     val toolbarColor: Int = MaterialTheme.colorScheme.primary.toArgb()
 
     val focusManager: FocusManager = LocalFocusManager.current
+    val scrollState: ScrollState = rememberScrollState()
 
-    var username: String by remember { mutableStateOf("") }
-    var password: String by remember { mutableStateOf("") }
+    var username: String by rememberSaveable { mutableStateOf("") }
+    var password: String by rememberSaveable { mutableStateOf("") }
     var passwordVisible: Boolean by rememberSaveable { mutableStateOf(false) }
 
     ConstraintLayout(
         modifier
-            .padding(horizontal = 16.dp)
+            .padding(horizontal = if (isPortrait) 16.dp else 64.dp)
             .fillMaxWidth()
             .background(
                 color = MaterialTheme.colorScheme.primaryContainer,
                 shape = MaterialTheme.shapes.small
             )
+            .verticalScroll(scrollState)
     ) {
         val (
             toolbar,
@@ -276,7 +281,7 @@ internal fun AuthScreenContent(
 
         Button(
             onClick = {
-                onSignInClick(username, password)
+                onSignInClick(username.trim(), password.trim())
             },
             modifier = Modifier
                 .constrainAs(signInButton) {
@@ -287,15 +292,11 @@ internal fun AuthScreenContent(
                     end.linkTo(parent.end, 16.dp)
                 },
             enabled = username.isNotEmpty() && password.isNotEmpty() && !loading,
-            contentPadding = PaddingValues(
-                horizontal = 24.dp,
-                vertical = 0.dp
-            )
+            contentPadding = PaddingValues(horizontal = 24.dp)
         ) {
             if (loading) {
                 CircularProgressIndicator(
-                    modifier = Modifier
-                        .size(24.dp),
+                    modifier = Modifier.size(24.dp),
                     strokeWidth = 2.dp
                 )
             } else {

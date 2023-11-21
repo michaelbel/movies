@@ -2,7 +2,6 @@
 plugins {
     alias(libs.plugins.library)
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.detekt)
     id("movies-android-hilt")
 }
 
@@ -26,6 +25,7 @@ android {
     kotlinOptions {
         freeCompilerArgs = freeCompilerArgs + listOf(
             "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-opt-in=kotlinx.serialization.ExperimentalSerializationApi",
             "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
             "-opt-in=androidx.paging.ExperimentalPagingApi"
         )
@@ -57,9 +57,10 @@ dependencies {
     api(project(":core:navigation"))
     api(project(":core:ui"))
     implementation(project(":core:common"))
-    implementation(project(":core:domain"))
+    implementation(project(":core:interactor"))
     implementation(project(":core:network"))
     implementation(project(":core:notifications"))
+    implementation(project(":core:persistence"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit.ktx)

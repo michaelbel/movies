@@ -8,6 +8,7 @@ import androidx.work.WorkManager
 import androidx.work.workDataOf
 import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -17,18 +18,17 @@ import org.michaelbel.movies.common.inappupdate.di.InAppUpdate
 import org.michaelbel.movies.common.ktx.printlnDebug
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
-import org.michaelbel.movies.domain.workers.AccountUpdateWorker
-import org.michaelbel.movies.domain.workers.MoviesDatabaseWorker
 import org.michaelbel.movies.interactor.Interactor
-import javax.inject.Inject
+import org.michaelbel.movies.work.AccountUpdateWorker
+import org.michaelbel.movies.work.MoviesDatabaseWorker
 
 @HiltViewModel
 internal class MainViewModel @Inject constructor(
     private val interactor: Interactor,
     private val inAppUpdate: InAppUpdate,
-    private val workManager: WorkManager,
     private val analytics: MoviesAnalytics,
-    private val firebaseMessaging: FirebaseMessaging
+    private val firebaseMessaging: FirebaseMessaging,
+    private val workManager: WorkManager
 ): BaseViewModel() {
 
     val currentTheme: StateFlow<AppTheme> = interactor.currentTheme
@@ -84,7 +84,7 @@ internal class MainViewModel @Inject constructor(
         workManager.enqueue(request)
     }
 
-    private companion object {
-        private const val MOVIES_DATA_FILENAME = "movies.json"
+    companion object {
+        const val MOVIES_DATA_FILENAME = "movies.json"
     }
 }

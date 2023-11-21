@@ -25,6 +25,11 @@
     <string name="settings_movie_list_upcoming">Upcoming</string>
     <string name="settings_network_request_delay">Network Request Delay</string>
     <string name="settings_network_request_delay_ms">%s ms</string>
+    <string name="settings_app_launcher_icon">App Icon</string>
+    <string name="settings_app_launcher_icon_red">Red</string>
+    <string name="settings_app_launcher_icon_purple">Purple</string>
+    <string name="settings_app_launcher_icon_brown">Brown</string>
+    <string name="settings_app_launcher_icon_changed_to">App icon changed to %s</string>
     <string name="settings_app_version_name">Movies v%s</string>
     <string name="settings_app_version_code">(%s)</string>
     <string name="settings_app_debug">Debug</string>

@@ -15,7 +15,6 @@ data class MovieResponse(
     @SerialName("genre_ids") val genreIds: List<Int>
 ) {
     companion object {
-        const val NOW_PLAYING = "now_playing"
         const val DEFAULT_PAGE_SIZE = 20
     }
 }

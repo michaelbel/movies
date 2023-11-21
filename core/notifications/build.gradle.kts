@@ -2,7 +2,6 @@
 plugins {
     alias(libs.plugins.library)
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.detekt)
     id("movies-android-hilt")
 }
 
@@ -38,6 +37,7 @@ android {
 
 dependencies {
     implementation(project(":core:common"))
-    implementation(project(":core:persistence"))
+    implementation(project(":core:interactor"))
+    implementation(project(":core:ui"))
     api(libs.firebase.messaging.ktx)
 }

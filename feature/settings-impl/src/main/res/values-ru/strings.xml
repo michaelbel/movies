@@ -25,6 +25,11 @@
     <string name="settings_movie_list_upcoming">Скоро</string>
     <string name="settings_network_request_delay">Задержка сетевого запроса</string>
     <string name="settings_network_request_delay_ms">%s мс</string>
+    <string name="settings_app_launcher_icon">Иконка Приложения</string>
+    <string name="settings_app_launcher_icon_red">Красная</string>
+    <string name="settings_app_launcher_icon_purple">Фиолетовая</string>
+    <string name="settings_app_launcher_icon_brown">Коричневая</string>
+    <string name="settings_app_launcher_icon_changed_to">Иконка приложения изменена на %s</string>
     <string name="settings_app_version_name">Movies v%s</string>
     <string name="settings_app_version_code">(%s)</string>
     <string name="settings_app_debug">Debug</string>

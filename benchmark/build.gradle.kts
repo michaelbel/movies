@@ -2,21 +2,14 @@ plugins {
     id("com.android.test")
     id("org.jetbrains.kotlin.android")
     id("kotlin-android")
-    alias(libs.plugins.detekt)
 }
 
 android {
     namespace = "org.michaelbel.movies.benchmark"
-    compileSdk = libs.versions.compile.sdk.get().toInt()
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + listOf(
-            "-opt-in=androidx.benchmark.macro.ExperimentalBaselineProfilesApi"
-        )
-    }
 
     defaultConfig {
-        minSdk = libs.versions.benchmark.min.sdk.get().toInt()
+        minSdk = libs.versions.min.sdk.get().toInt()
+        compileSdk = libs.versions.compile.sdk.get().toInt()
         targetSdk = libs.versions.target.sdk.get().toInt()
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -29,12 +22,19 @@ android {
         }
     }
 
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "-opt-in=androidx.benchmark.macro.ExperimentalBaselineProfilesApi"
+        )
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
 
     targetProjectPath = ":app"
+
     experimentalProperties["android.experimental.self-instrumenting"] = true
 }
 

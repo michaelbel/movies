@@ -7,12 +7,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import java.util.concurrent.TimeUnit
+import javax.inject.Singleton
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.michaelbel.movies.network.BuildConfig
-import java.util.concurrent.TimeUnit
-import javax.inject.Singleton
+import org.michaelbel.movies.network.okhttp.interceptor.ApikeyInterceptor
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -58,14 +59,22 @@ internal object OkhttpModule {
 
     @Provides
     @Singleton
+    fun provideApikeyInterceptor(): ApikeyInterceptor {
+        return ApikeyInterceptor(BuildConfig.TMDB_API_KEY)
+    }
+
+    @Provides
+    @Singleton
     fun provideOkHttp(
         chuckerInterceptor: ChuckerInterceptor,
         httpLoggingInterceptor: HttpLoggingInterceptor,
+        apikeyInterceptor: ApikeyInterceptor,
         cache: Cache
     ): OkHttpClient {
         val builder = OkHttpClient.Builder().apply {
             addInterceptor(chuckerInterceptor)
             addInterceptor(httpLoggingInterceptor)
+            addInterceptor(apikeyInterceptor)
             callTimeout(CALL_TIMEOUT_SECONDS, TimeUnit.SECONDS)
             connectTimeout(CONNECT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
             readTimeout(READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)

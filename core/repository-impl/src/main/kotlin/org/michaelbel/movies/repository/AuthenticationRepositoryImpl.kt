@@ -1,10 +1,11 @@
 package org.michaelbel.movies.repository
 
+import javax.inject.Inject
+import javax.inject.Singleton
 import org.michaelbel.movies.common.exceptions.CreateRequestTokenException
 import org.michaelbel.movies.common.exceptions.CreateSessionException
 import org.michaelbel.movies.common.exceptions.CreateSessionWithLoginException
 import org.michaelbel.movies.common.exceptions.DeleteSessionException
-import org.michaelbel.movies.entities.tmdbApiKey
 import org.michaelbel.movies.network.model.DeletedSession
 import org.michaelbel.movies.network.model.RequestToken
 import org.michaelbel.movies.network.model.Session
@@ -14,8 +15,6 @@ import org.michaelbel.movies.network.model.Username
 import org.michaelbel.movies.network.service.authentication.AuthenticationService
 import org.michaelbel.movies.persistence.database.dao.AccountDao
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
 internal class AuthenticationRepositoryImpl @Inject constructor(
@@ -26,7 +25,7 @@ internal class AuthenticationRepositoryImpl @Inject constructor(
 
     override suspend fun createRequestToken(): Token {
         return try {
-            val token: Token = authenticationService.createRequestToken(tmdbApiKey)
+            val token: Token = authenticationService.createRequestToken()
             if (!token.success) {
                 throw CreateRequestTokenException
             }
@@ -43,7 +42,6 @@ internal class AuthenticationRepositoryImpl @Inject constructor(
     ): Token {
         return try {
             val token: Token = authenticationService.createSessionWithLogin(
-                apiKey = tmdbApiKey,
                 username = Username(
                     username = username,
                     password = password,
@@ -62,7 +60,6 @@ internal class AuthenticationRepositoryImpl @Inject constructor(
     override suspend fun createSession(token: String): Session {
         return try {
             val session: Session = authenticationService.createSession(
-                apiKey = tmdbApiKey,
                 authToken = RequestToken(token)
             )
             if (session.success) {
@@ -78,14 +75,13 @@ internal class AuthenticationRepositoryImpl @Inject constructor(
 
     override suspend fun deleteSession() {
         try {
-            val sessionId: String = preferences.getSessionId().orEmpty()
+            val sessionId: String = preferences.sessionId().orEmpty()
             val sessionRequest = SessionRequest(sessionId)
             val deletedSession: DeletedSession = authenticationService.deleteSession(
-                apiKey = tmdbApiKey,
                 sessionRequest = sessionRequest
             )
             if (deletedSession.success) {
-                val accountId: Int = preferences.getAccountId() ?: 0
+                val accountId: Int = preferences.accountId() ?: 0
                 accountDao.removeById(accountId)
                 preferences.run {
                     removeSessionId()

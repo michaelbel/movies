@@ -7,10 +7,10 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
 class MoviesPreferences @Inject constructor(
     private val dataStore: DataStore<Preferences>
@@ -67,7 +67,7 @@ class MoviesPreferences @Inject constructor(
         }
     }
 
-    suspend fun getNetworkRequestDelay(): Long? {
+    suspend fun networkRequestDelay(): Long? {
         return dataStore.data.first()[PREFERENCE_NETWORK_REQUEST_DELAY_KEY]?.toLong()
     }
 
@@ -77,7 +77,7 @@ class MoviesPreferences @Inject constructor(
         }
     }
 
-    suspend fun getSessionId(): String? {
+    suspend fun sessionId(): String? {
         return dataStore.data.first()[PREFERENCE_SESSION_ID_KEY]
     }
 
@@ -93,7 +93,7 @@ class MoviesPreferences @Inject constructor(
         }
     }
 
-    suspend fun getAccountId(): Int? {
+    suspend fun accountId(): Int? {
         return dataStore.data.first()[PREFERENCE_ACCOUNT_ID_KEY]
     }
 
@@ -109,7 +109,7 @@ class MoviesPreferences @Inject constructor(
         }
     }
 
-    suspend fun getAccountExpireTime(): Long? {
+    suspend fun accountExpireTime(): Long? {
         return dataStore.data.first()[PREFERENCE_ACCOUNT_EXPIRE_TIME_KEY]
     }
 
@@ -119,7 +119,7 @@ class MoviesPreferences @Inject constructor(
         }
     }
 
-    suspend fun getNotificationExpireTime(): Long? {
+    suspend fun notificationExpireTime(): Long? {
         return dataStore.data.first()[PREFERENCE_NOTIFICATION_EXPIRE_TIME_KEY]
     }
 

@@ -32,12 +32,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.util.VelocityTracker
-import java.lang.Float.max
-import kotlin.math.abs
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import java.lang.Float.max
+import kotlin.math.abs
 
 /**
  * A state object that manage scale and offset.
@@ -295,7 +295,6 @@ class ZoomState(
     }
 
     suspend fun endGesture() = coroutineScope {
-        Log.e("2", "endGesture")
         val velocity = velocityTracker.calculateVelocity()
         if (velocity.x != 0f) {
             launch {

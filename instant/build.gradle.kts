@@ -27,6 +27,7 @@ android {
 
 dependencies {
     implementation(project(":app"))
+    implementation(project(":core:common"))
     implementation(project(":core:ui"))
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)

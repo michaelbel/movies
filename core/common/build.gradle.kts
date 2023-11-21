@@ -2,7 +2,6 @@
 plugins {
     alias(libs.plugins.library)
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.detekt)
     id("movies-android-hilt")
 }
 
@@ -47,7 +46,7 @@ android {
 
 dependencies {
     implementation(project(":core:analytics"))
-    api(project(":core:entities"))
+    implementation(project(":core:network"))
     api(libs.bundles.kotlin.coroutines)
     api(libs.firebase.config.ktx)
     api(libs.gms.play.services.base)
@@ -55,11 +54,14 @@ dependencies {
     api(libs.androidx.activity.compose)
     api(libs.androidx.core.ktx)
     api(libs.androidx.paging.compose)
+    api(libs.androidx.work.runtime.ktx)
+    api(libs.androidx.hilt.work)
     api(libs.bundles.lifecycle)
     api(libs.timber)
     implementation(libs.bundles.appcompat)
     implementation(libs.firebase.crashlytics.ktx)
     implementation(libs.androidx.startup.runtime)
     implementation(libs.androidx.browser)
+
     lintChecks(libs.lint.checks)
 }

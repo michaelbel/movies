@@ -2,7 +2,6 @@
 plugins {
     alias(libs.plugins.library)
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.detekt)
     id("movies-android-hilt")
 }
 
@@ -55,8 +54,10 @@ dependencies {
     api(project(":core:navigation"))
     api(project(":core:ui"))
     implementation(project(":core:common"))
-    implementation(project(":core:domain"))
+    implementation(project(":core:interactor"))
     implementation(project(":core:network"))
+    implementation(libs.androidx.work.runtime.ktx)
+    implementation(libs.androidx.hilt.work)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit.ktx)

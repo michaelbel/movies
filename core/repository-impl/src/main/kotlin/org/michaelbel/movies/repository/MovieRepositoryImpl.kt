@@ -3,16 +3,13 @@ package org.michaelbel.movies.repository
 import androidx.paging.PagingSource
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.common.localization.LocaleController
-import org.michaelbel.movies.entities.Either
-import org.michaelbel.movies.entities.isTmdbApiKeyEmpty
-import org.michaelbel.movies.entities.response
-import org.michaelbel.movies.entities.tmdbApiKey
-import org.michaelbel.movies.network.model.ImagesResponse
+import org.michaelbel.movies.network.Either
+import org.michaelbel.movies.network.isTmdbApiKeyEmpty
 import org.michaelbel.movies.network.model.Movie
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
+import org.michaelbel.movies.network.response
 import org.michaelbel.movies.network.service.movie.MovieService
 import org.michaelbel.movies.persistence.database.dao.MovieDao
 import org.michaelbel.movies.persistence.database.dao.PagingKeyDao
@@ -34,10 +31,6 @@ internal class MovieRepositoryImpl @Inject constructor(
         return movieDao.pagingSource(movieList)
     }
 
-    override fun movieImage(movieId: Int): Flow<String> {
-        return movieDao.movieImage(movieId)
-    }
-
     override suspend fun moviesResult(movieList: String, page: Int): Result<MovieResponse> {
         if (isTmdbApiKeyEmpty && movieDao.isEmpty(MovieDb.MOVIES_LOCAL_LIST)) {
             checkApiKeyNotNullException()
@@ -45,7 +38,6 @@ internal class MovieRepositoryImpl @Inject constructor(
 
         return movieService.movies(
             list = movieList,
-            apiKey = tmdbApiKey,
             language = localeController.language,
             page = page
         )
@@ -60,19 +52,11 @@ internal class MovieRepositoryImpl @Inject constructor(
             } else {
                 val movie: Movie = movieService.movie(
                     id = movieId,
-                    apiKey = tmdbApiKey,
                     language = localeController.language
                 )
                 movie.mapToMovieDb
             }
         }
-    }
-
-    override suspend fun movieImages(movieId: Int): ImagesResponse {
-        return movieService.images(
-            id = movieId,
-            apiKey = tmdbApiKey
-        )
     }
 
     override suspend fun removeAllMovies(movieList: String) {

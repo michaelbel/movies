@@ -1,6 +1,6 @@
+import java.io.FileInputStream
 import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
-import java.io.FileInputStream
 
 @Suppress("dsl_scope_violation")
 plugins {
@@ -11,7 +11,6 @@ plugins {
     alias(libs.plugins.firebase.appdistribution)
     alias(libs.plugins.firebase.crashlytics)
     alias(libs.plugins.palantir.git)
-    alias(libs.plugins.detekt)
     id("movies-android-hilt")
 }
 
@@ -91,6 +90,7 @@ android {
             isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
             applicationIdSuffix = MoviesBuildType.RELEASE.applicationIdSuffix
+            manifestPlaceholders += mapOf("appName" to "@string/app_name")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
@@ -98,7 +98,6 @@ android {
                 "okhttp3.pro",
                 "coroutines.pro"
             )
-
             firebaseAppDistribution {
                 appId = "1:770317857182:android:876190afbc53df31"
                 artifactType = "APK"
@@ -113,6 +112,7 @@ android {
             isMinifyEnabled = false
             isShrinkResources = false
             applicationIdSuffix = MoviesBuildType.DEBUG.applicationIdSuffix
+            manifestPlaceholders += mapOf("appName" to "@string/app_name_dev")
         }
         create("benchmark") {
             initWith(getByName("release"))
@@ -153,11 +153,11 @@ android {
 dependencies {
     implementation(project(":core:analytics"))
     implementation(project(":core:common"))
-    implementation(project(":core:domain"))
+    implementation(project(":core:interactor"))
     implementation(project(":core:navigation"))
     implementation(project(":core:notifications"))
     implementation(project(":core:ui"))
-
+    implementation(project(":core:work"))
     implementation(project(":feature:auth"))
     implementation(project(":feature:account"))
     implementation(project(":feature:details"))

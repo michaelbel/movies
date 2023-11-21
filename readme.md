@@ -17,6 +17,8 @@ Movies - easy way to discover popular movies. This is a simple TMDb client for A
     <img src="config/images/6.png" width="24%">
     <img src="config/images/7.png" width="24%">
     <img src="config/images/8.png" width="24%">
+    <img src="config/images/9.png" width="49%">
+    <img src="config/images/10.png" width="49%">
 </div>
 
 ## Build
@@ -29,7 +31,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 ## Download
 
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="" height="80">](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
-[<img src="config/images/direct-apk.png" alt="" height="80">](https://github.com/michaelbel/movies/releases/download/1.4.6/Movies-v1.4.6.1196.-release.apk)
+[<img src="config/images/direct-apk.png" alt="" height="80">](https://github.com/michaelbel/movies/releases/download/1.5.1/Movies-v1.5.1.1347.-release.apk)
 
 ## Technologies
 
@@ -41,15 +43,15 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Kotlin Symbol Processing API](https://d.android.com/studio/build/migrate-to-ksp)
 - [x] [Gradle Plugin](https://d.android.com/studio/releases/gradle-plugin)
 - [x] [Gradle Version Catalog](https://d.android.com/build/migrate-to-catalogs)
-- [x] MinSDK 21
+- [x] MinSDK 23
 - [x] TargetSDK 34
 - [x] CompileSDK 34
 - [x] [Material3](https://m3.material.io)
 - [x] [Dark Theme](https://d.android.com/develop/ui/views/theming/darktheme)
-- [x] [Dynamic Colors](https://d.android.com/develop/ui/views/theming/dynamic-colors)
+- [x] [Material You Dynamic Colors](https://d.android.com/develop/ui/views/theming/dynamic-colors)
 - [x] [Themed App Icon](https://d.android.com/develop/ui/views/launch/icon_design_adaptive)
-- [x] 100% [Kotlin](https://d.android.com/kotlin)
-- [x] 100% [Jetpack Compose](https://d.android.com/jetpack/compose)
+- [x] [Kotlin](https://d.android.com/kotlin)
+- [x] [Jetpack Compose](https://d.android.com/jetpack/compose)
 - [x] [Accompanist](https://github.com/google/accompanist)
 - [x] [Compose PreviewParameterProvider](https://d.android.com/jetpack/compose/tooling#previewparameter)
 - [x] [Downloadable Fonts](https://d.android.com/develop/ui/views/text-and-emoji/downloadable-fonts)
@@ -64,7 +66,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [DataStore](https://d.android.com/datastore)
 - [x] [Startup](https://d.android.com/jetpack/androidx/releases/startup)
 - [x] [Navigation](https://d.android.com/guide/navigation)
-- [x] [Paging](https://d.android.com/topic/libraries/architecture/paging/v3-overview) (RemoteMediator & PagingSource)
+- [x] [Paging3](https://d.android.com/topic/libraries/architecture/paging/v3-overview)
 - [x] [ConstraintLayout](https://d.android.com/develop/ui/views/layout/constraint-layout)
 - [x] [Browser](https://d.android.com/jetpack/androidx/releases/browser)
 - [x] [OkHttp](https://github.com/square/okhttp)
@@ -82,7 +84,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [In-App Updates](https://d.android.com/guide/playcore/in-app-updates)
 - [x] [App Shortcuts](https://d.android.com/develop/ui/views/launch/shortcuts)
 - [x] [Dependabot](https://github.com/dependabot)
-- [x] [Github Actions](https://github.com/michaelbel/movies/tree/develop/.github/workflows) CI/CD
+- [x] [Github Actions](https://github.com/michaelbel/movies/tree/develop/.github/workflows)
 - [x] [Github Releases](https://github.com/michaelbel/movies/releases)
 - [x] [Lint](https://d.android.com/studio/write/lint)
 - [x] [Detekt](https://github.com/detekt/detekt)
@@ -95,16 +97,23 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Benchmark](https://d.android.com/topic/performance/benchmarking/benchmarking-overview)
 - [x] [Support Localization](https://d.android.com/guide/topics/resources/localization)
 - [x] [Notification Runtime Permission](https://d.android.com/develop/ui/views/notifications/notification-permission)
+- [x] [Changing Launcher App Icon](https://d.android.com/guide/topics/manifest/activity-alias-element)
+- [x] [Predictive Back Gesture](https://d.android.com/guide/navigation/custom-back/predictive-back-gesture)
+- [x] [Codebeat Automated Code Review](https://codebeat.co/projects/github-com-michaelbel-movies-develop)
+- [x] [Codacy Static Code Analysis](https://app.codacy.com/gh/michaelbel/movies/dashboard)
+- [x] [Display Content Edge-to-Edge](https://d.android.com/develop/ui/views/layout/edge-to-edge)
+- [x] [Support Landscape Orientation](https://d.android.com/guide/topics/large-screens/support-different-screen-sizes)
+- [x] [Support Display Cutouts](https://d.android.com/jetpack/compose/system/cutouts)
 - [ ] [Unit Tests](https://d.android.com/training/testing/local-tests)
 - [ ] [UI Tests](https://d.android.com/training/testing/instrumented-tests/ui-tests)
 - [ ] [Baseline Profiles](https://d.android.com/topic/performance/baselineprofiles/overview)
 - [ ] [Tablet and large screen support](https://d.android.com/about/versions/13/features/large-screens)
 - [ ] OAuth
 - [ ] [Animations](https://d.android.com/develop/ui/views/animations)
-- [ ] Landscape Orientation
 - [ ] [Support layout mirroring](https://d.android.com/training/basics/supporting-devices/languages#SupportLayoutMirroring)
 - [ ] Upload Bundle to Google Play Console
 - [ ] [ExoPlayer](https://d.android.com/guide/topics/media/exoplayer)
+- [ ] [Google Play Instant](https://d.android.com/topic/google-play-instant/overview)
 
 ## Issues
 If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).

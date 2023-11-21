@@ -4,31 +4,25 @@ import android.os.Build
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.lifecycle.DefaultLifecycleObserver
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.list.MovieList
+import org.michaelbel.movies.common.localization.LocaleController
 import org.michaelbel.movies.common.localization.model.AppLanguage
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.interactor.usecase.DelayUseCase
-import org.michaelbel.movies.interactor.usecase.SelectFeedViewCase
-import org.michaelbel.movies.interactor.usecase.SelectLanguageCase
-import org.michaelbel.movies.interactor.usecase.SelectMovieListCase
-import org.michaelbel.movies.interactor.usecase.SelectThemeCase
-import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val interactor: Interactor,
-    private val selectLanguageCase: SelectLanguageCase,
-    private val selectThemeCase: SelectThemeCase,
-    private val selectFeedViewCase: SelectFeedViewCase,
-    private val selectMovieListCase: SelectMovieListCase,
+    private val localeController: LocaleController,
     private val delayUseCase: DelayUseCase
 ): BaseViewModel(), DefaultLifecycleObserver {
 
@@ -98,23 +92,23 @@ class SettingsViewModel @Inject constructor(
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
-            initialValue = AppVersionData.None
+            initialValue = AppVersionData.Empty
         )
 
     fun selectLanguage(language: AppLanguage) = launch {
-        selectLanguageCase(language)
+        localeController.selectLanguage(language)
     }
 
     fun selectTheme(theme: AppTheme) = launch {
-        selectThemeCase(theme)
+        interactor.selectTheme(theme)
     }
 
     fun selectFeedView(feedView: FeedView) = launch {
-        selectFeedViewCase(feedView)
+        interactor.selectFeedView(feedView)
     }
 
     fun selectMovieList(movieList: MovieList) = launch {
-        selectMovieListCase(movieList)
+        interactor.selectMovieList(movieList)
     }
 
     fun setDynamicColors(value: Boolean) = launch {

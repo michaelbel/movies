@@ -2,7 +2,6 @@
 plugins {
     alias(libs.plugins.library)
     alias(libs.plugins.kotlin)
-    alias(libs.plugins.detekt)
     id("movies-android-hilt")
 }
 
@@ -38,7 +37,6 @@ android {
 
 dependencies {
     api(project(":core:common"))
-    api(project(":core:entities"))
     api(project(":core:network"))
     api(project(":core:persistence"))
 }

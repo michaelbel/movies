@@ -7,5 +7,9 @@ interface AccountRepository {
 
     val account: Flow<AccountDb?>
 
+    suspend fun accountId(): Int?
+
+    suspend fun accountExpireTime(): Long?
+
     suspend fun accountDetails()
 }

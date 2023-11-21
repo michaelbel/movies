@@ -19,3 +19,7 @@ plugins {
 detekt {
     config.setFrom("$projectDir/config/detekt/detekt.yml")
 }
+
+subprojects {
+    apply(plugin = "io.gitlab.arturbosch.detekt")
+}

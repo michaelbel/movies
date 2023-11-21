@@ -8,7 +8,6 @@ interface AccountService {
 
     @GET("account")
     suspend fun accountDetails(
-        @Query("api_key") apiKey: String,
         @Query("session_id") sessionId: String
     ): Account
 }

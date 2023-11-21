@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.common.ktx.notificationManager
-import org.michaelbel.movies.notifications.ktx.appNotificationSettingsIntent
+import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.lifecycle.OnResume
 import org.michaelbel.movies.ui.preview.DevicePreviews
