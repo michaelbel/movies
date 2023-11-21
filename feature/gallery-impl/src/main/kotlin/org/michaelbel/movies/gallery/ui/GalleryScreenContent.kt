@@ -150,176 +150,183 @@ private fun GalleryScreenContent(
         },
         containerColor = MaterialTheme.colorScheme.primaryContainer
     ) { paddingValues ->
-        ConstraintLayout(
-            modifier = Modifier.fillMaxSize()
-        ) {
-            val (pager, backIcon, title) = createRefs()
-
-            val initialPage = 0
-            val pagerState = rememberPagerState(
-                initialPage = initialPage,
-                initialPageOffsetFraction = 0F,
-                pageCount = { movieImages.size }
-            )
-
-            var currentPage: Int by remember { mutableStateOf(0) }
-            LaunchedEffect(pagerState) {
-                snapshotFlow { pagerState.currentPage }.collect { page ->
-                    if (currentPage != page) {
-                        hapticFeedback.performHapticFeedback(hapticFeedbackType = HapticFeedbackType.LongPress)
-                        currentPage = page
-                    }
-                }
+        when {
+            movieImages.isEmpty() -> {
+                GalleryLoading(
+                    modifier = Modifier.fillMaxSize()
+                )
             }
-
-            LoopHorizontalPager(
-                pagerState = pagerState,
-                modifier = Modifier.constrainAs(pager) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start)
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end)
-                    bottom.linkTo(parent.bottom)
-                }
-            ) { page ->
-                currentPage = page
-
-                val imageDb: ImageDb = movieImages[page]
-                var imageDiskCacheKey: String? by remember { mutableStateOf(null) }
-
-                var image: String by remember { mutableStateOf("") }
-                image = imageDb.original
-
-                var loading: Boolean by remember { mutableStateOf(true) }
-
+            else -> {
                 ConstraintLayout(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    val (asyncImage, progressBar, downloadIcon) = createRefs()
+                    val (pager, backIcon, title) = createRefs()
 
-                    val zoomState = rememberZoomState()
-
-                    AsyncImage(
-                        model = ImageRequest.Builder(context)
-                            .data(image)
-                            .crossfade(true)
-                            .placeholderMemoryCacheKey(imageDiskCacheKey)
-                            .build(),
-                        contentDescription = null,
-                        modifier = Modifier
-                            .constrainAs(asyncImage) {
-                                width = Dimension.fillToConstraints
-                                height = Dimension.fillToConstraints
-                                start.linkTo(parent.start)
-                                top.linkTo(parent.top)
-                                end.linkTo(parent.end)
-                                bottom.linkTo(parent.bottom)
-                            }
-                            .zoomable(zoomState),
-                        transform = { state ->
-                            loading = state is AsyncImagePainter.State.Loading
-
-                            if (state is AsyncImagePainter.State.Success) {
-                                zoomState.setContentSize(state.painter.intrinsicSize)
-                                imageDiskCacheKey = state.result.diskCacheKey
-                                if (image.isNotOriginal) {
-                                    image = imageDb.original
-                                }
-                            }
-
-                            state
-                        },
-                        contentScale = ContentScale.Fit
+                    val initialPage = 0
+                    val pagerState = rememberPagerState(
+                        initialPage = initialPage,
+                        initialPageOffsetFraction = 0F,
+                        pageCount = { movieImages.size }
                     )
 
-                    if (loading) {
-                        LinearProgressIndicator(
-                            modifier = Modifier
-                                .constrainAs(progressBar) {
-                                    width = Dimension.wrapContent
-                                    height = Dimension.wrapContent
-                                    start.linkTo(parent.start)
-                                    top.linkTo(parent.top)
-                                    end.linkTo(parent.end)
-                                    bottom.linkTo(parent.bottom)
-                                }
-                                .zoomable(zoomState),
-                            trackColor = MaterialTheme.colorScheme.inversePrimary
-                        )
-                    }
-
-                    AnimatedVisibility(
-                        visible = !loading,
-                        modifier = Modifier
-                            .constrainAs(downloadIcon) {
-                                width = Dimension.wrapContent
-                                height = Dimension.wrapContent
-                                end.linkTo(parent.end, 4.dp)
-                                top.linkTo(parent.top, 8.dp)
+                    var currentPage: Int by remember { mutableStateOf(0) }
+                    LaunchedEffect(pagerState) {
+                        snapshotFlow { pagerState.currentPage }.collect { page ->
+                            if (currentPage != page) {
+                                hapticFeedback.performHapticFeedback(hapticFeedbackType = HapticFeedbackType.LongPress)
+                                currentPage = page
                             }
-                            .statusBarsPadding(),
-                        enter = fadeIn()
-                    ) {
-                        IconButton(
-                            onClick = { onDownloadClick(imageDb) },
-                            modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
-                        ) {
-                            Image(
-                                imageVector = MoviesIcons.FileDownload,
-                                contentDescription = null,
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
-                            )
                         }
                     }
 
-                    BackHandler(zoomState.isScaled) {
-                        coroutineScope.launch { zoomState.reset() }
+                    LoopHorizontalPager(
+                        pagerState = pagerState,
+                        modifier = Modifier.constrainAs(pager) {
+                            width = Dimension.fillToConstraints
+                            height = Dimension.wrapContent
+                            start.linkTo(parent.start)
+                            top.linkTo(parent.top)
+                            end.linkTo(parent.end)
+                            bottom.linkTo(parent.bottom)
+                        }
+                    ) { page ->
+                        currentPage = page
+
+                        val imageDb: ImageDb = movieImages[page]
+                        var imageDiskCacheKey: String? by remember { mutableStateOf(null) }
+
+                        var image: String by remember { mutableStateOf("") }
+                        image = imageDb.original
+
+                        var loading: Boolean by remember { mutableStateOf(true) }
+
+                        ConstraintLayout(
+                            modifier = Modifier.fillMaxSize()
+                        ) {
+                            val (asyncImage, progressBar, downloadIcon) = createRefs()
+
+                            val zoomState = rememberZoomState()
+
+                            AsyncImage(
+                                model = ImageRequest.Builder(context)
+                                    .data(image)
+                                    .crossfade(true)
+                                    .placeholderMemoryCacheKey(imageDiskCacheKey)
+                                    .build(),
+                                contentDescription = null,
+                                modifier = Modifier
+                                    .constrainAs(asyncImage) {
+                                        width = Dimension.fillToConstraints
+                                        height = Dimension.fillToConstraints
+                                        start.linkTo(parent.start)
+                                        top.linkTo(parent.top)
+                                        end.linkTo(parent.end)
+                                        bottom.linkTo(parent.bottom)
+                                    }
+                                    .zoomable(zoomState),
+                                transform = { state ->
+                                    loading = state is AsyncImagePainter.State.Loading
+
+                                    if (state is AsyncImagePainter.State.Success) {
+                                        zoomState.setContentSize(state.painter.intrinsicSize)
+                                        imageDiskCacheKey = state.result.diskCacheKey
+                                        if (image.isNotOriginal) {
+                                            image = imageDb.original
+                                        }
+                                    }
+
+                                    state
+                                },
+                                contentScale = ContentScale.Fit
+                            )
+
+                            if (loading) {
+                                LinearProgressIndicator(
+                                    modifier = Modifier
+                                        .constrainAs(progressBar) {
+                                            width = Dimension.wrapContent
+                                            height = Dimension.wrapContent
+                                            start.linkTo(parent.start)
+                                            top.linkTo(parent.top)
+                                            end.linkTo(parent.end)
+                                            bottom.linkTo(parent.bottom)
+                                        }
+                                        .zoomable(zoomState),
+                                    trackColor = MaterialTheme.colorScheme.inversePrimary
+                                )
+                            }
+
+                            AnimatedVisibility(
+                                visible = !loading,
+                                modifier = Modifier
+                                    .constrainAs(downloadIcon) {
+                                        width = Dimension.wrapContent
+                                        height = Dimension.wrapContent
+                                        end.linkTo(parent.end, 4.dp)
+                                        top.linkTo(parent.top, 8.dp)
+                                    }
+                                    .statusBarsPadding(),
+                                enter = fadeIn()
+                            ) {
+                                IconButton(
+                                    onClick = { onDownloadClick(imageDb) },
+                                    modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
+                                ) {
+                                    Image(
+                                        imageVector = MoviesIcons.FileDownload,
+                                        contentDescription = null,
+                                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
+                                    )
+                                }
+                            }
+
+                            BackHandler(zoomState.isScaled) {
+                                coroutineScope.launch { zoomState.reset() }
+                            }
+                        }
                     }
+
+                    IconButton(
+                        onClick = onBackClick,
+                        modifier = Modifier
+                            .constrainAs(backIcon) {
+                                width = Dimension.wrapContent
+                                height = Dimension.wrapContent
+                                start.linkTo(parent.start, 4.dp)
+                                top.linkTo(parent.top, 8.dp)
+                            }
+                            .statusBarsPadding()
+                            .windowInsetsPadding(displayCutoutWindowInsets)
+                    ) {
+                        Image(
+                            imageVector = MoviesIcons.ArrowBack,
+                            contentDescription = null,
+                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
+                        )
+                    }
+
+                    Text(
+                        text = "",
+                        modifier = Modifier
+                            .constrainAs(title) {
+                                width = Dimension.wrapContent
+                                height = Dimension.wrapContent
+                                start.linkTo(backIcon.end, 4.dp)
+                                top.linkTo(backIcon.top)
+                                end.linkTo(parent.end, 4.dp)
+                                bottom.linkTo(backIcon.bottom)
+                            }
+                            .statusBarsPadding(),
+                        overflow = TextOverflow.Ellipsis,
+                        maxLines = 1,
+                        textAlign = TextAlign.Start,
+                        style = MaterialTheme.typography.titleLarge.copy(
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    )
                 }
             }
-
-            IconButton(
-                onClick = onBackClick,
-                modifier = Modifier
-                    .constrainAs(backIcon) {
-                        width = Dimension.wrapContent
-                        height = Dimension.wrapContent
-                        start.linkTo(parent.start, 4.dp)
-                        top.linkTo(parent.top, 8.dp)
-                    }
-                    .statusBarsPadding()
-                    .windowInsetsPadding(displayCutoutWindowInsets)
-            ) {
-                Image(
-                    imageVector = MoviesIcons.ArrowBack,
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
-                )
-            }
-
-            Text(
-                text = "",
-                modifier = Modifier
-                    .constrainAs(title) {
-                        width = Dimension.wrapContent
-                        height = Dimension.wrapContent
-                        start.linkTo(backIcon.end, 4.dp)
-                        top.linkTo(backIcon.top)
-                        end.linkTo(parent.end, 4.dp)
-                        bottom.linkTo(backIcon.bottom)
-                    }
-                    .statusBarsPadding(),
-                overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
-                textAlign = TextAlign.Start,
-                style = MaterialTheme.typography.titleLarge.copy(
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-            )
         }
-
-        paddingValues.toString()
     }
 }
 
