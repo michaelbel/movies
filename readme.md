@@ -31,7 +31,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 ## Download
 
 [<img src="https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png" alt="" height="80">](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
-[<img src="config/images/direct-apk.png" alt="" height="80">](https://github.com/michaelbel/movies/releases/download/1.5.1/Movies-v1.5.1.1347.-release.apk)
+[<img src="config/images/direct-apk.png" alt="" height="80">](https://github.com/michaelbel/movies/releases/download/1.5.2/Movies-v1.5.2.1366.-release.apk)
 
 ## Technologies
 
