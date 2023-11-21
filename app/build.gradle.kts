@@ -46,7 +46,7 @@ afterEvaluate {
 }
 
 android {
-    namespace = "org.michaelbel.moviemade"
+    namespace = "org.michaelbel.movies.app"
 
     defaultConfig {
         applicationId = "org.michaelbel.moviemade"
