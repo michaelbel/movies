@@ -36,7 +36,7 @@ fun AuthLinksBox(
         Divider(
             modifier = Modifier,
             color = MaterialTheme.colorScheme.onSecondaryContainer,
-            thickness = 0.5.dp
+            thickness = .5.dp
         )
 
         Row(

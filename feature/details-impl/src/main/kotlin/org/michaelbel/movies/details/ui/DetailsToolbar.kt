@@ -57,7 +57,7 @@ fun DetailsToolbar(
         },
         navigationIcon = {
             IconButton(
-                onClick = { onNavigationIconClick() },
+                onClick = onNavigationIconClick,
                 modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
             ) {
                 Image(

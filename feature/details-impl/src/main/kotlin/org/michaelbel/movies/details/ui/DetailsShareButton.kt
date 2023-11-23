@@ -37,9 +37,7 @@ fun DetailsShareButton(
                 action = Intent.ACTION_SEND
                 putExtra(Intent.EXTRA_TEXT, movieUrl)
             }.also { intent: Intent ->
-                resultContract.launch(
-                    Intent.createChooser(intent, context.getString(R.string.details_share_via))
-                )
+                resultContract.launch(Intent.createChooser(intent, context.getString(R.string.details_share_via)))
             }
         },
         modifier = modifier

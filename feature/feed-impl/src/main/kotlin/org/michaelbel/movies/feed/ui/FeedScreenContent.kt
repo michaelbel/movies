@@ -209,7 +209,7 @@ private fun FeedScreenContent(
             topBar = {
                 FeedToolbar(
                     title = currentMovieList.titleText,
-                    modifier = Modifier.clickableWithoutRipple { onScrollToTop() },
+                    modifier = Modifier.clickableWithoutRipple(onScrollToTop),
                     account = account,
                     isUpdateIconVisible = isUpdateIconVisible,
                     onAuthIconClick = {

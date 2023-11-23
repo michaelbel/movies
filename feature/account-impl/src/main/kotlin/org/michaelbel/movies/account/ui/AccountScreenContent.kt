@@ -48,9 +48,7 @@ fun AccountRoute(
         account = account.orEmpty,
         loading = viewModel.loading,
         onBackClick = onBackClick,
-        onLogoutClick = {
-            viewModel.onLogoutClick(onBackClick)
-        },
+        onLogoutClick = { viewModel.onLogoutClick(onBackClick) },
         modifier = modifier
     )
 }
@@ -188,9 +186,7 @@ internal fun AccountScreenContent(
                     bottom.linkTo(parent.bottom, 16.dp)
                 },
             enabled = !loading,
-            contentPadding = PaddingValues(
-                horizontal = 24.dp
-            )
+            contentPadding = PaddingValues(horizontal = 24.dp)
         ) {
             if (loading) {
                 CircularProgressIndicator(
