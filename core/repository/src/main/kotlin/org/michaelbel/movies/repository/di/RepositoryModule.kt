@@ -6,17 +6,17 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import org.michaelbel.movies.repository.AccountRepository
-import org.michaelbel.movies.repository.AccountRepositoryImpl
 import org.michaelbel.movies.repository.AuthenticationRepository
-import org.michaelbel.movies.repository.AuthenticationRepositoryImpl
 import org.michaelbel.movies.repository.ImageRepository
-import org.michaelbel.movies.repository.ImageRepositoryImpl
 import org.michaelbel.movies.repository.MovieRepository
-import org.michaelbel.movies.repository.MovieRepositoryImpl
 import org.michaelbel.movies.repository.NotificationRepository
-import org.michaelbel.movies.repository.NotificationRepositoryImpl
 import org.michaelbel.movies.repository.SettingsRepository
-import org.michaelbel.movies.repository.SettingsRepositoryImpl
+import org.michaelbel.movies.repository.impl.AccountRepositoryImpl
+import org.michaelbel.movies.repository.impl.AuthenticationRepositoryImpl
+import org.michaelbel.movies.repository.impl.ImageRepositoryImpl
+import org.michaelbel.movies.repository.impl.MovieRepositoryImpl
+import org.michaelbel.movies.repository.impl.NotificationRepositoryImpl
+import org.michaelbel.movies.repository.impl.SettingsRepositoryImpl
 
 @Module
 @InstallIn(SingletonComponent::class)

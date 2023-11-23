@@ -1,7 +1,9 @@
-package org.michaelbel.movies.interactor
+package org.michaelbel.movies.interactor.impl
 
 import androidx.compose.ui.unit.LayoutDirection
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
@@ -18,10 +20,9 @@ import org.michaelbel.movies.common.googleapi.GoogleApi
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
+import org.michaelbel.movies.interactor.SettingsInteractor
 import org.michaelbel.movies.repository.SettingsRepository
 import timber.log.Timber
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
 internal class SettingsInteractorImpl @Inject constructor(

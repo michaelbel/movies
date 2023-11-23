@@ -24,13 +24,11 @@ include(
     ":core:analytics",
     ":core:common",
     ":core:interactor",
-    ":core:interactor-impl",
     ":core:navigation",
     ":core:network",
     ":core:notifications",
     ":core:persistence",
     ":core:repository",
-    ":core:repository-impl",
     ":core:ui",
     ":core:work",
 

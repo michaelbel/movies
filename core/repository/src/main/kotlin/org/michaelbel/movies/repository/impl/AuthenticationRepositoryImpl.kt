@@ -1,4 +1,4 @@
-package org.michaelbel.movies.repository
+package org.michaelbel.movies.repository.impl
 
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,6 +15,7 @@ import org.michaelbel.movies.network.model.Username
 import org.michaelbel.movies.network.service.authentication.AuthenticationService
 import org.michaelbel.movies.persistence.database.dao.AccountDao
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
+import org.michaelbel.movies.repository.AuthenticationRepository
 
 @Singleton
 internal class AuthenticationRepositoryImpl @Inject constructor(

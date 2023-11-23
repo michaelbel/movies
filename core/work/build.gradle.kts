@@ -43,11 +43,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:interactor-impl"))
+    implementation(project(":core:interactor"))
     implementation(project(":core:common"))
     implementation(project(":core:network"))
     implementation(project(":core:notifications"))
-    implementation(project(":core:repository-impl"))
     implementation(project(":core:ui"))
     implementation(libs.androidx.paging.compose)
     implementation(libs.androidx.hilt.work)

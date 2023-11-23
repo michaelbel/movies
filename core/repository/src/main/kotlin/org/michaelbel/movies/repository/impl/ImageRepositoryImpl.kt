@@ -1,4 +1,4 @@
-package org.michaelbel.movies.repository
+package org.michaelbel.movies.repository.impl
 
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -8,6 +8,7 @@ import org.michaelbel.movies.network.service.image.ImageService
 import org.michaelbel.movies.persistence.database.dao.ImageDao
 import org.michaelbel.movies.persistence.database.entity.ImageDb
 import org.michaelbel.movies.persistence.database.ktx.imageDb
+import org.michaelbel.movies.repository.ImageRepository
 
 @Singleton
 internal class ImageRepositoryImpl @Inject constructor(

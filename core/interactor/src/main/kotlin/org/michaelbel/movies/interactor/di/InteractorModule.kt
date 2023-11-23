@@ -6,17 +6,17 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import org.michaelbel.movies.interactor.AccountInteractor
-import org.michaelbel.movies.interactor.AccountInteractorImpl
 import org.michaelbel.movies.interactor.AuthenticationInteractor
-import org.michaelbel.movies.interactor.AuthenticationInteractorImpl
 import org.michaelbel.movies.interactor.ImageInteractor
-import org.michaelbel.movies.interactor.ImageInteractorImpl
 import org.michaelbel.movies.interactor.MovieInteractor
-import org.michaelbel.movies.interactor.MovieInteractorImpl
 import org.michaelbel.movies.interactor.NotificationInteractor
-import org.michaelbel.movies.interactor.NotificationInteractorImpl
 import org.michaelbel.movies.interactor.SettingsInteractor
-import org.michaelbel.movies.interactor.SettingsInteractorImpl
+import org.michaelbel.movies.interactor.impl.AccountInteractorImpl
+import org.michaelbel.movies.interactor.impl.AuthenticationInteractorImpl
+import org.michaelbel.movies.interactor.impl.ImageInteractorImpl
+import org.michaelbel.movies.interactor.impl.MovieInteractorImpl
+import org.michaelbel.movies.interactor.impl.NotificationInteractorImpl
+import org.michaelbel.movies.interactor.impl.SettingsInteractorImpl
 
 @Module
 @InstallIn(SingletonComponent::class)

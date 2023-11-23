@@ -1,4 +1,4 @@
-package org.michaelbel.movies.repository
+package org.michaelbel.movies.repository.impl
 
 import androidx.paging.PagingSource
 import javax.inject.Inject
@@ -16,6 +16,7 @@ import org.michaelbel.movies.persistence.database.dao.PagingKeyDao
 import org.michaelbel.movies.persistence.database.dao.ktx.isEmpty
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.entity.PagingKeyDb
+import org.michaelbel.movies.repository.MovieRepository
 import org.michaelbel.movies.repository.ktx.checkApiKeyNotNullException
 import org.michaelbel.movies.repository.ktx.mapToMovieDb
 

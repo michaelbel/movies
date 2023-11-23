@@ -1,4 +1,4 @@
-package org.michaelbel.movies.repository
+package org.michaelbel.movies.repository.impl
 
 import android.content.Context
 import android.os.Build
@@ -15,6 +15,7 @@ import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
+import org.michaelbel.movies.repository.SettingsRepository
 import org.michaelbel.movies.repository.ktx.code
 import org.michaelbel.movies.repository.ktx.packageInfo
 

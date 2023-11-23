@@ -1,8 +1,9 @@
-package org.michaelbel.movies.repository
+package org.michaelbel.movies.repository.impl
 
 import javax.inject.Inject
 import javax.inject.Singleton
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
+import org.michaelbel.movies.repository.NotificationRepository
 
 @Singleton
 internal class NotificationRepositoryImpl @Inject constructor(

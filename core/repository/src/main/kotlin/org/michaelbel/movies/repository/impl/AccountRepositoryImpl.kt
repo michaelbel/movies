@@ -1,4 +1,4 @@
-package org.michaelbel.movies.repository
+package org.michaelbel.movies.repository.impl
 
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -11,6 +11,7 @@ import org.michaelbel.movies.network.service.account.AccountService
 import org.michaelbel.movies.persistence.database.dao.AccountDao
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
+import org.michaelbel.movies.repository.AccountRepository
 import org.michaelbel.movies.repository.ktx.mapToAccountDb
 
 @Singleton
