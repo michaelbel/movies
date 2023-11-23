@@ -49,6 +49,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
+import org.michaelbel.movies.common.exceptions.FeedEmptyException
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.feed.FeedViewModel
 import org.michaelbel.movies.feed.ktx.titleText
@@ -239,20 +240,29 @@ private fun FeedScreenContent(
                     )
                 }
                 pagingItems.isFailure -> {
-                    FeedFailure(
-                        modifier = Modifier
-                            .padding(paddingValues)
-                            .windowInsetsPadding(displayCutoutWindowInsets)
-                            .fillMaxSize()
-                            .clickableWithoutRipple { pagingItems.retry() },
-                        onCheckConnectivityClick = {
-                            if (Build.VERSION.SDK_INT >= 29) {
-                                settingsPanelContract.launch(
-                                    Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY)
-                                )
+                    if (pagingItems.throwable is FeedEmptyException) {
+                        FeedEmpty(
+                            modifier = Modifier
+                                .padding(paddingValues)
+                                .windowInsetsPadding(displayCutoutWindowInsets)
+                                .fillMaxSize()
+                        )
+                    } else {
+                        FeedFailure(
+                            modifier = Modifier
+                                .padding(paddingValues)
+                                .windowInsetsPadding(displayCutoutWindowInsets)
+                                .fillMaxSize()
+                                .clickableWithoutRipple(pagingItems::retry),
+                            onCheckConnectivityClick = {
+                                if (Build.VERSION.SDK_INT >= 29) {
+                                    settingsPanelContract.launch(
+                                        Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY)
+                                    )
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
                 }
                 else -> {
                     FeedContent(

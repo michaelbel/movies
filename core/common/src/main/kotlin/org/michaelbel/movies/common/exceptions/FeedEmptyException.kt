@@ -1,3 +1,3 @@
 package org.michaelbel.movies.common.exceptions
 
-data object AccountDetailsException: Exception()
+data object FeedEmptyException: Exception()
