@@ -8,13 +8,13 @@ import org.michaelbel.movies.persistence.database.entity.MovieDb
 
 interface MovieInteractor {
 
-    fun moviesPagingSource(movieList: String): PagingSource<Int, MovieDb>
+    fun moviesPagingSource(pagingKey: String): PagingSource<Int, MovieDb>
 
     suspend fun moviesResult(movieList: String, page: Int): Result<MovieResponse>
 
     suspend fun movieDetails(movieId: Int): Either<MovieDb>
 
-    suspend fun removeAllMovies(movieList: String)
+    suspend fun removeAllMovies(pagingKey: String)
 
-    suspend fun insertAllMovies(movieList: String, movies: List<MovieResponse>)
+    suspend fun insertAllMovies(pagingKey: String, movies: List<MovieResponse>)
 }

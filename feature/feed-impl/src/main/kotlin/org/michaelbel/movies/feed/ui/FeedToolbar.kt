@@ -34,6 +34,7 @@ fun FeedToolbar(
     title: String,
     account: AccountDb,
     isUpdateIconVisible: Boolean,
+    onSearchIconClick: () -> Unit,
     onAuthIconClick: () -> Unit,
     onAccountIconClick: () -> Unit,
     onUpdateIconClick: () -> Unit,
@@ -45,7 +46,6 @@ fun FeedToolbar(
         title = {
             Text(
                 text = title,
-                modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets),
                 overflow = TextOverflow.Ellipsis,
                 maxLines = 1,
                 style = MaterialTheme.typography.titleLarge.copy(
@@ -54,6 +54,18 @@ fun FeedToolbar(
             )
         },
         modifier = modifier,
+        navigationIcon = {
+            IconButton(
+                onClick = onSearchIconClick,
+                modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
+            ) {
+                Image(
+                    imageVector = MoviesIcons.Search,
+                    contentDescription = null,
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
+                )
+            }
+        },
         actions = {
             Row(
                 modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
@@ -117,6 +129,7 @@ private fun FeedToolbarPreview(
             title = stringResource(R.string.feed_title_now_playing),
             account = AccountDb.Empty,
             isUpdateIconVisible = visible,
+            onSearchIconClick = {},
             onAccountIconClick = {},
             onAuthIconClick = {},
             onUpdateIconClick = {},

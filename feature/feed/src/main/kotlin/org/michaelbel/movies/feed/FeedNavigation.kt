@@ -5,8 +5,9 @@ import androidx.navigation.compose.composable
 import org.michaelbel.movies.feed.ui.FeedRoute
 
 fun NavGraphBuilder.feedGraph(
-    navigateToAccount: () -> Unit,
+    navigateToSearch: () -> Unit,
     navigateToAuth: () -> Unit,
+    navigateToAccount: () -> Unit,
     navigateToSettings: () -> Unit,
     navigateToDetails: (Int) -> Unit,
     onStartUpdateFlow: () -> Unit
@@ -15,6 +16,7 @@ fun NavGraphBuilder.feedGraph(
         route = FeedDestination.route
     ) {
         FeedRoute(
+            onNavigateToSearch = navigateToSearch,
             onNavigateToAccount = navigateToAccount,
             onNavigateToAuth = navigateToAuth,
             onNavigateToSettings = navigateToSettings,

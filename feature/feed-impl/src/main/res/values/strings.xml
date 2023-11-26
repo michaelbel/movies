@@ -4,7 +4,5 @@
     <string name="feed_title_popular">Popular Movies</string>
     <string name="feed_title_top_rated">Top Rated Movies</string>
     <string name="feed_title_upcoming">Upcoming Movies</string>
-    <string name="feed_error_loading">Error while loading movies</string>
     <string name="feed_error_empty">Movie List is Empty</string>
-    <string name="feed_error_check_internet_connectivity">Check Internet Connectivity</string>
 </resources>

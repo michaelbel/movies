@@ -25,8 +25,8 @@ internal class MovieRepositoryImpl @Inject constructor(
     private val localeController: LocaleController
 ): MovieRepository {
 
-    override fun moviesPagingSource(movieList: String): PagingSource<Int, MovieDb> {
-        return movieDao.pagingSource(movieList)
+    override fun moviesPagingSource(pagingKey: String): PagingSource<Int, MovieDb> {
+        return movieDao.pagingSource(pagingKey)
     }
 
     override suspend fun moviesResult(movieList: String, page: Int): Result<MovieResponse> {
@@ -57,15 +57,15 @@ internal class MovieRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun removeAllMovies(movieList: String) {
-        movieDao.removeAllMovies(movieList)
+    override suspend fun removeAllMovies(pagingKey: String) {
+        movieDao.removeAllMovies(pagingKey)
     }
 
-    override suspend fun insertAllMovies(movieList: String, movies: List<MovieResponse>) {
-        val maxPosition: Int = movieDao.maxPosition(movieList) ?: 0
+    override suspend fun insertAllMovies(pagingKey: String, movies: List<MovieResponse>) {
+        val maxPosition: Int = movieDao.maxPosition(pagingKey) ?: 0
         val moviesDb: List<MovieDb> = movies.mapIndexed { index, movieResponse ->
             movieResponse.mapToMovieDb(
-                movieList = movieList,
+                movieList = pagingKey,
                 position = maxPosition.plus(index).plus(1)
             )
         }

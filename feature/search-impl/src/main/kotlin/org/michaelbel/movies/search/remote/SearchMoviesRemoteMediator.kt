@@ -1,4 +1,4 @@
-package org.michaelbel.movies.feed.remote
+package org.michaelbel.movies.search.remote
 
 import androidx.paging.LoadType
 import androidx.paging.PagingState
@@ -12,9 +12,9 @@ import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 
-class MoviesRemoteMediator(
+class SearchMoviesRemoteMediator(
     private val interactor: Interactor,
-    private val movieList: String
+    private val query: String
 ): RemoteMediator<Int, MovieDb>() {
 
     override suspend fun load(
@@ -31,12 +31,16 @@ class MoviesRemoteMediator(
                     return reachedResult
                 }
                 LoadType.APPEND -> {
-                    interactor.page(movieList) ?: return reachedResult
+                    interactor.page(query) ?: return reachedResult
                 }
             }
 
-            val moviesResult: Result<MovieResponse> = interactor.moviesResult(
-                movieList = movieList,
+            if (query.isEmpty()) {
+                throw PageEmptyException
+            }
+
+            val moviesResult: Result<MovieResponse> = interactor.searchMoviesResult(
+                query = query,
                 page = loadKey ?: 1
             )
 
@@ -46,13 +50,13 @@ class MoviesRemoteMediator(
 
             if (loadType == LoadType.REFRESH) {
                 interactor.run {
-                    removePagingKey(movieList)
-                    removeAllMovies(movieList)
+                    removePagingKey(query)
+                    removeAllMovies(query)
                 }
             }
             interactor.run {
-                insertPagingKey(movieList, moviesResult.nextPage)
-                insertAllMovies(movieList, moviesResult.results)
+                insertPagingKey(query, moviesResult.nextPage)
+                insertAllMovies(query, moviesResult.results)
             }
 
             MediatorResult.Success(endOfPaginationReached = moviesResult.isPaginationReached)

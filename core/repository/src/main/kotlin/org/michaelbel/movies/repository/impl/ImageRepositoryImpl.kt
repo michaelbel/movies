@@ -4,7 +4,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.network.model.ImagesResponse
-import org.michaelbel.movies.network.service.image.ImageService
+import org.michaelbel.movies.network.service.movie.MovieService
 import org.michaelbel.movies.persistence.database.dao.ImageDao
 import org.michaelbel.movies.persistence.database.entity.ImageDb
 import org.michaelbel.movies.persistence.database.ktx.imageDb
@@ -12,7 +12,7 @@ import org.michaelbel.movies.repository.ImageRepository
 
 @Singleton
 internal class ImageRepositoryImpl @Inject constructor(
-    private val imageService: ImageService,
+    private val movieService: MovieService,
     private val imageDao: ImageDao
 ): ImageRepository {
 
@@ -21,7 +21,7 @@ internal class ImageRepositoryImpl @Inject constructor(
     }
 
     override suspend fun images(movieId: Int) {
-        val imageResponse: ImagesResponse = imageService.images(movieId)
+        val imageResponse: ImagesResponse = movieService.images(movieId)
         val posters: List<ImageDb> = imageResponse.posters.mapIndexed { index, image ->
             image.imageDb(
                 movieId = movieId,

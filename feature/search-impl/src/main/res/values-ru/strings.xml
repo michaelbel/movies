@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_title">Поиск</string>
+    <string name="search_history_empty">История поиска пуста</string>
+    <string name="search_results_empty">Нет результатов поиска</string>
+</resources>

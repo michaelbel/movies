@@ -163,6 +163,7 @@ dependencies {
     implementation(project(":feature:details"))
     implementation(project(":feature:feed"))
     implementation(project(":feature:gallery"))
+    implementation(project(":feature:search"))
     implementation(project(":feature:settings"))
 
     testImplementation(libs.junit)
