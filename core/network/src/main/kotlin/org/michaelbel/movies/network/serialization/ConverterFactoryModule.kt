@@ -15,8 +15,6 @@ import retrofit2.Converter
 @InstallIn(SingletonComponent::class)
 internal object ConverterFactoryModule {
 
-    private const val MEDIA_TYPE_APPLICATION_JSON = "application/json"
-
     @Provides
     @Singleton
     fun provideSerializationConverterFactory(): Converter.Factory {
@@ -24,4 +22,6 @@ internal object ConverterFactoryModule {
         val format = Json { ignoreUnknownKeys = true }
         return format.asConverterFactory(contentType)
     }
+
+    private const val MEDIA_TYPE_APPLICATION_JSON = "application/json"
 }

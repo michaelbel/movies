@@ -7,7 +7,7 @@ import org.michaelbel.movies.common.crashlytics.CrashlyticsTree
 import timber.log.Timber
 
 @Suppress("unused")
-internal class TimberInitializer: Initializer<Unit> {
+class TimberInitializer: Initializer<Unit> {
 
     override fun create(context: Context) {
         Timber.plant(if (BuildConfig.DEBUG) Timber.DebugTree() else CrashlyticsTree())

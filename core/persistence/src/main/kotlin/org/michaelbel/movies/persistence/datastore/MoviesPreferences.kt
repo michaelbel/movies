@@ -31,9 +31,6 @@ class MoviesPreferences @Inject constructor(
     val isRtlEnabledFlow: Flow<Boolean?>
         get() = dataStore.data.map { preferences -> preferences[PREFERENCE_RTL_ENABLED_KEY] }
 
-    val networkRequestDelayFlow: Flow<Int?>
-        get() = dataStore.data.map { preferences -> preferences[PREFERENCE_NETWORK_REQUEST_DELAY_KEY] }
-
     val accountIdFlow: Flow<Int?>
         get() = dataStore.data.map { preferences -> preferences[PREFERENCE_ACCOUNT_ID_KEY] }
 
@@ -64,16 +61,6 @@ class MoviesPreferences @Inject constructor(
     suspend fun setRtlEnabled(isRtlEnabled: Boolean) {
         dataStore.edit { preferences ->
             preferences[PREFERENCE_RTL_ENABLED_KEY] = isRtlEnabled
-        }
-    }
-
-    suspend fun networkRequestDelay(): Long? {
-        return dataStore.data.first()[PREFERENCE_NETWORK_REQUEST_DELAY_KEY]?.toLong()
-    }
-
-    suspend fun setNetworkRequestDelay(delay: Int) {
-        dataStore.edit { preferences ->
-            preferences[PREFERENCE_NETWORK_REQUEST_DELAY_KEY] = delay
         }
     }
 
@@ -135,7 +122,6 @@ class MoviesPreferences @Inject constructor(
         private val PREFERENCE_MOVIE_LIST_KEY: Preferences.Key<String> = stringPreferencesKey("movie_list")
         private val PREFERENCE_DYNAMIC_COLORS_KEY: Preferences.Key<Boolean> = booleanPreferencesKey("dynamic_colors")
         private val PREFERENCE_RTL_ENABLED_KEY: Preferences.Key<Boolean> = booleanPreferencesKey("rtl_enabled")
-        private val PREFERENCE_NETWORK_REQUEST_DELAY_KEY: Preferences.Key<Int> = intPreferencesKey("network_request_delay")
         private val PREFERENCE_SESSION_ID_KEY: Preferences.Key<String> = stringPreferencesKey("session_id")
         private val PREFERENCE_ACCOUNT_ID_KEY: Preferences.Key<Int> = intPreferencesKey("account_id")
         private val PREFERENCE_ACCOUNT_EXPIRE_TIME_KEY: Preferences.Key<Long> = longPreferencesKey("account_expire_time")
