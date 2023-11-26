@@ -1,4 +1,4 @@
-package org.michaelbel.movies.feed.ui
+package org.michaelbel.movies.ui.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,16 +24,16 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import org.michaelbel.movies.common.appearance.FeedView
-import org.michaelbel.movies.feed.ktx.gridColumnsCount
 import org.michaelbel.movies.network.isTmdbApiKeyEmpty
 import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.ui.ktx.gridColumnsCount
 import org.michaelbel.movies.ui.ktx.isNotEmpty
 import org.michaelbel.movies.ui.ktx.isPagingFailure
 import org.michaelbel.movies.ui.ktx.isPagingLoading
 import org.michaelbel.movies.ui.ktx.isPortrait
 
 @Composable
-fun FeedContent(
+fun PageContent(
     feedView: FeedView,
     lazyListState: LazyListState,
     lazyGridState: LazyGridState,
@@ -46,7 +46,7 @@ fun FeedContent(
     when (feedView) {
         is FeedView.FeedList -> {
             if (isPortrait) {
-                FeedContentColumn(
+                PageContentColumn(
                     lazyListState = lazyListState,
                     pagingItems = pagingItems,
                     onMovieClick = onMovieClick,
@@ -54,7 +54,7 @@ fun FeedContent(
                     modifier = modifier
                 )
             } else {
-                FeedContentGrid(
+                PageContentGrid(
                     lazyGridState = lazyGridState,
                     pagingItems = pagingItems,
                     onMovieClick = onMovieClick,
@@ -64,7 +64,7 @@ fun FeedContent(
             }
         }
         is FeedView.FeedGrid -> {
-            FeedContentStaggeredGrid(
+            PageContentStaggeredGrid(
                 lazyStaggeredGridState = lazyStaggeredGridState,
                 pagingItems = pagingItems,
                 onMovieClick = onMovieClick,
@@ -76,7 +76,7 @@ fun FeedContent(
 }
 
 @Composable
-private fun FeedContentColumn(
+private fun PageContentColumn(
     lazyListState: LazyListState,
     pagingItems: LazyPagingItems<MovieDb>,
     onMovieClick: (Int) -> Unit,
@@ -95,7 +95,7 @@ private fun FeedContentColumn(
         ) { index ->
             val movieDb: MovieDb? = pagingItems[index]
             if (movieDb != null) {
-                FeedCellMovieBox(
+                MovieRow(
                     movie = movieDb,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -113,7 +113,7 @@ private fun FeedContentColumn(
         }
         if (isTmdbApiKeyEmpty && pagingItems.isNotEmpty) {
             item {
-                FeedApiKeyBox(
+                ApiKeyBox(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(vertical = 16.dp)
@@ -124,7 +124,7 @@ private fun FeedContentColumn(
             when {
                 isPagingLoading -> {
                     item {
-                        FeedLoadingBox(
+                        PagingLoadingBox(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(80.dp)
@@ -133,7 +133,7 @@ private fun FeedContentColumn(
                 }
                 isPagingFailure -> {
                     item {
-                        FeedErrorBox(
+                        PagingFailureBox(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(80.dp)
@@ -149,7 +149,7 @@ private fun FeedContentColumn(
 }
 
 @Composable
-private fun FeedContentGrid(
+private fun PageContentGrid(
     lazyGridState: LazyGridState,
     pagingItems: LazyPagingItems<MovieDb>,
     onMovieClick: (Int) -> Unit,
@@ -170,7 +170,7 @@ private fun FeedContentGrid(
         ) { index ->
             val movieDb: MovieDb? = pagingItems[index]
             if (movieDb != null) {
-                FeedCellMovieBox(
+                MovieRow(
                     movie = movieDb,
                     maxLines = 1,
                     modifier = Modifier
@@ -186,7 +186,7 @@ private fun FeedContentGrid(
             when {
                 isPagingLoading -> {
                     item {
-                        FeedLoadingBox(
+                        PagingLoadingBox(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(80.dp)
@@ -196,7 +196,7 @@ private fun FeedContentGrid(
                 }
                 isPagingFailure -> {
                     item {
-                        FeedErrorBox(
+                        PagingFailureBox(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(80.dp)
@@ -211,7 +211,7 @@ private fun FeedContentGrid(
 }
 
 @Composable
-private fun FeedContentStaggeredGrid(
+private fun PageContentStaggeredGrid(
     lazyStaggeredGridState: LazyStaggeredGridState,
     pagingItems: LazyPagingItems<MovieDb>,
     onMovieClick: (Int) -> Unit,
@@ -233,7 +233,7 @@ private fun FeedContentStaggeredGrid(
         ) { index ->
             val movieDb: MovieDb? = pagingItems[index]
             if (movieDb != null) {
-                FeedGridMovieBox(
+                MovieColumn(
                     movie = movieDb,
                     modifier = Modifier
                         .fillMaxWidth()
@@ -247,7 +247,7 @@ private fun FeedContentStaggeredGrid(
             when {
                 isPagingLoading -> {
                     item {
-                        FeedLoadingBox(
+                        PagingLoadingBox(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(80.dp)
@@ -257,7 +257,7 @@ private fun FeedContentStaggeredGrid(
                 }
                 isPagingFailure -> {
                     item {
-                        FeedErrorBox(
+                        PagingFailureBox(
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .height(80.dp)

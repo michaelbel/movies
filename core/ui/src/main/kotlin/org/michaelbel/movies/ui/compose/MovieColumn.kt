@@ -1,4 +1,4 @@
-package org.michaelbel.movies.feed.ui
+package org.michaelbel.movies.ui.compose
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -23,9 +23,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import org.michaelbel.movies.feed_impl.R
-import org.michaelbel.movies.network.formatBackdropImage
+import org.michaelbel.movies.network.formatPosterImage
 import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.ui.R
 import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
 import org.michaelbel.movies.ui.preview.DevicePreviews
@@ -33,10 +33,9 @@ import org.michaelbel.movies.ui.preview.provider.MoviePreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun FeedCellMovieBox(
+fun MovieColumn(
     movie: MovieDb,
-    modifier: Modifier = Modifier,
-    maxLines: Int = 10
+    modifier: Modifier = Modifier
 ) {
     var isNoImageVisible: Boolean by remember { mutableStateOf(false) }
 
@@ -47,7 +46,7 @@ fun FeedCellMovieBox(
 
         AsyncImage(
             model = ImageRequest.Builder(context)
-                .data(movie.backdropPath.formatBackdropImage)
+                .data(movie.posterPath.formatPosterImage)
                 .crossfade(true)
                 .build(),
             contentDescription = null,
@@ -79,7 +78,7 @@ fun FeedCellMovieBox(
             enter = fadeIn()
         ) {
             Text(
-                text = stringResource(R.string.feed_no_image),
+                text = stringResource(R.string.no_image),
                 style = MaterialTheme.typography.bodyLarge.copy(
                     color = MaterialTheme.colorScheme.secondary
                 )
@@ -97,7 +96,7 @@ fun FeedCellMovieBox(
                     end.linkTo(parent.end, 16.dp)
                     bottom.linkTo(parent.bottom, 16.dp)
                 },
-            maxLines = maxLines,
+            maxLines = 10,
             overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.bodyLarge.copy(
                 color = MaterialTheme.colorScheme.onPrimaryContainer
@@ -108,11 +107,11 @@ fun FeedCellMovieBox(
 
 @Composable
 @DevicePreviews
-private fun FeedCellMovieBoxPreview(
+private fun MovieColumnPreview(
     @PreviewParameter(MoviePreviewParameterProvider::class) movie: MovieDb
 ) {
     MoviesTheme {
-        FeedCellMovieBox(
+        MovieColumn(
             movie = movie,
             modifier = Modifier
                 .fillMaxWidth()

@@ -1,12 +1,7 @@
 package org.michaelbel.movies.feed.ui
 
 import android.content.Context
-import android.content.Intent
-import android.os.Build
-import android.provider.Settings
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -53,18 +48,20 @@ import org.michaelbel.movies.common.exceptions.FeedEmptyException
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.feed.FeedViewModel
 import org.michaelbel.movies.feed.ktx.titleText
-import org.michaelbel.movies.feed_impl.R
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.network.isTmdbApiKeyEmpty
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.ui.compose.NotificationBottomSheet
+import org.michaelbel.movies.ui.compose.PageContent
+import org.michaelbel.movies.ui.compose.PageLoading
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.ktx.isFailure
 import org.michaelbel.movies.ui.ktx.isLoading
 import org.michaelbel.movies.ui.ktx.throwable
+import org.michaelbel.movies.ui.R as UiR
 
 @Composable
 fun FeedRoute(
@@ -170,16 +167,12 @@ private fun FeedScreenContent(
     }
 
     if (pagingItems.isFailure && pagingItems.throwable is ApiKeyNotNullException) {
-        onShowSnackbar(stringResource(R.string.feed_error_api_key_null))
+        onShowSnackbar(stringResource(UiR.string.error_api_key_null))
     }
 
     if (networkStatus == NetworkStatus.Available && pagingItems.isFailure && pagingItems.throwable is UnknownHostException) {
         pagingItems.retry()
     }
-
-    val settingsPanelContract = rememberLauncherForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {}
 
     if (notificationsPermissionRequired) {
         onNotificationBottomSheetShow()
@@ -214,7 +207,7 @@ private fun FeedScreenContent(
                     isUpdateIconVisible = isUpdateIconVisible,
                     onAuthIconClick = {
                         when {
-                            isTmdbApiKeyEmpty -> onShowSnackbar(context.getString(R.string.feed_error_api_key_null))
+                            isTmdbApiKeyEmpty -> onShowSnackbar(context.getString(UiR.string.error_api_key_null))
                             else -> onNavigateToAuth()
                         }
                     },
@@ -233,7 +226,7 @@ private fun FeedScreenContent(
         ) { paddingValues ->
             when {
                 pagingItems.isLoading -> {
-                    FeedLoading(
+                    PageLoading(
                         feedView = currentFeedView,
                         modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets),
                         paddingValues = paddingValues
@@ -253,19 +246,12 @@ private fun FeedScreenContent(
                                 .padding(paddingValues)
                                 .windowInsetsPadding(displayCutoutWindowInsets)
                                 .fillMaxSize()
-                                .clickableWithoutRipple(pagingItems::retry),
-                            onCheckConnectivityClick = {
-                                if (Build.VERSION.SDK_INT >= 29) {
-                                    settingsPanelContract.launch(
-                                        Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY)
-                                    )
-                                }
-                            }
+                                .clickableWithoutRipple(pagingItems::retry)
                         )
                     }
                 }
                 else -> {
-                    FeedContent(
+                    PageContent(
                         feedView = currentFeedView,
                         lazyListState = lazyListState,
                         lazyGridState = lazyGridState,

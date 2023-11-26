@@ -1,6 +1,10 @@
 package org.michaelbel.movies.feed.ui
 
+import android.content.Intent
 import android.os.Build
+import android.provider.Settings
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Icon
@@ -21,9 +25,16 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun FeedFailure(
-    modifier: Modifier = Modifier,
-    onCheckConnectivityClick: () -> Unit
+    modifier: Modifier = Modifier
 ) {
+    val settingsPanelContract = rememberLauncherForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) {}
+
+    val onCheckConnectivityClick: () -> Unit = {
+        settingsPanelContract.launch(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))
+    }
+
     ConstraintLayout(
         modifier = modifier
     ) {
@@ -87,8 +98,7 @@ private fun FeedFailurePreview() {
         FeedFailure(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
-            onCheckConnectivityClick = {}
+                .background(MaterialTheme.colorScheme.background)
         )
     }
 }

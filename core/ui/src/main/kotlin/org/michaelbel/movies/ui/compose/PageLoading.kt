@@ -1,4 +1,4 @@
-package org.michaelbel.movies.feed.ui
+package org.michaelbel.movies.ui.compose
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,9 +16,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.appearance.FeedView
-import org.michaelbel.movies.feed.ktx.gridColumnsCount
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.ui.ktx.gridColumnsCount
 import org.michaelbel.movies.ui.ktx.isPortrait
 import org.michaelbel.movies.ui.placeholder.PlaceholderHighlight
 import org.michaelbel.movies.ui.placeholder.material3.fade
@@ -29,7 +29,7 @@ import org.michaelbel.movies.ui.preview.DeviceUserPreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun FeedLoading(
+fun PageLoading(
     feedView: FeedView,
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues = PaddingValues()
@@ -37,19 +37,19 @@ fun FeedLoading(
     when (feedView) {
         is FeedView.FeedList -> {
             if (isPortrait) {
-                FeedLoadingColumn(
+                PageLoadingColumn(
                     modifier = modifier,
                     paddingValues = paddingValues
                 )
             } else {
-                FeedLoadingGrid(
+                PageLoadingGrid(
                     modifier = modifier,
                     paddingValues = paddingValues
                 )
             }
         }
         is FeedView.FeedGrid -> {
-            FeedLoadingStaggeredGrid(
+            PageLoadingStaggeredGrid(
                 modifier = modifier,
                 paddingValues = paddingValues
             )
@@ -58,7 +58,7 @@ fun FeedLoading(
 }
 
 @Composable
-private fun FeedLoadingColumn(
+private fun PageLoadingColumn(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues = PaddingValues()
 ) {
@@ -68,7 +68,7 @@ private fun FeedLoadingColumn(
         userScrollEnabled = false
     ) {
         items(MovieResponse.DEFAULT_PAGE_SIZE.div(2)) {
-            FeedCellMovieBox(
+            MovieRow(
                 movie = MovieDb.Empty,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -88,7 +88,7 @@ private fun FeedLoadingColumn(
 }
 
 @Composable
-private fun FeedLoadingGrid(
+private fun PageLoadingGrid(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues = PaddingValues()
 ) {
@@ -100,7 +100,7 @@ private fun FeedLoadingGrid(
         userScrollEnabled = false
     ) {
         items(MovieResponse.DEFAULT_PAGE_SIZE.div(2)) {
-            FeedCellMovieBox(
+            MovieRow(
                 movie = MovieDb.Empty,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -117,7 +117,7 @@ private fun FeedLoadingGrid(
 }
 
 @Composable
-private fun FeedLoadingStaggeredGrid(
+private fun PageLoadingStaggeredGrid(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues = PaddingValues()
 ) {
@@ -130,7 +130,7 @@ private fun FeedLoadingStaggeredGrid(
         userScrollEnabled = false
     ) {
         items(MovieResponse.DEFAULT_PAGE_SIZE.div(2)) {
-            FeedGridMovieBox(
+            MovieColumn(
                 movie = MovieDb.Empty,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -147,9 +147,9 @@ private fun FeedLoadingStaggeredGrid(
 
 @Composable
 @DevicePreviews
-private fun FeedLoadingColumnPreview() {
+private fun PageLoadingColumnPreview() {
     MoviesTheme {
-        FeedLoadingColumn(
+        PageLoadingColumn(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
@@ -159,9 +159,9 @@ private fun FeedLoadingColumnPreview() {
 
 @Composable
 @DeviceLandscapePreviews
-private fun FeedLoadingGridPreview() {
+private fun PageLoadingGridPreview() {
     MoviesTheme {
-        FeedLoadingGrid(
+        PageLoadingGrid(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
@@ -171,9 +171,9 @@ private fun FeedLoadingGridPreview() {
 
 @Composable
 @DeviceUserPreviews
-private fun FeedLoadingStaggeredGridPreview() {
+private fun PageLoadingStaggeredGridPreview() {
     MoviesTheme {
-        FeedLoadingStaggeredGrid(
+        PageLoadingStaggeredGrid(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
