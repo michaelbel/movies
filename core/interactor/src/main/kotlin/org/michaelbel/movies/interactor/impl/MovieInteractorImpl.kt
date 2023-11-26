@@ -45,22 +45,4 @@ internal class MovieInteractorImpl @Inject constructor(
             movieRepository.insertAllMovies(movieList, movies)
         }
     }
-
-    override suspend fun page(movieList: String): Int? {
-        return withContext(dispatchers.io) {
-            movieRepository.page(movieList)
-        }
-    }
-
-    override suspend fun removePagingKey(movieList: String) {
-        return withContext(dispatchers.io) {
-            movieRepository.removePagingKey(movieList)
-        }
-    }
-
-    override suspend fun insertPagingKey(movieList: String, page: Int) {
-        return withContext(dispatchers.io) {
-            movieRepository.insertPagingKey(movieList, page)
-        }
-    }
 }

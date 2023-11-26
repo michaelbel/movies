@@ -10,12 +10,14 @@ import org.michaelbel.movies.interactor.AuthenticationInteractor
 import org.michaelbel.movies.interactor.ImageInteractor
 import org.michaelbel.movies.interactor.MovieInteractor
 import org.michaelbel.movies.interactor.NotificationInteractor
+import org.michaelbel.movies.interactor.PagingKeyInteractor
 import org.michaelbel.movies.interactor.SettingsInteractor
 import org.michaelbel.movies.interactor.impl.AccountInteractorImpl
 import org.michaelbel.movies.interactor.impl.AuthenticationInteractorImpl
 import org.michaelbel.movies.interactor.impl.ImageInteractorImpl
 import org.michaelbel.movies.interactor.impl.MovieInteractorImpl
 import org.michaelbel.movies.interactor.impl.NotificationInteractorImpl
+import org.michaelbel.movies.interactor.impl.PagingKeyInteractorImpl
 import org.michaelbel.movies.interactor.impl.SettingsInteractorImpl
 
 @Module
@@ -51,6 +53,12 @@ internal interface InteractorModule {
     fun provideNotificationInteractor(
         interactor: NotificationInteractorImpl
     ): NotificationInteractor
+
+    @Binds
+    @Singleton
+    fun providePagingKeyInteractor(
+        interactor: PagingKeyInteractorImpl
+    ): PagingKeyInteractor
 
     @Binds
     @Singleton

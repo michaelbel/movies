@@ -39,7 +39,7 @@ internal abstract class AppDatabase: RoomDatabase() {
 
     companion object {
         private val DATABASE_NAME: String = if (BuildConfig.DEBUG) "movies-db-debug" else "movies-db"
-        const val DATABASE_VERSION = 17
+        const val DATABASE_VERSION = 18
 
         @Volatile
         private var instance: AppDatabase? = null

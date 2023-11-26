@@ -12,10 +12,8 @@ import org.michaelbel.movies.network.model.Result
 import org.michaelbel.movies.network.response
 import org.michaelbel.movies.network.service.movie.MovieService
 import org.michaelbel.movies.persistence.database.dao.MovieDao
-import org.michaelbel.movies.persistence.database.dao.PagingKeyDao
 import org.michaelbel.movies.persistence.database.dao.ktx.isEmpty
 import org.michaelbel.movies.persistence.database.entity.MovieDb
-import org.michaelbel.movies.persistence.database.entity.PagingKeyDb
 import org.michaelbel.movies.repository.MovieRepository
 import org.michaelbel.movies.repository.ktx.checkApiKeyNotNullException
 import org.michaelbel.movies.repository.ktx.mapToMovieDb
@@ -24,7 +22,6 @@ import org.michaelbel.movies.repository.ktx.mapToMovieDb
 internal class MovieRepositoryImpl @Inject constructor(
     private val movieService: MovieService,
     private val movieDao: MovieDao,
-    private val pagingKeyDao: PagingKeyDao,
     private val localeController: LocaleController
 ): MovieRepository {
 
@@ -73,22 +70,5 @@ internal class MovieRepositoryImpl @Inject constructor(
             )
         }
         movieDao.insertAllMovies(moviesDb)
-    }
-
-    override suspend fun page(movieList: String): Int? {
-        return pagingKeyDao.pagingKey(movieList)?.page
-    }
-
-    override suspend fun removePagingKey(movieList: String) {
-        pagingKeyDao.removePagingKey(movieList)
-    }
-
-    override suspend fun insertPagingKey(movieList: String, page: Int) {
-        pagingKeyDao.insertPagingKey(
-            PagingKeyDb(
-                movieList = movieList,
-                page = page
-            )
-        )
     }
 }

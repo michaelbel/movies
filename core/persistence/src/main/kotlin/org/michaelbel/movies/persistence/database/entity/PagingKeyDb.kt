@@ -4,8 +4,8 @@ import androidx.room.Entity
 import org.jetbrains.annotations.NotNull
 import org.jetbrains.annotations.Nullable
 
-@Entity(tableName = "pagingkeys", primaryKeys = ["movieList"])
+@Entity(tableName = "pagingkeys", primaryKeys = ["pagingKey"])
 data class PagingKeyDb(
-    @NotNull val movieList: String,
+    @NotNull val pagingKey: String,
     @Nullable val page: Int? = null
 )

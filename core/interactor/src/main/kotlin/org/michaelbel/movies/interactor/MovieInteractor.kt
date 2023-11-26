@@ -17,10 +17,4 @@ interface MovieInteractor {
     suspend fun removeAllMovies(movieList: String)
 
     suspend fun insertAllMovies(movieList: String, movies: List<MovieResponse>)
-
-    suspend fun page(movieList: String): Int?
-
-    suspend fun removePagingKey(movieList: String)
-
-    suspend fun insertPagingKey(movieList: String, page: Int)
 }
