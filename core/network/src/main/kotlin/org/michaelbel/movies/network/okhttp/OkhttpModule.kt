@@ -7,6 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.github.rotbolt.flakerokhttpcore.FlakerInterceptor
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 import okhttp3.Cache
@@ -18,28 +19,6 @@ import org.michaelbel.movies.network.okhttp.interceptor.ApikeyInterceptor
 @Module
 @InstallIn(SingletonComponent::class)
 internal object OkhttpModule {
-
-    private const val HTTP_CACHE_SIZE_BYTES = 1024 * 1024 * 50L
-
-    /**
-     * Суммарное время на выполнение запроса (0 - нет ограничений).
-     */
-    private const val CALL_TIMEOUT_SECONDS = 0L
-
-    /**
-     * Время на подключение к заданному хосту.
-     */
-    private const val CONNECT_TIMEOUT_SECONDS = 10L
-
-    /**
-     * Время на получение ответа сервера.
-     */
-    private const val READ_TIMEOUT_SECONDS = 10L
-
-    /**
-     * Время на передачу запроса серверу.
-     */
-    private const val WRITE_TIMEOUT_SECONDS = 10L
 
     @Provides
     @Singleton
@@ -67,12 +46,14 @@ internal object OkhttpModule {
     @Singleton
     fun provideOkHttp(
         chuckerInterceptor: ChuckerInterceptor,
+        flakerInterceptor: FlakerInterceptor,
         httpLoggingInterceptor: HttpLoggingInterceptor,
         apikeyInterceptor: ApikeyInterceptor,
         cache: Cache
     ): OkHttpClient {
         val builder = OkHttpClient.Builder().apply {
             addInterceptor(chuckerInterceptor)
+            addInterceptor(flakerInterceptor)
             addInterceptor(httpLoggingInterceptor)
             addInterceptor(apikeyInterceptor)
             callTimeout(CALL_TIMEOUT_SECONDS, TimeUnit.SECONDS)
@@ -86,4 +67,10 @@ internal object OkhttpModule {
         }
         return builder.build()
     }
+
+    private const val HTTP_CACHE_SIZE_BYTES = 1024 * 1024 * 50L
+    private const val CALL_TIMEOUT_SECONDS = 0L
+    private const val CONNECT_TIMEOUT_SECONDS = 10L
+    private const val READ_TIMEOUT_SECONDS = 10L
+    private const val WRITE_TIMEOUT_SECONDS = 10L
 }

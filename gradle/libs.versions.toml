@@ -63,6 +63,7 @@ javapoet = "1.13.0"
 junit = "4.13.2"
 lint-checks = "1.2.0"
 palantir-git = "3.0.0"
+flaker = "0.1.2"
 
 [libraries]
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
@@ -142,6 +143,8 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 javapoet = { module = "com.squareup:javapoet", version.ref = "javapoet" }
 junit = { module = "junit:junit", version.ref = "junit" }
 lint-checks = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "lint-checks" }
+flaker-android-okhttp = { module = "io.github.rotbolt:flaker-android-okhttp", version.ref = "flaker" }
+flaker-android-okhttp-noop = { module = "io.github.rotbolt:flaker-android-okhttp-noop", version.ref = "flaker" }
 
 gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }

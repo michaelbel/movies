@@ -23,8 +23,6 @@
     <string name="settings_movie_list_popular">Популярные</string>
     <string name="settings_movie_list_top_rated">Топ</string>
     <string name="settings_movie_list_upcoming">Скоро</string>
-    <string name="settings_network_request_delay">Задержка сетевого запроса</string>
-    <string name="settings_network_request_delay_ms">%s мс</string>
     <string name="settings_app_launcher_icon">Иконка Приложения</string>
     <string name="settings_app_launcher_icon_red">Красная</string>
     <string name="settings_app_launcher_icon_purple">Фиолетовая</string>

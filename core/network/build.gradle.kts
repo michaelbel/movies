@@ -50,11 +50,14 @@ android {
 }
 
 dependencies {
+    implementation(libs.androidx.startup.runtime)
     api(libs.kotlin.serialization.json)
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.retrofit.converter.serialization)
     api(libs.retrofit)
     debugImplementation(libs.chucker.library)
     releaseImplementation(libs.chucker.library.no.op)
+    debugImplementation(libs.flaker.android.okhttp)
+    releaseImplementation(libs.flaker.android.okhttp.noop)
     // implementation(libs.chucker.library.no.op) enable for benchmark
 }

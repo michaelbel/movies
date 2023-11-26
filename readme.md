@@ -74,6 +74,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Retrofit](https://github.com/square/retrofit)
 - [x] [Retrofit Kotlinx Converter Serialization](https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter)
 - [x] [Chucker](https://github.com/ChuckerTeam/chucker)
+- [x] [Flaker](https://github.com/rotbolt/flaker)
 - [x] [Coil](https://github.com/coil-kt/coil)
 - [x] [Timber](https://github.com/JakeWharton/timber)
 - [x] [Firebase Analytics](https://firebase.google.com/products/analytics)

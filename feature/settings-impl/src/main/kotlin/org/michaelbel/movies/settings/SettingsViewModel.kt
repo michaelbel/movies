@@ -17,13 +17,11 @@ import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
-import org.michaelbel.movies.interactor.usecase.DelayUseCase
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val interactor: Interactor,
-    private val localeController: LocaleController,
-    private val delayUseCase: DelayUseCase
+    private val localeController: LocaleController
 ): BaseViewModel(), DefaultLifecycleObserver {
 
     val isDynamicColorsFeatureEnabled: Boolean = Build.VERSION.SDK_INT >= 31
@@ -81,13 +79,6 @@ class SettingsViewModel @Inject constructor(
             initialValue = false
         )
 
-    val networkRequestDelay: StateFlow<Int> = delayUseCase.networkRequestDelay
-        .stateIn(
-            scope = this,
-            started = SharingStarted.Lazily,
-            initialValue = 0
-        )
-
     val appVersionData: StateFlow<AppVersionData> = interactor.appVersionData
         .stateIn(
             scope = this,
@@ -117,9 +108,5 @@ class SettingsViewModel @Inject constructor(
 
     fun setRtlEnabled(value: Boolean) = launch {
         interactor.setRtlEnabled(value)
-    }
-
-    fun setNetworkRequestDelay(value: Int) = launch {
-        delayUseCase(value)
     }
 }

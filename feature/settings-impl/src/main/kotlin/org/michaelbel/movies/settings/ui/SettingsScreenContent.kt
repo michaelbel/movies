@@ -46,7 +46,6 @@ import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.settings.SettingsViewModel
 import org.michaelbel.movies.settings.ktx.iconSnackbarText
-import org.michaelbel.movies.settings_impl.BuildConfig
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
@@ -67,7 +66,6 @@ fun SettingsRoute(
     val layoutDirection: LayoutDirection by viewModel.layoutDirection.collectAsStateWithLifecycle()
     val isPlayServicesAvailable: Boolean by viewModel.isPlayServicesAvailable.collectAsStateWithLifecycle()
     val isAppFromGooglePlay: Boolean by viewModel.isAppFromGooglePlay.collectAsStateWithLifecycle()
-    val networkRequestDelay: Int by viewModel.networkRequestDelay.collectAsStateWithLifecycle()
     val appVersionData: AppVersionData by viewModel.appVersionData.collectAsStateWithLifecycle()
 
     SettingsScreenContent(
@@ -89,8 +87,6 @@ fun SettingsRoute(
         isPostNotificationsFeatureEnabled = viewModel.isPostNotificationsFeatureEnabled,
         isPlayServicesAvailable = isPlayServicesAvailable,
         isAppFromGooglePlay = isAppFromGooglePlay,
-        networkRequestDelay = networkRequestDelay,
-        onDelayChangeFinished = viewModel::setNetworkRequestDelay,
         appVersionData = appVersionData,
         modifier = modifier
     )
@@ -116,8 +112,6 @@ private fun SettingsScreenContent(
     isPostNotificationsFeatureEnabled: Boolean,
     isPlayServicesAvailable: Boolean,
     isAppFromGooglePlay: Boolean,
-    networkRequestDelay: Int,
-    onDelayChangeFinished: (Int) -> Unit,
     appVersionData: AppVersionData,
     modifier: Modifier = Modifier
 ) {
@@ -256,9 +250,7 @@ private fun SettingsScreenContent(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(52.dp)
-                            .clickable {
-                                onSetDynamicColors(!dynamicColors)
-                            }
+                            .clickable { onSetDynamicColors(!dynamicColors) }
                     )
                 }
             }
@@ -269,9 +261,7 @@ private fun SettingsScreenContent(
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(52.dp)
-                            .clickable {
-                                onEnableRtlChanged(!isRtlEnabled)
-                            }
+                            .clickable { onEnableRtlChanged(!isRtlEnabled) }
                     )
                 }
             }
@@ -290,19 +280,8 @@ private fun SettingsScreenContent(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(52.dp)
-                        .clickable {
-                            onLaunchReviewFlow()
-                        }
+                        .clickable { onLaunchReviewFlow() }
                 )
-            }
-            item {
-                if (BuildConfig.DEBUG) {
-                    SettingsNetworkRequestDelayBox(
-                        delay = networkRequestDelay,
-                        onDelayChangeFinished = onDelayChangeFinished,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                }
             }
             item {
                 SettingsAppIconBox(
