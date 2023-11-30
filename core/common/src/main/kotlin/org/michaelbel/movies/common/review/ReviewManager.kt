@@ -10,5 +10,6 @@ import com.google.android.play.core.review.ReviewManagerFactory
 @Composable
 fun rememberReviewManager(): ReviewManager {
     val context: Context = LocalContext.current
-    return remember { ReviewManagerFactory.create(context) }
+    val reviewManager: ReviewManager = ReviewManagerFactory.create(context)
+    return remember { reviewManager }
 }
