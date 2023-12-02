@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="language_code">en</string>
+    <string name="shortcuts_search_title">Search</string>
     <string name="shortcuts_settings_title">Settings</string>
     <string name="notification_enable_title">Turn on Notifications\nFor Movies</string>
     <string name="notification_enable_subtitle">Please allow Movies to send you notifications</string>
