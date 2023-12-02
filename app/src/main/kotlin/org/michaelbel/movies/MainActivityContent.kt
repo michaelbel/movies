@@ -19,6 +19,8 @@ import org.michaelbel.movies.feed.feedGraph
 import org.michaelbel.movies.gallery.galleryGraph
 import org.michaelbel.movies.gallery.navigateToGallery
 import org.michaelbel.movies.navigation.ktx.addOnDestinationChangedListener
+import org.michaelbel.movies.search.navigateToSearch
+import org.michaelbel.movies.search.searchGraph
 import org.michaelbel.movies.settings.navigateToSettings
 import org.michaelbel.movies.settings.settingsGraph
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -49,6 +51,7 @@ internal fun MainActivityContent(
                 navigateBack = navHostController::popBackStack
             )
             feedGraph(
+                navigateToSearch = navHostController::navigateToSearch,
                 navigateToAuth = navHostController::navigateToAuth,
                 navigateToAccount = navHostController::navigateToAccount,
                 navigateToSettings = navHostController::navigateToSettings,
@@ -61,6 +64,10 @@ internal fun MainActivityContent(
             )
             galleryGraph(
                 navigateBack = navHostController::popBackStack
+            )
+            searchGraph(
+                navigateBack = navHostController::popBackStack,
+                navigateToDetails = navHostController::navigateToDetails,
             )
             settingsGraph(
                 navigateBack = navHostController::popBackStack

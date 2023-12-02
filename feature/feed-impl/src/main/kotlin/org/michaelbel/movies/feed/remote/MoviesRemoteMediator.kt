@@ -3,7 +3,7 @@ package org.michaelbel.movies.feed.remote
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import org.michaelbel.movies.common.exceptions.FeedEmptyException
+import org.michaelbel.movies.common.exceptions.PageEmptyException
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.network.ktx.isEmpty
 import org.michaelbel.movies.network.ktx.isPaginationReached
@@ -41,7 +41,7 @@ class MoviesRemoteMediator(
             )
 
             if (moviesResult.isEmpty) {
-                throw FeedEmptyException
+                throw PageEmptyException
             }
 
             if (loadType == LoadType.REFRESH) {

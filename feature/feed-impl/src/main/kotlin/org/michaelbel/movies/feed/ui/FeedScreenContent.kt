@@ -44,7 +44,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
-import org.michaelbel.movies.common.exceptions.FeedEmptyException
+import org.michaelbel.movies.common.exceptions.PageEmptyException
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.feed.FeedViewModel
 import org.michaelbel.movies.feed.ktx.titleText
@@ -55,6 +55,7 @@ import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.ui.compose.NotificationBottomSheet
 import org.michaelbel.movies.ui.compose.PageContent
+import org.michaelbel.movies.ui.compose.PageFailure
 import org.michaelbel.movies.ui.compose.PageLoading
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
@@ -65,8 +66,9 @@ import org.michaelbel.movies.ui.R as UiR
 
 @Composable
 fun FeedRoute(
-    onNavigateToAccount: () -> Unit,
+    onNavigateToSearch: () -> Unit,
     onNavigateToAuth: () -> Unit,
+    onNavigateToAccount: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToDetails: (Int) -> Unit,
     onStartUpdateFlow: () -> Unit,
@@ -89,6 +91,7 @@ fun FeedRoute(
         currentMovieList = currentMovieList,
         notificationsPermissionRequired = notificationsPermissionRequired,
         isUpdateIconVisible = isUpdateAvailable,
+        onNavigateToSearch = onNavigateToSearch,
         onNavigateToAuth = onNavigateToAuth,
         onNavigateToAccount = onNavigateToAccount,
         onNavigateToSettings = onNavigateToSettings,
@@ -108,6 +111,7 @@ private fun FeedScreenContent(
     currentMovieList: MovieList,
     notificationsPermissionRequired: Boolean,
     isUpdateIconVisible: Boolean,
+    onNavigateToSearch: () -> Unit,
     onNavigateToAuth: () -> Unit,
     onNavigateToAccount: () -> Unit,
     onNavigateToSettings: () -> Unit,
@@ -205,6 +209,7 @@ private fun FeedScreenContent(
                     modifier = Modifier.clickableWithoutRipple(onScrollToTop),
                     account = account,
                     isUpdateIconVisible = isUpdateIconVisible,
+                    onSearchIconClick = onNavigateToSearch,
                     onAuthIconClick = {
                         when {
                             isTmdbApiKeyEmpty -> onShowSnackbar(context.getString(UiR.string.error_api_key_null))
@@ -233,7 +238,7 @@ private fun FeedScreenContent(
                     )
                 }
                 pagingItems.isFailure -> {
-                    if (pagingItems.throwable is FeedEmptyException) {
+                    if (pagingItems.throwable is PageEmptyException) {
                         FeedEmpty(
                             modifier = Modifier
                                 .padding(paddingValues)
@@ -241,7 +246,7 @@ private fun FeedScreenContent(
                                 .fillMaxSize()
                         )
                     } else {
-                        FeedFailure(
+                        PageFailure(
                             modifier = Modifier
                                 .padding(paddingValues)
                                 .windowInsetsPadding(displayCutoutWindowInsets)

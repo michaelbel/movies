@@ -9,6 +9,7 @@ class Interactor @Inject constructor(
     movieInteractor: MovieInteractor,
     notificationInteractor: NotificationInteractor,
     pagingKeyInteractor: PagingKeyInteractor,
+    searchInteractor: SearchInteractor,
     settingsInteractor: SettingsInteractor
 ): AccountInteractor by accountInteractor,
    AuthenticationInteractor by authenticationInteractor,
@@ -16,4 +17,5 @@ class Interactor @Inject constructor(
    MovieInteractor by movieInteractor,
    NotificationInteractor by notificationInteractor,
    PagingKeyInteractor by pagingKeyInteractor,
+   SearchInteractor by searchInteractor,
    SettingsInteractor by settingsInteractor

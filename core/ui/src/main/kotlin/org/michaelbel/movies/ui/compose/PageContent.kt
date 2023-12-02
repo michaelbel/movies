@@ -40,8 +40,8 @@ fun PageContent(
     lazyStaggeredGridState: LazyStaggeredGridState,
     pagingItems: LazyPagingItems<MovieDb>,
     onMovieClick: (Int) -> Unit,
-    contentPadding: PaddingValues,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues()
 ) {
     when (feedView) {
         is FeedView.FeedList -> {

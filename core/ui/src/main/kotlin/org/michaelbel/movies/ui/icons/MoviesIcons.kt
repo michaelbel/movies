@@ -2,6 +2,7 @@ package org.michaelbel.movies.ui.icons
 
 import androidx.annotation.DrawableRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ManageSearch
 import androidx.compose.material.icons.filled.MovieFilter
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.ArrowBack
@@ -9,10 +10,12 @@ import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.KeyboardVoice
 import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.LocalMovies
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.SystemUpdate
@@ -37,11 +40,14 @@ object MoviesIcons {
     val Info: ImageVector = Icons.Outlined.Info
     val FileDownload: ImageVector = Icons.Outlined.FileDownload
     val GridView: ImageVector = Icons.Outlined.GridView
+    val KeyboardVoice = Icons.Outlined.KeyboardVoice
     val Language: ImageVector = Icons.Outlined.Language
     val LocationOn: ImageVector = Icons.Outlined.LocationOn
+    val ManageSearch: ImageVector = Icons.Filled.ManageSearch
     val MovieFilter: ImageVector = Icons.Filled.MovieFilter
     val LocalMovies: ImageVector = Icons.Outlined.LocalMovies
     val Notifications: ImageVector = Icons.Outlined.Notifications
+    val Search: ImageVector = Icons.Outlined.Search
     val Settings: ImageVector = Icons.Outlined.Settings
     val Share: ImageVector = Icons.Outlined.Share
     val SystemUpdate: ImageVector = Icons.Outlined.SystemUpdate

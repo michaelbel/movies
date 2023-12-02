@@ -42,6 +42,8 @@ include(
     ":feature:feed-impl",
     ":feature:gallery",
     ":feature:gallery-impl",
+    ":feature:search",
+    ":feature:search-impl",
     ":feature:settings",
     ":feature:settings-impl"
 )

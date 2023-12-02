@@ -11,6 +11,7 @@ import org.michaelbel.movies.repository.ImageRepository
 import org.michaelbel.movies.repository.MovieRepository
 import org.michaelbel.movies.repository.NotificationRepository
 import org.michaelbel.movies.repository.PagingKeyRepository
+import org.michaelbel.movies.repository.SearchRepository
 import org.michaelbel.movies.repository.SettingsRepository
 import org.michaelbel.movies.repository.impl.AccountRepositoryImpl
 import org.michaelbel.movies.repository.impl.AuthenticationRepositoryImpl
@@ -18,6 +19,7 @@ import org.michaelbel.movies.repository.impl.ImageRepositoryImpl
 import org.michaelbel.movies.repository.impl.MovieRepositoryImpl
 import org.michaelbel.movies.repository.impl.NotificationRepositoryImpl
 import org.michaelbel.movies.repository.impl.PagingKeyRepositoryImpl
+import org.michaelbel.movies.repository.impl.SearchRepositoryImpl
 import org.michaelbel.movies.repository.impl.SettingsRepositoryImpl
 
 @Module
@@ -59,6 +61,12 @@ internal interface RepositoryModule {
     fun providePagingKeyRepository(
         repository: PagingKeyRepositoryImpl
     ): PagingKeyRepository
+
+    @Binds
+    @Singleton
+    fun provideSearchRepository(
+        repository: SearchRepositoryImpl
+    ): SearchRepository
 
     @Binds
     @Singleton

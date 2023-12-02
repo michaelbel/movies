@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="search_title">Search</string>
+    <string name="search_history_empty">Search History is Empty</string>
+    <string name="search_results_empty">Empty Search Results</string>
+</resources>

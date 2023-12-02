@@ -18,8 +18,8 @@ internal class MovieInteractorImpl @Inject constructor(
     private val movieRepository: MovieRepository
 ): MovieInteractor {
 
-    override fun moviesPagingSource(movieList: String): PagingSource<Int, MovieDb> {
-        return movieRepository.moviesPagingSource(movieList)
+    override fun moviesPagingSource(pagingKey: String): PagingSource<Int, MovieDb> {
+        return movieRepository.moviesPagingSource(pagingKey)
     }
 
     override suspend fun moviesResult(movieList: String, page: Int): Result<MovieResponse> {
@@ -34,15 +34,15 @@ internal class MovieInteractorImpl @Inject constructor(
         }
     }
 
-    override suspend fun removeAllMovies(movieList: String) {
+    override suspend fun removeAllMovies(pagingKey: String) {
         return withContext(dispatchers.io) {
-            movieRepository.removeAllMovies(movieList)
+            movieRepository.removeAllMovies(pagingKey)
         }
     }
 
-    override suspend fun insertAllMovies(movieList: String, movies: List<MovieResponse>) {
+    override suspend fun insertAllMovies(pagingKey: String, movies: List<MovieResponse>) {
         return withContext(dispatchers.io) {
-            movieRepository.insertAllMovies(movieList, movies)
+            movieRepository.insertAllMovies(pagingKey, movies)
         }
     }
 }
