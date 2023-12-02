@@ -172,8 +172,7 @@ private fun SettingsScreenContent(
     }
 
     Scaffold(
-        modifier = modifier
-            .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
+        modifier = modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
         topBar = {
             SettingsToolbar(
                 topAppBarScrollBehavior = topAppBarScrollBehavior,

@@ -51,14 +51,13 @@ fun MovieRow(
                 .crossfade(true)
                 .build(),
             contentDescription = null,
-            modifier = Modifier
-                .constrainAs(image) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.value(220.dp)
-                    start.linkTo(parent.start)
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end)
-                },
+            modifier = Modifier.constrainAs(image) {
+                width = Dimension.fillToConstraints
+                height = Dimension.value(220.dp)
+                start.linkTo(parent.start)
+                top.linkTo(parent.top)
+                end.linkTo(parent.end)
+            },
             onState = { state ->
                 isNoImageVisible = state.isErrorOrEmpty
             },
@@ -67,15 +66,14 @@ fun MovieRow(
 
         AnimatedVisibility(
             visible = isNoImageVisible,
-            modifier = Modifier
-                .constrainAs(noImageText) {
-                    width = Dimension.wrapContent
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start)
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end)
-                    bottom.linkTo(text.top)
-                },
+            modifier = Modifier.constrainAs(noImageText) {
+                width = Dimension.wrapContent
+                height = Dimension.wrapContent
+                start.linkTo(parent.start)
+                top.linkTo(parent.top)
+                end.linkTo(parent.end)
+                bottom.linkTo(text.top)
+            },
             enter = fadeIn()
         ) {
             Text(
@@ -88,15 +86,14 @@ fun MovieRow(
 
         Text(
             text = movie.title,
-            modifier = Modifier
-                .constrainAs(text) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(image.bottom, 16.dp)
-                    end.linkTo(parent.end, 16.dp)
-                    bottom.linkTo(parent.bottom, 16.dp)
-                },
+            modifier = Modifier.constrainAs(text) {
+                width = Dimension.fillToConstraints
+                height = Dimension.wrapContent
+                start.linkTo(parent.start, 16.dp)
+                top.linkTo(image.bottom, 16.dp)
+                end.linkTo(parent.end, 16.dp)
+                bottom.linkTo(parent.bottom, 16.dp)
+            },
             maxLines = maxLines,
             overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.bodyLarge.copy(

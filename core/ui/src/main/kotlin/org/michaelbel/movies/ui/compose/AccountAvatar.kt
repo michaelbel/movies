@@ -42,12 +42,11 @@ fun AccountAvatar(
         )
     } else {
         Box(
-            modifier = modifier
-                .border(
-                    width = 2.dp,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                    shape = CircleShape
-                ),
+            modifier = modifier.border(
+                width = 2.dp,
+                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                shape = CircleShape
+            ),
             contentAlignment = Alignment.Center
         ) {
             Text(

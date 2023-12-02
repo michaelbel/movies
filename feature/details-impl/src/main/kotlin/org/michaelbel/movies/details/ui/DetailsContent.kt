@@ -94,15 +94,14 @@ fun DetailsContent(
 
         AnimatedVisibility(
             visible = isNoImageVisible,
-            modifier = Modifier
-                .constrainAs(noImageText) {
-                    width = Dimension.wrapContent
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start)
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end)
-                    bottom.linkTo(title.top)
-                },
+            modifier = Modifier.constrainAs(noImageText) {
+                width = Dimension.wrapContent
+                height = Dimension.wrapContent
+                start.linkTo(parent.start)
+                top.linkTo(parent.top)
+                end.linkTo(parent.end)
+                bottom.linkTo(title.top)
+            },
             enter = fadeIn()
         ) {
             Text(

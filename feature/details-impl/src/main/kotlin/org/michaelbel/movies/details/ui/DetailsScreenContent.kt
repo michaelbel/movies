@@ -62,8 +62,7 @@ private fun DetailsScreenContent(
     }
 
     Scaffold(
-        modifier = modifier
-            .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
+        modifier = modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
         topBar = {
             DetailsToolbar(
                 movieTitle = detailsState.toolbarTitle,

@@ -29,28 +29,26 @@ fun DetailsFailure(
         Icon(
             imageVector = MoviesIcons.Info,
             contentDescription = null,
-            modifier = Modifier
-                .constrainAs(image) {
-                    width = Dimension.value(36.dp)
-                    height = Dimension.value(36.dp)
-                    start.linkTo(parent.start)
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end)
-                    bottom.linkTo(parent.bottom, 8.dp)
-                },
+            modifier = Modifier.constrainAs(image) {
+                width = Dimension.value(36.dp)
+                height = Dimension.value(36.dp)
+                start.linkTo(parent.start)
+                top.linkTo(parent.top)
+                end.linkTo(parent.end)
+                bottom.linkTo(parent.bottom, 8.dp)
+            },
             tint = MaterialTheme.colorScheme.error
         )
 
         Text(
             text = stringResource(R.string.details_error_loading),
-            modifier = Modifier
-                .constrainAs(text) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(image.bottom, 8.dp)
-                    end.linkTo(parent.end, 16.dp)
-                },
+            modifier = Modifier.constrainAs(text) {
+                width = Dimension.fillToConstraints
+                height = Dimension.wrapContent
+                start.linkTo(parent.start, 16.dp)
+                top.linkTo(image.bottom, 8.dp)
+                end.linkTo(parent.end, 16.dp)
+            },
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyMedium.copy(
                 color = MaterialTheme.colorScheme.onBackground

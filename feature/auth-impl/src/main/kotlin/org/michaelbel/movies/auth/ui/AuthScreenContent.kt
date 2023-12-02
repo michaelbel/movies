@@ -118,14 +118,13 @@ internal fun AuthScreenContent(
         ) = createRefs()
 
         AuthToolbar(
-            modifier = Modifier
-                .constrainAs(toolbar) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start)
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end)
-                },
+            modifier = Modifier.constrainAs(toolbar) {
+                width = Dimension.fillToConstraints
+                height = Dimension.wrapContent
+                start.linkTo(parent.start)
+                top.linkTo(parent.top)
+                end.linkTo(parent.end)
+            },
             onNavigationIconClick = onBackClick
         )
 
@@ -149,14 +148,13 @@ internal fun AuthScreenContent(
             onValueChange = { value: String ->
                 username = value
             },
-            modifier = Modifier
-                .constrainAs(usernameField) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(logo.bottom, 8.dp)
-                    end.linkTo(parent.end, 16.dp)
-                },
+            modifier = Modifier.constrainAs(usernameField) {
+                width = Dimension.fillToConstraints
+                height = Dimension.wrapContent
+                start.linkTo(parent.start, 16.dp)
+                top.linkTo(logo.bottom, 8.dp)
+                end.linkTo(parent.end, 16.dp)
+            },
             label = {
                 Text(
                     text = stringResource(R.string.auth_label_username)
@@ -181,14 +179,13 @@ internal fun AuthScreenContent(
             onValueChange = { value: String ->
                 password = value
             },
-            modifier = Modifier
-                .constrainAs(passwordField) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(usernameField.bottom, 4.dp)
-                    end.linkTo(parent.end, 16.dp)
-                },
+            modifier = Modifier.constrainAs(passwordField) {
+                width = Dimension.fillToConstraints
+                height = Dimension.wrapContent
+                start.linkTo(parent.start, 16.dp)
+                top.linkTo(usernameField.bottom, 4.dp)
+                end.linkTo(parent.end, 16.dp)
+            },
             label = {
                 Text(
                     text = stringResource(R.string.auth_label_password)
@@ -238,13 +235,12 @@ internal fun AuthScreenContent(
 
         AnimatedVisibility(
             visible = error != null && error is CreateSessionWithLoginException,
-            modifier = Modifier
-                .constrainAs(resetPasswordButton) {
-                    width = Dimension.wrapContent
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start, 6.dp)
-                    top.linkTo(passwordField.bottom, 4.dp)
-                },
+            modifier = Modifier.constrainAs(resetPasswordButton) {
+                width = Dimension.wrapContent
+                height = Dimension.wrapContent
+                start.linkTo(parent.start, 6.dp)
+                top.linkTo(passwordField.bottom, 4.dp)
+            },
             enter = fadeIn(),
             exit = fadeOut()
         ) {
@@ -259,14 +255,13 @@ internal fun AuthScreenContent(
 
         AnimatedVisibility(
             visible = error != null && error is CreateSessionWithLoginException,
-            modifier = Modifier
-                .constrainAs(signUpButton) {
-                    width = Dimension.wrapContent
-                    height = Dimension.wrapContent
-                    start.linkTo(resetPasswordButton.end, 2.dp)
-                    top.linkTo(resetPasswordButton.top)
-                    bottom.linkTo(resetPasswordButton.bottom)
-                },
+            modifier = Modifier.constrainAs(signUpButton) {
+                width = Dimension.wrapContent
+                height = Dimension.wrapContent
+                start.linkTo(resetPasswordButton.end, 2.dp)
+                top.linkTo(resetPasswordButton.top)
+                bottom.linkTo(resetPasswordButton.bottom)
+            },
             enter = fadeIn(),
             exit = fadeOut()
         ) {
@@ -283,14 +278,13 @@ internal fun AuthScreenContent(
             onClick = {
                 onSignInClick(username.trim(), password.trim())
             },
-            modifier = Modifier
-                .constrainAs(signInButton) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(if (error != null && error is CreateSessionWithLoginException) resetPasswordButton.bottom else passwordField.bottom, 16.dp)
-                    end.linkTo(parent.end, 16.dp)
-                },
+            modifier = Modifier.constrainAs(signInButton) {
+                width = Dimension.fillToConstraints
+                height = Dimension.wrapContent
+                start.linkTo(parent.start, 16.dp)
+                top.linkTo(if (error != null && error is CreateSessionWithLoginException) resetPasswordButton.bottom else passwordField.bottom, 16.dp)
+                end.linkTo(parent.end, 16.dp)
+            },
             enabled = username.isNotEmpty() && password.isNotEmpty() && !loading,
             contentPadding = PaddingValues(horizontal = 24.dp)
         ) {
@@ -347,14 +341,13 @@ internal fun AuthScreenContent(
         AuthLinksBox(
             onTermsOfUseClick = { openUrl(resultContract, toolbarColor, TMDB_TERMS_OF_USE) },
             onPrivacyPolicyClick = { openUrl(resultContract, toolbarColor, TMDB_PRIVACY_POLICY) },
-            modifier = Modifier
-                .constrainAs(linksBox) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start)
-                    top.linkTo(signInButton.bottom, 16.dp)
-                    end.linkTo(parent.end)
-                }
+            modifier = Modifier.constrainAs(linksBox) {
+                width = Dimension.fillToConstraints
+                height = Dimension.wrapContent
+                start.linkTo(parent.start)
+                top.linkTo(signInButton.bottom, 16.dp)
+                end.linkTo(parent.end)
+            }
         )
     }
 }

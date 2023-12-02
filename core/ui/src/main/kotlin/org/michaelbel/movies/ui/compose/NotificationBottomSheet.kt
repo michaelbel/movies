@@ -35,9 +35,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.ui.R
 import org.michaelbel.movies.ui.icons.MoviesIcons
+import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
@@ -94,14 +94,13 @@ fun NotificationBottomSheet(
             Image(
                 imageVector = MoviesIcons.Notifications,
                 contentDescription = null,
-                modifier = Modifier
-                    .graphicsLayer(
-                        transformOrigin = TransformOrigin(
-                            pivotFractionX = 0.5f,
-                            pivotFractionY = 0.0f,
-                        ),
-                        rotationZ = value
+                modifier = Modifier.graphicsLayer(
+                    transformOrigin = TransformOrigin(
+                        pivotFractionX = 0.5f,
+                        pivotFractionY = 0.0f,
                     ),
+                    rotationZ = value
+                ),
                 colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurfaceVariant)
             )
         }
@@ -136,11 +135,7 @@ fun NotificationBottomSheet(
                     }
                 }
             },
-            modifier = Modifier
-                .padding(
-                    top = 16.dp,
-                    bottom = 32.dp
-                )
+            modifier = Modifier.padding(top = 16.dp, bottom = 32.dp)
         ) {
             Text(
                 text = stringResource(if (Build.VERSION.SDK_INT >= 33) R.string.notification_continue else R.string.notification_go_to_settings)

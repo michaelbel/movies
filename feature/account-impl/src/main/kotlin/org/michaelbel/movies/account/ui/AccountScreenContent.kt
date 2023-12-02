@@ -83,27 +83,25 @@ internal fun AccountScreenContent(
         createVerticalChain(nameText, usernameText, chainStyle = ChainStyle.Packed)
 
         AccountToolbar(
-            modifier = Modifier
-                .constrainAs(toolbar) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start)
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end)
-                },
+            modifier = Modifier.constrainAs(toolbar) {
+                width = Dimension.fillToConstraints
+                height = Dimension.wrapContent
+                start.linkTo(parent.start)
+                top.linkTo(parent.top)
+                end.linkTo(parent.end)
+            },
             onNavigationIconClick = onBackClick
         )
 
         AccountAvatar(
             account = account,
             fontSize = account.lettersTextFontSizeLarge,
-            modifier = Modifier
-                .constrainAs(accountAvatar) {
-                    width = Dimension.value(64.dp)
-                    height = Dimension.value(64.dp)
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(toolbar.bottom)
-                }
+            modifier = Modifier.constrainAs(accountAvatar) {
+                width = Dimension.value(64.dp)
+                height = Dimension.value(64.dp)
+                start.linkTo(parent.start, 16.dp)
+                top.linkTo(toolbar.bottom)
+            }
         )
 
         if (account.adult) {
@@ -126,15 +124,14 @@ internal fun AccountScreenContent(
         }
 
         Column(
-            modifier = Modifier
-                .constrainAs(nameColumn) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(accountAvatar.end, 12.dp)
-                    top.linkTo(accountAvatar.top)
-                    end.linkTo(parent.end, 16.dp)
-                    bottom.linkTo(accountAvatar.bottom)
-                },
+            modifier = Modifier.constrainAs(nameColumn) {
+                width = Dimension.fillToConstraints
+                height = Dimension.wrapContent
+                start.linkTo(accountAvatar.end, 12.dp)
+                top.linkTo(accountAvatar.top)
+                end.linkTo(parent.end, 16.dp)
+                bottom.linkTo(accountAvatar.bottom)
+            },
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.Start
         ) {
@@ -164,27 +161,25 @@ internal fun AccountScreenContent(
         if (account.country.isNotEmpty()) {
             AccountCountryBox(
                 country = account.country,
-                modifier = Modifier
-                    .constrainAs(countryBox) {
-                        width = Dimension.fillToConstraints
-                        height = Dimension.wrapContent
-                        start.linkTo(parent.start, 16.dp)
-                        top.linkTo(accountAvatar.bottom, 8.dp)
-                    }
+                modifier = Modifier.constrainAs(countryBox) {
+                    width = Dimension.fillToConstraints
+                    height = Dimension.wrapContent
+                    start.linkTo(parent.start, 16.dp)
+                    top.linkTo(accountAvatar.bottom, 8.dp)
+                }
             )
         }
 
         Button(
             onClick = onLogoutClick,
-            modifier = Modifier
-                .constrainAs(logoutButton) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(if (account.country.isNotEmpty()) countryBox.bottom else accountAvatar.bottom, 8.dp)
-                    end.linkTo(parent.end, 16.dp)
-                    bottom.linkTo(parent.bottom, 16.dp)
-                },
+            modifier = Modifier.constrainAs(logoutButton) {
+                width = Dimension.fillToConstraints
+                height = Dimension.wrapContent
+                start.linkTo(parent.start, 16.dp)
+                top.linkTo(if (account.country.isNotEmpty()) countryBox.bottom else accountAvatar.bottom, 8.dp)
+                end.linkTo(parent.end, 16.dp)
+                bottom.linkTo(parent.bottom, 16.dp)
+            },
             enabled = !loading,
             contentPadding = PaddingValues(horizontal = 24.dp)
         ) {
