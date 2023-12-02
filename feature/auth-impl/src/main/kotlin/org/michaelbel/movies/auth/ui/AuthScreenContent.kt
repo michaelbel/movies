@@ -18,7 +18,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -53,6 +52,7 @@ import org.michaelbel.movies.network.TMDB_REGISTER
 import org.michaelbel.movies.network.TMDB_RESET_PASSWORD
 import org.michaelbel.movies.network.TMDB_TERMS_OF_USE
 import org.michaelbel.movies.network.TMDB_URL
+import org.michaelbel.movies.ui.compose.iconbutton.PasswordIcon
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.isPortrait
@@ -197,16 +197,10 @@ internal fun AuthScreenContent(
                     enter = fadeIn(),
                     exit = fadeOut()
                 ) {
-                    IconButton(
-                        onClick = {
-                            passwordVisible = !passwordVisible
-                        }
-                    ) {
-                        Icon(
-                            imageVector = if (passwordVisible) MoviesIcons.Visibility else MoviesIcons.VisibilityOff,
-                            contentDescription = null
-                        )
-                    }
+                    PasswordIcon(
+                        state = passwordVisible,
+                        onClick = { passwordVisible = !passwordVisible }
+                    )
                 }
             },
             supportingText = {

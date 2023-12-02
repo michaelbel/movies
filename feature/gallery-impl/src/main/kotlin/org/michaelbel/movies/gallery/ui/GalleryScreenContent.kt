@@ -61,6 +61,8 @@ import org.michaelbel.movies.gallery_impl.R
 import org.michaelbel.movies.network.isNotOriginal
 import org.michaelbel.movies.persistence.database.entity.ImageDb
 import org.michaelbel.movies.persistence.database.ktx.original
+import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
+import org.michaelbel.movies.ui.compose.iconbutton.DownloadIcon
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.work.DownloadImageWorker
@@ -268,16 +270,10 @@ private fun GalleryScreenContent(
                                     .statusBarsPadding(),
                                 enter = fadeIn()
                             ) {
-                                IconButton(
+                                DownloadIcon(
                                     onClick = { onDownloadClick(imageDb) },
                                     modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
-                                ) {
-                                    Image(
-                                        imageVector = MoviesIcons.FileDownload,
-                                        contentDescription = null,
-                                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
-                                    )
-                                }
+                                )
                             }
 
                             BackHandler(zoomState.isScaled) {
@@ -286,7 +282,7 @@ private fun GalleryScreenContent(
                         }
                     }
 
-                    IconButton(
+                    BackIcon(
                         onClick = onBackClick,
                         modifier = Modifier
                             .constrainAs(backIcon) {
@@ -297,13 +293,7 @@ private fun GalleryScreenContent(
                             }
                             .statusBarsPadding()
                             .windowInsetsPadding(displayCutoutWindowInsets)
-                    ) {
-                        Image(
-                            imageVector = MoviesIcons.ArrowBack,
-                            contentDescription = null,
-                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
-                        )
-                    }
+                    )
 
                     Text(
                         text = "",

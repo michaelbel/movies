@@ -22,6 +22,9 @@ import org.michaelbel.movies.feed_impl.R
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.ktx.isEmpty
 import org.michaelbel.movies.ui.compose.AccountAvatar
+import org.michaelbel.movies.ui.compose.iconbutton.SearchIcon
+import org.michaelbel.movies.ui.compose.iconbutton.SettingsIcon
+import org.michaelbel.movies.ui.compose.iconbutton.UpdateIcon
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.ktx.lettersTextFontSizeSmall
@@ -55,42 +58,24 @@ fun FeedToolbar(
         },
         modifier = modifier,
         navigationIcon = {
-            IconButton(
+            SearchIcon(
                 onClick = onSearchIconClick,
                 modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
-            ) {
-                Image(
-                    imageVector = MoviesIcons.Search,
-                    contentDescription = null,
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
-                )
-            }
+            )
         },
         actions = {
             Row(
                 modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
             ) {
                 if (isUpdateIconVisible) {
-                    IconButton(
+                    UpdateIcon(
                         onClick = onUpdateIconClick
-                    ) {
-                        Image(
-                            imageVector = MoviesIcons.SystemUpdate,
-                            contentDescription = null,
-                            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
-                        )
-                    }
-                }
-
-                IconButton(
-                    onClick = onSettingsIconClick
-                ) {
-                    Image(
-                        imageVector = MoviesIcons.Settings,
-                        contentDescription = null,
-                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
                     )
                 }
+
+                SettingsIcon(
+                    onClick = onSettingsIconClick
+                )
 
                 IconButton(
                     onClick = if (account.isEmpty) onAuthIconClick else onAccountIconClick

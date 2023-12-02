@@ -12,4 +12,5 @@
     <string name="error_api_key_null">TMDB API key is null</string>
     <string name="error_loading">Error while loading movies</string>
     <string name="error_check_internet_connectivity">Check Internet Connectivity</string>
+    <string name="share_via">Share via</string>
 </resources>

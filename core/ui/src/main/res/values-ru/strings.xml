@@ -12,4 +12,5 @@
     <string name="error_api_key_null">TMDB API не может быть пустым</string>
     <string name="error_loading">При загрузке фильмов произошла ошибка</string>
     <string name="error_check_internet_connectivity">Проверить подключение к интернету</string>
+    <string name="share_via">Поделиться через</string>
 </resources>

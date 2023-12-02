@@ -1,7 +1,6 @@
 package org.michaelbel.movies.search.ui
 
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -18,7 +17,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
@@ -38,7 +36,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
@@ -60,6 +57,9 @@ import org.michaelbel.movies.search_impl.R
 import org.michaelbel.movies.ui.compose.PageContent
 import org.michaelbel.movies.ui.compose.PageFailure
 import org.michaelbel.movies.ui.compose.PageLoading
+import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
+import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
+import org.michaelbel.movies.ui.compose.iconbutton.VoiceIcon
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
@@ -166,31 +166,19 @@ private fun SearchScreenContent(
                             contentDescription = null
                         )
                     } else {
-                        IconButton(
+                        BackIcon(
                             onClick = onBackClick
-                        ) {
-                            Image(
-                                imageVector = MoviesIcons.ArrowBack,
-                                contentDescription = null,
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
-                            )
-                        }
+                        )
                     }
                 },
                 trailingIcon = {
                     if (active) {
-                        IconButton(
+                        CloseIcon(
                             onClick = {
                                 active = query.isNotEmpty()
                                 query = ""
                             }
-                        ) {
-                            Image(
-                                imageVector = MoviesIcons.Close,
-                                contentDescription = null,
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
-                            )
-                        }
+                        )
                     } else {
                         VoiceIcon(
                             onInputText = { text ->

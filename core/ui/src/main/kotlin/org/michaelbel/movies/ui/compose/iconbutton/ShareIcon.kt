@@ -1,10 +1,11 @@
-package org.michaelbel.movies.details.ui
+package org.michaelbel.movies.ui.compose.iconbutton
 
 import android.content.Context
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -12,17 +13,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import org.michaelbel.movies.details_impl.R
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.url
+import org.michaelbel.movies.ui.R
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.MovieDbPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun DetailsShareButton(
-    movieUrl: String,
+fun ShareIcon(
+    url: String,
     modifier: Modifier = Modifier
 ) {
     val context: Context = LocalContext.current
@@ -30,16 +31,18 @@ fun DetailsShareButton(
         ActivityResultContracts.StartActivityForResult()
     ) {}
 
+    val onShareUrl: () -> Unit = {
+        Intent().apply {
+            type = "text/plain"
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, url)
+        }.also { intent: Intent ->
+            resultContract.launch(Intent.createChooser(intent, context.getString(R.string.share_via)))
+        }
+    }
+
     IconButton(
-        onClick = {
-            Intent().apply {
-                type = "text/plain"
-                action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, movieUrl)
-            }.also { intent: Intent ->
-                resultContract.launch(Intent.createChooser(intent, context.getString(R.string.details_share_via)))
-            }
-        },
+        onClick = onShareUrl,
         modifier = modifier
     ) {
         Image(
@@ -52,12 +55,13 @@ fun DetailsShareButton(
 
 @Composable
 @DevicePreviews
-private fun ShareButtonPreview(
+private fun ShareIconPreview(
     @PreviewParameter(MovieDbPreviewParameterProvider::class) movie: MovieDb
 ) {
     MoviesTheme {
-        DetailsShareButton(
-            movieUrl = movie.url
+        ShareIcon(
+            url = movie.url,
+            modifier = Modifier.background(MaterialTheme.colorScheme.background)
         )
     }
 }
