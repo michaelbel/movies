@@ -8,6 +8,7 @@
     <string name="content_description_back_icon">Иконка Назад</string>
     <string name="content_description_close_icon">Иконка Закрытия</string>
     <string name="content_description_download_icon">Иконка Загрузки</string>
+    <string name="content_description_history_icon">Иконка Истории Поиска</string>
     <string name="content_description_language_icon">Иконка Локализации</string>
     <string name="content_description_movie_details_image">Изображение Фильма</string>
     <string name="content_description_password_icon">Иконка Показать Пароль</string>

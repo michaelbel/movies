@@ -8,6 +8,7 @@
     <string name="content_description_back_icon">Back Icon</string>
     <string name="content_description_close_icon">Close Icon</string>
     <string name="content_description_download_icon">Download Icon</string>
+    <string name="content_description_history_icon">History Icon</string>
     <string name="content_description_language_icon">Language Icon</string>
     <string name="content_description_movie_details_image">Movie Details Image</string>
     <string name="content_description_password_icon">Password Visible Icon</string>

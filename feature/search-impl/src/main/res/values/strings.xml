@@ -3,4 +3,6 @@
     <string name="search_title">Search</string>
     <string name="search_history_empty">Search History is Empty</string>
     <string name="search_results_empty">Empty Search Results</string>
+    <string name="search_recent">Recent Searches</string>
+    <string name="search_clear">Clear</string>
 </resources>

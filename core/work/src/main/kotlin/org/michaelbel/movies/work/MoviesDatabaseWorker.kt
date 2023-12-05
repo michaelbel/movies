@@ -38,7 +38,7 @@ class MoviesDatabaseWorker @AssistedInject constructor(
                                 position = index.plus(1)
                             )
                         }
-                        movieDao.insertAllMovies(moviesDb)
+                        movieDao.insertMovies(moviesDb)
                     }
                 }
                 Result.success()

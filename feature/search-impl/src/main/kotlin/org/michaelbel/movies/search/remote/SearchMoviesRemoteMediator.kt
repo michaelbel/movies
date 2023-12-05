@@ -51,12 +51,12 @@ class SearchMoviesRemoteMediator(
             if (loadType == LoadType.REFRESH) {
                 interactor.run {
                     removePagingKey(query)
-                    removeAllMovies(query)
+                    removeMovies(query)
                 }
             }
             interactor.run {
                 insertPagingKey(query, moviesResult.nextPage)
-                insertAllMovies(query, moviesResult.results)
+                insertMovies(query, moviesResult.results)
             }
 
             MediatorResult.Success(endOfPaginationReached = moviesResult.isPaginationReached)

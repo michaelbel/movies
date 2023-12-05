@@ -12,6 +12,7 @@ object MoviesContentDescription {
     @StringRes val BackIcon = R.string.content_description_back_icon
     @StringRes val CloseIcon = R.string.content_description_close_icon
     @StringRes val DownloadIcon = R.string.content_description_download_icon
+    @StringRes val HistoryIcon = R.string.content_description_download_icon
     @StringRes val LanguageIcon = R.string.content_description_language_icon
     @StringRes val MovieDetailsImage = R.string.content_description_movie_details_image
     @StringRes val PasswordIcon = R.string.content_description_password_icon

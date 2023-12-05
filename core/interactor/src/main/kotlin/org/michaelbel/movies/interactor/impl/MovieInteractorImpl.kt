@@ -3,6 +3,7 @@ package org.michaelbel.movies.interactor.impl
 import androidx.paging.PagingSource
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.interactor.MovieInteractor
@@ -22,9 +23,22 @@ internal class MovieInteractorImpl @Inject constructor(
         return movieRepository.moviesPagingSource(pagingKey)
     }
 
-    override suspend fun moviesResult(movieList: String, page: Int): Result<MovieResponse> {
+    override fun moviesFlow(pagingKey: String, limit: Int): Flow<List<MovieDb>> {
+        return movieRepository.moviesFlow(
+            pagingKey = pagingKey,
+            limit = limit
+        )
+    }
+
+    override suspend fun moviesResult(pagingKey: String, page: Int): Result<MovieResponse> {
         return withContext(dispatchers.io) {
-            movieRepository.moviesResult(movieList, page)
+            movieRepository.moviesResult(pagingKey, page)
+        }
+    }
+
+    override suspend fun movie(pagingKey: String, movieId: Int): MovieDb {
+        return withContext(dispatchers.io) {
+            movieRepository.movie(pagingKey, movieId)
         }
     }
 
@@ -34,15 +48,27 @@ internal class MovieInteractorImpl @Inject constructor(
         }
     }
 
-    override suspend fun removeAllMovies(pagingKey: String) {
+    override suspend fun removeMovies(pagingKey: String) {
         return withContext(dispatchers.io) {
-            movieRepository.removeAllMovies(pagingKey)
+            movieRepository.removeMovies(pagingKey)
         }
     }
 
-    override suspend fun insertAllMovies(pagingKey: String, movies: List<MovieResponse>) {
+    override suspend fun removeMovie(pagingKey: String, movieId: Int) {
         return withContext(dispatchers.io) {
-            movieRepository.insertAllMovies(pagingKey, movies)
+            movieRepository.removeMovie(pagingKey, movieId)
+        }
+    }
+
+    override suspend fun insertMovies(pagingKey: String, movies: List<MovieResponse>) {
+        return withContext(dispatchers.io) {
+            movieRepository.insertMovies(pagingKey, movies)
+        }
+    }
+
+    override suspend fun insertMovie(pagingKey: String, movie: MovieDb) {
+        return withContext(dispatchers.io) {
+            movieRepository.insertMovie(pagingKey, movie)
         }
     }
 }

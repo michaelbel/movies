@@ -3,4 +3,6 @@
     <string name="search_title">Поиск</string>
     <string name="search_history_empty">История поиска пуста</string>
     <string name="search_results_empty">Нет результатов поиска</string>
+    <string name="search_recent">Недавние запросы</string>
+    <string name="search_clear">Очистить</string>
 </resources>
