@@ -73,12 +73,12 @@ private fun DetailsScreenContent(
             )
         },
         containerColor = MaterialTheme.colorScheme.primaryContainer
-    ) { paddingValues ->
+    ) { innerPadding ->
         when (detailsState) {
             is ScreenState.Loading -> {
                 DetailsLoading(
                     modifier = Modifier
-                        .padding(paddingValues)
+                        .padding(innerPadding)
                         .windowInsetsPadding(displayCutoutWindowInsets)
                         .fillMaxSize()
                 )
@@ -86,7 +86,7 @@ private fun DetailsScreenContent(
             is ScreenState.Content<*> -> {
                 DetailsContent(
                     modifier = Modifier
-                        .padding(paddingValues)
+                        .padding(innerPadding)
                         .windowInsetsPadding(displayCutoutWindowInsets)
                         .fillMaxSize(),
                     movie = detailsState.movie,
@@ -96,7 +96,7 @@ private fun DetailsScreenContent(
             is ScreenState.Failure -> {
                 DetailsFailure(
                     modifier = Modifier
-                        .padding(paddingValues)
+                        .padding(innerPadding)
                         .windowInsetsPadding(displayCutoutWindowInsets)
                         .fillMaxSize()
                 )

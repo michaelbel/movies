@@ -151,7 +151,7 @@ private fun GalleryScreenContent(
             SnackbarHost(hostState = snackbarHostState)
         },
         containerColor = MaterialTheme.colorScheme.primaryContainer
-    ) { paddingValues ->
+    ) { innerPadding ->
         when {
             movieImages.isEmpty() -> {
                 GalleryLoading(

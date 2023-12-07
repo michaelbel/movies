@@ -198,13 +198,13 @@ private fun SettingsScreenContent(
             )
         },
         containerColor = MaterialTheme.colorScheme.primaryContainer
-    ) { paddingValues ->
+    ) { innerPadding ->
         LazyColumn(
             modifier = Modifier
                 .navigationBarsPadding()
                 .windowInsetsPadding(displayCutoutWindowInsets),
             state = lazyListState,
-            contentPadding = paddingValues
+            contentPadding = innerPadding
         ) {
             item {
                 SettingsLanguageBox(

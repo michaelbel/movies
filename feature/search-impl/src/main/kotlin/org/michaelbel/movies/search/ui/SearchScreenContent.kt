@@ -135,7 +135,7 @@ private fun SearchScreenContent(
     Scaffold(
         modifier = modifier,
         containerColor = MaterialTheme.colorScheme.primaryContainer
-    ) { paddingValues ->
+    ) { innerPadding ->
         Column {
             SearchBar(
                 query = query,
@@ -229,7 +229,7 @@ private fun SearchScreenContent(
                     } else {
                         PageFailure(
                             modifier = Modifier
-                                .padding(paddingValues)
+                                .padding(innerPadding)
                                 .windowInsetsPadding(displayCutoutWindowInsets)
                                 .fillMaxSize()
                                 .clickableWithoutRipple(pagingItems::retry)

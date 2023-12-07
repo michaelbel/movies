@@ -196,12 +196,12 @@ private fun FeedScreenContent(
         },
         scaffoldState = notificationBottomSheetScaffoldState,
         sheetPeekHeight = 0.dp
-    ) { bottomSheetPaddingValues ->
+    ) { bottomSheetInnerPadding ->
         val topAppBarScrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
         Scaffold(
             modifier = modifier
-                .padding(bottomSheetPaddingValues)
+                .padding(bottomSheetInnerPadding)
                 .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
             topBar = {
                 FeedToolbar(
@@ -228,27 +228,27 @@ private fun FeedScreenContent(
                 )
             },
             containerColor = MaterialTheme.colorScheme.primaryContainer
-        ) { paddingValues ->
+        ) { innerPadding ->
             when {
                 pagingItems.isLoading -> {
                     PageLoading(
                         feedView = currentFeedView,
                         modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets),
-                        paddingValues = paddingValues
+                        paddingValues = innerPadding
                     )
                 }
                 pagingItems.isFailure -> {
                     if (pagingItems.throwable is PageEmptyException) {
                         FeedEmpty(
                             modifier = Modifier
-                                .padding(paddingValues)
+                                .padding(innerPadding)
                                 .windowInsetsPadding(displayCutoutWindowInsets)
                                 .fillMaxSize()
                         )
                     } else {
                         PageFailure(
                             modifier = Modifier
-                                .padding(paddingValues)
+                                .padding(innerPadding)
                                 .windowInsetsPadding(displayCutoutWindowInsets)
                                 .fillMaxSize()
                                 .clickableWithoutRipple(pagingItems::retry)
@@ -263,7 +263,7 @@ private fun FeedScreenContent(
                         lazyStaggeredGridState = lazyStaggeredGridState,
                         pagingItems = pagingItems,
                         onMovieClick = onNavigateToDetails,
-                        contentPadding = paddingValues,
+                        contentPadding = innerPadding,
                         modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
                     )
                 }
