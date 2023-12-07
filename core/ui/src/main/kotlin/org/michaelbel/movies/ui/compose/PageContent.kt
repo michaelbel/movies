@@ -224,7 +224,7 @@ private fun PageContentStaggeredGrid(
         state = lazyStaggeredGridState,
         contentPadding = contentPadding,
         verticalItemSpacing = 8.dp,
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(
             count = pagingItems.itemCount,
