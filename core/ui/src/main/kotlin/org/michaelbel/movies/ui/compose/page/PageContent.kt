@@ -29,6 +29,8 @@ import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.ui.compose.ApiKeyBox
 import org.michaelbel.movies.ui.compose.movie.MovieColumn
 import org.michaelbel.movies.ui.compose.movie.MovieRow
+import org.michaelbel.movies.ui.FeedElement
+import org.michaelbel.movies.ui.compose.ad.AdColumn
 import org.michaelbel.movies.ui.ktx.gridColumnsCount
 import org.michaelbel.movies.ui.ktx.isNotEmpty
 import org.michaelbel.movies.ui.ktx.isPagingFailure
