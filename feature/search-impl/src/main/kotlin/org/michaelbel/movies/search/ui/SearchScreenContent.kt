@@ -54,9 +54,9 @@ import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.search.SearchViewModel
 import org.michaelbel.movies.search_impl.R
-import org.michaelbel.movies.ui.compose.PageContent
-import org.michaelbel.movies.ui.compose.PageFailure
-import org.michaelbel.movies.ui.compose.PageLoading
+import org.michaelbel.movies.ui.compose.page.PageContent
+import org.michaelbel.movies.ui.compose.page.PageFailure
+import org.michaelbel.movies.ui.compose.page.PageLoading
 import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
 import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
 import org.michaelbel.movies.ui.compose.iconbutton.VoiceIcon

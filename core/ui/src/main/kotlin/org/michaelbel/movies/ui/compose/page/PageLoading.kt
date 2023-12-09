@@ -1,4 +1,4 @@
-package org.michaelbel.movies.ui.compose
+package org.michaelbel.movies.ui.compose.page
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +18,8 @@ import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.ui.compose.movie.MovieColumn
+import org.michaelbel.movies.ui.compose.movie.MovieRow
 import org.michaelbel.movies.ui.ktx.gridColumnsCount
 import org.michaelbel.movies.ui.ktx.isPortrait
 import org.michaelbel.movies.ui.placeholder.PlaceholderHighlight
@@ -72,10 +74,7 @@ private fun PageLoadingColumn(
                 movie = MovieDb.Empty,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(
-                        horizontal = 8.dp,
-                        vertical = 4.dp
-                    )
+                    .padding(horizontal = 8.dp, vertical = 4.dp)
                     .placeholder(
                         visible = true,
                         color = MaterialTheme.colorScheme.inversePrimary,

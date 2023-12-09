@@ -54,9 +54,9 @@ import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.ui.compose.NotificationBottomSheet
-import org.michaelbel.movies.ui.compose.PageContent
-import org.michaelbel.movies.ui.compose.PageFailure
-import org.michaelbel.movies.ui.compose.PageLoading
+import org.michaelbel.movies.ui.compose.page.PageContent
+import org.michaelbel.movies.ui.compose.page.PageFailure
+import org.michaelbel.movies.ui.compose.page.PageLoading
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.ktx.isFailure

@@ -1,4 +1,4 @@
-package org.michaelbel.movies.ui.compose
+package org.michaelbel.movies.ui.compose.page
 
 import android.content.Intent
 import android.os.Build

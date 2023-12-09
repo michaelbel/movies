@@ -1,4 +1,4 @@
-package org.michaelbel.movies.ui.compose
+package org.michaelbel.movies.ui.compose.movie
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -23,7 +23,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import org.michaelbel.movies.network.formatPosterImage
+import org.michaelbel.movies.network.formatBackdropImage
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.ui.R
 import org.michaelbel.movies.ui.ktx.context
@@ -33,9 +33,10 @@ import org.michaelbel.movies.ui.preview.provider.MoviePreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun MovieColumn(
+fun MovieRow(
     movie: MovieDb,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    maxLines: Int = 10
 ) {
     var isNoImageVisible: Boolean by remember { mutableStateOf(false) }
 
@@ -46,7 +47,7 @@ fun MovieColumn(
 
         AsyncImage(
             model = ImageRequest.Builder(context)
-                .data(movie.posterPath.formatPosterImage)
+                .data(movie.backdropPath.formatBackdropImage)
                 .crossfade(true)
                 .build(),
             contentDescription = null,
@@ -93,7 +94,7 @@ fun MovieColumn(
                 end.linkTo(parent.end, 16.dp)
                 bottom.linkTo(parent.bottom, 16.dp)
             },
-            maxLines = 10,
+            maxLines = maxLines,
             overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.bodyLarge.copy(
                 color = MaterialTheme.colorScheme.onPrimaryContainer
@@ -104,18 +105,15 @@ fun MovieColumn(
 
 @Composable
 @DevicePreviews
-private fun MovieColumnPreview(
+private fun MovieRowPreview(
     @PreviewParameter(MoviePreviewParameterProvider::class) movie: MovieDb
 ) {
     MoviesTheme {
-        MovieColumn(
+        MovieRow(
             movie = movie,
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(
-                    horizontal = 16.dp,
-                    vertical = 4.dp
-                )
+                .padding(horizontal = 16.dp, vertical = 4.dp)
                 .clip(MaterialTheme.shapes.small)
                 .background(MaterialTheme.colorScheme.inversePrimary)
         )
