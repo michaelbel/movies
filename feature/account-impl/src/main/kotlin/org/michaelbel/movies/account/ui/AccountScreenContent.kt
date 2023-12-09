@@ -29,6 +29,7 @@ import org.michaelbel.movies.account.AccountViewModel
 import org.michaelbel.movies.account_impl.R
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.ktx.orEmpty
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.compose.AccountAvatar
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.isPortrait
@@ -107,7 +108,7 @@ internal fun AccountScreenContent(
         if (account.adult) {
             Icon(
                 painter = painterResource(MoviesIcons.AdultOutline),
-                contentDescription = null,
+                contentDescription = stringResource(MoviesContentDescription.AdultIcon),
                 modifier = Modifier
                     .constrainAs(adultIcon) {
                         width = Dimension.value(24.dp)

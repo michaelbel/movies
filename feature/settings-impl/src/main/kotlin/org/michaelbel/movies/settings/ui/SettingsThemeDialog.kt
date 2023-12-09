@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.settings.ktx.themeText
 import org.michaelbel.movies.settings_impl.R
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.ThemePreviewParameterProvider
@@ -58,7 +59,7 @@ internal fun SettingThemeDialog(
         icon = {
             Icon(
                 painter = painterResource(MoviesIcons.ThemeLightDark),
-                contentDescription = null,
+                contentDescription = stringResource(MoviesContentDescription.ThemeIcon),
                 modifier = Modifier.testTag("Icon")
             )
         },

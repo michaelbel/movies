@@ -12,8 +12,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -30,7 +32,7 @@ fun AccountCountryBox(
     ) {
         Icon(
             imageVector = MoviesIcons.LocationOn,
-            contentDescription = null,
+            contentDescription = stringResource(MoviesContentDescription.UserLocationIcon),
             modifier = Modifier.size(24.dp),
             tint = MaterialTheme.colorScheme.onPrimaryContainer
         )

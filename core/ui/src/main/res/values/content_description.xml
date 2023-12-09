@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="content_description_account_icon">Account Icon</string>
+    <string name="content_description_account_avatar_image">Account Avatar Image</string>
+    <string name="content_description_adult_icon">Adult Icon</string>
+    <string name="content_description_appearance_icon">Appearance Icon</string>
+    <string name="content_description_app_icon">App Icon</string>
+    <string name="content_description_back_icon">Back Icon</string>
+    <string name="content_description_close_icon">Close Icon</string>
+    <string name="content_description_download_icon">Download Icon</string>
+    <string name="content_description_language_icon">Language Icon</string>
+    <string name="content_description_movie_details_image">Movie Details Image</string>
+    <string name="content_description_password_icon">Password Visible Icon</string>
+    <string name="content_description_password_off_icon">Password Invisible Icon</string>
+    <string name="content_description_share_icon">Share Icon</string>
+    <string name="content_description_search_icon">Search Icon</string>
+    <string name="content_description_settings_icon">Settings Icon</string>
+    <string name="content_description_theme_icon">Theme Icon</string>
+    <string name="content_description_voice_icon">Voice Search Icon</string>
+    <string name="content_description_user_location_icon">User Location Icon</string>
+    <string name="content_description_update_icon">Update Icon</string>
+</resources>

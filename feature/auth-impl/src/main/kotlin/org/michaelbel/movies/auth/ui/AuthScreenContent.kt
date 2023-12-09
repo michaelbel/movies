@@ -52,6 +52,7 @@ import org.michaelbel.movies.network.TMDB_REGISTER
 import org.michaelbel.movies.network.TMDB_RESET_PASSWORD
 import org.michaelbel.movies.network.TMDB_TERMS_OF_USE
 import org.michaelbel.movies.network.TMDB_URL
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.compose.iconbutton.PasswordIcon
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
@@ -130,7 +131,7 @@ internal fun AuthScreenContent(
 
         Icon(
             painter = painterResource(MoviesIcons.TmdbLogo),
-            contentDescription = null,
+            contentDescription = MoviesContentDescription.None,
             modifier = Modifier
                 .constrainAs(logo) {
                     width = Dimension.wrapContent

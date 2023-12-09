@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.settings.ktx.listText
 import org.michaelbel.movies.settings_impl.R
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.MovieListPreviewParameterProvider
@@ -57,7 +58,7 @@ fun SettingsMovieListDialog(
         icon = {
             Icon(
                 imageVector = MoviesIcons.LocalMovies,
-                contentDescription = null,
+                contentDescription = MoviesContentDescription.None,
                 modifier = Modifier.testTag("Icon")
             )
         },

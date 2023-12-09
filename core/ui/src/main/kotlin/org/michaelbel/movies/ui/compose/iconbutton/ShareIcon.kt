@@ -12,10 +12,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.url
 import org.michaelbel.movies.ui.R
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.MovieDbPreviewParameterProvider
@@ -47,7 +49,7 @@ fun ShareIcon(
     ) {
         Image(
             imageVector = MoviesIcons.Share,
-            contentDescription = null,
+            contentDescription = stringResource(MoviesContentDescription.ShareIcon),
             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
         )
     }

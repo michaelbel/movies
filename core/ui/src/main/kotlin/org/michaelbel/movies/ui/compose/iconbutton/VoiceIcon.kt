@@ -11,6 +11,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.res.stringResource
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -49,7 +51,7 @@ fun VoiceIcon(
     ) {
         Image(
             imageVector = MoviesIcons.KeyboardVoice,
-            contentDescription = null,
+            contentDescription = stringResource(MoviesContentDescription.VoiceIcon),
             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
         )
     }

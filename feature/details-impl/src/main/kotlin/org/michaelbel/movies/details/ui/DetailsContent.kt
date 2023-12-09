@@ -30,6 +30,7 @@ import org.michaelbel.movies.details_impl.R
 import org.michaelbel.movies.network.formatBackdropImage
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.isNotEmpty
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
 import org.michaelbel.movies.ui.placeholder.PlaceholderHighlight
@@ -65,7 +66,7 @@ fun DetailsContent(
 
         AsyncImage(
             model = imageRequest,
-            contentDescription = null,
+            contentDescription = stringResource(MoviesContentDescription.MovieDetailsImage),
             modifier = Modifier
                 .constrainAs(image) {
                     width = Dimension.fillToConstraints

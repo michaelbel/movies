@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.settings.ktx.feedViewText
 import org.michaelbel.movies.settings_impl.R
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.AppearancePreviewParameterProvider
@@ -57,7 +58,7 @@ fun SettingsAppearanceDialog(
         icon = {
             Icon(
                 imageVector = MoviesIcons.GridView,
-                contentDescription = null,
+                contentDescription = stringResource(MoviesContentDescription.AppearanceIcon),
                 modifier = Modifier.testTag("Icon")
             )
         },

@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.feed_impl.R
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.ktx.isEmpty
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.compose.AccountAvatar
 import org.michaelbel.movies.ui.compose.iconbutton.SearchIcon
 import org.michaelbel.movies.ui.compose.iconbutton.SettingsIcon
@@ -82,7 +83,7 @@ fun FeedToolbar(
                     if (account.isEmpty) {
                         Image(
                             imageVector = MoviesIcons.Account,
-                            contentDescription = null,
+                            contentDescription = stringResource(MoviesContentDescription.AccountIcon),
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
                         )
                     } else {
