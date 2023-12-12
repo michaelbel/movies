@@ -1,3 +1,4 @@
+import com.google.firebase.appdistribution.gradle.AppDistributionExtension
 import java.io.FileInputStream
 import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
@@ -7,7 +8,6 @@ plugins {
     alias(libs.plugins.application)
     alias(libs.plugins.kotlin)
     alias(libs.plugins.androidx.navigation.safeargs)
-    alias(libs.plugins.firebase.appdistribution)
     alias(libs.plugins.palantir.git)
     id("movies-android-hilt")
 }
@@ -97,14 +97,14 @@ android {
                 "okhttp3.pro",
                 "coroutines.pro"
             )
-            firebaseAppDistribution {
+            /*firebaseAppDistribution {
                 appId = "1:770317857182:android:876190afbc53df31"
                 artifactType = "APK"
                 testers = "michaelbel24865@gmail.com"
                 groups = "qa"
                 //releaseNotesFile="$rootProject.rootDir/releaseNotes.txt"
                 //serviceCredentialsFile = "$rootDir/config/firebase-app-distribution.json"
-            }
+            }*/
         }
         debug {
             isDebuggable = true
@@ -188,5 +188,21 @@ dependencies {
     lintChecks(libs.lint.checks)
 }
 
-apply(plugin = libs.plugins.google.services.get().pluginId)
-apply(plugin = libs.plugins.firebase.crashlytics.get().pluginId)
+val hasGmsDebug: Boolean = gradle.startParameter.taskNames.any { it.contains("GmsDebug", ignoreCase = true) }
+val hasGmsRelease: Boolean = gradle.startParameter.taskNames.any { it.contains("GmsRelease", ignoreCase = true) }
+val hasGmsBenchmark: Boolean = gradle.startParameter.taskNames.any { it.contains("GmsBenchmark", ignoreCase = true) }
+
+if (hasGmsDebug || hasGmsRelease || hasGmsBenchmark) {
+    apply(plugin = libs.plugins.google.services.get().pluginId)
+    apply(plugin = libs.plugins.firebase.crashlytics.get().pluginId)
+    apply(plugin = libs.plugins.firebase.appdistribution.get().pluginId)
+}
+
+if (hasGmsRelease) {
+    configure<AppDistributionExtension> {
+        appId = "1:770317857182:android:876190afbc53df31"
+        artifactType = "APK"
+        testers = "michaelbel24865@gmail.com"
+        groups = "qa"
+    }
+}
