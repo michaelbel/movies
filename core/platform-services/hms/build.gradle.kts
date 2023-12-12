@@ -7,7 +7,6 @@ plugins {
 
 android {
     namespace = "org.michaelbel.movies.platform.hms"
-    flavorDimensions += "version"
 
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
@@ -21,15 +20,6 @@ android {
             initWith(getByName("release"))
         }
     }*/
-
-    productFlavors {
-        create("gms") {
-            dimension = "version"
-        }
-        create("hms") {
-            dimension = "version"
-        }
-    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
@@ -46,5 +36,5 @@ android {
 }
 
 dependencies {
-
+    implementation(project(":core:platform-services:interactor"))
 }

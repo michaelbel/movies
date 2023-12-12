@@ -161,8 +161,10 @@ android {
 }
 
 val gmsImplementation: Configuration by configurations
+val hmsImplementation: Configuration by configurations
 dependencies {
     gmsImplementation(project(":core:platform-services:gms"))
+    hmsImplementation(project(":core:platform-services:hms"))
 
     implementation(project(":core:analytics"))
     implementation(project(":core:common"))
