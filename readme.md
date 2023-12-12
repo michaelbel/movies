@@ -44,6 +44,8 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Kotlin Symbol Processing API](https://d.android.com/studio/build/migrate-to-ksp)
 - [x] [Gradle Plugin](https://d.android.com/studio/releases/gradle-plugin)
 - [x] [Gradle Version Catalog](https://d.android.com/build/migrate-to-catalogs)
+- [x] [Build Variants](https://d.android.com/build/build-variants)
+- [x] [Product Flavors](https://d.android.com/build/build-variants#product-flavors)
 - [x] MinSDK 23
 - [x] TargetSDK 34
 - [x] CompileSDK 34
@@ -110,7 +112,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [ ] [UI Tests](https://d.android.com/training/testing/instrumented-tests/ui-tests)
 - [ ] [Baseline Profiles](https://d.android.com/topic/performance/baselineprofiles/overview)
 - [ ] [Tablet and large screen support](https://d.android.com/about/versions/13/features/large-screens)
-- [ ] OAuth
 - [ ] [Animations](https://d.android.com/develop/ui/views/animations)
 - [ ] [Support layout mirroring](https://d.android.com/training/basics/supporting-devices/languages#SupportLayoutMirroring)
 - [ ] Upload Bundle to Google Play Console
