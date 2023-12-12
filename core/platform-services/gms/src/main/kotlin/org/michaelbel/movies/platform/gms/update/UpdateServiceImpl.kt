@@ -5,7 +5,7 @@ import javax.inject.Inject
 import org.michaelbel.movies.platform.main.update.UpdateListener
 import org.michaelbel.movies.platform.main.update.UpdateService
 
-class UpdateServiceImpl @Inject constructor(
+internal class UpdateServiceImpl @Inject constructor(
     private val inAppUpdate: InAppUpdate
 ): UpdateService {
 

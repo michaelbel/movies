@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import org.michaelbel.movies.platform.main.config.ConfigService
 
-class ConfigServiceImpl @Inject constructor(
+internal class ConfigServiceImpl @Inject constructor(
     private val firebaseRemoteConfig: FirebaseRemoteConfig
 ): ConfigService {
 

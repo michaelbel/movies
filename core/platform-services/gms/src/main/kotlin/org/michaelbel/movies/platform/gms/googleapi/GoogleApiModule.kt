@@ -13,7 +13,5 @@ internal object GoogleApiModule {
 
     @Provides
     @Singleton
-    fun provideGoogleApiAvailability(): GoogleApiAvailability {
-        return GoogleApiAvailability.getInstance()
-    }
+    fun provideGoogleApiAvailability(): GoogleApiAvailability = GoogleApiAvailability.getInstance()
 }

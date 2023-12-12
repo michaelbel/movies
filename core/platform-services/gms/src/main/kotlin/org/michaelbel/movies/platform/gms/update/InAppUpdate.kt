@@ -12,7 +12,7 @@ import com.google.android.play.core.tasks.Task
 import javax.inject.Inject
 import org.michaelbel.movies.platform.main.app.AppService
 
-class InAppUpdate @Inject constructor(
+internal class InAppUpdate @Inject constructor(
     private val appUpdateManager: AppUpdateManager,
     appService: AppService
 ) {

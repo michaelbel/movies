@@ -8,7 +8,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import org.michaelbel.movies.platform.main.app.AppService
 
-class AppServiceImpl @Inject constructor(
+internal class AppServiceImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val googleApiAvailability: GoogleApiAvailability
 ): AppService {

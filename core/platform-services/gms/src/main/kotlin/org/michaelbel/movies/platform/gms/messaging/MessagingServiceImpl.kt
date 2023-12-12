@@ -5,7 +5,7 @@ import javax.inject.Inject
 import org.michaelbel.movies.platform.main.messaging.MessagingService
 import org.michaelbel.movies.platform.main.messaging.TokenListener
 
-class MessagingServiceImpl @Inject constructor(
+internal class MessagingServiceImpl @Inject constructor(
     private val firebaseMessaging: FirebaseMessaging
 ): MessagingService {
 

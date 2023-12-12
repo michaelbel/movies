@@ -5,7 +5,7 @@ import com.google.firebase.analytics.FirebaseAnalytics
 import javax.inject.Inject
 import org.michaelbel.movies.platform.main.analytics.AnalyticsService
 
-class AnalyticsServiceImpl @Inject constructor(
+internal class AnalyticsServiceImpl @Inject constructor(
     private val firebaseAnalytics: FirebaseAnalytics
 ): AnalyticsService {
 

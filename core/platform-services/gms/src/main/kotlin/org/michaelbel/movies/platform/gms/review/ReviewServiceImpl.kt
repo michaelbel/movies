@@ -5,7 +5,7 @@ import com.google.android.play.core.review.ReviewManager
 import javax.inject.Inject
 import org.michaelbel.movies.platform.main.review.ReviewService
 
-class ReviewServiceImpl @Inject constructor(
+internal class ReviewServiceImpl @Inject constructor(
     private val reviewManager: ReviewManager
 ): ReviewService {
 
