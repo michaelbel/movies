@@ -1,6 +1,8 @@
-package org.michaelbel.movies.platform.gms.review
+package org.michaelbel.movies.platform.gms
 
 import android.content.Context
+import com.google.android.play.core.appupdate.AppUpdateManager
+import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.review.ReviewManager
 import com.google.android.play.core.review.ReviewManagerFactory
 import dagger.Module
@@ -11,12 +13,15 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal object ReviewModule {
+internal object PlayModule {
 
     @Provides
     fun provideReviewManager(
         @ApplicationContext context: Context
-    ): ReviewManager {
-        return ReviewManagerFactory.create(context)
-    }
+    ): ReviewManager = ReviewManagerFactory.create(context)
+
+    @Provides
+    fun provideAppUpdateManager(
+        @ApplicationContext context: Context
+    ): AppUpdateManager = AppUpdateManagerFactory.create(context)
 }
