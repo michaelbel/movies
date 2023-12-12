@@ -33,15 +33,11 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.android.play.core.review.ReviewInfo
-import com.google.android.play.core.review.ReviewManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.localization.model.AppLanguage
-import org.michaelbel.movies.common.review.rememberReviewManager
-import org.michaelbel.movies.common.review.rememberReviewTask
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.settings.SettingsViewModel
@@ -65,7 +61,6 @@ fun SettingsRoute(
     val dynamicColors: Boolean by viewModel.dynamicColors.collectAsStateWithLifecycle()
     val layoutDirection: LayoutDirection by viewModel.layoutDirection.collectAsStateWithLifecycle()
     val isPlayServicesAvailable: Boolean by viewModel.isPlayServicesAvailable.collectAsStateWithLifecycle()
-    val isAppFromGooglePlay: Boolean by viewModel.isAppFromGooglePlay.collectAsStateWithLifecycle()
     val appVersionData: AppVersionData by viewModel.appVersionData.collectAsStateWithLifecycle()
 
     SettingsScreenContent(
@@ -86,7 +81,7 @@ fun SettingsRoute(
         isRtlFeatureEnabled = viewModel.isRtlFeatureEnabled,
         isPostNotificationsFeatureEnabled = viewModel.isPostNotificationsFeatureEnabled,
         isPlayServicesAvailable = isPlayServicesAvailable,
-        isAppFromGooglePlay = isAppFromGooglePlay,
+        onRequestReview = viewModel::requestReview,
         appVersionData = appVersionData,
         modifier = modifier
     )
@@ -111,15 +106,13 @@ private fun SettingsScreenContent(
     isRtlFeatureEnabled: Boolean,
     isPostNotificationsFeatureEnabled: Boolean,
     isPlayServicesAvailable: Boolean,
-    isAppFromGooglePlay: Boolean,
+    onRequestReview: (Activity) -> Unit,
     appVersionData: AppVersionData,
     modifier: Modifier = Modifier
 ) {
     val context: Context = LocalContext.current
     val scope: CoroutineScope = rememberCoroutineScope()
     val snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
-    val reviewManager: ReviewManager = rememberReviewManager()
-    val reviewInfo: ReviewInfo? = rememberReviewTask(reviewManager)
     val topAppBarScrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val lazyListState: LazyListState = rememberLazyListState()
 
@@ -157,17 +150,8 @@ private fun SettingsScreenContent(
 
     fun onLaunchReviewFlow() {
         when {
-            !isPlayServicesAvailable -> {
-                onShowSnackbar(context.getString(R.string.settings_error_play_services_not_available))
-            }
-            !isAppFromGooglePlay -> {
-                onShowSnackbar(context.getString(R.string.settings_error_app_from_google_play))
-            }
-            else -> {
-                reviewInfo?.let {
-                    reviewManager.launchReviewFlow(context as Activity, reviewInfo)
-                }
-            }
+            !isPlayServicesAvailable -> onShowSnackbar(context.getString(R.string.settings_error_play_services_not_available))
+            else -> onRequestReview(context as Activity)
         }
     }
 
@@ -175,10 +159,10 @@ private fun SettingsScreenContent(
         modifier = modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
         topBar = {
             SettingsToolbar(
-                topAppBarScrollBehavior = topAppBarScrollBehavior,
                 modifier = Modifier
                     .fillMaxWidth()
                     .clickableWithoutRipple { onScrollToTop() },
+                topAppBarScrollBehavior = topAppBarScrollBehavior,
                 onNavigationIconClick = onBackClick
             )
         },

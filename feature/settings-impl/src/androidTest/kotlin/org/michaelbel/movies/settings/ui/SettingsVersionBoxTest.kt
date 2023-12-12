@@ -56,6 +56,7 @@ internal class SettingsVersionBoxTest {
         private val APP_VERSION_DATA: AppVersionData = AppVersionData(
             version = "1.0.0",
             code = 1L,
+            flavor = "GMS",
             isDebug = true
         )
     }

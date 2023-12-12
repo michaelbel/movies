@@ -1,0 +1,94 @@
+{
+  "project_info": {
+    "project_number": "770317857182",
+    "firebase_url": "https://fir-moviemade.firebaseio.com",
+    "project_id": "firebase-moviemade",
+    "storage_bucket": "firebase-moviemade.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:770317857182:android:876190afbc53df31",
+        "android_client_info": {
+          "package_name": "org.michaelbel.moviemade"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "770317857182-ra2roi7lhsd8vl4mbk8kdbdvdgfnmpfg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.michaelbel.moviemade",
+            "certificate_hash": "13b59c3892a3fb6ffd9627bd660de5f51f7327c0"
+          }
+        },
+        {
+          "client_id": "770317857182-4jq65b5vb04ocgdo2pveiua7b64lp2mn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.michaelbel.moviemade",
+            "certificate_hash": "b861ce301449dcac09e522caa68deef9467cc702"
+          }
+        },
+        {
+          "client_id": "770317857182-v9pds8nn803n26p5ta3r4i949vkciqv9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1Th1aOV2nV88wuyzm2GtxItVfTvAIh8U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "770317857182-v9pds8nn803n26p5ta3r4i949vkciqv9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-3651393080934289~1447245983"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:770317857182:android:df63120ae349fa2f",
+        "android_client_info": {
+          "package_name": "org.michaelbel.moviemade.beta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "770317857182-09e8on7fl9s2phnnulblfg5e0h06gre2.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "org.michaelbel.moviemade.beta",
+            "certificate_hash": "b861ce301449dcac09e522caa68deef9467cc702"
+          }
+        },
+        {
+          "client_id": "770317857182-v9pds8nn803n26p5ta3r4i949vkciqv9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC1Th1aOV2nV88wuyzm2GtxItVfTvAIh8U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "770317857182-v9pds8nn803n26p5ta3r4i949vkciqv9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

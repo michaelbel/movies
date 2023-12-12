@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_new_movies_channel_id" translatable="false">movies_channel_id</string>
+    <string name="notification_gallery_download_channel_id" translatable="false">gallery_download_id</string>
+    <string name="notification_channel_name">New Movies</string>
+    <string name="notification_channel_description">Notifications about new movies</string>
+    <string name="notification_gallery_channel_name">Download Image</string>
+    <string name="notification_gallery_channel_description">Download image from gallery</string>
+</resources>

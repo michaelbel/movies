@@ -15,6 +15,16 @@ android {
         compose = true
     }
 
+    flavorDimensions += "version"
+    productFlavors {
+        create("gms") {
+            dimension = "version"
+        }
+        create("hms") {
+            dimension = "version"
+        }
+    }
+
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
     }

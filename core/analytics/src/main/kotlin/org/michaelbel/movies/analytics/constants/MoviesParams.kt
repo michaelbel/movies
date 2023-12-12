@@ -1,9 +1,6 @@
 package org.michaelbel.movies.analytics.constants
 
-import com.google.firebase.analytics.FirebaseAnalytics
-
 internal object MoviesParams {
-    const val PARAM_DESTINATION = FirebaseAnalytics.Param.SCREEN_NAME
     const val PARAM_ARGUMENTS = "destination_arguments"
 
     const val PARAM_SELECTED_LANGUAGE = "selected_language"

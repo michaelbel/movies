@@ -53,6 +53,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:platform-services:interactor"))
     api(project(":core:navigation"))
     api(project(":core:ui"))
     implementation(project(":core:common"))

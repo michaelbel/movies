@@ -36,6 +36,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:platform-services:interactor"))
     implementation(project(":core:network"))
     api(project(":core:analytics"))
     api(project(":core:common"))

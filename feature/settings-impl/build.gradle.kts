@@ -52,11 +52,11 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:platform-services:interactor"))
     api(project(":core:navigation"))
     api(project(":core:common"))
     api(project(":core:ui"))
     implementation(project(":core:interactor"))
-    implementation(project(":core:notifications"))
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit.ktx)

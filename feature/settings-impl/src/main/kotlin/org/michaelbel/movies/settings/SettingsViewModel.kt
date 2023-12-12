@@ -1,5 +1,6 @@
 package org.michaelbel.movies.settings
 
+import android.app.Activity
 import android.os.Build
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -17,11 +18,13 @@ import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
+import org.michaelbel.movies.platform.main.review.ReviewService
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
     private val interactor: Interactor,
-    private val localeController: LocaleController
+    private val localeController: LocaleController,
+    private val reviewService: ReviewService
 ): BaseViewModel(), DefaultLifecycleObserver {
 
     val isDynamicColorsFeatureEnabled: Boolean = Build.VERSION.SDK_INT >= 31
@@ -72,13 +75,6 @@ class SettingsViewModel @Inject constructor(
             initialValue = false
         )
 
-    val isAppFromGooglePlay: StateFlow<Boolean> = interactor.isAppFromGooglePlay
-        .stateIn(
-            scope = this,
-            started = SharingStarted.Lazily,
-            initialValue = false
-        )
-
     val appVersionData: StateFlow<AppVersionData> = interactor.appVersionData
         .stateIn(
             scope = this,
@@ -108,5 +104,9 @@ class SettingsViewModel @Inject constructor(
 
     fun setRtlEnabled(value: Boolean) = launch {
         interactor.setRtlEnabled(value)
+    }
+
+    fun requestReview(activity: Activity) {
+        reviewService.requestReview(activity)
     }
 }

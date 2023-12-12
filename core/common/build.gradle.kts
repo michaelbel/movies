@@ -45,12 +45,10 @@ android {
 }
 
 dependencies {
+    api(project(":core:platform-services:interactor"))
     implementation(project(":core:analytics"))
     implementation(project(":core:network"))
     api(libs.bundles.kotlin.coroutines)
-    api(libs.firebase.config.ktx)
-    api(libs.gms.play.services.base)
-    api(libs.play.core.ktx)
     api(libs.androidx.activity.compose)
     api(libs.androidx.core.ktx)
     api(libs.androidx.paging.compose)

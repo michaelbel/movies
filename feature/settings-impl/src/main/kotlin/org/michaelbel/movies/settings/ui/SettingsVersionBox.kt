@@ -31,8 +31,8 @@ fun SettingsVersionBox(
     ConstraintLayout(
         modifier = modifier.testTag("ConstraintLayout")
     ) {
-        val (icon, version, code, debug) = createRefs()
-        createHorizontalChain(icon, version, code, debug, chainStyle = ChainStyle.Packed)
+        val (icon, version, code, flavor, debug) = createRefs()
+        createHorizontalChain(icon, version, code, flavor, debug, chainStyle = ChainStyle.Packed)
 
         Icon(
             imageVector = MoviesIcons.MovieFilter,
@@ -75,14 +75,32 @@ fun SettingsVersionBox(
                     width = Dimension.wrapContent
                     height = Dimension.wrapContent
                     start.linkTo(version.end)
-                    top.linkTo(version.top)
-                    end.linkTo(debug.start)
-                    bottom.linkTo(version.bottom)
+                    top.linkTo(icon.top)
+                    end.linkTo(flavor.start)
+                    bottom.linkTo(icon.bottom)
                 }
                 .padding(start = 2.dp)
                 .testTag("ValueText"),
             style = MaterialTheme.typography.bodySmall.copy(
                 color = MaterialTheme.colorScheme.primary
+            )
+        )
+
+        Text(
+            text = appVersionData.flavor,
+            modifier = Modifier
+                .constrainAs(flavor) {
+                    width = Dimension.wrapContent
+                    height = Dimension.wrapContent
+                    start.linkTo(code.end)
+                    top.linkTo(icon.top)
+                    end.linkTo(if (appVersionData.isDebug) debug.start else parent.end)
+                    bottom.linkTo(icon.bottom)
+                }
+                .padding(start = 2.dp)
+                .testTag("FlavorText"),
+            style = MaterialTheme.typography.bodySmall.copy(
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         )
 
@@ -93,10 +111,10 @@ fun SettingsVersionBox(
                     .constrainAs(debug) {
                         width = Dimension.wrapContent
                         height = Dimension.wrapContent
-                        start.linkTo(code.end)
-                        top.linkTo(version.top)
+                        start.linkTo(flavor.end)
+                        top.linkTo(icon.top)
                         end.linkTo(parent.end)
-                        bottom.linkTo(version.bottom)
+                        bottom.linkTo(icon.bottom)
                     }
                     .padding(start = 2.dp)
                     .testTag("DebugText"),

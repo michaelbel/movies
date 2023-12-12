@@ -1,7 +1,6 @@
 package org.michaelbel.movies.interactor.impl
 
 import androidx.compose.ui.unit.LayoutDirection
-import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
@@ -16,21 +15,21 @@ import org.michaelbel.movies.analytics.event.SelectThemeEvent
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.config.RemoteParams
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
-import org.michaelbel.movies.common.googleapi.GoogleApi
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.interactor.SettingsInteractor
+import org.michaelbel.movies.platform.main.app.AppService
+import org.michaelbel.movies.platform.main.config.ConfigService
 import org.michaelbel.movies.repository.SettingsRepository
-import timber.log.Timber
 
 @Singleton
 internal class SettingsInteractorImpl @Inject constructor(
     private val dispatchers: MoviesDispatchers,
     private val settingsRepository: SettingsRepository,
-    private val firebaseRemoteConfig: FirebaseRemoteConfig,
-    googleApi: GoogleApi,
-    private val analytics: MoviesAnalytics
+    private val configService: ConfigService,
+    private val analytics: MoviesAnalytics,
+    appService: AppService
 ): SettingsInteractor {
 
     override val currentTheme: Flow<AppTheme> = settingsRepository.currentTheme
@@ -43,13 +42,9 @@ internal class SettingsInteractorImpl @Inject constructor(
 
     override val layoutDirection: Flow<LayoutDirection> = settingsRepository.layoutDirection
 
-    override val isSettingsIconVisible: Flow<Boolean> = flowOf(
-        firebaseRemoteConfig.getBoolean(RemoteParams.PARAM_SETTINGS_ICON_VISIBLE)
-    )
+    override val isSettingsIconVisible: Flow<Boolean> = configService.getBooleanFlow(RemoteParams.PARAM_SETTINGS_ICON_VISIBLE)
 
-    override val isPlayServicesAvailable: Flow<Boolean> = flowOf(googleApi.isPlayServicesAvailable)
-
-    override val isAppFromGooglePlay: Flow<Boolean> = flowOf(googleApi.isAppFromGooglePlay)
+    override val isPlayServicesAvailable: Flow<Boolean> = flowOf(appService.isPlayServicesAvailable)
 
     override val appVersionData: Flow<AppVersionData> = settingsRepository.appVersionData
 
@@ -80,9 +75,7 @@ internal class SettingsInteractorImpl @Inject constructor(
 
     override suspend fun fetchRemoteConfig() {
         withContext(dispatchers.main) {
-            firebaseRemoteConfig
-                .fetchAndActivate()
-                .addOnFailureListener(Timber::e)
+            configService.fetchAndActivate()
         }
     }
 }
