@@ -6,6 +6,7 @@ plugins {
 android {
     namespace = "org.michaelbel.movies.instant"
     compileSdk = libs.versions.compile.sdk.get().toInt()
+    flavorDimensions += "version"
 
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
@@ -15,12 +16,14 @@ android {
         compose = true
     }
 
-    flavorDimensions += "version"
     productFlavors {
         create("gms") {
             dimension = "version"
         }
         create("hms") {
+            dimension = "version"
+        }
+        create("foss") {
             dimension = "version"
         }
     }

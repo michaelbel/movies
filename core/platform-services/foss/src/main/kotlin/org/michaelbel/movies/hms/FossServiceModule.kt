@@ -22,7 +22,7 @@ import org.michaelbel.movies.platform.main.update.UpdateService
 
 @Module
 @InstallIn(SingletonComponent::class)
-internal interface GmsServiceModule {
+internal interface FossServiceModule {
 
     @Binds
     @Singleton

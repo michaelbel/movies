@@ -6,7 +6,7 @@ import org.michaelbel.movies.platform.main.app.AppService
 
 internal class AppServiceImpl @Inject constructor(): AppService {
 
-    override val flavor: Flavor = Flavor.Hms
+    override val flavor: Flavor = Flavor.Foss
 
     override val isPlayServicesAvailable: Boolean
         get() = false
