@@ -18,7 +18,7 @@ import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
-import org.michaelbel.movies.platform.main.review.ReviewService
+import org.michaelbel.movies.platform.review.ReviewService
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(

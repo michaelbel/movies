@@ -31,6 +31,7 @@ include(
     ":core:platform-services:gms",
     ":core:platform-services:hms",
     ":core:platform-services:foss",
+    ":core:platform-services:inject",
     ":core:platform-services:interactor",
     ":core:repository",
     ":core:ui",

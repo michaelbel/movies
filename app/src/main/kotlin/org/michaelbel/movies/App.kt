@@ -7,8 +7,8 @@ import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
 import org.michaelbel.movies.common.BuildConfig
 import org.michaelbel.movies.common.crashlytics.CrashlyticsTree
-import org.michaelbel.movies.platform.main.app.AppService
-import org.michaelbel.movies.platform.main.crashlytics.CrashlyticsService
+import org.michaelbel.movies.platform.app.AppService
+import org.michaelbel.movies.platform.crashlytics.CrashlyticsService
 import org.michaelbel.movies.ui.appicon.installLauncherIcon
 import timber.log.Timber
 

@@ -170,9 +170,9 @@ val gmsImplementation: Configuration by configurations
 val hmsImplementation: Configuration by configurations
 val fossImplementation: Configuration by configurations
 dependencies {
-    gmsImplementation(project(":core:platform-services:gms"))
-    hmsImplementation(project(":core:platform-services:hms"))
-    fossImplementation(project(":core:platform-services:foss"))
+    gmsImplementation(project(":core:platform-services:inject"))
+    hmsImplementation(project(":core:platform-services:inject"))
+    fossImplementation(project(":core:platform-services:inject"))
 
     implementation(project(":core:analytics"))
     implementation(project(":core:common"))

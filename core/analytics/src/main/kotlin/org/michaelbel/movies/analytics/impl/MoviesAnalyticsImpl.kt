@@ -6,7 +6,7 @@ import javax.inject.Inject
 import org.michaelbel.movies.analytics.MoviesAnalytics
 import org.michaelbel.movies.analytics.constants.MoviesParams
 import org.michaelbel.movies.analytics.model.BaseEvent
-import org.michaelbel.movies.platform.main.analytics.AnalyticsService
+import org.michaelbel.movies.platform.analytics.AnalyticsService
 
 internal class MoviesAnalyticsImpl @Inject constructor(
     private val analyticsService: AnalyticsService

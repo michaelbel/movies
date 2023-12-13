@@ -31,8 +31,8 @@ import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.notifications.NotificationClient
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.entity.MovieDb
-import org.michaelbel.movies.platform.main.update.UpdateListener
-import org.michaelbel.movies.platform.main.update.UpdateService
+import org.michaelbel.movies.platform.update.UpdateListener
+import org.michaelbel.movies.platform.update.UpdateService
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(

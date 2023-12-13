@@ -17,9 +17,9 @@ import org.michaelbel.movies.common.ktx.printlnDebug
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
-import org.michaelbel.movies.platform.main.messaging.MessagingService
-import org.michaelbel.movies.platform.main.messaging.TokenListener
-import org.michaelbel.movies.platform.main.update.UpdateService
+import org.michaelbel.movies.platform.messaging.MessagingService
+import org.michaelbel.movies.platform.messaging.TokenListener
+import org.michaelbel.movies.platform.update.UpdateService
 import org.michaelbel.movies.work.AccountUpdateWorker
 import org.michaelbel.movies.work.MoviesDatabaseWorker
 

@@ -7,7 +7,7 @@
     <application>
 
         <service
-            android:name=".messaging.MoviesMessagingService"
+            android:name="org.michaelbel.movies.platform.impl.messaging.service.MoviesMessagingService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

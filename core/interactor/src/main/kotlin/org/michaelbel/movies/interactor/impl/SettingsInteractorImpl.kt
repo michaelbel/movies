@@ -19,8 +19,8 @@ import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.interactor.SettingsInteractor
-import org.michaelbel.movies.platform.main.app.AppService
-import org.michaelbel.movies.platform.main.config.ConfigService
+import org.michaelbel.movies.platform.app.AppService
+import org.michaelbel.movies.platform.config.ConfigService
 import org.michaelbel.movies.repository.SettingsRepository
 
 @Singleton

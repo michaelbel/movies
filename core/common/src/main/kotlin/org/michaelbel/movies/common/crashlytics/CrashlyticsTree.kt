@@ -1,6 +1,6 @@
 package org.michaelbel.movies.common.crashlytics
 
-import org.michaelbel.movies.platform.main.crashlytics.CrashlyticsService
+import org.michaelbel.movies.platform.crashlytics.CrashlyticsService
 import timber.log.Timber
 
 class CrashlyticsTree(
