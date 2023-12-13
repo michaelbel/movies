@@ -112,6 +112,7 @@ android {
             isShrinkResources = false
             applicationIdSuffix = MoviesBuildType.DEBUG.applicationIdSuffix
             manifestPlaceholders += mapOf("appName" to "@string/app_name_dev")
+            isDefault = true
         }
         create("benchmark") {
             initWith(getByName("release"))
@@ -133,8 +134,13 @@ android {
         create("gms") {
             dimension = "version"
             applicationId = "org.michaelbel.moviemade"
+            isDefault = true
         }
         create("hms") {
+            dimension = "version"
+            applicationId = "org.michaelbel.movies"
+        }
+        create("foss") {
             dimension = "version"
             applicationId = "org.michaelbel.movies"
         }
@@ -162,9 +168,11 @@ android {
 
 val gmsImplementation: Configuration by configurations
 val hmsImplementation: Configuration by configurations
+val fossImplementation: Configuration by configurations
 dependencies {
     gmsImplementation(project(":core:platform-services:gms"))
     hmsImplementation(project(":core:platform-services:hms"))
+    fossImplementation(project(":core:platform-services:foss"))
 
     implementation(project(":core:analytics"))
     implementation(project(":core:common"))

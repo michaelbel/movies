@@ -15,6 +15,7 @@ import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
+import org.michaelbel.movies.platform.main.app.AppService
 import org.michaelbel.movies.repository.SettingsRepository
 import org.michaelbel.movies.repository.ktx.code
 import org.michaelbel.movies.repository.ktx.packageInfo
@@ -22,7 +23,8 @@ import org.michaelbel.movies.repository.ktx.packageInfo
 @Singleton
 internal class SettingsRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val preferences: MoviesPreferences
+    private val preferences: MoviesPreferences,
+    appService: AppService
 ): SettingsRepository {
 
     override val currentTheme: Flow<AppTheme> = preferences.themeFlow.map { name ->
@@ -49,7 +51,7 @@ internal class SettingsRepositoryImpl @Inject constructor(
         AppVersionData(
             version = context.packageInfo.versionName,
             code = context.packageInfo.code,
-            flavor = "GMS",
+            flavor = appService.flavor.name,
             isDebug = BuildConfig.DEBUG
         )
     )
