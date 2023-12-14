@@ -1,6 +1,5 @@
 package org.michaelbel.movies
 
-import android.app.Activity
 import android.os.Bundle
 import androidx.navigation.NavDestination
 import androidx.work.OneTimeWorkRequestBuilder
@@ -19,14 +18,12 @@ import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.platform.messaging.MessagingService
 import org.michaelbel.movies.platform.messaging.TokenListener
-import org.michaelbel.movies.platform.update.UpdateService
 import org.michaelbel.movies.work.AccountUpdateWorker
 import org.michaelbel.movies.work.MoviesDatabaseWorker
 
 @HiltViewModel
 internal class MainViewModel @Inject constructor(
     private val interactor: Interactor,
-    private val updateService: UpdateService,
     private val analytics: MoviesAnalytics,
     private val messagingService: MessagingService,
     private val workManager: WorkManager
@@ -55,10 +52,6 @@ internal class MainViewModel @Inject constructor(
 
     fun analyticsTrackDestination(destination: NavDestination, arguments: Bundle?) {
         analytics.trackDestination(destination.route, arguments)
-    }
-
-    fun startUpdateFlow(activity: Activity) {
-        updateService.startUpdate(activity)
     }
 
     private fun fetchRemoteConfig() = launch {

@@ -1,5 +1,6 @@
 package org.michaelbel.movies.feed
 
+import android.app.Activity
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -38,8 +39,8 @@ import org.michaelbel.movies.platform.update.UpdateService
 class FeedViewModel @Inject constructor(
     private val interactor: Interactor,
     private val notificationClient: NotificationClient,
-    networkManager: NetworkManager,
-    updateService: UpdateService
+    private val updateService: UpdateService,
+    networkManager: NetworkManager
 ): BaseViewModel() {
 
     val account: StateFlow<AccountDb?> = interactor.account
@@ -108,6 +109,10 @@ class FeedViewModel @Inject constructor(
             }
         })
         subscribeNotificationsPermissionRequired()
+    }
+
+    fun startUpdate(activity: Activity) {
+        updateService.startUpdate(activity)
     }
 
     fun onNotificationBottomSheetHide() = launch {

@@ -27,7 +27,6 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 internal fun MainActivityContent(
-    onStartUpdateFlow: () -> Unit,
     viewModel: MainViewModel = hiltViewModel()
 ) {
     val currentTheme: AppTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
@@ -55,8 +54,7 @@ internal fun MainActivityContent(
                 navigateToAuth = navHostController::navigateToAuth,
                 navigateToAccount = navHostController::navigateToAccount,
                 navigateToSettings = navHostController::navigateToSettings,
-                navigateToDetails = navHostController::navigateToDetails,
-                onStartUpdateFlow = onStartUpdateFlow
+                navigateToDetails = navHostController::navigateToDetails
             )
             detailsGraph(
                 navigateBack = navHostController::popBackStack,

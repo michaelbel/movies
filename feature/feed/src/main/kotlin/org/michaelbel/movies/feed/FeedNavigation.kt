@@ -9,8 +9,7 @@ fun NavGraphBuilder.feedGraph(
     navigateToAuth: () -> Unit,
     navigateToAccount: () -> Unit,
     navigateToSettings: () -> Unit,
-    navigateToDetails: (Int) -> Unit,
-    onStartUpdateFlow: () -> Unit
+    navigateToDetails: (Int) -> Unit
 ) {
     composable(
         route = FeedDestination.route
@@ -20,8 +19,7 @@ fun NavGraphBuilder.feedGraph(
             onNavigateToAccount = navigateToAccount,
             onNavigateToAuth = navigateToAuth,
             onNavigateToSettings = navigateToSettings,
-            onNavigateToDetails = navigateToDetails,
-            onStartUpdateFlow = onStartUpdateFlow
+            onNavigateToDetails = navigateToDetails
         )
     }
 }

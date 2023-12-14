@@ -1,5 +1,6 @@
 package org.michaelbel.movies.feed.ui
 
+import android.app.Activity
 import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
@@ -71,7 +72,6 @@ fun FeedRoute(
     onNavigateToAccount: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToDetails: (Int) -> Unit,
-    onStartUpdateFlow: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: FeedViewModel = hiltViewModel()
 ) {
@@ -96,7 +96,7 @@ fun FeedRoute(
         onNavigateToAccount = onNavigateToAccount,
         onNavigateToSettings = onNavigateToSettings,
         onNavigateToDetails = onNavigateToDetails,
-        onUpdateIconClick = onStartUpdateFlow,
+        onUpdateIconClick = viewModel::startUpdate,
         onNotificationBottomSheetHideClick = viewModel::onNotificationBottomSheetHide,
         modifier = modifier
     )
@@ -116,7 +116,7 @@ private fun FeedScreenContent(
     onNavigateToAccount: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToDetails: (Int) -> Unit,
-    onUpdateIconClick: () -> Unit,
+    onUpdateIconClick: (Activity) -> Unit,
     onNotificationBottomSheetHideClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -217,7 +217,7 @@ private fun FeedScreenContent(
                         }
                     },
                     onAccountIconClick = onNavigateToAccount,
-                    onUpdateIconClick = onUpdateIconClick,
+                    onUpdateIconClick = { onUpdateIconClick(context as Activity) },
                     topAppBarScrollBehavior = topAppBarScrollBehavior,
                     onSettingsIconClick = onNavigateToSettings
                 )
