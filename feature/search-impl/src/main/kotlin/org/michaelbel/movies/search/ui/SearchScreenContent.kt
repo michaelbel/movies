@@ -54,12 +54,13 @@ import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.search.SearchViewModel
 import org.michaelbel.movies.search_impl.R
-import org.michaelbel.movies.ui.compose.page.PageContent
-import org.michaelbel.movies.ui.compose.page.PageFailure
-import org.michaelbel.movies.ui.compose.page.PageLoading
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
 import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
 import org.michaelbel.movies.ui.compose.iconbutton.VoiceIcon
+import org.michaelbel.movies.ui.compose.page.PageContent
+import org.michaelbel.movies.ui.compose.page.PageFailure
+import org.michaelbel.movies.ui.compose.page.PageLoading
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
@@ -163,7 +164,7 @@ private fun SearchScreenContent(
                     if (active) {
                         Icon(
                             imageVector = MoviesIcons.Search,
-                            contentDescription = null
+                            contentDescription = stringResource(MoviesContentDescription.SearchIcon)
                         )
                     } else {
                         BackIcon(

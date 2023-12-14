@@ -6,7 +6,9 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.BooleanPreviewParameterProvider
@@ -24,7 +26,7 @@ fun PasswordIcon(
     ) {
         Icon(
             imageVector = if (state) MoviesIcons.Visibility else MoviesIcons.VisibilityOff,
-            contentDescription = null
+            contentDescription = stringResource(if (state) MoviesContentDescription.PasswordIcon else MoviesContentDescription.PasswordOffIcon)
         )
     }
 }

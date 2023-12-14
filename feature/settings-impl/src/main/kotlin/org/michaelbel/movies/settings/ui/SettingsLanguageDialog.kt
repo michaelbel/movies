@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.localization.model.AppLanguage
 import org.michaelbel.movies.settings.ktx.languageText
 import org.michaelbel.movies.settings_impl.R
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.LanguagePreviewParameterProvider
@@ -57,7 +58,7 @@ fun SettingLanguageDialog(
         icon = {
             Icon(
                 imageVector = MoviesIcons.Language,
-                contentDescription = null,
+                contentDescription = stringResource(MoviesContentDescription.LanguageIcon),
                 modifier = Modifier.testTag("Icon")
             )
         },

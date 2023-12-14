@@ -11,6 +11,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
@@ -18,6 +19,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.ktx.letters
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.ktx.lettersTextFontSizeSmall
 import org.michaelbel.movies.ui.preview.DevicePreviews
@@ -36,7 +38,7 @@ fun AccountAvatar(
                 .data(account.avatarUrl)
                 .crossfade(true)
                 .build(),
-            contentDescription = null,
+            contentDescription = stringResource(MoviesContentDescription.AccountAvatarImage),
             modifier = modifier.clip(CircleShape),
             contentScale = ContentScale.Crop
         )

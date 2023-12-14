@@ -26,6 +26,7 @@ import coil.request.ImageRequest
 import org.michaelbel.movies.network.formatPosterImage
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.ui.R
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
 import org.michaelbel.movies.ui.preview.DevicePreviews
@@ -49,7 +50,7 @@ fun MovieColumn(
                 .data(movie.posterPath.formatPosterImage)
                 .crossfade(true)
                 .build(),
-            contentDescription = null,
+            contentDescription = MoviesContentDescription.None,
             modifier = Modifier.constrainAs(image) {
                 width = Dimension.fillToConstraints
                 height = Dimension.value(220.dp)

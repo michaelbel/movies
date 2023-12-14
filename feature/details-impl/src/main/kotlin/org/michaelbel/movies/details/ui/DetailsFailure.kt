@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.details_impl.R
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -28,7 +29,7 @@ fun DetailsFailure(
 
         Icon(
             imageVector = MoviesIcons.Info,
-            contentDescription = null,
+            contentDescription = MoviesContentDescription.None,
             modifier = Modifier.constrainAs(image) {
                 width = Dimension.value(36.dp)
                 height = Dimension.value(36.dp)

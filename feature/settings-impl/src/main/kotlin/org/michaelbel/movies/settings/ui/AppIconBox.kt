@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ChainStyle
@@ -20,6 +21,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.settings.ktx.backgroundColor
 import org.michaelbel.movies.settings.ktx.iconText
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.appicon.IconAlias
 import org.michaelbel.movies.ui.appicon.isEnabled
 import org.michaelbel.movies.ui.ktx.context
@@ -40,7 +42,7 @@ fun AppIconBox(
 
         Icon(
             painter = painterResource(iconAlias.iconRes),
-            contentDescription = null,
+            contentDescription = stringResource(MoviesContentDescription.AppIcon),
             modifier = Modifier
                 .constrainAs(icon) {
                     width = Dimension.value(56.dp)
