@@ -21,6 +21,13 @@ firebase-crashlytics-plugin = "2.9.9"
 firebase-crashlytics-ktx = "18.6.1"
 firebase-messaging-ktx = "23.4.0"
 play-core-ktx = "1.8.1"
+huawei-services = "1.6.0.300"
+hms-push = "6.3.0.304"
+hms-maps = "6.4.1.300"
+hms-location = "6.4.0.300"
+hms-hianalytics = "6.4.1.302"
+agconnect-crash = "1.6.5.300"
+agconnect-remoteconfig = "1.6.5.300"
 accompanist = "0.32.0"
 material = "1.11.0"
 material-compose-theme-adapter = "1.2.1"
@@ -216,6 +223,7 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 firebase-appdistribution = { id = "com.google.firebase.appdistribution", version.ref = "firebase-appdistribution" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-plugin" }
+huawei-services = { id = "com.huawei.agconnect.agcp", version.ref = "huawei-services" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }

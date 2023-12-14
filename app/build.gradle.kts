@@ -218,3 +218,11 @@ if (hasGmsRelease) {
         groups = "qa"
     }
 }
+
+val hasHmsDebug: Boolean = gradle.startParameter.taskNames.any { it.contains("HmsDebug", ignoreCase = true) }
+val hasHmsRelease: Boolean = gradle.startParameter.taskNames.any { it.contains("HmsRelease", ignoreCase = true) }
+val hasHmsBenchmark: Boolean = gradle.startParameter.taskNames.any { it.contains("HmsBenchmark", ignoreCase = true) }
+
+if (hasHmsDebug || hasHmsRelease || hasHmsBenchmark) {
+    //apply(plugin = libs.plugins.huawei.services.get().pluginId)
+}

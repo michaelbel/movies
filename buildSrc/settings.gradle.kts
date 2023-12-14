@@ -4,6 +4,7 @@ pluginManagement {
     repositories {
         google()
         mavenCentral()
+        maven(url = "https://developer.huawei.com/repo/")
         gradlePluginPortal()
     }
 }
@@ -13,6 +14,7 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven(url = "https://developer.huawei.com/repo/")
     }
     versionCatalogs {
         create("libs") {
