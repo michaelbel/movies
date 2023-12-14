@@ -33,7 +33,6 @@ fun DetailsToolbar(
             Text(
                 text = movieTitle,
                 overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
                 style = MaterialTheme.typography.titleLarge.copy(
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )

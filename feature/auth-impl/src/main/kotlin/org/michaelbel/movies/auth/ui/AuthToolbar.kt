@@ -25,7 +25,6 @@ fun AuthToolbar(
             Text(
                 text = stringResource(R.string.auth_title),
                 overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
                 style = MaterialTheme.typography.titleLarge.copy(
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )

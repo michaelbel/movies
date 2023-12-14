@@ -30,7 +30,6 @@ internal fun SettingsToolbar(
                 text = stringResource(R.string.settings_title),
                 modifier = Modifier.testTag("TitleText"),
                 overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
                 style = MaterialTheme.typography.titleLarge.copy(
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )

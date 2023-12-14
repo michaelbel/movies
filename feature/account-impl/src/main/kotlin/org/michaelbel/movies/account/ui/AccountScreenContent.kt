@@ -139,7 +139,6 @@ internal fun AccountScreenContent(
                 Text(
                     text = account.name,
                     overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
                     style = MaterialTheme.typography.bodyLarge.copy(
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -150,7 +149,6 @@ internal fun AccountScreenContent(
                 Text(
                     text = account.username,
                     overflow = TextOverflow.Ellipsis,
-                    maxLines = 1,
                     style = MaterialTheme.typography.bodyMedium.copy(
                         color = MaterialTheme.colorScheme.secondary
                     )

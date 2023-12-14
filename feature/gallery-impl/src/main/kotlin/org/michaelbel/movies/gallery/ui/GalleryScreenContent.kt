@@ -304,7 +304,6 @@ private fun GalleryScreenContent(
                             }
                             .statusBarsPadding(),
                         overflow = TextOverflow.Ellipsis,
-                        maxLines = 1,
                         textAlign = TextAlign.Start,
                         style = MaterialTheme.typography.titleLarge.copy(
                             color = MaterialTheme.colorScheme.onPrimaryContainer

@@ -170,8 +170,7 @@ internal fun AuthScreenContent(
                     focusManager.moveFocus(FocusDirection.Down)
                 }
             ),
-            singleLine = true,
-            maxLines = 1
+            singleLine = true
         )
 
         OutlinedTextField(
@@ -223,8 +222,7 @@ internal fun AuthScreenContent(
                     onSignInClick(username, password)
                 }
             ),
-            singleLine = true,
-            maxLines = 1
+            singleLine = true
         )
 
         AnimatedVisibility(
@@ -269,9 +267,7 @@ internal fun AuthScreenContent(
         }
 
         Button(
-            onClick = {
-                onSignInClick(username.trim(), password.trim())
-            },
+            onClick = { onSignInClick(username.trim(), password.trim()) },
             modifier = Modifier.constrainAs(signInButton) {
                 width = Dimension.fillToConstraints
                 height = Dimension.wrapContent
@@ -307,8 +303,7 @@ internal fun AuthScreenContent(
             color = MaterialTheme.colorScheme.primary,
             fontSize = 14.sp,
             fontStyle = FontStyle.Normal,
-            fontWeight = FontWeight.W400,
-            maxLines = 1
+            fontWeight = FontWeight.W400
         )*/
 
         /*Button(

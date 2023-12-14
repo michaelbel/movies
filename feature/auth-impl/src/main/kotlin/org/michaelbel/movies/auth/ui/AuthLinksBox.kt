@@ -48,7 +48,6 @@ fun AuthLinksBox(
                 modifier = Modifier
                     .padding(vertical = 16.dp)
                     .clickableWithoutRipple { onTermsOfUseClick() },
-                maxLines = 1,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     color = MaterialTheme.colorScheme.primary
                 )
@@ -67,7 +66,6 @@ fun AuthLinksBox(
                 modifier = Modifier
                     .padding(vertical = 16.dp)
                     .clickableWithoutRipple { onPrivacyPolicyClick() },
-                maxLines = 1,
                 style = MaterialTheme.typography.bodyMedium.copy(
                     color = MaterialTheme.colorScheme.primary
                 )

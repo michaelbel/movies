@@ -52,8 +52,7 @@ fun AccountAvatar(
             Text(
                 text = account.letters.uppercase(),
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
-                fontSize = fontSize,
-                maxLines = 1
+                fontSize = fontSize
             )
         }
     }

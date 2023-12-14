@@ -39,7 +39,6 @@ fun AccountCountryBox(
             text = country,
             modifier = Modifier.padding(start = 4.dp),
             overflow = TextOverflow.Ellipsis,
-            maxLines = 1,
             style = MaterialTheme.typography.bodySmall.copy(
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )

@@ -25,7 +25,6 @@ fun AccountToolbar(
             Text(
                 text = stringResource(R.string.account_title),
                 overflow = TextOverflow.Ellipsis,
-                maxLines = 1,
                 style = MaterialTheme.typography.titleLarge.copy(
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
