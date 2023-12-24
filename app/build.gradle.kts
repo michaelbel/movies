@@ -189,6 +189,8 @@ dependencies {
     implementation(project(":feature:search"))
     implementation(project(":feature:settings"))
 
+    implementation(libs.kotlin.reflect)
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit.ktx)
     androidTestImplementation(libs.androidx.espresso.core)

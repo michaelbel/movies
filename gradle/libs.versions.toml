@@ -70,6 +70,7 @@ kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-co
 kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin-coroutines" }
 kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
 kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization-json" }
+kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 gms-play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "gms-play-services-ads" }
 gms-play-services-base = { module = "com.google.android.gms:play-services-base", version.ref = "gms-play-services-base" }
 gms-play-services-instantapps = { module = "com.google.android.gms:play-services-instantapps", version.ref = "gms-play-services-instantapps" }

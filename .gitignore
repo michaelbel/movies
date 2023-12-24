@@ -712,3 +712,10 @@
 /.idea/
 /buildSrc/build/classes/kotlin/main/ktx/
 /buildSrc/.gradle/
+/core/build/reports/detekt/detekt.html
+/core/build/reports/detekt/detekt.md
+/core/build/reports/detekt/detekt.sarif
+/core/build/reports/detekt/detekt.txt
+/core/build/reports/detekt/detekt.xml
+/buildSrc/build/classes/kotlin/main/MoviesBuildType.class
+/buildSrc/build/source-roots/buildSrc/source-roots.txt
