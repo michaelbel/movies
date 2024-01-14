@@ -12,12 +12,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.analytics.MoviesAnalytics
-import org.michaelbel.movies.common.ktx.printlnDebug
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.platform.messaging.MessagingService
-import org.michaelbel.movies.platform.messaging.TokenListener
 import org.michaelbel.movies.work.AccountUpdateWorker
 import org.michaelbel.movies.work.MoviesDatabaseWorker
 
@@ -59,11 +57,11 @@ internal class MainViewModel @Inject constructor(
     }
 
     private fun fetchFirebaseMessagingToken() {
-        messagingService.setTokenListener(object: TokenListener {
+        /*messagingService.setTokenListener(object: TokenListener {
             override fun onNewToken(token: String) {
                 printlnDebug("firebase messaging token: $token")
             }
-        })
+        })*/
     }
 
     private fun prepopulateDatabase() {
