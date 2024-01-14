@@ -45,7 +45,7 @@ class SearchViewModel @Inject constructor(
         )
 
     private val _query: MutableStateFlow<String> = MutableStateFlow("")
-    private val query: StateFlow<String> = _query.asStateFlow()
+    val query: StateFlow<String> = _query.asStateFlow()
 
     val pagingItems: Flow<PagingData<MovieDb>> = query.flatMapLatest { query ->
         Pager(

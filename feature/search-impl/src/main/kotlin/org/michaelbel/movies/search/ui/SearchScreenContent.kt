@@ -77,11 +77,13 @@ fun SearchRoute(
     viewModel: SearchViewModel = hiltViewModel()
 ) {
     val pagingItems: LazyPagingItems<MovieDb> = viewModel.pagingItems.collectAsLazyPagingItems()
+    val searchQuery: String by viewModel.query.collectAsStateWithLifecycle()
     val currentFeedView: FeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()
     val networkStatus: NetworkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
 
     SearchScreenContent(
         pagingItems = pagingItems,
+        searchQuery = searchQuery,
         networkStatus = networkStatus,
         currentFeedView = currentFeedView,
         onBackClick = onBackClick,
@@ -94,6 +96,7 @@ fun SearchRoute(
 @Composable
 private fun SearchScreenContent(
     pagingItems: LazyPagingItems<MovieDb>,
+    searchQuery: String,
     networkStatus: NetworkStatus,
     currentFeedView: FeedView,
     onBackClick: () -> Unit,
@@ -126,7 +129,9 @@ private fun SearchScreenContent(
     }
 
     var active: Boolean by rememberSaveable { mutableStateOf(true) }
+
     var query: String by rememberSaveable { mutableStateOf("") }
+    query = searchQuery
 
     val searchBarHorizontalPadding: Dp by animateDpAsState(
         targetValue = if (active) 0.dp else 8.dp,
