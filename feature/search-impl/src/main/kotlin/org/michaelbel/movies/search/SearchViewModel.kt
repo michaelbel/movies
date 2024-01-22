@@ -14,6 +14,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
@@ -22,6 +23,7 @@ import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.entity.SuggestionDb
 import org.michaelbel.movies.search.remote.SearchMoviesRemoteMediator
 
 @HiltViewModel
@@ -44,8 +46,25 @@ class SearchViewModel @Inject constructor(
             initialValue = runBlocking { interactor.currentFeedView.first() }
         )
 
+    val suggestionsFlow: StateFlow<List<SuggestionDb>> = interactor.suggestions()
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = emptyList()
+        )
+
+    val searchHistoryMoviesFlow: StateFlow<List<MovieDb>> = interactor.moviesFlow(MovieDb.MOVIES_SEARCH_HISTORY, Int.MAX_VALUE)
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = emptyList()
+        )
+
     private val _query: MutableStateFlow<String> = MutableStateFlow("")
-    val query: StateFlow<String> = _query.asStateFlow()
+    private val query: StateFlow<String> = _query.asStateFlow()
+
+    private val _active: MutableStateFlow<Boolean> = MutableStateFlow(true)
+    val active: StateFlow<Boolean> = _active.asStateFlow()
 
     val pagingItems: Flow<PagingData<MovieDb>> = query.flatMapLatest { query ->
         Pager(
@@ -66,7 +85,32 @@ class SearchViewModel @Inject constructor(
             .cachedIn(this)
     }
 
+    init {
+        loadSuggestions()
+    }
+
     fun onChangeSearchQuery(query: String) {
         _query.value = query
+    }
+
+    fun onChangeActiveState(state: Boolean) {
+        _active.value = state
+    }
+
+    fun onSaveToHistory(movieId: Int) = launch {
+        val movie: MovieDb = interactor.movie(query.value, movieId)
+        interactor.insertMovie(MovieDb.MOVIES_SEARCH_HISTORY, movie)
+    }
+
+    fun onRemoveFromHistory(movieId: Int) = launch {
+        interactor.removeMovie(MovieDb.MOVIES_SEARCH_HISTORY, movieId)
+    }
+
+    fun onClearSearchHistory() = launch {
+        interactor.removeMovies(MovieDb.MOVIES_SEARCH_HISTORY)
+    }
+
+    private fun loadSuggestions() = launch {
+        interactor.updateSuggestions()
     }
 }

@@ -36,7 +36,7 @@ class MoviesRemoteMediator(
             }
 
             val moviesResult: Result<MovieResponse> = interactor.moviesResult(
-                movieList = movieList,
+                pagingKey = movieList,
                 page = loadKey ?: 1
             )
 
@@ -47,12 +47,12 @@ class MoviesRemoteMediator(
             if (loadType == LoadType.REFRESH) {
                 interactor.run {
                     removePagingKey(movieList)
-                    removeAllMovies(movieList)
+                    removeMovies(movieList)
                 }
             }
             interactor.run {
                 insertPagingKey(movieList, moviesResult.nextPage)
-                insertAllMovies(movieList, moviesResult.results)
+                insertMovies(movieList, moviesResult.results)
             }
 
             MediatorResult.Success(endOfPaginationReached = moviesResult.isPaginationReached)

@@ -1,12 +1,9 @@
 package org.michaelbel.movies.search.ui
 
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyListState
@@ -15,15 +12,10 @@ import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
-import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SearchBar
-import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -32,12 +24,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -52,16 +42,11 @@ import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
 import org.michaelbel.movies.common.exceptions.PageEmptyException
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.entity.SuggestionDb
 import org.michaelbel.movies.search.SearchViewModel
-import org.michaelbel.movies.search_impl.R
-import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
-import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
-import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
-import org.michaelbel.movies.ui.compose.iconbutton.VoiceIcon
 import org.michaelbel.movies.ui.compose.page.PageContent
 import org.michaelbel.movies.ui.compose.page.PageFailure
 import org.michaelbel.movies.ui.compose.page.PageLoading
-import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.ktx.isFailure
@@ -77,18 +62,26 @@ fun SearchRoute(
     viewModel: SearchViewModel = hiltViewModel()
 ) {
     val pagingItems: LazyPagingItems<MovieDb> = viewModel.pagingItems.collectAsLazyPagingItems()
-    val searchQuery: String by viewModel.query.collectAsStateWithLifecycle()
     val currentFeedView: FeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()
     val networkStatus: NetworkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
+    val suggestions: List<SuggestionDb> by viewModel.suggestionsFlow.collectAsStateWithLifecycle()
+    val searchHistoryMovies: List<MovieDb> by viewModel.searchHistoryMoviesFlow.collectAsStateWithLifecycle()
+    val active: Boolean by viewModel.active.collectAsStateWithLifecycle()
 
     SearchScreenContent(
         pagingItems = pagingItems,
-        searchQuery = searchQuery,
         networkStatus = networkStatus,
         currentFeedView = currentFeedView,
+        suggestions = suggestions,
+        searchHistoryMovies = searchHistoryMovies,
         onBackClick = onBackClick,
         onNavigateToDetails = onNavigateToDetails,
         onChangeSearchQuery = viewModel::onChangeSearchQuery,
+        onSaveMovieToHistory = viewModel::onSaveToHistory,
+        onRemoveMovieFromHistory = viewModel::onRemoveFromHistory,
+        onHistoryClear = viewModel::onClearSearchHistory,
+        active = active,
+        onChangeActiveState = viewModel::onChangeActiveState,
         modifier = modifier
     )
 }
@@ -96,12 +89,18 @@ fun SearchRoute(
 @Composable
 private fun SearchScreenContent(
     pagingItems: LazyPagingItems<MovieDb>,
-    searchQuery: String,
     networkStatus: NetworkStatus,
     currentFeedView: FeedView,
+    suggestions: List<SuggestionDb>,
+    searchHistoryMovies: List<MovieDb>,
     onBackClick: () -> Unit,
     onNavigateToDetails: (Int) -> Unit,
     onChangeSearchQuery: (String) -> Unit,
+    onSaveMovieToHistory: (Int) -> Unit,
+    onRemoveMovieFromHistory: (Int) -> Unit,
+    onHistoryClear: () -> Unit,
+    active: Boolean,
+    onChangeActiveState: (Boolean) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scope: CoroutineScope = rememberCoroutineScope()
@@ -128,10 +127,7 @@ private fun SearchScreenContent(
         pagingItems.retry()
     }
 
-    var active: Boolean by rememberSaveable { mutableStateOf(true) }
-
     var query: String by rememberSaveable { mutableStateOf("") }
-    query = searchQuery
 
     val searchBarHorizontalPadding: Dp by animateDpAsState(
         targetValue = if (active) 0.dp else 8.dp,
@@ -143,80 +139,48 @@ private fun SearchScreenContent(
         containerColor = MaterialTheme.colorScheme.primaryContainer
     ) { innerPadding ->
         Column {
-            SearchBar(
+            SearchToolbar(
                 query = query,
                 onQueryChange = { text ->
                     query = text
                 },
                 onSearch = {
                     onChangeSearchQuery(query)
-                    active = false
+                    onChangeActiveState(false)
                 },
                 active = active,
                 onActiveChange = { state ->
-                    active = state
+                    onChangeActiveState(state)
                 },
+                onBackClick = onBackClick,
+                onCloseClick = {
+                    onChangeActiveState(query.isNotEmpty())
+                    query = ""
+                },
+                onInputText = { text ->
+                    query = text
+                    onChangeSearchQuery(text)
+                },
+                suggestions = suggestions,
+                onSuggestionClick = { suggestion ->
+                    query = suggestion.title
+                    onChangeSearchQuery(suggestion.title)
+                    onChangeActiveState(false)
+                },
+                searchHistoryMovies = searchHistoryMovies,
+                onHistoryMovieClick = { title ->
+                    query = title
+                    onChangeSearchQuery(title)
+                    onChangeActiveState(false)
+                },
+                onHistoryMovieRemoveClick = onRemoveMovieFromHistory,
+                onClearHistoryClick = onHistoryClear,
                 modifier = Modifier
-                    .fillMaxWidth()
                     .padding(horizontal = searchBarHorizontalPadding)
-                    .focusRequester(focusRequester),
-                placeholder = {
-                    Text(
-                        text = stringResource(R.string.search_title)
-                    )
-                },
-                leadingIcon = {
-                    if (active) {
-                        Icon(
-                            imageVector = MoviesIcons.Search,
-                            contentDescription = stringResource(MoviesContentDescription.SearchIcon)
-                        )
-                    } else {
-                        BackIcon(
-                            onClick = onBackClick
-                        )
-                    }
-                },
-                trailingIcon = {
-                    if (active) {
-                        CloseIcon(
-                            onClick = {
-                                active = query.isNotEmpty()
-                                query = ""
-                            }
-                        )
-                    } else {
-                        VoiceIcon(
-                            onInputText = { text ->
-                                query = text
-                                onChangeSearchQuery(text)
-                            }
-                        )
-                    }
-                },
-                colors = SearchBarDefaults.colors(
-                    containerColor = MaterialTheme.colorScheme.inversePrimary
-                )
-            ) {
-                Divider(
-                    modifier = Modifier.height(.1.dp),
-                    thickness = .1.dp,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .imePadding(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        textAlign = TextAlign.Center,
-                        text = stringResource(R.string.search_history_empty)
-                    )
-                }
-            }
+                    .windowInsetsPadding(displayCutoutWindowInsets)
+                    .fillMaxWidth()
+                    .focusRequester(focusRequester)
+            )
 
             when {
                 pagingItems.isLoading -> {
@@ -249,7 +213,10 @@ private fun SearchScreenContent(
                         lazyGridState = lazyGridState,
                         lazyStaggeredGridState = lazyStaggeredGridState,
                         pagingItems = pagingItems,
-                        onMovieClick = onNavigateToDetails,
+                        onMovieClick = { movieId ->
+                            onSaveMovieToHistory(movieId)
+                            onNavigateToDetails(movieId)
+                        },
                         modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
                     )
                 }

@@ -12,6 +12,7 @@ import org.michaelbel.movies.persistence.database.dao.AccountDao
 import org.michaelbel.movies.persistence.database.dao.ImageDao
 import org.michaelbel.movies.persistence.database.dao.MovieDao
 import org.michaelbel.movies.persistence.database.dao.PagingKeyDao
+import org.michaelbel.movies.persistence.database.dao.SuggestionDao
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -34,4 +35,7 @@ internal object DatabaseModule {
 
     @Provides
     fun providePagingKeyDao(appDatabase: AppDatabase): PagingKeyDao = appDatabase.pagingKeyDao()
+
+    @Provides
+    fun provideSuggestionDao(appDatabase: AppDatabase): SuggestionDao = appDatabase.suggestionDao()
 }

@@ -11,10 +11,12 @@ import org.michaelbel.movies.persistence.database.dao.AccountDao
 import org.michaelbel.movies.persistence.database.dao.ImageDao
 import org.michaelbel.movies.persistence.database.dao.MovieDao
 import org.michaelbel.movies.persistence.database.dao.PagingKeyDao
+import org.michaelbel.movies.persistence.database.dao.SuggestionDao
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.entity.ImageDb
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.entity.PagingKeyDb
+import org.michaelbel.movies.persistence.database.entity.SuggestionDb
 
 /**
  * The Room database for this app.
@@ -24,7 +26,8 @@ import org.michaelbel.movies.persistence.database.entity.PagingKeyDb
         MovieDb::class,
         ImageDb::class,
         AccountDb::class,
-        PagingKeyDb::class
+        PagingKeyDb::class,
+        SuggestionDb::class
     ],
     version = AppDatabase.DATABASE_VERSION,
     exportSchema = false
@@ -36,10 +39,11 @@ internal abstract class AppDatabase: RoomDatabase() {
     abstract fun imageDao(): ImageDao
     abstract fun accountDao(): AccountDao
     abstract fun pagingKeyDao(): PagingKeyDao
+    abstract fun suggestionDao(): SuggestionDao
 
     companion object {
         private val DATABASE_NAME: String = if (BuildConfig.DEBUG) "movies-db-debug" else "movies-db"
-        const val DATABASE_VERSION = 18
+        const val DATABASE_VERSION = 19
 
         @Volatile
         private var instance: AppDatabase? = null

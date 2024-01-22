@@ -9,6 +9,7 @@ import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.GridView
+import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.KeyboardVoice
 import androidx.compose.material.icons.outlined.Language
@@ -40,6 +41,7 @@ object MoviesIcons {
     val Info: ImageVector = Icons.Outlined.Info
     val FileDownload: ImageVector = Icons.Outlined.FileDownload
     val GridView: ImageVector = Icons.Outlined.GridView
+    val History = Icons.Outlined.History
     val KeyboardVoice = Icons.Outlined.KeyboardVoice
     val Language: ImageVector = Icons.Outlined.Language
     val LocationOn: ImageVector = Icons.Outlined.LocationOn
