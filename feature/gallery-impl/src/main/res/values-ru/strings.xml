@@ -7,4 +7,5 @@
     <string name="gallery_success">Загружено</string>
     <string name="gallery_failure">Ошибка при загрузке</string>
     <string name="gallery_action_open">Открыть</string>
+    <string name="gallery_image_of">%d из %d</string>
 </resources>

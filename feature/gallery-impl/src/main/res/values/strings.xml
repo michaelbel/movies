@@ -7,4 +7,5 @@
     <string name="gallery_success">Success</string>
     <string name="gallery_failure">Failure</string>
     <string name="gallery_action_open">Show</string>
+    <string name="gallery_image_of">%d of %d</string>
 </resources>

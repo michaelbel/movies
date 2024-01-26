@@ -27,6 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -93,10 +94,23 @@ private fun GalleryScreenContent(
     val context = LocalContext.current
     val hapticFeedback = LocalHapticFeedback.current
     val coroutineScope = rememberCoroutineScope()
-    val snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
+    val snackbarHostState = remember { SnackbarHostState() }
     val resultContract = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {}
+
+    val pagerState = rememberPagerState(
+        initialPage = 0,
+        initialPageOffsetFraction = 0F,
+        pageCount = { movieImages.size }
+    )
+    var currentPage: Int by remember { mutableIntStateOf(0) }
+    LaunchedEffect(pagerState) {
+        snapshotFlow { pagerState.currentPage }.collect { page ->
+            hapticFeedback.performHapticFeedback(hapticFeedbackType = HapticFeedbackType.LongPress)
+            currentPage = page
+        }
+    }
 
     val onSuccessSnackbar: (String, String, Uri) -> Unit = { message, actionLabel, uri ->
         coroutineScope.launch {
@@ -159,24 +173,7 @@ private fun GalleryScreenContent(
                 ConstraintLayout(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    val (pager, backIcon, title) = createRefs()
-
-                    val initialPage = 0
-                    val pagerState = rememberPagerState(
-                        initialPage = initialPage,
-                        initialPageOffsetFraction = 0F,
-                        pageCount = { movieImages.size }
-                    )
-
-                    var currentPage: Int by remember { mutableStateOf(0) }
-                    LaunchedEffect(pagerState) {
-                        snapshotFlow { pagerState.currentPage }.collect { page ->
-                            if (currentPage != page) {
-                                hapticFeedback.performHapticFeedback(hapticFeedbackType = HapticFeedbackType.LongPress)
-                                currentPage = page
-                            }
-                        }
-                    }
+                    val (pager, backIcon, title, downloadIcon) = createRefs()
 
                     LoopHorizontalPager(
                         pagerState = pagerState,
@@ -189,8 +186,6 @@ private fun GalleryScreenContent(
                             bottom.linkTo(parent.bottom)
                         }
                     ) { page ->
-                        currentPage = page
-
                         val imageDb: ImageDb = movieImages[page]
                         var imageDiskCacheKey: String? by remember { mutableStateOf(null) }
 
@@ -202,7 +197,7 @@ private fun GalleryScreenContent(
                         ConstraintLayout(
                             modifier = Modifier.fillMaxSize()
                         ) {
-                            val (asyncImage, progressBar, downloadIcon) = createRefs()
+                            val (asyncImage, progressBar) = createRefs()
 
                             val zoomState = rememberZoomState()
 
@@ -255,24 +250,6 @@ private fun GalleryScreenContent(
                                 )
                             }
 
-                            AnimatedVisibility(
-                                visible = !loading,
-                                modifier = Modifier
-                                    .constrainAs(downloadIcon) {
-                                        width = Dimension.wrapContent
-                                        height = Dimension.wrapContent
-                                        end.linkTo(parent.end, 4.dp)
-                                        top.linkTo(parent.top, 8.dp)
-                                    }
-                                    .statusBarsPadding(),
-                                enter = fadeIn()
-                            ) {
-                                DownloadIcon(
-                                    onClick = { onDownloadClick(imageDb) },
-                                    modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
-                                )
-                            }
-
                             BackHandler(zoomState.isScaled) {
                                 coroutineScope.launch { zoomState.reset() }
                             }
@@ -293,14 +270,13 @@ private fun GalleryScreenContent(
                     )
 
                     Text(
-                        text = "",
+                        text = stringResource(R.string.gallery_image_of, currentPage.plus(1), movieImages.size),
                         modifier = Modifier
                             .constrainAs(title) {
                                 width = Dimension.wrapContent
                                 height = Dimension.wrapContent
                                 start.linkTo(backIcon.end, 4.dp)
                                 top.linkTo(backIcon.top)
-                                end.linkTo(parent.end, 4.dp)
                                 bottom.linkTo(backIcon.bottom)
                             }
                             .statusBarsPadding(),
@@ -310,6 +286,24 @@ private fun GalleryScreenContent(
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     )
+
+                    AnimatedVisibility(
+                        visible = true,
+                        modifier = Modifier
+                            .constrainAs(downloadIcon) {
+                                width = Dimension.wrapContent
+                                height = Dimension.wrapContent
+                                end.linkTo(parent.end, 4.dp)
+                                top.linkTo(parent.top, 8.dp)
+                            }
+                            .statusBarsPadding(),
+                        enter = fadeIn()
+                    ) {
+                        DownloadIcon(
+                            onClick = { onDownloadClick(movieImages[currentPage]) },
+                            modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
+                        )
+                    }
                 }
             }
         }
