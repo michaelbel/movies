@@ -2,8 +2,6 @@ package org.michaelbel.movies.settings.ui
 
 import android.Manifest
 import android.app.Activity
-import android.app.NotificationManager
-import android.content.Context
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -26,8 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.common.ktx.notificationManager
-import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.settings_impl.R
+import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.ui.lifecycle.OnResume
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -37,8 +35,8 @@ fun SettingsPostNotificationsBox(
     modifier: Modifier = Modifier,
     onShowPermissionSnackbar: () -> Unit
 ) {
-    val context: Context = LocalContext.current
-    val notificationManager: NotificationManager = context.notificationManager
+    val context = LocalContext.current
+    val notificationManager = context.notificationManager
     var areNotificationsEnabled: Boolean by remember {
         mutableStateOf(notificationManager.areNotificationsEnabled())
     }

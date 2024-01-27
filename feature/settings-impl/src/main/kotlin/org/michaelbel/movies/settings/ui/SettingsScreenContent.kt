@@ -1,7 +1,6 @@
 package org.michaelbel.movies.settings.ui
 
 import android.app.Activity
-import android.content.Context
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -11,7 +10,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -20,7 +18,6 @@ import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -33,7 +30,6 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.list.MovieList
@@ -110,11 +106,11 @@ private fun SettingsScreenContent(
     appVersionData: AppVersionData,
     modifier: Modifier = Modifier
 ) {
-    val context: Context = LocalContext.current
-    val scope: CoroutineScope = rememberCoroutineScope()
-    val snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
-    val topAppBarScrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-    val lazyListState: LazyListState = rememberLazyListState()
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+    val topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
+    val lazyListState = rememberLazyListState()
 
     val resultContract = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()

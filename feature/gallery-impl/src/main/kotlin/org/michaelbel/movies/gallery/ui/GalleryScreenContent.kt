@@ -307,6 +307,8 @@ private fun GalleryScreenContent(
                 }
             }
         }
+
+        innerPadding.toString()
     }
 }
 

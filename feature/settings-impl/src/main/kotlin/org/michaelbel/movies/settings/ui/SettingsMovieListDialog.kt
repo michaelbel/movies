@@ -1,6 +1,5 @@
 package org.michaelbel.movies.settings.ui
 
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -100,7 +99,7 @@ private fun SettingMovieListDialogContent(
         MovieList.TopRated,
         MovieList.Upcoming
     )
-    val scrollState: ScrollState = rememberScrollState()
+    val scrollState = rememberScrollState()
 
     Column(
         modifier = modifier.verticalScroll(scrollState)

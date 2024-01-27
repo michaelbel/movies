@@ -1,17 +1,13 @@
 package org.michaelbel.movies.feed.ui
 
 import android.app.Activity
-import android.content.Context
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.lazy.LazyListState
-import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.MaterialTheme
@@ -41,7 +37,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import java.net.UnknownHostException
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
@@ -120,12 +115,12 @@ private fun FeedScreenContent(
     onNotificationBottomSheetHideClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val context: Context = LocalContext.current
-    val scope: CoroutineScope = rememberCoroutineScope()
-    val lazyListState: LazyListState = rememberLazyListState()
-    val lazyGridState: LazyGridState = rememberLazyGridState()
-    val lazyStaggeredGridState: LazyStaggeredGridState = rememberLazyStaggeredGridState()
-    val snackbarHostState: SnackbarHostState = remember { SnackbarHostState() }
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val lazyListState = rememberLazyListState()
+    val lazyGridState = rememberLazyGridState()
+    val lazyStaggeredGridState = rememberLazyStaggeredGridState()
+    val snackbarHostState = remember { SnackbarHostState() }
     val notificationBottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(
             confirmValueChange = { sheetValue ->

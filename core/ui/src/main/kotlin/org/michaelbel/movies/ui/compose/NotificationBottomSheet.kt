@@ -2,7 +2,6 @@ package org.michaelbel.movies.ui.compose
 
 import android.Manifest
 import android.app.Activity
-import android.content.Context
 import android.os.Build
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -47,7 +46,7 @@ fun NotificationBottomSheet(
     modifier: Modifier = Modifier,
     onBottomSheetHide: () -> Unit
 ) {
-    val context: Context = LocalContext.current
+    val context = LocalContext.current
 
     val activityContract = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()

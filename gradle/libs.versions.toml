@@ -3,7 +3,7 @@
 min-sdk = "23"
 compile-sdk = "34"
 target-sdk = "34"
-gradle = "8.2.1"
+gradle = "8.2.2"
 kotlin = "1.9.22"
 kotlin-ksp = "1.9.22-1.0.17"
 kotlin-coroutines = "1.7.3"

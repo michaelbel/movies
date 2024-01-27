@@ -2,7 +2,6 @@ package org.michaelbel.movies.details.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
@@ -47,7 +46,7 @@ fun DetailsContent(
     modifier: Modifier = Modifier,
     placeholder: Boolean = false
 ) {
-    val scrollState: ScrollState = rememberScrollState()
+    val scrollState = rememberScrollState()
     var isNoImageVisible: Boolean by remember { mutableStateOf(false) }
 
     ConstraintLayout(
@@ -82,11 +81,10 @@ fun DetailsContent(
                     shape = MaterialTheme.shapes.small,
                     highlight = PlaceholderHighlight.fade()
                 )
-                .clickable {
-                    if (!placeholder && !isNoImageVisible) {
-                        onNavigateToGallery(movie.movieId)
-                    }
-                },
+                .clickable(
+                    enabled = !placeholder && !isNoImageVisible,
+                    onClick = { onNavigateToGallery(movie.movieId) }
+                ) ,
             onState = { state ->
                 isNoImageVisible = movie.isNotEmpty && state.isErrorOrEmpty
             },

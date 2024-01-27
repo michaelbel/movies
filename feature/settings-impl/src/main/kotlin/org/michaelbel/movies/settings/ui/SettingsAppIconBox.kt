@@ -1,6 +1,5 @@
 package org.michaelbel.movies.settings.ui
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -27,7 +26,7 @@ fun SettingsAppIconBox(
     onAppIconChanged: (IconAlias) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val context: Context = LocalContext.current
+    val context = LocalContext.current
 
     fun changeAppIcon(iconAlias: IconAlias) {
         onAppIconChanged(iconAlias)

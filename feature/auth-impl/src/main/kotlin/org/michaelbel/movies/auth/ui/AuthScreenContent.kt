@@ -5,7 +5,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.ScrollState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -29,7 +28,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
@@ -88,8 +86,8 @@ internal fun AuthScreenContent(
     ) {}
     val toolbarColor: Int = MaterialTheme.colorScheme.primary.toArgb()
 
-    val focusManager: FocusManager = LocalFocusManager.current
-    val scrollState: ScrollState = rememberScrollState()
+    val focusManager = LocalFocusManager.current
+    val scrollState = rememberScrollState()
 
     var username: String by rememberSaveable { mutableStateOf("") }
     var password: String by rememberSaveable { mutableStateOf("") }

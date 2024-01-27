@@ -19,7 +19,6 @@ fun GalleryLoading(
         contentAlignment = Alignment.Center
     ) {
         LinearProgressIndicator(
-            modifier = Modifier,
             trackColor = MaterialTheme.colorScheme.inversePrimary
         )
     }

@@ -65,7 +65,10 @@ private fun SearchHistoryHeaderPreview() {
     MoviesTheme {
         SearchHistoryHeader(
             onClearButtonClick = {},
-            modifier = Modifier.fillMaxWidth().height(48.dp).background(MaterialTheme.colorScheme.background)
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp)
+                .background(MaterialTheme.colorScheme.background)
         )
     }
 }
