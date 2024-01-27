@@ -122,6 +122,7 @@ private fun GalleryScreenContent(
             if (result == SnackbarResult.ActionPerformed) {
                 Intent(Intent.ACTION_VIEW).apply {
                     setDataAndType(uri, "image/jpg")
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
                     addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 }.also { intent ->
                     resultContract.launch(intent)
