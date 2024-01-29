@@ -16,10 +16,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.auth_impl.R
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -49,7 +51,7 @@ fun AuthLinksBox(
                     .padding(vertical = 16.dp)
                     .clickableWithoutRipple { onTermsOfUseClick() },
                 style = MaterialTheme.typography.bodyMedium.copy(
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             )
 
@@ -67,7 +69,7 @@ fun AuthLinksBox(
                     .padding(vertical = 16.dp)
                     .clickableWithoutRipple { onPrivacyPolicyClick() },
                 style = MaterialTheme.typography.bodyMedium.copy(
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             )
         }
@@ -78,6 +80,18 @@ fun AuthLinksBox(
 @DevicePreviews
 private fun AuthLinksBoxPreview() {
     MoviesTheme {
+        AuthLinksBox(
+            onTermsOfUseClick = {},
+            onPrivacyPolicyClick = {},
+            modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun AuthLinksBoxAmoledPreview() {
+    AmoledTheme {
         AuthLinksBox(
             onTermsOfUseClick = {},
             onPrivacyPolicyClick = {},

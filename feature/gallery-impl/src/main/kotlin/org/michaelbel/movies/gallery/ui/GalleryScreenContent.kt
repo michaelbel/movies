@@ -41,6 +41,7 @@ import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -63,6 +64,9 @@ import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
 import org.michaelbel.movies.ui.compose.iconbutton.DownloadIcon
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
+import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.theme.AmoledTheme
+import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.work.DownloadImageWorker
 
 @Composable
@@ -330,4 +334,32 @@ private fun LoopHorizontalPager(
             content(index)
         }
     )
+}
+
+@Composable
+@DevicePreviews
+private fun GalleryScreenContentPreview() {
+    MoviesTheme {
+        GalleryScreenContent(
+            movieImages = emptyList(),
+            workInfo = null,
+            onBackClick = {},
+            onDownloadClick = {},
+            modifier = Modifier.fillMaxSize()
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun GalleryScreenContentAmoledPreview() {
+    AmoledTheme {
+        GalleryScreenContent(
+            movieImages = emptyList(),
+            workInfo = null,
+            onBackClick = {},
+            onDownloadClick = {},
+            modifier = Modifier.fillMaxSize()
+        )
+    }
 }

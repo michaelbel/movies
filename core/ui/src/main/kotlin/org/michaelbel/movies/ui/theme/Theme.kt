@@ -64,6 +64,12 @@ fun MoviesTheme(
                 statusBarDarkContentEnabled = !darkTheme
             )
         }
+        AppTheme.Amoled -> {
+            ComposeTheme(
+                colorScheme = AmoledColorScheme,
+                statusBarDarkContentEnabled = false
+            )
+        }
     }
 
     val systemUiController: SystemUiController = rememberSystemUiController()
@@ -71,6 +77,22 @@ fun MoviesTheme(
 
     MaterialTheme(
         colorScheme = colorScheme,
+        shapes = MoviesShapes,
+        typography = MoviesTypography
+    ) {
+        CompositionLocalProvider(
+            LocalRippleTheme provides MoviesRippleTheme,
+            content = content
+        )
+    }
+}
+
+@Composable
+fun AmoledTheme(
+    content: @Composable () -> Unit
+) {
+    MaterialTheme(
+        colorScheme = AmoledColorScheme,
         shapes = MoviesShapes,
         typography = MoviesTypography
     ) {

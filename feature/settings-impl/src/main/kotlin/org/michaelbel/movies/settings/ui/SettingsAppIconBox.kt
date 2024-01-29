@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -19,6 +20,7 @@ import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.appicon.IconAlias
 import org.michaelbel.movies.ui.appicon.setIcon
 import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -105,6 +107,19 @@ fun SettingsAppIconBox(
 @DevicePreviews
 private fun SettingsAppIconBoxPreview() {
     MoviesTheme {
+        SettingsAppIconBox(
+            onAppIconChanged = {},
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.primaryContainer)
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun SettingsAppIconBoxAmoledPreview() {
+    AmoledTheme {
         SettingsAppIconBox(
             onAppIconChanged = {},
             modifier = Modifier

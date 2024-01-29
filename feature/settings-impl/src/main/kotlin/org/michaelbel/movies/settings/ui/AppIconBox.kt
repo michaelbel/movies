@@ -14,6 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ChainStyle
@@ -27,6 +28,7 @@ import org.michaelbel.movies.ui.appicon.isEnabled
 import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.IconAliasPreviewParameterProvider
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -93,6 +95,21 @@ private fun AppIconBoxPreview(
     @PreviewParameter(IconAliasPreviewParameterProvider::class) iconAlias: IconAlias
 ) {
     MoviesTheme {
+        AppIconBox(
+            iconAlias = iconAlias,
+            modifier = Modifier
+                .clip(RoundedCornerShape(8.dp))
+                .background(iconAlias.backgroundColor(context))
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun AppIconBoxAmoledPreview(
+    @PreviewParameter(IconAliasPreviewParameterProvider::class) iconAlias: IconAlias
+) {
+    AmoledTheme {
         AppIconBox(
             iconAlias = iconAlias,
             modifier = Modifier

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -19,6 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -35,6 +37,7 @@ import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.isPortrait
 import org.michaelbel.movies.ui.ktx.lettersTextFontSizeLarge
 import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -55,7 +58,7 @@ fun AccountRoute(
 }
 
 @Composable
-internal fun AccountScreenContent(
+private fun AccountScreenContent(
     account: AccountDb,
     loading: Boolean,
     onBackClick: () -> Unit,
@@ -141,7 +144,7 @@ internal fun AccountScreenContent(
                     text = account.name,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 )
             }
@@ -180,6 +183,9 @@ internal fun AccountScreenContent(
                 bottom.linkTo(parent.bottom, 16.dp)
             },
             enabled = !loading,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.surfaceTint
+            ),
             contentPadding = PaddingValues(horizontal = 24.dp)
         ) {
             if (loading) {
@@ -200,6 +206,27 @@ internal fun AccountScreenContent(
 @DevicePreviews
 private fun AccountScreenContentPreview() {
     MoviesTheme {
+        AccountScreenContent(
+            account = AccountDb(
+                accountId = 0,
+                avatarUrl = "",
+                language = "",
+                country = "Finland",
+                name = "Michael Bely",
+                adult = true,
+                username = "michaelbel"
+            ),
+            loading = false,
+            onBackClick = {},
+            onLogoutClick = {}
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun AccountScreenContentAmoledPreview() {
+    AmoledTheme {
         AccountScreenContent(
             account = AccountDb(
                 accountId = 0,

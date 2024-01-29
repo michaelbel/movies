@@ -1,5 +1,6 @@
 package org.michaelbel.movies.details.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -12,6 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import java.net.UnknownHostException
@@ -24,7 +27,12 @@ import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.network.connectivity.ktx.isAvailable
 import org.michaelbel.movies.network.ktx.isFailure
 import org.michaelbel.movies.network.ktx.throwable
+import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
+import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.preview.provider.MovieDbPreviewParameterProvider
+import org.michaelbel.movies.ui.theme.AmoledTheme
+import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun DetailsRoute(
@@ -102,5 +110,43 @@ private fun DetailsScreenContent(
                 )
             }
         }
+    }
+}
+
+@Composable
+@DevicePreviews
+private fun DetailsScreenContentPreview(
+    @PreviewParameter(MovieDbPreviewParameterProvider::class) movie: MovieDb
+) {
+    MoviesTheme {
+        DetailsScreenContent(
+            onBackClick = {},
+            onNavigateToGallery = {},
+            detailsState = ScreenState.Content(movie),
+            networkStatus = NetworkStatus.Available,
+            onRetry = {},
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.primaryContainer)
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun DetailsScreenContentAmoledPreview(
+    @PreviewParameter(MovieDbPreviewParameterProvider::class) movie: MovieDb
+) {
+    AmoledTheme {
+        DetailsScreenContent(
+            onBackClick = {},
+            onNavigateToGallery = {},
+            detailsState = ScreenState.Content(movie),
+            networkStatus = NetworkStatus.Available,
+            onRetry = {},
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.primaryContainer)
+        )
     }
 }

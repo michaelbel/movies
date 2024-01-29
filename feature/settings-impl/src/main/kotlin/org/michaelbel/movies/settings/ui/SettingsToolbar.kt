@@ -12,10 +12,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -56,6 +58,17 @@ internal fun SettingsToolbar(
 @DevicePreviews
 private fun SettingsToolbarPreview() {
     MoviesTheme {
+        SettingsToolbar(
+            modifier = Modifier.statusBarsPadding(),
+            onNavigationIconClick = {}
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun SettingsToolbarAmoledPreview() {
+    AmoledTheme {
         SettingsToolbar(
             modifier = Modifier.statusBarsPadding(),
             onNavigationIconClick = {}

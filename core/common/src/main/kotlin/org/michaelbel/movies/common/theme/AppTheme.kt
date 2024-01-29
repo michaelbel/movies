@@ -10,11 +10,14 @@ sealed interface AppTheme {
 
     data object FollowSystem: AppTheme
 
+    data object Amoled: AppTheme
+
     companion object {
         val VALUES: List<AppTheme> = listOf(
             NightNo,
             NightYes,
-            FollowSystem
+            FollowSystem,
+            Amoled
         )
 
         fun transform(name: String): AppTheme {
@@ -22,6 +25,7 @@ sealed interface AppTheme {
                 NightNo.toString() -> NightNo
                 NightYes.toString() -> NightYes
                 FollowSystem.toString() -> FollowSystem
+                Amoled.toString() -> Amoled
                 else -> throw InvalidThemeException
             }
         }

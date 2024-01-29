@@ -21,6 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.list.MovieList
@@ -30,6 +31,7 @@ import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.MovieListPreviewParameterProvider
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -117,7 +119,7 @@ private fun SettingMovieListDialogContent(
                     onClick = null,
                     colors = RadioButtonDefaults.colors(
                         selectedColor = MaterialTheme.colorScheme.primary,
-                        unselectedColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6F)
+                        unselectedColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6F)
                     ),
                     modifier = Modifier.padding(start = 16.dp)
                 )
@@ -126,7 +128,7 @@ private fun SettingMovieListDialogContent(
                     text = movieList.listText,
                     modifier = Modifier.padding(start = 8.dp),
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 )
             }
@@ -140,6 +142,20 @@ private fun SettingsMovieListDialogPreview(
     @PreviewParameter(MovieListPreviewParameterProvider::class) movieList: MovieList
 ) {
     MoviesTheme {
+        SettingsMovieListDialog(
+            currentMovieList = movieList,
+            onMovieListSelect = {},
+            onDismissRequest = {}
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun SettingsMovieListDialogAmoledPreview(
+    @PreviewParameter(MovieListPreviewParameterProvider::class) movieList: MovieList
+) {
+    AmoledTheme {
         SettingsMovieListDialog(
             currentMovieList = movieList,
             onMovieListSelect = {},

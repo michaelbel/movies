@@ -5,11 +5,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -17,6 +19,7 @@ import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.BooleanPreviewParameterProvider
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -56,7 +59,10 @@ fun SettingsDynamicColorsBox(
                     end.linkTo(parent.end, 16.dp)
                     bottom.linkTo(parent.bottom)
                 }
-                .testTag("Switch")
+                .testTag("Switch"),
+            colors = SwitchDefaults.colors(
+                checkedTrackColor = MaterialTheme.colorScheme.surfaceTint
+            )
         )
     }
 }
@@ -67,6 +73,22 @@ private fun SettingsDynamicColorsBoxPreview(
     @PreviewParameter(BooleanPreviewParameterProvider::class) isEnabled: Boolean
 ) {
     MoviesTheme {
+        SettingsDynamicColorsBox(
+            isDynamicColorsEnabled = isEnabled,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp)
+                .background(MaterialTheme.colorScheme.primaryContainer)
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun SettingsDynamicColorsBoxAmoledPreview(
+    @PreviewParameter(BooleanPreviewParameterProvider::class) isEnabled: Boolean
+) {
+    AmoledTheme {
         SettingsDynamicColorsBox(
             isDynamicColorsEnabled = isEnabled,
             modifier = Modifier
