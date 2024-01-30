@@ -4,12 +4,10 @@ import android.Manifest
 import android.app.Activity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,13 +25,11 @@ import org.michaelbel.movies.common.ktx.notificationManager
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.ui.lifecycle.OnResume
-import org.michaelbel.movies.ui.preview.DevicePreviews
-import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun SettingsPostNotificationsBox(
-    modifier: Modifier = Modifier,
-    onShowPermissionSnackbar: () -> Unit
+    onShowPermissionSnackbar: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
     val notificationManager = context.notificationManager
@@ -104,21 +100,10 @@ fun SettingsPostNotificationsBox(
                     end.linkTo(parent.end, 16.dp)
                     bottom.linkTo(parent.bottom)
                 }
-                .testTag("Switch")
-        )
-    }
-}
-
-@Composable
-@DevicePreviews
-private fun SettingsPostNotificationsBoxPreview() {
-    MoviesTheme {
-        SettingsPostNotificationsBox(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(52.dp)
-                .background(MaterialTheme.colorScheme.primaryContainer),
-            onShowPermissionSnackbar = {}
+                .testTag("Switch"),
+            colors = SwitchDefaults.colors(
+                checkedTrackColor = MaterialTheme.colorScheme.surfaceTint
+            )
         )
     }
 }

@@ -14,6 +14,7 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.network.model.MovieResponse
@@ -25,9 +26,12 @@ import org.michaelbel.movies.ui.ktx.isPortrait
 import org.michaelbel.movies.ui.placeholder.PlaceholderHighlight
 import org.michaelbel.movies.ui.placeholder.material3.fade
 import org.michaelbel.movies.ui.placeholder.placeholder
+import org.michaelbel.movies.ui.preview.DeviceLandscapePreview
 import org.michaelbel.movies.ui.preview.DeviceLandscapePreviews
 import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.preview.DeviceUserLandscapePreviews
 import org.michaelbel.movies.ui.preview.DeviceUserPreviews
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -151,7 +155,19 @@ private fun PageLoadingColumnPreview() {
         PageLoadingColumn(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
+                .background(MaterialTheme.colorScheme.primaryContainer)
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun PageLoadingColumnAmoledPreview() {
+    AmoledTheme {
+        PageLoadingColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.primaryContainer)
         )
     }
 }
@@ -163,19 +179,43 @@ private fun PageLoadingGridPreview() {
         PageLoadingGrid(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
+                .background(MaterialTheme.colorScheme.primaryContainer)
+        )
+    }
+}
+
+@Composable
+@DeviceLandscapePreview
+private fun PageLoadingGridAmoledPreview() {
+    AmoledTheme {
+        PageLoadingGrid(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.primaryContainer)
+        )
+    }
+}
+
+@Composable
+@DeviceUserLandscapePreviews
+private fun PageLoadingStaggeredGridPreview() {
+    MoviesTheme {
+        PageLoadingStaggeredGrid(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.primaryContainer)
         )
     }
 }
 
 @Composable
 @DeviceUserPreviews
-private fun PageLoadingStaggeredGridPreview() {
-    MoviesTheme {
+private fun PageLoadingStaggeredGridAmoledPreview() {
+    AmoledTheme {
         PageLoadingStaggeredGrid(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background)
+                .background(MaterialTheme.colorScheme.primaryContainer)
         )
     }
 }

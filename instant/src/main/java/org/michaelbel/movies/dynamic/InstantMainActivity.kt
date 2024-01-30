@@ -25,7 +25,7 @@ internal class InstantMainActivity: ComponentActivity() {
                 ) {
                     Text(
                         text = "Hello Movies Instant App!",
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
             }

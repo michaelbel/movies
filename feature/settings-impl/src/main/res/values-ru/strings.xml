@@ -4,6 +4,7 @@
     <string name="settings_theme_system">По умолчанию</string>
     <string name="settings_theme_light">Светлая</string>
     <string name="settings_theme_dark">Темная</string>
+    <string name="settings_theme_amoled">Amoled</string>
     <string name="settings_dynamic_colors">Цвета обоев</string>
     <string name="settings_post_notifications">Уведомления</string>
     <string name="settings_review">Оценить приложение</string>

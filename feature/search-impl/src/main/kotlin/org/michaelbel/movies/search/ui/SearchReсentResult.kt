@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -21,6 +22,7 @@ import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.MoviePreviewParameterProvider
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -61,7 +63,7 @@ fun SearchRecentResult(
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
             style = MaterialTheme.typography.bodyMedium.copy(
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         )
 
@@ -90,7 +92,24 @@ private fun SearchRecentResultPreview(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
-                .background(MaterialTheme.colorScheme.background)
+                .background(MaterialTheme.colorScheme.primaryContainer)
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun SearchRecentResultAmoledPreview(
+    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MovieDb
+) {
+    AmoledTheme {
+        SearchRecentResult(
+            text = movie.title,
+            onRemoveClick = {},
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp)
+                .background(MaterialTheme.colorScheme.primaryContainer)
         )
     }
 }

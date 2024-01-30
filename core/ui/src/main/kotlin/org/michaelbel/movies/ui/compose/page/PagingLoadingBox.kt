@@ -10,8 +10,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -35,7 +37,20 @@ private fun PagingLoadingBoxPreview() {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(100.dp)
-                .background(MaterialTheme.colorScheme.background)
+                .background(MaterialTheme.colorScheme.primaryContainer)
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun PagingLoadingBoxAmoledPreview() {
+    AmoledTheme {
+        PagingLoadingBox(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(100.dp)
+                .background(MaterialTheme.colorScheme.primaryContainer)
         )
     }
 }

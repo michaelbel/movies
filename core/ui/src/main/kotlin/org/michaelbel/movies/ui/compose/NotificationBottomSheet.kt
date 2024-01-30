@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,12 +34,14 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.ui.R
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -96,8 +99,8 @@ fun NotificationBottomSheet(
                 contentDescription = MoviesContentDescription.None,
                 modifier = Modifier.graphicsLayer(
                     transformOrigin = TransformOrigin(
-                        pivotFractionX = 0.5f,
-                        pivotFractionY = 0.0f,
+                        pivotFractionX = 0.5F,
+                        pivotFractionY = 0.0F,
                     ),
                     rotationZ = value
                 ),
@@ -110,7 +113,7 @@ fun NotificationBottomSheet(
             modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.titleLarge.copy(
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         )
 
@@ -119,7 +122,7 @@ fun NotificationBottomSheet(
             modifier = Modifier.padding(start = 16.dp, top = 8.dp, end = 16.dp),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.bodyMedium.copy(
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         )
 
@@ -135,6 +138,9 @@ fun NotificationBottomSheet(
                     }
                 }
             },
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.surfaceTint
+            ),
             modifier = Modifier.padding(top = 16.dp, bottom = 32.dp)
         ) {
             Text(
@@ -149,7 +155,22 @@ fun NotificationBottomSheet(
 private fun NotificationBottomSheetPreview() {
     MoviesTheme {
         NotificationBottomSheet(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.primaryContainer),
+            onBottomSheetHide = {}
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun NotificationBottomSheetAmoledPreview() {
+    AmoledTheme {
+        NotificationBottomSheet(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.primaryContainer),
             onBottomSheetHide = {}
         )
     }

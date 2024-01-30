@@ -10,4 +10,5 @@ internal val AppTheme.themeText: String
         is AppTheme.NightNo -> stringResource(R.string.settings_theme_light)
         is AppTheme.NightYes -> stringResource(R.string.settings_theme_dark)
         is AppTheme.FollowSystem -> stringResource(R.string.settings_theme_system)
+        is AppTheme.Amoled -> stringResource(R.string.settings_theme_amoled)
     }

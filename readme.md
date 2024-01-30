@@ -51,6 +51,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] CompileSDK 34
 - [x] [Material3](https://m3.material.io)
 - [x] [Dark Theme](https://d.android.com/develop/ui/views/theming/darktheme)
+- [x] Amoled Theme
 - [x] [Material You Dynamic Colors](https://d.android.com/develop/ui/views/theming/dynamic-colors)
 - [x] [Themed App Icon](https://d.android.com/develop/ui/views/launch/icon_design_adaptive)
 - [x] [Kotlin](https://d.android.com/kotlin)

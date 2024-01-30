@@ -7,7 +7,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -28,6 +30,16 @@ fun GalleryLoading(
 @DevicePreviews
 private fun GalleryLoadingPreview() {
     MoviesTheme {
+        GalleryLoading(
+            modifier = Modifier.fillMaxSize()
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun GalleryLoadingAmoledPreview() {
+    AmoledTheme {
         GalleryLoading(
             modifier = Modifier.fillMaxSize()
         )

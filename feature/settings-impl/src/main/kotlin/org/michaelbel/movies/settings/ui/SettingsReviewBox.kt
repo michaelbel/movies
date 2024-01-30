@@ -9,11 +9,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -47,6 +49,19 @@ fun SettingsReviewBox(
 @DevicePreviews
 private fun SettingsReviewBoxPreview() {
     MoviesTheme {
+        SettingsReviewBox(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp)
+                .background(MaterialTheme.colorScheme.primaryContainer)
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun SettingsReviewBoxAmoledPreview() {
+    AmoledTheme {
         SettingsReviewBox(
             modifier = Modifier
                 .fillMaxWidth()

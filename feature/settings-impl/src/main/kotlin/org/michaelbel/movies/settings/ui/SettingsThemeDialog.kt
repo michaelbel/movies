@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.theme.AppTheme
@@ -31,6 +32,7 @@ import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.ThemePreviewParameterProvider
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -112,7 +114,7 @@ private fun SettingThemeDialogContent(
                     onClick = null,
                     colors = RadioButtonDefaults.colors(
                         selectedColor = MaterialTheme.colorScheme.primary,
-                        unselectedColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.6F)
+                        unselectedColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.6F)
                     ),
                     modifier = Modifier.padding(start = 16.dp)
                 )
@@ -121,7 +123,7 @@ private fun SettingThemeDialogContent(
                     text = theme.themeText,
                     modifier = Modifier.padding(start = 8.dp),
                     style = MaterialTheme.typography.bodyLarge.copy(
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 )
             }
@@ -135,6 +137,20 @@ private fun SettingThemeDialogPreview(
     @PreviewParameter(ThemePreviewParameterProvider::class) theme: AppTheme
 ) {
     MoviesTheme {
+        SettingThemeDialog(
+            currentTheme = theme,
+            onThemeSelect = {},
+            onDismissRequest = {}
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun SettingThemeDialogAmoledPreview(
+    @PreviewParameter(ThemePreviewParameterProvider::class) theme: AppTheme
+) {
+    AmoledTheme {
         SettingThemeDialog(
             currentTheme = theme,
             onThemeSelect = {},

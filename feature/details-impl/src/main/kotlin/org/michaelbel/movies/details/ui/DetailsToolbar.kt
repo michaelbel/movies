@@ -12,12 +12,14 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
 import org.michaelbel.movies.ui.compose.iconbutton.ShareIcon
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.TitlePreviewParameterProvider
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -72,6 +74,22 @@ private fun DetailsToolbarPreview(
     @PreviewParameter(TitlePreviewParameterProvider::class) title: String
 ) {
     MoviesTheme {
+        DetailsToolbar(
+            movieTitle = title,
+            movieUrl = null,
+            onNavigationIconClick = {},
+            topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
+            modifier = Modifier.statusBarsPadding()
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun DetailsToolbarAmoledPreview(
+    @PreviewParameter(TitlePreviewParameterProvider::class) title: String
+) {
+    AmoledTheme {
         DetailsToolbar(
             movieTitle = title,
             movieUrl = null,

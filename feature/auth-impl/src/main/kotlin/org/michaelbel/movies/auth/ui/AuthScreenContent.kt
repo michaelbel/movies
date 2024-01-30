@@ -15,6 +15,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -36,6 +37,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -55,6 +57,9 @@ import org.michaelbel.movies.ui.compose.iconbutton.PasswordIcon
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.isPortrait
+import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.theme.AmoledTheme
+import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun AuthRoute(
@@ -275,6 +280,9 @@ internal fun AuthScreenContent(
                 end.linkTo(parent.end, 16.dp)
             },
             enabled = username.isNotEmpty() && password.isNotEmpty() && !loading,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.surfaceTint
+            ),
             contentPadding = PaddingValues(horizontal = 24.dp)
         ) {
             if (loading) {
@@ -336,6 +344,34 @@ internal fun AuthScreenContent(
                 top.linkTo(signInButton.bottom, 16.dp)
                 end.linkTo(parent.end)
             }
+        )
+    }
+}
+
+@Composable
+@DevicePreviews
+private fun AuthScreenContentPreview() {
+    MoviesTheme {
+        AuthScreenContent(
+            error = null,
+            loading = false,
+            onBackClick = {},
+            onSignInClick = { _,_ -> },
+            modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun AuthScreenContentAmoledPreview() {
+    AmoledTheme {
+        AuthScreenContent(
+            error = null,
+            loading = false,
+            onBackClick = {},
+            onSignInClick = { _,_ -> },
+            modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)
         )
     }
 }

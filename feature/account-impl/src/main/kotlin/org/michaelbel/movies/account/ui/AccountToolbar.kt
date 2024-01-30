@@ -10,9 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.account_impl.R
 import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
 import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -46,6 +48,17 @@ fun AccountToolbar(
 @DevicePreviews
 private fun AccountToolbarPreview() {
     MoviesTheme {
+        AccountToolbar(
+            modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer),
+            onNavigationIconClick = {}
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun AccountToolbarAmoledPreview() {
+    AmoledTheme {
         AccountToolbar(
             modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer),
             onNavigationIconClick = {}

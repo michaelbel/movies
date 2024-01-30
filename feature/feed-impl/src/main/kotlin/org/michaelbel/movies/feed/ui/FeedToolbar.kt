@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.feed_impl.R
@@ -31,6 +32,7 @@ import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.ktx.lettersTextFontSizeSmall
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.BooleanPreviewParameterProvider
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -110,6 +112,27 @@ private fun FeedToolbarPreview(
     @PreviewParameter(BooleanPreviewParameterProvider::class) visible: Boolean
 ) {
     MoviesTheme {
+        FeedToolbar(
+            title = stringResource(R.string.feed_title_now_playing),
+            account = AccountDb.Empty,
+            isUpdateIconVisible = visible,
+            onSearchIconClick = {},
+            onAccountIconClick = {},
+            onAuthIconClick = {},
+            onUpdateIconClick = {},
+            onSettingsIconClick = {},
+            topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
+            modifier = Modifier.statusBarsPadding()
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun FeedToolbarAmoledPreview(
+    @PreviewParameter(BooleanPreviewParameterProvider::class) visible: Boolean
+) {
+    AmoledTheme {
         FeedToolbar(
             title = stringResource(R.string.feed_title_now_playing),
             account = AccountDb.Empty,

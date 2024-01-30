@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.persistence.database.entity.MovieDb
@@ -29,8 +30,8 @@ import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
 import org.michaelbel.movies.ui.compose.iconbutton.VoiceIcon
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
-import org.michaelbel.movies.ui.preview.provider.MoviePreviewParameterProvider
 import org.michaelbel.movies.ui.preview.provider.SuggestionDbPreviewParameterProvider
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -167,11 +168,11 @@ private fun SearchToolbarPreview(
 }
 
 @Composable
-@DevicePreviews
-private fun SearchToolbarPreview2(
-    @PreviewParameter(MoviePreviewParameterProvider::class) movies: List<MovieDb>
+@Preview
+private fun SearchToolbarAmoledPreview(
+    @PreviewParameter(SuggestionDbPreviewParameterProvider::class) suggestions: List<SuggestionDb>
 ) {
-    MoviesTheme {
+    AmoledTheme {
         SearchToolbar(
             query = "Napoleon",
             onQueryChange = {},
@@ -181,9 +182,9 @@ private fun SearchToolbarPreview2(
             onBackClick = {},
             onCloseClick = {},
             onInputText = {},
-            suggestions = emptyList(),
+            suggestions = suggestions,
             onSuggestionClick = {},
-            searchHistoryMovies = movies,
+            searchHistoryMovies = emptyList(),
             onHistoryMovieClick = {},
             onHistoryMovieRemoveClick = {},
             onClearHistoryClick = {}

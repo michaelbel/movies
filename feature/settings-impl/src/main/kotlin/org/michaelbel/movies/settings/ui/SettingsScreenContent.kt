@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.MaterialTheme
@@ -26,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -42,6 +44,9 @@ import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
+import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.theme.AmoledTheme
+import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.ui.R as UiR
 
 @Composable
@@ -247,10 +252,8 @@ private fun SettingsScreenContent(
             item {
                 if (isPostNotificationsFeatureEnabled) {
                     SettingsPostNotificationsBox(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(52.dp),
-                        onShowPermissionSnackbar = onShowPermissionSnackbar
+                        onShowPermissionSnackbar = onShowPermissionSnackbar,
+                        modifier = Modifier.fillMaxWidth().height(52.dp)
                     )
                 }
             }
@@ -271,5 +274,69 @@ private fun SettingsScreenContent(
                 )
             }
         }
+    }
+}
+
+@Composable
+@DevicePreviews
+private fun SettingsScreenContentPreview() {
+    MoviesTheme {
+        SettingsScreenContent(
+            onBackClick = {},
+            currentLanguage = AppLanguage.English,
+            onLanguageSelect = {},
+            currentTheme = AppTheme.NightNo,
+            onThemeSelect = {},
+            currentFeedView = FeedView.FeedList,
+            onFeedViewSelect = {},
+            currentMovieList = MovieList.NowPlaying,
+            onMovieListSelect = {},
+            isDynamicColorsFeatureEnabled = true,
+            dynamicColors = true,
+            onSetDynamicColors = {},
+            isRtlEnabled = true,
+            onEnableRtlChanged = {},
+            isRtlFeatureEnabled = true,
+            isPostNotificationsFeatureEnabled = true,
+            isPlayServicesAvailable = true,
+            onRequestReview = {},
+            appVersionData = AppVersionData.Empty,
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .background(MaterialTheme.colorScheme.primaryContainer)
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun SettingsScreenContentAmoledPreview() {
+    AmoledTheme {
+        SettingsScreenContent(
+            onBackClick = {},
+            currentLanguage = AppLanguage.English,
+            onLanguageSelect = {},
+            currentTheme = AppTheme.NightNo,
+            onThemeSelect = {},
+            currentFeedView = FeedView.FeedList,
+            onFeedViewSelect = {},
+            currentMovieList = MovieList.NowPlaying,
+            onMovieListSelect = {},
+            isDynamicColorsFeatureEnabled = true,
+            dynamicColors = true,
+            onSetDynamicColors = {},
+            isRtlEnabled = true,
+            onEnableRtlChanged = {},
+            isRtlFeatureEnabled = true,
+            isPostNotificationsFeatureEnabled = true,
+            isPlayServicesAvailable = true,
+            onRequestReview = {},
+            appVersionData = AppVersionData.Empty,
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
+                .background(MaterialTheme.colorScheme.primaryContainer)
+        )
     }
 }

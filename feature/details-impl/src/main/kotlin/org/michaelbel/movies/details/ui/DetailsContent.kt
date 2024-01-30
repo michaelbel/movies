@@ -19,6 +19,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
@@ -37,6 +38,7 @@ import org.michaelbel.movies.ui.placeholder.material3.fade
 import org.michaelbel.movies.ui.placeholder.placeholder
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.MovieDbPreviewParameterProvider
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -168,7 +170,23 @@ private fun DetailsContentPreview(
         DetailsContent(
             modifier = Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.background),
+                .background(MaterialTheme.colorScheme.primaryContainer),
+            movie = movie,
+            onNavigateToGallery = {}
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun DetailsContentAmoledPreview(
+    @PreviewParameter(MovieDbPreviewParameterProvider::class) movie: MovieDb
+) {
+    AmoledTheme {
+        DetailsContent(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colorScheme.primaryContainer),
             movie = movie,
             onNavigateToGallery = {}
         )

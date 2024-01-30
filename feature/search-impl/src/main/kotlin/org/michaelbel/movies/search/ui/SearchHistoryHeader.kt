@@ -10,11 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.search_impl.R
 import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -38,7 +40,7 @@ fun SearchHistoryHeader(
             },
             textAlign = TextAlign.Start,
             style = MaterialTheme.typography.bodyMedium.copy(
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         )
 
@@ -68,7 +70,21 @@ private fun SearchHistoryHeaderPreview() {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(48.dp)
-                .background(MaterialTheme.colorScheme.background)
+                .background(MaterialTheme.colorScheme.primaryContainer)
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun SearchHistoryHeaderAmoledPreview() {
+    AmoledTheme {
+        SearchHistoryHeader(
+            onClearButtonClick = {},
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(48.dp)
+                .background(MaterialTheme.colorScheme.primaryContainer)
         )
     }
 }

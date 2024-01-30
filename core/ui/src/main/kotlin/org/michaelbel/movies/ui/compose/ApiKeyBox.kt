@@ -11,9 +11,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.ui.R
 import org.michaelbel.movies.ui.preview.DevicePreviews
+import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -28,7 +30,7 @@ fun ApiKeyBox(
         Text(
             text = stringResource(R.string.error_api_key_null),
             style = MaterialTheme.typography.bodyLarge.copy(
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         )
     }
@@ -42,7 +44,20 @@ private fun ApiKeyBoxPreview() {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 16.dp)
-                .background(MaterialTheme.colorScheme.background)
+                .background(MaterialTheme.colorScheme.primaryContainer)
+        )
+    }
+}
+
+@Composable
+@Preview
+private fun ApiKeyBoxAmoledPreview() {
+    AmoledTheme {
+        ApiKeyBox(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 16.dp)
+                .background(MaterialTheme.colorScheme.primaryContainer)
         )
     }
 }
