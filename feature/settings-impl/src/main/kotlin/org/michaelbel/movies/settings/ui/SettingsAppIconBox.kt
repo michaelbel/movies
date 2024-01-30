@@ -38,7 +38,7 @@ fun SettingsAppIconBox(
     ConstraintLayout(
         modifier = modifier
     ) {
-        val (title, redBox, purpleBox, brownBox) = createRefs()
+        val (title, redBox, purpleBox, brownBox, amoledBox) = createRefs()
 
         Text(
             text = stringResource(R.string.settings_app_launcher_icon),
@@ -63,7 +63,7 @@ fun SettingsAppIconBox(
                     end.linkTo(purpleBox.start, 4.dp)
                     bottom.linkTo(parent.bottom, 16.dp)
                 }
-                .fillMaxWidth(.3F)
+                .fillMaxWidth(.20F)
                 .clip(RoundedCornerShape(8.dp))
                 .background(IconAlias.Red.backgroundColor(context))
                 .clickable { changeAppIcon(IconAlias.Red) }
@@ -79,7 +79,7 @@ fun SettingsAppIconBox(
                     end.linkTo(brownBox.start, 4.dp)
                     bottom.linkTo(parent.bottom, 16.dp)
                 }
-                .fillMaxWidth(.3F)
+                .fillMaxWidth(.20F)
                 .clip(RoundedCornerShape(8.dp))
                 .background(IconAlias.Purple.backgroundColor(context))
                 .clickable { changeAppIcon(IconAlias.Purple) }
@@ -92,13 +92,29 @@ fun SettingsAppIconBox(
                     height = Dimension.wrapContent
                     start.linkTo(purpleBox.end, 4.dp)
                     top.linkTo(title.bottom, 8.dp)
-                    end.linkTo(parent.end, 8.dp)
+                    end.linkTo(amoledBox.start, 4.dp)
                     bottom.linkTo(parent.bottom, 16.dp)
                 }
-                .fillMaxWidth(.3F)
+                .fillMaxWidth(.20F)
                 .clip(RoundedCornerShape(8.dp))
                 .background(IconAlias.Brown.backgroundColor(context))
                 .clickable { changeAppIcon(IconAlias.Brown) }
+        )
+
+        AppIconBox(
+            iconAlias = IconAlias.Amoled,
+            modifier = Modifier
+                .constrainAs(amoledBox) {
+                    height = Dimension.wrapContent
+                    start.linkTo(brownBox.end, 4.dp)
+                    top.linkTo(title.bottom, 8.dp)
+                    end.linkTo(parent.end, 8.dp)
+                    bottom.linkTo(parent.bottom, 16.dp)
+                }
+                .fillMaxWidth(.20F)
+                .clip(RoundedCornerShape(8.dp))
+                .background(IconAlias.Amoled.backgroundColor(context))
+                .clickable { changeAppIcon(IconAlias.Amoled) }
         )
     }
 }

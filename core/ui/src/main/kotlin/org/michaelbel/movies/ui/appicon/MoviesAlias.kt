@@ -39,6 +39,7 @@ internal val Context.shortcutSearchIconRes: Int
         isEnabled(IconAlias.Red) -> R.drawable.ic_shortcut_search_red_48
         isEnabled(IconAlias.Purple) -> R.drawable.ic_shortcut_search_purple_48
         isEnabled(IconAlias.Brown) -> R.drawable.ic_shortcut_search_brown_48
+        isEnabled(IconAlias.Amoled) -> R.drawable.ic_shortcut_search_amoled_48
         else -> 0
     }
 
@@ -47,5 +48,6 @@ internal val Context.shortcutSettingsIconRes: Int
         isEnabled(IconAlias.Red) -> R.drawable.ic_shortcut_settings_red_48
         isEnabled(IconAlias.Purple) -> R.drawable.ic_shortcut_settings_purple_48
         isEnabled(IconAlias.Brown) -> R.drawable.ic_shortcut_settings_brown_48
+        isEnabled(IconAlias.Amoled) -> R.drawable.ic_shortcut_settings_amoled_48
         else -> 0
     }

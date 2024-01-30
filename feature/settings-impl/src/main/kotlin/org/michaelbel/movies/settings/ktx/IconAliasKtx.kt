@@ -14,6 +14,7 @@ internal val IconAlias.iconText: String
         is IconAlias.Red -> stringResource(R.string.settings_app_launcher_icon_red)
         is IconAlias.Purple -> stringResource(R.string.settings_app_launcher_icon_purple)
         is IconAlias.Brown -> stringResource(R.string.settings_app_launcher_icon_brown)
+        is IconAlias.Amoled -> stringResource(R.string.settings_app_launcher_icon_amoled)
     }
 
 internal fun IconAlias.iconSnackbarText(context: Context): String {
@@ -21,6 +22,7 @@ internal fun IconAlias.iconSnackbarText(context: Context): String {
         is IconAlias.Red -> context.getString(R.string.settings_app_launcher_icon_red)
         is IconAlias.Purple -> context.getString(R.string.settings_app_launcher_icon_purple)
         is IconAlias.Brown -> context.getString(R.string.settings_app_launcher_icon_brown)
+        is IconAlias.Amoled -> context.getString(R.string.settings_app_launcher_icon_amoled)
     }
 }
 

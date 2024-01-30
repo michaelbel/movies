@@ -28,6 +28,7 @@
     <string name="settings_app_launcher_icon_red">Красная</string>
     <string name="settings_app_launcher_icon_purple">Фиолетовая</string>
     <string name="settings_app_launcher_icon_brown">Коричневая</string>
+    <string name="settings_app_launcher_icon_amoled">Amoled</string>
     <string name="settings_app_launcher_icon_changed_to">Иконка приложения изменена на %s</string>
     <string name="settings_app_version_name">Movies v%s</string>
     <string name="settings_app_version_code">(%s)</string>

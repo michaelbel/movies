@@ -23,15 +23,22 @@ sealed class IconAlias(
         iconRes = R.drawable.ic_launcher_icon_brown
     )
 
+    data object Amoled: IconAlias(
+        key = AMOLED_ICON_KEY,
+        iconRes = R.drawable.ic_launcher_icon_amoled
+    )
+
     companion object {
         private const val RED_ICON_KEY = "RedIcon"
         private const val PURPLE_ICON_KEY = "PurpleIcon"
         private const val BROWN_ICON_KEY = "BrownIcon"
+        private const val AMOLED_ICON_KEY = "AmoledIcon"
 
         val VALUES: List<IconAlias> = listOf(
             Red,
             Purple,
-            Brown
+            Brown,
+            Amoled
         )
     }
 }

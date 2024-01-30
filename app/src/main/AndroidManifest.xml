@@ -150,6 +150,22 @@
 
         </activity-alias>
 
+        <activity-alias
+            android:name="org.michaelbel.movies.AmoledIcon"
+            android:enabled="false"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher_amoled"
+            android:roundIcon="@mipmap/ic_launcher_amoled"
+            android:targetActivity="org.michaelbel.movies.MainActivity">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.NOTIFICATION_PREFERENCES" />
+            </intent-filter>
+
+        </activity-alias>
+
         <!-- Per-App Language Preferences (https://d.android.com/guide/topics/resources/app-languages) -->
         <service
             android:name="androidx.appcompat.app.AppLocalesMetadataHolderService"
