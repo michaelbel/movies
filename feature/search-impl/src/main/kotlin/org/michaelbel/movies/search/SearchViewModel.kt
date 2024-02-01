@@ -1,7 +1,5 @@
 package org.michaelbel.movies.search
 
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,10 +19,8 @@ import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
-import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.entity.SuggestionDb
-import org.michaelbel.movies.search.remote.SearchMoviesRemoteMediator
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
@@ -66,24 +62,9 @@ class SearchViewModel @Inject constructor(
     private val _active: MutableStateFlow<Boolean> = MutableStateFlow(true)
     val active: StateFlow<Boolean> = _active.asStateFlow()
 
-    val pagingItems: Flow<PagingData<MovieDb>> = query.flatMapLatest { query ->
-        Pager(
-            config = PagingConfig(
-                pageSize = MovieResponse.DEFAULT_PAGE_SIZE
-            ),
-            remoteMediator = SearchMoviesRemoteMediator(
-                interactor = interactor,
-                query = query
-            ),
-            pagingSourceFactory = { interactor.moviesPagingSource(query) }
-        ).flow
-            .stateIn(
-                scope = this,
-                started = SharingStarted.Lazily,
-                initialValue = PagingData.empty()
-            )
-            .cachedIn(this)
-    }
+    val pagingDataFlow: Flow<PagingData<MovieDb>> = query
+        .flatMapLatest { query -> interactor.moviesPagingData(query) }
+        .cachedIn(this)
 
     init {
         loadSuggestions()

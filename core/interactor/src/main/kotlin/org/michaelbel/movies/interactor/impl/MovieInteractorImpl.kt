@@ -12,17 +12,20 @@ import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.interactor.MovieInteractor
 import org.michaelbel.movies.interactor.ktx.nameOrLocalList
-import org.michaelbel.movies.interactor.remote.MoviesRemoteMediator
+import org.michaelbel.movies.interactor.remote.FeedMoviesRemoteMediator
+import org.michaelbel.movies.interactor.remote.SearchMoviesRemoteMediator
 import org.michaelbel.movies.network.Either
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.persistence.database.AppDatabase
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.repository.MovieRepository
 import org.michaelbel.movies.repository.PagingKeyRepository
+import org.michaelbel.movies.repository.SearchRepository
 
 @Singleton
 internal class MovieInteractorImpl @Inject constructor(
     private val dispatchers: MoviesDispatchers,
+    private val searchRepository: SearchRepository,
     private val movieRepository: MovieRepository,
     private val pagingKeyRepository: PagingKeyRepository,
     private val database: AppDatabase,
@@ -33,13 +36,29 @@ internal class MovieInteractorImpl @Inject constructor(
             config = PagingConfig(
                 pageSize = MovieResponse.DEFAULT_PAGE_SIZE
             ),
-            remoteMediator = MoviesRemoteMediator(
+            remoteMediator = FeedMoviesRemoteMediator(
                 movieRepository = movieRepository,
                 pagingKeyRepository = pagingKeyRepository,
                 database = database,
                 movieList = movieList.name
             ),
             pagingSourceFactory = { movieRepository.moviesPagingSource(movieList.nameOrLocalList) }
+        ).flow
+    }
+
+    override fun moviesPagingData(searchQuery: String): Flow<PagingData<MovieDb>> {
+        return Pager(
+            config = PagingConfig(
+                pageSize = MovieResponse.DEFAULT_PAGE_SIZE
+            ),
+            remoteMediator = SearchMoviesRemoteMediator(
+                pagingKeyRepository = pagingKeyRepository,
+                searchRepository = searchRepository,
+                movieRepository = movieRepository,
+                database = database,
+                query = searchQuery
+            ),
+            pagingSourceFactory = { movieRepository.moviesPagingSource(searchQuery) }
         ).flow
     }
 
@@ -75,12 +94,6 @@ internal class MovieInteractorImpl @Inject constructor(
     override suspend fun removeMovie(pagingKey: String, movieId: Int) {
         return withContext(dispatchers.io) {
             movieRepository.removeMovie(pagingKey, movieId)
-        }
-    }
-
-    override suspend fun insertMovies(pagingKey: String, movies: List<MovieResponse>) {
-        return withContext(dispatchers.io) {
-            movieRepository.insertMovies(pagingKey, movies)
         }
     }
 

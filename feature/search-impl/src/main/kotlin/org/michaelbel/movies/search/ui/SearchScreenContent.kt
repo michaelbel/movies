@@ -57,7 +57,7 @@ fun SearchRoute(
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
-    val pagingItems: LazyPagingItems<MovieDb> = viewModel.pagingItems.collectAsLazyPagingItems()
+    val pagingItems: LazyPagingItems<MovieDb> = viewModel.pagingDataFlow.collectAsLazyPagingItems()
     val currentFeedView: FeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()
     val networkStatus: NetworkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
     val suggestions: List<SuggestionDb> by viewModel.suggestionsFlow.collectAsStateWithLifecycle()

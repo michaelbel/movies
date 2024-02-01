@@ -14,12 +14,14 @@ import org.michaelbel.movies.persistence.database.AppDatabase
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.repository.MovieRepository
 import org.michaelbel.movies.repository.PagingKeyRepository
+import org.michaelbel.movies.repository.SearchRepository
 
-class MoviesRemoteMediator(
+class SearchMoviesRemoteMediator(
     private val pagingKeyRepository: PagingKeyRepository,
     private val movieRepository: MovieRepository,
+    private val searchRepository: SearchRepository,
     private val database: AppDatabase,
-    private val movieList: String
+    private val query: String
 ): RemoteMediator<Int, MovieDb>() {
 
     override suspend fun load(
@@ -36,12 +38,16 @@ class MoviesRemoteMediator(
                     return reachedResult
                 }
                 LoadType.APPEND -> {
-                    pagingKeyRepository.page(movieList) ?: return reachedResult
+                    pagingKeyRepository.page(query) ?: return reachedResult
                 }
             }
 
-            val moviesResult: Result<MovieResponse> = movieRepository.moviesResult(
-                movieList = movieList,
+            if (query.isEmpty()) {
+                throw PageEmptyException
+            }
+
+            val moviesResult: Result<MovieResponse> = searchRepository.searchMoviesResult(
+                query = query,
                 page = loadKey ?: 1
             )
 
@@ -51,11 +57,11 @@ class MoviesRemoteMediator(
 
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    pagingKeyRepository.removePagingKey(movieList)
-                    movieRepository.removeMovies(movieList)
+                    pagingKeyRepository.removePagingKey(query)
+                    movieRepository.removeMovies(query)
                 }
-                pagingKeyRepository.insertPagingKey(movieList, moviesResult.nextPage)
-                movieRepository.insertMovies(movieList, moviesResult.results)
+                pagingKeyRepository.insertPagingKey(query, moviesResult.nextPage)
+                movieRepository.insertMovies(query, moviesResult.results)
             }
 
             MediatorResult.Success(endOfPaginationReached = moviesResult.isPaginationReached)

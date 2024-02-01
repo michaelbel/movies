@@ -8,8 +8,6 @@ class Interactor @Inject constructor(
     imageInteractor: ImageInteractor,
     movieInteractor: MovieInteractor,
     notificationInteractor: NotificationInteractor,
-    pagingKeyInteractor: PagingKeyInteractor,
-    searchInteractor: SearchInteractor,
     settingsInteractor: SettingsInteractor,
     suggestionInteractor: SuggestionInteractor
 ): AccountInteractor by accountInteractor,
@@ -17,7 +15,5 @@ class Interactor @Inject constructor(
    ImageInteractor by imageInteractor,
    MovieInteractor by movieInteractor,
    NotificationInteractor by notificationInteractor,
-   PagingKeyInteractor by pagingKeyInteractor,
-   SearchInteractor by searchInteractor,
    SettingsInteractor by settingsInteractor,
    SuggestionInteractor by suggestionInteractor

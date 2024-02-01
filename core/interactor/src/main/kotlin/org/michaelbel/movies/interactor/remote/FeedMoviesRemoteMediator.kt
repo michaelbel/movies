@@ -1,20 +1,25 @@
-package org.michaelbel.movies.search.remote
+package org.michaelbel.movies.interactor.remote
 
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
+import androidx.room.withTransaction
 import org.michaelbel.movies.common.exceptions.PageEmptyException
-import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.network.ktx.isEmpty
 import org.michaelbel.movies.network.ktx.isPaginationReached
 import org.michaelbel.movies.network.ktx.nextPage
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
+import org.michaelbel.movies.persistence.database.AppDatabase
 import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.repository.MovieRepository
+import org.michaelbel.movies.repository.PagingKeyRepository
 
-class SearchMoviesRemoteMediator(
-    private val interactor: Interactor,
-    private val query: String
+class FeedMoviesRemoteMediator(
+    private val pagingKeyRepository: PagingKeyRepository,
+    private val movieRepository: MovieRepository,
+    private val database: AppDatabase,
+    private val movieList: String
 ): RemoteMediator<Int, MovieDb>() {
 
     override suspend fun load(
@@ -31,16 +36,12 @@ class SearchMoviesRemoteMediator(
                     return reachedResult
                 }
                 LoadType.APPEND -> {
-                    interactor.page(query) ?: return reachedResult
+                    pagingKeyRepository.page(movieList) ?: return reachedResult
                 }
             }
 
-            if (query.isEmpty()) {
-                throw PageEmptyException
-            }
-
-            val moviesResult: Result<MovieResponse> = interactor.searchMoviesResult(
-                query = query,
+            val moviesResult: Result<MovieResponse> = movieRepository.moviesResult(
+                movieList = movieList,
                 page = loadKey ?: 1
             )
 
@@ -48,15 +49,13 @@ class SearchMoviesRemoteMediator(
                 throw PageEmptyException
             }
 
-            if (loadType == LoadType.REFRESH) {
-                interactor.run {
-                    removePagingKey(query)
-                    removeMovies(query)
+            database.withTransaction {
+                if (loadType == LoadType.REFRESH) {
+                    pagingKeyRepository.removePagingKey(movieList)
+                    movieRepository.removeMovies(movieList)
                 }
-            }
-            interactor.run {
-                insertPagingKey(query, moviesResult.nextPage)
-                insertMovies(query, moviesResult.results)
+                pagingKeyRepository.insertPagingKey(movieList, moviesResult.nextPage)
+                movieRepository.insertMovies(movieList, moviesResult.results)
             }
 
             MediatorResult.Success(endOfPaginationReached = moviesResult.isPaginationReached)
