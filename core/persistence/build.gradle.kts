@@ -42,6 +42,6 @@ android {
 dependencies {
     implementation(project(":core:network"))
     implementation(libs.bundles.datastore)
-    implementation(libs.bundles.room)
+    api(libs.bundles.room)
     ksp(libs.androidx.room.compiler)
 }

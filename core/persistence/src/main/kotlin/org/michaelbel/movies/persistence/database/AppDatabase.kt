@@ -33,7 +33,7 @@ import org.michaelbel.movies.persistence.database.entity.SuggestionDb
     exportSchema = false
 )
 @TypeConverters(CalendarConverter::class)
-internal abstract class AppDatabase: RoomDatabase() {
+abstract class AppDatabase: RoomDatabase() {
 
     abstract fun movieDao(): MovieDao
     abstract fun imageDao(): ImageDao

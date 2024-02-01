@@ -30,6 +30,7 @@ import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.notifications.NotificationClient
+import org.michaelbel.movies.persistence.database.AppDatabase
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.platform.update.UpdateListener
@@ -38,6 +39,7 @@ import org.michaelbel.movies.platform.update.UpdateService
 @HiltViewModel
 class FeedViewModel @Inject constructor(
     private val interactor: Interactor,
+    private val database: AppDatabase,
     private val notificationClient: NotificationClient,
     private val updateService: UpdateService,
     networkManager: NetworkManager
@@ -85,16 +87,11 @@ class FeedViewModel @Inject constructor(
             ),
             remoteMediator = MoviesRemoteMediator(
                 interactor = interactor,
+                database = database,
                 movieList = movieList.name
             ),
             pagingSourceFactory = { interactor.moviesPagingSource(movieList.nameOrLocalList) }
-        ).flow
-            .stateIn(
-                scope = this,
-                started = SharingStarted.Lazily,
-                initialValue = PagingData.empty()
-            )
-            .cachedIn(this)
+        ).flow.cachedIn(this)
     }
 
     private var _notificationsPermissionRequired: MutableStateFlow<Boolean> = MutableStateFlow(false)
