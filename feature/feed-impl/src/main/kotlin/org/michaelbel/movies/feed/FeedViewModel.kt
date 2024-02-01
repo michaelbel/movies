@@ -52,13 +52,6 @@ class FeedViewModel @Inject constructor(
             initialValue = NetworkStatus.Unavailable
         )
 
-    val isSettingsIconVisible: StateFlow<Boolean> = interactor.isSettingsIconVisible
-        .stateIn(
-            scope = this,
-            started = SharingStarted.Lazily,
-            initialValue = true
-        )
-
     val currentFeedView: StateFlow<FeedView> = interactor.currentFeedView
         .stateIn(
             scope = this,
