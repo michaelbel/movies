@@ -70,7 +70,7 @@ fun FeedRoute(
     modifier: Modifier = Modifier,
     viewModel: FeedViewModel = hiltViewModel()
 ) {
-    val pagingItems: LazyPagingItems<MovieDb> = viewModel.pagingItems.collectAsLazyPagingItems()
+    val pagingItems: LazyPagingItems<MovieDb> = viewModel.pagingDataFlow.collectAsLazyPagingItems()
     val account: AccountDb? by viewModel.account.collectAsStateWithLifecycle()
     val currentFeedView: FeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()
     val currentMovieList: MovieList by viewModel.currentMovieList.collectAsStateWithLifecycle()

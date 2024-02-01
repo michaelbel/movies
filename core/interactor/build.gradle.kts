@@ -21,6 +21,12 @@ android {
         }
     }*/
 
+    kotlinOptions {
+        freeCompilerArgs = freeCompilerArgs + listOf(
+            "-opt-in=androidx.paging.ExperimentalPagingApi"
+        )
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17

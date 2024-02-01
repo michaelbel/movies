@@ -4,8 +4,6 @@ import android.app.Activity
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,14 +21,10 @@ import kotlinx.coroutines.runBlocking
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
-import org.michaelbel.movies.feed.ktx.nameOrLocalList
-import org.michaelbel.movies.feed.remote.MoviesRemoteMediator
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
-import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.notifications.NotificationClient
-import org.michaelbel.movies.persistence.database.AppDatabase
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.platform.update.UpdateListener
@@ -39,7 +33,6 @@ import org.michaelbel.movies.platform.update.UpdateService
 @HiltViewModel
 class FeedViewModel @Inject constructor(
     private val interactor: Interactor,
-    private val database: AppDatabase,
     private val notificationClient: NotificationClient,
     private val updateService: UpdateService,
     networkManager: NetworkManager
@@ -80,19 +73,9 @@ class FeedViewModel @Inject constructor(
             initialValue = runBlocking { interactor.currentMovieList.first() }
         )
 
-    val pagingItems: Flow<PagingData<MovieDb>> = currentMovieList.flatMapLatest { movieList ->
-        Pager(
-            config = PagingConfig(
-                pageSize = MovieResponse.DEFAULT_PAGE_SIZE
-            ),
-            remoteMediator = MoviesRemoteMediator(
-                interactor = interactor,
-                database = database,
-                movieList = movieList.name
-            ),
-            pagingSourceFactory = { interactor.moviesPagingSource(movieList.nameOrLocalList) }
-        ).flow.cachedIn(this)
-    }
+    val pagingDataFlow: Flow<PagingData<MovieDb>> = currentMovieList
+        .flatMapLatest { movieList -> interactor.moviesPagingData(movieList) }
+        .cachedIn(this)
 
     private var _notificationsPermissionRequired: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val notificationsPermissionRequired: StateFlow<Boolean> = _notificationsPermissionRequired.asStateFlow()
