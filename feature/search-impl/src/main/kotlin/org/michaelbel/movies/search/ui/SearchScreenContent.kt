@@ -47,7 +47,7 @@ import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.ktx.isFailure
 import org.michaelbel.movies.ui.ktx.isLoading
-import org.michaelbel.movies.ui.ktx.throwable
+import org.michaelbel.movies.ui.ktx.refreshThrowable
 import org.michaelbel.movies.ui.R as UiR
 
 @Composable
@@ -115,11 +115,11 @@ private fun SearchScreenContent(
         }
     }
 
-    if (pagingItems.isFailure && pagingItems.throwable is ApiKeyNotNullException) {
+    if (pagingItems.isFailure && pagingItems.refreshThrowable is ApiKeyNotNullException) {
         onShowSnackbar(stringResource(UiR.string.error_api_key_null))
     }
 
-    if (networkStatus == NetworkStatus.Available && pagingItems.isFailure && pagingItems.throwable is UnknownHostException) {
+    if (networkStatus == NetworkStatus.Available && pagingItems.isFailure && pagingItems.refreshThrowable is UnknownHostException) {
         pagingItems.retry()
     }
 
@@ -186,7 +186,7 @@ private fun SearchScreenContent(
                     )
                 }
                 pagingItems.isFailure -> {
-                    if (pagingItems.throwable is PageEmptyException) {
+                    if (pagingItems.refreshThrowable is PageEmptyException) {
                         SearchEmpty(
                             modifier = Modifier
                                 .windowInsetsPadding(displayCutoutWindowInsets)
