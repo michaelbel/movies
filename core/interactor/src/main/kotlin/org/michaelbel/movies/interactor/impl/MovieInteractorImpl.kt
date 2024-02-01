@@ -28,7 +28,7 @@ internal class MovieInteractorImpl @Inject constructor(
     private val searchRepository: SearchRepository,
     private val movieRepository: MovieRepository,
     private val pagingKeyRepository: PagingKeyRepository,
-    private val database: AppDatabase,
+    private val database: AppDatabase
 ): MovieInteractor {
 
     override fun moviesPagingData(movieList: MovieList): Flow<PagingData<MovieDb>> {
