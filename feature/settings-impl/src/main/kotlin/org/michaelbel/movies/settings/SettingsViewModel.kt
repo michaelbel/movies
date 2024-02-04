@@ -2,7 +2,6 @@ package org.michaelbel.movies.settings
 
 import android.app.Activity
 import android.os.Build
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.lifecycle.DefaultLifecycleObserver
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -28,8 +27,6 @@ class SettingsViewModel @Inject constructor(
 ): BaseViewModel(), DefaultLifecycleObserver {
 
     val isDynamicColorsFeatureEnabled: Boolean = Build.VERSION.SDK_INT >= 31
-
-    val isRtlFeatureEnabled: Boolean = false
 
     val isPostNotificationsFeatureEnabled: Boolean = Build.VERSION.SDK_INT >= 33
 
@@ -59,13 +56,6 @@ class SettingsViewModel @Inject constructor(
             scope = this,
             started = SharingStarted.Lazily,
             initialValue = false
-        )
-
-    val layoutDirection: StateFlow<LayoutDirection> = interactor.layoutDirection
-        .stateIn(
-            scope = this,
-            started = SharingStarted.Lazily,
-            initialValue = LayoutDirection.Ltr
         )
 
     val isPlayServicesAvailable: StateFlow<Boolean> = interactor.isPlayServicesAvailable
@@ -100,10 +90,6 @@ class SettingsViewModel @Inject constructor(
 
     fun setDynamicColors(value: Boolean) = launch {
         interactor.setDynamicColors(value)
-    }
-
-    fun setRtlEnabled(value: Boolean) = launch {
-        interactor.setRtlEnabled(value)
     }
 
     fun requestReview(activity: Activity) {

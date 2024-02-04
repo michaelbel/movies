@@ -28,7 +28,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -60,7 +59,6 @@ fun SettingsRoute(
     val currentFeedView: FeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()
     val currentMovieList: MovieList by viewModel.currentMovieList.collectAsStateWithLifecycle()
     val dynamicColors: Boolean by viewModel.dynamicColors.collectAsStateWithLifecycle()
-    val layoutDirection: LayoutDirection by viewModel.layoutDirection.collectAsStateWithLifecycle()
     val isPlayServicesAvailable: Boolean by viewModel.isPlayServicesAvailable.collectAsStateWithLifecycle()
     val appVersionData: AppVersionData by viewModel.appVersionData.collectAsStateWithLifecycle()
 
@@ -77,9 +75,6 @@ fun SettingsRoute(
         isDynamicColorsFeatureEnabled = viewModel.isDynamicColorsFeatureEnabled,
         dynamicColors = dynamicColors,
         onSetDynamicColors = viewModel::setDynamicColors,
-        isRtlEnabled = layoutDirection == LayoutDirection.Rtl,
-        onEnableRtlChanged = viewModel::setRtlEnabled,
-        isRtlFeatureEnabled = viewModel.isRtlFeatureEnabled,
         isPostNotificationsFeatureEnabled = viewModel.isPostNotificationsFeatureEnabled,
         isPlayServicesAvailable = isPlayServicesAvailable,
         onRequestReview = viewModel::requestReview,
@@ -102,9 +97,6 @@ private fun SettingsScreenContent(
     isDynamicColorsFeatureEnabled: Boolean,
     dynamicColors: Boolean,
     onSetDynamicColors: (Boolean) -> Unit,
-    isRtlEnabled: Boolean,
-    onEnableRtlChanged: (Boolean) -> Unit,
-    isRtlFeatureEnabled: Boolean,
     isPostNotificationsFeatureEnabled: Boolean,
     isPlayServicesAvailable: Boolean,
     onRequestReview: (Activity) -> Unit,
@@ -239,17 +231,6 @@ private fun SettingsScreenContent(
                 }
             }
             item {
-                if (isRtlFeatureEnabled) {
-                    SettingsRtlBox(
-                        isRtlEnabled = isRtlEnabled,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(52.dp)
-                            .clickable { onEnableRtlChanged(!isRtlEnabled) }
-                    )
-                }
-            }
-            item {
                 if (isPostNotificationsFeatureEnabled) {
                     SettingsPostNotificationsBox(
                         onShowPermissionSnackbar = onShowPermissionSnackbar,
@@ -294,9 +275,6 @@ private fun SettingsScreenContentPreview() {
             isDynamicColorsFeatureEnabled = true,
             dynamicColors = true,
             onSetDynamicColors = {},
-            isRtlEnabled = true,
-            onEnableRtlChanged = {},
-            isRtlFeatureEnabled = true,
             isPostNotificationsFeatureEnabled = true,
             isPlayServicesAvailable = true,
             onRequestReview = {},
@@ -326,9 +304,6 @@ private fun SettingsScreenContentAmoledPreview() {
             isDynamicColorsFeatureEnabled = true,
             dynamicColors = true,
             onSetDynamicColors = {},
-            isRtlEnabled = true,
-            onEnableRtlChanged = {},
-            isRtlFeatureEnabled = true,
             isPostNotificationsFeatureEnabled = true,
             isPlayServicesAvailable = true,
             onRequestReview = {},

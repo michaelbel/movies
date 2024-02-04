@@ -1,14 +1,10 @@
 package org.michaelbel.movies.interactor.impl
 
-import androidx.compose.ui.unit.LayoutDirection
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
 import org.michaelbel.movies.analytics.MoviesAnalytics
 import org.michaelbel.movies.analytics.event.ChangeDynamicColorsEvent
-import org.michaelbel.movies.analytics.event.ChangeRtlEnabledEvent
 import org.michaelbel.movies.analytics.event.SelectFeedViewEvent
 import org.michaelbel.movies.analytics.event.SelectMovieListEvent
 import org.michaelbel.movies.analytics.event.SelectThemeEvent
@@ -22,6 +18,8 @@ import org.michaelbel.movies.interactor.SettingsInteractor
 import org.michaelbel.movies.platform.app.AppService
 import org.michaelbel.movies.platform.config.ConfigService
 import org.michaelbel.movies.repository.SettingsRepository
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 internal class SettingsInteractorImpl @Inject constructor(
@@ -39,8 +37,6 @@ internal class SettingsInteractorImpl @Inject constructor(
     override val currentMovieList: Flow<MovieList> = settingsRepository.currentMovieList
 
     override val dynamicColors: Flow<Boolean> = settingsRepository.dynamicColors
-
-    override val layoutDirection: Flow<LayoutDirection> = settingsRepository.layoutDirection
 
     override val isSettingsIconVisible: Flow<Boolean> = configService.getBooleanFlow(RemoteParams.PARAM_SETTINGS_ICON_VISIBLE)
 
@@ -66,11 +62,6 @@ internal class SettingsInteractorImpl @Inject constructor(
     override suspend fun setDynamicColors(value: Boolean) = withContext(dispatchers.main) {
         settingsRepository.setDynamicColors(value)
         analytics.logEvent(ChangeDynamicColorsEvent(value))
-    }
-
-    override suspend fun setRtlEnabled(value: Boolean) = withContext(dispatchers.main) {
-        settingsRepository.setRtlEnabled(value)
-        analytics.logEvent(ChangeRtlEnabledEvent(value))
     }
 
     override suspend fun fetchRemoteConfig() {

@@ -1,6 +1,5 @@
 package org.michaelbel.movies.interactor
 
-import androidx.compose.ui.unit.LayoutDirection
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.list.MovieList
@@ -17,8 +16,6 @@ interface SettingsInteractor {
 
     val dynamicColors: Flow<Boolean>
 
-    val layoutDirection: Flow<LayoutDirection>
-
     val isSettingsIconVisible: Flow<Boolean>
 
     val isPlayServicesAvailable: Flow<Boolean>
@@ -32,8 +29,6 @@ interface SettingsInteractor {
     suspend fun selectMovieList(movieList: MovieList)
 
     suspend fun setDynamicColors(value: Boolean)
-
-    suspend fun setRtlEnabled(value: Boolean)
 
     suspend fun fetchRemoteConfig()
 }

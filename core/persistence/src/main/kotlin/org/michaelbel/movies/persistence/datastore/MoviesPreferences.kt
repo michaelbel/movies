@@ -7,10 +7,10 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
 class MoviesPreferences @Inject constructor(
     private val dataStore: DataStore<Preferences>
@@ -27,9 +27,6 @@ class MoviesPreferences @Inject constructor(
 
     val isDynamicColorsFlow: Flow<Boolean?>
         get() = dataStore.data.map { preferences -> preferences[PREFERENCE_DYNAMIC_COLORS_KEY] }
-
-    val isRtlEnabledFlow: Flow<Boolean?>
-        get() = dataStore.data.map { preferences -> preferences[PREFERENCE_RTL_ENABLED_KEY] }
 
     val accountIdFlow: Flow<Int?>
         get() = dataStore.data.map { preferences -> preferences[PREFERENCE_ACCOUNT_ID_KEY] }
@@ -55,12 +52,6 @@ class MoviesPreferences @Inject constructor(
     suspend fun setDynamicColors(isDynamicColors: Boolean) {
         dataStore.edit { preferences ->
             preferences[PREFERENCE_DYNAMIC_COLORS_KEY] = isDynamicColors
-        }
-    }
-
-    suspend fun setRtlEnabled(isRtlEnabled: Boolean) {
-        dataStore.edit { preferences ->
-            preferences[PREFERENCE_RTL_ENABLED_KEY] = isRtlEnabled
         }
     }
 
@@ -121,7 +112,6 @@ class MoviesPreferences @Inject constructor(
         private val PREFERENCE_FEED_VIEW_KEY: Preferences.Key<String> = stringPreferencesKey("feed_view")
         private val PREFERENCE_MOVIE_LIST_KEY: Preferences.Key<String> = stringPreferencesKey("movie_list")
         private val PREFERENCE_DYNAMIC_COLORS_KEY: Preferences.Key<Boolean> = booleanPreferencesKey("dynamic_colors")
-        private val PREFERENCE_RTL_ENABLED_KEY: Preferences.Key<Boolean> = booleanPreferencesKey("rtl_enabled")
         private val PREFERENCE_SESSION_ID_KEY: Preferences.Key<String> = stringPreferencesKey("session_id")
         private val PREFERENCE_ACCOUNT_ID_KEY: Preferences.Key<Int> = intPreferencesKey("account_id")
         private val PREFERENCE_ACCOUNT_EXPIRE_TIME_KEY: Preferences.Key<Long> = longPreferencesKey("account_expire_time")
