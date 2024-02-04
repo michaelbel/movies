@@ -84,7 +84,7 @@ fun FeedToolbar(
                 ) {
                     if (account.isEmpty) {
                         Image(
-                            imageVector = MoviesIcons.Account,
+                            imageVector = MoviesIcons.AccountCircle,
                             contentDescription = stringResource(MoviesContentDescription.AccountIcon),
                             colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
                         )

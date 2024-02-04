@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.ManageSearch
 import androidx.compose.material.icons.filled.MovieFilter
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.GridView
@@ -29,30 +30,31 @@ import org.michaelbel.movies.ui.R
  * Movies icons. Material icons are [ImageVector]s, custom icons are drawable resource IDs.
  */
 object MoviesIcons {
-    @DrawableRes val TmdbLogo: Int = R.drawable.ic_tmdb_logo
-    @DrawableRes val ThemeLightDark: Int = R.drawable.ic_theme_light_dark_24
+    @DrawableRes val TmdbLogo = R.drawable.ic_tmdb_logo
+    @DrawableRes val ThemeLightDark = R.drawable.ic_theme_light_dark_24
     @DrawableRes val MovieFilter24 = R.drawable.ic_movie_filter_24
     @DrawableRes val FileDownload24 = R.drawable.ic_file_download_24
     @DrawableRes val AdultOutline = R.drawable.ic_18_up_rating_outline_24
 
-    val Account: ImageVector = Icons.Outlined.AccountCircle
-    val ArrowBack: ImageVector = Icons.Outlined.ArrowBack
-    val Close: ImageVector = Icons.Outlined.Close
-    val Info: ImageVector = Icons.Outlined.Info
-    val FileDownload: ImageVector = Icons.Outlined.FileDownload
-    val GridView: ImageVector = Icons.Outlined.GridView
+    val AccountCircle = Icons.Outlined.AccountCircle
+    val ArrowBack = Icons.Outlined.ArrowBack
+    val Check = Icons.Outlined.Check
+    val Close = Icons.Outlined.Close
+    val Info = Icons.Outlined.Info
+    val FileDownload = Icons.Outlined.FileDownload
+    val GridView = Icons.Outlined.GridView
     val History = Icons.Outlined.History
     val KeyboardVoice = Icons.Outlined.KeyboardVoice
-    val Language: ImageVector = Icons.Outlined.Language
-    val LocationOn: ImageVector = Icons.Outlined.LocationOn
-    val ManageSearch: ImageVector = Icons.Filled.ManageSearch
-    val MovieFilter: ImageVector = Icons.Filled.MovieFilter
-    val LocalMovies: ImageVector = Icons.Outlined.LocalMovies
-    val Notifications: ImageVector = Icons.Outlined.Notifications
-    val Search: ImageVector = Icons.Outlined.Search
-    val Settings: ImageVector = Icons.Outlined.Settings
-    val Share: ImageVector = Icons.Outlined.Share
-    val SystemUpdate: ImageVector = Icons.Outlined.SystemUpdate
-    val Visibility: ImageVector = Icons.Outlined.Visibility
+    val Language = Icons.Outlined.Language
+    val LocationOn = Icons.Outlined.LocationOn
+    val ManageSearch = Icons.Filled.ManageSearch
+    val MovieFilter = Icons.Filled.MovieFilter
+    val LocalMovies = Icons.Outlined.LocalMovies
+    val Notifications = Icons.Outlined.Notifications
+    val Search = Icons.Outlined.Search
+    val Settings = Icons.Outlined.Settings
+    val Share = Icons.Outlined.Share
+    val SystemUpdate = Icons.Outlined.SystemUpdate
+    val Visibility = Icons.Outlined.Visibility
     val VisibilityOff = Icons.Outlined.VisibilityOff
 }

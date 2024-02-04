@@ -23,6 +23,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.common.ktx.notificationManager
 import org.michaelbel.movies.settings_impl.R
+import org.michaelbel.movies.ui.compose.SwitchCheckIcon
 import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.ui.lifecycle.OnResume
 
@@ -33,9 +34,7 @@ fun SettingsPostNotificationsBox(
 ) {
     val context = LocalContext.current
     val notificationManager = context.notificationManager
-    var areNotificationsEnabled: Boolean by remember {
-        mutableStateOf(notificationManager.areNotificationsEnabled())
-    }
+    var areNotificationsEnabled by remember { mutableStateOf(notificationManager.areNotificationsEnabled()) }
 
     val resultContract = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -101,8 +100,10 @@ fun SettingsPostNotificationsBox(
                     bottom.linkTo(parent.bottom)
                 }
                 .testTag("Switch"),
+            thumbContent = if (areNotificationsEnabled) { { SwitchCheckIcon() } } else null,
             colors = SwitchDefaults.colors(
-                checkedTrackColor = MaterialTheme.colorScheme.surfaceTint
+                checkedTrackColor = MaterialTheme.colorScheme.surfaceTint,
+                checkedIconColor = MaterialTheme.colorScheme.surfaceTint
             )
         )
     }

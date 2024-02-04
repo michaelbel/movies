@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.settings_impl.R
+import org.michaelbel.movies.ui.compose.SwitchCheckIcon
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.BooleanPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.AmoledTheme
@@ -60,8 +61,10 @@ fun SettingsRtlBox(
                     bottom.linkTo(parent.bottom)
                 }
                 .testTag("Switch"),
+            thumbContent = if (isRtlEnabled) { { SwitchCheckIcon() } } else null,
             colors = SwitchDefaults.colors(
-                checkedTrackColor = MaterialTheme.colorScheme.surfaceTint
+                checkedTrackColor = MaterialTheme.colorScheme.surfaceTint,
+                checkedIconColor = MaterialTheme.colorScheme.surfaceTint
             )
         )
     }
