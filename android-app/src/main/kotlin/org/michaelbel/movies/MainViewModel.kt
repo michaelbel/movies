@@ -6,7 +6,6 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -15,16 +14,19 @@ import org.michaelbel.movies.analytics.MoviesAnalytics
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
+import org.michaelbel.movies.network.service.trakt.movie.TraktMovieService
 import org.michaelbel.movies.platform.messaging.MessagingService
 import org.michaelbel.movies.work.AccountUpdateWorker
 import org.michaelbel.movies.work.MoviesDatabaseWorker
+import javax.inject.Inject
 
 @HiltViewModel
 internal class MainViewModel @Inject constructor(
     private val interactor: Interactor,
     private val analytics: MoviesAnalytics,
     private val messagingService: MessagingService,
-    private val workManager: WorkManager
+    private val workManager: WorkManager,
+    traktMovieService: TraktMovieService
 ): BaseViewModel() {
 
     val currentTheme: StateFlow<AppTheme> = interactor.currentTheme
@@ -46,6 +48,13 @@ internal class MainViewModel @Inject constructor(
         fetchFirebaseMessagingToken()
         prepopulateDatabase()
         updateAccountDetails()
+
+        launch {
+            traktMovieService.moviesTrending()
+            traktMovieService.moviesPopular()
+            traktMovieService.moviesAnticipated()
+            traktMovieService.moviesBoxoffice()
+        }
     }
 
     fun analyticsTrackDestination(destination: NavDestination, arguments: Bundle?) {
