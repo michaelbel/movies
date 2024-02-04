@@ -16,6 +16,7 @@ import androidx.compose.material3.SheetValue
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberBottomSheetScaffoldState
@@ -44,6 +45,7 @@ import org.michaelbel.movies.common.exceptions.PageEmptyException
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.feed.FeedViewModel
 import org.michaelbel.movies.feed.ktx.titleText
+import org.michaelbel.movies.feed_impl.R
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.network.isTmdbApiKeyEmpty
 import org.michaelbel.movies.persistence.database.entity.AccountDb
@@ -70,13 +72,14 @@ fun FeedRoute(
     modifier: Modifier = Modifier,
     viewModel: FeedViewModel = hiltViewModel()
 ) {
-    val pagingItems: LazyPagingItems<MovieDb> = viewModel.pagingDataFlow.collectAsLazyPagingItems()
-    val account: AccountDb? by viewModel.account.collectAsStateWithLifecycle()
-    val currentFeedView: FeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()
-    val currentMovieList: MovieList by viewModel.currentMovieList.collectAsStateWithLifecycle()
-    val notificationsPermissionRequired: Boolean by viewModel.notificationsPermissionRequired.collectAsStateWithLifecycle()
-    val networkStatus: NetworkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
-    val isUpdateAvailable: Boolean by rememberUpdatedState(viewModel.updateAvailableMessage)
+    val pagingItems = viewModel.pagingDataFlow.collectAsLazyPagingItems()
+    val account by viewModel.account.collectAsStateWithLifecycle()
+    val currentFeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()
+    val currentMovieList by viewModel.currentMovieList.collectAsStateWithLifecycle()
+    val notificationsPermissionRequired by viewModel.notificationsPermissionRequired.collectAsStateWithLifecycle()
+    val networkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
+    val isUpdateAvailable by rememberUpdatedState(viewModel.updateAvailableMessage)
+    val isAuthFailureSnackbarShowed = viewModel.isAuthFailureSnackbarShowed
 
     FeedScreenContent(
         pagingItems = pagingItems,
@@ -85,6 +88,7 @@ fun FeedRoute(
         currentFeedView = currentFeedView,
         currentMovieList = currentMovieList,
         notificationsPermissionRequired = notificationsPermissionRequired,
+        isAuthFailureSnackbarShowed = isAuthFailureSnackbarShowed,
         isUpdateIconVisible = isUpdateAvailable,
         onNavigateToSearch = onNavigateToSearch,
         onNavigateToAuth = onNavigateToAuth,
@@ -93,6 +97,7 @@ fun FeedRoute(
         onNavigateToDetails = onNavigateToDetails,
         onUpdateIconClick = viewModel::startUpdate,
         onNotificationBottomSheetHideClick = viewModel::onNotificationBottomSheetHide,
+        onSnackbarDismissed = viewModel::onSnackbarDismissed,
         modifier = modifier
     )
 }
@@ -105,6 +110,7 @@ private fun FeedScreenContent(
     currentFeedView: FeedView,
     currentMovieList: MovieList,
     notificationsPermissionRequired: Boolean,
+    isAuthFailureSnackbarShowed: Boolean,
     isUpdateIconVisible: Boolean,
     onNavigateToSearch: () -> Unit,
     onNavigateToAuth: () -> Unit,
@@ -113,6 +119,7 @@ private fun FeedScreenContent(
     onNavigateToDetails: (Int) -> Unit,
     onUpdateIconClick: (Activity) -> Unit,
     onNotificationBottomSheetHideClick: () -> Unit,
+    onSnackbarDismissed: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
@@ -156,17 +163,21 @@ private fun FeedScreenContent(
         }
     }
 
-    val onShowSnackbar: (String) -> Unit = { message ->
+    val onShowSnackbar: (String, SnackbarDuration) -> Unit = { message, snackbarDuration ->
         scope.launch {
-            snackbarHostState.showSnackbar(
+            snackbarHostState.currentSnackbarData?.dismiss()
+            val snackbarResult = snackbarHostState.showSnackbar(
                 message = message,
-                duration = SnackbarDuration.Long
+                duration = snackbarDuration
             )
+            if (snackbarResult == SnackbarResult.Dismissed) {
+                onSnackbarDismissed()
+            }
         }
     }
 
     if (pagingItems.isFailure && pagingItems.refreshThrowable is ApiKeyNotNullException) {
-        onShowSnackbar(stringResource(UiR.string.error_api_key_null))
+        onShowSnackbar(stringResource(UiR.string.error_api_key_null), SnackbarDuration.Long)
     }
 
     if (networkStatus == NetworkStatus.Available && pagingItems.isFailure && pagingItems.refreshThrowable is UnknownHostException) {
@@ -179,6 +190,10 @@ private fun FeedScreenContent(
 
     var isBottomSheetExpanded: Boolean by remember { mutableStateOf(false) }
     isBottomSheetExpanded = notificationBottomSheetScaffoldState.bottomSheetState.currentValue == SheetValue.Expanded
+
+    if (isAuthFailureSnackbarShowed) {
+        onShowSnackbar(stringResource(R.string.feed_auth_failure), SnackbarDuration.Short)
+    }
 
     BackHandler(isBottomSheetExpanded, onNotificationBottomSheetHide)
 
@@ -207,7 +222,7 @@ private fun FeedScreenContent(
                     onSearchIconClick = onNavigateToSearch,
                     onAuthIconClick = {
                         when {
-                            isTmdbApiKeyEmpty -> onShowSnackbar(context.getString(UiR.string.error_api_key_null))
+                            isTmdbApiKeyEmpty -> onShowSnackbar(context.getString(UiR.string.error_api_key_null), SnackbarDuration.Long)
                             else -> onNavigateToAuth()
                         }
                     },

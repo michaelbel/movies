@@ -5,4 +5,5 @@
     <string name="feed_title_top_rated">Топ фильмов</string>
     <string name="feed_title_upcoming">Предстоящие фильмы</string>
     <string name="feed_error_empty">Список фильмов пуст</string>
+    <string name="feed_auth_failure">Ошибка при авторизации. Неправильный токен или нет аппрува</string>
 </resources>

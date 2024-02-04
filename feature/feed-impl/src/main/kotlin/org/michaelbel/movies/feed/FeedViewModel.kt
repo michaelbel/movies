@@ -4,6 +4,7 @@ import android.app.Activity
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.lifecycle.SavedStateHandle
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +20,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.michaelbel.movies.common.appearance.FeedView
+import org.michaelbel.movies.common.exceptions.AccountDetailsException
+import org.michaelbel.movies.common.exceptions.CreateSessionException
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
@@ -32,11 +35,15 @@ import org.michaelbel.movies.platform.update.UpdateService
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
+    savedStateHandle: SavedStateHandle,
     private val interactor: Interactor,
     private val notificationClient: NotificationClient,
     private val updateService: UpdateService,
     networkManager: NetworkManager
 ): BaseViewModel() {
+
+    private val requestToken: String? = savedStateHandle["request_token"]
+    private val approved: Boolean? = savedStateHandle["approved"]
 
     val account: StateFlow<AccountDb?> = interactor.account
         .stateIn(
@@ -73,6 +80,7 @@ class FeedViewModel @Inject constructor(
     private var _notificationsPermissionRequired: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val notificationsPermissionRequired: StateFlow<Boolean> = _notificationsPermissionRequired.asStateFlow()
 
+    var isAuthFailureSnackbarShowed: Boolean by mutableStateOf(false)
     var updateAvailableMessage: Boolean by mutableStateOf(false)
 
     init {
@@ -81,7 +89,16 @@ class FeedViewModel @Inject constructor(
                 updateAvailableMessage = result
             }
         })
+        authorizeAccount(requestToken, approved)
         subscribeNotificationsPermissionRequired()
+    }
+
+    override fun handleError(throwable: Throwable) {
+        when (throwable) {
+            is CreateSessionException -> isAuthFailureSnackbarShowed = true
+            is AccountDetailsException -> isAuthFailureSnackbarShowed = true
+            else -> super.handleError(throwable)
+        }
     }
 
     fun startUpdate(activity: Activity) {
@@ -91,6 +108,20 @@ class FeedViewModel @Inject constructor(
     fun onNotificationBottomSheetHide() = launch {
         _notificationsPermissionRequired.tryEmit(false)
         notificationClient.updateNotificationExpireTime()
+    }
+
+    fun onSnackbarDismissed() {
+        isAuthFailureSnackbarShowed = false
+    }
+
+    private fun authorizeAccount(requestToken: String?, approved: Boolean?) {
+        if (requestToken == null || approved == null) return
+        launch {
+            interactor.run {
+                createSession(requestToken)
+                accountDetails()
+            }
+        }
     }
 
     private fun subscribeNotificationsPermissionRequired() = launch {

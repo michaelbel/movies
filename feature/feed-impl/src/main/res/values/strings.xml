@@ -5,4 +5,5 @@
     <string name="feed_title_top_rated">Top Rated Movies</string>
     <string name="feed_title_upcoming">Upcoming Movies</string>
     <string name="feed_error_empty">Movie List is Empty</string>
+    <string name="feed_auth_failure">Failure while signing in. Wrong token or no approval</string>
 </resources>

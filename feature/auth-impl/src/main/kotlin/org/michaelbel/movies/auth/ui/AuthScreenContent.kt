@@ -89,14 +89,14 @@ internal fun AuthScreenContent(
     val resultContract = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) {}
-    val toolbarColor: Int = MaterialTheme.colorScheme.primary.toArgb()
+    val toolbarColor = MaterialTheme.colorScheme.primary.toArgb()
 
     val focusManager = LocalFocusManager.current
     val scrollState = rememberScrollState()
 
-    var username: String by rememberSaveable { mutableStateOf("") }
-    var password: String by rememberSaveable { mutableStateOf("") }
-    var passwordVisible: Boolean by rememberSaveable { mutableStateOf(false) }
+    var username by rememberSaveable { mutableStateOf("") }
+    var password by rememberSaveable { mutableStateOf("") }
+    var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
     ConstraintLayout(
         modifier
