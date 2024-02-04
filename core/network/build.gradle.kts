@@ -13,6 +13,16 @@ val tmdbApiKey: String by lazy {
         System.getenv("TMDB_API_KEY").orEmpty()
     }
 }
+val traktClientId: String by lazy {
+    gradleLocalProperties(rootDir).getProperty("TRAKT_CLIENT_ID").orEmpty().ifEmpty {
+        System.getenv("TRAKT_CLIENT_ID").orEmpty()
+    }
+}
+val traktClientSecret: String by lazy {
+    gradleLocalProperties(rootDir).getProperty("TRAKT_CLIENT_SECRET").orEmpty().ifEmpty {
+        System.getenv("TRAKT_CLIENT_SECRET").orEmpty()
+    }
+}
 
 android {
     namespace = "org.michaelbel.movies.network"
@@ -21,6 +31,8 @@ android {
         minSdk = libs.versions.min.sdk.get().toInt()
         compileSdk = libs.versions.compile.sdk.get().toInt()
         buildConfigField("String", "TMDB_API_KEY", "\"$tmdbApiKey\"")
+        buildConfigField("String", "TRAKT_CLIENT_ID", "\"$traktClientId\"")
+        buildConfigField("String", "TRAKT_CLIENT_SECRET", "\"$traktClientSecret\"")
     }
 
     /*buildTypes {

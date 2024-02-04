@@ -1,22 +1,22 @@
 package org.michaelbel.movies.repository.impl
 
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import org.michaelbel.movies.common.exceptions.AccountDetailsException
 import org.michaelbel.movies.network.model.Account
-import org.michaelbel.movies.network.service.account.AccountService
+import org.michaelbel.movies.network.service.tmdb.account.TmdbAccountService
 import org.michaelbel.movies.persistence.database.dao.AccountDao
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import org.michaelbel.movies.repository.AccountRepository
 import org.michaelbel.movies.repository.ktx.mapToAccountDb
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 internal class AccountRepositoryImpl @Inject constructor(
-    private val accountService: AccountService,
+    private val accountService: TmdbAccountService,
     private val accountDao: AccountDao,
     private val preferences: MoviesPreferences
 ): AccountRepository {

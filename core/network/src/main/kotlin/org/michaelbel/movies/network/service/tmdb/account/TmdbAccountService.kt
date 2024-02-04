@@ -1,10 +1,10 @@
-package org.michaelbel.movies.network.service.account
+package org.michaelbel.movies.network.service.tmdb.account
 
 import org.michaelbel.movies.network.model.Account
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface AccountService {
+interface TmdbAccountService {
 
     @GET("account")
     suspend fun accountDetails(

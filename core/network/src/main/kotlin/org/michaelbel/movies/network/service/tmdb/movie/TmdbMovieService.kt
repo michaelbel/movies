@@ -1,4 +1,4 @@
-package org.michaelbel.movies.network.service.movie
+package org.michaelbel.movies.network.service.tmdb.movie
 
 import org.michaelbel.movies.network.model.ImagesResponse
 import org.michaelbel.movies.network.model.Movie
@@ -8,7 +8,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface MovieService {
+interface TmdbMovieService {
 
     @GET("movie/{list}")
     suspend fun movies(

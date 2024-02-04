@@ -6,13 +6,13 @@ import org.michaelbel.movies.common.localization.LocaleController
 import org.michaelbel.movies.network.isTmdbApiKeyEmpty
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
-import org.michaelbel.movies.network.service.search.SearchService
+import org.michaelbel.movies.network.service.tmdb.search.TmdbSearchService
 import org.michaelbel.movies.repository.SearchRepository
 import org.michaelbel.movies.repository.ktx.checkApiKeyNotNullException
 
 @Singleton
 internal class SearchRepositoryImpl @Inject constructor(
-    private val searchService: SearchService,
+    private val searchService: TmdbSearchService,
     private val localeController: LocaleController
 ): SearchRepository {
 

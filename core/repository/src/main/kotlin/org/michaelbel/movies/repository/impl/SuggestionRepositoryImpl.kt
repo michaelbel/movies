@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.common.localization.LocaleController
 import org.michaelbel.movies.network.model.Movie
 import org.michaelbel.movies.network.model.MovieResponse
-import org.michaelbel.movies.network.service.movie.MovieService
+import org.michaelbel.movies.network.service.tmdb.movie.TmdbMovieService
 import org.michaelbel.movies.persistence.database.dao.MovieDao
 import org.michaelbel.movies.persistence.database.dao.SuggestionDao
 import org.michaelbel.movies.persistence.database.entity.MovieDb
@@ -15,7 +15,7 @@ import org.michaelbel.movies.repository.SuggestionRepository
 
 @Singleton
 internal class SuggestionRepositoryImpl @Inject constructor(
-    private val movieService: MovieService,
+    private val movieService: TmdbMovieService,
     private val movieDao: MovieDao,
     private val suggestionDao: SuggestionDao,
     private val localeController: LocaleController

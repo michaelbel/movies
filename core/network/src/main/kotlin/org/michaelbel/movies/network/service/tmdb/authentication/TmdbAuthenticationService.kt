@@ -1,4 +1,4 @@
-package org.michaelbel.movies.network.service.authentication
+package org.michaelbel.movies.network.service.tmdb.authentication
 
 import org.michaelbel.movies.network.model.DeletedSession
 import org.michaelbel.movies.network.model.RequestToken
@@ -11,7 +11,7 @@ import retrofit2.http.GET
 import retrofit2.http.HTTP
 import retrofit2.http.POST
 
-interface AuthenticationService {
+interface TmdbAuthenticationService {
 
     @GET("authentication/token/new?")
     suspend fun createRequestToken(): Token

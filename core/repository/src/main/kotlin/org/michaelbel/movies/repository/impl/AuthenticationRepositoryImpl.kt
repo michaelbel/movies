@@ -12,14 +12,14 @@ import org.michaelbel.movies.network.model.Session
 import org.michaelbel.movies.network.model.SessionRequest
 import org.michaelbel.movies.network.model.Token
 import org.michaelbel.movies.network.model.Username
-import org.michaelbel.movies.network.service.authentication.AuthenticationService
+import org.michaelbel.movies.network.service.tmdb.authentication.TmdbAuthenticationService
 import org.michaelbel.movies.persistence.database.dao.AccountDao
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import org.michaelbel.movies.repository.AuthenticationRepository
 
 @Singleton
 internal class AuthenticationRepositoryImpl @Inject constructor(
-    private val authenticationService: AuthenticationService,
+    private val authenticationService: TmdbAuthenticationService,
     private val accountDao: AccountDao,
     private val preferences: MoviesPreferences
 ): AuthenticationRepository {

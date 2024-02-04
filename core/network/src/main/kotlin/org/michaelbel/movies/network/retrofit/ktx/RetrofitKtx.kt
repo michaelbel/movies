@@ -1,4 +1,4 @@
-package org.michaelbel.movies.network.service.ktx
+package org.michaelbel.movies.network.retrofit.ktx
 
 import retrofit2.Retrofit
 

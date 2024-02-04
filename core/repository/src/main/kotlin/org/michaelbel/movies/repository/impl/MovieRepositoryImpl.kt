@@ -11,7 +11,7 @@ import org.michaelbel.movies.network.model.Movie
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
 import org.michaelbel.movies.network.response
-import org.michaelbel.movies.network.service.movie.MovieService
+import org.michaelbel.movies.network.service.tmdb.movie.TmdbMovieService
 import org.michaelbel.movies.persistence.database.dao.MovieDao
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.orEmpty
@@ -21,7 +21,7 @@ import org.michaelbel.movies.repository.ktx.mapToMovieDb
 
 @Singleton
 internal class MovieRepositoryImpl @Inject constructor(
-    private val movieService: MovieService,
+    private val movieService: TmdbMovieService,
     private val movieDao: MovieDao,
     private val localeController: LocaleController
 ): MovieRepository {
