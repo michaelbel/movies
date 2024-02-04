@@ -40,7 +40,7 @@ fun MovieColumn(
     movie: MovieDb,
     modifier: Modifier = Modifier
 ) {
-    var isNoImageVisible: Boolean by remember { mutableStateOf(false) }
+    var isNoImageVisible by remember { mutableStateOf(false) }
 
     ConstraintLayout(
         modifier = modifier

@@ -14,7 +14,7 @@ sealed class MovieList(
     data object Upcoming: MovieList("upcoming")
 
     companion object {
-        val VALUES: List<MovieList> = listOf(
+        val VALUES = listOf(
             NowPlaying,
             Popular,
             TopRated,

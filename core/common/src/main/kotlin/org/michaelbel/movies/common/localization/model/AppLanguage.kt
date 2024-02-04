@@ -10,7 +10,7 @@ sealed class AppLanguage(
     data object Russian: AppLanguage("ru")
 
     companion object {
-        val VALUES: List<AppLanguage> = listOf(
+        val VALUES = listOf(
             English,
             Russian
         )

@@ -8,7 +8,7 @@ class CrashlyticsTree(
 ): Timber.Tree() {
 
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
-        val exception: Throwable = t ?: Exception(message)
+        val exception = t ?: Exception(message)
         crashlyticsService.recordException(priority, tag.orEmpty(), message, exception)
     }
 }

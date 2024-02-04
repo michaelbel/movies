@@ -13,7 +13,7 @@ sealed interface AppTheme {
     data object Amoled: AppTheme
 
     companion object {
-        val VALUES: List<AppTheme> = listOf(
+        val VALUES = listOf(
             NightNo,
             NightYes,
             FollowSystem,

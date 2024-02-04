@@ -4,14 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import org.michaelbel.movies.auth.accountGraph
 import org.michaelbel.movies.auth.authGraph
 import org.michaelbel.movies.auth.navigateToAccount
 import org.michaelbel.movies.auth.navigateToAuth
-import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.details.detailsGraph
 import org.michaelbel.movies.details.navigateToDetails
 import org.michaelbel.movies.feed.FeedDestination
@@ -29,9 +27,9 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 internal fun MainActivityContent(
     viewModel: MainViewModel = hiltViewModel()
 ) {
-    val currentTheme: AppTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
-    val dynamicColors: Boolean by viewModel.dynamicColors.collectAsStateWithLifecycle()
-    val navHostController: NavHostController = rememberNavController().apply {
+    val currentTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
+    val dynamicColors by viewModel.dynamicColors.collectAsStateWithLifecycle()
+    val navHostController = rememberNavController().apply {
         addOnDestinationChangedListener(viewModel::analyticsTrackDestination)
     }
 

@@ -9,7 +9,7 @@ sealed interface FeedView {
     data object FeedGrid: FeedView
 
     companion object {
-        val VALUES: List<FeedView> = listOf(
+        val VALUES = listOf(
             FeedList,
             FeedGrid
         )

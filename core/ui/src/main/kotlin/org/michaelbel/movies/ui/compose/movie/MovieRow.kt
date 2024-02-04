@@ -41,7 +41,7 @@ fun MovieRow(
     modifier: Modifier = Modifier,
     maxLines: Int = 10
 ) {
-    var isNoImageVisible: Boolean by remember { mutableStateOf(false) }
+    var isNoImageVisible by remember { mutableStateOf(false) }
 
     ConstraintLayout(
         modifier = modifier

@@ -5,6 +5,7 @@ import kotlinx.coroutines.withContext
 import org.michaelbel.movies.network.Either
 import timber.log.Timber
 
+@Suppress("unused")
 abstract class UseCase<in P, R>(
     private val coroutineDispatcher: CoroutineDispatcher
 ) {

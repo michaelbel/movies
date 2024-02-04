@@ -34,7 +34,7 @@ sealed class IconAlias(
         private const val BROWN_ICON_KEY = "BrownIcon"
         private const val AMOLED_ICON_KEY = "AmoledIcon"
 
-        val VALUES: List<IconAlias> = listOf(
+        val VALUES = listOf(
             Red,
             Purple,
             Brown,

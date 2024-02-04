@@ -12,13 +12,13 @@ fun openUrl(
     toolbarColor: Int,
     url: String
 ) {
-    val colorSchemeParams: CustomTabColorSchemeParams = CustomTabColorSchemeParams.Builder()
+    val colorSchemeParams = CustomTabColorSchemeParams.Builder()
         .setToolbarColor(toolbarColor)
         .build()
-    val customTabsIntentBuilder: CustomTabsIntent.Builder = CustomTabsIntent.Builder().apply {
+    val customTabsIntentBuilder = CustomTabsIntent.Builder().apply {
         setDefaultColorSchemeParams(colorSchemeParams)
     }
-    val customTabsIntent: CustomTabsIntent = customTabsIntentBuilder.build().apply {
+    val customTabsIntent = customTabsIntentBuilder.build().apply {
         intent.data = url.toUri()
     }
     resultContract.launch(customTabsIntent.intent)
