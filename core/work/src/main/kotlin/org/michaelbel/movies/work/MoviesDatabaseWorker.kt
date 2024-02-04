@@ -12,7 +12,6 @@ import kotlinx.serialization.json.decodeFromStream
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.persistence.database.dao.MovieDao
-import org.michaelbel.movies.persistence.database.dao.ktx.isEmpty
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.movieDb
 

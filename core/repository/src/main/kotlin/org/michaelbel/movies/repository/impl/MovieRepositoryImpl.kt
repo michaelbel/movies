@@ -13,7 +13,6 @@ import org.michaelbel.movies.network.model.Result
 import org.michaelbel.movies.network.response
 import org.michaelbel.movies.network.service.movie.MovieService
 import org.michaelbel.movies.persistence.database.dao.MovieDao
-import org.michaelbel.movies.persistence.database.dao.ktx.isEmpty
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.repository.MovieRepository
