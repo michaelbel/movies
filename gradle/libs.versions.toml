@@ -11,6 +11,7 @@ kotlin-serialization-json = "1.6.2"
 detekt = "1.23.5"
 spotless = "6.25.0"
 google-services = "4.4.0"
+huawei-services = "1.6.0.300"
 gms-play-services-ads = "22.6.0"
 gms-play-services-base = "18.3.0"
 gms-play-services-instantapps = "18.0.1"
@@ -214,6 +215,7 @@ kotlin = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
+huawei-services = { id = "com.huawei.agconnect", version.ref = "huawei-services" }
 firebase-appdistribution = { id = "com.google.firebase.appdistribution", version.ref = "firebase-appdistribution" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-plugin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
