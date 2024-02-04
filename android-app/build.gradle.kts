@@ -1,7 +1,7 @@
 import com.google.firebase.appdistribution.gradle.AppDistributionExtension
-import java.io.FileInputStream
 import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
+import java.io.FileInputStream
 
 @Suppress("dsl_scope_violation")
 plugins {
@@ -217,4 +217,12 @@ if (hasGmsRelease) {
         testers = "michaelbel24865@gmail.com"
         groups = "qa"
     }
+}
+
+val hasHmsDebug: Boolean = gradle.startParameter.taskNames.any { it.contains("HmsDebug", ignoreCase = true) }
+val hasHmsRelease: Boolean = gradle.startParameter.taskNames.any { it.contains("HmsRelease", ignoreCase = true) }
+val hasHmsBenchmark: Boolean = gradle.startParameter.taskNames.any { it.contains("HmsBenchmark", ignoreCase = true) }
+
+if (hasHmsDebug || hasHmsRelease || hasHmsBenchmark) {
+    //apply(plugin = libs.plugins.huawei.services.get().pluginId)
 }
