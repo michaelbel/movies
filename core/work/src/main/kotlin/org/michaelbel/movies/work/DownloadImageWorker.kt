@@ -1,6 +1,5 @@
 package org.michaelbel.movies.work
 
-import android.content.ContentResolver
 import android.content.ContentValues
 import android.content.Context
 import android.net.Uri
@@ -28,10 +27,10 @@ class DownloadImageWorker @AssistedInject constructor(
 ): CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
-        val imageUrl: String = inputData.getString(KEY_IMAGE_URL).orEmpty()
-        val contentTitleRes: Int = inputData.getInt(KEY_CONTENT_TITLE, 0)
-        val contentTextRes: Int = inputData.getInt(KEY_CONTENT_TEXT, 0)
-        val notificationId: Int = imageUrl.hashCode()
+        val imageUrl = inputData.getString(KEY_IMAGE_URL).orEmpty()
+        val contentTitleRes = inputData.getInt(KEY_CONTENT_TITLE, 0)
+        val contentTextRes = inputData.getInt(KEY_CONTENT_TEXT, 0)
+        val notificationId = imageUrl.hashCode()
 
         if (imageUrl.isEmpty()) {
             Result.failure(workDataOf(KEY_IMAGE_URL to FAILURE_RESULT))
@@ -64,8 +63,8 @@ class DownloadImageWorker @AssistedInject constructor(
                 put(MediaStore.MediaColumns.MIME_TYPE, IMAGE_MIME_TYPE)
                 put(MediaStore.MediaColumns.RELATIVE_PATH, IMAGE_RELATIVE_PATH)
             }
-            val contentResolver: ContentResolver = context.contentResolver
-            val uri: Uri? = contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
+            val contentResolver = context.contentResolver
+            val uri = contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
             return if (uri != null) {
                 URL(url).openStream().use { input ->
                     contentResolver.openOutputStream(uri).use { output ->
