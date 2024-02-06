@@ -111,7 +111,7 @@ private fun GalleryScreenContent(
     var currentPage: Int by remember { mutableIntStateOf(0) }
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }.collect { page ->
-            hapticFeedback.performHapticFeedback(hapticFeedbackType = HapticFeedbackType.LongPress)
+            hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
             currentPage = page
         }
     }
