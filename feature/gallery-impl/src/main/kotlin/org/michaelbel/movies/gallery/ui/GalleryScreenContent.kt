@@ -75,8 +75,8 @@ fun GalleryRoute(
     modifier: Modifier = Modifier,
     viewModel: GalleryViewModel = hiltViewModel()
 ) {
-    val movieImages: List<ImageDb> by viewModel.movieImagesFlow.collectAsStateWithLifecycle()
-    val workInfo: WorkInfo? by viewModel.workInfoFlow.collectAsStateWithLifecycle()
+    val movieImages by viewModel.movieImagesFlow.collectAsStateWithLifecycle()
+    val workInfo by viewModel.workInfoFlow.collectAsStateWithLifecycle()
 
     GalleryScreenContent(
         movieImages = movieImages,
@@ -108,7 +108,7 @@ private fun GalleryScreenContent(
         initialPageOffsetFraction = 0F,
         pageCount = { movieImages.size }
     )
-    var currentPage: Int by remember { mutableIntStateOf(0) }
+    var currentPage by remember { mutableIntStateOf(0) }
     LaunchedEffect(pagerState) {
         snapshotFlow { pagerState.currentPage }.collect { page ->
             hapticFeedback.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -145,7 +145,7 @@ private fun GalleryScreenContent(
 
     when (workInfo?.state) {
         WorkInfo.State.SUCCEEDED -> {
-            val result: String = workInfo.outputData.getString(DownloadImageWorker.KEY_IMAGE_URL).orEmpty()
+            val result = workInfo.outputData.getString(DownloadImageWorker.KEY_IMAGE_URL).orEmpty()
             onSuccessSnackbar(
                 stringResource(R.string.gallery_success),
                 stringResource(R.string.gallery_action_open),
@@ -153,7 +153,7 @@ private fun GalleryScreenContent(
             )
         }
         WorkInfo.State.FAILED -> {
-            val result: String = workInfo.outputData.getString(DownloadImageWorker.KEY_IMAGE_URL).orEmpty()
+            val result = workInfo.outputData.getString(DownloadImageWorker.KEY_IMAGE_URL).orEmpty()
             if (result == DownloadImageWorker.FAILURE_RESULT) {
                 onFailureSnackbar(stringResource(R.string.gallery_failure))
             }
