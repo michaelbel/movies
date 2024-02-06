@@ -47,6 +47,8 @@ import org.michaelbel.movies.auth.ktx.text
 import org.michaelbel.movies.auth_impl.R
 import org.michaelbel.movies.common.browser.openUrl
 import org.michaelbel.movies.common.exceptions.CreateSessionWithLoginException
+import org.michaelbel.movies.network.TMDB_AUTH_REDIRECT_URL
+import org.michaelbel.movies.network.TMDB_AUTH_URL
 import org.michaelbel.movies.network.TMDB_PRIVACY_POLICY
 import org.michaelbel.movies.network.TMDB_REGISTER
 import org.michaelbel.movies.network.TMDB_RESET_PASSWORD
@@ -69,11 +71,15 @@ fun AuthRoute(
 ) {
     AuthScreenContent(
         error = viewModel.error,
-        loading = viewModel.loading,
+        signInLoading = viewModel.signInLoading,
+        loginLoading = viewModel.loginLoading,
+        requestToken = viewModel.requestToken,
         onBackClick = onBackClick,
         onSignInClick = { username, password ->
             viewModel.onSignInClick(username, password, onBackClick)
         },
+        onLoginClick = viewModel::onLoginClick,
+        onResetRequestToken = viewModel::onResetRequestToken,
         modifier = modifier
     )
 }
@@ -81,9 +87,13 @@ fun AuthRoute(
 @Composable
 internal fun AuthScreenContent(
     error: Throwable?,
-    loading: Boolean,
+    signInLoading: Boolean,
+    loginLoading: Boolean,
+    requestToken: String?,
     onBackClick: () -> Unit,
     onSignInClick: (String, String) -> Unit,
+    onLoginClick: () -> Unit,
+    onResetRequestToken: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val resultContract = rememberLauncherForActivityResult(
@@ -97,6 +107,12 @@ internal fun AuthScreenContent(
     var username by rememberSaveable { mutableStateOf("") }
     var password by rememberSaveable { mutableStateOf("") }
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
+
+    if (requestToken != null) {
+        val signUrl = String.format(TMDB_AUTH_URL, requestToken, TMDB_AUTH_REDIRECT_URL)
+        openUrl(resultContract, toolbarColor, signUrl)
+        onResetRequestToken()
+    }
 
     ConstraintLayout(
         modifier
@@ -116,7 +132,6 @@ internal fun AuthScreenContent(
             resetPasswordButton,
             signUpButton,
             signInButton,
-            divider,
             loginButton,
             linksBox
         ) = createRefs()
@@ -279,13 +294,13 @@ internal fun AuthScreenContent(
                 top.linkTo(if (error != null && error is CreateSessionWithLoginException) resetPasswordButton.bottom else passwordField.bottom, 16.dp)
                 end.linkTo(parent.end, 16.dp)
             },
-            enabled = username.isNotEmpty() && password.isNotEmpty() && !loading,
+            enabled = username.isNotEmpty() && password.isNotEmpty() && !signInLoading,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.surfaceTint
             ),
             contentPadding = PaddingValues(horizontal = 24.dp)
         ) {
-            if (loading) {
+            if (signInLoading) {
                 CircularProgressIndicator(
                     modifier = Modifier.size(24.dp),
                     strokeWidth = 2.dp
@@ -297,42 +312,32 @@ internal fun AuthScreenContent(
             }
         }
 
-        /*Text(
-            text = "Or",
-            modifier = Modifier
-                .constrainAs(divider) {
-                    width = Dimension.wrapContent
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(signInButton.bottom, 8.dp)
-                    end.linkTo(parent.end, 16.dp)
-                },
-            color = MaterialTheme.colorScheme.primary,
-            fontSize = 14.sp,
-            fontStyle = FontStyle.Normal,
-            fontWeight = FontWeight.W400
-        )*/
-
-        /*Button(
-            onClick = {},
-            modifier = Modifier
-                .constrainAs(loginButton) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(divider.bottom, 8.dp)
-                    end.linkTo(parent.end, 16.dp)
-                },
-            enabled = true,
-            contentPadding = PaddingValues(
-                horizontal = 24.dp,
-                vertical = 0.dp
-            )
+        Button(
+            onClick = onLoginClick,
+            modifier = Modifier.constrainAs(loginButton) {
+                width = Dimension.fillToConstraints
+                height = Dimension.wrapContent
+                start.linkTo(parent.start, 16.dp)
+                top.linkTo(signInButton.bottom, 8.dp)
+                end.linkTo(parent.end, 16.dp)
+            },
+            enabled = !loginLoading,
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.surfaceTint
+            ),
+            contentPadding = PaddingValues(horizontal = 24.dp)
         ) {
-            Text(
-                text = stringResource(R.string.auth_login).uppercase(),
-            )
-        }*/
+            if (loginLoading) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    strokeWidth = 2.dp
+                )
+            } else {
+                Text(
+                    text = stringResource(R.string.auth_login)
+                )
+            }
+        }
 
         AuthLinksBox(
             onTermsOfUseClick = { openUrl(resultContract, toolbarColor, TMDB_TERMS_OF_USE) },
@@ -341,7 +346,7 @@ internal fun AuthScreenContent(
                 width = Dimension.fillToConstraints
                 height = Dimension.wrapContent
                 start.linkTo(parent.start)
-                top.linkTo(signInButton.bottom, 16.dp)
+                top.linkTo(loginButton.bottom, 16.dp)
                 end.linkTo(parent.end)
             }
         )
@@ -354,9 +359,13 @@ private fun AuthScreenContentPreview() {
     MoviesTheme {
         AuthScreenContent(
             error = null,
-            loading = false,
+            signInLoading = false,
+            loginLoading = false,
+            requestToken = null,
             onBackClick = {},
             onSignInClick = { _,_ -> },
+            onLoginClick = {},
+            onResetRequestToken = {},
             modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)
         )
     }
@@ -368,9 +377,13 @@ private fun AuthScreenContentAmoledPreview() {
     AmoledTheme {
         AuthScreenContent(
             error = null,
-            loading = false,
+            signInLoading = false,
+            loginLoading = false,
+            requestToken = null,
             onBackClick = {},
             onSignInClick = { _,_ -> },
+            onLoginClick = {},
+            onResetRequestToken = {},
             modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)
         )
     }

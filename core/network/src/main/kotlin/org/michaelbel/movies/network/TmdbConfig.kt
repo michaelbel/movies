@@ -1,11 +1,13 @@
 package org.michaelbel.movies.network
 
 const val TMDB_URL = "https://themoviedb.org"
-const val TMDB_TERMS_OF_USE = "https://themoviedb.org/documentation/website/terms-of-use"
-const val TMDB_PRIVACY_POLICY = "https://themoviedb.org/privacy-policy"
-const val TMDB_REGISTER = "https://themoviedb.org/signup"
-const val TMDB_RESET_PASSWORD = "https://themoviedb.org/reset-password"
-const val TMDB_MOVIE_URL = "https://themoviedb.org/movie/%d"
+const val TMDB_TERMS_OF_USE = "$TMDB_URL/documentation/website/terms-of-use"
+const val TMDB_PRIVACY_POLICY = "$TMDB_URL/privacy-policy"
+const val TMDB_REGISTER = "$TMDB_URL/signup"
+const val TMDB_RESET_PASSWORD = "$TMDB_URL/reset-password"
+const val TMDB_MOVIE_URL = "$TMDB_URL/movie/%d"
+const val TMDB_AUTH_URL = "$TMDB_URL/authenticate/%s?redirect_to=%s"
+const val TMDB_AUTH_REDIRECT_URL = "movies://redirect_url"
 
 private val tmdbApiKey: String
     get() = BuildConfig.TMDB_API_KEY
