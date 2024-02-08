@@ -17,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.appearance.FeedView
+import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.ui.compose.movie.MovieColumn
@@ -31,7 +32,6 @@ import org.michaelbel.movies.ui.preview.DeviceLandscapePreviews
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.DeviceUserLandscapePreviews
 import org.michaelbel.movies.ui.preview.DeviceUserPreviews
-import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -163,7 +163,9 @@ private fun PageLoadingColumnPreview() {
 @Composable
 @Preview
 private fun PageLoadingColumnAmoledPreview() {
-    AmoledTheme {
+    MoviesTheme(
+        theme = AppTheme.Amoled
+    ) {
         PageLoadingColumn(
             modifier = Modifier
                 .fillMaxSize()
@@ -187,7 +189,9 @@ private fun PageLoadingGridPreview() {
 @Composable
 @DeviceLandscapePreview
 private fun PageLoadingGridAmoledPreview() {
-    AmoledTheme {
+    MoviesTheme(
+        theme = AppTheme.Amoled
+    ) {
         PageLoadingGrid(
             modifier = Modifier
                 .fillMaxSize()
@@ -211,7 +215,9 @@ private fun PageLoadingStaggeredGridPreview() {
 @Composable
 @DeviceUserPreviews
 private fun PageLoadingStaggeredGridAmoledPreview() {
-    AmoledTheme {
+    MoviesTheme(
+        theme = AppTheme.Amoled
+    ) {
         PageLoadingStaggeredGrid(
             modifier = Modifier
                 .fillMaxSize()

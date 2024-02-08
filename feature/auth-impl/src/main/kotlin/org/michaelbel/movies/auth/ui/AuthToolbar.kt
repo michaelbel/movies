@@ -12,9 +12,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.auth_impl.R
+import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
 import org.michaelbel.movies.ui.preview.DevicePreviews
-import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -58,7 +58,9 @@ private fun AuthToolbarPreview() {
 @Composable
 @Preview
 private fun AuthToolbarAmoledPreview() {
-    AmoledTheme {
+    MoviesTheme(
+        theme = AppTheme.Amoled
+    ) {
         AuthToolbar(
             modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer),
             onNavigationIconClick = {}

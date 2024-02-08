@@ -20,11 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.common.appearance.FeedView
+import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.settings.ktx.feedViewText
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.AppearancePreviewParameterProvider
-import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -110,7 +110,9 @@ private fun SettingsAppearanceBoxPreview(
 private fun SettingsAppearanceBoxAmoledPreview(
     @PreviewParameter(AppearancePreviewParameterProvider::class) feedView: FeedView
 ) {
-    AmoledTheme {
+    MoviesTheme(
+        theme = AppTheme.Amoled
+    ) {
         SettingsAppearanceBox(
             currentFeedView = feedView,
             onFeedViewSelect = {},

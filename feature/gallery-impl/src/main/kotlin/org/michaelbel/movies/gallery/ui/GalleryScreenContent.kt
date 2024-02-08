@@ -53,6 +53,7 @@ import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
 import kotlinx.coroutines.launch
+import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.gallery.GalleryViewModel
 import org.michaelbel.movies.gallery.zoomable.rememberZoomState
 import org.michaelbel.movies.gallery.zoomable.zoomable
@@ -65,7 +66,6 @@ import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
 import org.michaelbel.movies.ui.compose.iconbutton.DownloadIcon
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.preview.DevicePreviews
-import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.work.DownloadImageWorker
 
@@ -353,7 +353,9 @@ private fun GalleryScreenContentPreview() {
 @Composable
 @Preview
 private fun GalleryScreenContentAmoledPreview() {
-    AmoledTheme {
+    MoviesTheme(
+        theme = AppTheme.Amoled
+    ) {
         GalleryScreenContent(
             movieImages = emptyList(),
             workInfo = null,

@@ -20,11 +20,11 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.common.localization.model.AppLanguage
+import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.settings.ktx.languageText
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.LanguagePreviewParameterProvider
-import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -110,7 +110,9 @@ private fun SettingsLanguageBoxPreview(
 private fun SettingsLanguageBoxAmoledPreview(
     @PreviewParameter(LanguagePreviewParameterProvider::class) language: AppLanguage
 ) {
-    AmoledTheme {
+    MoviesTheme(
+        theme = AppTheme.Amoled
+    ) {
         SettingsLanguageBox(
             currentLanguage = language,
             onLanguageSelect = {},

@@ -34,6 +34,7 @@ import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.request.SuccessResult
+import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.details_impl.R
 import org.michaelbel.movies.network.formatBackdropImage
 import org.michaelbel.movies.persistence.database.entity.MovieDb
@@ -45,7 +46,6 @@ import org.michaelbel.movies.ui.placeholder.material3.fade
 import org.michaelbel.movies.ui.placeholder.placeholder
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.MovieDbPreviewParameterProvider
-import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -215,7 +215,9 @@ private fun DetailsContentPreview(
 private fun DetailsContentAmoledPreview(
     @PreviewParameter(MovieDbPreviewParameterProvider::class) movie: MovieDb
 ) {
-    AmoledTheme {
+    MoviesTheme(
+        theme = AppTheme.Amoled
+    ) {
         DetailsContent(
             modifier = Modifier
                 .fillMaxSize()

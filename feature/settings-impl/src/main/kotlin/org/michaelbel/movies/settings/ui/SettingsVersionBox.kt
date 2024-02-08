@@ -17,13 +17,13 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.VersionPreviewParameterProvider
-import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -150,7 +150,9 @@ private fun SettingsVersionBoxPreview(
 private fun SettingsVersionBoxAmoledPreview(
     @PreviewParameter(VersionPreviewParameterProvider::class) appVersionData: AppVersionData
 ) {
-    AmoledTheme {
+    MoviesTheme(
+        theme = AppTheme.Amoled
+    ) {
         SettingsVersionBox(
             appVersionData = appVersionData,
             modifier = Modifier

@@ -86,19 +86,3 @@ fun MoviesTheme(
         )
     }
 }
-
-@Composable
-fun AmoledTheme(
-    content: @Composable () -> Unit
-) {
-    MaterialTheme(
-        colorScheme = AmoledColorScheme,
-        shapes = MoviesShapes,
-        typography = MoviesTypography
-    ) {
-        CompositionLocalProvider(
-            LocalRippleTheme provides MoviesRippleTheme,
-            content = content
-        )
-    }
-}

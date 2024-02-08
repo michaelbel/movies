@@ -44,7 +44,6 @@ import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.preview.DevicePreviews
-import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.ui.R as UiR
 
@@ -290,7 +289,9 @@ private fun SettingsScreenContentPreview() {
 @Composable
 @Preview
 private fun SettingsScreenContentAmoledPreview() {
-    AmoledTheme {
+    MoviesTheme(
+        theme = AppTheme.Amoled
+    ) {
         SettingsScreenContent(
             onBackClick = {},
             currentLanguage = AppLanguage.English,

@@ -24,6 +24,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.network.formatPosterImage
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.ui.R
@@ -32,7 +33,6 @@ import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.MoviePreviewParameterProvider
-import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -127,7 +127,9 @@ private fun MovieColumnPreview(
 private fun MovieColumnAmoledPreview(
     @PreviewParameter(MoviePreviewParameterProvider::class) movie: MovieDb
 ) {
-    AmoledTheme {
+    MoviesTheme(
+        theme = AppTheme.Amoled
+    ) {
         MovieColumn(
             movie = movie,
             modifier = Modifier

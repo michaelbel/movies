@@ -47,6 +47,7 @@ import org.michaelbel.movies.auth.ktx.text
 import org.michaelbel.movies.auth_impl.R
 import org.michaelbel.movies.common.browser.openUrl
 import org.michaelbel.movies.common.exceptions.CreateSessionWithLoginException
+import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.network.TMDB_AUTH_REDIRECT_URL
 import org.michaelbel.movies.network.TMDB_AUTH_URL
 import org.michaelbel.movies.network.TMDB_PRIVACY_POLICY
@@ -60,7 +61,6 @@ import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.isPortrait
 import org.michaelbel.movies.ui.preview.DevicePreviews
-import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -374,7 +374,9 @@ private fun AuthScreenContentPreview() {
 @Composable
 @Preview
 private fun AuthScreenContentAmoledPreview() {
-    AmoledTheme {
+    MoviesTheme(
+        theme = AppTheme.Amoled
+    ) {
         AuthScreenContent(
             error = null,
             signInLoading = false,

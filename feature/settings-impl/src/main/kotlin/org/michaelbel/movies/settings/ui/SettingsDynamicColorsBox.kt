@@ -16,11 +16,11 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.compose.SwitchCheckIcon
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.BooleanPreviewParameterProvider
-import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -91,7 +91,9 @@ private fun SettingsDynamicColorsBoxPreview(
 private fun SettingsDynamicColorsBoxAmoledPreview(
     @PreviewParameter(BooleanPreviewParameterProvider::class) isEnabled: Boolean
 ) {
-    AmoledTheme {
+    MoviesTheme(
+        theme = AppTheme.Amoled
+    ) {
         SettingsDynamicColorsBox(
             isDynamicColorsEnabled = isEnabled,
             modifier = Modifier

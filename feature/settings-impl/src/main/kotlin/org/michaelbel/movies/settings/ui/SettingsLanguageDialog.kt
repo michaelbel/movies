@@ -26,13 +26,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.localization.model.AppLanguage
+import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.settings.ktx.languageText
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.LanguagePreviewParameterProvider
-import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -150,7 +150,9 @@ private fun SettingLanguageDialogPreview(
 private fun SettingLanguageDialogAmoledPreview(
     @PreviewParameter(LanguagePreviewParameterProvider::class) language: AppLanguage
 ) {
-    AmoledTheme {
+    MoviesTheme(
+        theme = AppTheme.Amoled
+    ) {
         SettingLanguageDialog(
             currentLanguage = language,
             onLanguageSelect = {},

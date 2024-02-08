@@ -32,7 +32,6 @@ import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.ThemePreviewParameterProvider
-import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -150,7 +149,9 @@ private fun SettingThemeDialogPreview(
 private fun SettingThemeDialogAmoledPreview(
     @PreviewParameter(ThemePreviewParameterProvider::class) theme: AppTheme
 ) {
-    AmoledTheme {
+    MoviesTheme(
+        theme = AppTheme.Amoled
+    ) {
         SettingThemeDialog(
             currentTheme = theme,
             onThemeSelect = {},

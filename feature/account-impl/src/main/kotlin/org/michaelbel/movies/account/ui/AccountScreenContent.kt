@@ -29,6 +29,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.michaelbel.movies.account.AccountViewModel
 import org.michaelbel.movies.account_impl.R
+import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
@@ -37,7 +38,6 @@ import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.isPortrait
 import org.michaelbel.movies.ui.ktx.lettersTextFontSizeLarge
 import org.michaelbel.movies.ui.preview.DevicePreviews
-import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -226,7 +226,9 @@ private fun AccountScreenContentPreview() {
 @Composable
 @Preview
 private fun AccountScreenContentAmoledPreview() {
-    AmoledTheme {
+    MoviesTheme(
+        theme = AppTheme.Amoled
+    ) {
         AccountScreenContent(
             account = AccountDb(
                 accountId = 0,

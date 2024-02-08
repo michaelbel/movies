@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.feed_impl.R
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.ktx.isEmpty
@@ -32,7 +33,6 @@ import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.ktx.lettersTextFontSizeSmall
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.BooleanPreviewParameterProvider
-import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -132,7 +132,9 @@ private fun FeedToolbarPreview(
 private fun FeedToolbarAmoledPreview(
     @PreviewParameter(BooleanPreviewParameterProvider::class) visible: Boolean
 ) {
-    AmoledTheme {
+    MoviesTheme(
+        theme = AppTheme.Amoled
+    ) {
         FeedToolbar(
             title = stringResource(R.string.feed_title_now_playing),
             account = AccountDb.Empty,

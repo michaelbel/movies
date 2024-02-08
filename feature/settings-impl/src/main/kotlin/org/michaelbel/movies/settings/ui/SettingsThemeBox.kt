@@ -24,7 +24,6 @@ import org.michaelbel.movies.settings.ktx.themeText
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.ThemePreviewParameterProvider
-import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -110,7 +109,9 @@ private fun SettingsThemeBoxPreview(
 private fun SettingsThemeBoxAmoledPreview(
     @PreviewParameter(ThemePreviewParameterProvider::class) theme: AppTheme
 ) {
-    AmoledTheme {
+    MoviesTheme(
+        theme = AppTheme.Amoled
+    ) {
         SettingsThemeBox(
             currentTheme = theme,
             onThemeSelect = {},

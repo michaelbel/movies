@@ -37,7 +37,6 @@ import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.MovieDbPreviewParameterProvider
-import org.michaelbel.movies.ui.theme.AmoledTheme
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -182,7 +181,9 @@ private fun DetailsScreenContentPreview(
 private fun DetailsScreenContentAmoledPreview(
     @PreviewParameter(MovieDbPreviewParameterProvider::class) movie: MovieDb
 ) {
-    AmoledTheme {
+    MoviesTheme(
+        theme = AppTheme.Amoled
+    ) {
         DetailsScreenContent(
             onBackClick = {},
             onNavigateToGallery = {},
