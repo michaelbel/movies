@@ -11,6 +11,7 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -28,7 +29,9 @@ fun DetailsToolbar(
     movieUrl: String?,
     onNavigationIconClick: () -> Unit,
     topAppBarScrollBehavior: TopAppBarScrollBehavior,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onContainerColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
+    scrolledContainerColor: Color = MaterialTheme.colorScheme.inversePrimary,
 ) {
     TopAppBar(
         title = {
@@ -36,7 +39,7 @@ fun DetailsToolbar(
                 text = movieTitle,
                 overflow = TextOverflow.Ellipsis,
                 style = MaterialTheme.typography.titleLarge.copy(
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                    color = onContainerColor
                 )
             )
         },
@@ -49,7 +52,8 @@ fun DetailsToolbar(
             ) {
                 if (movieUrl != null) {
                     ShareIcon(
-                        url = movieUrl
+                        url = movieUrl,
+                        onContainerColor = onContainerColor
                     )
                 }
             }
@@ -57,12 +61,13 @@ fun DetailsToolbar(
         navigationIcon = {
             BackIcon(
                 onClick = onNavigationIconClick,
-                modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
+                modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets),
+                onContainerColor = onContainerColor
             )
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primaryContainer,
-            scrolledContainerColor = MaterialTheme.colorScheme.inversePrimary
+            containerColor = Color.Transparent,
+            scrolledContainerColor = scrolledContainerColor
         ),
         scrollBehavior = topAppBarScrollBehavior
     )

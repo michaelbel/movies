@@ -6,6 +6,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -18,7 +19,8 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 @Composable
 fun BackIcon(
     onClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onContainerColor: Color = MaterialTheme.colorScheme.onPrimaryContainer
 ) {
     IconButton(
         onClick = onClick,
@@ -27,7 +29,7 @@ fun BackIcon(
         Image(
             imageVector = MoviesIcons.ArrowBack,
             contentDescription = stringResource(MoviesContentDescription.BackIcon),
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
+            colorFilter = ColorFilter.tint(onContainerColor)
         )
     }
 }

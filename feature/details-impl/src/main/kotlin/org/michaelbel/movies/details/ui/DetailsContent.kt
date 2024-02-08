@@ -10,13 +10,17 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -24,14 +28,17 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.core.graphics.drawable.toBitmap
+import androidx.palette.graphics.Palette
+import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import coil.request.SuccessResult
 import org.michaelbel.movies.details_impl.R
 import org.michaelbel.movies.network.formatBackdropImage
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.isNotEmpty
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
-import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
 import org.michaelbel.movies.ui.placeholder.PlaceholderHighlight
 import org.michaelbel.movies.ui.placeholder.material3.fade
@@ -45,11 +52,32 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 fun DetailsContent(
     movie: MovieDb,
     onNavigateToGallery: (Int) -> Unit,
+    onGenerateColors: (Palette) -> Unit,
     modifier: Modifier = Modifier,
+    isThemeAmoled: Boolean = false,
+    onContainerColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
     placeholder: Boolean = false
 ) {
+    val context = LocalContext.current
     val scrollState = rememberScrollState()
     var isNoImageVisible: Boolean by remember { mutableStateOf(false) }
+
+    if (!isThemeAmoled && !placeholder) {
+        LaunchedEffect(key1 = movie.backdropPath.formatBackdropImage) {
+            val imageRequest = ImageLoader(context).execute(ImageRequest.Builder(context)
+                .data(movie.backdropPath.formatBackdropImage)
+                .allowHardware(false)
+                .build())
+            if (imageRequest is SuccessResult) {
+                val bitmap = imageRequest.drawable.toBitmap()
+                Palette.from(bitmap).generate { palette ->
+                    if (palette != null) {
+                        onGenerateColors(palette)
+                    }
+                }
+            }
+        }
+    }
 
     ConstraintLayout(
         modifier = modifier.verticalScroll(scrollState)
@@ -76,6 +104,10 @@ fun DetailsContent(
                     top.linkTo(parent.top, 16.dp)
                     end.linkTo(parent.end, 16.dp)
                 }
+                .shadow(
+                    elevation = 1.dp,
+                    shape = MaterialTheme.shapes.small
+                )
                 .clip(MaterialTheme.shapes.small)
                 .placeholder(
                     visible = placeholder,
@@ -132,7 +164,7 @@ fun DetailsContent(
             overflow = TextOverflow.Ellipsis,
             maxLines = 3,
             style = MaterialTheme.typography.titleLarge.copy(
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = onContainerColor
             )
         )
 
@@ -155,7 +187,7 @@ fun DetailsContent(
             overflow = TextOverflow.Ellipsis,
             maxLines = 10,
             style = MaterialTheme.typography.bodyMedium.copy(
-                color = MaterialTheme.colorScheme.onPrimaryContainer
+                color = onContainerColor
             )
         )
     }
@@ -172,7 +204,8 @@ private fun DetailsContentPreview(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.primaryContainer),
             movie = movie,
-            onNavigateToGallery = {}
+            onNavigateToGallery = {},
+            onGenerateColors = {}
         )
     }
 }
@@ -188,7 +221,8 @@ private fun DetailsContentAmoledPreview(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.primaryContainer),
             movie = movie,
-            onNavigateToGallery = {}
+            onNavigateToGallery = {},
+            onGenerateColors = {}
         )
     }
 }

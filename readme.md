@@ -54,6 +54,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] Amoled Theme
 - [x] [Material You Dynamic Colors](https://d.android.com/develop/ui/views/theming/dynamic-colors)
 - [x] [Themed App Icon](https://d.android.com/develop/ui/views/launch/icon_design_adaptive)
+- [x] [Palette Colors API](https://d.android.com/develop/ui/views/graphics/palette-colors)
 - [x] [Kotlin](https://d.android.com/kotlin)
 - [x] [Jetpack Compose](https://d.android.com/jetpack/compose)
 - [x] [Accompanist](https://github.com/google/accompanist)

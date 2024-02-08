@@ -1,5 +1,8 @@
 package org.michaelbel.movies.details.ui
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,12 +15,15 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.palette.graphics.Palette
 import java.net.UnknownHostException
+import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.details.DetailsViewModel
 import org.michaelbel.movies.details.ktx.movie
 import org.michaelbel.movies.details.ktx.movieUrl
@@ -41,14 +47,21 @@ fun DetailsRoute(
     modifier: Modifier = Modifier,
     viewModel: DetailsViewModel = hiltViewModel()
 ) {
-    val detailsState: ScreenState by viewModel.detailsState.collectAsStateWithLifecycle()
-    val networkStatus: NetworkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
+    val detailsState by viewModel.detailsState.collectAsStateWithLifecycle()
+    val networkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
+    val currentTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
+    val containerColor = viewModel.containerColor
+    val onContainerColor = viewModel.onContainerColor
 
     DetailsScreenContent(
         onBackClick = onBackClick,
         onNavigateToGallery = onNavigateToGallery,
+        onGenerateColors = viewModel::onGenerateColors,
         detailsState = detailsState,
         networkStatus = networkStatus,
+        containerColor = containerColor,
+        onContainerColor = onContainerColor,
+        isThemeAmoled = currentTheme is AppTheme.Amoled,
         onRetry = viewModel::retry,
         modifier = modifier
     )
@@ -58,8 +71,12 @@ fun DetailsRoute(
 private fun DetailsScreenContent(
     onBackClick: () -> Unit,
     onNavigateToGallery: (Int) -> Unit,
+    onGenerateColors: (Palette) -> Unit,
     detailsState: ScreenState,
     networkStatus: NetworkStatus,
+    containerColor: Int?,
+    onContainerColor: Int?,
+    isThemeAmoled: Boolean,
     onRetry: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -69,6 +86,25 @@ private fun DetailsScreenContent(
         onRetry()
     }
 
+    val animateContainerColor = animateColorAsState(
+        targetValue = if (containerColor != null) Color(containerColor) else MaterialTheme.colorScheme.primaryContainer,
+        animationSpec = tween(
+            durationMillis = 300,
+            delayMillis = 0,
+            easing = LinearEasing
+        ),
+        label = "animateContainerColor"
+    )
+    val animateOnContainerColor = animateColorAsState(
+        targetValue = if (onContainerColor != null) Color(onContainerColor) else MaterialTheme.colorScheme.onPrimaryContainer,
+        animationSpec = tween(
+            durationMillis = 300,
+            delayMillis = 0,
+            easing = LinearEasing
+        ),
+        label = "animateOnContainerColor"
+    )
+
     Scaffold(
         modifier = modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
         topBar = {
@@ -77,10 +113,12 @@ private fun DetailsScreenContent(
                 movieUrl = detailsState.movieUrl,
                 onNavigationIconClick = onBackClick,
                 topAppBarScrollBehavior = topAppBarScrollBehavior,
+                onContainerColor = animateOnContainerColor.value,
+                scrolledContainerColor = if (containerColor != null) Color(containerColor) else MaterialTheme.colorScheme.inversePrimary,
                 modifier = Modifier.fillMaxWidth()
             )
         },
-        containerColor = MaterialTheme.colorScheme.primaryContainer
+        containerColor = animateContainerColor.value
     ) { innerPadding ->
         when (detailsState) {
             is ScreenState.Loading -> {
@@ -98,7 +136,10 @@ private fun DetailsScreenContent(
                         .windowInsetsPadding(displayCutoutWindowInsets)
                         .fillMaxSize(),
                     movie = detailsState.movie,
-                    onNavigateToGallery = onNavigateToGallery
+                    onContainerColor = animateOnContainerColor.value,
+                    isThemeAmoled = isThemeAmoled,
+                    onNavigateToGallery = onNavigateToGallery,
+                    onGenerateColors = onGenerateColors
                 )
             }
             is ScreenState.Failure -> {
@@ -122,8 +163,12 @@ private fun DetailsScreenContentPreview(
         DetailsScreenContent(
             onBackClick = {},
             onNavigateToGallery = {},
+            onGenerateColors = {},
             detailsState = ScreenState.Content(movie),
             networkStatus = NetworkStatus.Available,
+            containerColor = null,
+            onContainerColor = null,
+            isThemeAmoled = false,
             onRetry = {},
             modifier = Modifier
                 .fillMaxSize()
@@ -141,8 +186,12 @@ private fun DetailsScreenContentAmoledPreview(
         DetailsScreenContent(
             onBackClick = {},
             onNavigateToGallery = {},
+            onGenerateColors = {},
             detailsState = ScreenState.Content(movie),
             networkStatus = NetworkStatus.Available,
+            containerColor = null,
+            onContainerColor = null,
+            isThemeAmoled = false,
             onRetry = {},
             modifier = Modifier
                 .fillMaxSize()
