@@ -46,6 +46,7 @@ androidx-navigation = "2.7.6"
 androidx-paging = "3.2.1"
 androidx-datastore = "1.0.0"
 androidx-startup = "1.1.1"
+androidx-palette-ktx = "1.0.0"
 androidx-room = "2.6.1"
 androidx-test = "1.5.2"
 androidx-test-ext = "1.1.5"
@@ -121,6 +122,7 @@ androidx-datastore-core = { module = "androidx.datastore:datastore-core", versio
 androidx-datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "androidx-datastore" }
 androidx-datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "androidx-datastore" }
 androidx-startup-runtime = { module = "androidx.startup:startup-runtime", version.ref = "androidx-startup" }
+androidx-palette-ktx = { module = "androidx.palette:palette-ktx", version.ref = "androidx-palette-ktx" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidx-room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "androidx-room" }

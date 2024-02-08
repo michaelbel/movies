@@ -19,6 +19,7 @@ fun DetailsLoading(
         modifier = modifier,
         movie = MovieDb.Empty,
         onNavigateToGallery = {},
+        onGenerateColors = {},
         placeholder = true
     )
 }

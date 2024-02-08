@@ -48,6 +48,7 @@ dependencies {
     implementation(project(":core:persistence"))
     api(libs.androidx.core.splashscreen)
     api(libs.androidx.constraintlayout.compose)
+    api(libs.androidx.palette.ktx)
     api(libs.coil.compose)
     api(libs.bundles.material)
     api(libs.bundles.accompanist)

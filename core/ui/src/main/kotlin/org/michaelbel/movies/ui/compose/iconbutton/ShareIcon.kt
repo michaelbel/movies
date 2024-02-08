@@ -10,6 +10,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -28,7 +29,8 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 @Composable
 fun ShareIcon(
     url: String,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onContainerColor: Color = MaterialTheme.colorScheme.onPrimaryContainer
 ) {
     val context: Context = LocalContext.current
     val resultContract = rememberLauncherForActivityResult(
@@ -52,7 +54,7 @@ fun ShareIcon(
         Image(
             imageVector = MoviesIcons.Share,
             contentDescription = stringResource(MoviesContentDescription.ShareIcon),
-            colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
+            colorFilter = ColorFilter.tint(onContainerColor)
         )
     }
 }
