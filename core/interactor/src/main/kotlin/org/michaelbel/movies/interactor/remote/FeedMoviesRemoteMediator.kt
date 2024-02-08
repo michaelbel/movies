@@ -26,7 +26,7 @@ class FeedMoviesRemoteMediator(
         loadType: LoadType,
         state: PagingState<Int, MovieDb>
     ): MediatorResult {
-        val reachedResult: MediatorResult = MediatorResult.Success(endOfPaginationReached = true)
+        val reachedResult = MediatorResult.Success(endOfPaginationReached = true)
         return try {
             val loadKey: Int? = when (loadType) {
                 LoadType.REFRESH -> {
@@ -45,17 +45,17 @@ class FeedMoviesRemoteMediator(
                 page = loadKey ?: 1
             )
 
-            if (moviesResult.isEmpty) {
-                throw PageEmptyException
-            }
-
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    pagingKeyRepository.removePagingKey(movieList)
                     movieRepository.removeMovies(movieList)
+                    pagingKeyRepository.removePagingKey(movieList)
                 }
-                pagingKeyRepository.insertPagingKey(movieList, moviesResult.nextPage)
                 movieRepository.insertMovies(movieList, moviesResult.results)
+                pagingKeyRepository.insertPagingKey(movieList, moviesResult.nextPage)
+            }
+
+            if (moviesResult.isEmpty) {
+                throw PageEmptyException
             }
 
             MediatorResult.Success(endOfPaginationReached = moviesResult.isPaginationReached)

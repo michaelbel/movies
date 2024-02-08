@@ -34,7 +34,8 @@ internal class MovieInteractorImpl @Inject constructor(
     override fun moviesPagingData(movieList: MovieList): Flow<PagingData<MovieDb>> {
         return Pager(
             config = PagingConfig(
-                pageSize = MovieResponse.DEFAULT_PAGE_SIZE
+                pageSize = MovieResponse.DEFAULT_PAGE_SIZE,
+                enablePlaceholders = true
             ),
             remoteMediator = FeedMoviesRemoteMediator(
                 movieRepository = movieRepository,
@@ -49,7 +50,8 @@ internal class MovieInteractorImpl @Inject constructor(
     override fun moviesPagingData(searchQuery: String): Flow<PagingData<MovieDb>> {
         return Pager(
             config = PagingConfig(
-                pageSize = MovieResponse.DEFAULT_PAGE_SIZE
+                pageSize = MovieResponse.DEFAULT_PAGE_SIZE,
+                enablePlaceholders = true
             ),
             remoteMediator = SearchMoviesRemoteMediator(
                 pagingKeyRepository = pagingKeyRepository,

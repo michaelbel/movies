@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 
@@ -14,6 +15,7 @@ import org.michaelbel.movies.persistence.database.entity.MovieDb
 @Dao
 interface MovieDao {
 
+    @Transaction
     @Query("SELECT * FROM movies WHERE movieList = :movieList ORDER BY position ASC")
     fun pagingSource(movieList: String): PagingSource<Int, MovieDb>
 
@@ -23,12 +25,14 @@ interface MovieDao {
     @Query("SELECT * FROM movies WHERE movieList = :movieList ORDER BY position ASC LIMIT :limit")
     suspend fun movies(movieList: String, limit: Int): List<MovieDb>
 
+    @Transaction
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovies(movies: List<MovieDb>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertMovie(movie: MovieDb)
 
+    @Transaction
     @Query("DELETE FROM movies WHERE movieList = :movieList")
     suspend fun removeMovies(movieList: String)
 
@@ -41,6 +45,7 @@ interface MovieDao {
     @Query("SELECT * FROM movies WHERE movieList = :pagingKey AND id = :movieId")
     suspend fun movieById(pagingKey: String, movieId: Int): MovieDb?
 
+    @Transaction
     @Query("SELECT MAX(position) FROM movies WHERE movieList = :movieList")
     suspend fun maxPosition(movieList: String): Int?
 
