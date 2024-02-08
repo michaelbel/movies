@@ -10,11 +10,15 @@ interface MovieInteractor {
 
     fun moviesPagingData(movieList: MovieList): Flow<PagingData<MovieDb>>
 
+    fun moviesPagingDataWithInitialPosition(movieList: MovieList?, position: Int): Flow<PagingData<MovieDb>>
+
     fun moviesPagingData(searchQuery: String): Flow<PagingData<MovieDb>>
 
     fun moviesPagingSource(pagingKey: String): PagingSource<Int, MovieDb>
 
     fun moviesFlow(pagingKey: String, limit: Int): Flow<List<MovieDb>>
+
+    fun moviePosition(pagingKey: String?, movieId: Int): Flow<Int>
 
     suspend fun movie(pagingKey: String, movieId: Int): MovieDb
 

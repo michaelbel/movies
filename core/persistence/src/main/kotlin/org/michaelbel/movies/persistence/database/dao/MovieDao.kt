@@ -19,8 +19,14 @@ interface MovieDao {
     @Query("SELECT * FROM movies WHERE movieList = :movieList ORDER BY position ASC")
     fun pagingSource(movieList: String): PagingSource<Int, MovieDb>
 
+    @Query("SELECT * FROM movies WHERE movieList = :movieList AND page = :page ORDER BY position ASC")
+    suspend fun moviesOnPage(movieList: String, page: Int): List<MovieDb>
+
     @Query("SELECT * FROM movies WHERE movieList = :movieList ORDER BY position DESC LIMIT :limit")
     fun moviesFlow(movieList: String, limit: Int): Flow<List<MovieDb>>
+
+    @Query("SELECT position FROM movies WHERE movieList = :movieList AND id = :movieId")
+    fun moviePosition(movieList: String, movieId: Int): Flow<Int>
 
     @Query("SELECT * FROM movies WHERE movieList = :movieList ORDER BY position ASC LIMIT :limit")
     suspend fun movies(movieList: String, limit: Int): List<MovieDb>

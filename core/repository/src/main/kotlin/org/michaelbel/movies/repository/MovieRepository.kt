@@ -12,6 +12,10 @@ interface MovieRepository {
 
     fun moviesFlow(pagingKey: String, limit: Int): Flow<List<MovieDb>>
 
+    fun moviePosition(pagingKey: String?, movieId: Int): Flow<Int>
+
+    suspend fun moviesOnPage(pagingKey: String, page: Int): List<MovieDb>
+
     suspend fun moviesResult(movieList: String, page: Int): Result<MovieResponse>
 
     suspend fun movie(pagingKey: String, movieId: Int): MovieDb

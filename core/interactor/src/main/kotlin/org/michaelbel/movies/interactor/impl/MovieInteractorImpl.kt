@@ -7,6 +7,7 @@ import androidx.paging.PagingSource
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.common.list.MovieList
@@ -42,8 +43,31 @@ internal class MovieInteractorImpl @Inject constructor(
                 database = database,
                 movieList = movieList.name
             ),
-            pagingSourceFactory = { movieRepository.moviesPagingSource(movieList.nameOrLocalList) }
+            pagingSourceFactory = { movieRepository.moviesPagingSource(movieList.name) }
         ).flow
+    }
+
+    // fixme R&D pass initial position on DetailsScreen
+    override fun moviesPagingDataWithInitialPosition(movieList: MovieList?, position: Int): Flow<PagingData<MovieDb>> {
+        return when (movieList) {
+            null -> flowOf(PagingData.empty())
+            else -> {
+                Pager(
+                    config = PagingConfig(
+                        pageSize = MovieResponse.DEFAULT_PAGE_SIZE,
+                        enablePlaceholders = true
+                    ),
+                    initialKey = position,
+                    remoteMediator = FeedMoviesRemoteMediator(
+                        movieRepository = movieRepository,
+                        pagingKeyRepository = pagingKeyRepository,
+                        database = database,
+                        movieList = movieList.name
+                    ),
+                    pagingSourceFactory = { movieRepository.moviesPagingSource(movieList.nameOrLocalList) }
+                ).flow
+            }
+        }
     }
 
     override fun moviesPagingData(searchQuery: String): Flow<PagingData<MovieDb>> {
@@ -71,6 +95,13 @@ internal class MovieInteractorImpl @Inject constructor(
         return movieRepository.moviesFlow(
             pagingKey = pagingKey,
             limit = limit
+        )
+    }
+
+    override fun moviePosition(pagingKey: String?, movieId: Int): Flow<Int> {
+        return movieRepository.moviePosition(
+            pagingKey = pagingKey,
+            movieId = movieId
         )
     }
 

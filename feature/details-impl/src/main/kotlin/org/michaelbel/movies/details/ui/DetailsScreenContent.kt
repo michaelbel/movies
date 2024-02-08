@@ -21,6 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.palette.graphics.Palette
 import java.net.UnknownHostException
 import org.michaelbel.movies.common.theme.AppTheme
@@ -36,6 +38,7 @@ import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.network.connectivity.ktx.isAvailable
 import org.michaelbel.movies.network.ktx.isFailure
 import org.michaelbel.movies.network.ktx.throwable
+import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.ktx.screenHeight
 import org.michaelbel.movies.ui.ktx.screenWidth
@@ -47,11 +50,13 @@ fun DetailsRoute(
     modifier: Modifier = Modifier,
     viewModel: DetailsViewModel = hiltViewModel()
 ) {
+    val pagingItems = viewModel.pagingDataFlow.collectAsLazyPagingItems()
     val detailsState by viewModel.detailsState.collectAsStateWithLifecycle()
     val networkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
     val currentTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
 
     DetailsScreenContent(
+        pagingItems = pagingItems,
         onBackClick = onBackClick,
         onNavigateToGallery = onNavigateToGallery,
         onGenerateColors = viewModel::onGenerateColors,
@@ -65,6 +70,7 @@ fun DetailsRoute(
 
 @Composable
 private fun DetailsScreenContent(
+    pagingItems: LazyPagingItems<MovieDb>,
     onBackClick: () -> Unit,
     onNavigateToGallery: (Int) -> Unit,
     onGenerateColors: (Int, Palette) -> Unit,
@@ -134,6 +140,7 @@ private fun DetailsScreenContent(
                                 .fillMaxSize()
                         )
                     }
+
                     is ScreenState.Content<*> -> {
                         DetailsContent(
                             modifier = Modifier
@@ -147,6 +154,7 @@ private fun DetailsScreenContent(
                             onGenerateColors = onGenerateColors
                         )
                     }
+
                     is ScreenState.Failure -> {
                         DetailsFailure(
                             modifier = Modifier
@@ -158,5 +166,91 @@ private fun DetailsScreenContent(
                 }
             }
         }
+
+        // fixme R&D pass initial position
+        /*items(
+            count = pagingItems.itemCount,
+            key = pagingItems.itemKey(),
+            contentType = pagingItems.itemContentType()
+        ) { index ->
+            val movieDb: MovieDb? = pagingItems[index]
+            if (movieDb != null) {
+                val animateContainerColor = animateColorAsState(
+                    targetValue = movieDb.primaryContainer,
+                    animationSpec = tween(
+                        durationMillis = 200,
+                        delayMillis = 0,
+                        easing = LinearEasing
+                    ),
+                    label = "animateContainerColor"
+                )
+                val animateOnContainerColor = animateColorAsState(
+                    targetValue = movieDb.onPrimaryContainer,
+                    animationSpec = tween(
+                        durationMillis = 200,
+                        delayMillis = 0,
+                        easing = LinearEasing
+                    ),
+                    label = "animateOnContainerColor"
+                )
+
+                Scaffold(
+                    modifier = Modifier
+                        .width(screenWidth)
+                        .height(screenHeight)
+                        .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
+                    topBar = {
+                        DetailsToolbar(
+                            movieTitle = movieDb.toolbarTitle,
+                            movieUrl = movieDb.url,
+                            onNavigationIconClick = onBackClick,
+                            topAppBarScrollBehavior = topAppBarScrollBehavior,
+                            onContainerColor = animateOnContainerColor.value,
+                            scrolledContainerColor = movieDb.scrolledContainerColor,
+                            modifier = Modifier.fillMaxWidth()
+                        )
+                    },
+                    containerColor = animateContainerColor.value
+                ) { innerPadding ->
+                    DetailsContent(
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .windowInsetsPadding(displayCutoutWindowInsets)
+                            .fillMaxSize(),
+                        movie = movieDb,
+                        onContainerColor = animateOnContainerColor.value,
+                        isThemeAmoled = isThemeAmoled,
+                        onNavigateToGallery = onNavigateToGallery,
+                        onGenerateColors = onGenerateColors
+                    )
+                }
+            }
+        }
+        pagingItems.apply {
+            when {
+                isPagingLoading -> {
+                    item {
+                        PagingLoadingBox(
+                            modifier = Modifier
+                                .width(screenWidth)
+                                .height(screenHeight)
+                                .background(MaterialTheme.colorScheme.primaryContainer)
+
+                        )
+                    }
+                }
+                isPagingFailure -> {
+                    item {
+                        PagingFailureBox(
+                            modifier = Modifier
+                                .width(screenWidth)
+                                .height(screenHeight)
+                                .background(MaterialTheme.colorScheme.primaryContainer)
+                                .clickable { retry() }
+                        )
+                    }
+                }
+            }
+        }*/
     }
 }

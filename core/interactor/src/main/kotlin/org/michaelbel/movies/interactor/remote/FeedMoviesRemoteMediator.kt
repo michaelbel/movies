@@ -22,6 +22,8 @@ class FeedMoviesRemoteMediator(
     private val movieList: String
 ): RemoteMediator<Int, MovieDb>() {
 
+    // fixme R&D
+    // fixme Skip LoadType.REFRESH on DetailsScreen?
     override suspend fun load(
         loadType: LoadType,
         state: PagingState<Int, MovieDb>

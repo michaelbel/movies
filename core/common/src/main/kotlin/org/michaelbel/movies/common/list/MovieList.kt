@@ -14,19 +14,36 @@ sealed class MovieList(
     data object Upcoming: MovieList("upcoming")
 
     companion object {
-        val VALUES = listOf(
+        val VALUES: List<MovieList> = listOf(
             NowPlaying,
             Popular,
             TopRated,
             Upcoming
         )
 
-        fun transform(name: String): MovieList {
-            return when (name) {
+        fun transform(className: String): MovieList {
+            return when (className) {
                 NowPlaying.toString() -> NowPlaying
                 Popular.toString() -> Popular
                 TopRated.toString() -> TopRated
                 Upcoming.toString() -> Upcoming
+                else -> throw InvalidMovieListException
+            }
+        }
+
+        fun transformNullable(name: String?): MovieList? {
+            return when (name) {
+                null -> null
+                else -> transformName(name)
+            }
+        }
+
+        private fun transformName(name: String): MovieList {
+            return when (name) {
+                NowPlaying.name -> NowPlaying
+                Popular.name -> Popular
+                TopRated.name -> TopRated
+                Upcoming.name -> Upcoming
                 else -> throw InvalidMovieListException
             }
         }

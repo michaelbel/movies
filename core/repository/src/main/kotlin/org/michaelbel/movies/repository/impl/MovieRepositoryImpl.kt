@@ -5,6 +5,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.common.exceptions.MovieDetailsException
+import kotlinx.coroutines.flow.flowOf
 import org.michaelbel.movies.common.localization.LocaleController
 import org.michaelbel.movies.network.isTmdbApiKeyEmpty
 import org.michaelbel.movies.network.model.MovieResponse
@@ -33,6 +34,17 @@ internal class MovieRepositoryImpl @Inject constructor(
             movieList = pagingKey,
             limit = limit
         )
+    }
+
+    override fun moviePosition(pagingKey: String?, movieId: Int): Flow<Int> {
+        return when (pagingKey) {
+            null -> flowOf(0)
+            else -> movieDao.moviePosition(pagingKey, movieId)
+        }
+    }
+
+    override suspend fun moviesOnPage(pagingKey: String, page: Int): List<MovieDb> {
+        return movieDao.moviesOnPage(pagingKey, page)
     }
 
     override suspend fun moviesResult(movieList: String, page: Int): Result<MovieResponse> {
