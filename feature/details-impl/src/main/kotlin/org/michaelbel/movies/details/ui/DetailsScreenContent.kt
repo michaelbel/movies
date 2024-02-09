@@ -82,7 +82,7 @@ private fun DetailsScreenContent(
     }
 
     val animateContainerColor = animateColorAsState(
-        targetValue = detailsState.primaryContainer,
+        targetValue = detailsState.primaryContainer(isThemeAmoled),
         animationSpec = tween(
             durationMillis = 200,
             delayMillis = 0,
@@ -91,7 +91,7 @@ private fun DetailsScreenContent(
         label = "animateContainerColor"
     )
     val animateOnContainerColor = animateColorAsState(
-        targetValue = detailsState.onPrimaryContainer,
+        targetValue = detailsState.onPrimaryContainer(isThemeAmoled),
         animationSpec = tween(
             durationMillis = 200,
             delayMillis = 0,
@@ -119,7 +119,7 @@ private fun DetailsScreenContent(
                         onNavigationIconClick = onBackClick,
                         topAppBarScrollBehavior = topAppBarScrollBehavior,
                         onContainerColor = animateOnContainerColor.value,
-                        scrolledContainerColor = detailsState.scrolledContainerColor,
+                        scrolledContainerColor = detailsState.scrolledContainerColor(isThemeAmoled),
                         modifier = Modifier.fillMaxWidth()
                     )
                 },
@@ -134,7 +134,6 @@ private fun DetailsScreenContent(
                                 .fillMaxSize()
                         )
                     }
-
                     is ScreenState.Content<*> -> {
                         DetailsContent(
                             modifier = Modifier
@@ -148,7 +147,6 @@ private fun DetailsScreenContent(
                             onGenerateColors = onGenerateColors
                         )
                     }
-
                     is ScreenState.Failure -> {
                         DetailsFailure(
                             modifier = Modifier

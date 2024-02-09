@@ -1,7 +1,5 @@
 package org.michaelbel.movies.details.ui
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,7 +32,6 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 import org.michaelbel.movies.common.theme.AppTheme
-import org.michaelbel.movies.details_impl.R
 import org.michaelbel.movies.network.formatBackdropImage
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.isNotEmpty
@@ -104,6 +101,7 @@ fun DetailsContent(
                     end.linkTo(parent.end, 16.dp)
                 }
                 .clip(MaterialTheme.shapes.small)
+                .background(MaterialTheme.colorScheme.inversePrimary)
                 .placeholder(
                     visible = placeholder,
                     color = MaterialTheme.colorScheme.inversePrimary,
@@ -119,26 +117,6 @@ fun DetailsContent(
             },
             contentScale = ContentScale.Crop
         )
-
-        AnimatedVisibility(
-            visible = isNoImageVisible,
-            modifier = Modifier.constrainAs(noImageText) {
-                width = Dimension.wrapContent
-                height = Dimension.wrapContent
-                start.linkTo(parent.start)
-                top.linkTo(parent.top)
-                end.linkTo(parent.end)
-                bottom.linkTo(title.top)
-            },
-            enter = fadeIn()
-        ) {
-            Text(
-                text = stringResource(R.string.details_no_image),
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    color = MaterialTheme.colorScheme.secondary
-                )
-            )
-        }
 
         Text(
             text = movie.title,
