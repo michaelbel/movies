@@ -26,36 +26,30 @@ class FeedMoviesRemoteMediator(
         loadType: LoadType,
         state: PagingState<Int, MovieDb>
     ): MediatorResult {
-        val reachedResult = MediatorResult.Success(endOfPaginationReached = true)
         return try {
-            val loadKey: Int? = when (loadType) {
-                LoadType.REFRESH -> {
-                    null
-                }
-                LoadType.PREPEND -> {
-                    return reachedResult
-                }
-                LoadType.APPEND -> {
-                    pagingKeyRepository.page(movieList) ?: return reachedResult
-                }
-            }
+            val loadKey: Int = when (loadType) {
+                LoadType.REFRESH -> 1
+                LoadType.PREPEND -> pagingKeyRepository.prevPage(movieList)
+                LoadType.APPEND -> pagingKeyRepository.page(movieList)
+            } ?: return MediatorResult.Success(endOfPaginationReached = true)
 
             val moviesResult: Result<MovieResponse> = movieRepository.moviesResult(
                 movieList = movieList,
-                page = loadKey ?: 1
+                page = loadKey
             )
 
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
-                    movieRepository.removeMovies(movieList)
                     pagingKeyRepository.removePagingKey(movieList)
+                    movieRepository.removeMovies(movieList)
                 }
-                movieRepository.insertMovies(movieList, moviesResult.results)
-                pagingKeyRepository.insertPagingKey(movieList, moviesResult.nextPage)
-            }
 
-            if (moviesResult.isEmpty) {
-                throw PageEmptyException
+                if (moviesResult.isEmpty) {
+                    throw PageEmptyException
+                }
+
+                pagingKeyRepository.insertPagingKey(movieList, moviesResult.nextPage, moviesResult.totalPages)
+                movieRepository.insertMovies(movieList, moviesResult.page, moviesResult.results)
             }
 
             MediatorResult.Success(endOfPaginationReached = moviesResult.isPaginationReached)

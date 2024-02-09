@@ -42,7 +42,7 @@ fun PageContent(
     lazyGridState: LazyGridState,
     lazyStaggeredGridState: LazyStaggeredGridState,
     pagingItems: LazyPagingItems<MovieDb>,
-    onMovieClick: (Int) -> Unit,
+    onMovieClick: (String, Int) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues()
 ) {
@@ -82,7 +82,7 @@ fun PageContent(
 private fun PageContentColumn(
     lazyListState: LazyListState,
     pagingItems: LazyPagingItems<MovieDb>,
-    onMovieClick: (Int) -> Unit,
+    onMovieClick: (String, Int) -> Unit,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {
@@ -105,7 +105,7 @@ private fun PageContentColumn(
                         .padding(horizontal = 8.dp, vertical = 4.dp)
                         .clip(MaterialTheme.shapes.small)
                         .background(MaterialTheme.colorScheme.inversePrimary)
-                        .clickable { onMovieClick(movieDb.movieId) }
+                        .clickable { onMovieClick(movieDb.movieList, movieDb.movieId) }
                 )
             }
         }
@@ -150,7 +150,7 @@ private fun PageContentColumn(
 private fun PageContentGrid(
     lazyGridState: LazyGridState,
     pagingItems: LazyPagingItems<MovieDb>,
-    onMovieClick: (Int) -> Unit,
+    onMovieClick: (String, Int) -> Unit,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {
@@ -176,7 +176,7 @@ private fun PageContentGrid(
                         .padding(vertical = 4.dp)
                         .clip(MaterialTheme.shapes.small)
                         .background(MaterialTheme.colorScheme.inversePrimary)
-                        .clickable { onMovieClick(movieDb.movieId) }
+                        .clickable { onMovieClick(movieDb.movieList, movieDb.movieId) }
                 )
             }
         }
@@ -212,7 +212,7 @@ private fun PageContentGrid(
 private fun PageContentStaggeredGrid(
     lazyStaggeredGridState: LazyStaggeredGridState,
     pagingItems: LazyPagingItems<MovieDb>,
-    onMovieClick: (Int) -> Unit,
+    onMovieClick: (String, Int) -> Unit,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier
 ) {
@@ -237,7 +237,7 @@ private fun PageContentStaggeredGrid(
                         .fillMaxWidth()
                         .clip(MaterialTheme.shapes.small)
                         .background(MaterialTheme.colorScheme.inversePrimary)
-                        .clickable { onMovieClick(movieDb.movieId) }
+                        .clickable { onMovieClick(movieDb.movieList, movieDb.movieId) }
                 )
             }
         }

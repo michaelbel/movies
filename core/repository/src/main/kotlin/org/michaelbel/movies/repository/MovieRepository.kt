@@ -23,7 +23,9 @@ interface MovieRepository {
 
     suspend fun removeMovie(pagingKey: String, movieId: Int)
 
-    suspend fun insertMovies(pagingKey: String, movies: List<MovieResponse>)
+    suspend fun insertMovies(pagingKey: String, page: Int, movies: List<MovieResponse>)
 
     suspend fun insertMovie(pagingKey: String, movie: MovieDb)
+
+    suspend fun updateMovieColors(movieId: Int, containerColor: Int, onContainerColor: Int)
 }

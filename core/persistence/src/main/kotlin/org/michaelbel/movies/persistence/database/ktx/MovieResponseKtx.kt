@@ -7,6 +7,7 @@ fun MovieResponse.movieDb(movieList: String, position: Int): MovieDb {
     return MovieDb(
         movieList = movieList,
         dateAdded = System.currentTimeMillis(),
+        page = null,
         position = position,
         movieId = id,
         overview = overview.orEmpty(),
@@ -14,6 +15,8 @@ fun MovieResponse.movieDb(movieList: String, position: Int): MovieDb {
         backdropPath = backdropPath.orEmpty(),
         releaseDate = releaseDate,
         title = title,
-        voteAverage = voteAverage
+        voteAverage = voteAverage,
+        containerColor = null,
+        onContainerColor = null
     )
 }

@@ -53,7 +53,7 @@ import org.michaelbel.movies.ui.R as UiR
 @Composable
 fun SearchRoute(
     onBackClick: () -> Unit,
-    onNavigateToDetails: (Int) -> Unit,
+    onNavigateToDetails: (String, Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = hiltViewModel()
 ) {
@@ -90,7 +90,7 @@ private fun SearchScreenContent(
     suggestions: List<SuggestionDb>,
     searchHistoryMovies: List<MovieDb>,
     onBackClick: () -> Unit,
-    onNavigateToDetails: (Int) -> Unit,
+    onNavigateToDetails: (String, Int) -> Unit,
     onChangeSearchQuery: (String) -> Unit,
     onSaveMovieToHistory: (Int) -> Unit,
     onRemoveMovieFromHistory: (Int) -> Unit,
@@ -209,9 +209,9 @@ private fun SearchScreenContent(
                         lazyGridState = lazyGridState,
                         lazyStaggeredGridState = lazyStaggeredGridState,
                         pagingItems = pagingItems,
-                        onMovieClick = { movieId ->
+                        onMovieClick = { movieList, movieId ->
                             onSaveMovieToHistory(movieId)
-                            onNavigateToDetails(movieId)
+                            onNavigateToDetails(movieList, movieId)
                         },
                         modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
                     )

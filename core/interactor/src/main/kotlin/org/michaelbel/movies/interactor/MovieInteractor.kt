@@ -26,4 +26,6 @@ interface MovieInteractor {
     suspend fun removeMovie(pagingKey: String, movieId: Int)
 
     suspend fun insertMovie(pagingKey: String, movie: MovieDb)
+
+    suspend fun updateMovieColors(movieId: Int, containerColor: Int, onContainerColor: Int)
 }

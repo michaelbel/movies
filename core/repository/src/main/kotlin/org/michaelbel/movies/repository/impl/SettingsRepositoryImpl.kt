@@ -3,6 +3,8 @@ package org.michaelbel.movies.repository.impl
 import android.content.Context
 import android.os.Build
 import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -16,8 +18,6 @@ import org.michaelbel.movies.platform.app.AppService
 import org.michaelbel.movies.repository.SettingsRepository
 import org.michaelbel.movies.repository.ktx.code
 import org.michaelbel.movies.repository.ktx.packageInfo
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
 internal class SettingsRepositoryImpl @Inject constructor(
@@ -34,8 +34,8 @@ internal class SettingsRepositoryImpl @Inject constructor(
         FeedView.transform(name ?: FeedView.FeedList.toString())
     }
 
-    override val currentMovieList: Flow<MovieList> = preferences.movieListFlow.map { name ->
-        MovieList.transform(name ?: MovieList.NowPlaying.toString())
+    override val currentMovieList: Flow<MovieList> = preferences.movieListFlow.map { className ->
+        MovieList.transform(className ?: MovieList.NowPlaying.toString())
     }
 
     override val dynamicColors: Flow<Boolean> = preferences.isDynamicColorsFlow.map { isDynamicColors ->

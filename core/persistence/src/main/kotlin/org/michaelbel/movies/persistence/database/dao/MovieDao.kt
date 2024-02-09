@@ -51,4 +51,7 @@ interface MovieDao {
 
     @Query("SELECT (SELECT COUNT(*) FROM movies WHERE movieList = :movieList) == 0")
     suspend fun isEmpty(movieList: String): Boolean
+
+    @Query("UPDATE movies SET containerColor = :containerColor, onContainerColor = :onContainerColor WHERE id = :movieId")
+    suspend fun updateMovieColors(movieId: Int, containerColor: Int, onContainerColor: Int)
 }

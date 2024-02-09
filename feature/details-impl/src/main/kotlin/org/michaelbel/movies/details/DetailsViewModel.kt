@@ -1,8 +1,5 @@
 package org.michaelbel.movies.details
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.palette.graphics.Palette
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,6 +26,7 @@ class DetailsViewModel @Inject constructor(
     networkManager: NetworkManager
 ): BaseViewModel() {
 
+    private val movieList: String? = savedStateHandle["movieList"]
     private val movieId: Int = savedStateHandle.require("movieId")
 
     private val _detailsState: MutableStateFlow<ScreenState> = MutableStateFlow(ScreenState.Loading)
@@ -48,18 +46,19 @@ class DetailsViewModel @Inject constructor(
             initialValue = AppTheme.FollowSystem
         )
 
-    var containerColor: Int? by mutableStateOf(null)
-    var onContainerColor: Int? by mutableStateOf(null)
-
     init {
         loadMovie()
     }
 
     fun retry() = loadMovie()
 
-    fun onGenerateColors(palette: Palette) {
-        containerColor = palette.vibrantSwatch?.rgb
-        onContainerColor = palette.vibrantSwatch?.bodyTextColor
+    fun onGenerateColors(movieId: Int, palette: Palette) = launch {
+        val containerColor = palette.vibrantSwatch?.rgb
+        val onContainerColor = palette.vibrantSwatch?.bodyTextColor
+        if (containerColor != null && onContainerColor != null) {
+            interactor.updateMovieColors(movieId, containerColor, onContainerColor)
+            _detailsState.value = ScreenState.Content(interactor.movie(movieList.orEmpty(), movieId))
+        }
     }
 
     private fun loadMovie() = launch {

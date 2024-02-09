@@ -1,13 +1,37 @@
 package org.michaelbel.movies.ui.ktx
 
+import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Insets
+import android.os.Build
+import android.util.DisplayMetrics
+import android.view.WindowManager
+import android.view.WindowMetrics
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Dp
+import androidx.core.content.ContextCompat
 
 private const val FEED_GRID_PORTRAIT_COLUMNS_COUNT = 2
 private const val FEED_GRID_LANDSCAPE_COLUMNS_COUNT = 4
+
+val screenWidth: Dp
+    @Composable get() {
+        val context = LocalContext.current
+        val density = LocalDensity.current
+        return density.run { context.deviceWidth.toDp() }
+    }
+
+val screenHeight: Dp
+    @Composable get() {
+        val context = LocalContext.current
+        val density = LocalDensity.current
+        return density.run { context.deviceHeight.toDp() }
+    }
 
 val isPortrait: Boolean
     @Composable get() {
@@ -20,3 +44,38 @@ val displayCutoutWindowInsets: WindowInsets
 
 val gridColumnsCount: Int
     @Composable get() = if (isPortrait) FEED_GRID_PORTRAIT_COLUMNS_COUNT else FEED_GRID_LANDSCAPE_COLUMNS_COUNT
+
+@Suppress("Deprecation")
+private inline val Context.deviceWidth: Int
+    get() {
+        val windowManager: WindowManager = ContextCompat
+            .getSystemService(this, WindowManager::class.java) as WindowManager
+
+        return if (Build.VERSION.SDK_INT >= 30) {
+            val windowMetrics: WindowMetrics = windowManager.currentWindowMetrics
+            val insets: Insets = windowMetrics.windowInsets.getInsetsIgnoringVisibility(
+                android.view.WindowInsets.Type.systemBars()
+            )
+            windowMetrics.bounds.width() - insets.left - insets.right
+        } else {
+            val displayMetrics = DisplayMetrics()
+            windowManager.defaultDisplay.getMetrics(displayMetrics)
+            displayMetrics.widthPixels
+        }
+    }
+
+@Suppress("Deprecation")
+private inline val Context.deviceHeight: Int
+    get() {
+        val windowManager: WindowManager = ContextCompat
+            .getSystemService(this, WindowManager::class.java) as WindowManager
+
+        return if (Build.VERSION.SDK_INT >= 30) {
+            val windowMetrics: WindowMetrics = windowManager.currentWindowMetrics
+            windowMetrics.bounds.height()
+        } else {
+            val displayMetrics = DisplayMetrics()
+            windowManager.defaultDisplay.getMetrics(displayMetrics)
+            displayMetrics.heightPixels
+        }
+    }

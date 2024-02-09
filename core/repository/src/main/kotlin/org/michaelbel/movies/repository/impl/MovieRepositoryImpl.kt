@@ -77,12 +77,13 @@ internal class MovieRepositoryImpl @Inject constructor(
         movieDao.removeMovie(pagingKey, movieId)
     }
 
-    override suspend fun insertMovies(pagingKey: String, movies: List<MovieResponse>) {
+    override suspend fun insertMovies(pagingKey: String, page: Int, movies: List<MovieResponse>) {
         val maxPosition: Int = movieDao.maxPosition(pagingKey) ?: 0
         val moviesDb: List<MovieDb> = movies.mapIndexed { index, movieResponse ->
             movieResponse.mapToMovieDb(
                 movieList = pagingKey,
-                position = maxPosition.plus(index).plus(1)
+                page = page,
+                position = if (maxPosition == 0) index else maxPosition.plus(index).plus(1)
             )
         }
         movieDao.insertMovies(moviesDb)
@@ -97,5 +98,9 @@ internal class MovieRepositoryImpl @Inject constructor(
                 position = maxPosition.plus(1)
             )
         )
+    }
+
+    override suspend fun updateMovieColors(movieId: Int, containerColor: Int, onContainerColor: Int) {
+        movieDao.updateMovieColors(movieId, containerColor, onContainerColor)
     }
 }

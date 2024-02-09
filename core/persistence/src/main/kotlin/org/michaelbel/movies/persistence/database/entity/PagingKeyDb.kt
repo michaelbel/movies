@@ -7,5 +7,6 @@ import org.jetbrains.annotations.Nullable
 @Entity(tableName = "pagingkeys", primaryKeys = ["pagingKey"])
 data class PagingKeyDb(
     @NotNull val pagingKey: String,
-    @Nullable val page: Int? = null
+    @Nullable val page: Int?,
+    @Nullable val totalPages: Int?
 )

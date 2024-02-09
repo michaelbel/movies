@@ -14,8 +14,12 @@ import org.michaelbel.movies.persistence.database.entity.PagingKeyDb
 interface PagingKeyDao {
 
     @Transaction
-    @Query("SELECT * FROM pagingkeys WHERE pagingKey = :pagingKey")
-    suspend fun pagingKey(pagingKey: String): PagingKeyDb?
+    @Query("SELECT page FROM pagingkeys WHERE pagingKey = :pagingKey")
+    suspend fun page(pagingKey: String): Int?
+
+    @Transaction
+    @Query("SELECT totalPages FROM pagingkeys WHERE pagingKey = :pagingKey")
+    suspend fun totalPages(pagingKey: String): Int?
 
     @Transaction
     @Query("DELETE FROM pagingkeys WHERE pagingKey = :pagingKey")

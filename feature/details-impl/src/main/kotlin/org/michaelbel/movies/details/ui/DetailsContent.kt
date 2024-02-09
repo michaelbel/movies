@@ -17,7 +17,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -52,7 +51,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 fun DetailsContent(
     movie: MovieDb,
     onNavigateToGallery: (Int) -> Unit,
-    onGenerateColors: (Palette) -> Unit,
+    onGenerateColors: (Int, Palette) -> Unit,
     modifier: Modifier = Modifier,
     isThemeAmoled: Boolean = false,
     onContainerColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -72,7 +71,7 @@ fun DetailsContent(
                 val bitmap = imageRequest.drawable.toBitmap()
                 Palette.from(bitmap).generate { palette ->
                     if (palette != null) {
-                        onGenerateColors(palette)
+                        onGenerateColors(movie.movieId, palette)
                     }
                 }
             }
@@ -104,10 +103,6 @@ fun DetailsContent(
                     top.linkTo(parent.top, 16.dp)
                     end.linkTo(parent.end, 16.dp)
                 }
-                .shadow(
-                    elevation = 1.dp,
-                    shape = MaterialTheme.shapes.small
-                )
                 .clip(MaterialTheme.shapes.small)
                 .placeholder(
                     visible = placeholder,
@@ -205,7 +200,7 @@ private fun DetailsContentPreview(
                 .background(MaterialTheme.colorScheme.primaryContainer),
             movie = movie,
             onNavigateToGallery = {},
-            onGenerateColors = {}
+            onGenerateColors = { _,_ -> }
         )
     }
 }
@@ -224,7 +219,7 @@ private fun DetailsContentAmoledPreview(
                 .background(MaterialTheme.colorScheme.primaryContainer),
             movie = movie,
             onNavigateToGallery = {},
-            onGenerateColors = {}
+            onGenerateColors = { _,_ -> }
         )
     }
 }

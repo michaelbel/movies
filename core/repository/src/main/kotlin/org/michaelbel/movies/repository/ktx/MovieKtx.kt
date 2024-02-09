@@ -7,6 +7,7 @@ internal val Movie.mapToMovieDb: MovieDb
     get() = MovieDb(
         movieList = "",
         dateAdded = 0L,
+        page = null,
         position = 0,
         movieId = id,
         overview = overview.orEmpty(),
@@ -14,5 +15,7 @@ internal val Movie.mapToMovieDb: MovieDb
         backdropPath = backdropPath.orEmpty(),
         releaseDate = releaseDate.orEmpty(),
         title = title.orEmpty(),
-        voteAverage = voteAverage
+        voteAverage = voteAverage,
+        containerColor = null,
+        onContainerColor = null
     )

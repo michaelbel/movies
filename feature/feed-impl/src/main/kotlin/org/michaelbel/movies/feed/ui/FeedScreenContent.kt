@@ -68,7 +68,7 @@ fun FeedRoute(
     onNavigateToAuth: () -> Unit,
     onNavigateToAccount: () -> Unit,
     onNavigateToSettings: () -> Unit,
-    onNavigateToDetails: (Int) -> Unit,
+    onNavigateToDetails: (String, Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: FeedViewModel = hiltViewModel()
 ) {
@@ -116,7 +116,7 @@ private fun FeedScreenContent(
     onNavigateToAuth: () -> Unit,
     onNavigateToAccount: () -> Unit,
     onNavigateToSettings: () -> Unit,
-    onNavigateToDetails: (Int) -> Unit,
+    onNavigateToDetails: (String, Int) -> Unit,
     onUpdateIconClick: (Activity) -> Unit,
     onNotificationBottomSheetHideClick: () -> Unit,
     onSnackbarDismissed: () -> Unit,

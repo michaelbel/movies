@@ -12,18 +12,27 @@ internal class PagingKeyRepositoryImpl @Inject constructor(
 ): PagingKeyRepository {
 
     override suspend fun page(pagingKey: String): Int? {
-        return pagingKeyDao.pagingKey(pagingKey)?.page
+        return pagingKeyDao.page(pagingKey)
+    }
+
+    override suspend fun totalPages(pagingKey: String): Int? {
+        return pagingKeyDao.totalPages(pagingKey)
+    }
+
+    override suspend fun prevPage(pagingKey: String): Int? {
+        return null
     }
 
     override suspend fun removePagingKey(pagingKey: String) {
         pagingKeyDao.removePagingKey(pagingKey)
     }
 
-    override suspend fun insertPagingKey(pagingKey: String, page: Int) {
+    override suspend fun insertPagingKey(pagingKey: String, page: Int, totalPages: Int) {
         pagingKeyDao.insertPagingKey(
             PagingKeyDb(
                 pagingKey = pagingKey,
-                page = page
+                page = page,
+                totalPages = totalPages
             )
         )
     }

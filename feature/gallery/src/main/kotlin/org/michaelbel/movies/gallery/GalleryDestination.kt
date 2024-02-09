@@ -4,13 +4,7 @@ import org.michaelbel.movies.navigation.MoviesNavigationDestination
 
 object GalleryDestination: MoviesNavigationDestination {
 
-    const val movieIdArg = "movieId"
-
-    override val route: String = "gallery/{$movieIdArg}"
+    override val route: String = "gallery/{movieId}"
 
     override val destination: String = "gallery"
-
-    fun createNavigationRoute(movieId: Int): String {
-        return "gallery/$movieId"
-    }
 }

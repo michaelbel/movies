@@ -8,21 +8,19 @@ import androidx.navigation.navDeepLink
 import org.michaelbel.movies.search.ui.SearchRoute
 import org.michaelbel.movies.ui.shortcuts.INTENT_ACTION_SEARCH
 
-private val SEARCH_SHORTCUT_NAV_DEEP_LINK: NavDeepLink = navDeepLink {
-    uriPattern = INTENT_ACTION_SEARCH
-}
-
 fun NavController.navigateToSearch() {
     navigate(SearchDestination.route)
 }
 
 fun NavGraphBuilder.searchGraph(
     navigateBack: () -> Unit,
-    navigateToDetails: (Int) -> Unit,
+    navigateToDetails: (String, Int) -> Unit,
 ) {
     composable(
         route = SearchDestination.route,
-        deepLinks = listOf(SEARCH_SHORTCUT_NAV_DEEP_LINK)
+        deepLinks = listOf(
+            navDeepLink { uriPattern = INTENT_ACTION_SEARCH }
+        )
     ) {
         SearchRoute(
             onBackClick = navigateBack,

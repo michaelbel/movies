@@ -6,7 +6,7 @@ import androidx.navigation.compose.composable
 import org.michaelbel.movies.gallery.ui.GalleryRoute
 
 fun NavController.navigateToGallery(movieId: Int) {
-    navigate(GalleryDestination.createNavigationRoute(movieId))
+    navigate("gallery/$movieId")
 }
 
 fun NavGraphBuilder.galleryGraph(

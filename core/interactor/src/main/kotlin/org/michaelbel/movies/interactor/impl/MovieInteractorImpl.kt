@@ -104,4 +104,10 @@ internal class MovieInteractorImpl @Inject constructor(
             movieRepository.insertMovie(pagingKey, movie)
         }
     }
+
+    override suspend fun updateMovieColors(movieId: Int, containerColor: Int, onContainerColor: Int) {
+        return withContext(dispatchers.io) {
+            movieRepository.updateMovieColors(movieId, containerColor, onContainerColor)
+        }
+    }
 }
