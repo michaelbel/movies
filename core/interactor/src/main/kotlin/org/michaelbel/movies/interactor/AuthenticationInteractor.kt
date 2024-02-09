@@ -5,7 +5,7 @@ import org.michaelbel.movies.network.model.Token
 
 interface AuthenticationInteractor {
 
-    suspend fun createRequestToken(): Token
+    suspend fun createRequestToken(loginViaTmdb: Boolean): Token
 
     suspend fun createSessionWithLogin(
         username: String,
