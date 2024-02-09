@@ -85,7 +85,6 @@ accompanist-appcompat-theme = { module = "com.google.accompanist:accompanist-app
 accompanist-drawablepainter = { module = "com.google.accompanist:accompanist-drawablepainter", version.ref = "accompanist" }
 accompanist-insets-ui = { module = "com.google.accompanist:accompanist-insets-ui", version.ref = "accompanist" }
 accompanist-navigation-animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist" }
-accompanist-systemuicontroller = { module = "com.google.accompanist:accompanist-systemuicontroller", version.ref = "accompanist" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 material-compose-theme-adapter = { module = "com.google.android.material:compose-theme-adapter", version.ref = "material-compose-theme-adapter" }
 hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
@@ -158,8 +157,7 @@ accompanist = [
     "accompanist-appcompat-theme",
     "accompanist-drawablepainter",
     "accompanist-insets-ui",
-    "accompanist-navigation-animation",
-    "accompanist-systemuicontroller"
+    "accompanist-navigation-animation"
 ]
 appcompat = [
     "androidx-appcompat",

@@ -1,6 +1,7 @@
 package org.michaelbel.movies.ui.theme
 
-import android.os.Build
+import android.graphics.Color
+import androidx.activity.SystemBarStyle
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.MaterialTheme
@@ -8,8 +9,6 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import com.google.accompanist.systemuicontroller.SystemUiController
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.theme.model.ComposeTheme
@@ -19,61 +18,45 @@ import org.michaelbel.movies.ui.theme.provider.MoviesRippleTheme
 fun MoviesTheme(
     theme: AppTheme = AppTheme.FollowSystem,
     dynamicColors: Boolean = false,
+    enableEdgeToEdge: (SystemBarStyle, SystemBarStyle) -> Unit = { _,_ -> },
     content: @Composable () -> Unit
 ) {
-    val dynamicColorsAvailable: Boolean = Build.VERSION.SDK_INT >= 31
-
-    val (colorScheme, statusBarDarkContentEnabled) = when (theme) {
+    val (colorScheme, detectDarkMode) = when (theme) {
         AppTheme.NightNo -> {
             ComposeTheme(
-                colorScheme = if (dynamicColorsAvailable && dynamicColors) {
-                    dynamicLightColorScheme(context)
-                } else {
-                    LightColorScheme
-                },
-                statusBarDarkContentEnabled = true
+                colorScheme = if (dynamicColors) dynamicLightColorScheme(context) else LightColorScheme,
+                detectDarkMode = false
             )
         }
         AppTheme.NightYes -> {
             ComposeTheme(
-                colorScheme = if (dynamicColorsAvailable && dynamicColors) {
-                    dynamicDarkColorScheme(context)
-                } else {
-                    DarkColorScheme
-                },
-                statusBarDarkContentEnabled = false
+                colorScheme = if (dynamicColors) dynamicDarkColorScheme(context) else DarkColorScheme,
+                detectDarkMode = true
             )
         }
         AppTheme.FollowSystem -> {
             val darkTheme: Boolean = isSystemInDarkTheme()
-
             ComposeTheme(
-                colorScheme = if (dynamicColorsAvailable && dynamicColors) {
-                    if (darkTheme) {
-                        dynamicDarkColorScheme(context)
-                    } else {
-                        dynamicLightColorScheme(context)
-                    }
+                colorScheme = if (dynamicColors) {
+                    if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
                 } else {
-                    if (darkTheme) {
-                        DarkColorScheme
-                    } else {
-                        LightColorScheme
-                    }
+                    if (darkTheme) DarkColorScheme else LightColorScheme
                 },
-                statusBarDarkContentEnabled = !darkTheme
+                detectDarkMode = darkTheme
             )
         }
         AppTheme.Amoled -> {
             ComposeTheme(
                 colorScheme = AmoledColorScheme,
-                statusBarDarkContentEnabled = false
+                detectDarkMode = true
             )
         }
     }
 
-    val systemUiController: SystemUiController = rememberSystemUiController()
-    systemUiController.statusBarDarkContentEnabled = statusBarDarkContentEnabled
+    enableEdgeToEdge(
+        SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT) { detectDarkMode },
+        SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT) { detectDarkMode }
+    )
 
     MaterialTheme(
         colorScheme = colorScheme,
@@ -81,7 +64,7 @@ fun MoviesTheme(
         typography = MoviesTypography
     ) {
         CompositionLocalProvider(
-            LocalRippleTheme provides MoviesRippleTheme,
+            value = LocalRippleTheme provides MoviesRippleTheme,
             content = content
         )
     }

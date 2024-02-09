@@ -1,5 +1,6 @@
 package org.michaelbel.movies
 
+import androidx.activity.SystemBarStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -25,7 +26,8 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 internal fun MainActivityContent(
-    viewModel: MainViewModel = hiltViewModel()
+    viewModel: MainViewModel = hiltViewModel(),
+    enableEdgeToEdge: (SystemBarStyle, SystemBarStyle) -> Unit,
 ) {
     val currentTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
     val dynamicColors by viewModel.dynamicColors.collectAsStateWithLifecycle()
@@ -35,7 +37,8 @@ internal fun MainActivityContent(
 
     MoviesTheme(
         theme = currentTheme,
-        dynamicColors = dynamicColors
+        dynamicColors = dynamicColors,
+        enableEdgeToEdge = enableEdgeToEdge
     ) {
         NavHost(
             navController = navHostController,

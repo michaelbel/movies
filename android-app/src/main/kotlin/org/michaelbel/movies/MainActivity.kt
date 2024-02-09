@@ -16,11 +16,12 @@ internal class MainActivity: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
-        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         installShortcuts()
         setContent {
-            MainActivityContent()
+            MainActivityContent { statusBarStyle, navigationBarStyle ->
+                enableEdgeToEdge(statusBarStyle, navigationBarStyle)
+            }
         }
     }
 }
