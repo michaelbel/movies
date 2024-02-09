@@ -4,7 +4,6 @@ import androidx.paging.PagingData
 import androidx.paging.PagingSource
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.common.list.MovieList
-import org.michaelbel.movies.network.Either
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 
 interface MovieInteractor {
@@ -19,7 +18,7 @@ interface MovieInteractor {
 
     suspend fun movie(pagingKey: String, movieId: Int): MovieDb
 
-    suspend fun movieDetails(movieId: Int): Either<MovieDb>
+    suspend fun movieDetails(pagingKey: String, movieId: Int): MovieDb
 
     suspend fun removeMovies(pagingKey: String)
 

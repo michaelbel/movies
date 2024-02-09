@@ -39,9 +39,6 @@ interface MovieDao {
     @Query("DELETE FROM movies WHERE movieList = :movieList AND id = :movieId")
     suspend fun removeMovie(movieList: String, movieId: Int)
 
-    @Query("SELECT * FROM movies WHERE id = :movieId")
-    suspend fun movieById(movieId: Int): MovieDb?
-
     @Query("SELECT * FROM movies WHERE movieList = :pagingKey AND id = :movieId")
     suspend fun movieById(pagingKey: String, movieId: Int): MovieDb?
 

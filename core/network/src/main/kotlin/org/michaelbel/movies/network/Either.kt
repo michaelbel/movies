@@ -6,7 +6,6 @@ package org.michaelbel.movies.network
  * A class that encapsulates a successful result with a value of type T
  * or a failure result with an [Throwable] exception
  */
-
 @Suppress("unchecked_cast")
 sealed class Either<out R> {
     data class Success<out T>(val value: T): Either<T>()

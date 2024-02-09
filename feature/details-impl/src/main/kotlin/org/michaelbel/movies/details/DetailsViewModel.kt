@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.michaelbel.movies.common.exceptions.MovieDetailsException
 import org.michaelbel.movies.common.ktx.require
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
@@ -17,13 +18,12 @@ import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.network.ScreenState
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
-import org.michaelbel.movies.network.handle
 
 @HiltViewModel
 class DetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
-    private val interactor: Interactor,
-    networkManager: NetworkManager
+    networkManager: NetworkManager,
+    private val interactor: Interactor
 ): BaseViewModel() {
 
     private val movieList: String? = savedStateHandle["movieList"]
@@ -50,6 +50,13 @@ class DetailsViewModel @Inject constructor(
         loadMovie()
     }
 
+    override fun handleError(throwable: Throwable) {
+        when (throwable) {
+            is MovieDetailsException -> _detailsState.value = ScreenState.Failure(throwable)
+            else -> super.handleError(throwable)
+        }
+    }
+
     fun retry() = loadMovie()
 
     fun onGenerateColors(movieId: Int, palette: Palette) = launch {
@@ -62,13 +69,6 @@ class DetailsViewModel @Inject constructor(
     }
 
     private fun loadMovie() = launch {
-        interactor.movieDetails(movieId).handle(
-            success = { movieDetailsData ->
-                _detailsState.emit(ScreenState.Content(movieDetailsData))
-            },
-            failure = { throwable ->
-                _detailsState.emit(ScreenState.Failure(throwable))
-            }
-        )
+        _detailsState.emit(ScreenState.Content(interactor.movieDetails(movieList.orEmpty(), movieId)))
     }
 }

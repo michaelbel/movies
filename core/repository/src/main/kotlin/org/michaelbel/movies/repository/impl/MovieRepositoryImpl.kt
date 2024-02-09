@@ -4,13 +4,11 @@ import androidx.paging.PagingSource
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
+import org.michaelbel.movies.common.exceptions.MovieDetailsException
 import org.michaelbel.movies.common.localization.LocaleController
-import org.michaelbel.movies.network.Either
 import org.michaelbel.movies.network.isTmdbApiKeyEmpty
-import org.michaelbel.movies.network.model.Movie
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
-import org.michaelbel.movies.network.response
 import org.michaelbel.movies.network.service.movie.MovieService
 import org.michaelbel.movies.persistence.database.dao.MovieDao
 import org.michaelbel.movies.persistence.database.entity.MovieDb
@@ -53,19 +51,11 @@ internal class MovieRepositoryImpl @Inject constructor(
         return movieDao.movieById(pagingKey, movieId).orEmpty
     }
 
-    override suspend fun movieDetails(movieId: Int): Either<MovieDb> {
-        return response {
-            val movieDb: MovieDb? = movieDao.movieById(movieId)
-
-            if (movieDb != null) {
-                movieDb
-            } else {
-                val movie: Movie = movieService.movie(
-                    id = movieId,
-                    language = localeController.language
-                )
-                movie.mapToMovieDb
-            }
+    override suspend fun movieDetails(pagingKey: String, movieId: Int): MovieDb {
+        return try {
+            movieDao.movieById(pagingKey, movieId) ?: movieService.movie(movieId, localeController.language).mapToMovieDb
+        } catch (e: Exception) {
+            throw MovieDetailsException
         }
     }
 

@@ -14,7 +14,6 @@ import org.michaelbel.movies.interactor.MovieInteractor
 import org.michaelbel.movies.interactor.ktx.nameOrLocalList
 import org.michaelbel.movies.interactor.remote.FeedMoviesRemoteMediator
 import org.michaelbel.movies.interactor.remote.SearchMoviesRemoteMediator
-import org.michaelbel.movies.network.Either
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.persistence.database.AppDatabase
 import org.michaelbel.movies.persistence.database.entity.MovieDb
@@ -81,9 +80,9 @@ internal class MovieInteractorImpl @Inject constructor(
         }
     }
 
-    override suspend fun movieDetails(movieId: Int): Either<MovieDb> {
+    override suspend fun movieDetails(pagingKey: String, movieId: Int): MovieDb {
         return withContext(dispatchers.io) {
-            movieRepository.movieDetails(movieId)
+            movieRepository.movieDetails(pagingKey, movieId)
         }
     }
 
