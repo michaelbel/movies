@@ -24,15 +24,15 @@ internal class AuthenticationRepositoryImpl @Inject constructor(
     private val preferences: MoviesPreferences
 ): AuthenticationRepository {
 
-    override suspend fun createRequestToken(): Token {
+    override suspend fun createRequestToken(loginViaTmdb: Boolean): Token {
         return try {
             val token: Token = authenticationService.createRequestToken()
             if (!token.success) {
-                throw CreateRequestTokenException
+                throw CreateRequestTokenException(loginViaTmdb)
             }
             token
         } catch (ignored: Exception) {
-            throw CreateRequestTokenException
+            throw CreateRequestTokenException(loginViaTmdb)
         }
     }
 

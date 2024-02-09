@@ -28,17 +28,14 @@ class AuthViewModel @Inject constructor(
 
         when (throwable) {
             is CreateRequestTokenException -> {
-                error = CreateRequestTokenException
+                when {
+                    throwable.loginViaTmdb -> onResetRequestToken()
+                    else -> error = throwable
+                }
             }
-            is CreateSessionWithLoginException -> {
-                error = CreateSessionWithLoginException
-            }
-            is CreateSessionException -> {
-                error = CreateSessionException
-            }
-            is AccountDetailsException -> {
-                error = AccountDetailsException
-            }
+            is CreateSessionWithLoginException -> error = throwable
+            is CreateSessionException -> error = throwable
+            is AccountDetailsException -> error = throwable
             else -> super.handleError(throwable)
         }
     }
@@ -46,7 +43,7 @@ class AuthViewModel @Inject constructor(
     fun onSignInClick(username: String, password: String, onResult: () -> Unit) = launch {
         error = null
         signInLoading = true
-        val token = interactor.createRequestToken()
+        val token = interactor.createRequestToken(loginViaTmdb = false)
         val sessionToken = interactor.createSessionWithLogin(username, password, token.requestToken)
         interactor.run {
             createSession(sessionToken.requestToken)
@@ -58,7 +55,7 @@ class AuthViewModel @Inject constructor(
     fun onLoginClick() = launch {
         error = null
         loginLoading = true
-        requestToken = interactor.createRequestToken().requestToken
+        requestToken = interactor.createRequestToken(loginViaTmdb = true).requestToken
     }
 
     fun onResetRequestToken() {

@@ -15,8 +15,8 @@ internal class AuthenticationInteractorImpl @Inject constructor(
     private val authenticationRepository: AuthenticationRepository
 ): AuthenticationInteractor {
 
-    override suspend fun createRequestToken(): Token {
-        return withContext(dispatchers.io) { authenticationRepository.createRequestToken() }
+    override suspend fun createRequestToken(loginViaTmdb: Boolean): Token {
+        return withContext(dispatchers.io) { authenticationRepository.createRequestToken(loginViaTmdb) }
     }
 
     override suspend fun createSessionWithLogin(
