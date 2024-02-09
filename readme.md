@@ -110,6 +110,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Display Content Edge-to-Edge](https://d.android.com/develop/ui/views/layout/edge-to-edge)
 - [x] [Support Landscape Orientation](https://d.android.com/guide/topics/large-screens/support-different-screen-sizes)
 - [x] [Support Display Cutouts](https://d.android.com/jetpack/compose/system/cutouts)
+- [x] [Voice Input](https://d.android.com/training/wearables/user-input/voice)
 
 ## Roadmap
 [Movies App Roadmap](https://github.com/users/michaelbel/projects/1/views/1)
