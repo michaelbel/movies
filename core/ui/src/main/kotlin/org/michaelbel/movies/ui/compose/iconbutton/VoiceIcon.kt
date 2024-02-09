@@ -61,7 +61,7 @@ fun VoiceIcon(
 
 @Composable
 @DevicePreviews
-fun VoiceIconPreview() {
+private fun VoiceIconPreview() {
     MoviesTheme {
         VoiceIcon(
             onInputText = {},
@@ -72,7 +72,7 @@ fun VoiceIconPreview() {
 
 @Composable
 @Preview
-fun VoiceIconAmoledPreview() {
+private fun VoiceIconAmoledPreview() {
     MoviesTheme(
         theme = AppTheme.Amoled
     ) {
