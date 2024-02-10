@@ -115,7 +115,7 @@ internal fun AuthScreenContent(
     }
 
     ConstraintLayout(
-        modifier
+        modifier = modifier
             .padding(horizontal = if (isPortrait) 16.dp else 64.dp)
             .fillMaxWidth()
             .background(

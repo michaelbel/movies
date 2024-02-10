@@ -78,7 +78,7 @@ fun DetailsContent(
     ConstraintLayout(
         modifier = modifier.verticalScroll(scrollState)
     ) {
-        val (image, noImageText, title, overview) = createRefs()
+        val (image, title, overview) = createRefs()
 
         val imageRequest: ImageRequest? = if (placeholder) {
             null

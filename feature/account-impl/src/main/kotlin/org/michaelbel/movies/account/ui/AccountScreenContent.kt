@@ -46,7 +46,7 @@ fun AccountRoute(
     modifier: Modifier = Modifier,
     viewModel: AccountViewModel = hiltViewModel()
 ) {
-    val account: AccountDb? by viewModel.account.collectAsStateWithLifecycle()
+    val account by viewModel.account.collectAsStateWithLifecycle()
 
     AccountScreenContent(
         account = account.orEmpty,
@@ -66,7 +66,7 @@ private fun AccountScreenContent(
     modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
-        modifier
+        modifier = modifier
             .padding(horizontal = if (isPortrait) 16.dp else 64.dp)
             .fillMaxWidth()
             .background(
