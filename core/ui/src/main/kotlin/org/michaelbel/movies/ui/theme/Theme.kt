@@ -63,9 +63,8 @@ fun MoviesTheme(
         shapes = MoviesShapes,
         typography = MoviesTypography
     ) {
-        CompositionLocalProvider(
-            value = LocalRippleTheme provides MoviesRippleTheme,
-            content = content
-        )
+        CompositionLocalProvider(LocalRippleTheme provides MoviesRippleTheme) {
+            content()
+        }
     }
 }
