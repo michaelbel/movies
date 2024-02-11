@@ -8,10 +8,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.Divider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
@@ -53,13 +55,13 @@ fun SettingsRoute(
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = hiltViewModel()
 ) {
-    val currentLanguage: AppLanguage = AppLanguage.transform(stringResource(UiR.string.language_code))
-    val currentTheme: AppTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
-    val currentFeedView: FeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()
-    val currentMovieList: MovieList by viewModel.currentMovieList.collectAsStateWithLifecycle()
-    val dynamicColors: Boolean by viewModel.dynamicColors.collectAsStateWithLifecycle()
-    val isPlayServicesAvailable: Boolean by viewModel.isPlayServicesAvailable.collectAsStateWithLifecycle()
-    val appVersionData: AppVersionData by viewModel.appVersionData.collectAsStateWithLifecycle()
+    val currentLanguage = AppLanguage.transform(stringResource(UiR.string.language_code))
+    val currentTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
+    val currentFeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()
+    val currentMovieList by viewModel.currentMovieList.collectAsStateWithLifecycle()
+    val dynamicColors by viewModel.dynamicColors.collectAsStateWithLifecycle()
+    val isPlayServicesAvailable by viewModel.isPlayServicesAvailable.collectAsStateWithLifecycle()
+    val appVersionData by viewModel.appVersionData.collectAsStateWithLifecycle()
 
     SettingsScreenContent(
         onBackClick = onBackClick,
@@ -107,10 +109,7 @@ private fun SettingsScreenContent(
     val snackbarHostState = remember { SnackbarHostState() }
     val topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val lazyListState = rememberLazyListState()
-
-    val resultContract = rememberLauncherForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {}
+    val resultContract = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
 
     val onShowPermissionSnackbar: () -> Unit = {
         scope.launch {
@@ -186,36 +185,48 @@ private fun SettingsScreenContent(
                 SettingsLanguageBox(
                     currentLanguage = currentLanguage,
                     onLanguageSelect = onLanguageSelect,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp)
+                    modifier = Modifier.fillMaxWidth().height(52.dp)
+                )
+            }
+            item {
+                Divider(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                 )
             }
             item {
                 SettingsThemeBox(
                     currentTheme = currentTheme,
                     onThemeSelect = onThemeSelect,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp)
+                    modifier = Modifier.fillMaxWidth().height(52.dp)
+                )
+            }
+            item {
+                Divider(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                 )
             }
             item {
                 SettingsAppearanceBox(
                     currentFeedView = currentFeedView,
                     onFeedViewSelect = onFeedViewSelect,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp)
+                    modifier = Modifier.fillMaxWidth().height(52.dp)
+                )
+            }
+            item {
+                Divider(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                 )
             }
             item {
                 SettingsMovieListBox(
                     currentMovieList = currentMovieList,
                     onMovieListSelect = onMovieListSelect,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp)
+                    modifier = Modifier.fillMaxWidth().height(52.dp)
+                )
+            }
+            item {
+                Divider(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                 )
             }
             item {
@@ -230,6 +241,11 @@ private fun SettingsScreenContent(
                 }
             }
             item {
+                Divider(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                )
+            }
+            item {
                 if (isPostNotificationsFeatureEnabled) {
                     SettingsPostNotificationsBox(
                         onShowPermissionSnackbar = onShowPermissionSnackbar,
@@ -238,11 +254,21 @@ private fun SettingsScreenContent(
                 }
             }
             item {
+                Divider(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                )
+            }
+            item {
                 SettingsReviewBox(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(52.dp)
                         .clickable { onLaunchReviewFlow() }
+                )
+            }
+            item {
+                Divider(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                 )
             }
             item {
