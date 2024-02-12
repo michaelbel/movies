@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import org.michaelbel.movies.common.exceptions.AccountDetailsException
-import org.michaelbel.movies.network.model.Account
 import org.michaelbel.movies.network.service.account.AccountService
 import org.michaelbel.movies.persistence.database.dao.AccountDao
 import org.michaelbel.movies.persistence.database.entity.AccountDb
@@ -35,8 +34,8 @@ internal class AccountRepositoryImpl @Inject constructor(
 
     override suspend fun accountDetails() {
         try {
-            val sessionId: String = preferences.sessionId().orEmpty()
-            val account: Account = accountService.accountDetails(sessionId)
+            val sessionId = preferences.sessionId().orEmpty()
+            val account = accountService.accountDetails(sessionId)
             preferences.run {
                 setAccountId(account.id)
                 setAccountExpireTime(System.currentTimeMillis())

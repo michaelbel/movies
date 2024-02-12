@@ -16,7 +16,7 @@ data class AccountDb(
     @NotNull val username: String
 ) {
     companion object {
-        val Empty: AccountDb = AccountDb(
+        val Empty = AccountDb(
             accountId = 0,
             avatarUrl = "",
             language = "",

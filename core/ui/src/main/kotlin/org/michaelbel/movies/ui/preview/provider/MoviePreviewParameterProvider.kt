@@ -5,7 +5,7 @@ import org.michaelbel.movies.network.model.Movie
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 
 class MoviePreviewParameterProvider: PreviewParameterProvider<MovieDb> {
-    override val values: Sequence<MovieDb> = sequenceOf(
+    override val values = sequenceOf(
         MovieDb(
             movieList = Movie.NOW_PLAYING,
             dateAdded = System.currentTimeMillis(),

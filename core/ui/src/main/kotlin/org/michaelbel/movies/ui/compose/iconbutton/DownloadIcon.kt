@@ -34,7 +34,7 @@ fun DownloadIcon(
 
 @Composable
 @DevicePreviews
-fun DownloadIconPreview() {
+private fun DownloadIconPreview() {
     MoviesTheme {
         DownloadIcon(
             onClick = {},

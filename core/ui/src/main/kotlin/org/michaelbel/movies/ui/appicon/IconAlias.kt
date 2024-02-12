@@ -8,25 +8,13 @@ sealed class IconAlias(
     @DrawableRes val iconRes: Int
 ) {
 
-    data object Red: IconAlias(
-        key = RED_ICON_KEY,
-        iconRes = R.drawable.ic_launcher_icon_red
-    )
+    data object Red: IconAlias(RED_ICON_KEY, R.drawable.ic_launcher_icon_red)
 
-    data object Purple: IconAlias(
-        key = PURPLE_ICON_KEY,
-        iconRes = R.drawable.ic_launcher_icon_purple
-    )
+    data object Purple: IconAlias(PURPLE_ICON_KEY, R.drawable.ic_launcher_icon_purple)
 
-    data object Brown: IconAlias(
-        key = BROWN_ICON_KEY,
-        iconRes = R.drawable.ic_launcher_icon_brown
-    )
+    data object Brown: IconAlias(BROWN_ICON_KEY, R.drawable.ic_launcher_icon_brown)
 
-    data object Amoled: IconAlias(
-        key = AMOLED_ICON_KEY,
-        iconRes = R.drawable.ic_launcher_icon_amoled
-    )
+    data object Amoled: IconAlias(AMOLED_ICON_KEY, R.drawable.ic_launcher_icon_amoled)
 
     companion object {
         private const val RED_ICON_KEY = "RedIcon"

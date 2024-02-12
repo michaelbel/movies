@@ -35,10 +35,7 @@ fun SettingsPostNotificationsBox(
     val context = LocalContext.current
     val notificationManager = context.notificationManager
     var areNotificationsEnabled by remember { mutableStateOf(notificationManager.areNotificationsEnabled()) }
-
-    val resultContract = rememberLauncherForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {}
+    val resultContract = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
 
     val postNotificationsPermission = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -46,7 +43,7 @@ fun SettingsPostNotificationsBox(
         if (granted) {
             areNotificationsEnabled = notificationManager.areNotificationsEnabled()
         } else {
-            val shouldRequest: Boolean = (context as Activity).shouldShowRequestPermissionRationale(
+            val shouldRequest = (context as Activity).shouldShowRequestPermissionRationale(
                 Manifest.permission.POST_NOTIFICATIONS
             )
             if (!shouldRequest) {

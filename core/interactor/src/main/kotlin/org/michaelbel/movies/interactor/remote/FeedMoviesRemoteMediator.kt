@@ -8,8 +8,6 @@ import org.michaelbel.movies.common.exceptions.PageEmptyException
 import org.michaelbel.movies.network.ktx.isEmpty
 import org.michaelbel.movies.network.ktx.isPaginationReached
 import org.michaelbel.movies.network.ktx.nextPage
-import org.michaelbel.movies.network.model.MovieResponse
-import org.michaelbel.movies.network.model.Result
 import org.michaelbel.movies.persistence.database.AppDatabase
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.repository.MovieRepository
@@ -27,16 +25,13 @@ class FeedMoviesRemoteMediator(
         state: PagingState<Int, MovieDb>
     ): MediatorResult {
         return try {
-            val loadKey: Int = when (loadType) {
+            val loadKey = when (loadType) {
                 LoadType.REFRESH -> 1
                 LoadType.PREPEND -> pagingKeyRepository.prevPage(movieList)
                 LoadType.APPEND -> pagingKeyRepository.page(movieList)
             } ?: return MediatorResult.Success(endOfPaginationReached = true)
 
-            val moviesResult: Result<MovieResponse> = movieRepository.moviesResult(
-                movieList = movieList,
-                page = loadKey
-            )
+            val moviesResult = movieRepository.moviesResult(movieList, loadKey)
 
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {

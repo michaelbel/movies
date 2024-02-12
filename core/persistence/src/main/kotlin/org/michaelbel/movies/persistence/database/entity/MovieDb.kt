@@ -25,7 +25,7 @@ data class MovieDb(
         const val MOVIES_LOCAL_LIST = "movies_local"
         const val MOVIES_SEARCH_HISTORY = "movies_search_history"
 
-        val Empty: MovieDb = MovieDb(
+        val Empty = MovieDb(
             movieList = "",
             dateAdded = 0L,
             page = null,

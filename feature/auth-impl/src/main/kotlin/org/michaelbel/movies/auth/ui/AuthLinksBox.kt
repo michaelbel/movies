@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -35,10 +35,9 @@ fun AuthLinksBox(
         verticalArrangement = Arrangement.Top,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Divider(
-            modifier = Modifier,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
-            thickness = .5.dp
+        HorizontalDivider(
+            thickness = .1.dp,
+            color = MaterialTheme.colorScheme.onPrimaryContainer
         )
 
         Row(

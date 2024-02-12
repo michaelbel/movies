@@ -16,8 +16,8 @@ val AccountDb?.orEmpty: AccountDb
 val AccountDb.letters: String
     get() = when {
         name.isNotEmpty() -> {
-            val words: List<String> = name.split(SPACE_UNICODE)
-            val letters: List<String> =  words.subList(0, LETTERS_LIMIT).map { word ->
+            val words = name.split(SPACE_UNICODE)
+            val letters = words.subList(0, LETTERS_LIMIT).map { word ->
                 word.substring(0, FIRST_LETTER_INDEX)
             }
             letters.joinToString(

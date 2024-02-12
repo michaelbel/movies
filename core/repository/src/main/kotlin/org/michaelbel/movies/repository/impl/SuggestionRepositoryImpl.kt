@@ -5,11 +5,9 @@ import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.common.localization.LocaleController
 import org.michaelbel.movies.network.model.Movie
-import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.service.movie.MovieService
 import org.michaelbel.movies.persistence.database.dao.MovieDao
 import org.michaelbel.movies.persistence.database.dao.SuggestionDao
-import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.entity.SuggestionDb
 import org.michaelbel.movies.repository.SuggestionRepository
 
@@ -28,11 +26,11 @@ internal class SuggestionRepositoryImpl @Inject constructor(
     override suspend fun updateSuggestions() {
         suggestionDao.removeAll()
 
-        val nowPlayingMovies: List<MovieDb> = movieDao.movies(Movie.NOW_PLAYING, 5)
+        val nowPlayingMovies = movieDao.movies(Movie.NOW_PLAYING, 5)
         if (nowPlayingMovies.isNotEmpty()) {
             suggestionDao.insert(nowPlayingMovies.map { movieDb -> SuggestionDb(movieDb.title) })
         } else {
-            val movieResponse: List<MovieResponse> = movieService.movies(
+            val movieResponse = movieService.movies(
                 list = Movie.NOW_PLAYING,
                 language = localeController.language,
                 page = 1

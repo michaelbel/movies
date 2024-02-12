@@ -95,7 +95,7 @@ private fun SettingMovieListDialogContent(
     onMovieListSelect: (MovieList) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val movieLists: List<MovieList> = listOf(
+    val movieLists = listOf(
         MovieList.NowPlaying,
         MovieList.Popular,
         MovieList.TopRated,

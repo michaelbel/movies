@@ -20,8 +20,6 @@ internal class ImageInteractorImpl @Inject constructor(
     }
 
     override suspend fun images(movieId: Int) {
-        return withContext(dispatchers.io) {
-            imageRepository.images(movieId)
-        }
+        return withContext(dispatchers.io) { imageRepository.images(movieId) }
     }
 }

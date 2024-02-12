@@ -56,7 +56,7 @@ fun DetailsContent(
 ) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()
-    var isNoImageVisible: Boolean by remember { mutableStateOf(false) }
+    var isNoImageVisible by remember { mutableStateOf(false) }
 
     if (!isThemeAmoled && !placeholder) {
         LaunchedEffect(key1 = movie.backdropPath.formatBackdropImage) {

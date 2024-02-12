@@ -68,40 +68,27 @@ internal class MovieInteractorImpl @Inject constructor(
     }
 
     override fun moviesFlow(pagingKey: String, limit: Int): Flow<List<MovieDb>> {
-        return movieRepository.moviesFlow(
-            pagingKey = pagingKey,
-            limit = limit
-        )
+        return movieRepository.moviesFlow(pagingKey, limit)
     }
 
     override suspend fun movie(pagingKey: String, movieId: Int): MovieDb {
-        return withContext(dispatchers.io) {
-            movieRepository.movie(pagingKey, movieId)
-        }
+        return withContext(dispatchers.io) { movieRepository.movie(pagingKey, movieId) }
     }
 
     override suspend fun movieDetails(pagingKey: String, movieId: Int): MovieDb {
-        return withContext(dispatchers.io) {
-            movieRepository.movieDetails(pagingKey, movieId)
-        }
+        return withContext(dispatchers.io) { movieRepository.movieDetails(pagingKey, movieId) }
     }
 
     override suspend fun removeMovies(pagingKey: String) {
-        return withContext(dispatchers.io) {
-            movieRepository.removeMovies(pagingKey)
-        }
+        return withContext(dispatchers.io) { movieRepository.removeMovies(pagingKey) }
     }
 
     override suspend fun removeMovie(pagingKey: String, movieId: Int) {
-        return withContext(dispatchers.io) {
-            movieRepository.removeMovie(pagingKey, movieId)
-        }
+        return withContext(dispatchers.io) { movieRepository.removeMovie(pagingKey, movieId) }
     }
 
     override suspend fun insertMovie(pagingKey: String, movie: MovieDb) {
-        return withContext(dispatchers.io) {
-            movieRepository.insertMovie(pagingKey, movie)
-        }
+        return withContext(dispatchers.io) { movieRepository.insertMovie(pagingKey, movie) }
     }
 
     override suspend fun updateMovieColors(movieId: Int, containerColor: Int, onContainerColor: Int) {

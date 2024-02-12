@@ -26,12 +26,12 @@ class MoviesDatabaseWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         return withContext(dispatchers.io) {
             try {
-                val filename: String? = inputData.getString(KEY_FILENAME)
+                val filename = inputData.getString(KEY_FILENAME)
                 if (filename != null && movieDao.isEmpty(MovieDb.MOVIES_LOCAL_LIST)) {
                     applicationContext.assets.open(filename).use { inputStream ->
                         val format = Json { ignoreUnknownKeys = true }
                         val moviesJsonData: List<MovieResponse> = format.decodeFromStream(inputStream)
-                        val moviesDb: List<MovieDb> = moviesJsonData.mapIndexed { index, movieResponse ->
+                        val moviesDb = moviesJsonData.mapIndexed { index, movieResponse ->
                             movieResponse.movieDb(
                                 movieList = MovieDb.MOVIES_LOCAL_LIST,
                                 position = index.plus(1)

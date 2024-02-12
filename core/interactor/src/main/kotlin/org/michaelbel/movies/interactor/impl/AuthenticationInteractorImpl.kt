@@ -30,14 +30,10 @@ internal class AuthenticationInteractorImpl @Inject constructor(
     }
 
     override suspend fun createSession(token: String): Session {
-        return withContext(dispatchers.io) {
-            authenticationRepository.createSession(token)
-        }
+        return withContext(dispatchers.io) { authenticationRepository.createSession(token) }
     }
 
     override suspend fun deleteSession() {
-        return withContext(dispatchers.io) {
-            authenticationRepository.deleteSession()
-        }
+        return withContext(dispatchers.io) { authenticationRepository.deleteSession() }
     }
 }

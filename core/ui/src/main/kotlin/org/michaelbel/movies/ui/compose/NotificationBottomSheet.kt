@@ -51,14 +51,12 @@ fun NotificationBottomSheet(
 ) {
     val context = LocalContext.current
 
-    val activityContract = rememberLauncherForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {}
+    val activityContract = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
 
     val permissionContract = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
-        val shouldRequest: Boolean = (context as Activity).shouldShowRequestPermissionRationale(
+        val shouldRequest = (context as Activity).shouldShowRequestPermissionRationale(
             Manifest.permission.POST_NOTIFICATIONS
         )
         if (!granted && !shouldRequest) {

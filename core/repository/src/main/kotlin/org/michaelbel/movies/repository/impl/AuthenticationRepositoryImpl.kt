@@ -6,7 +6,6 @@ import org.michaelbel.movies.common.exceptions.CreateRequestTokenException
 import org.michaelbel.movies.common.exceptions.CreateSessionException
 import org.michaelbel.movies.common.exceptions.CreateSessionWithLoginException
 import org.michaelbel.movies.common.exceptions.DeleteSessionException
-import org.michaelbel.movies.network.model.DeletedSession
 import org.michaelbel.movies.network.model.RequestToken
 import org.michaelbel.movies.network.model.Session
 import org.michaelbel.movies.network.model.SessionRequest
@@ -26,7 +25,7 @@ internal class AuthenticationRepositoryImpl @Inject constructor(
 
     override suspend fun createRequestToken(loginViaTmdb: Boolean): Token {
         return try {
-            val token: Token = authenticationService.createRequestToken()
+            val token = authenticationService.createRequestToken()
             if (!token.success) {
                 throw CreateRequestTokenException(loginViaTmdb)
             }
@@ -42,7 +41,7 @@ internal class AuthenticationRepositoryImpl @Inject constructor(
         requestToken: String
     ): Token {
         return try {
-            val token: Token = authenticationService.createSessionWithLogin(
+            val token = authenticationService.createSessionWithLogin(
                 username = Username(
                     username = username,
                     password = password,
@@ -60,7 +59,7 @@ internal class AuthenticationRepositoryImpl @Inject constructor(
 
     override suspend fun createSession(token: String): Session {
         return try {
-            val session: Session = authenticationService.createSession(
+            val session = authenticationService.createSession(
                 authToken = RequestToken(token)
             )
             if (session.success) {
@@ -76,13 +75,13 @@ internal class AuthenticationRepositoryImpl @Inject constructor(
 
     override suspend fun deleteSession() {
         try {
-            val sessionId: String = preferences.sessionId().orEmpty()
+            val sessionId = preferences.sessionId().orEmpty()
             val sessionRequest = SessionRequest(sessionId)
-            val deletedSession: DeletedSession = authenticationService.deleteSession(
+            val deletedSession = authenticationService.deleteSession(
                 sessionRequest = sessionRequest
             )
             if (deletedSession.success) {
-                val accountId: Int = preferences.accountId() ?: 0
+                val accountId = preferences.accountId() ?: 0
                 accountDao.removeById(accountId)
                 preferences.run {
                     removeSessionId()

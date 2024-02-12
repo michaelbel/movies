@@ -17,9 +17,6 @@ internal object ConnectivityModule {
     fun provideConnectivityService(
         @ApplicationContext context: Context
     ): ConnectivityManager {
-        return ContextCompat.getSystemService(
-            context,
-            ConnectivityManager::class.java
-        ) as ConnectivityManager
+        return ContextCompat.getSystemService(context, ConnectivityManager::class.java) as ConnectivityManager
     }
 }

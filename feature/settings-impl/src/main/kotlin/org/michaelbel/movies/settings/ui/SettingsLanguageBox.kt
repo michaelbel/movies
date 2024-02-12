@@ -113,7 +113,10 @@ fun SettingsLanguageBox(
                                 style = MaterialTheme.typography.bodyLarge
                             )
                         },
-                        onClick = { onLanguageSelect(appLanguage) }
+                        onClick = {
+                            onLanguageSelect(appLanguage)
+                            languageDropdown = false
+                        }
                     )
                 }
             }

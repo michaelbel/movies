@@ -13,7 +13,7 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
@@ -189,8 +189,10 @@ private fun SettingsScreenContent(
                 )
             }
             item {
-                Divider(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    thickness = .1.dp,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
             item {
@@ -201,8 +203,10 @@ private fun SettingsScreenContent(
                 )
             }
             item {
-                Divider(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    thickness = .1.dp,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
             item {
@@ -213,8 +217,10 @@ private fun SettingsScreenContent(
                 )
             }
             item {
-                Divider(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    thickness = .1.dp,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
             item {
@@ -225,8 +231,10 @@ private fun SettingsScreenContent(
                 )
             }
             item {
-                Divider(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    thickness = .1.dp,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
             item {
@@ -241,8 +249,10 @@ private fun SettingsScreenContent(
                 }
             }
             item {
-                Divider(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    thickness = .1.dp,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
             item {
@@ -254,8 +264,10 @@ private fun SettingsScreenContent(
                 }
             }
             item {
-                Divider(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    thickness = .1.dp,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
             item {
@@ -267,8 +279,10 @@ private fun SettingsScreenContent(
                 )
             }
             item {
-                Divider(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    thickness = .1.dp,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
             item {

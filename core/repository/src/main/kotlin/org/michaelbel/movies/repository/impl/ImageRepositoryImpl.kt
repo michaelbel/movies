@@ -3,7 +3,6 @@ package org.michaelbel.movies.repository.impl
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
-import org.michaelbel.movies.network.model.ImagesResponse
 import org.michaelbel.movies.network.service.movie.MovieService
 import org.michaelbel.movies.persistence.database.dao.ImageDao
 import org.michaelbel.movies.persistence.database.entity.ImageDb
@@ -21,22 +20,22 @@ internal class ImageRepositoryImpl @Inject constructor(
     }
 
     override suspend fun images(movieId: Int) {
-        val imageResponse: ImagesResponse = movieService.images(movieId)
-        val posters: List<ImageDb> = imageResponse.posters.mapIndexed { index, image ->
+        val imageResponse = movieService.images(movieId)
+        val posters = imageResponse.posters.mapIndexed { index, image ->
             image.imageDb(
                 movieId = movieId,
                 type = ImageDb.Type.POSTER,
                 position = index
             )
         }
-        val backdrops: List<ImageDb> = imageResponse.backdrops.mapIndexed { index, image ->
+        val backdrops = imageResponse.backdrops.mapIndexed { index, image ->
             image.imageDb(
                 movieId = movieId,
                 type = ImageDb.Type.BACKDROP,
                 position = posters.count().plus(index)
             )
         }
-        val logos: List<ImageDb> = imageResponse.logos.mapIndexed { index, image ->
+        val logos = imageResponse.logos.mapIndexed { index, image ->
             image.imageDb(
                 movieId = movieId,
                 type = ImageDb.Type.LOGO,

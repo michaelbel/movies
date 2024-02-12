@@ -8,8 +8,6 @@ import org.michaelbel.movies.common.exceptions.PageEmptyException
 import org.michaelbel.movies.network.ktx.isEmpty
 import org.michaelbel.movies.network.ktx.isPaginationReached
 import org.michaelbel.movies.network.ktx.nextPage
-import org.michaelbel.movies.network.model.MovieResponse
-import org.michaelbel.movies.network.model.Result
 import org.michaelbel.movies.persistence.database.AppDatabase
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.repository.MovieRepository
@@ -29,7 +27,7 @@ class SearchMoviesRemoteMediator(
         state: PagingState<Int, MovieDb>
     ): MediatorResult {
         return try {
-            val loadKey: Int = when (loadType) {
+            val loadKey = when (loadType) {
                 LoadType.REFRESH -> 1
                 LoadType.PREPEND -> pagingKeyRepository.prevPage(query)
                 LoadType.APPEND -> pagingKeyRepository.page(query)
@@ -39,10 +37,7 @@ class SearchMoviesRemoteMediator(
                 throw PageEmptyException
             }
 
-            val moviesResult: Result<MovieResponse> = searchRepository.searchMoviesResult(
-                query = query,
-                page = loadKey
-            )
+            val moviesResult = searchRepository.searchMoviesResult(query, loadKey)
 
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {

@@ -18,8 +18,8 @@ class AuthViewModel @Inject constructor(
     private val interactor: Interactor
 ): BaseViewModel() {
 
-    var signInLoading: Boolean by mutableStateOf(false)
-    var loginLoading: Boolean by mutableStateOf(false)
+    var signInLoading by mutableStateOf(false)
+    var loginLoading by mutableStateOf(false)
     var error: Throwable? by mutableStateOf(null)
     var requestToken: String? by mutableStateOf(null)
 

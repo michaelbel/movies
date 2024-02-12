@@ -33,7 +33,7 @@ fun SettingsAppearanceBox(
     onFeedViewSelect: (FeedView) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var feedViewDialog: Boolean by remember { mutableStateOf(false) }
+    var feedViewDialog by remember { mutableStateOf(false) }
 
     if (feedViewDialog) {
         SettingsAppearanceDialog(

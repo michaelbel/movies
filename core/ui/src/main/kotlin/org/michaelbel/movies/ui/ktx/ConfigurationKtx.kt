@@ -2,11 +2,9 @@ package org.michaelbel.movies.ui.ktx
 
 import android.content.Context
 import android.content.res.Configuration
-import android.graphics.Insets
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.WindowManager
-import android.view.WindowMetrics
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.runtime.Composable
@@ -48,12 +46,10 @@ val gridColumnsCount: Int
 @Suppress("Deprecation")
 private inline val Context.deviceWidth: Int
     get() {
-        val windowManager: WindowManager = ContextCompat
-            .getSystemService(this, WindowManager::class.java) as WindowManager
-
+        val windowManager = ContextCompat.getSystemService(this, WindowManager::class.java) as WindowManager
         return if (Build.VERSION.SDK_INT >= 30) {
-            val windowMetrics: WindowMetrics = windowManager.currentWindowMetrics
-            val insets: Insets = windowMetrics.windowInsets.getInsetsIgnoringVisibility(
+            val windowMetrics = windowManager.currentWindowMetrics
+            val insets = windowMetrics.windowInsets.getInsetsIgnoringVisibility(
                 android.view.WindowInsets.Type.systemBars()
             )
             windowMetrics.bounds.width() - insets.left - insets.right
@@ -67,11 +63,9 @@ private inline val Context.deviceWidth: Int
 @Suppress("Deprecation")
 private inline val Context.deviceHeight: Int
     get() {
-        val windowManager: WindowManager = ContextCompat
-            .getSystemService(this, WindowManager::class.java) as WindowManager
-
+        val windowManager = ContextCompat.getSystemService(this, WindowManager::class.java) as WindowManager
         return if (Build.VERSION.SDK_INT >= 30) {
-            val windowMetrics: WindowMetrics = windowManager.currentWindowMetrics
+            val windowMetrics = windowManager.currentWindowMetrics
             windowMetrics.bounds.height()
         } else {
             val displayMetrics = DisplayMetrics()

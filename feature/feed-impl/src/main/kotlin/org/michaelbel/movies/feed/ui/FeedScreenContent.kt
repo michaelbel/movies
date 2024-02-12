@@ -188,7 +188,7 @@ private fun FeedScreenContent(
         onNotificationBottomSheetShow()
     }
 
-    var isBottomSheetExpanded: Boolean by remember { mutableStateOf(false) }
+    var isBottomSheetExpanded by remember { mutableStateOf(false) }
     isBottomSheetExpanded = notificationBottomSheetScaffoldState.bottomSheetState.currentValue == SheetValue.Expanded
 
     if (isAuthFailureSnackbarShowed) {

@@ -32,7 +32,7 @@ fun SettingsThemeBox(
     onThemeSelect: (AppTheme) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var themeDialog: Boolean by remember { mutableStateOf(false) }
+    var themeDialog by remember { mutableStateOf(false) }
 
     if (themeDialog) {
         SettingThemeDialog(

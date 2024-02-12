@@ -2,10 +2,10 @@ package org.michaelbel.movies.ui.icons
 
 import androidx.annotation.DrawableRes
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ManageSearch
+import androidx.compose.material.icons.automirrored.filled.ManageSearch
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.filled.MovieFilter
 import androidx.compose.material.icons.outlined.AccountCircle
-import androidx.compose.material.icons.outlined.ArrowBack
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.FileDownload
@@ -37,7 +37,7 @@ object MoviesIcons {
     @DrawableRes val AdultOutline = R.drawable.ic_18_up_rating_outline_24
 
     val AccountCircle = Icons.Outlined.AccountCircle
-    val ArrowBack = Icons.Outlined.ArrowBack
+    val ArrowBack = Icons.AutoMirrored.Outlined.ArrowBack
     val Check = Icons.Outlined.Check
     val Close = Icons.Outlined.Close
     val Info = Icons.Outlined.Info
@@ -47,7 +47,7 @@ object MoviesIcons {
     val KeyboardVoice = Icons.Outlined.KeyboardVoice
     val Language = Icons.Outlined.Language
     val LocationOn = Icons.Outlined.LocationOn
-    val ManageSearch = Icons.Filled.ManageSearch
+    val ManageSearch = Icons.AutoMirrored.Filled.ManageSearch
     val MovieFilter = Icons.Filled.MovieFilter
     val LocalMovies = Icons.Outlined.LocalMovies
     val Notifications = Icons.Outlined.Notifications

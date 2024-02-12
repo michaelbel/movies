@@ -16,7 +16,7 @@ private fun OnLifecycleEvent(
     val lifecycleOwner = rememberUpdatedState(LocalLifecycleOwner.current)
 
     DisposableEffect(lifecycleOwner.value) {
-        val lifecycle: Lifecycle = lifecycleOwner.value.lifecycle
+        val lifecycle = lifecycleOwner.value.lifecycle
         val observer = LifecycleEventObserver { owner, event ->
             eventHandler.value(owner, event)
         }

@@ -27,8 +27,8 @@ fun VoiceIcon(
     val speechRecognizeContract = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { activityResult ->
-        val data: Intent? = activityResult.data
-        val spokenText: String? = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.let { results ->
+        val data = activityResult.data
+        val spokenText = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.let { results ->
             results[0]
         }
         onInputText(spokenText.orEmpty())

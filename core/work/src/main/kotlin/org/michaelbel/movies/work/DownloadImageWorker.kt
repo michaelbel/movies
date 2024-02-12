@@ -42,7 +42,7 @@ class DownloadImageWorker @AssistedInject constructor(
             contentTextRes = contentTextRes
         )
 
-        val uri: Uri? = saveImageToDownloads(
+        val uri = saveImageToDownloads(
             url = imageUrl,
             name = "$currentDateTime.jpg"
         )

@@ -4,5 +4,5 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import org.michaelbel.movies.common.appearance.FeedView
 
 class AppearancePreviewParameterProvider: PreviewParameterProvider<FeedView> {
-    override val values: Sequence<FeedView> = FeedView.VALUES.asSequence()
+    override val values = FeedView.VALUES.asSequence()
 }

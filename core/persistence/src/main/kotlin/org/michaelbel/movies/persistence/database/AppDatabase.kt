@@ -42,7 +42,7 @@ abstract class AppDatabase: RoomDatabase() {
     abstract fun suggestionDao(): SuggestionDao
 
     companion object {
-        private val DATABASE_NAME: String = if (BuildConfig.DEBUG) "movies-db-debug" else "movies-db"
+        private val DATABASE_NAME = if (BuildConfig.DEBUG) "movies-db-debug" else "movies-db"
         const val DATABASE_VERSION = 21
 
         @Volatile

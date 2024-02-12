@@ -29,10 +29,7 @@ internal class MovieRepositoryImpl @Inject constructor(
     }
 
     override fun moviesFlow(pagingKey: String, limit: Int): Flow<List<MovieDb>> {
-        return movieDao.moviesFlow(
-            movieList = pagingKey,
-            limit = limit
-        )
+        return movieDao.moviesFlow(pagingKey, limit)
     }
 
     override suspend fun moviesResult(movieList: String, page: Int): Result<MovieResponse> {
@@ -68,8 +65,8 @@ internal class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun insertMovies(pagingKey: String, page: Int, movies: List<MovieResponse>) {
-        val maxPosition: Int = movieDao.maxPosition(pagingKey) ?: 0
-        val moviesDb: List<MovieDb> = movies.mapIndexed { index, movieResponse ->
+        val maxPosition = movieDao.maxPosition(pagingKey) ?: 0
+        val moviesDb = movies.mapIndexed { index, movieResponse ->
             movieResponse.mapToMovieDb(
                 movieList = pagingKey,
                 page = page,
@@ -80,7 +77,7 @@ internal class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun insertMovie(pagingKey: String, movie: MovieDb) {
-        val maxPosition: Int = movieDao.maxPosition(pagingKey) ?: 0
+        val maxPosition = movieDao.maxPosition(pagingKey) ?: 0
         movieDao.insertMovie(
             movie.copy(
                 movieList = pagingKey,

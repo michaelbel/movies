@@ -1,5 +1,7 @@
 package org.michaelbel.movies.interactor.impl
 
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
@@ -18,8 +20,6 @@ import org.michaelbel.movies.interactor.SettingsInteractor
 import org.michaelbel.movies.platform.app.AppService
 import org.michaelbel.movies.platform.config.ConfigService
 import org.michaelbel.movies.repository.SettingsRepository
-import javax.inject.Inject
-import javax.inject.Singleton
 
 @Singleton
 internal class SettingsInteractorImpl @Inject constructor(
@@ -44,29 +44,35 @@ internal class SettingsInteractorImpl @Inject constructor(
 
     override val appVersionData: Flow<AppVersionData> = settingsRepository.appVersionData
 
-    override suspend fun selectTheme(appTheme: AppTheme) = withContext(dispatchers.main) {
-        settingsRepository.selectTheme(appTheme)
-        analytics.logEvent(SelectThemeEvent(appTheme.toString()))
+    override suspend fun selectTheme(appTheme: AppTheme) {
+        withContext(dispatchers.main) {
+            settingsRepository.selectTheme(appTheme)
+            analytics.logEvent(SelectThemeEvent(appTheme.toString()))
+        }
     }
 
-    override suspend fun selectFeedView(feedView: FeedView) = withContext(dispatchers.main) {
-        settingsRepository.selectFeedView(feedView)
-        analytics.logEvent(SelectFeedViewEvent(feedView.toString()))
+    override suspend fun selectFeedView(feedView: FeedView) {
+        withContext(dispatchers.main) {
+            settingsRepository.selectFeedView(feedView)
+            analytics.logEvent(SelectFeedViewEvent(feedView.toString()))
+        }
     }
 
-    override suspend fun selectMovieList(movieList: MovieList) = withContext(dispatchers.main) {
-        settingsRepository.selectMovieList(movieList)
-        analytics.logEvent(SelectMovieListEvent(movieList.toString()))
+    override suspend fun selectMovieList(movieList: MovieList) {
+        withContext(dispatchers.main) {
+            settingsRepository.selectMovieList(movieList)
+            analytics.logEvent(SelectMovieListEvent(movieList.toString()))
+        }
     }
 
-    override suspend fun setDynamicColors(value: Boolean) = withContext(dispatchers.main) {
-        settingsRepository.setDynamicColors(value)
-        analytics.logEvent(ChangeDynamicColorsEvent(value))
+    override suspend fun setDynamicColors(value: Boolean) {
+        withContext(dispatchers.main) {
+            settingsRepository.setDynamicColors(value)
+            analytics.logEvent(ChangeDynamicColorsEvent(value))
+        }
     }
 
     override suspend fun fetchRemoteConfig() {
-        withContext(dispatchers.main) {
-            configService.fetchAndActivate()
-        }
+        withContext(dispatchers.main) { configService.fetchAndActivate() }
     }
 }

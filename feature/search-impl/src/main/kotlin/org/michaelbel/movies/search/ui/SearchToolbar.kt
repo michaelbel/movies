@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
@@ -88,14 +87,10 @@ fun SearchToolbar(
             }
         },
         colors = SearchBarDefaults.colors(
-            containerColor = MaterialTheme.colorScheme.inversePrimary
+            containerColor = MaterialTheme.colorScheme.inversePrimary,
+            dividerColor = MaterialTheme.colorScheme.onPrimaryContainer
         )
     ) {
-        Divider(
-            thickness = .1.dp,
-            color = MaterialTheme.colorScheme.onPrimaryContainer
-        )
-
         when {
             searchHistoryMovies.isNotEmpty() -> {
                 Column(

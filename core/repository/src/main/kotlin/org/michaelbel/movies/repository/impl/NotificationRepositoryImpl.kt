@@ -15,7 +15,7 @@ internal class NotificationRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateNotificationExpireTime() {
-        val currentTime: Long = System.currentTimeMillis()
+        val currentTime = System.currentTimeMillis()
         preferences.setNotificationExpireTime(currentTime)
     }
 }

@@ -99,9 +99,7 @@ private fun GalleryScreenContent(
     val hapticFeedback = LocalHapticFeedback.current
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
-    val resultContract = rememberLauncherForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {}
+    val resultContract = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
 
     val pagerState = rememberPagerState(
         initialPage = 0,
@@ -191,10 +189,10 @@ private fun GalleryScreenContent(
                             bottom.linkTo(parent.bottom)
                         }
                     ) { page ->
-                        val imageDb: ImageDb = movieImages[page]
+                        val imageDb = movieImages[page]
                         var imageDiskCacheKey: String? by remember { mutableStateOf(null) }
 
-                        var image: String by remember { mutableStateOf("") }
+                        var image by remember { mutableStateOf("") }
                         image = imageDb.original
 
                         var loading: Boolean by remember { mutableStateOf(true) }

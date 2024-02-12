@@ -20,8 +20,6 @@ internal class SuggestionInteractorImpl @Inject constructor(
     }
 
     override suspend fun updateSuggestions() {
-        withContext(dispatchers.io) {
-            suggestionRepository.updateSuggestions()
-        }
+        withContext(dispatchers.io) { suggestionRepository.updateSuggestions() }
     }
 }

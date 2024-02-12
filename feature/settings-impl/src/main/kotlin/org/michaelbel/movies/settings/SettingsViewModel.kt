@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Build
 import androidx.lifecycle.DefaultLifecycleObserver
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -17,7 +18,6 @@ import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.platform.review.ReviewService
-import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
@@ -26,9 +26,9 @@ class SettingsViewModel @Inject constructor(
     private val reviewService: ReviewService
 ): BaseViewModel(), DefaultLifecycleObserver {
 
-    val isDynamicColorsFeatureEnabled: Boolean = Build.VERSION.SDK_INT >= 31
+    val isDynamicColorsFeatureEnabled = Build.VERSION.SDK_INT >= 31
 
-    val isPostNotificationsFeatureEnabled: Boolean = Build.VERSION.SDK_INT >= 33
+    val isPostNotificationsFeatureEnabled = Build.VERSION.SDK_INT >= 33
 
     val currentTheme: StateFlow<AppTheme> = interactor.currentTheme
         .stateIn(

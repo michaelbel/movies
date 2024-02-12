@@ -33,7 +33,7 @@ fun SettingsMovieListBox(
     onMovieListSelect: (MovieList) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var movieListDialog: Boolean by remember { mutableStateOf(false) }
+    var movieListDialog by remember { mutableStateOf(false) }
 
     if (movieListDialog) {
         SettingsMovieListDialog(

@@ -20,13 +20,13 @@ class AccountUpdateWorker @AssistedInject constructor(
 
     override suspend fun doWork(): Result {
         return try {
-            val accountId: Int? = interactor.accountId()
+            val accountId = interactor.accountId()
             if (isTmdbApiKeyEmpty || accountId == null) {
                 return Result.success()
             }
 
-            val expireTime: Long = interactor.accountExpireTime() ?: 0L
-            val currentTime: Long = System.currentTimeMillis()
+            val expireTime = interactor.accountExpireTime() ?: 0L
+            val currentTime = System.currentTimeMillis()
             if (isTimePasses(ONE_DAY_MILLS, expireTime, currentTime)) {
                 interactor.accountDetails()
             }
@@ -37,6 +37,6 @@ class AccountUpdateWorker @AssistedInject constructor(
     }
 
     private companion object {
-        private val ONE_DAY_MILLS: Long = TimeUnit.DAYS.toMillis(1)
+        private val ONE_DAY_MILLS = TimeUnit.DAYS.toMillis(1)
     }
 }

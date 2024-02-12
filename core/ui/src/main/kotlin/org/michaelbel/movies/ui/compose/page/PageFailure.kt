@@ -30,9 +30,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 fun PageFailure(
     modifier: Modifier = Modifier
 ) {
-    val settingsPanelContract = rememberLauncherForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {}
+    val settingsPanelContract = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
 
     val onCheckConnectivityClick: () -> Unit = {
         settingsPanelContract.launch(Intent(Settings.Panel.ACTION_INTERNET_CONNECTIVITY))

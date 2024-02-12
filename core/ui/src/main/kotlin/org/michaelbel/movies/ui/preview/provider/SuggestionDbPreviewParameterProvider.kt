@@ -4,7 +4,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import org.michaelbel.movies.persistence.database.entity.SuggestionDb
 
 class SuggestionDbPreviewParameterProvider: PreviewParameterProvider<List<SuggestionDb>> {
-    override val values: Sequence<List<SuggestionDb>> = sequenceOf(
+    override val values = sequenceOf(
         listOf(
             SuggestionDb(
                 title = "Leo"

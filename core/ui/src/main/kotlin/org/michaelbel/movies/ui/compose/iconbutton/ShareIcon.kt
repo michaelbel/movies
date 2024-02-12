@@ -1,6 +1,5 @@
 package org.michaelbel.movies.ui.compose.iconbutton
 
-import android.content.Context
 import android.content.Intent
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -32,10 +31,8 @@ fun ShareIcon(
     modifier: Modifier = Modifier,
     onContainerColor: Color = MaterialTheme.colorScheme.onPrimaryContainer
 ) {
-    val context: Context = LocalContext.current
-    val resultContract = rememberLauncherForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {}
+    val context = LocalContext.current
+    val resultContract = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
 
     val onShareUrl: () -> Unit = {
         Intent().apply {

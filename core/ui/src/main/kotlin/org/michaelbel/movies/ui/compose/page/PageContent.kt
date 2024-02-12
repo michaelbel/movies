@@ -96,7 +96,7 @@ private fun PageContentColumn(
             key = pagingItems.itemKey(),
             contentType = pagingItems.itemContentType()
         ) { index ->
-            val movieDb: MovieDb? = pagingItems[index]
+            val movieDb = pagingItems[index]
             if (movieDb != null) {
                 MovieRow(
                     movie = movieDb,
@@ -112,9 +112,7 @@ private fun PageContentColumn(
         if (isTmdbApiKeyEmpty && pagingItems.isNotEmpty) {
             item {
                 ApiKeyBox(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 16.dp)
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)
                 )
             }
         }
@@ -123,9 +121,7 @@ private fun PageContentColumn(
                 isPagingLoading -> {
                     item {
                         PagingLoadingBox(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(80.dp)
+                            modifier = Modifier.fillMaxWidth().height(80.dp)
                         )
                     }
                 }
@@ -166,7 +162,7 @@ private fun PageContentGrid(
             key = pagingItems.itemKey(),
             contentType = pagingItems.itemContentType()
         ) { index ->
-            val movieDb: MovieDb? = pagingItems[index]
+            val movieDb = pagingItems[index]
             if (movieDb != null) {
                 MovieRow(
                     movie = movieDb,
@@ -185,9 +181,7 @@ private fun PageContentGrid(
                 isPagingLoading -> {
                     item {
                         PagingLoadingBox(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(80.dp)
+                            modifier = Modifier.fillMaxWidth().height(80.dp)
 
                         )
                     }
@@ -229,7 +223,7 @@ private fun PageContentStaggeredGrid(
             key = pagingItems.itemKey(),
             contentType = pagingItems.itemContentType()
         ) { index ->
-            val movieDb: MovieDb? = pagingItems[index]
+            val movieDb = pagingItems[index]
             if (movieDb != null) {
                 MovieColumn(
                     movie = movieDb,
@@ -246,9 +240,7 @@ private fun PageContentStaggeredGrid(
                 isPagingLoading -> {
                     item {
                         PagingLoadingBox(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(80.dp)
+                            modifier = Modifier.fillMaxWidth().height(80.dp)
 
                         )
                     }

@@ -18,20 +18,14 @@ internal class AccountInteractorImpl @Inject constructor(
     override val account: Flow<AccountDb?> = accountRepository.account
 
     override suspend fun accountId(): Int? {
-        return withContext(dispatchers.io) {
-            accountRepository.accountId()
-        }
+        return withContext(dispatchers.io) { accountRepository.accountId() }
     }
 
     override suspend fun accountExpireTime(): Long? {
-        return withContext(dispatchers.io) {
-            accountRepository.accountExpireTime()
-        }
+        return withContext(dispatchers.io) { accountRepository.accountExpireTime() }
     }
 
     override suspend fun accountDetails() {
-        return withContext(dispatchers.io) {
-            accountRepository.accountDetails()
-        }
+        return withContext(dispatchers.io) { accountRepository.accountDetails() }
     }
 }

@@ -4,5 +4,5 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import org.michaelbel.movies.common.localization.model.AppLanguage
 
 class LanguagePreviewParameterProvider: PreviewParameterProvider<AppLanguage> {
-    override val values: Sequence<AppLanguage> = AppLanguage.VALUES.asSequence()
+    override val values = AppLanguage.VALUES.asSequence()
 }

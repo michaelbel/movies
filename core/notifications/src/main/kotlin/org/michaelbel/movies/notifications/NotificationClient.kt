@@ -29,9 +29,9 @@ class NotificationClient @Inject constructor(
 ) {
 
     suspend fun notificationsPermissionRequired(time: Long): Boolean {
-        val expireTime: Long = interactor.notificationExpireTime()
-        val currentTime: Long = System.currentTimeMillis()
-        val isTimePasses: Boolean = isTimePasses(ONE_DAY_MILLS, expireTime, currentTime)
+        val expireTime = interactor.notificationExpireTime()
+        val currentTime = System.currentTimeMillis()
+        val isTimePasses = isTimePasses(ONE_DAY_MILLS, expireTime, currentTime)
         delay(time)
         return !context.isPostNotificationsPermissionGranted && isTimePasses
     }
@@ -113,7 +113,7 @@ class NotificationClient @Inject constructor(
         @StringRes channelName: Int,
         @StringRes channelDescription: Int
     ) {
-        val notificationChannel: NotificationChannelCompat = NotificationChannelCompat.Builder(
+        val notificationChannel = NotificationChannelCompat.Builder(
             context.getString(channelId),
             NotificationManagerCompat.IMPORTANCE_HIGH
         ).apply {

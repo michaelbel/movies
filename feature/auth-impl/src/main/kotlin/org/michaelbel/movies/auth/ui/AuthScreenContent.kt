@@ -96,9 +96,7 @@ internal fun AuthScreenContent(
     onResetRequestToken: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val resultContract = rememberLauncherForActivityResult(
-        ActivityResultContracts.StartActivityForResult()
-    ) {}
+    val resultContract = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
     val toolbarColor = MaterialTheme.colorScheme.primary.toArgb()
 
     val focusManager = LocalFocusManager.current

@@ -1,7 +1,6 @@
 package org.michaelbel.movies.network.okhttp.interceptor
 
 import okhttp3.Interceptor
-import okhttp3.Request
 import okhttp3.Response
 
 internal class ApikeyInterceptor(
@@ -9,7 +8,7 @@ internal class ApikeyInterceptor(
 ): Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response {
-        val originalRequest: Request = chain.request()
+        val originalRequest = chain.request()
         val newHttpUrl = originalRequest.url.newBuilder()
             .addQueryParameter("api_key", apiKey)
             .build()

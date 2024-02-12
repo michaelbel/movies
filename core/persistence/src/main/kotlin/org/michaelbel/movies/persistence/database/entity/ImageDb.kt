@@ -18,7 +18,7 @@ data class ImageDb(
     @NotNull val position: Int
 ) {
     companion object {
-        val Empty: ImageDb = ImageDb(
+        val Empty = ImageDb(
             movieId = 0,
             filePath = "",
             type = Type.BACKDROP,

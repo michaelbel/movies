@@ -4,5 +4,5 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import org.michaelbel.movies.common.theme.AppTheme
 
 class ThemePreviewParameterProvider: PreviewParameterProvider<AppTheme> {
-    override val values: Sequence<AppTheme> = AppTheme.VALUES.asSequence()
+    override val values = AppTheme.VALUES.asSequence()
 }
