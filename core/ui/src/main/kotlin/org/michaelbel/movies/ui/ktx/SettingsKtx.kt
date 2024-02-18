@@ -1,10 +1,12 @@
 package org.michaelbel.movies.ui.ktx
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.provider.Settings
 import androidx.core.net.toUri
+import org.michaelbel.movies.ui.shortcuts.INTENT_ACTION_SETTINGS
 
 val Context.appNotificationSettingsIntent: Intent
     get() {
@@ -27,3 +29,13 @@ val Context.appNotificationSettingsIntent: Intent
         }
         return intent
     }
+
+fun Activity.resolveNotificationPreferencesIntent() {
+    val categories = intent.categories
+    if (categories != null && categories.isNotEmpty()) {
+        val isCategoryNotificationPreferences = categories.first() == "android.intent.category.NOTIFICATION_PREFERENCES"
+        if (isCategoryNotificationPreferences) {
+            startActivity(Intent(Intent.ACTION_VIEW, INTENT_ACTION_SETTINGS.toUri()))
+        }
+    }
+}

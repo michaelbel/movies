@@ -6,6 +6,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
+import org.michaelbel.movies.ui.ktx.resolveNotificationPreferencesIntent
 import org.michaelbel.movies.ui.shortcuts.installShortcuts
 
 /**
@@ -23,5 +24,6 @@ internal class MainActivity: AppCompatActivity() {
                 enableEdgeToEdge(statusBarStyle, navigationBarStyle)
             }
         }
+        resolveNotificationPreferencesIntent()
     }
 }
