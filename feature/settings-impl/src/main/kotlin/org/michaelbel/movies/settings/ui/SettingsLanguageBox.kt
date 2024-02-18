@@ -45,6 +45,8 @@ fun SettingsLanguageBox(
 
     ConstraintLayout(
         modifier = modifier
+            .fillMaxWidth()
+            .height(52.dp)
             .clickable { languageDropdown = true }
             .testTag("ConstraintLayout")
     ) {

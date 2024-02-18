@@ -5,6 +5,8 @@ import android.app.Activity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
@@ -58,6 +60,8 @@ fun SettingsPostNotificationsBox(
 
     ConstraintLayout(
         modifier = modifier
+            .fillMaxWidth()
+            .height(52.dp)
             .clickable {
                 if (areNotificationsEnabled) {
                     resultContract.launch(context.appNotificationSettingsIntent)

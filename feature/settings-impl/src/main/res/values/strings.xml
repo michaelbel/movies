@@ -33,4 +33,5 @@
     <string name="settings_app_version_code">(%s)</string>
     <string name="settings_app_debug">Debug</string>
     <string name="settings_action_cancel">Cancel</string>
+    <string name="settings_github">Movies on Github</string>
 </resources>

@@ -47,6 +47,8 @@ fun SettingsAppearanceBox(
 
     ConstraintLayout(
         modifier = modifier
+            .fillMaxWidth()
+            .height(52.dp)
             .clickable {
                 feedViewDialog = true
             }

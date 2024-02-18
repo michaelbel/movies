@@ -6,7 +6,6 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -184,8 +183,7 @@ private fun SettingsScreenContent(
             item {
                 SettingsLanguageBox(
                     currentLanguage = currentLanguage,
-                    onLanguageSelect = onLanguageSelect,
-                    modifier = Modifier.fillMaxWidth().height(52.dp)
+                    onLanguageSelect = onLanguageSelect
                 )
             }
             item {
@@ -198,8 +196,7 @@ private fun SettingsScreenContent(
             item {
                 SettingsThemeBox(
                     currentTheme = currentTheme,
-                    onThemeSelect = onThemeSelect,
-                    modifier = Modifier.fillMaxWidth().height(52.dp)
+                    onThemeSelect = onThemeSelect
                 )
             }
             item {
@@ -212,8 +209,7 @@ private fun SettingsScreenContent(
             item {
                 SettingsAppearanceBox(
                     currentFeedView = currentFeedView,
-                    onFeedViewSelect = onFeedViewSelect,
-                    modifier = Modifier.fillMaxWidth().height(52.dp)
+                    onFeedViewSelect = onFeedViewSelect
                 )
             }
             item {
@@ -226,8 +222,7 @@ private fun SettingsScreenContent(
             item {
                 SettingsMovieListBox(
                     currentMovieList = currentMovieList,
-                    onMovieListSelect = onMovieListSelect,
-                    modifier = Modifier.fillMaxWidth().height(52.dp)
+                    onMovieListSelect = onMovieListSelect
                 )
             }
             item {
@@ -241,10 +236,7 @@ private fun SettingsScreenContent(
                 if (isDynamicColorsFeatureEnabled) {
                     SettingsDynamicColorsBox(
                         isDynamicColorsEnabled = dynamicColors,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(52.dp)
-                            .clickable { onSetDynamicColors(!dynamicColors) }
+                        modifier = Modifier.clickable { onSetDynamicColors(!dynamicColors) }
                     )
                 }
             }
@@ -258,8 +250,7 @@ private fun SettingsScreenContent(
             item {
                 if (isPostNotificationsFeatureEnabled) {
                     SettingsPostNotificationsBox(
-                        onShowPermissionSnackbar = onShowPermissionSnackbar,
-                        modifier = Modifier.fillMaxWidth().height(52.dp)
+                        onShowPermissionSnackbar = onShowPermissionSnackbar
                     )
                 }
             }
@@ -272,10 +263,7 @@ private fun SettingsScreenContent(
             }
             item {
                 SettingsReviewBox(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(52.dp)
-                        .clickable { onLaunchReviewFlow() }
+                    modifier = Modifier.clickable { onLaunchReviewFlow() }
                 )
             }
             item {
@@ -292,6 +280,16 @@ private fun SettingsScreenContent(
                     },
                     modifier = Modifier.fillMaxWidth()
                 )
+            }
+            item {
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    thickness = .1.dp,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            }
+            item {
+                SettingsGithubBox()
             }
         }
     }

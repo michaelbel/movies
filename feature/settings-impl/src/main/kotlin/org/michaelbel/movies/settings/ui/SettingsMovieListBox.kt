@@ -47,6 +47,8 @@ fun SettingsMovieListBox(
 
     ConstraintLayout(
         modifier = modifier
+            .fillMaxWidth()
+            .height(52.dp)
             .clickable {
                 movieListDialog = true
             }

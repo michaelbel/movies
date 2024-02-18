@@ -29,7 +29,10 @@ fun SettingsDynamicColorsBox(
     modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
-        modifier = modifier.testTag("ConstraintLayout")
+        modifier = modifier
+            .fillMaxWidth()
+            .height(52.dp)
+            .testTag("ConstraintLayout")
     ) {
         val (title, value) = createRefs()
 
