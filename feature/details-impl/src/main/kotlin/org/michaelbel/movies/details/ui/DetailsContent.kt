@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -136,13 +137,10 @@ fun DetailsContent(
                 ),
             overflow = TextOverflow.Ellipsis,
             maxLines = 3,
-            style = MaterialTheme.typography.titleLarge.copy(
-                color = onContainerColor
-            )
+            style = MaterialTheme.typography.titleLarge.copy(onContainerColor)
         )
 
-        Text(
-            text = movie.overview,
+        SelectionContainer(
             modifier = Modifier
                 .constrainAs(overview) {
                     width = Dimension.fillToConstraints
@@ -156,13 +154,13 @@ fun DetailsContent(
                     color = MaterialTheme.colorScheme.inversePrimary,
                     shape = MaterialTheme.shapes.small,
                     highlight = PlaceholderHighlight.fade()
-                ),
-            overflow = TextOverflow.Ellipsis,
-            maxLines = 10,
-            style = MaterialTheme.typography.bodyMedium.copy(
-                color = onContainerColor
+                )
+        ) {
+            Text(
+                text = movie.overview,
+                style = MaterialTheme.typography.bodyMedium.copy(onContainerColor)
             )
-        )
+        }
     }
 }
 

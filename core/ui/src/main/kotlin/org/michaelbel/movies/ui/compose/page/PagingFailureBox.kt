@@ -29,9 +29,7 @@ fun PagingFailureBox(
     ) {
         Text(
             text = stringResource(R.string.retry),
-            style = MaterialTheme.typography.bodyLarge.copy(
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+            style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
         )
     }
 }

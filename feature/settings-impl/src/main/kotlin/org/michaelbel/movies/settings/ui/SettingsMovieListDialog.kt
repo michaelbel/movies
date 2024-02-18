@@ -50,9 +50,7 @@ fun SettingsMovieListDialog(
                 Text(
                     text = stringResource(R.string.settings_action_cancel),
                     modifier = Modifier.testTag("ConfirmText"),
-                    style = MaterialTheme.typography.labelLarge.copy(
-                        color = MaterialTheme.colorScheme.primary
-                    )
+                    style = MaterialTheme.typography.labelLarge.copy(MaterialTheme.colorScheme.primary)
                 )
             }
         },
@@ -67,9 +65,7 @@ fun SettingsMovieListDialog(
             Text(
                 text = stringResource(R.string.settings_movie_list),
                 modifier = Modifier.testTag("Title"),
-                style = MaterialTheme.typography.headlineSmall.copy(
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                style = MaterialTheme.typography.headlineSmall.copy(MaterialTheme.colorScheme.onSurface)
             )
         },
         text = {
@@ -127,9 +123,7 @@ private fun SettingMovieListDialogContent(
                 Text(
                     text = movieList.listText,
                     modifier = Modifier.padding(start = 8.dp),
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
+                    style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
                 )
             }
         }

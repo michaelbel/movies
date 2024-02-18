@@ -39,9 +39,7 @@ fun SearchHistoryHeader(
                 bottom.linkTo(parent.bottom)
             },
             textAlign = TextAlign.Start,
-            style = MaterialTheme.typography.bodyMedium.copy(
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+            style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.onPrimaryContainer)
         )
 
         TextButton(

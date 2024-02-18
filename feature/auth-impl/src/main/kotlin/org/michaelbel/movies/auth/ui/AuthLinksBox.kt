@@ -49,9 +49,7 @@ fun AuthLinksBox(
                 modifier = Modifier
                     .padding(vertical = 16.dp)
                     .clickableWithoutRipple { onTermsOfUseClick() },
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+                style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.onPrimaryContainer)
             )
 
             Box(
@@ -67,9 +65,7 @@ fun AuthLinksBox(
                 modifier = Modifier
                     .padding(vertical = 16.dp)
                     .clickableWithoutRipple { onPrivacyPolicyClick() },
-                style = MaterialTheme.typography.bodyMedium.copy(
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+                style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.onPrimaryContainer)
             )
         }
     }

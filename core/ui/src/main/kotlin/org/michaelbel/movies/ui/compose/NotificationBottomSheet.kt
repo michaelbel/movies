@@ -110,18 +110,14 @@ fun NotificationBottomSheet(
             text = stringResource(R.string.notification_enable_title),
             modifier = Modifier.padding(start = 16.dp, top = 16.dp, end = 16.dp),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.titleLarge.copy(
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+            style = MaterialTheme.typography.titleLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
         )
 
         Text(
             text = stringResource(R.string.notification_enable_subtitle),
             modifier = Modifier.padding(start = 16.dp, top = 8.dp, end = 16.dp),
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyMedium.copy(
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+            style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.onPrimaryContainer)
         )
 
         Button(

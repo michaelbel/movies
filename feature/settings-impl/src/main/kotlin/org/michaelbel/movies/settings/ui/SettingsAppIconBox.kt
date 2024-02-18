@@ -48,9 +48,7 @@ fun SettingsAppIconBox(
                 start.linkTo(parent.start, 16.dp)
                 top.linkTo(parent.top, 8.dp)
             },
-            style = MaterialTheme.typography.bodyLarge.copy(
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+            style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
         )
 
         AppIconBox(

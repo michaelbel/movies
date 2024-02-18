@@ -53,9 +53,7 @@ fun FeedToolbar(
             Text(
                 text = title,
                 overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.titleLarge.copy(
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+                style = MaterialTheme.typography.titleLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
             )
         },
         modifier = modifier,

@@ -65,9 +65,7 @@ fun PageFailure(
                 end.linkTo(parent.end, 16.dp)
             },
             textAlign = TextAlign.Center,
-            style = MaterialTheme.typography.bodyMedium.copy(
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+            style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.onPrimaryContainer)
         )
 
         if (Build.VERSION.SDK_INT >= 29) {

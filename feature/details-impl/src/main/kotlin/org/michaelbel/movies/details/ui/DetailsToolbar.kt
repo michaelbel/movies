@@ -38,9 +38,7 @@ fun DetailsToolbar(
             Text(
                 text = movieTitle,
                 overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.titleLarge.copy(
-                    color = onContainerColor
-                )
+                style = MaterialTheme.typography.titleLarge.copy(onContainerColor)
             )
         },
         modifier = modifier,

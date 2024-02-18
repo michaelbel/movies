@@ -27,9 +27,7 @@ fun AuthToolbar(
             Text(
                 text = stringResource(R.string.auth_title),
                 overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.titleLarge.copy(
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+                style = MaterialTheme.typography.titleLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
             )
         },
         modifier = modifier,
@@ -38,9 +36,7 @@ fun AuthToolbar(
                 onClick = onNavigationIconClick
             )
         },
-        colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = Color.Transparent
-        )
+        colors = TopAppBarDefaults.topAppBarColors(Color.Transparent)
     )
 }
 

@@ -50,9 +50,7 @@ fun SettingsAppearanceDialog(
                 Text(
                     text = stringResource(R.string.settings_action_cancel),
                     modifier = Modifier.testTag("ConfirmText"),
-                    style = MaterialTheme.typography.labelLarge.copy(
-                        color = MaterialTheme.colorScheme.primary
-                    )
+                    style = MaterialTheme.typography.labelLarge.copy(MaterialTheme.colorScheme.primary)
                 )
             }
         },
@@ -67,9 +65,7 @@ fun SettingsAppearanceDialog(
             Text(
                 text = stringResource(R.string.settings_appearance),
                 modifier = Modifier.testTag("Title"),
-                style = MaterialTheme.typography.headlineSmall.copy(
-                    color = MaterialTheme.colorScheme.onSurface
-                )
+                style = MaterialTheme.typography.headlineSmall.copy(MaterialTheme.colorScheme.onSurface)
             )
         },
         text = {

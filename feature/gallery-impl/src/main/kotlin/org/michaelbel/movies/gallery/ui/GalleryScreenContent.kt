@@ -285,9 +285,7 @@ private fun GalleryScreenContent(
                             .statusBarsPadding(),
                         overflow = TextOverflow.Ellipsis,
                         textAlign = TextAlign.Start,
-                        style = MaterialTheme.typography.titleLarge.copy(
-                            color = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
+                        style = MaterialTheme.typography.titleLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
                     )
 
                     AnimatedVisibility(

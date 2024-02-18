@@ -81,9 +81,7 @@ fun MovieRow(
         ) {
             Text(
                 text = stringResource(R.string.no_image),
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    color = MaterialTheme.colorScheme.secondary
-                )
+                style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.secondary)
             )
         }
 
@@ -99,9 +97,7 @@ fun MovieRow(
             },
             maxLines = maxLines,
             overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.bodyLarge.copy(
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+            style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
         )
     }
 }

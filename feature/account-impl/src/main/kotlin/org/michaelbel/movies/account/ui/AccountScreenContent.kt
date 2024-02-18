@@ -143,9 +143,7 @@ private fun AccountScreenContent(
                 Text(
                     text = account.name,
                     overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.bodyLarge.copy(
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
+                    style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
                 )
             }
 
@@ -153,9 +151,7 @@ private fun AccountScreenContent(
                 Text(
                     text = account.username,
                     overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.bodyMedium.copy(
-                        color = MaterialTheme.colorScheme.secondary
-                    )
+                    style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.secondary)
                 )
             }
         }

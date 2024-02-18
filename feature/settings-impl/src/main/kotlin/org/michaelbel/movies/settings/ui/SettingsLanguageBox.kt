@@ -76,9 +76,7 @@ fun SettingsLanguageBox(
                     bottom.linkTo(parent.bottom)
                 }
                 .testTag("TitleText"),
-            style = MaterialTheme.typography.bodyLarge.copy(
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+            style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
         )
 
         Box(
@@ -94,9 +92,7 @@ fun SettingsLanguageBox(
         ) {
             Text(
                 text = currentLanguage.languageText,
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    color = MaterialTheme.colorScheme.primary
-                )
+                style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.primary)
             )
 
             DropdownMenu(

@@ -82,9 +82,7 @@ fun AppIconBox(
                     bottom.linkTo(radio.bottom)
                 }
                 .padding(start = 2.dp),
-            style = MaterialTheme.typography.bodyMedium.copy(
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+            style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.onPrimaryContainer)
         )
     }
 }

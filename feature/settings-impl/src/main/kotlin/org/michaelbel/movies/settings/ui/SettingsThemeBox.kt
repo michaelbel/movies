@@ -64,9 +64,7 @@ fun SettingsThemeBox(
                     bottom.linkTo(parent.bottom)
                 }
                 .testTag("TitleText"),
-            style = MaterialTheme.typography.bodyLarge.copy(
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+            style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
         )
 
         Text(
@@ -80,9 +78,7 @@ fun SettingsThemeBox(
                     bottom.linkTo(parent.bottom)
                 }
                 .testTag("ValueText"),
-            style = MaterialTheme.typography.bodyLarge.copy(
-                color = MaterialTheme.colorScheme.primary
-            )
+            style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.primary)
         )
     }
 }

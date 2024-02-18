@@ -29,9 +29,7 @@ fun ApiKeyBox(
     ) {
         Text(
             text = stringResource(R.string.error_api_key_null),
-            style = MaterialTheme.typography.bodyLarge.copy(
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+            style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
         )
     }
 }

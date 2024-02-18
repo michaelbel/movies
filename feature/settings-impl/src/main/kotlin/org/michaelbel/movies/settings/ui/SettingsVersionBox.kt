@@ -66,9 +66,7 @@ fun SettingsVersionBox(
                 }
                 .padding(start = 4.dp)
                 .testTag("TitleText"),
-            style = MaterialTheme.typography.bodyMedium.copy(
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+            style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.onPrimaryContainer)
         )
 
         Text(
@@ -84,9 +82,7 @@ fun SettingsVersionBox(
                 }
                 .padding(start = 2.dp)
                 .testTag("ValueText"),
-            style = MaterialTheme.typography.bodySmall.copy(
-                color = MaterialTheme.colorScheme.primary
-            )
+            style = MaterialTheme.typography.bodySmall.copy(MaterialTheme.colorScheme.primary)
         )
 
         Text(
@@ -102,9 +98,7 @@ fun SettingsVersionBox(
                 }
                 .padding(start = 2.dp)
                 .testTag("FlavorText"),
-            style = MaterialTheme.typography.bodySmall.copy(
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+            style = MaterialTheme.typography.bodySmall.copy(MaterialTheme.colorScheme.onPrimaryContainer)
         )
 
         if (appVersionData.isDebug) {
@@ -121,9 +115,7 @@ fun SettingsVersionBox(
                     }
                     .padding(start = 2.dp)
                     .testTag("DebugText"),
-                style = MaterialTheme.typography.bodySmall.copy(
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+                style = MaterialTheme.typography.bodySmall.copy(MaterialTheme.colorScheme.onPrimaryContainer)
             )
         }
     }
