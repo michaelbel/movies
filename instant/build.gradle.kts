@@ -42,8 +42,7 @@ dependencies {
     implementation(project(":android-app"))
     implementation(project(":core:common"))
     implementation(project(":core:ui"))
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.compose.material3)
+    implementation(libs.bundles.appcompat)
+    implementation(libs.bundles.compose)
     implementation(libs.gms.play.services.instantapps)
 }
