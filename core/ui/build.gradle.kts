@@ -51,7 +51,6 @@ dependencies {
     api(libs.androidx.palette.ktx)
     api(libs.coil.compose)
     api(libs.bundles.material)
-    api(libs.bundles.accompanist)
     api(libs.bundles.compose)
     api(libs.androidx.paging.compose)
 

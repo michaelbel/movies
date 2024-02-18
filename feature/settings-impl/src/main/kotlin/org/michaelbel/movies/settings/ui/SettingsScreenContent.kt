@@ -232,34 +232,34 @@ private fun SettingsScreenContent(
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
-            item {
-                if (isDynamicColorsFeatureEnabled) {
+            if (isDynamicColorsFeatureEnabled) {
+                item {
                     SettingsDynamicColorsBox(
                         isDynamicColorsEnabled = dynamicColors,
                         modifier = Modifier.clickable { onSetDynamicColors(!dynamicColors) }
                     )
                 }
+                item {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                        thickness = .1.dp,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
             }
-            item {
-                HorizontalDivider(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                    thickness = .1.dp,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-            }
-            item {
-                if (isPostNotificationsFeatureEnabled) {
+            if (isPostNotificationsFeatureEnabled) {
+                item {
                     SettingsPostNotificationsBox(
                         onShowPermissionSnackbar = onShowPermissionSnackbar
                     )
                 }
-            }
-            item {
-                HorizontalDivider(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                    thickness = .1.dp,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
+                item {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                        thickness = .1.dp,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
             }
             item {
                 SettingsReviewBox(
