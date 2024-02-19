@@ -1,7 +1,7 @@
 import com.google.firebase.appdistribution.gradle.AppDistributionExtension
+import java.io.FileInputStream
 import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
-import java.io.FileInputStream
 
 @Suppress("dsl_scope_violation")
 plugins {
@@ -12,7 +12,7 @@ plugins {
     id("movies-android-hilt")
 }
 
-val gitCommitsCount: Int by lazy {
+val gitCommitsCount by lazy {
     val stdout = ByteArrayOutputStream()
     rootProject.exec {
         commandLine("git", "rev-list", "--count", "HEAD")
@@ -21,7 +21,7 @@ val gitCommitsCount: Int by lazy {
     stdout.toString().trim().toInt()
 }
 
-val currentTime: Long by lazy {
+val currentTime by lazy {
     System.currentTimeMillis()
 }
 
@@ -39,8 +39,12 @@ tasks.register("prepareReleaseNotes") {
 }
 
 afterEvaluate {
-    tasks.findByName("assembleDebug")?.finalizedBy("prepareReleaseNotes")
-    tasks.findByName("assembleRelease")?.finalizedBy("prepareReleaseNotes")
+    tasks.findByName("assembleGmsDebug")?.finalizedBy("prepareReleaseNotes")
+    tasks.findByName("assembleGmsRelease")?.finalizedBy("prepareReleaseNotes")
+    tasks.findByName("assembleHmsDebug")?.finalizedBy("prepareReleaseNotes")
+    tasks.findByName("assembleHmsRelease")?.finalizedBy("prepareReleaseNotes")
+    tasks.findByName("assembleFossDebug")?.finalizedBy("prepareReleaseNotes")
+    tasks.findByName("assembleFossRelease")?.finalizedBy("prepareReleaseNotes")
 }
 
 android {
@@ -97,14 +101,6 @@ android {
                 "okhttp3.pro",
                 "coroutines.pro"
             )
-            /*firebaseAppDistribution {
-                appId = "1:770317857182:android:876190afbc53df31"
-                artifactType = "APK"
-                testers = "michaelbel24865@gmail.com"
-                groups = "qa"
-                //releaseNotesFile="$rootProject.rootDir/releaseNotes.txt"
-                //serviceCredentialsFile = "$rootDir/config/firebase-app-distribution.json"
-            }*/
         }
         debug {
             isDebuggable = true
