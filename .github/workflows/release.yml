@@ -15,8 +15,24 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      
+      - name: Build GMS Release Artifacts
+        run: ./gradlew assembleGmsRelease
+
+      - name: Build HMS Release Artifacts
+        run: ./gradlew assembleHmsRelease
+
+      - name: Build FOSS Release Artifacts
+        run: ./gradlew assembleFossRelease
+ 
+      - name: Upload Artifacts to Outputs
+        uses: actions/upload-artifact@v2
+        with:
+          path: |
+            app/build/outputs/apk
+            
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "release.tar.gz,foo/*.txt"
+          artifacts: "release.tar.gz,foo/*.txt,android-app/build/outputs/apk/**/*.apk"
           artifactErrorsFailBuild: false
           generateReleaseNotes: true
