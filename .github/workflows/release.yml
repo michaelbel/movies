@@ -16,20 +16,20 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       
-      - name: Build GMS Release Artifacts
-        run: ./gradlew assembleGmsRelease
+#      - name: Build GMS Release Artifacts
+#        run: ./gradlew assembleGmsRelease
 
-      - name: Build HMS Release Artifacts
-        run: ./gradlew assembleHmsRelease
+#      - name: Build HMS Release Artifacts
+#        run: ./gradlew assembleHmsRelease
 
-      - name: Build FOSS Release Artifacts
-        run: ./gradlew assembleFossRelease
+#      - name: Build FOSS Release Artifacts
+#        run: ./gradlew assembleFossRelease
  
-      - name: Upload Artifacts to Outputs
-        uses: actions/upload-artifact@v2
-        with:
-          path: |
-            app/build/outputs/apk
+#      - name: Upload Artifacts to Outputs
+#        uses: actions/upload-artifact@v2
+#        with:
+#          path: |
+#            app/build/outputs/apk
             
       - uses: ncipollo/release-action@v1
         with:
