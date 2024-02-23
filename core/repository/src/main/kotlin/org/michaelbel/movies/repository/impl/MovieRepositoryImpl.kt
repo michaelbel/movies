@@ -55,7 +55,7 @@ internal class MovieRepositoryImpl @Inject constructor(
     override suspend fun movieDetails(pagingKey: String, movieId: Int): MovieDb {
         return try {
             movieDao.movieById(pagingKey, movieId) ?: movieService.movie(movieId, localeController.language).mapToMovieDb
-        } catch (e: Exception) {
+        } catch (ignored: Exception) {
             throw MovieDetailsException
         }
     }
@@ -76,7 +76,7 @@ internal class MovieRepositoryImpl @Inject constructor(
             movieDao.removeMovies(MovieDb.MOVIES_WIDGET)
             movieDao.insertMovies(moviesDb)
             movieDao.moviesMini(MovieDb.MOVIES_WIDGET, MovieResponse.DEFAULT_PAGE_SIZE)
-        } catch (e: Exception) {
+        } catch (ignored: Exception) {
             movieDao.moviesMini(MovieDb.MOVIES_WIDGET, MovieResponse.DEFAULT_PAGE_SIZE).ifEmpty {
                 throw MoviesUpcomingException
             }

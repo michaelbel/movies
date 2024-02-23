@@ -34,8 +34,8 @@ internal object MoviesGlanceStateDefinition: GlanceStateDefinition<MoviesWidgetS
         override suspend fun readFrom(input: InputStream): MoviesWidgetState {
             return try {
                 Json.decodeFromString(MoviesWidgetState.serializer(), input.readBytes().decodeToString())
-            } catch (exception: SerializationException) {
-                throw CorruptionException("Could not read movies data: ${exception.message}")
+            } catch (e: SerializationException) {
+                throw CorruptionException("Could not read movies data: ${e.message}")
             }
         }
 
