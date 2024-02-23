@@ -31,7 +31,9 @@ fun VoiceIcon(
         val spokenText = data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.let { results ->
             results[0]
         }
-        onInputText(spokenText.orEmpty())
+        if (!spokenText.isNullOrEmpty()) {
+            onInputText(spokenText)
+        }
     }
 
     val onStartSpeechRecognize: () -> Unit = {
@@ -42,7 +44,7 @@ fun VoiceIcon(
                 RecognizerIntent.EXTRA_LANGUAGE_MODEL,
                 RecognizerIntent.LANGUAGE_MODEL_FREE_FORM
             )
-        }.also { intent: Intent ->
+        }.also { intent ->
             speechRecognizeContract.launch(intent)
         }
     }

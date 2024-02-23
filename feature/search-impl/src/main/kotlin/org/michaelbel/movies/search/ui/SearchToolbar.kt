@@ -25,6 +25,7 @@ import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.entity.SuggestionDb
 import org.michaelbel.movies.search_impl.R
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
 import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
 import org.michaelbel.movies.ui.compose.iconbutton.VoiceIcon
@@ -67,7 +68,7 @@ fun SearchToolbar(
             if (active) {
                 Icon(
                     imageVector = MoviesIcons.Search,
-                    contentDescription = null
+                    contentDescription = MoviesContentDescription.None
                 )
             } else {
                 BackIcon(
