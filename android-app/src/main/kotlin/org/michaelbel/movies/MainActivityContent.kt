@@ -27,7 +27,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 @Composable
 internal fun MainActivityContent(
     viewModel: MainViewModel = hiltViewModel(),
-    enableEdgeToEdge: (SystemBarStyle, SystemBarStyle) -> Unit,
+    enableEdgeToEdge: (SystemBarStyle, SystemBarStyle) -> Unit
 ) {
     val currentTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
     val dynamicColors by viewModel.dynamicColors.collectAsStateWithLifecycle()

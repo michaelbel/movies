@@ -24,6 +24,7 @@ data class MovieDb(
     companion object {
         const val MOVIES_LOCAL_LIST = "movies_local"
         const val MOVIES_SEARCH_HISTORY = "movies_search_history"
+        const val MOVIES_WIDGET = "movies_widget"
 
         val Empty = MovieDb(
             movieList = "",

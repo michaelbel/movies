@@ -112,6 +112,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Support Display Cutouts](https://d.android.com/jetpack/compose/system/cutouts)
 - [x] [Voice Input](https://d.android.com/training/wearables/user-input/voice)
 - [x] [User Interactions](https://d.android.com/jetpack/compose/text/user-interactions)
+- [x] [Glance AppWidget](https://d.android.com/jetpack/compose/glance)
 
 ## Roadmap
 [Movies App Roadmap](https://github.com/users/michaelbel/projects/1/views/1)

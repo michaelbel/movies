@@ -64,11 +64,14 @@ class DetailsViewModel @Inject constructor(
         val onContainerColor = palette.vibrantSwatch?.bodyTextColor
         if (containerColor != null && onContainerColor != null) {
             interactor.updateMovieColors(movieId, containerColor, onContainerColor)
-            _detailsState.value = ScreenState.Content(interactor.movie(movieList.orEmpty(), movieId))
+            if (movieList != null) {
+                _detailsState.value = ScreenState.Content(interactor.movie(movieList, movieId))
+            }
         }
     }
 
     private fun loadMovie() = launch {
-        _detailsState.emit(ScreenState.Content(interactor.movieDetails(movieList.orEmpty(), movieId)))
+        val movieDb = interactor.movieDetails(movieList.orEmpty(), movieId)
+        _detailsState.value = ScreenState.Content(movieDb)
     }
 }

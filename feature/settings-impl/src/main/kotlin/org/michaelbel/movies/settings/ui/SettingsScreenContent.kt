@@ -289,6 +289,16 @@ private fun SettingsScreenContent(
                 )
             }
             item {
+                SettingsAppWidgetBox()
+            }
+            item {
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    thickness = .1.dp,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            }
+            item {
                 SettingsGithubBox()
             }
         }
