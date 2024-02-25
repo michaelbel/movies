@@ -30,7 +30,7 @@ import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.ui.lifecycle.OnResume
 
 @Composable
-fun SettingsPostNotificationsBox(
+internal fun SettingsPostNotificationsBox(
     onShowPermissionSnackbar: () -> Unit,
     modifier: Modifier = Modifier
 ) {

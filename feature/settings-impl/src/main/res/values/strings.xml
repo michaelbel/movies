@@ -35,4 +35,9 @@
     <string name="settings_action_cancel">Cancel</string>
     <string name="settings_github">Movies on Github</string>
     <string name="settings_app_widget">Install AppWidget</string>
+    <string name="settings_gender">Gender</string>
+    <string name="settings_gender_not_specified">Not specified</string>
+    <string name="settings_gender_neutral">Neutral</string>
+    <string name="settings_gender_feminine">Feminine</string>
+    <string name="settings_gender_masculine">Masculine</string>
 </resources>

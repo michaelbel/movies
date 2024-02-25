@@ -9,12 +9,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Text
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -96,7 +96,7 @@ private fun SettingThemeDialogContent(
     Column(
         modifier = modifier.verticalScroll(scrollState)
     ) {
-        AppTheme.VALUES.forEach { theme: AppTheme ->
+        AppTheme.VALUES.forEach { theme ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

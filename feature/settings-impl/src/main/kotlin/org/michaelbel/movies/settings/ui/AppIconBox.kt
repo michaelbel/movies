@@ -32,7 +32,7 @@ import org.michaelbel.movies.ui.preview.provider.IconAliasPreviewParameterProvid
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun AppIconBox(
+internal fun AppIconBox(
     iconAlias: IconAlias,
     modifier: Modifier = Modifier
 ) {

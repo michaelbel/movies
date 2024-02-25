@@ -36,7 +36,7 @@ import org.michaelbel.movies.ui.preview.provider.LanguagePreviewParameterProvide
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun SettingsLanguageBox(
+internal fun SettingsLanguageBox(
     currentLanguage: AppLanguage,
     onLanguageSelect: (AppLanguage) -> Unit,
     modifier: Modifier = Modifier,
