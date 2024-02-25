@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
@@ -25,11 +24,10 @@ import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.entity.SuggestionDb
 import org.michaelbel.movies.search_impl.R
-import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
 import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
+import org.michaelbel.movies.ui.compose.iconbutton.SearchIcon
 import org.michaelbel.movies.ui.compose.iconbutton.VoiceIcon
-import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.SuggestionDbPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -64,9 +62,8 @@ fun SearchToolbar(
         },
         leadingIcon = {
             if (active) {
-                Icon(
-                    imageVector = MoviesIcons.Search,
-                    contentDescription = MoviesContentDescription.None
+                SearchIcon(
+                    onClick = onBackClick
                 )
             } else {
                 BackIcon(
@@ -93,11 +90,15 @@ fun SearchToolbar(
         when {
             searchHistoryMovies.isNotEmpty() -> {
                 Column(
-                    modifier = Modifier.fillMaxSize().imePadding()
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .imePadding()
                 ) {
                     SearchHistoryHeader(
                         onClearButtonClick = onClearHistoryClick,
-                        modifier = Modifier.fillMaxWidth().height(48.dp)
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(48.dp)
                     )
 
                     LazyColumn {
@@ -116,7 +117,9 @@ fun SearchToolbar(
             }
             suggestions.isNotEmpty() -> {
                 Box(
-                    modifier = Modifier.fillMaxSize().imePadding(),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .imePadding(),
                     contentAlignment = Alignment.Center
                 ) {
                     LazyColumn {
