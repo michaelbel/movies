@@ -9,12 +9,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Text
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.RadioButtonDefaults
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -35,7 +35,7 @@ import org.michaelbel.movies.ui.preview.provider.AppearancePreviewParameterProvi
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun SettingsAppearanceDialog(
+internal fun SettingsAppearanceDialog(
     currentFeedView: FeedView,
     onFeedViewSelect: (FeedView) -> Unit,
     onDismissRequest: () -> Unit
@@ -96,7 +96,7 @@ private fun SettingAppearanceDialogContent(
     Column(
         modifier = modifier.verticalScroll(scrollState)
     ) {
-        FeedView.VALUES.forEach { feedView: FeedView ->
+        FeedView.VALUES.forEach { feedView ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

@@ -27,7 +27,7 @@ import org.michaelbel.movies.ui.preview.provider.ThemePreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun SettingsThemeBox(
+internal fun SettingsThemeBox(
     currentTheme: AppTheme,
     onThemeSelect: (AppTheme) -> Unit,
     modifier: Modifier = Modifier

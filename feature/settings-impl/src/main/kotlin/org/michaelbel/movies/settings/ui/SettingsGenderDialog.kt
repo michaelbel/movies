@@ -1,5 +1,6 @@
 package org.michaelbel.movies.settings.ui
 
+import android.app.GrammaticalInflectionManager
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,27 +18,31 @@ import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import org.michaelbel.movies.common.list.MovieList
+import org.michaelbel.movies.common.appearance.FeedView
+import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.theme.AppTheme
-import org.michaelbel.movies.settings.ktx.listText
+import org.michaelbel.movies.settings.ktx.genderText
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
-import org.michaelbel.movies.ui.preview.provider.MovieListPreviewParameterProvider
+import org.michaelbel.movies.ui.preview.provider.AppearancePreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun SettingsMovieListDialog(
-    currentMovieList: MovieList,
-    onMovieListSelect: (MovieList) -> Unit,
+internal fun SettingsGenderDialog(
     onDismissRequest: () -> Unit
 ) {
     AlertDialog(
@@ -56,25 +61,21 @@ internal fun SettingsMovieListDialog(
         },
         icon = {
             Icon(
-                imageVector = MoviesIcons.LocalMovies,
-                contentDescription = MoviesContentDescription.None,
+                painter = painterResource(MoviesIcons.Cat),
+                contentDescription = stringResource(MoviesContentDescription.AppearanceIcon),
                 modifier = Modifier.testTag("Icon")
             )
         },
         title = {
             Text(
-                text = stringResource(R.string.settings_movie_list),
+                text = stringResource(R.string.settings_gender),
                 modifier = Modifier.testTag("Title"),
                 style = MaterialTheme.typography.headlineSmall.copy(MaterialTheme.colorScheme.onSurface)
             )
         },
         text = {
-            SettingMovieListDialogContent(
-                currentMovieList = currentMovieList,
-                onMovieListSelect = { movieList ->
-                    onMovieListSelect(movieList)
-                    onDismissRequest()
-                },
+            SettingsGenderDialogContent(
+                onDialogDismiss = { onDismissRequest() },
                 modifier = Modifier.testTag("Content")
             )
         },
@@ -86,32 +87,32 @@ internal fun SettingsMovieListDialog(
 }
 
 @Composable
-private fun SettingMovieListDialogContent(
-    currentMovieList: MovieList,
-    onMovieListSelect: (MovieList) -> Unit,
+private fun SettingsGenderDialogContent(
+    onDialogDismiss: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val movieLists = listOf(
-        MovieList.NowPlaying,
-        MovieList.Popular,
-        MovieList.TopRated,
-        MovieList.Upcoming
-    )
+    val context = LocalContext.current
+    val grammaticalInflectionManager by remember { mutableStateOf(context.getSystemService(GrammaticalInflectionManager::class.java)) }
+    val grammaticalGender by remember { mutableStateOf(grammaticalInflectionManager.applicationGrammaticalGender) }
+    val currentGrammaticalGender by remember { mutableStateOf(GrammaticalGender.transform(grammaticalGender)) }
     val scrollState = rememberScrollState()
 
     Column(
         modifier = modifier.verticalScroll(scrollState)
     ) {
-        movieLists.forEach { movieList ->
+        GrammaticalGender.VALUES.forEach { gender ->
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(52.dp)
-                    .clickable { onMovieListSelect(movieList) },
+                    .clickable {
+                        grammaticalInflectionManager.setRequestedApplicationGrammaticalGender(gender.value)
+                        onDialogDismiss()
+                    },
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                    selected = currentMovieList == movieList,
+                    selected = currentGrammaticalGender == gender,
                     onClick = null,
                     colors = RadioButtonDefaults.colors(
                         selectedColor = MaterialTheme.colorScheme.primary,
@@ -121,9 +122,11 @@ private fun SettingMovieListDialogContent(
                 )
 
                 Text(
-                    text = movieList.listText,
+                    text = gender.genderText,
                     modifier = Modifier.padding(start = 8.dp),
-                    style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
+                    style = MaterialTheme.typography.bodyLarge.copy(
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
                 )
             }
         }
@@ -132,13 +135,11 @@ private fun SettingMovieListDialogContent(
 
 @Composable
 @DevicePreviews
-private fun SettingsMovieListDialogPreview(
-    @PreviewParameter(MovieListPreviewParameterProvider::class) movieList: MovieList
+private fun SettingsGenderDialogPreview(
+    @PreviewParameter(AppearancePreviewParameterProvider::class) feeView: FeedView
 ) {
     MoviesTheme {
-        SettingsMovieListDialog(
-            currentMovieList = movieList,
-            onMovieListSelect = {},
+        SettingsGenderDialog(
             onDismissRequest = {}
         )
     }
@@ -146,15 +147,13 @@ private fun SettingsMovieListDialogPreview(
 
 @Composable
 @Preview
-private fun SettingsMovieListDialogAmoledPreview(
-    @PreviewParameter(MovieListPreviewParameterProvider::class) movieList: MovieList
+private fun SettingsGenderDialogAmoledPreview(
+    @PreviewParameter(AppearancePreviewParameterProvider::class) feeView: FeedView
 ) {
     MoviesTheme(
         theme = AppTheme.Amoled
     ) {
-        SettingsMovieListDialog(
-            currentMovieList = movieList,
-            onMovieListSelect = {},
+        SettingsGenderDialog(
             onDismissRequest = {}
         )
     }

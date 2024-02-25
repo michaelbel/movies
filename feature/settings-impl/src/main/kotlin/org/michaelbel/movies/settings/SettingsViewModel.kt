@@ -26,6 +26,8 @@ class SettingsViewModel @Inject constructor(
     private val reviewService: ReviewService
 ): BaseViewModel(), DefaultLifecycleObserver {
 
+    val isGrammaticalGenderFeatureEnabled = Build.VERSION.SDK_INT >= 34
+
     val isDynamicColorsFeatureEnabled = Build.VERSION.SDK_INT >= 31
 
     val isPostNotificationsFeatureEnabled = Build.VERSION.SDK_INT >= 33

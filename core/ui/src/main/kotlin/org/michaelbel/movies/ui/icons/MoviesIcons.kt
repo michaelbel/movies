@@ -35,6 +35,7 @@ object MoviesIcons {
     @DrawableRes val MovieFilter24 = R.drawable.ic_movie_filter_24
     @DrawableRes val FileDownload24 = R.drawable.ic_file_download_24
     @DrawableRes val AdultOutline = R.drawable.ic_18_up_rating_outline_24
+    @DrawableRes val Cat = R.drawable.ic_cat_24
 
     val AccountCircle = Icons.Outlined.AccountCircle
     val ArrowBack = Icons.AutoMirrored.Outlined.ArrowBack

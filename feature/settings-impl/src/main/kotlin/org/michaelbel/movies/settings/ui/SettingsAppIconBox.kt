@@ -24,7 +24,7 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun SettingsAppIconBox(
+internal fun SettingsAppIconBox(
     onAppIconChanged: (IconAlias) -> Unit,
     modifier: Modifier = Modifier
 ) {

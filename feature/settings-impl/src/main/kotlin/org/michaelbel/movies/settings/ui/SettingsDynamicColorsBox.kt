@@ -24,7 +24,7 @@ import org.michaelbel.movies.ui.preview.provider.BooleanPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun SettingsDynamicColorsBox(
+internal fun SettingsDynamicColorsBox(
     isDynamicColorsEnabled: Boolean,
     modifier: Modifier = Modifier
 ) {

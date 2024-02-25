@@ -72,6 +72,7 @@ fun SettingsRoute(
         onFeedViewSelect = viewModel::selectFeedView,
         currentMovieList = currentMovieList,
         onMovieListSelect = viewModel::selectMovieList,
+        isGrammaticalGenderFeatureEnabled = viewModel.isGrammaticalGenderFeatureEnabled,
         isDynamicColorsFeatureEnabled = viewModel.isDynamicColorsFeatureEnabled,
         dynamicColors = dynamicColors,
         onSetDynamicColors = viewModel::setDynamicColors,
@@ -94,6 +95,7 @@ private fun SettingsScreenContent(
     onFeedViewSelect: (FeedView) -> Unit,
     currentMovieList: MovieList,
     onMovieListSelect: (MovieList) -> Unit,
+    isGrammaticalGenderFeatureEnabled: Boolean,
     isDynamicColorsFeatureEnabled: Boolean,
     dynamicColors: Boolean,
     onSetDynamicColors: (Boolean) -> Unit,
@@ -232,6 +234,18 @@ private fun SettingsScreenContent(
                     color = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             }
+            if (isGrammaticalGenderFeatureEnabled) {
+                item {
+                    SettingsGenderBox()
+                }
+                item {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                        thickness = .1.dp,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+            }
             if (isDynamicColorsFeatureEnabled) {
                 item {
                     SettingsDynamicColorsBox(
@@ -319,6 +333,7 @@ private fun SettingsScreenContentPreview() {
             onFeedViewSelect = {},
             currentMovieList = MovieList.NowPlaying,
             onMovieListSelect = {},
+            isGrammaticalGenderFeatureEnabled = true,
             isDynamicColorsFeatureEnabled = true,
             dynamicColors = true,
             onSetDynamicColors = {},
@@ -350,6 +365,7 @@ private fun SettingsScreenContentAmoledPreview() {
             onFeedViewSelect = {},
             currentMovieList = MovieList.NowPlaying,
             onMovieListSelect = {},
+            isGrammaticalGenderFeatureEnabled = true,
             isDynamicColorsFeatureEnabled = true,
             dynamicColors = true,
             onSetDynamicColors = {},

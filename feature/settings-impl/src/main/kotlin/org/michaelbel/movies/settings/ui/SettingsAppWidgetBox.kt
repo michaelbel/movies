@@ -8,6 +8,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
@@ -23,12 +26,12 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.widget.ktx.pin
 
 @Composable
-fun SettingsAppWidgetBox(
+internal fun SettingsAppWidgetBox(
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
-    val appWidgetManager = AppWidgetManager.getInstance(context)
-    val appWidgetProvider = appWidgetManager.getInstalledProvidersForPackage(context.packageName, null).first()
+    val appWidgetManager by remember { mutableStateOf(AppWidgetManager.getInstance(context)) }
+    val appWidgetProvider by remember { mutableStateOf(appWidgetManager.getInstalledProvidersForPackage(context.packageName, null).first()) }
 
     ConstraintLayout(
         modifier = modifier

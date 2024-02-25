@@ -1,5 +1,6 @@
 package org.michaelbel.movies.settings.ui
 
+import android.app.GrammaticalInflectionManager
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +13,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,28 +21,30 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import org.michaelbel.movies.common.list.MovieList
+import org.michaelbel.movies.common.appearance.FeedView
+import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.theme.AppTheme
-import org.michaelbel.movies.settings.ktx.listText
+import org.michaelbel.movies.settings.ktx.genderText
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.preview.DevicePreviews
-import org.michaelbel.movies.ui.preview.provider.MovieListPreviewParameterProvider
+import org.michaelbel.movies.ui.preview.provider.AppearancePreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun SettingsMovieListBox(
-    currentMovieList: MovieList,
-    onMovieListSelect: (MovieList) -> Unit,
+internal fun SettingsGenderBox(
     modifier: Modifier = Modifier,
 ) {
-    var movieListDialog by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val grammaticalInflectionManager by remember { mutableStateOf(context.getSystemService(GrammaticalInflectionManager::class.java)) }
+    val grammaticalGender by remember { mutableStateOf(grammaticalInflectionManager.applicationGrammaticalGender) }
+    val currentGrammaticalGender by remember { mutableStateOf(GrammaticalGender.transform(grammaticalGender)) }
 
-    if (movieListDialog) {
-        SettingsMovieListDialog(
-            currentMovieList = currentMovieList,
-            onMovieListSelect = onMovieListSelect,
+    var genderDialog by remember { mutableStateOf(false) }
+
+    if (genderDialog) {
+        SettingsGenderDialog(
             onDismissRequest = {
-                movieListDialog = false
+                genderDialog = false
             }
         )
     }
@@ -50,14 +54,14 @@ internal fun SettingsMovieListBox(
             .fillMaxWidth()
             .height(52.dp)
             .clickable {
-                movieListDialog = true
+                genderDialog = true
             }
             .testTag("ConstraintLayout")
     ) {
         val (title, value) = createRefs()
 
         Text(
-            text = stringResource(R.string.settings_movie_list),
+            text = stringResource(R.string.settings_gender),
             modifier = Modifier
                 .constrainAs(title) {
                     width = Dimension.wrapContent
@@ -71,7 +75,7 @@ internal fun SettingsMovieListBox(
         )
 
         Text(
-            text = currentMovieList.listText,
+            text = currentGrammaticalGender.genderText,
             modifier = Modifier
                 .constrainAs(value) {
                     width = Dimension.wrapContent
@@ -88,13 +92,11 @@ internal fun SettingsMovieListBox(
 
 @Composable
 @DevicePreviews
-private fun SettingsMovieListBoxPreview(
-    @PreviewParameter(MovieListPreviewParameterProvider::class) movieList: MovieList
+private fun SettingsGenderBoxPreview(
+    @PreviewParameter(AppearancePreviewParameterProvider::class) feedView: FeedView
 ) {
     MoviesTheme {
-        SettingsMovieListBox(
-            currentMovieList = movieList,
-            onMovieListSelect = {},
+        SettingsGenderBox(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(52.dp)
@@ -105,15 +107,13 @@ private fun SettingsMovieListBoxPreview(
 
 @Composable
 @Preview
-private fun SettingsMovieListBoxAmoledPreview(
-    @PreviewParameter(MovieListPreviewParameterProvider::class) movieList: MovieList
+private fun SettingsGenderBoxAmoledPreview(
+    @PreviewParameter(AppearancePreviewParameterProvider::class) feedView: FeedView
 ) {
     MoviesTheme(
         theme = AppTheme.Amoled
     ) {
-        SettingsMovieListBox(
-            currentMovieList = movieList,
-            onMovieListSelect = {},
+        SettingsGenderBox(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(52.dp)

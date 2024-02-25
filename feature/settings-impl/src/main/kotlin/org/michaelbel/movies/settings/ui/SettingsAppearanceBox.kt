@@ -28,7 +28,7 @@ import org.michaelbel.movies.ui.preview.provider.AppearancePreviewParameterProvi
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun SettingsAppearanceBox(
+internal fun SettingsAppearanceBox(
     currentFeedView: FeedView,
     onFeedViewSelect: (FeedView) -> Unit,
     modifier: Modifier = Modifier,

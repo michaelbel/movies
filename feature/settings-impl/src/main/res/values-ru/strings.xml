@@ -35,4 +35,9 @@
     <string name="settings_action_cancel">Отмена</string>
     <string name="settings_github">Movies на Github</string>
     <string name="settings_app_widget">Установить виджет</string>
+    <string name="settings_gender">Род</string>
+    <string name="settings_gender_not_specified">Не указан</string>
+    <string name="settings_gender_neutral">Средний</string>
+    <string name="settings_gender_feminine">Женский</string>
+    <string name="settings_gender_masculine">Мужской</string>
 </resources>

@@ -25,7 +25,7 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun SettingsGithubBox(
+internal fun SettingsGithubBox(
     modifier: Modifier = Modifier
 ) {
     val resultContract = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}

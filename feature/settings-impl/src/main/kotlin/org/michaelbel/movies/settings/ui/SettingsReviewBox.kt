@@ -19,7 +19,7 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-fun SettingsReviewBox(
+internal fun SettingsReviewBox(
     modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
