@@ -10,6 +10,7 @@ import org.michaelbel.movies.interactor.AuthenticationInteractor
 import org.michaelbel.movies.interactor.ImageInteractor
 import org.michaelbel.movies.interactor.MovieInteractor
 import org.michaelbel.movies.interactor.NotificationInteractor
+import org.michaelbel.movies.interactor.SearchInteractor
 import org.michaelbel.movies.interactor.SettingsInteractor
 import org.michaelbel.movies.interactor.SuggestionInteractor
 import org.michaelbel.movies.interactor.impl.AccountInteractorImpl
@@ -17,6 +18,7 @@ import org.michaelbel.movies.interactor.impl.AuthenticationInteractorImpl
 import org.michaelbel.movies.interactor.impl.ImageInteractorImpl
 import org.michaelbel.movies.interactor.impl.MovieInteractorImpl
 import org.michaelbel.movies.interactor.impl.NotificationInteractorImpl
+import org.michaelbel.movies.interactor.impl.SearchInteractorImpl
 import org.michaelbel.movies.interactor.impl.SettingsInteractorImpl
 import org.michaelbel.movies.interactor.impl.SuggestionInteractorImpl
 
@@ -53,6 +55,12 @@ internal interface InteractorModule {
     fun provideNotificationInteractor(
         interactor: NotificationInteractorImpl
     ): NotificationInteractor
+
+    @Binds
+    @Singleton
+    fun provideSearchInteractor(
+        interactor: SearchInteractorImpl
+    ): SearchInteractor
 
     @Binds
     @Singleton

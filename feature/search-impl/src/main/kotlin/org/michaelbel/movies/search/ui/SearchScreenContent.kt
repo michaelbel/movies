@@ -63,7 +63,7 @@ fun SearchRoute(
     val networkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
     val suggestions by viewModel.suggestionsFlow.collectAsStateWithLifecycle()
     val searchHistoryMovies by viewModel.searchHistoryMoviesFlow.collectAsStateWithLifecycle()
-    val active by viewModel.active.collectAsStateWithLifecycle()
+    val active by viewModel.isSearchActive.collectAsStateWithLifecycle()
 
     SearchScreenContent(
         pagingItems = pagingItems,
@@ -153,23 +153,15 @@ private fun SearchScreenContent(
                 onCloseClick = {
                     onChangeActiveState(query.isNotEmpty())
                     query = ""
+                    focusRequester.requestFocus()
                 },
                 onInputText = { text ->
                     query = text
                     onChangeSearchQuery(text)
+                    onChangeActiveState(query.isEmpty())
                 },
                 suggestions = suggestions,
-                onSuggestionClick = { suggestion ->
-                    query = suggestion.title
-                    onChangeSearchQuery(suggestion.title)
-                    onChangeActiveState(false)
-                },
                 searchHistoryMovies = searchHistoryMovies,
-                onHistoryMovieClick = { title ->
-                    query = title
-                    onChangeSearchQuery(title)
-                    onChangeActiveState(false)
-                },
                 onHistoryMovieRemoveClick = onRemoveMovieFromHistory,
                 onClearHistoryClick = onHistoryClear,
                 modifier = Modifier

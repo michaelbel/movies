@@ -59,8 +59,7 @@ class SearchViewModel @Inject constructor(
     private val _query: MutableStateFlow<String> = MutableStateFlow("")
     private val query: StateFlow<String> = _query.asStateFlow()
 
-    private val _active: MutableStateFlow<Boolean> = MutableStateFlow(true)
-    val active: StateFlow<Boolean> = _active.asStateFlow()
+    val isSearchActive: StateFlow<Boolean> = interactor.isSearchActive
 
     val pagingDataFlow: Flow<PagingData<MovieDb>> = query
         .flatMapLatest { query -> interactor.moviesPagingData(query) }
@@ -75,7 +74,7 @@ class SearchViewModel @Inject constructor(
     }
 
     fun onChangeActiveState(state: Boolean) {
-        _active.value = state
+        interactor.setSearchActive(state)
     }
 
     fun onSaveToHistory(movieId: Int) = launch {

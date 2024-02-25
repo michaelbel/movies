@@ -45,9 +45,7 @@ fun SearchToolbar(
     onCloseClick: () -> Unit,
     onInputText: (String) -> Unit,
     suggestions: List<SuggestionDb>,
-    onSuggestionClick: (SuggestionDb) -> Unit,
     searchHistoryMovies: List<MovieDb>,
-    onHistoryMovieClick: (String) -> Unit,
     onHistoryMovieRemoveClick: (Int) -> Unit,
     onClearHistoryClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -77,7 +75,7 @@ fun SearchToolbar(
             }
         },
         trailingIcon = {
-            if (active) {
+            if (query.isNotEmpty()) {
                 CloseIcon(
                     onClick = onCloseClick
                 )
@@ -110,7 +108,7 @@ fun SearchToolbar(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(52.dp)
-                                    .clickable { onHistoryMovieClick(movie.title) }
+                                    .clickable { onInputText(movie.title) }
                             )
                         }
                     }
@@ -128,7 +126,7 @@ fun SearchToolbar(
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(52.dp)
-                                    .clickable { onSuggestionClick(suggestion) }
+                                    .clickable { onInputText(suggestion.title) }
                             )
                         }
                     }
@@ -154,9 +152,7 @@ private fun SearchToolbarPreview(
             onCloseClick = {},
             onInputText = {},
             suggestions = suggestions,
-            onSuggestionClick = {},
             searchHistoryMovies = emptyList(),
-            onHistoryMovieClick = {},
             onHistoryMovieRemoveClick = {},
             onClearHistoryClick = {}
         )
@@ -181,9 +177,7 @@ private fun SearchToolbarAmoledPreview(
             onCloseClick = {},
             onInputText = {},
             suggestions = suggestions,
-            onSuggestionClick = {},
             searchHistoryMovies = emptyList(),
-            onHistoryMovieClick = {},
             onHistoryMovieRemoveClick = {},
             onClearHistoryClick = {}
         )
