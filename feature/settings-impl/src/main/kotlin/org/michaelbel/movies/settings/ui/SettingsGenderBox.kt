@@ -17,17 +17,14 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.settings.ktx.genderText
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.preview.DevicePreviews
-import org.michaelbel.movies.ui.preview.provider.AppearancePreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -92,9 +89,7 @@ internal fun SettingsGenderBox(
 
 @Composable
 @DevicePreviews
-private fun SettingsGenderBoxPreview(
-    @PreviewParameter(AppearancePreviewParameterProvider::class) feedView: FeedView
-) {
+private fun SettingsGenderBoxPreview() {
     MoviesTheme {
         SettingsGenderBox(
             modifier = Modifier
@@ -107,9 +102,7 @@ private fun SettingsGenderBoxPreview(
 
 @Composable
 @Preview
-private fun SettingsGenderBoxAmoledPreview(
-    @PreviewParameter(AppearancePreviewParameterProvider::class) feedView: FeedView
-) {
+private fun SettingsGenderBoxAmoledPreview() {
     MoviesTheme(
         theme = AppTheme.Amoled
     ) {
