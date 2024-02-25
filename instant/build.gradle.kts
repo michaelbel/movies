@@ -17,12 +17,12 @@ android {
     }
 
     productFlavors {
-        /*create("foss") {
+        create("foss") {
             dimension = "version"
         }
         create("hms") {
             dimension = "version"
-        }*/
+        }
         create("gms") {
             dimension = "version"
         }
