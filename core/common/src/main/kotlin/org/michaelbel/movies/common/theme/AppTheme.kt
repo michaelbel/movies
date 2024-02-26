@@ -1,8 +1,9 @@
 package org.michaelbel.movies.common.theme
 
+import org.michaelbel.movies.common.SealedString
 import org.michaelbel.movies.common.theme.exceptions.InvalidThemeException
 
-sealed interface AppTheme {
+sealed interface AppTheme: SealedString {
 
     data object NightNo: AppTheme
 

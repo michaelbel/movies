@@ -32,6 +32,8 @@ class SettingsViewModel @Inject constructor(
 
     val isPostNotificationsFeatureEnabled = Build.VERSION.SDK_INT >= 33
 
+    val isReviewFeatureEnabled = interactor.isReviewFeatureEnabled
+
     val currentTheme: StateFlow<AppTheme> = interactor.currentTheme
         .stateIn(
             scope = this,

@@ -30,6 +30,9 @@ internal class SettingsInteractorImpl @Inject constructor(
     appService: AppService
 ): SettingsInteractor {
 
+    override val isReviewFeatureEnabled: Boolean
+        get() = settingsRepository.isReviewFeatureEnabled
+
     override val currentTheme: Flow<AppTheme> = settingsRepository.currentTheme
 
     override val currentFeedView: Flow<FeedView> = settingsRepository.currentFeedView

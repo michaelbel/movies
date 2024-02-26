@@ -1,10 +1,12 @@
 package org.michaelbel.movies.common.list
 
+import org.michaelbel.movies.common.SealedString
 import org.michaelbel.movies.common.list.exceptions.InvalidMovieListException
 
 sealed class MovieList(
     val name: String
-) {
+): SealedString {
+
     data object NowPlaying: MovieList("now_playing")
 
     data object Popular: MovieList("popular")

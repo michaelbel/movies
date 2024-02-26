@@ -17,12 +17,14 @@ import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.LocalMovies
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Notifications
+import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.SystemUpdate
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
+import androidx.compose.material.icons.outlined.Widgets
 import androidx.compose.ui.graphics.vector.ImageVector
 import org.michaelbel.movies.ui.R
 
@@ -36,6 +38,8 @@ object MoviesIcons {
     @DrawableRes val FileDownload24 = R.drawable.ic_file_download_24
     @DrawableRes val AdultOutline = R.drawable.ic_18_up_rating_outline_24
     @DrawableRes val Cat = R.drawable.ic_cat_24
+    @DrawableRes val Github = R.drawable.ic_github_24
+    @DrawableRes val GooglePlay = R.drawable.ic_google_play_24
 
     val AccountCircle = Icons.Outlined.AccountCircle
     val ArrowBack = Icons.AutoMirrored.Outlined.ArrowBack
@@ -52,10 +56,12 @@ object MoviesIcons {
     val MovieFilter = Icons.Filled.MovieFilter
     val LocalMovies = Icons.Outlined.LocalMovies
     val Notifications = Icons.Outlined.Notifications
+    val Palette = Icons.Outlined.Palette
     val Search = Icons.Outlined.Search
     val Settings = Icons.Outlined.Settings
     val Share = Icons.Outlined.Share
     val SystemUpdate = Icons.Outlined.SystemUpdate
     val Visibility = Icons.Outlined.Visibility
     val VisibilityOff = Icons.Outlined.VisibilityOff
+    val Widgets = Icons.Outlined.Widgets
 }
