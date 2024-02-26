@@ -24,7 +24,7 @@ internal class AccountRepositoryImpl @Inject constructor(
         .map { accountId -> accountId ?: 0 }
         .flatMapLatest(accountDao::accountById)
 
-    override suspend fun accountId(): Int? {
+    override suspend fun accountId(): Int {
         return preferences.accountId()
     }
 

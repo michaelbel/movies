@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.HorizontalDivider
@@ -38,7 +37,6 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -67,8 +65,6 @@ import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.lifecycle.OnResume
-import org.michaelbel.movies.ui.preview.DevicePreviews
-import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.widget.ktx.pin
 import org.michaelbel.movies.ui.R as UiR
 import org.michaelbel.movies.widget.R as WidgetR
@@ -84,6 +80,8 @@ fun SettingsRoute(
     val currentFeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()
     val currentMovieList by viewModel.currentMovieList.collectAsStateWithLifecycle()
     val dynamicColors by viewModel.dynamicColors.collectAsStateWithLifecycle()
+    val isBiometricFeatureEnabled by viewModel.isBiometricFeatureEnabled.collectAsStateWithLifecycle()
+    val isBiometricEnabled by viewModel.isBiometricEnabled.collectAsStateWithLifecycle()
     val isPlayServicesAvailable by viewModel.isPlayServicesAvailable.collectAsStateWithLifecycle()
     val appVersionData by viewModel.appVersionData.collectAsStateWithLifecycle()
 
@@ -102,6 +100,9 @@ fun SettingsRoute(
         dynamicColors = dynamicColors,
         onSetDynamicColors = viewModel::setDynamicColors,
         isPostNotificationsFeatureEnabled = viewModel.isPostNotificationsFeatureEnabled,
+        isBiometricFeatureEnabled = isBiometricFeatureEnabled,
+        isBiometricEnabled = isBiometricEnabled,
+        onSetBiometricEnabled = viewModel::setBiometricEnabled,
         isReviewFeatureEnabled = viewModel.isReviewFeatureEnabled,
         isPlayServicesAvailable = isPlayServicesAvailable,
         onRequestReview = viewModel::requestReview,
@@ -126,6 +127,9 @@ private fun SettingsScreenContent(
     dynamicColors: Boolean,
     onSetDynamicColors: (Boolean) -> Unit,
     isPostNotificationsFeatureEnabled: Boolean,
+    isBiometricFeatureEnabled: Boolean,
+    isBiometricEnabled: Boolean,
+    onSetBiometricEnabled: (Boolean) -> Unit,
     isReviewFeatureEnabled: Boolean,
     isPlayServicesAvailable: Boolean,
     onRequestReview: (Activity) -> Unit,
@@ -144,7 +148,7 @@ private fun SettingsScreenContent(
 
     val onShowPermissionSnackbar: () -> Unit = {
         scope.launch {
-            val result: SnackbarResult = snackbarHostState.showSnackbar(
+            val result = snackbarHostState.showSnackbar(
                 message = context.getString(R.string.settings_post_notifications_should_request),
                 actionLabel = context.getString(R.string.settings_action_go),
                 duration = SnackbarDuration.Long
@@ -414,6 +418,24 @@ private fun SettingsScreenContent(
                     )
                 }
             }
+            if (isBiometricFeatureEnabled) {
+                item {
+                    SettingSwitchItem(
+                        title = stringResource(R.string.settings_lock_app),
+                        description = stringResource(if (isBiometricEnabled) R.string.settings_biometric_added else R.string.settings_biometric_not_added),
+                        icon = MoviesIcons.Fingerprint,
+                        checked = isBiometricEnabled,
+                        onClick = { onSetBiometricEnabled(!isBiometricEnabled) }
+                    )
+                }
+                item {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                        thickness = .1.dp,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+            }
             item {
                 val appWidgetManager by remember { mutableStateOf(AppWidgetManager.getInstance(context)) }
                 val appWidgetProvider by remember { mutableStateOf(appWidgetManager.getInstalledProvidersForPackage(context.packageName, null).first()) }
@@ -519,69 +541,5 @@ private fun SettingsScreenContent(
                 }
             }
         }
-    }
-}
-
-@Composable
-@DevicePreviews
-private fun SettingsScreenContentPreview() {
-    MoviesTheme {
-        SettingsScreenContent(
-            onBackClick = {},
-            currentLanguage = AppLanguage.English,
-            onLanguageSelect = {},
-            currentTheme = AppTheme.NightNo,
-            onThemeSelect = {},
-            currentFeedView = FeedView.FeedList,
-            onFeedViewSelect = {},
-            currentMovieList = MovieList.NowPlaying,
-            onMovieListSelect = {},
-            isGrammaticalGenderFeatureEnabled = true,
-            isDynamicColorsFeatureEnabled = true,
-            dynamicColors = true,
-            onSetDynamicColors = {},
-            isPostNotificationsFeatureEnabled = true,
-            isPlayServicesAvailable = true,
-            isReviewFeatureEnabled = true,
-            onRequestReview = {},
-            appVersionData = AppVersionData.Empty,
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .background(MaterialTheme.colorScheme.primaryContainer)
-        )
-    }
-}
-
-@Composable
-@Preview
-private fun SettingsScreenContentAmoledPreview() {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
-        SettingsScreenContent(
-            onBackClick = {},
-            currentLanguage = AppLanguage.English,
-            onLanguageSelect = {},
-            currentTheme = AppTheme.NightNo,
-            onThemeSelect = {},
-            currentFeedView = FeedView.FeedList,
-            onFeedViewSelect = {},
-            currentMovieList = MovieList.NowPlaying,
-            onMovieListSelect = {},
-            isGrammaticalGenderFeatureEnabled = true,
-            isDynamicColorsFeatureEnabled = true,
-            dynamicColors = true,
-            onSetDynamicColors = {},
-            isPostNotificationsFeatureEnabled = true,
-            isPlayServicesAvailable = true,
-            isReviewFeatureEnabled = true,
-            onRequestReview = {},
-            appVersionData = AppVersionData.Empty,
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .background(MaterialTheme.colorScheme.primaryContainer)
-        )
     }
 }

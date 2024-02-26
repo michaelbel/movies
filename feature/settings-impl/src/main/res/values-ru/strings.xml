@@ -46,4 +46,7 @@
     <string name="settings_gender_neutral">Средний</string>
     <string name="settings_gender_feminine">Женский</string>
     <string name="settings_gender_masculine">Мужской</string>
+    <string name="settings_lock_app">Запаролить приложение</string>
+    <string name="settings_biometric_added">Биометрия включена</string>
+    <string name="settings_biometric_not_added">Биометрия отключена</string>
 </resources>

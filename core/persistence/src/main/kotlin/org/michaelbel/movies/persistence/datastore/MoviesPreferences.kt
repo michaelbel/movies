@@ -7,10 +7,10 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
 class MoviesPreferences @Inject constructor(
     private val dataStore: DataStore<Preferences>
@@ -28,8 +28,15 @@ class MoviesPreferences @Inject constructor(
     val isDynamicColorsFlow: Flow<Boolean?>
         get() = dataStore.data.map { preferences -> preferences[PREFERENCE_DYNAMIC_COLORS_KEY] }
 
+    val isBiometricEnabled: Flow<Boolean?>
+        get() = dataStore.data.map { preferences -> preferences[PREFERENCE_BIOMETRIC_KEY] }
+
     val accountIdFlow: Flow<Int?>
         get() = dataStore.data.map { preferences -> preferences[PREFERENCE_ACCOUNT_ID_KEY] }
+
+    suspend fun isBiometricEnabledAsync(): Boolean {
+        return dataStore.data.first()[PREFERENCE_BIOMETRIC_KEY] ?: false
+    }
 
     suspend fun setTheme(theme: String) {
         dataStore.edit { preferences ->
@@ -71,8 +78,8 @@ class MoviesPreferences @Inject constructor(
         }
     }
 
-    suspend fun accountId(): Int? {
-        return dataStore.data.first()[PREFERENCE_ACCOUNT_ID_KEY]
+    suspend fun accountId(): Int {
+        return dataStore.data.first()[PREFERENCE_ACCOUNT_ID_KEY] ?: 0
     }
 
     suspend fun setAccountId(accountId: Int) {
@@ -107,14 +114,21 @@ class MoviesPreferences @Inject constructor(
         }
     }
 
+    suspend fun setBiometricEnabled(enabled: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[PREFERENCE_BIOMETRIC_KEY] = enabled
+        }
+    }
+
     private companion object {
-        private val PREFERENCE_THEME_KEY: Preferences.Key<String> = stringPreferencesKey("theme")
-        private val PREFERENCE_FEED_VIEW_KEY: Preferences.Key<String> = stringPreferencesKey("feed_view")
-        private val PREFERENCE_MOVIE_LIST_KEY: Preferences.Key<String> = stringPreferencesKey("movie_list")
-        private val PREFERENCE_DYNAMIC_COLORS_KEY: Preferences.Key<Boolean> = booleanPreferencesKey("dynamic_colors")
-        private val PREFERENCE_SESSION_ID_KEY: Preferences.Key<String> = stringPreferencesKey("session_id")
-        private val PREFERENCE_ACCOUNT_ID_KEY: Preferences.Key<Int> = intPreferencesKey("account_id")
-        private val PREFERENCE_ACCOUNT_EXPIRE_TIME_KEY: Preferences.Key<Long> = longPreferencesKey("account_expire_time")
-        private val PREFERENCE_NOTIFICATION_EXPIRE_TIME_KEY: Preferences.Key<Long> = longPreferencesKey("notification_expire_time")
+        private val PREFERENCE_THEME_KEY = stringPreferencesKey("theme")
+        private val PREFERENCE_FEED_VIEW_KEY = stringPreferencesKey("feed_view")
+        private val PREFERENCE_MOVIE_LIST_KEY = stringPreferencesKey("movie_list")
+        private val PREFERENCE_DYNAMIC_COLORS_KEY = booleanPreferencesKey("dynamic_colors")
+        private val PREFERENCE_SESSION_ID_KEY = stringPreferencesKey("session_id")
+        private val PREFERENCE_ACCOUNT_ID_KEY = intPreferencesKey("account_id")
+        private val PREFERENCE_ACCOUNT_EXPIRE_TIME_KEY = longPreferencesKey("account_expire_time")
+        private val PREFERENCE_NOTIFICATION_EXPIRE_TIME_KEY = longPreferencesKey("notification_expire_time")
+        private val PREFERENCE_BIOMETRIC_KEY = booleanPreferencesKey("biometric")
     }
 }

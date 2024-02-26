@@ -119,6 +119,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [User Interactions](https://d.android.com/jetpack/compose/text/user-interactions)
 - [x] [Glance AppWidget](https://d.android.com/jetpack/compose/glance)
 - [x] [Grammatical Gender](https://d.android.com/about/versions/14/features/grammatical-inflection)
+- [x] [Biometric Authentication Dialog](https://d.android.com/training/sign-in/biometric-auth)
 
 ## Roadmap
 [Movies App Roadmap](https://github.com/users/michaelbel/projects/1/views/1)

@@ -17,7 +17,7 @@ internal class AccountInteractorImpl @Inject constructor(
 
     override val account: Flow<AccountDb?> = accountRepository.account
 
-    override suspend fun accountId(): Int? {
+    override suspend fun accountId(): Int {
         return withContext(dispatchers.io) { accountRepository.accountId() }
     }
 

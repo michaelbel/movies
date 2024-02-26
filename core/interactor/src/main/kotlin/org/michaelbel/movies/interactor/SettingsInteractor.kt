@@ -18,11 +18,15 @@ interface SettingsInteractor {
 
     val dynamicColors: Flow<Boolean>
 
+    val isBiometricEnabled: Flow<Boolean>
+
     val isSettingsIconVisible: Flow<Boolean>
 
     val isPlayServicesAvailable: Flow<Boolean>
 
     val appVersionData: Flow<AppVersionData>
+
+    suspend fun isBiometricEnabledAsync(): Boolean
 
     suspend fun selectTheme(appTheme: AppTheme)
 
@@ -31,6 +35,8 @@ interface SettingsInteractor {
     suspend fun selectMovieList(movieList: MovieList)
 
     suspend fun setDynamicColors(value: Boolean)
+
+    suspend fun setBiometricEnabled(enabled: Boolean)
 
     suspend fun fetchRemoteConfig()
 }

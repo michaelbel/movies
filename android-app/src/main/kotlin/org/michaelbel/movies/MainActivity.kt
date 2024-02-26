@@ -3,20 +3,21 @@ package org.michaelbel.movies
 import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.fragment.app.FragmentActivity
 import dagger.hilt.android.AndroidEntryPoint
+import org.michaelbel.movies.common.ktx.launchAndCollectIn
 import org.michaelbel.movies.ui.ktx.resolveNotificationPreferencesIntent
 import org.michaelbel.movies.ui.shortcuts.installShortcuts
 
-/**
- * Per-App Language depends on AppCompatActivity (not ComponentActivity).
- */
 @AndroidEntryPoint
-internal class MainActivity: AppCompatActivity() {
+internal class MainActivity: FragmentActivity() {
+
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        installSplashScreen()
+        installSplashScreen().apply { setKeepOnScreenCondition { viewModel.splashLoading.value } }
         super.onCreate(savedInstanceState)
         installShortcuts()
         setContent {
@@ -25,5 +26,9 @@ internal class MainActivity: AppCompatActivity() {
             }
         }
         resolveNotificationPreferencesIntent()
+        viewModel.run {
+            authenticateFlow.launchAndCollectIn(this@MainActivity) { authenticate(this@MainActivity) }
+            cancelFlow.launchAndCollectIn(this@MainActivity) { finish() }
+        }
     }
 }
