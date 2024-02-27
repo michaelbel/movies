@@ -9,6 +9,7 @@ import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.outlined.FileDownload
+import androidx.compose.material.icons.outlined.Fingerprint
 import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Info
@@ -47,6 +48,7 @@ object MoviesIcons {
     val Close = Icons.Outlined.Close
     val Info = Icons.Outlined.Info
     val FileDownload = Icons.Outlined.FileDownload
+    val Fingerprint = Icons.Outlined.Fingerprint
     val GridView = Icons.Outlined.GridView
     val History = Icons.Outlined.History
     val KeyboardVoice = Icons.Outlined.KeyboardVoice

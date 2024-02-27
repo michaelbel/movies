@@ -81,7 +81,7 @@ internal class AuthenticationRepositoryImpl @Inject constructor(
                 sessionRequest = sessionRequest
             )
             if (deletedSession.success) {
-                val accountId = preferences.accountId() ?: 0
+                val accountId = preferences.accountId()
                 accountDao.removeById(accountId)
                 preferences.run {
                     removeSessionId()

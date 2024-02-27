@@ -1,17 +1,25 @@
 package org.michaelbel.movies
 
 import android.os.Bundle
+import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavDestination
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.analytics.MoviesAnalytics
+import org.michaelbel.movies.common.biometric.BiometricController
+import org.michaelbel.movies.common.biometric.BiometricListener
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
@@ -22,10 +30,20 @@ import org.michaelbel.movies.work.MoviesDatabaseWorker
 @HiltViewModel
 internal class MainViewModel @Inject constructor(
     private val interactor: Interactor,
+    private val biometricController: BiometricController,
     private val analytics: MoviesAnalytics,
     private val messagingService: MessagingService,
     private val workManager: WorkManager
 ): BaseViewModel() {
+
+    private val _authenticateFlow = Channel<Unit>(Channel.BUFFERED)
+    val authenticateFlow: Flow<Unit> = _authenticateFlow.receiveAsFlow()
+
+    private val _cancelFlow = Channel<Unit>(Channel.BUFFERED)
+    val cancelFlow: Flow<Unit> = _cancelFlow.receiveAsFlow()
+
+    private val _splashLoading = MutableStateFlow(true)
+    val splashLoading: StateFlow<Boolean> = _splashLoading.asStateFlow()
 
     val currentTheme: StateFlow<AppTheme> = interactor.currentTheme
         .stateIn(
@@ -42,6 +60,7 @@ internal class MainViewModel @Inject constructor(
         )
 
     init {
+        fetchBiometric()
         fetchRemoteConfig()
         fetchFirebaseMessagingToken()
         prepopulateDatabase()
@@ -50,6 +69,27 @@ internal class MainViewModel @Inject constructor(
 
     fun analyticsTrackDestination(destination: NavDestination, arguments: Bundle?) {
         analytics.trackDestination(destination.route, arguments)
+    }
+
+    fun authenticate(activity: FragmentActivity) {
+        val biometricListener = object: BiometricListener {
+            override fun onSuccess() {
+                _splashLoading.value = false
+            }
+
+            override fun onCancel() {
+                launch { _cancelFlow.send(Unit) }
+            }
+        }
+        biometricController.authenticate(activity, biometricListener)
+    }
+
+    private fun fetchBiometric() = launch {
+        val isBiometricEnabled = interactor.isBiometricEnabledAsync()
+        _splashLoading.value = isBiometricEnabled
+        if (isBiometricEnabled) {
+            _authenticateFlow.send(Unit)
+        }
     }
 
     private fun fetchRemoteConfig() = launch {

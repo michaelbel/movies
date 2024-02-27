@@ -41,11 +41,17 @@ internal class SettingsInteractorImpl @Inject constructor(
 
     override val dynamicColors: Flow<Boolean> = settingsRepository.dynamicColors
 
+    override val isBiometricEnabled: Flow<Boolean> = settingsRepository.isBiometricEnabled
+
     override val isSettingsIconVisible: Flow<Boolean> = configService.getBooleanFlow(RemoteParams.PARAM_SETTINGS_ICON_VISIBLE)
 
     override val isPlayServicesAvailable: Flow<Boolean> = flowOf(appService.isPlayServicesAvailable)
 
     override val appVersionData: Flow<AppVersionData> = settingsRepository.appVersionData
+
+    override suspend fun isBiometricEnabledAsync(): Boolean {
+        return settingsRepository.isBiometricEnabledAsync()
+    }
 
     override suspend fun selectTheme(appTheme: AppTheme) {
         withContext(dispatchers.main) {
@@ -72,6 +78,12 @@ internal class SettingsInteractorImpl @Inject constructor(
         withContext(dispatchers.main) {
             settingsRepository.setDynamicColors(value)
             analytics.logEvent(ChangeDynamicColorsEvent(value))
+        }
+    }
+
+    override suspend fun setBiometricEnabled(enabled: Boolean) {
+        withContext(dispatchers.main) {
+            settingsRepository.setBiometricEnabled(enabled)
         }
     }
 

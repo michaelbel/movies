@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.appearance.FeedView
+import org.michaelbel.movies.common.biometric.BiometricController
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.localization.LocaleController
 import org.michaelbel.movies.common.localization.model.AppLanguage
@@ -21,6 +22,7 @@ import org.michaelbel.movies.platform.review.ReviewService
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
+    biometricController: BiometricController,
     private val interactor: Interactor,
     private val localeController: LocaleController,
     private val reviewService: ReviewService
@@ -62,6 +64,20 @@ class SettingsViewModel @Inject constructor(
             initialValue = false
         )
 
+    val isBiometricFeatureEnabled: StateFlow<Boolean> = biometricController.isBiometricAvailable
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = false
+        )
+
+    val isBiometricEnabled: StateFlow<Boolean> = interactor.isBiometricEnabled
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = false
+        )
+
     val isPlayServicesAvailable: StateFlow<Boolean> = interactor.isPlayServicesAvailable
         .stateIn(
             scope = this,
@@ -94,6 +110,10 @@ class SettingsViewModel @Inject constructor(
 
     fun setDynamicColors(value: Boolean) = launch {
         interactor.setDynamicColors(value)
+    }
+
+    fun setBiometricEnabled(enabled: Boolean) = launch {
+        interactor.setBiometricEnabled(enabled)
     }
 
     fun requestReview(activity: Activity) {

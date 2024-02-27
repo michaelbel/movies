@@ -53,6 +53,5 @@ dependencies {
     api(libs.bundles.material)
     api(libs.bundles.compose)
     api(libs.androidx.paging.compose)
-
     lintChecks(libs.lint.checks)
 }

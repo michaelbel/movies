@@ -50,6 +50,7 @@ dependencies {
     implementation(project(":core:network"))
     api(libs.bundles.kotlin.coroutines)
     api(libs.androidx.activity.compose)
+    api(libs.androidx.biometric.ktx)
     api(libs.androidx.core.ktx)
     api(libs.androidx.paging.compose)
     api(libs.androidx.startup.runtime)

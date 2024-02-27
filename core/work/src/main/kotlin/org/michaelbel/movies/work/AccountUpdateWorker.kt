@@ -21,7 +21,7 @@ class AccountUpdateWorker @AssistedInject constructor(
     override suspend fun doWork(): Result {
         return try {
             val accountId = interactor.accountId()
-            if (isTmdbApiKeyEmpty || accountId == null) {
+            if (isTmdbApiKeyEmpty || accountId == 0) {
                 return Result.success()
             }
 

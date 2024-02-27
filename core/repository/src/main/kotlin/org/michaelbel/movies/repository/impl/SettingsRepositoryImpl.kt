@@ -46,6 +46,10 @@ internal class SettingsRepositoryImpl @Inject constructor(
         isDynamicColors ?: (Build.VERSION.SDK_INT >= 31)
     }
 
+    override val isBiometricEnabled: Flow<Boolean> = preferences.isBiometricEnabled.map { enabled ->
+        enabled ?: false
+    }
+
     override val appVersionData: Flow<AppVersionData> = flowOf(
         AppVersionData(
             version = context.packageInfo.versionName,
@@ -54,6 +58,10 @@ internal class SettingsRepositoryImpl @Inject constructor(
             isDebug = BuildConfig.DEBUG
         )
     )
+
+    override suspend fun isBiometricEnabledAsync(): Boolean {
+        return preferences.isBiometricEnabledAsync()
+    }
 
     override suspend fun selectTheme(appTheme: AppTheme) {
         preferences.setTheme(appTheme.toString())
@@ -69,5 +77,9 @@ internal class SettingsRepositoryImpl @Inject constructor(
 
     override suspend fun setDynamicColors(value: Boolean) {
         preferences.setDynamicColors(value)
+    }
+
+    override suspend fun setBiometricEnabled(enabled: Boolean) {
+        preferences.setBiometricEnabled(enabled)
     }
 }

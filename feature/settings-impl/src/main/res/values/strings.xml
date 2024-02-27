@@ -8,8 +8,8 @@
     <string name="settings_dynamic_colors">Dynamic Colors</string>
     <string name="settings_dynamic_colors_description">Apply colors from wallpaper</string>
     <string name="settings_post_notifications">Notifications</string>
-    <string name="settings_post_notifications_denied">Permission Denied</string>
-    <string name="settings_post_notifications_granted">Permission Granted</string>
+    <string name="settings_post_notifications_denied">Permission denied</string>
+    <string name="settings_post_notifications_granted">Permission granted</string>
     <string name="settings_review">Rate App</string>
     <string name="settings_review_description">Using In-App Review API</string>
     <string name="settings_post_notifications_should_request">Notifications are disabled. Please go to app settings to activate them</string>
@@ -46,4 +46,7 @@
     <string name="settings_gender_neutral">Neutral</string>
     <string name="settings_gender_feminine">Feminine</string>
     <string name="settings_gender_masculine">Masculine</string>
+    <string name="settings_lock_app">Lock App</string>
+    <string name="settings_biometric_added">Biometric added</string>
+    <string name="settings_biometric_not_added">Biometric not added</string>
 </resources>
