@@ -83,6 +83,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [OkHttp](https://github.com/square/okhttp)
 - [x] [Retrofit](https://github.com/square/retrofit)
 - [x] [Retrofit Kotlinx Converter Serialization](https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter)
+- [x] [Ktor](https://ktor.io)
 - [x] [Chucker](https://github.com/ChuckerTeam/chucker)
 - [x] [Flaker](https://github.com/rotbolt/flaker)
 - [x] [Coil](https://github.com/coil-kt/coil)

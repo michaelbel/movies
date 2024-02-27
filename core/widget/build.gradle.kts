@@ -3,8 +3,8 @@ plugins {
     alias(libs.plugins.library)
     alias(libs.plugins.kotlin)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.kotlin.serialization)
     id("movies-android-hilt")
-    id("org.jetbrains.kotlin.plugin.serialization")
 }
 
 android {

@@ -1,4 +1,4 @@
-package org.michaelbel.movies.network.okhttp
+package org.michaelbel.movies.network.okhttp.di
 
 import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
@@ -25,7 +25,7 @@ internal object OkhttpModule {
     fun httpCache(
         @ApplicationContext context: Context
     ): Cache {
-        return Cache(context.cacheDir, HTTP_CACHE_SIZE_BYTES)
+        return Cache(context.cacheDir, HTTP_CACHE_SIZE_BYTES.toLong())
     }
 
     @Provides
@@ -56,10 +56,10 @@ internal object OkhttpModule {
             addInterceptor(flakerInterceptor)
             addInterceptor(httpLoggingInterceptor)
             addInterceptor(apikeyInterceptor)
-            callTimeout(CALL_TIMEOUT_SECONDS, TimeUnit.SECONDS)
-            connectTimeout(CONNECT_TIMEOUT_SECONDS, TimeUnit.SECONDS)
-            readTimeout(READ_TIMEOUT_SECONDS, TimeUnit.SECONDS)
-            writeTimeout(WRITE_TIMEOUT_SECONDS, TimeUnit.SECONDS)
+            callTimeout(CALL_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+            connectTimeout(CONNECT_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+            readTimeout(READ_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
+            writeTimeout(WRITE_TIMEOUT_MILLIS, TimeUnit.MILLISECONDS)
             retryOnConnectionFailure(true)
             followRedirects(true)
             followSslRedirects(true)
@@ -68,9 +68,9 @@ internal object OkhttpModule {
         return builder.build()
     }
 
-    private const val HTTP_CACHE_SIZE_BYTES = 1024 * 1024 * 50L
-    private const val CALL_TIMEOUT_SECONDS = 0L
-    private const val CONNECT_TIMEOUT_SECONDS = 10L
-    private const val READ_TIMEOUT_SECONDS = 10L
-    private const val WRITE_TIMEOUT_SECONDS = 10L
+    const val HTTP_CACHE_SIZE_BYTES = 1024 * 1024 * 50
+    const val CONNECT_TIMEOUT_MILLIS = 10_000L
+    private const val READ_TIMEOUT_MILLIS = 10_000L
+    private const val WRITE_TIMEOUT_MILLIS = 10_000L
+    private const val CALL_TIMEOUT_MILLIS = 0L
 }

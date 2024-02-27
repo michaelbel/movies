@@ -1,5 +1,6 @@
 package org.michaelbel.movies.network
 
+const val TMDB_API_ENDPOINT = "https://api.themoviedb.org/3/"
 const val TMDB_URL = "https://themoviedb.org"
 const val TMDB_TERMS_OF_USE = "$TMDB_URL/documentation/website/terms-of-use"
 const val TMDB_PRIVACY_POLICY = "$TMDB_URL/privacy-policy"

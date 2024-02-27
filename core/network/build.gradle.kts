@@ -51,10 +51,10 @@ android {
 
 dependencies {
     implementation(libs.androidx.startup.runtime)
-    api(libs.kotlin.serialization.json)
+    implementation(libs.kotlin.serialization.json)
     implementation(libs.okhttp.logging.interceptor)
-    implementation(libs.retrofit.converter.serialization)
-    api(libs.retrofit)
+    implementation(libs.bundles.retrofit)
+    implementation(libs.bundles.ktor)
     debugImplementation(libs.chucker.library)
     releaseImplementation(libs.chucker.library.no.op)
     debugImplementation(libs.flaker.android.okhttp)
