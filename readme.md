@@ -51,6 +51,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Gradle Version Catalog](https://d.android.com/build/migrate-to-catalogs)
 - [x] [Build Variants](https://d.android.com/build/build-variants)
 - [x] [Product Flavors](https://d.android.com/build/build-variants#product-flavors)
+- [x] [Using buildSrc Directory](https://docs.gradle.org/current/userguide/organizing_gradle_projects.html#sec:build_sources)
 - [x] MinSDK 23
 - [x] TargetSDK 34
 - [x] CompileSDK 34
