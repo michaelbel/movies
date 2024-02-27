@@ -17,10 +17,8 @@ internal object ConverterFactoryModule {
     @Provides
     @Singleton
     fun provideSerializationConverterFactory(): Converter.Factory {
-        val contentType = MEDIA_TYPE_APPLICATION_JSON.toMediaType()
+        val contentType = "application/json".toMediaType()
         val format = Json { ignoreUnknownKeys = true }
         return format.asConverterFactory(contentType)
     }
-
-    private const val MEDIA_TYPE_APPLICATION_JSON = "application/json"
 }

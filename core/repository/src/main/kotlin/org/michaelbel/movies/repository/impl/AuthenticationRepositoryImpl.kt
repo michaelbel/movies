@@ -6,26 +6,31 @@ import org.michaelbel.movies.common.exceptions.CreateRequestTokenException
 import org.michaelbel.movies.common.exceptions.CreateSessionException
 import org.michaelbel.movies.common.exceptions.CreateSessionWithLoginException
 import org.michaelbel.movies.common.exceptions.DeleteSessionException
+import org.michaelbel.movies.network.ktor.KtorAuthenticationService
 import org.michaelbel.movies.network.model.RequestToken
 import org.michaelbel.movies.network.model.Session
 import org.michaelbel.movies.network.model.SessionRequest
 import org.michaelbel.movies.network.model.Token
 import org.michaelbel.movies.network.model.Username
-import org.michaelbel.movies.network.service.authentication.AuthenticationService
+import org.michaelbel.movies.network.retrofit.RetrofitAuthenticationService
 import org.michaelbel.movies.persistence.database.dao.AccountDao
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import org.michaelbel.movies.repository.AuthenticationRepository
 
+/**
+ * You can replace [ktorAuthenticationService] with [retrofitAuthenticationService] to use it.
+ */
 @Singleton
 internal class AuthenticationRepositoryImpl @Inject constructor(
-    private val authenticationService: AuthenticationService,
+    private val retrofitAuthenticationService: RetrofitAuthenticationService,
+    private val ktorAuthenticationService: KtorAuthenticationService,
     private val accountDao: AccountDao,
     private val preferences: MoviesPreferences
 ): AuthenticationRepository {
 
     override suspend fun createRequestToken(loginViaTmdb: Boolean): Token {
         return try {
-            val token = authenticationService.createRequestToken()
+            val token = ktorAuthenticationService.createRequestToken()
             if (!token.success) {
                 throw CreateRequestTokenException(loginViaTmdb)
             }
@@ -41,7 +46,7 @@ internal class AuthenticationRepositoryImpl @Inject constructor(
         requestToken: String
     ): Token {
         return try {
-            val token = authenticationService.createSessionWithLogin(
+            val token = ktorAuthenticationService.createSessionWithLogin(
                 username = Username(
                     username = username,
                     password = password,
@@ -59,9 +64,7 @@ internal class AuthenticationRepositoryImpl @Inject constructor(
 
     override suspend fun createSession(token: String): Session {
         return try {
-            val session = authenticationService.createSession(
-                authToken = RequestToken(token)
-            )
+            val session = ktorAuthenticationService.createSession(RequestToken(token))
             if (session.success) {
                 preferences.setSessionId(session.sessionId)
             } else {
@@ -74,12 +77,10 @@ internal class AuthenticationRepositoryImpl @Inject constructor(
     }
 
     override suspend fun deleteSession() {
-        try {
+        runCatching {
             val sessionId = preferences.sessionId().orEmpty()
             val sessionRequest = SessionRequest(sessionId)
-            val deletedSession = authenticationService.deleteSession(
-                sessionRequest = sessionRequest
-            )
+            val deletedSession = ktorAuthenticationService.deleteSession(sessionRequest)
             if (deletedSession.success) {
                 val accountId = preferences.accountId()
                 accountDao.removeById(accountId)
@@ -90,7 +91,7 @@ internal class AuthenticationRepositoryImpl @Inject constructor(
             } else {
                 throw DeleteSessionException
             }
-        } catch (ignored: Exception) {
+        }.onFailure {
             throw DeleteSessionException
         }
     }

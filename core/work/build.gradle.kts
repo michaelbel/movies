@@ -48,6 +48,7 @@ dependencies {
     implementation(project(":core:network"))
     implementation(project(":core:notifications"))
     implementation(project(":core:ui"))
+    implementation(libs.kotlin.serialization.json)
     implementation(libs.androidx.paging.compose)
     implementation(libs.androidx.hilt.work)
     implementation(libs.androidx.work.runtime.ktx)

@@ -1,4 +1,4 @@
-package org.michaelbel.movies.network.service.movie
+package org.michaelbel.movies.network.retrofit
 
 import org.michaelbel.movies.network.model.ImagesResponse
 import org.michaelbel.movies.network.model.Movie
@@ -8,7 +8,8 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface MovieService {
+@Deprecated("Use KtorMovieService instead", ReplaceWith("KtorMovieService"))
+interface RetrofitMovieService {
 
     @GET("movie/{list}")
     suspend fun movies(
