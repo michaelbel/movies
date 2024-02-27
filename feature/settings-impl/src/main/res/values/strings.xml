@@ -6,8 +6,12 @@
     <string name="settings_theme_dark">Dark</string>
     <string name="settings_theme_amoled">Amoled</string>
     <string name="settings_dynamic_colors">Dynamic Colors</string>
+    <string name="settings_dynamic_colors_description">Apply colors from wallpaper</string>
     <string name="settings_post_notifications">Notifications</string>
-    <string name="settings_review">Review</string>
+    <string name="settings_post_notifications_denied">Permission Denied</string>
+    <string name="settings_post_notifications_granted">Permission Granted</string>
+    <string name="settings_review">Rate App</string>
+    <string name="settings_review_description">Using In-App Review API</string>
     <string name="settings_post_notifications_should_request">Notifications are disabled. Please go to app settings to activate them</string>
     <string name="settings_action_go">Go</string>
     <string name="settings_error_play_services_not_available">Google play services are not available</string>
@@ -33,8 +37,10 @@
     <string name="settings_app_version_code">(%s)</string>
     <string name="settings_app_debug">Debug</string>
     <string name="settings_action_cancel">Cancel</string>
-    <string name="settings_github">Movies on Github</string>
+    <string name="settings_github">Movies on GitHub</string>
+    <string name="settings_github_description">Check the GitHub repository</string>
     <string name="settings_app_widget">Install AppWidget</string>
+    <string name="settings_app_widget_description">3x2 %s</string>
     <string name="settings_gender">Gender</string>
     <string name="settings_gender_not_specified">Not specified</string>
     <string name="settings_gender_neutral">Neutral</string>

@@ -8,6 +8,8 @@ import org.michaelbel.movies.common.version.AppVersionData
 
 interface SettingsInteractor {
 
+    val isReviewFeatureEnabled: Boolean
+
     val currentTheme: Flow<AppTheme>
 
     val currentFeedView: Flow<FeedView>

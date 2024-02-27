@@ -1,8 +1,9 @@
 package org.michaelbel.movies.common.appearance
 
+import org.michaelbel.movies.common.SealedString
 import org.michaelbel.movies.common.appearance.exceptions.InvalidFeedViewException
 
-sealed interface FeedView {
+sealed interface FeedView: SealedString {
 
     data object FeedList: FeedView
 

@@ -1,11 +1,13 @@
 package org.michaelbel.movies.common.gender
 
 import android.content.res.Configuration
+import org.michaelbel.movies.common.SealedString
 import org.michaelbel.movies.common.gender.exceptions.InvalidGenderException
 
 sealed class GrammaticalGender(
     val value: Int
-) {
+): SealedString {
+
     data object NotSpecified: GrammaticalGender(Configuration.GRAMMATICAL_GENDER_NOT_SPECIFIED)
 
     data object Neutral: GrammaticalGender(Configuration.GRAMMATICAL_GENDER_NEUTRAL)

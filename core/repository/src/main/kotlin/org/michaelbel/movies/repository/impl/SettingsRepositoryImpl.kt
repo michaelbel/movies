@@ -14,6 +14,7 @@ import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
+import org.michaelbel.movies.platform.Flavor
 import org.michaelbel.movies.platform.app.AppService
 import org.michaelbel.movies.repository.SettingsRepository
 import org.michaelbel.movies.repository.ktx.code
@@ -23,8 +24,11 @@ import org.michaelbel.movies.repository.ktx.packageInfo
 internal class SettingsRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
     private val preferences: MoviesPreferences,
-    appService: AppService
+    private val appService: AppService
 ): SettingsRepository {
+
+    override val isReviewFeatureEnabled: Boolean
+        get() = BuildConfig.BUILD_TYPE == "Release" && appService.flavor == Flavor.Gms
 
     override val currentTheme: Flow<AppTheme> = preferences.themeFlow.map { name ->
         AppTheme.transform(name ?: AppTheme.FollowSystem.toString())

@@ -2,16 +2,15 @@ package org.michaelbel.movies.settings.ui
 
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.material3.LargeTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.settings_impl.R
@@ -26,13 +25,12 @@ internal fun SettingsToolbar(
     topAppBarScrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
     onNavigationIconClick: () -> Unit,
 ) {
-    TopAppBar(
+    LargeTopAppBar(
         title = {
             Text(
                 text = stringResource(R.string.settings_title),
                 modifier = Modifier.testTag("TitleText"),
-                overflow = TextOverflow.Ellipsis,
-                style = MaterialTheme.typography.titleLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
+                color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         },
         modifier = modifier.testTag("TopAppBar"),
