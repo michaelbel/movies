@@ -31,5 +31,7 @@ val AmoledColorScheme = darkColorScheme(
     surfaceVariant = amoledSurface,
     onSurfaceVariant = Color.White,
     error = Color.White,
+    errorContainer = Color.Black,
+    onErrorContainer = Color.White,
     outline = Color.White
 )
