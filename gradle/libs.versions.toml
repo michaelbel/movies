@@ -31,6 +31,7 @@ androidx-benchmark = "1.2.3"
 androidx-biometric-ktx = "1.2.0-alpha05"
 androidx-browser = "1.7.0"
 androidx-collection = "1.4.0"
+androidx-compose-animation = "1.6.2"
 androidx-compose-foundation = "1.6.2"
 androidx-compose-runtime = "1.6.2"
 androidx-compose-ui = "1.6.2"
@@ -96,6 +97,7 @@ androidx-biometric-ktx = { module = "androidx.biometric:biometric-ktx", version.
 androidx-browser = { module = "androidx.browser:browser", version.ref = "androidx-browser" }
 androidx-collection = { module = "androidx.collection:collection", version.ref = "androidx-collection" }
 androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "androidx-constraintlayout" }
+androidx-compose-animation = { module = "androidx.compose.animation:animation", version.ref = "androidx-compose-animation" }
 androidx-compose-compiler = { module = "androidx.compose.compiler:compiler", version.ref = "androidx-compose-compiler" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx-compose-foundation" }
 androidx-compose-foundation-layout = { module = "androidx.compose.foundation:foundation-layout", version.ref = "androidx-compose-foundation" }
@@ -165,6 +167,7 @@ appcompat = [
     "androidx-appcompat-resources"
 ]
 compose = [
+    "androidx-compose-animation",
     "androidx-compose-compiler",
     "androidx-compose-foundation",
     "androidx-compose-foundation-layout",
