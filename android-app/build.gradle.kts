@@ -170,7 +170,6 @@ dependencies {
     gmsImplementation(project(":core:platform-services:inject"))
     hmsImplementation(project(":core:platform-services:inject"))
     fossImplementation(project(":core:platform-services:inject"))
-
     implementation(project(":core:analytics"))
     implementation(project(":core:common"))
     implementation(project(":core:interactor"))
@@ -186,15 +185,12 @@ dependencies {
     implementation(project(":feature:gallery"))
     implementation(project(":feature:search"))
     implementation(project(":feature:settings"))
-
     implementation(libs.kotlin.reflect)
-
     testImplementation(libs.junit)
+    androidTestImplementation(libs.bundles.test.espresso)
     androidTestImplementation(libs.androidx.test.ext.junit.ktx)
-    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.benchmark.junit)
-
     lintChecks(libs.lint.checks)
 }
 

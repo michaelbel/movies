@@ -45,8 +45,8 @@ android {
 }*/
 
 dependencies {
+    implementation(libs.bundles.test.espresso)
     implementation(libs.androidx.benchmark.macro.junit)
-    implementation(libs.androidx.espresso.core)
     implementation(libs.androidx.test.ext.junit.ktx)
     implementation(libs.androidx.test.uiautomator)
 }

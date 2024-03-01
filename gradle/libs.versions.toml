@@ -52,6 +52,7 @@ androidx-test = "1.5.2"
 androidx-test-ext = "1.1.5"
 androidx-test-uiautomator = "2.3.0"
 androidx-espresso-core = "3.5.1"
+androidx-test-espresso = "3.5.1"
 androidx-benchmark = "1.2.3"
 androidx-profile-installer = "1.3.1"
 androidx-work = "2.9.0"
@@ -128,6 +129,8 @@ androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidx-
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test" }
 androidx-test-ext-junit-ktx = { module = "androidx.test.ext:junit-ktx", version.ref = "androidx-test-ext" }
 androidx-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-espresso-core" }
+androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-test-espresso" }
+androidx-test-espresso-device = { module = "androidx.test.espresso:espresso-device", version.ref = "androidx-test-espresso" }
 androidx-benchmark-junit = { module = "androidx.benchmark:benchmark-junit4", version.ref = "androidx-benchmark" }
 androidx-benchmark-macro-junit = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "androidx-benchmark" }
 androidx-test-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "androidx-test-uiautomator" }
@@ -220,6 +223,10 @@ ktor = [
     "ktor-client-android",
     "ktor-client-content-negotiation",
     "ktor-serialization-kotlinx-json"
+]
+test-espresso = [
+    "androidx-test-espresso-core",
+    "androidx-test-espresso-device"
 ]
 
 [plugins]

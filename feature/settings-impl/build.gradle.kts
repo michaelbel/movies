@@ -58,13 +58,11 @@ dependencies {
     api(project(":core:common"))
     api(project(":core:ui"))
     implementation(project(":core:interactor"))
-
     testImplementation(libs.junit)
+    androidTestImplementation(libs.bundles.test.espresso)
     androidTestImplementation(libs.androidx.test.ext.junit.ktx)
-    androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.benchmark.junit)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
-
     lintChecks(libs.lint.checks)
 }
