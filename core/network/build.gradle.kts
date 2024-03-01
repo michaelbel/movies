@@ -9,7 +9,7 @@ plugins {
 }
 
 val tmdbApiKey: String by lazy {
-    gradleLocalProperties(rootDir).getProperty("TMDB_API_KEY").orEmpty().ifEmpty {
+    gradleLocalProperties(rootDir, providers).getProperty("TMDB_API_KEY").orEmpty().ifEmpty {
         System.getenv("TMDB_API_KEY").orEmpty()
     }
 }
