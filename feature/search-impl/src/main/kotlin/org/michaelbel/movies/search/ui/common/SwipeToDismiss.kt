@@ -35,7 +35,7 @@ internal fun <T> SwipeToDismiss(
     onDelete: (T) -> Unit,
     modifier: Modifier = Modifier,
     duration: Long = 500L,
-    content: @Composable (T) -> Unit
+    content: @Composable (T, (T) -> Unit) -> Unit
 ) {
     val hapticFeedback = LocalHapticFeedback.current
     var removed by rememberSaveable { mutableStateOf(false) }
@@ -85,7 +85,7 @@ internal fun <T> SwipeToDismiss(
                 }
             },
             content = {
-                content(item)
+                content(item, onDelete)
             }
         )
     }
