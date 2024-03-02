@@ -26,7 +26,6 @@ import org.michaelbel.movies.persistence.database.entity.SuggestionDb
 import org.michaelbel.movies.search_impl.R
 import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
 import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
-import org.michaelbel.movies.ui.compose.iconbutton.SearchIcon
 import org.michaelbel.movies.ui.compose.iconbutton.VoiceIcon
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.SuggestionDbPreviewParameterProvider
@@ -61,15 +60,9 @@ fun SearchToolbar(
             )
         },
         leadingIcon = {
-            if (active) {
-                SearchIcon(
-                    onClick = onBackClick
-                )
-            } else {
-                BackIcon(
-                    onClick = onBackClick
-                )
-            }
+            BackIcon(
+                onClick = onBackClick
+            )
         },
         trailingIcon = {
             if (query.isNotEmpty()) {
