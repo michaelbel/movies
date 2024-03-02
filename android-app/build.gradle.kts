@@ -191,6 +191,7 @@ dependencies {
     androidTestImplementation(libs.androidx.test.ext.junit.ktx)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.benchmark.junit)
+    debugImplementation(libs.leakcanary)
     lintChecks(libs.lint.checks)
 }
 
