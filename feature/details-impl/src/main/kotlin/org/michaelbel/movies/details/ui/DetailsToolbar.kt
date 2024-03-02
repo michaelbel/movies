@@ -38,6 +38,7 @@ fun DetailsToolbar(
             Text(
                 text = movieTitle,
                 overflow = TextOverflow.Ellipsis,
+                maxLines = 2,
                 style = MaterialTheme.typography.titleLarge.copy(onContainerColor)
             )
         },

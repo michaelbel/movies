@@ -1,5 +1,6 @@
 package org.michaelbel.movies.search.ui
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,6 +15,9 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -23,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.entity.SuggestionDb
+import org.michaelbel.movies.search.ui.common.SwipeToDismiss
 import org.michaelbel.movies.search_impl.R
 import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
 import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
@@ -94,16 +99,26 @@ fun SearchToolbar(
                             .height(48.dp)
                     )
 
+                    val movies by remember { mutableStateOf(searchHistoryMovies) }
+
                     LazyColumn {
-                        items(searchHistoryMovies) { movie ->
-                            SearchRecentResult(
-                                text = movie.title,
-                                onRemoveClick = { onHistoryMovieRemoveClick(movie.movieId) },
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .height(52.dp)
-                                    .clickable { onInputText(movie.title) }
-                            )
+                        items(movies) { movieDb ->
+                            SwipeToDismiss(
+                                item = movieDb,
+                                onDelete = { deletedMovieDb ->
+                                    onHistoryMovieRemoveClick(deletedMovieDb.movieId)
+                                }
+                            ) { swipedMovieDb ->
+                                SearchRecentResult(
+                                    text = swipedMovieDb.title,
+                                    onRemoveClick = { onHistoryMovieRemoveClick(swipedMovieDb.movieId) },
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .height(52.dp)
+                                        .background(MaterialTheme.colorScheme.inversePrimary)
+                                        .clickable { onInputText(swipedMovieDb.title) }
+                                )
+                            }
                         }
                     }
                 }
