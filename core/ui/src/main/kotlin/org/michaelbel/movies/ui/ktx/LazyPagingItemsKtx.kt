@@ -20,7 +20,13 @@ val <T: Any> LazyPagingItems<T>.isPagingLoading: Boolean
     get() = loadState.append is LoadState.Loading && isNotEmpty
 
 val <T: Any> LazyPagingItems<T>.isPagingFailure: Boolean
-    get() = loadState.append is LoadState.Error && appendThrowable !is PageEmptyException && isNotEmpty
+    get() = isNotEmpty && (isAppendError && appendThrowable !is PageEmptyException || isRefreshError && refreshThrowable !is PageEmptyException)
+
+val <T: Any> LazyPagingItems<T>.isRefreshError: Boolean
+    get() = loadState.refresh is LoadState.Error
+
+val <T: Any> LazyPagingItems<T>.isAppendError: Boolean
+    get() = loadState.append is LoadState.Error
 
 val <T: Any> LazyPagingItems<T>.refreshThrowable: Throwable
     get() = (loadState.refresh as LoadState.Error).error

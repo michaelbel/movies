@@ -5,10 +5,6 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.windowInsetsPadding
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -34,16 +30,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import java.net.UnknownHostException
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
-import org.michaelbel.movies.common.exceptions.PageEmptyException
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.feed.FeedViewModel
 import org.michaelbel.movies.feed.ktx.titleText
+import org.michaelbel.movies.feed.ui.common.FeedBottomBar
+import org.michaelbel.movies.feed.ui.common.FeedBottomTabs
 import org.michaelbel.movies.feed_impl.R
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.network.isTmdbApiKeyEmpty
@@ -51,13 +51,7 @@ import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.ui.compose.NotificationBottomSheet
-import org.michaelbel.movies.ui.compose.page.PageContent
-import org.michaelbel.movies.ui.compose.page.PageFailure
-import org.michaelbel.movies.ui.compose.page.PageLoading
-import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
-import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.ktx.isFailure
-import org.michaelbel.movies.ui.ktx.isLoading
 import org.michaelbel.movies.ui.ktx.refreshThrowable
 import org.michaelbel.movies.ui.R as UiR
 
@@ -123,9 +117,6 @@ private fun FeedScreenContent(
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val lazyListState = rememberLazyListState()
-    val lazyGridState = rememberLazyGridState()
-    val lazyStaggeredGridState = rememberLazyStaggeredGridState()
     val snackbarHostState = remember { SnackbarHostState() }
     val notificationBottomSheetScaffoldState = rememberBottomSheetScaffoldState(
         bottomSheetState = rememberStandardBottomSheetState(
@@ -147,18 +138,6 @@ private fun FeedScreenContent(
         scope.launch {
             notificationBottomSheetScaffoldState.bottomSheetState.hide()
             onNotificationBottomSheetHideClick()
-        }
-    }
-
-    val onScrollToTop: () -> Unit = {
-        scope.launch {
-            lazyListState.animateScrollToItem(0)
-        }
-        scope.launch {
-            lazyGridState.animateScrollToItem(0)
-        }
-        scope.launch {
-            lazyStaggeredGridState.animateScrollToItem(0)
         }
     }
 
@@ -206,6 +185,7 @@ private fun FeedScreenContent(
         scaffoldState = notificationBottomSheetScaffoldState,
         sheetPeekHeight = 0.dp
     ) { bottomSheetInnerPadding ->
+        val navController = rememberNavController()
         val topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
         Scaffold(
@@ -215,7 +195,7 @@ private fun FeedScreenContent(
             topBar = {
                 FeedToolbar(
                     title = currentMovieList.titleText,
-                    modifier = Modifier.clickableWithoutRipple(onScrollToTop),
+                    modifier = Modifier/*.clickableWithoutRipple(onScrollToTop)*/,
                     account = account,
                     isUpdateIconVisible = isUpdateIconVisible,
                     onSearchIconClick = onNavigateToSearch,
@@ -231,6 +211,12 @@ private fun FeedScreenContent(
                     onSettingsIconClick = onNavigateToSettings
                 )
             },
+            bottomBar = {
+                FeedBottomBar(
+                    navController = navController,
+                    tabs = FeedBottomTabs.VALUES
+                )
+            },
             snackbarHost = {
                 SnackbarHost(
                     hostState = snackbarHostState
@@ -238,42 +224,32 @@ private fun FeedScreenContent(
             },
             containerColor = MaterialTheme.colorScheme.primaryContainer
         ) { innerPadding ->
-            when {
-                pagingItems.isLoading -> {
-                    PageLoading(
-                        feedView = currentFeedView,
-                        modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets),
-                        paddingValues = innerPadding
+            NavHost(
+                navController = navController,
+                startDestination = FeedBottomTabs.Movies.route
+            ) {
+                composable(FeedBottomTabs.Movies.route) {
+                    FeedMoviesContent(
+                        onNavigateToSearch = onNavigateToSearch,
+                        onNavigateToAuth = onNavigateToAuth,
+                        onNavigateToAccount = onNavigateToAccount,
+                        onNavigateToSettings = onNavigateToSettings,
+                        onNavigateToDetails = onNavigateToDetails,
+                        onShowSnackbar = onShowSnackbar,
+                        parentInnerPadding = innerPadding,
+                        modifier = Modifier.fillMaxSize()
                     )
                 }
-                pagingItems.isFailure -> {
-                    if (pagingItems.refreshThrowable is PageEmptyException) {
-                        FeedEmpty(
-                            modifier = Modifier
-                                .padding(innerPadding)
-                                .windowInsetsPadding(displayCutoutWindowInsets)
-                                .fillMaxSize()
-                        )
-                    } else {
-                        PageFailure(
-                            modifier = Modifier
-                                .padding(innerPadding)
-                                .windowInsetsPadding(displayCutoutWindowInsets)
-                                .fillMaxSize()
-                                .clickableWithoutRipple(pagingItems::retry)
-                        )
-                    }
-                }
-                else -> {
-                    PageContent(
-                        feedView = currentFeedView,
-                        lazyListState = lazyListState,
-                        lazyGridState = lazyGridState,
-                        lazyStaggeredGridState = lazyStaggeredGridState,
-                        pagingItems = pagingItems,
-                        onMovieClick = onNavigateToDetails,
-                        contentPadding = innerPadding,
-                        modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
+                composable(FeedBottomTabs.Series.route) {
+                    FeedMoviesContent(
+                        onNavigateToSearch = onNavigateToSearch,
+                        onNavigateToAuth = onNavigateToAuth,
+                        onNavigateToAccount = onNavigateToAccount,
+                        onNavigateToSettings = onNavigateToSettings,
+                        onNavigateToDetails = onNavigateToDetails,
+                        onShowSnackbar = onShowSnackbar,
+                        parentInnerPadding = innerPadding,
+                        modifier = Modifier.fillMaxSize()
                     )
                 }
             }

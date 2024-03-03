@@ -6,4 +6,6 @@
     <string name="feed_title_upcoming">Предстоящие фильмы</string>
     <string name="feed_error_empty">Список фильмов пуст</string>
     <string name="feed_auth_failure">Ошибка при авторизации. Неправильный токен или нет аппрува</string>
+    <string name="feed_movies">Фильмы</string>
+    <string name="feed_series">Сериалы</string>
 </resources>
