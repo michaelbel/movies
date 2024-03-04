@@ -10,7 +10,7 @@
     <string name="settings_post_notifications">Уведомления</string>
     <string name="settings_post_notifications_denied">Разрешение отклонено</string>
     <string name="settings_post_notifications_granted">Разрешение предоставлено</string>
-    <string name="settings_review">Оценить приложение</string>
+    <string name="settings_review">Оцени приложение</string>
     <string name="settings_review_description">Используя In-App Review API</string>
     <string name="settings_post_notifications_should_request">Уведомления отключены. Активируйте их в настройках приложения</string>
     <string name="settings_action_go">Перейти</string>
@@ -49,4 +49,6 @@
     <string name="settings_lock_app">Запаролить приложение</string>
     <string name="settings_biometric_added">Биометрия включена</string>
     <string name="settings_biometric_not_added">Биометрия отключена</string>
+    <string name="settings_update">Обнови приложение</string>
+    <string name="settings_update_description">Используя In-App Update API</string>
 </resources>

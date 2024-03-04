@@ -10,6 +10,8 @@ interface SettingsInteractor {
 
     val isReviewFeatureEnabled: Boolean
 
+    val isUpdateFeatureEnabled: Boolean
+
     val currentTheme: Flow<AppTheme>
 
     val currentFeedView: Flow<FeedView>

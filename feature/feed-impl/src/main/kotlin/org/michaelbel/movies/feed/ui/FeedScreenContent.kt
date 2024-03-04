@@ -1,6 +1,5 @@
 package org.michaelbel.movies.feed.ui
 
-import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -25,7 +24,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -77,7 +75,6 @@ fun FeedRoute(
     val currentMovieList by viewModel.currentMovieList.collectAsStateWithLifecycle()
     val notificationsPermissionRequired by viewModel.notificationsPermissionRequired.collectAsStateWithLifecycle()
     val networkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
-    val isUpdateAvailable by rememberUpdatedState(viewModel.updateAvailableMessage)
     val isAuthFailureSnackbarShowed = viewModel.isAuthFailureSnackbarShowed
 
     FeedScreenContent(
@@ -88,13 +85,11 @@ fun FeedRoute(
         currentMovieList = currentMovieList,
         notificationsPermissionRequired = notificationsPermissionRequired,
         isAuthFailureSnackbarShowed = isAuthFailureSnackbarShowed,
-        isUpdateIconVisible = isUpdateAvailable,
         onNavigateToSearch = onNavigateToSearch,
         onNavigateToAuth = onNavigateToAuth,
         onNavigateToAccount = onNavigateToAccount,
         onNavigateToSettings = onNavigateToSettings,
         onNavigateToDetails = onNavigateToDetails,
-        onUpdateIconClick = viewModel::startUpdate,
         onNotificationBottomSheetHideClick = viewModel::onNotificationBottomSheetHide,
         onSnackbarDismissed = viewModel::onSnackbarDismissed,
         modifier = modifier
@@ -110,13 +105,11 @@ private fun FeedScreenContent(
     currentMovieList: MovieList,
     notificationsPermissionRequired: Boolean,
     isAuthFailureSnackbarShowed: Boolean,
-    isUpdateIconVisible: Boolean,
     onNavigateToSearch: () -> Unit,
     onNavigateToAuth: () -> Unit,
     onNavigateToAccount: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToDetails: (String, Int) -> Unit,
-    onUpdateIconClick: (Activity) -> Unit,
     onNotificationBottomSheetHideClick: () -> Unit,
     onSnackbarDismissed: () -> Unit,
     modifier: Modifier = Modifier
@@ -151,15 +144,9 @@ private fun FeedScreenContent(
     }
 
     val onScrollToTop: () -> Unit = {
-        scope.launch {
-            lazyListState.animateScrollToItem(0)
-        }
-        scope.launch {
-            lazyGridState.animateScrollToItem(0)
-        }
-        scope.launch {
-            lazyStaggeredGridState.animateScrollToItem(0)
-        }
+        scope.launch { lazyListState.animateScrollToItem(0) }
+        scope.launch { lazyGridState.animateScrollToItem(0) }
+        scope.launch { lazyStaggeredGridState.animateScrollToItem(0) }
     }
 
     val onShowSnackbar: (String, SnackbarDuration) -> Unit = { message, snackbarDuration ->
@@ -217,7 +204,6 @@ private fun FeedScreenContent(
                     title = currentMovieList.titleText,
                     modifier = Modifier.clickableWithoutRipple(onScrollToTop),
                     account = account,
-                    isUpdateIconVisible = isUpdateIconVisible,
                     onSearchIconClick = onNavigateToSearch,
                     onAuthIconClick = {
                         when {
@@ -226,7 +212,6 @@ private fun FeedScreenContent(
                         }
                     },
                     onAccountIconClick = onNavigateToAccount,
-                    onUpdateIconClick = { onUpdateIconClick(context as Activity) },
                     topAppBarScrollBehavior = topAppBarScrollBehavior,
                     onSettingsIconClick = onNavigateToSettings
                 )

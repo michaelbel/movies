@@ -49,4 +49,6 @@
     <string name="settings_lock_app">Lock App</string>
     <string name="settings_biometric_added">Biometric added</string>
     <string name="settings_biometric_not_added">Biometric not added</string>
+    <string name="settings_update">Update App</string>
+    <string name="settings_update_description">Using In-App Update API</string>
 </resources>

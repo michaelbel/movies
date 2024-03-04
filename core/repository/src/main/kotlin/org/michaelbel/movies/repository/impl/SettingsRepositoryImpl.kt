@@ -28,7 +28,10 @@ internal class SettingsRepositoryImpl @Inject constructor(
 ): SettingsRepository {
 
     override val isReviewFeatureEnabled: Boolean
-        get() = BuildConfig.BUILD_TYPE == "Release" && appService.flavor == Flavor.Gms
+        get() = appService.flavor == Flavor.Gms
+
+    override val isUpdateFeatureEnabled: Boolean
+        get() = appService.flavor == Flavor.Gms
 
     override val currentTheme: Flow<AppTheme> = preferences.themeFlow.map { name ->
         AppTheme.transform(name ?: AppTheme.FollowSystem.toString())

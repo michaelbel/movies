@@ -1,6 +1,5 @@
 package org.michaelbel.movies.feed
 
-import android.app.Activity
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -30,15 +29,12 @@ import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.notifications.NotificationClient
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.entity.MovieDb
-import org.michaelbel.movies.platform.update.UpdateListener
-import org.michaelbel.movies.platform.update.UpdateService
 
 @HiltViewModel
 class FeedViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val interactor: Interactor,
     private val notificationClient: NotificationClient,
-    private val updateService: UpdateService,
     networkManager: NetworkManager
 ): BaseViewModel() {
 
@@ -81,14 +77,8 @@ class FeedViewModel @Inject constructor(
     val notificationsPermissionRequired: StateFlow<Boolean> = _notificationsPermissionRequired.asStateFlow()
 
     var isAuthFailureSnackbarShowed: Boolean by mutableStateOf(false)
-    var updateAvailableMessage: Boolean by mutableStateOf(false)
 
     init {
-        updateService.setUpdateAvailableListener(object: UpdateListener {
-            override fun onAvailable(result: Boolean) {
-                updateAvailableMessage = result
-            }
-        })
         authorizeAccount(requestToken, approved)
         subscribeNotificationsPermissionRequired()
     }
@@ -99,10 +89,6 @@ class FeedViewModel @Inject constructor(
             is AccountDetailsException -> isAuthFailureSnackbarShowed = true
             else -> super.handleError(throwable)
         }
-    }
-
-    fun startUpdate(activity: Activity) {
-        updateService.startUpdate(activity)
     }
 
     fun onNotificationBottomSheetHide() = launch {

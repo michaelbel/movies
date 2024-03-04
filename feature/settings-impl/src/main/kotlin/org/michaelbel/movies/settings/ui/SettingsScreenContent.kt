@@ -82,7 +82,6 @@ fun SettingsRoute(
     val dynamicColors by viewModel.dynamicColors.collectAsStateWithLifecycle()
     val isBiometricFeatureEnabled by viewModel.isBiometricFeatureEnabled.collectAsStateWithLifecycle()
     val isBiometricEnabled by viewModel.isBiometricEnabled.collectAsStateWithLifecycle()
-    val isPlayServicesAvailable by viewModel.isPlayServicesAvailable.collectAsStateWithLifecycle()
     val appVersionData by viewModel.appVersionData.collectAsStateWithLifecycle()
 
     SettingsScreenContent(
@@ -104,8 +103,9 @@ fun SettingsRoute(
         isBiometricEnabled = isBiometricEnabled,
         onSetBiometricEnabled = viewModel::setBiometricEnabled,
         isReviewFeatureEnabled = viewModel.isReviewFeatureEnabled,
-        isPlayServicesAvailable = isPlayServicesAvailable,
+        isUpdateFeatureEnabled = viewModel.isUpdateFeatureEnabled && viewModel.isUpdateAvailable,
         onRequestReview = viewModel::requestReview,
+        onRequestUpdate = viewModel::requestUpdate,
         appVersionData = appVersionData,
         modifier = modifier
     )
@@ -131,8 +131,9 @@ private fun SettingsScreenContent(
     isBiometricEnabled: Boolean,
     onSetBiometricEnabled: (Boolean) -> Unit,
     isReviewFeatureEnabled: Boolean,
-    isPlayServicesAvailable: Boolean,
+    isUpdateFeatureEnabled: Boolean,
     onRequestReview: (Activity) -> Unit,
+    onRequestUpdate: (Activity) -> Unit,
     appVersionData: AppVersionData,
     modifier: Modifier = Modifier
 ) {
@@ -525,18 +526,28 @@ private fun SettingsScreenContent(
                     )
                 }
                 item {
-                    fun onLaunchReviewFlow() {
-                        when {
-                            !isPlayServicesAvailable -> onShowSnackbar(context.getString(R.string.settings_error_play_services_not_available))
-                            else -> onRequestReview(context as Activity)
-                        }
-                    }
-
                     SettingItem(
                         title = stringResource(R.string.settings_review),
                         description = stringResource(R.string.settings_review_description),
                         icon = painterResource(MoviesIcons.GooglePlay),
-                        onClick = { onLaunchReviewFlow() }
+                        onClick = { onRequestReview(context as Activity) }
+                    )
+                }
+            }
+            if (isUpdateFeatureEnabled) {
+                item {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                        thickness = .1.dp,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+                item {
+                    SettingItem(
+                        title = stringResource(R.string.settings_update),
+                        description = stringResource(R.string.settings_update_description),
+                        icon = MoviesIcons.SystemUpdate,
+                        onClick = { onRequestUpdate(context as Activity) }
                     )
                 }
             }
