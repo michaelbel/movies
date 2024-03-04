@@ -76,7 +76,7 @@ mockito = "5.11.0"
 kaspresso = "1.5.5"
 mockk = "1.13.10"
 turbine = "1.0.0"
-barista = "4.2.0"
+barista = "4.3.0"
 kotest = "5.8.0"
 
 [libraries]
