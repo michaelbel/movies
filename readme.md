@@ -120,6 +120,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Voice Input](https://d.android.com/training/wearables/user-input/voice)
 - [x] [User Interactions](https://d.android.com/jetpack/compose/text/user-interactions)
 - [x] [Glance AppWidget](https://d.android.com/jetpack/compose/glance)
+- [x] [Tile Quick Settings](https://d.android.com/reference/android/service/quicksettings/TileService)
 - [x] [Grammatical Gender](https://d.android.com/about/versions/14/features/grammatical-inflection)
 - [x] [Biometric Authentication Dialog](https://d.android.com/training/sign-in/biometric-auth)
 - [x] [LeakCanary](https://github.com/square/leakcanary)

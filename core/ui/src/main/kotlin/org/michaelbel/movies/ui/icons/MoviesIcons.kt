@@ -23,6 +23,7 @@ import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Share
 import androidx.compose.material.icons.outlined.SystemUpdate
+import androidx.compose.material.icons.outlined.ViewAgenda
 import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material.icons.outlined.Widgets
@@ -59,6 +60,7 @@ object MoviesIcons {
     val Settings = Icons.Outlined.Settings
     val Share = Icons.Outlined.Share
     val SystemUpdate = Icons.Outlined.SystemUpdate
+    val ViewAgenda = Icons.Outlined.ViewAgenda
     val Visibility = Icons.Outlined.Visibility
     val VisibilityOff = Icons.Outlined.VisibilityOff
     val Widgets = Icons.Outlined.Widgets

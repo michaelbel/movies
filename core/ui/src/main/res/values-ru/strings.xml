@@ -13,4 +13,6 @@
     <string name="error_loading">При загрузке фильмов произошла ошибка</string>
     <string name="error_check_internet_connectivity">Проверить подключение к интернету</string>
     <string name="share_via">Поделиться через</string>
+    <string name="tile_title">Movies</string>
+    <string name="tile_added">Плитка добавлена</string>
 </resources>

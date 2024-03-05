@@ -39,8 +39,11 @@
     <string name="settings_action_cancel">Отмена</string>
     <string name="settings_github">Movies на GitHub</string>
     <string name="settings_github_description">Посмотреть GitHub-репозиторий</string>
-    <string name="settings_app_widget">Установить виджет</string>
+    <string name="settings_app_widget">Добавить виджет на главный экран</string>
     <string name="settings_app_widget_description">3x2 %s</string>
+    <string name="settings_tile">Добавить плитку в шторку</string>
+    <string name="settings_tile_description">Плитка для запуска аппки</string>
+    <string name="settings_tile_error_already_added">Плитка уже добавлена</string>
     <string name="settings_gender">Род</string>
     <string name="settings_gender_not_specified">Не указан</string>
     <string name="settings_gender_neutral">Средний</string>

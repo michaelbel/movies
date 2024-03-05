@@ -39,8 +39,11 @@
     <string name="settings_action_cancel">Cancel</string>
     <string name="settings_github">Movies on GitHub</string>
     <string name="settings_github_description">Check the GitHub repository</string>
-    <string name="settings_app_widget">Install AppWidget</string>
+    <string name="settings_app_widget">Add Widget to Home Screen</string>
     <string name="settings_app_widget_description">3x2 %s</string>
+    <string name="settings_tile">Add Tile to Quick Settings</string>
+    <string name="settings_tile_description">Movies launcher tile</string>
+    <string name="settings_tile_error_already_added">Tile already added</string>
     <string name="settings_gender">Gender</string>
     <string name="settings_gender_not_specified">Not specified</string>
     <string name="settings_gender_neutral">Neutral</string>
