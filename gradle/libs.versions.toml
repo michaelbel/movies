@@ -277,8 +277,7 @@ ktor = [
     "ktor-serialization-kotlinx-json"
 ]
 test-espresso = [
-    "androidx-test-espresso-core",
-    "androidx-test-espresso-device"
+    "androidx-test-espresso-core"
 ]
 media3 = [
     "androidx-media3-exoplayer",

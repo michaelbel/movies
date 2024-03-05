@@ -35,7 +35,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -60,7 +59,11 @@ import org.michaelbel.movies.settings.ui.common.SettingsDialog
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.appicon.IconAlias
 import org.michaelbel.movies.ui.appicon.setIcon
+import org.michaelbel.movies.ui.icons.Cat
+import org.michaelbel.movies.ui.icons.Github
+import org.michaelbel.movies.ui.icons.GooglePlay
 import org.michaelbel.movies.ui.icons.MoviesIcons
+import org.michaelbel.movies.ui.icons.ThemeLightDark
 import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
@@ -243,7 +246,7 @@ private fun SettingsScreenContent(
 
                 if (themeDialog) {
                     SettingsDialog(
-                        icon = painterResource(MoviesIcons.ThemeLightDark),
+                        icon = MoviesIcons.ThemeLightDark,
                         title = stringResource(R.string.settings_theme),
                         items = AppTheme.VALUES,
                         currentItem = currentTheme,
@@ -255,7 +258,7 @@ private fun SettingsScreenContent(
                 SettingItem(
                     title = stringResource(R.string.settings_theme),
                     description = currentTheme.stringText,
-                    icon = painterResource(MoviesIcons.ThemeLightDark),
+                    icon = MoviesIcons.ThemeLightDark,
                     onClick = { themeDialog = true }
                 )
             }
@@ -331,7 +334,7 @@ private fun SettingsScreenContent(
 
                     if (genderDialog) {
                         SettingsDialog(
-                            icon = painterResource(MoviesIcons.Cat),
+                            icon = MoviesIcons.Cat,
                             title = stringResource(R.string.settings_gender),
                             items = GrammaticalGender.VALUES,
                             currentItem = currentGrammaticalGender,
@@ -345,7 +348,7 @@ private fun SettingsScreenContent(
                     SettingItem(
                         title = stringResource(R.string.settings_gender),
                         description = currentGrammaticalGender.stringText,
-                        icon = painterResource(MoviesIcons.Cat),
+                        icon = MoviesIcons.Cat,
                         onClick = { genderDialog = true }
                     )
                 }
@@ -513,7 +516,7 @@ private fun SettingsScreenContent(
                 SettingItem(
                     title = stringResource(R.string.settings_github),
                     description = stringResource(R.string.settings_github_description),
-                    icon = painterResource(MoviesIcons.Github),
+                    icon = MoviesIcons.Github,
                     onClick = { openUrl(resultContract, toolbarColor, MOVIES_GITHUB_URL) }
                 )
             }
@@ -529,7 +532,7 @@ private fun SettingsScreenContent(
                     SettingItem(
                         title = stringResource(R.string.settings_review),
                         description = stringResource(R.string.settings_review_description),
-                        icon = painterResource(MoviesIcons.GooglePlay),
+                        icon = MoviesIcons.GooglePlay,
                         onClick = { onRequestReview(context as Activity) }
                     )
                 }

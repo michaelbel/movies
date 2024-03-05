@@ -19,7 +19,6 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
@@ -64,88 +63,6 @@ internal fun <T: SealedString> SettingsDialog(
         icon = {
             Icon(
                 imageVector = icon,
-                contentDescription = stringResource(MoviesContentDescription.AppearanceIcon),
-                modifier = Modifier.testTag("Icon")
-            )
-        },
-        title = {
-            Text(
-                text = title,
-                modifier = Modifier.testTag("Title"),
-                style = MaterialTheme.typography.headlineSmall.copy(MaterialTheme.colorScheme.onSurface)
-            )
-        },
-        text = {
-            val scrollState = rememberScrollState()
-
-            Column(
-                modifier = Modifier.verticalScroll(scrollState)
-            ) {
-                items.forEach { item ->
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(52.dp)
-                            .clickable {
-                                onItemSelect(item)
-                                onDismissRequest()
-                            },
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        RadioButton(
-                            selected = currentItem == item,
-                            onClick = null,
-                            colors = RadioButtonDefaults.colors(
-                                selectedColor = MaterialTheme.colorScheme.primary,
-                                unselectedColor = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = .6F)
-                            ),
-                            modifier = Modifier.padding(start = 16.dp)
-                        )
-
-                        Text(
-                            text = item.stringText,
-                            modifier = Modifier.padding(start = 8.dp),
-                            style = MaterialTheme.typography.bodyLarge.copy(
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
-                            )
-                        )
-                    }
-                }
-            }
-        },
-        shape = RoundedCornerShape(28.dp),
-        containerColor = MaterialTheme.colorScheme.surface,
-        iconContentColor = MaterialTheme.colorScheme.secondary,
-        titleContentColor = MaterialTheme.colorScheme.onSurface
-    )
-}
-
-@Composable
-internal fun <T: SealedString> SettingsDialog(
-    icon: Painter,
-    title: String,
-    items: List<T>,
-    currentItem: T,
-    onItemSelect: (T) -> Unit,
-    onDismissRequest: () -> Unit
-) {
-    AlertDialog(
-        onDismissRequest = onDismissRequest,
-        confirmButton = {
-            TextButton(
-                onClick = onDismissRequest,
-                modifier = Modifier.testTag("ConfirmTextButton")
-            ) {
-                Text(
-                    text = stringResource(R.string.settings_action_cancel),
-                    modifier = Modifier.testTag("ConfirmText"),
-                    style = MaterialTheme.typography.labelLarge.copy(MaterialTheme.colorScheme.primary)
-                )
-            }
-        },
-        icon = {
-            Icon(
-                painter = icon,
                 contentDescription = stringResource(MoviesContentDescription.AppearanceIcon),
                 modifier = Modifier.testTag("Icon")
             )

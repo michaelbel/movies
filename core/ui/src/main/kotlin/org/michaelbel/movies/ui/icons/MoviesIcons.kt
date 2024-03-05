@@ -34,13 +34,9 @@ import org.michaelbel.movies.ui.R
  */
 object MoviesIcons {
     @DrawableRes val TmdbLogo = R.drawable.ic_tmdb_logo
-    @DrawableRes val ThemeLightDark = R.drawable.ic_theme_light_dark_24
     @DrawableRes val MovieFilter24 = R.drawable.ic_movie_filter_24
     @DrawableRes val FileDownload24 = R.drawable.ic_file_download_24
     @DrawableRes val AdultOutline = R.drawable.ic_18_up_rating_outline_24
-    @DrawableRes val Cat = R.drawable.ic_cat_24
-    @DrawableRes val Github = R.drawable.ic_github_24
-    @DrawableRes val GooglePlay = R.drawable.ic_google_play_24
 
     val AccountCircle = Icons.Outlined.AccountCircle
     val ArrowBack = Icons.AutoMirrored.Outlined.ArrowBack
