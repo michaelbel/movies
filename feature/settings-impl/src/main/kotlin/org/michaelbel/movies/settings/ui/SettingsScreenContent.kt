@@ -3,7 +3,10 @@ package org.michaelbel.movies.settings.ui
 import android.Manifest
 import android.app.Activity
 import android.app.GrammaticalInflectionManager
+import android.app.StatusBarManager
 import android.appwidget.AppWidgetManager
+import android.content.ComponentName
+import android.graphics.drawable.Icon
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
@@ -37,6 +40,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
@@ -68,6 +72,7 @@ import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.lifecycle.OnResume
+import org.michaelbel.movies.ui.tile.MoviesTileService
 import org.michaelbel.movies.widget.ktx.pin
 import org.michaelbel.movies.ui.R as UiR
 import org.michaelbel.movies.widget.R as WidgetR
@@ -449,6 +454,35 @@ private fun SettingsScreenContent(
                     description = stringResource(R.string.settings_app_widget_description, stringResource(WidgetR.string.appwidget_description)),
                     icon = MoviesIcons.Widgets,
                     onClick = { appWidgetProvider.pin(context) }
+                )
+            }
+            item {
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                    thickness = .1.dp,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            }
+            item {
+                fun onRequestAddTileService() {
+                    val statusBarManager = ContextCompat.getSystemService(context, StatusBarManager::class.java)
+                    statusBarManager?.requestAddTileService(
+                        ComponentName(context, MoviesTileService::class.java),
+                        context.getString(UiR.string.tile_title),
+                        Icon.createWithResource(context, MoviesIcons.MovieFilter24),
+                        context.mainExecutor
+                    ) { result ->
+                        when (result) {
+                            StatusBarManager.TILE_ADD_REQUEST_RESULT_TILE_ALREADY_ADDED -> onShowSnackbar(context.getString(R.string.settings_tile_error_already_added))
+                        }
+                    }
+                }
+
+                SettingItem(
+                    title = stringResource(R.string.settings_tile),
+                    description = stringResource(R.string.settings_tile_description),
+                    icon = MoviesIcons.ViewAgenda,
+                    onClick = { onRequestAddTileService() }
                 )
             }
             item {
