@@ -75,7 +75,7 @@ robolectric = "4.11.1"
 mockito = "5.11.0"
 kaspresso = "1.5.5"
 mockk = "1.13.10"
-turbine = "1.0.0"
+turbine = "1.1.0"
 barista = "4.3.0"
 kotest = "5.8.0"
 
