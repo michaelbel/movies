@@ -1,6 +1,5 @@
 package org.michaelbel.movies.ui.compose.page
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -29,6 +28,9 @@ import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.ui.compose.ApiKeyBox
 import org.michaelbel.movies.ui.compose.movie.MovieColumn
 import org.michaelbel.movies.ui.compose.movie.MovieRow
+import org.michaelbel.movies.ui.ktx.PageContentColumnModifier
+import org.michaelbel.movies.ui.ktx.PageContentGridModifier
+import org.michaelbel.movies.ui.ktx.PageContentStaggeredGridModifier
 import org.michaelbel.movies.ui.ktx.gridColumnsCount
 import org.michaelbel.movies.ui.ktx.isNotEmpty
 import org.michaelbel.movies.ui.ktx.isPagingFailure
@@ -100,12 +102,7 @@ private fun PageContentColumn(
             if (movieDb != null) {
                 MovieRow(
                     movie = movieDb,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 8.dp, vertical = 4.dp)
-                        .clip(MaterialTheme.shapes.small)
-                        .background(MaterialTheme.colorScheme.inversePrimary)
-                        .clickable { onMovieClick(movieDb.movieList, movieDb.movieId) }
+                    modifier = PageContentColumnModifier.then(Modifier.clickable { onMovieClick(movieDb.movieList, movieDb.movieId) })
                 )
             }
         }
@@ -167,12 +164,7 @@ private fun PageContentGrid(
                 MovieRow(
                     movie = movieDb,
                     maxLines = 1,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 4.dp)
-                        .clip(MaterialTheme.shapes.small)
-                        .background(MaterialTheme.colorScheme.inversePrimary)
-                        .clickable { onMovieClick(movieDb.movieList, movieDb.movieId) }
+                    modifier = PageContentGridModifier.then(Modifier.clickable { onMovieClick(movieDb.movieList, movieDb.movieId) })
                 )
             }
         }
@@ -227,11 +219,7 @@ private fun PageContentStaggeredGrid(
             if (movieDb != null) {
                 MovieColumn(
                     movie = movieDb,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clip(MaterialTheme.shapes.small)
-                        .background(MaterialTheme.colorScheme.inversePrimary)
-                        .clickable { onMovieClick(movieDb.movieList, movieDb.movieId) }
+                    modifier = PageContentStaggeredGridModifier.then(Modifier.clickable { onMovieClick(movieDb.movieList, movieDb.movieId) })
                 )
             }
         }
