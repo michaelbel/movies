@@ -1,6 +1,9 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.kotlin.parcelize)
+    alias(libs.plugins.compose)
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
@@ -14,6 +17,7 @@ kotlin {
             }
         }
     }
+    jvm("desktop")
     
     listOf(
         iosX64(),
@@ -26,22 +30,34 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                //put your multiplatform dependencies here
-            }
+        commonMain.dependencies {
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material)
+            implementation(compose.components.resources)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.kotlinx.datetime)
+            implementation(libs.kotlinx.serialization.json)
         }
-        val commonTest by getting {
-            dependencies {
-                //implementation(libs.kotlin.test)
-            }
+        androidMain.dependencies {
+            api(libs.androidx.activity.compose)
+            api(libs.androidx.appcompat)
+            api(libs.androidx.core.ktx)
+        }
+        val desktopMain by getting
+        desktopMain.dependencies {
+            implementation(compose.desktop.common)
+        }
+        val desktopTest by getting
+        desktopTest.dependencies {
+            implementation(compose.desktop.currentOs)
+            implementation(compose.desktop.uiTestJUnit4)
         }
     }
 }
 
 android {
     namespace = "org.michaelbel.movies.shared"
-
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
         compileSdk = libs.versions.compile.sdk.get().toInt()

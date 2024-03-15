@@ -20,6 +20,7 @@ rootProject.name = "movies"
 
 include(
     ":android-app",
+    ":desktop-app",
     ":instant",
     ":benchmark",
     ":shared",
