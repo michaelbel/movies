@@ -1,7 +1,7 @@
 @Suppress("dsl_scope_violation")
 plugins {
     alias(libs.plugins.library)
-    alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.detekt)
     alias(libs.plugins.kotlin.serialization)
     id("movies-android-hilt")

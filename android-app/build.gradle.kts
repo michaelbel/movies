@@ -6,7 +6,7 @@ import org.jetbrains.kotlin.konan.properties.Properties
 @Suppress("dsl_scope_violation")
 plugins {
     alias(libs.plugins.application)
-    alias(libs.plugins.kotlin)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.androidx.navigation.safeargs)
     alias(libs.plugins.palantir.git)
     id("movies-android-hilt")
