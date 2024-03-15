@@ -5,6 +5,9 @@
 
 package movies.shared.generated.resources
 
+import kotlin.ByteArray
+import kotlin.OptIn
+import kotlin.String
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.readResourceBytes
 
