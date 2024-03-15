@@ -77,7 +77,7 @@ kaspresso = "1.5.5"
 mockk = "1.13.10"
 turbine = "1.1.0"
 barista = "4.3.0"
-kotest = "5.8.0"
+kotest = "5.8.1"
 
 [libraries]
 kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
