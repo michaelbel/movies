@@ -1,6 +1,6 @@
 plugins {
     kotlin("multiplatform")
-    alias(libs.plugins.library)
+    alias(libs.plugins.android.library)
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)

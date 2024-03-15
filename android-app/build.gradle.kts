@@ -5,7 +5,7 @@ import org.jetbrains.kotlin.konan.properties.Properties
 
 @Suppress("dsl_scope_violation")
 plugins {
-    alias(libs.plugins.application)
+    alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.androidx.navigation.safeargs)
     alias(libs.plugins.palantir.git)
@@ -201,8 +201,8 @@ val hasGmsBenchmark: Boolean = gradle.startParameter.taskNames.any { it.contains
 
 if (hasGmsDebug || hasGmsRelease || hasGmsBenchmark) {
     apply(plugin = libs.plugins.google.services.get().pluginId)
-    apply(plugin = libs.plugins.firebase.crashlytics.get().pluginId)
-    apply(plugin = libs.plugins.firebase.appdistribution.get().pluginId)
+    apply(plugin = libs.plugins.google.firebase.crashlytics.get().pluginId)
+    apply(plugin = libs.plugins.google.firebase.appdistribution.get().pluginId)
 }
 
 if (hasGmsRelease) {

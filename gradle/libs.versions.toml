@@ -6,7 +6,7 @@ target-sdk = "34"
 jdk = "17"
 gradle = "8.3.0"
 kotlin = "1.9.22"
-kotlin-ksp = "1.9.23-1.0.19"
+ksp = "1.9.23-1.0.19"
 kotlin-coroutines = "1.8.0"
 kotlin-serialization-json = "1.6.3"
 detekt = "1.23.5"
@@ -311,19 +311,19 @@ media3 = [
 ]
 
 [plugins]
+android-application = { id = "com.android.application", version.ref = "gradle" }
+android-library = { id = "com.android.library", version.ref = "gradle" }
+android-dynamic-feature = { id = "com.android.dynamic-feature", version.ref = "gradle" }
+android-test = { id = "com.android.test", version.ref = "gradle" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-google-ksp = { id = "com.google.devtools.ksp", version.ref = "kotlin-ksp" }
+google-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
+google-firebase-appdistribution = { id = "com.google.firebase.appdistribution", version.ref = "firebase-appdistribution" }
+google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-plugin" }
+google-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 huawei-services = { id = "com.huawei.agconnect", version.ref = "huawei-services" }
-firebase-appdistribution = { id = "com.google.firebase.appdistribution", version.ref = "firebase-appdistribution" }
-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-plugin" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 androidx-navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidx-navigation" }
-application = { id = "com.android.application", version.ref = "gradle" }
-library = { id = "com.android.library", version.ref = "gradle" }
-dynamic-feature = { id = "com.android.dynamic-feature", version.ref = "gradle" }
-test = { id = "com.android.test", version.ref = "gradle" }
 palantir-git = { id = "com.palantir.git-version", version.ref = "palantir-git" }
