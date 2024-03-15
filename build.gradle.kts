@@ -5,12 +5,17 @@ plugins {
     alias(libs.plugins.android.test) apply false
     alias(libs.plugins.kotlin.android) apply false
     alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.cocoapods) apply false
     alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.kotlin.parcelize) apply false
+    alias(libs.plugins.compose) apply false
     alias(libs.plugins.google.ksp) apply false
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.google.firebase.appdistribution) apply false
     alias(libs.plugins.google.firebase.crashlytics) apply false
     alias(libs.plugins.google.hilt) apply false
+    alias(libs.plugins.sqldelight) apply false
     alias(libs.plugins.androidx.navigation.safeargs) apply false
     alias(libs.plugins.spotless)
     alias(libs.plugins.detekt)
