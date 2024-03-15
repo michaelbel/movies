@@ -56,11 +56,10 @@ dependencies {
     api(libs.androidx.startup.runtime)
     api(libs.androidx.work.runtime.ktx)
     api(libs.androidx.hilt.work)
-    api(libs.bundles.lifecycle)
+    api(libs.bundles.androidx.lifecycle)
     api(libs.timber)
-    implementation(libs.bundles.appcompat)
+    implementation(libs.bundles.androidx.appcompat)
     implementation(libs.firebase.crashlytics.ktx)
     implementation(libs.androidx.browser)
-
     lintChecks(libs.lint.checks)
 }

@@ -59,7 +59,7 @@ dependencies {
     implementation(project(":core:network"))
     implementation(project(":core:notifications"))
     testImplementation(libs.junit)
-    androidTestImplementation(libs.bundles.test.espresso)
+    androidTestImplementation(libs.bundles.androidx.test.espresso)
     androidTestImplementation(libs.androidx.test.ext.junit.ktx)
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     androidTestImplementation(libs.androidx.benchmark.junit)

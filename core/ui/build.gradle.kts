@@ -50,8 +50,8 @@ dependencies {
     api(libs.androidx.constraintlayout.compose)
     api(libs.androidx.palette.ktx)
     api(libs.coil.compose)
-    api(libs.bundles.material)
-    api(libs.bundles.compose)
+    api(libs.bundles.androidx.compose)
+    api(libs.bundles.google.material)
     api(libs.androidx.paging.compose)
     lintChecks(libs.lint.checks)
 }

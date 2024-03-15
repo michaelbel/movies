@@ -42,7 +42,7 @@ dependencies {
     implementation(project(":android-app"))
     implementation(project(":core:common"))
     implementation(project(":core:ui"))
-    implementation(libs.bundles.appcompat)
-    implementation(libs.bundles.compose)
+    implementation(libs.bundles.androidx.appcompat)
+    implementation(libs.bundles.androidx.compose)
     implementation(libs.gms.play.services.instantapps)
 }
