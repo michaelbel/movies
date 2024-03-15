@@ -3,6 +3,7 @@
 min-sdk = "23"
 compile-sdk = "34"
 target-sdk = "34"
+jdk = "17"
 gradle = "8.3.0"
 kotlin = "1.9.22"
 kotlin-ksp = "1.9.23-1.0.19"
