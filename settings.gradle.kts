@@ -21,6 +21,7 @@ rootProject.name = "movies"
 include(
     ":android-app",
     ":desktop-app",
+    ":ios-app",
     ":instant",
     ":benchmark",
     ":shared",

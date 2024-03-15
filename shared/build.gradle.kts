@@ -8,8 +8,6 @@ plugins {
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targetHierarchy.default()
-
     androidTarget {
         compilations.all {
             kotlinOptions {
@@ -18,7 +16,6 @@ kotlin {
         }
     }
     jvm("desktop")
-    
     listOf(
         iosX64(),
         iosArm64(),
@@ -26,6 +23,7 @@ kotlin {
     ).forEach {
         it.binaries.framework {
             baseName = "shared"
+            isStatic = true
         }
     }
 
