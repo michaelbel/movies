@@ -44,5 +44,5 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(libs.bundles.androidx.appcompat)
     implementation(libs.bundles.androidx.compose)
-    implementation(libs.gms.play.services.instantapps)
+    implementation(libs.google.services.instantapps)
 }

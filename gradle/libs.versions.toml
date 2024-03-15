@@ -5,28 +5,26 @@ min-sdk = "23"
 compile-sdk = "34"
 target-sdk = "34"
 jdk = "17"
-gradle = "8.3.0"
+agp = "8.3.0"
 kotlin = "1.9.22"
-ksp = "1.9.23-1.0.19"
-kotlin-coroutines = "1.8.0"
-kotlin-serialization-json = "1.6.3"
-compose = "1.6.0"
-detekt = "1.23.5"
-spotless = "6.25.0"
+kotlinx-coroutines = "1.8.0"
+kotlinx-datetime = "0.5.0"
+kotlinx-serialization-json = "1.6.3"
+google-ksp = "1.9.23-1.0.19"
 google-services = "4.4.1"
+google-services-base = "18.3.0"
+google-services-instantapps = "18.0.1"
+google-play-core-ktx = "1.8.1"
+google-hilt = "2.51"
+google-material = "1.11.0"
+google-material-compose-theme-adapter = "1.2.1"
+google-firebase-analytics-ktx = "21.5.1"
+google-firebase-appdistribution = "4.2.0"
+google-firebase-config-ktx = "21.6.3"
+google-firebase-crashlytics-plugin = "2.9.9"
+google-firebase-crashlytics-ktx = "18.6.2"
+google-firebase-messaging-ktx = "23.4.1"
 huawei-services = "1.6.0.300"
-gms-play-services-base = "18.3.0"
-gms-play-services-instantapps = "18.0.1"
-firebase-analytics-ktx = "21.5.1"
-firebase-appdistribution = "4.2.0"
-firebase-config-ktx = "21.6.3"
-firebase-crashlytics-plugin = "2.9.9"
-firebase-crashlytics-ktx = "18.6.2"
-firebase-messaging-ktx = "23.4.1"
-play-core-ktx = "1.8.1"
-material = "1.11.0"
-material-compose-theme-adapter = "1.2.1"
-hilt = "2.51"
 androidx-appcompat = "1.6.1"
 androidx-activity = "1.8.2"
 androidx-autofill = "1.1.0"
@@ -62,6 +60,9 @@ androidx-test-uiautomator = "2.3.0"
 androidx-test-espresso = "3.5.1"
 androidx-test-espresso-device = "1.0.0-alpha08"
 androidx-work = "2.9.0"
+compose = "1.6.0"
+detekt = "1.23.5"
+spotless = "6.25.0"
 coil = "2.6.0"
 okhttp = "4.12.0"
 retrofit = "2.9.0"
@@ -83,25 +84,27 @@ turbine = "1.1.0"
 barista = "4.3.0"
 kotest = "5.8.1"
 sqldelight = "2.0.1"
+koin = "3.5.3"
 
 [libraries]
-kotlin-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlin-coroutines" }
-kotlin-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlin-coroutines" }
-kotlin-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlin-coroutines" }
-kotlin-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlin-coroutines" }
-kotlin-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlin-serialization-json" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
-gms-play-services-base = { module = "com.google.android.gms:play-services-base", version.ref = "gms-play-services-base" }
-gms-play-services-instantapps = { module = "com.google.android.gms:play-services-instantapps", version.ref = "gms-play-services-instantapps" }
-firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "firebase-analytics-ktx" }
-firebase-config-ktx = { module = "com.google.firebase:firebase-config-ktx", version.ref = "firebase-config-ktx" }
-firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "firebase-crashlytics-ktx" }
-firebase-messaging-ktx = { module = "com.google.firebase:firebase-messaging-ktx", version.ref = "firebase-messaging-ktx" }
-play-core-ktx = { module = "com.google.android.play:core-ktx", version.ref = "play-core-ktx" }
-material = { module = "com.google.android.material:material", version.ref = "material" }
-material-compose-theme-adapter = { module = "com.google.android.material:compose-theme-adapter", version.ref = "material-compose-theme-adapter" }
-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "hilt" }
+kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "kotlinx-coroutines" }
+kotlinx-coroutines-swing = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-swing", version.ref = "kotlinx-coroutines" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
+kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization-json" }
+google-services-base = { module = "com.google.android.gms:play-services-base", version.ref = "google-services-base" }
+google-services-instantapps = { module = "com.google.android.gms:play-services-instantapps", version.ref = "google-services-instantapps" }
+google-play-core-ktx = { module = "com.google.android.play:core-ktx", version.ref = "google-play-core-ktx" }
+google-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "google-hilt" }
+google-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "google-hilt" }
+google-material = { module = "com.google.android.material:material", version.ref = "google-material" }
+google-material-compose-theme-adapter = { module = "com.google.android.material:compose-theme-adapter", version.ref = "google-material-compose-theme-adapter" }
+google-firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "google-firebase-analytics-ktx" }
+google-firebase-config-ktx = { module = "com.google.firebase:firebase-config-ktx", version.ref = "google-firebase-config-ktx" }
+google-firebase-crashlytics-ktx = { module = "com.google.firebase:firebase-crashlytics-ktx", version.ref = "google-firebase-crashlytics-ktx" }
+google-firebase-messaging-ktx = { module = "com.google.firebase:firebase-messaging-ktx", version.ref = "google-firebase-messaging-ktx" }
 androidx-appcompat = { module = "androidx.appcompat:appcompat", version.ref = "androidx-appcompat" }
 androidx-appcompat-resources = { module = "androidx.appcompat:appcompat-resources", version.ref = "androidx-appcompat" }
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activity" }
@@ -214,8 +217,19 @@ barista = { module = "com.adevinta.android:barista", version.ref = "barista" }
 kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
 kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
 kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
+sqldelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqldelight" }
+sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
+sqldelight-coroutines-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
+sqldelight-native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
+sqldelight-sqlite-driver = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-core-jvm = { module = "io.insert-koin:koin-core-jvm", version.ref = "koin" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
+koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
 
-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "gradle" }
+gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 [bundles]
@@ -288,23 +302,23 @@ androidx-test-espresso = [
     "androidx-test-espresso-device",
     "androidx-test-espresso-idling-resource"
 ]
-kotlin-coroutines = [
-    "kotlin-coroutines-android",
-    "kotlin-coroutines-core"
+kotlinx-coroutines = [
+    "kotlinx-coroutines-android",
+    "kotlinx-coroutines-core"
 ]
 google-firebase = [
-    "firebase-analytics-ktx",
-    "firebase-config-ktx",
-    "firebase-crashlytics-ktx",
-    "firebase-messaging-ktx"
+    "google-firebase-analytics-ktx",
+    "google-firebase-config-ktx",
+    "google-firebase-crashlytics-ktx",
+    "google-firebase-messaging-ktx"
 ]
 google-material = [
-    "material",
-    "material-compose-theme-adapter"
+    "google-material",
+    "google-material-compose-theme-adapter"
 ]
 google-services = [
-    "gms-play-services-base",
-    "gms-play-services-instantapps"
+    "google-services-base",
+    "google-services-instantapps"
 ]
 ktor = [
     "ktor-client-core",
@@ -320,10 +334,10 @@ retrofit = [
 ]
 
 [plugins]
-android-application = { id = "com.android.application", version.ref = "gradle" }
-android-library = { id = "com.android.library", version.ref = "gradle" }
-android-dynamic-feature = { id = "com.android.dynamic-feature", version.ref = "gradle" }
-android-test = { id = "com.android.test", version.ref = "gradle" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "agp" }
+android-dynamic-feature = { id = "com.android.dynamic-feature", version.ref = "agp" }
+android-test = { id = "com.android.test", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
@@ -331,11 +345,11 @@ kotlin-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref =
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
-google-ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+google-ksp = { id = "com.google.devtools.ksp", version.ref = "google-ksp" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
-google-firebase-appdistribution = { id = "com.google.firebase.appdistribution", version.ref = "firebase-appdistribution" }
-google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "firebase-crashlytics-plugin" }
-google-hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+google-firebase-appdistribution = { id = "com.google.firebase.appdistribution", version.ref = "google-firebase-appdistribution" }
+google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "google-firebase-crashlytics-plugin" }
+google-hilt = { id = "com.google.dagger.hilt.android", version.ref = "google-hilt" }
 huawei-services = { id = "com.huawei.agconnect", version.ref = "huawei-services" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

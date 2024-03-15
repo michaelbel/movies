@@ -59,6 +59,6 @@ dependencies {
     implementation(libs.bundles.androidx.datastore)
     implementation(libs.bundles.androidx.glance)
     implementation(libs.androidx.hilt.navigation.compose)
-    implementation(libs.kotlin.serialization.json)
+    implementation(libs.kotlinx.serialization.json)
     ksp(libs.androidx.hilt.compiler)
 }

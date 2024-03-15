@@ -51,7 +51,7 @@ android {
 
 dependencies {
     implementation(libs.androidx.startup.runtime)
-    implementation(libs.kotlin.serialization.json)
+    implementation(libs.kotlinx.serialization.json)
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.bundles.retrofit)
     implementation(libs.bundles.ktor)

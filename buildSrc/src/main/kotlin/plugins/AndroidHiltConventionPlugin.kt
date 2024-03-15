@@ -17,8 +17,8 @@ internal class AndroidHiltConventionPlugin: Plugin<Project> {
             }
 
             dependencies {
-                implementation(libs.findLibrary("hilt.android").get())
-                ksp(libs.findLibrary("hilt.compiler").get())
+                implementation(libs.findLibrary("google.hilt.android").get())
+                ksp(libs.findLibrary("google.hilt.compiler").get())
             }
         }
     }

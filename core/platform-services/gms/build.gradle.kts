@@ -40,5 +40,5 @@ dependencies {
     implementation(project(":core:notifications"))
     api(libs.bundles.google.firebase)
     api(libs.bundles.google.services)
-    api(libs.play.core.ktx)
+    api(libs.google.play.core.ktx)
 }

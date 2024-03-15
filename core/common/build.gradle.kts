@@ -48,7 +48,7 @@ dependencies {
     api(project(":core:platform-services:interactor"))
     implementation(project(":core:analytics"))
     implementation(project(":core:network"))
-    api(libs.bundles.kotlin.coroutines)
+    api(libs.bundles.kotlinx.coroutines)
     api(libs.androidx.activity.compose)
     api(libs.androidx.biometric.ktx)
     api(libs.androidx.core.ktx)
@@ -59,7 +59,7 @@ dependencies {
     api(libs.bundles.androidx.lifecycle)
     api(libs.timber)
     implementation(libs.bundles.androidx.appcompat)
-    implementation(libs.firebase.crashlytics.ktx)
+    implementation(libs.google.firebase.crashlytics.ktx)
     implementation(libs.androidx.browser)
     lintChecks(libs.lint.checks)
 }
