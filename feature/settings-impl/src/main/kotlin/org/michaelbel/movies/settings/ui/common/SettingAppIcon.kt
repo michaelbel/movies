@@ -28,6 +28,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionKmp
 import org.michaelbel.movies.ui.appicon.IconAlias
 import org.michaelbel.movies.ui.appicon.isEnabled
 import org.michaelbel.movies.ui.icons.MoviesIcons
@@ -81,7 +82,7 @@ fun RowScope.SettingAppIcon(
         ) {
             Icon(
                 imageVector = MoviesIcons.Check,
-                contentDescription = MoviesContentDescription.None,
+                contentDescription = MoviesContentDescriptionKmp.None,
                 modifier = Modifier
                     .size(iconSize)
                     .align(Alignment.Center),

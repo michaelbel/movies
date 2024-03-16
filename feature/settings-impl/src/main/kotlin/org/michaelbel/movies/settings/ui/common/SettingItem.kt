@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.theme.AppTheme
-import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionKmp
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -39,7 +39,7 @@ internal fun SettingItem(
     ) {
         Icon(
             imageVector = icon,
-            contentDescription = MoviesContentDescription.None,
+            contentDescription = MoviesContentDescriptionKmp.None,
             modifier = Modifier
                 .padding(start = 8.dp, end = 16.dp)
                 .size(24.dp),

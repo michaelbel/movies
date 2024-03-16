@@ -187,6 +187,7 @@ dependencies {
     implementation(project(":core:navigation"))
     implementation(project(":core:platform-services:interactor"))
     implementation(project(":core:ui"))
+    implementation(project(":core:ui-kmp"))
     implementation(project(":core:widget"))
     implementation(project(":core:work"))
     implementation(project(":feature:auth"))

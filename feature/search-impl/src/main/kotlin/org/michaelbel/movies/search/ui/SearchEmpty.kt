@@ -15,7 +15,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.search_impl.R
-import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionKmp
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -31,7 +31,7 @@ fun SearchEmpty(
 
         Icon(
             imageVector = MoviesIcons.ManageSearch,
-            contentDescription = MoviesContentDescription.None,
+            contentDescription = MoviesContentDescriptionKmp.None,
             modifier = Modifier.constrainAs(image) {
                 width = Dimension.value(36.dp)
                 height = Dimension.value(36.dp)

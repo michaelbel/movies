@@ -28,7 +28,7 @@ import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.network.formatPosterImage
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.ui.R
-import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionKmp
 import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
 import org.michaelbel.movies.ui.preview.DevicePreviews
@@ -52,7 +52,7 @@ fun MovieColumn(
                 .data(movie.posterPath.formatPosterImage)
                 .crossfade(true)
                 .build(),
-            contentDescription = MoviesContentDescription.None,
+            contentDescription = MoviesContentDescriptionKmp.None,
             modifier = Modifier.constrainAs(image) {
                 width = Dimension.fillToConstraints
                 height = Dimension.value(220.dp)

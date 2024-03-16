@@ -40,6 +40,7 @@ include(
     ":core:platform-services:interactor",
     ":core:repository",
     ":core:ui",
+    ":core:ui-kmp",
     ":core:widget",
     ":core:work",
 

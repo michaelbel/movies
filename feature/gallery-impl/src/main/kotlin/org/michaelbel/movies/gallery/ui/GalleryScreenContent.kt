@@ -61,7 +61,7 @@ import org.michaelbel.movies.gallery_impl.R
 import org.michaelbel.movies.network.isNotOriginal
 import org.michaelbel.movies.persistence.database.entity.ImageDb
 import org.michaelbel.movies.persistence.database.ktx.original
-import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionKmp
 import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
 import org.michaelbel.movies.ui.compose.iconbutton.DownloadIcon
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
@@ -210,7 +210,7 @@ private fun GalleryScreenContent(
                                     .crossfade(true)
                                     .placeholderMemoryCacheKey(imageDiskCacheKey)
                                     .build(),
-                                contentDescription = MoviesContentDescription.None,
+                                contentDescription = MoviesContentDescriptionKmp.None,
                                 modifier = Modifier
                                     .constrainAs(asyncImage) {
                                         width = Dimension.fillToConstraints
