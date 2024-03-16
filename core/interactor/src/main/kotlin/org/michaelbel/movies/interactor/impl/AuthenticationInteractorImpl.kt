@@ -5,6 +5,8 @@ import javax.inject.Singleton
 import kotlinx.coroutines.withContext
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.interactor.AuthenticationInteractor
+import org.michaelbel.movies.interactor.entity.Password
+import org.michaelbel.movies.interactor.entity.Username
 import org.michaelbel.movies.network.model.Session
 import org.michaelbel.movies.network.model.Token
 import org.michaelbel.movies.repository.AuthenticationRepository
@@ -20,12 +22,12 @@ internal class AuthenticationInteractorImpl @Inject constructor(
     }
 
     override suspend fun createSessionWithLogin(
-        username: String,
-        password: String,
+        username: Username,
+        password: Password,
         requestToken: String
     ): Token {
         return withContext(dispatchers.io) {
-            authenticationRepository.createSessionWithLogin(username, password, requestToken)
+            authenticationRepository.createSessionWithLogin(username.value, password.value, requestToken)
         }
     }
 

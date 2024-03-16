@@ -12,6 +12,8 @@ import org.michaelbel.movies.common.exceptions.CreateSessionException
 import org.michaelbel.movies.common.exceptions.CreateSessionWithLoginException
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
+import org.michaelbel.movies.interactor.entity.Password
+import org.michaelbel.movies.interactor.entity.Username
 
 @HiltViewModel
 class AuthViewModel @Inject constructor(
@@ -40,7 +42,7 @@ class AuthViewModel @Inject constructor(
         }
     }
 
-    fun onSignInClick(username: String, password: String, onResult: () -> Unit) = launch {
+    fun onSignInClick(username: Username, password: Password, onResult: () -> Unit) = launch {
         error = null
         signInLoading = true
         val token = interactor.createRequestToken(loginViaTmdb = false)

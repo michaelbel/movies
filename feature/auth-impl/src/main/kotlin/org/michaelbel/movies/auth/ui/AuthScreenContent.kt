@@ -48,6 +48,12 @@ import org.michaelbel.movies.auth_impl.R
 import org.michaelbel.movies.common.browser.openUrl
 import org.michaelbel.movies.common.exceptions.CreateSessionWithLoginException
 import org.michaelbel.movies.common.theme.AppTheme
+import org.michaelbel.movies.interactor.entity.Password
+import org.michaelbel.movies.interactor.entity.Username
+import org.michaelbel.movies.interactor.ktx.PasswordSaver
+import org.michaelbel.movies.interactor.ktx.UsernameSaver
+import org.michaelbel.movies.interactor.ktx.isNotEmpty
+import org.michaelbel.movies.interactor.ktx.trim
 import org.michaelbel.movies.network.TMDB_AUTH_REDIRECT_URL
 import org.michaelbel.movies.network.TMDB_AUTH_URL
 import org.michaelbel.movies.network.TMDB_PRIVACY_POLICY
@@ -91,7 +97,7 @@ internal fun AuthScreenContent(
     loginLoading: Boolean,
     requestToken: String?,
     onBackClick: () -> Unit,
-    onSignInClick: (String, String) -> Unit,
+    onSignInClick: (Username, Password) -> Unit,
     onLoginClick: () -> Unit,
     onResetRequestToken: () -> Unit,
     modifier: Modifier = Modifier
@@ -102,8 +108,8 @@ internal fun AuthScreenContent(
     val focusManager = LocalFocusManager.current
     val scrollState = rememberScrollState()
 
-    var username by rememberSaveable { mutableStateOf("") }
-    var password by rememberSaveable { mutableStateOf("") }
+    var username by rememberSaveable(saver = UsernameSaver) { mutableStateOf(Username("")) }
+    var password by rememberSaveable(saver = PasswordSaver) { mutableStateOf(Password("")) }
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
     if (requestToken != null) {
@@ -161,9 +167,9 @@ internal fun AuthScreenContent(
         )
 
         OutlinedTextField(
-            value = username,
-            onValueChange = { value: String ->
-                username = value
+            value = username.value,
+            onValueChange = { value ->
+                username = Username(value)
             },
             modifier = Modifier.constrainAs(usernameField) {
                 width = Dimension.fillToConstraints
@@ -191,9 +197,9 @@ internal fun AuthScreenContent(
         )
 
         OutlinedTextField(
-            value = password,
-            onValueChange = { value: String ->
-                password = value
+            value = password.value,
+            onValueChange = { value ->
+                password = Password(value)
             },
             modifier = Modifier.constrainAs(passwordField) {
                 width = Dimension.fillToConstraints
@@ -209,7 +215,7 @@ internal fun AuthScreenContent(
             },
             trailingIcon = {
                 AnimatedVisibility(
-                    visible = password.isNotEmpty(),
+                    visible = password.isNotEmpty,
                     enter = fadeIn(),
                     exit = fadeOut()
                 ) {
@@ -284,7 +290,7 @@ internal fun AuthScreenContent(
         }
 
         Button(
-            onClick = { onSignInClick(username.trim(), password.trim()) },
+            onClick = { onSignInClick(username.trim, password.trim) },
             modifier = Modifier.constrainAs(signInButton) {
                 width = Dimension.fillToConstraints
                 height = Dimension.wrapContent
@@ -292,7 +298,7 @@ internal fun AuthScreenContent(
                 top.linkTo(if (error != null && error is CreateSessionWithLoginException) resetPasswordButton.bottom else passwordField.bottom, 16.dp)
                 end.linkTo(parent.end, 16.dp)
             },
-            enabled = username.isNotEmpty() && password.isNotEmpty() && !signInLoading,
+            enabled = username.isNotEmpty && password.isNotEmpty && !signInLoading,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.surfaceTint
             ),
