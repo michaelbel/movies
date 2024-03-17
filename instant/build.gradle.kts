@@ -39,7 +39,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":android-app"))
+    implementation(project(":androidApp"))
     implementation(project(":core:common"))
     implementation(project(":core:ui"))
     implementation(libs.bundles.androidx.appcompat)

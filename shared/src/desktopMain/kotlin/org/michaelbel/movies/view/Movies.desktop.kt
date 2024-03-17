@@ -13,8 +13,13 @@ import androidx.compose.ui.window.WindowPosition
 import androidx.compose.ui.window.WindowState
 import java.awt.Dimension
 import java.awt.Toolkit
+import movies.shared.generated.resources.Res
+import movies.shared.generated.resources.ic_movies_512
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.painterResource
 import org.michaelbel.movies.theme.MoviesTheme
 
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 fun ApplicationScope.MoviesDesktop() {
     Window(
@@ -24,12 +29,14 @@ fun ApplicationScope.MoviesDesktop() {
             position = WindowPosition.Aligned(Alignment.Center),
             size = getPreferredWindowSize(720, 857)
         ),
-        //icon = painterResource(Res.drawable.)
+        icon = painterResource(Res.drawable.ic_movies_512)
     ) {
         MoviesTheme {
             Surface(
                 modifier = Modifier.fillMaxSize()
-            ) {}
+            ) {
+
+            }
         }
     }
 }

@@ -19,9 +19,9 @@ dependencyResolutionManagement {
 rootProject.name = "movies"
 
 include(
-    ":android-app",
-    ":desktop-app",
-    ":ios-app",
+    ":androidApp",
+    ":desktopApp",
+    ":iosApp",
     ":instant",
     ":benchmark",
     ":shared",

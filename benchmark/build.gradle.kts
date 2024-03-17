@@ -32,7 +32,7 @@ android {
         targetCompatibility = JavaVersion.toVersion(libs.versions.jdk.get().toInt())
     }
 
-    targetProjectPath = ":android-app"
+    targetProjectPath = ":androidApp"
 
     experimentalProperties["android.experimental.self-instrumenting"] = true
 }
