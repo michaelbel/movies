@@ -38,7 +38,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.ui.R
-import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionKmp
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.ui.preview.DevicePreviews
@@ -94,7 +94,7 @@ fun NotificationBottomSheet(
         ) {
             Image(
                 imageVector = MoviesIcons.Notifications,
-                contentDescription = MoviesContentDescriptionKmp.None,
+                contentDescription = MoviesContentDescription.None,
                 modifier = Modifier.graphicsLayer(
                     transformOrigin = TransformOrigin(
                         pivotFractionX = 0.5F,

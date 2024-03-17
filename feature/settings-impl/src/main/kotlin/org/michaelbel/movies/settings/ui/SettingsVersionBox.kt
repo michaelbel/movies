@@ -20,7 +20,7 @@ import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.settings_impl.R
-import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionKmp
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.VersionPreviewParameterProvider
@@ -39,7 +39,7 @@ internal fun SettingsVersionBox(
 
         Icon(
             imageVector = MoviesIcons.MovieFilter,
-            contentDescription = MoviesContentDescriptionKmp.None,
+            contentDescription = MoviesContentDescription.None,
             modifier = Modifier
                 .constrainAs(icon) {
                     width = Dimension.value(24.dp)

@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.common.theme.AppTheme
-import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionKmp
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.compose.SwitchCheckIcon
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
@@ -47,7 +47,7 @@ internal fun SettingSwitchItem(
 
         Icon(
             imageVector = icon,
-            contentDescription = MoviesContentDescriptionKmp.None,
+            contentDescription = MoviesContentDescription.None,
             modifier = Modifier.constrainAs(iconRef) {
                 width = Dimension.value(24.dp)
                 height = Dimension.value(24.dp)
@@ -119,7 +119,7 @@ internal fun SettingSwitchItem(
 
         Icon(
             painter = icon,
-            contentDescription = MoviesContentDescriptionKmp.None,
+            contentDescription = MoviesContentDescription.None,
             modifier = Modifier.constrainAs(iconRef) {
                 width = Dimension.value(24.dp)
                 height = Dimension.value(24.dp)

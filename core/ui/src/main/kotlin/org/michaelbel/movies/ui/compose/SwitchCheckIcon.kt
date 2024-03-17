@@ -9,7 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.common.theme.AppTheme
-import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionKmp
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -20,7 +20,7 @@ fun SwitchCheckIcon(
 ) {
     Icon(
         imageVector = MoviesIcons.Check,
-        contentDescription = MoviesContentDescriptionKmp.None,
+        contentDescription = MoviesContentDescription.None,
         modifier = modifier.size(SwitchDefaults.IconSize),
     )
 }

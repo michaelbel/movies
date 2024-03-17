@@ -1,5 +1,5 @@
+@file:Suppress("EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE")
+
 package org.michaelbel.movies.ui.accessibility
 
-object MoviesContentDescriptionKmp {
-    val None: String? = null
-}
+expect object MoviesContentDescription

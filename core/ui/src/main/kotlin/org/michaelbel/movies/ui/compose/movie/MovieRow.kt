@@ -28,7 +28,7 @@ import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.network.formatBackdropImage
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.ui.R
-import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionKmp
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
 import org.michaelbel.movies.ui.preview.DevicePreviews
@@ -53,7 +53,7 @@ fun MovieRow(
                 .data(movie.backdropPath.formatBackdropImage)
                 .crossfade(true)
                 .build(),
-            contentDescription = MoviesContentDescriptionKmp.None,
+            contentDescription = MoviesContentDescription.None,
             modifier = Modifier.constrainAs(image) {
                 width = Dimension.fillToConstraints
                 height = Dimension.value(220.dp)

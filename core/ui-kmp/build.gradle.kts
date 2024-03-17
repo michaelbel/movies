@@ -1,11 +1,18 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.multiplatform)
-    alias(libs.plugins.compose)
 }
 
 @OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
+    targets.all {
+        compilations.all {
+            compilerOptions.configure {
+                freeCompilerArgs.add("-Xexpect-actual-classes")
+            }
+        }
+    }
+
     androidTarget {
         compilations.all {
             kotlinOptions {
@@ -13,22 +20,11 @@ kotlin {
             }
         }
     }
-    jvm("desktop")
 
     sourceSets {
-        commonMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material)
-            implementation(compose.components.resources)
-        }
         androidMain.dependencies {
             api(libs.androidx.appcompat)
             api(libs.androidx.core.ktx)
-        }
-        val desktopMain by getting
-        desktopMain.dependencies {
-            implementation(compose.desktop.common)
         }
     }
 }
