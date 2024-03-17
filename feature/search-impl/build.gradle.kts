@@ -54,7 +54,7 @@ android {
 dependencies {
     api(project(":core:navigation"))
     api(project(":core:ui"))
-    implementation(project(":core:ui-kmp"))
+    api(project(":core:ui-kmp"))
     implementation(project(":core:common"))
     implementation(project(":core:interactor"))
     implementation(project(":core:network"))

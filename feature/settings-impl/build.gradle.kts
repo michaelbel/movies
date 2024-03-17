@@ -57,7 +57,7 @@ dependencies {
     api(project(":core:navigation"))
     api(project(":core:common"))
     api(project(":core:ui"))
-    implementation(project(":core:ui-kmp"))
+    api(project(":core:ui-kmp"))
     implementation(project(":core:interactor"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.bundles.androidx.test.espresso)

@@ -44,6 +44,5 @@ android {
 
 dependencies {
     implementation(project(":feature:search-impl"))
-
     lintChecks(libs.lint.checks)
 }
