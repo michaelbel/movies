@@ -39,4 +39,5 @@ dependencies {
     implementation(project(":core:common"))
     implementation(project(":core:interactor"))
     implementation(project(":core:ui"))
+    implementation(project(":core:ui-kmp"))
 }

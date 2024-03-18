@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
  * Convert SVG to Compose using https://composables.com/svgtocompose
  * SVG Icon: https://pictogrammers.com/library/mdi/icon/cat
  */
-val MoviesIcons.Cat: ImageVector
+internal val MoviesIcons.CatVector: ImageVector
 	get() {
 		if (_cat != null) {
 			return _cat!!

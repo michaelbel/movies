@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
  * Convert SVG to Compose using https://composables.com/svgtocompose
  * SVG Icon: https://pictogrammers.com/library/mdi/icon/github
  */
-val MoviesIcons.Github: ImageVector
+internal val MoviesIcons.GithubVector: ImageVector
 	get() {
 		if (_github != null) {
 			return _github!!

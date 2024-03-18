@@ -28,16 +28,21 @@ import androidx.compose.material.icons.outlined.Visibility
 import androidx.compose.material.icons.outlined.VisibilityOff
 import androidx.compose.material.icons.outlined.Widgets
 import androidx.compose.ui.graphics.vector.ImageVector
-import org.michaelbel.movies.ui.R
+import org.michaelbel.movies.ui_kmp.R
 
 /**
  * Movies icons. Material icons are [ImageVector]s, custom icons are drawable resource IDs.
  */
-object MoviesIcons {
+actual object MoviesIcons {
     @DrawableRes val TmdbLogo = R.drawable.ic_tmdb_logo
     @DrawableRes val MovieFilter24 = R.drawable.ic_movie_filter_24
     @DrawableRes val FileDownload24 = R.drawable.ic_file_download_24
     @DrawableRes val AdultOutline = R.drawable.ic_18_up_rating_outline_24
+
+    val Cat = CatVector
+    val Github = GithubVector
+    val GooglePlay = GooglePlayVector
+    val ThemeLightDark = ThemeLightDarkVector
 
     val AccountCircle = Icons.Outlined.AccountCircle
     val ArrowBack = Icons.AutoMirrored.Outlined.ArrowBack

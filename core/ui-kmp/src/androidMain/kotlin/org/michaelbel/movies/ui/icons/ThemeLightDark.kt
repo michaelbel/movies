@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
  * Convert SVG to Compose using https://composables.com/svgtocompose
  * SVG Icon: https://pictogrammers.com/library/mdi/icon/theme-light-dark
  */
-val MoviesIcons.ThemeLightDark: ImageVector
+internal val MoviesIcons.ThemeLightDarkVector: ImageVector
 	get() {
 		if (_themeLightDark != null) {
 			return _themeLightDark!!

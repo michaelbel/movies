@@ -13,7 +13,7 @@ import androidx.compose.ui.unit.dp
  * Convert SVG to Compose using https://composables.com/svgtocompose
  * SVG Icon: https://pictogrammers.com/library/mdi/icon/google-play
  */
-val MoviesIcons.GooglePlay: ImageVector
+internal val MoviesIcons.GooglePlayVector: ImageVector
 	get() {
 		if (_googlePlay != null) {
 			return _googlePlay!!

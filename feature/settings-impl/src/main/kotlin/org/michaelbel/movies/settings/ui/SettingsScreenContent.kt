@@ -63,11 +63,7 @@ import org.michaelbel.movies.settings.ui.common.SettingsDialog
 import org.michaelbel.movies.settings_impl.R
 import org.michaelbel.movies.ui.appicon.IconAlias
 import org.michaelbel.movies.ui.appicon.setIcon
-import org.michaelbel.movies.ui.icons.Cat
-import org.michaelbel.movies.ui.icons.Github
-import org.michaelbel.movies.ui.icons.GooglePlay
 import org.michaelbel.movies.ui.icons.MoviesIcons
-import org.michaelbel.movies.ui.icons.ThemeLightDark
 import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
