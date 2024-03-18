@@ -7,9 +7,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import org.michaelbel.movies.auth.accountGraph
+import org.michaelbel.movies.account.accountGraph
 import org.michaelbel.movies.auth.authGraph
-import org.michaelbel.movies.auth.navigateToAccount
+import org.michaelbel.movies.account.navigateToAccount
 import org.michaelbel.movies.auth.navigateToAuth
 import org.michaelbel.movies.details.detailsGraph
 import org.michaelbel.movies.details.navigateToDetails

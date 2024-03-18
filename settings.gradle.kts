@@ -46,7 +46,7 @@ include(
     ":core:widget",
     ":core:work",
 
-    ":feature:account",
+    ":feature:account-kmp",
     ":feature:account-impl",
     ":feature:auth",
     ":feature:auth-impl",

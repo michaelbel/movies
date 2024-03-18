@@ -193,7 +193,7 @@ dependencies {
     implementation(project(":core:widget"))
     implementation(project(":core:work"))
     implementation(project(":feature:auth"))
-    implementation(project(":feature:account"))
+    implementation(project(":feature:account-kmp"))
     implementation(project(":feature:details"))
     implementation(project(":feature:feed"))
     implementation(project(":feature:gallery"))
