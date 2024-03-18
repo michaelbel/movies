@@ -224,11 +224,6 @@
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="@string/admobAppId" />-->
 
-        <!-- Downloadable Fonts (https://d.android.com/guide/topics/ui/look-and-feel/downloadable-fonts) -->
-        <meta-data
-            android:name="preloaded_fonts"
-            android:resource="@array/preloaded_fonts" />
-
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
