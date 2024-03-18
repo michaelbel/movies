@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 pluginManagement {
     repositories {
         google()
@@ -28,7 +30,7 @@ include(
 
     ":core:analytics",
     ":core:common",
-    ":core:interactor",
+    ":core:interactor-kmp",
     ":core:navigation",
     ":core:network",
     ":core:notifications",

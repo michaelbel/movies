@@ -47,7 +47,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:interactor"))
+    implementation(project(":core:interactor-kmp"))
     implementation(project(":core:common"))
     implementation(project(":core:ui"))
     implementation(project(":core:ui-kmp"))

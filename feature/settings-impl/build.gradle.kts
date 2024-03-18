@@ -53,7 +53,7 @@ dependencies {
     api(project(":core:common"))
     api(project(":core:ui"))
     api(project(":core:ui-kmp"))
-    implementation(project(":core:interactor"))
+    implementation(project(":core:interactor-kmp"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.bundles.androidx.test.espresso)
     androidTestImplementation(libs.androidx.test.ext.junit.ktx)
