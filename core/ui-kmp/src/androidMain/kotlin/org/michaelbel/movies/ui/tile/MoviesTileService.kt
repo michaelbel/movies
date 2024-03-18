@@ -1,5 +1,8 @@
 @file:SuppressLint("StartActivityAndCollapseDeprecated")
-@file:Suppress("DEPRECATION")
+@file:Suppress(
+    "DEPRECATION",
+    "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING"
+)
 
 package org.michaelbel.movies.ui.tile
 

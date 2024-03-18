@@ -1,3 +1,5 @@
+@file:Suppress("EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE")
+
 package org.michaelbel.movies.ui.placeholder.material3
 
 import androidx.annotation.FloatRange

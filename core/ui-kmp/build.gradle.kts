@@ -4,16 +4,7 @@ plugins {
     alias(libs.plugins.compose)
 }
 
-@OptIn(org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi::class)
 kotlin {
-    targets.all {
-        compilations.all {
-            compilerOptions.configure {
-                freeCompilerArgs.add("-Xexpect-actual-classes")
-            }
-        }
-    }
-
     androidTarget {
         compilations.all {
             kotlinOptions {
@@ -53,5 +44,13 @@ android {
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
         compileSdk = libs.versions.compile.sdk.get().toInt()
+    }
+
+    lint {
+        quiet = true
+        abortOnError = false
+        ignoreWarnings = true
+        checkDependencies = true
+        lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
     }
 }
