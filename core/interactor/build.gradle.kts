@@ -1,4 +1,5 @@
 @Suppress("dsl_scope_violation")
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -20,12 +21,6 @@ android {
             initWith(getByName("release"))
         }
     }*/
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + listOf(
-            "-opt-in=androidx.paging.ExperimentalPagingApi"
-        )
-    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.toVersion(libs.versions.jdk.get().toInt())

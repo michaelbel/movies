@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
     alias(libs.plugins.android.test)
     alias(libs.plugins.kotlin.android)
@@ -19,12 +21,6 @@ android {
             signingConfig = getByName("debug").signingConfig
             matchingFallbacks.add("release")
         }
-    }
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + listOf(
-            "-opt-in=androidx.benchmark.macro.ExperimentalBaselineProfilesApi"
-        )
     }
 
     compileOptions {

@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalPagingApi::class)
+
 package org.michaelbel.movies.interactor.impl
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData

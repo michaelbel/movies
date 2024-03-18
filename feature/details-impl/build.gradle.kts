@@ -1,4 +1,5 @@
 @Suppress("dsl_scope_violation")
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
@@ -21,13 +22,6 @@ android {
             initWith(getByName("release"))
         }
     }*/
-
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + listOf(
-            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-            "-opt-in=androidx.compose.foundation.ExperimentalFoundationApi"
-        )
-    }
 
     buildFeatures {
         compose = true

@@ -1,5 +1,8 @@
+@file:SuppressLint("NewApi")
+
 package org.michaelbel.movies.benchmark
 
+import android.annotation.SuppressLint
 import androidx.benchmark.macro.BaselineProfileMode
 import androidx.benchmark.macro.CompilationMode
 import androidx.benchmark.macro.StartupMode

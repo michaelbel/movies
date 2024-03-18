@@ -16,6 +16,7 @@
 
 package org.michaelbel.movies.gallery.zoomable
 
+import android.annotation.SuppressLint
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.gestures.awaitEachGesture

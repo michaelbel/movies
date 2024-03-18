@@ -36,12 +36,6 @@ android {
         targetCompatibility = JavaVersion.toVersion(libs.versions.jdk.get().toInt())
     }
 
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + listOf(
-            "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api"
-        )
-    }
-
     lint {
         quiet = true
         abortOnError = false
