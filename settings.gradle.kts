@@ -48,7 +48,7 @@ include(
 
     ":feature:account-kmp",
     ":feature:account-impl",
-    ":feature:auth",
+    ":feature:auth-kmp",
     ":feature:auth-impl",
     ":feature:details",
     ":feature:details-impl",
