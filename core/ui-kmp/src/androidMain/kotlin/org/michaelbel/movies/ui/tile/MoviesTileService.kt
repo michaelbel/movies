@@ -1,15 +1,21 @@
+@file:SuppressLint("StartActivityAndCollapseDeprecated")
+@file:Suppress("DEPRECATION")
+
 package org.michaelbel.movies.ui.tile
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.drawable.Icon
 import android.os.Build
 import android.service.quicksettings.TileService
 import android.widget.Toast
-import org.michaelbel.movies.ui.R
+import androidx.annotation.RequiresApi
 import org.michaelbel.movies.ui.icons.MoviesIcons
+import org.michaelbel.movies.ui_kmp.R
 
-class MoviesTileService: TileService() {
+@RequiresApi(24)
+actual class MoviesTileService: TileService() {
 
     override fun onTileAdded() {
         super.onTileAdded()
@@ -39,7 +45,6 @@ class MoviesTileService: TileService() {
             if (Build.VERSION.SDK_INT >= 34) {
                 startActivityAndCollapse(pendingIntent)
             } else {
-                @Suppress("deprecation")
                 startActivityAndCollapse(intent)
             }
         }

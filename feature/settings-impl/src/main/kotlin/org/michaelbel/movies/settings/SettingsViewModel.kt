@@ -41,6 +41,8 @@ class SettingsViewModel @Inject constructor(
 
     val isPostNotificationsFeatureEnabled = Build.VERSION.SDK_INT >= 33
 
+    val isTileFeatureEnabled = Build.VERSION.SDK_INT >= 24
+
     val isReviewFeatureEnabled = interactor.isReviewFeatureEnabled
 
     val isUpdateFeatureEnabled = interactor.isUpdateFeatureEnabled

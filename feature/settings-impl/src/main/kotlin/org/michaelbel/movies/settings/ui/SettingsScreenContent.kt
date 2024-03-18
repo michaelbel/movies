@@ -103,6 +103,7 @@ fun SettingsRoute(
         dynamicColors = dynamicColors,
         onSetDynamicColors = viewModel::setDynamicColors,
         isPostNotificationsFeatureEnabled = viewModel.isPostNotificationsFeatureEnabled,
+        isTileFeatureEnabled = viewModel.isTileFeatureEnabled,
         isBiometricFeatureEnabled = isBiometricFeatureEnabled,
         isBiometricEnabled = isBiometricEnabled,
         onSetBiometricEnabled = viewModel::setBiometricEnabled,
@@ -131,6 +132,7 @@ private fun SettingsScreenContent(
     dynamicColors: Boolean,
     onSetDynamicColors: (Boolean) -> Unit,
     isPostNotificationsFeatureEnabled: Boolean,
+    isTileFeatureEnabled: Boolean,
     isBiometricFeatureEnabled: Boolean,
     isBiometricEnabled: Boolean,
     onSetBiometricEnabled: (Boolean) -> Unit,
@@ -452,34 +454,36 @@ private fun SettingsScreenContent(
                     onClick = { appWidgetProvider.pin(context) }
                 )
             }
-            item {
-                HorizontalDivider(
-                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                    thickness = .1.dp,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer
-                )
-            }
-            item {
-                fun onRequestAddTileService() {
-                    val statusBarManager = ContextCompat.getSystemService(context, StatusBarManager::class.java)
-                    statusBarManager?.requestAddTileService(
-                        ComponentName(context, MoviesTileService::class.java),
-                        context.getString(UiR.string.tile_title),
-                        Icon.createWithResource(context, MoviesIcons.MovieFilter24),
-                        context.mainExecutor
-                    ) { result ->
-                        when (result) {
-                            StatusBarManager.TILE_ADD_REQUEST_RESULT_TILE_ALREADY_ADDED -> onShowSnackbar(context.getString(R.string.settings_tile_error_already_added))
+            if (isTileFeatureEnabled) {
+                item {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                        thickness = .1.dp,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+                item {
+                    fun onRequestAddTileService() {
+                        val statusBarManager = ContextCompat.getSystemService(context, StatusBarManager::class.java)
+                        statusBarManager?.requestAddTileService(
+                            ComponentName(context, MoviesTileService::class.java),
+                            context.getString(UiR.string.tile_title),
+                            Icon.createWithResource(context, MoviesIcons.MovieFilter24),
+                            context.mainExecutor
+                        ) { result ->
+                            when (result) {
+                                StatusBarManager.TILE_ADD_REQUEST_RESULT_TILE_ALREADY_ADDED -> onShowSnackbar(context.getString(R.string.settings_tile_error_already_added))
+                            }
                         }
                     }
-                }
 
-                SettingItem(
-                    title = stringResource(R.string.settings_tile),
-                    description = stringResource(R.string.settings_tile_description),
-                    icon = MoviesIcons.ViewAgenda,
-                    onClick = { onRequestAddTileService() }
-                )
+                    SettingItem(
+                        title = stringResource(R.string.settings_tile),
+                        description = stringResource(R.string.settings_tile_description),
+                        icon = MoviesIcons.ViewAgenda,
+                        onClick = { onRequestAddTileService() }
+                    )
+                }
             }
             item {
                 HorizontalDivider(
