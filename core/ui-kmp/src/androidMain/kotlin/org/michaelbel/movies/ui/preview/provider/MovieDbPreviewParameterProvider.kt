@@ -4,7 +4,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import org.michaelbel.movies.network.model.Movie
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 
-class MovieDbPreviewParameterProvider: PreviewParameterProvider<MovieDb> {
+actual class MovieDbPreviewParameterProvider: PreviewParameterProvider<MovieDb> {
     override val values = sequenceOf(
         MovieDb(
             movieList = Movie.NOW_PLAYING,

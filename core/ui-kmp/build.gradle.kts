@@ -23,8 +23,16 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            api(libs.androidx.appcompat)
-            api(libs.androidx.core.ktx)
+            implementation(project(":core:common"))
+            implementation(project(":core:network"))
+            implementation(project(":core:persistence"))
+            api(libs.androidx.core.splashscreen)
+            api(libs.androidx.constraintlayout.compose)
+            api(libs.androidx.palette.ktx)
+            api(libs.coil.compose)
+            api(libs.bundles.androidx.compose)
+            api(libs.bundles.google.material)
+            api(libs.androidx.paging.compose)
         }
     }
 }
