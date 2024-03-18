@@ -59,7 +59,6 @@ dependencies {
     api(libs.bundles.androidx.lifecycle)
     api(libs.timber)
     implementation(libs.bundles.androidx.appcompat)
-    implementation(libs.google.firebase.crashlytics.ktx)
     implementation(libs.androidx.browser)
     lintChecks(libs.lint.checks)
 }

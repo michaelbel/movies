@@ -47,5 +47,5 @@ dependencies {
     api(project(":core:analytics"))
     api(project(":core:common"))
     api(project(":core:persistence"))
-    api(project(":core:repository"))
+    api(project(":core:repository-kmp"))
 }

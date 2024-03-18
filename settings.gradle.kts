@@ -38,7 +38,7 @@ include(
     ":core:platform-services:foss",
     ":core:platform-services:inject",
     ":core:platform-services:interactor",
-    ":core:repository",
+    ":core:repository-kmp",
     ":core:ui",
     ":core:ui-kmp",
     ":core:widget",
