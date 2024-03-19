@@ -1,5 +1,5 @@
 <div align="right">
-    <a href="https://github.com/michaelbel/movies">en</a>
+    <a href="https://github.com/michaelbel/movies/blob/develop/readme.md">en</a>
     <a href="https://github.com/michaelbel/movies/blob/develop/readme.ru.md"><b>ru</b></a>
 </div>
 
@@ -32,7 +32,7 @@ Movies - простой способ найти популярные фильм�
 
 ## Сборка
 
-Перейди в <b>`local.properties`</b> и укажи свой собственный [your own](https://developers.themoviedb.org/3/getting-started/introduction) <b>tmdb_api_key</b> как здесь:
+Перейди в <b>`local.properties`</b> и укажи [свой собственный](https://developers.themoviedb.org/3/getting-started/introduction) <b>tmdb_api_key</b> как здесь:
 ```gradle
 TMDB_API_KEY=your_own_tmdb_api_key
 ```
