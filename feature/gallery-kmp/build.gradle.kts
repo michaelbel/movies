@@ -15,7 +15,7 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            implementation(project(":feature:gallery-impl"))
+            implementation(project(":feature:gallery-impl-kmp"))
         }
     }
 }

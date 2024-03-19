@@ -15,7 +15,7 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            implementation(project(":feature:auth-impl"))
+            implementation(project(":feature:auth-impl-kmp"))
         }
     }
 }

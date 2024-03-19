@@ -15,7 +15,7 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            implementation(project(":feature:search-impl"))
+            implementation(project(":feature:search-impl-kmp"))
         }
     }
 }

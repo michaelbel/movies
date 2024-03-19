@@ -15,7 +15,7 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            implementation(project(":feature:feed-impl"))
+            implementation(project(":feature:feed-impl-kmp"))
         }
     }
 }

@@ -48,17 +48,16 @@ include(
 
     ":feature:account-kmp",
     ":feature:account-impl-kmp",
-    ":feature:account-impl",
     ":feature:auth-kmp",
-    ":feature:auth-impl",
+    ":feature:auth-impl-kmp",
     ":feature:details-kmp",
-    ":feature:details-impl",
+    ":feature:details-impl-kmp",
     ":feature:feed-kmp",
-    ":feature:feed-impl",
+    ":feature:feed-impl-kmp",
     ":feature:gallery-kmp",
-    ":feature:gallery-impl",
+    ":feature:gallery-impl-kmp",
     ":feature:search-kmp",
-    ":feature:search-impl",
+    ":feature:search-impl-kmp",
     ":feature:settings-kmp",
-    ":feature:settings-impl"
+    ":feature:settings-impl-kmp"
 )

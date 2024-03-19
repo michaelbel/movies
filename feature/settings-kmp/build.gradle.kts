@@ -15,7 +15,7 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            implementation(project(":feature:settings-impl"))
+            implementation(project(":feature:settings-impl-kmp"))
         }
     }
 }
