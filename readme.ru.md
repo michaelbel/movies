@@ -1,6 +1,6 @@
 <div align="right">
-    <a href="https://github.com/michaelbel/movies"><b>en</b></a>
-    <a href="https://github.com/michaelbel/movies/blob/develop/readme.ru.md">ru</a>
+    <a href="https://github.com/michaelbel/movies">en</a>
+    <a href="https://github.com/michaelbel/movies/blob/develop/readme.ru.md"><b>ru</b></a>
 </div>
 
 Movies
@@ -11,7 +11,7 @@ Movies
 [![paypal-badge](https://img.shields.io/badge/Donate-Paypal-FF5252.svg)](https://paypal.me/michaelbel)
 [![last-commit-badge](https://img.shields.io/github/last-commit/michaelbel/moviemade?color=FF5252)](https://github.com/michaelbel/moviemade/commits)
 
-Movies - easy way to discover popular movies. This is a simple TMDb client for Android
+Movies - простой способ найти популярные фильмы. Это легковесный TMDB-клиент для Android
 
 <div style="dispaly:flex">
     <img src="config/images/1.png" width="24%">
@@ -30,21 +30,21 @@ Movies - easy way to discover popular movies. This is a simple TMDb client for A
     <img src="config/images/14.png" width="49%">
 </div>
 
-## Build
+## Сборка
 
-Take a look at <b>`local.properties`</b> and fill it with [your own](https://developers.themoviedb.org/3/getting-started/introduction) <b>tmdb_api_key</b> like this:
+Перейди в <b>`local.properties`</b> и укажи свой собственный [your own](https://developers.themoviedb.org/3/getting-started/introduction) <b>tmdb_api_key</b> как здесь:
 ```gradle
 TMDB_API_KEY=your_own_tmdb_api_key
 ```
 
-## Download
+## Загрузить
 
 [<img src="config/images/badge-googleplay.svg" alt="" height="80">](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
 [<img src="config/images/badge-appgallery.svg" alt="" height="80">](https://appgallery.cloud.huawei.com/ag/n/app/C109677247)
 [<img src="config/images/badge-direct-apk.png" alt="" height="80">](https://github.com/michaelbel/movies/releases/download/1.5.3/Movies-v1.5.3.1478.-gms-release.apk)
 [<img src="config/images/badge-obtainium.png" alt="" height="80">](https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/michaelbel/movies)
 
-## Technologies
+## Технологии
 
 - [x] [Modularization](https://d.android.com/topic/modularization)
 - [x] [MVVM](https://d.android.com/topic/architecture)
@@ -130,13 +130,13 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Biometric Authentication Dialog](https://d.android.com/training/sign-in/biometric-auth)
 - [x] [LeakCanary](https://github.com/square/leakcanary)
 
-## Roadmap
+## Роадмап
 [Movies App Roadmap](https://github.com/users/michaelbel/projects/1/views/1)
 
-## Issues
-If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).
+## Проблемы
+Если попался баг или хочешь предложить фичу, не стесняйся, заводи [issue](https://github.com/michaelbel/moviemade/issues).
 
-## Star History
+## История звездочек
 <a href="https://star-history.com/#michaelbel/movies&Date">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=michaelbel/movies&type=Date&theme=dark" />
@@ -145,7 +145,7 @@ If you find any problems or would like to suggest a feature, please feel free to
   </picture>
 </a>
 
-## License
+## Лицензия
 <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
   <img alt="Apache License 2.0" src="config/images/apache.png" height="110"/>
 </a>
