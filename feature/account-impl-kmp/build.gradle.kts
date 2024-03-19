@@ -15,13 +15,22 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            implementation(project(":feature:account-impl-kmp"))
+            api(project(":core:navigation"))
+            api(project(":core:ui"))
+            implementation(project(":core:ui-kmp"))
+            implementation(project(":core:common"))
+            implementation(project(":core:interactor-kmp"))
+            implementation(project(":core:network"))
+            implementation(libs.androidx.work.runtime.ktx)
+            implementation(libs.androidx.hilt.work)
         }
     }
 }
 
 android {
-    namespace = "org.michaelbel.movies.account_kmp"
+    namespace = "org.michaelbel.movies.account_impl_kmp"
+
+    sourceSets["main"].res.srcDirs("src/androidMain/res")
 
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
