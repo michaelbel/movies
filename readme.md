@@ -1,5 +1,5 @@
 <div align="right">
-    <a href="https://github.com/michaelbel/movies"><b>en</b></a>
+    <a href="https://github.com/michaelbel/movies/blob/develop/readme.md"><b>en</b></a>
     <a href="https://github.com/michaelbel/movies/blob/develop/readme.ru.md">ru</a>
 </div>
 
