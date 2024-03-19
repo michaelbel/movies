@@ -35,7 +35,7 @@ import org.michaelbel.movies.ui.preview.provider.SuggestionDbPreviewParameterPro
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun SearchToolbar(
+internal fun SearchToolbar(
     query: String,
     onQueryChange: (String) -> Unit,
     onSearch: (String) -> Unit,
@@ -48,7 +48,7 @@ actual fun SearchToolbar(
     searchHistoryMovies: List<MovieDb>,
     onHistoryMovieRemoveClick: (Int) -> Unit,
     onClearHistoryClick: () -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     SearchBar(
         query = query,

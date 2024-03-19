@@ -29,13 +29,13 @@ import org.michaelbel.movies.ui.preview.provider.BooleanPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun SettingSwitchItem(
+internal fun SettingSwitchItem(
     title: String,
     description: String,
     icon: ImageVector,
     checked: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
         modifier = modifier
@@ -101,13 +101,13 @@ actual fun SettingSwitchItem(
 }
 
 @Composable
-actual fun SettingSwitchItem(
+internal fun SettingSwitchItem(
     title: String,
     description: String,
     icon: Painter,
     checked: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
         modifier = modifier

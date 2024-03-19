@@ -12,5 +12,3 @@ expect val screenHeight: Dp
 expect val isPortrait: Boolean
 
 expect val displayCutoutWindowInsets: WindowInsets
-
-expect val gridColumnsCount: Int

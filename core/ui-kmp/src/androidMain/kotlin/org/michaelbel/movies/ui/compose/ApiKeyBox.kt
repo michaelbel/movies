@@ -19,8 +19,8 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.ui_kmp.R
 
 @Composable
-actual fun ApiKeyBox(
-    modifier: Modifier
+internal fun ApiKeyBox(
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier,

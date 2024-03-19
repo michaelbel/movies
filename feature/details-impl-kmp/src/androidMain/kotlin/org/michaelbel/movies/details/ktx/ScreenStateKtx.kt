@@ -9,21 +9,21 @@ import org.michaelbel.movies.network.ScreenState
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.url
 
-actual val ScreenState.Content<*>.movie: MovieDb
+internal val ScreenState.Content<*>.movie: MovieDb
     get() = data as MovieDb
 
-actual val ScreenState.toolbarTitle: String
+internal val ScreenState.toolbarTitle: String
     @Composable get() = when (this) {
         is ScreenState.Loading -> stringResource(R.string.details_title)
         is ScreenState.Content<*> -> movie.title
         is ScreenState.Failure -> stringResource(R.string.details_title)
     }
 
-actual val ScreenState.movieUrl: String?
+internal val ScreenState.movieUrl: String?
     get() = if (this is ScreenState.Content<*>) movie.url else null
 
 @Composable
-actual fun ScreenState.primaryContainer(isAmoledTheme: Boolean): Color {
+internal fun ScreenState.primaryContainer(isAmoledTheme: Boolean): Color {
     return when (this) {
         is ScreenState.Loading -> MaterialTheme.colorScheme.primaryContainer
         is ScreenState.Content<*> -> if (movie.containerColor != null && !isAmoledTheme) Color(requireNotNull(movie.containerColor)) else MaterialTheme.colorScheme.primaryContainer
@@ -32,7 +32,7 @@ actual fun ScreenState.primaryContainer(isAmoledTheme: Boolean): Color {
 }
 
 @Composable
-actual fun ScreenState.onPrimaryContainer(isAmoledTheme: Boolean): Color {
+internal fun ScreenState.onPrimaryContainer(isAmoledTheme: Boolean): Color {
     return when (this) {
         is ScreenState.Loading -> MaterialTheme.colorScheme.onPrimaryContainer
         is ScreenState.Content<*> -> if (movie.onContainerColor != null && !isAmoledTheme) Color(requireNotNull(movie.onContainerColor)) else MaterialTheme.colorScheme.onPrimaryContainer
@@ -41,7 +41,7 @@ actual fun ScreenState.onPrimaryContainer(isAmoledTheme: Boolean): Color {
 }
 
 @Composable
-actual fun ScreenState.scrolledContainerColor(isAmoledTheme: Boolean): Color {
+internal fun ScreenState.scrolledContainerColor(isAmoledTheme: Boolean): Color {
     return when (this) {
         is ScreenState.Loading -> MaterialTheme.colorScheme.inversePrimary
         is ScreenState.Content<*> -> if (movie.containerColor != null && !isAmoledTheme) Color.Transparent else MaterialTheme.colorScheme.inversePrimary

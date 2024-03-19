@@ -26,10 +26,10 @@ import org.michaelbel.movies.ui.preview.provider.MoviePreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun SearchRecentResult(
+internal fun SearchRecentResult(
     text: String,
     onRemoveClick: () -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
         modifier = modifier

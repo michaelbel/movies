@@ -34,7 +34,7 @@ actual fun Context.installLauncherIcon() {
     setIcon(IconAlias.Red)
 }
 
-actual val Context.shortcutSearchIconRes: Int
+internal val Context.shortcutSearchIconRes: Int
     @DrawableRes get() = when {
         isEnabled(IconAlias.Red) -> R.drawable.ic_shortcut_search_red_48
         isEnabled(IconAlias.Purple) -> R.drawable.ic_shortcut_search_purple_48
@@ -43,7 +43,7 @@ actual val Context.shortcutSearchIconRes: Int
         else -> 0
     }
 
-actual val Context.shortcutSettingsIconRes: Int
+internal val Context.shortcutSettingsIconRes: Int
     @DrawableRes get() = when {
         isEnabled(IconAlias.Red) -> R.drawable.ic_shortcut_settings_red_48
         isEnabled(IconAlias.Purple) -> R.drawable.ic_shortcut_settings_purple_48

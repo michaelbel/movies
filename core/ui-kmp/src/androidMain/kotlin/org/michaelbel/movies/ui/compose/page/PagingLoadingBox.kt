@@ -17,8 +17,8 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun PagingLoadingBox(
-    modifier: Modifier
+internal fun PagingLoadingBox(
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier,

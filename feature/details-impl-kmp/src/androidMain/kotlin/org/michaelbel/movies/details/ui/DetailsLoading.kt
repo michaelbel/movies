@@ -12,8 +12,8 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun DetailsLoading(
-    modifier: Modifier
+internal fun DetailsLoading(
+    modifier: Modifier = Modifier
 ) {
     DetailsContent(
         modifier = modifier,

@@ -38,7 +38,7 @@ import org.michaelbel.movies.ui.preview.provider.LanguagePreviewParameterProvide
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun <T: SealedString> SettingsDialog(
+internal fun <T: SealedString> SettingsDialog(
     icon: ImageVector,
     title: String,
     items: List<T>,

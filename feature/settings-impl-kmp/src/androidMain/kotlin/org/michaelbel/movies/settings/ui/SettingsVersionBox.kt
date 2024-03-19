@@ -27,9 +27,9 @@ import org.michaelbel.movies.ui.preview.provider.VersionPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun SettingsVersionBox(
+internal fun SettingsVersionBox(
     appVersionData: AppVersionData,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
         modifier = modifier.testTag("ConstraintLayout")

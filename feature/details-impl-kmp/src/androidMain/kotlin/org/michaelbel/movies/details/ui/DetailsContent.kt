@@ -46,14 +46,14 @@ import org.michaelbel.movies.ui.preview.provider.MovieDbPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun DetailsContent(
+internal fun DetailsContent(
     movie: MovieDb,
     onNavigateToGallery: (Int) -> Unit,
     onGenerateColors: (Int, Palette) -> Unit,
-    modifier: Modifier,
-    isThemeAmoled: Boolean,
-    onContainerColor: Color,
-    placeholder: Boolean
+    modifier: Modifier = Modifier,
+    isThemeAmoled: Boolean = false,
+    onContainerColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
+    placeholder: Boolean = false
 ) {
     val context = LocalContext.current
     val scrollState = rememberScrollState()

@@ -1,7 +1,4 @@
-@file:Suppress(
-    "EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE",
-    "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING"
-)
+@file:Suppress("EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE")
 
 package org.michaelbel.movies.ui.placeholder
 
@@ -13,8 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
-
-expect object PlaceholderDefaults
 
 expect fun Modifier.placeholder(
     visible: Boolean,

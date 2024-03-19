@@ -40,7 +40,7 @@ actual val isPortrait: Boolean
 actual val displayCutoutWindowInsets: WindowInsets
     @Composable get() = if (isPortrait) WindowInsets(0, 0, 0, 0) else WindowInsets.displayCutout
 
-actual val gridColumnsCount: Int
+internal val gridColumnsCount: Int
     @Composable get() = if (isPortrait) FEED_GRID_PORTRAIT_COLUMNS_COUNT else FEED_GRID_LANDSCAPE_COLUMNS_COUNT
 
 @Suppress("Deprecation")

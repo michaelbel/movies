@@ -21,8 +21,8 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun FeedEmpty(
-    modifier: Modifier
+internal fun FeedEmpty(
+    modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
         modifier = modifier

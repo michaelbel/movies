@@ -23,10 +23,10 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun SettingsToolbar(
-    modifier: Modifier,
-    topAppBarScrollBehavior: TopAppBarScrollBehavior,
-    onNavigationIconClick: () -> Unit,
+internal fun SettingsToolbar(
+    modifier: Modifier = Modifier,
+    topAppBarScrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
+    onNavigationIconClick: () -> Unit
 ) {
     LargeTopAppBar(
         title = {

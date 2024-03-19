@@ -4,10 +4,10 @@ import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import org.michaelbel.movies.common.exceptions.PageEmptyException
 
-actual val <T: Any> LazyPagingItems<T>.isNotEmpty: Boolean
+internal val <T: Any> LazyPagingItems<T>.isNotEmpty: Boolean
     get() = itemCount > 0
 
-actual val <T: Any> LazyPagingItems<T>.isEmpty: Boolean
+internal val <T: Any> LazyPagingItems<T>.isEmpty: Boolean
     get() = itemCount == 0
 
 actual val <T: Any> LazyPagingItems<T>.isLoading: Boolean
@@ -16,26 +16,26 @@ actual val <T: Any> LazyPagingItems<T>.isLoading: Boolean
 actual val <T: Any> LazyPagingItems<T>.isFailure: Boolean
     get() = loadState.refresh is LoadState.Error && isEmpty
 
-actual val <T: Any> LazyPagingItems<T>.isPagingLoading: Boolean
+internal val <T: Any> LazyPagingItems<T>.isPagingLoading: Boolean
     get() = isNotEmpty && (isAppendLoading || isAppendRefresh)
 
-actual val <T: Any> LazyPagingItems<T>.isPagingFailure: Boolean
+internal val <T: Any> LazyPagingItems<T>.isPagingFailure: Boolean
     get() = isNotEmpty && (isAppendError && appendThrowable !is PageEmptyException || isRefreshError && refreshThrowable !is PageEmptyException)
 
-actual val <T: Any> LazyPagingItems<T>.isRefreshError: Boolean
+internal val <T: Any> LazyPagingItems<T>.isRefreshError: Boolean
     get() = loadState.refresh is LoadState.Error
 
-actual val <T: Any> LazyPagingItems<T>.isAppendError: Boolean
+internal val <T: Any> LazyPagingItems<T>.isAppendError: Boolean
     get() = loadState.append is LoadState.Error
 
 actual val <T: Any> LazyPagingItems<T>.refreshThrowable: Throwable
     get() = (loadState.refresh as LoadState.Error).error
 
-actual val <T: Any> LazyPagingItems<T>.appendThrowable: Throwable
+internal val <T: Any> LazyPagingItems<T>.appendThrowable: Throwable
     get() = (loadState.append as LoadState.Error).error
 
-actual val <T: Any> LazyPagingItems<T>.isAppendLoading: Boolean
+internal val <T: Any> LazyPagingItems<T>.isAppendLoading: Boolean
     get() = loadState.append is LoadState.Loading
 
-actual val <T: Any> LazyPagingItems<T>.isAppendRefresh: Boolean
+internal val <T: Any> LazyPagingItems<T>.isAppendRefresh: Boolean
     get() = loadState.refresh is LoadState.Loading

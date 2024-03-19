@@ -42,10 +42,10 @@ import org.michaelbel.movies.ui.placeholder.placeholder
  * on top of [backgroundColor]. Defaults to `0.1F`.
  */
 @Composable
-actual fun PlaceholderDefaults.color(
-    backgroundColor: Color,
-    contentColor: Color,
-    contentAlpha: Float,
+internal fun PlaceholderDefaults.color(
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    contentColor: Color = contentColorFor(backgroundColor),
+    contentAlpha: Float = 0.1F
 ): Color = contentColor.copy(contentAlpha).compositeOver(backgroundColor)
 
 /**
@@ -57,9 +57,9 @@ actual fun PlaceholderDefaults.color(
  * @param alpha The alpha component to set on [backgroundColor]. Defaults to `0.3F`.
  */
 @Composable
-actual fun PlaceholderDefaults.fadeHighlightColor(
-    backgroundColor: Color,
-    alpha: Float,
+internal fun PlaceholderDefaults.fadeHighlightColor(
+    backgroundColor: Color = MaterialTheme.colorScheme.surface,
+    alpha: Float = 0.3F
 ): Color = backgroundColor.copy(alpha = alpha)
 
 /**
@@ -71,9 +71,9 @@ actual fun PlaceholderDefaults.fadeHighlightColor(
  * @param alpha The alpha component to set on [backgroundColor]. Defaults to `0.75F`.
  */
 @Composable
-actual fun PlaceholderDefaults.shimmerHighlightColor(
-    backgroundColor: Color,
-    alpha: Float,
+internal fun PlaceholderDefaults.shimmerHighlightColor(
+    backgroundColor: Color = MaterialTheme.colorScheme.inverseSurface,
+    alpha: Float = 0.75F
 ): Color {
     return backgroundColor.copy(alpha = alpha)
 }
@@ -108,13 +108,13 @@ actual fun PlaceholderDefaults.shimmerHighlightColor(
  * @param contentFadeTransitionSpec The transition spec to use when fading the content
  * on/off screen. The boolean parameter defined for the transition is [visible].
  */
-actual fun Modifier.placeholder(
+internal fun Modifier.placeholder(
     visible: Boolean,
-    color: Color,
-    shape: Shape?,
-    highlight: PlaceholderHighlight?,
-    placeholderFadeTransitionSpec: @Composable Transition.Segment<Boolean>.() -> FiniteAnimationSpec<Float>,
-    contentFadeTransitionSpec: @Composable Transition.Segment<Boolean>.() -> FiniteAnimationSpec<Float>,
+    color: Color = Color.Unspecified,
+    shape: Shape? = null,
+    highlight: PlaceholderHighlight? = null,
+    placeholderFadeTransitionSpec: @Composable Transition.Segment<Boolean>.() -> FiniteAnimationSpec<Float> = { spring() },
+    contentFadeTransitionSpec: @Composable Transition.Segment<Boolean>.() -> FiniteAnimationSpec<Float> = { spring() }
 ): Modifier = composed {
     Modifier.placeholder(
         visible = visible,

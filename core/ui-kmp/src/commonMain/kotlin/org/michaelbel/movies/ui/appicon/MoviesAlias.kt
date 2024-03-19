@@ -9,7 +9,3 @@ expect fun Context.isEnabled(iconAlias: IconAlias): Boolean
 expect fun Context.setIcon(iconAlias: IconAlias)
 
 expect fun Context.installLauncherIcon()
-
-expect val Context.shortcutSearchIconRes: Int
-
-expect val Context.shortcutSettingsIconRes: Int

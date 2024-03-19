@@ -36,7 +36,7 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun FeedToolbar(
+internal fun FeedToolbar(
     title: String,
     account: AccountDb,
     onSearchIconClick: () -> Unit,
@@ -44,7 +44,7 @@ actual fun FeedToolbar(
     onAccountIconClick: () -> Unit,
     onSettingsIconClick: () -> Unit,
     topAppBarScrollBehavior: TopAppBarScrollBehavior,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     TopAppBar(
         title = {

@@ -36,9 +36,9 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.ui_kmp.R
 
 @Composable
-actual fun MovieColumn(
+internal fun MovieColumn(
     movie: MovieDb,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     var isNoImageVisible by remember { mutableStateOf(false) }
 

@@ -22,9 +22,9 @@ import org.michaelbel.movies.ui.preview.provider.SuggestionDbPreviewParameterPro
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun SearchSuggestion(
+internal fun SearchSuggestion(
     text: String,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     Box(
         modifier = modifier,

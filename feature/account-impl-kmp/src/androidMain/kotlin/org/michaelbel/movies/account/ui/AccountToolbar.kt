@@ -21,8 +21,8 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun AccountToolbar(
-    modifier: Modifier,
+internal fun AccountToolbar(
+    modifier: Modifier = Modifier,
     onNavigationIconClick: () -> Unit
 ) {
     CenterAlignedTopAppBar(

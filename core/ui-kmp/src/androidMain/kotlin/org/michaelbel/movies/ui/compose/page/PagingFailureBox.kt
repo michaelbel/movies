@@ -19,8 +19,8 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.ui_kmp.R
 
 @Composable
-actual fun PagingFailureBox(
-    modifier: Modifier
+internal fun PagingFailureBox(
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier,

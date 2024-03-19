@@ -36,10 +36,10 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.ui_kmp.R
 
 @Composable
-actual fun MovieRow(
+internal fun MovieRow(
     movie: MovieDb,
-    modifier: Modifier,
-    maxLines: Int
+    modifier: Modifier = Modifier,
+    maxLines: Int = 10
 ) {
     var isNoImageVisible by remember { mutableStateOf(false) }
 

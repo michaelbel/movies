@@ -51,9 +51,9 @@ actual fun PlaceholderHighlight.Companion.fade(
  * Defaults to 0.6F.
  */
 @Composable
-actual fun PlaceholderHighlight.Companion.shimmer(
-    animationSpec: InfiniteRepeatableSpec<Float>,
-    @FloatRange(from = 0.0, to = 1.0) progressForMaxAlpha: Float,
+internal fun PlaceholderHighlight.Companion.shimmer(
+    animationSpec: InfiniteRepeatableSpec<Float> = PlaceholderDefaults.shimmerAnimationSpec,
+    @FloatRange(from = 0.0, to = 1.0) progressForMaxAlpha: Float = 0.6F
 ): PlaceholderHighlight = PlaceholderHighlight.shimmer(
     highlightColor = PlaceholderDefaults.shimmerHighlightColor(),
     animationSpec = animationSpec,

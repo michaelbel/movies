@@ -27,14 +27,14 @@ import org.michaelbel.movies.ui.preview.provider.TitlePreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun DetailsToolbar(
+internal fun DetailsToolbar(
     movieTitle: String,
     movieUrl: String?,
     onNavigationIconClick: () -> Unit,
     topAppBarScrollBehavior: TopAppBarScrollBehavior,
-    modifier: Modifier,
-    onContainerColor: Color,
-    scrolledContainerColor: Color
+    modifier: Modifier = Modifier,
+    onContainerColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
+    scrolledContainerColor: Color = MaterialTheme.colorScheme.inversePrimary
 ) {
     TopAppBar(
         title = {

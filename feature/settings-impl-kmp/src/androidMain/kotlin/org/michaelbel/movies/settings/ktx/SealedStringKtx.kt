@@ -10,7 +10,7 @@ import org.michaelbel.movies.common.localization.model.AppLanguage
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.settings_impl_kmp.R
 
-actual val SealedString.stringText: String
+internal val SealedString.stringText: String
     @Composable get() = when (this) {
         is AppLanguage.English -> stringResource(R.string.settings_language_en)
         is AppLanguage.Russian -> stringResource(R.string.settings_language_ru)

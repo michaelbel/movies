@@ -36,10 +36,10 @@ import org.michaelbel.movies.ui.preview.provider.IconAliasPreviewParameterProvid
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun RowScope.SettingAppIcon(
+internal fun RowScope.SettingAppIcon(
     iconAlias: IconAlias,
     onClick: (IconAlias) -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current
 

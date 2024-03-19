@@ -21,8 +21,8 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun DetailsFailure(
-    modifier: Modifier
+internal fun DetailsFailure(
+    modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
         modifier = modifier

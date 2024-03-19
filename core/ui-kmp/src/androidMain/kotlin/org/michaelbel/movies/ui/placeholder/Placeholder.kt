@@ -51,7 +51,7 @@ import androidx.compose.ui.unit.LayoutDirection
 /**
  * Contains default values used by [Modifier.placeholder] and [PlaceholderHighlight].
  */
-actual object PlaceholderDefaults {
+internal object PlaceholderDefaults {
     /**
      * The default [InfiniteRepeatableSpec] to use for [fade].
      */
