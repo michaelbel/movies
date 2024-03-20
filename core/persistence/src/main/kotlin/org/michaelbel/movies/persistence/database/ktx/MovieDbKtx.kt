@@ -1,7 +1,7 @@
 package org.michaelbel.movies.persistence.database.ktx
 
 import java.util.Locale
-import org.michaelbel.movies.network.TMDB_MOVIE_URL
+import org.michaelbel.movies.network.config.TMDB_MOVIE_URL
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 
 val MovieDb.isNotEmpty: Boolean

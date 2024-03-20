@@ -1,7 +1,7 @@
 package org.michaelbel.movies.interactor.ktx
 
 import org.michaelbel.movies.common.list.MovieList
-import org.michaelbel.movies.network.isTmdbApiKeyEmpty
+import org.michaelbel.movies.network.config.isTmdbApiKeyEmpty
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 
 actual val MovieList.nameOrLocalList: String

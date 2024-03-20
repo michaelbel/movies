@@ -17,7 +17,7 @@ import io.ktor.serialization.kotlinx.json.json
 import javax.inject.Singleton
 import kotlinx.serialization.json.Json
 import okhttp3.logging.HttpLoggingInterceptor
-import org.michaelbel.movies.network.TMDB_API_ENDPOINT
+import org.michaelbel.movies.network.config.TMDB_API_ENDPOINT
 import org.michaelbel.movies.network.okhttp.di.OkhttpModule
 import org.michaelbel.movies.network.okhttp.interceptor.ApikeyInterceptor
 

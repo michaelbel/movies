@@ -1,4 +1,4 @@
-package org.michaelbel.movies.network
+package org.michaelbel.movies.network.config
 
 import org.michaelbel.movies.network.model.image.BackdropSize
 import org.michaelbel.movies.network.model.image.PosterSize

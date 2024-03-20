@@ -37,7 +37,7 @@ import org.michaelbel.movies.details.ktx.onPrimaryContainer
 import org.michaelbel.movies.details.ktx.primaryContainer
 import org.michaelbel.movies.details.ktx.scrolledContainerColor
 import org.michaelbel.movies.details.ktx.toolbarTitle
-import org.michaelbel.movies.network.ScreenState
+import org.michaelbel.movies.network.config.ScreenState
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.network.connectivity.ktx.isAvailable
 import org.michaelbel.movies.network.ktx.isFailure

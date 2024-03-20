@@ -23,7 +23,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import org.michaelbel.movies.common.appearance.FeedView
-import org.michaelbel.movies.network.isTmdbApiKeyEmpty
+import org.michaelbel.movies.network.config.isTmdbApiKeyEmpty
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.ui.compose.ApiKeyBox
 import org.michaelbel.movies.ui.compose.movie.MovieColumn

@@ -9,7 +9,7 @@ import dagger.assisted.AssistedInject
 import java.util.concurrent.TimeUnit
 import org.michaelbel.movies.common.ktx.isTimePasses
 import org.michaelbel.movies.interactor.Interactor
-import org.michaelbel.movies.network.isTmdbApiKeyEmpty
+import org.michaelbel.movies.network.config.isTmdbApiKeyEmpty
 
 @HiltWorker
 class AccountUpdateWorker @AssistedInject constructor(

@@ -17,7 +17,7 @@ import org.michaelbel.movies.common.ktx.require
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
-import org.michaelbel.movies.network.ScreenState
+import org.michaelbel.movies.network.config.ScreenState
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 

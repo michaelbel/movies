@@ -1,6 +1,6 @@
 package org.michaelbel.movies.persistence.database.ktx
 
-import org.michaelbel.movies.network.formatImage
+import org.michaelbel.movies.network.config.formatImage
 import org.michaelbel.movies.network.model.image.BackdropSize
 import org.michaelbel.movies.network.model.image.LogoSize
 import org.michaelbel.movies.network.model.image.PosterSize

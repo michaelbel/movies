@@ -60,7 +60,7 @@ import org.michaelbel.movies.gallery.GalleryViewModel
 import org.michaelbel.movies.gallery.zoomable.rememberZoomState
 import org.michaelbel.movies.gallery.zoomable.zoomable
 import org.michaelbel.movies.gallery_impl_kmp.R
-import org.michaelbel.movies.network.isNotOriginal
+import org.michaelbel.movies.network.config.isNotOriginal
 import org.michaelbel.movies.persistence.database.entity.ImageDb
 import org.michaelbel.movies.persistence.database.ktx.original
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription

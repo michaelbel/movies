@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import org.michaelbel.movies.details_impl_kmp.R
-import org.michaelbel.movies.network.ScreenState
+import org.michaelbel.movies.network.config.ScreenState
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.url
 

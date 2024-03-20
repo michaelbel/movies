@@ -1,4 +1,6 @@
-package org.michaelbel.movies.network
+package org.michaelbel.movies.network.config
+
+import org.michaelbel.movies.network.BuildConfig
 
 const val TMDB_API_ENDPOINT = "https://api.themoviedb.org/3/"
 const val TMDB_URL = "https://themoviedb.org"

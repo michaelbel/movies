@@ -1,6 +1,6 @@
 package org.michaelbel.movies.network.ktx
 
-import org.michaelbel.movies.network.ScreenState
+import org.michaelbel.movies.network.config.ScreenState
 
 val ScreenState.isFailure: Boolean
     get() = this is ScreenState.Failure

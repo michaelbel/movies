@@ -1,4 +1,4 @@
-package org.michaelbel.movies.network
+package org.michaelbel.movies.network.config
 
 sealed interface ScreenState {
 

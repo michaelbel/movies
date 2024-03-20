@@ -6,7 +6,7 @@ import org.michaelbel.movies.common.exceptions.MovieDetailsException
 import org.michaelbel.movies.common.exceptions.MoviesUpcomingException
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.localization.LocaleController
-import org.michaelbel.movies.network.isTmdbApiKeyEmpty
+import org.michaelbel.movies.network.config.isTmdbApiKeyEmpty
 import org.michaelbel.movies.network.ktor.KtorMovieService
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result

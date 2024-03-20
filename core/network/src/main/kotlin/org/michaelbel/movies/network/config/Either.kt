@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package org.michaelbel.movies.network
+package org.michaelbel.movies.network.config
 
 /**
  * A class that encapsulates a successful result with a value of type T

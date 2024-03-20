@@ -6,7 +6,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 import okhttp3.OkHttpClient
-import org.michaelbel.movies.network.TMDB_API_ENDPOINT
+import org.michaelbel.movies.network.config.TMDB_API_ENDPOINT
 import org.michaelbel.movies.network.retrofit.RetrofitAccountService
 import org.michaelbel.movies.network.retrofit.RetrofitAuthenticationService
 import org.michaelbel.movies.network.retrofit.RetrofitMovieService

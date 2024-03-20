@@ -46,7 +46,7 @@ import org.michaelbel.movies.feed.FeedViewModel
 import org.michaelbel.movies.feed.ktx.titleText
 import org.michaelbel.movies.feed_impl_kmp.R
 import org.michaelbel.movies.network.connectivity.NetworkStatus
-import org.michaelbel.movies.network.isTmdbApiKeyEmpty
+import org.michaelbel.movies.network.config.isTmdbApiKeyEmpty
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.orEmpty

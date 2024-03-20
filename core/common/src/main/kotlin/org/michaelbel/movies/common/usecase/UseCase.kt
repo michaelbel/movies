@@ -2,7 +2,7 @@ package org.michaelbel.movies.common.usecase
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.withContext
-import org.michaelbel.movies.network.Either
+import org.michaelbel.movies.network.config.Either
 import timber.log.Timber
 
 @Suppress("unused")

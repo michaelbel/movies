@@ -3,7 +3,7 @@ package org.michaelbel.movies.repository.impl
 import javax.inject.Inject
 import javax.inject.Singleton
 import org.michaelbel.movies.common.localization.LocaleController
-import org.michaelbel.movies.network.isTmdbApiKeyEmpty
+import org.michaelbel.movies.network.config.isTmdbApiKeyEmpty
 import org.michaelbel.movies.network.ktor.KtorSearchService
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
