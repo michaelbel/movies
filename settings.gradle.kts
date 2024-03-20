@@ -31,7 +31,7 @@ include(
     ":core:analytics-kmp",
     ":core:common-kmp",
     ":core:interactor-kmp",
-    ":core:navigation",
+    ":core:navigation-kmp",
     ":core:network",
     ":core:notifications",
     ":core:persistence",
