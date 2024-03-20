@@ -11,7 +11,7 @@ import org.michaelbel.movies.persistence.database.entity.PagingKeyDb
  * The Data Access Object for the [PagingKeyDb] class.
  */
 @Dao
-interface PagingKeyDao {
+internal interface PagingKeyDao {
 
     @Transaction
     @Query("SELECT page FROM pagingkeys WHERE pagingKey = :pagingKey")

@@ -14,7 +14,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.network.model.MovieResponse
-import org.michaelbel.movies.persistence.database.dao.MovieDao
+import org.michaelbel.movies.persistence.database.MoviePersistence
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.movieDb
 
@@ -23,14 +23,14 @@ class MoviesDatabaseWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
     private val dispatchers: MoviesDispatchers,
-    private val movieDao: MovieDao
+    private val moviePersistence: MoviePersistence
 ): CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
         return withContext(dispatchers.io) {
             try {
                 val filename = inputData.getString(KEY_FILENAME)
-                if (filename != null && movieDao.isEmpty(MovieDb.MOVIES_LOCAL_LIST)) {
+                if (filename != null && moviePersistence.isEmpty(MovieDb.MOVIES_LOCAL_LIST)) {
                     applicationContext.assets.open(filename).use { inputStream ->
                         val format = Json { ignoreUnknownKeys = true }
                         val moviesJsonData: List<MovieResponse> = format.decodeFromStream(inputStream)
@@ -40,7 +40,7 @@ class MoviesDatabaseWorker @AssistedInject constructor(
                                 position = index.plus(1)
                             )
                         }
-                        movieDao.insertMovies(moviesDb)
+                        moviePersistence.insertMovies(moviesDb)
                     }
                 }
                 Result.success()

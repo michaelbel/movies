@@ -1,14 +1,14 @@
 package org.michaelbel.movies.repository.impl
 
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.network.ktor.KtorMovieService
 import org.michaelbel.movies.network.retrofit.RetrofitMovieService
-import org.michaelbel.movies.persistence.database.dao.ImageDao
+import org.michaelbel.movies.persistence.database.ImagePersistence
 import org.michaelbel.movies.persistence.database.entity.ImageDb
 import org.michaelbel.movies.persistence.database.ktx.imageDb
 import org.michaelbel.movies.repository.ImageRepository
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * You can replace [ktorMovieService] with [retrofitMovieService] to use it.
@@ -17,11 +17,11 @@ import org.michaelbel.movies.repository.ImageRepository
 internal class ImageRepositoryImpl @Inject constructor(
     private val retrofitMovieService: RetrofitMovieService,
     private val ktorMovieService: KtorMovieService,
-    private val imageDao: ImageDao
+    private val imagePersistence: ImagePersistence
 ): ImageRepository {
 
     override fun imagesFlow(movieId: Int): Flow<List<ImageDb>> {
-        return imageDao.imagesFlow(movieId)
+        return imagePersistence.imagesFlow(movieId)
     }
 
     override suspend fun images(movieId: Int) {
@@ -47,6 +47,6 @@ internal class ImageRepositoryImpl @Inject constructor(
                 position = posters.count().plus(backdrops.count()).plus(index)
             )
         }
-        imageDao.insert(posters + backdrops + logos)
+        imagePersistence.insert(posters + backdrops + logos)
     }
 }

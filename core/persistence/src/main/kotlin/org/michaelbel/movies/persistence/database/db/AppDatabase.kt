@@ -1,4 +1,4 @@
-package org.michaelbel.movies.persistence.database
+package org.michaelbel.movies.persistence.database.db
 
 import android.content.Context
 import androidx.room.Database
@@ -33,7 +33,7 @@ import org.michaelbel.movies.persistence.database.entity.SuggestionDb
     exportSchema = false
 )
 @TypeConverters(CalendarConverter::class)
-abstract class AppDatabase: RoomDatabase() {
+internal abstract class AppDatabase: RoomDatabase() {
 
     abstract fun movieDao(): MovieDao
     abstract fun imageDao(): ImageDao

@@ -14,7 +14,7 @@ import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
  * The Data Access Object for the [MovieDb] class.
  */
 @Dao
-interface MovieDao {
+internal interface MovieDao {
 
     @Transaction
     @Query("SELECT * FROM movies WHERE movieList = :movieList ORDER BY position ASC")

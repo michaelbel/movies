@@ -7,12 +7,11 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
-import androidx.room.withTransaction
 import org.michaelbel.movies.common.exceptions.PageEmptyException
 import org.michaelbel.movies.network.ktx.isEmpty
 import org.michaelbel.movies.network.ktx.isPaginationReached
 import org.michaelbel.movies.network.ktx.nextPage
-import org.michaelbel.movies.persistence.database.AppDatabase
+import org.michaelbel.movies.persistence.database.MoviesDatabase
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.repository.MovieRepository
 import org.michaelbel.movies.repository.PagingKeyRepository
@@ -20,7 +19,7 @@ import org.michaelbel.movies.repository.PagingKeyRepository
 actual class FeedMoviesRemoteMediator(
     private val pagingKeyRepository: PagingKeyRepository,
     private val movieRepository: MovieRepository,
-    private val database: AppDatabase,
+    private val moviesDatabase: MoviesDatabase,
     private val movieList: String
 ): RemoteMediator<Int, MovieDb>() {
 
@@ -37,7 +36,7 @@ actual class FeedMoviesRemoteMediator(
 
             val moviesResult = movieRepository.moviesResult(movieList, loadKey)
 
-            database.withTransaction {
+            moviesDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {
                     pagingKeyRepository.removePagingKey(movieList)
                     movieRepository.removeMovies(movieList)

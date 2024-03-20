@@ -1,8 +1,6 @@
 package org.michaelbel.movies.repository.impl
 
 import androidx.paging.PagingSource
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.common.exceptions.MovieDetailsException
 import org.michaelbel.movies.common.exceptions.MoviesUpcomingException
@@ -13,7 +11,7 @@ import org.michaelbel.movies.network.ktor.KtorMovieService
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
 import org.michaelbel.movies.network.retrofit.RetrofitMovieService
-import org.michaelbel.movies.persistence.database.dao.MovieDao
+import org.michaelbel.movies.persistence.database.MoviePersistence
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
 import org.michaelbel.movies.persistence.database.ktx.movieDb
@@ -21,6 +19,8 @@ import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.repository.MovieRepository
 import org.michaelbel.movies.repository.ktx.checkApiKeyNotNullException
 import org.michaelbel.movies.repository.ktx.mapToMovieDb
+import javax.inject.Inject
+import javax.inject.Singleton
 
 /**
  * You can replace [ktorMovieService] with [retrofitMovieService] to use it.
@@ -29,20 +29,20 @@ import org.michaelbel.movies.repository.ktx.mapToMovieDb
 internal class MovieRepositoryImpl @Inject constructor(
     private val retrofitMovieService: RetrofitMovieService,
     private val ktorMovieService: KtorMovieService,
-    private val movieDao: MovieDao,
+    private val moviePersistence: MoviePersistence,
     private val localeController: LocaleController
 ): MovieRepository {
 
     override fun moviesPagingSource(pagingKey: String): PagingSource<Int, MovieDb> {
-        return movieDao.pagingSource(pagingKey)
+        return moviePersistence.pagingSource(pagingKey)
     }
 
     override fun moviesFlow(pagingKey: String, limit: Int): Flow<List<MovieDb>> {
-        return movieDao.moviesFlow(pagingKey, limit)
+        return moviePersistence.moviesFlow(pagingKey, limit)
     }
 
     override suspend fun moviesResult(movieList: String, page: Int): Result<MovieResponse> {
-        if (isTmdbApiKeyEmpty && movieDao.isEmpty(MovieDb.MOVIES_LOCAL_LIST)) {
+        if (isTmdbApiKeyEmpty && moviePersistence.isEmpty(MovieDb.MOVIES_LOCAL_LIST)) {
             checkApiKeyNotNullException()
         }
 
@@ -54,12 +54,12 @@ internal class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun movie(pagingKey: String, movieId: Int): MovieDb {
-        return movieDao.movieById(pagingKey, movieId).orEmpty
+        return moviePersistence.movieById(pagingKey, movieId).orEmpty
     }
 
     override suspend fun movieDetails(pagingKey: String, movieId: Int): MovieDb {
         return try {
-            movieDao.movieById(pagingKey, movieId) ?: ktorMovieService.movie(movieId, localeController.language).mapToMovieDb
+            moviePersistence.movieById(pagingKey, movieId) ?: ktorMovieService.movie(movieId, localeController.language).mapToMovieDb
         } catch (ignored: Exception) {
             throw MovieDetailsException
         }
@@ -78,26 +78,26 @@ internal class MovieRepositoryImpl @Inject constructor(
                     position = index.plus(1)
                 )
             }
-            movieDao.removeMovies(MovieDb.MOVIES_WIDGET)
-            movieDao.insertMovies(moviesDb)
-            movieDao.moviesMini(MovieDb.MOVIES_WIDGET, MovieResponse.DEFAULT_PAGE_SIZE)
+            moviePersistence.removeMovies(MovieDb.MOVIES_WIDGET)
+            moviePersistence.insertMovies(moviesDb)
+            moviePersistence.moviesMini(MovieDb.MOVIES_WIDGET, MovieResponse.DEFAULT_PAGE_SIZE)
         } catch (ignored: Exception) {
-            movieDao.moviesMini(MovieDb.MOVIES_WIDGET, MovieResponse.DEFAULT_PAGE_SIZE).ifEmpty {
+            moviePersistence.moviesMini(MovieDb.MOVIES_WIDGET, MovieResponse.DEFAULT_PAGE_SIZE).ifEmpty {
                 throw MoviesUpcomingException
             }
         }
     }
 
     override suspend fun removeMovies(pagingKey: String) {
-        movieDao.removeMovies(pagingKey)
+        moviePersistence.removeMovies(pagingKey)
     }
 
     override suspend fun removeMovie(pagingKey: String, movieId: Int) {
-        movieDao.removeMovie(pagingKey, movieId)
+        moviePersistence.removeMovie(pagingKey, movieId)
     }
 
     override suspend fun insertMovies(pagingKey: String, page: Int, movies: List<MovieResponse>) {
-        val maxPosition = movieDao.maxPosition(pagingKey) ?: 0
+        val maxPosition = moviePersistence.maxPosition(pagingKey) ?: 0
         val moviesDb = movies.mapIndexed { index, movieResponse ->
             movieResponse.mapToMovieDb(
                 movieList = pagingKey,
@@ -105,12 +105,12 @@ internal class MovieRepositoryImpl @Inject constructor(
                 position = if (maxPosition == 0) index else maxPosition.plus(index).plus(1)
             )
         }
-        movieDao.insertMovies(moviesDb)
+        moviePersistence.insertMovies(moviesDb)
     }
 
     override suspend fun insertMovie(pagingKey: String, movie: MovieDb) {
-        val maxPosition = movieDao.maxPosition(pagingKey) ?: 0
-        movieDao.insertMovie(
+        val maxPosition = moviePersistence.maxPosition(pagingKey) ?: 0
+        moviePersistence.insertMovie(
             movie.copy(
                 movieList = pagingKey,
                 dateAdded = System.currentTimeMillis(),
@@ -120,6 +120,6 @@ internal class MovieRepositoryImpl @Inject constructor(
     }
 
     override suspend fun updateMovieColors(movieId: Int, containerColor: Int, onContainerColor: Int) {
-        movieDao.updateMovieColors(movieId, containerColor, onContainerColor)
+        moviePersistence.updateMovieColors(movieId, containerColor, onContainerColor)
     }
 }

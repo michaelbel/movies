@@ -7,8 +7,6 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.PagingSource
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
@@ -18,12 +16,14 @@ import org.michaelbel.movies.interactor.ktx.nameOrLocalList
 import org.michaelbel.movies.interactor.remote.FeedMoviesRemoteMediator
 import org.michaelbel.movies.interactor.remote.SearchMoviesRemoteMediator
 import org.michaelbel.movies.network.model.MovieResponse
-import org.michaelbel.movies.persistence.database.AppDatabase
+import org.michaelbel.movies.persistence.database.MoviesDatabase
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
 import org.michaelbel.movies.repository.MovieRepository
 import org.michaelbel.movies.repository.PagingKeyRepository
 import org.michaelbel.movies.repository.SearchRepository
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 internal class MovieInteractorImpl @Inject constructor(
@@ -31,7 +31,7 @@ internal class MovieInteractorImpl @Inject constructor(
     private val searchRepository: SearchRepository,
     private val movieRepository: MovieRepository,
     private val pagingKeyRepository: PagingKeyRepository,
-    private val database: AppDatabase
+    private val moviesDatabase: MoviesDatabase
 ): MovieInteractor {
 
     override fun moviesPagingData(movieList: MovieList): Flow<PagingData<MovieDb>> {
@@ -43,7 +43,7 @@ internal class MovieInteractorImpl @Inject constructor(
             remoteMediator = FeedMoviesRemoteMediator(
                 movieRepository = movieRepository,
                 pagingKeyRepository = pagingKeyRepository,
-                database = database,
+                moviesDatabase = moviesDatabase,
                 movieList = movieList.name
             ),
             pagingSourceFactory = { movieRepository.moviesPagingSource(movieList.nameOrLocalList) }
@@ -60,7 +60,7 @@ internal class MovieInteractorImpl @Inject constructor(
                 pagingKeyRepository = pagingKeyRepository,
                 searchRepository = searchRepository,
                 movieRepository = movieRepository,
-                database = database,
+                moviesDatabase = moviesDatabase,
                 query = searchQuery
             ),
             pagingSourceFactory = { movieRepository.moviesPagingSource(searchQuery) }

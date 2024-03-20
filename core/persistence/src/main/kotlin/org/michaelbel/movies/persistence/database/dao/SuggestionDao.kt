@@ -11,7 +11,7 @@ import org.michaelbel.movies.persistence.database.entity.SuggestionDb
  * The Data Access Object for the [SuggestionDb] class.
  */
 @Dao
-interface SuggestionDao {
+internal interface SuggestionDao {
 
     @Query("SELECT * FROM suggestions")
     fun suggestionsFlow(): Flow<List<SuggestionDb>>

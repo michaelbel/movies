@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.map
 import org.michaelbel.movies.common.exceptions.AccountDetailsException
 import org.michaelbel.movies.network.ktor.KtorAccountService
 import org.michaelbel.movies.network.retrofit.RetrofitAccountService
-import org.michaelbel.movies.persistence.database.dao.AccountDao
+import org.michaelbel.movies.persistence.database.AccountPersistence
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import org.michaelbel.movies.repository.AccountRepository
@@ -24,13 +24,13 @@ import org.michaelbel.movies.repository.ktx.mapToAccountDb
 internal class AccountRepositoryImpl @Inject constructor(
     private val retrofitAccountService: RetrofitAccountService,
     private val ktorAccountService: KtorAccountService,
-    private val accountDao: AccountDao,
+    private val accountPersistence: AccountPersistence,
     private val preferences: MoviesPreferences
 ): AccountRepository {
 
     override val account: Flow<AccountDb?> = preferences.accountIdFlow
         .map { accountId -> accountId ?: 0 }
-        .flatMapLatest(accountDao::accountById)
+        .flatMapLatest(accountPersistence::accountById)
 
     override suspend fun accountId(): Int {
         return preferences.accountId()
@@ -48,7 +48,7 @@ internal class AccountRepositoryImpl @Inject constructor(
                 setAccountId(account.id)
                 setAccountExpireTime(System.currentTimeMillis())
             }
-            accountDao.insert(account.mapToAccountDb)
+            accountPersistence.insert(account.mapToAccountDb)
         }.onFailure {
             throw AccountDetailsException
         }

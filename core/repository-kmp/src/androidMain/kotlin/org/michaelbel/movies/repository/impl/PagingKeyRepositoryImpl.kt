@@ -1,22 +1,22 @@
 package org.michaelbel.movies.repository.impl
 
-import javax.inject.Inject
-import javax.inject.Singleton
-import org.michaelbel.movies.persistence.database.dao.PagingKeyDao
+import org.michaelbel.movies.persistence.database.PagingKeyPersistence
 import org.michaelbel.movies.persistence.database.entity.PagingKeyDb
 import org.michaelbel.movies.repository.PagingKeyRepository
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 internal class PagingKeyRepositoryImpl @Inject constructor(
-    private val pagingKeyDao: PagingKeyDao
+    private val pagingKeyPersistence: PagingKeyPersistence
 ): PagingKeyRepository {
 
     override suspend fun page(pagingKey: String): Int? {
-        return pagingKeyDao.page(pagingKey)
+        return pagingKeyPersistence.page(pagingKey)
     }
 
     override suspend fun totalPages(pagingKey: String): Int? {
-        return pagingKeyDao.totalPages(pagingKey)
+        return pagingKeyPersistence.totalPages(pagingKey)
     }
 
     override suspend fun prevPage(pagingKey: String): Int? {
@@ -24,11 +24,11 @@ internal class PagingKeyRepositoryImpl @Inject constructor(
     }
 
     override suspend fun removePagingKey(pagingKey: String) {
-        pagingKeyDao.removePagingKey(pagingKey)
+        pagingKeyPersistence.removePagingKey(pagingKey)
     }
 
     override suspend fun insertPagingKey(pagingKey: String, page: Int, totalPages: Int) {
-        pagingKeyDao.insertPagingKey(
+        pagingKeyPersistence.insertPagingKey(
             PagingKeyDb(
                 pagingKey = pagingKey,
                 page = page,
