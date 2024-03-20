@@ -15,7 +15,7 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            api(project(":core:common"))
+            api(project(":core:common-kmp"))
             api(project(":core:network"))
             api(project(":core:persistence"))
         }

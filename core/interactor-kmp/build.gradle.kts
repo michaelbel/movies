@@ -18,7 +18,7 @@ kotlin {
             implementation(project(":core:platform-services:interactor"))
             implementation(project(":core:network"))
             api(project(":core:analytics-kmp"))
-            api(project(":core:common"))
+            api(project(":core:common-kmp"))
             api(project(":core:persistence"))
             api(project(":core:repository-kmp"))
         }
