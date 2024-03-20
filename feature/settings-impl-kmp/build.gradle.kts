@@ -17,7 +17,7 @@ kotlin {
         androidMain.dependencies {
             implementation(project(":core:platform-services:interactor"))
             implementation(project(":core:widget"))
-            api(project(":core:navigation"))
+            api(project(":core:navigation-kmp"))
             api(project(":core:common-kmp"))
             api(project(":core:ui"))
             api(project(":core:ui-kmp"))

@@ -15,7 +15,7 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            api(project(":core:navigation"))
+            api(project(":core:navigation-kmp"))
             api(project(":core:ui"))
             api(project(":core:ui-kmp"))
             implementation(project(":core:common-kmp"))
