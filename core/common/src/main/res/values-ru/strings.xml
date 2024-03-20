@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="biometric_title">Биометрическая авторизация</string>
-    <string name="biometric_subtitle">Войди в приложение с биометрией</string>
-    <string name="biometric_description">Подтверди личность</string>
-    <string name="biometric_cancel">Отмена</string>
-</resources>

@@ -5,7 +5,7 @@ import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
 import javax.inject.Inject
-import org.michaelbel.movies.common.BuildConfig
+import org.michaelbel.movies.common_kmp.BuildConfig
 import org.michaelbel.movies.common.crashlytics.CrashlyticsTree
 import org.michaelbel.movies.platform.app.AppService
 import org.michaelbel.movies.platform.crashlytics.CrashlyticsService
