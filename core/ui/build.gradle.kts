@@ -44,7 +44,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":core:common"))
+    implementation(project(":core:common-kmp"))
     implementation(project(":core:network"))
     implementation(project(":core:persistence"))
     implementation(project(":core:ui-kmp"))

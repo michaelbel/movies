@@ -21,7 +21,7 @@ kotlin {
             implementation(compose.components.resources)
         }
         androidMain.dependencies {
-            implementation(project(":core:common"))
+            implementation(project(":core:common-kmp"))
             implementation(project(":core:network"))
             implementation(project(":core:persistence"))
             api(libs.androidx.core.splashscreen)

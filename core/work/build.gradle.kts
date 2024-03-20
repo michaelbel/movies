@@ -39,7 +39,7 @@ android {
 
 dependencies {
     implementation(project(":core:interactor-kmp"))
-    implementation(project(":core:common"))
+    implementation(project(":core:common-kmp"))
     implementation(project(":core:network"))
     implementation(project(":core:notifications"))
     implementation(project(":core:ui"))

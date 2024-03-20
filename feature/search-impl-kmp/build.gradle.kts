@@ -18,7 +18,7 @@ kotlin {
             api(project(":core:navigation"))
             api(project(":core:ui"))
             api(project(":core:ui-kmp"))
-            implementation(project(":core:common"))
+            implementation(project(":core:common-kmp"))
             implementation(project(":core:interactor-kmp"))
             implementation(project(":core:network"))
             implementation(project(":core:notifications"))

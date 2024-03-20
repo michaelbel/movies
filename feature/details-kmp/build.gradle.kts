@@ -15,7 +15,7 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            implementation(project(":core:common"))
+            implementation(project(":core:common-kmp"))
             implementation(project(":feature:details-impl-kmp"))
         }
     }
