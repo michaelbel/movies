@@ -3,27 +3,22 @@
 package org.michaelbel.movies.repository.impl
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import org.michaelbel.movies.common.exceptions.AccountDetailsException
-import org.michaelbel.movies.network.ktor.KtorAccountService
-import org.michaelbel.movies.network.retrofit.RetrofitAccountService
+import org.michaelbel.movies.network.AccountNetworkService
 import org.michaelbel.movies.persistence.database.AccountPersistence
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import org.michaelbel.movies.repository.AccountRepository
 import org.michaelbel.movies.repository.ktx.mapToAccountDb
+import javax.inject.Inject
+import javax.inject.Singleton
 
-/**
- * You can replace [ktorAccountService] with [retrofitAccountService] to use it.
- */
 @Singleton
 internal class AccountRepositoryImpl @Inject constructor(
-    private val retrofitAccountService: RetrofitAccountService,
-    private val ktorAccountService: KtorAccountService,
+    private val accountNetworkService: AccountNetworkService,
     private val accountPersistence: AccountPersistence,
     private val preferences: MoviesPreferences
 ): AccountRepository {
@@ -43,7 +38,7 @@ internal class AccountRepositoryImpl @Inject constructor(
     override suspend fun accountDetails() {
         runCatching {
             val sessionId = preferences.sessionId().orEmpty()
-            val account = ktorAccountService.accountDetails(sessionId)
+            val account = accountNetworkService.accountDetails(sessionId)
             preferences.run {
                 setAccountId(account.id)
                 setAccountExpireTime(System.currentTimeMillis())

@@ -6,11 +6,10 @@ import org.michaelbel.movies.common.exceptions.MovieDetailsException
 import org.michaelbel.movies.common.exceptions.MoviesUpcomingException
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.localization.LocaleController
+import org.michaelbel.movies.network.MovieNetworkService
 import org.michaelbel.movies.network.config.isTmdbApiKeyEmpty
-import org.michaelbel.movies.network.ktor.KtorMovieService
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
-import org.michaelbel.movies.network.retrofit.RetrofitMovieService
 import org.michaelbel.movies.persistence.database.MoviePersistence
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
@@ -22,13 +21,9 @@ import org.michaelbel.movies.repository.ktx.mapToMovieDb
 import javax.inject.Inject
 import javax.inject.Singleton
 
-/**
- * You can replace [ktorMovieService] with [retrofitMovieService] to use it.
- */
 @Singleton
 internal class MovieRepositoryImpl @Inject constructor(
-    private val retrofitMovieService: RetrofitMovieService,
-    private val ktorMovieService: KtorMovieService,
+    private val movieNetworkService: MovieNetworkService,
     private val moviePersistence: MoviePersistence,
     private val localeController: LocaleController
 ): MovieRepository {
@@ -46,7 +41,7 @@ internal class MovieRepositoryImpl @Inject constructor(
             checkApiKeyNotNullException()
         }
 
-        return ktorMovieService.movies(
+        return movieNetworkService.movies(
             list = movieList,
             language = localeController.language,
             page = page
@@ -59,7 +54,7 @@ internal class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun movieDetails(pagingKey: String, movieId: Int): MovieDb {
         return try {
-            moviePersistence.movieById(pagingKey, movieId) ?: ktorMovieService.movie(movieId, localeController.language).mapToMovieDb
+            moviePersistence.movieById(pagingKey, movieId) ?: movieNetworkService.movie(movieId, localeController.language).mapToMovieDb
         } catch (ignored: Exception) {
             throw MovieDetailsException
         }
@@ -67,7 +62,7 @@ internal class MovieRepositoryImpl @Inject constructor(
 
     override suspend fun moviesWidget(): List<MovieDbMini> {
         return try {
-            val movieResult = ktorMovieService.movies(
+            val movieResult = movieNetworkService.movies(
                 list = MovieList.Upcoming.name,
                 language = localeController.language,
                 page = 1

@@ -4,13 +4,13 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
-import javax.inject.Inject
 import org.michaelbel.movies.network.model.ImagesResponse
 import org.michaelbel.movies.network.model.Movie
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
+import javax.inject.Inject
 
-class KtorMovieService @Inject constructor(
+internal class KtorMovieService @Inject constructor(
     private val ktorHttpClient: HttpClient
 ) {
 

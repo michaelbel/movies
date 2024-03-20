@@ -12,7 +12,7 @@ import retrofit2.http.HTTP
 import retrofit2.http.POST
 
 @Deprecated("Use KtorAuthenticationService instead", ReplaceWith("KtorAuthenticationService"))
-interface RetrofitAuthenticationService {
+internal interface RetrofitAuthenticationService {
 
     @GET("authentication/token/new?")
     suspend fun createRequestToken(): Token

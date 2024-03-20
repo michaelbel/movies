@@ -6,15 +6,15 @@ import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
-import javax.inject.Inject
 import org.michaelbel.movies.network.model.DeletedSession
 import org.michaelbel.movies.network.model.RequestToken
 import org.michaelbel.movies.network.model.Session
 import org.michaelbel.movies.network.model.SessionRequest
 import org.michaelbel.movies.network.model.Token
 import org.michaelbel.movies.network.model.Username
+import javax.inject.Inject
 
-class KtorAuthenticationService @Inject constructor(
+internal class KtorAuthenticationService @Inject constructor(
     private val ktorHttpClient: HttpClient
 ) {
 

@@ -9,7 +9,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 @Deprecated("Use KtorMovieService instead", ReplaceWith("KtorMovieService"))
-interface RetrofitMovieService {
+internal interface RetrofitMovieService {
 
     @GET("movie/{list}")
     suspend fun movies(

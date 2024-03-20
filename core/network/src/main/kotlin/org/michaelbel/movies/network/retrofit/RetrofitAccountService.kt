@@ -5,7 +5,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 @Deprecated("Use KtorAccountService instead", ReplaceWith("KtorAccountService"))
-interface RetrofitAccountService {
+internal interface RetrofitAccountService {
 
     @GET("account")
     suspend fun accountDetails(

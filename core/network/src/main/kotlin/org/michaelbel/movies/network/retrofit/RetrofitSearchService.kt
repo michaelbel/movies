@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 @Deprecated("Use KtorSearchService instead", ReplaceWith("KtorSearchService"))
-interface RetrofitSearchService {
+internal interface RetrofitSearchService {
 
     @GET("search/movie")
     suspend fun searchMovies(
