@@ -184,7 +184,7 @@ dependencies {
     hmsImplementation(project(":core:platform-services:inject"))
     fossImplementation(project(":core:platform-services:inject"))
     implementation(project(":core:analytics-kmp"))
-    implementation(project(":core:common"))
+    implementation(project(":core:common-kmp"))
     implementation(project(":core:interactor-kmp"))
     implementation(project(":core:interactor-kmp"))
     implementation(project(":core:navigation"))

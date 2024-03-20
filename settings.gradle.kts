@@ -29,7 +29,7 @@ include(
     ":shared",
 
     ":core:analytics-kmp",
-    ":core:common",
+    ":core:common-kmp",
     ":core:interactor-kmp",
     ":core:navigation",
     ":core:network",
