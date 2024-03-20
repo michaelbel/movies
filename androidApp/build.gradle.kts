@@ -1,7 +1,8 @@
+
 import com.google.firebase.appdistribution.gradle.AppDistributionExtension
-import java.io.FileInputStream
 import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
+import java.io.FileInputStream
 
 @Suppress("dsl_scope_violation")
 
@@ -182,7 +183,7 @@ dependencies {
     gmsImplementation(project(":core:platform-services:inject"))
     hmsImplementation(project(":core:platform-services:inject"))
     fossImplementation(project(":core:platform-services:inject"))
-    implementation(project(":core:analytics"))
+    implementation(project(":core:analytics-kmp"))
     implementation(project(":core:common"))
     implementation(project(":core:interactor-kmp"))
     implementation(project(":core:interactor-kmp"))

@@ -2,11 +2,11 @@ package org.michaelbel.movies.analytics.impl
 
 import android.os.Bundle
 import androidx.core.os.bundleOf
-import javax.inject.Inject
 import org.michaelbel.movies.analytics.MoviesAnalytics
 import org.michaelbel.movies.analytics.constants.MoviesParams
 import org.michaelbel.movies.analytics.model.BaseEvent
 import org.michaelbel.movies.platform.analytics.AnalyticsService
+import javax.inject.Inject
 
 internal class MoviesAnalyticsImpl @Inject constructor(
     private val analyticsService: AnalyticsService

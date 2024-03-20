@@ -28,7 +28,7 @@ include(
     ":benchmark",
     ":shared",
 
-    ":core:analytics",
+    ":core:analytics-kmp",
     ":core:common",
     ":core:interactor-kmp",
     ":core:navigation",

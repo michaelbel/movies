@@ -2,7 +2,7 @@ package org.michaelbel.movies.analytics.model
 
 import androidx.core.os.bundleOf
 
-open class BaseEvent(
+open class BaseEvent internal constructor(
     val name: String
 ) {
     val params = bundleOf()

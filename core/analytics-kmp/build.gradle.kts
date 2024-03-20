@@ -16,17 +16,12 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(project(":core:platform-services:interactor"))
-            implementation(project(":core:network"))
-            api(project(":core:analytics-kmp"))
-            api(project(":core:common"))
-            api(project(":core:persistence"))
-            api(project(":core:repository-kmp"))
         }
     }
 }
 
 android {
-    namespace = "org.michaelbel.movies.interactor_kmp"
+    namespace = "org.michaelbel.movies.analytics_kmp"
 
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
