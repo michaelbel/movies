@@ -46,7 +46,7 @@ android {
 dependencies {
     implementation(project(":core:common-kmp"))
     implementation(project(":core:network-kmp"))
-    implementation(project(":core:persistence"))
+    implementation(project(":core:persistence-kmp"))
     implementation(project(":core:ui-kmp"))
     api(libs.androidx.core.splashscreen)
     api(libs.androidx.constraintlayout.compose)

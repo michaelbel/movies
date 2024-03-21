@@ -15,19 +15,23 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            api(project(":core:common-kmp"))
-            api(project(":core:network-kmp"))
-            api(project(":core:persistence-kmp"))
+            implementation(project(":core:network-kmp"))
+            implementation(libs.bundles.androidx.datastore)
+            api(libs.bundles.androidx.room)
         }
     }
 }
 
 android {
-    namespace = "org.michaelbel.movies.repository_kmp"
+    namespace = "org.michaelbel.movies.persistence_kmp"
 
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
         compileSdk = libs.versions.compile.sdk.get().toInt()
+    }
+
+    buildFeatures {
+        buildConfig = true
     }
 
     lint {
@@ -36,5 +40,9 @@ android {
         ignoreWarnings = true
         checkDependencies = true
         lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
+    }
+
+    dependencies {
+        ksp(libs.androidx.room.compiler)
     }
 }

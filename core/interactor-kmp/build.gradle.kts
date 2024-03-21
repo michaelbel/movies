@@ -19,7 +19,7 @@ kotlin {
             implementation(project(":core:network-kmp"))
             api(project(":core:analytics-kmp"))
             api(project(":core:common-kmp"))
-            api(project(":core:persistence"))
+            api(project(":core:persistence-kmp"))
             api(project(":core:repository-kmp"))
         }
     }

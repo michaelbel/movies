@@ -34,7 +34,7 @@ include(
     ":core:navigation-kmp",
     ":core:network-kmp",
     ":core:notifications",
-    ":core:persistence",
+    ":core:persistence-kmp",
     ":core:platform-services:gms",
     ":core:platform-services:hms",
     ":core:platform-services:foss",
