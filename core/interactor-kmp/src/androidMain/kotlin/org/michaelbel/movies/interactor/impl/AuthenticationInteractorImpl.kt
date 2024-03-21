@@ -1,7 +1,5 @@
 package org.michaelbel.movies.interactor.impl
 
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.withContext
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.interactor.AuthenticationInteractor
@@ -10,6 +8,8 @@ import org.michaelbel.movies.interactor.entity.Username
 import org.michaelbel.movies.network.model.Session
 import org.michaelbel.movies.network.model.Token
 import org.michaelbel.movies.repository.AuthenticationRepository
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 internal class AuthenticationInteractorImpl @Inject constructor(

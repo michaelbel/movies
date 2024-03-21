@@ -17,7 +17,7 @@ kotlin {
         androidMain.dependencies {
             api(project(":core:platform-services:interactor"))
             implementation(project(":core:analytics-kmp"))
-            implementation(project(":core:network"))
+            implementation(project(":core:network-kmp"))
             api(libs.bundles.kotlinx.coroutines)
             api(libs.androidx.activity.compose)
             api(libs.androidx.biometric.ktx)

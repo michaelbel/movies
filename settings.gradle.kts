@@ -32,7 +32,7 @@ include(
     ":core:common-kmp",
     ":core:interactor-kmp",
     ":core:navigation-kmp",
-    ":core:network",
+    ":core:network-kmp",
     ":core:notifications",
     ":core:persistence",
     ":core:platform-services:gms",

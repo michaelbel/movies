@@ -22,7 +22,7 @@ kotlin {
         }
         androidMain.dependencies {
             implementation(project(":core:common-kmp"))
-            implementation(project(":core:network"))
+            implementation(project(":core:network-kmp"))
             implementation(project(":core:persistence"))
             api(libs.androidx.core.splashscreen)
             api(libs.androidx.constraintlayout.compose)

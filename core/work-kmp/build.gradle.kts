@@ -32,7 +32,7 @@ kotlin {
         androidMain.dependencies {
             implementation(project(":core:interactor-kmp"))
             implementation(project(":core:common-kmp"))
-            implementation(project(":core:network"))
+            implementation(project(":core:network-kmp"))
             implementation(project(":core:notifications"))
             implementation(project(":core:ui"))
             implementation(libs.kotlinx.serialization.json)
