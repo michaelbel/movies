@@ -131,6 +131,16 @@ internal fun SearchToolbar(
                     }
                 }
             }
+            else -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .imePadding(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    SearchEmpty()
+                }
+            }
         }
     }
 }
