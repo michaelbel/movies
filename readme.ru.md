@@ -32,10 +32,24 @@ Movies - простой способ найти популярные фильм�
 
 ## Сборка
 
-Перейди в <b>`local.properties`</b> и укажи [свой собственный](https://developers.themoviedb.org/3/getting-started/introduction) <b>tmdb_api_key</b> как здесь:
-```gradle
-TMDB_API_KEY=your_own_tmdb_api_key
-```
+- Клонируй репозиторий используя [последнюю версию](https://d.android.com/studio) Android Studio
+- Запусти приложение на девайсе или эмуляторе
+    - 🤖 Android с Google Mobile Services:
+      ```gradle
+      ./gradlew :androidApp:installGmsDebug
+      ```
+    - 🤖 Android с Huawei Mobile Services:
+      ```gradle
+      ./gradlew :androidApp:installHmsDebug
+      ```
+    - 🤖 Android Free and Open Source Software:
+      ```gradle
+      ./gradlew :androidApp:installFossDebug
+      ```
+- Опционально перейди в <b>`local.properties`</b> и укажи [свой собственный](https://developers.themoviedb.org/3/getting-started/introduction) <b>tmdb_api_key</b> как здесь:
+  ```gradle
+  TMDB_API_KEY=your_own_tmdb_api_key
+  ```
 
 ## Загрузить
 

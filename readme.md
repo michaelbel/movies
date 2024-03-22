@@ -32,10 +32,24 @@ Movies - easy way to discover popular movies. This is a simple TMDb client for A
 
 ## Build
 
-Take a look at <b>`local.properties`</b> and fill it with [your own](https://developers.themoviedb.org/3/getting-started/introduction) <b>tmdb_api_key</b> like this:
-```gradle
-TMDB_API_KEY=your_own_tmdb_api_key
-```
+- Clone this repository using [latest version](https://d.android.com/studio) of Android Studio
+- Run the app on your device or emulator
+    - 🤖 Android with Google Mobile Services:
+      ```gradle
+      ./gradlew :androidApp:installGmsDebug
+      ```
+    - 🤖 Android with Huawei Mobile Services:
+      ```gradle
+      ./gradlew :androidApp:installHmsDebug
+      ```
+    - 🤖 Android Free and Open Source Software:
+      ```gradle
+      ./gradlew :androidApp:installFossDebug
+      ```
+- Optionally take a look at <b>`local.properties`</b> and fill it with [your own](https://developers.themoviedb.org/3/getting-started/introduction) <b>tmdb_api_key</b> like this:
+  ```gradle
+  TMDB_API_KEY=your_own_tmdb_api_key
+  ```
 
 ## Download
 

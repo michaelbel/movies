@@ -154,7 +154,7 @@ android {
         }
     }
 
-    dynamicFeatures += setOf(":instant")
+    /*dynamicFeatures += setOf(":instant")*/
 
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
