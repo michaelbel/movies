@@ -51,7 +51,7 @@ dependencies {
     implementation(project(":core:common-kmp"))
     implementation(project(":core:ui"))
     implementation(project(":core:ui-kmp"))
-    implementation(project(":core:work"))
+    implementation(project(":core:work-kmp"))
     implementation(libs.bundles.androidx.datastore)
     implementation(libs.bundles.androidx.glance)
     implementation(libs.androidx.hilt.navigation.compose)

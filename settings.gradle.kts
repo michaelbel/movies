@@ -44,7 +44,6 @@ include(
     ":core:ui",
     ":core:ui-kmp",
     ":core:widget",
-    ":core:work",
     ":core:work-kmp",
 
     ":feature:account-kmp",

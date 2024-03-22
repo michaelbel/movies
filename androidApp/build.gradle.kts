@@ -192,7 +192,7 @@ dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:ui-kmp"))
     implementation(project(":core:widget"))
-    implementation(project(":core:work"))
+    implementation(project(":core:work-kmp"))
     implementation(project(":feature:account-kmp"))
     implementation(project(":feature:auth-kmp"))
     implementation(project(":feature:details-kmp"))

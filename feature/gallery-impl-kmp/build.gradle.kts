@@ -21,7 +21,7 @@ kotlin {
             implementation(project(":core:common-kmp"))
             implementation(project(":core:interactor-kmp"))
             implementation(project(":core:network-kmp"))
-            implementation(project(":core:work"))
+            implementation(project(":core:work-kmp"))
         }
     }
 }
