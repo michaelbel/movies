@@ -3,6 +3,5 @@
 package org.michaelbel.movies.common.ktx
 
 import android.content.Context
-import androidx.core.app.NotificationManagerCompat
 
-expect val Context.notificationManager: NotificationManagerCompat
+expect val Context.isPostNotificationsPermissionGranted: Boolean

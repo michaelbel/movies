@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_debug_channel_id" translatable="false">debug_channel_id</string>
+    <string name="notification_debug_channel_name">Debug Settings</string>
+    <string name="notification_debug_channel_description">Debug Settings</string>
+    <string name="notification_debug_title">Movies Debug Settings</string>
+    <string name="notification_debug_description">Click to open</string>
+    <string name="debug_title">Debug Settings</string>
+    <string name="debug_app_settings">App Settings</string>
+    <string name="debug_developer_settings">Developer Settings</string>
+</resources>

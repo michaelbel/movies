@@ -183,6 +183,7 @@ dependencies {
     fossImplementation(project(":core:platform-services:inject"))
     implementation(project(":core:analytics-kmp"))
     implementation(project(":core:common-kmp"))
+    implementation(project(":core:debug-kmp"))
     implementation(project(":core:interactor-kmp"))
     implementation(project(":core:interactor-kmp"))
     implementation(project(":core:navigation-kmp"))

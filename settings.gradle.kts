@@ -30,6 +30,7 @@ include(
 
     ":core:analytics-kmp",
     ":core:common-kmp",
+    ":core:debug-kmp",
     ":core:interactor-kmp",
     ":core:navigation-kmp",
     ":core:network-kmp",

@@ -1,3 +1,5 @@
+@file:SuppressLint("MissingPermission")
+
 package org.michaelbel.movies.notifications
 
 import android.annotation.SuppressLint
@@ -9,22 +11,20 @@ import androidx.annotation.StringRes
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import dagger.hilt.android.qualifiers.ApplicationContext
-import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 import kotlinx.coroutines.delay
+import org.michaelbel.movies.common.ktx.isPostNotificationsPermissionGranted
 import org.michaelbel.movies.common.ktx.isTimePasses
+import org.michaelbel.movies.common.ktx.notificationManager
 import org.michaelbel.movies.interactor.Interactor
-import org.michaelbel.movies.notifications.ktx.isPostNotificationsPermissionGranted
 import org.michaelbel.movies.notifications.model.MoviesPush
 import org.michaelbel.movies.ui.icons.MoviesIcons
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-@SuppressLint("MissingPermission")
 class NotificationClient @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val notificationManager: NotificationManagerCompat,
     private val interactor: Interactor
 ) {
 
@@ -55,7 +55,6 @@ class NotificationClient @Inject constructor(
             setContentText(push.notificationDescription)
             setSmallIcon(MoviesIcons.MovieFilter24)
             setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
-            color = ContextCompat.getColor(context, R.color.primary)
             setDefaults(NotificationCompat.DEFAULT_LIGHTS)
             setGroupSummary(true)
             setGroup(GROUP_NAME)
@@ -67,7 +66,7 @@ class NotificationClient @Inject constructor(
         }.build()
 
         if (context.isPostNotificationsPermissionGranted) {
-            notificationManager.notify(TAG, push.notificationId, notification)
+            context.notificationManager.notify(TAG, push.notificationId, notification)
         }
     }
 
@@ -90,7 +89,6 @@ class NotificationClient @Inject constructor(
             setContentText(context.getString(contentTextRes))
             setSmallIcon(MoviesIcons.FileDownload24)
             setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
-            color = ContextCompat.getColor(context, R.color.primary)
             setDefaults(NotificationCompat.DEFAULT_LIGHTS)
             setVibrate(VIBRATE_PATTERN)
             priority = NotificationCompat.PRIORITY_HIGH
@@ -100,12 +98,12 @@ class NotificationClient @Inject constructor(
         }.build()
 
         if (context.isPostNotificationsPermissionGranted) {
-            notificationManager.notify(DOWNLOAD_IMAGE_NOTIFICATION_TAG, notificationId, notification)
+            context.notificationManager.notify(DOWNLOAD_IMAGE_NOTIFICATION_TAG, notificationId, notification)
         }
     }
 
     fun cancelDownloadImageNotification(notificationId: Int) {
-        notificationManager.cancel(DOWNLOAD_IMAGE_NOTIFICATION_TAG, notificationId)
+        context.notificationManager.cancel(DOWNLOAD_IMAGE_NOTIFICATION_TAG, notificationId)
     }
 
     private fun createChannel(
@@ -121,7 +119,7 @@ class NotificationClient @Inject constructor(
             setDescription(context.getString(channelDescription))
             setShowBadge(true)
         }.build()
-        notificationManager.createNotificationChannel(notificationChannel)
+        context.notificationManager.createNotificationChannel(notificationChannel)
     }
 
     private fun MoviesPush.pendingIntent(): PendingIntent {

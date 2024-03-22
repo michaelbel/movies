@@ -40,6 +40,8 @@ actual object MoviesIcons {
     @DrawableRes val MovieFilter24 = R.drawable.ic_movie_filter_24
     @DrawableRes val FileDownload24 = R.drawable.ic_file_download_24
     @DrawableRes val AdultOutline = R.drawable.ic_18_up_rating_outline_24
+    @DrawableRes val SettingsAccountBox24 = R.drawable.ic_settings_account_box_24
+    @DrawableRes val SettingsCinematicBlur24 = R.drawable.ic_settings_cinematic_blur_24
 
     val Cat = CatVector
     val Github = GithubVector
