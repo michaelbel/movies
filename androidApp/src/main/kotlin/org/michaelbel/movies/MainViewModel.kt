@@ -7,7 +7,6 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -18,14 +17,17 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.analytics.MoviesAnalytics
+import org.michaelbel.movies.app.BuildConfig
 import org.michaelbel.movies.common.biometric.BiometricController
 import org.michaelbel.movies.common.biometric.BiometricListener
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
+import org.michaelbel.movies.debug.notification.DebugNotificationClient
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.platform.messaging.MessagingService
 import org.michaelbel.movies.work.AccountUpdateWorker
 import org.michaelbel.movies.work.MoviesDatabaseWorker
+import javax.inject.Inject
 
 @HiltViewModel
 internal class MainViewModel @Inject constructor(
@@ -33,7 +35,8 @@ internal class MainViewModel @Inject constructor(
     private val biometricController: BiometricController,
     private val analytics: MoviesAnalytics,
     private val messagingService: MessagingService,
-    private val workManager: WorkManager
+    private val workManager: WorkManager,
+    private val debugNotificationClient: DebugNotificationClient
 ): BaseViewModel() {
 
     private val _authenticateFlow = Channel<Unit>(Channel.BUFFERED)
@@ -65,6 +68,7 @@ internal class MainViewModel @Inject constructor(
         fetchFirebaseMessagingToken()
         prepopulateDatabase()
         updateAccountDetails()
+        showDebugNotification()
     }
 
     fun analyticsTrackDestination(destination: NavDestination, arguments: Bundle?) {
@@ -115,6 +119,12 @@ internal class MainViewModel @Inject constructor(
         val request = OneTimeWorkRequestBuilder<AccountUpdateWorker>()
             .build()
         workManager.enqueue(request)
+    }
+
+    private fun showDebugNotification() {
+        if (BuildConfig.DEBUG) {
+            debugNotificationClient.showDebugNotification()
+        }
     }
 
     companion object {
