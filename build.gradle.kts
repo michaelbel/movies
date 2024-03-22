@@ -27,5 +27,7 @@ detekt {
 }
 
 subprojects {
-    apply(plugin = "io.gitlab.arturbosch.detekt")
+    if (name != "desktopApp") {
+        apply(plugin = "io.gitlab.arturbosch.detekt")
+    }
 }
