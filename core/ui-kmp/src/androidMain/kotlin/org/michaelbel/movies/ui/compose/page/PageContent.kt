@@ -23,16 +23,13 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import org.michaelbel.movies.common.appearance.FeedView
-import org.michaelbel.movies.network.config.isTmdbApiKeyEmpty
 import org.michaelbel.movies.persistence.database.entity.MovieDb
-import org.michaelbel.movies.ui.compose.ApiKeyBox
 import org.michaelbel.movies.ui.compose.movie.MovieColumn
 import org.michaelbel.movies.ui.compose.movie.MovieRow
 import org.michaelbel.movies.ui.ktx.PageContentColumnModifier
 import org.michaelbel.movies.ui.ktx.PageContentGridModifier
 import org.michaelbel.movies.ui.ktx.PageContentStaggeredGridModifier
 import org.michaelbel.movies.ui.ktx.gridColumnsCount
-import org.michaelbel.movies.ui.ktx.isNotEmpty
 import org.michaelbel.movies.ui.ktx.isPagingFailure
 import org.michaelbel.movies.ui.ktx.isPagingLoading
 import org.michaelbel.movies.ui.ktx.isPortrait
@@ -103,13 +100,6 @@ private fun PageContentColumn(
                 MovieRow(
                     movie = movieDb,
                     modifier = PageContentColumnModifier.then(Modifier.clickable { onMovieClick(movieDb.movieList, movieDb.movieId) })
-                )
-            }
-        }
-        if (isTmdbApiKeyEmpty && pagingItems.isNotEmpty) {
-            item {
-                ApiKeyBox(
-                    modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)
                 )
             }
         }
