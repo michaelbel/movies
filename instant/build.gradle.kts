@@ -17,12 +17,12 @@ android {
     }
 
     productFlavors {
-        create("foss") {
+        /*create("foss") { // todo Uncomment to create a signed release
             dimension = "version"
         }
         create("hms") {
             dimension = "version"
-        }
+        }*/
         create("gms") {
             dimension = "version"
         }

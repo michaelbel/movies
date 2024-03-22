@@ -1,4 +1,3 @@
-
 import com.google.firebase.appdistribution.gradle.AppDistributionExtension
 import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
@@ -91,20 +90,19 @@ android {
             keystoreProperties["storePassword"] = System.getenv("KEYSTORE_STORE_PASSWORD").orEmpty()
             keystoreProperties["storeFile"] = System.getenv("KEYSTORE_FILE").orEmpty()
         }
-
-        create("release") {
+        /*create("release") { // todo Uncomment to create a signed release
             keyAlias = keystoreProperties["keyAlias"] as String
             keyPassword = keystoreProperties["keyPassword"] as String
             storeFile = file(keystoreProperties["storeFile"] as String)
             storePassword = keystoreProperties["storePassword"] as String
-        }
+        }*/
     }
 
     buildTypes {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            signingConfig = signingConfigs.getByName("release")
+            /*signingConfig = signingConfigs.getByName("release")*/ // todo Uncomment to create a signed release
             applicationIdSuffix = MoviesBuildType.RELEASE.applicationIdSuffix
             manifestPlaceholders += mapOf("appName" to "@string/app_name")
             proguardFiles(
@@ -176,9 +174,9 @@ android {
     }
 }
 
-val gmsImplementation: Configuration by configurations
-val hmsImplementation: Configuration by configurations
-val fossImplementation: Configuration by configurations
+val gmsImplementation by configurations
+val hmsImplementation by configurations
+val fossImplementation by configurations
 dependencies {
     gmsImplementation(project(":core:platform-services:inject"))
     hmsImplementation(project(":core:platform-services:inject"))
@@ -210,9 +208,9 @@ dependencies {
     lintChecks(libs.lint.checks)
 }
 
-val hasGmsDebug: Boolean = gradle.startParameter.taskNames.any { it.contains("GmsDebug", ignoreCase = true) }
-val hasGmsRelease: Boolean = gradle.startParameter.taskNames.any { it.contains("GmsRelease", ignoreCase = true) }
-val hasGmsBenchmark: Boolean = gradle.startParameter.taskNames.any { it.contains("GmsBenchmark", ignoreCase = true) }
+val hasGmsDebug = gradle.startParameter.taskNames.any { it.contains("GmsDebug", ignoreCase = true) }
+val hasGmsRelease = gradle.startParameter.taskNames.any { it.contains("GmsRelease", ignoreCase = true) }
+val hasGmsBenchmark = gradle.startParameter.taskNames.any { it.contains("GmsBenchmark", ignoreCase = true) }
 
 if (hasGmsDebug || hasGmsRelease || hasGmsBenchmark) {
     apply(plugin = libs.plugins.google.services.get().pluginId)
@@ -229,9 +227,9 @@ if (hasGmsRelease) {
     }
 }
 
-val hasHmsDebug: Boolean = gradle.startParameter.taskNames.any { it.contains("HmsDebug", ignoreCase = true) }
-val hasHmsRelease: Boolean = gradle.startParameter.taskNames.any { it.contains("HmsRelease", ignoreCase = true) }
-val hasHmsBenchmark: Boolean = gradle.startParameter.taskNames.any { it.contains("HmsBenchmark", ignoreCase = true) }
+val hasHmsDebug = gradle.startParameter.taskNames.any { it.contains("HmsDebug", ignoreCase = true) }
+val hasHmsRelease = gradle.startParameter.taskNames.any { it.contains("HmsRelease", ignoreCase = true) }
+val hasHmsBenchmark = gradle.startParameter.taskNames.any { it.contains("HmsBenchmark", ignoreCase = true) }
 
 if (hasHmsDebug || hasHmsRelease || hasHmsBenchmark) {
     //apply(plugin = libs.plugins.huawei.services.get().pluginId)
