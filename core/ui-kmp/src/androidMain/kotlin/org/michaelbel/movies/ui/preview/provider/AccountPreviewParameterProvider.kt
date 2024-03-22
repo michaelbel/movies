@@ -2,11 +2,11 @@
 
 package org.michaelbel.movies.ui.preview.provider
 
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 
-actual class AccountPreviewParameterProvider: PreviewParameterProvider<AccountDb> {
-    override val values = sequenceOf(
+actual class AccountPreviewParameterProvider: CollectionPreviewParameterProvider<AccountDb>(
+    listOf(
         AccountDb(
             accountId = 7692212,
             avatarUrl = "",
@@ -17,4 +17,4 @@ actual class AccountPreviewParameterProvider: PreviewParameterProvider<AccountDb
             username = "michaelbel"
         )
     )
-}
+)

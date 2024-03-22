@@ -5,7 +5,7 @@
 
 package org.michaelbel.movies.ui.preview.provider
 
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 
-expect class MovieDbPreviewParameterProvider: PreviewParameterProvider<MovieDb>
+expect class MovieDbPreviewParameterProvider: CollectionPreviewParameterProvider<MovieDb>

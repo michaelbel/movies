@@ -2,9 +2,9 @@
 
 package org.michaelbel.movies.ui.preview.provider
 
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
 import org.michaelbel.movies.common.list.MovieList
 
-actual class MovieListPreviewParameterProvider: PreviewParameterProvider<MovieList> {
-    override val values = MovieList.VALUES.asSequence()
-}
+actual class MovieListPreviewParameterProvider: CollectionPreviewParameterProvider<MovieList>(
+    MovieList.VALUES
+)

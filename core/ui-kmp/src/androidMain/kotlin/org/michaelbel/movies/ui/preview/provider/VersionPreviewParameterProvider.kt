@@ -2,11 +2,11 @@
 
 package org.michaelbel.movies.ui.preview.provider
 
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
 import org.michaelbel.movies.common.version.AppVersionData
 
-actual class VersionPreviewParameterProvider: PreviewParameterProvider<AppVersionData> {
-    override val values = sequenceOf(
+actual class VersionPreviewParameterProvider: CollectionPreviewParameterProvider<AppVersionData>(
+    listOf(
         AppVersionData(
             version = "1.0.0",
             code = 100L,
@@ -32,4 +32,4 @@ actual class VersionPreviewParameterProvider: PreviewParameterProvider<AppVersio
             isDebug = true
         )
     )
-}
+)

@@ -2,12 +2,12 @@
 
 package org.michaelbel.movies.ui.preview.provider
 
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
 import org.michaelbel.movies.network.model.Movie
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 
-actual class MovieDbPreviewParameterProvider: PreviewParameterProvider<MovieDb> {
-    override val values = sequenceOf(
+actual class MovieDbPreviewParameterProvider: CollectionPreviewParameterProvider<MovieDb>(
+    listOf(
         MovieDb(
             movieList = Movie.NOW_PLAYING,
             dateAdded = System.currentTimeMillis(),
@@ -24,4 +24,4 @@ actual class MovieDbPreviewParameterProvider: PreviewParameterProvider<MovieDb> 
             onContainerColor = null
         )
     )
-}
+)

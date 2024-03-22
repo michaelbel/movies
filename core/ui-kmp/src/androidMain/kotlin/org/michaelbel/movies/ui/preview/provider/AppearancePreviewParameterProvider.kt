@@ -2,9 +2,9 @@
 
 package org.michaelbel.movies.ui.preview.provider
 
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
 import org.michaelbel.movies.common.appearance.FeedView
 
-actual class AppearancePreviewParameterProvider: PreviewParameterProvider<FeedView> {
-    override val values = FeedView.VALUES.asSequence()
-}
+actual class AppearancePreviewParameterProvider: CollectionPreviewParameterProvider<FeedView>(
+    FeedView.VALUES
+)

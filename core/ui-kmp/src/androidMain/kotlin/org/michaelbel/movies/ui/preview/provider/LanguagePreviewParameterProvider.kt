@@ -2,9 +2,9 @@
 
 package org.michaelbel.movies.ui.preview.provider
 
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
 import org.michaelbel.movies.common.localization.model.AppLanguage
 
-actual class LanguagePreviewParameterProvider: PreviewParameterProvider<AppLanguage> {
-    override val values = AppLanguage.VALUES.asSequence()
-}
+actual class LanguagePreviewParameterProvider: CollectionPreviewParameterProvider<AppLanguage>(
+    AppLanguage.VALUES
+)

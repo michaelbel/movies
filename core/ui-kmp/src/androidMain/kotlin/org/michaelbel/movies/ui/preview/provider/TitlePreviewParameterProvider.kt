@@ -2,11 +2,11 @@
 
 package org.michaelbel.movies.ui.preview.provider
 
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
 
-actual class TitlePreviewParameterProvider: PreviewParameterProvider<String> {
-    override val values = sequenceOf(
+actual class TitlePreviewParameterProvider: CollectionPreviewParameterProvider<String>(
+    listOf(
         "How to Train Your Dragon",
         "Three Billboards Outside Ebbing, Missouri"
     )
-}
+)

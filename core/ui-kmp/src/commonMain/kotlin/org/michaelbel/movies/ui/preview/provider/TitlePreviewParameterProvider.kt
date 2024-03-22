@@ -5,6 +5,6 @@
 
 package org.michaelbel.movies.ui.preview.provider
 
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
 
-expect class TitlePreviewParameterProvider: PreviewParameterProvider<String>
+expect class TitlePreviewParameterProvider: CollectionPreviewParameterProvider<String>

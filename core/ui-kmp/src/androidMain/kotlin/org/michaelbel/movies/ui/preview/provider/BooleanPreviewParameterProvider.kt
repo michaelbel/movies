@@ -2,8 +2,8 @@
 
 package org.michaelbel.movies.ui.preview.provider
 
-import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
 
-actual class BooleanPreviewParameterProvider: PreviewParameterProvider<Boolean> {
-    override val values = sequenceOf(true, false)
-}
+actual class BooleanPreviewParameterProvider: CollectionPreviewParameterProvider<Boolean>(
+    listOf(true, false)
+)
