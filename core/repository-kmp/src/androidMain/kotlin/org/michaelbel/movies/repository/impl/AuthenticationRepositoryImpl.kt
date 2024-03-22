@@ -74,8 +74,7 @@ internal class AuthenticationRepositoryImpl @Inject constructor(
     override suspend fun deleteSession() {
         runCatching {
             val sessionId = preferences.sessionId().orEmpty()
-            val sessionRequest = SessionRequest(sessionId)
-            val deletedSession = authenticationNetworkService.deleteSession(sessionRequest)
+            val deletedSession = authenticationNetworkService.deleteSession(SessionRequest(sessionId))
             if (deletedSession.success) {
                 val accountId = preferences.accountId()
                 accountPersistence.removeById(accountId)

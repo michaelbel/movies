@@ -36,7 +36,6 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import java.net.UnknownHostException
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
@@ -46,7 +45,6 @@ import org.michaelbel.movies.feed.FeedViewModel
 import org.michaelbel.movies.feed.ktx.titleText
 import org.michaelbel.movies.feed_impl_kmp.R
 import org.michaelbel.movies.network.connectivity.NetworkStatus
-import org.michaelbel.movies.network.config.isTmdbApiKeyEmpty
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.orEmpty
@@ -59,6 +57,7 @@ import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.ktx.isFailure
 import org.michaelbel.movies.ui.ktx.isLoading
 import org.michaelbel.movies.ui.ktx.refreshThrowable
+import java.net.UnknownHostException
 import org.michaelbel.movies.ui.R as UiR
 
 @Composable
@@ -207,12 +206,7 @@ private fun FeedScreenContent(
                     modifier = Modifier.clickableWithoutRipple(onScrollToTop),
                     account = account,
                     onSearchIconClick = onNavigateToSearch,
-                    onAuthIconClick = {
-                        when {
-                            isTmdbApiKeyEmpty -> onShowSnackbar(context.getString(UiR.string.error_api_key_null), SnackbarDuration.Long)
-                            else -> onNavigateToAuth()
-                        }
-                    },
+                    onAuthIconClick = onNavigateToAuth,
                     onAccountIconClick = onNavigateToAccount,
                     topAppBarScrollBehavior = topAppBarScrollBehavior,
                     onSettingsIconClick = onNavigateToSettings
