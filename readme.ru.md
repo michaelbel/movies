@@ -34,15 +34,15 @@ Movies - простой способ найти популярные фильм�
 
 - Клонируй репозиторий используя [последнюю версию](https://d.android.com/studio) Android Studio
 - Запусти приложение на девайсе или эмуляторе
-    - 🤖 Android с Google Mobile Services:
+    - 🤖 **Android** с Google Mobile Services:
       ```gradle
       ./gradlew :androidApp:installGmsDebug
       ```
-    - 🤖 Android с Huawei Mobile Services:
+    - 🤖 **Android** с Huawei Mobile Services:
       ```gradle
       ./gradlew :androidApp:installHmsDebug
       ```
-    - 🤖 Android Free and Open Source Software:
+    - 🤖 **Android** Free and Open Source Software:
       ```gradle
       ./gradlew :androidApp:installFossDebug
       ```

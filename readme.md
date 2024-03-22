@@ -34,15 +34,15 @@ Movies - easy way to discover popular movies. This is a simple TMDb client for A
 
 - Clone this repository using [latest version](https://d.android.com/studio) of Android Studio
 - Run the app on your device or emulator
-    - 🤖 Android with Google Mobile Services:
+    - 🤖 **Android** with Google Mobile Services:
       ```gradle
       ./gradlew :androidApp:installGmsDebug
       ```
-    - 🤖 Android with Huawei Mobile Services:
+    - 🤖 **Android** with Huawei Mobile Services:
       ```gradle
       ./gradlew :androidApp:installHmsDebug
       ```
-    - 🤖 Android Free and Open Source Software:
+    - 🤖 **Android** Free and Open Source Software:
       ```gradle
       ./gradlew :androidApp:installFossDebug
       ```
