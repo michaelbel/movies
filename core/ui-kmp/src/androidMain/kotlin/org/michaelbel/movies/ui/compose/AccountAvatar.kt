@@ -27,7 +27,7 @@ import org.michaelbel.movies.ui.preview.provider.AccountPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun AccountAvatar(
+fun AccountAvatar(
     account: AccountDb,
     fontSize: TextUnit,
     modifier: Modifier

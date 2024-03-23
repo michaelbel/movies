@@ -7,10 +7,27 @@ plugins {
 
 kotlin {
     jvm()
+
     sourceSets {
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
-            implementation(project(":shared"))
+            implementation(compose.desktop.common)
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.animation)
+            implementation(compose.material)
+            implementation(compose.material3)
+            implementation(compose.components.resources)
+            implementation(libs.precompose)
+            implementation(project(":core:common-kmp"))
+            implementation(project(":core:ui-kmp"))
+            implementation(project(":feature:account-kmp"))
+            implementation(project(":feature:auth-kmp"))
+            implementation(project(":feature:details-kmp"))
+            implementation(project(":feature:feed-kmp"))
+            implementation(project(":feature:gallery-kmp"))
+            implementation(project(":feature:search-kmp"))
+            implementation(project(":feature:settings-kmp"))
         }
     }
 }

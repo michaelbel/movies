@@ -44,6 +44,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.MOVIES_GITHUB_URL
@@ -65,6 +66,7 @@ import org.michaelbel.movies.settings.ui.common.SettingsDialog
 import org.michaelbel.movies.settings_impl_kmp.R
 import org.michaelbel.movies.ui.appicon.IconAlias
 import org.michaelbel.movies.ui.appicon.setIcon
+import org.michaelbel.movies.ui.icons.MoviesAndroidIcons
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
@@ -76,10 +78,10 @@ import org.michaelbel.movies.ui.R as UiR
 import org.michaelbel.movies.widget.R as WidgetR
 
 @Composable
-actual fun SettingsRoute(
+fun SettingsRoute(
     onBackClick: () -> Unit,
-    modifier: Modifier,
-    viewModel: SettingsViewModel
+    modifier: Modifier = Modifier,
+    viewModel: SettingsViewModel = hiltViewModel()
 ) {
     val currentLanguage = AppLanguage.transform(stringResource(UiR.string.language_code))
     val currentTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
@@ -470,7 +472,7 @@ private fun SettingsScreenContent(
                         statusBarManager?.requestAddTileService(
                             ComponentName(context, MoviesTileService::class.java),
                             context.getString(UiR.string.tile_title),
-                            Icon.createWithResource(context, MoviesIcons.MovieFilter24),
+                            Icon.createWithResource(context, MoviesAndroidIcons.MovieFilter24),
                             context.mainExecutor
                         ) { result ->
                             when (result) {

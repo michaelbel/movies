@@ -25,10 +25,10 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun AuthLinksBox(
+fun AuthLinksBox(
     onTermsOfUseClick: () -> Unit,
     onPrivacyPolicyClick: () -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     Column(
         modifier = modifier,

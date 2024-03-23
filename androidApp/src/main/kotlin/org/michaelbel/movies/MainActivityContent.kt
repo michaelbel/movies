@@ -1,6 +1,5 @@
 package org.michaelbel.movies
 
-import androidx.activity.SystemBarStyle
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -8,8 +7,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import org.michaelbel.movies.account.accountGraph
-import org.michaelbel.movies.auth.authGraph
 import org.michaelbel.movies.account.navigateToAccount
+import org.michaelbel.movies.auth.authGraph
 import org.michaelbel.movies.auth.navigateToAuth
 import org.michaelbel.movies.details.detailsGraph
 import org.michaelbel.movies.details.navigateToDetails
@@ -27,7 +26,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 @Composable
 internal fun MainActivityContent(
     viewModel: MainViewModel = hiltViewModel(),
-    enableEdgeToEdge: (SystemBarStyle, SystemBarStyle) -> Unit
+    enableEdgeToEdge: (Any, Any) -> Unit
 ) {
     val currentTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
     val dynamicColors by viewModel.dynamicColors.collectAsStateWithLifecycle()

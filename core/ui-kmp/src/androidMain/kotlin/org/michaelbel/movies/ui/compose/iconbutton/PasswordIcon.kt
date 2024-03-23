@@ -18,10 +18,10 @@ import org.michaelbel.movies.ui.preview.provider.BooleanPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun PasswordIcon(
+fun PasswordIcon(
     state: Boolean,
     onClick: () -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     IconButton(
         onClick = onClick,

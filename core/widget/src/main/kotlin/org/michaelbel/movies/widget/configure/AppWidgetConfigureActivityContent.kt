@@ -2,7 +2,6 @@
 
 package org.michaelbel.movies.widget.configure
 
-import androidx.activity.SystemBarStyle
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,7 +31,7 @@ import org.michaelbel.movies.widget.R
 @Composable
 internal fun AppWidgetConfigureActivityContent(
     viewModel: AppWidgetConfigureViewModel = hiltViewModel(),
-    enableEdgeToEdge: (SystemBarStyle, SystemBarStyle) -> Unit,
+    enableEdgeToEdge: (Any, Any) -> Unit,
     onBackClick: () -> Unit
 ) {
     val currentTheme by viewModel.currentTheme.collectAsStateWithLifecycle()

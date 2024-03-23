@@ -26,9 +26,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.palette.graphics.Palette
-import java.net.UnknownHostException
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.details.DetailsViewModel
 import org.michaelbel.movies.details.ktx.movie
@@ -45,13 +45,14 @@ import org.michaelbel.movies.network.ktx.throwable
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.ktx.screenHeight
 import org.michaelbel.movies.ui.ktx.screenWidth
+import java.net.UnknownHostException
 
 @Composable
-actual fun DetailsRoute(
+fun DetailsRoute(
     onBackClick: () -> Unit,
     onNavigateToGallery: (Int) -> Unit,
-    modifier: Modifier,
-    viewModel: DetailsViewModel
+    modifier: Modifier = Modifier,
+    viewModel: DetailsViewModel = hiltViewModel()
 ) {
     val detailsState by viewModel.detailsState.collectAsStateWithLifecycle()
     val networkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()

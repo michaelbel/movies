@@ -17,4 +17,4 @@ import androidx.compose.ui.tooling.preview.Preview
     widthDp = 800,
     heightDp = 360
 )
-actual annotation class DeviceLandscapePreviews
+annotation class DeviceLandscapePreviews

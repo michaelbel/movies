@@ -3,6 +3,7 @@ package org.michaelbel.movies.widget.configure
 import android.appwidget.AppWidgetManager
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import dagger.hilt.android.AndroidEntryPoint
@@ -22,7 +23,7 @@ internal class AppWidgetConfigureActivity: ComponentActivity() {
             AppWidgetConfigureActivityContent(
                 onBackClick = ::finish,
                 enableEdgeToEdge = { statusBarStyle, navigationBarStyle ->
-                    enableEdgeToEdge(statusBarStyle, navigationBarStyle)
+                    enableEdgeToEdge(statusBarStyle as SystemBarStyle, navigationBarStyle as SystemBarStyle)
                 }
             )
         }

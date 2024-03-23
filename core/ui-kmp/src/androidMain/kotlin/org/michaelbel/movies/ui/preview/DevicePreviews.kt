@@ -13,4 +13,4 @@ import androidx.compose.ui.tooling.preview.Preview
     name = "Night theme",
     uiMode = Configuration.UI_MODE_NIGHT_YES
 )
-actual annotation class DevicePreviews
+annotation class DevicePreviews

@@ -1,8 +1,13 @@
-@file:Suppress(
-    "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING",
-    "EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE"
-)
-
 package org.michaelbel.movies.common.localization
 
-expect interface LocaleController
+import kotlinx.coroutines.flow.Flow
+import org.michaelbel.movies.common.localization.model.AppLanguage
+
+interface LocaleController {
+
+    val language: String
+
+    val appLanguage: Flow<AppLanguage>
+
+    suspend fun selectLanguage(language: AppLanguage)
+}

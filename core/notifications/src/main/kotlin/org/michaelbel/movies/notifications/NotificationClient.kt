@@ -19,7 +19,7 @@ import org.michaelbel.movies.common.ktx.isTimePasses
 import org.michaelbel.movies.common.ktx.notificationManager
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.notifications.model.MoviesPush
-import org.michaelbel.movies.ui.icons.MoviesIcons
+import org.michaelbel.movies.ui.icons.MoviesAndroidIcons
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -53,7 +53,7 @@ class NotificationClient @Inject constructor(
         ).apply {
             setContentTitle(push.notificationTitle)
             setContentText(push.notificationDescription)
-            setSmallIcon(MoviesIcons.MovieFilter24)
+            setSmallIcon(MoviesAndroidIcons.MovieFilter24)
             setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
             setDefaults(NotificationCompat.DEFAULT_LIGHTS)
             setGroupSummary(true)
@@ -87,7 +87,7 @@ class NotificationClient @Inject constructor(
         ).apply {
             setContentTitle(context.getString(contentTitleRes))
             setContentText(context.getString(contentTextRes))
-            setSmallIcon(MoviesIcons.FileDownload24)
+            setSmallIcon(MoviesAndroidIcons.FileDownload24)
             setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
             setDefaults(NotificationCompat.DEFAULT_LIGHTS)
             setVibrate(VIBRATE_PATTERN)

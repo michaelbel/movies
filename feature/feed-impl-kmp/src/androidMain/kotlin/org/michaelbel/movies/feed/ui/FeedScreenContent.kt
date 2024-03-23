@@ -33,6 +33,7 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -61,14 +62,14 @@ import java.net.UnknownHostException
 import org.michaelbel.movies.ui.R as UiR
 
 @Composable
-actual fun FeedRoute(
+fun FeedRoute(
     onNavigateToSearch: () -> Unit,
     onNavigateToAuth: () -> Unit,
     onNavigateToAccount: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToDetails: (String, Int) -> Unit,
-    modifier: Modifier,
-    viewModel: FeedViewModel
+    modifier: Modifier = Modifier,
+    viewModel: FeedViewModel = hiltViewModel()
 ) {
     val pagingItems = viewModel.pagingDataFlow.collectAsLazyPagingItems()
     val account by viewModel.account.collectAsStateWithLifecycle()

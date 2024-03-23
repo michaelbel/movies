@@ -1,12 +1,9 @@
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-
 package org.michaelbel.movies.account
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -15,9 +12,10 @@ import org.michaelbel.movies.common.exceptions.DeleteSessionException
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.persistence.database.entity.AccountDb
+import javax.inject.Inject
 
 @HiltViewModel
-actual class AccountViewModel @Inject constructor(
+class AccountViewModel @Inject constructor(
     private val interactor: Interactor
 ): BaseViewModel() {
 

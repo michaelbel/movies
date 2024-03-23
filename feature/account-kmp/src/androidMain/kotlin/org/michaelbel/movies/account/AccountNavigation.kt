@@ -6,11 +6,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.dialog
 import org.michaelbel.movies.account.ui.AccountRoute
 
-actual fun NavController.navigateToAccount() {
+fun NavController.navigateToAccount() {
     navigate(AccountDestination.route)
 }
 
-actual fun NavGraphBuilder.accountGraph(
+fun NavGraphBuilder.accountGraph(
     navigateBack: () -> Unit
 ) {
     dialog(

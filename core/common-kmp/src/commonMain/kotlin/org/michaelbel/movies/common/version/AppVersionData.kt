@@ -1,8 +1,17 @@
-@file:Suppress(
-    "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING",
-    "EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE"
-)
-
 package org.michaelbel.movies.common.version
 
-expect class AppVersionData
+data class AppVersionData(
+    val version: String,
+    val code: Long,
+    val flavor: String,
+    val isDebug: Boolean
+) {
+    companion object {
+        val Empty = AppVersionData(
+            version = "",
+            code = 0L,
+            flavor = "",
+            isDebug = false
+        )
+    }
+}

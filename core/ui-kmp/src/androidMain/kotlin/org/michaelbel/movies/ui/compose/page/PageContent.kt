@@ -35,7 +35,7 @@ import org.michaelbel.movies.ui.ktx.isPagingLoading
 import org.michaelbel.movies.ui.ktx.isPortrait
 
 @Composable
-actual fun PageContent(
+fun PageContent(
     feedView: FeedView,
     lazyListState: LazyListState,
     lazyGridState: LazyGridState,

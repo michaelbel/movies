@@ -64,6 +64,7 @@ compose = "1.6.1"
 detekt = "1.23.5"
 spotless = "6.25.0"
 coil = "2.6.0"
+coil3 = "3.0.0-alpha01"
 okhttp = "4.12.0"
 retrofit = "2.10.0"
 chucker = "4.0.0"
@@ -84,6 +85,7 @@ barista = "4.3.0"
 kotest = "5.8.1"
 sqldelight = "2.0.1"
 koin = "3.5.3"
+precompose = "1.6.0-rc04"
 
 [libraries]
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
@@ -185,6 +187,7 @@ androidx-test-uiautomator = { module = "androidx.test.uiautomator:uiautomator", 
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidx-work" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+coil3 = { module = "io.coil-kt.coil3:coil", version.ref = "coil3" }
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit-converter-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
@@ -227,6 +230,7 @@ koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
+precompose = { module = "moe.tlaster:precompose", version.ref = "precompose" }
 
 gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }

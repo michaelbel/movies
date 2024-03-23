@@ -6,12 +6,12 @@ import java.util.Locale
 
 private const val DATE_TIME_FORMAT = "yyyyMMdd_HHmmss"
 
-actual val currentDateTime: String
+val currentDateTime: String
     get() {
         val simpleDateFormat = SimpleDateFormat(DATE_TIME_FORMAT, Locale.getDefault())
         return simpleDateFormat.format(Date())
     }
 
-actual fun isTimePasses(interval: Long, expireTime: Long, currentTime: Long): Boolean {
+fun isTimePasses(interval: Long, expireTime: Long, currentTime: Long): Boolean {
     return expireTime == 0L || currentTime.minus(expireTime) >= interval
 }

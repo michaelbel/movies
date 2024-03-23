@@ -9,9 +9,9 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-actual inline fun <T> Flow<T>.launchAndCollectIn(
+inline fun <T> Flow<T>.launchAndCollectIn(
     owner: LifecycleOwner,
-    minActiveState: Lifecycle.State,
+    minActiveState: Lifecycle.State = Lifecycle.State.STARTED,
     crossinline action: suspend CoroutineScope.(T) -> Unit
 ): Job = owner.lifecycleScope.launch {
     owner.repeatOnLifecycle(minActiveState) {

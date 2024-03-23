@@ -14,11 +14,11 @@ import android.os.Build
 import android.service.quicksettings.TileService
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import org.michaelbel.movies.ui.icons.MoviesIcons
+import org.michaelbel.movies.ui.icons.MoviesAndroidIcons
 import org.michaelbel.movies.ui_kmp.R
 
 @RequiresApi(24)
-actual class MoviesTileService: TileService() {
+class MoviesTileService: TileService() {
 
     override fun onTileAdded() {
         super.onTileAdded()
@@ -29,7 +29,7 @@ actual class MoviesTileService: TileService() {
         super.onStartListening()
         val tile = qsTile
         tile.label = getString(R.string.tile_title)
-        tile.icon = Icon.createWithResource(this, MoviesIcons.MovieFilter24)
+        tile.icon = Icon.createWithResource(this, MoviesAndroidIcons.MovieFilter24)
         tile.updateTile()
     }
 

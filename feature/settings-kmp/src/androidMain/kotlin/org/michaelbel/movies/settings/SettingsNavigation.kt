@@ -7,11 +7,11 @@ import androidx.navigation.navDeepLink
 import org.michaelbel.movies.settings.ui.SettingsRoute
 import org.michaelbel.movies.ui.shortcuts.INTENT_ACTION_SETTINGS
 
-actual fun NavController.navigateToSettings() {
+fun NavController.navigateToSettings() {
     navigate(SettingsDestination.route)
 }
 
-actual fun NavGraphBuilder.settingsGraph(
+fun NavGraphBuilder.settingsGraph(
     navigateBack: () -> Unit
 ) {
     composable(

@@ -20,9 +20,9 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun VoiceIcon(
+fun VoiceIcon(
     onInputText: (String) -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     val speechRecognizeContract = rememberLauncherForActivityResult(
         ActivityResultContracts.StartActivityForResult()

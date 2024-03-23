@@ -4,5 +4,5 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
-actual val context: Context
+val context: Context
     @Composable get() = LocalContext.current

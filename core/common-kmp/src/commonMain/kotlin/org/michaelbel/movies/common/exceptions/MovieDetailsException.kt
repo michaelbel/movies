@@ -5,4 +5,4 @@
 
 package org.michaelbel.movies.common.exceptions
 
-expect object MovieDetailsException
+data object MovieDetailsException: Exception()

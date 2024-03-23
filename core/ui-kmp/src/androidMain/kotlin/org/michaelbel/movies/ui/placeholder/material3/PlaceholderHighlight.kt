@@ -32,8 +32,8 @@ import org.michaelbel.movies.ui.placeholder.shimmer
  * @param animationSpec the [AnimationSpec] to configure the animation.
  */
 @Composable
-actual fun PlaceholderHighlight.Companion.fade(
-    animationSpec: InfiniteRepeatableSpec<Float>,
+fun PlaceholderHighlight.Companion.fade(
+    animationSpec: InfiniteRepeatableSpec<Float> = PlaceholderDefaults.fadeAnimationSpec
 ) = PlaceholderHighlight.fade(
     highlightColor = PlaceholderDefaults.fadeHighlightColor(),
     animationSpec = animationSpec,

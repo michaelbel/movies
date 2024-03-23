@@ -1,10 +1,26 @@
-@file:Suppress(
-    "EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE",
-    "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING"
-)
-
 package org.michaelbel.movies.common.appearance
 
 import org.michaelbel.movies.common.SealedString
+import org.michaelbel.movies.common.appearance.exceptions.InvalidFeedViewException
 
-expect sealed interface FeedView: SealedString
+sealed interface FeedView: SealedString {
+
+    data object FeedList: FeedView
+
+    data object FeedGrid: FeedView
+
+    companion object {
+        val VALUES = listOf(
+            FeedList,
+            FeedGrid
+        )
+
+        fun transform(name: String): FeedView {
+            return when (name) {
+                FeedList.toString() -> FeedList
+                FeedGrid.toString() -> FeedGrid
+                else -> throw InvalidFeedViewException
+            }
+        }
+    }
+}

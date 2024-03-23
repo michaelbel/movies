@@ -19,7 +19,7 @@ const val INTENT_ACTION_SETTINGS = "movies_shortcut://settings"
 /**
  * See [App Shortcuts Design Guidelines](https://commondatastorage.googleapis.com/androiddevelopers/shareables/design/app-shortcuts-design-guidelines.pdf)
  */
-actual fun Context.installShortcuts() {
+fun Context.installShortcuts() {
     val searchShortcut = ShortcutInfoCompat.Builder(this, SEARCH_SHORTCUT_ID)
         .setShortLabel(getString(R.string.shortcuts_search_title))
         .setLongLabel(getString(R.string.shortcuts_search_title))

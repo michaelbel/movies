@@ -18,7 +18,7 @@ import org.michaelbel.movies.ui.theme.provider.MoviesRippleTheme
 actual fun MoviesTheme(
     theme: AppTheme,
     dynamicColors: Boolean,
-    enableEdgeToEdge: (SystemBarStyle, SystemBarStyle) -> Unit,
+    enableEdgeToEdge: (Any, Any) -> Unit,
     content: @Composable () -> Unit
 ) {
     val (colorScheme, detectDarkMode) = when (theme) {

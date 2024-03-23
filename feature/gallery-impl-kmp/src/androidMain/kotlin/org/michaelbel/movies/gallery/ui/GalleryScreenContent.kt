@@ -49,6 +49,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.core.net.toUri
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.work.WorkInfo
 import coil.compose.AsyncImage
@@ -72,10 +73,10 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.work.DownloadImageWorker
 
 @Composable
-actual fun GalleryRoute(
+fun GalleryRoute(
     onBackClick: () -> Unit,
-    modifier: Modifier,
-    viewModel: GalleryViewModel
+    modifier: Modifier = Modifier,
+    viewModel: GalleryViewModel = hiltViewModel()
 ) {
     val movieImages by viewModel.movieImagesFlow.collectAsStateWithLifecycle()
     val workInfo by viewModel.workInfoFlow.collectAsStateWithLifecycle()

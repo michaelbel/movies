@@ -5,4 +5,4 @@
 
 package org.michaelbel.movies.common.exceptions
 
-expect object CreateSessionException
+data object CreateSessionException: Exception()

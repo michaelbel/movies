@@ -38,7 +38,7 @@ import kotlin.math.max
  * A class which provides a brush to paint placeholder based on progress.
  */
 @Stable
-actual interface PlaceholderHighlight {
+interface PlaceholderHighlight {
     /**
      * The optional [AnimationSpec] to use when running the animation for this highlight.
      */

@@ -1,5 +1,4 @@
 @file:OptIn(ExperimentalCoroutinesApi::class)
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 
 package org.michaelbel.movies.feed
 
@@ -11,7 +10,6 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -33,9 +31,10 @@ import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.notifications.NotificationClient
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.entity.MovieDb
+import javax.inject.Inject
 
 @HiltViewModel
-actual class FeedViewModel @Inject constructor(
+class FeedViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val interactor: Interactor,
     private val notificationClient: NotificationClient,

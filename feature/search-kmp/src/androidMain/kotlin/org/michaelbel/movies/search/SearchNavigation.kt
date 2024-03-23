@@ -7,11 +7,11 @@ import androidx.navigation.navDeepLink
 import org.michaelbel.movies.search.ui.SearchRoute
 import org.michaelbel.movies.ui.shortcuts.INTENT_ACTION_SEARCH
 
-actual fun NavController.navigateToSearch() {
+fun NavController.navigateToSearch() {
     navigate(SearchDestination.route)
 }
 
-actual fun NavGraphBuilder.searchGraph(
+fun NavGraphBuilder.searchGraph(
     navigateBack: () -> Unit,
     navigateToDetails: (String, Int) -> Unit,
 ) {

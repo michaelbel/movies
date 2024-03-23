@@ -12,8 +12,12 @@ kotlin {
             }
         }
     }
+    jvm("desktop")
 
     sourceSets {
+        commonMain.dependencies {
+            implementation(libs.kotlinx.coroutines.core)
+        }
         androidMain.dependencies {
             api(project(":core:platform-services:interactor"))
             implementation(project(":core:analytics-kmp"))

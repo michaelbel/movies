@@ -1,7 +1,5 @@
 package org.michaelbel.movies.interactor.impl
 
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
@@ -20,6 +18,8 @@ import org.michaelbel.movies.interactor.SettingsInteractor
 import org.michaelbel.movies.platform.app.AppService
 import org.michaelbel.movies.platform.config.ConfigService
 import org.michaelbel.movies.repository.SettingsRepository
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 internal class SettingsInteractorImpl @Inject constructor(

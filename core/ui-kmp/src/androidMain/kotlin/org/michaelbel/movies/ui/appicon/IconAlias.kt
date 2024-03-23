@@ -9,7 +9,7 @@ package org.michaelbel.movies.ui.appicon
 import androidx.annotation.DrawableRes
 import org.michaelbel.movies.ui_kmp.R
 
-actual sealed class IconAlias(
+sealed class IconAlias(
     val key: String,
     @DrawableRes val iconRes: Int
 ) {

@@ -32,7 +32,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import java.net.UnknownHostException
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
@@ -49,14 +48,15 @@ import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.ktx.isFailure
 import org.michaelbel.movies.ui.ktx.isLoading
 import org.michaelbel.movies.ui.ktx.refreshThrowable
+import java.net.UnknownHostException
 import org.michaelbel.movies.ui.R as UiR
 
 @Composable
-actual fun SearchRoute(
+fun SearchRoute(
     onBackClick: () -> Unit,
     onNavigateToDetails: (String, Int) -> Unit,
-    modifier: Modifier,
-    viewModel: SearchViewModel
+    modifier: Modifier = Modifier,
+    viewModel: SearchViewModel = hiltViewModel()
 ) {
     val pagingItems = viewModel.pagingDataFlow.collectAsLazyPagingItems()
     val currentFeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()

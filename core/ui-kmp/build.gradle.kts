@@ -12,13 +12,23 @@ kotlin {
             }
         }
     }
+    jvm("desktop")
 
     sourceSets {
         commonMain.dependencies {
-            implementation(compose.runtime)
+            implementation(project(":core:common-kmp"))
+            implementation(compose.animation)
+            implementation(compose.components.resources)
             implementation(compose.foundation)
             implementation(compose.material)
-            implementation(compose.components.resources)
+            implementation(compose.material3)
+            implementation(compose.runtime)
+            implementation(compose.runtimeSaveable)
+            implementation(compose.materialIconsExtended)
+            implementation(compose.preview)
+            implementation(compose.ui)
+            implementation(compose.uiTooling)
+            api(libs.coil3)
         }
         androidMain.dependencies {
             implementation(project(":core:common-kmp"))

@@ -45,7 +45,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.ui_kmp.R
 
 @Composable
-actual fun NotificationBottomSheet(
+fun NotificationBottomSheet(
     modifier: Modifier,
     onBottomSheetHide: () -> Unit
 ) {

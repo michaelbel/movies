@@ -9,7 +9,7 @@ import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 
 @Composable
-actual fun OnResume(
+fun OnResume(
     onResume: () -> Unit
 ) {
     OnLifecycleEvent(

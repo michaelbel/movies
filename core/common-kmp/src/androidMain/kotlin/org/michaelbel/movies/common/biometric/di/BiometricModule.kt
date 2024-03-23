@@ -4,9 +4,9 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Singleton
 import org.michaelbel.movies.common.biometric.BiometricController
 import org.michaelbel.movies.common.biometric.impl.BiometricControllerImpl
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)

@@ -6,11 +6,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.dialog
 import org.michaelbel.movies.auth.ui.AuthRoute
 
-actual fun NavController.navigateToAuth() {
+fun NavController.navigateToAuth() {
     navigate(AuthDestination.route)
 }
 
-actual fun NavGraphBuilder.authGraph(
+fun NavGraphBuilder.authGraph(
     navigateBack: () -> Unit
 ) {
     dialog(

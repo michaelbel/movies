@@ -7,7 +7,7 @@ import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import org.michaelbel.movies.feed.ui.FeedRoute
 
-actual fun NavGraphBuilder.feedGraph(
+fun NavGraphBuilder.feedGraph(
     navigateToSearch: () -> Unit,
     navigateToAuth: () -> Unit,
     navigateToAccount: () -> Unit,

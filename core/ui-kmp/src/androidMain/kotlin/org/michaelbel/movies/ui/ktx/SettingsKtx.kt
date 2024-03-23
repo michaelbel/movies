@@ -8,7 +8,7 @@ import android.provider.Settings
 import androidx.core.net.toUri
 import org.michaelbel.movies.ui.shortcuts.INTENT_ACTION_SETTINGS
 
-actual val Context.appNotificationSettingsIntent: Intent
+val Context.appNotificationSettingsIntent: Intent
     get() {
         val intent = Intent()
         when {
@@ -25,7 +25,7 @@ actual val Context.appNotificationSettingsIntent: Intent
         return intent
     }
 
-actual fun Activity.resolveNotificationPreferencesIntent() {
+fun Activity.resolveNotificationPreferencesIntent() {
     val categories = intent.categories
     if (categories != null && categories.isNotEmpty()) {
         val isCategoryNotificationPreferences = categories.first() == "android.intent.category.NOTIFICATION_PREFERENCES"

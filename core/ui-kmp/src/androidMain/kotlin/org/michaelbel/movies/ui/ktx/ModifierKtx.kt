@@ -14,7 +14,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.debugInspectorInfo
 import androidx.compose.ui.unit.dp
 
-actual fun Modifier.clickableWithoutRipple(
+fun Modifier.clickableWithoutRipple(
     block: () -> Unit
 ): Modifier = composed(
     inspectorInfo = debugInspectorInfo {

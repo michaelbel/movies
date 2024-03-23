@@ -1,5 +1,4 @@
 @file:OptIn(ExperimentalCoroutinesApi::class)
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 
 package org.michaelbel.movies.search
 
@@ -7,7 +6,6 @@ import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -25,9 +23,10 @@ import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.entity.SuggestionDb
+import javax.inject.Inject
 
 @HiltViewModel
-actual class SearchViewModel @Inject constructor(
+class SearchViewModel @Inject constructor(
     private val interactor: Interactor,
     networkManager: NetworkManager,
 ): BaseViewModel() {

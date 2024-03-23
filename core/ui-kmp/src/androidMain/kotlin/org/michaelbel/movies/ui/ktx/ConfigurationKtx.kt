@@ -17,27 +17,27 @@ import androidx.core.content.ContextCompat
 private const val FEED_GRID_PORTRAIT_COLUMNS_COUNT = 2
 private const val FEED_GRID_LANDSCAPE_COLUMNS_COUNT = 4
 
-actual val screenWidth: Dp
+val screenWidth: Dp
     @Composable get() {
         val context = LocalContext.current
         val density = LocalDensity.current
         return density.run { context.deviceWidth.toDp() }
     }
 
-actual val screenHeight: Dp
+val screenHeight: Dp
     @Composable get() {
         val context = LocalContext.current
         val density = LocalDensity.current
         return density.run { context.deviceHeight.toDp() }
     }
 
-actual val isPortrait: Boolean
+val isPortrait: Boolean
     @Composable get() {
         val configuration = LocalConfiguration.current
         return configuration.orientation == Configuration.ORIENTATION_PORTRAIT
     }
 
-actual val displayCutoutWindowInsets: WindowInsets
+val displayCutoutWindowInsets: WindowInsets
     @Composable get() = if (isPortrait) WindowInsets(0, 0, 0, 0) else WindowInsets.displayCutout
 
 internal val gridColumnsCount: Int

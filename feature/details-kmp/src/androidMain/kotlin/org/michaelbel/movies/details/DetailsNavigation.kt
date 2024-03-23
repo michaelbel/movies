@@ -8,11 +8,11 @@ import androidx.navigation.navArgument
 import androidx.navigation.navDeepLink
 import org.michaelbel.movies.details.ui.DetailsRoute
 
-actual fun NavController.navigateToDetails(movieList: String, movieId: Int) {
+fun NavController.navigateToDetails(movieList: String, movieId: Int) {
     navigate("movie?movieList=$movieList&movieId=$movieId")
 }
 
-actual fun NavGraphBuilder.detailsGraph(
+fun NavGraphBuilder.detailsGraph(
     navigateBack: () -> Unit,
     navigateToGallery: (Int) -> Unit
 ) {

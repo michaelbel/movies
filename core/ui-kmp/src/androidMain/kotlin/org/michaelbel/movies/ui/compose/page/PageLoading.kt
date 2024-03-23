@@ -35,10 +35,10 @@ import org.michaelbel.movies.ui.preview.DeviceUserPreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun PageLoading(
+fun PageLoading(
     feedView: FeedView,
-    modifier: Modifier,
-    paddingValues: PaddingValues
+    modifier: Modifier = Modifier,
+    paddingValues: PaddingValues = PaddingValues()
 ) {
     when (feedView) {
         is FeedView.FeedList -> {

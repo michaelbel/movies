@@ -1,11 +1,8 @@
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-
 package org.michaelbel.movies.details
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.palette.graphics.Palette
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -20,9 +17,10 @@ import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.network.config.ScreenState
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
+import javax.inject.Inject
 
 @HiltViewModel
-actual class DetailsViewModel @Inject constructor(
+class DetailsViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     networkManager: NetworkManager,
     private val interactor: Interactor

@@ -5,7 +5,7 @@ package org.michaelbel.movies.ui.accessibility
 import androidx.annotation.StringRes
 import org.michaelbel.movies.ui_kmp.R
 
-actual object MoviesContentDescription {
+object MoviesContentDescription {
     @StringRes val AccountIcon = R.string.content_description_account_icon
     @StringRes val AccountAvatarImage = R.string.content_description_account_avatar_image
     @StringRes val AdultIcon = R.string.content_description_adult_icon

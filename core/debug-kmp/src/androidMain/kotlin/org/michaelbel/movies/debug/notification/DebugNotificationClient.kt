@@ -15,7 +15,7 @@ import org.michaelbel.movies.common.ktx.isPostNotificationsPermissionGranted
 import org.michaelbel.movies.common.ktx.notificationManager
 import org.michaelbel.movies.debug.DebugActivity
 import org.michaelbel.movies.debug_kmp.R
-import org.michaelbel.movies.ui.icons.MoviesIcons
+import org.michaelbel.movies.ui.icons.MoviesAndroidIcons
 import javax.inject.Inject
 
 class DebugNotificationClient @Inject constructor(
@@ -35,7 +35,7 @@ class DebugNotificationClient @Inject constructor(
         ).apply {
             setContentTitle(context.getString(R.string.notification_debug_title))
             setContentText(context.getString(R.string.notification_debug_description))
-            setSmallIcon(MoviesIcons.MovieFilter24)
+            setSmallIcon(MoviesAndroidIcons.MovieFilter24)
             setBadgeIconType(NotificationCompat.BADGE_ICON_SMALL)
             setDefaults(NotificationCompat.DEFAULT_LIGHTS)
             setGroupSummary(true)

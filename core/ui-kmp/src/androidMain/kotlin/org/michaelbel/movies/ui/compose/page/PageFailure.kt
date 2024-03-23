@@ -33,7 +33,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.ui_kmp.R
 
 @Composable
-actual fun PageFailure(
+fun PageFailure(
     modifier: Modifier
 ) {
     val settingsPanelContract = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}

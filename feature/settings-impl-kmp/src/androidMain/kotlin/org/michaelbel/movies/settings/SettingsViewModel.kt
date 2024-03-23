@@ -1,5 +1,3 @@
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-
 package org.michaelbel.movies.settings
 
 import android.app.Activity
@@ -9,7 +7,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.DefaultLifecycleObserver
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -27,9 +24,10 @@ import org.michaelbel.movies.platform.review.ReviewService
 import org.michaelbel.movies.platform.update.UpdateListener
 import org.michaelbel.movies.platform.update.UpdateService
 import org.michaelbel.movies.settings_impl_kmp.BuildConfig
+import javax.inject.Inject
 
 @HiltViewModel
-actual class SettingsViewModel @Inject constructor(
+class SettingsViewModel @Inject constructor(
     biometricController: BiometricController,
     private val interactor: Interactor,
     private val localeController: LocaleController,

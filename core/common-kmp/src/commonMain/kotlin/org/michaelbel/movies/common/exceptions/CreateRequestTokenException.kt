@@ -5,4 +5,6 @@
 
 package org.michaelbel.movies.common.exceptions
 
-expect class CreateRequestTokenException
+data class CreateRequestTokenException(
+    val loginViaTmdb: Boolean
+): Exception()

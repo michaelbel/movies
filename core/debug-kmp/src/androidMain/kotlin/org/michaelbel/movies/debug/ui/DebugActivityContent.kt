@@ -5,7 +5,6 @@ package org.michaelbel.movies.debug.ui
 import android.app.Activity
 import android.content.Intent
 import android.provider.Settings
-import androidx.activity.SystemBarStyle
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -32,13 +31,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.michaelbel.movies.common.ktx.appSettingsIntent
 import org.michaelbel.movies.debug.DebugViewModel
 import org.michaelbel.movies.debug_kmp.R
-import org.michaelbel.movies.ui.icons.MoviesIcons
+import org.michaelbel.movies.ui.icons.MoviesAndroidIcons
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 internal fun DebugActivityContent(
     viewModel: DebugViewModel = hiltViewModel(),
-    enableEdgeToEdge: (SystemBarStyle, SystemBarStyle) -> Unit
+    enableEdgeToEdge: (Any, Any) -> Unit
 ) {
     val currentTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
     val dynamicColors by viewModel.dynamicColors.collectAsStateWithLifecycle()
@@ -76,7 +75,7 @@ internal fun DebugActivityContent(
                     SettingItem(
                         title = stringResource(R.string.debug_app_settings),
                         description = "",
-                        icon = painterResource(MoviesIcons.SettingsCinematicBlur24),
+                        icon = painterResource(MoviesAndroidIcons.SettingsCinematicBlur24),
                         onClick = { resultContract.launch(context.appSettingsIntent) }
                     )
                 }
@@ -91,7 +90,7 @@ internal fun DebugActivityContent(
                     SettingItem(
                         title = stringResource(R.string.debug_developer_settings),
                         description = "",
-                        icon = painterResource(MoviesIcons.SettingsAccountBox24),
+                        icon = painterResource(MoviesAndroidIcons.SettingsAccountBox24),
                         onClick = { resultContract.launch(Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS)) }
                     )
                 }

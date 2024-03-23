@@ -48,17 +48,6 @@ afterEvaluate {
     tasks.findByName("assembleFossRelease")?.finalizedBy("prepareReleaseNotes")
 }
 
-/*kotlin {
-    androidTarget()
-    sourceSets {
-        androidMain {
-            dependencies {
-                implementation(project(":shared"))
-            }
-        }
-    }
-}*/
-
 android {
     namespace = "org.michaelbel.movies.app"
     flavorDimensions += "version"

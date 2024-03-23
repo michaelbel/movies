@@ -26,7 +26,6 @@ include(
     ":iosApp",
     ":instant",
     ":benchmark",
-    ":shared",
 
     ":core:analytics-kmp",
     ":core:common-kmp",

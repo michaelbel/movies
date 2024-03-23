@@ -26,10 +26,10 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.ui_kmp.R
 
 @Composable
-actual fun ShareIcon(
+fun ShareIcon(
     url: String,
-    modifier: Modifier,
-    onContainerColor: Color
+    modifier: Modifier = Modifier,
+    onContainerColor: Color = MaterialTheme.colorScheme.onPrimaryContainer
 ) {
     val context = LocalContext.current
     val resultContract = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}

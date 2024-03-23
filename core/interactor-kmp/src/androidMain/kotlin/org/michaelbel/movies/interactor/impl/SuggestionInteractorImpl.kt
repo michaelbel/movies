@@ -1,13 +1,13 @@
 package org.michaelbel.movies.interactor.impl
 
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.interactor.SuggestionInteractor
 import org.michaelbel.movies.persistence.database.entity.SuggestionDb
 import org.michaelbel.movies.repository.SuggestionRepository
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 internal class SuggestionInteractorImpl @Inject constructor(

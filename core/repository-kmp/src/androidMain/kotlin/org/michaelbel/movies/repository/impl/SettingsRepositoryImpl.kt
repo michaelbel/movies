@@ -3,22 +3,22 @@ package org.michaelbel.movies.repository.impl
 import android.content.Context
 import android.os.Build
 import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
-import javax.inject.Singleton
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
-import org.michaelbel.movies.common_kmp.BuildConfig
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
+import org.michaelbel.movies.common_kmp.BuildConfig
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import org.michaelbel.movies.platform.Flavor
 import org.michaelbel.movies.platform.app.AppService
 import org.michaelbel.movies.repository.SettingsRepository
 import org.michaelbel.movies.repository.ktx.code
 import org.michaelbel.movies.repository.ktx.packageInfo
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 internal class SettingsRepositoryImpl @Inject constructor(

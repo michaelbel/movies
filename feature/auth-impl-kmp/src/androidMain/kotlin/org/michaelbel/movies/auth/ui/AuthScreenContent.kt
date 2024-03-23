@@ -41,6 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.hilt.navigation.compose.hiltViewModel
 import org.michaelbel.movies.auth.AuthViewModel
 import org.michaelbel.movies.auth.ktx.text
 import org.michaelbel.movies.auth_impl_kmp.R
@@ -62,17 +63,17 @@ import org.michaelbel.movies.network.config.TMDB_TERMS_OF_USE
 import org.michaelbel.movies.network.config.TMDB_URL
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.compose.iconbutton.PasswordIcon
-import org.michaelbel.movies.ui.icons.MoviesIcons
+import org.michaelbel.movies.ui.icons.MoviesAndroidIcons
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.isPortrait
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun AuthRoute(
+fun AuthRoute(
     onBackClick: () -> Unit,
-    modifier: Modifier,
-    viewModel: AuthViewModel
+    modifier: Modifier = Modifier,
+    viewModel: AuthViewModel = hiltViewModel()
 ) {
     AuthScreenContent(
         error = viewModel.error,
@@ -90,7 +91,7 @@ actual fun AuthRoute(
 }
 
 @Composable
-actual fun AuthScreenContent(
+fun AuthScreenContent(
     error: Throwable?,
     signInLoading: Boolean,
     loginLoading: Boolean,
@@ -99,7 +100,7 @@ actual fun AuthScreenContent(
     onSignInClick: (Username, Password) -> Unit,
     onLoginClick: () -> Unit,
     onResetRequestToken: () -> Unit,
-    modifier: Modifier
+    modifier: Modifier = Modifier
 ) {
     val resultContract = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
     val toolbarColor = MaterialTheme.colorScheme.primary.toArgb()
@@ -151,7 +152,7 @@ actual fun AuthScreenContent(
         )
 
         Icon(
-            painter = painterResource(MoviesIcons.TmdbLogo),
+            painter = painterResource(MoviesAndroidIcons.TmdbLogo),
             contentDescription = MoviesContentDescription.None,
             modifier = Modifier
                 .constrainAs(logo) {

@@ -1,5 +1,3 @@
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-
 package org.michaelbel.movies.gallery
 
 import androidx.lifecycle.SavedStateHandle
@@ -11,7 +9,6 @@ import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -26,9 +23,10 @@ import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.persistence.database.entity.ImageDb
 import org.michaelbel.movies.persistence.database.ktx.original
 import org.michaelbel.movies.work.DownloadImageWorker
+import javax.inject.Inject
 
 @HiltViewModel
-actual class GalleryViewModel @Inject constructor(
+class GalleryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
     private val interactor: Interactor,
     private val workManager: WorkManager

@@ -10,12 +10,12 @@ private fun Context.componentName(iconAlias: IconAlias): ComponentName {
     return ComponentName(packageName, "org.michaelbel.movies.${iconAlias.key}")
 }
 
-actual fun Context.isEnabled(iconAlias: IconAlias): Boolean {
+fun Context.isEnabled(iconAlias: IconAlias): Boolean {
     val enabledSetting = packageManager.getComponentEnabledSetting(componentName(iconAlias))
     return enabledSetting == PackageManager.COMPONENT_ENABLED_STATE_ENABLED || enabledSetting == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT && iconAlias == IconAlias.Red
 }
 
-actual fun Context.setIcon(iconAlias: IconAlias) {
+fun Context.setIcon(iconAlias: IconAlias) {
     IconAlias.VALUES.forEach { alias ->
         packageManager.setComponentEnabledSetting(
             componentName(alias),
@@ -25,7 +25,7 @@ actual fun Context.setIcon(iconAlias: IconAlias) {
     }
 }
 
-actual fun Context.installLauncherIcon() {
+fun Context.installLauncherIcon() {
     IconAlias.VALUES.forEach { iconAlias ->
         if (isEnabled(iconAlias)) {
             return

@@ -22,7 +22,7 @@ private val OpenSans = FontFamily(
     Font(R.font.open_sans_semibold_italic)
 )
 
-actual val MoviesTypography = Typography(
+val MoviesTypography = Typography(
     titleMedium = TextStyle(
         fontFamily = FontFamily(Font(R.font.open_sans_semibold))
     )

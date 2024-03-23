@@ -16,7 +16,7 @@ import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-actual fun DownloadIcon(
+fun DownloadIcon(
     onClick: () -> Unit,
     modifier: Modifier
 ) {

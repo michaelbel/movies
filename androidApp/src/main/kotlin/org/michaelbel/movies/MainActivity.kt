@@ -1,6 +1,7 @@
 package org.michaelbel.movies
 
 import android.os.Bundle
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -22,7 +23,7 @@ internal class MainActivity: FragmentActivity() {
         installShortcuts()
         setContent {
             MainActivityContent { statusBarStyle, navigationBarStyle ->
-                enableEdgeToEdge(statusBarStyle, navigationBarStyle)
+                enableEdgeToEdge(statusBarStyle as SystemBarStyle, navigationBarStyle as SystemBarStyle)
             }
         }
         resolveNotificationPreferencesIntent()

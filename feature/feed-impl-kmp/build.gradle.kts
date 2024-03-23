@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.compose)
     id("movies-android-hilt")
 }
 
@@ -12,6 +13,7 @@ kotlin {
             }
         }
     }
+    jvm("desktop")
 
     sourceSets {
         androidMain.dependencies {
@@ -23,6 +25,19 @@ kotlin {
             implementation(project(":core:interactor-kmp"))
             implementation(project(":core:network-kmp"))
             implementation(project(":core:notifications"))
+        }
+        val desktopMain by getting
+        desktopMain.dependencies {
+            implementation(project(":core:ui-kmp"))
+            implementation(compose.desktop.currentOs)
+            implementation(compose.desktop.common)
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.animation)
+            implementation(compose.material)
+            implementation(compose.material3)
+            implementation(compose.components.resources)
+            implementation(libs.precompose)
         }
     }
 }
