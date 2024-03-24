@@ -15,12 +15,11 @@ Movies
 
 Movies - easy way to discover popular movies. This is a simple TMDb client.
 
-The goal of this project is to implement an app that provides a consistent user experience on Android Phones, Android Tablets, Android Auto, Android Wear, Android TV, iOS, Desktop (macOS, Windows, Linux) and Web. Used Material3, Compose, Kotlin and Multiplatform.
+The goal of this project is to implement an app that provides a consistent user experience on Android Phones, Android Tablets, Android Auto, Android Wear, Android TV, iOS, Desktop (MacOS, Windows, Linux) and Web. Used Material3, Compose, Kotlin and Multiplatform.
 
 The app is currently in development. Android app is already available.
 
 ## Screenshots
-
 <div style="dispaly:flex">
     <img src="config/images/1.png" width="24%">
     <img src="config/images/2.png" width="24%">
@@ -39,7 +38,6 @@ The app is currently in development. Android app is already available.
 </div>
 
 ## Requirements
-
 Take a look at <b>`local.properties`</b> and fill it with [your own](https://developers.themoviedb.org/3/getting-started/introduction) <b>TMDB API key</b> like this:
 ```gradle
 TMDB_API_KEY=your_own_tmdb_api_key
@@ -47,7 +45,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 The app is still usable without an API key. In this case functionality will be limited.
 
 ## Build
-
 - Clone this repository using [latest version](https://d.android.com/studio) of Android Studio
 - Run the app on your device or emulator
     - 🤖 **Android** with Google Mobile Services:
@@ -64,14 +61,12 @@ The app is still usable without an API key. In this case functionality will be l
       ```
 
 ## Download
-
 [<img src="config/images/badge-googleplay.svg" alt="" height="80">](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
 [<img src="config/images/badge-appgallery.svg" alt="" height="80">](https://appgallery.cloud.huawei.com/ag/n/app/C109677247)
 [<img src="config/images/badge-direct-apk.png" alt="" height="80">](https://github.com/michaelbel/movies/releases/download/1.5.3/Movies-v1.5.3.1478.-gms-release.apk)
 [<img src="config/images/badge-obtainium.png" alt="" height="80">](https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/michaelbel/movies)
 
-## Technologies
-
+## 📦 Technologies
 - [x] [Modularization](https://d.android.com/topic/modularization)
 - [x] [MVVM](https://d.android.com/topic/architecture)
 - [x] [Clean Architecture](https://d.android.com/topic/architecture)
@@ -159,6 +154,12 @@ The app is still usable without an API key. In this case functionality will be l
 ## Roadmap
 [Movies App Roadmap](https://github.com/users/michaelbel/projects/1/views/1)
 
+## Contributing
+All contributions are welcome!
+
+⭐ Join [stargazers](https://github.com/michaelbel/movies/stargazers)  
+↗️ Submit your PR
+
 ## Issues
 If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).
 
@@ -171,7 +172,7 @@ If you find any problems or would like to suggest a feature, please feel free to
   </picture>
 </a>
 
-## License
+## 📄 License
 <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
   <img alt="Apache License 2.0" src="config/images/apache.png" height="110"/>
 </a>

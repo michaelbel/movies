@@ -15,12 +15,11 @@ Movies
 
 Movies - простой способ найти популярные фильмы. Это легковесный TMDB-клиент.
 
-Цель этого проекта - реализовать приложение с единообразным пользовательским интерфейсом для Android-смартфонов, Android-планшетов, Android Auto, Android Wear, Android TV, iOS, Desktop (macOS, Windows, Linux) и Web. Используя Material3, Compose, Kotlin и Multiplatform.
+Цель этого проекта - реализовать приложение с единообразным пользовательским интерфейсом для Android-смартфонов, Android-планшетов, Android Auto, Android Wear, Android TV, iOS, Desktop (MacOS, Windows, Linux) и Web. Используя Material3, Compose, Kotlin и Multiplatform.
 
 Проект находится в активной разработке. Приложение для Android уже доступно.
 
 ## Скриншоты
-
 <div style="dispaly:flex">
     <img src="config/images/1.png" width="24%">
     <img src="config/images/2.png" width="24%">
@@ -39,7 +38,6 @@ Movies - простой способ найти популярные фильм�
 </div>
 
 ## Требования
-
 Перейди в <b>`local.properties`</b> и укажи [свой собственный](https://developers.themoviedb.org/3/getting-started/introduction) <b>TMDB API key</b> как здесь:
 ```gradle
 TMDB_API_KEY=your_own_tmdb_api_key
@@ -47,7 +45,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 Приложение можно использовать без ключа API, но его функциональность будет сильно ограничена.
 
 ## Сборка
-
 - Клонируй репозиторий используя [последнюю версию](https://d.android.com/studio) Android Studio
 - Запусти приложение на девайсе или эмуляторе
     - 🤖 **Android** с Google Mobile Services:
@@ -64,14 +61,12 @@ TMDB_API_KEY=your_own_tmdb_api_key
       ```
 
 ## Загрузить
-
 [<img src="config/images/badge-googleplay.svg" alt="" height="80">](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
 [<img src="config/images/badge-appgallery.svg" alt="" height="80">](https://appgallery.cloud.huawei.com/ag/n/app/C109677247)
 [<img src="config/images/badge-direct-apk.png" alt="" height="80">](https://github.com/michaelbel/movies/releases/download/1.5.3/Movies-v1.5.3.1478.-gms-release.apk)
 [<img src="config/images/badge-obtainium.png" alt="" height="80">](https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/michaelbel/movies)
 
-## Технологии
-
+## 📦 Технологии
 - [x] [Modularization](https://d.android.com/topic/modularization)
 - [x] [MVVM](https://d.android.com/topic/architecture)
 - [x] [Clean Architecture](https://d.android.com/topic/architecture)
@@ -159,7 +154,13 @@ TMDB_API_KEY=your_own_tmdb_api_key
 ## Роадмап
 [Movies App Roadmap](https://github.com/users/michaelbel/projects/1/views/1)
 
-## Проблемы
+## Contributing
+Твоя помощь приветствуется!
+
+⭐ Присоединяйся к [звездочетам](https://github.com/michaelbel/movies/stargazers)  
+↗️ Отправляй пулл-реквесты
+
+## Траблы
 Если попался баг или хочешь предложить фичу, не стесняйся, заводи [issue](https://github.com/michaelbel/moviemade/issues).
 
 ## История звездочек
@@ -171,7 +172,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
   </picture>
 </a>
 
-## Лицензия
+## 📄 Лицензия
 <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
   <img alt="Apache License 2.0" src="config/images/apache.png" height="110"/>
 </a>
