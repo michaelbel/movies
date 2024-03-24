@@ -9,35 +9,37 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = rootProject.extra.get("jvmTarget") as String
             }
         }
     }
-    jvm("desktop")
+    jvm("desktop") {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = rootProject.extra.get("jvmTarget") as String
+            }
+        }
+    }
 
     sourceSets {
+        commonMain.dependencies {
+            implementation(project(":core:common-kmp"))
+            implementation(project(":core:ui-kmp"))
+            implementation(compose.components.resources)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(libs.constraintlayout.compose.multiplatform)
+        }
         androidMain.dependencies {
-            implementation(project(":core:platform-services:interactor"))
-            implementation(project(":core:widget"))
-            api(project(":core:navigation-kmp"))
-            api(project(":core:common-kmp"))
-            api(project(":core:ui"))
-            api(project(":core:ui-kmp"))
             implementation(project(":core:interactor-kmp"))
+            implementation(project(":core:navigation-kmp"))
+            implementation(project(":core:ui"))
+            implementation(project(":core:widget"))
         }
         val desktopMain by getting
         desktopMain.dependencies {
-            api(project(":core:common-kmp"))
-            api(project(":core:ui-kmp"))
+            implementation(project(":core:ui-kmp"))
             implementation(compose.desktop.currentOs)
-            implementation(compose.desktop.common)
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.animation)
-            implementation(compose.material)
-            implementation(compose.material3)
-            implementation(compose.components.resources)
-            implementation(libs.precompose)
         }
     }
 }
@@ -59,6 +61,11 @@ android {
 
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.toVersion(rootProject.extra.get("jvmTarget") as String)
+        targetCompatibility = JavaVersion.toVersion(rootProject.extra.get("jvmTarget") as String)
     }
 
     lint {

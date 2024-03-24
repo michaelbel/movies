@@ -7,7 +7,7 @@ import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.core.net.toUri
 
-fun openUrl(
+fun openUrlAndroid(
     resultContract: ManagedActivityResultLauncher<Intent, ActivityResult>,
     toolbarColor: Int,
     url: String

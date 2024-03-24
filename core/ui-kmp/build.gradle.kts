@@ -8,15 +8,22 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = rootProject.extra.get("jvmTarget") as String
             }
         }
     }
-    jvm("desktop")
+    jvm("desktop") {
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = rootProject.extra.get("jvmTarget") as String
+            }
+        }
+    }
 
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:common-kmp"))
+            implementation(libs.constraintlayout.compose.multiplatform)
             implementation(compose.animation)
             implementation(compose.components.resources)
             implementation(compose.foundation)
@@ -35,7 +42,6 @@ kotlin {
             implementation(project(":core:network-kmp"))
             implementation(project(":core:persistence-kmp"))
             api(libs.androidx.core.splashscreen)
-            api(libs.androidx.constraintlayout.compose)
             api(libs.androidx.palette.ktx)
             api(libs.coil.compose)
             api(libs.bundles.androidx.compose)
@@ -54,6 +60,11 @@ android {
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
         compileSdk = libs.versions.compile.sdk.get().toInt()
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.toVersion(rootProject.extra.get("jvmTarget") as String)
+        targetCompatibility = JavaVersion.toVersion(rootProject.extra.get("jvmTarget") as String)
     }
 
     lint {

@@ -49,7 +49,6 @@ dependencies {
     implementation(project(":core:persistence-kmp"))
     implementation(project(":core:ui-kmp"))
     api(libs.androidx.core.splashscreen)
-    api(libs.androidx.constraintlayout.compose)
     api(libs.androidx.palette.ktx)
     api(libs.coil.compose)
     api(libs.bundles.androidx.compose)

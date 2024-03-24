@@ -109,7 +109,7 @@ android {
             applicationIdSuffix = MoviesBuildType.DEBUG.applicationIdSuffix
             manifestPlaceholders += mapOf("appName" to "@string/app_name_dev")
             isDefault = true
-            vcsInfo { include = true } // Version control system integration in App Quality Insights
+            //vcsInfo { include = true } // Version control system integration in App Quality Insights
         }
         create("benchmark") {
             initWith(getByName("release"))

@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalResourceApi::class)
+
 package org.michaelbel.movies.settings.ui.common
 
 import androidx.compose.foundation.clickable
@@ -20,22 +22,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import movies.feature.settings_impl_kmp.generated.resources.Res
+import movies.feature.settings_impl_kmp.generated.resources.settings_action_cancel
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import org.michaelbel.movies.common.SealedString
-import org.michaelbel.movies.common.localization.model.AppLanguage
-import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.settings.ktx.stringText
-import org.michaelbel.movies.settings_impl_kmp.R
-import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
-import org.michaelbel.movies.ui.icons.MoviesIcons
-import org.michaelbel.movies.ui.preview.DevicePreviews
-import org.michaelbel.movies.ui.preview.provider.AppearancePreviewParameterProvider
-import org.michaelbel.movies.ui.preview.provider.LanguagePreviewParameterProvider
-import org.michaelbel.movies.ui.theme.MoviesTheme
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 
 @Composable
 internal fun <T: SealedString> SettingsDialog(
@@ -50,12 +44,10 @@ internal fun <T: SealedString> SettingsDialog(
         onDismissRequest = onDismissRequest,
         confirmButton = {
             TextButton(
-                onClick = onDismissRequest,
-                modifier = Modifier.testTag("ConfirmTextButton")
+                onClick = onDismissRequest
             ) {
                 Text(
-                    text = stringResource(R.string.settings_action_cancel),
-                    modifier = Modifier.testTag("ConfirmText"),
+                    text = stringResource(Res.string.settings_action_cancel),
                     style = MaterialTheme.typography.labelLarge.copy(MaterialTheme.colorScheme.primary)
                 )
             }
@@ -63,14 +55,12 @@ internal fun <T: SealedString> SettingsDialog(
         icon = {
             Icon(
                 imageVector = icon,
-                contentDescription = stringResource(MoviesContentDescription.AppearanceIcon),
-                modifier = Modifier.testTag("Icon")
+                contentDescription = MoviesContentDescriptionCommon.None
             )
         },
         title = {
             Text(
                 text = title,
-                modifier = Modifier.testTag("Title"),
                 style = MaterialTheme.typography.headlineSmall.copy(MaterialTheme.colorScheme.onSurface)
             )
         },
@@ -119,6 +109,7 @@ internal fun <T: SealedString> SettingsDialog(
     )
 }
 
+/*
 @Composable
 @DevicePreviews
 private fun SettingDialogPreview(
@@ -153,4 +144,4 @@ private fun SettingDialogAmoledPreview(
             onDismissRequest = {}
         )
     }
-}
+}*/

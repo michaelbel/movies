@@ -49,7 +49,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.MOVIES_GITHUB_URL
 import org.michaelbel.movies.common.appearance.FeedView
-import org.michaelbel.movies.common.browser.openUrl
+import org.michaelbel.movies.common.browser.openUrlAndroid
 import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.ktx.notificationManager
 import org.michaelbel.movies.common.list.MovieList
@@ -57,7 +57,7 @@ import org.michaelbel.movies.common.localization.model.AppLanguage
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.settings.SettingsViewModel
-import org.michaelbel.movies.settings.ktx.iconSnackbarText
+import org.michaelbel.movies.settings.ktx.iconSnackbarTextRes
 import org.michaelbel.movies.settings.ktx.stringText
 import org.michaelbel.movies.settings.ui.common.SettingAppIcon
 import org.michaelbel.movies.settings.ui.common.SettingItem
@@ -511,7 +511,7 @@ private fun SettingsScreenContent(
                     SettingAppIcon(
                         iconAlias = IconAlias.Red,
                         onClick = { icon ->
-                            onShowSnackbar(context.getString(R.string.settings_app_launcher_icon_changed_to, icon.iconSnackbarText(context)))
+                            onShowSnackbar(context.getString(R.string.settings_app_launcher_icon_changed_to, context.getString(icon.iconSnackbarTextRes)))
                             context.setIcon(icon)
                         }
                     )
@@ -519,7 +519,7 @@ private fun SettingsScreenContent(
                     SettingAppIcon(
                         iconAlias = IconAlias.Purple,
                         onClick = { icon ->
-                            onShowSnackbar(context.getString(R.string.settings_app_launcher_icon_changed_to, icon.iconSnackbarText(context)))
+                            onShowSnackbar(context.getString(R.string.settings_app_launcher_icon_changed_to, context.getString(icon.iconSnackbarTextRes)))
                             context.setIcon(icon)
                         }
                     )
@@ -527,7 +527,7 @@ private fun SettingsScreenContent(
                     SettingAppIcon(
                         iconAlias = IconAlias.Brown,
                         onClick = { icon ->
-                            onShowSnackbar(context.getString(R.string.settings_app_launcher_icon_changed_to, icon.iconSnackbarText(context)))
+                            onShowSnackbar(context.getString(R.string.settings_app_launcher_icon_changed_to, context.getString(icon.iconSnackbarTextRes)))
                             context.setIcon(icon)
                         }
                     )
@@ -535,7 +535,7 @@ private fun SettingsScreenContent(
                     SettingAppIcon(
                         iconAlias = IconAlias.Amoled,
                         onClick = { icon ->
-                            onShowSnackbar(context.getString(R.string.settings_app_launcher_icon_changed_to, icon.iconSnackbarText(context)))
+                            onShowSnackbar(context.getString(R.string.settings_app_launcher_icon_changed_to, context.getString(icon.iconSnackbarTextRes)))
                             context.setIcon(icon)
                         }
                     )
@@ -555,7 +555,7 @@ private fun SettingsScreenContent(
                     title = stringResource(R.string.settings_github),
                     description = stringResource(R.string.settings_github_description),
                     icon = MoviesIcons.Github,
-                    onClick = { openUrl(resultContract, toolbarColor, MOVIES_GITHUB_URL) }
+                    onClick = { openUrlAndroid(resultContract, toolbarColor, MOVIES_GITHUB_URL) }
                 )
             }
             if (isReviewFeatureEnabled) {

@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import org.michaelbel.movies.common.theme.AppTheme
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
@@ -24,7 +25,7 @@ fun BackIcon(
     ) {
         Image(
             imageVector = MoviesIcons.ArrowBack,
-            contentDescription = null,
+            contentDescription = MoviesContentDescriptionCommon.None,
             colorFilter = ColorFilter.tint(onContainerColor)
         )
     }

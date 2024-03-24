@@ -17,7 +17,7 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = JavaVersion.VERSION_1_8.toString()
             }
         }
     }
@@ -29,7 +29,6 @@ kotlin {
             implementation(libs.okhttp.logging.interceptor)
             implementation(libs.bundles.retrofit)
             implementation(libs.bundles.ktor)
-            implementation(libs.chucker.library)
             implementation(libs.flaker.android.okhttp)
         }
     }
@@ -59,8 +58,15 @@ android {
     }
 
     dependencies {
-        debugImplementation(libs.chucker.library)
-        releaseImplementation(libs.chucker.library.no.op)
+        implementation(libs.chucker.library) {
+            exclude(group = "androidx.constraintlayout")
+        }
+        debugImplementation(libs.chucker.library) {
+            exclude(group = "androidx.constraintlayout")
+        }
+        releaseImplementation(libs.chucker.library.no.op) {
+            exclude(group = "androidx.constraintlayout")
+        }
         debugImplementation(libs.flaker.android.okhttp)
         releaseImplementation(libs.flaker.android.okhttp.noop)
     }

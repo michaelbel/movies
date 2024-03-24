@@ -14,18 +14,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.common.theme.AppTheme
-import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.compose.SwitchCheckIcon
 import org.michaelbel.movies.ui.icons.MoviesIcons
-import org.michaelbel.movies.ui.preview.DevicePreviews
-import org.michaelbel.movies.ui.preview.provider.BooleanPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -47,7 +42,7 @@ internal fun SettingSwitchItem(
 
         Icon(
             imageVector = icon,
-            contentDescription = MoviesContentDescription.None,
+            contentDescription = MoviesContentDescriptionCommon.None,
             modifier = Modifier.constrainAs(iconRef) {
                 width = Dimension.value(24.dp)
                 height = Dimension.value(24.dp)
@@ -82,15 +77,13 @@ internal fun SettingSwitchItem(
         Switch(
             checked = checked,
             onCheckedChange = null,
-            modifier = Modifier
-                .constrainAs(switch) {
-                    width = Dimension.wrapContent
-                    height = Dimension.wrapContent
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end, 16.dp)
-                    bottom.linkTo(parent.bottom)
-                }
-                .testTag("Switch"),
+            modifier = Modifier.constrainAs(switch) {
+                width = Dimension.wrapContent
+                height = Dimension.wrapContent
+                top.linkTo(parent.top)
+                end.linkTo(parent.end, 16.dp)
+                bottom.linkTo(parent.bottom)
+            },
             thumbContent = if (checked) { { SwitchCheckIcon() } } else null,
             colors = SwitchDefaults.colors(
                 checkedTrackColor = MaterialTheme.colorScheme.surfaceTint,
@@ -119,7 +112,7 @@ internal fun SettingSwitchItem(
 
         Icon(
             painter = icon,
-            contentDescription = MoviesContentDescription.None,
+            contentDescription = MoviesContentDescriptionCommon.None,
             modifier = Modifier.constrainAs(iconRef) {
                 width = Dimension.value(24.dp)
                 height = Dimension.value(24.dp)
@@ -154,15 +147,13 @@ internal fun SettingSwitchItem(
         Switch(
             checked = checked,
             onCheckedChange = null,
-            modifier = Modifier
-                .constrainAs(switch) {
-                    width = Dimension.wrapContent
-                    height = Dimension.wrapContent
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end, 16.dp)
-                    bottom.linkTo(parent.bottom)
-                }
-                .testTag("Switch"),
+            modifier = Modifier.constrainAs(switch) {
+                width = Dimension.wrapContent
+                height = Dimension.wrapContent
+                top.linkTo(parent.top)
+                end.linkTo(parent.end, 16.dp)
+                bottom.linkTo(parent.bottom)
+            },
             thumbContent = if (checked) { { SwitchCheckIcon() } } else null,
             colors = SwitchDefaults.colors(
                 checkedTrackColor = MaterialTheme.colorScheme.surfaceTint,
@@ -173,9 +164,9 @@ internal fun SettingSwitchItem(
 }
 
 @Composable
-@DevicePreviews
+/*@DevicePreviews*/
 private fun SettingSwitchItemPreview(
-    @PreviewParameter(BooleanPreviewParameterProvider::class) checked: Boolean
+    /*@PreviewParameter(BooleanPreviewParameterProvider::class)*/ checked: Boolean
 ) {
     MoviesTheme {
         SettingSwitchItem(
@@ -190,9 +181,9 @@ private fun SettingSwitchItemPreview(
 }
 
 @Composable
-@Preview
+/*@Preview*/
 private fun SettingSwitchItemAmoledPreview(
-    @PreviewParameter(BooleanPreviewParameterProvider::class) checked: Boolean
+    /*@PreviewParameter(BooleanPreviewParameterProvider::class)*/ checked: Boolean
 ) {
     MoviesTheme(
         theme = AppTheme.Amoled

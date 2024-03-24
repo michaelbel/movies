@@ -9,7 +9,7 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = JavaVersion.VERSION_1_8.toString()
             }
         }
     }
@@ -25,14 +25,8 @@ kotlin {
         val desktopMain by getting
         desktopMain.dependencies {
             implementation(project(":feature:auth-impl-kmp"))
-            implementation(compose.desktop.currentOs)
-            implementation(compose.desktop.common)
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.animation)
             implementation(compose.material)
             implementation(compose.material3)
-            implementation(compose.components.resources)
             implementation(libs.precompose)
         }
     }

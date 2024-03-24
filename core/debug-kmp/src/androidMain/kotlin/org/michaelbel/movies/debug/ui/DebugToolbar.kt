@@ -11,7 +11,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import org.michaelbel.movies.debug_kmp.R
 import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
@@ -33,9 +32,7 @@ internal fun DebugToolbar(
         navigationIcon = {
             CloseIcon(
                 onClick = onNavigationIconClick,
-                modifier = Modifier
-                    .windowInsetsPadding(displayCutoutWindowInsets)
-                    .testTag("BackIconButton")
+                modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
             )
         },
         colors = TopAppBarDefaults.topAppBarColors(

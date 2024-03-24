@@ -9,7 +9,7 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = "1.8"
+                jvmTarget = JavaVersion.VERSION_1_8.toString()
             }
         }
     }
@@ -20,6 +20,7 @@ kotlin {
             implementation(project(":core:navigation-kmp"))
         }
         androidMain.dependencies {
+            implementation(project(":core:ui-kmp"))
             implementation(project(":feature:settings-impl-kmp"))
         }
         val desktopMain by getting

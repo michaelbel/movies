@@ -1,5 +1,3 @@
-@file:Suppress("EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE")
-
 package org.michaelbel.movies.interactor.ktx
 
 import androidx.compose.runtime.MutableState
@@ -7,8 +5,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
 import org.michaelbel.movies.interactor.entity.Password
 
-expect val Password.isNotEmpty: Boolean
+val Password.isNotEmpty: Boolean
+    get() = value.isNotEmpty()
 
-expect val Password.trim: Password
+val Password.trim: Password
+    get() = Password(value.trim())
 
-expect val PasswordSaver: Saver<MutableState<Password>, String>
+val PasswordSaver: Saver<MutableState<Password>, String>
+    get() = Saver(
+        save = { it.value.value },
+        restore = { mutableStateOf(Password(it)) }
+    )

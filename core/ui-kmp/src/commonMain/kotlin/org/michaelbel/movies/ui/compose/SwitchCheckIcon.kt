@@ -7,11 +7,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.common.theme.AppTheme
-import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.icons.MoviesIcons
-import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -20,13 +18,13 @@ fun SwitchCheckIcon(
 ) {
     Icon(
         imageVector = MoviesIcons.Check,
-        contentDescription = MoviesContentDescription.None,
+        contentDescription = MoviesContentDescriptionCommon.None,
         modifier = modifier.size(SwitchDefaults.IconSize),
     )
 }
 
 @Composable
-@DevicePreviews
+/*@DevicePreviews*/
 private fun SwitchCheckIconPreview() {
     MoviesTheme {
         SwitchCheckIcon(
@@ -36,7 +34,7 @@ private fun SwitchCheckIconPreview() {
 }
 
 @Composable
-@Preview
+/*@Preview*/
 private fun SwitchCheckIconAmoledPreview() {
     MoviesTheme(
         theme = AppTheme.Amoled

@@ -9,7 +9,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -32,7 +31,7 @@ internal fun SettingsVersionBox(
     modifier: Modifier = Modifier
 ) {
     ConstraintLayout(
-        modifier = modifier.testTag("ConstraintLayout")
+        modifier = modifier
     ) {
         val (icon, version, code, flavor, debug) = createRefs()
         createHorizontalChain(icon, version, code, flavor, debug, chainStyle = ChainStyle.Packed)
@@ -40,16 +39,14 @@ internal fun SettingsVersionBox(
         Icon(
             imageVector = MoviesIcons.MovieFilter,
             contentDescription = MoviesContentDescription.None,
-            modifier = Modifier
-                .constrainAs(icon) {
-                    width = Dimension.value(24.dp)
-                    height = Dimension.value(24.dp)
-                    start.linkTo(parent.start)
-                    top.linkTo(parent.top)
-                    end.linkTo(version.start)
-                    bottom.linkTo(parent.bottom)
-                }
-                .testTag("Icon"),
+            modifier = Modifier.constrainAs(icon) {
+                width = Dimension.value(24.dp)
+                height = Dimension.value(24.dp)
+                start.linkTo(parent.start)
+                top.linkTo(parent.top)
+                end.linkTo(version.start)
+                bottom.linkTo(parent.bottom)
+            },
             tint = MaterialTheme.colorScheme.primary
         )
 
@@ -64,8 +61,7 @@ internal fun SettingsVersionBox(
                     end.linkTo(code.start)
                     bottom.linkTo(icon.bottom)
                 }
-                .padding(start = 4.dp)
-                .testTag("TitleText"),
+                .padding(start = 4.dp),
             style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.onPrimaryContainer)
         )
 
@@ -80,8 +76,7 @@ internal fun SettingsVersionBox(
                     end.linkTo(flavor.start)
                     bottom.linkTo(icon.bottom)
                 }
-                .padding(start = 2.dp)
-                .testTag("ValueText"),
+                .padding(start = 2.dp),
             style = MaterialTheme.typography.bodySmall.copy(MaterialTheme.colorScheme.primary)
         )
 
@@ -96,8 +91,7 @@ internal fun SettingsVersionBox(
                     end.linkTo(if (appVersionData.isDebug) debug.start else parent.end)
                     bottom.linkTo(icon.bottom)
                 }
-                .padding(start = 2.dp)
-                .testTag("FlavorText"),
+                .padding(start = 2.dp),
             style = MaterialTheme.typography.bodySmall.copy(MaterialTheme.colorScheme.onPrimaryContainer)
         )
 
@@ -113,8 +107,7 @@ internal fun SettingsVersionBox(
                         end.linkTo(parent.end)
                         bottom.linkTo(icon.bottom)
                     }
-                    .padding(start = 2.dp)
-                    .testTag("DebugText"),
+                    .padding(start = 2.dp),
                 style = MaterialTheme.typography.bodySmall.copy(MaterialTheme.colorScheme.onPrimaryContainer)
             )
         }

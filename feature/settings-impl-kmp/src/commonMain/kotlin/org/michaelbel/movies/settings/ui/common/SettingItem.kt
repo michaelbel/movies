@@ -14,12 +14,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.theme.AppTheme
-import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.icons.MoviesIcons
-import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -33,13 +31,13 @@ internal fun SettingItem(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .clickable { onClick() }
+            .clickable(onClick = onClick)
             .padding(horizontal = 8.dp, vertical = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
             imageVector = icon,
-            contentDescription = MoviesContentDescription.None,
+            contentDescription = MoviesContentDescriptionCommon.None,
             modifier = Modifier
                 .padding(start = 8.dp, end = 16.dp)
                 .size(24.dp),
@@ -63,7 +61,7 @@ internal fun SettingItem(
 }
 
 @Composable
-@DevicePreviews
+/*@DevicePreviews*/
 private fun SettingItemPreview() {
     MoviesTheme {
         SettingItem(
@@ -77,7 +75,7 @@ private fun SettingItemPreview() {
 }
 
 @Composable
-@Preview
+/*@Preview*/
 private fun SettingItemAmoledPreview() {
     MoviesTheme(
         theme = AppTheme.Amoled

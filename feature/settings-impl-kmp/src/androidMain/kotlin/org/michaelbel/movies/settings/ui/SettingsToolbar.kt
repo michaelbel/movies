@@ -12,7 +12,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.common.theme.AppTheme
@@ -32,17 +31,13 @@ internal fun SettingsToolbar(
         title = {
             Text(
                 text = stringResource(R.string.settings_title),
-                modifier = Modifier.testTag("TitleText"),
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         },
-        modifier = modifier.testTag("TopAppBar"),
         navigationIcon = {
             BackIcon(
                 onClick = onNavigationIconClick,
-                modifier = Modifier
-                    .windowInsetsPadding(displayCutoutWindowInsets)
-                    .testTag("BackIconButton")
+                modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
             )
         },
         colors = TopAppBarDefaults.topAppBarColors(
