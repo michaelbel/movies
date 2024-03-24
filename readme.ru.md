@@ -3,6 +3,8 @@
     <a href="https://github.com/michaelbel/movies/blob/develop/readme.ru.md"><b>ru</b></a>
 </div>
 
+[<img src="config/images/play_store_app_icon_512x512.png" width="150" height="150">]()
+
 Movies
 =
 
@@ -11,7 +13,13 @@ Movies
 [![paypal-badge](https://img.shields.io/badge/Donate-Paypal-FF5252.svg)](https://paypal.me/michaelbel)
 [![last-commit-badge](https://img.shields.io/github/last-commit/michaelbel/moviemade?color=FF5252)](https://github.com/michaelbel/moviemade/commits)
 
-Movies - простой способ найти популярные фильмы. Это легковесный TMDB-клиент для Android
+Movies - простой способ найти популярные фильмы. Это легковесный TMDB-клиент.
+
+Цель этого проекта - реализовать приложение с единообразным пользовательским интерфейсом для Android-смартфонов, Android-планшетов, Android Auto, Android Wear, Android TV, iOS, Desktop (macOS, Windows, Linux) и Web. Используя Material3, Compose, Kotlin и Multiplatform.
+
+Проект находится в активной разработке. Приложение для Android уже доступно.
+
+## Скриншоты
 
 <div style="dispaly:flex">
     <img src="config/images/1.png" width="24%">
@@ -30,6 +38,14 @@ Movies - простой способ найти популярные фильм�
     <img src="config/images/14.png" width="49%">
 </div>
 
+## Требования
+
+Перейди в <b>`local.properties`</b> и укажи [свой собственный](https://developers.themoviedb.org/3/getting-started/introduction) <b>TMDB API key</b> как здесь:
+```gradle
+TMDB_API_KEY=your_own_tmdb_api_key
+ ```
+Приложение можно использовать без ключа API, но его функциональность будет сильно ограничена.
+
 ## Сборка
 
 - Клонируй репозиторий используя [последнюю версию](https://d.android.com/studio) Android Studio
@@ -46,10 +62,6 @@ Movies - простой способ найти популярные фильм�
       ```gradle
       ./gradlew :androidApp:installFossDebug
       ```
-- Опционально перейди в <b>`local.properties`</b> и укажи [свой собственный](https://developers.themoviedb.org/3/getting-started/introduction) <b>tmdb_api_key</b> как здесь:
-  ```gradle
-  TMDB_API_KEY=your_own_tmdb_api_key
-  ```
 
 ## Загрузить
 

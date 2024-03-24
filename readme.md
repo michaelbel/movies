@@ -3,6 +3,8 @@
     <a href="https://github.com/michaelbel/movies/blob/develop/readme.ru.md">ru</a>
 </div>
 
+[<img src="config/images/play_store_app_icon_512x512.png" width="150" height="150">]()
+
 Movies
 =
 
@@ -11,7 +13,13 @@ Movies
 [![paypal-badge](https://img.shields.io/badge/Donate-Paypal-FF5252.svg)](https://paypal.me/michaelbel)
 [![last-commit-badge](https://img.shields.io/github/last-commit/michaelbel/moviemade?color=FF5252)](https://github.com/michaelbel/moviemade/commits)
 
-Movies - easy way to discover popular movies. This is a simple TMDb client for Android
+Movies - easy way to discover popular movies. This is a simple TMDb client.
+
+The goal of this project is to implement an app that provides a consistent user experience on Android Phones, Android Tablets, Android Auto, Android Wear, Android TV, iOS, Desktop (macOS, Windows, Linux) and Web. Used Material3, Compose, Kotlin and Multiplatform.
+
+The app is currently in development. Android app is already available.
+
+## Screenshots
 
 <div style="dispaly:flex">
     <img src="config/images/1.png" width="24%">
@@ -30,6 +38,14 @@ Movies - easy way to discover popular movies. This is a simple TMDb client for A
     <img src="config/images/14.png" width="49%">
 </div>
 
+## Requirements
+
+Take a look at <b>`local.properties`</b> and fill it with [your own](https://developers.themoviedb.org/3/getting-started/introduction) <b>TMDB API key</b> like this:
+```gradle
+TMDB_API_KEY=your_own_tmdb_api_key
+ ```
+The app is still usable without an API key. In this case functionality will be limited.
+
 ## Build
 
 - Clone this repository using [latest version](https://d.android.com/studio) of Android Studio
@@ -46,10 +62,6 @@ Movies - easy way to discover popular movies. This is a simple TMDb client for A
       ```gradle
       ./gradlew :androidApp:installFossDebug
       ```
-- Optionally take a look at <b>`local.properties`</b> and fill it with [your own](https://developers.themoviedb.org/3/getting-started/introduction) <b>tmdb_api_key</b> like this:
-  ```gradle
-  TMDB_API_KEY=your_own_tmdb_api_key
-  ```
 
 ## Download
 
