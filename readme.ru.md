@@ -8,10 +8,12 @@
 Movies
 =
 
+[![android-platform-badge](https://img.shields.io/badge/Platform-Android-3DDC84.svg)](https://github.com/michaelbel/movies)
+
 [![check-pr-badge](https://github.com/michaelbel/movies/actions/workflows/check_pr.yml/badge.svg?branch=develop)](https://github.com/michaelbel/movies/actions/workflows/check_pr.yml)
 [![google-play-downloads](https://PlayBadges.pavi2410.me/badge/downloads?id=org.michaelbel.moviemade)](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
 [![paypal-badge](https://img.shields.io/badge/Donate-Paypal-FF5252.svg)](https://paypal.me/michaelbel)
-[![last-commit-badge](https://img.shields.io/github/last-commit/michaelbel/moviemade?color=FF5252)](https://github.com/michaelbel/moviemade/commits)
+[![last-commit-badge](https://img.shields.io/github/last-commit/michaelbel/moviemade?color=FF5252)](https://github.com/michaelbel/movies/commits)
 
 Movies - простой способ найти популярные фильмы. Это легковесный TMDB-клиент.
 
@@ -161,7 +163,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 ↗️ Отправляй пулл-реквесты
 
 ## Траблы
-Если попался баг или хочешь предложить фичу, не стесняйся, заводи [issue](https://github.com/michaelbel/moviemade/issues).
+Если попался баг или хочешь предложить фичу, не стесняйся, заводи [issue](https://github.com/michaelbel/movies/issues).
 
 ## История звездочек
 <a href="https://star-history.com/#michaelbel/movies&Date">

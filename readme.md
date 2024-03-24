@@ -8,10 +8,12 @@
 Movies
 =
 
+[![android-platform-badge](https://img.shields.io/badge/Platform-Android-3DDC84.svg)](https://github.com/michaelbel/movies)
+
 [![check-pr-badge](https://github.com/michaelbel/movies/actions/workflows/check_pr.yml/badge.svg?branch=develop)](https://github.com/michaelbel/movies/actions/workflows/check_pr.yml)
 [![google-play-downloads](https://PlayBadges.pavi2410.me/badge/downloads?id=org.michaelbel.moviemade)](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
 [![paypal-badge](https://img.shields.io/badge/Donate-Paypal-FF5252.svg)](https://paypal.me/michaelbel)
-[![last-commit-badge](https://img.shields.io/github/last-commit/michaelbel/moviemade?color=FF5252)](https://github.com/michaelbel/moviemade/commits)
+[![last-commit-badge](https://img.shields.io/github/last-commit/michaelbel/moviemade?color=FF5252)](https://github.com/michaelbel/movies/commits)
 
 Movies - easy way to discover popular movies. This is a simple TMDb client.
 
@@ -161,7 +163,7 @@ All contributions are welcome!
 ↗️ Submit your PR
 
 ## Issues
-If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).
+If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/movies/issues).
 
 ## Star History
 <a href="https://star-history.com/#michaelbel/movies&Date">
