@@ -45,7 +45,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import org.michaelbel.movies.auth.AuthViewModel
 import org.michaelbel.movies.auth.ktx.text
 import org.michaelbel.movies.auth_impl_kmp.R
-import org.michaelbel.movies.common.browser.openUrlAndroid
+import org.michaelbel.movies.common.browser.openUrl
 import org.michaelbel.movies.common.exceptions.CreateSessionWithLoginException
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.interactor.entity.Password
@@ -114,7 +114,7 @@ fun AuthScreenContent(
 
     if (requestToken != null) {
         val signUrl = String.format(TMDB_AUTH_URL, requestToken, TMDB_AUTH_REDIRECT_URL)
-        openUrlAndroid(resultContract, toolbarColor, signUrl)
+        openUrl(resultContract, toolbarColor, signUrl)
         onResetRequestToken()
     }
 
@@ -162,7 +162,7 @@ fun AuthScreenContent(
                     top.linkTo(toolbar.bottom, 8.dp)
                     end.linkTo(parent.end, 16.dp)
                 }
-                .clickableWithoutRipple { openUrlAndroid(resultContract, toolbarColor, TMDB_URL) },
+                .clickableWithoutRipple { openUrl(resultContract, toolbarColor, TMDB_URL) },
             tint = MaterialTheme.colorScheme.onPrimaryContainer
         )
 
@@ -260,7 +260,7 @@ fun AuthScreenContent(
             exit = fadeOut()
         ) {
             TextButton(
-                onClick = { openUrlAndroid(resultContract, toolbarColor, TMDB_RESET_PASSWORD) }
+                onClick = { openUrl(resultContract, toolbarColor, TMDB_RESET_PASSWORD) }
             ) {
                 Text(
                     text = stringResource(R.string.auth_reset_password)
@@ -281,7 +281,7 @@ fun AuthScreenContent(
             exit = fadeOut()
         ) {
             TextButton(
-                onClick = { openUrlAndroid(resultContract, toolbarColor, TMDB_REGISTER) }
+                onClick = { openUrl(resultContract, toolbarColor, TMDB_REGISTER) }
             ) {
                 Text(
                     text = stringResource(R.string.auth_sign_up)
@@ -344,8 +344,8 @@ fun AuthScreenContent(
         }
 
         AuthLinksBox(
-            onTermsOfUseClick = { openUrlAndroid(resultContract, toolbarColor, TMDB_TERMS_OF_USE) },
-            onPrivacyPolicyClick = { openUrlAndroid(resultContract, toolbarColor, TMDB_PRIVACY_POLICY) },
+            onTermsOfUseClick = { openUrl(resultContract, toolbarColor, TMDB_TERMS_OF_USE) },
+            onPrivacyPolicyClick = { openUrl(resultContract, toolbarColor, TMDB_PRIVACY_POLICY) },
             modifier = Modifier.constrainAs(linksBox) {
                 width = Dimension.fillToConstraints
                 height = Dimension.wrapContent

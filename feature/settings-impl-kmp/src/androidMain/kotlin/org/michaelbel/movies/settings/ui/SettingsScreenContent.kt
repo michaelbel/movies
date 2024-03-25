@@ -49,7 +49,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.MOVIES_GITHUB_URL
 import org.michaelbel.movies.common.appearance.FeedView
-import org.michaelbel.movies.common.browser.openUrlAndroid
+import org.michaelbel.movies.common.browser.openUrl
 import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.ktx.notificationManager
 import org.michaelbel.movies.common.list.MovieList
@@ -555,7 +555,7 @@ private fun SettingsScreenContent(
                     title = stringResource(R.string.settings_github),
                     description = stringResource(R.string.settings_github_description),
                     icon = MoviesIcons.Github,
-                    onClick = { openUrlAndroid(resultContract, toolbarColor, MOVIES_GITHUB_URL) }
+                    onClick = { openUrl(resultContract, toolbarColor, MOVIES_GITHUB_URL) }
                 )
             }
             if (isReviewFeatureEnabled) {

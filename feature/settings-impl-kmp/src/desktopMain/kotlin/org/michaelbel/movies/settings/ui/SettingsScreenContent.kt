@@ -23,7 +23,7 @@ import movies.feature.settings_impl_kmp.generated.resources.settings_language
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.michaelbel.movies.common.MOVIES_GITHUB_URL
-import org.michaelbel.movies.common.browser.openUrlDesktop
+import org.michaelbel.movies.common.browser.openUrl
 import org.michaelbel.movies.common.localization.model.AppLanguage
 import org.michaelbel.movies.settings.ui.common.SettingItem
 import org.michaelbel.movies.settings.ui.common.SettingsDialog
@@ -94,7 +94,7 @@ private fun SettingsScreenContent(
                     title = stringResource(Res.string.settings_github),
                     description = stringResource(Res.string.settings_github_description),
                     icon = MoviesIcons.Github,
-                    onClick = { openUrlDesktop(MOVIES_GITHUB_URL) }
+                    onClick = { openUrl(MOVIES_GITHUB_URL) }
                 )
             }
         }
