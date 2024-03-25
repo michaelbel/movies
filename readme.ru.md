@@ -176,6 +176,11 @@ TMDB_API_KEY=your_own_tmdb_api_key
 ## Траблы
 Если попался баг или хочешь предложить фичу, не стесняйся, заводи [issue](https://github.com/michaelbel/movies/issues).
 
+## Контакты
+Подписывайся на [telegram-канал](https://t.me/foundout)  
+Добавляйся в друзья на [Кинопоиске](https://www.kinopoisk.ru/user/4104533)  
+Добавляйся в друзья на [MyShows](https://myshows.me/michaelbel)
+
 ## История звездочек
 <a href="https://star-history.com/#michaelbel/movies&Date">
   <picture>
