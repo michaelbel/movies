@@ -22,7 +22,7 @@ Movies
 [![](https://img.shields.io/badge/Donate-Paypal-FF5252.svg)](https://paypal.me/michaelbel)
 [![](https://img.shields.io/github/last-commit/michaelbel/moviemade?color=FF5252)](https://github.com/michaelbel/movies/commits)
 
-Movies - простой способ найти популярные фильмы. Это легковесный TMDB-клиент.
+Movies - простой способ найти популярные фильмы. Это легковесный TMDb-клиент.
 
 Цель этого проекта - реализовать приложение с единообразным пользовательским интерфейсом для Android-смартфонов, Android-планшетов, Android Auto, Android Wear, Android TV, iOS, Desktop (MacOS, Windows, Linux) и Web. Используя Material3, Compose, Kotlin и Multiplatform.
 
