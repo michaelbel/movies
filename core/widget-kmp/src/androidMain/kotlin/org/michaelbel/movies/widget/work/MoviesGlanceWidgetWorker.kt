@@ -17,7 +17,7 @@ import java.time.Duration
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
 import org.michaelbel.movies.widget.MoviesGlanceWidget
-import org.michaelbel.movies.widget.R
+import org.michaelbel.movies.widget_kmp.R
 import org.michaelbel.movies.widget.ktx.mapToMovieData
 
 @HiltWorker

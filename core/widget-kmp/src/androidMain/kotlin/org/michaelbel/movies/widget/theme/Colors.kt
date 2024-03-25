@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.glance.unit.ColorProvider
-import org.michaelbel.movies.widget.R
+import org.michaelbel.movies.widget_kmp.R
 
 internal data class ColorProviders(
     val primary: ColorProvider,

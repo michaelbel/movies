@@ -75,7 +75,7 @@ import org.michaelbel.movies.ui.lifecycle.OnResume
 import org.michaelbel.movies.ui.tile.MoviesTileService
 import org.michaelbel.movies.widget.ktx.pin
 import org.michaelbel.movies.ui.R as UiR
-import org.michaelbel.movies.widget.R as WidgetR
+import org.michaelbel.movies.widget_kmp.R as WidgetR
 
 @Composable
 fun SettingsRoute(

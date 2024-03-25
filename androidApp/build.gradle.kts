@@ -179,7 +179,7 @@ dependencies {
     implementation(project(":core:platform-services:interactor"))
     implementation(project(":core:ui"))
     implementation(project(":core:ui-kmp"))
-    implementation(project(":core:widget"))
+    implementation(project(":core:widget-kmp"))
     implementation(project(":core:work-kmp"))
     implementation(project(":feature:account-kmp"))
     implementation(project(":feature:auth-kmp"))

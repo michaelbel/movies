@@ -34,7 +34,7 @@ kotlin {
             implementation(project(":core:interactor-kmp"))
             implementation(project(":core:navigation-kmp"))
             implementation(project(":core:ui"))
-            implementation(project(":core:widget"))
+            implementation(project(":core:widget-kmp"))
         }
         val desktopMain by getting
         desktopMain.dependencies {

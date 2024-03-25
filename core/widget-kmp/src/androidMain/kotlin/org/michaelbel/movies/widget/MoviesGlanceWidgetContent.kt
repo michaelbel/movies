@@ -32,6 +32,7 @@ import org.michaelbel.movies.widget.ktx.stringResource
 import org.michaelbel.movies.widget.theme.GlanceTheme
 import org.michaelbel.movies.widget.work.MoviesUpdateWidgetAction
 import org.michaelbel.movies.widget.work.MoviesWidgetState
+import org.michaelbel.movies.widget_kmp.R
 
 @Composable
 internal fun MoviesGlanceWidgetContent(

@@ -26,7 +26,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.theme.MoviesTheme
-import org.michaelbel.movies.widget.R
+import org.michaelbel.movies.widget_kmp.R
 
 @Composable
 internal fun AppWidgetConfigureActivityContent(

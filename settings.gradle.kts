@@ -43,7 +43,7 @@ include(
     ":core:repository-kmp",
     ":core:ui",
     ":core:ui-kmp",
-    ":core:widget",
+    ":core:widget-kmp",
     ":core:work-kmp",
 
     ":feature:account-kmp",

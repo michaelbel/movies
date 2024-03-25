@@ -4,7 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.widget.Toast
-import org.michaelbel.movies.widget.R
+import org.michaelbel.movies.widget_kmp.R
 
 class AppWidgetPinnedReceiver: BroadcastReceiver() {
 
