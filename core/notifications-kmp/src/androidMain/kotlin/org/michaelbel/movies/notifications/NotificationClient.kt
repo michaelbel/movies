@@ -19,6 +19,7 @@ import org.michaelbel.movies.common.ktx.isTimePasses
 import org.michaelbel.movies.common.ktx.notificationManager
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.notifications.model.MoviesPush
+import org.michaelbel.movies.notifications_kmp.R
 import org.michaelbel.movies.ui.icons.MoviesAndroidIcons
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject

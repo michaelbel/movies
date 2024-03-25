@@ -33,7 +33,7 @@ kotlin {
             implementation(project(":core:common-kmp"))
             implementation(project(":core:interactor-kmp"))
             implementation(project(":core:network-kmp"))
-            implementation(project(":core:notifications"))
+            implementation(project(":core:notifications-kmp"))
         }
         val desktopMain by getting
         desktopMain.dependencies {

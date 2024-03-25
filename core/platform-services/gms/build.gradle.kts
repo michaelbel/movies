@@ -38,7 +38,7 @@ android {
 
 dependencies {
     implementation(project(":core:platform-services:interactor"))
-    implementation(project(":core:notifications"))
+    implementation(project(":core:notifications-kmp"))
     api(libs.bundles.google.firebase)
     api(libs.bundles.google.services)
     api(libs.google.play.core.ktx)

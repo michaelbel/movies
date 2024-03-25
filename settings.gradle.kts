@@ -33,7 +33,7 @@ include(
     ":core:interactor-kmp",
     ":core:navigation-kmp",
     ":core:network-kmp",
-    ":core:notifications",
+    ":core:notifications-kmp",
     ":core:persistence-kmp",
     ":core:platform-services:gms",
     ":core:platform-services:hms",
