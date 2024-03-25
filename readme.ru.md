@@ -163,7 +163,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 ## Роадмап
 [Movies App Roadmap](https://github.com/users/michaelbel/projects/1/views/1)
 
-## Contributing
+## Вклад
 Твоя помощь приветствуется!
 
 ⭐ Присоединяйся к [звездочетам](https://github.com/michaelbel/movies/stargazers)  
