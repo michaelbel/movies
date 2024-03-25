@@ -1,7 +1,7 @@
 plugins {
-    alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.compose)
+    alias(libs.plugins.android.library)
     id("movies-android-hilt")
 }
 
