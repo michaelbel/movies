@@ -44,7 +44,6 @@ kotlin {
 
 android {
     namespace = "org.michaelbel.movies.auth_impl_kmp"
-
     sourceSets["main"].res.srcDirs("src/androidMain/res")
 
     defaultConfig {

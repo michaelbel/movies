@@ -24,7 +24,7 @@ kotlin {
             api(project(":core:platform-services:interactor"))
             implementation(project(":core:analytics-kmp"))
             implementation(project(":core:network-kmp"))
-            api(libs.bundles.kotlinx.coroutines)
+            api(libs.kotlinx.coroutines.android)
             api(libs.androidx.activity.compose)
             api(libs.androidx.biometric.ktx)
             api(libs.androidx.core.ktx)
@@ -42,7 +42,6 @@ kotlin {
 
 android {
     namespace = "org.michaelbel.movies.common_kmp"
-
     sourceSets["main"].res.srcDirs("src/androidMain/res")
 
     defaultConfig {

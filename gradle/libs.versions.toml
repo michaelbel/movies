@@ -305,10 +305,6 @@ androidx-test-espresso = [
     "androidx-test-espresso-device",
     "androidx-test-espresso-idling-resource"
 ]
-kotlinx-coroutines = [
-    "kotlinx-coroutines-android",
-    "kotlinx-coroutines-core"
-]
 google-firebase = [
     "google-firebase-analytics-ktx",
     "google-firebase-config-ktx",

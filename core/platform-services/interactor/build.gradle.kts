@@ -35,7 +35,3 @@ android {
         lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
     }
 }
-
-dependencies {
-
-}

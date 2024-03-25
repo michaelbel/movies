@@ -53,7 +53,6 @@ kotlin {
 
 android {
     namespace = "org.michaelbel.movies.ui_kmp"
-
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
 

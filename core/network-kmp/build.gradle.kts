@@ -36,7 +36,6 @@ kotlin {
 
 android {
     namespace = "org.michaelbel.movies.network_kmp"
-
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
     defaultConfig {
