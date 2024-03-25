@@ -177,7 +177,6 @@ dependencies {
     implementation(project(":core:interactor-kmp"))
     implementation(project(":core:navigation-kmp"))
     implementation(project(":core:platform-services:interactor"))
-    implementation(project(":core:ui"))
     implementation(project(":core:ui-kmp"))
     implementation(project(":core:widget-kmp"))
     implementation(project(":core:work-kmp"))

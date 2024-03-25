@@ -41,7 +41,6 @@ include(
     ":core:platform-services:inject",
     ":core:platform-services:interactor",
     ":core:repository-kmp",
-    ":core:ui",
     ":core:ui-kmp",
     ":core:widget-kmp",
     ":core:work-kmp",

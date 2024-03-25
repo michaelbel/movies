@@ -27,7 +27,6 @@ kotlin {
         }
         androidMain.dependencies {
             api(project(":core:navigation-kmp"))
-            api(project(":core:ui"))
             api(project(":core:ui-kmp"))
             implementation(project(":core:common-kmp"))
             implementation(project(":core:interactor-kmp"))

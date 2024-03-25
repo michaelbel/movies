@@ -41,7 +41,6 @@ android {
 dependencies {
     implementation(project(":androidApp"))
     implementation(project(":core:common-kmp"))
-    implementation(project(":core:ui"))
     implementation(project(":core:ui-kmp"))
     implementation(libs.bundles.androidx.appcompat)
     implementation(libs.bundles.androidx.compose)

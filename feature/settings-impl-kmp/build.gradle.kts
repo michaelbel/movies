@@ -33,7 +33,7 @@ kotlin {
         androidMain.dependencies {
             implementation(project(":core:interactor-kmp"))
             implementation(project(":core:navigation-kmp"))
-            implementation(project(":core:ui"))
+            implementation(project(":core:ui-kmp"))
             implementation(project(":core:widget-kmp"))
         }
         val desktopMain by getting

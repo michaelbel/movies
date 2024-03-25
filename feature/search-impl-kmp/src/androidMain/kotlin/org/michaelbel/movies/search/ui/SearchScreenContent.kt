@@ -49,7 +49,7 @@ import org.michaelbel.movies.ui.ktx.isFailure
 import org.michaelbel.movies.ui.ktx.isLoading
 import org.michaelbel.movies.ui.ktx.refreshThrowable
 import java.net.UnknownHostException
-import org.michaelbel.movies.ui.R as UiR
+import org.michaelbel.movies.ui_kmp.R as UiR
 
 @Composable
 fun SearchRoute(

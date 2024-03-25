@@ -19,7 +19,6 @@ kotlin {
             implementation(project(":core:common-kmp"))
             implementation(project(":core:network-kmp"))
             implementation(project(":core:notifications-kmp"))
-            implementation(project(":core:ui"))
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.androidx.paging.compose)
             implementation(libs.androidx.hilt.work)
