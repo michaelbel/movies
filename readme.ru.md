@@ -1,9 +1,13 @@
+[<img align="left" src="config/images/play_store_app_icon_512x512.png_rounded" width="150" height="150">]()
 <div align="right">
     <a href="https://github.com/michaelbel/movies/blob/develop/readme.md">en</a>
     <a href="https://github.com/michaelbel/movies/blob/develop/readme.ru.md"><b>ru</b></a>
 </div>
 
-[<img src="config/images/play_store_app_icon_512x512.png" width="150" height="150">]()
+<br/>
+<br/>
+<br/>
+<br/>
 
 Movies
 =
