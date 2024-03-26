@@ -21,7 +21,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
         }
         androidMain.dependencies {
-            api(project(":core:platform-services:interactor"))
+            api(project(":core:platform-services:interactor-kmp"))
             implementation(project(":core:analytics-kmp"))
             implementation(project(":core:network-kmp"))
             api(libs.kotlinx.coroutines.android)

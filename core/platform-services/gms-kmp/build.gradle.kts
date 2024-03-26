@@ -16,12 +16,17 @@ kotlin {
     sourceSets {
         androidMain.dependencies {
             implementation(project(":core:platform-services:interactor-kmp"))
+            implementation(project(":core:notifications-kmp"))
+            api(libs.bundles.google.firebase)
+            api(libs.bundles.google.services)
+            api(libs.google.play.core.ktx)
         }
     }
 }
 
 android {
-    namespace = "org.michaelbel.movies.analytics_kmp"
+    namespace = "org.michaelbel.movies.platform.gms_kmp"
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
 
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()

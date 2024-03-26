@@ -26,7 +26,7 @@ kotlin {
             implementation(libs.constraintlayout.compose.multiplatform)
         }
         androidMain.dependencies {
-            implementation(project(":core:platform-services:interactor"))
+            implementation(project(":core:platform-services:interactor-kmp"))
             api(project(":core:navigation-kmp"))
             api(project(":core:ui-kmp"))
             implementation(project(":core:common-kmp"))

@@ -15,7 +15,7 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            implementation(project(":core:platform-services:interactor"))
+            implementation(project(":core:platform-services:interactor-kmp"))
             implementation(project(":core:network-kmp"))
             api(project(":core:analytics-kmp"))
             api(project(":core:common-kmp"))

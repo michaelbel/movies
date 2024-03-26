@@ -167,16 +167,16 @@ val gmsImplementation by configurations
 val hmsImplementation by configurations
 val fossImplementation by configurations
 dependencies {
-    gmsImplementation(project(":core:platform-services:inject"))
-    hmsImplementation(project(":core:platform-services:inject"))
-    fossImplementation(project(":core:platform-services:inject"))
+    gmsImplementation(project(":core:platform-services:inject-kmp"))
+    hmsImplementation(project(":core:platform-services:inject-kmp"))
+    fossImplementation(project(":core:platform-services:inject-kmp"))
     implementation(project(":core:analytics-kmp"))
     implementation(project(":core:common-kmp"))
     implementation(project(":core:debug-kmp"))
     implementation(project(":core:interactor-kmp"))
     implementation(project(":core:interactor-kmp"))
     implementation(project(":core:navigation-kmp"))
-    implementation(project(":core:platform-services:interactor"))
+    implementation(project(":core:platform-services:interactor-kmp"))
     implementation(project(":core:ui-kmp"))
     implementation(project(":core:widget-kmp"))
     implementation(project(":core:work-kmp"))

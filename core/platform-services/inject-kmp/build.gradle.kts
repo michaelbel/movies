@@ -21,11 +21,25 @@ kotlin {
 }
 
 android {
-    namespace = "org.michaelbel.movies.analytics_kmp"
+    namespace = "org.michaelbel.movies.platform.inject_kmp"
+    flavorDimensions += "version"
 
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
         compileSdk = libs.versions.compile.sdk.get().toInt()
+    }
+
+    productFlavors {
+        create("gms") {
+            dimension = "version"
+            isDefault = true
+        }
+        create("hms") {
+            dimension = "version"
+        }
+        create("foss") {
+            dimension = "version"
+        }
     }
 
     lint {
@@ -34,5 +48,14 @@ android {
         ignoreWarnings = true
         checkDependencies = true
         lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
+    }
+
+    val gmsImplementation by configurations
+    val hmsImplementation by configurations
+    val fossImplementation by configurations
+    dependencies {
+        gmsImplementation(project(":core:platform-services:gms-kmp"))
+        hmsImplementation(project(":core:platform-services:hms-kmp"))
+        fossImplementation(project(":core:platform-services:foss-kmp"))
     }
 }

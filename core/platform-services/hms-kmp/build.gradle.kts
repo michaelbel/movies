@@ -21,7 +21,7 @@ kotlin {
 }
 
 android {
-    namespace = "org.michaelbel.movies.analytics_kmp"
+    namespace = "org.michaelbel.movies.platform.hms_kmp"
 
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
