@@ -6,9 +6,8 @@ import org.michaelbel.movies.analytics.MoviesAnalytics
 import org.michaelbel.movies.analytics.constants.MoviesParams
 import org.michaelbel.movies.analytics.model.BaseEvent
 import org.michaelbel.movies.platform.analytics.AnalyticsService
-import javax.inject.Inject
 
-internal class MoviesAnalyticsImpl @Inject constructor(
+internal class MoviesAnalyticsImpl(
     private val analyticsService: AnalyticsService
 ): MoviesAnalytics {
 
@@ -21,6 +20,10 @@ internal class MoviesAnalyticsImpl @Inject constructor(
     }
 
     override fun logEvent(event: BaseEvent) {
-        analyticsService.logEvent(event.name, event.params)
+        val bundle = bundleOf()
+        event.params.forEach { (key, value) ->
+            bundle.putString(key, value)
+        }
+        analyticsService.logEvent(event.name, bundle)
     }
 }

@@ -1,5 +1,4 @@
 @file:OptIn(ExperimentalPagingApi::class)
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 
 package org.michaelbel.movies.interactor.remote
 
@@ -16,7 +15,7 @@ import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.repository.MovieRepository
 import org.michaelbel.movies.repository.PagingKeyRepository
 
-actual class FeedMoviesRemoteMediator(
+class FeedMoviesRemoteMediator(
     private val pagingKeyRepository: PagingKeyRepository,
     private val movieRepository: MovieRepository,
     private val moviesDatabase: MoviesDatabase,

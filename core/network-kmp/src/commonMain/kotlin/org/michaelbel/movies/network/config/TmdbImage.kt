@@ -1,16 +1,41 @@
-@file:Suppress("EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE")
-
 package org.michaelbel.movies.network.config
 
-expect val String.formatPosterImage: String
+import org.michaelbel.movies.network.model.image.BackdropSize
+import org.michaelbel.movies.network.model.image.PosterSize
+import org.michaelbel.movies.network.model.image.ProfileSize
 
-expect val String.formatBackdropImage: String
+/**
+ * See [TMDB Image Basics](https://developer.themoviedb.org/docs/image-basics)
+ *
+ * See [TMDB Images Configuration](https://developer.themoviedb.org/reference/configuration-details)
+ */
+private const val TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/%s%s"
+private const val IMAGE_EMPTY_URL = "https://null"
 
-expect val String.formatProfileImage: String
+val String.formatPosterImage: String
+    get() = String.format(TMDB_IMAGE_BASE_URL, PosterSize.W780.size, this).ifEmpty { IMAGE_EMPTY_URL }
+
+val String.formatBackdropImage: String
+    get() = String.format(TMDB_IMAGE_BASE_URL, BackdropSize.W1280.size, this).ifEmpty { IMAGE_EMPTY_URL }
+
+val String.formatProfileImage: String
+    get() = String.format(TMDB_IMAGE_BASE_URL, ProfileSize.W185.size, this).ifEmpty { IMAGE_EMPTY_URL }
 
 @Suppress("unused")
-expect val String.original: String
+val String.original: String
+    get() {
+        return when {
+            this.isNotEmpty() -> {
+                val size: String = substring(indexOf("/p").plus(3), lastIndexOf("/"))
+                replace(size, BackdropSize.ORIGINAL.size)
+            }
+            else -> this
+        }
+    }
 
-expect val String.isNotOriginal: Boolean
+val String.isNotOriginal: Boolean
+    get() = !contains("original".toRegex())
 
-expect fun String.formatImage(size: String): String
+fun String.formatImage(size: String): String {
+    return String.format(TMDB_IMAGE_BASE_URL, size, this).ifEmpty { IMAGE_EMPTY_URL }
+}

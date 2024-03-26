@@ -1,8 +1,10 @@
-@file:Suppress(
-    "EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE",
-    "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING"
-)
-
 package org.michaelbel.movies.network.config
 
-expect sealed interface ScreenState
+sealed interface ScreenState {
+
+    data object Loading: ScreenState
+
+    data class Content<T>(val data: T): ScreenState
+
+    data class Failure(val throwable: Throwable): ScreenState
+}

@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.compose)
     alias(libs.plugins.android.library)
-    id("movies-android-hilt")
 }
 
 kotlin {
@@ -18,13 +17,10 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:navigation-kmp"))
-        }
-        androidMain.dependencies {
-            implementation(project(":feature:auth-impl-kmp"))
+            api(project(":feature:auth-impl-kmp"))
         }
         val desktopMain by getting
         desktopMain.dependencies {
-            implementation(project(":feature:auth-impl-kmp"))
             implementation(compose.material)
             implementation(compose.material3)
             implementation(libs.precompose)

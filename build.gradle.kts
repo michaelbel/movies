@@ -14,7 +14,6 @@ plugins {
     alias(libs.plugins.google.services) apply false
     alias(libs.plugins.google.firebase.appdistribution) apply false
     alias(libs.plugins.google.firebase.crashlytics) apply false
-    alias(libs.plugins.google.hilt) apply false
     alias(libs.plugins.sqldelight) apply false
     alias(libs.plugins.androidx.navigation.safeargs) apply false
     alias(libs.plugins.spotless)

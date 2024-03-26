@@ -1,8 +1,19 @@
-@file:Suppress(
-    "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING",
-    "EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE"
-)
-
 package org.michaelbel.movies.interactor
 
-expect class Interactor
+class Interactor(
+    accountInteractor: AccountInteractor,
+    authenticationInteractor: AuthenticationInteractor,
+    imageInteractor: ImageInteractor,
+    movieInteractor: MovieInteractor,
+    notificationInteractor: NotificationInteractor,
+    searchInteractor: SearchInteractor,
+    settingsInteractor: SettingsInteractor,
+    suggestionInteractor: SuggestionInteractor
+): AccountInteractor by accountInteractor,
+    AuthenticationInteractor by authenticationInteractor,
+    ImageInteractor by imageInteractor,
+    MovieInteractor by movieInteractor,
+    NotificationInteractor by notificationInteractor,
+    SearchInteractor by searchInteractor,
+    SettingsInteractor by settingsInteractor,
+    SuggestionInteractor by suggestionInteractor

@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.compose)
     alias(libs.plugins.android.library)
-    id("movies-android-hilt")
 }
 
 kotlin {
@@ -18,24 +17,25 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(compose.material3)
-            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.bundles.kotlinx.coroutines.common)
+            implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
             api(project(":core:platform-services:interactor-kmp"))
             implementation(project(":core:analytics-kmp"))
             implementation(project(":core:network-kmp"))
-            api(libs.kotlinx.coroutines.android)
+            api(libs.bundles.kotlinx.coroutines.android)
+            api(libs.bundles.androidx.lifecycle)
             api(libs.androidx.activity.compose)
             api(libs.androidx.biometric.ktx)
             api(libs.androidx.core.ktx)
             api(libs.androidx.paging.compose)
             api(libs.androidx.startup.runtime)
             api(libs.androidx.work.runtime.ktx)
-            api(libs.androidx.hilt.work)
-            api(libs.bundles.androidx.lifecycle)
             api(libs.timber)
             implementation(libs.bundles.androidx.appcompat)
             implementation(libs.androidx.browser)
+            implementation(libs.koin.android)
         }
     }
 }

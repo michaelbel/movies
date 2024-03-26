@@ -2,10 +2,9 @@ package org.michaelbel.movies.platform.impl.analytics
 
 import android.os.Bundle
 import com.google.firebase.analytics.FirebaseAnalytics
-import javax.inject.Inject
 import org.michaelbel.movies.platform.analytics.AnalyticsService
 
-class AnalyticsServiceImpl @Inject constructor(
+class AnalyticsServiceImpl(
     private val firebaseAnalytics: FirebaseAnalytics
 ): AnalyticsService {
 

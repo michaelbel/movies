@@ -10,16 +10,14 @@ import androidx.annotation.StringRes
 import androidx.core.app.NotificationChannelCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import dagger.hilt.android.qualifiers.ApplicationContext
 import org.michaelbel.movies.common.ktx.isPostNotificationsPermissionGranted
 import org.michaelbel.movies.common.ktx.notificationManager
 import org.michaelbel.movies.debug.DebugActivity
 import org.michaelbel.movies.debug_kmp.R
 import org.michaelbel.movies.ui.icons.MoviesAndroidIcons
-import javax.inject.Inject
 
-class DebugNotificationClient @Inject constructor(
-    @ApplicationContext private val context: Context
+class DebugNotificationClient(
+    private val context: Context
 ) {
 
     fun showDebugNotification() {

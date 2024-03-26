@@ -18,11 +18,8 @@ import org.michaelbel.movies.interactor.SettingsInteractor
 import org.michaelbel.movies.platform.app.AppService
 import org.michaelbel.movies.platform.config.ConfigService
 import org.michaelbel.movies.repository.SettingsRepository
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-internal class SettingsInteractorImpl @Inject constructor(
+internal class SettingsInteractorImpl(
     private val dispatchers: MoviesDispatchers,
     private val settingsRepository: SettingsRepository,
     private val configService: ConfigService,

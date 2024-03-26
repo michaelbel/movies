@@ -7,13 +7,13 @@ private const val SPACE_UNICODE = "\u0020"
 private const val LETTERS_LIMIT = 2
 private const val FIRST_LETTER_INDEX = 1
 
-actual val AccountDb.isEmpty: Boolean
+val AccountDb.isEmpty: Boolean
     get() = this == AccountDb.Empty
 
-actual val AccountDb?.orEmpty: AccountDb
+val AccountDb?.orEmpty: AccountDb
     get() = this ?: AccountDb.Empty
 
-actual val AccountDb.letters: String
+val AccountDb.letters: String
     get() = when {
         name.isNotEmpty() -> {
             val words = name.split(SPACE_UNICODE)

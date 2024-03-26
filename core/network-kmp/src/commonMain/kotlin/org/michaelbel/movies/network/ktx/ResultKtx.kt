@@ -1,11 +1,12 @@
-@file:Suppress("EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE")
-
 package org.michaelbel.movies.network.ktx
 
 import org.michaelbel.movies.network.model.Result
 
-expect val <T> Result<T>.nextPage: Int
+val <T> Result<T>.nextPage: Int
+    get() = page.plus(1)
 
-expect val <T> Result<T>.isPaginationReached: Boolean
+val <T> Result<T>.isPaginationReached: Boolean
+    get() = page == totalPages
 
-expect val <T> Result<T>.isEmpty: Boolean
+val <T> Result<T>.isEmpty: Boolean
+    get() = page == 1 && results.isEmpty()

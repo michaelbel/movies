@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.android.library)
-    id("movies-android-hilt")
 }
 
 kotlin {
@@ -13,18 +12,22 @@ kotlin {
             }
         }
     }
+    jvm("desktop")
 
     sourceSets {
-        androidMain.dependencies {
+        commonMain.dependencies {
             implementation(project(":core:interactor-kmp"))
             implementation(project(":core:common-kmp"))
             implementation(project(":core:ui-kmp"))
             implementation(project(":core:work-kmp"))
             implementation(libs.bundles.androidx.datastore.common)
+            implementation(libs.bundles.koin.common)
+        }
+        androidMain.dependencies {
             implementation(libs.bundles.androidx.datastore.android)
             implementation(libs.bundles.androidx.glance)
-            implementation(libs.androidx.hilt.navigation.compose)
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.bundles.koin.android)
         }
     }
 }
@@ -52,9 +55,5 @@ android {
         ignoreWarnings = true
         checkDependencies = true
         lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
-    }
-
-    dependencies {
-        ksp(libs.androidx.hilt.compiler)
     }
 }

@@ -26,9 +26,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.palette.graphics.Palette
+import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.details.DetailsViewModel
 import org.michaelbel.movies.details.ktx.movie
@@ -52,7 +52,7 @@ fun DetailsRoute(
     onBackClick: () -> Unit,
     onNavigateToGallery: (Int) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: DetailsViewModel = hiltViewModel()
+    viewModel: DetailsViewModel = koinViewModel()
 ) {
     val detailsState by viewModel.detailsState.collectAsStateWithLifecycle()
     val networkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()

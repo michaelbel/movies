@@ -21,8 +21,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -30,7 +30,7 @@ import org.michaelbel.movies.widget_kmp.R
 
 @Composable
 internal fun AppWidgetConfigureActivityContent(
-    viewModel: AppWidgetConfigureViewModel = hiltViewModel(),
+    viewModel: AppWidgetConfigureViewModel = koinViewModel(),
     enableEdgeToEdge: (Any, Any) -> Unit,
     onBackClick: () -> Unit
 ) {

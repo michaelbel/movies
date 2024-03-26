@@ -1,22 +1,16 @@
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-
 package org.michaelbel.movies.work
 
 import android.content.Context
-import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
 import org.michaelbel.movies.common.ktx.isTimePasses
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.network.config.isTmdbApiKeyEmpty
 import java.util.concurrent.TimeUnit
 
-@HiltWorker
-actual class AccountUpdateWorker @AssistedInject constructor(
-    @Assisted context: Context,
-    @Assisted workerParams: WorkerParameters,
+class AccountUpdateWorker(
+    context: Context,
+    workerParams: WorkerParameters,
     private val interactor: Interactor
 ): CoroutineWorker(context, workerParams) {
 

@@ -5,16 +5,14 @@ import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import org.michaelbel.movies.common.biometric.BiometricController
 import org.michaelbel.movies.common.biometric.BiometricListener
 import org.michaelbel.movies.common_kmp.R
-import javax.inject.Inject
 
-internal class BiometricControllerImpl @Inject constructor(
-    @ApplicationContext private val context: Context
+internal class BiometricControllerImpl(
+    private val context: Context
 ): BiometricController {
 
     override val isBiometricAvailable: Flow<Boolean>

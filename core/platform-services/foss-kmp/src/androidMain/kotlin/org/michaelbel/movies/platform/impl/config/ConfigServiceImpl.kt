@@ -1,11 +1,10 @@
 package org.michaelbel.movies.platform.impl.config
 
-import javax.inject.Inject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import org.michaelbel.movies.platform.config.ConfigService
 
-class ConfigServiceImpl @Inject constructor(): ConfigService {
+class ConfigServiceImpl: ConfigService {
 
     override fun fetchAndActivate() {}
 

@@ -5,9 +5,8 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import org.michaelbel.movies.network.model.Account
-import javax.inject.Inject
 
-internal class KtorAccountService @Inject constructor(
+internal class KtorAccountService(
     private val ktorHttpClient: HttpClient
 ) {
 

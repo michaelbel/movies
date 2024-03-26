@@ -6,11 +6,8 @@ import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.interactor.SuggestionInteractor
 import org.michaelbel.movies.persistence.database.entity.SuggestionDb
 import org.michaelbel.movies.repository.SuggestionRepository
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-internal class SuggestionInteractorImpl @Inject constructor(
+internal class SuggestionInteractorImpl(
     private val dispatchers: MoviesDispatchers,
     private val suggestionRepository: SuggestionRepository
 ): SuggestionInteractor {

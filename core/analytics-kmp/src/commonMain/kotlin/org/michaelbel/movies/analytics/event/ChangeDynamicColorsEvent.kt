@@ -1,8 +1,14 @@
-@file:Suppress(
-    "EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE",
-    "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING"
-)
-
 package org.michaelbel.movies.analytics.event
 
-expect class ChangeDynamicColorsEvent(enabled: Boolean)
+import org.michaelbel.movies.analytics.constants.MoviesEvents
+import org.michaelbel.movies.analytics.constants.MoviesParams
+import org.michaelbel.movies.analytics.model.BaseEvent
+
+class ChangeDynamicColorsEvent(
+    enabled: Boolean
+): BaseEvent(MoviesEvents.SETTINGS_CHANGE_DYNAMIC_COLORS) {
+
+    init {
+        add(MoviesParams.PARAM_DYNAMIC_COLORS_ENABLED, enabled)
+    }
+}

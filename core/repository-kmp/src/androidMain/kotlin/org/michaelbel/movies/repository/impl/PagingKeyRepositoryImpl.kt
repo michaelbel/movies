@@ -3,11 +3,8 @@ package org.michaelbel.movies.repository.impl
 import org.michaelbel.movies.persistence.database.PagingKeyPersistence
 import org.michaelbel.movies.persistence.database.entity.PagingKeyDb
 import org.michaelbel.movies.repository.PagingKeyRepository
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-internal class PagingKeyRepositoryImpl @Inject constructor(
+internal class PagingKeyRepositoryImpl(
     private val pagingKeyPersistence: PagingKeyPersistence
 ): PagingKeyRepository {
 

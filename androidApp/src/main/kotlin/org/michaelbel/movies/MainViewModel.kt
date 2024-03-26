@@ -6,7 +6,6 @@ import androidx.navigation.NavDestination
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.workDataOf
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -27,10 +26,8 @@ import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.platform.messaging.MessagingService
 import org.michaelbel.movies.work.AccountUpdateWorker
 import org.michaelbel.movies.work.MoviesDatabaseWorker
-import javax.inject.Inject
 
-@HiltViewModel
-internal class MainViewModel @Inject constructor(
+internal class MainViewModel(
     private val interactor: Interactor,
     private val biometricController: BiometricController,
     private val analytics: MoviesAnalytics,

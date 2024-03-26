@@ -7,11 +7,8 @@ import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
 import org.michaelbel.movies.repository.SearchRepository
 import org.michaelbel.movies.repository.ktx.checkApiKeyNotNullException
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-internal class SearchRepositoryImpl @Inject constructor(
+internal class SearchRepositoryImpl(
     private val searchNetworkService: SearchNetworkService,
     private val localeController: LocaleController
 ): SearchRepository {

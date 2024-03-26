@@ -4,11 +4,8 @@ import kotlinx.coroutines.withContext
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.interactor.NotificationInteractor
 import org.michaelbel.movies.repository.NotificationRepository
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-internal class NotificationInteractorImpl @Inject constructor(
+internal class NotificationInteractorImpl(
     private val dispatchers: MoviesDispatchers,
     private val notificationRepository: NotificationRepository
 ): NotificationInteractor {

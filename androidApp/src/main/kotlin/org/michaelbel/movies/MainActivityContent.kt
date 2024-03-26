@@ -2,10 +2,10 @@ package org.michaelbel.movies
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.account.accountGraph
 import org.michaelbel.movies.account.navigateToAccount
 import org.michaelbel.movies.auth.authGraph
@@ -25,7 +25,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 internal fun MainActivityContent(
-    viewModel: MainViewModel = hiltViewModel(),
+    viewModel: MainViewModel = koinViewModel(),
     enableEdgeToEdge: (Any, Any) -> Unit
 ) {
     val currentTheme by viewModel.currentTheme.collectAsStateWithLifecycle()

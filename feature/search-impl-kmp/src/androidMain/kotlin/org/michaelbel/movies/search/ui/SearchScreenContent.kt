@@ -28,11 +28,11 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
 import org.michaelbel.movies.common.exceptions.PageEmptyException
@@ -56,7 +56,7 @@ fun SearchRoute(
     onBackClick: () -> Unit,
     onNavigateToDetails: (String, Int) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SearchViewModel = hiltViewModel()
+    viewModel: SearchViewModel = koinViewModel()
 ) {
     val pagingItems = viewModel.pagingDataFlow.collectAsLazyPagingItems()
     val currentFeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()

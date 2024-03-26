@@ -1,8 +1,19 @@
-@file:Suppress(
-    "EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE",
-    "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING"
-)
-
 package org.michaelbel.movies.repository
 
-expect interface AuthenticationRepository
+import org.michaelbel.movies.network.model.Session
+import org.michaelbel.movies.network.model.Token
+
+interface AuthenticationRepository {
+
+    suspend fun createRequestToken(loginViaTmdb: Boolean): Token
+
+    suspend fun createSessionWithLogin(
+        username: String,
+        password: String,
+        requestToken: String
+    ): Token
+
+    suspend fun createSession(token: String): Session
+
+    suspend fun deleteSession()
+}

@@ -1,5 +1,3 @@
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-
 package org.michaelbel.movies.persistence.datastore
 
 import androidx.datastore.core.DataStore
@@ -12,9 +10,8 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
-actual class MoviesPreferences @Inject constructor(
+class MoviesPreferences(
     private val dataStore: DataStore<Preferences>
 ) {
 

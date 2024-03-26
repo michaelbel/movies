@@ -1,23 +1,26 @@
 package org.michaelbel.movies
 
 import android.app.Application
-import androidx.hilt.work.HiltWorkerFactory
 import androidx.work.Configuration
-import dagger.hilt.android.HiltAndroidApp
-import javax.inject.Inject
-import org.michaelbel.movies.common_kmp.BuildConfig
+import org.koin.android.ext.android.inject
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.androidx.workmanager.factory.KoinWorkerFactory
+import org.koin.androidx.workmanager.koin.workManagerFactory
+import org.koin.core.context.startKoin
 import org.michaelbel.movies.common.crashlytics.CrashlyticsTree
+import org.michaelbel.movies.common_kmp.BuildConfig
+import org.michaelbel.movies.di.appKoinModule
 import org.michaelbel.movies.platform.app.AppService
 import org.michaelbel.movies.platform.crashlytics.CrashlyticsService
 import org.michaelbel.movies.ui.appicon.installLauncherIcon
 import timber.log.Timber
 
-@HiltAndroidApp
 internal class App: Application(), Configuration.Provider {
 
-    @Inject lateinit var workerFactory: HiltWorkerFactory
-    @Inject lateinit var appService: AppService
-    @Inject lateinit var crashlyticsService: CrashlyticsService
+    private val workerFactory: KoinWorkerFactory by inject()
+    private val appService: AppService by inject()
+    private val crashlyticsService: CrashlyticsService by inject()
 
     override val workManagerConfiguration: Configuration
         get() = Configuration.Builder().setWorkerFactory(workerFactory).build()
@@ -25,6 +28,12 @@ internal class App: Application(), Configuration.Provider {
     override fun onCreate() {
         super.onCreate()
         installLauncherIcon()
+        startKoin {
+            androidLogger()
+            androidContext(this@App)
+            workManagerFactory()
+            modules(appKoinModule)
+        }
         appService.installApp()
         Timber.plant(if (BuildConfig.DEBUG) Timber.DebugTree() else CrashlyticsTree(crashlyticsService))
     }

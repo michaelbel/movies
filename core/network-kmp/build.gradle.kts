@@ -4,7 +4,6 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.android.library)
-    id("movies-android-hilt")
 }
 
 val tmdbApiKey: String by lazy {
@@ -21,15 +20,20 @@ kotlin {
             }
         }
     }
+    jvm("desktop")
 
     sourceSets {
+        commonMain.dependencies {
+            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.bundles.koin.common)
+        }
         androidMain.dependencies {
             implementation(libs.androidx.startup.runtime)
-            implementation(libs.kotlinx.serialization.json)
             implementation(libs.okhttp.logging.interceptor)
             implementation(libs.bundles.retrofit)
             implementation(libs.bundles.ktor)
             implementation(libs.flaker.android.okhttp)
+            implementation(libs.koin.android)
         }
     }
 }

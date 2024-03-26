@@ -8,7 +8,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,10 +30,8 @@ import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.notifications.NotificationClient
 import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.database.entity.MovieDb
-import javax.inject.Inject
 
-@HiltViewModel
-class FeedViewModel @Inject constructor(
+class FeedViewModel(
     savedStateHandle: SavedStateHandle,
     private val interactor: Interactor,
     private val notificationClient: NotificationClient,

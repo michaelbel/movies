@@ -8,9 +8,8 @@ import org.michaelbel.movies.network.model.ImagesResponse
 import org.michaelbel.movies.network.model.Movie
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
-import javax.inject.Inject
 
-internal class KtorMovieService @Inject constructor(
+internal class KtorMovieService(
     private val ktorHttpClient: HttpClient
 ) {
 

@@ -33,11 +33,11 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
 import org.michaelbel.movies.common.exceptions.PageEmptyException
@@ -69,7 +69,7 @@ fun FeedRoute(
     onNavigateToSettings: () -> Unit,
     onNavigateToDetails: (String, Int) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: FeedViewModel = hiltViewModel()
+    viewModel: FeedViewModel = koinViewModel()
 ) {
     val pagingItems = viewModel.pagingDataFlow.collectAsLazyPagingItems()
     val account by viewModel.account.collectAsStateWithLifecycle()

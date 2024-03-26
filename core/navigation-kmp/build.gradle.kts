@@ -15,7 +15,6 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            api(libs.androidx.hilt.navigation.compose)
             api(libs.androidx.navigation.compose)
         }
     }

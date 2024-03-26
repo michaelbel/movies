@@ -15,7 +15,6 @@ google-services = "4.4.1"
 google-services-base = "18.3.0"
 google-services-instantapps = "18.0.1"
 google-play-core-ktx = "1.8.1"
-google-hilt = "2.51"
 google-material = "1.11.0"
 google-material-compose-theme-adapter = "1.2.1"
 google-firebase-analytics-ktx = "21.6.1"
@@ -45,8 +44,6 @@ androidx-datastore = "1.0.0"
 androidx-datastore-core-okio-jvm = "1.1.0-beta02"
 androidx-lifecycle = "2.7.0"
 androidx-glance = "1.0.0"
-androidx-hilt-navigation-compose = "1.2.0"
-androidx-hilt-work = "1.2.0"
 androidx-media3 = "1.3.0"
 androidx-navigation = "2.7.7"
 androidx-palette-ktx = "1.0.0"
@@ -99,8 +96,6 @@ kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serializa
 google-services-base = { module = "com.google.android.gms:play-services-base", version.ref = "google-services-base" }
 google-services-instantapps = { module = "com.google.android.gms:play-services-instantapps", version.ref = "google-services-instantapps" }
 google-play-core-ktx = { module = "com.google.android.play:core-ktx", version.ref = "google-play-core-ktx" }
-google-hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "google-hilt" }
-google-hilt-compiler = { module = "com.google.dagger:hilt-compiler", version.ref = "google-hilt" }
 google-material = { module = "com.google.android.material:material", version.ref = "google-material" }
 google-material-compose-theme-adapter = { module = "com.google.android.material:compose-theme-adapter", version.ref = "google-material-compose-theme-adapter" }
 google-firebase-analytics-ktx = { module = "com.google.firebase:firebase-analytics-ktx", version.ref = "google-firebase-analytics-ktx" }
@@ -136,9 +131,6 @@ androidx-datastore-preferences = { module = "androidx.datastore:datastore-prefer
 androidx-datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "androidx-datastore" }
 androidx-glance-appwidget = { module = "androidx.glance:glance-appwidget", version.ref = "androidx-glance" }
 androidx-glance-material3 = { module = "androidx.glance:glance-material3", version.ref = "androidx-glance" }
-androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "androidx-hilt-navigation-compose" }
-androidx-hilt-work = { module = "androidx.hilt:hilt-work", version.ref = "androidx-hilt-work" }
-androidx-hilt-compiler = { module = "androidx.hilt:hilt-compiler", version.ref = "androidx-hilt-work" }
 androidx-lifecycle-runtime-compose = { module = "androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidx-lifecycle" }
 androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidx-lifecycle" }
@@ -225,10 +217,11 @@ sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", ver
 sqldelight-coroutines-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
 sqldelight-native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
 sqldelight-sqlite-driver = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
-koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
-koin-core-jvm = { module = "io.insert-koin:koin-core-jvm", version.ref = "koin" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
+koin-androidx-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin" }
+koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
+koin-core-jvm = { module = "io.insert-koin:koin-core-jvm", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
 precompose = { module = "moe.tlaster:precompose", version.ref = "precompose" }
@@ -238,6 +231,12 @@ gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp"
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
 [bundles]
+kotlinx-coroutines-common = [
+    "kotlinx-coroutines-core"
+]
+kotlinx-coroutines-android = [
+    "kotlinx-coroutines-android"
+]
 androidx-appcompat = [
     "androidx-appcompat",
     "androidx-appcompat-resources"
@@ -338,6 +337,14 @@ retrofit = [
     "retrofit",
     "retrofit-converter-serialization"
 ]
+koin-common = [
+    "koin-core"
+]
+koin-android = [
+    "koin-android",
+    "koin-androidx-compose",
+    "koin-androidx-workmanager"
+]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -355,7 +362,6 @@ google-ksp = { id = "com.google.devtools.ksp", version.ref = "google-ksp" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }
 google-firebase-appdistribution = { id = "com.google.firebase.appdistribution", version.ref = "google-firebase-appdistribution" }
 google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "google-firebase-crashlytics-plugin" }
-google-hilt = { id = "com.google.dagger.hilt.android", version.ref = "google-hilt" }
 huawei-services = { id = "com.huawei.agconnect", version.ref = "huawei-services" }
 sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }

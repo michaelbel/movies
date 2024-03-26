@@ -22,11 +22,8 @@ import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
 import org.michaelbel.movies.repository.MovieRepository
 import org.michaelbel.movies.repository.PagingKeyRepository
 import org.michaelbel.movies.repository.SearchRepository
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-internal class MovieInteractorImpl @Inject constructor(
+internal class MovieInteractorImpl(
     private val dispatchers: MoviesDispatchers,
     private val searchRepository: SearchRepository,
     private val movieRepository: MovieRepository,

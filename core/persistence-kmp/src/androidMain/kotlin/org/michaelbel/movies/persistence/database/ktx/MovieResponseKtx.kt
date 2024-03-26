@@ -3,7 +3,7 @@ package org.michaelbel.movies.persistence.database.ktx
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 
-actual fun MovieResponse.movieDb(movieList: String, position: Int): MovieDb {
+fun MovieResponse.movieDb(movieList: String, position: Int): MovieDb {
     return MovieDb(
         movieList = movieList,
         dateAdded = System.currentTimeMillis(),

@@ -1,10 +1,9 @@
 package org.michaelbel.movies.platform.impl.crashlytics
 
 import com.google.firebase.crashlytics.FirebaseCrashlytics
-import javax.inject.Inject
 import org.michaelbel.movies.platform.crashlytics.CrashlyticsService
 
-class CrashlyticsServiceImpl @Inject constructor(
+class CrashlyticsServiceImpl(
     private val firebaseCrashlytics: FirebaseCrashlytics
 ): CrashlyticsService {
 

@@ -4,7 +4,7 @@ import android.app.Activity
 import javax.inject.Inject
 import org.michaelbel.movies.platform.review.ReviewService
 
-class ReviewServiceImpl @Inject constructor(): ReviewService {
+class ReviewServiceImpl: ReviewService {
 
     override fun requestReview(activity: Activity) {}
 }

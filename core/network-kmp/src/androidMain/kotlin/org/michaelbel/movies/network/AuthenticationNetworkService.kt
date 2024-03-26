@@ -10,12 +10,11 @@ import org.michaelbel.movies.network.model.SessionRequest
 import org.michaelbel.movies.network.model.Token
 import org.michaelbel.movies.network.model.Username
 import org.michaelbel.movies.network.retrofit.RetrofitAuthenticationService
-import javax.inject.Inject
 
 /**
  * You can replace [ktorAuthenticationService] with [retrofitAuthenticationService] to use it.
  */
-actual class AuthenticationNetworkService @Inject internal constructor(
+actual class AuthenticationNetworkService internal constructor(
     private val retrofitAuthenticationService: RetrofitAuthenticationService,
     private val ktorAuthenticationService: KtorAuthenticationService
 ) {

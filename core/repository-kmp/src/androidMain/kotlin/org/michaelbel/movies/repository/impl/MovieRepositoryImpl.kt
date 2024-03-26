@@ -18,11 +18,8 @@ import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.repository.MovieRepository
 import org.michaelbel.movies.repository.ktx.checkApiKeyNotNullException
 import org.michaelbel.movies.repository.ktx.mapToMovieDb
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-internal class MovieRepositoryImpl @Inject constructor(
+internal class MovieRepositoryImpl(
     private val movieNetworkService: MovieNetworkService,
     private val moviePersistence: MoviePersistence,
     private val localeController: LocaleController

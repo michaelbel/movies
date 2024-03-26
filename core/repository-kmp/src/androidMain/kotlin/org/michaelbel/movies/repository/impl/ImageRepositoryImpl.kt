@@ -6,11 +6,8 @@ import org.michaelbel.movies.persistence.database.ImagePersistence
 import org.michaelbel.movies.persistence.database.entity.ImageDb
 import org.michaelbel.movies.persistence.database.ktx.imageDb
 import org.michaelbel.movies.repository.ImageRepository
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-internal class ImageRepositoryImpl @Inject constructor(
+internal class ImageRepositoryImpl(
     private val movieNetworkService: MovieNetworkService,
     private val imagePersistence: ImagePersistence
 ): ImageRepository {
