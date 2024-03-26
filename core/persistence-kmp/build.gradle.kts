@@ -12,12 +12,21 @@ kotlin {
             }
         }
     }
+    jvm("desktop")
 
     sourceSets {
+        commonMain.dependencies {
+            implementation(project(":core:common-kmp"))
+            implementation(libs.bundles.androidx.datastore.common)
+        }
         androidMain.dependencies {
             implementation(project(":core:network-kmp"))
-            implementation(libs.bundles.androidx.datastore)
+            implementation(libs.bundles.androidx.datastore.android)
             api(libs.bundles.androidx.room)
+        }
+        val desktopMain by getting
+        desktopMain.dependencies {
+            implementation(libs.bundles.androidx.datastore.desktop)
         }
     }
 }
