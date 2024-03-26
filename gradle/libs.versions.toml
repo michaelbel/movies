@@ -84,7 +84,7 @@ barista = "4.3.0"
 kotest = "5.8.1"
 sqldelight = "2.0.1"
 koin = "3.5.3"
-precompose = "1.6.0-rc04"
+precompose = "1.6.0-rc05"
 constraintlayout-compose-multiplatform = "0.3.1"
 
 [libraries]
