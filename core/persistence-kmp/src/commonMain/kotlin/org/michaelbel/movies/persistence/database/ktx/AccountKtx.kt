@@ -1,13 +1,13 @@
-package org.michaelbel.movies.repository.ktx
+package org.michaelbel.movies.persistence.database.ktx
 
 import org.michaelbel.movies.network.config.GRAVATAR_URL
 import org.michaelbel.movies.network.config.formatProfileImage
 import org.michaelbel.movies.network.model.Account
-import org.michaelbel.movies.persistence.database.entity.AccountDb
+import org.michaelbel.movies.persistence.database.entity.AccountPojo
 import java.util.Locale
 
-internal val Account.mapToAccountDb: AccountDb
-    get() = AccountDb(
+val Account.accountPojo: AccountPojo
+    get() = AccountPojo(
         accountId = id,
         avatarUrl = when {
             avatar.tmdbAvatar != null -> avatar.tmdbAvatar?.avatarPath.orEmpty().formatProfileImage

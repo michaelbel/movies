@@ -19,7 +19,7 @@ import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.gallery.ktx.nameRes
 import org.michaelbel.movies.gallery_impl_kmp.R
 import org.michaelbel.movies.interactor.Interactor
-import org.michaelbel.movies.persistence.database.entity.ImageDb
+import org.michaelbel.movies.persistence.database.entity.ImagePojo
 import org.michaelbel.movies.persistence.database.ktx.original
 import org.michaelbel.movies.work.DownloadImageWorker
 
@@ -31,7 +31,7 @@ class GalleryViewModel(
 
     private val movieId: String = savedStateHandle.require("movieId")
 
-    val movieImagesFlow: StateFlow<List<ImageDb>> = interactor.imagesFlow(movieId.toInt())
+    val movieImagesFlow: StateFlow<List<ImagePojo>> = interactor.imagesFlow(movieId.toInt())
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
@@ -45,11 +45,11 @@ class GalleryViewModel(
         loadMovieImages(movieId.toInt())
     }
 
-    fun downloadImage(imageDb: ImageDb) = launch {
+    fun downloadImage(image: ImagePojo) = launch {
         val workData = Data.Builder()
-            .putString(DownloadImageWorker.KEY_IMAGE_URL, imageDb.original)
+            .putString(DownloadImageWorker.KEY_IMAGE_URL, image.original)
             .putInt(DownloadImageWorker.KEY_CONTENT_TITLE, R.string.gallery_downloading_image)
-            .putInt(DownloadImageWorker.KEY_CONTENT_TEXT, imageDb.type.nameRes)
+            .putInt(DownloadImageWorker.KEY_CONTENT_TEXT, image.type.nameRes)
             .build()
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
@@ -62,7 +62,7 @@ class GalleryViewModel(
             .setInputData(workData)
             .build()
         workManager.run {
-            enqueueUniqueWork(imageDb.toString(), ExistingWorkPolicy.KEEP, downloadImageWorker)
+            enqueueUniqueWork(image.toString(), ExistingWorkPolicy.KEEP, downloadImageWorker)
             getWorkInfoByIdFlow(downloadImageWorker.id).collect { workInfo ->
                 _workInfoFlow.emit(workInfo)
             }

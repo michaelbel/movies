@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.exceptions.DeleteSessionException
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
-import org.michaelbel.movies.persistence.database.entity.AccountDb
+import org.michaelbel.movies.persistence.database.entity.AccountPojo
 
 class AccountViewModel(
     private val interactor: Interactor
@@ -18,11 +18,11 @@ class AccountViewModel(
 
     var loading by mutableStateOf(false)
 
-    val account: StateFlow<AccountDb?> = interactor.account
+    val account: StateFlow<AccountPojo?> = interactor.account
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
-            initialValue = AccountDb.Empty
+            initialValue = AccountPojo.Empty
         )
 
     override fun handleError(throwable: Throwable) {

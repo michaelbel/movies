@@ -1,11 +1,11 @@
 package org.michaelbel.movies.ui.preview.provider
 
 import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
-import org.michaelbel.movies.persistence.database.entity.AccountDb
+import org.michaelbel.movies.persistence.database.entity.AccountPojo
 
-class AccountPreviewParameterProvider: CollectionPreviewParameterProvider<AccountDb>(
+class AccountPreviewParameterProvider: CollectionPreviewParameterProvider<AccountPojo>(
     listOf(
-        AccountDb(
+        AccountPojo(
             accountId = 7692212,
             avatarUrl = "",
             language = "en",

@@ -26,7 +26,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.network.config.formatBackdropImage
-import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.entity.MoviePojo
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
@@ -37,7 +37,7 @@ import org.michaelbel.movies.ui_kmp.R
 
 @Composable
 internal fun MovieRow(
-    movie: MovieDb,
+    movie: MoviePojo,
     modifier: Modifier = Modifier,
     maxLines: Int = 10
 ) {
@@ -105,7 +105,7 @@ internal fun MovieRow(
 @Composable
 @DevicePreviews
 private fun MovieRowPreview(
-    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MovieDb
+    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MoviePojo
 ) {
     MoviesTheme {
         MovieRow(
@@ -122,7 +122,7 @@ private fun MovieRowPreview(
 @Composable
 @Preview
 private fun MovieRowAmoledPreview(
-    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MovieDb
+    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MoviePojo
 ) {
     MoviesTheme(
         theme = AppTheme.Amoled

@@ -28,8 +28,8 @@ import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.notifications.NotificationClient
-import org.michaelbel.movies.persistence.database.entity.AccountDb
-import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.entity.AccountPojo
+import org.michaelbel.movies.persistence.database.entity.MoviePojo
 
 class FeedViewModel(
     savedStateHandle: SavedStateHandle,
@@ -41,11 +41,11 @@ class FeedViewModel(
     private val requestToken: String? = savedStateHandle["request_token"]
     private val approved: Boolean? = savedStateHandle["approved"]
 
-    val account: StateFlow<AccountDb?> = interactor.account
+    val account: StateFlow<AccountPojo?> = interactor.account
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
-            initialValue = AccountDb.Empty
+            initialValue = AccountPojo.Empty
         )
 
     val networkStatus: StateFlow<NetworkStatus> = networkManager.status
@@ -69,7 +69,7 @@ class FeedViewModel(
             initialValue = runBlocking { interactor.currentMovieList.first() }
         )
 
-    val pagingDataFlow: Flow<PagingData<MovieDb>> = currentMovieList
+    val pagingDataFlow: Flow<PagingData<MoviePojo>> = currentMovieList
         .flatMapLatest { movieList -> interactor.moviesPagingData(movieList) }
         .cachedIn(this)
 

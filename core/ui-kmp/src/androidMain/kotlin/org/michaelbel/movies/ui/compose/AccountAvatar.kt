@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
-import org.michaelbel.movies.persistence.database.entity.AccountDb
+import org.michaelbel.movies.persistence.database.entity.AccountPojo
 import org.michaelbel.movies.persistence.database.ktx.letters
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.ktx.context
@@ -28,7 +28,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun AccountAvatar(
-    account: AccountDb,
+    account: AccountPojo,
     fontSize: TextUnit,
     modifier: Modifier
 ) {
@@ -63,7 +63,7 @@ fun AccountAvatar(
 @Composable
 @DevicePreviews
 private fun AccountAvatarPreview(
-    @PreviewParameter(AccountPreviewParameterProvider::class) account: AccountDb
+    @PreviewParameter(AccountPreviewParameterProvider::class) account: AccountPojo
 ) {
     MoviesTheme {
         AccountAvatar(

@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.map
 import org.michaelbel.movies.common.exceptions.AccountDetailsException
 import org.michaelbel.movies.network.AccountNetworkService
 import org.michaelbel.movies.persistence.database.AccountPersistence
-import org.michaelbel.movies.persistence.database.entity.AccountDb
+import org.michaelbel.movies.persistence.database.entity.AccountPojo
+import org.michaelbel.movies.persistence.database.ktx.accountPojo
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import org.michaelbel.movies.repository.AccountRepository
-import org.michaelbel.movies.repository.ktx.mapToAccountDb
 
 internal class AccountRepositoryImpl(
     private val accountNetworkService: AccountNetworkService,
@@ -20,7 +20,7 @@ internal class AccountRepositoryImpl(
     private val preferences: MoviesPreferences
 ): AccountRepository {
 
-    override val account: Flow<AccountDb?> = preferences.accountIdFlow
+    override val account: Flow<AccountPojo?> = preferences.accountIdFlow
         .map { accountId -> accountId ?: 0 }
         .flatMapLatest(accountPersistence::accountById)
 
@@ -40,7 +40,7 @@ internal class AccountRepositoryImpl(
                 setAccountId(account.id)
                 setAccountExpireTime(System.currentTimeMillis())
             }
-            accountPersistence.insert(account.mapToAccountDb)
+            accountPersistence.insert(account.accountPojo)
         }.onFailure {
             throw AccountDetailsException
         }

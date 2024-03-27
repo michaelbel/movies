@@ -7,11 +7,11 @@
 package org.michaelbel.movies.interactor
 
 import kotlinx.coroutines.flow.Flow
-import org.michaelbel.movies.persistence.database.entity.AccountDb
+import org.michaelbel.movies.persistence.database.entity.AccountPojo
 
 actual interface AccountInteractor {
 
-    val account: Flow<AccountDb?>
+    val account: Flow<AccountPojo?>
 
     suspend fun accountId(): Int?
 

@@ -6,7 +6,7 @@ import org.michaelbel.movies.network.MovieNetworkService
 import org.michaelbel.movies.network.model.Movie
 import org.michaelbel.movies.persistence.database.MoviePersistence
 import org.michaelbel.movies.persistence.database.SuggestionPersistence
-import org.michaelbel.movies.persistence.database.entity.SuggestionDb
+import org.michaelbel.movies.persistence.database.entity.SuggestionPojo
 import org.michaelbel.movies.repository.SuggestionRepository
 
 internal class SuggestionRepositoryImpl(
@@ -16,7 +16,7 @@ internal class SuggestionRepositoryImpl(
     private val localeController: LocaleController
 ): SuggestionRepository {
 
-    override fun suggestions(): Flow<List<SuggestionDb>> {
+    override fun suggestions(): Flow<List<SuggestionPojo>> {
         return suggestionPersistence.suggestionsFlow()
     }
 
@@ -25,14 +25,14 @@ internal class SuggestionRepositoryImpl(
 
         val nowPlayingMovies = moviePersistence.movies(Movie.NOW_PLAYING, 5)
         if (nowPlayingMovies.isNotEmpty()) {
-            suggestionPersistence.insert(nowPlayingMovies.map { movieDb -> SuggestionDb(movieDb.title) })
+            suggestionPersistence.insert(nowPlayingMovies.map { movie -> SuggestionPojo(movie.title) })
         } else {
             val movieResponse = movieNetworkService.movies(
                 list = Movie.NOW_PLAYING,
                 language = localeController.language,
                 page = 1
             ).results.take(5)
-            suggestionPersistence.insert(movieResponse.map { movie -> SuggestionDb(movie.title) })
+            suggestionPersistence.insert(movieResponse.map { movie -> SuggestionPojo(movie.title) })
         }
     }
 }

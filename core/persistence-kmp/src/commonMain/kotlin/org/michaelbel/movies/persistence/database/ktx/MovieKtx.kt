@@ -1,10 +1,10 @@
-package org.michaelbel.movies.repository.ktx
+package org.michaelbel.movies.persistence.database.ktx
 
 import org.michaelbel.movies.network.model.Movie
-import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.entity.MoviePojo
 
-internal val Movie.mapToMovieDb: MovieDb
-    get() = MovieDb(
+val Movie.moviePojo: MoviePojo
+    get() = MoviePojo(
         movieList = "",
         dateAdded = 0L,
         page = null,

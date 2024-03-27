@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.common.theme.AppTheme
-import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.entity.MoviePojo
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
 import org.michaelbel.movies.ui.icons.MoviesIcons
@@ -81,7 +81,7 @@ internal fun SearchRecentResult(
 @Composable
 @DevicePreviews
 private fun SearchRecentResultPreview(
-    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MovieDb
+    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MoviePojo
 ) {
     MoviesTheme {
         SearchRecentResult(
@@ -98,7 +98,7 @@ private fun SearchRecentResultPreview(
 @Composable
 @Preview
 private fun SearchRecentResultAmoledPreview(
-    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MovieDb
+    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MoviePojo
 ) {
     MoviesTheme(
         theme = AppTheme.Amoled

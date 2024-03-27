@@ -16,7 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.theme.AppTheme
-import org.michaelbel.movies.persistence.database.entity.SuggestionDb
+import org.michaelbel.movies.persistence.database.entity.SuggestionPojo
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.SuggestionDbPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -43,7 +43,7 @@ internal fun SearchSuggestion(
 @Composable
 @DevicePreviews
 private fun SearchSuggestionPreview(
-    @PreviewParameter(SuggestionDbPreviewParameterProvider::class) suggestions: List<SuggestionDb>
+    @PreviewParameter(SuggestionDbPreviewParameterProvider::class) suggestions: List<SuggestionPojo>
 ) {
     MoviesTheme {
         SearchSuggestion(
@@ -59,7 +59,7 @@ private fun SearchSuggestionPreview(
 @Composable
 @Preview
 private fun SearchSuggestionAmoledPreview(
-    @PreviewParameter(SuggestionDbPreviewParameterProvider::class) suggestions: List<SuggestionDb>
+    @PreviewParameter(SuggestionDbPreviewParameterProvider::class) suggestions: List<SuggestionPojo>
 ) {
     MoviesTheme(
         theme = AppTheme.Amoled

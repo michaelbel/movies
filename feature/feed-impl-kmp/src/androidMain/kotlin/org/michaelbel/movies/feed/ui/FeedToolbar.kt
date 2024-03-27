@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.feed_impl_kmp.R
 import org.michaelbel.movies.network.config.isTmdbApiKeyEmpty
-import org.michaelbel.movies.persistence.database.entity.AccountDb
+import org.michaelbel.movies.persistence.database.entity.AccountPojo
 import org.michaelbel.movies.persistence.database.ktx.isEmpty
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.compose.AccountAvatar
@@ -45,7 +45,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 @Composable
 internal fun FeedToolbar(
     title: String,
-    account: AccountDb,
+    account: AccountPojo,
     onSearchIconClick: () -> Unit,
     onAuthIconClick: () -> Unit,
     onAccountIconClick: () -> Unit,
@@ -120,7 +120,7 @@ private fun FeedToolbarPreview() {
     MoviesTheme {
         FeedToolbar(
             title = stringResource(R.string.feed_title_now_playing),
-            account = AccountDb.Empty,
+            account = AccountPojo.Empty,
             onSearchIconClick = {},
             onAccountIconClick = {},
             onAuthIconClick = {},
@@ -139,7 +139,7 @@ private fun FeedToolbarAmoledPreview() {
     ) {
         FeedToolbar(
             title = stringResource(R.string.feed_title_now_playing),
-            account = AccountDb.Empty,
+            account = AccountPojo.Empty,
             onSearchIconClick = {},
             onAccountIconClick = {},
             onAuthIconClick = {},

@@ -12,8 +12,8 @@ import kotlinx.serialization.json.decodeFromStream
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.persistence.database.MoviePersistence
-import org.michaelbel.movies.persistence.database.entity.MovieDb
-import org.michaelbel.movies.persistence.database.ktx.movieDb
+import org.michaelbel.movies.persistence.database.entity.MoviePojo
+import org.michaelbel.movies.persistence.database.ktx.moviePojo
 
 class MoviesDatabaseWorker(
     context: Context,
@@ -26,13 +26,13 @@ class MoviesDatabaseWorker(
         return withContext(dispatchers.io) {
             try {
                 val filename = inputData.getString(KEY_FILENAME)
-                if (filename != null && moviePersistence.isEmpty(MovieDb.MOVIES_LOCAL_LIST)) {
+                if (filename != null && moviePersistence.isEmpty(MoviePojo.MOVIES_LOCAL_LIST)) {
                     applicationContext.assets.open(filename).use { inputStream ->
                         val format = Json { ignoreUnknownKeys = true }
                         val moviesJsonData: List<MovieResponse> = format.decodeFromStream(inputStream)
                         val moviesDb = moviesJsonData.mapIndexed { index, movieResponse ->
-                            movieResponse.movieDb(
-                                movieList = MovieDb.MOVIES_LOCAL_LIST,
+                            movieResponse.moviePojo(
+                                movieList = MoviePojo.MOVIES_LOCAL_LIST,
                                 position = index.plus(1)
                             )
                         }

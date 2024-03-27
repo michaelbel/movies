@@ -24,8 +24,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.theme.AppTheme
-import org.michaelbel.movies.persistence.database.entity.MovieDb
-import org.michaelbel.movies.persistence.database.entity.SuggestionDb
+import org.michaelbel.movies.persistence.database.entity.MoviePojo
+import org.michaelbel.movies.persistence.database.entity.SuggestionPojo
 import org.michaelbel.movies.search_impl_kmp.R
 import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
 import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
@@ -44,8 +44,8 @@ internal fun SearchToolbar(
     onBackClick: () -> Unit,
     onCloseClick: () -> Unit,
     onInputText: (String) -> Unit,
-    suggestions: List<SuggestionDb>,
-    searchHistoryMovies: List<MovieDb>,
+    suggestions: List<SuggestionPojo>,
+    searchHistoryMovies: List<MoviePojo>,
     onHistoryMovieRemoveClick: (Int) -> Unit,
     onClearHistoryClick: () -> Unit,
     modifier: Modifier = Modifier
@@ -148,7 +148,7 @@ internal fun SearchToolbar(
 @Composable
 @DevicePreviews
 private fun SearchToolbarPreview(
-    @PreviewParameter(SuggestionDbPreviewParameterProvider::class) suggestions: List<SuggestionDb>
+    @PreviewParameter(SuggestionDbPreviewParameterProvider::class) suggestions: List<SuggestionPojo>
 ) {
     MoviesTheme {
         SearchToolbar(
@@ -171,7 +171,7 @@ private fun SearchToolbarPreview(
 @Composable
 @Preview
 private fun SearchToolbarAmoledPreview(
-    @PreviewParameter(SuggestionDbPreviewParameterProvider::class) suggestions: List<SuggestionDb>
+    @PreviewParameter(SuggestionDbPreviewParameterProvider::class) suggestions: List<SuggestionPojo>
 ) {
     MoviesTheme(
         theme = AppTheme.Amoled

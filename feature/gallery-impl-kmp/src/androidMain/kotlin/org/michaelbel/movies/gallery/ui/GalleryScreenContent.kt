@@ -62,7 +62,7 @@ import org.michaelbel.movies.gallery.zoomable.rememberZoomState
 import org.michaelbel.movies.gallery.zoomable.zoomable
 import org.michaelbel.movies.gallery_impl_kmp.R
 import org.michaelbel.movies.network.config.isNotOriginal
-import org.michaelbel.movies.persistence.database.entity.ImageDb
+import org.michaelbel.movies.persistence.database.entity.ImagePojo
 import org.michaelbel.movies.persistence.database.ktx.original
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
@@ -92,10 +92,10 @@ fun GalleryRoute(
 
 @Composable
 private fun GalleryScreenContent(
-    movieImages: List<ImageDb>,
+    movieImages: List<ImagePojo>,
     workInfo: WorkInfo?,
     onBackClick: () -> Unit,
-    onDownloadClick: (ImageDb) -> Unit,
+    onDownloadClick: (ImagePojo) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val context = LocalContext.current

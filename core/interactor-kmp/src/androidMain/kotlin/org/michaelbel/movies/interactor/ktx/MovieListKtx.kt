@@ -2,7 +2,7 @@ package org.michaelbel.movies.interactor.ktx
 
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.network.config.isTmdbApiKeyEmpty
-import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.entity.MoviePojo
 
 val MovieList.nameOrLocalList: String
-    get() = if (isTmdbApiKeyEmpty) MovieDb.MOVIES_LOCAL_LIST else name
+    get() = if (isTmdbApiKeyEmpty) MoviePojo.MOVIES_LOCAL_LIST else name

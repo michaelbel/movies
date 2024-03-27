@@ -1,10 +1,14 @@
-package org.michaelbel.movies.repository.ktx
+package org.michaelbel.movies.persistence.database.ktx
 
 import org.michaelbel.movies.network.model.MovieResponse
-import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.entity.MoviePojo
 
-internal fun MovieResponse.mapToMovieDb(movieList: String, page: Int, position: Int): MovieDb {
-    return MovieDb(
+fun MovieResponse.moviePojo(
+    movieList: String,
+    position: Int,
+    page: Int? = null
+): MoviePojo {
+    return MoviePojo(
         movieList = movieList,
         dateAdded = System.currentTimeMillis(),
         page = page,

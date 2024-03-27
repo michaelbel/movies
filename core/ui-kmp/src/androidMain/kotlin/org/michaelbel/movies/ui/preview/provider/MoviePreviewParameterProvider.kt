@@ -2,11 +2,11 @@ package org.michaelbel.movies.ui.preview.provider
 
 import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
 import org.michaelbel.movies.network.model.Movie
-import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.entity.MoviePojo
 
-class MoviePreviewParameterProvider: CollectionPreviewParameterProvider<MovieDb>(
+class MoviePreviewParameterProvider: CollectionPreviewParameterProvider<MoviePojo>(
     listOf(
-        MovieDb(
+        MoviePojo(
             movieList = Movie.NOW_PLAYING,
             dateAdded = System.currentTimeMillis(),
             page = null,

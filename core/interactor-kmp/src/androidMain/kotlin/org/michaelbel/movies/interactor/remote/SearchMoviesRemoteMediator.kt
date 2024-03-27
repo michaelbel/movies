@@ -11,7 +11,7 @@ import org.michaelbel.movies.network.ktx.isEmpty
 import org.michaelbel.movies.network.ktx.isPaginationReached
 import org.michaelbel.movies.network.ktx.nextPage
 import org.michaelbel.movies.persistence.database.MoviesDatabase
-import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.entity.MoviePojo
 import org.michaelbel.movies.repository.MovieRepository
 import org.michaelbel.movies.repository.PagingKeyRepository
 import org.michaelbel.movies.repository.SearchRepository
@@ -22,11 +22,11 @@ class SearchMoviesRemoteMediator(
     private val searchRepository: SearchRepository,
     private val moviesDatabase: MoviesDatabase,
     private val query: String
-): RemoteMediator<Int, MovieDb>() {
+): RemoteMediator<Int, MoviePojo>() {
 
     override suspend fun load(
         loadType: LoadType,
-        state: PagingState<Int, MovieDb>
+        state: PagingState<Int, MoviePojo>
     ): MediatorResult {
         return try {
             val loadKey = when (loadType) {

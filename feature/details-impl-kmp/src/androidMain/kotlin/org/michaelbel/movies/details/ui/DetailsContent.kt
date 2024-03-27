@@ -34,7 +34,7 @@ import coil.request.ImageRequest
 import coil.request.SuccessResult
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.network.config.formatBackdropImage
-import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.entity.MoviePojo
 import org.michaelbel.movies.persistence.database.ktx.isNotEmpty
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
@@ -47,7 +47,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 internal fun DetailsContent(
-    movie: MovieDb,
+    movie: MoviePojo,
     onNavigateToGallery: (Int) -> Unit,
     onGenerateColors: (Int, Palette) -> Unit,
     modifier: Modifier = Modifier,
@@ -167,7 +167,7 @@ internal fun DetailsContent(
 @Composable
 @DevicePreviews
 private fun DetailsContentPreview(
-    @PreviewParameter(MovieDbPreviewParameterProvider::class) movie: MovieDb
+    @PreviewParameter(MovieDbPreviewParameterProvider::class) movie: MoviePojo
 ) {
     MoviesTheme {
         DetailsContent(
@@ -184,7 +184,7 @@ private fun DetailsContentPreview(
 @Composable
 @Preview
 private fun DetailsContentAmoledPreview(
-    @PreviewParameter(MovieDbPreviewParameterProvider::class) movie: MovieDb
+    @PreviewParameter(MovieDbPreviewParameterProvider::class) movie: MoviePojo
 ) {
     MoviesTheme(
         theme = AppTheme.Amoled

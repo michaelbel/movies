@@ -1,7 +1,7 @@
 package org.michaelbel.movies.repository.impl
 
 import org.michaelbel.movies.persistence.database.PagingKeyPersistence
-import org.michaelbel.movies.persistence.database.entity.PagingKeyDb
+import org.michaelbel.movies.persistence.database.entity.PagingKeyPojo
 import org.michaelbel.movies.repository.PagingKeyRepository
 
 internal class PagingKeyRepositoryImpl(
@@ -26,7 +26,7 @@ internal class PagingKeyRepositoryImpl(
 
     override suspend fun insertPagingKey(pagingKey: String, page: Int, totalPages: Int) {
         pagingKeyPersistence.insertPagingKey(
-            PagingKeyDb(
+            PagingKeyPojo(
                 pagingKey = pagingKey,
                 page = page,
                 totalPages = totalPages

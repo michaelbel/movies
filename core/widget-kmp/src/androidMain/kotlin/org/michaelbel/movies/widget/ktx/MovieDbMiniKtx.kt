@@ -6,6 +6,6 @@ import org.michaelbel.movies.widget.entity.MovieData
 internal val MovieDbMini.mapToMovieData: MovieData
     get() = MovieData(
         movieList = movieList,
-        movieId = id,
+        movieId = movieId,
         movieTitle = title
     )

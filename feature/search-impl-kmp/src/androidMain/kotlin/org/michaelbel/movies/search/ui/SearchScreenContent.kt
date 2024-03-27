@@ -37,8 +37,8 @@ import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
 import org.michaelbel.movies.common.exceptions.PageEmptyException
 import org.michaelbel.movies.network.connectivity.NetworkStatus
-import org.michaelbel.movies.persistence.database.entity.MovieDb
-import org.michaelbel.movies.persistence.database.entity.SuggestionDb
+import org.michaelbel.movies.persistence.database.entity.MoviePojo
+import org.michaelbel.movies.persistence.database.entity.SuggestionPojo
 import org.michaelbel.movies.search.SearchViewModel
 import org.michaelbel.movies.ui.compose.page.PageContent
 import org.michaelbel.movies.ui.compose.page.PageFailure
@@ -85,11 +85,11 @@ fun SearchRoute(
 
 @Composable
 private fun SearchScreenContent(
-    pagingItems: LazyPagingItems<MovieDb>,
+    pagingItems: LazyPagingItems<MoviePojo>,
     networkStatus: NetworkStatus,
     currentFeedView: FeedView,
-    suggestions: List<SuggestionDb>,
-    searchHistoryMovies: List<MovieDb>,
+    suggestions: List<SuggestionPojo>,
+    searchHistoryMovies: List<MoviePojo>,
     onBackClick: () -> Unit,
     onNavigateToDetails: (String, Int) -> Unit,
     onChangeSearchQuery: (String) -> Unit,

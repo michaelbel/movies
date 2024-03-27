@@ -1,19 +1,19 @@
 package org.michaelbel.movies.persistence.database.ktx
 
-import org.michaelbel.movies.persistence.database.entity.AccountDb
+import org.michaelbel.movies.persistence.database.entity.AccountPojo
 
 private const val ACCOUNT_DEFAULT_LETTER = "A"
 private const val SPACE_UNICODE = "\u0020"
 private const val LETTERS_LIMIT = 2
 private const val FIRST_LETTER_INDEX = 1
 
-val AccountDb.isEmpty: Boolean
-    get() = this == AccountDb.Empty
+val AccountPojo.isEmpty: Boolean
+    get() = this == AccountPojo.Empty
 
-val AccountDb?.orEmpty: AccountDb
-    get() = this ?: AccountDb.Empty
+val AccountPojo?.orEmpty: AccountPojo
+    get() = this ?: AccountPojo.Empty
 
-val AccountDb.letters: String
+val AccountPojo.letters: String
     get() = when {
         name.isNotEmpty() -> {
             val words = name.split(SPACE_UNICODE)

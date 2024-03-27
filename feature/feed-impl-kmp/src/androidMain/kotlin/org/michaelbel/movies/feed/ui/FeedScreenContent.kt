@@ -46,8 +46,8 @@ import org.michaelbel.movies.feed.FeedViewModel
 import org.michaelbel.movies.feed.ktx.titleText
 import org.michaelbel.movies.feed_impl_kmp.R
 import org.michaelbel.movies.network.connectivity.NetworkStatus
-import org.michaelbel.movies.persistence.database.entity.AccountDb
-import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.entity.AccountPojo
+import org.michaelbel.movies.persistence.database.entity.MoviePojo
 import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.ui.compose.NotificationBottomSheet
 import org.michaelbel.movies.ui.compose.page.PageContent
@@ -100,8 +100,8 @@ fun FeedRoute(
 
 @Composable
 private fun FeedScreenContent(
-    pagingItems: LazyPagingItems<MovieDb>,
-    account: AccountDb,
+    pagingItems: LazyPagingItems<MoviePojo>,
+    account: AccountPojo,
     networkStatus: NetworkStatus,
     currentFeedView: FeedView,
     currentMovieList: MovieList,

@@ -23,7 +23,7 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.itemContentType
 import androidx.paging.compose.itemKey
 import org.michaelbel.movies.common.appearance.FeedView
-import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.entity.MoviePojo
 import org.michaelbel.movies.ui.compose.movie.MovieColumn
 import org.michaelbel.movies.ui.compose.movie.MovieRow
 import org.michaelbel.movies.ui.ktx.PageContentColumnModifier
@@ -40,7 +40,7 @@ fun PageContent(
     lazyListState: LazyListState,
     lazyGridState: LazyGridState,
     lazyStaggeredGridState: LazyStaggeredGridState,
-    pagingItems: LazyPagingItems<MovieDb>,
+    pagingItems: LazyPagingItems<MoviePojo>,
     onMovieClick: (String, Int) -> Unit,
     modifier: Modifier,
     contentPadding: PaddingValues
@@ -80,7 +80,7 @@ fun PageContent(
 @Composable
 private fun PageContentColumn(
     lazyListState: LazyListState,
-    pagingItems: LazyPagingItems<MovieDb>,
+    pagingItems: LazyPagingItems<MoviePojo>,
     onMovieClick: (String, Int) -> Unit,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier
@@ -132,7 +132,7 @@ private fun PageContentColumn(
 @Composable
 private fun PageContentGrid(
     lazyGridState: LazyGridState,
-    pagingItems: LazyPagingItems<MovieDb>,
+    pagingItems: LazyPagingItems<MoviePojo>,
     onMovieClick: (String, Int) -> Unit,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier
@@ -187,7 +187,7 @@ private fun PageContentGrid(
 @Composable
 private fun PageContentStaggeredGrid(
     lazyStaggeredGridState: LazyStaggeredGridState,
-    pagingItems: LazyPagingItems<MovieDb>,
+    pagingItems: LazyPagingItems<MoviePojo>,
     onMovieClick: (String, Int) -> Unit,
     contentPadding: PaddingValues,
     modifier: Modifier = Modifier

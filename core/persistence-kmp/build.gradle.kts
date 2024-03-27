@@ -17,13 +17,13 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:common-kmp"))
+            implementation(project(":core:network-kmp"))
             implementation(libs.bundles.androidx.datastore.common)
             implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
-            implementation(project(":core:network-kmp"))
             implementation(libs.bundles.androidx.datastore.android)
-            api(libs.bundles.androidx.room)
+            implementation(libs.bundles.androidx.room)
             implementation(libs.koin.android)
         }
         val desktopMain by getting

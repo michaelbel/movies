@@ -16,7 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import org.michaelbel.movies.common.theme.AppTheme
-import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.entity.MoviePojo
 import org.michaelbel.movies.persistence.database.ktx.url
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
@@ -59,7 +59,7 @@ fun ShareIcon(
 @Composable
 @DevicePreviews
 private fun ShareIconPreview(
-    @PreviewParameter(MovieDbPreviewParameterProvider::class) movie: MovieDb
+    @PreviewParameter(MovieDbPreviewParameterProvider::class) movie: MoviePojo
 ) {
     MoviesTheme {
         ShareIcon(
@@ -72,7 +72,7 @@ private fun ShareIconPreview(
 @Composable
 @Preview
 private fun ShareIconAmoledPreview(
-    @PreviewParameter(MovieDbPreviewParameterProvider::class) movie: MovieDb
+    @PreviewParameter(MovieDbPreviewParameterProvider::class) movie: MoviePojo
 ) {
     MoviesTheme(
         theme = AppTheme.Amoled

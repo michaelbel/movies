@@ -26,7 +26,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.network.config.formatPosterImage
-import org.michaelbel.movies.persistence.database.entity.MovieDb
+import org.michaelbel.movies.persistence.database.entity.MoviePojo
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
@@ -37,7 +37,7 @@ import org.michaelbel.movies.ui_kmp.R
 
 @Composable
 internal fun MovieColumn(
-    movie: MovieDb,
+    movie: MoviePojo,
     modifier: Modifier = Modifier
 ) {
     var isNoImageVisible by remember { mutableStateOf(false) }
@@ -104,7 +104,7 @@ internal fun MovieColumn(
 @Composable
 @DevicePreviews
 private fun MovieColumnPreview(
-    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MovieDb
+    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MoviePojo
 ) {
     MoviesTheme {
         MovieColumn(
@@ -121,7 +121,7 @@ private fun MovieColumnPreview(
 @Composable
 @Preview
 private fun MovieColumnAmoledPreview(
-    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MovieDb
+    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MoviePojo
 ) {
     MoviesTheme(
         theme = AppTheme.Amoled

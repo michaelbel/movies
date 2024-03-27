@@ -20,8 +20,8 @@ import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
-import org.michaelbel.movies.persistence.database.entity.MovieDb
-import org.michaelbel.movies.persistence.database.entity.SuggestionDb
+import org.michaelbel.movies.persistence.database.entity.MoviePojo
+import org.michaelbel.movies.persistence.database.entity.SuggestionPojo
 
 class SearchViewModel(
     private val interactor: Interactor,
@@ -42,14 +42,14 @@ class SearchViewModel(
             initialValue = runBlocking { interactor.currentFeedView.first() }
         )
 
-    val suggestionsFlow: StateFlow<List<SuggestionDb>> = interactor.suggestions()
+    val suggestionsFlow: StateFlow<List<SuggestionPojo>> = interactor.suggestions()
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
             initialValue = emptyList()
         )
 
-    val searchHistoryMoviesFlow: StateFlow<List<MovieDb>> = interactor.moviesFlow(MovieDb.MOVIES_SEARCH_HISTORY, Int.MAX_VALUE)
+    val searchHistoryMoviesFlow: StateFlow<List<MoviePojo>> = interactor.moviesFlow(MoviePojo.MOVIES_SEARCH_HISTORY, Int.MAX_VALUE)
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
@@ -61,7 +61,7 @@ class SearchViewModel(
 
     val isSearchActive: StateFlow<Boolean> = interactor.isSearchActive
 
-    val pagingDataFlow: Flow<PagingData<MovieDb>> = query
+    val pagingDataFlow: Flow<PagingData<MoviePojo>> = query
         .flatMapLatest { query -> interactor.moviesPagingData(query) }
         .cachedIn(this)
 
@@ -78,16 +78,16 @@ class SearchViewModel(
     }
 
     fun onSaveToHistory(movieId: Int) = launch {
-        val movie: MovieDb = interactor.movie(query.value, movieId)
-        interactor.insertMovie(MovieDb.MOVIES_SEARCH_HISTORY, movie)
+        val movie: MoviePojo = interactor.movie(query.value, movieId)
+        interactor.insertMovie(MoviePojo.MOVIES_SEARCH_HISTORY, movie)
     }
 
     fun onRemoveFromHistory(movieId: Int) = launch {
-        interactor.removeMovie(MovieDb.MOVIES_SEARCH_HISTORY, movieId)
+        interactor.removeMovie(MoviePojo.MOVIES_SEARCH_HISTORY, movieId)
     }
 
     fun onClearSearchHistory() = launch {
-        interactor.removeMovies(MovieDb.MOVIES_SEARCH_HISTORY)
+        interactor.removeMovies(MoviePojo.MOVIES_SEARCH_HISTORY)
     }
 
     private fun loadSuggestions() = launch {

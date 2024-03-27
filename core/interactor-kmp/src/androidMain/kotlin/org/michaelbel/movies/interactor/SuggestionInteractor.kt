@@ -7,11 +7,11 @@
 package org.michaelbel.movies.interactor
 
 import kotlinx.coroutines.flow.Flow
-import org.michaelbel.movies.persistence.database.entity.SuggestionDb
+import org.michaelbel.movies.persistence.database.entity.SuggestionPojo
 
 actual interface SuggestionInteractor {
 
-    fun suggestions(): Flow<List<SuggestionDb>>
+    fun suggestions(): Flow<List<SuggestionPojo>>
 
     suspend fun updateSuggestions()
 }

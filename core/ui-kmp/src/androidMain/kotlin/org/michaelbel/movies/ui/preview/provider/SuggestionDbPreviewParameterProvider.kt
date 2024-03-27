@@ -1,24 +1,24 @@
 package org.michaelbel.movies.ui.preview.provider
 
 import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
-import org.michaelbel.movies.persistence.database.entity.SuggestionDb
+import org.michaelbel.movies.persistence.database.entity.SuggestionPojo
 
-class SuggestionDbPreviewParameterProvider: CollectionPreviewParameterProvider<List<SuggestionDb>>(
+class SuggestionDbPreviewParameterProvider: CollectionPreviewParameterProvider<List<SuggestionPojo>>(
     listOf(
         listOf(
-            SuggestionDb(
+            SuggestionPojo(
                 title = "Leo"
             ),
-            SuggestionDb(
+            SuggestionPojo(
                 title = "Trolls Band Together"
             ),
-            SuggestionDb(
+            SuggestionPojo(
                 title = "Five Nights at Freddy's"
             ),
-            SuggestionDb(
+            SuggestionPojo(
                 title = "Godzilla Minus One"
             ),
-            SuggestionDb(
+            SuggestionPojo(
                 title = "Napoleon"
             )
         )

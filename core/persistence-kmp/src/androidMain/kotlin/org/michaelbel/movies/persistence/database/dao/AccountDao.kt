@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.persistence.database.entity.AccountDb
+import org.michaelbel.movies.persistence.database.entity.AccountPojo
 
 /**
  * The Data Access Object for the [AccountDb] class.
@@ -13,12 +14,12 @@ import org.michaelbel.movies.persistence.database.entity.AccountDb
 @Dao
 internal interface AccountDao {
 
-    @Query("SELECT * FROM accounts WHERE id = :accountId")
-    fun accountById(accountId: Int): Flow<AccountDb?>
+    @Query("SELECT * FROM accounts WHERE accountId = :accountId")
+    fun accountById(accountId: Int): Flow<AccountPojo?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(account: AccountDb)
 
-    @Query("DELETE FROM accounts WHERE id = :accountId")
+    @Query("DELETE FROM accounts WHERE accountId = :accountId")
     suspend fun removeById(accountId: Int)
 }

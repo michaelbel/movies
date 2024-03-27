@@ -30,7 +30,7 @@ import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.account.AccountViewModel
 import org.michaelbel.movies.account_impl_kmp.R
 import org.michaelbel.movies.common.theme.AppTheme
-import org.michaelbel.movies.persistence.database.entity.AccountDb
+import org.michaelbel.movies.persistence.database.entity.AccountPojo
 import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.compose.AccountAvatar
@@ -59,7 +59,7 @@ fun AccountRoute(
 
 @Composable
 private fun AccountScreenContent(
-    account: AccountDb,
+    account: AccountPojo,
     loading: Boolean,
     onBackClick: () -> Unit,
     onLogoutClick: () -> Unit,
@@ -203,7 +203,7 @@ private fun AccountScreenContent(
 private fun AccountScreenContentPreview() {
     MoviesTheme {
         AccountScreenContent(
-            account = AccountDb(
+            account = AccountPojo(
                 accountId = 0,
                 avatarUrl = "",
                 language = "",
@@ -226,7 +226,7 @@ private fun AccountScreenContentAmoledPreview() {
         theme = AppTheme.Amoled
     ) {
         AccountScreenContent(
-            account = AccountDb(
+            account = AccountPojo(
                 accountId = 0,
                 avatarUrl = "",
                 language = "",
