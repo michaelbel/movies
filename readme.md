@@ -118,8 +118,6 @@ The app is still usable without an API key. In this case functionality will be l
 - [x] [Paging3](https://d.android.com/topic/libraries/architecture/paging/v3-overview)
 - [x] [Browser](https://d.android.com/jetpack/androidx/releases/browser)
 - [x] [OkHttp](https://github.com/square/okhttp)
-- [x] [Retrofit](https://github.com/square/retrofit)
-- [x] [Retrofit Kotlinx Converter Serialization](https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter)
 - [x] [Ktor](https://ktor.io)
 - [x] [Chucker](https://github.com/ChuckerTeam/chucker)
 - [x] [Flaker](https://github.com/rotbolt/flaker)
@@ -166,6 +164,7 @@ The app is still usable without an API key. In this case functionality will be l
 - [x] [Koin](https://github.com/InsertKoinIO/koin)
 - [x] [ConstraintLayout](https://d.android.com/develop/ui/views/layout/constraint-layout) removed in [44723cb](https://github.com/michaelbel/movies/commit/44723cbbafdad89bef6043f99cbd0fbab1ecf19a)
 - [x] [Dagger Hilt](https://github.com/google/dagger) removed in [#274](https://github.com/michaelbel/movies/pull/274)
+- [x] [Retrofit](https://github.com/square/retrofit) removed in [#275](https://github.com/michaelbel/movies/pull/275)
 
 ## Roadmap
 [Movies App Roadmap](https://github.com/users/michaelbel/projects/1/views/1)
