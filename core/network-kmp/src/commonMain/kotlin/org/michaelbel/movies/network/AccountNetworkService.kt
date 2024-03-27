@@ -1,5 +1,15 @@
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-
 package org.michaelbel.movies.network
 
-expect class AccountNetworkService
+import org.michaelbel.movies.network.ktor.KtorAccountService
+import org.michaelbel.movies.network.model.Account
+
+class AccountNetworkService internal constructor(
+    private val ktorAccountService: KtorAccountService
+) {
+
+    suspend fun accountDetails(
+        sessionId: String
+    ): Account {
+        return ktorAccountService.accountDetails(sessionId)
+    }
+}
