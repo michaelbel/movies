@@ -108,7 +108,6 @@ The app is still usable without an API key. In this case functionality will be l
 - [x] [KotlinX Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
 - [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization)
 - [x] [Appcompat](https://d.android.com/jetpack/androidx/releases/appcompat)
-- [x] [Dagger Hilt](https://github.com/google/dagger)
 - [x] [ViewModel](https://d.android.com/topic/libraries/architecture/viewmodel)
 - [x] [Lifecycle](https://d.android.com/topic/libraries/architecture/lifecycle)
 - [x] [Room](https://d.android.com/training/data-storage/room)
@@ -117,7 +116,6 @@ The app is still usable without an API key. In this case functionality will be l
 - [x] [Startup](https://d.android.com/jetpack/androidx/releases/startup)
 - [x] [Navigation](https://d.android.com/guide/navigation)
 - [x] [Paging3](https://d.android.com/topic/libraries/architecture/paging/v3-overview)
-- [x] [ConstraintLayout](https://d.android.com/develop/ui/views/layout/constraint-layout)
 - [x] [Browser](https://d.android.com/jetpack/androidx/releases/browser)
 - [x] [OkHttp](https://github.com/square/okhttp)
 - [x] [Retrofit](https://github.com/square/retrofit)
@@ -163,6 +161,11 @@ The app is still usable without an API key. In this case functionality will be l
 - [x] [Grammatical Gender](https://d.android.com/about/versions/14/features/grammatical-inflection)
 - [x] [Biometric Authentication Dialog](https://d.android.com/training/sign-in/biometric-auth)
 - [x] [LeakCanary](https://github.com/square/leakcanary)
+- [x] [ConstraintLayout Multiplatform](https://github.com/Lavmee/constraintlayout-compose-multiplatform)
+- [x] [PreCompose](https://github.com/Tlaster/PreCompose)
+- [x] [Koin](https://github.com/InsertKoinIO/koin)
+- [x] [ConstraintLayout](https://d.android.com/develop/ui/views/layout/constraint-layout) removed in [44723cb](https://github.com/michaelbel/movies/commit/44723cbbafdad89bef6043f99cbd0fbab1ecf19a)
+- [x] [Dagger Hilt](https://github.com/google/dagger) removed in [#274](https://github.com/michaelbel/movies/pull/274)
 
 ## Roadmap
 [Movies App Roadmap](https://github.com/users/michaelbel/projects/1/views/1)
