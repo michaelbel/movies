@@ -63,7 +63,6 @@ spotless = "6.25.0"
 coil = "2.6.0"
 coil3 = "3.0.0-alpha06"
 okhttp = "4.12.0"
-retrofit = "2.10.0"
 chucker = "4.0.0"
 timber = "5.0.1"
 javapoet = "1.13.0"
@@ -182,8 +181,6 @@ androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil3 = { module = "io.coil-kt.coil3:coil", version.ref = "coil3" }
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
-retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
-retrofit-converter-serialization = { module = "com.squareup.retrofit2:converter-kotlinx-serialization", version.ref = "retrofit" }
 chucker-library = { module = "com.github.chuckerteam.chucker:library", version.ref = "chucker" }
 chucker-library-no-op = { module = "com.github.chuckerteam.chucker:library-no-op", version.ref = "chucker" }
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
@@ -325,17 +322,15 @@ google-services = [
     "google-services-base",
     "google-services-instantapps"
 ]
-ktor = [
+ktor-common = [
     "ktor-client-core",
     "ktor-client-cio",
-    "ktor-client-okhttp",
-    "ktor-client-android",
     "ktor-client-content-negotiation",
     "ktor-serialization-kotlinx-json"
 ]
-retrofit = [
-    "retrofit",
-    "retrofit-converter-serialization"
+ktor-android = [
+    "ktor-client-okhttp",
+    "ktor-client-android",
 ]
 koin-common = [
     "koin-core"

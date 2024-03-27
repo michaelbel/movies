@@ -1,4 +1,4 @@
-package org.michaelbel.movies.network.ktor.di
+package org.michaelbel.movies.network.ktor
 
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import io.github.rotbolt.flakerokhttpcore.FlakerInterceptor

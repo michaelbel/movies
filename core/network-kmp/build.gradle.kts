@@ -25,13 +25,13 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(libs.kotlinx.serialization.json)
+            implementation(libs.bundles.ktor.common)
             implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
+            implementation(libs.bundles.ktor.android)
             implementation(libs.androidx.startup.runtime)
             implementation(libs.okhttp.logging.interceptor)
-            implementation(libs.bundles.retrofit)
-            implementation(libs.bundles.ktor)
             implementation(libs.flaker.android.okhttp)
             implementation(libs.koin.android)
         }

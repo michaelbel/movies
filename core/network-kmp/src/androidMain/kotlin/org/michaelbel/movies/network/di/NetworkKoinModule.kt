@@ -5,16 +5,14 @@ import org.michaelbel.movies.network.AccountNetworkService
 import org.michaelbel.movies.network.AuthenticationNetworkService
 import org.michaelbel.movies.network.MovieNetworkService
 import org.michaelbel.movies.network.SearchNetworkService
-import org.michaelbel.movies.network.ktor.di.ktorNetworkKoinModule
-import org.michaelbel.movies.network.retrofit.di.retrofitNetworkKoinModule
+import org.michaelbel.movies.network.ktor.ktorNetworkKoinModule
 
 val networkKoinModule = module {
     includes(
-        ktorNetworkKoinModule,
-        retrofitNetworkKoinModule
+        ktorNetworkKoinModule
     )
-    single { AccountNetworkService(get(), get()) }
-    single { AuthenticationNetworkService(get(), get()) }
-    single { MovieNetworkService(get(), get()) }
-    single { SearchNetworkService(get(), get()) }
+    single { AccountNetworkService(get()) }
+    single { AuthenticationNetworkService(get()) }
+    single { MovieNetworkService(get()) }
+    single { SearchNetworkService(get()) }
 }
