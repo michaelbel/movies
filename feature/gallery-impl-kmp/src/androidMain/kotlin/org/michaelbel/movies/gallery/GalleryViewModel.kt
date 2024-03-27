@@ -8,7 +8,6 @@ import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkInfo
 import androidx.work.WorkManager
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -23,10 +22,8 @@ import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.persistence.database.entity.ImageDb
 import org.michaelbel.movies.persistence.database.ktx.original
 import org.michaelbel.movies.work.DownloadImageWorker
-import javax.inject.Inject
 
-@HiltViewModel
-class GalleryViewModel @Inject constructor(
+class GalleryViewModel(
     savedStateHandle: SavedStateHandle,
     private val interactor: Interactor,
     private val workManager: WorkManager

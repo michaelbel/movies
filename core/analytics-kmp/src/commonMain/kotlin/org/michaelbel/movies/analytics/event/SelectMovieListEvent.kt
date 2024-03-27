@@ -1,8 +1,14 @@
-@file:Suppress(
-    "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING",
-    "EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE"
-)
-
 package org.michaelbel.movies.analytics.event
 
-expect class SelectMovieListEvent(movieList: String)
+import org.michaelbel.movies.analytics.constants.MoviesEvents
+import org.michaelbel.movies.analytics.constants.MoviesParams
+import org.michaelbel.movies.analytics.model.BaseEvent
+
+class SelectMovieListEvent(
+    movieList: String
+): BaseEvent(MoviesEvents.SETTINGS_MOVIE_LIST) {
+
+    init {
+        add(MoviesParams.PARAM_SELECTED_MOVIE_LIST, movieList)
+    }
+}

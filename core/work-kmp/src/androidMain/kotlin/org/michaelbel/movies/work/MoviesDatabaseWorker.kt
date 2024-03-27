@@ -1,14 +1,10 @@
 @file:OptIn(ExperimentalSerializationApi::class)
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 
 package org.michaelbel.movies.work
 
 import android.content.Context
-import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
@@ -19,10 +15,9 @@ import org.michaelbel.movies.persistence.database.MoviePersistence
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.ktx.movieDb
 
-@HiltWorker
-actual class MoviesDatabaseWorker @AssistedInject constructor(
-    @Assisted context: Context,
-    @Assisted workerParams: WorkerParameters,
+class MoviesDatabaseWorker(
+    context: Context,
+    workerParams: WorkerParameters,
     private val dispatchers: MoviesDispatchers,
     private val moviePersistence: MoviePersistence
 ): CoroutineWorker(context, workerParams) {

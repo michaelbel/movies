@@ -25,8 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ChainStyle
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.account.AccountViewModel
 import org.michaelbel.movies.account_impl_kmp.R
 import org.michaelbel.movies.common.theme.AppTheme
@@ -44,7 +44,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 fun AccountRoute(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: AccountViewModel = hiltViewModel()
+    viewModel: AccountViewModel = koinViewModel()
 ) {
     val account by viewModel.account.collectAsStateWithLifecycle()
 

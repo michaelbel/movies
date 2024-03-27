@@ -5,12 +5,11 @@ package org.michaelbel.movies.network
 import org.michaelbel.movies.network.ktor.KtorAccountService
 import org.michaelbel.movies.network.model.Account
 import org.michaelbel.movies.network.retrofit.RetrofitAccountService
-import javax.inject.Inject
 
 /**
  * You can replace [ktorAccountService] with [retrofitAccountService] to use it.
  */
-actual class AccountNetworkService @Inject internal constructor(
+actual class AccountNetworkService internal constructor(
     private val retrofitAccountService: RetrofitAccountService,
     private val ktorAccountService: KtorAccountService
 ) {

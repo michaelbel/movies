@@ -6,9 +6,8 @@ import io.ktor.client.request.get
 import io.ktor.client.request.parameter
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
-import javax.inject.Inject
 
-internal class KtorSearchService @Inject constructor(
+internal class KtorSearchService(
     private val ktorHttpClient: HttpClient
 ) {
 

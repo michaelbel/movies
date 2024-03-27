@@ -8,12 +8,11 @@ import org.michaelbel.movies.network.model.Movie
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
 import org.michaelbel.movies.network.retrofit.RetrofitMovieService
-import javax.inject.Inject
 
 /**
  * You can replace [ktorMovieService] with [retrofitMovieService] to use it.
  */
-actual class MovieNetworkService @Inject internal constructor(
+actual class MovieNetworkService internal constructor(
     private val retrofitMovieService: RetrofitMovieService,
     private val ktorMovieService: KtorMovieService
 ) {

@@ -44,9 +44,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.common.MOVIES_GITHUB_URL
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.browser.openUrl
@@ -81,7 +81,7 @@ import org.michaelbel.movies.widget_kmp.R as WidgetR
 fun SettingsRoute(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SettingsViewModel = hiltViewModel()
+    viewModel: SettingsViewModel = koinViewModel()
 ) {
     val currentLanguage = AppLanguage.transform(stringResource(UiR.string.language_code))
     val currentTheme by viewModel.currentTheme.collectAsStateWithLifecycle()

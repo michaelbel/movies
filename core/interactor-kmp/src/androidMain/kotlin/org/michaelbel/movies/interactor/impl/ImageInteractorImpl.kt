@@ -6,11 +6,8 @@ import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.interactor.ImageInteractor
 import org.michaelbel.movies.persistence.database.entity.ImageDb
 import org.michaelbel.movies.repository.ImageRepository
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-internal class ImageInteractorImpl @Inject constructor(
+internal class ImageInteractorImpl(
     private val dispatchers: MoviesDispatchers,
     private val imageRepository: ImageRepository
 ): ImageInteractor {

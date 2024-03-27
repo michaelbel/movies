@@ -6,7 +6,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.DefaultLifecycleObserver
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -24,10 +23,8 @@ import org.michaelbel.movies.platform.review.ReviewService
 import org.michaelbel.movies.platform.update.UpdateListener
 import org.michaelbel.movies.platform.update.UpdateService
 import org.michaelbel.movies.settings_impl_kmp.BuildConfig
-import javax.inject.Inject
 
-@HiltViewModel
-class SettingsViewModel @Inject constructor(
+class SettingsViewModel(
     biometricController: BiometricController,
     private val interactor: Interactor,
     private val localeController: LocaleController,

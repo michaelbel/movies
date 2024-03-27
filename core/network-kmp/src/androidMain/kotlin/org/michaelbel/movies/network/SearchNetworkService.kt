@@ -6,12 +6,11 @@ import org.michaelbel.movies.network.ktor.KtorSearchService
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
 import org.michaelbel.movies.network.retrofit.RetrofitSearchService
-import javax.inject.Inject
 
 /**
  * You can replace [ktorSearchService] with [retrofitSearchService] to use it.
  */
-actual class SearchNetworkService @Inject internal constructor(
+actual class SearchNetworkService internal constructor(
     private val retrofitSearchService: RetrofitSearchService,
     private val ktorSearchService: KtorSearchService
 ) {

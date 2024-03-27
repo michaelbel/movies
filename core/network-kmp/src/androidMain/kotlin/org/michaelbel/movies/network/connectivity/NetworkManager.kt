@@ -6,12 +6,11 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.net.NetworkCapabilities
 import android.net.NetworkRequest
-import javax.inject.Inject
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 
-actual class NetworkManager @Inject constructor(
+actual class NetworkManager(
     private val connectivityManager: ConnectivityManager
 ) {
     val status: Flow<NetworkStatus> = callbackFlow {

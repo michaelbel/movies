@@ -13,11 +13,8 @@ import org.michaelbel.movies.network.model.Username
 import org.michaelbel.movies.persistence.database.AccountPersistence
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import org.michaelbel.movies.repository.AuthenticationRepository
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-internal class AuthenticationRepositoryImpl @Inject constructor(
+internal class AuthenticationRepositoryImpl(
     private val authenticationNetworkService: AuthenticationNetworkService,
     private val accountPersistence: AccountPersistence,
     private val preferences: MoviesPreferences

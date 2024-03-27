@@ -1,9 +1,9 @@
-@file:Suppress("EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE")
-
 package org.michaelbel.movies.network.ktx
 
 import org.michaelbel.movies.network.config.ScreenState
 
-expect val ScreenState.isFailure: Boolean
+val ScreenState.isFailure: Boolean
+    get() = this is ScreenState.Failure
 
-expect val ScreenState.throwable: Throwable
+val ScreenState.throwable: Throwable
+    get() = (this as ScreenState.Failure).throwable

@@ -4,13 +4,11 @@ import android.content.Context
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.FirebaseApp
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
 import org.michaelbel.movies.platform.Flavor
 import org.michaelbel.movies.platform.app.AppService
 
-class AppServiceImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
+class AppServiceImpl(
+    private val context: Context,
     private val googleApiAvailability: GoogleApiAvailability
 ): AppService {
 

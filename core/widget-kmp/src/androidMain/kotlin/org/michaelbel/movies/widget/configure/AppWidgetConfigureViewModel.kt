@@ -1,7 +1,5 @@
 package org.michaelbel.movies.widget.configure
 
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -9,8 +7,7 @@ import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
 
-@HiltViewModel
-internal class AppWidgetConfigureViewModel @Inject constructor(
+internal class AppWidgetConfigureViewModel(
     interactor: Interactor
 ): BaseViewModel() {
 

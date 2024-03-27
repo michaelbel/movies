@@ -3,7 +3,6 @@ package org.michaelbel.movies.account
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -12,10 +11,8 @@ import org.michaelbel.movies.common.exceptions.DeleteSessionException
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.persistence.database.entity.AccountDb
-import javax.inject.Inject
 
-@HiltViewModel
-class AccountViewModel @Inject constructor(
+class AccountViewModel(
     private val interactor: Interactor
 ): BaseViewModel() {
 

@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
-    id("movies-android-hilt")
 }
 
 kotlin {
@@ -12,12 +11,17 @@ kotlin {
             }
         }
     }
+    jvm("desktop")
 
     sourceSets {
-        androidMain.dependencies {
+        commonMain.dependencies {
             implementation(project(":core:common-kmp"))
             implementation(project(":core:interactor-kmp"))
             implementation(project(":core:ui-kmp"))
+            implementation(libs.bundles.koin.common)
+        }
+        androidMain.dependencies {
+            implementation(libs.koin.android)
         }
     }
 }

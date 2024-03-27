@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.compose)
     alias(libs.plugins.android.library)
-    id("movies-android-hilt")
 }
 
 kotlin {
@@ -23,20 +22,18 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.constraintlayout.compose.multiplatform)
-        }
-        androidMain.dependencies {
             api(project(":core:navigation-kmp"))
             api(project(":core:ui-kmp"))
             implementation(project(":core:common-kmp"))
             implementation(project(":core:interactor-kmp"))
             implementation(project(":core:network-kmp"))
-            implementation(libs.androidx.autofill)
+            implementation(libs.constraintlayout.compose.multiplatform)
+            implementation(libs.bundles.koin.common)
         }
-        val desktopMain by getting
-        desktopMain.dependencies {
-            implementation(compose.material)
-            implementation(libs.precompose)
+        androidMain.dependencies {
+            implementation(libs.androidx.autofill)
+            implementation(libs.koin.android)
+            implementation(libs.koin.androidx.compose)
         }
     }
 }

@@ -3,7 +3,6 @@ package org.michaelbel.movies.auth
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.exceptions.AccountDetailsException
 import org.michaelbel.movies.common.exceptions.CreateRequestTokenException
@@ -13,10 +12,8 @@ import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.interactor.entity.Password
 import org.michaelbel.movies.interactor.entity.Username
-import javax.inject.Inject
 
-@HiltViewModel
-class AuthViewModel @Inject constructor(
+class AuthViewModel(
     private val interactor: Interactor
 ): BaseViewModel() {
 

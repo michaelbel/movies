@@ -26,8 +26,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.common.ktx.appSettingsIntent
 import org.michaelbel.movies.debug.DebugViewModel
 import org.michaelbel.movies.debug_kmp.R
@@ -36,7 +36,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 internal fun DebugActivityContent(
-    viewModel: DebugViewModel = hiltViewModel(),
+    viewModel: DebugViewModel = koinViewModel(),
     enableEdgeToEdge: (Any, Any) -> Unit
 ) {
     val currentTheme by viewModel.currentTheme.collectAsStateWithLifecycle()

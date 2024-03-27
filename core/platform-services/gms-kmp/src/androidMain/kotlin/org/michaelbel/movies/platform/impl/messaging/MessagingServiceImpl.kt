@@ -1,11 +1,10 @@
 package org.michaelbel.movies.platform.impl.messaging
 
 import com.google.firebase.messaging.FirebaseMessaging
-import javax.inject.Inject
 import org.michaelbel.movies.platform.messaging.MessagingService
 import org.michaelbel.movies.platform.messaging.TokenListener
 
-class MessagingServiceImpl @Inject constructor(
+class MessagingServiceImpl(
     private val firebaseMessaging: FirebaseMessaging
 ): MessagingService {
 

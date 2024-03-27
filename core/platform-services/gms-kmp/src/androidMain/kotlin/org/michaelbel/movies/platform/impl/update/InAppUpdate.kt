@@ -9,10 +9,9 @@ import com.google.android.play.core.install.model.AppUpdateType
 import com.google.android.play.core.install.model.InstallErrorCode
 import com.google.android.play.core.install.model.UpdateAvailability
 import com.google.android.play.core.tasks.Task
-import javax.inject.Inject
 import org.michaelbel.movies.platform.app.AppService
 
-class InAppUpdate @Inject constructor(
+class InAppUpdate(
     private val appUpdateManager: AppUpdateManager,
     appService: AppService
 ) {

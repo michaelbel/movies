@@ -8,11 +8,8 @@ import org.michaelbel.movies.persistence.database.MoviePersistence
 import org.michaelbel.movies.persistence.database.SuggestionPersistence
 import org.michaelbel.movies.persistence.database.entity.SuggestionDb
 import org.michaelbel.movies.repository.SuggestionRepository
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-internal class SuggestionRepositoryImpl @Inject constructor(
+internal class SuggestionRepositoryImpl(
     private val movieNetworkService: MovieNetworkService,
     private val moviePersistence: MoviePersistence,
     private val suggestionPersistence: SuggestionPersistence,

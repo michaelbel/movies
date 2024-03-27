@@ -1,8 +1,14 @@
-@file:Suppress(
-    "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING",
-    "EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE"
-)
-
 package org.michaelbel.movies.analytics.event
 
-expect class SelectLanguageEvent(language: String)
+import org.michaelbel.movies.analytics.constants.MoviesEvents
+import org.michaelbel.movies.analytics.constants.MoviesParams
+import org.michaelbel.movies.analytics.model.BaseEvent
+
+class SelectLanguageEvent(
+    language: String
+): BaseEvent(MoviesEvents.SETTINGS_SELECT_LANGUAGE) {
+
+    init {
+        add(MoviesParams.PARAM_SELECTED_LANGUAGE, language)
+    }
+}

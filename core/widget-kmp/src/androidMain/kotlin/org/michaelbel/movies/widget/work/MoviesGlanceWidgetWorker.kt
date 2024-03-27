@@ -5,25 +5,21 @@ import androidx.glance.GlanceId
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.state.updateAppWidgetState
 import androidx.glance.appwidget.updateAll
-import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import androidx.work.WorkerParameters
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
-import java.time.Duration
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
 import org.michaelbel.movies.widget.MoviesGlanceWidget
-import org.michaelbel.movies.widget_kmp.R
 import org.michaelbel.movies.widget.ktx.mapToMovieData
+import org.michaelbel.movies.widget_kmp.R
+import java.time.Duration
 
-@HiltWorker
-internal class MoviesGlanceWidgetWorker @AssistedInject constructor(
-    @Assisted private val context: Context,
-    @Assisted workerParams: WorkerParameters,
+internal class MoviesGlanceWidgetWorker(
+    private val context: Context,
+    workerParams: WorkerParameters,
     private val interactor: Interactor
 ): CoroutineWorker(context, workerParams) {
 

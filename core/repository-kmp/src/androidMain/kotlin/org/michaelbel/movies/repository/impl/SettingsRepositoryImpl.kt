@@ -2,7 +2,6 @@ package org.michaelbel.movies.repository.impl
 
 import android.content.Context
 import android.os.Build
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
@@ -17,12 +16,9 @@ import org.michaelbel.movies.platform.app.AppService
 import org.michaelbel.movies.repository.SettingsRepository
 import org.michaelbel.movies.repository.ktx.code
 import org.michaelbel.movies.repository.ktx.packageInfo
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-internal class SettingsRepositoryImpl @Inject constructor(
-    @ApplicationContext private val context: Context,
+internal class SettingsRepositoryImpl(
+    context: Context,
     private val preferences: MoviesPreferences,
     private val appService: AppService
 ): SettingsRepository {

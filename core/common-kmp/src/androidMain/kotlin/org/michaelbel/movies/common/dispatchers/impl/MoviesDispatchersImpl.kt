@@ -3,9 +3,8 @@ package org.michaelbel.movies.common.dispatchers.impl
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
-import javax.inject.Inject
 
-internal class MoviesDispatchersImpl @Inject constructor(): MoviesDispatchers {
+internal class MoviesDispatchersImpl: MoviesDispatchers {
 
     override val default: CoroutineDispatcher
         get() = Dispatchers.Default

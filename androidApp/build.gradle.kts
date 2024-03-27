@@ -10,7 +10,6 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.androidx.navigation.safeargs)
     alias(libs.plugins.palantir.git)
-    id("movies-android-hilt")
 }
 
 val gitCommitsCount by lazy {
@@ -188,6 +187,7 @@ dependencies {
     implementation(project(":feature:search-kmp"))
     implementation(project(":feature:settings-kmp"))
     implementation(libs.kotlin.reflect)
+    implementation(libs.bundles.koin.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.bundles.androidx.test.espresso)
     androidTestImplementation(libs.androidx.test.ext.junit.ktx)

@@ -1,8 +1,14 @@
-@file:Suppress(
-    "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING",
-    "EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE"
-)
-
 package org.michaelbel.movies.analytics.event
 
-expect class SelectFeedViewEvent(feedView: String)
+import org.michaelbel.movies.analytics.constants.MoviesEvents
+import org.michaelbel.movies.analytics.constants.MoviesParams
+import org.michaelbel.movies.analytics.model.BaseEvent
+
+class SelectFeedViewEvent(
+    feedView: String
+): BaseEvent(MoviesEvents.SETTINGS_FEED_VIEW) {
+
+    init {
+        add(MoviesParams.PARAM_SELECTED_FEED_VIEW, feedView)
+    }
+}

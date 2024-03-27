@@ -1,5 +1,3 @@
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-
 package org.michaelbel.movies.persistence.database
 
 import androidx.paging.PagingSource
@@ -7,9 +5,8 @@ import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.persistence.database.dao.MovieDao
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
-import javax.inject.Inject
 
-actual class MoviePersistence @Inject internal constructor(
+class MoviePersistence internal constructor(
     private val movieDao: MovieDao
 ) {
 

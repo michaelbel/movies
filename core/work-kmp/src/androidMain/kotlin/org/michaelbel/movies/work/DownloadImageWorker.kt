@@ -1,5 +1,3 @@
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-
 package org.michaelbel.movies.work
 
 import android.content.ContentValues
@@ -9,22 +7,18 @@ import android.os.Build
 import android.os.Environment
 import android.provider.MediaStore
 import androidx.core.net.toUri
-import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
 import org.michaelbel.movies.common.ktx.currentDateTime
 import org.michaelbel.movies.notifications.NotificationClient
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URL
 
-@HiltWorker
-actual class DownloadImageWorker @AssistedInject constructor(
-    @Assisted private val context: Context,
-    @Assisted private val workerParams: WorkerParameters,
+class DownloadImageWorker(
+    private val context: Context,
+    workerParams: WorkerParameters,
     private val notificationClient: NotificationClient
 ): CoroutineWorker(context, workerParams) {
 

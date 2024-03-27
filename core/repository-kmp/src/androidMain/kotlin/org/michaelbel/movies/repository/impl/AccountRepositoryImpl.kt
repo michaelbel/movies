@@ -13,11 +13,8 @@ import org.michaelbel.movies.persistence.database.entity.AccountDb
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import org.michaelbel.movies.repository.AccountRepository
 import org.michaelbel.movies.repository.ktx.mapToAccountDb
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-internal class AccountRepositoryImpl @Inject constructor(
+internal class AccountRepositoryImpl(
     private val accountNetworkService: AccountNetworkService,
     private val accountPersistence: AccountPersistence,
     private val preferences: MoviesPreferences

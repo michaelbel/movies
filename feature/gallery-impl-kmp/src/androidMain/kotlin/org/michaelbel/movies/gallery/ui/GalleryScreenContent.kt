@@ -49,13 +49,13 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.core.net.toUri
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.work.WorkInfo
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.gallery.GalleryViewModel
 import org.michaelbel.movies.gallery.zoomable.rememberZoomState
@@ -76,7 +76,7 @@ import org.michaelbel.movies.work.DownloadImageWorker
 fun GalleryRoute(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: GalleryViewModel = hiltViewModel()
+    viewModel: GalleryViewModel = koinViewModel()
 ) {
     val movieImages by viewModel.movieImagesFlow.collectAsStateWithLifecycle()
     val workInfo by viewModel.workInfoFlow.collectAsStateWithLifecycle()

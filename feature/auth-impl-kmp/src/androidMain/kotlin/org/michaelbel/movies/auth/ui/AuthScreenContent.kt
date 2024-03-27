@@ -41,7 +41,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.hilt.navigation.compose.hiltViewModel
+import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.auth.AuthViewModel
 import org.michaelbel.movies.auth.ktx.text
 import org.michaelbel.movies.auth_impl_kmp.R
@@ -73,7 +73,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 fun AuthRoute(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: AuthViewModel = hiltViewModel()
+    viewModel: AuthViewModel = koinViewModel()
 ) {
     AuthScreenContent(
         error = viewModel.error,

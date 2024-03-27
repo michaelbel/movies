@@ -12,9 +12,8 @@ import org.michaelbel.movies.network.model.Session
 import org.michaelbel.movies.network.model.SessionRequest
 import org.michaelbel.movies.network.model.Token
 import org.michaelbel.movies.network.model.Username
-import javax.inject.Inject
 
-internal class KtorAuthenticationService @Inject constructor(
+internal class KtorAuthenticationService(
     private val ktorHttpClient: HttpClient
 ) {
 

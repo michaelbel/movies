@@ -7,12 +7,3 @@ dependencies {
     compileOnly(libs.kotlin.plugin)
     implementation(libs.javapoet)
 }
-
-gradlePlugin {
-    plugins {
-        register("androidHilt") {
-            id = "movies-android-hilt"
-            implementationClass = "plugins.AndroidHiltConventionPlugin"
-        }
-    }
-}

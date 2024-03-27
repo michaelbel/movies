@@ -2,7 +2,6 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.compose)
     alias(libs.plugins.android.library)
-    id("movies-android-hilt")
 }
 
 kotlin {
@@ -18,7 +17,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:navigation-kmp"))
-            implementation(project(":feature:account-impl-kmp"))
+            api(project(":feature:account-impl-kmp"))
         }
         val desktopMain by getting
         desktopMain.dependencies {

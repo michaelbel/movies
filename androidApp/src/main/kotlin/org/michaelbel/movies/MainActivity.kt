@@ -4,18 +4,16 @@ import android.os.Bundle
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.FragmentActivity
-import dagger.hilt.android.AndroidEntryPoint
+import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.michaelbel.movies.common.ktx.launchAndCollectIn
 import org.michaelbel.movies.ui.ktx.resolveNotificationPreferencesIntent
 import org.michaelbel.movies.ui.shortcuts.installShortcuts
 
-@AndroidEntryPoint
 internal class MainActivity: FragmentActivity() {
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen().apply { setKeepOnScreenCondition { viewModel.splashLoading.value } }
