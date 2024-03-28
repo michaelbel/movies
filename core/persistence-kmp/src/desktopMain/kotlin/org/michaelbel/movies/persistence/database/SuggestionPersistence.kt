@@ -8,11 +8,11 @@ import org.michaelbel.movies.persistence.database.entity.SuggestionPojo
 
 actual class SuggestionPersistence internal constructor() {
 
-    fun suggestionsFlow(): Flow<List<SuggestionPojo>> {
+    actual fun suggestionsFlow(): Flow<List<SuggestionPojo>> {
         return emptyFlow()
     }
 
-    suspend fun insert(suggestions: List<SuggestionPojo>) {}
+    actual suspend fun insert(suggestions: List<SuggestionPojo>) {}
 
-    suspend fun removeAll() {}
+    actual suspend fun removeAll() {}
 }

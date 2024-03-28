@@ -250,16 +250,6 @@ androidx-compose = [
     "androidx-compose-ui-tooling",
     "androidx-compose-ui-util"
 ]
-androidx-datastore-common = [
-    "androidx-datastore-core",
-    "androidx-datastore-preferences-core"
-]
-androidx-datastore-android = [
-    "androidx-datastore-preferences"
-]
-androidx-datastore-desktop = [
-    "androidx-datastore-core-okio-jvm"
-]
 androidx-glance = [
     "androidx-glance-appwidget",
     "androidx-glance-material3"
@@ -308,6 +298,19 @@ androidx-test-espresso = [
     "androidx-test-espresso-device",
     "androidx-test-espresso-idling-resource"
 ]
+datastore-common = [
+    "androidx-datastore-core",
+    "androidx-datastore-preferences-core"
+]
+datastore-android = [
+    "androidx-datastore-preferences"
+]
+datastore-desktop = [
+    "androidx-datastore-core-okio-jvm"
+]
+paging-common = [
+    "androidx-paging-compose"
+]
 google-firebase = [
     "google-firebase-analytics-ktx",
     "google-firebase-config-ktx",
@@ -339,6 +342,9 @@ koin-android = [
     "koin-android",
     "koin-androidx-compose",
     "koin-androidx-workmanager"
+]
+constraintlayout-common = [
+    "constraintlayout-compose-multiplatform"
 ]
 
 [plugins]

@@ -11,14 +11,15 @@ kotlin {
             }
         }
     }
+    jvm("desktop")
 
     sourceSets {
         commonMain.dependencies {
+            implementation(project(":core:platform-services:interactor-kmp"))
+            implementation(project(":core:notifications-kmp"))
             implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
-            implementation(project(":core:platform-services:interactor-kmp"))
-            implementation(project(":core:notifications-kmp"))
             api(libs.bundles.google.firebase)
             api(libs.bundles.google.services)
             api(libs.google.play.core.ktx)

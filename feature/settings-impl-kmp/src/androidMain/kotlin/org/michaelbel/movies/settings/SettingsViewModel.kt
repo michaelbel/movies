@@ -8,6 +8,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.DefaultLifecycleObserver
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.appearance.FeedView
@@ -19,6 +20,8 @@ import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
+import org.michaelbel.movies.platform.Flavor
+import org.michaelbel.movies.platform.app.AppService
 import org.michaelbel.movies.platform.review.ReviewService
 import org.michaelbel.movies.platform.update.UpdateListener
 import org.michaelbel.movies.platform.update.UpdateService
@@ -30,6 +33,7 @@ class SettingsViewModel(
     private val localeController: LocaleController,
     private val reviewService: ReviewService,
     private val updateService: UpdateService,
+    appService: AppService
 ): BaseViewModel(), DefaultLifecycleObserver {
 
     val isGrammaticalGenderFeatureEnabled = Build.VERSION.SDK_INT >= 34
@@ -40,9 +44,9 @@ class SettingsViewModel(
 
     val isTileFeatureEnabled = Build.VERSION.SDK_INT >= 24
 
-    val isReviewFeatureEnabled = interactor.isReviewFeatureEnabled
+    val isReviewFeatureEnabled = appService.flavor == Flavor.Gms
 
-    val isUpdateFeatureEnabled = interactor.isUpdateFeatureEnabled
+    val isUpdateFeatureEnabled = appService.flavor == Flavor.Gms
 
     val currentTheme: StateFlow<AppTheme> = interactor.currentTheme
         .stateIn(
@@ -86,7 +90,7 @@ class SettingsViewModel(
             initialValue = false
         )
 
-    val appVersionData: StateFlow<AppVersionData> = interactor.appVersionData
+    val appVersionData: StateFlow<AppVersionData> = flowOf(AppVersionData(appService.flavor.name))
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,

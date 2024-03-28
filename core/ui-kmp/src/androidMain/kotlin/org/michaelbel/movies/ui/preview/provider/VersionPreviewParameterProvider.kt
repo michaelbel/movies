@@ -6,28 +6,13 @@ import org.michaelbel.movies.common.version.AppVersionData
 class VersionPreviewParameterProvider: CollectionPreviewParameterProvider<AppVersionData>(
     listOf(
         AppVersionData(
-            version = "1.0.0",
-            code = 100L,
-            flavor = "GMS",
-            isDebug = false
+            flavor = "GMS"
         ),
         AppVersionData(
-            version = "1.0.0",
-            code = 100L,
-            flavor = "GMS",
-            isDebug = true
+            flavor = "GMS"
         ),
         AppVersionData(
-            version = "1.0.0",
-            code = 100L,
-            flavor = "HMS",
-            isDebug = false
-        ),
-        AppVersionData(
-            version = "1.0.0",
-            code = 100L,
-            flavor = "HMS",
-            isDebug = true
+            flavor = "FOSS"
         )
     )
 )

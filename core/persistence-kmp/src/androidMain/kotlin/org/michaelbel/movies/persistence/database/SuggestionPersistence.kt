@@ -11,15 +11,15 @@ actual class SuggestionPersistence internal constructor(
     private val suggestionDao: SuggestionDao
 ) {
 
-    fun suggestionsFlow(): Flow<List<SuggestionPojo>> {
+    actual fun suggestionsFlow(): Flow<List<SuggestionPojo>> {
         return suggestionDao.suggestionsFlow()
     }
 
-    suspend fun insert(suggestions: List<SuggestionPojo>) {
+    actual suspend fun insert(suggestions: List<SuggestionPojo>) {
         suggestionDao.insert(suggestions.map(SuggestionPojo::suggestionDb))
     }
 
-    suspend fun removeAll() {
+    actual suspend fun removeAll() {
         suggestionDao.removeAll()
     }
 }

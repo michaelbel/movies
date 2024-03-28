@@ -28,7 +28,8 @@ kotlin {
             implementation(project(":core:interactor-kmp"))
             implementation(project(":core:network-kmp"))
             implementation(project(":core:notifications-kmp"))
-            implementation(libs.constraintlayout.compose.multiplatform)
+            implementation(libs.bundles.paging.common)
+            implementation(libs.bundles.constraintlayout.common)
             implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {

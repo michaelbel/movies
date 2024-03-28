@@ -23,6 +23,7 @@ import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.debug.notification.DebugNotificationClient
 import org.michaelbel.movies.interactor.Interactor
+import org.michaelbel.movies.platform.config.ConfigService
 import org.michaelbel.movies.platform.messaging.MessagingService
 import org.michaelbel.movies.work.AccountUpdateWorker
 import org.michaelbel.movies.work.MoviesDatabaseWorker
@@ -33,7 +34,8 @@ internal class MainViewModel(
     private val analytics: MoviesAnalytics,
     private val messagingService: MessagingService,
     private val workManager: WorkManager,
-    private val debugNotificationClient: DebugNotificationClient
+    private val debugNotificationClient: DebugNotificationClient,
+    private val configService: ConfigService
 ): BaseViewModel() {
 
     private val _authenticateFlow = Channel<Unit>(Channel.BUFFERED)
@@ -69,7 +71,11 @@ internal class MainViewModel(
     }
 
     fun analyticsTrackDestination(destination: NavDestination, arguments: Bundle?) {
-        analytics.trackDestination(destination.route, arguments)
+        val hashMap = hashMapOf<String, String>()
+        arguments?.keySet()?.forEach { key ->
+            hashMap[key] = arguments.get(key).toString()
+        }
+        analytics.trackDestination(destination.route, hashMap)
     }
 
     fun authenticate(activity: FragmentActivity) {
@@ -94,7 +100,7 @@ internal class MainViewModel(
     }
 
     private fun fetchRemoteConfig() = launch {
-        interactor.fetchRemoteConfig()
+        configService.fetchAndActivate()
     }
 
     private fun fetchFirebaseMessagingToken() {

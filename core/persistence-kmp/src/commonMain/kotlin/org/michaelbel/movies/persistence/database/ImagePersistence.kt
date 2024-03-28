@@ -2,4 +2,12 @@
 
 package org.michaelbel.movies.persistence.database
 
-expect class ImagePersistence
+import kotlinx.coroutines.flow.Flow
+import org.michaelbel.movies.persistence.database.entity.ImagePojo
+
+expect class ImagePersistence {
+
+    fun imagesFlow(movieId: Int): Flow<List<ImagePojo>>
+
+    suspend fun insert(images: List<ImagePojo>)
+}

@@ -23,7 +23,8 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:common-kmp"))
-            implementation(libs.constraintlayout.compose.multiplatform)
+            implementation(libs.bundles.paging.common)
+            implementation(libs.bundles.constraintlayout.common)
             implementation(compose.animation)
             implementation(compose.components.resources)
             implementation(compose.foundation)
@@ -46,7 +47,7 @@ kotlin {
             api(libs.coil.compose)
             api(libs.bundles.androidx.compose)
             api(libs.bundles.google.material)
-            api(libs.androidx.paging.compose)
+            //api(libs.androidx.paging.compose)
         }
     }
 }

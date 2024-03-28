@@ -11,11 +11,11 @@ actual class ImagePersistence internal constructor(
     private val imageDao: ImageDao
 ) {
 
-    fun imagesFlow(movieId: Int): Flow<List<ImagePojo>> {
+    actual fun imagesFlow(movieId: Int): Flow<List<ImagePojo>> {
         return imageDao.imagesFlow(movieId)
     }
 
-    suspend fun insert(images: List<ImagePojo>) {
+    actual suspend fun insert(images: List<ImagePojo>) {
         imageDao.insert(images.map(ImagePojo::imageDb))
     }
 }

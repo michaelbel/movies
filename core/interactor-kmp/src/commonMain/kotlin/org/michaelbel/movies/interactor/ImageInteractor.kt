@@ -1,8 +1,15 @@
-@file:Suppress(
-    "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING",
-    "EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE"
-)
-
 package org.michaelbel.movies.interactor
 
-expect interface ImageInteractor
+import kotlinx.coroutines.flow.Flow
+import org.michaelbel.movies.persistence.database.entity.ImagePojo
+
+interface ImageInteractor {
+
+    fun imagesFlow(
+        movieId: Int
+    ): Flow<List<ImagePojo>>
+
+    suspend fun images(
+        movieId: Int
+    )
+}

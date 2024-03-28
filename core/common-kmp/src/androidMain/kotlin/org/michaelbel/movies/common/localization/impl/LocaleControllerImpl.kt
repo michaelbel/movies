@@ -1,3 +1,5 @@
+@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
+
 package org.michaelbel.movies.common.localization.impl
 
 import android.app.LocaleManager
@@ -15,18 +17,18 @@ import org.michaelbel.movies.common.localization.LocaleController
 import org.michaelbel.movies.common.localization.model.AppLanguage
 import java.util.Locale
 
-internal class LocaleControllerImpl(
+internal actual class LocaleControllerImpl(
     private val context: Context,
     private val dispatchers: MoviesDispatchers,
     private val analytics: MoviesAnalytics
 ): LocaleController {
 
-    override val language: String
+    actual override val language: String
         get() = AppCompatDelegate.getApplicationLocales()[0]?.language ?: AppLanguage.English.code
 
-    override val appLanguage: Flow<AppLanguage> = flowOf(AppLanguage.transform(language))
+    actual override val appLanguage: Flow<AppLanguage> = flowOf(AppLanguage.transform(language))
 
-    override suspend fun selectLanguage(language: AppLanguage) {
+    actual override suspend fun selectLanguage(language: AppLanguage) {
         withContext(dispatchers.io) {
             // for AppCompatActivity
             /*AppCompatDelegate.setApplicationLocales(LocaleListCompat.forLanguageTags(language.code))*/

@@ -2,4 +2,7 @@
 
 package org.michaelbel.movies.persistence.database
 
-expect class MoviesDatabase
+expect class MoviesDatabase {
+
+    suspend fun <R> withTransaction(block: suspend () -> R): R
+}

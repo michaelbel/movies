@@ -10,19 +10,19 @@ actual class PagingKeyPersistence internal constructor(
     private val pagingKeyDao: PagingKeyDao
 ) {
 
-    suspend fun page(pagingKey: String): Int? {
+    actual suspend fun page(pagingKey: String): Int? {
         return pagingKeyDao.page(pagingKey)
     }
 
-    suspend fun totalPages(pagingKey: String): Int? {
+    actual suspend fun totalPages(pagingKey: String): Int? {
         return pagingKeyDao.totalPages(pagingKey)
     }
 
-    suspend fun removePagingKey(pagingKey: String) {
+    actual suspend fun removePagingKey(pagingKey: String) {
         pagingKeyDao.removePagingKey(pagingKey)
     }
 
-    suspend fun insertPagingKey(pagingKeyPojo: PagingKeyPojo) {
+    actual suspend fun insertPagingKey(pagingKeyPojo: PagingKeyPojo) {
         pagingKeyDao.insertPagingKey(pagingKeyPojo.pagingKeyDb)
     }
 }

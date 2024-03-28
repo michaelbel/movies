@@ -5,5 +5,8 @@ import org.michaelbel.movies.network.model.Result
 
 interface SearchRepository {
 
-    suspend fun searchMoviesResult(query: String, page: Int): Result<MovieResponse>
+    suspend fun searchMoviesResult(
+        query: String,
+        page: Int
+    ): Result<MovieResponse>
 }

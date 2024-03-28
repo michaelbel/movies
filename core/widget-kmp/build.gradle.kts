@@ -20,11 +20,11 @@ kotlin {
             implementation(project(":core:common-kmp"))
             implementation(project(":core:ui-kmp"))
             implementation(project(":core:work-kmp"))
-            implementation(libs.bundles.androidx.datastore.common)
+            implementation(libs.bundles.datastore.common)
             implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
-            implementation(libs.bundles.androidx.datastore.android)
+            implementation(libs.bundles.datastore.android)
             implementation(libs.bundles.androidx.glance)
             implementation(libs.kotlinx.serialization.json)
             implementation(libs.bundles.koin.android)

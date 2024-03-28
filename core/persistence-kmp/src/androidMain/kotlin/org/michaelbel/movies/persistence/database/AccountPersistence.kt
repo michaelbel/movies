@@ -11,15 +11,15 @@ actual class AccountPersistence internal constructor(
     private val accountDao: AccountDao
 ) {
 
-    fun accountById(accountId: Int): Flow<AccountPojo?> {
+    actual fun accountById(accountId: Int): Flow<AccountPojo?> {
         return accountDao.accountById(accountId)
     }
 
-    suspend fun insert(account: AccountPojo) {
+    actual suspend fun insert(account: AccountPojo) {
         accountDao.insert(account.accountDb)
     }
 
-    suspend fun removeById(accountId: Int) {
+    actual suspend fun removeById(accountId: Int) {
         accountDao.removeById(accountId)
     }
 }

@@ -27,7 +27,7 @@ kotlin {
             implementation(project(":core:common-kmp"))
             implementation(project(":core:interactor-kmp"))
             implementation(project(":core:network-kmp"))
-            implementation(libs.constraintlayout.compose.multiplatform)
+            implementation(libs.bundles.constraintlayout.common)
             implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {

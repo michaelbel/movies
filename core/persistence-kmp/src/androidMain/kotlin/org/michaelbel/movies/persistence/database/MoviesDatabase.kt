@@ -9,7 +9,7 @@ actual class MoviesDatabase internal constructor(
     private val database: AppDatabase
 ) {
 
-    suspend fun <R> withTransaction(block: suspend () -> R): R {
+    actual suspend fun <R> withTransaction(block: suspend () -> R): R {
         return database.withTransaction(block)
     }
 }

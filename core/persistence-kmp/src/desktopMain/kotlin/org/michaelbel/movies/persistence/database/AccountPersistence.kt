@@ -8,11 +8,11 @@ import org.michaelbel.movies.persistence.database.entity.AccountPojo
 
 actual class AccountPersistence internal constructor() {
 
-    fun accountById(accountId: Int): Flow<AccountPojo?> {
+    actual fun accountById(accountId: Int): Flow<AccountPojo?> {
         return emptyFlow()
     }
 
-    suspend fun insert(account: AccountPojo) {}
+    actual suspend fun insert(account: AccountPojo) {}
 
-    suspend fun removeById(accountId: Int) {}
+    actual suspend fun removeById(accountId: Int) {}
 }

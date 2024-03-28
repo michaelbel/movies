@@ -30,7 +30,7 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.foundation)
             implementation(compose.material3)
-            implementation(libs.constraintlayout.compose.multiplatform)
+            implementation(libs.bundles.constraintlayout.common)
             implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {

@@ -7,7 +7,7 @@ import org.michaelbel.movies.persistence.database.MoviePersistence
 import org.michaelbel.movies.persistence.database.PagingKeyPersistence
 import org.michaelbel.movies.persistence.database.SuggestionPersistence
 
-val persistenceKoinModule = module {
+actual val persistenceKoinModule = module {
     includes(
         daoKoinModule
     )

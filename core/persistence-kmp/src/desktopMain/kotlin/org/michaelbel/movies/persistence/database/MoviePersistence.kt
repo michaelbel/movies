@@ -2,6 +2,7 @@
 
 package org.michaelbel.movies.persistence.database
 
+import androidx.paging.PagingSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import org.michaelbel.movies.persistence.database.entity.MoviePojo
@@ -9,41 +10,41 @@ import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
 
 actual class MoviePersistence internal constructor() {
 
-    /*fun pagingSource(movieList: String): PagingSource<Int, MoviePojo> {
-        return movieDao.pagingSource(movieList)
-    }*/
+    actual fun pagingSource(movieList: String): PagingSource<Int, MoviePojo> {
+        TODO("Not Implemented")
+    }
 
-    fun moviesFlow(movieList: String, limit: Int): Flow<List<MoviePojo>> {
+    actual fun moviesFlow(movieList: String, limit: Int): Flow<List<MoviePojo>> {
         return emptyFlow()
     }
 
-    suspend fun movies(movieList: String, limit: Int): List<MoviePojo> {
+    actual suspend fun movies(movieList: String, limit: Int): List<MoviePojo> {
         return emptyList()
     }
 
-    suspend fun moviesMini(movieList: String, limit: Int): List<MovieDbMini> {
+    actual suspend fun moviesMini(movieList: String, limit: Int): List<MovieDbMini> {
         return emptyList()
     }
 
-    suspend fun insertMovies(movies: List<MoviePojo>) {}
+    actual suspend fun insertMovies(movies: List<MoviePojo>) {}
 
-    suspend fun insertMovie(movie: MoviePojo) {}
+    actual suspend fun insertMovie(movie: MoviePojo) {}
 
-    suspend fun removeMovies(movieList: String) {}
+    actual suspend fun removeMovies(movieList: String) {}
 
-    suspend fun removeMovie(movieList: String, movieId: Int) {}
+    actual suspend fun removeMovie(movieList: String, movieId: Int) {}
 
-    suspend fun movieById(pagingKey: String, movieId: Int): MoviePojo? {
+    actual suspend fun movieById(pagingKey: String, movieId: Int): MoviePojo? {
         return null
     }
 
-    suspend fun maxPosition(movieList: String): Int? {
+    actual suspend fun maxPosition(movieList: String): Int? {
         return null
     }
 
-    suspend fun isEmpty(movieList: String): Boolean {
+    actual suspend fun isEmpty(movieList: String): Boolean {
         return true
     }
 
-    suspend fun updateMovieColors(movieId: Int, containerColor: Int, onContainerColor: Int) {}
+    actual suspend fun updateMovieColors(movieId: Int, containerColor: Int, onContainerColor: Int) {}
 }

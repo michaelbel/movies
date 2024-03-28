@@ -2,4 +2,15 @@
 
 package org.michaelbel.movies.persistence.database
 
-expect class PagingKeyPersistence
+import org.michaelbel.movies.persistence.database.entity.PagingKeyPojo
+
+expect class PagingKeyPersistence {
+
+    suspend fun page(pagingKey: String): Int?
+
+    suspend fun totalPages(pagingKey: String): Int?
+
+    suspend fun removePagingKey(pagingKey: String)
+
+    suspend fun insertPagingKey(pagingKeyPojo: PagingKeyPojo)
+}

@@ -5,7 +5,9 @@ import org.michaelbel.movies.network.model.Token
 
 interface AuthenticationRepository {
 
-    suspend fun createRequestToken(loginViaTmdb: Boolean): Token
+    suspend fun createRequestToken(
+        loginViaTmdb: Boolean
+    ): Token
 
     suspend fun createSessionWithLogin(
         username: String,
@@ -13,7 +15,9 @@ interface AuthenticationRepository {
         requestToken: String
     ): Token
 
-    suspend fun createSession(token: String): Session
+    suspend fun createSession(
+        token: String
+    ): Session
 
     suspend fun deleteSession()
 }

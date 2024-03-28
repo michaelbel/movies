@@ -23,7 +23,9 @@ kotlin {
             api(project(":core:persistence-kmp"))
             api(project(":core:repository-kmp"))
             implementation(compose.runtime)
+            implementation(compose.runtimeSaveable)
             implementation(libs.bundles.kotlinx.coroutines.common)
+            implementation(libs.bundles.paging.common)
             implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {

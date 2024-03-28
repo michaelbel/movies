@@ -4,7 +4,7 @@ package org.michaelbel.movies.persistence.database
 
 actual class MoviesDatabase internal constructor() {
 
-    suspend fun <R> withTransaction(block: suspend () -> R): R {
+    actual suspend fun <R> withTransaction(block: suspend () -> R): R {
         return block.invoke()
     }
 }

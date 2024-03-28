@@ -1,8 +1,15 @@
-@file:Suppress(
-    "EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE",
-    "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING"
-)
-
 package org.michaelbel.movies.repository
 
-expect interface AccountRepository
+import kotlinx.coroutines.flow.Flow
+import org.michaelbel.movies.persistence.database.entity.AccountPojo
+
+interface AccountRepository {
+
+    val account: Flow<AccountPojo?>
+
+    suspend fun accountId(): Int
+
+    suspend fun accountExpireTime(): Long?
+
+    suspend fun accountDetails()
+}

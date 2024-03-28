@@ -3,7 +3,7 @@ package org.michaelbel.movies.persistence.database.di
 import org.koin.dsl.module
 import org.michaelbel.movies.persistence.database.db.AppDatabase
 
-val daoKoinModule = module {
+actual val daoKoinModule = module {
     includes(
         databaseKoinModule
     )

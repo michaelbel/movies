@@ -18,6 +18,8 @@ kotlin {
             api(project(":core:common-kmp"))
             api(project(":core:network-kmp"))
             api(project(":core:persistence-kmp"))
+            implementation(libs.bundles.kotlinx.coroutines.common)
+            implementation(libs.bundles.paging.common)
             implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {

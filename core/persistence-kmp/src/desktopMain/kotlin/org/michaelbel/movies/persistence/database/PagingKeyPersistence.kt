@@ -6,15 +6,15 @@ import org.michaelbel.movies.persistence.database.entity.PagingKeyPojo
 
 actual class PagingKeyPersistence internal constructor() {
 
-    suspend fun page(pagingKey: String): Int? {
+    actual suspend fun page(pagingKey: String): Int? {
         return null
     }
 
-    suspend fun totalPages(pagingKey: String): Int? {
+    actual suspend fun totalPages(pagingKey: String): Int? {
         return null
     }
 
-    suspend fun removePagingKey(pagingKey: String) {}
+    actual suspend fun removePagingKey(pagingKey: String) {}
 
-    suspend fun insertPagingKey(pagingKeyPojo: PagingKeyPojo) {}
+    actual suspend fun insertPagingKey(pagingKeyPojo: PagingKeyPojo) {}
 }

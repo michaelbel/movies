@@ -16,20 +16,20 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(compose.material3)
-            implementation(libs.bundles.kotlinx.coroutines.common)
-            implementation(libs.bundles.koin.common)
-        }
-        androidMain.dependencies {
             api(project(":core:platform-services:interactor-kmp"))
             implementation(project(":core:analytics-kmp"))
             implementation(project(":core:network-kmp"))
+            implementation(compose.material3)
+            implementation(libs.bundles.kotlinx.coroutines.common)
+            implementation(libs.bundles.paging.common)
+            implementation(libs.bundles.koin.common)
+        }
+        androidMain.dependencies {
             api(libs.bundles.kotlinx.coroutines.android)
             api(libs.bundles.androidx.lifecycle)
             api(libs.androidx.activity.compose)
             api(libs.androidx.biometric.ktx)
             api(libs.androidx.core.ktx)
-            api(libs.androidx.paging.compose)
             api(libs.androidx.startup.runtime)
             api(libs.androidx.work.runtime.ktx)
             api(libs.timber)

@@ -2,4 +2,14 @@
 
 package org.michaelbel.movies.persistence.database
 
-expect class AccountPersistence
+import kotlinx.coroutines.flow.Flow
+import org.michaelbel.movies.persistence.database.entity.AccountPojo
+
+expect class AccountPersistence {
+
+    fun accountById(accountId: Int): Flow<AccountPojo?>
+
+    suspend fun insert(account: AccountPojo)
+
+    suspend fun removeById(accountId: Int)
+}

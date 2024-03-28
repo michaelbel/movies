@@ -11,9 +11,10 @@ kotlin {
             }
         }
     }
+    jvm("desktop")
 
     sourceSets {
-        androidMain.dependencies {
+        commonMain.dependencies {
             implementation(project(":core:platform-services:interactor-kmp"))
         }
     }

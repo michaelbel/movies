@@ -18,17 +18,18 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":core:common-kmp"))
             implementation(project(":core:network-kmp"))
-            implementation(libs.bundles.androidx.datastore.common)
+            implementation(libs.bundles.datastore.common)
+            implementation(libs.bundles.paging.common)
             implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
-            implementation(libs.bundles.androidx.datastore.android)
+            implementation(libs.bundles.datastore.android)
             implementation(libs.bundles.androidx.room)
             implementation(libs.koin.android)
         }
         val desktopMain by getting
         desktopMain.dependencies {
-            implementation(libs.bundles.androidx.datastore.desktop)
+            implementation(libs.bundles.datastore.desktop)
         }
     }
 }

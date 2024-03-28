@@ -1,8 +1,15 @@
-@file:Suppress(
-    "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING",
-    "EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE"
-)
-
 package org.michaelbel.movies.interactor
 
-expect interface AccountInteractor
+import kotlinx.coroutines.flow.Flow
+import org.michaelbel.movies.persistence.database.entity.AccountPojo
+
+interface AccountInteractor {
+
+    val account: Flow<AccountPojo?>
+
+    suspend fun accountId(): Int?
+
+    suspend fun accountExpireTime(): Long?
+
+    suspend fun accountDetails()
+}

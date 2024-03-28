@@ -8,9 +8,9 @@ import org.michaelbel.movies.persistence.database.entity.ImagePojo
 
 actual class ImagePersistence internal constructor() {
 
-    fun imagesFlow(movieId: Int): Flow<List<ImagePojo>> {
+    actual fun imagesFlow(movieId: Int): Flow<List<ImagePojo>> {
         return emptyFlow()
     }
 
-    suspend fun insert(images: List<ImagePojo>) {}
+    actual suspend fun insert(images: List<ImagePojo>) {}
 }

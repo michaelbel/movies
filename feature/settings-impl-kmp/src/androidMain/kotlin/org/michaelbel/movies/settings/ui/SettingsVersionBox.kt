@@ -18,9 +18,13 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
+import org.michaelbel.movies.settings.ktx.isDebug
+import org.michaelbel.movies.settings.ktx.versionCode
+import org.michaelbel.movies.settings.ktx.versionName
 import org.michaelbel.movies.settings_impl_kmp.R
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
+import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.VersionPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -51,7 +55,7 @@ internal fun SettingsVersionBox(
         )
 
         Text(
-            text = stringResource(R.string.settings_app_version_name, appVersionData.version),
+            text = stringResource(R.string.settings_app_version_name, context.versionName),
             modifier = Modifier
                 .constrainAs(version) {
                     width = Dimension.wrapContent
@@ -66,7 +70,7 @@ internal fun SettingsVersionBox(
         )
 
         Text(
-            text = stringResource(R.string.settings_app_version_code, appVersionData.code),
+            text = stringResource(R.string.settings_app_version_code, context.versionCode),
             modifier = Modifier
                 .constrainAs(code) {
                     width = Dimension.wrapContent
@@ -88,14 +92,14 @@ internal fun SettingsVersionBox(
                     height = Dimension.wrapContent
                     start.linkTo(code.end)
                     top.linkTo(icon.top)
-                    end.linkTo(if (appVersionData.isDebug) debug.start else parent.end)
+                    end.linkTo(if (isDebug) debug.start else parent.end)
                     bottom.linkTo(icon.bottom)
                 }
                 .padding(start = 2.dp),
             style = MaterialTheme.typography.bodySmall.copy(MaterialTheme.colorScheme.onPrimaryContainer)
         )
 
-        if (appVersionData.isDebug) {
+        if (isDebug) {
             Text(
                 text = stringResource(R.string.settings_app_debug),
                 modifier = Modifier
