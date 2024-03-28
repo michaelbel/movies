@@ -11,7 +11,7 @@ fun Navigator.navigateToAccount() {
 fun RouteBuilder.accountGraph(
     navigateBack: () -> Unit
 ) {
-    scene(
+    dialog(
         route = AccountDestination.route
     ) {
         AccountRoute(

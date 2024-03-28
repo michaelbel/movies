@@ -7,7 +7,7 @@ import org.michaelbel.movies.analytics.model.BaseEvent
 
 internal actual class MoviesAnalyticsImpl: MoviesAnalytics {
 
-    actual fun trackDestination(route: String?, arguments: HashMap<String, String>) {}
+    actual override fun trackDestination(route: String?, arguments: HashMap<String, String>) {}
 
-    actual fun logEvent(event: BaseEvent) {}
+    actual override fun logEvent(event: BaseEvent) {}
 }

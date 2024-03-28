@@ -33,22 +33,17 @@ import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
 import org.michaelbel.movies.common.exceptions.PageEmptyException
 import org.michaelbel.movies.common.list.MovieList
-import org.michaelbel.movies.feed.FeedViewModel
 import org.michaelbel.movies.feed.ktx.titleText
 import org.michaelbel.movies.feed_impl_kmp.R
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.persistence.database.entity.AccountPojo
 import org.michaelbel.movies.persistence.database.entity.MoviePojo
-import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.ui.compose.NotificationBottomSheet
 import org.michaelbel.movies.ui.compose.page.PageContent
 import org.michaelbel.movies.ui.compose.page.PageFailure
@@ -62,44 +57,7 @@ import java.net.UnknownHostException
 import org.michaelbel.movies.ui_kmp.R as UiR
 
 @Composable
-fun FeedRoute(
-    onNavigateToSearch: () -> Unit,
-    onNavigateToAuth: () -> Unit,
-    onNavigateToAccount: () -> Unit,
-    onNavigateToSettings: () -> Unit,
-    onNavigateToDetails: (String, Int) -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: FeedViewModel = koinViewModel()
-) {
-    val pagingItems = viewModel.pagingDataFlow.collectAsLazyPagingItems()
-    val account by viewModel.account.collectAsStateWithLifecycle()
-    val currentFeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()
-    val currentMovieList by viewModel.currentMovieList.collectAsStateWithLifecycle()
-    val notificationsPermissionRequired by viewModel.notificationsPermissionRequired.collectAsStateWithLifecycle()
-    val networkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
-    val isAuthFailureSnackbarShowed = viewModel.isAuthFailureSnackbarShowed
-
-    FeedScreenContent(
-        pagingItems = pagingItems,
-        account = account.orEmpty,
-        networkStatus = networkStatus,
-        currentFeedView = currentFeedView,
-        currentMovieList = currentMovieList,
-        notificationsPermissionRequired = notificationsPermissionRequired,
-        isAuthFailureSnackbarShowed = isAuthFailureSnackbarShowed,
-        onNavigateToSearch = onNavigateToSearch,
-        onNavigateToAuth = onNavigateToAuth,
-        onNavigateToAccount = onNavigateToAccount,
-        onNavigateToSettings = onNavigateToSettings,
-        onNavigateToDetails = onNavigateToDetails,
-        onNotificationBottomSheetHideClick = viewModel::onNotificationBottomSheetHide,
-        onSnackbarDismissed = viewModel::onSnackbarDismissed,
-        modifier = modifier
-    )
-}
-
-@Composable
-private fun FeedScreenContent(
+internal fun FeedScreenContent(
     pagingItems: LazyPagingItems<MoviePojo>,
     account: AccountPojo,
     networkStatus: NetworkStatus,

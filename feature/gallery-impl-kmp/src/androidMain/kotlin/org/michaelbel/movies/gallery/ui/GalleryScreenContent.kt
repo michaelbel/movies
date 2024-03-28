@@ -73,25 +73,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.work.DownloadImageWorker
 
 @Composable
-fun GalleryRoute(
-    onBackClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: GalleryViewModel = koinViewModel()
-) {
-    val movieImages by viewModel.movieImagesFlow.collectAsStateWithLifecycle()
-    val workInfo by viewModel.workInfoFlow.collectAsStateWithLifecycle()
-
-    GalleryScreenContent(
-        movieImages = movieImages,
-        workInfo = workInfo,
-        onBackClick = onBackClick,
-        onDownloadClick = viewModel::downloadImage,
-        modifier = modifier
-    )
-}
-
-@Composable
-private fun GalleryScreenContent(
+internal fun GalleryScreenContent(
     movieImages: List<ImagePojo>,
     workInfo: WorkInfo?,
     onBackClick: () -> Unit,
@@ -314,25 +296,6 @@ private fun GalleryScreenContent(
 
         innerPadding.toString()
     }
-}
-
-@Composable
-private fun LoopHorizontalPager(
-    pagerState: PagerState,
-    modifier: Modifier = Modifier,
-    contentPadding: PaddingValues = PaddingValues(0.dp),
-    content: @Composable PagerScope.(page: Int) -> Unit,
-) {
-    HorizontalPager(
-        state = pagerState,
-        modifier = modifier,
-        contentPadding = contentPadding,
-        pageSpacing = 8.dp,
-        flingBehavior = PagerDefaults.flingBehavior(state = pagerState),
-        pageContent = { index ->
-            content(index)
-        }
-    )
 }
 
 @Composable

@@ -23,9 +23,11 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:common-kmp"))
+            implementation(project(":core:network-kmp"))
+            implementation(project(":core:persistence-kmp"))
             implementation(libs.bundles.paging.common)
             implementation(libs.bundles.constraintlayout.common)
-            implementation(compose.animation)
+            implementation(libs.bundles.coil.common)
             implementation(compose.components.resources)
             implementation(compose.foundation)
             implementation(compose.material)
@@ -36,18 +38,13 @@ kotlin {
             implementation(compose.preview)
             implementation(compose.ui)
             implementation(compose.uiTooling)
-            api(libs.coil3)
         }
         androidMain.dependencies {
-            implementation(project(":core:common-kmp"))
-            implementation(project(":core:network-kmp"))
-            implementation(project(":core:persistence-kmp"))
             api(libs.androidx.core.splashscreen)
             api(libs.androidx.palette.ktx)
             api(libs.coil.compose)
             api(libs.bundles.androidx.compose)
             api(libs.bundles.google.material)
-            //api(libs.androidx.paging.compose)
         }
     }
 }

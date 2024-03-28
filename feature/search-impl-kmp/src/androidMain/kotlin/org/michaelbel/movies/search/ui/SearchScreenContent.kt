@@ -28,18 +28,14 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import kotlinx.coroutines.launch
-import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
 import org.michaelbel.movies.common.exceptions.PageEmptyException
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.persistence.database.entity.MoviePojo
 import org.michaelbel.movies.persistence.database.entity.SuggestionPojo
-import org.michaelbel.movies.search.SearchViewModel
 import org.michaelbel.movies.ui.compose.page.PageContent
 import org.michaelbel.movies.ui.compose.page.PageFailure
 import org.michaelbel.movies.ui.compose.page.PageLoading
@@ -52,39 +48,7 @@ import java.net.UnknownHostException
 import org.michaelbel.movies.ui_kmp.R as UiR
 
 @Composable
-fun SearchRoute(
-    onBackClick: () -> Unit,
-    onNavigateToDetails: (String, Int) -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: SearchViewModel = koinViewModel()
-) {
-    val pagingItems = viewModel.pagingDataFlow.collectAsLazyPagingItems()
-    val currentFeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()
-    val networkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
-    val suggestions by viewModel.suggestionsFlow.collectAsStateWithLifecycle()
-    val searchHistoryMovies by viewModel.searchHistoryMoviesFlow.collectAsStateWithLifecycle()
-    val active by viewModel.isSearchActive.collectAsStateWithLifecycle()
-
-    SearchScreenContent(
-        pagingItems = pagingItems,
-        networkStatus = networkStatus,
-        currentFeedView = currentFeedView,
-        suggestions = suggestions,
-        searchHistoryMovies = searchHistoryMovies,
-        onBackClick = onBackClick,
-        onNavigateToDetails = onNavigateToDetails,
-        onChangeSearchQuery = viewModel::onChangeSearchQuery,
-        onSaveMovieToHistory = viewModel::onSaveToHistory,
-        onRemoveMovieFromHistory = viewModel::onRemoveFromHistory,
-        onHistoryClear = viewModel::onClearSearchHistory,
-        active = active,
-        onChangeActiveState = viewModel::onChangeActiveState,
-        modifier = modifier
-    )
-}
-
-@Composable
-private fun SearchScreenContent(
+internal fun SearchScreenContent(
     pagingItems: LazyPagingItems<MoviePojo>,
     networkStatus: NetworkStatus,
     currentFeedView: FeedView,

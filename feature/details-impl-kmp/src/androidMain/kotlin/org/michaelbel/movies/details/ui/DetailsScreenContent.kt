@@ -22,15 +22,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.palette.graphics.Palette
-import org.koin.androidx.compose.koinViewModel
-import org.michaelbel.movies.common.theme.AppTheme
-import org.michaelbel.movies.details.DetailsViewModel
 import org.michaelbel.movies.details.ktx.movie
 import org.michaelbel.movies.details.ktx.movieUrl
 import org.michaelbel.movies.details.ktx.onPrimaryContainer
@@ -48,31 +43,9 @@ import org.michaelbel.movies.ui.ktx.screenWidth
 import java.net.UnknownHostException
 
 @Composable
-fun DetailsRoute(
+internal fun DetailsScreenContent(
     onBackClick: () -> Unit,
-    onNavigateToGallery: (Int) -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: DetailsViewModel = koinViewModel()
-) {
-    val detailsState by viewModel.detailsState.collectAsStateWithLifecycle()
-    val networkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
-    val currentTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
-
-    DetailsScreenContent(
-        onBackClick = onBackClick,
-        onNavigateToGallery = onNavigateToGallery,
-        onGenerateColors = viewModel::onGenerateColors,
-        detailsState = detailsState,
-        networkStatus = networkStatus,
-        isThemeAmoled = currentTheme is AppTheme.Amoled,
-        onRetry = viewModel::retry,
-        modifier = modifier
-    )
-}
-
-@Composable
-private fun DetailsScreenContent(
-    onBackClick: () -> Unit,
+    onShareClick: (String) -> Unit,
     onNavigateToGallery: (Int) -> Unit,
     onGenerateColors: (Int, Palette) -> Unit,
     detailsState: ScreenState,
@@ -124,6 +97,7 @@ private fun DetailsScreenContent(
                         movieTitle = detailsState.toolbarTitle,
                         movieUrl = detailsState.movieUrl,
                         onNavigationIconClick = onBackClick,
+                        onShareClick = onShareClick,
                         topAppBarScrollBehavior = topAppBarScrollBehavior,
                         onContainerColor = animateOnContainerColor.value,
                         scrolledContainerColor = detailsState.scrolledContainerColor(isThemeAmoled),

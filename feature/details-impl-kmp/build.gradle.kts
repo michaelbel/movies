@@ -27,6 +27,8 @@ kotlin {
             implementation(project(":core:common-kmp"))
             implementation(project(":core:interactor-kmp"))
             implementation(project(":core:network-kmp"))
+            implementation(compose.components.resources)
+            implementation(compose.material3)
             implementation(libs.bundles.constraintlayout.common)
             implementation(libs.bundles.koin.common)
         }

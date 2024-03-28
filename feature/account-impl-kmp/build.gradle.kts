@@ -27,6 +27,10 @@ kotlin {
             implementation(project(":core:common-kmp"))
             implementation(project(":core:interactor-kmp"))
             implementation(project(":core:network-kmp"))
+            implementation(compose.components.resources)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.runtime)
             implementation(libs.bundles.constraintlayout.common)
             implementation(libs.bundles.koin.common)
         }
@@ -35,18 +39,11 @@ kotlin {
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.compose)
         }
-        val desktopMain by getting
-        desktopMain.dependencies {
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.material)
-        }
     }
 }
 
 android {
     namespace = "org.michaelbel.movies.account_impl_kmp"
-    sourceSets["main"].res.srcDirs("src/androidMain/res")
 
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()

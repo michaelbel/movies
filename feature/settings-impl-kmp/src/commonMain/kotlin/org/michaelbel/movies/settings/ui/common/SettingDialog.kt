@@ -23,13 +23,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import movies.feature.settings_impl_kmp.generated.resources.Res
-import movies.feature.settings_impl_kmp.generated.resources.settings_action_cancel
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.michaelbel.movies.common.SealedString
 import org.michaelbel.movies.settings.ktx.stringText
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
+import org.michaelbel.movies.ui.strings.MoviesStrings
 
 @Composable
 internal fun <T: SealedString> SettingsDialog(
@@ -47,7 +46,7 @@ internal fun <T: SealedString> SettingsDialog(
                 onClick = onDismissRequest
             ) {
                 Text(
-                    text = stringResource(Res.string.settings_action_cancel),
+                    text = stringResource(MoviesStrings.settings_action_cancel),
                     style = MaterialTheme.typography.labelLarge.copy(MaterialTheme.colorScheme.primary)
                 )
             }

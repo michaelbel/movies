@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalResourceApi::class)
+
 package org.michaelbel.movies.ui.compose.iconbutton
 
 import androidx.compose.foundation.Image
@@ -8,6 +10,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.icons.MoviesIcons
@@ -25,7 +29,7 @@ fun BackIcon(
     ) {
         Image(
             imageVector = MoviesIcons.ArrowBack,
-            contentDescription = MoviesContentDescriptionCommon.None,
+            contentDescription = stringResource(MoviesContentDescriptionCommon.BackIcon),
             colorFilter = ColorFilter.tint(onContainerColor)
         )
     }

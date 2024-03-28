@@ -1,8 +1,8 @@
 package org.michaelbel.movies.auth
 
-import androidx.compose.material.Text
 import moe.tlaster.precompose.navigation.Navigator
 import moe.tlaster.precompose.navigation.RouteBuilder
+import org.michaelbel.movies.auth.ui.AuthRoute
 
 fun Navigator.navigateToAuth() {
     navigate(AuthDestination.route)
@@ -11,9 +11,11 @@ fun Navigator.navigateToAuth() {
 fun RouteBuilder.authGraph(
     navigateBack: () -> Unit
 ) {
-    scene(
+    dialog(
         route = AuthDestination.route,
     ) {
-        Text("auth")
+        AuthRoute(
+            onBackClick = navigateBack
+        )
     }
 }
