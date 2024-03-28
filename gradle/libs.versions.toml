@@ -310,7 +310,7 @@ lifecycle-common = [
 ]
 lifecycle-android = [
     "androidx-lifecycle-runtime-compose",
-    "androidx-lifecycle-viewmodel-compose",
+    #"androidx-lifecycle-viewmodel-compose",
     "androidx-lifecycle-process"
 ]
 paging-common = [

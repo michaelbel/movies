@@ -25,7 +25,6 @@ kotlin {
         }
         androidMain.dependencies {
             implementation(libs.kotlinx.serialization.json)
-            //implementation(libs.androidx.paging.compose)
             implementation(libs.androidx.work.runtime.ktx)
             implementation(libs.koin.android)
             implementation(libs.koin.androidx.workmanager)

@@ -1,3 +1,10 @@
+@file:Suppress(
+    "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING",
+    "ACTUAL_CLASSIFIER_MUST_HAVE_THE_SAME_MEMBERS_AS_NON_FINAL_EXPECT_CLASSIFIER_WARNING",
+    "ACTUAL_CLASSIFIER_MUST_HAVE_THE_SAME_SUPERTYPES_AS_NON_FINAL_EXPECT_CLASSIFIER_WARNING",
+    "NON_ACTUAL_MEMBER_DECLARED_IN_EXPECT_NON_FINAL_CLASSIFIER_ACTUALIZATION_WARNING"
+)
+
 package org.michaelbel.movies.common.viewmodel
 
 import androidx.annotation.CallSuper
@@ -8,10 +15,10 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.cancelChildren
-import timber.log.Timber
+import org.michaelbel.movies.common.log.log
 import kotlin.coroutines.CoroutineContext
 
-open class BaseViewModel: ViewModel(), CoroutineScope {
+actual open class BaseViewModel: ViewModel(), CoroutineScope {
 
     private val scopeJob: Job = SupervisorJob()
 
@@ -28,6 +35,6 @@ open class BaseViewModel: ViewModel(), CoroutineScope {
 
     @CallSuper
     protected open fun handleError(throwable: Throwable) {
-        Timber.e(throwable)
+        log(throwable)
     }
 }
