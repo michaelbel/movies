@@ -26,7 +26,7 @@ kotlin {
         }
         androidMain.dependencies {
             api(libs.bundles.kotlinx.coroutines.android)
-            api(libs.bundles.androidx.lifecycle)
+            api(libs.bundles.lifecycle.android)
             api(libs.androidx.activity.compose)
             api(libs.androidx.biometric.ktx)
             api(libs.androidx.core.ktx)
