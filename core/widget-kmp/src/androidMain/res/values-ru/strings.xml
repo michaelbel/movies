@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="appwidget_description">Отображает предстоящие фильмы</string>
+    <string name="appwidget_title">Скоро в кино</string>
+    <string name="appwidget_configure">Настрой AppWidget</string>
+    <string name="appwidget_configure_soon">Настройка скоро появится...</string>
+    <string name="appwidget_pinned_message">Виджет добавлен на главный экран</string>
+    <string name="appwidget_failure_empty">Список фильмов пуст</string>
+</resources>

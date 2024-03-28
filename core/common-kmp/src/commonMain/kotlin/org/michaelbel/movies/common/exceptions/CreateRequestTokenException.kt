@@ -1,0 +1,10 @@
+@file:Suppress(
+    "EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING",
+    "EXPECT_AND_ACTUAL_IN_THE_SAME_MODULE"
+)
+
+package org.michaelbel.movies.common.exceptions
+
+data class CreateRequestTokenException(
+    val loginViaTmdb: Boolean
+): Exception()

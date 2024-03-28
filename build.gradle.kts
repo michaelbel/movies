@@ -1,16 +1,21 @@
 plugins {
-    alias(libs.plugins.application) apply false
-    alias(libs.plugins.library) apply false
-    alias(libs.plugins.dynamic.feature) apply false
-    alias(libs.plugins.test) apply false
-    alias(libs.plugins.kotlin) apply false
-    alias(libs.plugins.kotlin.ksp) apply false
-    alias(libs.plugins.firebase.appdistribution) apply false
-    alias(libs.plugins.firebase.crashlytics) apply false
-    alias(libs.plugins.google.services) apply false
+    alias(libs.plugins.android.application) apply false
+    alias(libs.plugins.android.library) apply false
+    alias(libs.plugins.android.dynamic.feature) apply false
+    alias(libs.plugins.android.test) apply false
+    alias(libs.plugins.kotlin.android) apply false
+    alias(libs.plugins.kotlin.multiplatform) apply false
+    alias(libs.plugins.kotlin.jvm) apply false
+    alias(libs.plugins.kotlin.cocoapods) apply false
     alias(libs.plugins.kotlin.serialization) apply false
+    alias(libs.plugins.kotlin.parcelize) apply false
+    alias(libs.plugins.compose) apply false
+    alias(libs.plugins.google.ksp) apply false
+    alias(libs.plugins.google.services) apply false
+    alias(libs.plugins.google.firebase.appdistribution) apply false
+    alias(libs.plugins.google.firebase.crashlytics) apply false
+    alias(libs.plugins.sqldelight) apply false
     alias(libs.plugins.androidx.navigation.safeargs) apply false
-    alias(libs.plugins.hilt) apply false
     alias(libs.plugins.spotless)
     alias(libs.plugins.detekt)
     alias(libs.plugins.palantir.git)
@@ -21,5 +26,11 @@ detekt {
 }
 
 subprojects {
-    apply(plugin = "io.gitlab.arturbosch.detekt")
+    if (name != "desktopApp") {
+        apply(plugin = "io.gitlab.arturbosch.detekt")
+    }
+}
+
+extra.apply {
+    set("jvmTarget", "11")
 }

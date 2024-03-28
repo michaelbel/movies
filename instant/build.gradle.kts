@@ -1,6 +1,6 @@
 plugins {
-    alias(libs.plugins.dynamic.feature)
-    alias(libs.plugins.kotlin)
+    alias(libs.plugins.android.dynamic.feature)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -17,7 +17,7 @@ android {
     }
 
     productFlavors {
-        /*create("foss") {
+        /*create("foss") { // todo Uncomment to create a signed release
             dimension = "version"
         }
         create("hms") {
@@ -33,17 +33,16 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.toVersion(libs.versions.jdk.get().toInt())
+        targetCompatibility = JavaVersion.toVersion(libs.versions.jdk.get().toInt())
     }
 }
 
 dependencies {
-    implementation(project(":android-app"))
-    implementation(project(":core:common"))
-    implementation(project(":core:ui"))
-    implementation(libs.androidx.activity.compose)
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.compose.material3)
-    implementation(libs.gms.play.services.instantapps)
+    implementation(project(":androidApp"))
+    implementation(project(":core:common-kmp"))
+    implementation(project(":core:ui-kmp"))
+    implementation(libs.bundles.androidx.appcompat)
+    implementation(libs.bundles.androidx.compose)
+    implementation(libs.google.services.instantapps)
 }

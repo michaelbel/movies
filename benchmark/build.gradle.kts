@@ -1,7 +1,8 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
-    id("com.android.test")
-    id("org.jetbrains.kotlin.android")
-    id("kotlin-android")
+    alias(libs.plugins.android.test)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -22,18 +23,12 @@ android {
         }
     }
 
-    kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + listOf(
-            "-opt-in=androidx.benchmark.macro.ExperimentalBaselineProfilesApi"
-        )
-    }
-
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.toVersion(libs.versions.jdk.get().toInt())
+        targetCompatibility = JavaVersion.toVersion(libs.versions.jdk.get().toInt())
     }
 
-    targetProjectPath = ":android-app"
+    targetProjectPath = ":androidApp"
 
     experimentalProperties["android.experimental.self-instrumenting"] = true
 }
@@ -45,8 +40,8 @@ android {
 }*/
 
 dependencies {
+    implementation(libs.bundles.androidx.test.espresso)
     implementation(libs.androidx.benchmark.macro.junit)
-    implementation(libs.androidx.espresso.core)
     implementation(libs.androidx.test.ext.junit.ktx)
     implementation(libs.androidx.test.uiautomator)
 }

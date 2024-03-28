@@ -1,13 +1,6 @@
 name: Check PR
 
 on:
-#  push:
-#    branches:
-#      '**'
-#    paths-ignore:
-#      - '**.md'
-#     - '.idea/**'
-#      - '.github/**'
   pull_request:
     branches:
       '**'
@@ -19,7 +12,7 @@ on:
   
 concurrency:
   group: environment-${{ github.ref }}
-  cancel-in-progress: true
+#  cancel-in-progress: true
   
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

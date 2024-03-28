@@ -1,13 +1,38 @@
+[<img align="left" src="config/images/play_store_app_icon_512x512_rounded.png" width="150" height="150">]()
+<div align="right">
+    <a href="https://github.com/michaelbel/movies/blob/develop/readme.md"><b>en</b></a>
+    <a href="https://github.com/michaelbel/movies/blob/develop/readme.ru.md">ru</a>
+</div>
+
+<br/>
+<br/>
+<br/>
+<br/>
+
 Movies
 =
 
-[![check-pr-badge](https://github.com/michaelbel/movies/actions/workflows/check_pr.yml/badge.svg?branch=develop)](https://github.com/michaelbel/movies/actions/workflows/check_pr.yml)
-[![google-play-downloads](https://PlayBadges.pavi2410.me/badge/downloads?id=org.michaelbel.moviemade)](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
-[![paypal-badge](https://img.shields.io/badge/Donate-Paypal-FF5252.svg)](https://paypal.me/michaelbel)
-[![last-commit-badge](https://img.shields.io/github/last-commit/michaelbel/moviemade?color=FF5252)](https://github.com/michaelbel/moviemade/commits)
+[![](https://img.shields.io/badge/Android-000000.svg?style=for-the-badge&logo=Android)](https://github.com/michaelbel/movies)
+<!-- [![](https://img.shields.io/badge/Automotive-000000.svg?style=for-the-badge&logo=android-auto)](https://github.com/michaelbel/movies)
+[![](https://img.shields.io/badge/WearOS-000000.svg?style=for-the-badge&logo=wearOS)](https://github.com/michaelbel/movies)
+[![](https://img.shields.io/badge/iOS-000000.svg?style=for-the-badge&logo=apple)](https://github.com/michaelbel/movies)
+[![](https://img.shields.io/badge/macOS-000000.svg?style=for-the-badge&logo=macos)](https://github.com/michaelbel/movies)
+[![](https://img.shields.io/badge/Windows-000000.svg?style=for-the-badge&logo=windows)](https://github.com/michaelbel/movies)
+[![](https://img.shields.io/badge/Linux-000000.svg?style=for-the-badge&logo=linux)](https://github.com/michaelbel/movies)
+[![](https://img.shields.io/badge/Web-000000.svg?style=for-the-badge&logo=google-chrome)](https://github.com/michaelbel/movies) -->
 
-Movies - easy way to discover popular movies. This is a simple TMDb client for Android
+[![](https://github.com/michaelbel/movies/actions/workflows/check_pr.yml/badge.svg?branch=develop)](https://github.com/michaelbel/movies/actions/workflows/check_pr.yml)
+[![](https://PlayBadges.pavi2410.me/badge/downloads?id=org.michaelbel.moviemade)](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
+[![](https://img.shields.io/badge/Donate-Paypal-FF5252.svg)](https://paypal.me/michaelbel)
+[![](https://img.shields.io/github/last-commit/michaelbel/moviemade?color=FF5252)](https://github.com/michaelbel/movies/commits)
 
+Movies - easy way to discover popular movies. This is a simple TMDb client.
+
+The goal of this project is to implement an app that provides a consistent user experience on Android Phones, Android Tablets, Android Auto, Android Wear, Android TV, iOS, Desktop (MacOS, Windows, Linux) and Web. Used Material3, Compose, Kotlin and Multiplatform.
+
+The app is currently in development. Android app is already available.
+
+## Screenshots
 <div style="dispaly:flex">
     <img src="config/images/1.png" width="24%">
     <img src="config/images/2.png" width="24%">
@@ -17,25 +42,44 @@ Movies - easy way to discover popular movies. This is a simple TMDb client for A
     <img src="config/images/6.png" width="24%">
     <img src="config/images/7.png" width="24%">
     <img src="config/images/8.png" width="24%">
-    <img src="config/images/9.png" width="49%">
-    <img src="config/images/10.png" width="49%">
+    <img src="config/images/9.png" width="24%">
+    <img src="config/images/10.png" width="24%">
+    <img src="config/images/11.png" width="24%">
+    <img src="config/images/12.png" width="24%">
+    <img src="config/images/13.png" width="49%">
+    <img src="config/images/14.png" width="49%">
 </div>
 
-## Build
-
-Take a look at <b>`local.properties`</b> and fill it with [your own](https://developers.themoviedb.org/3/getting-started/introduction) <b>tmdb_api_key</b> like this:
+## Requirements
+Take a look at <b>`local.properties`</b> and fill it with [your own](https://developers.themoviedb.org/3/getting-started/introduction) <b>TMDB API key</b> like this:
 ```gradle
 TMDB_API_KEY=your_own_tmdb_api_key
-```
+ ```
+The app is still usable without an API key. In this case functionality will be limited.
+
+## Build
+- Clone this repository using [latest version](https://d.android.com/studio) of Android Studio
+- Run the app on your device or emulator
+    - 🤖 **Android** with Google Mobile Services:
+      ```gradle
+      ./gradlew :androidApp:installGmsDebug
+      ```
+    - 🤖 **Android** with Huawei Mobile Services:
+      ```gradle
+      ./gradlew :androidApp:installHmsDebug
+      ```
+    - 🤖 **Android** Free and Open Source Software:
+      ```gradle
+      ./gradlew :androidApp:installFossDebug
+      ```
 
 ## Download
+[<img src="config/images/badge-googleplay.svg" alt="" height="80">](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
+[<img src="config/images/badge-appgallery.svg" alt="" height="80">](https://appgallery.cloud.huawei.com/ag/n/app/C109677247)
+[<img src="config/images/badge-direct-apk.png" alt="" height="80">](https://github.com/michaelbel/movies/releases/download/1.5.3/Movies-v1.5.3.1478.-gms-release.apk)
+[<img src="config/images/badge-obtainium.png" alt="" height="80">](https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/michaelbel/movies)
 
-[<img src="config/images/badge-google-play.png" alt="" height="80">](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
-[<img src="config/images/badge-huawei-appgallery.png" alt="" height="80">](https://appgallery.cloud.huawei.com/ag/n/app/C109677247)
-[<img src="config/images/badge-direct-apk.png" alt="" height="80">](https://github.com/michaelbel/movies/releases/download/1.5.2/Movies-v1.5.2.1366.-release.apk)
-
-## Technologies
-
+## 📦 Technologies
 - [x] [Modularization](https://d.android.com/topic/modularization)
 - [x] [MVVM](https://d.android.com/topic/architecture)
 - [x] [Clean Architecture](https://d.android.com/topic/architecture)
@@ -46,6 +90,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Gradle Version Catalog](https://d.android.com/build/migrate-to-catalogs)
 - [x] [Build Variants](https://d.android.com/build/build-variants)
 - [x] [Product Flavors](https://d.android.com/build/build-variants#product-flavors)
+- [x] [Using buildSrc Directory](https://docs.gradle.org/current/userguide/organizing_gradle_projects.html#sec:build_sources)
 - [x] MinSDK 23
 - [x] TargetSDK 34
 - [x] CompileSDK 34
@@ -63,7 +108,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [KotlinX Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
 - [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization)
 - [x] [Appcompat](https://d.android.com/jetpack/androidx/releases/appcompat)
-- [x] [Dagger Hilt](https://github.com/google/dagger)
 - [x] [ViewModel](https://d.android.com/topic/libraries/architecture/viewmodel)
 - [x] [Lifecycle](https://d.android.com/topic/libraries/architecture/lifecycle)
 - [x] [Room](https://d.android.com/training/data-storage/room)
@@ -72,11 +116,9 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Startup](https://d.android.com/jetpack/androidx/releases/startup)
 - [x] [Navigation](https://d.android.com/guide/navigation)
 - [x] [Paging3](https://d.android.com/topic/libraries/architecture/paging/v3-overview)
-- [x] [ConstraintLayout](https://d.android.com/develop/ui/views/layout/constraint-layout)
 - [x] [Browser](https://d.android.com/jetpack/androidx/releases/browser)
 - [x] [OkHttp](https://github.com/square/okhttp)
-- [x] [Retrofit](https://github.com/square/retrofit)
-- [x] [Retrofit Kotlinx Converter Serialization](https://github.com/JakeWharton/retrofit2-kotlinx-serialization-converter)
+- [x] [Ktor](https://ktor.io)
 - [x] [Chucker](https://github.com/ChuckerTeam/chucker)
 - [x] [Flaker](https://github.com/rotbolt/flaker)
 - [x] [Coil](https://github.com/coil-kt/coil)
@@ -111,12 +153,30 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Support Landscape Orientation](https://d.android.com/guide/topics/large-screens/support-different-screen-sizes)
 - [x] [Support Display Cutouts](https://d.android.com/jetpack/compose/system/cutouts)
 - [x] [Voice Input](https://d.android.com/training/wearables/user-input/voice)
+- [x] [User Interactions](https://d.android.com/jetpack/compose/text/user-interactions)
+- [x] [Glance AppWidget](https://d.android.com/jetpack/compose/glance)
+- [x] [Tile Quick Settings](https://d.android.com/reference/android/service/quicksettings/TileService)
+- [x] [Grammatical Gender](https://d.android.com/about/versions/14/features/grammatical-inflection)
+- [x] [Biometric Authentication Dialog](https://d.android.com/training/sign-in/biometric-auth)
+- [x] [LeakCanary](https://github.com/square/leakcanary)
+- [x] [ConstraintLayout Multiplatform](https://github.com/Lavmee/constraintlayout-compose-multiplatform)
+- [x] [PreCompose](https://github.com/Tlaster/PreCompose)
+- [x] [Koin](https://github.com/InsertKoinIO/koin)
+- [x] [ConstraintLayout](https://d.android.com/develop/ui/views/layout/constraint-layout) removed in [44723cb](https://github.com/michaelbel/movies/commit/44723cbbafdad89bef6043f99cbd0fbab1ecf19a)
+- [x] [Dagger Hilt](https://github.com/google/dagger) removed in [#274](https://github.com/michaelbel/movies/pull/274)
+- [x] [Retrofit](https://github.com/square/retrofit) removed in [#275](https://github.com/michaelbel/movies/pull/275)
 
 ## Roadmap
 [Movies App Roadmap](https://github.com/users/michaelbel/projects/1/views/1)
 
+## Contributing
+All contributions are welcome!
+
+⭐ Join [stargazers](https://github.com/michaelbel/movies/stargazers)  
+↗️ Submit your PR
+
 ## Issues
-If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/moviemade/issues).
+If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/movies/issues).
 
 ## Star History
 <a href="https://star-history.com/#michaelbel/movies&Date">
@@ -127,7 +187,7 @@ If you find any problems or would like to suggest a feature, please feel free to
   </picture>
 </a>
 
-## License
+## 📄 License
 <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
   <img alt="Apache License 2.0" src="config/images/apache.png" height="110"/>
 </a>
