@@ -2,6 +2,7 @@
 
 package org.michaelbel.movies.ui.strings
 
+import androidx.compose.runtime.Composable
 import movies.core.ui_kmp.generated.resources.Res
 import movies.core.ui_kmp.generated.resources.account_logout
 import movies.core.ui_kmp.generated.resources.account_title
@@ -112,6 +113,7 @@ import movies.core.ui_kmp.generated.resources.shortcuts_settings_title
 import movies.core.ui_kmp.generated.resources.tile_added
 import movies.core.ui_kmp.generated.resources.tile_title
 import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.stringResource
 
 object MoviesStrings {
     val language_code = Res.string.language_code
@@ -223,6 +225,11 @@ object MoviesStrings {
     val settings_biometric_not_added = Res.string.settings_biometric_not_added
     val settings_update = Res.string.settings_update
     val settings_update_description = Res.string.settings_update_description
+
+    @Composable
+    fun settings_app_version_name(vararg formatArgs: Any): String {
+        return stringResource(Res.string.settings_app_version_name, formatArgs)
+    }
 
     val appwidget_description = Res.string.appwidget_description
     val appwidget_title = Res.string.appwidget_title

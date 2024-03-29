@@ -14,7 +14,7 @@ internal actual class LocaleControllerImpl(
 ): LocaleController {
 
     actual override val language: String
-        get() = AppLanguage.English.code
+        get() = AppLanguage.English().code
 
     actual override val appLanguage: Flow<AppLanguage> = flowOf(AppLanguage.transform(language))
 

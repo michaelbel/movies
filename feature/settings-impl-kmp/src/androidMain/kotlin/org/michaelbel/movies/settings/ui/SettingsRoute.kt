@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalResourceApi::class)
+@file:OptIn(ExperimentalResourceApi::class, ExperimentalResourceApi::class)
 
 package org.michaelbel.movies.settings.ui
 
@@ -35,10 +35,28 @@ import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.ktx.notificationManager
 import org.michaelbel.movies.common.localization.model.AppLanguage
 import org.michaelbel.movies.settings.SettingsViewModel
+import org.michaelbel.movies.settings.ktx.iconSnackbarTextRes
 import org.michaelbel.movies.settings.ktx.isDebug
 import org.michaelbel.movies.settings.ktx.versionCode
 import org.michaelbel.movies.settings.ktx.versionName
+import org.michaelbel.movies.settings.model.SettingsData
+import org.michaelbel.movies.settings.model.isAboutFeatureEnabled
+import org.michaelbel.movies.settings.model.isAppIconFeatureEnabled
+import org.michaelbel.movies.settings.model.isBiometricFeatureEnabled
+import org.michaelbel.movies.settings.model.isDynamicColorsFeatureEnabled
+import org.michaelbel.movies.settings.model.isFeedViewFeatureEnabled
+import org.michaelbel.movies.settings.model.isGenderFeatureEnabled
+import org.michaelbel.movies.settings.model.isGithubFeatureEnabled
+import org.michaelbel.movies.settings.model.isLanguageFeatureEnabled
+import org.michaelbel.movies.settings.model.isMovieListFeatureEnabled
+import org.michaelbel.movies.settings.model.isNotificationsFeatureEnabled
+import org.michaelbel.movies.settings.model.isReviewAppFeatureEnabled
+import org.michaelbel.movies.settings.model.isThemeFeatureEnabled
+import org.michaelbel.movies.settings.model.isTileFeatureEnabled
+import org.michaelbel.movies.settings.model.isUpdateAppFeatureEnabled
+import org.michaelbel.movies.settings.model.isWidgetFeatureEnabled
 import org.michaelbel.movies.ui.appicon.IconAlias
+import org.michaelbel.movies.ui.appicon.enabledIcon
 import org.michaelbel.movies.ui.appicon.isEnabled
 import org.michaelbel.movies.ui.appicon.setIcon
 import org.michaelbel.movies.ui.icons.MoviesAndroidIcons
@@ -48,7 +66,6 @@ import org.michaelbel.movies.ui.lifecycle.OnResume
 import org.michaelbel.movies.ui.strings.MoviesStrings
 import org.michaelbel.movies.ui.tile.MoviesTileService
 import org.michaelbel.movies.widget.ktx.pin
-import org.michaelbel.movies.ui_kmp.R as UiR
 
 @Composable
 fun SettingsRoute(
@@ -61,7 +78,7 @@ fun SettingsRoute(
     val currentFeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()
     val currentMovieList by viewModel.currentMovieList.collectAsStateWithLifecycle()
     val dynamicColors by viewModel.dynamicColors.collectAsStateWithLifecycle()
-    val isBiometricFeatureEnabled by viewModel.isBiometricFeatureEnabled.collectAsStateWithLifecycle()
+    val isBiometricFeatureAvailable by viewModel.isBiometricFeatureEnabled.collectAsStateWithLifecycle()
     val isBiometricEnabled by viewModel.isBiometricEnabled.collectAsStateWithLifecycle()
     val appVersionData by viewModel.appVersionData.collectAsStateWithLifecycle()
 
@@ -115,71 +132,131 @@ fun SettingsRoute(
     val grammaticalGender by remember { mutableStateOf(grammaticalInflectionManager.applicationGrammaticalGender) }
     val currentGrammaticalGender by remember { mutableStateOf(GrammaticalGender.transform(grammaticalGender)) }
 
+    val onShowSnackbar: (String) -> Unit = { message ->
+        scope.launch {
+            snackbarHostState.showSnackbar(
+                message = message,
+                duration = SnackbarDuration.Short
+            )
+        }
+    }
+
+    val messageRed = stringResource(MoviesStrings.settings_app_launcher_icon_changed_to, stringResource(IconAlias.Red.iconSnackbarTextRes))
+    val messagePurple = stringResource(MoviesStrings.settings_app_launcher_icon_changed_to, stringResource(IconAlias.Purple.iconSnackbarTextRes))
+    val messageBrown = stringResource(MoviesStrings.settings_app_launcher_icon_changed_to, stringResource(IconAlias.Brown.iconSnackbarTextRes))
+    val messageAmoled = stringResource(MoviesStrings.settings_app_launcher_icon_changed_to, stringResource(IconAlias.Amoled.iconSnackbarTextRes))
+
     SettingsScreenContent(
-        onBackClick = onBackClick,
-        currentLanguage = currentLanguage,
-        onLanguageSelect = viewModel::selectLanguage,
-        currentTheme = currentTheme,
-        onThemeSelect = viewModel::selectTheme,
-        currentFeedView = currentFeedView,
-        onFeedViewSelect = viewModel::selectFeedView,
-        currentMovieList = currentMovieList,
-        onMovieListSelect = viewModel::selectMovieList,
-        isGrammaticalGenderFeatureEnabled = viewModel.isGrammaticalGenderFeatureEnabled,
-        isDynamicColorsFeatureEnabled = viewModel.isDynamicColorsFeatureEnabled,
-        dynamicColors = dynamicColors,
-        onSetDynamicColors = viewModel::setDynamicColors,
-        isPostNotificationsFeatureEnabled = viewModel.isPostNotificationsFeatureEnabled,
-        isTileFeatureEnabled = viewModel.isTileFeatureEnabled,
-        isBiometricFeatureEnabled = isBiometricFeatureEnabled,
-        isBiometricEnabled = isBiometricEnabled,
-        onSetBiometricEnabled = viewModel::setBiometricEnabled,
-        isReviewFeatureEnabled = viewModel.isReviewFeatureEnabled,
-        isUpdateFeatureEnabled = viewModel.isUpdateFeatureEnabled && viewModel.isUpdateAvailable,
-        onRequestReview = { viewModel.requestReview(context as Activity) },
-        onRequestUpdate = { viewModel.requestUpdate(context as Activity) },
-        appVersionData = appVersionData,
-        onNavigateToAppNotificationSettings = {
-            resultContract.launch(context.appNotificationSettingsIntent)
-        },
-        versionName = context.versionName,
-        versionCode = context.versionCode,
-        isDebug = isDebug,
-        windowInsets = displayCutoutWindowInsets,
-        onNavigateToUrl = { url -> openUrl(resultContract, toolbarColor, url) },
-        onRequestAddTileService = { onShowSnackbar ->
-            val statusBarManager = ContextCompat.getSystemService(context, StatusBarManager::class.java)
-            statusBarManager?.requestAddTileService(
-                ComponentName(context, MoviesTileService::class.java),
-                tileTitleLabel,
-                Icon.createWithResource(context, MoviesAndroidIcons.MovieFilter24),
-                context.mainExecutor
-            ) { result ->
-                when (result) {
-                    StatusBarManager.TILE_ADD_REQUEST_RESULT_TILE_ALREADY_ADDED -> {
-                        onShowSnackbar(tileMessage)
+        settingsData = SettingsData(
+            onBackClick = onBackClick,
+            languageData = SettingsData.ListData(
+                isFeatureEnabled = isLanguageFeatureEnabled,
+                current = currentLanguage,
+                onSelect = viewModel::selectLanguage
+            ),
+            themeData = SettingsData.ListData(
+                isFeatureEnabled = isThemeFeatureEnabled,
+                current = currentTheme,
+                onSelect = viewModel::selectTheme
+            ),
+            feedViewData = SettingsData.ListData(
+                isFeatureEnabled = isFeedViewFeatureEnabled,
+                current = currentFeedView,
+                onSelect = viewModel::selectFeedView
+            ),
+            movieListData = SettingsData.ListData(
+                isFeatureEnabled = isMovieListFeatureEnabled,
+                current = currentMovieList,
+                onSelect = viewModel::selectMovieList
+            ),
+            genderData = SettingsData.ListData(
+                isFeatureEnabled = isGenderFeatureEnabled,
+                current = currentGrammaticalGender,
+                onSelect = { gender ->
+                    grammaticalInflectionManager.setRequestedApplicationGrammaticalGender(GrammaticalGender.value(gender))
+                }
+            ),
+            dynamicColorsData = SettingsData.DynamicColorsData(
+                isFeatureEnabled = isDynamicColorsFeatureEnabled,
+                isEnabled = dynamicColors,
+                onChange = viewModel::setDynamicColors
+            ),
+            notificationsData = SettingsData.NotificationsData(
+                isFeatureEnabled = isNotificationsFeatureEnabled,
+                isEnabled = areNotificationsEnabled,
+                onClick = {
+                    if (areNotificationsEnabled) {
+                        resultContract.launch(context.appNotificationSettingsIntent)
+                    } else {
+                        postNotificationsPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    }
+                },
+                onNavigateToAppNotificationSettings = {
+                    resultContract.launch(context.appNotificationSettingsIntent)
+                }
+            ),
+            biometricData = SettingsData.BiometricData(
+                isFeatureEnabled = isBiometricFeatureEnabled && isBiometricFeatureAvailable,
+                isEnabled = isBiometricEnabled,
+                onChange = viewModel::setBiometricEnabled
+            ),
+            widgetData = SettingsData.WidgetData(
+                isFeatureEnabled = isWidgetFeatureEnabled,
+                onRequest = { appWidgetProvider.pin(context) }
+            ),
+            tileData = SettingsData.TileData(
+                isFeatureEnabled = isTileFeatureEnabled,
+                onRequest = {
+                    val statusBarManager = ContextCompat.getSystemService(context, StatusBarManager::class.java)
+                    statusBarManager?.requestAddTileService(
+                        ComponentName(context, MoviesTileService::class.java),
+                        tileTitleLabel,
+                        Icon.createWithResource(context, MoviesAndroidIcons.MovieFilter24),
+                        context.mainExecutor
+                    ) { result ->
+                        when (result) {
+                            StatusBarManager.TILE_ADD_REQUEST_RESULT_TILE_ALREADY_ADDED -> {
+                                onShowSnackbar(tileMessage)
+                            }
+                        }
                     }
                 }
-            }
-        },
-        onPinAppWidget = { appWidgetProvider.pin(context) },
-        areNotificationsEnabled = areNotificationsEnabled,
-        onNotificationEnabledClick = {
-            if (areNotificationsEnabled) {
-                resultContract.launch(context.appNotificationSettingsIntent)
-            } else {
-                postNotificationsPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
-            }
-        },
-        currentGrammaticalGender = currentGrammaticalGender,
-        onGenderSelect = { gender ->
-            grammaticalInflectionManager.setRequestedApplicationGrammaticalGender(gender.value)
-        },
-        isRedIconEnabled = context.isEnabled(IconAlias.Red),
-        isPurpleIconEnabled = context.isEnabled(IconAlias.Purple),
-        isBrownIconEnabled = context.isEnabled(IconAlias.Brown),
-        isAmoledIconEnabled = context.isEnabled(IconAlias.Amoled),
-        onSetIcon = { icon -> context.setIcon(icon) },
+            ),
+            appIconData = SettingsData.ListData(
+                isFeatureEnabled = isAppIconFeatureEnabled,
+                current = context.enabledIcon,
+                onSelect = { icon ->
+                    val message = when (icon) {
+                        IconAlias.Red -> messageRed
+                        IconAlias.Purple -> messagePurple
+                        IconAlias.Brown -> messageBrown
+                        IconAlias.Amoled -> messageAmoled
+                    }
+                    onShowSnackbar(message)
+                    context.setIcon(icon)
+                }
+            ),
+            githubData = SettingsData.GithubData(
+                isFeatureEnabled = isGithubFeatureEnabled,
+                onClick = { url -> openUrl(resultContract, toolbarColor, url) }
+            ),
+            reviewAppData = SettingsData.ReviewAppData(
+                isFeatureEnabled = isReviewAppFeatureEnabled && viewModel.isReviewFeatureEnabled,
+                onRequest = { viewModel.requestReview(context as Activity) }
+            ),
+            updateAppData = SettingsData.UpdateAppData(
+                isFeatureEnabled = isUpdateAppFeatureEnabled && viewModel.isUpdateFeatureEnabled && viewModel.isUpdateAvailable,
+                onRequest = { viewModel.requestUpdate(context as Activity) }
+            ),
+            aboutData = SettingsData.AboutData(
+                isFeatureEnabled = isAboutFeatureEnabled,
+                versionName = context.versionName,
+                versionCode = context.versionCode,
+                flavor = appVersionData.flavor,
+                isDebug = isDebug
+            )
+        ),
+        windowInsets = displayCutoutWindowInsets,
         snackbarHostState = snackbarHostState,
         modifier = modifier
     )

@@ -22,7 +22,7 @@ internal class SettingsRepositoryImpl(
     }
 
     override val currentMovieList: Flow<MovieList> = preferences.movieListFlow.map { className ->
-        MovieList.transform(className ?: MovieList.NowPlaying.toString())
+        MovieList.transform(className ?: MovieList.NowPlaying().toString())
     }
 
     override val dynamicColors: Flow<Boolean> = preferences.isDynamicColorsFlow.map { isDynamicColors ->

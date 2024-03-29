@@ -3,25 +3,34 @@ package org.michaelbel.movies.common.localization.model
 import org.michaelbel.movies.common.SealedString
 import org.michaelbel.movies.common.localization.exceptions.InvalidLocaleException
 
-sealed class AppLanguage(
-    val code: String
-): SealedString {
+sealed interface AppLanguage: SealedString {
 
-    data object English: AppLanguage("en")
+    data class English(
+        val code: String = "en"
+    ): AppLanguage
 
-    data object Russian: AppLanguage("ru")
+    data class Russian(
+        val code: String = "ru"
+    ): AppLanguage
 
     companion object {
         val VALUES = listOf(
-            English,
-            Russian
+            English(),
+            Russian()
         )
 
         fun transform(code: String): AppLanguage {
             return when (code) {
-                "en" -> English
-                "ru" -> Russian
+                "en" -> English()
+                "ru" -> Russian()
                 else -> throw InvalidLocaleException
+            }
+        }
+
+        fun code(language: AppLanguage): String {
+            return when (language) {
+                is English -> English().code
+                is Russian -> Russian().code
             }
         }
     }

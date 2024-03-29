@@ -41,7 +41,7 @@ internal class MovieInteractorImpl(
                 movieRepository = movieRepository,
                 pagingKeyRepository = pagingKeyRepository,
                 moviesDatabase = moviesDatabase,
-                movieList = movieList.name
+                movieList = MovieList.name(movieList)
             ),
             pagingSourceFactory = { movieRepository.moviesPagingSource(movieList.nameOrLocalList) }
         ).flow

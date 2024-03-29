@@ -50,7 +50,7 @@
     <string name="gallery_success">Загружено</string>
     <string name="gallery_failure">Ошибка при загрузке</string>
     <string name="gallery_action_open">Открыть</string>
-    <string name="gallery_image_of">%d из %d</string>
+    <string name="gallery_image_of">%1$d из %1$d</string>
 
     <string name="search_title">Поиск</string>
     <string name="search_history_empty">История поиска пуста</string>
@@ -91,15 +91,15 @@
     <string name="settings_app_launcher_icon_purple">Фиолетовую</string>
     <string name="settings_app_launcher_icon_brown">Коричневую</string>
     <string name="settings_app_launcher_icon_amoled">Amoled</string>
-    <string name="settings_app_launcher_icon_changed_to">Иконка приложения изменена на %s</string>
-    <string name="settings_app_version_name">Movies v%s</string>
-    <string name="settings_app_version_code">(%s)</string>
+    <string name="settings_app_launcher_icon_changed_to">Иконка приложения изменена на %1$s</string>
+    <string name="settings_app_version_name">Movies v%1$s</string>
+    <string name="settings_app_version_code">(%1$s)</string>
     <string name="settings_app_debug">Debug</string>
     <string name="settings_action_cancel">Отмена</string>
     <string name="settings_github">Movies на GitHub</string>
     <string name="settings_github_description">Посмотреть GitHub-репозиторий</string>
     <string name="settings_app_widget">Добавить виджет на главный экран</string>
-    <string name="settings_app_widget_description">3x2 %s</string>
+    <string name="settings_app_widget_description">3x2 %1$s</string>
     <string name="settings_tile">Добавить плитку в шторку</string>
     <string name="settings_tile_description">Плитка для запуска аппки</string>
     <string name="settings_tile_error_already_added">Плитка уже добавлена</string>

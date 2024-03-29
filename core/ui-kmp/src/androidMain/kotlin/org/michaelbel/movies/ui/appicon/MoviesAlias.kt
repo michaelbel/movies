@@ -34,6 +34,15 @@ fun Context.installLauncherIcon() {
     setIcon(IconAlias.Red)
 }
 
+val Context.enabledIcon: IconAlias
+    get() = when {
+        isEnabled(IconAlias.Red) -> IconAlias.Red
+        isEnabled(IconAlias.Purple) -> IconAlias.Purple
+        isEnabled(IconAlias.Brown) -> IconAlias.Brown
+        isEnabled(IconAlias.Amoled) -> IconAlias.Amoled
+        else -> throw Exception("Icon not found")
+    }
+
 internal val Context.shortcutSearchIconRes: Int
     @DrawableRes get() = when {
         isEnabled(IconAlias.Red) -> R.drawable.ic_shortcut_search_red_48

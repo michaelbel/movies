@@ -1,7 +1,6 @@
 package org.michaelbel.movies.settings
 
 import android.app.Activity
-import android.os.Build
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -36,14 +35,6 @@ class SettingsViewModel(
     appService: AppService
 ): BaseViewModel(), DefaultLifecycleObserver {
 
-    val isGrammaticalGenderFeatureEnabled = Build.VERSION.SDK_INT >= 34
-
-    val isDynamicColorsFeatureEnabled = Build.VERSION.SDK_INT >= 31
-
-    val isPostNotificationsFeatureEnabled = Build.VERSION.SDK_INT >= 33
-
-    val isTileFeatureEnabled = Build.VERSION.SDK_INT >= 24
-
     val isReviewFeatureEnabled = appService.flavor == Flavor.Gms
 
     val isUpdateFeatureEnabled = appService.flavor == Flavor.Gms
@@ -66,7 +57,7 @@ class SettingsViewModel(
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
-            initialValue = MovieList.NowPlaying
+            initialValue = MovieList.NowPlaying()
         )
 
     val dynamicColors: StateFlow<Boolean> = interactor.dynamicColors

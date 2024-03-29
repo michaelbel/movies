@@ -24,7 +24,7 @@ internal actual class LocaleControllerImpl(
 ): LocaleController {
 
     actual override val language: String
-        get() = AppCompatDelegate.getApplicationLocales()[0]?.language ?: AppLanguage.English.code
+        get() = AppCompatDelegate.getApplicationLocales()[0]?.language ?: AppLanguage.English().code
 
     actual override val appLanguage: Flow<AppLanguage> = flowOf(AppLanguage.transform(language))
 
@@ -36,9 +36,9 @@ internal actual class LocaleControllerImpl(
             // for ComponentActivity
             if (Build.VERSION.SDK_INT >= 33) {
                 val localeManager = context.getSystemService(LocaleManager::class.java)
-                localeManager.applicationLocales = LocaleList.forLanguageTags(language.code)
+                localeManager.applicationLocales = LocaleList.forLanguageTags(AppLanguage.code(language))
             } else {
-                val locale = Locale(language.code)
+                val locale = Locale(AppLanguage.code(language))
                 Locale.setDefault(locale)
 
                 val configuration = context.resources.configuration

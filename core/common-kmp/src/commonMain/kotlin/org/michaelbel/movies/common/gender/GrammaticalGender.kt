@@ -3,33 +3,48 @@ package org.michaelbel.movies.common.gender
 import org.michaelbel.movies.common.SealedString
 import org.michaelbel.movies.common.gender.exceptions.InvalidGenderException
 
-sealed class GrammaticalGender(
-    val value: Int
-): SealedString {
+sealed interface GrammaticalGender: SealedString {
 
-    data object NotSpecified: GrammaticalGender(0)
+    data class NotSpecified(
+        val value: Int = 0
+    ): GrammaticalGender
 
-    data object Neutral: GrammaticalGender(1)
+    data class Neutral(
+        val value: Int = 1
+    ): GrammaticalGender
 
-    data object Feminine: GrammaticalGender(2)
+    data class Feminine(
+        val value: Int = 2
+    ): GrammaticalGender
 
-    data object Masculine: GrammaticalGender(3)
+    data class Masculine(
+        val value: Int = 3
+    ): GrammaticalGender
 
     companion object {
         val VALUES = listOf(
-            NotSpecified,
-            Neutral,
-            Feminine,
-            Masculine
+            NotSpecified(),
+            Neutral(),
+            Feminine(),
+            Masculine()
         )
 
         fun transform(gender: Int): GrammaticalGender {
             return when (gender) {
-                0 -> NotSpecified
-                1 -> Neutral
-                2 -> Feminine
-                3 -> Masculine
+                0 -> NotSpecified()
+                1 -> Neutral()
+                2 -> Feminine()
+                3 -> Masculine()
                 else -> throw InvalidGenderException
+            }
+        }
+
+        fun value(gender: GrammaticalGender): Int {
+            return when (gender) {
+                is NotSpecified -> NotSpecified().value
+                is Neutral -> Neutral().value
+                is Feminine -> Feminine().value
+                is Masculine -> Masculine().value
             }
         }
     }

@@ -3,33 +3,48 @@ package org.michaelbel.movies.common.list
 import org.michaelbel.movies.common.SealedString
 import org.michaelbel.movies.common.list.exceptions.InvalidMovieListException
 
-sealed class MovieList(
-    val name: String
-): SealedString {
+sealed interface MovieList: SealedString {
 
-    data object NowPlaying: MovieList("now_playing")
+    data class NowPlaying(
+        val name: String = "now_playing"
+    ): MovieList
 
-    data object Popular: MovieList("popular")
+    data class Popular(
+        val name: String = "popular"
+    ): MovieList
 
-    data object TopRated: MovieList("top_rated")
+    data class TopRated(
+        val name: String = "top_rated"
+    ): MovieList
 
-    data object Upcoming: MovieList("upcoming")
+    data class Upcoming(
+        val name: String = "upcoming"
+    ): MovieList
 
     companion object {
         val VALUES = listOf(
-            NowPlaying,
-            Popular,
-            TopRated,
-            Upcoming
+            NowPlaying(),
+            Popular(),
+            TopRated(),
+            Upcoming()
         )
 
         fun transform(name: String): MovieList {
             return when (name) {
-                NowPlaying.toString() -> NowPlaying
-                Popular.toString() -> Popular
-                TopRated.toString() -> TopRated
-                Upcoming.toString() -> Upcoming
+                NowPlaying().toString() -> NowPlaying()
+                Popular().toString() -> Popular()
+                TopRated().toString() -> TopRated()
+                Upcoming().toString() -> Upcoming()
                 else -> throw InvalidMovieListException
+            }
+        }
+
+        fun name(movieList: MovieList): String {
+            return when (movieList) {
+                is NowPlaying -> NowPlaying().name
+                is Popular -> Popular().name
+                is TopRated -> TopRated().name
+                is Upcoming -> Upcoming().name
             }
         }
     }

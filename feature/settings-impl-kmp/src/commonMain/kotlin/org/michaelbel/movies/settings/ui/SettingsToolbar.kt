@@ -15,6 +15,7 @@ import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
+import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.modifierDisplayCutoutWindowInsets
 import org.michaelbel.movies.ui.strings.MoviesStrings
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -23,7 +24,8 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 internal fun SettingsToolbar(
     modifier: Modifier = Modifier,
     topAppBarScrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
-    onNavigationIconClick: () -> Unit
+    onNavigationIconClick: () -> Unit,
+    onClick: () -> Unit,
 ) {
     LargeTopAppBar(
         title = {
@@ -32,6 +34,7 @@ internal fun SettingsToolbar(
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         },
+        modifier = modifier.clickableWithoutRipple { onClick() },
         navigationIcon = {
             BackIcon(
                 onClick = onNavigationIconClick,
@@ -52,7 +55,8 @@ private fun SettingsToolbarPreview() {
     MoviesTheme {
         SettingsToolbar(
             modifier = Modifier.statusBarsPadding(),
-            onNavigationIconClick = {}
+            onNavigationIconClick = {},
+            onClick = {}
         )
     }
 }
@@ -65,7 +69,8 @@ private fun SettingsToolbarAmoledPreview() {
     ) {
         SettingsToolbar(
             modifier = Modifier.statusBarsPadding(),
-            onNavigationIconClick = {}
+            onNavigationIconClick = {},
+            onClick = {}
         )
     }
 }

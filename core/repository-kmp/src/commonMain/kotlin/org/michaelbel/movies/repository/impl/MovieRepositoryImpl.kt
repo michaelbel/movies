@@ -59,7 +59,7 @@ internal class MovieRepositoryImpl(
     override suspend fun moviesWidget(): List<MovieDbMini> {
         return try {
             val movieResult = movieNetworkService.movies(
-                list = MovieList.Upcoming.name,
+                list = MovieList.Upcoming().name,
                 language = localeController.language,
                 page = 1
             )

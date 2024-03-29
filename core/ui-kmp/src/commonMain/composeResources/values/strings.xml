@@ -50,7 +50,7 @@
     <string name="gallery_success">Success</string>
     <string name="gallery_failure">Failure</string>
     <string name="gallery_action_open">Show</string>
-    <string name="gallery_image_of">%d of %d</string>
+    <string name="gallery_image_of">%1$d of %2$d</string>
 
     <string name="search_title">Search</string>
     <string name="search_history_empty">Search History is Empty</string>
@@ -91,15 +91,15 @@
     <string name="settings_app_launcher_icon_purple">Purple</string>
     <string name="settings_app_launcher_icon_brown">Brown</string>
     <string name="settings_app_launcher_icon_amoled">Amoled</string>
-    <string name="settings_app_launcher_icon_changed_to">App icon changed to %s</string>
-    <string name="settings_app_version_name">Movies v%s</string>
-    <string name="settings_app_version_code">(%s)</string>
+    <string name="settings_app_launcher_icon_changed_to">App icon changed to %1$s</string>
+    <string name="settings_app_version_name">Movies v%1$s</string>
+    <string name="settings_app_version_code">(%1$s)</string>
     <string name="settings_app_debug">Debug</string>
     <string name="settings_action_cancel">Cancel</string>
     <string name="settings_github">Movies on GitHub</string>
     <string name="settings_github_description">Check the GitHub repository</string>
     <string name="settings_app_widget">Add Widget to Home Screen</string>
-    <string name="settings_app_widget_description">3x2 %s</string>
+    <string name="settings_app_widget_description">3x2 %1$s</string>
     <string name="settings_tile">Add Tile to Quick Settings</string>
     <string name="settings_tile_description">Movies launcher tile</string>
     <string name="settings_tile_error_already_added">Tile already added</string>
