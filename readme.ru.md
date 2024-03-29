@@ -108,7 +108,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [KotlinX Coroutines](https://github.com/Kotlin/kotlinx.coroutines)
 - [x] [KotlinX Serialization](https://github.com/Kotlin/kotlinx.serialization)
 - [x] [Appcompat](https://d.android.com/jetpack/androidx/releases/appcompat)
-- [x] [Dagger Hilt](https://github.com/google/dagger)
 - [x] [ViewModel](https://d.android.com/topic/libraries/architecture/viewmodel)
 - [x] [Lifecycle](https://d.android.com/topic/libraries/architecture/lifecycle)
 - [x] [Room](https://d.android.com/training/data-storage/room)
