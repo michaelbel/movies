@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.RewriteQueriesToDropUnusedColumns
 import androidx.room.Transaction
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.persistence.database.entity.MovieDb
@@ -27,6 +28,7 @@ internal interface MovieDao {
     @Query("SELECT * FROM movies WHERE movieList = :movieList ORDER BY position ASC LIMIT :limit")
     suspend fun movies(movieList: String, limit: Int): List<MoviePojo>
 
+    @RewriteQueriesToDropUnusedColumns
     @Query("SELECT * FROM movies WHERE movieList = :movieList ORDER BY position ASC LIMIT :limit")
     suspend fun moviesMini(movieList: String, limit: Int): List<MovieDbMini>
 
