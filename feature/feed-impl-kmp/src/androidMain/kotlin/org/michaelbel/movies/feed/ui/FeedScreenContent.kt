@@ -2,7 +2,6 @@
 
 package org.michaelbel.movies.feed.ui
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -10,18 +9,14 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
-import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.SheetValue
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberBottomSheetScaffoldState
-import androidx.compose.material3.rememberStandardBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -31,7 +26,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.appearance.FeedView
@@ -78,28 +72,6 @@ internal fun FeedScreenContent(
     val lazyGridState = rememberLazyGridState()
     val lazyStaggeredGridState = rememberLazyStaggeredGridState()
     val snackbarHostState = remember { SnackbarHostState() }
-    val notificationBottomSheetScaffoldState = rememberBottomSheetScaffoldState(
-        bottomSheetState = rememberStandardBottomSheetState(
-            confirmValueChange = { sheetValue ->
-                if (sheetValue == SheetValue.Hidden) {
-                    onNotificationBottomSheetHideClick()
-                }
-                true
-            },
-            skipHiddenState = false
-        )
-    )
-    val onNotificationBottomSheetShow: () -> Unit = {
-        scope.launch {
-            notificationBottomSheetScaffoldState.bottomSheetState.expand()
-        }
-    }
-    val onNotificationBottomSheetHide: () -> Unit = {
-        scope.launch {
-            notificationBottomSheetScaffoldState.bottomSheetState.hide()
-            onNotificationBottomSheetHideClick()
-        }
-    }
 
     val onScrollToTop: () -> Unit = {
         scope.launch { lazyListState.animateScrollToItem(0) }
@@ -128,92 +100,82 @@ internal fun FeedScreenContent(
         pagingItems.retry()
     }
 
-    if (notificationsPermissionRequired) {
-        onNotificationBottomSheetShow()
+    var modalDialog by remember { mutableStateOf(false) }
+    modalDialog = notificationsPermissionRequired
+    if (modalDialog) {
+        NotificationBottomSheet(
+            onDismissRequest = {
+                modalDialog = false
+                onNotificationBottomSheetHideClick()
+            },
+            modifier = Modifier.fillMaxWidth()
+        )
     }
-
-    var isBottomSheetExpanded by remember { mutableStateOf(false) }
-    isBottomSheetExpanded = notificationBottomSheetScaffoldState.bottomSheetState.currentValue == SheetValue.Expanded
 
     if (isAuthFailureSnackbarShowed) {
         onShowSnackbar(stringResource(R.string.feed_auth_failure), SnackbarDuration.Short)
     }
 
-    BackHandler(isBottomSheetExpanded, onNotificationBottomSheetHide)
+    val topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
-    BottomSheetScaffold(
-        sheetContent = {
-            NotificationBottomSheet(
-                modifier = Modifier.fillMaxWidth(),
-                onBottomSheetHide = onNotificationBottomSheetHide
+    Scaffold(
+        modifier = modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
+        topBar = {
+            FeedToolbar(
+                title = currentMovieList.titleText,
+                modifier = Modifier.clickableWithoutRipple(onScrollToTop),
+                account = account,
+                onSearchIconClick = onNavigateToSearch,
+                onAuthIconClick = onNavigateToAuth,
+                onAccountIconClick = onNavigateToAccount,
+                topAppBarScrollBehavior = topAppBarScrollBehavior,
+                onSettingsIconClick = onNavigateToSettings
             )
         },
-        scaffoldState = notificationBottomSheetScaffoldState,
-        sheetPeekHeight = 0.dp
-    ) { bottomSheetInnerPadding ->
-        val topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
-
-        Scaffold(
-            modifier = modifier
-                .padding(bottomSheetInnerPadding)
-                .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
-            topBar = {
-                FeedToolbar(
-                    title = currentMovieList.titleText,
-                    modifier = Modifier.clickableWithoutRipple(onScrollToTop),
-                    account = account,
-                    onSearchIconClick = onNavigateToSearch,
-                    onAuthIconClick = onNavigateToAuth,
-                    onAccountIconClick = onNavigateToAccount,
-                    topAppBarScrollBehavior = topAppBarScrollBehavior,
-                    onSettingsIconClick = onNavigateToSettings
+        snackbarHost = {
+            SnackbarHost(
+                hostState = snackbarHostState
+            )
+        },
+        containerColor = MaterialTheme.colorScheme.primaryContainer
+    ) { innerPadding ->
+        when {
+            pagingItems.isLoading -> {
+                PageLoading(
+                    feedView = currentFeedView,
+                    modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets),
+                    paddingValues = innerPadding
                 )
-            },
-            snackbarHost = {
-                SnackbarHost(
-                    hostState = snackbarHostState
-                )
-            },
-            containerColor = MaterialTheme.colorScheme.primaryContainer
-        ) { innerPadding ->
-            when {
-                pagingItems.isLoading -> {
-                    PageLoading(
-                        feedView = currentFeedView,
-                        modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets),
-                        paddingValues = innerPadding
+            }
+            pagingItems.isFailure -> {
+                if (pagingItems.refreshThrowable is PageEmptyException) {
+                    FeedEmpty(
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .windowInsetsPadding(displayCutoutWindowInsets)
+                            .fillMaxSize()
+                    )
+                } else {
+                    PageFailure(
+                        modifier = Modifier
+                            .padding(innerPadding)
+                            .windowInsetsPadding(displayCutoutWindowInsets)
+                            .fillMaxSize()
+                            .clickableWithoutRipple(pagingItems::retry)
                     )
                 }
-                pagingItems.isFailure -> {
-                    if (pagingItems.refreshThrowable is PageEmptyException) {
-                        FeedEmpty(
-                            modifier = Modifier
-                                .padding(innerPadding)
-                                .windowInsetsPadding(displayCutoutWindowInsets)
-                                .fillMaxSize()
-                        )
-                    } else {
-                        PageFailure(
-                            modifier = Modifier
-                                .padding(innerPadding)
-                                .windowInsetsPadding(displayCutoutWindowInsets)
-                                .fillMaxSize()
-                                .clickableWithoutRipple(pagingItems::retry)
-                        )
-                    }
-                }
-                else -> {
-                    PageContent(
-                        feedView = currentFeedView,
-                        lazyListState = lazyListState,
-                        lazyGridState = lazyGridState,
-                        lazyStaggeredGridState = lazyStaggeredGridState,
-                        pagingItems = pagingItems,
-                        onMovieClick = onNavigateToDetails,
-                        contentPadding = innerPadding,
-                        modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
-                    )
-                }
+            }
+            else -> {
+                PageContent(
+                    feedView = currentFeedView,
+                    lazyListState = lazyListState,
+                    lazyGridState = lazyGridState,
+                    lazyStaggeredGridState = lazyStaggeredGridState,
+                    pagingItems = pagingItems,
+                    onMovieClick = onNavigateToDetails,
+                    contentPadding = innerPadding,
+                    modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
+                )
             }
         }
     }
