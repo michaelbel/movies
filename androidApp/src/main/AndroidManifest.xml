@@ -239,10 +239,6 @@
                 android:name="org.michaelbel.movies.common.crashlytics.FirebaseCrashlyticsInitializer"
                 android:value="androidx.startup"/>-->
 
-            <meta-data
-                android:name="org.michaelbel.movies.network.flaker.FlakerInitializer"
-                android:value="androidx.startup" />
-
         </provider>
 
     </application>
