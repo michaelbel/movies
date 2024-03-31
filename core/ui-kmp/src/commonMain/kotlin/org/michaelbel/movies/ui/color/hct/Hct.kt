@@ -6,8 +6,11 @@ class Hct private constructor(
     argb: Int
 ) {
     var hue = 0.0
+        private set
     var chroma = 0.0
+        private set
     var tone = 0.0
+        private set
     var argb = 0
 
     init {
