@@ -32,7 +32,6 @@ kotlin {
             implementation(libs.bundles.ktor.android)
             implementation(libs.androidx.startup.runtime)
             implementation(libs.okhttp.logging.interceptor)
-            implementation(libs.flaker.android.okhttp)
             implementation(libs.koin.android)
         }
     }
@@ -61,9 +60,6 @@ android {
     }
 
     dependencies {
-        implementation(libs.chucker.library) {
-            exclude(group = "androidx.constraintlayout")
-        }
         debugImplementation(libs.chucker.library) {
             exclude(group = "androidx.constraintlayout")
         }

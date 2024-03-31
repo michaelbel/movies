@@ -123,6 +123,8 @@ internal fun SettingsScreenContent(
                         onClick = { languageDialog = true }
                     )
                 }
+            }
+            if (settingsData.themeData.isFeatureEnabled) {
                 item {
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -130,8 +132,6 @@ internal fun SettingsScreenContent(
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
-            }
-            if (settingsData.themeData.isFeatureEnabled) {
                 item {
                     var themeDialog by remember { mutableStateOf(false) }
 
@@ -153,6 +153,8 @@ internal fun SettingsScreenContent(
                         onClick = { themeDialog = true }
                     )
                 }
+            }
+            if (settingsData.feedViewData.isFeatureEnabled) {
                 item {
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -160,8 +162,6 @@ internal fun SettingsScreenContent(
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
-            }
-            if (settingsData.feedViewData.isFeatureEnabled) {
                 item {
                     var appearanceDialog by remember { mutableStateOf(false) }
 
@@ -183,6 +183,8 @@ internal fun SettingsScreenContent(
                         onClick = { appearanceDialog = true }
                     )
                 }
+            }
+            if (settingsData.movieListData.isFeatureEnabled) {
                 item {
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -190,8 +192,6 @@ internal fun SettingsScreenContent(
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
-            }
-            if (settingsData.movieListData.isFeatureEnabled) {
                 item {
                     var movieListDialog by remember { mutableStateOf(false) }
 
@@ -213,6 +213,8 @@ internal fun SettingsScreenContent(
                         onClick = { movieListDialog = true }
                     )
                 }
+            }
+            if (settingsData.genderData.isFeatureEnabled) {
                 item {
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -220,8 +222,6 @@ internal fun SettingsScreenContent(
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
-            }
-            if (settingsData.genderData.isFeatureEnabled) {
                 item {
                     var genderDialog by remember { mutableStateOf(false) }
                     if (genderDialog) {
@@ -242,6 +242,8 @@ internal fun SettingsScreenContent(
                         onClick = { genderDialog = true }
                     )
                 }
+            }
+            if (settingsData.dynamicColorsData.isFeatureEnabled) {
                 item {
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -249,8 +251,6 @@ internal fun SettingsScreenContent(
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
-            }
-            if (settingsData.dynamicColorsData.isFeatureEnabled) {
                 item {
                     SettingSwitchItem(
                         title = stringResource(MoviesStrings.settings_dynamic_colors),
@@ -260,6 +260,8 @@ internal fun SettingsScreenContent(
                         onClick = { settingsData.dynamicColorsData.onChange(!settingsData.dynamicColorsData.isEnabled) }
                     )
                 }
+            }
+            if (settingsData.paletteColorsData.isFeatureEnabled) {
                 item {
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -267,8 +269,6 @@ internal fun SettingsScreenContent(
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
-            }
-            if (settingsData.paletteColorsData.isFeatureEnabled) {
                 item {
                     Text(
                         text = stringResource(MoviesStrings.settings_palette_colors),
@@ -284,6 +284,8 @@ internal fun SettingsScreenContent(
                         onChange = settingsData.paletteColorsData.onChange
                     )
                 }
+            }
+            if (settingsData.notificationsData.isFeatureEnabled) {
                 item {
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -291,8 +293,6 @@ internal fun SettingsScreenContent(
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
-            }
-            if (settingsData.notificationsData.isFeatureEnabled) {
                 item {
                     SettingSwitchItem(
                         title = stringResource(MoviesStrings.settings_post_notifications),
@@ -302,6 +302,8 @@ internal fun SettingsScreenContent(
                         onClick = settingsData.notificationsData.onClick
                     )
                 }
+            }
+            if (settingsData.biometricData.isFeatureEnabled) {
                 item {
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -309,8 +311,6 @@ internal fun SettingsScreenContent(
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
-            }
-            if (settingsData.biometricData.isFeatureEnabled) {
                 item {
                     SettingSwitchItem(
                         title = stringResource(MoviesStrings.settings_lock_app),
@@ -320,6 +320,8 @@ internal fun SettingsScreenContent(
                         onClick = { settingsData.biometricData.onChange(!settingsData.biometricData.isEnabled) }
                     )
                 }
+            }
+            if (settingsData.widgetData.isFeatureEnabled) {
                 item {
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -327,8 +329,6 @@ internal fun SettingsScreenContent(
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
-            }
-            if (settingsData.widgetData.isFeatureEnabled) {
                 item {
                     SettingItem(
                         title = stringResource(MoviesStrings.settings_app_widget),
@@ -337,6 +337,8 @@ internal fun SettingsScreenContent(
                         onClick = settingsData.widgetData.onRequest
                     )
                 }
+            }
+            if (settingsData.tileData.isFeatureEnabled) {
                 item {
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -344,8 +346,6 @@ internal fun SettingsScreenContent(
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
-            }
-            if (settingsData.tileData.isFeatureEnabled) {
                 item {
                     SettingItem(
                         title = stringResource(MoviesStrings.settings_tile),
@@ -354,6 +354,8 @@ internal fun SettingsScreenContent(
                         onClick = settingsData.tileData.onRequest
                     )
                 }
+            }
+            if (settingsData.appIconData.isFeatureEnabled) {
                 item {
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -361,8 +363,6 @@ internal fun SettingsScreenContent(
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
-            }
-            if (settingsData.appIconData.isFeatureEnabled) {
                 item {
                     Text(
                         text = stringResource(MoviesStrings.settings_app_launcher_icon),
@@ -400,6 +400,8 @@ internal fun SettingsScreenContent(
                         )
                     }
                 }
+            }
+            if (settingsData.githubData.isFeatureEnabled) {
                 item {
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -407,8 +409,6 @@ internal fun SettingsScreenContent(
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
-            }
-            if (settingsData.githubData.isFeatureEnabled) {
                 item {
                     SettingItem(
                         title = stringResource(MoviesStrings.settings_github),
@@ -417,6 +417,8 @@ internal fun SettingsScreenContent(
                         onClick = { settingsData.githubData.onClick(MOVIES_GITHUB_URL) }
                     )
                 }
+            }
+            if (settingsData.reviewAppData.isFeatureEnabled) {
                 item {
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -424,8 +426,6 @@ internal fun SettingsScreenContent(
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
-            }
-            if (settingsData.reviewAppData.isFeatureEnabled) {
                 item {
                     SettingItem(
                         title = stringResource(MoviesStrings.settings_review),
@@ -434,6 +434,8 @@ internal fun SettingsScreenContent(
                         onClick = settingsData.reviewAppData.onRequest
                     )
                 }
+            }
+            if (settingsData.updateAppData.isFeatureEnabled) {
                 item {
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
@@ -441,8 +443,6 @@ internal fun SettingsScreenContent(
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 }
-            }
-            if (settingsData.updateAppData.isFeatureEnabled) {
                 item {
                     SettingItem(
                         title = stringResource(MoviesStrings.settings_update),

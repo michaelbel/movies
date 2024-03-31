@@ -85,6 +85,7 @@ koin = "3.5.3"
 precompose = "1.6.0-rc05"
 constraintlayout-compose-multiplatform = "0.3.1"
 kmp-viewmodel = "0.7.1"
+okio = "3.9.0"
 
 [libraries]
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
@@ -227,6 +228,7 @@ koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "
 precompose = { module = "moe.tlaster:precompose", version.ref = "precompose" }
 constraintlayout-compose-multiplatform = { module = "tech.annexflow.compose:constraintlayout-compose-multiplatform", version.ref = "constraintlayout-compose-multiplatform" }
 kmp-viewmodel = { module = "io.github.hoc081098:kmp-viewmodel", version.ref = "kmp-viewmodel" }
+okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 
 gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -355,6 +357,9 @@ coil-common = [
 ]
 constraintlayout-common = [
     "constraintlayout-compose-multiplatform"
+]
+okio-common = [
+    "okio"
 ]
 
 [plugins]

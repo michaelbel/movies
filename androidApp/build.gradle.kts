@@ -78,19 +78,19 @@ android {
             keystoreProperties["storePassword"] = System.getenv("KEYSTORE_STORE_PASSWORD").orEmpty()
             keystoreProperties["storeFile"] = System.getenv("KEYSTORE_FILE").orEmpty()
         }
-        /*create("release") { // todo Uncomment to create a signed release
+        create("release") { // todo Uncomment to create a signed release
             keyAlias = keystoreProperties["keyAlias"] as String
             keyPassword = keystoreProperties["keyPassword"] as String
             storeFile = file(keystoreProperties["storeFile"] as String)
             storePassword = keystoreProperties["storePassword"] as String
-        }*/
+        }
     }
 
     buildTypes {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            /*signingConfig = signingConfigs.getByName("release")*/ // todo Uncomment to create a signed release
+            signingConfig = signingConfigs.getByName("release") // todo Uncomment to create a signed release
             applicationIdSuffix = MoviesBuildType.RELEASE.applicationIdSuffix
             manifestPlaceholders += mapOf("appName" to "@string/app_name")
             proguardFiles(
