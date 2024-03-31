@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.biometric.BiometricController
 import org.michaelbel.movies.common.list.MovieList
@@ -39,11 +40,11 @@ class SettingsViewModel(
 
     val isUpdateFeatureEnabled = appService.flavor == Flavor.Gms
 
-    val currentTheme: StateFlow<AppTheme> = interactor.currentTheme
+    val themeData: StateFlow<ThemeData> = interactor.themeData
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
-            initialValue = AppTheme.FollowSystem
+            initialValue = ThemeData.Default
         )
 
     val currentFeedView: StateFlow<FeedView> = interactor.currentFeedView
@@ -58,13 +59,6 @@ class SettingsViewModel(
             scope = this,
             started = SharingStarted.Lazily,
             initialValue = MovieList.NowPlaying()
-        )
-
-    val dynamicColors: StateFlow<Boolean> = interactor.dynamicColors
-        .stateIn(
-            scope = this,
-            started = SharingStarted.Lazily,
-            initialValue = false
         )
 
     val isBiometricFeatureEnabled: StateFlow<Boolean> = biometricController.isBiometricAvailable
@@ -112,6 +106,14 @@ class SettingsViewModel(
 
     fun setDynamicColors(value: Boolean) = launch {
         interactor.setDynamicColors(value)
+    }
+
+    fun setPaletteKey(paletteKey: Int) = launch {
+        interactor.setPaletteKey(paletteKey)
+    }
+
+    fun setSeedColor(seedColor: Int) = launch {
+        interactor.setSeedColor(seedColor)
     }
 
     fun setBiometricEnabled(enabled: Boolean) = launch {

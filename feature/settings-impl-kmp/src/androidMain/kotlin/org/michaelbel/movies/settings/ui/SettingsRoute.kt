@@ -57,7 +57,6 @@ import org.michaelbel.movies.settings.model.isUpdateAppFeatureEnabled
 import org.michaelbel.movies.settings.model.isWidgetFeatureEnabled
 import org.michaelbel.movies.ui.appicon.IconAlias
 import org.michaelbel.movies.ui.appicon.enabledIcon
-import org.michaelbel.movies.ui.appicon.isEnabled
 import org.michaelbel.movies.ui.appicon.setIcon
 import org.michaelbel.movies.ui.icons.MoviesAndroidIcons
 import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
@@ -74,10 +73,9 @@ fun SettingsRoute(
     viewModel: SettingsViewModel = koinViewModel()
 ) {
     val currentLanguage = AppLanguage.transform(stringResource(MoviesStrings.language_code))
-    val currentTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
+    val themeData by viewModel.themeData.collectAsStateWithLifecycle()
     val currentFeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()
     val currentMovieList by viewModel.currentMovieList.collectAsStateWithLifecycle()
-    val dynamicColors by viewModel.dynamicColors.collectAsStateWithLifecycle()
     val isBiometricFeatureAvailable by viewModel.isBiometricFeatureEnabled.collectAsStateWithLifecycle()
     val isBiometricEnabled by viewModel.isBiometricEnabled.collectAsStateWithLifecycle()
     val appVersionData by viewModel.appVersionData.collectAsStateWithLifecycle()
@@ -156,7 +154,7 @@ fun SettingsRoute(
             ),
             themeData = SettingsData.ListData(
                 isFeatureEnabled = isThemeFeatureEnabled,
-                current = currentTheme,
+                current = themeData.appTheme,
                 onSelect = viewModel::selectTheme
             ),
             feedViewData = SettingsData.ListData(
@@ -178,8 +176,21 @@ fun SettingsRoute(
             ),
             dynamicColorsData = SettingsData.DynamicColorsData(
                 isFeatureEnabled = isDynamicColorsFeatureEnabled,
-                isEnabled = dynamicColors,
+                isEnabled = themeData.dynamicColors,
                 onChange = viewModel::setDynamicColors
+            ),
+            paletteColorsData = SettingsData.PaletteColorsData(
+                isFeatureEnabled = isDynamicColorsFeatureEnabled,
+                isDynamicColorsEnabled = themeData.dynamicColors,
+                paletteKey = themeData.paletteKey,
+                seedColor = themeData.seedColor,
+                onChange = { localDynamicColors, localPaletteKey, localSeedColor ->
+                    viewModel.run {
+                        setDynamicColors(localDynamicColors)
+                        setPaletteKey(localPaletteKey)
+                        setSeedColor(localSeedColor)
+                    }
+                }
             ),
             notificationsData = SettingsData.NotificationsData(
                 isFeatureEnabled = isNotificationsFeatureEnabled,

@@ -17,9 +17,9 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.analytics.MoviesAnalytics
 import org.michaelbel.movies.app.BuildConfig
+import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.common.biometric.BiometricController
 import org.michaelbel.movies.common.biometric.BiometricListener
-import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.debug.notification.DebugNotificationClient
 import org.michaelbel.movies.interactor.Interactor
@@ -47,18 +47,11 @@ internal class MainViewModel(
     private val _splashLoading = MutableStateFlow(true)
     val splashLoading: StateFlow<Boolean> = _splashLoading.asStateFlow()
 
-    val currentTheme: StateFlow<AppTheme> = interactor.currentTheme
+    val themeData: StateFlow<ThemeData> = interactor.themeData
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
-            initialValue = AppTheme.FollowSystem
-        )
-
-    val dynamicColors: StateFlow<Boolean> = interactor.dynamicColors
-        .stateIn(
-            scope = this,
-            started = SharingStarted.Lazily,
-            initialValue = false
+            initialValue = ThemeData.Default
         )
 
     init {

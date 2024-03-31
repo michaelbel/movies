@@ -70,6 +70,13 @@ fun SettingsRoute(
                 isEnabled = false,
                 onChange = {}
             ),
+            paletteColorsData = SettingsData.PaletteColorsData(
+                isFeatureEnabled = false,
+                isDynamicColorsEnabled = false,
+                paletteKey = 0,
+                seedColor = 0,
+                onChange = { _,_,_ -> }
+            ),
             notificationsData = SettingsData.NotificationsData(
                 isFeatureEnabled = isNotificationsFeatureEnabled,
                 isEnabled = false,

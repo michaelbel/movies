@@ -1,6 +1,7 @@
 package org.michaelbel.movies.interactor
 
 import kotlinx.coroutines.flow.Flow
+import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.theme.AppTheme
@@ -13,7 +14,7 @@ interface SettingsInteractor {
 
     val currentMovieList: Flow<MovieList>
 
-    val dynamicColors: Flow<Boolean>
+    val themeData: Flow<ThemeData>
 
     val isBiometricEnabled: Flow<Boolean>
 
@@ -33,6 +34,14 @@ interface SettingsInteractor {
 
     suspend fun setDynamicColors(
         value: Boolean
+    )
+
+    suspend fun setPaletteKey(
+        paletteKey: Int
+    )
+
+    suspend fun setSeedColor(
+        seedColor: Int
     )
 
     suspend fun setBiometricEnabled(

@@ -90,6 +90,7 @@ import movies.core.ui_kmp.generated.resources.settings_movie_list_now_playing
 import movies.core.ui_kmp.generated.resources.settings_movie_list_popular
 import movies.core.ui_kmp.generated.resources.settings_movie_list_top_rated
 import movies.core.ui_kmp.generated.resources.settings_movie_list_upcoming
+import movies.core.ui_kmp.generated.resources.settings_palette_colors
 import movies.core.ui_kmp.generated.resources.settings_post_notifications
 import movies.core.ui_kmp.generated.resources.settings_post_notifications_denied
 import movies.core.ui_kmp.generated.resources.settings_post_notifications_granted
@@ -225,6 +226,7 @@ object MoviesStrings {
     val settings_biometric_not_added = Res.string.settings_biometric_not_added
     val settings_update = Res.string.settings_update
     val settings_update_description = Res.string.settings_update_description
+    val settings_palette_colors = Res.string.settings_palette_colors
 
     @Composable
     fun settings_app_version_name(vararg formatArgs: Any): String {

@@ -15,6 +15,7 @@ data class SettingsData(
     val movieListData: ListData<MovieList>,
     val genderData: ListData<GrammaticalGender>,
     val dynamicColorsData: DynamicColorsData,
+    val paletteColorsData: PaletteColorsData,
     val notificationsData: NotificationsData,
     val biometricData: BiometricData,
     val widgetData: WidgetData,
@@ -54,6 +55,14 @@ data class SettingsData(
         override val isEnabled: Boolean,
         override val onChange: (Boolean) -> Unit
     ): Changed
+
+    data class PaletteColorsData(
+        override val isFeatureEnabled: Boolean,
+        val isDynamicColorsEnabled: Boolean,
+        val paletteKey: Int,
+        val seedColor: Int,
+        val onChange: (Boolean, Int, Int) -> Unit
+    ): Featured
 
     data class NotificationsData(
         override val isFeatureEnabled: Boolean,

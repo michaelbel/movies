@@ -1,7 +1,9 @@
 package org.michaelbel.movies.repository.impl
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
+import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.theme.AppTheme
@@ -25,11 +27,24 @@ internal class SettingsRepositoryImpl(
         MovieList.transform(className ?: MovieList.NowPlaying().toString())
     }
 
-    override val dynamicColors: Flow<Boolean> = preferences.isDynamicColorsFlow.map { isDynamicColors ->
-        isDynamicColors ?: defaultDynamicColorsEnabled
-    }
+    override val themeData: Flow<ThemeData>
+        get() {
+            return combine(
+                preferences.themeFlow,
+                preferences.isDynamicColorsFlow,
+                preferences.paletteKeyFlow,
+                preferences.seedColorFlow
+            ) { name, dynamicColors, paletteKey, seedColor ->
+                ThemeData(
+                    appTheme = AppTheme.transform(name ?: AppTheme.FollowSystem.toString()),
+                    dynamicColors = dynamicColors ?: defaultDynamicColorsEnabled,
+                    paletteKey = paletteKey ?: ThemeData.STYLE_TONAL_SPOT,
+                    seedColor = seedColor ?: ThemeData.DEFAULT_SEED_COLOR
+                )
+            }
+        }
 
-    override val isBiometricEnabled: Flow<Boolean> = preferences.isBiometricEnabled.map { enabled ->
+    override val isBiometricEnabled: Flow<Boolean> = preferences.isBiometricEnabledFlow.map { enabled ->
         enabled ?: false
     }
 
@@ -51,6 +66,14 @@ internal class SettingsRepositoryImpl(
 
     override suspend fun setDynamicColors(value: Boolean) {
         preferences.setDynamicColors(value)
+    }
+
+    override suspend fun setPaletteKey(paletteKey: Int) {
+        preferences.setPaletteKey(paletteKey)
+    }
+
+    override suspend fun setSeedColor(seedColor: Int) {
+        preferences.setSeedColor(seedColor)
     }
 
     override suspend fun setBiometricEnabled(enabled: Boolean) {
