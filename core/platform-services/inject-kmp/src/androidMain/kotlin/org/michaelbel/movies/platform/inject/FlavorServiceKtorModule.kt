@@ -11,10 +11,8 @@ import org.michaelbel.movies.platform.impl.analytics.AnalyticsServiceImpl
 import org.michaelbel.movies.platform.impl.app.AppServiceImpl
 import org.michaelbel.movies.platform.impl.config.ConfigServiceImpl
 import org.michaelbel.movies.platform.impl.crashlytics.CrashlyticsServiceImpl
-import org.michaelbel.movies.platform.impl.firebaseKoinModule
-import org.michaelbel.movies.platform.impl.googleApiKoinModule
 import org.michaelbel.movies.platform.impl.messaging.MessagingServiceImpl
-import org.michaelbel.movies.platform.impl.playKoinModule
+import org.michaelbel.movies.platform.impl.platformKoinModule
 import org.michaelbel.movies.platform.impl.review.ReviewServiceImpl
 import org.michaelbel.movies.platform.impl.update.UpdateServiceImpl
 import org.michaelbel.movies.platform.messaging.MessagingService
@@ -23,9 +21,7 @@ import org.michaelbel.movies.platform.update.UpdateService
 
 val flavorServiceKtorModule = module {
     includes(
-        firebaseKoinModule,
-        googleApiKoinModule,
-        playKoinModule
+        platformKoinModule
     )
     singleOf(::AnalyticsServiceImpl) { bind<AnalyticsService>() }
     singleOf(::AppServiceImpl) { bind<AppService>() }

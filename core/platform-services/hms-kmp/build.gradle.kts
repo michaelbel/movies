@@ -16,6 +16,8 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:platform-services:interactor-kmp"))
+            implementation(libs.bundles.kotlinx.coroutines.common)
+            implementation(libs.bundles.koin.common)
         }
     }
 }

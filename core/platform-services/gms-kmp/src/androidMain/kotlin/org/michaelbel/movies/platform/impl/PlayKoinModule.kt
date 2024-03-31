@@ -6,7 +6,7 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.dsl.module
 import org.michaelbel.movies.platform.impl.update.InAppUpdate
 
-val playKoinModule = module {
+internal val playKoinModule = module {
     single { ReviewManagerFactory.create(androidContext()) }
     single { AppUpdateManagerFactory.create(androidContext()) }
     single { InAppUpdate(get(), get()) }

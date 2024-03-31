@@ -12,7 +12,7 @@ import org.koin.dsl.module
 
 private const val FETCH_INTERVAL_IN_SECONDS = 5L
 
-val firebaseKoinModule = module {
+internal val firebaseKoinModule = module {
     single { Firebase.analytics }
     single { FirebaseCrashlytics.getInstance() }
     single { FirebaseMessaging.getInstance() }

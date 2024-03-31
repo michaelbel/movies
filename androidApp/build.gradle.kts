@@ -57,7 +57,7 @@ android {
         compileSdk = libs.versions.compile.sdk.get().toInt()
         targetSdk = libs.versions.target.sdk.get().toInt()
         versionCode = gitCommitsCount
-        versionName = versionLastTag
+        versionName = "2.0.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         resourceConfigurations.addAll(listOf("en", "ru"))
