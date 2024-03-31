@@ -268,6 +268,30 @@ internal fun SettingsScreenContent(
                     )
                 }
             }
+            if (settingsData.paletteColorsData.isFeatureEnabled) {
+                item {
+                    Text(
+                        text = stringResource(MoviesStrings.settings_palette_colors),
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                        style = MaterialTheme.typography.titleLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
+                    )
+                }
+                item {
+                    SettingsPaletteColorsBox(
+                        isDynamicColorsEnabled = settingsData.paletteColorsData.isDynamicColorsEnabled,
+                        paletteKey = settingsData.paletteColorsData.paletteKey,
+                        seedColor = settingsData.paletteColorsData.seedColor,
+                        onChange = settingsData.paletteColorsData.onChange
+                    )
+                }
+                item {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                        thickness = .1.dp,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+            }
             if (settingsData.notificationsData.isFeatureEnabled) {
                 item {
                     SettingSwitchItem(

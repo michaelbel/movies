@@ -1,6 +1,5 @@
 package org.michaelbel.movies.ui.theme
 
-import android.graphics.Color
 import androidx.activity.SystemBarStyle
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ripple.LocalRippleTheme
@@ -9,38 +8,45 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.ui.graphics.Color
+import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.common.theme.AppTheme
+import org.michaelbel.movies.ui.color.PaletteStyle
+import org.michaelbel.movies.ui.color.TonalPalettes.Companion.toTonalPalettes
 import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.theme.model.ComposeTheme
 import org.michaelbel.movies.ui.theme.provider.MoviesRippleTheme
 
+private const val ColorTransparent = android.graphics.Color.TRANSPARENT
+
 @Composable
 actual fun MoviesTheme(
+    themeData: ThemeData,
     theme: AppTheme,
-    dynamicColors: Boolean,
     enableEdgeToEdge: (Any, Any) -> Unit,
     content: @Composable () -> Unit
 ) {
-    val (colorScheme, detectDarkMode) = when (theme) {
+    val seedColorPalettes = Color(themeData.seedColor).toTonalPalettes(paletteStyles.getOrElse(themeData.paletteKey) { PaletteStyle.TonalSpot })
+    val (colorScheme, detectDarkMode) = when (themeData.appTheme) {
         AppTheme.NightNo -> {
             ComposeTheme(
-                colorScheme = if (dynamicColors) dynamicLightColorScheme(context) else LightColorScheme,
+                colorScheme = if (themeData.dynamicColors) dynamicLightColorScheme(context) else seedColorPalettes.paletteLightColorScheme,
                 detectDarkMode = false
             )
         }
         AppTheme.NightYes -> {
             ComposeTheme(
-                colorScheme = if (dynamicColors) dynamicDarkColorScheme(context) else DarkColorScheme,
+                colorScheme = if (themeData.dynamicColors) dynamicDarkColorScheme(context) else seedColorPalettes.paletteDarkColorScheme,
                 detectDarkMode = true
             )
         }
         AppTheme.FollowSystem -> {
-            val darkTheme: Boolean = isSystemInDarkTheme()
+            val darkTheme = isSystemInDarkTheme()
             ComposeTheme(
-                colorScheme = if (dynamicColors) {
+                colorScheme = if (themeData.dynamicColors) {
                     if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
                 } else {
-                    if (darkTheme) DarkColorScheme else LightColorScheme
+                    if (darkTheme) seedColorPalettes.paletteDarkColorScheme else seedColorPalettes.paletteLightColorScheme
                 },
                 detectDarkMode = darkTheme
             )
@@ -54,8 +60,8 @@ actual fun MoviesTheme(
     }
 
     enableEdgeToEdge(
-        SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT) { detectDarkMode },
-        SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT) { detectDarkMode }
+        SystemBarStyle.auto(ColorTransparent, ColorTransparent) { detectDarkMode },
+        SystemBarStyle.auto(ColorTransparent, ColorTransparent) { detectDarkMode }
     )
 
     MaterialTheme(
@@ -63,7 +69,9 @@ actual fun MoviesTheme(
         shapes = MoviesShapes,
         typography = MoviesTypography
     ) {
-        CompositionLocalProvider(LocalRippleTheme provides MoviesRippleTheme) {
+        CompositionLocalProvider(
+            LocalRippleTheme provides MoviesRippleTheme
+        ) {
             content()
         }
     }

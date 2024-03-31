@@ -1,6 +1,7 @@
 package org.michaelbel.movies.settings.model
 
 import android.os.Build
+import com.google.android.material.color.DynamicColors
 
 internal actual val isLanguageFeatureEnabled: Boolean
     get() = true
@@ -18,7 +19,7 @@ internal actual val isGenderFeatureEnabled: Boolean
     get() = Build.VERSION.SDK_INT >= 34
 
 internal actual val isDynamicColorsFeatureEnabled: Boolean
-    get() = Build.VERSION.SDK_INT >= 31
+    get() = DynamicColors.isDynamicColorAvailable()
 
 internal actual val isNotificationsFeatureEnabled: Boolean
     get() = Build.VERSION.SDK_INT >= 33

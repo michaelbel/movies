@@ -39,8 +39,7 @@ internal fun DebugActivityContent(
     viewModel: DebugViewModel = koinViewModel(),
     enableEdgeToEdge: (Any, Any) -> Unit
 ) {
-    val currentTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
-    val dynamicColors by viewModel.dynamicColors.collectAsStateWithLifecycle()
+    val themeData by viewModel.themeData.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
     val resultContract = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
@@ -51,8 +50,7 @@ internal fun DebugActivityContent(
     )
 
     MoviesTheme(
-        theme = currentTheme,
-        dynamicColors = dynamicColors,
+        themeData = themeData,
         enableEdgeToEdge = enableEdgeToEdge
     ) {
         Scaffold(

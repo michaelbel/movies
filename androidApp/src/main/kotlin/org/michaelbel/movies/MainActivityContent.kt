@@ -28,15 +28,13 @@ internal fun MainActivityContent(
     viewModel: MainViewModel = koinViewModel(),
     enableEdgeToEdge: (Any, Any) -> Unit
 ) {
-    val currentTheme by viewModel.currentTheme.collectAsStateWithLifecycle()
-    val dynamicColors by viewModel.dynamicColors.collectAsStateWithLifecycle()
+    val themeData by viewModel.themeData.collectAsStateWithLifecycle()
     val navHostController = rememberNavController().apply {
         addOnDestinationChangedListener(viewModel::analyticsTrackDestination)
     }
 
     MoviesTheme(
-        theme = currentTheme,
-        dynamicColors = dynamicColors,
+        themeData = themeData,
         enableEdgeToEdge = enableEdgeToEdge
     ) {
         NavHost(

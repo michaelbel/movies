@@ -27,8 +27,14 @@ class MoviesPreferences(
     val isDynamicColorsFlow: Flow<Boolean?>
         get() = dataStore.data.map { preferences -> preferences[PREFERENCE_DYNAMIC_COLORS_KEY] }
 
-    val isBiometricEnabled: Flow<Boolean?>
+    val isBiometricEnabledFlow: Flow<Boolean?>
         get() = dataStore.data.map { preferences -> preferences[PREFERENCE_BIOMETRIC_KEY] }
+
+    val paletteKeyFlow: Flow<Int?>
+        get() = dataStore.data.map { preferences -> preferences[PREFERENCE_PALETTE_KEY] }
+
+    val seedColorFlow: Flow<Int?>
+        get() = dataStore.data.map { preferences -> preferences[PREFERENCE_SEED_COLOR_KEY] }
 
     val accountIdFlow: Flow<Int?>
         get() = dataStore.data.map { preferences -> preferences[PREFERENCE_ACCOUNT_ID_KEY] }
@@ -119,6 +125,18 @@ class MoviesPreferences(
         }
     }
 
+    suspend fun setPaletteKey(paletteKey: Int) {
+        dataStore.edit { preferences ->
+            preferences[PREFERENCE_PALETTE_KEY] = paletteKey
+        }
+    }
+
+    suspend fun setSeedColor(seedColor: Int) {
+        dataStore.edit { preferences ->
+            preferences[PREFERENCE_SEED_COLOR_KEY] = seedColor
+        }
+    }
+
     private companion object {
         private val PREFERENCE_THEME_KEY = stringPreferencesKey("theme")
         private val PREFERENCE_FEED_VIEW_KEY = stringPreferencesKey("feed_view")
@@ -129,5 +147,7 @@ class MoviesPreferences(
         private val PREFERENCE_ACCOUNT_EXPIRE_TIME_KEY = longPreferencesKey("account_expire_time")
         private val PREFERENCE_NOTIFICATION_EXPIRE_TIME_KEY = longPreferencesKey("notification_expire_time")
         private val PREFERENCE_BIOMETRIC_KEY = booleanPreferencesKey("biometric")
+        private val PREFERENCE_PALETTE_KEY = intPreferencesKey("palette")
+        private val PREFERENCE_SEED_COLOR_KEY = intPreferencesKey("seed_color")
     }
 }

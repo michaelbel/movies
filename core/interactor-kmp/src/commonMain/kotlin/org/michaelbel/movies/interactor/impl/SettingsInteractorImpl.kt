@@ -7,6 +7,7 @@ import org.michaelbel.movies.analytics.event.ChangeDynamicColorsEvent
 import org.michaelbel.movies.analytics.event.SelectFeedViewEvent
 import org.michaelbel.movies.analytics.event.SelectMovieListEvent
 import org.michaelbel.movies.analytics.event.SelectThemeEvent
+import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.common.list.MovieList
@@ -26,7 +27,7 @@ internal class SettingsInteractorImpl(
 
     override val currentMovieList: Flow<MovieList> = settingsRepository.currentMovieList
 
-    override val dynamicColors: Flow<Boolean> = settingsRepository.dynamicColors
+    override val themeData: Flow<ThemeData> = settingsRepository.themeData
 
     override val isBiometricEnabled: Flow<Boolean> = settingsRepository.isBiometricEnabled
 
@@ -59,6 +60,18 @@ internal class SettingsInteractorImpl(
         withContext(dispatchers.main) {
             settingsRepository.setDynamicColors(value)
             analytics.logEvent(ChangeDynamicColorsEvent(value))
+        }
+    }
+
+    override suspend fun setPaletteKey(paletteKey: Int) {
+        withContext(dispatchers.main) {
+            settingsRepository.setPaletteKey(paletteKey)
+        }
+    }
+
+    override suspend fun setSeedColor(seedColor: Int) {
+        withContext(dispatchers.main) {
+            settingsRepository.setSeedColor(seedColor)
         }
     }
 
