@@ -46,8 +46,14 @@ jobs:
       - name: Set Decoded File Location as Environment
         run: echo "KEYSTORE_FILE=${{ steps.decode_keystore_file.outputs.filePath }}" >> $GITHUB_ENV
           
-#      - name: Build GmsDebug Artifact
-#        run: ./gradlew androidApp:assembleGmsDebug
+      - name: Build GmsDebug Artifact
+        run: ./gradlew androidApp:assembleGmsDebug
+
+      - name: Build HmsDebug Artifact
+        run: ./gradlew androidApp:assembleHmsDebug
+
+      - name: Build FossDebug Artifact
+        run: ./gradlew androidApp:assembleFossDebug
           
       - name: Build GmsRelease Artifact
         run: ./gradlew androidApp:assembleGmsRelease
