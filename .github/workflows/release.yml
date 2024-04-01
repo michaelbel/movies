@@ -17,22 +17,22 @@ jobs:
       - uses: actions/checkout@v2
       
 #      - name: Build GMS Release Artifacts
-#        run: ./gradlew assembleGmsRelease
+#        run: ./gradlew androidApp:assembleGmsRelease
 
 #      - name: Build HMS Release Artifacts
-#        run: ./gradlew assembleHmsRelease
+#        run: ./gradlew androidApp:assembleHmsRelease
 
 #      - name: Build FOSS Release Artifacts
-#        run: ./gradlew assembleFossRelease
+#        run: ./gradlew androidApp:assembleFossRelease
  
 #      - name: Upload Artifacts to Outputs
 #        uses: actions/upload-artifact@v2
 #        with:
 #          path: |
-#            app/build/outputs/apk
+#            androidApp/build/outputs/apk
             
       - uses: ncipollo/release-action@v1
         with:
-          artifacts: "release.tar.gz,foo/*.txt,android-app/build/outputs/apk/**/*.apk"
+          artifacts: "release.tar.gz,foo/*.txt,androidApp/build/outputs/apk/**/*.apk"
           artifactErrorsFailBuild: false
           generateReleaseNotes: true
