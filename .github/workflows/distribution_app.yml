@@ -15,7 +15,7 @@ env:
   
 concurrency:
   group: environment-${{ github.ref }}
-  cancel-in-progress: true  
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -61,22 +61,11 @@ jobs:
           path: |
             app/build/outputs/apk
             app/build/outputs/bundle
-      
-#     - name: Create GitHub Release
-#       uses: softprops/action-gh-release@v1
-#       with:
-#         name: ${{ env.ANDROID_VERSION_NAME }}
-#         tag_name: ${{ env.ANDROID_VERSION_NAME }}
-#         draft: false
-#         prerelease: false
-#         files: |
-#           app/build/outputs/apk/**/*.apk
-#           app/build/outputs/bundle/**/*.aab
           
-      - name: Distribute Artifacts via Firebase
-        run: ./gradlew appDistributionUploadRelease
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+#      - name: Distribute Artifacts via Firebase
+#        run: ./gradlew appDistributionUploadRelease
+#        env:
+#          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
 #      - name: Create Service Account JSON File
 #        run: echo '${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}' > service_account.json
