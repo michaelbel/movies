@@ -47,13 +47,13 @@ jobs:
         run: echo "KEYSTORE_FILE=${{ steps.decode_keystore_file.outputs.filePath }}" >> $GITHUB_ENV
           
       - name: Build Debug Artifacts
-        run: ./gradlew assembleDebug
+        run: ./gradlew androidApp:assembleGmsDebug
           
       - name: Build Release Artifacts
-        run: ./gradlew assembleRelease
+        run: ./gradlew androidApp:assembleGmsRelease
         
       - name: Build Bundle Artifacts
-        run: ./gradlew bundleRelease
+        run: ./gradlew androidApp:bundleGmsRelease
  
       - name: Upload Artifacts to Outputs
         uses: actions/upload-artifact@v2
