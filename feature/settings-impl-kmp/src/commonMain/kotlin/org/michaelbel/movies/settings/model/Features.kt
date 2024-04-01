@@ -11,6 +11,7 @@ internal expect val isBiometricFeatureEnabled: Boolean
 internal expect val isWidgetFeatureEnabled: Boolean
 internal expect val isTileFeatureEnabled: Boolean
 internal expect val isAppIconFeatureEnabled: Boolean
+internal expect val isScreenshotFeatureEnabled: Boolean
 internal expect val isGithubFeatureEnabled: Boolean
 internal expect val isReviewAppFeatureEnabled: Boolean
 internal expect val isUpdateAppFeatureEnabled: Boolean

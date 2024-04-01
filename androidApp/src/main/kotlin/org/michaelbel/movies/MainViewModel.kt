@@ -54,6 +54,13 @@ internal class MainViewModel(
             initialValue = ThemeData.Default
         )
 
+    val isScreenshotBlockEnabled: StateFlow<Boolean> = interactor.isScreenshotBlockEnabled
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = false
+        )
+
     init {
         fetchBiometric()
         fetchRemoteConfig()

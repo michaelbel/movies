@@ -114,6 +114,8 @@
     <string name="settings_update">Обнови приложение</string>
     <string name="settings_update_description">Используя In-App Update API</string>
     <string name="settings_palette_colors">Палитра цветов</string>
+    <string name="settings_screenshots">Скриншоты</string>
+    <string name="settings_screenshots_description">Запретить делать скриншоты</string>
 
     <string name="appwidget_description">Отображает предстоящие фильмы</string>
     <string name="appwidget_title">Скоро в кино</string>

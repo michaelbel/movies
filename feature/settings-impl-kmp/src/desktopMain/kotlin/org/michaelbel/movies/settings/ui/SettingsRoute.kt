@@ -25,6 +25,7 @@ import org.michaelbel.movies.settings.model.isLanguageFeatureEnabled
 import org.michaelbel.movies.settings.model.isMovieListFeatureEnabled
 import org.michaelbel.movies.settings.model.isNotificationsFeatureEnabled
 import org.michaelbel.movies.settings.model.isReviewAppFeatureEnabled
+import org.michaelbel.movies.settings.model.isScreenshotFeatureEnabled
 import org.michaelbel.movies.settings.model.isThemeFeatureEnabled
 import org.michaelbel.movies.settings.model.isTileFeatureEnabled
 import org.michaelbel.movies.settings.model.isUpdateAppFeatureEnabled
@@ -101,6 +102,11 @@ fun SettingsRoute(
                 isFeatureEnabled = isAppIconFeatureEnabled,
                 current = IconAlias.Red,
                 onSelect = {}
+            ),
+            screenshotData = SettingsData.ChangedData(
+                isFeatureEnabled = isScreenshotFeatureEnabled,
+                isEnabled = false,
+                onChange = {}
             ),
             githubData = SettingsData.RequestedData(
                 isFeatureEnabled = isGithubFeatureEnabled,

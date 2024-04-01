@@ -20,6 +20,7 @@ import androidx.compose.material.icons.outlined.LocalMovies
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Notifications
 import androidx.compose.material.icons.outlined.Palette
+import androidx.compose.material.icons.outlined.Screenshot
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Share
@@ -79,6 +80,7 @@ object MoviesIcons {
     val LocalMovies = Icons.Outlined.LocalMovies
     val Notifications = Icons.Outlined.Notifications
     val Palette = Icons.Outlined.Palette
+    val Screenshot = Icons.Outlined.Screenshot
     val Search = Icons.Outlined.Search
     val Settings = Icons.Outlined.Settings
     val Share = Icons.Outlined.Share

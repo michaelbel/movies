@@ -31,6 +31,8 @@ internal class SettingsInteractorImpl(
 
     override val isBiometricEnabled: Flow<Boolean> = settingsRepository.isBiometricEnabled
 
+    override val isScreenshotBlockEnabled: Flow<Boolean> = settingsRepository.isScreenshotBlockEnabled
+
     override suspend fun isBiometricEnabledAsync(): Boolean {
         return settingsRepository.isBiometricEnabledAsync()
     }
@@ -78,6 +80,12 @@ internal class SettingsInteractorImpl(
     override suspend fun setBiometricEnabled(enabled: Boolean) {
         withContext(dispatchers.main) {
             settingsRepository.setBiometricEnabled(enabled)
+        }
+    }
+
+    override suspend fun setScreenshotBlockEnabled(enabled: Boolean) {
+        withContext(dispatchers.main) {
+            settingsRepository.setScreenshotBlockEnabled(enabled)
         }
     }
 }

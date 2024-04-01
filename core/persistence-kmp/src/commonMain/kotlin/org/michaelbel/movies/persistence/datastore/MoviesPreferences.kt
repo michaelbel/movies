@@ -30,6 +30,9 @@ class MoviesPreferences(
     val isBiometricEnabledFlow: Flow<Boolean?>
         get() = dataStore.data.map { preferences -> preferences[PREFERENCE_BIOMETRIC_KEY] }
 
+    val isScreenshotBlockEnabledFlow: Flow<Boolean?>
+        get() = dataStore.data.map { preferences -> preferences[PREFERENCE_SCREENSHOT_BLOCK_KEY] }
+
     val paletteKeyFlow: Flow<Int?>
         get() = dataStore.data.map { preferences -> preferences[PREFERENCE_PALETTE_KEY] }
 
@@ -125,6 +128,12 @@ class MoviesPreferences(
         }
     }
 
+    suspend fun setScreenshotBlockEnabled(enabled: Boolean) {
+        dataStore.edit { preferences ->
+            preferences[PREFERENCE_SCREENSHOT_BLOCK_KEY] = enabled
+        }
+    }
+
     suspend fun setPaletteKey(paletteKey: Int) {
         dataStore.edit { preferences ->
             preferences[PREFERENCE_PALETTE_KEY] = paletteKey
@@ -149,5 +158,6 @@ class MoviesPreferences(
         private val PREFERENCE_BIOMETRIC_KEY = booleanPreferencesKey("biometric")
         private val PREFERENCE_PALETTE_KEY = intPreferencesKey("palette")
         private val PREFERENCE_SEED_COLOR_KEY = intPreferencesKey("seed_color")
+        private val PREFERENCE_SCREENSHOT_BLOCK_KEY = booleanPreferencesKey("screenshot_block")
     }
 }

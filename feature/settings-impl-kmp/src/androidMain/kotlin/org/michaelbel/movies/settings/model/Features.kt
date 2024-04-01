@@ -36,6 +36,9 @@ internal actual val isTileFeatureEnabled: Boolean
 internal actual val isAppIconFeatureEnabled: Boolean
     get() = true
 
+internal actual val isScreenshotFeatureEnabled: Boolean
+    get() = true
+
 internal actual val isGithubFeatureEnabled: Boolean
     get() = true
 
