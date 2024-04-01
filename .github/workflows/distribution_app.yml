@@ -85,5 +85,6 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           disable_notification: false
           disable_web_page_preview: true
-          document: androidApp/build/outputs/apk/gms/release/*.apk,
+#          document: androidApp/build/outputs/apk/gms/release/*.apk,
+          document: androidApp/build/outputs/apk/**/**/*.apk
           message_file: ./releaseNotes.txt
