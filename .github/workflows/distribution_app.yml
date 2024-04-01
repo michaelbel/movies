@@ -59,8 +59,8 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           path: |
-            app/build/outputs/apk
-            app/build/outputs/bundle
+            androidApp/build/outputs/apk
+            androidApp/build/outputs/bundle
           
 #      - name: Distribute Artifacts via Firebase
 #        run: ./gradlew appDistributionUploadRelease
