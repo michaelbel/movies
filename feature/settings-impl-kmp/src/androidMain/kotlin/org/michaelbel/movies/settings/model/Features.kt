@@ -31,7 +31,7 @@ internal actual val isWidgetFeatureEnabled: Boolean
     get() = true
 
 internal actual val isTileFeatureEnabled: Boolean
-    get() = Build.VERSION.SDK_INT >= 24
+    get() = Build.VERSION.SDK_INT >= 33
 
 internal actual val isAppIconFeatureEnabled: Boolean
     get() = true
