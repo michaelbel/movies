@@ -36,8 +36,10 @@ import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.ktx.notificationManager
 import org.michaelbel.movies.common.localization.model.AppLanguage
 import org.michaelbel.movies.settings.SettingsViewModel
+import org.michaelbel.movies.settings.ktx.currentGrammaticalGender
 import org.michaelbel.movies.settings.ktx.iconSnackbarTextRes
 import org.michaelbel.movies.settings.ktx.isDebug
+import org.michaelbel.movies.settings.ktx.supportSetRequestedApplicationGrammaticalGender
 import org.michaelbel.movies.settings.ktx.versionCode
 import org.michaelbel.movies.settings.ktx.versionName
 import org.michaelbel.movies.settings.model.SettingsData
@@ -127,9 +129,7 @@ fun SettingsRoute(
         areNotificationsEnabled = notificationManager.areNotificationsEnabled()
     }
 
-    val grammaticalInflectionManager by remember { mutableStateOf(context.getSystemService(GrammaticalInflectionManager::class.java)) }
-    val grammaticalGender by remember { mutableStateOf(grammaticalInflectionManager.applicationGrammaticalGender) }
-    val currentGrammaticalGender by remember { mutableStateOf(GrammaticalGender.transform(grammaticalGender)) }
+    val currentGrammaticalGender by remember { mutableStateOf(context.currentGrammaticalGender) }
 
     val onShowSnackbar: (String) -> Unit = { message ->
         scope.launch {
@@ -172,7 +172,7 @@ fun SettingsRoute(
                 isFeatureEnabled = isGenderFeatureEnabled,
                 current = currentGrammaticalGender,
                 onSelect = { gender ->
-                    grammaticalInflectionManager.setRequestedApplicationGrammaticalGender(GrammaticalGender.value(gender))
+                    context.supportSetRequestedApplicationGrammaticalGender(GrammaticalGender.value(gender))
                 }
             ),
             dynamicColorsData = SettingsData.ChangedData(
