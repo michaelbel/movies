@@ -32,7 +32,6 @@ import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
-import org.michaelbel.movies.common.MOVIES_GITHUB_URL
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.list.MovieList
@@ -414,7 +413,7 @@ internal fun SettingsScreenContent(
                         title = stringResource(MoviesStrings.settings_github),
                         description = stringResource(MoviesStrings.settings_github_description),
                         icon = MoviesIcons.Github,
-                        onClick = { settingsData.githubData.onClick(MOVIES_GITHUB_URL) }
+                        onClick = settingsData.githubData.onRequest
                     )
                 }
             }

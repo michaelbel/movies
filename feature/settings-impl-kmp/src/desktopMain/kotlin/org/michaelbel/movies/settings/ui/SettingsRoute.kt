@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import org.michaelbel.movies.common.MOVIES_GITHUB_URL
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.browser.openUrl
 import org.michaelbel.movies.common.gender.GrammaticalGender
@@ -65,7 +66,7 @@ fun SettingsRoute(
                 current = GrammaticalGender.NotSpecified(),
                 onSelect = {}
             ),
-            dynamicColorsData = SettingsData.DynamicColorsData(
+            dynamicColorsData = SettingsData.ChangedData(
                 isFeatureEnabled = isDynamicColorsFeatureEnabled,
                 isEnabled = false,
                 onChange = {}
@@ -83,16 +84,16 @@ fun SettingsRoute(
                 onClick = {},
                 onNavigateToAppNotificationSettings = {}
             ),
-            biometricData = SettingsData.BiometricData(
+            biometricData = SettingsData.ChangedData(
                 isFeatureEnabled = isBiometricFeatureEnabled,
                 isEnabled = false,
                 onChange = {}
             ),
-            widgetData = SettingsData.WidgetData(
+            widgetData = SettingsData.RequestedData(
                 isFeatureEnabled = isWidgetFeatureEnabled,
                 onRequest = {}
             ),
-            tileData = SettingsData.TileData(
+            tileData = SettingsData.RequestedData(
                 isFeatureEnabled = isTileFeatureEnabled,
                 onRequest = {}
             ),
@@ -101,15 +102,15 @@ fun SettingsRoute(
                 current = IconAlias.Red,
                 onSelect = {}
             ),
-            githubData = SettingsData.GithubData(
+            githubData = SettingsData.RequestedData(
                 isFeatureEnabled = isGithubFeatureEnabled,
-                onClick = { url -> openUrl(url) }
+                onRequest = { openUrl(MOVIES_GITHUB_URL) }
             ),
-            reviewAppData = SettingsData.ReviewAppData(
+            reviewAppData = SettingsData.RequestedData(
                 isFeatureEnabled = isReviewAppFeatureEnabled,
                 onRequest = {}
             ),
-            updateAppData = SettingsData.UpdateAppData(
+            updateAppData = SettingsData.RequestedData(
                 isFeatureEnabled = isUpdateAppFeatureEnabled,
                 onRequest = {}
             ),

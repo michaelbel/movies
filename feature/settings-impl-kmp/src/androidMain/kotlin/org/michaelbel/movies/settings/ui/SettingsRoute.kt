@@ -30,6 +30,7 @@ import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
+import org.michaelbel.movies.common.MOVIES_GITHUB_URL
 import org.michaelbel.movies.common.browser.openUrl
 import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.ktx.notificationManager
@@ -174,7 +175,7 @@ fun SettingsRoute(
                     grammaticalInflectionManager.setRequestedApplicationGrammaticalGender(GrammaticalGender.value(gender))
                 }
             ),
-            dynamicColorsData = SettingsData.DynamicColorsData(
+            dynamicColorsData = SettingsData.ChangedData(
                 isFeatureEnabled = isDynamicColorsFeatureEnabled,
                 isEnabled = themeData.dynamicColors,
                 onChange = viewModel::setDynamicColors
@@ -206,16 +207,16 @@ fun SettingsRoute(
                     resultContract.launch(context.appNotificationSettingsIntent)
                 }
             ),
-            biometricData = SettingsData.BiometricData(
+            biometricData = SettingsData.ChangedData(
                 isFeatureEnabled = isBiometricFeatureEnabled && isBiometricFeatureAvailable,
                 isEnabled = isBiometricEnabled,
                 onChange = viewModel::setBiometricEnabled
             ),
-            widgetData = SettingsData.WidgetData(
+            widgetData = SettingsData.RequestedData(
                 isFeatureEnabled = isWidgetFeatureEnabled,
                 onRequest = { appWidgetProvider.pin(context) }
             ),
-            tileData = SettingsData.TileData(
+            tileData = SettingsData.RequestedData(
                 isFeatureEnabled = isTileFeatureEnabled,
                 onRequest = {
                     val statusBarManager = ContextCompat.getSystemService(context, StatusBarManager::class.java)
@@ -247,15 +248,15 @@ fun SettingsRoute(
                     context.setIcon(icon)
                 }
             ),
-            githubData = SettingsData.GithubData(
+            githubData = SettingsData.RequestedData(
                 isFeatureEnabled = isGithubFeatureEnabled,
-                onClick = { url -> openUrl(resultContract, toolbarColor, url) }
+                onRequest = { openUrl(resultContract, toolbarColor, MOVIES_GITHUB_URL) }
             ),
-            reviewAppData = SettingsData.ReviewAppData(
+            reviewAppData = SettingsData.RequestedData(
                 isFeatureEnabled = isReviewAppFeatureEnabled && viewModel.isReviewFeatureEnabled,
                 onRequest = { viewModel.requestReview(context as Activity) }
             ),
-            updateAppData = SettingsData.UpdateAppData(
+            updateAppData = SettingsData.RequestedData(
                 isFeatureEnabled = isUpdateAppFeatureEnabled && viewModel.isUpdateFeatureEnabled && viewModel.isUpdateAvailable,
                 onRequest = { viewModel.requestUpdate(context as Activity) }
             ),

@@ -14,16 +14,16 @@ data class SettingsData(
     val feedViewData: ListData<FeedView>,
     val movieListData: ListData<MovieList>,
     val genderData: ListData<GrammaticalGender>,
-    val dynamicColorsData: DynamicColorsData,
+    val dynamicColorsData: ChangedData,
     val paletteColorsData: PaletteColorsData,
     val notificationsData: NotificationsData,
-    val biometricData: BiometricData,
-    val widgetData: WidgetData,
-    val tileData: TileData,
+    val biometricData: ChangedData,
+    val widgetData: RequestedData,
+    val tileData: RequestedData,
     val appIconData: ListData<IconAlias>,
-    val githubData: GithubData,
-    val reviewAppData: ReviewAppData,
-    val updateAppData: UpdateAppData,
+    val githubData: RequestedData,
+    val reviewAppData: RequestedData,
+    val updateAppData: RequestedData,
     val aboutData: AboutData
 ) {
     interface Featured {
@@ -50,11 +50,16 @@ data class SettingsData(
         override val onSelect: (T) -> Unit
     ): Listed<T>
 
-    data class DynamicColorsData(
+    data class ChangedData(
         override val isFeatureEnabled: Boolean,
         override val isEnabled: Boolean,
         override val onChange: (Boolean) -> Unit
     ): Changed
+
+    data class RequestedData(
+        override val isFeatureEnabled: Boolean,
+        override val onRequest: () -> Unit
+    ): Requested
 
     data class PaletteColorsData(
         override val isFeatureEnabled: Boolean,
@@ -70,37 +75,6 @@ data class SettingsData(
         val onClick: () -> Unit,
         val onNavigateToAppNotificationSettings: () -> Unit
     ): Featured
-
-    data class BiometricData(
-        override val isFeatureEnabled: Boolean,
-        override val isEnabled: Boolean,
-        override val onChange: (Boolean) -> Unit
-    ): Changed
-
-    data class WidgetData(
-        override val isFeatureEnabled: Boolean,
-        override val onRequest: () -> Unit
-    ): Requested
-
-    data class TileData(
-        override val isFeatureEnabled: Boolean,
-        override val onRequest: () -> Unit
-    ): Requested
-
-    data class GithubData(
-        override val isFeatureEnabled: Boolean,
-        val onClick: (String) -> Unit
-    ): Featured
-
-    data class ReviewAppData(
-        override val isFeatureEnabled: Boolean,
-        override val onRequest: () -> Unit
-    ): Requested
-
-    data class UpdateAppData(
-        override val isFeatureEnabled: Boolean,
-        override val onRequest: () -> Unit
-    ): Requested
 
     data class AboutData(
         override val isFeatureEnabled: Boolean,
