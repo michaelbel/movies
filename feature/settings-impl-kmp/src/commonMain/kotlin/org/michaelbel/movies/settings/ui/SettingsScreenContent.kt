@@ -400,6 +400,24 @@ internal fun SettingsScreenContent(
                     }
                 }
             }
+            if (settingsData.screenshotData.isFeatureEnabled) {
+                item {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                        thickness = .1.dp,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+                item {
+                    SettingSwitchItem(
+                        title = stringResource(MoviesStrings.settings_screenshots),
+                        description = stringResource(MoviesStrings.settings_screenshots_description),
+                        icon = MoviesIcons.Screenshot,
+                        checked = settingsData.screenshotData.isEnabled,
+                        onClick = { settingsData.screenshotData.onChange(!settingsData.screenshotData.isEnabled) }
+                    )
+                }
+            }
             if (settingsData.githubData.isFeatureEnabled) {
                 item {
                     HorizontalDivider(

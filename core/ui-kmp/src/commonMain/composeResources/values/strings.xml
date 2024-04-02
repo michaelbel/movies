@@ -114,6 +114,8 @@
     <string name="settings_update">Update App</string>
     <string name="settings_update_description">Using In-App Update API</string>
     <string name="settings_palette_colors">Palette Colors</string>
+    <string name="settings_screenshots">Screenshots</string>
+    <string name="settings_screenshots_description">Block taking screenshots</string>
 
     <string name="appwidget_description">Display upcoming movies</string>
     <string name="appwidget_title">Upcoming Movies</string>

@@ -48,6 +48,10 @@ internal class SettingsRepositoryImpl(
         enabled ?: false
     }
 
+    override val isScreenshotBlockEnabled: Flow<Boolean> = preferences.isScreenshotBlockEnabledFlow.map { enabled ->
+        enabled ?: false
+    }
+
     override suspend fun isBiometricEnabledAsync(): Boolean {
         return preferences.isBiometricEnabledAsync()
     }
@@ -78,5 +82,9 @@ internal class SettingsRepositoryImpl(
 
     override suspend fun setBiometricEnabled(enabled: Boolean) {
         preferences.setBiometricEnabled(enabled)
+    }
+
+    override suspend fun setScreenshotBlockEnabled(enabled: Boolean) {
+        preferences.setScreenshotBlockEnabled(enabled)
     }
 }

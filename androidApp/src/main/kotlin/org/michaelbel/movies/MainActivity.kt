@@ -9,6 +9,9 @@ import androidx.fragment.app.FragmentActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.michaelbel.movies.common.ktx.launchAndCollectIn
 import org.michaelbel.movies.ui.ktx.resolveNotificationPreferencesIntent
+import org.michaelbel.movies.ui.ktx.setScreenshotBlockEnabled
+import org.michaelbel.movies.ui.ktx.supportRegisterScreenCaptureCallback
+import org.michaelbel.movies.ui.ktx.supportUnregisterScreenCaptureCallback
 import org.michaelbel.movies.ui.shortcuts.installShortcuts
 
 internal class MainActivity: FragmentActivity() {
@@ -26,8 +29,21 @@ internal class MainActivity: FragmentActivity() {
         }
         resolveNotificationPreferencesIntent()
         viewModel.run {
+            isScreenshotBlockEnabled.launchAndCollectIn(this@MainActivity) { enabled ->
+                window.setScreenshotBlockEnabled(enabled)
+            }
             authenticateFlow.launchAndCollectIn(this@MainActivity) { authenticate(this@MainActivity) }
             cancelFlow.launchAndCollectIn(this@MainActivity) { finish() }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        supportRegisterScreenCaptureCallback()
+    }
+
+    override fun onStop() {
+        super.onStop()
+        supportUnregisterScreenCaptureCallback()
     }
 }

@@ -75,6 +75,13 @@ class SettingsViewModel(
             initialValue = false
         )
 
+    val isScreenshotBlockEnabled: StateFlow<Boolean> = interactor.isScreenshotBlockEnabled
+        .stateIn(
+            scope = this,
+            started = SharingStarted.Lazily,
+            initialValue = false
+        )
+
     val appVersionData: StateFlow<AppVersionData> = flowOf(AppVersionData(appService.flavor.name))
         .stateIn(
             scope = this,
@@ -118,6 +125,10 @@ class SettingsViewModel(
 
     fun setBiometricEnabled(enabled: Boolean) = launch {
         interactor.setBiometricEnabled(enabled)
+    }
+
+    fun setScreenshotBlockEnabled(enabled: Boolean) = launch {
+        interactor.setScreenshotBlockEnabled(enabled)
     }
 
     fun requestReview(activity: Activity) {

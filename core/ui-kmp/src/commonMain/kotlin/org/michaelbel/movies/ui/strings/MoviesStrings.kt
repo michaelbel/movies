@@ -97,6 +97,8 @@ import movies.core.ui_kmp.generated.resources.settings_post_notifications_grante
 import movies.core.ui_kmp.generated.resources.settings_post_notifications_should_request
 import movies.core.ui_kmp.generated.resources.settings_review
 import movies.core.ui_kmp.generated.resources.settings_review_description
+import movies.core.ui_kmp.generated.resources.settings_screenshots
+import movies.core.ui_kmp.generated.resources.settings_screenshots_description
 import movies.core.ui_kmp.generated.resources.settings_theme
 import movies.core.ui_kmp.generated.resources.settings_theme_amoled
 import movies.core.ui_kmp.generated.resources.settings_theme_dark
@@ -227,6 +229,8 @@ object MoviesStrings {
     val settings_update = Res.string.settings_update
     val settings_update_description = Res.string.settings_update_description
     val settings_palette_colors = Res.string.settings_palette_colors
+    val settings_screenshots = Res.string.settings_screenshots
+    val settings_screenshots_description = Res.string.settings_screenshots_description
 
     @Composable
     fun settings_app_version_name(vararg formatArgs: Any): String {

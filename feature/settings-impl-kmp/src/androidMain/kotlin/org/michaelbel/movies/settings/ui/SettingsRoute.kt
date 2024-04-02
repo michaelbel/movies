@@ -54,6 +54,7 @@ import org.michaelbel.movies.settings.model.isLanguageFeatureEnabled
 import org.michaelbel.movies.settings.model.isMovieListFeatureEnabled
 import org.michaelbel.movies.settings.model.isNotificationsFeatureEnabled
 import org.michaelbel.movies.settings.model.isReviewAppFeatureEnabled
+import org.michaelbel.movies.settings.model.isScreenshotFeatureEnabled
 import org.michaelbel.movies.settings.model.isThemeFeatureEnabled
 import org.michaelbel.movies.settings.model.isTileFeatureEnabled
 import org.michaelbel.movies.settings.model.isUpdateAppFeatureEnabled
@@ -81,6 +82,7 @@ fun SettingsRoute(
     val currentMovieList by viewModel.currentMovieList.collectAsStateWithLifecycle()
     val isBiometricFeatureAvailable by viewModel.isBiometricFeatureEnabled.collectAsStateWithLifecycle()
     val isBiometricEnabled by viewModel.isBiometricEnabled.collectAsStateWithLifecycle()
+    val isScreenshotBlockEnabled by viewModel.isScreenshotBlockEnabled.collectAsStateWithLifecycle()
     val appVersionData by viewModel.appVersionData.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
@@ -247,6 +249,11 @@ fun SettingsRoute(
                     onShowSnackbar(message)
                     context.setIcon(icon)
                 }
+            ),
+            screenshotData = SettingsData.ChangedData(
+                isFeatureEnabled = isScreenshotFeatureEnabled,
+                isEnabled = isScreenshotBlockEnabled,
+                onChange = viewModel::setScreenshotBlockEnabled
             ),
             githubData = SettingsData.RequestedData(
                 isFeatureEnabled = isGithubFeatureEnabled,

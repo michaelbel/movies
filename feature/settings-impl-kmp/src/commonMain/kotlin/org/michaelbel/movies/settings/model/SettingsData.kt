@@ -21,6 +21,7 @@ data class SettingsData(
     val widgetData: RequestedData,
     val tileData: RequestedData,
     val appIconData: ListData<IconAlias>,
+    val screenshotData: ChangedData,
     val githubData: RequestedData,
     val reviewAppData: RequestedData,
     val updateAppData: RequestedData,

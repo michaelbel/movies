@@ -18,6 +18,8 @@ interface SettingsRepository {
 
     val isBiometricEnabled: Flow<Boolean>
 
+    val isScreenshotBlockEnabled: Flow<Boolean>
+
     suspend fun isBiometricEnabledAsync(): Boolean
 
     suspend fun selectTheme(
@@ -45,6 +47,10 @@ interface SettingsRepository {
     )
 
     suspend fun setBiometricEnabled(
+        enabled: Boolean
+    )
+
+    suspend fun setScreenshotBlockEnabled(
         enabled: Boolean
     )
 }
