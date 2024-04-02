@@ -1,6 +1,5 @@
 package org.michaelbel.movies.ui.theme
 
-import androidx.activity.SystemBarStyle
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.MaterialTheme
@@ -14,16 +13,16 @@ import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.ui.color.PaletteStyle
 import org.michaelbel.movies.ui.color.TonalPalettes.Companion.toTonalPalettes
 import org.michaelbel.movies.ui.ktx.context
+import org.michaelbel.movies.ui.ktx.navigationBarStyle
+import org.michaelbel.movies.ui.ktx.statusBarStyle
 import org.michaelbel.movies.ui.theme.model.ComposeTheme
 import org.michaelbel.movies.ui.theme.provider.MoviesRippleTheme
-
-private const val ColorTransparent = android.graphics.Color.TRANSPARENT
 
 @Composable
 actual fun MoviesTheme(
     themeData: ThemeData,
     theme: AppTheme,
-    enableEdgeToEdge: (Any, Any) -> Unit,
+    enableEdgeToEdge: (statusBarStyle: Any, navigationBarStyle: Any) -> Unit,
     content: @Composable () -> Unit
 ) {
     val seedColorPalettes = Color(themeData.seedColor).toTonalPalettes(paletteStyles.getOrElse(themeData.paletteKey) { PaletteStyle.TonalSpot })
@@ -60,8 +59,8 @@ actual fun MoviesTheme(
     }
 
     enableEdgeToEdge(
-        SystemBarStyle.auto(ColorTransparent, ColorTransparent) { detectDarkMode },
-        SystemBarStyle.auto(ColorTransparent, ColorTransparent) { detectDarkMode }
+        statusBarStyle(detectDarkMode),
+        navigationBarStyle(detectDarkMode)
     )
 
     MaterialTheme(
