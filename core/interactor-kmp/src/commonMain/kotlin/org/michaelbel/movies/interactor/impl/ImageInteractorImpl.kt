@@ -12,11 +12,15 @@ internal class ImageInteractorImpl(
     private val imageRepository: ImageRepository
 ): ImageInteractor {
 
-    override fun imagesFlow(movieId: Int): Flow<List<ImagePojo>> {
+    override fun imagesFlow(
+        movieId: Int
+    ): Flow<List<ImagePojo>> {
         return imageRepository.imagesFlow(movieId)
     }
 
-    override suspend fun images(movieId: Int) {
+    override suspend fun images(
+        movieId: Int
+    ) {
         return withContext(dispatchers.io) { imageRepository.images(movieId) }
     }
 }

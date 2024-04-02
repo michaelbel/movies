@@ -15,7 +15,11 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            api(libs.androidx.navigation.compose)
+            api(libs.bundles.navigation.android)
+        }
+        val desktopMain by getting
+        desktopMain.dependencies {
+            api(libs.bundles.precompose.desktop)
         }
     }
 }

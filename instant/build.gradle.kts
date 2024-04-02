@@ -42,7 +42,7 @@ dependencies {
     implementation(project(":androidApp"))
     implementation(project(":core:common-kmp"))
     implementation(project(":core:ui-kmp"))
-    implementation(libs.bundles.androidx.appcompat)
-    implementation(libs.bundles.androidx.compose)
-    implementation(libs.google.services.instantapps)
+    implementation(libs.bundles.appcompat.android)
+    implementation(libs.bundles.compose.android)
+    implementation(libs.bundles.google.services.instantapps.android)
 }

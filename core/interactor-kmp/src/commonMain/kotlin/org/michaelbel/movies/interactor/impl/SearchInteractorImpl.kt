@@ -12,7 +12,9 @@ internal class SearchInteractorImpl: SearchInteractor {
     override val isSearchActive: StateFlow<Boolean>
         get() = isActiveMutableFlow.asStateFlow()
 
-    override fun setSearchActive(value: Boolean) {
+    override fun setSearchActive(
+        value: Boolean
+    ) {
         isActiveMutableFlow.value = value
     }
 }

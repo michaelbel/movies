@@ -22,11 +22,13 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            api(project(":core:navigation-kmp"))
+            api(project(":core:ui-kmp"))
+            implementation(project(":core:common-kmp"))
             implementation(project(":core:interactor-kmp"))
             implementation(project(":core:navigation-kmp"))
-            implementation(project(":core:ui-kmp"))
             implementation(project(":core:widget-kmp"))
-            implementation(project(":core:common-kmp"))
+            implementation(project(":core:platform-services:interactor-kmp"))
             implementation(compose.components.resources)
             implementation(compose.foundation)
             implementation(compose.material3)
@@ -34,8 +36,7 @@ kotlin {
             implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
-            implementation(libs.koin.android)
-            implementation(libs.koin.androidx.compose)
+            implementation(libs.bundles.koin.compose.android)
         }
         val desktopMain by getting
         desktopMain.dependencies {

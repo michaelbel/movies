@@ -7,6 +7,7 @@ interface SearchRepository {
 
     suspend fun searchMoviesResult(
         query: String,
+        language: String,
         page: Int
     ): Result<MovieResponse>
 }

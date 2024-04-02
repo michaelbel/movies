@@ -3,8 +3,8 @@ package org.michaelbel.movies.settings.model
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.list.MovieList
-import org.michaelbel.movies.common.localization.model.AppLanguage
 import org.michaelbel.movies.common.theme.AppTheme
+import org.michaelbel.movies.interactor.entity.AppLanguage
 import org.michaelbel.movies.ui.appicon.IconAlias
 
 data class SettingsData(

@@ -16,13 +16,11 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core:navigation-kmp"))
             api(project(":feature:account-impl-kmp"))
         }
         val desktopMain by getting
         desktopMain.dependencies {
             implementation(compose.material3)
-            implementation(libs.precompose)
         }
     }
 }

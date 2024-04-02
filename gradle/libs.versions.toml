@@ -176,7 +176,7 @@ androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidx-
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test" }
 androidx-test-ext-junit-ktx = { module = "androidx.test.ext:junit-ktx", version.ref = "androidx-test-ext" }
 androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-test-espresso" }
-espresso-test-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "androidx-test-espresso" }
+androidx-espresso-test-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "androidx-test-espresso" }
 androidx-test-espresso-device = { module = "androidx.test.espresso:espresso-device", version.ref = "androidx-test-espresso-device" }
 androidx-test-espresso-idling-resource = { module = "androidx.test.espresso:espresso-idling-resource", version.ref = "androidx-test-espresso" }
 androidx-test-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "androidx-test-uiautomator" }
@@ -190,7 +190,6 @@ chucker-library-no-op = { module = "com.github.chuckerteam.chucker:library-no-op
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 javapoet = { module = "com.squareup:javapoet", version.ref = "javapoet" }
 junit = { module = "junit:junit", version.ref = "junit" }
-lint-checks = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "lint-checks" }
 flaker-android-okhttp = { module = "io.github.rotbolt:flaker-android-okhttp", version.ref = "flaker" }
 flaker-android-okhttp-noop = { module = "io.github.rotbolt:flaker-android-okhttp-noop", version.ref = "flaker" }
 ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
@@ -230,6 +229,8 @@ constraintlayout-compose-multiplatform = { module = "tech.annexflow.compose:cons
 kmp-viewmodel = { module = "io.github.hoc081098:kmp-viewmodel", version.ref = "kmp-viewmodel" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 
+lint-checks = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "lint-checks" }
+
 gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 
@@ -237,14 +238,67 @@ kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 kotlinx-coroutines-common = [
     "kotlinx-coroutines-core"
 ]
+kotlinx-serialization-common = [
+    "kotlinx-serialization-json"
+]
+datastore-common = [
+    "androidx-datastore-core",
+    "androidx-datastore-preferences-core"
+]
+lifecycle-common = [
+    "androidx-lifecycle-viewmodel"
+]
+paging-common = [
+    "androidx-paging-compose"
+]
+ktor-common = [
+    "ktor-client-core",
+    "ktor-client-cio",
+    "ktor-client-content-negotiation",
+    "ktor-serialization-kotlinx-json"
+]
+koin-common = [
+    "koin-core"
+]
+coil-common = [
+    "coil3-compose"
+]
+constraintlayout-common = [
+    "constraintlayout-compose-multiplatform"
+]
+okio-common = [
+    "okio"
+]
+kmp-viewmodel-common = [
+    "kmp-viewmodel"
+]
+
 kotlinx-coroutines-android = [
     "kotlinx-coroutines-android"
 ]
-androidx-appcompat = [
+kotlin-reflect-android = [
+    "kotlin-reflect"
+]
+activity-android = [
+    "androidx-activity-compose"
+]
+appcompat-android = [
     "androidx-appcompat",
     "androidx-appcompat-resources"
 ]
-androidx-compose = [
+benchmark-android = [
+    "androidx-benchmark-junit"
+]
+benchmark-macro-android = [
+    "androidx-benchmark-macro-junit"
+]
+biometric-android = [
+    "androidx-biometric-ktx"
+]
+browser-android = [
+    "androidx-browser"
+]
+compose-android = [
     "androidx-compose-animation",
     "androidx-compose-compiler",
     "androidx-compose-foundation",
@@ -256,11 +310,28 @@ androidx-compose = [
     "androidx-compose-ui-tooling",
     "androidx-compose-ui-util"
 ]
-androidx-glance = [
+compose-ui-test-android = [
+    "androidx-compose-ui-test-junit4"
+]
+core-android = [
+    "androidx-core-ktx"
+]
+core-splashscreen-android = [
+    "androidx-core-splashscreen"
+]
+datastore-android = [
+    "androidx-datastore-preferences"
+]
+glance-android = [
     "androidx-glance-appwidget",
     "androidx-glance-material3"
 ]
-androidx-media3 = [
+lifecycle-android = [
+    "androidx-lifecycle-runtime-compose",
+    #"androidx-lifecycle-viewmodel-compose",
+    "androidx-lifecycle-process"
+]
+media3-android = [
     "androidx-media3-exoplayer",
     "androidx-media3-exoplayer-dash",
     "androidx-media3-exoplayer-hls",
@@ -288,78 +359,114 @@ androidx-media3 = [
     "androidx-media3-datasource",
     "androidx-media3-common"
 ]
-androidx-room = [
+navigation-android = [
+    "androidx-navigation-compose"
+]
+palette-android = [
+    "androidx-palette-ktx"
+]
+room-android = [
     "androidx-room-runtime",
     "androidx-room-ktx",
     "androidx-room-paging"
 ]
-androidx-test-espresso = [
+room-compiler-android = [
+    "androidx-room-compiler"
+]
+startup-android = [
+    "androidx-startup-runtime"
+]
+test-espresso-android = [
     "androidx-test-espresso-core",
-    "espresso-test-espresso-contrib",
+    "androidx-espresso-test-espresso-contrib",
     "androidx-test-espresso-device",
     "androidx-test-espresso-idling-resource"
 ]
-datastore-common = [
-    "androidx-datastore-core",
-    "androidx-datastore-preferences-core"
+test-ext-junit-android = [
+    "androidx-test-ext-junit-ktx"
 ]
-datastore-android = [
-    "androidx-datastore-preferences"
+test-uiautomator-android = [
+    "androidx-test-uiautomator"
 ]
-datastore-desktop = [
-    "androidx-datastore-core-okio-jvm"
-]
-lifecycle-common = [
-    "androidx-lifecycle-viewmodel"
-]
-lifecycle-android = [
-    "androidx-lifecycle-runtime-compose",
-    #"androidx-lifecycle-viewmodel-compose",
-    "androidx-lifecycle-process"
-]
-paging-common = [
-    "androidx-paging-compose"
-]
-google-firebase = [
-    "google-firebase-analytics-ktx",
-    "google-firebase-config-ktx",
-    "google-firebase-crashlytics-ktx",
-    "google-firebase-messaging-ktx"
-]
-google-material = [
-    "google-material",
-    "google-material-compose-theme-adapter"
-]
-google-services = [
-    "google-services-base",
-    "google-services-instantapps"
-]
-ktor-common = [
-    "ktor-client-core",
-    "ktor-client-cio",
-    "ktor-client-content-negotiation",
-    "ktor-serialization-kotlinx-json"
+work-android = [
+    "androidx-work-runtime-ktx"
 ]
 ktor-android = [
     "ktor-client-okhttp",
     "ktor-client-android",
 ]
-koin-common = [
-    "koin-core"
-]
 koin-android = [
+    "koin-android"
+]
+koin-compose-android = [
+    "koin-android",
+    "koin-androidx-compose"
+]
+koin-work-android = [
+    "koin-android",
+    "koin-androidx-workmanager"
+]
+koin-compose-work-android = [
     "koin-android",
     "koin-androidx-compose",
     "koin-androidx-workmanager"
 ]
-coil-common = [
-    "coil3-compose"
+coil-android = [
+    "coil-compose"
 ]
-constraintlayout-common = [
-    "constraintlayout-compose-multiplatform"
+timber-android = [
+    "timber"
 ]
-okio-common = [
-    "okio"
+google-firebase-android = [
+    "google-firebase-analytics-ktx",
+    "google-firebase-config-ktx",
+    "google-firebase-crashlytics-ktx",
+    "google-firebase-messaging-ktx"
+]
+google-services-android = [
+    "google-services-base",
+    "google-services-instantapps"
+]
+google-services-instantapps-android = [
+    "google-services-instantapps"
+]
+google-material-android = [
+    "google-material",
+    "google-material-compose-theme-adapter"
+]
+google-play-core-android = [
+    "google-play-core-ktx"
+]
+leakcanary-android = [
+    "leakcanary"
+]
+okhttp-logging-interceptor-android = [
+    "okhttp-logging-interceptor"
+]
+chucker-library-android = [
+    "chucker-library"
+]
+chucker-library-no-op-android = [
+    "chucker-library-no-op"
+]
+javapoet-android = [
+    "javapoet"
+]
+junit-android = [
+    "junit"
+]
+flaker-android = [
+    "flaker-android-okhttp"
+]
+flaker-noop-android = [
+    "flaker-android-okhttp-noop"
+]
+
+datastore-desktop = [
+    "androidx-datastore-core-okio-jvm"
+]
+precompose-desktop = [
+    "precompose"
 ]
 
 [plugins]

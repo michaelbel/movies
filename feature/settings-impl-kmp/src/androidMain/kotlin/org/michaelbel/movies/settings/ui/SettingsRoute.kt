@@ -34,7 +34,7 @@ import org.michaelbel.movies.common.MOVIES_GITHUB_URL
 import org.michaelbel.movies.common.browser.openUrl
 import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.ktx.notificationManager
-import org.michaelbel.movies.common.localization.model.AppLanguage
+import org.michaelbel.movies.interactor.entity.AppLanguage
 import org.michaelbel.movies.settings.SettingsViewModel
 import org.michaelbel.movies.settings.ktx.currentGrammaticalGender
 import org.michaelbel.movies.settings.ktx.iconSnackbarTextRes

@@ -20,14 +20,13 @@ kotlin {
             implementation(project(":core:network-kmp"))
             implementation(project(":core:notifications-kmp"))
             implementation(project(":core:persistence-kmp"))
+            implementation(libs.bundles.kotlinx.serialization.common)
             implementation(libs.bundles.paging.common)
             implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
-            implementation(libs.kotlinx.serialization.json)
-            implementation(libs.androidx.work.runtime.ktx)
-            implementation(libs.koin.android)
-            implementation(libs.koin.androidx.workmanager)
+            implementation(libs.bundles.work.android)
+            implementation(libs.bundles.koin.work.android)
         }
     }
 }

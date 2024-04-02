@@ -1,3 +1,3 @@
-package org.michaelbel.movies.common.theme.exceptions
+package org.michaelbel.movies.common.exceptions
 
 internal data object InvalidThemeException: Exception("Invalid theme")

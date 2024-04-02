@@ -11,8 +11,8 @@ import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.browser.openUrl
 import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.list.MovieList
-import org.michaelbel.movies.common.localization.model.AppLanguage
 import org.michaelbel.movies.common.theme.AppTheme
+import org.michaelbel.movies.interactor.entity.AppLanguage
 import org.michaelbel.movies.settings.model.SettingsData
 import org.michaelbel.movies.settings.model.isAboutFeatureEnabled
 import org.michaelbel.movies.settings.model.isAppIconFeatureEnabled

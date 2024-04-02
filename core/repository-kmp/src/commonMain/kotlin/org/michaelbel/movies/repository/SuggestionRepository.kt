@@ -7,5 +7,7 @@ interface SuggestionRepository {
 
     fun suggestions(): Flow<List<SuggestionPojo>>
 
-    suspend fun updateSuggestions()
+    suspend fun updateSuggestions(
+        language: String
+    )
 }

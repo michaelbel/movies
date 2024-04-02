@@ -17,10 +17,8 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:platform-services:interactor-kmp"))
-            implementation(project(":core:network-kmp"))
             api(project(":core:analytics-kmp"))
             api(project(":core:common-kmp"))
-            api(project(":core:persistence-kmp"))
             api(project(":core:repository-kmp"))
             implementation(compose.runtime)
             implementation(compose.runtimeSaveable)
@@ -29,7 +27,7 @@ kotlin {
             implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
-            implementation(libs.koin.android)
+            implementation(libs.bundles.koin.android)
         }
     }
 }

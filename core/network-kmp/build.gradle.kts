@@ -24,15 +24,15 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.kotlinx.serialization.json)
+            implementation(libs.bundles.kotlinx.serialization.common)
             implementation(libs.bundles.ktor.common)
             implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
             implementation(libs.bundles.ktor.android)
-            implementation(libs.androidx.startup.runtime)
-            implementation(libs.okhttp.logging.interceptor)
-            implementation(libs.koin.android)
+            implementation(libs.bundles.startup.android)
+            implementation(libs.bundles.okhttp.logging.interceptor.android)
+            implementation(libs.bundles.koin.android)
         }
     }
 }
@@ -60,13 +60,13 @@ android {
     }
 
     dependencies {
-        debugImplementation(libs.chucker.library) {
+        debugImplementation(libs.bundles.chucker.library.android) {
             exclude(group = "androidx.constraintlayout")
         }
-        releaseImplementation(libs.chucker.library.no.op) {
+        releaseImplementation(libs.bundles.chucker.library.no.op.android) {
             exclude(group = "androidx.constraintlayout")
         }
-        debugImplementation(libs.flaker.android.okhttp)
-        releaseImplementation(libs.flaker.android.okhttp.noop)
+        debugImplementation(libs.bundles.flaker.android)
+        releaseImplementation(libs.bundles.flaker.noop.android)
     }
 }

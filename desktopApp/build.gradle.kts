@@ -27,7 +27,6 @@ kotlin {
             implementation(compose.material)
             implementation(compose.material3)
             implementation(compose.components.resources)
-            implementation(libs.precompose)
         }
     }
 }

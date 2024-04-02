@@ -1,7 +1,7 @@
-package org.michaelbel.movies.common.localization.model
+package org.michaelbel.movies.interactor.entity
 
 import org.michaelbel.movies.common.SealedString
-import org.michaelbel.movies.common.localization.exceptions.InvalidLocaleException
+import org.michaelbel.movies.interactor.exception.InvalidLocaleException
 
 sealed interface AppLanguage: SealedString {
 

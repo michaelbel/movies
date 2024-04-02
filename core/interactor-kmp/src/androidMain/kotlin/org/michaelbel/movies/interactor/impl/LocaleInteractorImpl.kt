@@ -1,6 +1,6 @@
 @file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 
-package org.michaelbel.movies.common.localization.impl
+package org.michaelbel.movies.interactor.impl
 
 import android.app.LocaleManager
 import android.content.Context
@@ -13,15 +13,15 @@ import kotlinx.coroutines.withContext
 import org.michaelbel.movies.analytics.MoviesAnalytics
 import org.michaelbel.movies.analytics.event.SelectLanguageEvent
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
-import org.michaelbel.movies.common.localization.LocaleController
-import org.michaelbel.movies.common.localization.model.AppLanguage
+import org.michaelbel.movies.interactor.LocaleInteractor
+import org.michaelbel.movies.interactor.entity.AppLanguage
 import java.util.Locale
 
-internal actual class LocaleControllerImpl(
+internal actual class LocaleInteractorImpl(
     private val context: Context,
     private val dispatchers: MoviesDispatchers,
     private val analytics: MoviesAnalytics
-): LocaleController {
+): LocaleInteractor {
 
     actual override val language: String
         get() = AppCompatDelegate.getApplicationLocales()[0]?.language ?: AppLanguage.English().code

@@ -20,6 +20,7 @@ interface MovieRepository {
 
     suspend fun moviesResult(
         movieList: String,
+        language: String,
         page: Int
     ): Result<MovieResponse>
 
@@ -30,10 +31,13 @@ interface MovieRepository {
 
     suspend fun movieDetails(
         pagingKey: String,
+        language: String,
         movieId: Int
     ): MoviePojo
 
-    suspend fun moviesWidget(): List<MovieDbMini>
+    suspend fun moviesWidget(
+        language: String
+    ): List<MovieDbMini>
 
     suspend fun removeMovies(
         pagingKey: String

@@ -20,10 +20,10 @@ kotlin {
             implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
-            api(libs.bundles.google.firebase)
-            api(libs.bundles.google.services)
-            api(libs.google.play.core.ktx)
-            implementation(libs.koin.android)
+            api(libs.bundles.google.firebase.android)
+            api(libs.bundles.google.services.android)
+            api(libs.bundles.google.play.core.android)
+            implementation(libs.bundles.koin.android)
         }
     }
 }

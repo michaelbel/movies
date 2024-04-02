@@ -22,8 +22,7 @@ kotlin {
             implementation(project(":core:interactor-kmp"))
             implementation(project(":core:navigation-kmp"))
             implementation(project(":core:ui-kmp"))
-            implementation(libs.koin.android)
-            implementation(libs.koin.androidx.compose)
+            implementation(libs.bundles.koin.compose.android)
         }
     }
 }

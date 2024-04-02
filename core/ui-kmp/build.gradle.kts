@@ -40,11 +40,11 @@ kotlin {
             implementation(compose.uiTooling)
         }
         androidMain.dependencies {
-            api(libs.androidx.core.splashscreen)
-            api(libs.androidx.palette.ktx)
-            api(libs.coil.compose)
-            api(libs.bundles.androidx.compose)
-            api(libs.bundles.google.material)
+            api(libs.bundles.core.splashscreen.android)
+            api(libs.bundles.palette.android)
+            api(libs.bundles.coil.android)
+            api(libs.bundles.compose.android)
+            api(libs.bundles.google.material.android)
         }
     }
 }

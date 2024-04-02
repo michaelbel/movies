@@ -1,5 +1,7 @@
 package org.michaelbel.movies
 
+import android.app.Activity
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
@@ -17,6 +19,15 @@ import org.michaelbel.movies.ui.shortcuts.installShortcuts
 internal class MainActivity: FragmentActivity() {
 
     private val viewModel: MainViewModel by viewModel()
+
+    private val screenCaptureCallback: Any
+        get() {
+            return if (Build.VERSION.SDK_INT >= 34) {
+                Activity.ScreenCaptureCallback {}
+            } else {
+                Unit
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen().apply { setKeepOnScreenCondition { viewModel.splashLoading.value } }
@@ -39,11 +50,11 @@ internal class MainActivity: FragmentActivity() {
 
     override fun onStart() {
         super.onStart()
-        supportRegisterScreenCaptureCallback()
+        supportRegisterScreenCaptureCallback(screenCaptureCallback)
     }
 
     override fun onStop() {
         super.onStop()
-        supportUnregisterScreenCaptureCallback()
+        supportUnregisterScreenCaptureCallback(screenCaptureCallback)
     }
 }

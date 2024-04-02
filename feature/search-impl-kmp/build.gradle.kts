@@ -26,15 +26,13 @@ kotlin {
             api(project(":core:ui-kmp"))
             implementation(project(":core:common-kmp"))
             implementation(project(":core:interactor-kmp"))
-            implementation(project(":core:network-kmp"))
             implementation(project(":core:notifications-kmp"))
             implementation(libs.bundles.paging.common)
             implementation(libs.bundles.constraintlayout.common)
             implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
-            implementation(libs.koin.android)
-            implementation(libs.koin.androidx.compose)
+            implementation(libs.bundles.koin.compose.android)
         }
     }
 }

@@ -25,8 +25,8 @@ kotlin {
         }
         androidMain.dependencies {
             implementation(libs.bundles.datastore.android)
-            implementation(libs.bundles.androidx.room)
-            implementation(libs.koin.android)
+            implementation(libs.bundles.room.android)
+            implementation(libs.bundles.koin.android)
         }
         val desktopMain by getting
         desktopMain.dependencies {
@@ -56,6 +56,6 @@ android {
     }
 
     dependencies {
-        ksp(libs.androidx.room.compiler)
+        ksp(libs.bundles.room.compiler.android)
     }
 }

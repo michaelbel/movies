@@ -1,7 +1,7 @@
 package org.michaelbel.movies.common.gender
 
 import org.michaelbel.movies.common.SealedString
-import org.michaelbel.movies.common.gender.exceptions.InvalidGenderException
+import org.michaelbel.movies.common.exceptions.InvalidGenderException
 
 sealed interface GrammaticalGender: SealedString {
 

@@ -9,8 +9,8 @@ import org.michaelbel.movies.common.SealedString
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.list.MovieList
-import org.michaelbel.movies.common.localization.model.AppLanguage
 import org.michaelbel.movies.common.theme.AppTheme
+import org.michaelbel.movies.interactor.entity.AppLanguage
 import org.michaelbel.movies.ui.strings.MoviesStrings
 
 internal val SealedString.stringText: String

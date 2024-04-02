@@ -14,7 +14,9 @@ internal class AuthenticationInteractorImpl(
     private val authenticationRepository: AuthenticationRepository
 ): AuthenticationInteractor {
 
-    override suspend fun createRequestToken(loginViaTmdb: Boolean): Token {
+    override suspend fun createRequestToken(
+        loginViaTmdb: Boolean
+    ): Token {
         return withContext(dispatchers.io) { authenticationRepository.createRequestToken(loginViaTmdb) }
     }
 
@@ -28,7 +30,9 @@ internal class AuthenticationInteractorImpl(
         }
     }
 
-    override suspend fun createSession(token: String): Session {
+    override suspend fun createSession(
+        token: String
+    ): Session {
         return withContext(dispatchers.io) { authenticationRepository.createSession(token) }
     }
 

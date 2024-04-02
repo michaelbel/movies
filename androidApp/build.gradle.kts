@@ -1,7 +1,8 @@
+
 import com.google.firebase.appdistribution.gradle.AppDistributionExtension
+import java.io.FileInputStream
 import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
-import java.io.FileInputStream
 
 @Suppress("dsl_scope_violation")
 
@@ -169,7 +170,7 @@ dependencies {
     gmsImplementation(project(":core:platform-services:inject-kmp"))
     hmsImplementation(project(":core:platform-services:inject-kmp"))
     fossImplementation(project(":core:platform-services:inject-kmp"))
-    implementation(project(":core:analytics-kmp"))
+
     implementation(project(":core:common-kmp"))
     implementation(project(":core:debug-kmp"))
     implementation(project(":core:interactor-kmp"))
@@ -179,6 +180,7 @@ dependencies {
     implementation(project(":core:ui-kmp"))
     implementation(project(":core:widget-kmp"))
     implementation(project(":core:work-kmp"))
+
     implementation(project(":feature:account-kmp"))
     implementation(project(":feature:auth-kmp"))
     implementation(project(":feature:details-kmp"))
@@ -186,14 +188,14 @@ dependencies {
     implementation(project(":feature:gallery-kmp"))
     implementation(project(":feature:search-kmp"))
     implementation(project(":feature:settings-kmp"))
-    implementation(libs.kotlin.reflect)
-    implementation(libs.bundles.koin.android)
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.bundles.androidx.test.espresso)
-    androidTestImplementation(libs.androidx.test.ext.junit.ktx)
-    androidTestImplementation(libs.androidx.compose.ui.test.junit4)
-    androidTestImplementation(libs.androidx.benchmark.junit)
-    debugImplementation(libs.leakcanary)
+    implementation(libs.bundles.kotlin.reflect.android)
+    implementation(libs.bundles.koin.compose.work.android)
+    testImplementation(libs.bundles.junit.android)
+    androidTestImplementation(libs.bundles.test.espresso.android)
+    androidTestImplementation(libs.bundles.test.ext.junit.android)
+    androidTestImplementation(libs.bundles.compose.ui.test.android)
+    androidTestImplementation(libs.bundles.benchmark.android)
+    debugImplementation(libs.bundles.leakcanary.android)
     lintChecks(libs.lint.checks)
 }
 

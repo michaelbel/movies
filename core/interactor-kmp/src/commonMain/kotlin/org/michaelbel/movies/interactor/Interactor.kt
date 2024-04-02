@@ -8,7 +8,8 @@ class Interactor(
     notificationInteractor: NotificationInteractor,
     searchInteractor: SearchInteractor,
     settingsInteractor: SettingsInteractor,
-    suggestionInteractor: SuggestionInteractor
+    suggestionInteractor: SuggestionInteractor,
+    localeInteractor: LocaleInteractor
 ): AccountInteractor by accountInteractor,
     AuthenticationInteractor by authenticationInteractor,
     ImageInteractor by imageInteractor,
@@ -16,4 +17,5 @@ class Interactor(
     NotificationInteractor by notificationInteractor,
     SearchInteractor by searchInteractor,
     SettingsInteractor by settingsInteractor,
-    SuggestionInteractor by suggestionInteractor
+    SuggestionInteractor by suggestionInteractor,
+    LocaleInteractor by localeInteractor

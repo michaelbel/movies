@@ -1,17 +1,17 @@
 @file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
 
-package org.michaelbel.movies.common.localization.impl
+package org.michaelbel.movies.interactor.impl
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.withContext
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
-import org.michaelbel.movies.common.localization.LocaleController
-import org.michaelbel.movies.common.localization.model.AppLanguage
+import org.michaelbel.movies.interactor.LocaleInteractor
+import org.michaelbel.movies.interactor.entity.AppLanguage
 
-internal actual class LocaleControllerImpl(
+internal actual class LocaleInteractorImpl(
     private val dispatchers: MoviesDispatchers
-): LocaleController {
+): LocaleInteractor {
 
     actual override val language: String
         get() = AppLanguage.English().code

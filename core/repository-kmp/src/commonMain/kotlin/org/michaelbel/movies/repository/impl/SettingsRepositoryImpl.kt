@@ -56,35 +56,51 @@ internal class SettingsRepositoryImpl(
         return preferences.isBiometricEnabledAsync()
     }
 
-    override suspend fun selectTheme(appTheme: AppTheme) {
+    override suspend fun selectTheme(
+        appTheme: AppTheme
+    ) {
         preferences.setTheme(appTheme.toString())
     }
 
-    override suspend fun selectFeedView(feedView: FeedView) {
+    override suspend fun selectFeedView(
+        feedView: FeedView
+    ) {
         preferences.setFeedView(feedView.toString())
     }
 
-    override suspend fun selectMovieList(movieList: MovieList) {
+    override suspend fun selectMovieList(
+        movieList: MovieList
+    ) {
         preferences.setMovieList(movieList.toString())
     }
 
-    override suspend fun setDynamicColors(value: Boolean) {
+    override suspend fun setDynamicColors(
+        value: Boolean
+    ) {
         preferences.setDynamicColors(value)
     }
 
-    override suspend fun setPaletteKey(paletteKey: Int) {
+    override suspend fun setPaletteKey(
+        paletteKey: Int
+    ) {
         preferences.setPaletteKey(paletteKey)
     }
 
-    override suspend fun setSeedColor(seedColor: Int) {
+    override suspend fun setSeedColor(
+        seedColor: Int
+    ) {
         preferences.setSeedColor(seedColor)
     }
 
-    override suspend fun setBiometricEnabled(enabled: Boolean) {
+    override suspend fun setBiometricEnabled(
+        enabled: Boolean
+    ) {
         preferences.setBiometricEnabled(enabled)
     }
 
-    override suspend fun setScreenshotBlockEnabled(enabled: Boolean) {
+    override suspend fun setScreenshotBlockEnabled(
+        enabled: Boolean
+    ) {
         preferences.setScreenshotBlockEnabled(enabled)
     }
 }

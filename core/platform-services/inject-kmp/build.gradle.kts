@@ -19,7 +19,7 @@ kotlin {
             implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
-            implementation(libs.koin.android)
+            implementation(libs.bundles.koin.android)
         }
     }
 }

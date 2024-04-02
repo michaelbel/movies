@@ -23,17 +23,15 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(project(":core:navigation-kmp"))
-            api(project(":core:ui-kmp"))
+            implementation(project(":core:ui-kmp"))
             implementation(project(":core:common-kmp"))
             implementation(project(":core:interactor-kmp"))
-            implementation(project(":core:network-kmp"))
             implementation(project(":core:work-kmp"))
             implementation(libs.bundles.constraintlayout.common)
             implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
-            implementation(libs.koin.android)
-            implementation(libs.koin.androidx.compose)
+            implementation(libs.bundles.koin.compose.android)
         }
     }
 }

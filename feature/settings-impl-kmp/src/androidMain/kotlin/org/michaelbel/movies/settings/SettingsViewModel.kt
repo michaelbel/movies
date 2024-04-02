@@ -14,12 +14,11 @@ import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.biometric.BiometricController
 import org.michaelbel.movies.common.list.MovieList
-import org.michaelbel.movies.common.localization.LocaleController
-import org.michaelbel.movies.common.localization.model.AppLanguage
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
+import org.michaelbel.movies.interactor.entity.AppLanguage
 import org.michaelbel.movies.platform.Flavor
 import org.michaelbel.movies.platform.app.AppService
 import org.michaelbel.movies.platform.review.ReviewService
@@ -30,7 +29,6 @@ import org.michaelbel.movies.settings_impl_kmp.BuildConfig
 class SettingsViewModel(
     biometricController: BiometricController,
     private val interactor: Interactor,
-    private val localeController: LocaleController,
     private val reviewService: ReviewService,
     private val updateService: UpdateService,
     appService: AppService
@@ -96,7 +94,7 @@ class SettingsViewModel(
     }
 
     fun selectLanguage(language: AppLanguage) = launch {
-        localeController.selectLanguage(language)
+        interactor.selectLanguage(language)
     }
 
     fun selectTheme(theme: AppTheme) = launch {

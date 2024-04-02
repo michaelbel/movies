@@ -8,23 +8,35 @@ internal class PagingKeyRepositoryImpl(
     private val pagingKeyPersistence: PagingKeyPersistence
 ): PagingKeyRepository {
 
-    override suspend fun page(pagingKey: String): Int? {
+    override suspend fun page(
+        pagingKey: String
+    ): Int? {
         return pagingKeyPersistence.page(pagingKey)
     }
 
-    override suspend fun totalPages(pagingKey: String): Int? {
+    override suspend fun totalPages(
+        pagingKey: String
+    ): Int? {
         return pagingKeyPersistence.totalPages(pagingKey)
     }
 
-    override suspend fun prevPage(pagingKey: String): Int? {
+    override suspend fun prevPage(
+        pagingKey: String
+    ): Int? {
         return null
     }
 
-    override suspend fun removePagingKey(pagingKey: String) {
+    override suspend fun removePagingKey(
+        pagingKey: String
+    ) {
         pagingKeyPersistence.removePagingKey(pagingKey)
     }
 
-    override suspend fun insertPagingKey(pagingKey: String, page: Int, totalPages: Int) {
+    override suspend fun insertPagingKey(
+        pagingKey: String,
+        page: Int,
+        totalPages: Int
+    ) {
         pagingKeyPersistence.insertPagingKey(
             PagingKeyPojo(
                 pagingKey = pagingKey,

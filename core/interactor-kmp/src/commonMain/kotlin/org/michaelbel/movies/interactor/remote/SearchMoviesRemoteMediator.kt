@@ -7,6 +7,7 @@ import androidx.paging.LoadType
 import androidx.paging.PagingState
 import androidx.paging.RemoteMediator
 import org.michaelbel.movies.common.exceptions.PageEmptyException
+import org.michaelbel.movies.interactor.LocaleInteractor
 import org.michaelbel.movies.network.ktx.isEmpty
 import org.michaelbel.movies.network.ktx.isPaginationReached
 import org.michaelbel.movies.network.ktx.nextPage
@@ -17,6 +18,7 @@ import org.michaelbel.movies.repository.PagingKeyRepository
 import org.michaelbel.movies.repository.SearchRepository
 
 class SearchMoviesRemoteMediator(
+    private val localeInteractor: LocaleInteractor,
     private val pagingKeyRepository: PagingKeyRepository,
     private val movieRepository: MovieRepository,
     private val searchRepository: SearchRepository,
@@ -39,7 +41,7 @@ class SearchMoviesRemoteMediator(
                 throw PageEmptyException
             }
 
-            val moviesResult = searchRepository.searchMoviesResult(query, loadKey)
+            val moviesResult = searchRepository.searchMoviesResult(query, localeInteractor.language, loadKey)
 
             moviesDatabase.withTransaction {
                 if (loadType == LoadType.REFRESH) {

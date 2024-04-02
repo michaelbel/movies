@@ -22,20 +22,18 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core:platform-services:interactor-kmp"))
             api(project(":core:navigation-kmp"))
-            api(project(":core:ui-kmp"))
+            implementation(project(":core:platform-services:interactor-kmp"))
+            implementation(project(":core:ui-kmp"))
             implementation(project(":core:common-kmp"))
-            implementation(project(":core::interactor-kmp"))
-            implementation(project(":core:network-kmp"))
+            implementation(project(":core:interactor-kmp"))
             implementation(project(":core:notifications-kmp"))
             implementation(libs.bundles.paging.common)
             implementation(libs.bundles.constraintlayout.common)
             implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
-            implementation(libs.koin.android)
-            implementation(libs.koin.androidx.compose)
+            implementation(libs.bundles.koin.compose.android)
         }
         val desktopMain by getting
         desktopMain.dependencies {

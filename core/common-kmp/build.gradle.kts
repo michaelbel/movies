@@ -16,27 +16,24 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":core:platform-services:interactor-kmp"))
-            implementation(project(":core:analytics-kmp"))
-            implementation(project(":core:network-kmp"))
             implementation(compose.material3)
             implementation(libs.bundles.kotlinx.coroutines.common)
             implementation(libs.bundles.paging.common)
             implementation(libs.bundles.koin.common)
-            api(libs.kmp.viewmodel)
+            api(libs.bundles.kmp.viewmodel.common)
         }
         androidMain.dependencies {
             api(libs.bundles.kotlinx.coroutines.android)
             api(libs.bundles.lifecycle.android)
-            api(libs.androidx.activity.compose)
-            api(libs.androidx.biometric.ktx)
-            api(libs.androidx.core.ktx)
-            api(libs.androidx.startup.runtime)
-            api(libs.androidx.work.runtime.ktx)
-            api(libs.timber)
-            implementation(libs.bundles.androidx.appcompat)
-            implementation(libs.androidx.browser)
-            implementation(libs.koin.android)
+            api(libs.bundles.activity.android)
+            api(libs.bundles.biometric.android)
+            api(libs.bundles.core.android)
+            api(libs.bundles.startup.android)
+            api(libs.bundles.work.android)
+            api(libs.bundles.timber.android)
+            implementation(libs.bundles.appcompat.android)
+            implementation(libs.bundles.browser.android)
+            implementation(libs.bundles.koin.android)
         }
     }
 }

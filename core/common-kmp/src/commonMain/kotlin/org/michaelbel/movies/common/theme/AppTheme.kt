@@ -1,7 +1,7 @@
 package org.michaelbel.movies.common.theme
 
 import org.michaelbel.movies.common.SealedString
-import org.michaelbel.movies.common.theme.exceptions.InvalidThemeException
+import org.michaelbel.movies.common.exceptions.InvalidThemeException
 
 sealed interface AppTheme: SealedString {
 

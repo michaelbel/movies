@@ -1,7 +1,7 @@
 package org.michaelbel.movies.common.list
 
 import org.michaelbel.movies.common.SealedString
-import org.michaelbel.movies.common.list.exceptions.InvalidMovieListException
+import org.michaelbel.movies.common.exceptions.InvalidMovieListException
 
 sealed interface MovieList: SealedString {
 

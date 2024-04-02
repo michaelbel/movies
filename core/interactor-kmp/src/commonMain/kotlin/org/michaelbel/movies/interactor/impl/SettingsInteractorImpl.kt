@@ -37,53 +37,69 @@ internal class SettingsInteractorImpl(
         return settingsRepository.isBiometricEnabledAsync()
     }
 
-    override suspend fun selectTheme(appTheme: AppTheme) {
+    override suspend fun selectTheme(
+        appTheme: AppTheme
+    ) {
         withContext(dispatchers.main) {
             settingsRepository.selectTheme(appTheme)
             analytics.logEvent(SelectThemeEvent(appTheme.toString()))
         }
     }
 
-    override suspend fun selectFeedView(feedView: FeedView) {
+    override suspend fun selectFeedView(
+        feedView: FeedView
+    ) {
         withContext(dispatchers.main) {
             settingsRepository.selectFeedView(feedView)
             analytics.logEvent(SelectFeedViewEvent(feedView.toString()))
         }
     }
 
-    override suspend fun selectMovieList(movieList: MovieList) {
+    override suspend fun selectMovieList(
+        movieList: MovieList
+    ) {
         withContext(dispatchers.main) {
             settingsRepository.selectMovieList(movieList)
             analytics.logEvent(SelectMovieListEvent(movieList.toString()))
         }
     }
 
-    override suspend fun setDynamicColors(value: Boolean) {
+    override suspend fun setDynamicColors(
+        value: Boolean
+    ) {
         withContext(dispatchers.main) {
             settingsRepository.setDynamicColors(value)
             analytics.logEvent(ChangeDynamicColorsEvent(value))
         }
     }
 
-    override suspend fun setPaletteKey(paletteKey: Int) {
+    override suspend fun setPaletteKey(
+        paletteKey: Int
+    ) {
         withContext(dispatchers.main) {
             settingsRepository.setPaletteKey(paletteKey)
         }
     }
 
-    override suspend fun setSeedColor(seedColor: Int) {
+    override suspend fun setSeedColor(
+        seedColor: Int
+    ) {
         withContext(dispatchers.main) {
             settingsRepository.setSeedColor(seedColor)
         }
     }
 
-    override suspend fun setBiometricEnabled(enabled: Boolean) {
+    override suspend fun setBiometricEnabled(
+        enabled: Boolean
+    ) {
         withContext(dispatchers.main) {
             settingsRepository.setBiometricEnabled(enabled)
         }
     }
 
-    override suspend fun setScreenshotBlockEnabled(enabled: Boolean) {
+    override suspend fun setScreenshotBlockEnabled(
+        enabled: Boolean
+    ) {
         withContext(dispatchers.main) {
             settingsRepository.setScreenshotBlockEnabled(enabled)
         }

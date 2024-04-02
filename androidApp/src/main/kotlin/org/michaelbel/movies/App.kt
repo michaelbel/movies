@@ -8,8 +8,8 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.factory.KoinWorkerFactory
 import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.context.startKoin
-import org.michaelbel.movies.common.crashlytics.CrashlyticsTree
 import org.michaelbel.movies.common_kmp.BuildConfig
+import org.michaelbel.movies.crashlytics.CrashlyticsTree
 import org.michaelbel.movies.di.appKoinModule
 import org.michaelbel.movies.platform.app.AppService
 import org.michaelbel.movies.platform.crashlytics.CrashlyticsService
