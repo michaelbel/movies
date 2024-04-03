@@ -16,10 +16,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:interactor-kmp"))
-            implementation(project(":core:common-kmp"))
-            implementation(project(":core:network-kmp"))
             implementation(project(":core:notifications-kmp"))
-            implementation(project(":core:persistence-kmp"))
             implementation(libs.bundles.kotlinx.serialization.common)
             implementation(libs.bundles.paging.common)
             implementation(libs.bundles.koin.common)

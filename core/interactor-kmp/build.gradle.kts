@@ -16,9 +16,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core:platform-services:interactor-kmp"))
             api(project(":core:analytics-kmp"))
-            api(project(":core:common-kmp"))
             api(project(":core:repository-kmp"))
             implementation(compose.runtime)
             implementation(compose.runtimeSaveable)

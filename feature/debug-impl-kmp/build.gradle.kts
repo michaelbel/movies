@@ -8,37 +8,28 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = rootProject.extra.get("jvmTarget") as String
-            }
-        }
-    }
-    jvm("desktop") {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = rootProject.extra.get("jvmTarget") as String
+                jvmTarget = JavaVersion.VERSION_1_8.toString()
             }
         }
     }
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":core:navigation-kmp"))
-            api(project(":core:ui-kmp"))
-            api(project(":core:common-kmp"))
-            api(project(":core:interactor-kmp"))
-            implementation(compose.components.resources)
-            implementation(compose.material3)
-            implementation(libs.bundles.constraintlayout.common)
             implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
+            api(project(":core:common-kmp"))
+            api(project(":core:ui-kmp"))
+            implementation(project(":core:interactor-kmp"))
+            implementation(project(":core:navigation-kmp"))
             implementation(libs.bundles.koin.compose.android)
         }
     }
 }
 
 android {
-    namespace = "org.michaelbel.movies.details_impl_kmp"
+    namespace = "org.michaelbel.movies.debug_impl_kmp"
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     sourceSets["main"].res.srcDirs("src/androidMain/res")
 
     defaultConfig {
@@ -47,16 +38,12 @@ android {
     }
 
     buildFeatures {
+        buildConfig = true
         compose = true
     }
 
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.toVersion(rootProject.extra.get("jvmTarget") as String)
-        targetCompatibility = JavaVersion.toVersion(rootProject.extra.get("jvmTarget") as String)
     }
 
     lint {

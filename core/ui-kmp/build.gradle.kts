@@ -22,8 +22,6 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core:common-kmp"))
-            implementation(project(":core:network-kmp"))
             implementation(project(":core:persistence-kmp"))
             implementation(libs.bundles.paging.common)
             implementation(libs.bundles.constraintlayout.common)

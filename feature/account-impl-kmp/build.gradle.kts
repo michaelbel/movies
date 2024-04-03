@@ -23,9 +23,9 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(project(":core:navigation-kmp"))
-            implementation(project(":core:ui-kmp"))
-            implementation(project(":core:common-kmp"))
-            implementation(project(":core:interactor-kmp"))
+            api(project(":core:ui-kmp"))
+            api(project(":core:common-kmp"))
+            api(project(":core:interactor-kmp"))
             implementation(compose.components.resources)
             implementation(compose.foundation)
             implementation(compose.material3)

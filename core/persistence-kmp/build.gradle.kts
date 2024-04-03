@@ -16,8 +16,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core:common-kmp"))
-            implementation(project(":core:network-kmp"))
+            api(project(":core:common-kmp"))
+            api(project(":core:network-kmp"))
             implementation(libs.bundles.datastore.common)
             implementation(libs.bundles.paging.common)
             implementation(libs.bundles.koin.common)

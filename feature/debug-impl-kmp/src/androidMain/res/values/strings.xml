@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="debug_title">Debug Settings</string>
+    <string name="debug_app_settings">App Settings</string>
+    <string name="debug_developer_settings">Developer Settings</string>
+</resources>

@@ -1,4 +1,3 @@
-
 import com.google.firebase.appdistribution.gradle.AppDistributionExtension
 import java.io.FileInputStream
 import org.apache.commons.io.output.ByteArrayOutputStream
@@ -170,17 +169,6 @@ dependencies {
     gmsImplementation(project(":core:platform-services:inject-kmp"))
     hmsImplementation(project(":core:platform-services:inject-kmp"))
     fossImplementation(project(":core:platform-services:inject-kmp"))
-
-    implementation(project(":core:common-kmp"))
-    implementation(project(":core:debug-kmp"))
-    implementation(project(":core:interactor-kmp"))
-    implementation(project(":core:interactor-kmp"))
-    implementation(project(":core:navigation-kmp"))
-    implementation(project(":core:platform-services:interactor-kmp"))
-    implementation(project(":core:ui-kmp"))
-    implementation(project(":core:widget-kmp"))
-    implementation(project(":core:work-kmp"))
-
     implementation(project(":feature:account-kmp"))
     implementation(project(":feature:auth-kmp"))
     implementation(project(":feature:details-kmp"))
@@ -188,6 +176,7 @@ dependencies {
     implementation(project(":feature:gallery-kmp"))
     implementation(project(":feature:search-kmp"))
     implementation(project(":feature:settings-kmp"))
+    implementation(project(":feature:debug-kmp"))
     implementation(libs.bundles.kotlin.reflect.android)
     implementation(libs.bundles.koin.compose.work.android)
     testImplementation(libs.bundles.junit.android)

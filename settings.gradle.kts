@@ -27,19 +27,19 @@ include(
     ":instant",
     ":benchmark",
 
-    ":core:analytics-kmp",
-    ":core:common-kmp",
-    ":core:debug-kmp",
-    ":core:interactor-kmp",
-    ":core:navigation-kmp",
-    ":core:network-kmp",
-    ":core:notifications-kmp",
-    ":core:persistence-kmp",
     ":core:platform-services:gms-kmp",
     ":core:platform-services:hms-kmp",
     ":core:platform-services:foss-kmp",
     ":core:platform-services:inject-kmp",
     ":core:platform-services:interactor-kmp",
+
+    ":core:analytics-kmp",
+    ":core:common-kmp",
+    ":core:interactor-kmp",
+    ":core:navigation-kmp",
+    ":core:network-kmp",
+    ":core:notifications-kmp",
+    ":core:persistence-kmp",
     ":core:repository-kmp",
     ":core:ui-kmp",
     ":core:widget-kmp",
@@ -58,5 +58,8 @@ include(
     ":feature:search-kmp",
     ":feature:search-impl-kmp",
     ":feature:settings-kmp",
-    ":feature:settings-impl-kmp"
+    ":feature:settings-impl-kmp",
+
+    ":feature:debug-kmp",
+    ":feature:debug-impl-kmp"
 )
