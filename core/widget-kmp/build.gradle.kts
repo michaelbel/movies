@@ -17,7 +17,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:interactor-kmp"))
-            implementation(project(":core:common-kmp"))
             implementation(project(":core:ui-kmp"))
             implementation(project(":core:work-kmp"))
             implementation(libs.bundles.kotlinx.serialization.common)

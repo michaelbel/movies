@@ -10,8 +10,6 @@ kotlin {
 
     sourceSets {
         jvmMain.dependencies {
-            implementation(project(":core:common-kmp"))
-            implementation(project(":core:ui-kmp"))
             implementation(project(":feature:account-kmp"))
             implementation(project(":feature:auth-kmp"))
             implementation(project(":feature:details-kmp"))

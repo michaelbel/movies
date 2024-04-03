@@ -167,6 +167,55 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Dagger Hilt](https://github.com/google/dagger) removed in [#274](https://github.com/michaelbel/movies/pull/274)
 - [x] [Retrofit](https://github.com/square/retrofit) removed in [#275](https://github.com/michaelbel/movies/pull/275)
 
+## Modules
+```mermaid
+graph TD;
+    feature-->androidApp
+    feature-->desktopApp
+
+    account-->feature
+    auth-->feature
+    details-->feature
+    feed-->feature
+    gallery-->feature
+    search-->feature
+    settings-->feature
+    debug-->feature
+
+    account-impl-->account
+    auth-impl-->auth
+    details-impl-->details
+    feed-impl-->feed
+    gallery-impl-->gallery
+    search-impl-->search
+    settings-impl-->settings
+    debug-impl-->debug
+
+    core-->account-impl
+    core-->auth-impl
+    core-->details-impl
+    core-->feed-impl
+    core-->gallery-impl
+    core-->search-impl
+    core-->settings-impl
+    core-->debug-impl
+
+    navigation-->core
+    ui-->core
+    common-->core
+    interactor-->core
+    notifications-->core
+    work-->core
+    widget-->core
+    platform-services-->core
+
+    analytics-->interactor
+    repository-->interactor
+
+    network-->repository
+    persistence-->repository
+```
+
 ## Роадмап
 [Movies App Roadmap](https://github.com/users/michaelbel/projects/1/views/1)
 
