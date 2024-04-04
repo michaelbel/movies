@@ -21,10 +21,10 @@ Movies
 [![](https://img.shields.io/badge/Linux-000000.svg?style=for-the-badge&logo=linux)](https://github.com/michaelbel/movies)
 [![](https://img.shields.io/badge/Web-000000.svg?style=for-the-badge&logo=google-chrome)](https://github.com/michaelbel/movies) -->
 
-[![](https://github.com/michaelbel/movies/actions/workflows/check_pr.yml/badge.svg?branch=develop)](https://github.com/michaelbel/movies/actions/workflows/check_pr.yml)
-[![](https://PlayBadges.pavi2410.me/badge/downloads?id=org.michaelbel.moviemade)](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
-[![](https://img.shields.io/badge/Donate-Paypal-FF5252.svg)](https://paypal.me/michaelbel)
-[![](https://img.shields.io/github/last-commit/michaelbel/moviemade?color=FF5252)](https://github.com/michaelbel/movies/commits)
+[![Check PR](https://img.shields.io/github/actions/workflow/status/michaelbel/movies/check_pr.yml?style=for-the-badge&logo=github&label=Check%20PR&labelColor=3F464F
+)](https://github.com/michaelbel/movies/actions/workflows/check_pr.yml)
+[![Last Commit](https://img.shields.io/github/last-commit/michaelbel/movies?style=for-the-badge&logo=github&labelColor=3F464F
+)](https://github.com/michaelbel/movies/commits)
 
 Movies - простой способ найти популярные фильмы. Это легковесный TMDb-клиент.
 
@@ -78,6 +78,8 @@ TMDB_API_KEY=your_own_tmdb_api_key
 
 
 ## Загрузить
+[![](https://PlayBadges.pavi2410.me/badge/downloads?id=org.michaelbel.moviemade)](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
+
 [<img src="config/images/badge-googleplay.svg" alt="" height="80">](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
 [<img src="config/images/badge-appgallery.svg" alt="" height="80">](https://appgallery.cloud.huawei.com/ag/n/app/C109677247)
 [<img src="config/images/badge-direct-apk.png" alt="" height="80">](https://github.com/michaelbel/movies/releases/download/2.0.0/Movies-v2.0.0.1699.-gms-release.apk)
