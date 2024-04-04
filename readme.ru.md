@@ -167,7 +167,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Dagger Hilt](https://github.com/google/dagger) removed in [#274](https://github.com/michaelbel/movies/pull/274)
 - [x] [Retrofit](https://github.com/square/retrofit) removed in [#275](https://github.com/michaelbel/movies/pull/275)
 
-## Modules
+## Модули
 ```mermaid
 graph TD;
     feature-->androidApp
