@@ -219,7 +219,7 @@ graph TD;
 ## Роадмап
 [Movies App Roadmap](https://github.com/users/michaelbel/projects/1/views/1)
 
-## Вклад
+## ✍️ Вклад
 Твоя помощь приветствуется!
 
 ⭐ Присоединяйся к [звездочетам](https://github.com/michaelbel/movies/stargazers)  
