@@ -32,6 +32,7 @@ Movies - простой способ найти популярные фильм�
 
 Проект находится в активной разработке. Приложение для Android уже доступно.
 
+
 ## Скриншоты
 <p align="center">
     <img src="config/images/1.png" width="24%">
@@ -50,12 +51,14 @@ Movies - простой способ найти популярные фильм�
     <img src="config/images/14.png" width="49%">
 </p>
 
+
 ## Требования
 Перейди в <b>`local.properties`</b> и укажи [свой собственный](https://developers.themoviedb.org/3/getting-started/introduction) <b>TMDB API key</b> как здесь:
 ```gradle
 TMDB_API_KEY=your_own_tmdb_api_key
  ```
 Приложение можно использовать без ключа API, но его функциональность будет сильно ограничена.
+
 
 ## Сборка
 - Клонируй репозиторий используя [последнюю версию](https://d.android.com/studio) Android Studio
@@ -73,13 +76,15 @@ TMDB_API_KEY=your_own_tmdb_api_key
       ./gradlew :androidApp:installFossDebug
       ```
 
+
 ## Загрузить
 [<img src="config/images/badge-googleplay.svg" alt="" height="80">](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
 [<img src="config/images/badge-appgallery.svg" alt="" height="80">](https://appgallery.cloud.huawei.com/ag/n/app/C109677247)
 [<img src="config/images/badge-direct-apk.png" alt="" height="80">](https://github.com/michaelbel/movies/releases/download/2.0.0/Movies-v2.0.0.1699.-gms-release.apk)
 [<img src="config/images/badge-obtainium.png" alt="" height="80">](https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/michaelbel/movies)
 
-## 📦 Технологии
+
+## Технологии
 - [x] [Modularization](https://d.android.com/topic/modularization)
 - [x] [MVVM](https://d.android.com/topic/architecture)
 - [x] [Clean Architecture](https://d.android.com/topic/architecture)
@@ -167,6 +172,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Dagger Hilt](https://github.com/google/dagger) removed in [#274](https://github.com/michaelbel/movies/pull/274)
 - [x] [Retrofit](https://github.com/square/retrofit) removed in [#275](https://github.com/michaelbel/movies/pull/275)
 
+
 ## Модули
 ```mermaid
 graph TD;
@@ -216,22 +222,27 @@ graph TD;
     persistence-->repository
 ```
 
+
 ## Роадмап
 [Movies App Roadmap](https://github.com/users/michaelbel/projects/1/views/1)
 
-## ✍️ Вклад
+
+## Вклад
 Твоя помощь приветствуется!
 
 ⭐ Присоединяйся к [звездочетам](https://github.com/michaelbel/movies/stargazers)  
 ↗️ Отправляй пулл-реквесты
 
+
 ## Траблы
 Если попался баг или хочешь предложить фичу, не стесняйся, заводи [issue](https://github.com/michaelbel/movies/issues).
+
 
 ## Контакты
 Подписывайся на [telegram-канал](https://t.me/foundout)  
 Добавляйся в друзья на [Кинопоиске](https://www.kinopoisk.ru/user/4104533)  
 Добавляйся в друзья на [MyShows](https://myshows.me/michaelbel)
+
 
 ## История звездочек
 <a href="https://star-history.com/#michaelbel/movies&Date">
@@ -242,7 +253,8 @@ graph TD;
   </picture>
 </a>
 
-## 📄 Лицензия
+
+## Лицензия
 <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
   <img alt="Apache License 2.0" src="config/images/apache.png" height="110"/>
 </a>

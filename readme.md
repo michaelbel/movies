@@ -32,6 +32,7 @@ The goal of this project is to implement an app that provides a consistent user 
 
 The app is currently in development. Android app is already available.
 
+
 ## Screenshots
 <p align="center">
     <img src="config/images/1.png" width="24%">
@@ -50,12 +51,14 @@ The app is currently in development. Android app is already available.
     <img src="config/images/14.png" width="49%">
 </p>
 
+
 ## Requirements
 Take a look at <b>`local.properties`</b> and fill it with [your own](https://developers.themoviedb.org/3/getting-started/introduction) <b>TMDB API key</b> like this:
 ```gradle
 TMDB_API_KEY=your_own_tmdb_api_key
  ```
 The app is still usable without an API key. In this case functionality will be limited.
+
 
 ## Build
 - Clone this repository using [latest version](https://d.android.com/studio) of Android Studio
@@ -73,13 +76,15 @@ The app is still usable without an API key. In this case functionality will be l
       ./gradlew :androidApp:installFossDebug
       ```
 
+
 ## Download
 [<img src="config/images/badge-googleplay.svg" alt="" height="80">](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
 [<img src="config/images/badge-appgallery.svg" alt="" height="80">](https://appgallery.cloud.huawei.com/ag/n/app/C109677247)
 [<img src="config/images/badge-direct-apk.png" alt="" height="80">](https://github.com/michaelbel/movies/releases/download/2.0.0/Movies-v2.0.0.1699.-gms-release.apk)
 [<img src="config/images/badge-obtainium.png" alt="" height="80">](https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/michaelbel/movies)
 
-## 📦 Technologies
+
+## Technologies
 - [x] [Modularization](https://d.android.com/topic/modularization)
 - [x] [MVVM](https://d.android.com/topic/architecture)
 - [x] [Clean Architecture](https://d.android.com/topic/architecture)
@@ -167,6 +172,7 @@ The app is still usable without an API key. In this case functionality will be l
 - [x] [Dagger Hilt](https://github.com/google/dagger) removed in [#274](https://github.com/michaelbel/movies/pull/274)
 - [x] [Retrofit](https://github.com/square/retrofit) removed in [#275](https://github.com/michaelbel/movies/pull/275)
 
+
 ## Modules
 ```mermaid
 graph TD;
@@ -216,17 +222,21 @@ graph TD;
     persistence-->repository
 ```
 
+
 ## Roadmap
 [Movies App Roadmap](https://github.com/users/michaelbel/projects/1/views/1)
 
-## ✍️ Contributing
+
+## Contributing
 All contributions are welcome!
 
 ⭐ Join [stargazers](https://github.com/michaelbel/movies/stargazers)  
 ↗️ Submit your PR
 
+
 ## Issues
 If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/movies/issues).
+
 
 ## Star History
 <a href="https://star-history.com/#michaelbel/movies&Date">
@@ -237,7 +247,8 @@ If you find any problems or would like to suggest a feature, please feel free to
   </picture>
 </a>
 
-## 📄 License
+
+## License
 <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
   <img alt="Apache License 2.0" src="config/images/apache.png" height="110"/>
 </a>
