@@ -234,6 +234,8 @@ graph TD;
 
 
 ## Contributing
+[![](https://img.shields.io/github/issues-pr-closed-raw/michaelbel/movies?style=for-the-badge&logo=github&labelColor=3F464F&color=green)](https://github.com/michaelbel/movies/pulls)
+
 All contributions are welcome!
 
 ⭐ Join [stargazers](https://github.com/michaelbel/movies/stargazers)  
@@ -241,6 +243,8 @@ All contributions are welcome!
 
 
 ## Issues
+[![](https://img.shields.io/github/issues-closed-raw/michaelbel/movies?style=for-the-badge&logo=github&labelColor=3F464F&color=green)](https://github.com/michaelbel/movies/issues)
+
 If you find any problems or would like to suggest a feature, please feel free to file an [issue](https://github.com/michaelbel/movies/issues).
 
 
@@ -263,6 +267,8 @@ If you find any problems or would like to suggest a feature, please feel free to
 
 
 ## License
+[![](https://img.shields.io/github/license/michaelbel/movies?style=for-the-badge&logo=github&labelColor=3F464F)](license.txt)
+
 <a href="http://www.apache.org/licenses/LICENSE-2.0" target="_blank">
   <img alt="Apache License 2.0" src="config/images/apache.png" height="110"/>
 </a>
