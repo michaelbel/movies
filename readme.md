@@ -39,12 +39,12 @@ The app is currently in development. Android app is already available.
     <img src="config/images/2.png" width="24%">
     <img src="config/images/3.png" width="24%">
     <img src="config/images/4.png" width="24%">
-    <img src="config/images/5.png" width="49%">
-    <img src="config/images/6.png" width="49%">
     <img src="config/images/7.gif" width="24%">
     <img src="config/images/8.gif" width="24%">
     <img src="config/images/9.gif" width="24%">
     <img src="config/images/10.gif" width="24%">
+    <img src="config/images/5.png" width="49%">
+    <img src="config/images/6.png" width="49%">
 </p>
 
 
