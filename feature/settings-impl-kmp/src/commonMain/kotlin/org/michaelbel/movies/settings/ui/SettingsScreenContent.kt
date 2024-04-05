@@ -284,76 +284,6 @@ internal fun SettingsScreenContent(
                     )
                 }
             }
-            if (settingsData.notificationsData.isFeatureEnabled) {
-                item {
-                    HorizontalDivider(
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                        thickness = .1.dp,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                }
-                item {
-                    SettingSwitchItem(
-                        title = stringResource(MoviesStrings.settings_post_notifications),
-                        description = stringResource(if (settingsData.notificationsData.isEnabled) MoviesStrings.settings_post_notifications_granted else MoviesStrings.settings_post_notifications_denied),
-                        icon = MoviesIcons.Notifications,
-                        checked = settingsData.notificationsData.isEnabled,
-                        onClick = settingsData.notificationsData.onClick
-                    )
-                }
-            }
-            if (settingsData.biometricData.isFeatureEnabled) {
-                item {
-                    HorizontalDivider(
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                        thickness = .1.dp,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                }
-                item {
-                    SettingSwitchItem(
-                        title = stringResource(MoviesStrings.settings_lock_app),
-                        description = stringResource(if (settingsData.biometricData.isEnabled) MoviesStrings.settings_biometric_added else MoviesStrings.settings_biometric_not_added),
-                        icon = MoviesIcons.Fingerprint,
-                        checked = settingsData.biometricData.isEnabled,
-                        onClick = { settingsData.biometricData.onChange(!settingsData.biometricData.isEnabled) }
-                    )
-                }
-            }
-            if (settingsData.widgetData.isFeatureEnabled) {
-                item {
-                    HorizontalDivider(
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                        thickness = .1.dp,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                }
-                item {
-                    SettingItem(
-                        title = stringResource(MoviesStrings.settings_app_widget),
-                        description = stringResource(MoviesStrings.settings_app_widget_description, stringResource(MoviesStrings.appwidget_description)),
-                        icon = MoviesIcons.Widgets,
-                        onClick = settingsData.widgetData.onRequest
-                    )
-                }
-            }
-            if (settingsData.tileData.isFeatureEnabled) {
-                item {
-                    HorizontalDivider(
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                        thickness = .1.dp,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                }
-                item {
-                    SettingItem(
-                        title = stringResource(MoviesStrings.settings_tile),
-                        description = stringResource(MoviesStrings.settings_tile_description),
-                        icon = MoviesIcons.ViewAgenda,
-                        onClick = settingsData.tileData.onRequest
-                    )
-                }
-            }
             if (settingsData.appIconData.isFeatureEnabled) {
                 item {
                     HorizontalDivider(
@@ -398,6 +328,76 @@ internal fun SettingsScreenContent(
                             onClick = settingsData.appIconData.onSelect
                         )
                     }
+                }
+            }
+            if (settingsData.notificationsData.isFeatureEnabled) {
+                item {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                        thickness = .1.dp,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+                item {
+                    SettingSwitchItem(
+                        title = stringResource(MoviesStrings.settings_post_notifications),
+                        description = stringResource(if (settingsData.notificationsData.isEnabled) MoviesStrings.settings_post_notifications_granted else MoviesStrings.settings_post_notifications_denied),
+                        icon = MoviesIcons.Notifications,
+                        checked = settingsData.notificationsData.isEnabled,
+                        onClick = settingsData.notificationsData.onClick
+                    )
+                }
+            }
+            if (settingsData.widgetData.isFeatureEnabled) {
+                item {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                        thickness = .1.dp,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+                item {
+                    SettingItem(
+                        title = stringResource(MoviesStrings.settings_app_widget),
+                        description = stringResource(MoviesStrings.settings_app_widget_description, stringResource(MoviesStrings.appwidget_description)),
+                        icon = MoviesIcons.Widgets,
+                        onClick = settingsData.widgetData.onRequest
+                    )
+                }
+            }
+            if (settingsData.tileData.isFeatureEnabled) {
+                item {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                        thickness = .1.dp,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+                item {
+                    SettingItem(
+                        title = stringResource(MoviesStrings.settings_tile),
+                        description = stringResource(MoviesStrings.settings_tile_description),
+                        icon = MoviesIcons.ViewAgenda,
+                        onClick = settingsData.tileData.onRequest
+                    )
+                }
+            }
+            if (settingsData.biometricData.isFeatureEnabled) {
+                item {
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                        thickness = .1.dp,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
+                item {
+                    SettingSwitchItem(
+                        title = stringResource(MoviesStrings.settings_lock_app),
+                        description = stringResource(if (settingsData.biometricData.isEnabled) MoviesStrings.settings_biometric_added else MoviesStrings.settings_biometric_not_added),
+                        icon = MoviesIcons.Fingerprint,
+                        checked = settingsData.biometricData.isEnabled,
+                        onClick = { settingsData.biometricData.onChange(!settingsData.biometricData.isEnabled) }
+                    )
                 }
             }
             if (settingsData.screenshotData.isFeatureEnabled) {
