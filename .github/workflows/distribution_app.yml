@@ -9,6 +9,7 @@ on:
      - '**.md'
      - '.idea/**'
      - '.github/**'
+     - 'config/**'
   workflow_dispatch:
   
 env:
