@@ -96,6 +96,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 [![Clean](https://img.shields.io/badge/Clean%20Architecture-4169E1.svg?style=for-the-badge&logo=ccleaner&logoColor=white)](https://d.android.com/topic/architecture)
 [![Dependabot](https://img.shields.io/badge/Dependabot-0366D6?&style=for-the-badge&logo=dependabot&logoColor=white)](https://github.com/dependabot)
 [![Github](https://img.shields.io/badge/Github%20Actions-3F464F?&style=for-the-badge&logo=github&logoColor=white)](https://github.com/michaelbel/movies/tree/develop/.github/workflows)
+[![Codebeat](https://img.shields.io/badge/Codebeat-26A9E1?&style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTAwIiBoZWlnaHQ9IjI1MDAiIHZpZXdCb3g9IjAgMCAyNTYgMjU2IiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCI+PHBhdGggZD0iTTU3LjY5NyA4OS41NjFsMjcuOTIgNTguMjM4IDUxLjA0NS0xMTYuMjQ0IDU2LjMwNSAxMzguOTgzIDE3Ljk0My00MC4zNzJIMjU2VjEyOEMyNTYgNTcuMzEgMTk4LjY5IDAgMTI4IDBTMCA1Ny4zMSAwIDEyOHYyLjE2NmgzNi45N0w1Ny42OTYgODkuNTZ6TTE5Mi41OCAyMDMuMTc2TDEzNS44MTEgOTMuNDI4bC01MC41MDMgOTAuODc3LTI4LjA3NS02NC43MzUtMTMuNjkgMjYuOTE1SDEuMzE1QzEwLjI4NiAyMDguNDM1IDYzLjU3NSAyNTYgMTI4IDI1NmM2NC40MjUgMCAxMTcuNzktNDcuNjQyIDEyNi42ODUtMTA5LjU5M2gtMzUuMjY3bC0yNi44MzggNTYuNzY5eiIgZmlsbD0iI2ZmZmZmZiIvPjwvc3ZnPg==&logoColor=white)](https://codebeat.co/projects/github-com-michaelbel-movies-develop)
 
 - [x] [Modularization](https://d.android.com/topic/modularization)
 - [x] [MVVM](https://d.android.com/topic/architecture)
@@ -149,7 +150,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Notification Runtime Permission](https://d.android.com/develop/ui/views/notifications/notification-permission)
 - [x] [Changing Launcher App Icon](https://d.android.com/guide/topics/manifest/activity-alias-element)
 - [x] [Predictive Back Gesture](https://d.android.com/guide/navigation/custom-back/predictive-back-gesture)
-- [x] [Codebeat Automated Code Review](https://codebeat.co/projects/github-com-michaelbel-movies-develop)
 - [x] [Codacy Static Code Analysis](https://app.codacy.com/gh/michaelbel/movies/dashboard)
 - [x] [Display Content Edge-to-Edge](https://d.android.com/develop/ui/views/layout/edge-to-edge)
 - [x] [Support Landscape Orientation](https://d.android.com/guide/topics/large-screens/support-different-screen-sizes)
