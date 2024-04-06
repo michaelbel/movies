@@ -93,6 +93,7 @@ The app is still usable without an API key. In this case functionality will be l
 [![Room](https://img.shields.io/badge/Room-39477F?&style=for-the-badge&logo=adminer&logoColor=white)](https://d.android.com/training/data-storage/room)
 [![Dependabot](https://img.shields.io/badge/Dependabot-0366D6?&style=for-the-badge&logo=dependabot&logoColor=white)](https://github.com/dependabot)
 [![Github](https://img.shields.io/badge/Github%20Actions-000000?&style=for-the-badge&logo=github&logoColor=white)](https://github.com/michaelbel/movies/tree/develop/.github/workflows)
+[![Ktor](https://img.shields.io/badge/Ktor-7f52ff?&style=for-the-badge&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMjggMTI4Ij4KICA8ZGVmcyBmaWxsPSIjN2Y1MmZmIj4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYSIgeDE9IjI0Ljk0MSIgeDI9IjUyLjMwNiIgeTE9IjI0Ljk0MSIgeTI9IjUyLjMwNiIgZ3JhZGllbnRUcmFuc2Zvcm09InJvdGF0ZSguMTA0KSBzY2FsZSgxLjIxOTA1KSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIGZpbGw9IiM3ZjUyZmYiPgogICAgICA8c3RvcCBvZmZzZXQ9Ii4yOTYiIHN0b3AtY29sb3I9IiNmZmZmZmYiIGZpbGw9IiM3ZjUyZmYiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIuNjk0IiBzdG9wLWNvbG9yPSIjZmZmZmZmIiBmaWxsPSIjN2Y1MmZmIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iMSIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgZmlsbD0iIzdmNTJmZiIvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iYiIgeDE9IjUzLjE1MSIgeDI9Ijc5LjAyMyIgeTE9IjUzLjE1MSIgeTI9Ijc5LjAyMyIgZ3JhZGllbnRUcmFuc2Zvcm09InJvdGF0ZSguMTA0KSBzY2FsZSgxLjIxOTA1KSIgZ3JhZGllbnRVbml0cz0idXNlclNwYWNlT25Vc2UiIGZpbGw9IiM3ZjUyZmYiPgogICAgICA8c3RvcCBvZmZzZXQ9Ii4xMDgiIHN0b3AtY29sb3I9IiNmZmZmZmYiIGZpbGw9IiM3ZjUyZmYiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIuMTczIiBzdG9wLWNvbG9yPSIjZmZmZmZmIiBmaWxsPSIjN2Y1MmZmIi8+CiAgICAgIDxzdG9wIG9mZnNldD0iLjQ5MiIgc3RvcC1jb2xvcj0iI2ZmZmZmZiIgZmlsbD0iIzdmNTJmZiIvPgogICAgICA8c3RvcCBvZmZzZXQ9Ii43MTYiIHN0b3AtY29sb3I9IiNmZmZmZmYiIGZpbGw9IiM3ZjUyZmYiLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIuODIzIiBzdG9wLWNvbG9yPSIjZmZmZmZmIiBmaWxsPSIjN2Y1MmZmIi8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cGF0aCBmaWxsPSJ1cmwoI2EpIiBkPSJNODAuNDU3IDQ3LjU0MyA0Ny41NDMgMTQuNjI5IDE0LjYyOSA0Ny41NDNsMzIuOTE0IDMyLjkxNFptMCAwIi8+CiAgPHBhdGggZmlsbD0idXJsKCNiKSIgZD0ibTQ3LjU0MyA4MC40NTcgMzIuOTE0IDMyLjkxNCAzMi45MTQtMzIuOTE0LTMyLjkxNC0zMi45MTRabTAgMCIvPgogIDxwYXRoIGQ9Ik04MC40NTcgNDcuNTQzSDQ3LjU0M3YzMi45MTRoMzIuOTE0Wm0wIDAiIGZpbGw9IiM3ZjUyZmYiLz4KPC9zdmc+&logoColor=white)](https://ktor.io)
 
 - [x] [Modularization](https://d.android.com/topic/modularization)
 - [x] [MVVM](https://d.android.com/topic/architecture)
@@ -127,7 +128,6 @@ The app is still usable without an API key. In this case functionality will be l
 - [x] [Paging3](https://d.android.com/topic/libraries/architecture/paging/v3-overview)
 - [x] [Browser](https://d.android.com/jetpack/androidx/releases/browser)
 - [x] [OkHttp](https://github.com/square/okhttp)
-- [x] [Ktor](https://ktor.io)
 - [x] [Chucker](https://github.com/ChuckerTeam/chucker)
 - [x] [Flaker](https://github.com/rotbolt/flaker)
 - [x] [Coil](https://github.com/coil-kt/coil)
