@@ -78,7 +78,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 
 [<img src="config/images/badges/badge-googleplay.svg" alt="" height="80">](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
 [<img src="config/images/badges/badge-appgallery.svg" alt="" height="80">](https://appgallery.cloud.huawei.com/ag/n/app/C109677247)
-[<img src="config/images/badges/badge-direct-apk.png" alt="" height="80">](https://github.com/michaelbel/movies/releases/download/2.0.0/Movies-v2.0.0.1699.-gms-release.apk)
+[<img src="config/images/badges/badge-github.svg" alt="" height="80">](https://github.com/michaelbel/movies/releases/download/2.0.0/Movies-v2.0.0.1699.-gms-release.apk)
 [<img src="config/images/badges/badge-obtainium.png" alt="" height="80">](https://apps.obtainium.imranr.dev/redirect?r=obtainium://add/https://github.com/michaelbel/movies)
 
 
