@@ -40,8 +40,8 @@ android {
 
 dependencies {
     implementation(project(":androidApp"))
-    implementation(project(":core:common-kmp"))
-    implementation(project(":core:ui-kmp"))
+    implementation(project(":core:common"))
+    implementation(project(":core:ui"))
     implementation(libs.bundles.appcompat.android)
     implementation(libs.bundles.compose.android)
     implementation(libs.bundles.google.services.instantapps.android)

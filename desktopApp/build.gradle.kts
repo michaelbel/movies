@@ -10,13 +10,13 @@ kotlin {
 
     sourceSets {
         jvmMain.dependencies {
-            implementation(project(":feature:account-kmp"))
-            implementation(project(":feature:auth-kmp"))
-            implementation(project(":feature:details-kmp"))
-            implementation(project(":feature:feed-kmp"))
-            implementation(project(":feature:gallery-kmp"))
-            implementation(project(":feature:search-kmp"))
-            implementation(project(":feature:settings-kmp"))
+            implementation(project(":feature:account"))
+            implementation(project(":feature:auth"))
+            implementation(project(":feature:details"))
+            implementation(project(":feature:feed"))
+            implementation(project(":feature:gallery"))
+            implementation(project(":feature:search"))
+            implementation(project(":feature:settings"))
             implementation(compose.desktop.currentOs)
             implementation(compose.desktop.common)
             implementation(compose.runtime)
