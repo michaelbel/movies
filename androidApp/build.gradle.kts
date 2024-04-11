@@ -1,7 +1,7 @@
 import com.google.firebase.appdistribution.gradle.AppDistributionExtension
-import java.io.FileInputStream
 import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
+import java.io.FileInputStream
 
 @Suppress("dsl_scope_violation")
 
@@ -69,7 +69,7 @@ android {
 
     signingConfigs {
         val keystoreProperties = Properties()
-        val keystorePropertiesFile: File = rootProject.file("config/keystore.properties")
+        val keystorePropertiesFile = rootProject.file("config/keystore.properties")
         if (keystorePropertiesFile.exists()) {
             keystoreProperties.load(FileInputStream(keystorePropertiesFile))
         } else {
@@ -78,10 +78,11 @@ android {
             keystoreProperties["storePassword"] = System.getenv("KEYSTORE_STORE_PASSWORD").orEmpty()
             keystoreProperties["storeFile"] = System.getenv("KEYSTORE_FILE").orEmpty()
         }
-        create("release") { // todo Uncomment to create a signed release
+        val keystoreFile = keystoreProperties["storeFile"] as String
+        create("release") {
             keyAlias = keystoreProperties["keyAlias"] as String
             keyPassword = keystoreProperties["keyPassword"] as String
-            storeFile = file(keystoreProperties["storeFile"] as String)
+            storeFile = if (keystoreFile.isNotEmpty()) file(keystoreFile) else null
             storePassword = keystoreProperties["storePassword"] as String
         }
     }
@@ -90,13 +91,12 @@ android {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            signingConfig = signingConfigs.getByName("release") // todo Uncomment to create a signed release
+            signingConfig = signingConfigs.getByName("release")
             applicationIdSuffix = MoviesBuildType.RELEASE.applicationIdSuffix
             manifestPlaceholders += mapOf("appName" to "@string/app_name")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
-                "retrofit2.pro",
                 "okhttp3.pro",
                 "coroutines.pro"
             )
@@ -108,7 +108,6 @@ android {
             applicationIdSuffix = MoviesBuildType.DEBUG.applicationIdSuffix
             manifestPlaceholders += mapOf("appName" to "@string/app_name_dev")
             isDefault = true
-            //vcsInfo { include = true } // Version control system integration in App Quality Insights
         }
         create("benchmark") {
             initWith(getByName("release"))
