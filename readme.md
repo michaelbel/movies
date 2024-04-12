@@ -75,6 +75,8 @@ The app is still usable without an API key. In this case functionality will be l
 
 ## Download
 [![](https://PlayBadges.pavi2410.me/badge/downloads?id=org.michaelbel.moviemade)](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
+[![](https://img.shields.io/github/downloads/michaelbel/movies/total?logo=github&label=Downloads&labelColor=212133&color=34CC2C
+)](https://github.com/michaelbel/movies/releases)
 
 [<img src="config/images/badges/badge-googleplay.svg" alt="" height="80">](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
 [<img src="config/images/badges/badge-appgallery.svg" alt="" height="80">](https://appgallery.cloud.huawei.com/ag/n/app/C109677247)
