@@ -84,7 +84,6 @@ sqldelight = "2.0.2"
 koin = "3.5.6"
 precompose = "1.6.0"
 constraintlayout-compose-multiplatform = "0.3.1"
-kmp-viewmodel = "0.7.1"
 okio = "3.9.0"
 
 [libraries]
@@ -227,8 +226,6 @@ koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
 precompose = { module = "moe.tlaster:precompose", version.ref = "precompose" }
 constraintlayout-compose-multiplatform = { module = "tech.annexflow.compose:constraintlayout-compose-multiplatform", version.ref = "constraintlayout-compose-multiplatform" }
-kmp-viewmodel = { module = "io.github.hoc081098:kmp-viewmodel", version.ref = "kmp-viewmodel" }
-kmp-viewmodel-koin-compose = { module = "io.github.hoc081098:kmp-viewmodel-koin-compose", version.ref = "kmp-viewmodel" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 
 lint-checks = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "lint-checks" }
@@ -271,10 +268,6 @@ constraintlayout-common = [
 ]
 okio-common = [
     "okio"
-]
-kmp-viewmodel-common = [
-    "kmp-viewmodel",
-    "kmp-viewmodel-koin-compose"
 ]
 
 kotlinx-coroutines-android = [
@@ -466,6 +459,9 @@ flaker-noop-android = [
     "flaker-android-okhttp-noop"
 ]
 
+kotlinx-coroutines-desktop = [
+    "kotlinx-coroutines-swing"
+]
 datastore-desktop = [
     "androidx-datastore-core-okio-jvm"
 ]
