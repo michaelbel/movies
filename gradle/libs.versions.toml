@@ -58,7 +58,8 @@ androidx-test-uiautomator = "2.3.0"
 androidx-test-espresso = "3.5.1"
 androidx-test-espresso-device = "1.0.0-alpha08"
 androidx-work = "2.9.0"
-compose = "1.6.2"
+compose = "1.6.10-beta01"
+compose-viewmodel = "2.8.0-alpha01"
 detekt = "1.23.6"
 spotless = "6.25.0"
 coil = "2.6.0"
@@ -181,6 +182,7 @@ androidx-test-espresso-idling-resource = { module = "androidx.test.espresso:espr
 androidx-test-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "androidx-test-uiautomator" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidx-work" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
+compose-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "compose-viewmodel" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil3-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
 coil3-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coil3" }
@@ -239,6 +241,9 @@ kotlinx-coroutines-common = [
 ]
 kotlinx-serialization-common = [
     "kotlinx-serialization-json"
+]
+compose-viewmodel-common = [
+    "compose-viewmodel"
 ]
 datastore-common = [
     "androidx-datastore-core",
