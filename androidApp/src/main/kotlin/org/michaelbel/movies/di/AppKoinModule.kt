@@ -12,7 +12,7 @@ import org.michaelbel.movies.search.di.searchKoinModule
 import org.michaelbel.movies.settings.di.settingsKoinModule
 import org.michaelbel.movies.widget.di.glanceKoinModule
 
-val appKoinModule = module {
+internal val appKoinModule = module {
     includes(
         flavorServiceKtorModule,
         mainKoinModule,
