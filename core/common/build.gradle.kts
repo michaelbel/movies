@@ -20,7 +20,6 @@ kotlin {
             implementation(libs.bundles.kotlinx.coroutines.common)
             implementation(libs.bundles.paging.common)
             implementation(libs.bundles.koin.common)
-            api(libs.bundles.kmp.viewmodel.common)
         }
         androidMain.dependencies {
             api(libs.bundles.kotlinx.coroutines.android)
@@ -34,6 +33,10 @@ kotlin {
             implementation(libs.bundles.appcompat.android)
             implementation(libs.bundles.browser.android)
             implementation(libs.bundles.koin.android)
+        }
+        val desktopMain by getting
+        desktopMain.dependencies {
+            api(libs.bundles.kotlinx.coroutines.desktop)
         }
     }
 }
