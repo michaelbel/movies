@@ -13,7 +13,13 @@ dependencyResolutionManagement {
     /*repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)*/
     repositories {
         mavenCentral()
-        google()
+        google {
+            content {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google")
+            }
+        }
         maven(url = "https://developer.huawei.com/repo/")
     }
 }
