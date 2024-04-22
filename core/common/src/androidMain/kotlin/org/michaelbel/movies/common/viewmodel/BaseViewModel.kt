@@ -1,7 +1,7 @@
 package org.michaelbel.movies.common.viewmodel
 
 import androidx.annotation.CallSuper
-import com.hoc081098.kmp.viewmodel.ViewModel
+import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
