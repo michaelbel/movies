@@ -16,10 +16,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(project(":feature:debug-impl"))
-            implementation(libs.bundles.koin.common)
-        }
-        androidMain.dependencies {
-            implementation(libs.bundles.koin.compose.android)
         }
     }
 }
