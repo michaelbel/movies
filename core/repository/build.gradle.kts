@@ -18,10 +18,6 @@ kotlin {
             api(project(":core:persistence"))
             implementation(libs.bundles.kotlinx.coroutines.common)
             implementation(libs.bundles.paging.common)
-            implementation(libs.bundles.koin.common)
-        }
-        androidMain.dependencies {
-            implementation(libs.bundles.koin.android)
         }
     }
 }

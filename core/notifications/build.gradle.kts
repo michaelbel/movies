@@ -17,10 +17,6 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":core:interactor"))
             implementation(project(":core:ui"))
-            implementation(libs.bundles.koin.common)
-        }
-        androidMain.dependencies {
-            implementation(libs.bundles.koin.android)
         }
     }
 }
