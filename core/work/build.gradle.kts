@@ -19,11 +19,9 @@ kotlin {
             implementation(project(":core:notifications"))
             implementation(libs.bundles.kotlinx.serialization.common)
             implementation(libs.bundles.paging.common)
-            implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
             implementation(libs.bundles.work.android)
-            implementation(libs.bundles.koin.work.android)
         }
     }
 }

@@ -404,10 +404,6 @@ ktor-android = [
 koin-android = [
     "koin-android"
 ]
-koin-work-android = [
-    "koin-android",
-    "koin-androidx-workmanager"
-]
 koin-compose-work-android = [
     "koin-android",
     "koin-androidx-compose",
