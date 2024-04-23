@@ -20,7 +20,7 @@ kotlin {
             implementation(libs.bundles.kotlinx.coroutines.common)
             /*implementation(libs.bundles.compose.viewmodel.common)*/
             implementation(libs.bundles.paging.common)
-            implementation(libs.bundles.koin.common)
+            api(libs.bundles.koin.common)
         }
         androidMain.dependencies {
             api(libs.bundles.kotlinx.coroutines.android)
