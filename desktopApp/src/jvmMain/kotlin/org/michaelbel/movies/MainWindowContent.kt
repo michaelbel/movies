@@ -53,4 +53,38 @@ internal fun MainWindowContent() {
             navigateBack = navHostController::popBackStack
         )
     }
+
+    /*val navHostController: NavHostController = rememberNavController()
+    androidx.navigation.compose.NavHost(
+        navController = navHostController,
+        startDestination = "feed"
+    ) {
+        authGraph(
+            navigateBack = navHostController::popBackStack
+        )
+        accountGraph(
+            navigateBack = navHostController::popBackStack
+        )
+        feedGraph(
+            navigateToSearch = navHostController::navigateToSearch,
+            navigateToAuth = navHostController::navigateToAuth,
+            navigateToAccount = navHostController::navigateToAccount,
+            navigateToSettings = navHostController::navigateToSettings,
+            navigateToDetails = navHostController::navigateToDetails
+        )
+        detailsGraph(
+            navigateBack = navHostController::popBackStack,
+            navigateToGallery = navHostController::navigateToGallery
+        )
+        galleryGraph(
+            navigateBack = navHostController::popBackStack
+        )
+        searchGraph(
+            navigateBack = navHostController::popBackStack,
+            navigateToDetails = navHostController::navigateToDetails,
+        )
+        settingsGraph(
+            navigateBack = navHostController::popBackStack
+        )
+    }*/
 }

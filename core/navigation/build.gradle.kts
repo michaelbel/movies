@@ -19,6 +19,7 @@ kotlin {
         }
         val desktopMain by getting
         desktopMain.dependencies {
+            api(libs.bundles.compose.navigation.common)
             api(libs.bundles.precompose.desktop)
         }
     }
