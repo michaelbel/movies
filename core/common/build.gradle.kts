@@ -16,11 +16,11 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            api(libs.bundles.koin.common)
             implementation(compose.material3)
             implementation(libs.bundles.kotlinx.coroutines.common)
             /*implementation(libs.bundles.compose.viewmodel.common)*/
             implementation(libs.bundles.paging.common)
-            api(libs.bundles.koin.common)
         }
         androidMain.dependencies {
             api(libs.bundles.kotlinx.coroutines.android)
@@ -31,9 +31,9 @@ kotlin {
             api(libs.bundles.startup.android)
             api(libs.bundles.work.android)
             api(libs.bundles.timber.android)
+            api(libs.bundles.koin.android)
             implementation(libs.bundles.appcompat.android)
             implementation(libs.bundles.browser.android)
-            implementation(libs.bundles.koin.android)
         }
         val desktopMain by getting
         desktopMain.dependencies {

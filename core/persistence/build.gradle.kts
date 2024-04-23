@@ -20,13 +20,11 @@ kotlin {
             api(project(":core:network"))
             implementation(libs.bundles.datastore.common)
             implementation(libs.bundles.paging.common)
-            implementation(libs.bundles.koin.common)
             implementation(libs.bundles.okio.common)
         }
         androidMain.dependencies {
             implementation(libs.bundles.datastore.android)
             implementation(libs.bundles.room.android)
-            implementation(libs.bundles.koin.android)
         }
         val desktopMain by getting
         desktopMain.dependencies {
