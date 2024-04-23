@@ -18,6 +18,7 @@ kotlin {
         commonMain.dependencies {
             implementation(compose.material3)
             implementation(libs.bundles.kotlinx.coroutines.common)
+            /*implementation(libs.bundles.compose.viewmodel.common)*/
             implementation(libs.bundles.paging.common)
             implementation(libs.bundles.koin.common)
         }

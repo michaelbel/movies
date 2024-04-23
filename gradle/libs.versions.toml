@@ -335,7 +335,6 @@ glance-android = [
 ]
 lifecycle-android = [
     "androidx-lifecycle-runtime-compose",
-    #"androidx-lifecycle-viewmodel-compose",
     "androidx-lifecycle-process"
 ]
 media3-android = [
