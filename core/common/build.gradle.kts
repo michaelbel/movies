@@ -31,7 +31,7 @@ kotlin {
             api(libs.bundles.startup.android)
             api(libs.bundles.work.android)
             api(libs.bundles.timber.android)
-            api(libs.bundles.koin.android)
+            api(libs.bundles.koin.compose.work.android)
             implementation(libs.bundles.appcompat.android)
             implementation(libs.bundles.browser.android)
         }

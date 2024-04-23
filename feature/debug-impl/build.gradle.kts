@@ -15,14 +15,10 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.bundles.koin.common)
-        }
-        androidMain.dependencies {
             api(project(":core:common"))
             api(project(":core:ui"))
             implementation(project(":core:interactor"))
             implementation(project(":core:navigation"))
-            implementation(libs.bundles.koin.compose.android)
         }
     }
 }

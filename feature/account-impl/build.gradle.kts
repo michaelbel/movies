@@ -31,11 +31,9 @@ kotlin {
             implementation(compose.material3)
             implementation(compose.runtime)
             implementation(libs.bundles.constraintlayout.common)
-            implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
             implementation(libs.bundles.work.android)
-            implementation(libs.bundles.koin.compose.android)
         }
     }
 }

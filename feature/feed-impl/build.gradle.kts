@@ -30,10 +30,6 @@ kotlin {
             implementation(project(":core:notifications"))
             implementation(libs.bundles.paging.common)
             implementation(libs.bundles.constraintlayout.common)
-            implementation(libs.bundles.koin.common)
-        }
-        androidMain.dependencies {
-            implementation(libs.bundles.koin.compose.android)
         }
         val desktopMain by getting
         desktopMain.dependencies {

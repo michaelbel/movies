@@ -28,10 +28,6 @@ kotlin {
             api(project(":core:interactor"))
             api(project(":core:work"))
             implementation(libs.bundles.constraintlayout.common)
-            implementation(libs.bundles.koin.common)
-        }
-        androidMain.dependencies {
-            implementation(libs.bundles.koin.compose.android)
         }
     }
 }

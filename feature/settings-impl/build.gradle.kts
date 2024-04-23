@@ -32,10 +32,6 @@ kotlin {
             implementation(compose.foundation)
             implementation(compose.material3)
             implementation(libs.bundles.constraintlayout.common)
-            implementation(libs.bundles.koin.common)
-        }
-        androidMain.dependencies {
-            implementation(libs.bundles.koin.compose.android)
         }
         val desktopMain by getting
         desktopMain.dependencies {
