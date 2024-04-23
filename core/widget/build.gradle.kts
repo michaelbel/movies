@@ -21,12 +21,10 @@ kotlin {
             implementation(project(":core:work"))
             implementation(libs.bundles.kotlinx.serialization.common)
             implementation(libs.bundles.datastore.common)
-            implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
             implementation(libs.bundles.datastore.android)
             implementation(libs.bundles.glance.android)
-            implementation(libs.bundles.koin.compose.work.android)
         }
     }
 }

@@ -177,7 +177,6 @@ dependencies {
     implementation(project(":feature:settings"))
     implementation(project(":feature:debug"))
     implementation(libs.bundles.kotlin.reflect.android)
-    implementation(libs.bundles.koin.compose.work.android)
     testImplementation(libs.bundles.junit.android)
     androidTestImplementation(libs.bundles.test.espresso.android)
     androidTestImplementation(libs.bundles.test.ext.junit.android)
