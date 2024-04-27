@@ -6,12 +6,14 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import org.koin.androidx.compose.koinViewModel
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
+import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 import org.michaelbel.movies.search.SearchViewModel
 
 @Composable
 fun SearchRoute(
     onBackClick: () -> Unit,
-    onNavigateToDetails: (String, Int) -> Unit,
+    onNavigateToDetails: (PagingKey, MovieId) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = koinViewModel()
 ) {

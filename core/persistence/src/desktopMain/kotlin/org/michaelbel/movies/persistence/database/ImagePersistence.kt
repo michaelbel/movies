@@ -5,12 +5,17 @@ package org.michaelbel.movies.persistence.database
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import org.michaelbel.movies.persistence.database.entity.ImagePojo
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
 
 actual class ImagePersistence internal constructor() {
 
-    actual fun imagesFlow(movieId: Int): Flow<List<ImagePojo>> {
+    actual fun imagesFlow(
+        movieId: MovieId
+    ): Flow<List<ImagePojo>> {
         return emptyFlow()
     }
 
-    actual suspend fun insert(images: List<ImagePojo>) {}
+    actual suspend fun insert(
+        images: List<ImagePojo>
+    ) {}
 }

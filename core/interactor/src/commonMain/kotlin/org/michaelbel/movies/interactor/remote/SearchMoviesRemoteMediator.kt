@@ -13,6 +13,7 @@ import org.michaelbel.movies.network.ktx.isPaginationReached
 import org.michaelbel.movies.network.ktx.nextPage
 import org.michaelbel.movies.persistence.database.MoviesDatabase
 import org.michaelbel.movies.persistence.database.entity.MoviePojo
+import org.michaelbel.movies.persistence.database.typealiases.Query
 import org.michaelbel.movies.repository.MovieRepository
 import org.michaelbel.movies.repository.PagingKeyRepository
 import org.michaelbel.movies.repository.SearchRepository
@@ -23,7 +24,7 @@ class SearchMoviesRemoteMediator(
     private val movieRepository: MovieRepository,
     private val searchRepository: SearchRepository,
     private val moviesDatabase: MoviesDatabase,
-    private val query: String
+    private val query: Query
 ): RemoteMediator<Int, MoviePojo>() {
 
     override suspend fun load(

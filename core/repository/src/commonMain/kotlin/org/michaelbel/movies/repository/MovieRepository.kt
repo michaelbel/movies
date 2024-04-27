@@ -6,33 +6,37 @@ import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
 import org.michaelbel.movies.persistence.database.entity.MoviePojo
 import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
+import org.michaelbel.movies.persistence.database.typealiases.Limit
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
+import org.michaelbel.movies.persistence.database.typealiases.Page
+import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 
 interface MovieRepository {
 
     fun moviesPagingSource(
-        pagingKey: String
+        pagingKey: PagingKey
     ): PagingSource<Int, MoviePojo>
 
     fun moviesFlow(
-        pagingKey: String,
-        limit: Int
+        pagingKey: PagingKey,
+        limit: Limit
     ): Flow<List<MoviePojo>>
 
     suspend fun moviesResult(
-        movieList: String,
+        pagingKey: PagingKey,
         language: String,
-        page: Int
+        page: Page
     ): Result<MovieResponse>
 
     suspend fun movie(
-        pagingKey: String,
-        movieId: Int
+        pagingKey: PagingKey,
+        movieId: MovieId
     ): MoviePojo
 
     suspend fun movieDetails(
-        pagingKey: String,
+        pagingKey: PagingKey,
         language: String,
-        movieId: Int
+        movieId: MovieId
     ): MoviePojo
 
     suspend fun moviesWidget(
@@ -40,27 +44,27 @@ interface MovieRepository {
     ): List<MovieDbMini>
 
     suspend fun removeMovies(
-        pagingKey: String
+        pagingKey: PagingKey
     )
 
     suspend fun removeMovie(
-        pagingKey: String,
-        movieId: Int
+        pagingKey: PagingKey,
+        movieId: MovieId
     )
 
     suspend fun insertMovies(
-        pagingKey: String,
-        page: Int,
+        pagingKey: PagingKey,
+        page: Page,
         movies: List<MovieResponse>
     )
 
     suspend fun insertMovie(
-        pagingKey: String,
+        pagingKey: PagingKey,
         movie: MoviePojo
     )
 
     suspend fun updateMovieColors(
-        movieId: Int,
+        movieId: MovieId,
         containerColor: Int,
         onContainerColor: Int
     )

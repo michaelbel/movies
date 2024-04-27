@@ -13,13 +13,13 @@ import androidx.work.WorkerParameters
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
 import org.michaelbel.movies.widget.MoviesGlanceWidget
-import org.michaelbel.movies.widget.ktx.mapToMovieData
 import org.michaelbel.movies.widget.R
+import org.michaelbel.movies.widget.ktx.mapToMovieData
 import java.time.Duration
 
 internal class MoviesGlanceWidgetWorker(
-    private val context: Context,
     workerParams: WorkerParameters,
+    private val context: Context,
     private val interactor: Interactor
 ): CoroutineWorker(context, workerParams) {
 
@@ -55,7 +55,7 @@ internal class MoviesGlanceWidgetWorker(
     }
 
     companion object {
-        private val uniqueWorkName = MoviesGlanceWidgetWorker::class.java.simpleName
+        private val uniqueWorkName = MoviesGlanceWidgetWorker::class.simpleName.orEmpty()
 
         fun enqueue(context: Context, force: Boolean = false) {
             val requestBuilder = PeriodicWorkRequestBuilder<MoviesGlanceWidgetWorker>(Duration.ofMinutes(30))

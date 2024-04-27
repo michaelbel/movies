@@ -6,12 +6,13 @@ import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.persistence.database.dao.AccountDao
 import org.michaelbel.movies.persistence.database.entity.AccountPojo
 import org.michaelbel.movies.persistence.database.ktx.accountDb
+import org.michaelbel.movies.persistence.database.typealiases.AccountId
 
 actual class AccountPersistence internal constructor(
     private val accountDao: AccountDao
 ) {
 
-    actual fun accountById(accountId: Int): Flow<AccountPojo?> {
+    actual fun accountById(accountId: AccountId): Flow<AccountPojo?> {
         return accountDao.accountById(accountId)
     }
 
@@ -19,7 +20,7 @@ actual class AccountPersistence internal constructor(
         accountDao.insert(account.accountDb)
     }
 
-    actual suspend fun removeById(accountId: Int) {
+    actual suspend fun removeById(accountId: AccountId) {
         accountDao.removeById(accountId)
     }
 }

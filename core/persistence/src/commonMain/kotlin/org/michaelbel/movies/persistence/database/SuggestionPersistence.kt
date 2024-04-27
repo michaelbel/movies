@@ -9,7 +9,9 @@ expect class SuggestionPersistence {
 
     fun suggestionsFlow(): Flow<List<SuggestionPojo>>
 
-    suspend fun insert(suggestions: List<SuggestionPojo>)
+    suspend fun insert(
+        suggestions: List<SuggestionPojo>
+    )
 
     suspend fun removeAll()
 }

@@ -22,6 +22,8 @@ import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.persistence.database.entity.MoviePojo
 import org.michaelbel.movies.persistence.database.entity.SuggestionPojo
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
+import org.michaelbel.movies.persistence.database.typealiases.Query
 
 class SearchViewModel(
     private val interactor: Interactor,
@@ -69,7 +71,7 @@ class SearchViewModel(
         loadSuggestions()
     }
 
-    fun onChangeSearchQuery(query: String) {
+    fun onChangeSearchQuery(query: Query) {
         _query.value = query
     }
 
@@ -77,12 +79,12 @@ class SearchViewModel(
         interactor.setSearchActive(state)
     }
 
-    fun onSaveToHistory(movieId: Int) = launch {
-        val movie: MoviePojo = interactor.movie(query.value, movieId)
+    fun onSaveToHistory(movieId: MovieId) = launch {
+        val movie = interactor.movie(query.value, movieId)
         interactor.insertMovie(MoviePojo.MOVIES_SEARCH_HISTORY, movie)
     }
 
-    fun onRemoveFromHistory(movieId: Int) = launch {
+    fun onRemoveFromHistory(movieId: MovieId) = launch {
         interactor.removeMovie(MoviePojo.MOVIES_SEARCH_HISTORY, movieId)
     }
 

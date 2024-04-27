@@ -7,6 +7,7 @@ import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.theme.AppTheme
+import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import org.michaelbel.movies.repository.SettingsRepository
 import org.michaelbel.movies.repository.ktx.defaultDynamicColorsEnabled
@@ -45,11 +46,11 @@ internal class SettingsRepositoryImpl(
         }
 
     override val isBiometricEnabled: Flow<Boolean> = preferences.isBiometricEnabledFlow.map { enabled ->
-        enabled ?: false
+        enabled.orEmpty()
     }
 
     override val isScreenshotBlockEnabled: Flow<Boolean> = preferences.isScreenshotBlockEnabledFlow.map { enabled ->
-        enabled ?: false
+        enabled.orEmpty()
     }
 
     override suspend fun isBiometricEnabledAsync(): Boolean {

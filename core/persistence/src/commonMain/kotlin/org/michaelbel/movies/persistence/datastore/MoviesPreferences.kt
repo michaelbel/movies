@@ -10,6 +10,9 @@ import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
+import org.michaelbel.movies.persistence.database.ktx.orEmpty
+import org.michaelbel.movies.persistence.database.typealiases.AccountId
+import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 
 class MoviesPreferences(
     private val dataStore: DataStore<Preferences>
@@ -43,7 +46,7 @@ class MoviesPreferences(
         get() = dataStore.data.map { preferences -> preferences[PREFERENCE_ACCOUNT_ID_KEY] }
 
     suspend fun isBiometricEnabledAsync(): Boolean {
-        return dataStore.data.first()[PREFERENCE_BIOMETRIC_KEY] ?: false
+        return dataStore.data.first()[PREFERENCE_BIOMETRIC_KEY].orEmpty()
     }
 
     suspend fun setTheme(theme: String) {
@@ -58,7 +61,7 @@ class MoviesPreferences(
         }
     }
 
-    suspend fun setMovieList(movieList: String) {
+    suspend fun setMovieList(movieList: PagingKey) {
         dataStore.edit { preferences ->
             preferences[PREFERENCE_MOVIE_LIST_KEY] = movieList
         }
@@ -87,10 +90,10 @@ class MoviesPreferences(
     }
 
     suspend fun accountId(): Int {
-        return dataStore.data.first()[PREFERENCE_ACCOUNT_ID_KEY] ?: 0
+        return dataStore.data.first()[PREFERENCE_ACCOUNT_ID_KEY].orEmpty()
     }
 
-    suspend fun setAccountId(accountId: Int) {
+    suspend fun setAccountId(accountId: AccountId) {
         dataStore.edit { preferences ->
             preferences[PREFERENCE_ACCOUNT_ID_KEY] = accountId
         }

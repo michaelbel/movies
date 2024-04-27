@@ -6,30 +6,64 @@ import androidx.paging.PagingSource
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.persistence.database.entity.MoviePojo
 import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
+import org.michaelbel.movies.persistence.database.typealiases.Limit
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
+import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 
 expect class MoviePersistence {
 
-    fun pagingSource(movieList: String): PagingSource<Int, MoviePojo>
+    fun pagingSource(
+        pagingKey: PagingKey
+    ): PagingSource<Int, MoviePojo>
 
-    fun moviesFlow(movieList: String, limit: Int): Flow<List<MoviePojo>>
+    fun moviesFlow(
+        pagingKey: PagingKey,
+        limit: Limit
+    ): Flow<List<MoviePojo>>
 
-    suspend fun movies(movieList: String, limit: Int): List<MoviePojo>
+    suspend fun movies(
+        pagingKey: PagingKey,
+        limit: Limit
+    ): List<MoviePojo>
 
-    suspend fun moviesMini(movieList: String, limit: Int): List<MovieDbMini>
+    suspend fun moviesMini(
+        pagingKey: PagingKey,
+        limit: Limit
+    ): List<MovieDbMini>
 
-    suspend fun insertMovies(movies: List<MoviePojo>)
+    suspend fun insertMovies(
+        movies: List<MoviePojo>
+    )
 
-    suspend fun insertMovie(movie: MoviePojo)
+    suspend fun insertMovie(
+        movie: MoviePojo
+    )
 
-    suspend fun removeMovies(movieList: String)
+    suspend fun removeMovies(
+        pagingKey: PagingKey
+    )
 
-    suspend fun removeMovie(movieList: String, movieId: Int)
+    suspend fun removeMovie(
+        pagingKey: PagingKey,
+        movieId: MovieId
+    )
 
-    suspend fun movieById(pagingKey: String, movieId: Int): MoviePojo?
+    suspend fun movieById(
+        pagingKey: PagingKey,
+        movieId: MovieId
+    ): MoviePojo?
 
-    suspend fun maxPosition(movieList: String): Int?
+    suspend fun maxPosition(
+        pagingKey: PagingKey
+    ): Int?
 
-    suspend fun isEmpty(movieList: String): Boolean
+    suspend fun isEmpty(
+        pagingKey: PagingKey
+    ): Boolean
 
-    suspend fun updateMovieColors(movieId: Int, containerColor: Int, onContainerColor: Int)
+    suspend fun updateMovieColors(
+        movieId: MovieId,
+        containerColor: Int,
+        onContainerColor: Int
+    )
 }

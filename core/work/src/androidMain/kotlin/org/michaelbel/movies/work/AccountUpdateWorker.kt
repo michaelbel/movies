@@ -6,6 +6,7 @@ import androidx.work.WorkerParameters
 import org.michaelbel.movies.common.ktx.isTimePasses
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.network.config.isTmdbApiKeyEmpty
+import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import java.util.concurrent.TimeUnit
 
 class AccountUpdateWorker(
@@ -21,7 +22,7 @@ class AccountUpdateWorker(
                 return Result.success()
             }
 
-            val expireTime = interactor.accountExpireTime() ?: 0L
+            val expireTime = interactor.accountExpireTime().orEmpty()
             val currentTime = System.currentTimeMillis()
             if (isTimePasses(ONE_DAY_MILLS, expireTime, currentTime)) {
                 interactor.accountDetails()

@@ -21,6 +21,7 @@ import org.michaelbel.movies.gallery_impl.R
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.persistence.database.entity.ImagePojo
 import org.michaelbel.movies.persistence.database.ktx.original
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
 import org.michaelbel.movies.work.DownloadImageWorker
 
 class GalleryViewModel(
@@ -69,7 +70,7 @@ class GalleryViewModel(
         }
     }
 
-    private fun loadMovieImages(movieId: Int) = launch {
+    private fun loadMovieImages(movieId: MovieId) = launch {
         interactor.images(movieId)
     }
 }

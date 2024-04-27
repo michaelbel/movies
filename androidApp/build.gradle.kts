@@ -1,7 +1,8 @@
+
 import com.google.firebase.appdistribution.gradle.AppDistributionExtension
+import java.io.FileInputStream
 import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
-import java.io.FileInputStream
 
 @Suppress("dsl_scope_violation")
 
@@ -12,7 +13,7 @@ plugins {
     alias(libs.plugins.palantir.git)
 }
 
-val gitCommitsCount by lazy {
+private val gitCommitsCount by lazy {
     val stdout = ByteArrayOutputStream()
     rootProject.exec {
         commandLine("git", "rev-list", "--count", "HEAD")

@@ -6,6 +6,10 @@ import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.persistence.database.entity.MoviePojo
 import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
+import org.michaelbel.movies.persistence.database.typealiases.Limit
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
+import org.michaelbel.movies.persistence.database.typealiases.PagingKey
+import org.michaelbel.movies.persistence.database.typealiases.Query
 
 interface MovieInteractor {
 
@@ -14,46 +18,46 @@ interface MovieInteractor {
     ): Flow<PagingData<MoviePojo>>
 
     fun moviesPagingData(
-        searchQuery: String
+        searchQuery: Query
     ): Flow<PagingData<MoviePojo>>
 
     fun moviesPagingSource(
-        pagingKey: String
+        pagingKey: PagingKey
     ): PagingSource<Int, MoviePojo>
 
     fun moviesFlow(
-        pagingKey: String,
-        limit: Int
+        pagingKey: PagingKey,
+        limit: Limit
     ): Flow<List<MoviePojo>>
 
     suspend fun movie(
-        pagingKey: String,
-        movieId: Int
+        pagingKey: PagingKey,
+        movieId: MovieId
     ): MoviePojo
 
     suspend fun movieDetails(
-        pagingKey: String,
-        movieId: Int
+        pagingKey: PagingKey,
+        movieId: MovieId
     ): MoviePojo
 
     suspend fun moviesWidget(): List<MovieDbMini>
 
     suspend fun removeMovies(
-        pagingKey: String
+        pagingKey: PagingKey
     )
 
     suspend fun removeMovie(
-        pagingKey: String,
-        movieId: Int
+        pagingKey: PagingKey,
+        movieId: MovieId
     )
 
     suspend fun insertMovie(
-        pagingKey: String,
+        pagingKey: PagingKey,
         movie: MoviePojo
     )
 
     suspend fun updateMovieColors(
-        movieId: Int,
+        movieId: MovieId,
         containerColor: Int,
         onContainerColor: Int
     )

@@ -4,12 +4,19 @@ package org.michaelbel.movies.persistence.database
 
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.persistence.database.entity.AccountPojo
+import org.michaelbel.movies.persistence.database.typealiases.AccountId
 
 expect class AccountPersistence {
 
-    fun accountById(accountId: Int): Flow<AccountPojo?>
+    fun accountById(
+        accountId: AccountId
+    ): Flow<AccountPojo?>
 
-    suspend fun insert(account: AccountPojo)
+    suspend fun insert(
+        account: AccountPojo
+    )
 
-    suspend fun removeById(accountId: Int)
+    suspend fun removeById(
+        accountId: AccountId
+    )
 }

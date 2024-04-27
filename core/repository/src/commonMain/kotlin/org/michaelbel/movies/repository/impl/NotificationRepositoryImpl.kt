@@ -1,5 +1,6 @@
 package org.michaelbel.movies.repository.impl
 
+import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import org.michaelbel.movies.repository.NotificationRepository
 
@@ -8,7 +9,7 @@ internal class NotificationRepositoryImpl(
 ): NotificationRepository {
 
     override suspend fun notificationExpireTime(): Long {
-        return preferences.notificationExpireTime() ?: 0L
+        return preferences.notificationExpireTime().orEmpty()
     }
 
     override suspend fun updateNotificationExpireTime() {

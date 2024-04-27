@@ -1,10 +1,12 @@
 package org.michaelbel.movies.persistence.database.entity
 
 import androidx.room.Entity
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
+import org.michaelbel.movies.persistence.database.typealiases.Position
 
 @Entity(tableName = "images", primaryKeys = ["movieId", "filePath"])
 internal data class ImageDb(
-    val movieId: Int,
+    val movieId: MovieId,
     val filePath: String,
     val type: ImageType,
     val width: Int,
@@ -13,5 +15,5 @@ internal data class ImageDb(
     val voteAverage: Float,
     val voteCount: Int,
     val lang: String?,
-    val position: Int
+    val position: Position
 )

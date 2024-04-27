@@ -12,7 +12,9 @@ actual class SuggestionPersistence internal constructor() {
         return emptyFlow()
     }
 
-    actual suspend fun insert(suggestions: List<SuggestionPojo>) {}
+    actual suspend fun insert(
+        suggestions: List<SuggestionPojo>
+    ) {}
 
     actual suspend fun removeAll() {}
 }

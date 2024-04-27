@@ -20,6 +20,10 @@ import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.persistence.database.MoviesDatabase
 import org.michaelbel.movies.persistence.database.entity.MoviePojo
 import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
+import org.michaelbel.movies.persistence.database.typealiases.Limit
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
+import org.michaelbel.movies.persistence.database.typealiases.PagingKey
+import org.michaelbel.movies.persistence.database.typealiases.Query
 import org.michaelbel.movies.repository.MovieRepository
 import org.michaelbel.movies.repository.PagingKeyRepository
 import org.michaelbel.movies.repository.SearchRepository
@@ -46,14 +50,14 @@ internal class MovieInteractorImpl(
                 movieRepository = movieRepository,
                 pagingKeyRepository = pagingKeyRepository,
                 moviesDatabase = moviesDatabase,
-                movieList = MovieList.name(movieList)
+                pagingKey = MovieList.name(movieList)
             ),
             pagingSourceFactory = { movieRepository.moviesPagingSource(movieList.nameOrLocalList) }
         ).flow
     }
 
     override fun moviesPagingData(
-        searchQuery: String
+        searchQuery: Query
     ): Flow<PagingData<MoviePojo>> {
         return Pager(
             config = PagingConfig(
@@ -73,14 +77,14 @@ internal class MovieInteractorImpl(
     }
 
     override fun moviesPagingSource(
-        pagingKey: String
+        pagingKey: PagingKey
     ): PagingSource<Int, MoviePojo> {
         return movieRepository.moviesPagingSource(pagingKey)
     }
 
     override fun moviesFlow(
-        pagingKey: String,
-        limit: Int
+        pagingKey: PagingKey,
+        limit: Limit
     ): Flow<List<MoviePojo>> {
         return movieRepository.moviesFlow(pagingKey, limit)
     }
@@ -90,41 +94,41 @@ internal class MovieInteractorImpl(
     }
 
     override suspend fun movie(
-        pagingKey: String,
-        movieId: Int
+        pagingKey: PagingKey,
+        movieId: MovieId
     ): MoviePojo {
         return withContext(dispatchers.io) { movieRepository.movie(pagingKey, movieId) }
     }
 
     override suspend fun movieDetails(
-        pagingKey: String,
-        movieId: Int
+        pagingKey: PagingKey,
+        movieId: MovieId
     ): MoviePojo {
         return withContext(dispatchers.io) { movieRepository.movieDetails(pagingKey, localeInteractor.language, movieId) }
     }
 
     override suspend fun removeMovies(
-        pagingKey: String
+        pagingKey: PagingKey
     ) {
         return withContext(dispatchers.io) { movieRepository.removeMovies(pagingKey) }
     }
 
     override suspend fun removeMovie(
-        pagingKey: String,
-        movieId: Int
+        pagingKey: PagingKey,
+        movieId: MovieId
     ) {
         return withContext(dispatchers.io) { movieRepository.removeMovie(pagingKey, movieId) }
     }
 
     override suspend fun insertMovie(
-        pagingKey: String,
+        pagingKey: PagingKey,
         movie: MoviePojo
     ) {
         return withContext(dispatchers.io) { movieRepository.insertMovie(pagingKey, movie) }
     }
 
     override suspend fun updateMovieColors(
-        movieId: Int,
+        movieId: MovieId,
         containerColor: Int,
         onContainerColor: Int
     ) {

@@ -6,8 +6,9 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import moe.tlaster.precompose.navigation.Navigator
 import moe.tlaster.precompose.navigation.RouteBuilder
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
 
-fun Navigator.navigateToGallery(movieId: Int) {
+fun Navigator.navigateToGallery(movieId: MovieId) {
     navigate("gallery/$movieId")
 }
 
@@ -21,7 +22,7 @@ fun RouteBuilder.galleryGraph(
     }
 }
 
-fun NavController.navigateToGallery(movieId: Int) {
+fun NavController.navigateToGallery(movieId: MovieId) {
     navigate("gallery/$movieId")
 }
 

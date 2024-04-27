@@ -1,7 +1,9 @@
 package org.michaelbel.movies.persistence.database.entity
 
+import org.michaelbel.movies.persistence.database.typealiases.AccountId
+
 data class AccountPojo(
-    val accountId: Int,
+    val accountId: AccountId,
     val avatarUrl: String,
     val language: String,
     val country: String,

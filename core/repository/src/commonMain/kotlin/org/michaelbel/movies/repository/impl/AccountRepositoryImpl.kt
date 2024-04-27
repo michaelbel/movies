@@ -11,6 +11,7 @@ import org.michaelbel.movies.network.AccountNetworkService
 import org.michaelbel.movies.persistence.database.AccountPersistence
 import org.michaelbel.movies.persistence.database.entity.AccountPojo
 import org.michaelbel.movies.persistence.database.ktx.accountPojo
+import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import org.michaelbel.movies.repository.AccountRepository
 
@@ -21,7 +22,7 @@ internal class AccountRepositoryImpl(
 ): AccountRepository {
 
     override val account: Flow<AccountPojo?> = preferences.accountIdFlow
-        .map { accountId -> accountId ?: 0 }
+        .map { accountId -> accountId.orEmpty() }
         .flatMapLatest(accountPersistence::accountById)
 
     override suspend fun accountId(): Int {

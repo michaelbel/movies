@@ -5,20 +5,21 @@ package org.michaelbel.movies.persistence.database
 import org.michaelbel.movies.persistence.database.dao.PagingKeyDao
 import org.michaelbel.movies.persistence.database.entity.PagingKeyPojo
 import org.michaelbel.movies.persistence.database.ktx.pagingKeyDb
+import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 
 actual class PagingKeyPersistence internal constructor(
     private val pagingKeyDao: PagingKeyDao
 ) {
 
-    actual suspend fun page(pagingKey: String): Int? {
+    actual suspend fun page(pagingKey: PagingKey): Int? {
         return pagingKeyDao.page(pagingKey)
     }
 
-    actual suspend fun totalPages(pagingKey: String): Int? {
+    actual suspend fun totalPages(pagingKey: PagingKey): Int? {
         return pagingKeyDao.totalPages(pagingKey)
     }
 
-    actual suspend fun removePagingKey(pagingKey: String) {
+    actual suspend fun removePagingKey(pagingKey: PagingKey) {
         pagingKeyDao.removePagingKey(pagingKey)
     }
 

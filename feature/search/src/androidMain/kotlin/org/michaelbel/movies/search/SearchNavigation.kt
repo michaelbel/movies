@@ -4,6 +4,8 @@ import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import androidx.navigation.navDeepLink
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
+import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 import org.michaelbel.movies.search.ui.SearchRoute
 import org.michaelbel.movies.ui.shortcuts.INTENT_ACTION_SEARCH
 
@@ -13,7 +15,7 @@ fun NavController.navigateToSearch() {
 
 fun NavGraphBuilder.searchGraph(
     navigateBack: () -> Unit,
-    navigateToDetails: (String, Int) -> Unit,
+    navigateToDetails: (PagingKey, MovieId) -> Unit,
 ) {
     composable(
         route = SearchDestination.route,

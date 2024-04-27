@@ -4,10 +4,15 @@ package org.michaelbel.movies.persistence.database
 
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.persistence.database.entity.ImagePojo
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
 
 expect class ImagePersistence {
 
-    fun imagesFlow(movieId: Int): Flow<List<ImagePojo>>
+    fun imagesFlow(
+        movieId: MovieId
+    ): Flow<List<ImagePojo>>
 
-    suspend fun insert(images: List<ImagePojo>)
+    suspend fun insert(
+        images: List<ImagePojo>
+    )
 }

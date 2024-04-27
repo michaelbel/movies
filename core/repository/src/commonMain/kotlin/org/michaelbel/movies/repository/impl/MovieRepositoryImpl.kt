@@ -14,6 +14,10 @@ import org.michaelbel.movies.persistence.database.entity.MoviePojo
 import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
 import org.michaelbel.movies.persistence.database.ktx.moviePojo
 import org.michaelbel.movies.persistence.database.ktx.orEmpty
+import org.michaelbel.movies.persistence.database.typealiases.Limit
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
+import org.michaelbel.movies.persistence.database.typealiases.Page
+import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 import org.michaelbel.movies.repository.MovieRepository
 import org.michaelbel.movies.repository.ktx.checkApiKeyNotNullException
 
@@ -23,45 +27,45 @@ internal class MovieRepositoryImpl(
 ): MovieRepository {
 
     override fun moviesPagingSource(
-        pagingKey: String
+        pagingKey: PagingKey
     ): PagingSource<Int, MoviePojo> {
         return moviePersistence.pagingSource(pagingKey)
     }
 
     override fun moviesFlow(
-        pagingKey: String,
-        limit: Int
+        pagingKey: PagingKey,
+        limit: Limit
     ): Flow<List<MoviePojo>> {
         return moviePersistence.moviesFlow(pagingKey, limit)
     }
 
     override suspend fun moviesResult(
-        movieList: String,
+        pagingKey: PagingKey,
         language: String,
-        page: Int
+        page: Page
     ): Result<MovieResponse> {
         if (isTmdbApiKeyEmpty && moviePersistence.isEmpty(MoviePojo.MOVIES_LOCAL_LIST)) {
             checkApiKeyNotNullException()
         }
 
         return movieNetworkService.movies(
-            list = movieList,
+            list = pagingKey,
             language = language,
             page = page
         )
     }
 
     override suspend fun movie(
-        pagingKey: String,
-        movieId: Int
+        pagingKey: PagingKey,
+        movieId: MovieId
     ): MoviePojo {
         return moviePersistence.movieById(pagingKey, movieId).orEmpty
     }
 
     override suspend fun movieDetails(
-        pagingKey: String,
+        pagingKey: PagingKey,
         language: String,
-        movieId: Int
+        movieId: MovieId
     ): MoviePojo {
         return try {
             moviePersistence.movieById(pagingKey, movieId) ?: movieNetworkService.movie(movieId, language).moviePojo
@@ -96,21 +100,24 @@ internal class MovieRepositoryImpl(
     }
 
     override suspend fun removeMovies(
-        pagingKey: String
+        pagingKey: PagingKey
     ) {
         moviePersistence.removeMovies(pagingKey)
     }
 
-    override suspend fun removeMovie(pagingKey: String, movieId: Int) {
+    override suspend fun removeMovie(
+        pagingKey: PagingKey,
+        movieId: MovieId
+    ) {
         moviePersistence.removeMovie(pagingKey, movieId)
     }
 
     override suspend fun insertMovies(
-        pagingKey: String,
-        page: Int,
+        pagingKey: PagingKey,
+        page: Page,
         movies: List<MovieResponse>
     ) {
-        val maxPosition = moviePersistence.maxPosition(pagingKey) ?: 0
+        val maxPosition = moviePersistence.maxPosition(pagingKey).orEmpty()
         val moviesDb = movies.mapIndexed { index, movieResponse ->
             movieResponse.moviePojo(
                 movieList = pagingKey,
@@ -122,10 +129,10 @@ internal class MovieRepositoryImpl(
     }
 
     override suspend fun insertMovie(
-        pagingKey: String,
+        pagingKey: PagingKey,
         movie: MoviePojo
     ) {
-        val maxPosition = moviePersistence.maxPosition(pagingKey) ?: 0
+        val maxPosition = moviePersistence.maxPosition(pagingKey).orEmpty()
         moviePersistence.insertMovie(
             movie.copy(
                 movieList = pagingKey,
@@ -136,7 +143,7 @@ internal class MovieRepositoryImpl(
     }
 
     override suspend fun updateMovieColors(
-        movieId: Int,
+        movieId: MovieId,
         containerColor: Int,
         onContainerColor: Int
     ) {

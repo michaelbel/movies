@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.persistence.database.entity.MoviePojo
 import org.michaelbel.movies.persistence.database.entity.SuggestionPojo
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
+import org.michaelbel.movies.persistence.database.typealiases.Query
 import org.michaelbel.movies.search_impl.R
 import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
 import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
@@ -37,16 +39,16 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 @Composable
 internal fun SearchToolbar(
     query: String,
-    onQueryChange: (String) -> Unit,
-    onSearch: (String) -> Unit,
+    onQueryChange: (Query) -> Unit,
+    onSearch: (Query) -> Unit,
     active: Boolean,
     onActiveChange: (Boolean) -> Unit,
     onBackClick: () -> Unit,
     onCloseClick: () -> Unit,
-    onInputText: (String) -> Unit,
+    onInputText: (Query) -> Unit,
     suggestions: List<SuggestionPojo>,
     searchHistoryMovies: List<MoviePojo>,
-    onHistoryMovieRemoveClick: (Int) -> Unit,
+    onHistoryMovieRemoveClick: (MovieId) -> Unit,
     onClearHistoryClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {

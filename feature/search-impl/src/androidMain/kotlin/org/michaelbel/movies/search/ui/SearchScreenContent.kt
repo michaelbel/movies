@@ -36,6 +36,9 @@ import org.michaelbel.movies.common.exceptions.PageEmptyException
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.persistence.database.entity.MoviePojo
 import org.michaelbel.movies.persistence.database.entity.SuggestionPojo
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
+import org.michaelbel.movies.persistence.database.typealiases.PagingKey
+import org.michaelbel.movies.persistence.database.typealiases.Query
 import org.michaelbel.movies.ui.compose.page.PageContent
 import org.michaelbel.movies.ui.compose.page.PageFailure
 import org.michaelbel.movies.ui.compose.page.PageLoading
@@ -55,10 +58,10 @@ internal fun SearchScreenContent(
     suggestions: List<SuggestionPojo>,
     searchHistoryMovies: List<MoviePojo>,
     onBackClick: () -> Unit,
-    onNavigateToDetails: (String, Int) -> Unit,
-    onChangeSearchQuery: (String) -> Unit,
-    onSaveMovieToHistory: (Int) -> Unit,
-    onRemoveMovieFromHistory: (Int) -> Unit,
+    onNavigateToDetails: (PagingKey, MovieId) -> Unit,
+    onChangeSearchQuery: (Query) -> Unit,
+    onSaveMovieToHistory: (MovieId) -> Unit,
+    onRemoveMovieFromHistory: (MovieId) -> Unit,
     onHistoryClear: () -> Unit,
     active: Boolean,
     onChangeActiveState: (Boolean) -> Unit,

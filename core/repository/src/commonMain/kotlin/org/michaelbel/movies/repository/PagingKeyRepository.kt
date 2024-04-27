@@ -1,26 +1,29 @@
 package org.michaelbel.movies.repository
 
+import org.michaelbel.movies.persistence.database.typealiases.Page
+import org.michaelbel.movies.persistence.database.typealiases.PagingKey
+
 interface PagingKeyRepository {
 
     suspend fun page(
-        pagingKey: String
+        pagingKey: PagingKey
     ): Int?
 
     suspend fun totalPages(
-        pagingKey: String
+        pagingKey: PagingKey
     ): Int?
 
     suspend fun prevPage(
-        pagingKey: String
+        pagingKey: PagingKey
     ): Int?
 
     suspend fun removePagingKey(
-        pagingKey: String
+        pagingKey: PagingKey
     )
 
     suspend fun insertPagingKey(
-        pagingKey: String,
-        page: Int,
+        pagingKey: PagingKey,
+        page: Page,
         totalPages: Int
     )
 }

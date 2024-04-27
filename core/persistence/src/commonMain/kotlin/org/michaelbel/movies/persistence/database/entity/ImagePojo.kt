@@ -1,7 +1,9 @@
 package org.michaelbel.movies.persistence.database.entity
 
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
+
 data class ImagePojo(
-    val movieId: Int,
+    val movieId: MovieId,
     val filePath: String,
     val type: ImageType,
     val width: Int,

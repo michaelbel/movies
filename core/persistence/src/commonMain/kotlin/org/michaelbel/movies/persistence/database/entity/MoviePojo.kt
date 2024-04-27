@@ -1,11 +1,16 @@
 package org.michaelbel.movies.persistence.database.entity
 
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
+import org.michaelbel.movies.persistence.database.typealiases.Page
+import org.michaelbel.movies.persistence.database.typealiases.PagingKey
+import org.michaelbel.movies.persistence.database.typealiases.Position
+
 data class MoviePojo(
-    val movieList: String,
+    val movieList: PagingKey,
     val dateAdded: Long,
-    val page: Int?,
-    val position: Int,
-    val movieId: Int,
+    val page: Page?,
+    val position: Position,
+    val movieId: MovieId,
     val overview: String,
     val posterPath: String,
     val backdropPath: String,

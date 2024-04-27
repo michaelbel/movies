@@ -16,6 +16,8 @@ import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.network.config.ScreenState
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
+import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 
 class DetailsViewModel(
     savedStateHandle: SavedStateHandle,
@@ -23,8 +25,8 @@ class DetailsViewModel(
     private val interactor: Interactor
 ): BaseViewModel() {
 
-    private val movieList: String? = savedStateHandle["movieList"]
-    private val movieId: Int = savedStateHandle.require("movieId")
+    private val movieList: PagingKey? = savedStateHandle["movieList"]
+    private val movieId: MovieId = savedStateHandle.require("movieId")
 
     private val _detailsState = MutableStateFlow<ScreenState>(ScreenState.Loading)
     val detailsState = _detailsState.asStateFlow()
@@ -56,7 +58,7 @@ class DetailsViewModel(
 
     fun retry() = loadMovie()
 
-    fun onGenerateColors(movieId: Int, palette: Palette) = launch {
+    fun onGenerateColors(movieId: MovieId, palette: Palette) = launch {
         val containerColor = palette.vibrantSwatch?.rgb
         val onContainerColor = palette.vibrantSwatch?.bodyTextColor
         if (containerColor != null && onContainerColor != null) {

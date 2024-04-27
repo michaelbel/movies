@@ -3,18 +3,27 @@
 package org.michaelbel.movies.persistence.database
 
 import org.michaelbel.movies.persistence.database.entity.PagingKeyPojo
+import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 
 actual class PagingKeyPersistence internal constructor() {
 
-    actual suspend fun page(pagingKey: String): Int? {
+    actual suspend fun page(
+        pagingKey: PagingKey
+    ): Int? {
         return null
     }
 
-    actual suspend fun totalPages(pagingKey: String): Int? {
+    actual suspend fun totalPages(
+        pagingKey: PagingKey
+    ): Int? {
         return null
     }
 
-    actual suspend fun removePagingKey(pagingKey: String) {}
+    actual suspend fun removePagingKey(
+        pagingKey: PagingKey
+    ) {}
 
-    actual suspend fun insertPagingKey(pagingKeyPojo: PagingKeyPojo) {}
+    actual suspend fun insertPagingKey(
+        pagingKeyPojo: PagingKeyPojo
+    ) {}
 }

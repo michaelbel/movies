@@ -5,6 +5,7 @@ import kotlinx.coroutines.withContext
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.interactor.ImageInteractor
 import org.michaelbel.movies.persistence.database.entity.ImagePojo
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
 import org.michaelbel.movies.repository.ImageRepository
 
 internal class ImageInteractorImpl(
@@ -13,13 +14,13 @@ internal class ImageInteractorImpl(
 ): ImageInteractor {
 
     override fun imagesFlow(
-        movieId: Int
+        movieId: MovieId
     ): Flow<List<ImagePojo>> {
         return imageRepository.imagesFlow(movieId)
     }
 
     override suspend fun images(
-        movieId: Int
+        movieId: MovieId
     ) {
         return withContext(dispatchers.io) { imageRepository.images(movieId) }
     }

@@ -1,7 +1,10 @@
 package org.michaelbel.movies.persistence.database.entity
 
+import org.michaelbel.movies.persistence.database.typealiases.Page
+import org.michaelbel.movies.persistence.database.typealiases.PagingKey
+
 data class PagingKeyPojo(
-    val pagingKey: String,
-    val page: Int?,
+    val pagingKey: PagingKey,
+    val page: Page?,
     val totalPages: Int?
 )
