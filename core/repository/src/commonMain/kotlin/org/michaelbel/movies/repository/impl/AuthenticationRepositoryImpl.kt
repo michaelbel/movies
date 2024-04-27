@@ -62,7 +62,7 @@ internal class AuthenticationRepositoryImpl(
         return try {
             val session = authenticationNetworkService.createSession(RequestToken(token))
             if (session.success) {
-                preferences.setSessionId(session.sessionId)
+                preferences.setValue(MoviesPreferences.PreferenceKey.PreferenceSessionIdKey, session.sessionId)
             } else {
                 throw CreateSessionException
             }
@@ -80,8 +80,8 @@ internal class AuthenticationRepositoryImpl(
                 val accountId = preferences.accountId()
                 accountPersistence.removeById(accountId)
                 preferences.run {
-                    removeSessionId()
-                    removeAccountId()
+                    removeValue(MoviesPreferences.PreferenceKey.PreferenceSessionIdKey)
+                    removeValue(MoviesPreferences.PreferenceKey.PreferenceAccountKey)
                 }
             } else {
                 throw DeleteSessionException

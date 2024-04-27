@@ -14,6 +14,6 @@ internal class NotificationRepositoryImpl(
 
     override suspend fun updateNotificationExpireTime() {
         val currentTime = System.currentTimeMillis()
-        preferences.setNotificationExpireTime(currentTime)
+        preferences.setValue(MoviesPreferences.PreferenceKey.PreferenceNotificationExpireTimeKey, currentTime)
     }
 }

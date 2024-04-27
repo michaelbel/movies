@@ -38,8 +38,8 @@ internal class AccountRepositoryImpl(
             val sessionId = preferences.sessionId().orEmpty()
             val account = accountNetworkService.accountDetails(sessionId)
             preferences.run {
-                setAccountId(account.id)
-                setAccountExpireTime(System.currentTimeMillis())
+                setValue(MoviesPreferences.PreferenceKey.PreferenceAccountKey, account.id)
+                setValue(MoviesPreferences.PreferenceKey.PreferenceAccountExpireTimeKey, System.currentTimeMillis())
             }
             accountPersistence.insert(account.accountPojo)
         }.onFailure {

@@ -60,48 +60,48 @@ internal class SettingsRepositoryImpl(
     override suspend fun selectTheme(
         appTheme: AppTheme
     ) {
-        preferences.setTheme(appTheme.toString())
+        preferences.setValue(MoviesPreferences.PreferenceKey.PreferenceThemeKey, appTheme.toString())
     }
 
     override suspend fun selectFeedView(
         feedView: FeedView
     ) {
-        preferences.setFeedView(feedView.toString())
+        preferences.setValue(MoviesPreferences.PreferenceKey.PreferenceFeedViewKey, feedView.toString())
     }
 
     override suspend fun selectMovieList(
         movieList: MovieList
     ) {
-        preferences.setMovieList(movieList.toString())
+        preferences.setValue(MoviesPreferences.PreferenceKey.PreferenceMovieListKey, movieList.toString())
     }
 
     override suspend fun setDynamicColors(
         value: Boolean
     ) {
-        preferences.setDynamicColors(value)
+        preferences.setValue(MoviesPreferences.PreferenceKey.PreferenceDynamicColorsKey, value)
     }
 
     override suspend fun setPaletteKey(
         paletteKey: Int
     ) {
-        preferences.setPaletteKey(paletteKey)
+        preferences.setValue(MoviesPreferences.PreferenceKey.PreferencePaletteKey, paletteKey)
     }
 
     override suspend fun setSeedColor(
         seedColor: Int
     ) {
-        preferences.setSeedColor(seedColor)
+        preferences.setValue(MoviesPreferences.PreferenceKey.PreferenceSeedColorKey, seedColor)
     }
 
     override suspend fun setBiometricEnabled(
         enabled: Boolean
     ) {
-        preferences.setBiometricEnabled(enabled)
+        preferences.setValue(MoviesPreferences.PreferenceKey.PreferenceBiometricKey, enabled)
     }
 
     override suspend fun setScreenshotBlockEnabled(
         enabled: Boolean
     ) {
-        preferences.setScreenshotBlockEnabled(enabled)
+        preferences.setValue(MoviesPreferences.PreferenceKey.PreferenceScreenshotBlockKey, enabled)
     }
 }

@@ -11,8 +11,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import org.michaelbel.movies.persistence.database.ktx.orEmpty
-import org.michaelbel.movies.persistence.database.typealiases.AccountId
-import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 
 class MoviesPreferences(
     private val dataStore: DataStore<Preferences>
@@ -49,103 +47,31 @@ class MoviesPreferences(
         return dataStore.data.first()[PREFERENCE_BIOMETRIC_KEY].orEmpty()
     }
 
-    suspend fun setTheme(theme: String) {
-        dataStore.edit { preferences ->
-            preferences[PREFERENCE_THEME_KEY] = theme
-        }
-    }
-
-    suspend fun setFeedView(feedView: String) {
-        dataStore.edit { preferences ->
-            preferences[PREFERENCE_FEED_VIEW_KEY] = feedView
-        }
-    }
-
-    suspend fun setMovieList(movieList: PagingKey) {
-        dataStore.edit { preferences ->
-            preferences[PREFERENCE_MOVIE_LIST_KEY] = movieList
-        }
-    }
-
-    suspend fun setDynamicColors(isDynamicColors: Boolean) {
-        dataStore.edit { preferences ->
-            preferences[PREFERENCE_DYNAMIC_COLORS_KEY] = isDynamicColors
-        }
-    }
-
-    suspend fun sessionId(): String? {
-        return dataStore.data.first()[PREFERENCE_SESSION_ID_KEY]
-    }
-
-    suspend fun setSessionId(sessionId: String) {
-        dataStore.edit { preferences ->
-            preferences[PREFERENCE_SESSION_ID_KEY] = sessionId
-        }
-    }
-
-    suspend fun removeSessionId() {
-        dataStore.edit { preferences ->
-            preferences.remove(PREFERENCE_SESSION_ID_KEY)
-        }
-    }
-
     suspend fun accountId(): Int {
         return dataStore.data.first()[PREFERENCE_ACCOUNT_ID_KEY].orEmpty()
-    }
-
-    suspend fun setAccountId(accountId: AccountId) {
-        dataStore.edit { preferences ->
-            preferences[PREFERENCE_ACCOUNT_ID_KEY] = accountId
-        }
-    }
-
-    suspend fun removeAccountId() {
-        dataStore.edit { preferences ->
-            preferences.remove(PREFERENCE_ACCOUNT_ID_KEY)
-        }
     }
 
     suspend fun accountExpireTime(): Long? {
         return dataStore.data.first()[PREFERENCE_ACCOUNT_EXPIRE_TIME_KEY]
     }
 
-    suspend fun setAccountExpireTime(expireTime: Long) {
-        dataStore.edit { preferences ->
-            preferences[PREFERENCE_ACCOUNT_EXPIRE_TIME_KEY] = expireTime
-        }
-    }
-
     suspend fun notificationExpireTime(): Long? {
         return dataStore.data.first()[PREFERENCE_NOTIFICATION_EXPIRE_TIME_KEY]
     }
 
-    suspend fun setNotificationExpireTime(expireTime: Long) {
+    suspend fun sessionId(): String? {
+        return dataStore.data.first()[PREFERENCE_SESSION_ID_KEY]
+    }
+
+    suspend fun <T> setValue(key: PreferenceKey<T>, value: T) {
         dataStore.edit { preferences ->
-            preferences[PREFERENCE_NOTIFICATION_EXPIRE_TIME_KEY] = expireTime
+            preferences[key.preferenceKey] = value
         }
     }
 
-    suspend fun setBiometricEnabled(enabled: Boolean) {
+    suspend fun <T> removeValue(key: PreferenceKey<T>) {
         dataStore.edit { preferences ->
-            preferences[PREFERENCE_BIOMETRIC_KEY] = enabled
-        }
-    }
-
-    suspend fun setScreenshotBlockEnabled(enabled: Boolean) {
-        dataStore.edit { preferences ->
-            preferences[PREFERENCE_SCREENSHOT_BLOCK_KEY] = enabled
-        }
-    }
-
-    suspend fun setPaletteKey(paletteKey: Int) {
-        dataStore.edit { preferences ->
-            preferences[PREFERENCE_PALETTE_KEY] = paletteKey
-        }
-    }
-
-    suspend fun setSeedColor(seedColor: Int) {
-        dataStore.edit { preferences ->
-            preferences[PREFERENCE_SEED_COLOR_KEY] = seedColor
+            preferences.remove(key.preferenceKey)
         }
     }
 
@@ -162,5 +88,22 @@ class MoviesPreferences(
         private val PREFERENCE_PALETTE_KEY = intPreferencesKey("palette")
         private val PREFERENCE_SEED_COLOR_KEY = intPreferencesKey("seed_color")
         private val PREFERENCE_SCREENSHOT_BLOCK_KEY = booleanPreferencesKey("screenshot_block")
+    }
+
+    sealed class PreferenceKey<T>(
+        val preferenceKey: Preferences.Key<T>
+    ) {
+        data object PreferenceThemeKey: PreferenceKey<String>(PREFERENCE_THEME_KEY)
+        data object PreferenceFeedViewKey: PreferenceKey<String>(PREFERENCE_FEED_VIEW_KEY)
+        data object PreferenceMovieListKey: PreferenceKey<String>(PREFERENCE_MOVIE_LIST_KEY)
+        data object PreferenceDynamicColorsKey: PreferenceKey<Boolean>(PREFERENCE_DYNAMIC_COLORS_KEY)
+        data object PreferenceSessionIdKey: PreferenceKey<String>(PREFERENCE_SESSION_ID_KEY)
+        data object PreferenceAccountKey: PreferenceKey<Int>(PREFERENCE_ACCOUNT_ID_KEY)
+        data object PreferenceAccountExpireTimeKey: PreferenceKey<Long>(PREFERENCE_ACCOUNT_EXPIRE_TIME_KEY)
+        data object PreferenceNotificationExpireTimeKey: PreferenceKey<Long>(PREFERENCE_NOTIFICATION_EXPIRE_TIME_KEY)
+        data object PreferenceBiometricKey: PreferenceKey<Boolean>(PREFERENCE_BIOMETRIC_KEY)
+        data object PreferencePaletteKey: PreferenceKey<Int>(PREFERENCE_PALETTE_KEY)
+        data object PreferenceSeedColorKey: PreferenceKey<Int>(PREFERENCE_SEED_COLOR_KEY)
+        data object PreferenceScreenshotBlockKey: PreferenceKey<Boolean>(PREFERENCE_SCREENSHOT_BLOCK_KEY)
     }
 }
