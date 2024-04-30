@@ -22,9 +22,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
@@ -39,11 +41,12 @@ internal fun DebugActivityContent(
     viewModel: DebugViewModel = koinViewModel(),
     enableEdgeToEdge: (Any, Any) -> Unit
 ) {
-    val themeData by viewModel.themeData.collectAsStateWithLifecycle()
+    val themeData by viewModel.themeDataFlow.collectAsStateWithLifecycle()
+    val firebaseToken by viewModel.firebaseTokenFlow.collectAsStateWithLifecycle("")
 
     val context = LocalContext.current
+    val clipboardManager = LocalClipboardManager.current
     val resultContract = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
-
     val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         state = rememberTopAppBarState(),
         canScroll = { true }
@@ -91,6 +94,23 @@ internal fun DebugActivityContent(
                         icon = painterResource(MoviesAndroidIcons.SettingsAccountBox24),
                         onClick = { resultContract.launch(Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS)) }
                     )
+                }
+                if (viewModel.isFirebaseTokenFeatureEnabled) {
+                    item {
+                        HorizontalDivider(
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                            thickness = .1.dp,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    }
+                    item {
+                        SettingItem(
+                            title = stringResource(R.string.debug_firebase_token),
+                            description = stringResource(R.string.debug_firebase_token_copy),
+                            icon = painterResource(MoviesAndroidIcons.Firebase24),
+                            onClick = { clipboardManager.setText(AnnotatedString(firebaseToken)) }
+                        )
+                    }
                 }
             }
         }

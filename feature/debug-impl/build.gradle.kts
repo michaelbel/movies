@@ -17,6 +17,7 @@ kotlin {
         commonMain.dependencies {
             api(project(":core:common"))
             api(project(":core:ui"))
+            implementation(project(":core:platform-services:interactor"))
             implementation(project(":core:interactor"))
             implementation(project(":core:navigation"))
         }

@@ -3,4 +3,6 @@
     <string name="debug_title">Debug Settings</string>
     <string name="debug_app_settings">App Settings</string>
     <string name="debug_developer_settings">Developer Settings</string>
+    <string name="debug_firebase_token">Firebase Token</string>
+    <string name="debug_firebase_token_copy">Click to copy</string>
 </resources>

@@ -6,4 +6,8 @@ import org.michaelbel.movies.platform.messaging.TokenListener
 class MessagingServiceImpl: MessagingService {
 
     override fun setTokenListener(listener: TokenListener) {}
+
+    override suspend fun awaitToken(): String {
+        return ""
+    }
 }
