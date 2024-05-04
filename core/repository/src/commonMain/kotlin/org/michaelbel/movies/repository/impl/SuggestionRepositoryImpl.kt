@@ -5,7 +5,7 @@ import org.michaelbel.movies.network.MovieNetworkService
 import org.michaelbel.movies.network.model.Movie
 import org.michaelbel.movies.persistence.database.MoviePersistence
 import org.michaelbel.movies.persistence.database.SuggestionPersistence
-import org.michaelbel.movies.persistence.database.entity.SuggestionPojo
+import org.michaelbel.movies.persistence.database.entity.pojo.SuggestionPojo
 import org.michaelbel.movies.repository.SuggestionRepository
 
 internal class SuggestionRepositoryImpl(

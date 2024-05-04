@@ -28,8 +28,8 @@ import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.notifications.NotificationClient
-import org.michaelbel.movies.persistence.database.entity.AccountPojo
-import org.michaelbel.movies.persistence.database.entity.MoviePojo
+import org.michaelbel.movies.persistence.database.entity.pojo.AccountPojo
+import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 
 class FeedViewModel(
     savedStateHandle: SavedStateHandle,

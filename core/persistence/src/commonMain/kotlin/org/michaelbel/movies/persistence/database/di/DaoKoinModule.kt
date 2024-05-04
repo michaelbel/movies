@@ -1,5 +1,15 @@
 package org.michaelbel.movies.persistence.database.di
 
-import org.koin.core.module.Module
+import org.koin.dsl.module
+import org.michaelbel.movies.persistence.database.db.AppDatabase
 
-expect val daoKoinModule: Module
+internal val daoKoinModule = module {
+    includes(
+        databaseKoinModule
+    )
+    single { get<AppDatabase>().movieDao() }
+    single { get<AppDatabase>().imageDao() }
+    single { get<AppDatabase>().accountDao() }
+    single { get<AppDatabase>().pagingKeyDao() }
+    single { get<AppDatabase>().suggestionDao() }
+}

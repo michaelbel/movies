@@ -4,7 +4,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.withContext
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.interactor.AccountInteractor
-import org.michaelbel.movies.persistence.database.entity.AccountPojo
+import org.michaelbel.movies.persistence.database.entity.pojo.AccountPojo
 import org.michaelbel.movies.persistence.database.typealiases.AccountId
 import org.michaelbel.movies.repository.AccountRepository
 

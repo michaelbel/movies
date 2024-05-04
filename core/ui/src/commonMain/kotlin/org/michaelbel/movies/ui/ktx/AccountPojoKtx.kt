@@ -3,7 +3,7 @@ package org.michaelbel.movies.ui.ktx
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.sp
-import org.michaelbel.movies.persistence.database.entity.AccountPojo
+import org.michaelbel.movies.persistence.database.entity.pojo.AccountPojo
 import org.michaelbel.movies.persistence.database.ktx.letters
 
 val AccountPojo.lettersTextFontSizeSmall: TextUnit

@@ -6,7 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.persistence.database.entity.SuggestionDb
-import org.michaelbel.movies.persistence.database.entity.SuggestionPojo
+import org.michaelbel.movies.persistence.database.entity.pojo.SuggestionPojo
 
 /**
  * The Data Access Object for the [SuggestionDb] class.

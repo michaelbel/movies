@@ -1,7 +1,7 @@
 package org.michaelbel.movies.repository.impl
 
 import org.michaelbel.movies.persistence.database.PagingKeyPersistence
-import org.michaelbel.movies.persistence.database.entity.PagingKeyPojo
+import org.michaelbel.movies.persistence.database.entity.pojo.PagingKeyPojo
 import org.michaelbel.movies.persistence.database.typealiases.Page
 import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 import org.michaelbel.movies.repository.PagingKeyRepository

@@ -1,7 +1,7 @@
 package org.michaelbel.movies.persistence.database.ktx
 
 import org.michaelbel.movies.network.model.MovieResponse
-import org.michaelbel.movies.persistence.database.entity.MoviePojo
+import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.persistence.database.typealiases.Page
 import org.michaelbel.movies.persistence.database.typealiases.Position
 

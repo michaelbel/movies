@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.network.model.MovieResponse
-import org.michaelbel.movies.persistence.database.entity.MoviePojo
+import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.ui.compose.movie.MovieColumn
 import org.michaelbel.movies.ui.compose.movie.MovieRow
 import org.michaelbel.movies.ui.ktx.gridColumnsCount

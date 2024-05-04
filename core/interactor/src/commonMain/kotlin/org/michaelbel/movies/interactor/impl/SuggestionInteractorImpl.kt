@@ -5,7 +5,7 @@ import kotlinx.coroutines.withContext
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.interactor.LocaleInteractor
 import org.michaelbel.movies.interactor.SuggestionInteractor
-import org.michaelbel.movies.persistence.database.entity.SuggestionPojo
+import org.michaelbel.movies.persistence.database.entity.pojo.SuggestionPojo
 import org.michaelbel.movies.repository.SuggestionRepository
 
 internal class SuggestionInteractorImpl(

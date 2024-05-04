@@ -1,25 +1,27 @@
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-
 package org.michaelbel.movies.persistence.database
 
-import org.michaelbel.movies.persistence.database.entity.PagingKeyPojo
+import org.michaelbel.movies.persistence.database.dao.PagingKeyDao
+import org.michaelbel.movies.persistence.database.entity.pojo.PagingKeyPojo
+import org.michaelbel.movies.persistence.database.ktx.pagingKeyDb
 import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 
-expect class PagingKeyPersistence {
+class PagingKeyPersistence internal constructor(
+    private val pagingKeyDao: PagingKeyDao
+) {
 
-    suspend fun page(
-        pagingKey: PagingKey
-    ): Int?
+    suspend fun page(pagingKey: PagingKey): Int? {
+        return pagingKeyDao.page(pagingKey)
+    }
 
-    suspend fun totalPages(
-        pagingKey: PagingKey
-    ): Int?
+    suspend fun totalPages(pagingKey: PagingKey): Int? {
+        return pagingKeyDao.totalPages(pagingKey)
+    }
 
-    suspend fun removePagingKey(
-        pagingKey: PagingKey
-    )
+    suspend fun removePagingKey(pagingKey: PagingKey) {
+        pagingKeyDao.removePagingKey(pagingKey)
+    }
 
-    suspend fun insertPagingKey(
-        pagingKeyPojo: PagingKeyPojo
-    )
+    suspend fun insertPagingKey(pagingKeyPojo: PagingKeyPojo) {
+        pagingKeyDao.insertPagingKey(pagingKeyPojo.pagingKeyDb)
+    }
 }

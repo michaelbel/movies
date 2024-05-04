@@ -3,8 +3,8 @@ package org.michaelbel.movies.repository.impl
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.network.MovieNetworkService
 import org.michaelbel.movies.persistence.database.ImagePersistence
-import org.michaelbel.movies.persistence.database.entity.ImagePojo
-import org.michaelbel.movies.persistence.database.entity.ImageType
+import org.michaelbel.movies.persistence.database.entity.pojo.ImagePojo
+import org.michaelbel.movies.persistence.database.entity.pojo.ImageType
 import org.michaelbel.movies.persistence.database.ktx.imagePojo
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
 import org.michaelbel.movies.repository.ImageRepository
