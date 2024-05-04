@@ -1,4 +1,3 @@
-
 import com.google.firebase.appdistribution.gradle.AppDistributionExtension
 import java.io.FileInputStream
 import org.apache.commons.io.output.ByteArrayOutputStream
@@ -90,11 +89,11 @@ android {
 
     buildTypes {
         release {
+            manifestPlaceholders += mapOf("appName" to "@string/app_name")
             isMinifyEnabled = true
             isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
             applicationIdSuffix = MoviesBuildType.RELEASE.applicationIdSuffix
-            manifestPlaceholders += mapOf("appName" to "@string/app_name")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
@@ -103,11 +102,11 @@ android {
             )
         }
         debug {
+            manifestPlaceholders += mapOf("appName" to "@string/app_name_dev")
             isDebuggable = true
             isMinifyEnabled = false
             isShrinkResources = false
             applicationIdSuffix = MoviesBuildType.DEBUG.applicationIdSuffix
-            manifestPlaceholders += mapOf("appName" to "@string/app_name_dev")
             isDefault = true
         }
         create("benchmark") {
