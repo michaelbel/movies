@@ -19,7 +19,7 @@ import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.gallery.ktx.nameRes
 import org.michaelbel.movies.gallery_impl.R
 import org.michaelbel.movies.interactor.Interactor
-import org.michaelbel.movies.persistence.database.entity.ImagePojo
+import org.michaelbel.movies.persistence.database.entity.pojo.ImagePojo
 import org.michaelbel.movies.persistence.database.ktx.original
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
 import org.michaelbel.movies.work.DownloadImageWorker

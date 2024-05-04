@@ -1,7 +1,7 @@
 package org.michaelbel.movies.interactor
 
 import kotlinx.coroutines.flow.Flow
-import org.michaelbel.movies.persistence.database.entity.SuggestionPojo
+import org.michaelbel.movies.persistence.database.entity.pojo.SuggestionPojo
 
 interface SuggestionInteractor {
 

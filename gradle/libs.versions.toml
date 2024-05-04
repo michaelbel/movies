@@ -50,8 +50,9 @@ androidx-navigation = "2.7.7"
 androidx-palette-ktx = "1.0.0"
 androidx-paging = "3.2.1"
 androidx-profile-installer = "1.3.1"
-androidx-room = "2.6.1"
+androidx-room = "2.7.0-alpha01"
 androidx-startup = "1.1.1"
+androidx-sqlite = "2.5.0-SNAPSHOT"
 androidx-test = "1.5.2"
 androidx-test-ext = "1.1.5"
 androidx-test-uiautomator = "2.3.0"
@@ -170,9 +171,9 @@ androidx-paging-compose = { module = "androidx.paging:paging-compose", version.r
 androidx-profile-installer = { module = "androidx.profileinstaller:profileinstaller", version.ref = "androidx-profile-installer" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidx-room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
-androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "androidx-room" }
 androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "androidx-room" }
 androidx-startup-runtime = { module = "androidx.startup:startup-runtime", version.ref = "androidx-startup" }
+androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "androidx-sqlite" }
 androidx-test-rules = { module = "androidx.test:rules", version.ref = "androidx-test" }
 androidx-test-runner = { module = "androidx.test:runner", version.ref = "androidx-test" }
 androidx-test-ext-junit-ktx = { module = "androidx.test.ext:junit-ktx", version.ref = "androidx-test-ext" }
@@ -259,6 +260,16 @@ lifecycle-common = [
 ]
 paging-common = [
     "androidx-paging-compose"
+]
+room-common = [
+    "androidx-room-runtime",
+    "androidx-room-paging"
+]
+room-compiler-common = [
+    "androidx-room-compiler"
+]
+sqlite-common = [
+    "androidx-sqlite-bundled"
 ]
 ktor-common = [
     "ktor-client-core",
@@ -371,14 +382,6 @@ navigation-android = [
 palette-android = [
     "androidx-palette-ktx"
 ]
-room-android = [
-    "androidx-room-runtime",
-    "androidx-room-ktx",
-    "androidx-room-paging"
-]
-room-compiler-android = [
-    "androidx-room-compiler"
-]
 startup-android = [
     "androidx-startup-runtime"
 ]
@@ -475,6 +478,7 @@ android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 android-dynamic-feature = { id = "com.android.dynamic-feature", version.ref = "agp" }
 android-test = { id = "com.android.test", version.ref = "agp" }
+androidx-room = { id = "androidx.room", version.ref = "androidx-room" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

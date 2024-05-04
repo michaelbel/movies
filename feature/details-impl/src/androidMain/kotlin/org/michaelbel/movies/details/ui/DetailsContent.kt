@@ -34,7 +34,7 @@ import coil.request.ImageRequest
 import coil.request.SuccessResult
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.network.config.formatBackdropImage
-import org.michaelbel.movies.persistence.database.entity.MoviePojo
+import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.persistence.database.ktx.isNotEmpty
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty

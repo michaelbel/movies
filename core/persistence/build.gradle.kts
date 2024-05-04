@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
+    alias(libs.plugins.androidx.room)
     alias(libs.plugins.google.ksp)
 }
 
@@ -20,11 +21,12 @@ kotlin {
             api(project(":core:network"))
             implementation(libs.bundles.datastore.common)
             implementation(libs.bundles.paging.common)
+            implementation(libs.bundles.room.common)
+            implementation(libs.bundles.sqlite.common)
             implementation(libs.bundles.okio.common)
         }
         androidMain.dependencies {
             implementation(libs.bundles.datastore.android)
-            implementation(libs.bundles.room.android)
         }
         val desktopMain by getting
         desktopMain.dependencies {
@@ -52,8 +54,12 @@ android {
         checkDependencies = true
         lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
     }
+}
 
-    dependencies {
-        ksp(libs.bundles.room.compiler.android)
-    }
+dependencies {
+    add("kspAndroid", libs.bundles.room.compiler.common)
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }

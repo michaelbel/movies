@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.exceptions.DeleteSessionException
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
-import org.michaelbel.movies.persistence.database.entity.AccountPojo
+import org.michaelbel.movies.persistence.database.entity.pojo.AccountPojo
 
 class AccountViewModel(
     private val interactor: Interactor

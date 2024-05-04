@@ -2,7 +2,7 @@ package org.michaelbel.movies.ui.preview.provider
 
 import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
 import org.michaelbel.movies.network.model.Movie
-import org.michaelbel.movies.persistence.database.entity.MoviePojo
+import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 
 class MovieDbPreviewParameterProvider: CollectionPreviewParameterProvider<MoviePojo>(
     listOf(

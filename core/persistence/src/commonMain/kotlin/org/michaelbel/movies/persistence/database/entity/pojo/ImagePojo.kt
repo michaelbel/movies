@@ -1,4 +1,4 @@
-package org.michaelbel.movies.persistence.database.entity
+package org.michaelbel.movies.persistence.database.entity.pojo
 
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
 

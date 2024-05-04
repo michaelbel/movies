@@ -1,8 +1,6 @@
 package org.michaelbel.movies.persistence.database.db
 
-import android.content.Context
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import org.michaelbel.movies.persistence.database.converter.CalendarConverter
@@ -16,7 +14,6 @@ import org.michaelbel.movies.persistence.database.entity.ImageDb
 import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.entity.PagingKeyDb
 import org.michaelbel.movies.persistence.database.entity.SuggestionDb
-import org.michaelbel.movies.persistence.BuildConfig
 
 /**
  * The Room database for this app.
@@ -33,31 +30,16 @@ import org.michaelbel.movies.persistence.BuildConfig
     exportSchema = false
 )
 @TypeConverters(CalendarConverter::class)
-internal abstract class AppDatabase: RoomDatabase() {
+abstract class AppDatabase: RoomDatabase() {
 
-    abstract fun movieDao(): MovieDao
-    abstract fun imageDao(): ImageDao
-    abstract fun accountDao(): AccountDao
-    abstract fun pagingKeyDao(): PagingKeyDao
-    abstract fun suggestionDao(): SuggestionDao
+    internal abstract fun movieDao(): MovieDao
+    internal abstract fun imageDao(): ImageDao
+    internal abstract fun accountDao(): AccountDao
+    internal abstract fun pagingKeyDao(): PagingKeyDao
+    internal abstract fun suggestionDao(): SuggestionDao
 
     companion object {
-        private val DATABASE_NAME = if (BuildConfig.DEBUG) "movies-db-debug" else "movies-db"
-        const val DATABASE_VERSION = 23
-
-        @Volatile
-        private var instance: AppDatabase? = null
-
-        fun getInstance(context: Context): AppDatabase {
-            return instance ?: synchronized(this) {
-                instance ?: buildDatabase(context).also { instance = it }
-            }
-        }
-
-        private fun buildDatabase(context: Context): AppDatabase {
-            return Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
-                .fallbackToDestructiveMigration()
-                .build()
-        }
+        const val DATABASE_NAME = "movies.db"
+        const val DATABASE_VERSION = 25
     }
 }

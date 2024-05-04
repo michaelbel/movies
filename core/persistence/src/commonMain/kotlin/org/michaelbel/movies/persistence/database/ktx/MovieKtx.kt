@@ -1,7 +1,7 @@
 package org.michaelbel.movies.persistence.database.ktx
 
 import org.michaelbel.movies.network.model.Movie
-import org.michaelbel.movies.persistence.database.entity.MoviePojo
+import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 
 val Movie.moviePojo: MoviePojo
     get() = MoviePojo(

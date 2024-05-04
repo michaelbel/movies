@@ -1,18 +1,20 @@
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-
 package org.michaelbel.movies.persistence.database
 
 import kotlinx.coroutines.flow.Flow
-import org.michaelbel.movies.persistence.database.entity.ImagePojo
+import org.michaelbel.movies.persistence.database.dao.ImageDao
+import org.michaelbel.movies.persistence.database.entity.pojo.ImagePojo
+import org.michaelbel.movies.persistence.database.ktx.imageDb
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
 
-expect class ImagePersistence {
+class ImagePersistence internal constructor(
+    private val imageDao: ImageDao
+) {
 
-    fun imagesFlow(
-        movieId: MovieId
-    ): Flow<List<ImagePojo>>
+    fun imagesFlow(movieId: MovieId): Flow<List<ImagePojo>> {
+        return imageDao.imagesFlow(movieId)
+    }
 
-    suspend fun insert(
-        images: List<ImagePojo>
-    )
+    suspend fun insert(images: List<ImagePojo>) {
+        imageDao.insert(images.map(ImagePojo::imageDb))
+    }
 }

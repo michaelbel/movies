@@ -3,7 +3,7 @@ package org.michaelbel.movies.persistence.database.ktx
 import org.michaelbel.movies.network.config.GRAVATAR_URL
 import org.michaelbel.movies.network.config.formatProfileImage
 import org.michaelbel.movies.network.model.Account
-import org.michaelbel.movies.persistence.database.entity.AccountPojo
+import org.michaelbel.movies.persistence.database.entity.pojo.AccountPojo
 import java.util.Locale
 
 val Account.accountPojo: AccountPojo
