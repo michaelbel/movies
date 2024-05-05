@@ -18,7 +18,6 @@ kotlin {
             implementation(project(":core:interactor"))
             implementation(project(":core:notifications"))
             implementation(libs.bundles.kotlinx.serialization.common)
-            implementation(libs.bundles.paging.common)
         }
         androidMain.dependencies {
             implementation(libs.bundles.work.android)

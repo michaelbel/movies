@@ -1,26 +1,12 @@
 package org.michaelbel.movies.gallery
 
+import androidx.compose.foundation.clickable
 import androidx.compose.material.Text
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import moe.tlaster.precompose.navigation.Navigator
-import moe.tlaster.precompose.navigation.RouteBuilder
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
-
-fun Navigator.navigateToGallery(movieId: MovieId) {
-    navigate("gallery/$movieId")
-}
-
-fun RouteBuilder.galleryGraph(
-    navigateBack: () -> Unit,
-) {
-    scene(
-        route = GalleryDestination.route
-    ) {
-        Text("gallery")
-    }
-}
 
 fun NavController.navigateToGallery(movieId: MovieId) {
     navigate("gallery/$movieId")
@@ -32,6 +18,9 @@ fun NavGraphBuilder.galleryGraph(
     composable(
         route = GalleryDestination.route
     ) {
-        Text("gallery")
+        Text(
+            text = "Gallery",
+            modifier = Modifier.clickable { navigateBack() }
+        )
     }
 }

@@ -1,26 +1,11 @@
 package org.michaelbel.movies.search
 
+import androidx.compose.foundation.clickable
 import androidx.compose.material.Text
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
-import moe.tlaster.precompose.navigation.Navigator
-import moe.tlaster.precompose.navigation.RouteBuilder
-
-fun Navigator.navigateToSearch() {
-    navigate(SearchDestination.route)
-}
-
-fun RouteBuilder.searchGraph(
-    navigateBack: () -> Unit,
-    navigateToDetails: (String, Int) -> Unit,
-) {
-    scene(
-        route = SearchDestination.route
-    ) {
-        Text("Feed")
-    }
-}
 
 fun NavController.navigateToSearch() {
     navigate(SearchDestination.route)
@@ -33,6 +18,9 @@ fun NavGraphBuilder.searchGraph(
     composable(
         route = SearchDestination.route
     ) {
-        Text("Feed")
+        Text(
+            text = "Feed",
+            modifier = Modifier.clickable { navigateBack() }
+        )
     }
 }

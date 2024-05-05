@@ -22,11 +22,11 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":core:navigation"))
             api(project(":core:ui"))
+            api(project(":core:work"))
             api(project(":core:common"))
             api(project(":core:interactor"))
-            api(project(":core:work"))
+            api(project(":core:navigation"))
             implementation(libs.bundles.constraintlayout.common)
         }
     }

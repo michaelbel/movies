@@ -19,8 +19,6 @@ kotlin {
             api(libs.bundles.koin.common)
             implementation(compose.material3)
             implementation(libs.bundles.kotlinx.coroutines.common)
-            /*implementation(libs.bundles.compose.viewmodel.common)*/
-            implementation(libs.bundles.paging.common)
         }
         androidMain.dependencies {
             api(libs.bundles.kotlinx.coroutines.android)
@@ -34,6 +32,7 @@ kotlin {
             api(libs.bundles.koin.compose.work.android)
             implementation(libs.bundles.appcompat.android)
             implementation(libs.bundles.browser.android)
+            implementation(libs.bundles.paging.common) // fixme ломает navigation
         }
         val desktopMain by getting
         desktopMain.dependencies {

@@ -164,7 +164,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Biometric Authentication Dialog](https://d.android.com/training/sign-in/biometric-auth)
 - [x] [LeakCanary](https://github.com/square/leakcanary)
 - [x] [ConstraintLayout Multiplatform](https://github.com/Lavmee/constraintlayout-compose-multiplatform)
-- [x] [PreCompose](https://github.com/Tlaster/PreCompose)
 - [x] [Koin](https://github.com/InsertKoinIO/koin)
 - [x] [Screenshot Detection](https://d.android.com/about/versions/14/features/screenshot-detection)
 - [x] [ConstraintLayout](https://d.android.com/develop/ui/views/layout/constraint-layout) removed in [44723cb](https://github.com/michaelbel/movies/commit/44723cbbafdad89bef6043f99cbd0fbab1ecf19a)

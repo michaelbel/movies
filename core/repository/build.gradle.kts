@@ -17,7 +17,7 @@ kotlin {
         commonMain.dependencies {
             api(project(":core:persistence"))
             implementation(libs.bundles.kotlinx.coroutines.common)
-            implementation(libs.bundles.paging.common)
+            implementation(libs.bundles.room.paging.common)
         }
     }
 }

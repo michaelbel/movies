@@ -21,7 +21,7 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.runtimeSaveable)
             implementation(libs.bundles.kotlinx.coroutines.common)
-            implementation(libs.bundles.paging.common)
+            implementation(libs.bundles.room.paging.common)
         }
     }
 }

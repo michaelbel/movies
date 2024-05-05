@@ -3,8 +3,8 @@
 pluginManagement {
     repositories {
         google()
-        mavenCentral()
         gradlePluginPortal()
+        mavenCentral()
         maven(url = "https://developer.huawei.com/repo/")
     }
 }
@@ -12,7 +12,6 @@ pluginManagement {
 dependencyResolutionManagement {
     /*repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)*/
     repositories {
-        mavenCentral()
         google {
             content {
                 includeGroupAndSubgroups("androidx")
@@ -20,6 +19,7 @@ dependencyResolutionManagement {
                 includeGroupAndSubgroups("com.google")
             }
         }
+        mavenCentral()
         maven(url = "https://developer.huawei.com/repo/")
     }
 }
