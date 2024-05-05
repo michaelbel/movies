@@ -3,35 +3,55 @@ package org.michaelbel.movies
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import org.koin.compose.KoinApplication
+import org.koin.compose.koinInject
 import org.michaelbel.movies.common.ThemeData
-import org.michaelbel.movies.common.theme.AppTheme
+import org.michaelbel.movies.di.appKoinModule
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 fun main() = application {
-    Window(onCloseRequest = ::exitApplication, title = "Movies") {
+    Window(
+        onCloseRequest = ::exitApplication,
+        title = "Movies",
+        alwaysOnTop = false,
+        onKeyEvent = { false }
+    ) {
         App()
     }
 }
 
 @Composable
-private fun App() = withViewModelStoreOwner {
-    MoviesTheme(
-        themeData = ThemeData(
-            appTheme = AppTheme.FollowSystem,
-            dynamicColors = false,
-            paletteKey = 0,
-            seedColor = 0
-        ),
-        theme = AppTheme.FollowSystem,
-        enableEdgeToEdge = { _,_ -> }
+private fun App() {
+    KoinApplication(
+        application = {
+            modules(appKoinModule)
+        }
     ) {
-        MainWindowContent()
+        val viewModel = koinInject<MainViewModel>()
+        val themeData by viewModel.themeData.collectAsState()
+
+        withViewModelStoreOwner {
+            MoviesTheme(
+                themeData = ThemeData(
+                    appTheme = themeData.appTheme,
+                    dynamicColors = false,
+                    paletteKey = themeData.paletteKey,
+                    seedColor = themeData.seedColor
+                ),
+                theme = themeData.appTheme,
+                enableEdgeToEdge = { _,_ -> }
+            ) {
+                MainWindowContent()
+            }
+        }
     }
 }
 

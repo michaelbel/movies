@@ -4,13 +4,13 @@ internal actual val isLanguageFeatureEnabled: Boolean
     get() = false
 
 internal actual val isThemeFeatureEnabled: Boolean
-    get() = false
+    get() = true
 
 internal actual val isFeedViewFeatureEnabled: Boolean
-    get() = false
+    get() = true
 
 internal actual val isMovieListFeatureEnabled: Boolean
-    get() = false
+    get() = true
 
 internal actual val isGenderFeatureEnabled: Boolean
     get() = false

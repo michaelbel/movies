@@ -34,7 +34,6 @@ val interactorKoinModule = module {
         moviesDatabaseKoinModule,
         moviesAnalyticsKoinModule
     )
-    singleOf(::LocaleInteractorImpl) { bind<LocaleInteractor>() }
     singleOf(::AccountInteractorImpl) { bind<AccountInteractor>() }
     singleOf(::AuthenticationInteractorImpl) { bind<AuthenticationInteractor>() }
     singleOf(::ImageInteractorImpl) { bind<ImageInteractor>() }
@@ -43,5 +42,18 @@ val interactorKoinModule = module {
     singleOf(::SearchInteractorImpl) { bind<SearchInteractor>() }
     singleOf(::SettingsInteractorImpl) { bind<SettingsInteractor>() }
     singleOf(::SuggestionInteractorImpl) { bind<SuggestionInteractor>() }
-    single { Interactor(get(), get(), get(), get(), get(), get(), get(), get(), get()) }
+    singleOf(::LocaleInteractorImpl) { bind<LocaleInteractor>() }
+    single<Interactor> {
+        Interactor(
+            get<AccountInteractor>(),
+            get<AuthenticationInteractor>(),
+            get<ImageInteractor>(),
+            get<MovieInteractor>(),
+            get<NotificationInteractor>(),
+            get<SearchInteractor>(),
+            get<SettingsInteractor>(),
+            get<SuggestionInteractor>(),
+            get<LocaleInteractor>()
+        )
+    }
 }

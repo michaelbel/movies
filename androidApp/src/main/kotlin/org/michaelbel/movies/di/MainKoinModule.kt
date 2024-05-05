@@ -10,7 +10,7 @@ import org.michaelbel.movies.interactor.di.interactorKoinModule
 import org.michaelbel.movies.platform.inject.flavorServiceKtorModule
 import org.michaelbel.movies.work.di.workKoinModule
 
-val mainKoinModule = module {
+internal val mainKoinModule = module {
     includes(
         interactorKoinModule,
         biometricKoinModule,

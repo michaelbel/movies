@@ -40,7 +40,7 @@ internal class SettingsInteractorImpl(
     override suspend fun selectTheme(
         appTheme: AppTheme
     ) {
-        withContext(dispatchers.main) {
+        withContext(dispatchers.ui) {
             settingsRepository.selectTheme(appTheme)
             analytics.logEvent(SelectThemeEvent(appTheme.toString()))
         }
@@ -49,7 +49,7 @@ internal class SettingsInteractorImpl(
     override suspend fun selectFeedView(
         feedView: FeedView
     ) {
-        withContext(dispatchers.main) {
+        withContext(dispatchers.ui) {
             settingsRepository.selectFeedView(feedView)
             analytics.logEvent(SelectFeedViewEvent(feedView.toString()))
         }
@@ -58,7 +58,7 @@ internal class SettingsInteractorImpl(
     override suspend fun selectMovieList(
         movieList: MovieList
     ) {
-        withContext(dispatchers.main) {
+        withContext(dispatchers.ui) {
             settingsRepository.selectMovieList(movieList)
             analytics.logEvent(SelectMovieListEvent(movieList.toString()))
         }
@@ -76,7 +76,7 @@ internal class SettingsInteractorImpl(
     override suspend fun setPaletteKey(
         paletteKey: Int
     ) {
-        withContext(dispatchers.main) {
+        withContext(dispatchers.ui) {
             settingsRepository.setPaletteKey(paletteKey)
         }
     }
@@ -84,7 +84,7 @@ internal class SettingsInteractorImpl(
     override suspend fun setSeedColor(
         seedColor: Int
     ) {
-        withContext(dispatchers.main) {
+        withContext(dispatchers.ui) {
             settingsRepository.setSeedColor(seedColor)
         }
     }

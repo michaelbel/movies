@@ -8,7 +8,7 @@ import org.koin.dsl.module
 import org.michaelbel.movies.persistence.database.db.AppDatabase
 
 actual val databaseKoinModule = module {
-    single { createRoomDatabase(androidApplication()) }
+    single<AppDatabase> { createRoomDatabase(androidApplication()) }
 }
 
 private fun createRoomDatabase(app: Application): AppDatabase {
