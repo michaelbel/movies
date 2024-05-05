@@ -23,9 +23,8 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:persistence"))
-            implementation(libs.bundles.paging.common)
-            implementation(libs.bundles.constraintlayout.common)
             implementation(libs.bundles.coil.common)
+            implementation(libs.bundles.constraintlayout.common)
             implementation(compose.components.resources)
             implementation(compose.foundation)
             implementation(compose.material)
@@ -43,6 +42,7 @@ kotlin {
             api(libs.bundles.coil.android)
             api(libs.bundles.compose.android)
             api(libs.bundles.google.material.android)
+            implementation(libs.bundles.paging.common) // fixme ломает navigation
         }
     }
 }

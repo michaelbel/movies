@@ -22,14 +22,16 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":core:navigation"))
-            api(project(":core:platform-services:interactor"))
             api(project(":core:ui"))
             api(project(":core:common"))
+            api(project(":core:navigation"))
             api(project(":core:interactor"))
             implementation(project(":core:notifications"))
-            implementation(libs.bundles.paging.common)
+            api(project(":core:platform-services:interactor"))
             implementation(libs.bundles.constraintlayout.common)
+        }
+        androidMain.dependencies {
+            implementation(libs.bundles.paging.common) // fixme ломает navigation
         }
         val desktopMain by getting
         desktopMain.dependencies {

@@ -20,7 +20,6 @@ kotlin {
             api(project(":core:common"))
             api(project(":core:network"))
             implementation(libs.bundles.datastore.common)
-            implementation(libs.bundles.paging.common)
             implementation(libs.bundles.room.common)
             implementation(libs.bundles.sqlite.common)
             implementation(libs.bundles.okio.common)
