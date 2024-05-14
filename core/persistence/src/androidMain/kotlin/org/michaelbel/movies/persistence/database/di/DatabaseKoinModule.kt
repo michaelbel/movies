@@ -15,5 +15,6 @@ private fun createRoomDatabase(app: Application): AppDatabase {
     val dbFile = app.getDatabasePath(AppDatabase.DATABASE_NAME)
     return Room.databaseBuilder<AppDatabase>(app, dbFile.absolutePath)
         .setQueryCoroutineContext(Dispatchers.IO)
+        .fallbackToDestructiveMigration(dropAllTables = true)
         .build()
 }

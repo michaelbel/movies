@@ -8,6 +8,7 @@ internal val daoKoinModule = module {
         databaseKoinModule
     )
     single { get<AppDatabase>().movieDao() }
+    single { get<AppDatabase>().movieBlockingDao() }
     single { get<AppDatabase>().imageDao() }
     single { get<AppDatabase>().accountDao() }
     single { get<AppDatabase>().pagingKeyDao() }

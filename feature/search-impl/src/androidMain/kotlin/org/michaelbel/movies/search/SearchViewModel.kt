@@ -18,6 +18,7 @@ import kotlinx.coroutines.runBlocking
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
+import org.michaelbel.movies.interactor.MovieBlockingInteractor
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
@@ -27,6 +28,7 @@ import org.michaelbel.movies.persistence.database.typealiases.Query
 
 class SearchViewModel(
     private val interactor: Interactor,
+    private val movieBlockingInteractor: MovieBlockingInteractor,
     networkManager: NetworkManager
 ): BaseViewModel() {
 
@@ -64,7 +66,7 @@ class SearchViewModel(
     val isSearchActive: StateFlow<Boolean> = interactor.isSearchActive
 
     val pagingDataFlow: Flow<PagingData<MoviePojo>> = query
-        .flatMapLatest { query -> interactor.moviesPagingData(query) }
+        .flatMapLatest { query -> movieBlockingInteractor.moviesPagingData(query) }
         .cachedIn(this)
 
     init {

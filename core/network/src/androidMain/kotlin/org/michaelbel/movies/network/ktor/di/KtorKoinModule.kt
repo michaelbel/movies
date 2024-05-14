@@ -17,6 +17,7 @@ import org.michaelbel.movies.network.apiKeyInterceptorKoinModule
 import org.michaelbel.movies.network.chuckerKoinModule
 import org.michaelbel.movies.network.config.TMDB_API_ENDPOINT
 import org.michaelbel.movies.network.flakerKoinModule
+import org.michaelbel.movies.network.httpLoggingInterceptorKoinModule
 import org.michaelbel.movies.network.okhttp.ApikeyInterceptor
 
 private const val REQUEST_TIMEOUT_MILLIS = 10_000L
@@ -28,7 +29,8 @@ actual val ktorKoinModule = module {
     includes(
         chuckerKoinModule,
         flakerKoinModule,
-        apiKeyInterceptorKoinModule
+        apiKeyInterceptorKoinModule,
+        httpLoggingInterceptorKoinModule
     )
     single<HttpClient> {
         val ktor = HttpClient(OkHttp) {

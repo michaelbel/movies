@@ -2,6 +2,7 @@
 
 package org.michaelbel.movies.feed.ui
 
+import android.util.Log
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -152,6 +153,7 @@ internal fun FeedScreenContent(
                 )
             }
             pagingItems.isFailure -> {
+                Log.e("2", "isFailure loadState=${pagingItems.loadState}")
                 if (pagingItems.refreshThrowable is PageEmptyException) {
                     FeedEmpty(
                         modifier = Modifier

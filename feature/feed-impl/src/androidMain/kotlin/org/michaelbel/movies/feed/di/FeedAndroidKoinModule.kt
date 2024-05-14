@@ -13,5 +13,5 @@ val feedAndroidKoinModule = module {
         notificationClientKoinModule,
         networkManagerKoinModule
     )
-    viewModel { FeedViewModel(get(), get(), get(), get()) }
+    viewModel { FeedViewModel(get(), get(), get(), get(), get()) }
 }
