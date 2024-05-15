@@ -165,17 +165,11 @@ val gmsImplementation by configurations
 val hmsImplementation by configurations
 val fossImplementation by configurations
 dependencies {
+    implementation(project(":feature:main-impl"))
     gmsImplementation(project(":core:platform-services:inject-android"))
     hmsImplementation(project(":core:platform-services:inject-android"))
     fossImplementation(project(":core:platform-services:inject-android"))
-    implementation(project(":feature:account"))
-    implementation(project(":feature:auth"))
-    implementation(project(":feature:details"))
-    implementation(project(":feature:feed"))
-    implementation(project(":feature:gallery"))
-    implementation(project(":feature:search"))
-    implementation(project(":feature:settings"))
-    implementation(project(":feature:debug"))
+    implementation(project(":feature:main-impl"))
     implementation(libs.bundles.kotlin.reflect.android)
     testImplementation(libs.bundles.junit.android)
     androidTestImplementation(libs.bundles.test.espresso.android)

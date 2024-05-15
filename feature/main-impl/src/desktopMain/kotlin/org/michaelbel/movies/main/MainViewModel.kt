@@ -1,4 +1,4 @@
-package org.michaelbel.movies
+package org.michaelbel.movies.main
 
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -8,7 +8,7 @@ import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
 
-internal class MainViewModel(
+class MainViewModel(
     interactor: Interactor
 ): BaseViewModel() {
 

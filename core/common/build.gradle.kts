@@ -37,7 +37,7 @@ kotlin {
         val desktopMain by getting
         desktopMain.dependencies {
             api(libs.bundles.kotlinx.coroutines.desktop)
-            api(libs.bundles.compose.viewmodel.common)
+            api(libs.bundles.jetbrains.androidx.lifecycle.viewmodel.compose.common)
         }
     }
 }

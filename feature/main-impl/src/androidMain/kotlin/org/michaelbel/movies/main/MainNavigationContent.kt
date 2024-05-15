@@ -1,22 +1,19 @@
-package org.michaelbel.movies
+package org.michaelbel.movies.main
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.account.accountGraph
 import org.michaelbel.movies.account.navigateToAccount
 import org.michaelbel.movies.auth.authGraph
-import org.michaelbel.movies.auth.navigateToAuth
+import org.michaelbel.movies.auth.ktx.navigateToAuth
+import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.details.detailsGraph
 import org.michaelbel.movies.details.navigateToDetails
 import org.michaelbel.movies.feed.FeedDestination
 import org.michaelbel.movies.feed.feedGraph
 import org.michaelbel.movies.gallery.galleryGraph
 import org.michaelbel.movies.gallery.navigateToGallery
-import org.michaelbel.movies.navigation.ktx.addOnDestinationChangedListener
 import org.michaelbel.movies.search.navigateToSearch
 import org.michaelbel.movies.search.searchGraph
 import org.michaelbel.movies.settings.navigateToSettings
@@ -24,13 +21,12 @@ import org.michaelbel.movies.settings.settingsGraph
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun MainActivityContent(
-    viewModel: MainViewModel = koinViewModel(),
+fun MainNavigationContent(
+    themeData: ThemeData,
     enableEdgeToEdge: (Any, Any) -> Unit
 ) {
-    val themeData by viewModel.themeData.collectAsStateWithLifecycle()
     val navHostController = rememberNavController().apply {
-        addOnDestinationChangedListener(viewModel::analyticsTrackDestination)
+        //addOnDestinationChangedListener(viewModel::analyticsTrackDestination)
     }
 
     MoviesTheme(

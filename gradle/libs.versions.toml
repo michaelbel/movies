@@ -60,8 +60,9 @@ androidx-test-espresso = "3.5.1"
 androidx-test-espresso-device = "1.0.0-alpha09"
 androidx-work = "2.9.0"
 compose = "1.6.10-rc01"
-compose-navigation = "2.8.0-alpha02"
-compose-viewmodel = "2.8.0-rc01"
+jetbrains-androidx-navigation-compose = "2.8.0-alpha02"
+jetbrains-androidx-lifecycle-viewmodel-compose = "2.8.0-rc01"
+jetbrains-androidx-core-bundle = "1.0.0-rc01"
 detekt = "1.23.6"
 spotless = "6.25.0"
 coil = "2.6.0"
@@ -183,8 +184,9 @@ androidx-test-espresso-idling-resource = { module = "androidx.test.espresso:espr
 androidx-test-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "androidx-test-uiautomator" }
 androidx-work-testing = { module = "androidx.work:work-testing", version.ref = "androidx-work" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
-compose-navigation = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "compose-navigation" }
-compose-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "compose-viewmodel" }
+jetbrains-androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "jetbrains-androidx-navigation-compose" }
+jetbrains-androidx-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "jetbrains-androidx-lifecycle-viewmodel-compose" }
+jetbrains-androidx-core-bundle = { module = "org.jetbrains.androidx.core:core-bundle", version.ref = "jetbrains-androidx-core-bundle" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil3-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
 coil3-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coil3" }
@@ -244,11 +246,14 @@ kotlinx-coroutines-common = [
 kotlinx-serialization-common = [
     "kotlinx-serialization-json"
 ]
-compose-navigation-common = [
-    "compose-navigation"
+jetbrains-androidx-navigation-compose-common = [
+    "jetbrains-androidx-navigation-compose"
 ]
-compose-viewmodel-common = [
-    "compose-viewmodel"
+jetbrains-androidx-lifecycle-viewmodel-compose-common = [
+    "jetbrains-androidx-lifecycle-viewmodel-compose"
+]
+jetbrains-androidx-core-bundle-common = [
+    "jetbrains-androidx-core-bundle"
 ]
 datastore-common = [
     "androidx-datastore-core",

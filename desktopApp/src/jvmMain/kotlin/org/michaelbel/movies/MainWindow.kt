@@ -15,6 +15,8 @@ import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.di.appKoinModule
+import org.michaelbel.movies.main.MainContent
+import org.michaelbel.movies.main.MainViewModel
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 fun main() = application {
@@ -49,7 +51,7 @@ private fun App() {
                 theme = themeData.appTheme,
                 enableEdgeToEdge = { _,_ -> }
             ) {
-                MainWindowContent()
+                MainContent()
             }
         }
     }

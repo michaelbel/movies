@@ -1,6 +1,6 @@
 package org.michaelbel.movies.navigation.ktx
 
-import android.os.Bundle
+import androidx.core.bundle.Bundle
 import androidx.navigation.NavDestination
 import androidx.navigation.NavHostController
 
