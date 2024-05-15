@@ -1,6 +1,5 @@
 package org.michaelbel.movies.repository.impl
 
-import androidx.paging.PagingSource
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.common.exceptions.MovieDetailsException
 import org.michaelbel.movies.common.exceptions.MoviesUpcomingException
@@ -10,8 +9,8 @@ import org.michaelbel.movies.network.config.isTmdbApiKeyEmpty
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
 import org.michaelbel.movies.persistence.database.MoviePersistence
-import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
+import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.persistence.database.ktx.moviePojo
 import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.persistence.database.typealiases.Limit
@@ -25,12 +24,6 @@ internal class MovieRepositoryImpl(
     private val movieNetworkService: MovieNetworkService,
     private val moviePersistence: MoviePersistence
 ): MovieRepository {
-
-    override fun moviesPagingSource(
-        pagingKey: PagingKey
-    ): PagingSource<Int, MoviePojo> {
-        return moviePersistence.pagingSource(pagingKey)
-    }
 
     override fun moviesFlow(
         pagingKey: PagingKey,

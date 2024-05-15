@@ -84,7 +84,7 @@ turbine = "1.1.0"
 barista = "4.3.0"
 kotest = "5.9.0"
 sqldelight = "2.0.2"
-koin = "3.5.6"
+koin = "3.6.0-wasm-alpha2"
 constraintlayout-compose-multiplatform = "0.3.1"
 okio = "3.9.0"
 
@@ -226,6 +226,7 @@ koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", versi
 koin-androidx-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-core-jvm = { module = "io.insert-koin:koin-core-jvm", version.ref = "koin" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
 constraintlayout-compose-multiplatform = { module = "tech.annexflow.compose:constraintlayout-compose-multiplatform", version.ref = "constraintlayout-compose-multiplatform" }

@@ -1,5 +1,6 @@
 package org.michaelbel.movies.account
 
+import androidx.compose.ui.window.DialogProperties
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.dialog
@@ -13,7 +14,10 @@ fun NavGraphBuilder.accountGraph(
     navigateBack: () -> Unit
 ) {
     dialog(
-        route = AccountDestination.route
+        route = AccountDestination.route,
+        dialogProperties = DialogProperties(
+            usePlatformDefaultWidth = true
+        )
     ) {
         AccountRoute(
             onBackClick = navigateBack

@@ -25,6 +25,7 @@ import org.michaelbel.movies.common.exceptions.CreateSessionException
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
+import org.michaelbel.movies.interactor.MovieBlockingInteractor
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.notifications.NotificationClient
@@ -34,6 +35,7 @@ import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 class FeedViewModel(
     savedStateHandle: SavedStateHandle,
     private val interactor: Interactor,
+    private val movieBlockingInteractor: MovieBlockingInteractor,
     private val notificationClient: NotificationClient,
     networkManager: NetworkManager
 ): BaseViewModel() {
@@ -70,7 +72,7 @@ class FeedViewModel(
         )
 
     val pagingDataFlow: Flow<PagingData<MoviePojo>> = currentMovieList
-        .flatMapLatest { movieList -> interactor.moviesPagingData(movieList) }
+        .flatMapLatest { movieList -> movieBlockingInteractor.moviesPagingData(movieList) }
         .cachedIn(this)
 
     private var _notificationsPermissionRequired: MutableStateFlow<Boolean> = MutableStateFlow(false)

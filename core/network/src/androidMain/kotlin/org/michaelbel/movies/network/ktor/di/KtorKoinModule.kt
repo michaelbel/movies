@@ -13,24 +13,26 @@ import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
-import org.michaelbel.movies.network.chucker.chuckerKoinModule
+import org.michaelbel.movies.network.apiKeyInterceptorKoinModule
+import org.michaelbel.movies.network.chuckerKoinModule
 import org.michaelbel.movies.network.config.TMDB_API_ENDPOINT
-import org.michaelbel.movies.network.flaker.di.flakerKoinModule
-import org.michaelbel.movies.network.okhttp.di.CONNECT_TIMEOUT_MILLIS
-import org.michaelbel.movies.network.okhttp.di.HTTP_CACHE_SIZE_BYTES
-import org.michaelbel.movies.network.okhttp.di.okhttpKoinModule
-import org.michaelbel.movies.network.okhttp.interceptor.ApikeyInterceptor
+import org.michaelbel.movies.network.flakerKoinModule
+import org.michaelbel.movies.network.httpLoggingInterceptorKoinModule
+import org.michaelbel.movies.network.okhttp.ApikeyInterceptor
 
 private const val REQUEST_TIMEOUT_MILLIS = 10_000L
 private const val SOCKET_TIMEOUT_SECONDS = 10_000L
+private const val HTTP_CACHE_SIZE_BYTES = 1024 * 1024 * 50
+private const val CONNECT_TIMEOUT_MILLIS = 10_000L
 
 actual val ktorKoinModule = module {
     includes(
         chuckerKoinModule,
         flakerKoinModule,
-        okhttpKoinModule
+        apiKeyInterceptorKoinModule,
+        httpLoggingInterceptorKoinModule
     )
-    single {
+    single<HttpClient> {
         val ktor = HttpClient(OkHttp) {
             defaultRequest {
                 contentType(ContentType.Application.Json)

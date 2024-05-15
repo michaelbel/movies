@@ -3,16 +3,16 @@ package org.michaelbel.movies.settings.ui
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.michaelbel.movies.common.MOVIES_GITHUB_URL
-import org.michaelbel.movies.common.appearance.FeedView
-import org.michaelbel.movies.common.browser.openUrl
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
 import org.michaelbel.movies.common.gender.GrammaticalGender
-import org.michaelbel.movies.common.list.MovieList
-import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.interactor.entity.AppLanguage
+import org.michaelbel.movies.settings.SettingsViewModel
 import org.michaelbel.movies.settings.model.SettingsData
 import org.michaelbel.movies.settings.model.isAboutFeatureEnabled
 import org.michaelbel.movies.settings.model.isAppIconFeatureEnabled
@@ -31,12 +31,18 @@ import org.michaelbel.movies.settings.model.isTileFeatureEnabled
 import org.michaelbel.movies.settings.model.isUpdateAppFeatureEnabled
 import org.michaelbel.movies.settings.model.isWidgetFeatureEnabled
 import org.michaelbel.movies.ui.appicon.IconAlias
+import org.michaelbel.movies.ui.strings.MoviesStrings
 
 @Composable
 fun SettingsRoute(
     onBackClick: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: SettingsViewModel = koinInject<SettingsViewModel>()
 ) {
+    val currentLanguage = AppLanguage.transform(stringResource(MoviesStrings.language_code))
+    val themeData by viewModel.themeData.collectAsState()
+    val currentFeedView by viewModel.currentFeedView.collectAsState()
+    val currentMovieList by viewModel.currentMovieList.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
 
     SettingsScreenContent(
@@ -44,23 +50,23 @@ fun SettingsRoute(
             onBackClick = onBackClick,
             languageData = SettingsData.ListData(
                 isFeatureEnabled = isLanguageFeatureEnabled,
-                current = AppLanguage.English(),
-                onSelect = {}
+                current = currentLanguage,
+                onSelect = viewModel::selectLanguage
             ),
             themeData = SettingsData.ListData(
                 isFeatureEnabled = isThemeFeatureEnabled,
-                current = AppTheme.FollowSystem,
-                onSelect = {}
+                current = themeData.appTheme,
+                onSelect = viewModel::selectTheme
             ),
             feedViewData = SettingsData.ListData(
                 isFeatureEnabled = isFeedViewFeatureEnabled,
-                current = FeedView.FeedList,
-                onSelect = {}
+                current = currentFeedView,
+                onSelect = viewModel::selectFeedView
             ),
             movieListData = SettingsData.ListData(
                 isFeatureEnabled = isMovieListFeatureEnabled,
-                current = MovieList.NowPlaying(),
-                onSelect = {}
+                current = currentMovieList,
+                onSelect = viewModel::selectMovieList
             ),
             genderData = SettingsData.ListData(
                 isFeatureEnabled = isGenderFeatureEnabled,
@@ -73,11 +79,16 @@ fun SettingsRoute(
                 onChange = {}
             ),
             paletteColorsData = SettingsData.PaletteColorsData(
-                isFeatureEnabled = false,
+                isFeatureEnabled = true,
                 isDynamicColorsEnabled = false,
-                paletteKey = 0,
-                seedColor = 0,
-                onChange = { _,_,_ -> }
+                paletteKey = themeData.paletteKey,
+                seedColor = themeData.seedColor,
+                onChange = { _, localPaletteKey, localSeedColor ->
+                    viewModel.run {
+                        setPaletteKey(localPaletteKey)
+                        setSeedColor(localSeedColor)
+                    }
+                }
             ),
             notificationsData = SettingsData.NotificationsData(
                 isFeatureEnabled = isNotificationsFeatureEnabled,
@@ -110,7 +121,7 @@ fun SettingsRoute(
             ),
             githubData = SettingsData.RequestedData(
                 isFeatureEnabled = isGithubFeatureEnabled,
-                onRequest = { openUrl(MOVIES_GITHUB_URL) }
+                onRequest = viewModel::navigateToGithubUrl
             ),
             reviewAppData = SettingsData.RequestedData(
                 isFeatureEnabled = isReviewAppFeatureEnabled,

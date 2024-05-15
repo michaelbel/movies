@@ -8,17 +8,11 @@ kotlin {
     androidTarget {
         compilations.all {
             kotlinOptions {
-                jvmTarget = rootProject.extra.get("jvmTarget") as String
+                jvmTarget = "11"
             }
         }
     }
-    jvm("desktop") {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = rootProject.extra.get("jvmTarget") as String
-            }
-        }
-    }
+    jvm("desktop")
 
     sourceSets {
         commonMain.dependencies {
@@ -31,11 +25,14 @@ kotlin {
             implementation(compose.components.resources)
             implementation(compose.foundation)
             implementation(compose.material3)
+            implementation(compose.runtime)
             implementation(libs.bundles.constraintlayout.common)
         }
         val desktopMain by getting
         desktopMain.dependencies {
             implementation(compose.desktop.currentOs)
+            implementation(libs.bundles.kotlinx.coroutines.desktop)
+            implementation(libs.koin.compose)
         }
     }
 }
@@ -59,8 +56,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.toVersion(rootProject.extra.get("jvmTarget") as String)
-        targetCompatibility = JavaVersion.toVersion(rootProject.extra.get("jvmTarget") as String)
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
 
     lint {

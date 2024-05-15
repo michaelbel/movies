@@ -1,6 +1,5 @@
 package org.michaelbel.movies.persistence.database.dao
 
-import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
@@ -20,10 +19,6 @@ import org.michaelbel.movies.persistence.database.typealiases.PagingKey
  */
 @Dao
 internal interface MovieDao {
-
-    @Transaction
-    @Query("SELECT * FROM movies WHERE movieList = :pagingKey ORDER BY position ASC")
-    fun pagingSource(pagingKey: PagingKey): PagingSource<Int, MoviePojo>
 
     @Query("SELECT * FROM movies WHERE movieList = :pagingKey ORDER BY position DESC LIMIT :limit")
     fun moviesFlow(pagingKey: PagingKey, limit: Limit): Flow<List<MoviePojo>>

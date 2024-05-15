@@ -7,4 +7,5 @@ interface MoviesDispatchers {
     val io: CoroutineDispatcher
     val main: CoroutineDispatcher
     val immediate: CoroutineDispatcher
+    val ui: CoroutineDispatcher
 }

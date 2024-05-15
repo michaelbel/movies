@@ -165,9 +165,9 @@ val gmsImplementation by configurations
 val hmsImplementation by configurations
 val fossImplementation by configurations
 dependencies {
-    gmsImplementation(project(":core:platform-services:inject"))
-    hmsImplementation(project(":core:platform-services:inject"))
-    fossImplementation(project(":core:platform-services:inject"))
+    gmsImplementation(project(":core:platform-services:inject-android"))
+    hmsImplementation(project(":core:platform-services:inject-android"))
+    fossImplementation(project(":core:platform-services:inject-android"))
     implementation(project(":feature:account"))
     implementation(project(":feature:auth"))
     implementation(project(":feature:details"))

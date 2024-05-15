@@ -73,7 +73,7 @@ internal class MainViewModel(
     fun analyticsTrackDestination(destination: NavDestination, arguments: Bundle?) {
         val hashMap = hashMapOf<String, String>()
         arguments?.keySet()?.forEach { key ->
-            hashMap[key] = arguments.get(key).toString()
+            hashMap[key] = arguments.getString(key).orEmpty()
         }
         analytics.trackDestination(destination.route, hashMap)
     }

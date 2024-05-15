@@ -26,9 +26,13 @@ kotlin {
             api(project(":core:common"))
             api(project(":core:navigation"))
             api(project(":core:interactor"))
-            implementation(project(":core:notifications"))
             api(project(":core:platform-services:interactor"))
+            implementation(project(":core:notifications"))
             implementation(libs.bundles.constraintlayout.common)
+            implementation(compose.foundation)
+            implementation(compose.runtime)
+            implementation(compose.material3)
+            implementation(compose.components.resources)
         }
         androidMain.dependencies {
             implementation(libs.bundles.paging.common) // fixme ломает navigation

@@ -12,13 +12,7 @@ kotlin {
             }
         }
     }
-    jvm("desktop") {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = rootProject.extra.get("jvmTarget") as String
-            }
-        }
-    }
+    jvm("desktop")
 
     sourceSets {
         commonMain.dependencies {
@@ -34,6 +28,10 @@ kotlin {
         }
         androidMain.dependencies {
             implementation(libs.bundles.work.android)
+        }
+        val desktopMain by getting
+        desktopMain.dependencies {
+            implementation(libs.koin.compose)
         }
     }
 }
