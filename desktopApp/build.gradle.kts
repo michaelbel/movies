@@ -11,13 +11,7 @@ kotlin {
     sourceSets {
         jvmMain.dependencies {
             implementation(project(":core:platform-services:inject-desktop"))
-            implementation(project(":feature:account"))
-            implementation(project(":feature:auth"))
-            implementation(project(":feature:details"))
-            implementation(project(":feature:feed"))
-            implementation(project(":feature:gallery"))
-            implementation(project(":feature:search"))
-            implementation(project(":feature:settings"))
+            implementation(project(":feature:main-impl"))
             implementation(compose.desktop.currentOs)
             implementation(compose.desktop.common)
             implementation(compose.runtime)
@@ -33,7 +27,7 @@ kotlin {
 
 compose.desktop {
     application {
-        mainClass = "org.michaelbel.movies.MoviesDesktopKt"
+        mainClass = "org.michaelbel.movies.MainWindowKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)

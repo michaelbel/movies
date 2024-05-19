@@ -1,4 +1,4 @@
-package org.michaelbel.movies
+package org.michaelbel.movies.main
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -7,9 +7,10 @@ import androidx.navigation.compose.rememberNavController
 import org.michaelbel.movies.account.accountGraph
 import org.michaelbel.movies.account.navigateToAccount
 import org.michaelbel.movies.auth.authGraph
-import org.michaelbel.movies.auth.navigateToAuth
+import org.michaelbel.movies.auth.ktx.navigateToAuth
 import org.michaelbel.movies.details.detailsGraph
 import org.michaelbel.movies.details.navigateToDetails
+import org.michaelbel.movies.feed.FeedDestination
 import org.michaelbel.movies.feed.feedGraph
 import org.michaelbel.movies.gallery.galleryGraph
 import org.michaelbel.movies.gallery.navigateToGallery
@@ -19,12 +20,12 @@ import org.michaelbel.movies.settings.navigateToSettings
 import org.michaelbel.movies.settings.settingsGraph
 
 @Composable
-internal fun MainWindowContent(
+fun MainContent(
     navHostController: NavHostController = rememberNavController()
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = "feed"
+        startDestination = FeedDestination.route
     ) {
         authGraph(
             navigateBack = navHostController::popBackStack

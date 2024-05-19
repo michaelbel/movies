@@ -1,6 +1,6 @@
-package org.michaelbel.movies
+package org.michaelbel.movies.main
 
-import android.os.Bundle
+import androidx.core.bundle.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.navigation.NavDestination
 import androidx.work.OneTimeWorkRequestBuilder
@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.analytics.MoviesAnalytics
-import org.michaelbel.movies.app.BuildConfig
+import org.michaelbel.movies.common.BuildConfig
 import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.common.biometric.BiometricController
 import org.michaelbel.movies.common.biometric.BiometricListener
@@ -28,7 +28,7 @@ import org.michaelbel.movies.platform.messaging.MessagingService
 import org.michaelbel.movies.work.AccountUpdateWorker
 import org.michaelbel.movies.work.MoviesDatabaseWorker
 
-internal class MainViewModel(
+class MainViewModel(
     private val interactor: Interactor,
     private val biometricController: BiometricController,
     private val analytics: MoviesAnalytics,

@@ -14,13 +14,16 @@ kotlin {
     jvm("desktop")
 
     sourceSets {
-        androidMain.dependencies {
+        /*androidMain.dependencies {
             api(libs.bundles.navigation.android)
+        }*/
+        commonMain.dependencies {
+            api(libs.bundles.jetbrains.androidx.navigation.compose.common)
+            api(libs.bundles.jetbrains.androidx.core.bundle.common)
         }
         val desktopMain by getting
         desktopMain.dependencies {
-            api(libs.bundles.compose.navigation.common)
-            api(libs.bundles.compose.viewmodel.common)
+            api(libs.bundles.jetbrains.androidx.lifecycle.viewmodel.compose.common)
         }
     }
 }
