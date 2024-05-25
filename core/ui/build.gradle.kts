@@ -23,7 +23,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:persistence"))
-            implementation(libs.bundles.coil.common)
+            /*implementation(libs.bundles.coil.common)*/
             implementation(libs.bundles.constraintlayout.common)
             implementation(compose.components.resources)
             implementation(compose.foundation)
@@ -55,6 +55,10 @@ android {
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
         compileSdk = libs.versions.compile.sdk.get().toInt()
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
     }
 
     compileOptions {
