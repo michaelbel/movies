@@ -1,16 +1,14 @@
-# Compose to Kotlin Compatibility Map: https://d.android.com/jetpack/androidx/releases/compose-kotlin
-
 [versions]
 min-sdk = "23"
 compile-sdk = "34"
 target-sdk = "34"
 jdk = "17"
 agp = "8.4.1"
-kotlin = "1.9.24"
+kotlin = "2.0.0"
 kotlinx-coroutines = "1.8.1"
 kotlinx-datetime = "0.6.0"
 kotlinx-serialization-json = "1.6.3"
-google-ksp = "1.9.24-1.0.20"
+google-ksp = "2.0.0-1.0.21"
 google-services = "4.4.1"
 google-services-base = "18.4.0"
 google-services-instantapps = "18.0.1"
@@ -489,6 +487,7 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-cocoapods = { id = "org.jetbrains.kotlin.native.cocoapods", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 compose = { id = "org.jetbrains.compose", version.ref = "compose" }
 google-ksp = { id = "com.google.devtools.ksp", version.ref = "google-ksp" }
 google-services = { id = "com.google.gms.google-services", version.ref = "google-services" }

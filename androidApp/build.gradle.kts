@@ -6,6 +6,7 @@ import org.jetbrains.kotlin.konan.properties.Properties
 @Suppress("dsl_scope_violation")
 
 plugins {
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.androidx.navigation.safeargs)
@@ -142,10 +143,6 @@ android {
     }
 
     /*dynamicFeatures += setOf(":instant")*/
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
-    }
 
     compileOptions {
         sourceCompatibility = JavaVersion.toVersion(libs.versions.jdk.get().toInt())
