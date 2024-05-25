@@ -58,10 +58,6 @@ android {
         compileSdk = libs.versions.compile.sdk.get().toInt()
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.toVersion(rootProject.extra.get("jvmTarget") as String)
         targetCompatibility = JavaVersion.toVersion(rootProject.extra.get("jvmTarget") as String)
