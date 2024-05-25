@@ -1,5 +1,3 @@
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-
 package org.michaelbel.movies.analytics.impl
 
 import android.os.Bundle
@@ -9,11 +7,11 @@ import org.michaelbel.movies.analytics.constants.MoviesParams
 import org.michaelbel.movies.analytics.model.BaseEvent
 import org.michaelbel.movies.platform.analytics.AnalyticsService
 
-internal actual class MoviesAnalyticsImpl(
+internal class MoviesAnalyticsImpl(
     private val analyticsService: AnalyticsService
 ): MoviesAnalytics {
 
-    actual override fun trackDestination(route: String?, arguments: HashMap<String, String>) {
+    override fun trackDestination(route: String?, arguments: HashMap<String, String>) {
         val args = Bundle()
         arguments.forEach { (key, value) ->
             args.putString(key, value)
@@ -25,7 +23,7 @@ internal actual class MoviesAnalyticsImpl(
         analyticsService.logEvent(analyticsService.screenView, bundle)
     }
 
-    actual override fun logEvent(event: BaseEvent) {
+    override fun logEvent(event: BaseEvent) {
         val bundle = bundleOf()
         event.params.forEach { (key, value) ->
             bundle.putString(key, value)

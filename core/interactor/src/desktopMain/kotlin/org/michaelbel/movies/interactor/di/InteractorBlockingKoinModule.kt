@@ -10,7 +10,7 @@ import org.michaelbel.movies.interactor.impl.MovieBlockingInteractorImpl
 import org.michaelbel.movies.persistence.database.di.moviesDatabaseKoinModule
 import org.michaelbel.movies.repository.di.repositoryBlockingKoinModule
 
-actual val interactorBlockingKoinModule = module {
+internal actual val interactorBlockingKoinModule = module {
     includes(
         dispatchersKoinModule,
         repositoryBlockingKoinModule,
