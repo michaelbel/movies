@@ -1,4 +1,5 @@
 plugins {
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.android.dynamic.feature)
     alias(libs.plugins.kotlin.android)
 }
@@ -26,10 +27,6 @@ android {
         create("gms") {
             dimension = "version"
         }
-    }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
     }
 
     compileOptions {
