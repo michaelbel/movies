@@ -3,11 +3,11 @@ package org.michaelbel.movies.feed.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.compose.collectAsLazyPagingItems
 import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.feed.FeedViewModel
 import org.michaelbel.movies.persistence.database.ktx.orEmpty
+import org.michaelbel.movies.ui.ktx.collectAsStateCommon
 
 @Composable
 fun FeedRoute(
@@ -20,11 +20,11 @@ fun FeedRoute(
     viewModel: FeedViewModel = koinViewModel()
 ) {
     val pagingItems = viewModel.pagingDataFlow.collectAsLazyPagingItems()
-    val account by viewModel.account.collectAsStateWithLifecycle()
-    val currentFeedView by viewModel.currentFeedView.collectAsStateWithLifecycle()
-    val currentMovieList by viewModel.currentMovieList.collectAsStateWithLifecycle()
-    val notificationsPermissionRequired by viewModel.notificationsPermissionRequired.collectAsStateWithLifecycle()
-    val networkStatus by viewModel.networkStatus.collectAsStateWithLifecycle()
+    val account by viewModel.account.collectAsStateCommon()
+    val currentFeedView by viewModel.currentFeedView.collectAsStateCommon()
+    val currentMovieList by viewModel.currentMovieList.collectAsStateCommon()
+    val notificationsPermissionRequired by viewModel.notificationsPermissionRequired.collectAsStateCommon()
+    val networkStatus by viewModel.networkStatus.collectAsStateCommon()
     val isAuthFailureSnackbarShowed = viewModel.isAuthFailureSnackbarShowed
 
     FeedScreenContent(
