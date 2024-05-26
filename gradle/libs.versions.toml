@@ -85,6 +85,9 @@ sqldelight = "2.0.2"
 koin = "3.6.0-wasm-alpha2"
 constraintlayout-compose-multiplatform = "0.4.0"
 okio = "3.9.0"
+buildkonfig = "0.15.1"
+napier = "2.7.1"
+kamel = "0.9.5"
 
 [libraries]
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
@@ -229,6 +232,8 @@ koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
 koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
 constraintlayout-compose-multiplatform = { module = "tech.annexflow.compose:constraintlayout-compose-multiplatform", version.ref = "constraintlayout-compose-multiplatform" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
+napier = { module = "io.github.aakira:napier", version.ref = "napier" }
+kamel = { module = "media.kamel:kamel-image", version.ref = "kamel" }
 
 lint-checks = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "lint-checks" }
 
@@ -471,6 +476,13 @@ kotlinx-coroutines-desktop = [
 datastore-desktop = [
     "androidx-datastore-core-okio-jvm"
 ]
+napier-desktop = [
+    "napier"
+]
+kamel-desktop = [
+    "ktor-client-cio",
+    "kamel"
+]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -496,3 +508,4 @@ detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 androidx-navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidx-navigation" }
 palantir-git = { id = "com.palantir.git-version", version.ref = "palantir-git" }
+buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }

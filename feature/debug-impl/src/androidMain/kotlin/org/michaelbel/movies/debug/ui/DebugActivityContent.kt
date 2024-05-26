@@ -28,12 +28,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.common.ktx.appSettingsIntent
 import org.michaelbel.movies.debug.DebugViewModel
 import org.michaelbel.movies.debug_impl.R
 import org.michaelbel.movies.ui.icons.MoviesAndroidIcons
+import org.michaelbel.movies.ui.ktx.collectAsStateCommon
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -41,8 +41,8 @@ internal fun DebugActivityContent(
     viewModel: DebugViewModel = koinViewModel(),
     enableEdgeToEdge: (Any, Any) -> Unit
 ) {
-    val themeData by viewModel.themeDataFlow.collectAsStateWithLifecycle()
-    val firebaseToken by viewModel.firebaseTokenFlow.collectAsStateWithLifecycle("")
+    val themeData by viewModel.themeDataFlow.collectAsStateCommon()
+    val firebaseToken by viewModel.firebaseTokenFlow.collectAsStateCommon()
 
     val context = LocalContext.current
     val clipboardManager = LocalClipboardManager.current

@@ -1,12 +1,14 @@
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
+import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.android.library)
+    alias(libs.plugins.buildkonfig)
 }
 
-val tmdbApiKey: String by lazy {
+private val tmdbApiKey: String by lazy {
     gradleLocalProperties(rootDir, providers).getProperty("TMDB_API_KEY").orEmpty().ifEmpty {
         System.getenv("TMDB_API_KEY").orEmpty()
     }
@@ -68,5 +70,13 @@ android {
         }
         debugImplementation(libs.bundles.flaker.android)
         releaseImplementation(libs.bundles.flaker.noop.android)
+    }
+}
+
+buildkonfig {
+    packageName = "org.michaelbel.movies.network"
+
+    defaultConfigs {
+        buildConfigField(STRING, "TMDB_API_KEY", tmdbApiKey)
     }
 }

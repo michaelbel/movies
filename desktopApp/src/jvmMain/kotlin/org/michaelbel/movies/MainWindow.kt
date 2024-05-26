@@ -3,7 +3,6 @@ package org.michaelbel.movies
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.window.Window
@@ -17,6 +16,7 @@ import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.di.appKoinModule
 import org.michaelbel.movies.main.MainContent
 import org.michaelbel.movies.main.MainViewModel
+import org.michaelbel.movies.ui.ktx.collectAsStateCommon
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 fun main() = application {
@@ -38,7 +38,7 @@ private fun App() {
         }
     ) {
         val viewModel = koinInject<MainViewModel>()
-        val themeData by viewModel.themeData.collectAsState()
+        val themeData by viewModel.themeData.collectAsStateCommon()
 
         withViewModelStoreOwner {
             MoviesTheme(

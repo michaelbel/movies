@@ -45,4 +45,6 @@ interface MovieInteractor {
         containerColor: Int,
         onContainerColor: Int
     )
+
+    suspend fun moviesResult(pagingKey: PagingKey): List<MoviePojo>
 }

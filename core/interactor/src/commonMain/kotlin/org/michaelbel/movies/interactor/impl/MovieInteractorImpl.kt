@@ -7,6 +7,7 @@ import org.michaelbel.movies.interactor.LocaleInteractor
 import org.michaelbel.movies.interactor.MovieInteractor
 import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
+import org.michaelbel.movies.persistence.database.ktx.moviePojo
 import org.michaelbel.movies.persistence.database.typealiases.Limit
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
 import org.michaelbel.movies.persistence.database.typealiases.PagingKey
@@ -70,6 +71,14 @@ internal class MovieInteractorImpl(
     ) {
         return withContext(dispatchers.io) {
             movieRepository.updateMovieColors(movieId, containerColor, onContainerColor)
+        }
+    }
+
+    override suspend fun moviesResult(pagingKey: PagingKey): List<MoviePojo> {
+        return withContext(dispatchers.io) {
+            movieRepository.moviesResult2(pagingKey, localeInteractor.language, 1).results.mapIndexed { index, movieResponse ->
+                movieResponse.moviePojo(pagingKey, index, 1)
+            }
         }
     }
 }

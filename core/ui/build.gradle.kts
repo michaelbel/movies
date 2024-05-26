@@ -45,6 +45,10 @@ kotlin {
             api(libs.bundles.google.material.android)
             implementation(libs.bundles.paging.common) // fixme ломает navigation
         }
+        val desktopMain by getting
+        desktopMain.dependencies {
+            implementation(libs.bundles.kamel.desktop)
+        }
     }
 }
 

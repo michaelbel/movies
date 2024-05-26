@@ -30,4 +30,12 @@ class MovieNetworkService internal constructor(
     ): ImagesResponse {
         return ktorMovieService.images(movieId)
     }
+
+    suspend fun movies2(
+        list: String,
+        language: String,
+        page: Int
+    ): Result<MovieResponse> {
+        return ktorMovieService.movies2(list, language, page)
+    }
 }

@@ -21,9 +21,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
+import org.michaelbel.movies.ui.ktx.collectAsStateCommon
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.widget.R
@@ -34,7 +34,7 @@ internal fun AppWidgetConfigureActivityContent(
     enableEdgeToEdge: (Any, Any) -> Unit,
     onBackClick: () -> Unit
 ) {
-    val themeData by viewModel.themeData.collectAsStateWithLifecycle()
+    val themeData by viewModel.themeData.collectAsStateCommon()
 
     val topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 

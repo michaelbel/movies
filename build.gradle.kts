@@ -17,6 +17,7 @@ plugins {
     alias(libs.plugins.google.firebase.crashlytics) apply false
     alias(libs.plugins.sqldelight) apply false
     alias(libs.plugins.androidx.navigation.safeargs) apply false
+    alias(libs.plugins.buildkonfig) apply false
     alias(libs.plugins.spotless)
     alias(libs.plugins.detekt)
     alias(libs.plugins.palantir.git)
