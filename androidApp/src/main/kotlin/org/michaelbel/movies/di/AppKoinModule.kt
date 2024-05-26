@@ -5,7 +5,7 @@ import org.michaelbel.movies.account.di.accountKoinModule
 import org.michaelbel.movies.auth.di.authKoinModule
 import org.michaelbel.movies.debug.di.debugKoinModule
 import org.michaelbel.movies.details.di.detailsKoinModule
-import org.michaelbel.movies.feed.di.feedAndroidKoinModule
+import org.michaelbel.movies.feed.di.feedKoinModule
 import org.michaelbel.movies.gallery.di.galleryKoinModule
 import org.michaelbel.movies.main.di.mainKoinModule
 import org.michaelbel.movies.platform.inject.flavorServiceKtorModule
@@ -20,7 +20,7 @@ internal val appKoinModule = module {
         accountKoinModule,
         authKoinModule,
         detailsKoinModule,
-        feedAndroidKoinModule,
+        feedKoinModule,
         galleryKoinModule,
         searchKoinModule,
         settingsKoinModule,

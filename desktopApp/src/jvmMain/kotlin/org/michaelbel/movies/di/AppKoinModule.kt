@@ -4,6 +4,7 @@ import org.koin.dsl.module
 import org.michaelbel.movies.account.di.accountKoinModule
 import org.michaelbel.movies.auth.di.authKoinModule
 import org.michaelbel.movies.details.di.detailsKoinModule
+import org.michaelbel.movies.feed.di.feedKoinModule
 import org.michaelbel.movies.gallery.di.galleryKoinModule
 import org.michaelbel.movies.main.di.mainKoinModule
 import org.michaelbel.movies.platform.inject.flavorServiceKtorModule

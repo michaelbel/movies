@@ -9,8 +9,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import org.koin.compose.koinInject
+import org.michaelbel.movies.feed.FeedViewModel
 import org.michaelbel.movies.persistence.database.entity.pojo.AccountPojo
-import org.michaelbel.movies.ui.FeedToolbar
 
 @Composable
 fun FeedRoute(
@@ -19,7 +20,8 @@ fun FeedRoute(
     onNavigateToAccount: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToDetails: (String, Int) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    viewModel: FeedViewModel = koinInject<FeedViewModel>()
 ) {
     FeedScreenContent(
         onNavigateToSearch = onNavigateToSearch,

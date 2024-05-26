@@ -2,14 +2,14 @@ package org.michaelbel.movies.feed.di
 
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
-import org.michaelbel.movies.di.feedKoinModule
 import org.michaelbel.movies.feed.FeedViewModel
+import org.michaelbel.movies.interactor.di.interactorKoinModule
 import org.michaelbel.movies.network.connectivity.di.networkManagerKoinModule
 import org.michaelbel.movies.notifications.di.notificationClientKoinModule
 
-val feedAndroidKoinModule = module {
+actual val feedKoinModule = module {
     includes(
-        feedKoinModule,
+        interactorKoinModule,
         notificationClientKoinModule,
         networkManagerKoinModule
     )

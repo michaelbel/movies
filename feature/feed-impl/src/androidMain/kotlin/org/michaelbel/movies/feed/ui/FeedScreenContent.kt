@@ -34,14 +34,12 @@ import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
 import org.michaelbel.movies.common.exceptions.PageEmptyException
 import org.michaelbel.movies.common.list.MovieList
+import org.michaelbel.movies.feed.ktx.titleText
 import org.michaelbel.movies.feed_impl.R
-import org.michaelbel.movies.ktx.titleText
 import org.michaelbel.movies.network.config.isTmdbApiKeyEmpty
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.persistence.database.entity.pojo.AccountPojo
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
-import org.michaelbel.movies.ui.FeedEmpty
-import org.michaelbel.movies.ui.FeedToolbar
 import org.michaelbel.movies.ui.compose.NotificationBottomSheet
 import org.michaelbel.movies.ui.compose.page.PageContent
 import org.michaelbel.movies.ui.compose.page.PageFailure

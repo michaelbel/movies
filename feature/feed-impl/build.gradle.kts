@@ -44,6 +44,7 @@ kotlin {
             implementation(compose.material)
             implementation(compose.material3)
             implementation(compose.runtime)
+            implementation(libs.koin.compose)
         }
     }
 }

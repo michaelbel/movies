@@ -1,6 +1,6 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
+@file:OptIn(ExperimentalMaterial3Api::class)
 
-package org.michaelbel.movies.ui
+package org.michaelbel.movies.feed.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,7 +23,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.persistence.database.entity.pojo.AccountPojo
