@@ -434,12 +434,14 @@ internal fun SettingsScreenContent(
                         onClick = settingsData.githubData.onRequest
                     )
                 }
-                item {
-                    HorizontalDivider(
-                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
-                        thickness = .1.dp,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
+                if (settingsData.reviewAppData.isFeatureEnabled || settingsData.updateAppData.isFeatureEnabled) {
+                    item {
+                        HorizontalDivider(
+                            modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp),
+                            thickness = .1.dp,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    }
                 }
             }
             if (settingsData.reviewAppData.isFeatureEnabled) {
