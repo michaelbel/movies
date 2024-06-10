@@ -87,7 +87,7 @@ constraintlayout-compose-multiplatform = "0.4.0"
 okio = "3.9.0"
 buildkonfig = "0.15.1"
 napier = "2.7.1"
-kamel = "0.9.5-wasm"
+kamel = "0.9.5"
 
 [libraries]
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
