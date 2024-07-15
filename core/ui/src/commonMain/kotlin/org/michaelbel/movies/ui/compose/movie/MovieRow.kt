@@ -19,8 +19,8 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import coil3.PlatformContext
 import coil3.compose.AsyncImage
+import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import org.michaelbel.movies.common.theme.AppTheme
@@ -44,7 +44,7 @@ internal fun MovieRow(
         val (image, noImageText, text) = createRefs()
 
         AsyncImage(
-            model = ImageRequest.Builder(PlatformContext.INSTANCE)
+            model = ImageRequest.Builder(LocalPlatformContext.current)
                 .data(movie.backdropPath.formatBackdropImage)
                 .crossfade(true)
                 .build(),

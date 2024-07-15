@@ -30,6 +30,7 @@ import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
 import coil.ImageLoader
 import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
 import coil.request.SuccessResult
 import org.michaelbel.movies.common.theme.AppTheme
@@ -37,7 +38,6 @@ import org.michaelbel.movies.network.config.formatBackdropImage
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.persistence.database.ktx.isNotEmpty
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
-import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
 import org.michaelbel.movies.ui.placeholder.PlaceholderHighlight
 import org.michaelbel.movies.ui.placeholder.material3.fade
 import org.michaelbel.movies.ui.placeholder.placeholder
@@ -114,7 +114,7 @@ internal fun DetailsContent(
                     onClick = { onNavigateToGallery(movie.movieId) }
                 ) ,
             onState = { state ->
-                isNoImageVisible = movie.isNotEmpty && state.isErrorOrEmpty
+                isNoImageVisible = movie.isNotEmpty && (state is AsyncImagePainter.State.Error || state is AsyncImagePainter.State.Empty)
             },
             contentScale = ContentScale.Crop
         )

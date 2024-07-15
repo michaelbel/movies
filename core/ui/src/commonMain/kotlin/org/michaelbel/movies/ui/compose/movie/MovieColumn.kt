@@ -19,10 +19,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import coil3.PlatformContext
 import coil3.compose.AsyncImage
+import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import movies.core.ui.generated.resources.Res
+import movies.core.ui.generated.resources.no_image
+import org.jetbrains.compose.resources.stringResource
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.network.config.formatPosterImage
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
@@ -43,7 +46,7 @@ internal fun MovieColumn(
         val (image, noImageText, text) = createRefs()
 
         AsyncImage(
-            model = ImageRequest.Builder(PlatformContext.INSTANCE)
+            model = ImageRequest.Builder(LocalPlatformContext.current)
                 .data(movie.posterPath.formatPosterImage)
                 .crossfade(true)
                 .build(),
@@ -74,7 +77,7 @@ internal fun MovieColumn(
             enter = fadeIn()
         ) {
             Text(
-                text = "No image",
+                text = stringResource(Res.string.no_image),
                 style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.secondary)
             )
         }
