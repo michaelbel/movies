@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalKotlinGradlePluginApi::class)
+
 import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.codingfeline.buildkonfig.compiler.FieldSpec.Type.STRING
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
@@ -15,13 +18,7 @@ private val tmdbApiKey: String by lazy {
 }
 
 kotlin {
-    androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = JavaVersion.VERSION_1_8.toString()
-            }
-        }
-    }
+    androidTarget()
     jvm("desktop")
 
     sourceSets {
@@ -36,6 +33,10 @@ kotlin {
             implementation(libs.bundles.okhttp.logging.interceptor.android)
             implementation(libs.bundles.koin.android)
         }
+    }
+
+    compilerOptions {
+        jvmToolchain(libs.versions.jdk.get().toInt())
     }
 }
 

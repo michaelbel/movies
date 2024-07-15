@@ -1,3 +1,7 @@
+@file:OptIn(ExperimentalKotlinGradlePluginApi::class)
+
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.compose)
@@ -6,13 +10,7 @@ plugins {
 }
 
 kotlin {
-    androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = "11"
-            }
-        }
-    }
+    androidTarget()
     jvm("desktop")
 
     sourceSets {
@@ -36,6 +34,10 @@ kotlin {
             implementation(libs.koin.compose)
         }
     }
+
+    compilerOptions {
+        jvmToolchain(libs.versions.jdk.get().toInt())
+    }
 }
 
 android {
@@ -50,11 +52,6 @@ android {
     buildFeatures {
         buildConfig = true
         compose = true
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
     }
 
     lint {

@@ -32,7 +32,3 @@ subprojects {
         apply(plugin = "io.gitlab.arturbosch.detekt")
     }
 }
-
-extra.apply {
-    set("jvmTarget", "11")
-}

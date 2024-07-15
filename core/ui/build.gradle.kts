@@ -1,3 +1,7 @@
+@file:OptIn(ExperimentalKotlinGradlePluginApi::class)
+
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.compose)
@@ -6,20 +10,8 @@ plugins {
 }
 
 kotlin {
-    androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = rootProject.extra.get("jvmTarget") as String
-            }
-        }
-    }
-    jvm("desktop") {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = rootProject.extra.get("jvmTarget") as String
-            }
-        }
-    }
+    androidTarget()
+    jvm("desktop")
 
     sourceSets {
         commonMain.dependencies {
@@ -50,6 +42,10 @@ kotlin {
             implementation(libs.bundles.kamel.desktop)
         }
     }
+
+    compilerOptions {
+        jvmToolchain(libs.versions.jdk.get().toInt())
+    }
 }
 
 android {
@@ -60,11 +56,6 @@ android {
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
         compileSdk = libs.versions.compile.sdk.get().toInt()
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.toVersion(rootProject.extra.get("jvmTarget") as String)
-        targetCompatibility = JavaVersion.toVersion(rootProject.extra.get("jvmTarget") as String)
     }
 
     lint {

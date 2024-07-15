@@ -1,3 +1,7 @@
+@file:OptIn(ExperimentalKotlinGradlePluginApi::class)
+
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.compose)
@@ -6,13 +10,7 @@ plugins {
 }
 
 kotlin {
-    androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = JavaVersion.VERSION_1_8.toString()
-            }
-        }
-    }
+    androidTarget()
     jvm("desktop")
 
     sourceSets {
@@ -24,6 +22,10 @@ kotlin {
             implementation(libs.bundles.kotlinx.coroutines.common)
             implementation(libs.bundles.room.paging.common)
         }
+    }
+
+    compilerOptions {
+        jvmToolchain(libs.versions.jdk.get().toInt())
     }
 }
 

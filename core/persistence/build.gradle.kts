@@ -1,3 +1,7 @@
+@file:OptIn(ExperimentalKotlinGradlePluginApi::class)
+
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.android.library)
@@ -6,13 +10,7 @@ plugins {
 }
 
 kotlin {
-    androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = JavaVersion.VERSION_1_8.toString()
-            }
-        }
-    }
+    androidTarget()
     jvm("desktop")
 
     sourceSets {
@@ -31,6 +29,10 @@ kotlin {
         desktopMain.dependencies {
             implementation(libs.bundles.datastore.desktop)
         }
+    }
+
+    compilerOptions {
+        jvmToolchain(libs.versions.jdk.get().toInt())
     }
 }
 

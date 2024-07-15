@@ -1,3 +1,7 @@
+@file:OptIn(ExperimentalKotlinGradlePluginApi::class)
+
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.compose)
@@ -6,13 +10,7 @@ plugins {
 }
 
 kotlin {
-    androidTarget {
-        compilations.all {
-            kotlinOptions {
-                jvmTarget = JavaVersion.VERSION_1_8.toString()
-            }
-        }
-    }
+    androidTarget()
 
     sourceSets {
         commonMain.dependencies {
@@ -22,6 +20,10 @@ kotlin {
             implementation(project(":core:interactor"))
             implementation(project(":core:navigation"))
         }
+    }
+
+    compilerOptions {
+        jvmToolchain(libs.versions.jdk.get().toInt())
     }
 }
 
