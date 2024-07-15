@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
+@file:OptIn(ExperimentalMaterial3Api::class)
 
 package org.michaelbel.movies.settings.ui
 
@@ -11,7 +11,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.ui.compose.iconbutton.BackIcon

@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalResourceApi::class)
-
 package org.michaelbel.movies.ui.icons
 
 import androidx.compose.material.icons.Icons
@@ -41,7 +39,6 @@ import movies.core.ui.generated.resources.ic_movie_filter_24
 import movies.core.ui.generated.resources.ic_settings_account_box_24
 import movies.core.ui.generated.resources.ic_settings_cinematic_blur_24
 import movies.core.ui.generated.resources.ic_tmdb_logo
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 /**
  * Movies icons. Material icons are [ImageVector]s, custom icons are drawable resource IDs.

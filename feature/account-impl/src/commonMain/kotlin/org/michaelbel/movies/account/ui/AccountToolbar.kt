@@ -1,4 +1,4 @@
-@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalResourceApi::class)
+@file:OptIn(ExperimentalMaterial3Api::class)
 
 package org.michaelbel.movies.account.ui
 
@@ -12,7 +12,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon

@@ -1,9 +1,6 @@
-@file:OptIn(ExperimentalResourceApi::class)
-
 package org.michaelbel.movies.auth.ktx
 
 import androidx.compose.runtime.Composable
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.michaelbel.movies.common.exceptions.AccountDetailsException
 import org.michaelbel.movies.common.exceptions.CreateRequestTokenException

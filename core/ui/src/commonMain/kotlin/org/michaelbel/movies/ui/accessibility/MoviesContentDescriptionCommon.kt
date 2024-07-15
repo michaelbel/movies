@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalResourceApi::class)
-
 package org.michaelbel.movies.ui.accessibility
 
 import movies.core.ui.generated.resources.Res
@@ -19,7 +17,6 @@ import movies.core.ui.generated.resources.content_description_settings_icon
 import movies.core.ui.generated.resources.content_description_share_icon
 import movies.core.ui.generated.resources.content_description_user_location_icon
 import movies.core.ui.generated.resources.content_description_voice_icon
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 
 object MoviesContentDescriptionCommon {
     val AccountIcon = Res.string.content_description_account_icon

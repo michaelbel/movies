@@ -1,9 +1,6 @@
-@file:OptIn(ExperimentalResourceApi::class)
-
 package org.michaelbel.movies.ui.appicon
 
 import org.jetbrains.compose.resources.DrawableResource
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.michaelbel.movies.ui.icons.MoviesIcons
 
 sealed class IconAlias(

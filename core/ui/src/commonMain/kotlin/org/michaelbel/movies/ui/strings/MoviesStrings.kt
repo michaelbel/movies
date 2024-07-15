@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalResourceApi::class)
-
 package org.michaelbel.movies.ui.strings
 
 import androidx.compose.runtime.Composable
@@ -115,7 +113,6 @@ import movies.core.ui.generated.resources.shortcuts_search_title
 import movies.core.ui.generated.resources.shortcuts_settings_title
 import movies.core.ui.generated.resources.tile_added
 import movies.core.ui.generated.resources.tile_title
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 
 object MoviesStrings {

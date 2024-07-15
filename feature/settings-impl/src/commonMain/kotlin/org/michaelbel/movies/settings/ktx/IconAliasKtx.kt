@@ -1,8 +1,5 @@
-@file:OptIn(ExperimentalResourceApi::class)
-
 package org.michaelbel.movies.settings.ktx
 
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.StringResource
 import org.michaelbel.movies.ui.appicon.IconAlias
 import org.michaelbel.movies.ui.strings.MoviesStrings

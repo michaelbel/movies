@@ -1,11 +1,5 @@
-@file:OptIn(ExperimentalResourceApi::class)
-
 package org.michaelbel.movies.ui.compose
 
-/*import coil3.compose.AsyncImage
-import coil3.compose.LocalPlatformContext
-import coil3.request.ImageRequest
-import coil3.request.crossfade*/
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -15,11 +9,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.resources.ExperimentalResourceApi
+import coil3.compose.AsyncImage
+import coil3.compose.LocalPlatformContext
+import coil3.request.ImageRequest
+import coil3.request.crossfade
+import org.jetbrains.compose.resources.stringResource
 import org.michaelbel.movies.persistence.database.entity.pojo.AccountPojo
 import org.michaelbel.movies.persistence.database.ktx.letters
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.ktx.lettersTextFontSizeSmall
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
@@ -29,8 +30,8 @@ fun AccountAvatar(
     fontSize: TextUnit,
     modifier: Modifier
 ) {
-    if (account.avatarUrl.isNotEmpty() || false) {
-        /*AsyncImage(
+    if (account.avatarUrl.isNotEmpty()) {
+        AsyncImage(
             model = ImageRequest.Builder(LocalPlatformContext.current)
                 .data(account.avatarUrl)
                 .crossfade(true)
@@ -38,7 +39,7 @@ fun AccountAvatar(
             contentDescription = stringResource(MoviesContentDescriptionCommon.AccountAvatarImage),
             modifier = modifier.clip(CircleShape),
             contentScale = ContentScale.Crop
-        )*/
+        )
     } else {
         Box(
             modifier = modifier.border(

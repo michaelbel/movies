@@ -16,7 +16,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:persistence"))
-            /*implementation(libs.bundles.coil.common)*/
+            implementation(libs.bundles.coil.common)
             implementation(libs.bundles.constraintlayout.common)
             implementation(compose.components.resources)
             implementation(compose.foundation)
@@ -36,10 +36,6 @@ kotlin {
             api(libs.bundles.compose.android)
             api(libs.bundles.google.material.android)
             implementation(libs.bundles.paging.common) // fixme ломает navigation
-        }
-        val desktopMain by getting
-        desktopMain.dependencies {
-            implementation(libs.bundles.kamel.desktop)
         }
     }
 

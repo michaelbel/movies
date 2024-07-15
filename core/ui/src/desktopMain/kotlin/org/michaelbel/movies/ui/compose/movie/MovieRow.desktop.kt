@@ -19,11 +19,15 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import io.kamel.image.KamelImage
-import io.kamel.image.asyncPainterResource
+import coil3.PlatformContext
+import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
+import coil3.request.crossfade
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.network.config.formatBackdropImage
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
+import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
+import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -39,9 +43,12 @@ internal fun MovieRow(
     ) {
         val (image, noImageText, text) = createRefs()
 
-        KamelImage(
-            resource = asyncPainterResource(movie.backdropPath.formatBackdropImage),
-            contentDescription = null,
+        AsyncImage(
+            model = ImageRequest.Builder(PlatformContext.INSTANCE)
+                .data(movie.backdropPath.formatBackdropImage)
+                .crossfade(true)
+                .build(),
+            contentDescription = MoviesContentDescriptionCommon.None,
             modifier = Modifier.constrainAs(image) {
                 width = Dimension.fillToConstraints
                 height = Dimension.value(220.dp)
@@ -49,8 +56,8 @@ internal fun MovieRow(
                 top.linkTo(parent.top)
                 end.linkTo(parent.end)
             },
-            onFailure = {
-                isNoImageVisible = true
+            onState = { state ->
+                isNoImageVisible = state.isErrorOrEmpty
             },
             contentScale = ContentScale.Crop
         )

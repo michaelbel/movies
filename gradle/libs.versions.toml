@@ -88,7 +88,6 @@ constraintlayout-compose-multiplatform = "0.4.0"
 okio = "3.9.0"
 buildkonfig = "0.15.1"
 napier = "2.7.1"
-kamel = "0.9.5"
 
 [libraries]
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
@@ -235,7 +234,6 @@ koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "
 constraintlayout-compose-multiplatform = { module = "tech.annexflow.compose:constraintlayout-compose-multiplatform", version.ref = "constraintlayout-compose-multiplatform" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
-kamel = { module = "media.kamel:kamel-image", version.ref = "kamel" }
 
 lint-checks = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "lint-checks" }
 
@@ -481,10 +479,6 @@ datastore-desktop = [
 ]
 napier-desktop = [
     "napier"
-]
-kamel-desktop = [
-    "ktor-client-cio",
-    "kamel"
 ]
 
 [plugins]

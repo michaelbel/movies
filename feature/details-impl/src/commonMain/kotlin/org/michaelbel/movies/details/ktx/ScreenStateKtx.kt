@@ -1,11 +1,8 @@
-@file:OptIn(ExperimentalResourceApi::class)
-
 package org.michaelbel.movies.details.ktx
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
-import org.jetbrains.compose.resources.ExperimentalResourceApi
 import org.jetbrains.compose.resources.stringResource
 import org.michaelbel.movies.network.config.ScreenState
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
