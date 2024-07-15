@@ -22,7 +22,7 @@ kotlin {
         androidMain.dependencies {
             api(libs.bundles.google.firebase.android)
             api(libs.bundles.google.services.android)
-            api(libs.bundles.google.play.core.android)
+            api(libs.bundles.google.play.android)
             implementation(libs.bundles.koin.android)
         }
     }
