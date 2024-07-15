@@ -18,6 +18,7 @@ import org.michaelbel.movies.feed.ktx.titleText
 import org.michaelbel.movies.persistence.database.entity.pojo.AccountPojo
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.ui.compose.page.PageContent
+import org.michaelbel.movies.ui.compose.page.PageLoading
 
 @Composable
 internal fun FeedScreenContent(
@@ -47,15 +48,25 @@ internal fun FeedScreenContent(
         },
         containerColor = MaterialTheme.colorScheme.background
     ) { innerPadding ->
-        PageContent(
-            feedView = currentFeedView,
-            lazyListState = rememberLazyListState(),
-            lazyGridState = rememberLazyGridState(),
-            lazyStaggeredGridState = rememberLazyStaggeredGridState(),
-            pagingItems = pagingItems,
-            onMovieClick = onNavigateToDetails,
-            contentPadding = innerPadding,
-            modifier = Modifier
-        )
+        when {
+            pagingItems.isEmpty() -> {
+                PageLoading(
+                    feedView = currentFeedView,
+                    paddingValues = innerPadding
+                )
+            }
+            else -> {
+                PageContent(
+                    feedView = currentFeedView,
+                    lazyListState = rememberLazyListState(),
+                    lazyGridState = rememberLazyGridState(),
+                    lazyStaggeredGridState = rememberLazyStaggeredGridState(),
+                    pagingItems = pagingItems,
+                    onMovieClick = onNavigateToDetails,
+                    contentPadding = innerPadding,
+                    modifier = Modifier
+                )
+            }
+        }
     }
 }
