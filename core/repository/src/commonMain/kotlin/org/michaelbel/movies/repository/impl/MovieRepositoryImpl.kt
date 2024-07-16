@@ -142,20 +142,4 @@ internal class MovieRepositoryImpl(
     ) {
         moviePersistence.updateMovieColors(movieId, containerColor, onContainerColor)
     }
-
-    override suspend fun moviesResult2(
-        pagingKey: PagingKey,
-        language: String,
-        page: Page
-    ): Result<MovieResponse> {
-        if (isTmdbApiKeyEmpty && moviePersistence.isEmpty(MoviePojo.MOVIES_LOCAL_LIST)) {
-            checkApiKeyNotNullException()
-        }
-
-        return movieNetworkService.movies2(
-            list = pagingKey,
-            language = language,
-            page = page
-        )
-    }
 }

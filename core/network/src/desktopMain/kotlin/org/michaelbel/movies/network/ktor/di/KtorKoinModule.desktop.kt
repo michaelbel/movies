@@ -31,6 +31,12 @@ actual val ktorKoinModule = module {
                 socketTimeoutMillis = SOCKET_TIMEOUT_SECONDS
             }
         }
+        /*ktor.sendPipeline.intercept(HttpSendPipeline.State) {
+            context.headers.append("api_key", tmdbApiKey)
+        }*/
+        /*ktor.plugin(HttpSend).intercept { request ->
+            execute(request)
+        }*/
         ktor
     }
 }

@@ -1,7 +1,4 @@
-@file:OptIn(
-    ExperimentalMaterial3Api::class,
-    ExperimentalFoundationApi::class
-)
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 
 package org.michaelbel.movies.details.ui
 
@@ -26,6 +23,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.palette.graphics.Palette
+import java.net.UnknownHostException
 import org.michaelbel.movies.details.ktx.movie
 import org.michaelbel.movies.details.ktx.movieUrl
 import org.michaelbel.movies.details.ktx.onPrimaryContainer
@@ -40,7 +38,6 @@ import org.michaelbel.movies.network.ktx.throwable
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.ktx.screenHeight
 import org.michaelbel.movies.ui.ktx.screenWidth
-import java.net.UnknownHostException
 
 @Composable
 internal fun DetailsScreenContent(

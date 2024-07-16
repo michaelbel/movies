@@ -76,7 +76,7 @@ internal class MovieInteractorImpl(
 
     override suspend fun moviesResult(pagingKey: PagingKey): List<MoviePojo> {
         return withContext(dispatchers.io) {
-            movieRepository.moviesResult2(pagingKey, localeInteractor.language, 1).results.mapIndexed { index, movieResponse ->
+            movieRepository.moviesResult(pagingKey, localeInteractor.language, 1).results.mapIndexed { index, movieResponse ->
                 movieResponse.moviePojo(pagingKey, index, 1)
             }
         }

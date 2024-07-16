@@ -40,7 +40,9 @@ internal fun FeedScreenContent(
                 account = AccountPojo.Empty,
                 isTmdbApiKeyEmpty = false,
                 topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
+                isSearchIconVisible = false,
                 onSearchIconClick = onNavigateToSearch,
+                isAuthIconVisible = false,
                 onAuthIconClick = onNavigateToAuth,
                 onAccountIconClick = onNavigateToAccount,
                 onSettingsIconClick = onNavigateToSettings

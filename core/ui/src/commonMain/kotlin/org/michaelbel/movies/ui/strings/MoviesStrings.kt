@@ -25,6 +25,7 @@ import movies.core.ui.generated.resources.auth_terms_of_use
 import movies.core.ui.generated.resources.auth_title
 import movies.core.ui.generated.resources.details_error_loading
 import movies.core.ui.generated.resources.details_title
+import movies.core.ui.generated.resources.details_url_copied
 import movies.core.ui.generated.resources.error_api_key_null
 import movies.core.ui.generated.resources.error_check_internet_connectivity
 import movies.core.ui.generated.resources.error_loading
@@ -151,6 +152,7 @@ object MoviesStrings {
 
     val details_title = Res.string.details_title
     val details_error_loading = Res.string.details_error_loading
+    val details_url_copied = Res.string.details_url_copied
 
     val feed_title_now_playing = Res.string.feed_title_now_playing
     val feed_title_popular = Res.string.feed_title_popular

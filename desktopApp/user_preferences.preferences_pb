@@ -1,4 +1,14 @@
 
 
 	feed_view
-*FeedGrid
+*FeedList
+
+palette
+
+
+seed_color®Òùùÿÿÿÿÿ
+
+theme	*NightNo
+(
+
+movie_list*TopRated(name=top_rated)

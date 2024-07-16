@@ -39,8 +39,7 @@ class FeedViewModel(
 
     init {
         viewModelScope.launch {
-            val result = interactor.moviesResult(currentMovieList.value.nameOrLocalList)
-            _pagingDataFlow.value = result
+            _pagingDataFlow.value = interactor.moviesResult(currentMovieList.value.nameOrLocalList)
         }
     }
 }

@@ -23,12 +23,6 @@ interface MovieRepository {
         page: Page
     ): Result<MovieResponse>
 
-    suspend fun moviesResult2(
-        pagingKey: PagingKey,
-        language: String,
-        page: Page
-    ): Result<MovieResponse>
-
     suspend fun movie(
         pagingKey: PagingKey,
         movieId: MovieId

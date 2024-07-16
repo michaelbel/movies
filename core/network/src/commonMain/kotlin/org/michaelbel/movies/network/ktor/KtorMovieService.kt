@@ -4,6 +4,7 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.parameter
+import org.michaelbel.movies.network.config.isNeedApiKeyQuery
 import org.michaelbel.movies.network.config.tmdbApiKey
 import org.michaelbel.movies.network.model.ImagesResponse
 import org.michaelbel.movies.network.model.Movie
@@ -20,6 +21,9 @@ internal class KtorMovieService(
         page: Int
     ): Result<MovieResponse> {
         return ktorHttpClient.get("movie/$list") {
+            if (isNeedApiKeyQuery) {
+                parameter("api_key", tmdbApiKey)
+            }
             parameter("language", language)
             parameter("page", page)
         }.body()
@@ -30,6 +34,9 @@ internal class KtorMovieService(
         language: String
     ): Movie {
         return ktorHttpClient.get("movie/$movieId") {
+            if (isNeedApiKeyQuery) {
+                parameter("api_key", tmdbApiKey)
+            }
             parameter("language", language)
         }.body()
     }
@@ -37,18 +44,10 @@ internal class KtorMovieService(
     suspend fun images(
         movieId: Int
     ): ImagesResponse {
-        return ktorHttpClient.get("movie/$movieId/images").body()
-    }
-
-    suspend fun movies2(
-        list: String,
-        language: String,
-        page: Int
-    ): Result<MovieResponse> {
-        return ktorHttpClient.get("movie/$list") {
-            parameter("api_key", tmdbApiKey)
-            parameter("language", language)
-            parameter("page", page)
+        return ktorHttpClient.get("movie/$movieId/images") {
+            if (isNeedApiKeyQuery) {
+                parameter("api_key", tmdbApiKey)
+            }
         }.body()
     }
 }

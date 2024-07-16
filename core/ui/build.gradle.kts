@@ -16,7 +16,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:persistence"))
-            implementation(libs.bundles.coil.common)
+            api(libs.bundles.coil.common)
             implementation(libs.bundles.constraintlayout.common)
             implementation(compose.components.resources)
             implementation(compose.foundation)

@@ -35,6 +35,7 @@
 
     <string name="details_title">Movie Details</string>
     <string name="details_error_loading">Error while loading</string>
+    <string name="details_url_copied">Movie url copied to clipboard</string>
 
     <string name="feed_title_now_playing">Now Playing Movies</string>
     <string name="feed_title_popular">Popular Movies</string>

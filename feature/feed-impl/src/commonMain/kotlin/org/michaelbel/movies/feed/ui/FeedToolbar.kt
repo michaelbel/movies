@@ -42,7 +42,9 @@ internal fun FeedToolbar(
     title: String,
     account: AccountPojo,
     isTmdbApiKeyEmpty: Boolean,
+    isSearchIconVisible: Boolean,
     onSearchIconClick: () -> Unit,
+    isAuthIconVisible: Boolean,
     onAuthIconClick: () -> Unit,
     onAccountIconClick: () -> Unit,
     onSettingsIconClick: () -> Unit,
@@ -62,11 +64,15 @@ internal fun FeedToolbar(
                 )
             },
             modifier = modifier,
-            navigationIcon = {
-                SearchIcon(
-                    onClick = onSearchIconClick,
-                    modifier = Modifier.then(modifierDisplayCutoutWindowInsets)
-                )
+            navigationIcon = if (isSearchIconVisible) {
+                {
+                    SearchIcon(
+                        onClick = onSearchIconClick,
+                        modifier = Modifier.then(modifierDisplayCutoutWindowInsets)
+                    )
+                }
+            } else {
+                {}
             },
             actions = {
                 Row(
@@ -76,21 +82,23 @@ internal fun FeedToolbar(
                         onClick = onSettingsIconClick
                     )
 
-                    IconButton(
-                        onClick = if (account.isEmpty) onAuthIconClick else onAccountIconClick
-                    ) {
-                        if (account.isEmpty) {
-                            Image(
-                                imageVector = MoviesIcons.AccountCircle,
-                                contentDescription = stringResource(MoviesContentDescriptionCommon.AccountIcon),
-                                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
-                            )
-                        } else {
-                            AccountAvatar(
-                                account = account,
-                                fontSize = account.lettersTextFontSizeSmall,
-                                modifier = Modifier.size(32.dp)
-                            )
+                    if (isAuthIconVisible) {
+                        IconButton(
+                            onClick = if (account.isEmpty) onAuthIconClick else onAccountIconClick
+                        ) {
+                            if (account.isEmpty) {
+                                Image(
+                                    imageVector = MoviesIcons.AccountCircle,
+                                    contentDescription = stringResource(MoviesContentDescriptionCommon.AccountIcon),
+                                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onPrimaryContainer)
+                                )
+                            } else {
+                                AccountAvatar(
+                                    account = account,
+                                    fontSize = account.lettersTextFontSizeSmall,
+                                    modifier = Modifier.size(32.dp)
+                                )
+                            }
                         }
                     }
                 }
@@ -118,8 +126,10 @@ private fun FeedToolbarPreview() {
             title = "Not Playing",
             account = AccountPojo.Empty,
             isTmdbApiKeyEmpty = true,
+            isSearchIconVisible = true,
             onSearchIconClick = {},
             onAccountIconClick = {},
+            isAuthIconVisible = true,
             onAuthIconClick = {},
             onSettingsIconClick = {},
             topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
@@ -138,8 +148,10 @@ private fun FeedToolbarAmoledPreview() {
             title = "Not Playing",
             account = AccountPojo.Empty,
             isTmdbApiKeyEmpty = true,
+            isSearchIconVisible = true,
             onSearchIconClick = {},
             onAccountIconClick = {},
+            isAuthIconVisible = true,
             onAuthIconClick = {},
             onSettingsIconClick = {},
             topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),

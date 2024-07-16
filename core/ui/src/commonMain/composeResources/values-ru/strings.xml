@@ -35,6 +35,7 @@
 
     <string name="details_title">Детали фильма</string>
     <string name="details_error_loading">Во время загрузки произошла ошибка</string>
+    <string name="details_url_copied">Ссылка на фильм скопирована в буфер обмена</string>
 
     <string name="feed_title_now_playing">Фильмы премьеры</string>
     <string name="feed_title_popular">Популярные фильмы</string>
