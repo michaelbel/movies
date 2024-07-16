@@ -1,13 +1,15 @@
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package org.michaelbel.movies.feed
 
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.list.MovieList
@@ -34,12 +36,11 @@ class FeedViewModel(
             initialValue = runBlocking { interactor.currentMovieList.first() }
         )
 
-    private val _pagingDataFlow = MutableStateFlow<List<MoviePojo>>(emptyList())
-    val pagingDataFlow = _pagingDataFlow.asStateFlow()
-
-    init {
-        viewModelScope.launch {
-            _pagingDataFlow.value = interactor.moviesResult(currentMovieList.value.nameOrLocalList)
-        }
-    }
+    val pagingDataFlow: StateFlow<List<MoviePojo>> = currentMovieList.flatMapLatest { movieList ->
+        flowOf(interactor.moviesResult(movieList.nameOrLocalList))
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.Lazily,
+        initialValue = emptyList()
+    )
 }
