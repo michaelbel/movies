@@ -10,6 +10,7 @@ import androidx.compose.ui.window.application
 import androidx.lifecycle.ViewModelStore
 import androidx.lifecycle.ViewModelStoreOwner
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
+import java.awt.Dimension
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.michaelbel.movies.common.ThemeData
@@ -23,9 +24,11 @@ fun main() = application {
     Window(
         onCloseRequest = ::exitApplication,
         title = "Movies",
-        alwaysOnTop = false,
+        alwaysOnTop = true,
         onKeyEvent = { false }
     ) {
+        window.minimumSize = Dimension(600, 500)
+
         App()
     }
 }
