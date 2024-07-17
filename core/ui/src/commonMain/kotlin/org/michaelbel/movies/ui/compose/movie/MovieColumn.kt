@@ -57,6 +57,7 @@ internal fun MovieColumn(
                 start.linkTo(parent.start)
                 top.linkTo(parent.top)
                 end.linkTo(parent.end)
+                bottom.linkTo(text.top)
             },
             onState = { state ->
                 isNoImageVisible = state.isErrorOrEmpty

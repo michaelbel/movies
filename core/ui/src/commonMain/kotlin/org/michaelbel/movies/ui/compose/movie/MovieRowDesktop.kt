@@ -19,12 +19,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.constraintlayout.compose.atLeast
+import androidx.constraintlayout.compose.atMost
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import org.jetbrains.compose.resources.stringResource
-import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.network.config.formatBackdropImage
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
@@ -33,7 +34,7 @@ import org.michaelbel.movies.ui.strings.MoviesStrings
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun MovieRow(
+internal fun MovieRowDesktop(
     movie: MoviePojo,
     modifier: Modifier = Modifier,
     maxLines: Int = 10
@@ -52,8 +53,8 @@ internal fun MovieRow(
                 .build(),
             contentDescription = MoviesContentDescriptionCommon.None,
             modifier = Modifier.constrainAs(image) {
-                width = Dimension.fillToConstraints
-                height = Dimension.value(220.dp)
+                width = Dimension.fillToConstraints.atLeast(280.dp).atMost(586.dp)
+                height = Dimension.ratio("3:2")
                 start.linkTo(parent.start)
                 top.linkTo(parent.top)
                 end.linkTo(parent.end)
@@ -101,29 +102,11 @@ internal fun MovieRow(
 }
 
 @Composable
-private fun MovieRowPreview(
+private fun MovieRowDesktopPreview(
     /*@PreviewParameter(MoviePreviewParameterProvider::class)*/ movie: MoviePojo
 ) {
     MoviesTheme {
-        MovieRow(
-            movie = movie,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 4.dp)
-                .clip(MaterialTheme.shapes.small)
-                .background(MaterialTheme.colorScheme.inversePrimary)
-        )
-    }
-}
-
-@Composable
-private fun MovieRowAmoledPreview(
-    /*@PreviewParameter(MoviePreviewParameterProvider::class)*/ movie: MoviePojo
-) {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
-        MovieRow(
+        MovieRowDesktop(
             movie = movie,
             modifier = Modifier
                 .fillMaxWidth()

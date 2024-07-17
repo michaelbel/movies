@@ -19,9 +19,8 @@ import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
-import org.michaelbel.movies.ui.compose.movie.MovieColumn
-import org.michaelbel.movies.ui.compose.movie.MovieRow
-import org.michaelbel.movies.ui.ktx.gridColumnsCount
+import org.michaelbel.movies.ui.compose.movie.MovieColumnDesktop
+import org.michaelbel.movies.ui.compose.movie.MovieRowDesktop
 import org.michaelbel.movies.ui.ktx.isPortrait
 import org.michaelbel.movies.ui.placeholder.PlaceholderHighlight
 import org.michaelbel.movies.ui.placeholder.material3.fade
@@ -68,7 +67,7 @@ private fun PageLoadingColumn(
         userScrollEnabled = false
     ) {
         items(MovieResponse.DEFAULT_PAGE_SIZE.div(2)) {
-            MovieRow(
+            MovieRowDesktop(
                 movie = MoviePojo.Empty,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -90,14 +89,14 @@ private fun PageLoadingGrid(
     paddingValues: PaddingValues = PaddingValues()
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
+        columns = GridCells.Adaptive(minSize = 280.dp),
         modifier = modifier.padding(start = 8.dp, top = 4.dp, end = 8.dp),
         contentPadding = paddingValues,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         userScrollEnabled = false
     ) {
         items(MovieResponse.DEFAULT_PAGE_SIZE.div(2)) {
-            MovieRow(
+            MovieRowDesktop(
                 movie = MoviePojo.Empty,
                 modifier = Modifier
                     .fillMaxWidth()
@@ -119,7 +118,7 @@ private fun PageLoadingStaggeredGrid(
     paddingValues: PaddingValues = PaddingValues()
 ) {
     LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(gridColumnsCount),
+        columns = StaggeredGridCells.Adaptive(minSize = 220.dp),
         modifier = modifier.padding(start = 8.dp, top = 8.dp, end = 8.dp),
         contentPadding = paddingValues,
         verticalItemSpacing = 8.dp,
@@ -127,7 +126,7 @@ private fun PageLoadingStaggeredGrid(
         userScrollEnabled = false
     ) {
         items(MovieResponse.DEFAULT_PAGE_SIZE.div(2)) {
-            MovieColumn(
+            MovieColumnDesktop(
                 movie = MoviePojo.Empty,
                 modifier = Modifier
                     .fillMaxWidth()

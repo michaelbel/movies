@@ -19,24 +19,25 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.constraintlayout.compose.atLeast
+import androidx.constraintlayout.compose.atMost
 import coil3.compose.AsyncImage
 import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
+import movies.core.ui.generated.resources.Res
+import movies.core.ui.generated.resources.no_image
 import org.jetbrains.compose.resources.stringResource
-import org.michaelbel.movies.common.theme.AppTheme
-import org.michaelbel.movies.network.config.formatBackdropImage
+import org.michaelbel.movies.network.config.formatPosterImage
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
-import org.michaelbel.movies.ui.strings.MoviesStrings
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
-internal fun MovieRow(
+internal fun MovieColumnDesktop(
     movie: MoviePojo,
-    modifier: Modifier = Modifier,
-    maxLines: Int = 10
+    modifier: Modifier = Modifier
 ) {
     var isNoImageVisible by remember { mutableStateOf(false) }
 
@@ -47,13 +48,13 @@ internal fun MovieRow(
 
         AsyncImage(
             model = ImageRequest.Builder(LocalPlatformContext.current)
-                .data(movie.backdropPath.formatBackdropImage)
+                .data(movie.posterPath.formatPosterImage)
                 .crossfade(true)
                 .build(),
             contentDescription = MoviesContentDescriptionCommon.None,
             modifier = Modifier.constrainAs(image) {
-                width = Dimension.fillToConstraints
-                height = Dimension.value(220.dp)
+                width = Dimension.fillToConstraints.atLeast(400.dp).atMost(400.dp)
+                height = Dimension.ratio("3:2")
                 start.linkTo(parent.start)
                 top.linkTo(parent.top)
                 end.linkTo(parent.end)
@@ -78,7 +79,7 @@ internal fun MovieRow(
             enter = fadeIn()
         ) {
             Text(
-                text = stringResource(MoviesStrings.no_image),
+                text = stringResource(Res.string.no_image),
                 style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.secondary)
             )
         }
@@ -93,7 +94,7 @@ internal fun MovieRow(
                 end.linkTo(parent.end, 16.dp)
                 bottom.linkTo(parent.bottom, 16.dp)
             },
-            maxLines = maxLines,
+            maxLines = 10,
             overflow = TextOverflow.Ellipsis,
             style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
         )
@@ -101,29 +102,11 @@ internal fun MovieRow(
 }
 
 @Composable
-private fun MovieRowPreview(
+private fun MovieColumnDesktopPreview(
     /*@PreviewParameter(MoviePreviewParameterProvider::class)*/ movie: MoviePojo
 ) {
     MoviesTheme {
-        MovieRow(
-            movie = movie,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 4.dp)
-                .clip(MaterialTheme.shapes.small)
-                .background(MaterialTheme.colorScheme.inversePrimary)
-        )
-    }
-}
-
-@Composable
-private fun MovieRowAmoledPreview(
-    /*@PreviewParameter(MoviePreviewParameterProvider::class)*/ movie: MoviePojo
-) {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
-        MovieRow(
+        MovieColumnDesktop(
             movie = movie,
             modifier = Modifier
                 .fillMaxWidth()

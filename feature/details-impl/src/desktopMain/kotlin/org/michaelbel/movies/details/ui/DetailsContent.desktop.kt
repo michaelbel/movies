@@ -1,7 +1,6 @@
 package org.michaelbel.movies.details.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -20,6 +19,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.constraintlayout.compose.atMost
 import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter
 import coil3.compose.LocalPlatformContext
@@ -63,11 +63,12 @@ internal fun DetailsContent(
             contentDescription = stringResource(MoviesContentDescriptionCommon.MovieDetailsImage),
             modifier = Modifier
                 .constrainAs(image) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.value(220.dp)
+                    width = Dimension.fillToConstraints.atMost(568.dp) // 600 - 16 - 16
+                    height = Dimension.fillToConstraints.atMost(450.dp)
                     start.linkTo(parent.start, 16.dp)
                     top.linkTo(parent.top, 16.dp)
                     end.linkTo(parent.end, 16.dp)
+                    bottom.linkTo(title.top)
                 }
                 .clip(MaterialTheme.shapes.small)
                 .background(MaterialTheme.colorScheme.inversePrimary)
@@ -76,11 +77,7 @@ internal fun DetailsContent(
                     color = MaterialTheme.colorScheme.inversePrimary,
                     shape = MaterialTheme.shapes.small,
                     highlight = PlaceholderHighlight.fade()
-                )
-                .clickable(
-                    enabled = !placeholder && !isNoImageVisible && false,
-                    onClick = { onNavigateToGallery(movie.movieId) }
-                ) ,
+                ),
             onState = { state ->
                 isNoImageVisible = movie.isNotEmpty && (state is AsyncImagePainter.State.Error || state is AsyncImagePainter.State.Empty)
             },
@@ -96,6 +93,7 @@ internal fun DetailsContent(
                     start.linkTo(parent.start, 16.dp)
                     top.linkTo(image.bottom, 8.dp)
                     end.linkTo(parent.end, 16.dp)
+                    bottom.linkTo(overview.top)
                 }
                 .placeholder(
                     visible = placeholder,
@@ -113,10 +111,11 @@ internal fun DetailsContent(
             modifier = Modifier
                 .constrainAs(overview) {
                     width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
+                    height = Dimension.fillToConstraints
                     start.linkTo(parent.start, 16.dp)
                     top.linkTo(title.bottom, 8.dp)
                     end.linkTo(parent.end, 16.dp)
+                    bottom.linkTo(parent.bottom)
                 }
                 .placeholder(
                     visible = placeholder,

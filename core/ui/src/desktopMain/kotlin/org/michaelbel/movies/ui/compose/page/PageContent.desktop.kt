@@ -24,12 +24,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
-import org.michaelbel.movies.ui.compose.movie.MovieColumn
-import org.michaelbel.movies.ui.compose.movie.MovieRow
+import org.michaelbel.movies.ui.compose.movie.MovieColumnDesktop
+import org.michaelbel.movies.ui.compose.movie.MovieRowDesktop
 import org.michaelbel.movies.ui.ktx.PageContentColumnModifier
 import org.michaelbel.movies.ui.ktx.PageContentGridModifier
 import org.michaelbel.movies.ui.ktx.PageContentStaggeredGridModifier
-import org.michaelbel.movies.ui.ktx.gridColumnsCount
 import org.michaelbel.movies.ui.ktx.isPagingFailure
 import org.michaelbel.movies.ui.ktx.isPagingLoading
 import org.michaelbel.movies.ui.ktx.isPortrait
@@ -94,7 +93,7 @@ private fun PageContentColumn(
         items(
             pagingItems
         ) { movieDb ->
-            MovieRow(
+            MovieRowDesktop(
                 movie = movieDb,
                 modifier = PageContentColumnModifier.then(Modifier.clickable { onMovieClick(movieDb.movieList, movieDb.movieId) })
             )
@@ -134,16 +133,14 @@ private fun PageContentGrid(
     modifier: Modifier = Modifier
 ) {
     LazyVerticalGrid(
-        columns = GridCells.Fixed(2),
+        columns = GridCells.Adaptive(minSize = 280.dp),
         modifier = modifier.padding(start = 8.dp, top = 4.dp, end = 8.dp),
         state = lazyGridState,
         contentPadding = contentPadding,
         horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(
-            pagingItems
-        ) { movieDb ->
-            MovieRow(
+        items(pagingItems) { movieDb ->
+            MovieRowDesktop(
                 movie = movieDb,
                 maxLines = 1,
                 modifier = PageContentGridModifier.then(Modifier.clickable { onMovieClick(movieDb.movieList, movieDb.movieId) })
@@ -184,7 +181,7 @@ private fun PageContentStaggeredGrid(
     modifier: Modifier = Modifier
 ) {
     LazyVerticalStaggeredGrid(
-        columns = StaggeredGridCells.Fixed(gridColumnsCount),
+        columns = StaggeredGridCells.Adaptive(minSize = 220.dp),
         modifier = modifier.padding(start = 8.dp, top = 8.dp, end = 8.dp),
         state = lazyStaggeredGridState,
         contentPadding = contentPadding,
@@ -194,7 +191,7 @@ private fun PageContentStaggeredGrid(
         items(
             pagingItems
         ) { movieDb ->
-            MovieColumn(
+            MovieColumnDesktop(
                 movie = movieDb,
                 modifier = PageContentStaggeredGridModifier.then(Modifier.clickable { onMovieClick(movieDb.movieList, movieDb.movieId) })
             )

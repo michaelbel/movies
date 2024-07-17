@@ -1,7 +1,7 @@
 
 
 	feed_view
-*FeedGrid
+*FeedList
 
 palette
 
@@ -9,6 +9,6 @@
 seed_color®Òùùÿÿÿÿÿ
 
 theme	*NightNo
-%
+'
 
-movie_list*Popular(name=popular)
+movie_list*Upcoming(name=upcoming)
