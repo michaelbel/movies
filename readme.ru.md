@@ -51,10 +51,10 @@ Movies - простой способ найти популярные фильм�
 
 **macOS**
 <p align="center">
-    <img src="config/desktop/desktop1.png" width="49%">
-    <img src="config/desktop/desktop2.png" width="49%">
-    <img src="config/desktop/desktop3.png" width="49%">
-    <img src="config/desktop/desktop4.png" width="49%">
+    <img src="config/desktop/macos1.png" width="49%">
+    <img src="config/desktop/macos2.png" width="49%">
+    <img src="config/desktop/macos3.png" width="49%">
+    <img src="config/desktop/macos4.png" width="49%">
 </p>
 
 
