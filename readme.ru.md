@@ -13,10 +13,10 @@ Movies
 =
 
 [![](https://img.shields.io/badge/Android-000000.svg?style=for-the-badge&logo=Android)](https://github.com/michaelbel/movies)
+[![](https://img.shields.io/badge/macOS-000000.svg?style=for-the-badge&logo=macos)](https://github.com/michaelbel/movies)
 <!-- [![](https://img.shields.io/badge/Automotive-000000.svg?style=for-the-badge&logo=android-auto)](https://github.com/michaelbel/movies)
 [![](https://img.shields.io/badge/WearOS-000000.svg?style=for-the-badge&logo=wearOS)](https://github.com/michaelbel/movies)
 [![](https://img.shields.io/badge/iOS-000000.svg?style=for-the-badge&logo=apple)](https://github.com/michaelbel/movies)
-[![](https://img.shields.io/badge/macOS-000000.svg?style=for-the-badge&logo=macos)](https://github.com/michaelbel/movies)
 [![](https://img.shields.io/badge/Windows-000000.svg?style=for-the-badge&logo=windows)](https://github.com/michaelbel/movies)
 [![](https://img.shields.io/badge/Linux-000000.svg?style=for-the-badge&logo=linux)](https://github.com/michaelbel/movies)
 [![](https://img.shields.io/badge/Web-000000.svg?style=for-the-badge&logo=google-chrome)](https://github.com/michaelbel/movies) -->
@@ -34,17 +34,27 @@ Movies - простой способ найти популярные фильм�
 
 
 ## Скриншоты
+
+**Android**
 <p align="center">
-    <img src="config/images/1.png" width="24%">
-    <img src="config/images/2.png" width="24%">
-    <img src="config/images/3.png" width="24%">
-    <img src="config/images/4.png" width="24%">
-    <img src="config/images/7.gif" width="24%">
-    <img src="config/images/8.gif" width="24%">
-    <img src="config/images/9.gif" width="24%">
-    <img src="config/images/10.gif" width="24%">
-    <img src="config/images/5.png" width="49%">
-    <img src="config/images/6.png" width="49%">
+    <img src="config/images/android/android1.png" width="24%">
+    <img src="config/images/android/android2.png" width="24%">
+    <img src="config/images/android/android3.png" width="24%">
+    <img src="config/images/android/android4.png" width="24%">
+    <img src="config/images/android/android7.gif" width="24%">
+    <img src="config/images/android/android8.gif" width="24%">
+    <img src="config/images/android/android9.gif" width="24%">
+    <img src="config/images/android/android10.gif" width="24%">
+    <img src="config/images/android/android5.png" width="49%">
+    <img src="config/images/android/android6.png" width="49%">
+</p>
+
+**macOS**
+<p align="center">
+    <img src="config/desktop/desktop1.png" width="49%">
+    <img src="config/desktop/desktop2.png" width="49%">
+    <img src="config/desktop/desktop3.png" width="49%">
+    <img src="config/desktop/desktop4.png" width="49%">
 </p>
 
 
@@ -58,7 +68,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 
 ## Сборка
 - Клонируй репозиторий используя [последнюю версию](https://d.android.com/studio) Android Studio
-- Запусти приложение на девайсе или эмуляторе
+- Запусти приложение на Android девайсе или эмуляторе
     - 🤖 **Android** с Google Mobile Services:
       ```gradle
       ./gradlew :androidApp:installGmsDebug
@@ -71,6 +81,10 @@ TMDB_API_KEY=your_own_tmdb_api_key
       ```gradle
       ./gradlew :androidApp:installFossDebug
       ```
+- Запусти приложение на компе с macOS
+    ```gradle
+      ./gradlew :desktopApp:run
+    ```
 
 
 ## Загрузить
@@ -248,6 +262,7 @@ graph TD;
 [![](https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:michaelvel24865@gmail.com)
 [![](https://img.shields.io/badge/Instagram-E1306C?style=for-the-badge&logo=instagram&logoColor=white)](https://instagram.com/michael_bel)
 [![](https://img.shields.io/badge/Twitter-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/michael_bely)
+[![](https://img.shields.io/badge/YouTube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](https://www.youtube.com/@michaelbely)
 
 Подписывайся на [telegram-канал](https://t.me/foundout)  
 Добавляйся в друзья на [Кинопоиске](https://www.kinopoisk.ru/user/4104533)  
