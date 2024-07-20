@@ -69,5 +69,7 @@ include(
     ":feature:settings-impl",
 
     ":feature:debug",
-    ":feature:debug-impl"
+    ":feature:debug-impl",
+
+    ":composeApp"
 )
