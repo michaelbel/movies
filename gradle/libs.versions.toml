@@ -244,6 +244,9 @@ kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.
 kotlinx-coroutines-common = [
     "kotlinx-coroutines-core"
 ]
+kotlinx-datetime-common = [
+    "kotlinx-datetime"
+]
 kotlinx-serialization-common = [
     "kotlinx-serialization-json"
 ]

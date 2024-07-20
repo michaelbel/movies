@@ -15,6 +15,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            api(libs.bundles.kotlinx.datetime.common)
             api(libs.bundles.koin.common)
             implementation(compose.material3)
             implementation(libs.bundles.kotlinx.coroutines.common)

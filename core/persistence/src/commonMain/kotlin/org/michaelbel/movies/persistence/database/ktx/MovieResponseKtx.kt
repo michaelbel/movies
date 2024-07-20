@@ -1,5 +1,6 @@
 package org.michaelbel.movies.persistence.database.ktx
 
+import kotlinx.datetime.Clock
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.persistence.database.typealiases.Page
@@ -12,7 +13,7 @@ fun MovieResponse.moviePojo(
 ): MoviePojo {
     return MoviePojo(
         movieList = movieList,
-        dateAdded = System.currentTimeMillis(),
+        dateAdded = Clock.System.now().toEpochMilliseconds(),
         page = page,
         position = position,
         movieId = id,

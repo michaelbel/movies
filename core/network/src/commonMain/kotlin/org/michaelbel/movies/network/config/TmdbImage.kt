@@ -9,17 +9,16 @@ import org.michaelbel.movies.network.model.image.ProfileSize
  *
  * See [TMDB Images Configuration](https://developer.themoviedb.org/reference/configuration-details)
  */
-private const val TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p/%s%s"
-private const val IMAGE_EMPTY_URL = "https://null"
+private const val TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p"
 
 val String.formatPosterImage: String
-    get() = String.format(TMDB_IMAGE_BASE_URL, PosterSize.W780.size, this).ifEmpty { IMAGE_EMPTY_URL }
+    get() = "$TMDB_IMAGE_BASE_URL/${PosterSize.W780.size}/$this"
 
 val String.formatBackdropImage: String
-    get() = String.format(TMDB_IMAGE_BASE_URL, BackdropSize.W1280.size, this).ifEmpty { IMAGE_EMPTY_URL }
+    get() = "$TMDB_IMAGE_BASE_URL/${BackdropSize.W1280.size}/$this"
 
 val String.formatProfileImage: String
-    get() = String.format(TMDB_IMAGE_BASE_URL, ProfileSize.W185.size, this).ifEmpty { IMAGE_EMPTY_URL }
+    get() = "$TMDB_IMAGE_BASE_URL/${ProfileSize.W185.size}/$this"
 
 @Suppress("unused")
 val String.original: String
@@ -37,5 +36,5 @@ val String.isNotOriginal: Boolean
     get() = !contains("original".toRegex())
 
 fun String.formatImage(size: String): String {
-    return String.format(TMDB_IMAGE_BASE_URL, size, this).ifEmpty { IMAGE_EMPTY_URL }
+    return "$TMDB_IMAGE_BASE_URL/$size/$this"
 }

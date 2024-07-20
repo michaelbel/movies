@@ -2,8 +2,6 @@ package org.michaelbel.movies.persistence.database.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
-import org.michaelbel.movies.persistence.database.converter.CalendarConverter
 import org.michaelbel.movies.persistence.database.dao.AccountDao
 import org.michaelbel.movies.persistence.database.dao.ImageDao
 import org.michaelbel.movies.persistence.database.dao.MovieBlockingDao
@@ -30,7 +28,6 @@ import org.michaelbel.movies.persistence.database.entity.SuggestionDb
     version = AppDatabase.DATABASE_VERSION,
     exportSchema = false
 )
-@TypeConverters(CalendarConverter::class)
 abstract class AppDatabase: RoomDatabase() {
 
     internal abstract fun movieDao(): MovieDao
