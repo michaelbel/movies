@@ -71,5 +71,5 @@ include(
     ":feature:debug",
     ":feature:debug-impl",
 
-    ":composeApp"
+    ":iosAppCompose"
 )
