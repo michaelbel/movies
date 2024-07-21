@@ -12,10 +12,14 @@ plugins {
 kotlin {
     androidTarget()
     jvm("desktop")
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:persistence"))
+            implementation(libs.bundles.lifecycle.common)
             api(libs.bundles.coil.common)
             implementation(libs.bundles.constraintlayout.common)
             implementation(compose.components.resources)
@@ -25,9 +29,7 @@ kotlin {
             implementation(compose.runtime)
             implementation(compose.runtimeSaveable)
             implementation(compose.materialIconsExtended)
-            implementation(compose.preview)
             implementation(compose.ui)
-            implementation(compose.uiTooling)
         }
         androidMain.dependencies {
             api(libs.bundles.core.splashscreen.android)
