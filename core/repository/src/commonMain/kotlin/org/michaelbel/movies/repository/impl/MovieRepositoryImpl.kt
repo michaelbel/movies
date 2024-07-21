@@ -1,6 +1,7 @@
 package org.michaelbel.movies.repository.impl
 
 import kotlinx.coroutines.flow.Flow
+import kotlinx.datetime.Clock
 import org.michaelbel.movies.common.exceptions.MovieDetailsException
 import org.michaelbel.movies.common.exceptions.MoviesUpcomingException
 import org.michaelbel.movies.common.list.MovieList
@@ -129,7 +130,7 @@ internal class MovieRepositoryImpl(
         moviePersistence.insertMovie(
             movie.copy(
                 movieList = pagingKey,
-                dateAdded = System.currentTimeMillis(),
+                dateAdded = Clock.System.now().toEpochMilliseconds(),
                 position = maxPosition.plus(1)
             )
         )
