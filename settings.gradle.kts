@@ -38,6 +38,7 @@ include(
     ":core:platform-services:foss",
     ":core:platform-services:inject-android",
     ":core:platform-services:inject-desktop",
+    ":core:platform-services:inject-ios",
     ":core:platform-services:interactor",
 
     ":core:analytics",
