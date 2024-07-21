@@ -26,6 +26,8 @@ kotlin {
     
     sourceSets {
         commonMain.dependencies {
+            implementation(project(":core:platform-services:inject-ios"))
+            implementation(project(":feature:main-impl"))
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material)
@@ -59,8 +61,6 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-
-            //implementation(project(":feature:feed"))
         }
     }
 }

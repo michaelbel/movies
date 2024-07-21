@@ -4,8 +4,20 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import org.michaelbel.movies.account.accountGraph
+import org.michaelbel.movies.account.navigateToAccount
 import org.michaelbel.movies.auth.authGraph
+import org.michaelbel.movies.auth.ktx.navigateToAuth
+import org.michaelbel.movies.details.detailsGraph
+import org.michaelbel.movies.details.navigateToDetails
 import org.michaelbel.movies.feed.FeedDestination
+import org.michaelbel.movies.feed.feedGraph
+import org.michaelbel.movies.gallery.galleryGraph
+import org.michaelbel.movies.gallery.navigateToGallery
+import org.michaelbel.movies.search.navigateToSearch
+import org.michaelbel.movies.search.searchGraph
+import org.michaelbel.movies.settings.navigateToSettings
+import org.michaelbel.movies.settings.settingsGraph
 
 @Composable
 fun MainContent(
@@ -18,7 +30,7 @@ fun MainContent(
         authGraph(
             navigateBack = navHostController::popBackStack
         )
-        /*accountGraph(
+        accountGraph(
             navigateBack = navHostController::popBackStack
         )
         feedGraph(
@@ -41,6 +53,6 @@ fun MainContent(
         )
         settingsGraph(
             navigateBack = navHostController::popBackStack
-        )*/
+        )
     }
 }

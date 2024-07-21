@@ -1,5 +1,7 @@
 package org.michaelbel.movies.settings.ui
 
+import androidx.compose.foundation.clickable
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 
@@ -9,6 +11,10 @@ fun SettingsRoute(
     modifier: Modifier = Modifier,
     //viewModel: SettingsViewModel = koinInject<SettingsViewModel>()
 ) {
+    Text(
+        text = "feed",
+        modifier = Modifier.clickable { onBackClick() }
+    )
     /*val currentLanguage = AppLanguage.transform(stringResource(MoviesStrings.language_code))
     val themeData by viewModel.themeData.collectAsStateCommon()
     val currentFeedView by viewModel.currentFeedView.collectAsStateCommon()
