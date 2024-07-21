@@ -47,7 +47,8 @@ import org.michaelbel.movies.interactor.ktx.UsernameSaver
 import org.michaelbel.movies.interactor.ktx.isNotEmpty
 import org.michaelbel.movies.interactor.ktx.trim
 import org.michaelbel.movies.network.config.TMDB_AUTH_REDIRECT_URL
-import org.michaelbel.movies.network.config.TMDB_AUTH_URL
+import org.michaelbel.movies.network.config.TMDB_AUTH_URL_2
+import org.michaelbel.movies.network.config.TMDB_AUTH_URL_3
 import org.michaelbel.movies.network.config.TMDB_PRIVACY_POLICY
 import org.michaelbel.movies.network.config.TMDB_REGISTER
 import org.michaelbel.movies.network.config.TMDB_RESET_PASSWORD
@@ -82,7 +83,7 @@ internal fun AuthScreenContent(
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
     if (requestToken != null) {
-        val signUrl = String.format(TMDB_AUTH_URL, requestToken, TMDB_AUTH_REDIRECT_URL)
+        val signUrl = "$TMDB_AUTH_URL_2/$requestToken$TMDB_AUTH_URL_3$TMDB_AUTH_REDIRECT_URL"
         onUrlClick(signUrl)
         onResetRequestToken()
     }
