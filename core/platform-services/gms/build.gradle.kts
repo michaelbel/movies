@@ -9,19 +9,16 @@ plugins {
 
 kotlin {
     androidTarget()
-    jvm("desktop")
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core:platform-services:interactor"))
+            api(project(":core:platform-services:interactor"))
             implementation(project(":core:notifications"))
-            implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
             api(libs.bundles.google.firebase.android)
             api(libs.bundles.google.services.android)
             api(libs.bundles.google.play.android)
-            implementation(libs.bundles.koin.android)
         }
     }
 

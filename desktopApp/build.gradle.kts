@@ -13,15 +13,6 @@ kotlin {
         jvmMain.dependencies {
             implementation(project(":core:platform-services:inject-desktop"))
             implementation(project(":feature:main-impl"))
-            implementation(compose.desktop.currentOs)
-            implementation(compose.desktop.common)
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.animation)
-            implementation(compose.material)
-            implementation(compose.material3)
-            implementation(compose.components.resources)
-            implementation(libs.koin.compose)
         }
     }
 }

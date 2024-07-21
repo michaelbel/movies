@@ -1,21 +1,45 @@
 package org.michaelbel.movies.settings.ui
 
-import androidx.compose.foundation.clickable
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.resources.stringResource
+import org.koin.compose.koinInject
+import org.michaelbel.movies.common.gender.GrammaticalGender
+import org.michaelbel.movies.interactor.entity.AppLanguage
+import org.michaelbel.movies.settings.SettingsViewModel
+import org.michaelbel.movies.settings.model.SettingsData
+import org.michaelbel.movies.settings.model.isAboutFeatureEnabled
+import org.michaelbel.movies.settings.model.isAppIconFeatureEnabled
+import org.michaelbel.movies.settings.model.isBiometricFeatureEnabled
+import org.michaelbel.movies.settings.model.isDynamicColorsFeatureEnabled
+import org.michaelbel.movies.settings.model.isFeedViewFeatureEnabled
+import org.michaelbel.movies.settings.model.isGenderFeatureEnabled
+import org.michaelbel.movies.settings.model.isGithubFeatureEnabled
+import org.michaelbel.movies.settings.model.isLanguageFeatureEnabled
+import org.michaelbel.movies.settings.model.isMovieListFeatureEnabled
+import org.michaelbel.movies.settings.model.isNotificationsFeatureEnabled
+import org.michaelbel.movies.settings.model.isReviewAppFeatureEnabled
+import org.michaelbel.movies.settings.model.isScreenshotFeatureEnabled
+import org.michaelbel.movies.settings.model.isThemeFeatureEnabled
+import org.michaelbel.movies.settings.model.isTileFeatureEnabled
+import org.michaelbel.movies.settings.model.isUpdateAppFeatureEnabled
+import org.michaelbel.movies.settings.model.isWidgetFeatureEnabled
+import org.michaelbel.movies.ui.appicon.IconAlias
+import org.michaelbel.movies.ui.ktx.collectAsStateCommon
+import org.michaelbel.movies.ui.strings.MoviesStrings
 
 @Composable
 fun SettingsRoute(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    //viewModel: SettingsViewModel = koinInject<SettingsViewModel>()
+    viewModel: SettingsViewModel = koinInject<SettingsViewModel>()
 ) {
-    Text(
-        text = "feed",
-        modifier = Modifier.clickable { onBackClick() }
-    )
-    /*val currentLanguage = AppLanguage.transform(stringResource(MoviesStrings.language_code))
+    val currentLanguage = AppLanguage.transform(stringResource(MoviesStrings.language_code))
     val themeData by viewModel.themeData.collectAsStateCommon()
     val currentFeedView by viewModel.currentFeedView.collectAsStateCommon()
     val currentMovieList by viewModel.currentMovieList.collectAsStateCommon()
@@ -118,5 +142,5 @@ fun SettingsRoute(
         windowInsets = WindowInsets(0.dp, 0.dp, 0.dp, 0.dp),
         snackbarHostState = snackbarHostState,
         modifier = modifier
-    )*/
+    )
 }

@@ -9,7 +9,7 @@ plugins {
 
 kotlin {
     androidTarget()
-    jvm("desktop")
+    jvm()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -17,10 +17,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(project(":core:platform-services:interactor"))
-            implementation(libs.bundles.koin.common)
-        }
-        androidMain.dependencies {
-            implementation(libs.bundles.koin.android)
         }
     }
 

@@ -9,16 +9,14 @@ plugins {
 
 kotlin {
     androidTarget()
-    jvm("desktop")
+    jvm()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core:platform-services:interactor"))
-            implementation(libs.bundles.kotlinx.coroutines.common)
-            implementation(libs.bundles.koin.common)
+            api(project(":core:platform-services:interactor"))
         }
     }
 

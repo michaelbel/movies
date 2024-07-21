@@ -11,7 +11,7 @@ plugins {
 
 kotlin {
     androidTarget()
-    jvm("desktop")
+    jvm()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -20,9 +20,6 @@ kotlin {
         commonMain.dependencies {
             api(project(":core:analytics"))
             api(project(":core:repository"))
-            implementation(compose.runtime)
-            implementation(compose.runtimeSaveable)
-            implementation(libs.bundles.kotlinx.coroutines.common)
             implementation(libs.bundles.room.paging.common)
         }
     }

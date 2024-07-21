@@ -11,7 +11,7 @@ plugins {
 
 kotlin {
     androidTarget()
-    jvm("desktop")
+    jvm()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -21,11 +21,8 @@ kotlin {
             implementation(project(":core:interactor"))
             implementation(project(":core:ui"))
             implementation(project(":core:work"))
-            implementation(libs.bundles.kotlinx.serialization.common)
-            implementation(libs.bundles.datastore.common)
         }
         androidMain.dependencies {
-            implementation(libs.bundles.datastore.android)
             implementation(libs.bundles.glance.android)
         }
     }

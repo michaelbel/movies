@@ -19,22 +19,21 @@ private val tmdbApiKey: String by lazy {
 
 kotlin {
     androidTarget()
-    jvm("desktop")
+    jvm()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
 
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.bundles.kotlinx.serialization.common)
+            api(project(":core:common"))
+            api(libs.bundles.kotlinx.serialization.common)
             implementation(libs.bundles.ktor.common)
-            implementation(libs.bundles.koin.common)
         }
         androidMain.dependencies {
             implementation(libs.bundles.ktor.android)
             implementation(libs.bundles.startup.android)
             implementation(libs.bundles.okhttp.logging.interceptor.android)
-            implementation(libs.bundles.koin.android)
         }
     }
 

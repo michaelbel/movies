@@ -11,7 +11,7 @@ plugins {
 
 kotlin {
     androidTarget()
-    jvm("desktop")
+    jvm()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -20,19 +20,7 @@ kotlin {
         commonMain.dependencies {
             api(project(":core:navigation"))
             api(project(":core:ui"))
-            api(project(":core:common"))
             api(project(":core:interactor"))
-            implementation(compose.components.resources)
-            implementation(compose.material3)
-            implementation(libs.bundles.constraintlayout.common)
-        }
-        val desktopMain by getting
-        desktopMain.dependencies {
-            implementation(compose.foundation)
-            implementation(compose.material)
-            implementation(compose.material3)
-            implementation(compose.runtime)
-            implementation(libs.koin.compose)
         }
     }
 

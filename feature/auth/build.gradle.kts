@@ -11,7 +11,7 @@ plugins {
 
 kotlin {
     androidTarget()
-    jvm("desktop")
+    jvm()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -19,11 +19,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(project(":feature:auth-impl"))
-        }
-        val desktopMain by getting
-        desktopMain.dependencies {
-            implementation(compose.material)
-            implementation(compose.material3)
         }
     }
 

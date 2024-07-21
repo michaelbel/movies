@@ -9,7 +9,7 @@ plugins {
 
 kotlin {
     androidTarget()
-    jvm("desktop")
+    jvm()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -22,8 +22,7 @@ kotlin {
             api(libs.bundles.jetbrains.androidx.navigation.compose.common)
             api(libs.bundles.jetbrains.androidx.core.bundle.common)
         }
-        val desktopMain by getting
-        desktopMain.dependencies {
+        jvmMain.dependencies {
             api(libs.bundles.jetbrains.androidx.lifecycle.viewmodel.compose.common)
         }
     }

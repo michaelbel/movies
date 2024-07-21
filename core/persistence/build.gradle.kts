@@ -11,14 +11,13 @@ plugins {
 
 kotlin {
     androidTarget()
-    jvm("desktop")
+    jvm()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":core:common"))
             api(project(":core:network"))
             implementation(libs.bundles.datastore.common)
             implementation(libs.bundles.room.common)
@@ -28,8 +27,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.bundles.datastore.android)
         }
-        val desktopMain by getting
-        desktopMain.dependencies {
+        jvmMain.dependencies {
             implementation(libs.bundles.datastore.desktop)
         }
     }
@@ -62,7 +60,10 @@ android {
 
 dependencies {
     add("kspAndroid", libs.bundles.room.compiler.common)
-    add("kspDesktop", libs.bundles.room.compiler.common)
+    add("kspJvm", libs.bundles.room.compiler.common)
+    add("kspIosX64", libs.bundles.room.compiler.common)
+    add("kspIosArm64", libs.bundles.room.compiler.common)
+    add("kspIosSimulatorArm64", libs.bundles.room.compiler.common)
 }
 
 room {

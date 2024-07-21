@@ -3220,3 +3220,4 @@
 /core/repository-kmp/build/generated/ksp/android/androidDebug/java/org/michaelbel/movies/repository/impl/SearchRepositoryImpl_Factory.java
 /core/repository-kmp/build/generated/ksp/android/androidDebug/java/org/michaelbel/movies/repository/impl/SettingsRepositoryImpl_Factory.java
 /core/repository-kmp/build/generated/ksp/android/androidDebug/java/org/michaelbel/movies/repository/impl/SuggestionRepositoryImpl_Factory.java
+/.kotlin

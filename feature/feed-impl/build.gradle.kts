@@ -11,7 +11,7 @@ plugins {
 
 kotlin {
     androidTarget()
-    jvm("desktop")
+    jvm()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -19,27 +19,13 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(project(":core:ui"))
-            api(project(":core:common"))
             api(project(":core:navigation"))
             api(project(":core:interactor"))
             api(project(":core:platform-services:interactor"))
             implementation(project(":core:notifications"))
-            implementation(libs.bundles.constraintlayout.common)
-            implementation(compose.foundation)
-            implementation(compose.runtime)
-            implementation(compose.material3)
-            implementation(compose.components.resources)
         }
         androidMain.dependencies {
-            implementation(libs.bundles.paging.common) // fixme ломает navigation
-        }
-        val desktopMain by getting
-        desktopMain.dependencies {
-            implementation(compose.foundation)
-            implementation(compose.material)
-            implementation(compose.material3)
-            implementation(compose.runtime)
-            implementation(libs.koin.compose)
+            implementation(libs.bundles.paging.common)
         }
     }
 

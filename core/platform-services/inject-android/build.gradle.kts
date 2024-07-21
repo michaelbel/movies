@@ -9,15 +9,10 @@ plugins {
 
 kotlin {
     androidTarget()
-    jvm("desktop")
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core:platform-services:interactor"))
-            implementation(libs.bundles.koin.common)
-        }
-        androidMain.dependencies {
-            implementation(libs.bundles.koin.android)
+            api(project(":core:platform-services:interactor"))
         }
     }
 

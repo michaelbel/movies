@@ -11,17 +11,17 @@ plugins {
 
 kotlin {
     androidTarget()
-    jvm("desktop")
+    jvm()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
 
     sourceSets {
         commonMain.dependencies {
+            api(libs.bundles.kotlinx.coroutines.common)
             api(libs.bundles.kotlinx.datetime.common)
             api(libs.bundles.koin.common)
             implementation(compose.material3)
-            implementation(libs.bundles.kotlinx.coroutines.common)
         }
         androidMain.dependencies {
             api(libs.bundles.kotlinx.coroutines.android)
@@ -32,13 +32,12 @@ kotlin {
             api(libs.bundles.startup.android)
             api(libs.bundles.work.android)
             api(libs.bundles.timber.android)
-            api(libs.bundles.koin.compose.work.android)
+            api(libs.bundles.koin.android)
             implementation(libs.bundles.appcompat.android)
             implementation(libs.bundles.browser.android)
-            implementation(libs.bundles.paging.common) // fixme ломает navigation
+            implementation(libs.bundles.paging.common)
         }
-        val desktopMain by getting
-        desktopMain.dependencies {
+        jvmMain.dependencies {
             api(libs.bundles.kotlinx.coroutines.desktop)
             api(libs.bundles.jetbrains.androidx.lifecycle.viewmodel.compose.common)
         }

@@ -1,9 +1,11 @@
 package org.michaelbel.movies.feed.ui
 
-import androidx.compose.foundation.clickable
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import org.koin.compose.koinInject
+import org.michaelbel.movies.feed.FeedViewModel
+import org.michaelbel.movies.ui.ktx.collectAsStateCommon
 
 @Composable
 fun FeedRoute(
@@ -13,14 +15,9 @@ fun FeedRoute(
     onNavigateToSettings: () -> Unit,
     onNavigateToDetails: (String, Int) -> Unit,
     modifier: Modifier = Modifier,
-    //viewModel: FeedViewModel = koinInject<FeedViewModel>()
+    viewModel: FeedViewModel = koinInject<FeedViewModel>()
 ) {
-    Text(
-        text = "settings",
-        modifier = Modifier.clickable { onNavigateToSettings() }
-    )
-
-    /*val currentFeedView by viewModel.currentFeedView.collectAsStateCommon()
+    val currentFeedView by viewModel.currentFeedView.collectAsStateCommon()
     val currentMovieList by viewModel.currentMovieList.collectAsStateCommon()
     val pagingData by viewModel.pagingDataFlow.collectAsStateCommon()
 
@@ -34,5 +31,5 @@ fun FeedRoute(
         onNavigateToSettings = onNavigateToSettings,
         onNavigateToDetails = onNavigateToDetails,
         modifier = modifier
-    )*/
+    )
 }

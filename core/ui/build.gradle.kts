@@ -11,25 +11,27 @@ plugins {
 
 kotlin {
     androidTarget()
-    jvm("desktop")
+    jvm()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core:persistence"))
-            implementation(libs.bundles.lifecycle.common)
+            api(project(":core:persistence"))
             api(libs.bundles.coil.common)
-            implementation(libs.bundles.constraintlayout.common)
-            implementation(compose.components.resources)
-            implementation(compose.foundation)
-            implementation(compose.material)
-            implementation(compose.material3)
-            implementation(compose.runtime)
-            implementation(compose.runtimeSaveable)
+            api(libs.bundles.constraintlayout.common)
+            api(compose.animation)
+            api(compose.foundation)
+            api(compose.runtime)
+            api(compose.runtimeSaveable)
+            api(compose.ui)
+            api(compose.material)
+            api(compose.material3)
+            api(compose.components.resources)
+            api(compose.components.uiToolingPreview)
             implementation(compose.materialIconsExtended)
-            implementation(compose.ui)
+            implementation(libs.bundles.lifecycle.common)
         }
         androidMain.dependencies {
             api(libs.bundles.core.splashscreen.android)
@@ -37,7 +39,11 @@ kotlin {
             api(libs.bundles.coil.android)
             api(libs.bundles.compose.android)
             api(libs.bundles.google.material.android)
-            implementation(libs.bundles.paging.common) // fixme ломает navigation
+            implementation(libs.bundles.paging.common)
+        }
+        jvmMain.dependencies {
+            api(compose.desktop.common)
+            api(compose.desktop.currentOs)
         }
     }
 

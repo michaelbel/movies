@@ -11,7 +11,7 @@ plugins {
 
 kotlin {
     androidTarget()
-    jvm("desktop")
+    jvm()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -28,10 +28,6 @@ kotlin {
         }
         androidMain.dependencies {
             api(project(":feature:debug"))
-        }
-        val desktopMain by getting
-        desktopMain.dependencies {
-            implementation(libs.koin.compose)
         }
     }
 

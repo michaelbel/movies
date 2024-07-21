@@ -84,6 +84,7 @@ barista = "4.3.0"
 kotest = "5.9.1"
 sqldelight = "2.0.2"
 koin = "3.6.0-wasm-alpha2"
+koin-compose = "1.2.0-Beta4"
 constraintlayout-compose-multiplatform = "0.4.0"
 okio = "3.9.0"
 buildkonfig = "0.15.1"
@@ -229,11 +230,8 @@ sqldelight-sqlite-driver = { module = "app.cash.sqldelight:sqlite-driver", versi
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 koin-androidx-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin" }
-koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
-koin-core-jvm = { module = "io.insert-koin:koin-core-jvm", version.ref = "koin" }
-koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
-koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
-koin-test-junit4 = { module = "io.insert-koin:koin-test-junit4", version.ref = "koin" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-compose" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin-compose" }
 constraintlayout-compose-multiplatform = { module = "tech.annexflow.compose:constraintlayout-compose-multiplatform", version.ref = "constraintlayout-compose-multiplatform" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
@@ -293,7 +291,8 @@ ktor-common = [
     "ktor-serialization-kotlinx-json"
 ]
 koin-common = [
-    "koin-core"
+    "koin-compose",
+    "koin-compose-viewmodel"
 ]
 coil-common = [
     "coil3-compose",
@@ -419,9 +418,6 @@ ktor-android = [
     "ktor-client-android"
 ]
 koin-android = [
-    "koin-android"
-]
-koin-compose-work-android = [
     "koin-android",
     "koin-androidx-compose",
     "koin-androidx-workmanager"

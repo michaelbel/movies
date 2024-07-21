@@ -9,7 +9,7 @@ plugins {
 
 kotlin {
     androidTarget()
-    jvm("desktop")
+    jvm()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -18,7 +18,6 @@ kotlin {
         commonMain.dependencies {
             implementation(project(":core:interactor"))
             implementation(project(":core:notifications"))
-            implementation(libs.bundles.kotlinx.serialization.common)
         }
         androidMain.dependencies {
             implementation(libs.bundles.work.android)

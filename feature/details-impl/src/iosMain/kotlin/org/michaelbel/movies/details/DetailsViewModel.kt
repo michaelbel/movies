@@ -17,7 +17,7 @@ class DetailsViewModel(
 ): BaseViewModel() {
 
     private val movieList: PagingKey? = savedStateHandle["movieList"]
-    private val movieId: MovieId = 0//savedStateHandle.require("movieId")
+    private val movieId: MovieId = savedStateHandle["movieId"] ?: 0
 
     private val _detailsState = MutableStateFlow<ScreenState>(ScreenState.Loading)
     val detailsState = _detailsState.asStateFlow()

@@ -9,14 +9,14 @@ plugins {
 
 kotlin {
     androidTarget()
-    jvm("desktop")
+    jvm()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
 
     sourceSets {
         commonMain.dependencies {
-            implementation(libs.bundles.kotlinx.coroutines.common)
+            api(project(":core:common"))
         }
     }
 
