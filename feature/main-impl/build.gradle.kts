@@ -12,6 +12,9 @@ plugins {
 kotlin {
     androidTarget()
     jvm("desktop")
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
     sourceSets {
         commonMain.dependencies {
@@ -28,7 +31,6 @@ kotlin {
         }
         val desktopMain by getting
         desktopMain.dependencies {
-            implementation(project(":core:platform-services:inject-desktop"))
             implementation(libs.koin.compose)
         }
     }
