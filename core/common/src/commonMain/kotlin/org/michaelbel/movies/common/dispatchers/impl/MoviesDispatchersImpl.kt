@@ -2,6 +2,7 @@ package org.michaelbel.movies.common.dispatchers.impl
 
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
 import org.michaelbel.movies.common.dispatchers.MoviesDispatchers
 import org.michaelbel.movies.common.dispatchers.uiDispatcher
 
