@@ -12,11 +12,12 @@
 Movies
 =
 
-[![](https://img.shields.io/badge/Android-000000.svg?style=for-the-badge&logo=Android)](https://github.com/michaelbel/movies)
-[![](https://img.shields.io/badge/macOS-000000.svg?style=for-the-badge&logo=macos)](https://github.com/michaelbel/movies)
+[![](https://img.shields.io/badge/android-000000.svg?style=for-the-badge&logo=android)](https://github.com/michaelbel/movies)
+[![](https://img.shields.io/badge/ios-000000.svg?style=for-the-badge&logo=apple)](https://github.com/michaelbel/movies)
+[![](https://img.shields.io/badge/jvm_desktop-000000.svg?style=for-the-badge&logo=pcgamingwiki)](https://github.com/michaelbel/movies)
 <!-- [![](https://img.shields.io/badge/Automotive-000000.svg?style=for-the-badge&logo=android-auto)](https://github.com/michaelbel/movies)
 [![](https://img.shields.io/badge/WearOS-000000.svg?style=for-the-badge&logo=wearOS)](https://github.com/michaelbel/movies)
-[![](https://img.shields.io/badge/iOS-000000.svg?style=for-the-badge&logo=apple)](https://github.com/michaelbel/movies)
+[![](https://img.shields.io/badge/macOS-000000.svg?style=for-the-badge&logo=macos)](https://github.com/michaelbel/movies)
 [![](https://img.shields.io/badge/Windows-000000.svg?style=for-the-badge&logo=windows)](https://github.com/michaelbel/movies)
 [![](https://img.shields.io/badge/Linux-000000.svg?style=for-the-badge&logo=linux)](https://github.com/michaelbel/movies)
 [![](https://img.shields.io/badge/Web-000000.svg?style=for-the-badge&logo=google-chrome)](https://github.com/michaelbel/movies) -->
@@ -47,6 +48,16 @@ The app is currently in development. Android app is already available.
     <img src="config/images/android/android10.gif" width="24%">
     <img src="config/images/android/android5.png" width="49%">
     <img src="config/images/android/android6.png" width="49%">
+</p>
+
+**iOS**
+<p align="center">
+    <img src="config/images/ios/ios1.png" width="24%">
+    <img src="config/images/ios/ios2.png" width="24%">
+    <img src="config/images/ios/ios3.png" width="24%">
+    <img src="config/images/ios/ios4.png" width="24%">
+    <img src="config/images/ios/ios5.png" width="49%">
+    <img src="config/images/ios/ios6.png" width="49%">
 </p>
 
 **macOS**
@@ -191,6 +202,7 @@ The app is still usable without an API key. In this case functionality will be l
 ```mermaid
 graph TD;
     feature-->androidApp
+    feature-->iosComposeApp
     feature-->desktopApp
 
     account-->feature
