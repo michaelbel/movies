@@ -13,7 +13,7 @@ import org.michaelbel.movies.persistence.database.typealiases.AccountId
  * The Data Access Object for the [AccountDb] class.
  */
 @Dao
-internal interface AccountDao {
+interface AccountDao {
 
     @Query("SELECT * FROM accounts WHERE accountId = :accountId")
     fun accountById(accountId: AccountId): Flow<AccountPojo?>

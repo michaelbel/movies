@@ -5,4 +5,4 @@ package org.michaelbel.movies.persistence.database.dao
 import androidx.room.Dao
 
 @Dao
-internal expect interface MovieBlockingDao
+expect interface MovieBlockingDao

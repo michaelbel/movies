@@ -7,7 +7,7 @@ import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 import org.michaelbel.movies.persistence.database.typealiases.Position
 
 @Entity(tableName = "movies", primaryKeys = ["movieList", "movieId"])
-internal data class MovieDb(
+data class MovieDb(
     val movieList: PagingKey,
     val dateAdded: Long,
     val page: Page?,

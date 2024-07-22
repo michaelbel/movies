@@ -12,7 +12,7 @@ import org.michaelbel.movies.persistence.database.entity.pojo.SuggestionPojo
  * The Data Access Object for the [SuggestionDb] class.
  */
 @Dao
-internal interface SuggestionDao {
+interface SuggestionDao {
 
     @Query("SELECT * FROM suggestions")
     fun suggestionsFlow(): Flow<List<SuggestionPojo>>

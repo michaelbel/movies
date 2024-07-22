@@ -5,5 +5,5 @@ plugins {
 dependencies {
     compileOnly(libs.gradle.plugin)
     compileOnly(libs.kotlin.plugin)
-    implementation(libs.javapoet)
+    implementation(libs.bundles.javapoet.android)
 }

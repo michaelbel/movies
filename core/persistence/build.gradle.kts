@@ -16,6 +16,12 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
+    // Room: Adding ksp src directory to use AppDatabase::class.instantiateImpl() in iosMain.
+    // Comment when build Android & Desktop apps. Uncomment when first build iOS app.
+    /*sourceSets.commonMain {
+        kotlin.srcDir("build/generated/ksp/metadata")
+    }*/
+
     sourceSets {
         commonMain.dependencies {
             api(project(":core:network"))
@@ -29,6 +35,9 @@ kotlin {
         }
         jvmMain.dependencies {
             implementation(libs.bundles.datastore.desktop)
+        }
+        iosMain.dependencies {
+            implementation(libs.bundles.sqlite.bundled.ios)
         }
     }
 
@@ -64,8 +73,14 @@ dependencies {
     add("kspIosX64", libs.bundles.room.compiler.common)
     add("kspIosArm64", libs.bundles.room.compiler.common)
     add("kspIosSimulatorArm64", libs.bundles.room.compiler.common)
+
+    /**
+     * Need to generate AppDatabase::class.instantiateImpl() in iosMain.
+     * Comment when build Android & Desktop apps. Uncomment when first build iOS app.
+     */
+    /*add("kspCommonMainMetadata", libs.bundles.room.compiler.common)*/
 }
 
 room {
-    schemaDirectory("$projectDir/schemas")
+    schemaDirectory("${rootProject.projectDir}/schemas")
 }

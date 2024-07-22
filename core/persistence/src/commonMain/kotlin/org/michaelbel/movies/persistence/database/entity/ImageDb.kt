@@ -6,7 +6,7 @@ import org.michaelbel.movies.persistence.database.typealiases.MovieId
 import org.michaelbel.movies.persistence.database.typealiases.Position
 
 @Entity(tableName = "images", primaryKeys = ["movieId", "filePath"])
-internal data class ImageDb(
+data class ImageDb(
     val movieId: MovieId,
     val filePath: String,
     val type: ImageType,

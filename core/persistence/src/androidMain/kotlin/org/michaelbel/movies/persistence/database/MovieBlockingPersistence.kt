@@ -3,15 +3,14 @@
 package org.michaelbel.movies.persistence.database
 
 import androidx.paging.PagingSource
-import org.michaelbel.movies.persistence.database.dao.MovieBlockingDao
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 
 actual class MovieBlockingPersistence internal constructor(
-    private val movieBlockingDao: MovieBlockingDao
+    private val moviesDatabase: MoviesDatabase
 ) {
 
     fun pagingSource(pagingKey: PagingKey): PagingSource<Int, MoviePojo> {
-        return movieBlockingDao.pagingSource(pagingKey)
+        return moviesDatabase.movieBlockingDao.pagingSource(pagingKey)
     }
 }

@@ -5,7 +5,7 @@ import androidx.room.PrimaryKey
 import org.michaelbel.movies.persistence.database.typealiases.AccountId
 
 @Entity(tableName = "accounts")
-internal data class AccountDb(
+data class AccountDb(
     @PrimaryKey val accountId: AccountId,
     val avatarUrl: String,
     val language: String,

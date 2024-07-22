@@ -35,6 +35,9 @@ kotlin {
             implementation(libs.bundles.startup.android)
             implementation(libs.bundles.okhttp.logging.interceptor.android)
         }
+        iosMain.dependencies {
+            implementation(libs.bundles.ktor.ios)
+        }
     }
 
     compilerOptions {

@@ -1,6 +1,7 @@
 package org.michaelbel.movies.network.ktor.di
 
 import io.ktor.client.HttpClient
+import io.ktor.client.engine.darwin.Darwin
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
@@ -17,7 +18,7 @@ private const val CONNECT_TIMEOUT_MILLIS = 10_000L
 
 actual val ktorKoinModule = module {
     single<HttpClient> {
-        val ktor = HttpClient {
+        val ktor = HttpClient(Darwin) {
             defaultRequest {
                 contentType(ContentType.Application.Json)
                 url(TMDB_API_ENDPOINT)

@@ -12,7 +12,7 @@ import org.michaelbel.movies.persistence.database.typealiases.PagingKey
  * The Data Access Object for the [PagingKeyDb] class.
  */
 @Dao
-internal interface PagingKeyDao {
+interface PagingKeyDao {
 
     @Transaction
     @Query("SELECT page FROM pagingkeys WHERE pagingKey = :pagingKey")

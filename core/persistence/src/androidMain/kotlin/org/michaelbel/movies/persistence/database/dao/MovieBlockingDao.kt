@@ -10,7 +10,7 @@ import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 
 @Dao
-internal actual interface MovieBlockingDao {
+actual interface MovieBlockingDao {
 
     @Transaction
     @Query("SELECT * FROM movies WHERE movieList = :pagingKey ORDER BY position ASC")

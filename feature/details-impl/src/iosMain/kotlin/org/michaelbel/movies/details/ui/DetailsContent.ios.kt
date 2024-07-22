@@ -19,7 +19,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.constraintlayout.compose.atMost
 import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter
 import coil3.compose.LocalPlatformContext
@@ -63,8 +62,8 @@ internal fun DetailsContent(
             contentDescription = stringResource(MoviesContentDescriptionCommon.MovieDetailsImage),
             modifier = Modifier
                 .constrainAs(image) {
-                    width = Dimension.fillToConstraints.atMost(568.dp) // 600 - 16 - 16
-                    height = Dimension.fillToConstraints.atMost(450.dp)
+                    width = Dimension.fillToConstraints
+                    height = Dimension.value(220.dp)
                     start.linkTo(parent.start, 16.dp)
                     top.linkTo(parent.top, 16.dp)
                     end.linkTo(parent.end, 16.dp)

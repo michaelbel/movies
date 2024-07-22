@@ -18,7 +18,7 @@ import org.michaelbel.movies.persistence.database.typealiases.PagingKey
  * The Data Access Object for the [MovieDb] class.
  */
 @Dao
-internal interface MovieDao {
+interface MovieDao {
 
     @Query("SELECT * FROM movies WHERE movieList = :pagingKey ORDER BY position DESC LIMIT :limit")
     fun moviesFlow(pagingKey: PagingKey, limit: Limit): Flow<List<MoviePojo>>

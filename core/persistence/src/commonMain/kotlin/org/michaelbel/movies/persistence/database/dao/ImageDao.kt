@@ -13,7 +13,7 @@ import org.michaelbel.movies.persistence.database.typealiases.MovieId
  * The Data Access Object for the [ImageDb] class.
  */
 @Dao
-internal interface ImageDao {
+interface ImageDao {
 
     @Query("SELECT * FROM images WHERE movieId = :movieId ORDER BY position ASC")
     fun imagesFlow(movieId: MovieId): Flow<List<ImagePojo>>

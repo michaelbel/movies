@@ -14,9 +14,6 @@ import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.entity.PagingKeyDb
 import org.michaelbel.movies.persistence.database.entity.SuggestionDb
 
-/**
- * The Room database for this app.
- */
 @Database(
     entities = [
         MovieDb::class,

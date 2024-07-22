@@ -4,16 +4,17 @@ import org.koin.dsl.module
 import org.michaelbel.movies.persistence.database.AccountPersistence
 import org.michaelbel.movies.persistence.database.ImagePersistence
 import org.michaelbel.movies.persistence.database.MoviePersistence
+import org.michaelbel.movies.persistence.database.MoviesDatabase
 import org.michaelbel.movies.persistence.database.PagingKeyPersistence
 import org.michaelbel.movies.persistence.database.SuggestionPersistence
 
 val persistenceKoinModule = module {
     includes(
-        daoKoinModule
+        moviesDatabaseKoinModule
     )
-    single { AccountPersistence(get()) }
-    single { ImagePersistence(get()) }
-    single { MoviePersistence(get()) }
-    single { PagingKeyPersistence(get()) }
-    single { SuggestionPersistence(get()) }
+    single { AccountPersistence(get<MoviesDatabase>()) }
+    single { ImagePersistence(get<MoviesDatabase>()) }
+    single { MoviePersistence(get<MoviesDatabase>()) }
+    single { PagingKeyPersistence(get<MoviesDatabase>()) }
+    single { SuggestionPersistence(get<MoviesDatabase>()) }
 }
