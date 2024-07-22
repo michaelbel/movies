@@ -205,14 +205,14 @@ graph TD;
     feature-->iosComposeApp
     feature-->desktopApp
 
-    account-->feature
-    auth-->feature
-    details-->feature
-    feed-->feature
-    gallery-->feature
-    search-->feature
-    settings-->feature
-    debug-->feature
+    account-->main-impl
+    auth-->main-impl
+    details-->main-impl
+    feed-->main-impl
+    gallery-->main-impl
+    search-->main-impl
+    settings-->main-impl
+    debug-->main-impl
 
     account-impl-->account
     auth-impl-->auth
