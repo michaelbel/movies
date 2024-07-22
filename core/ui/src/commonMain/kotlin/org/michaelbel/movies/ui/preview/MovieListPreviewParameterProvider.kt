@@ -1,6 +1,6 @@
-package org.michaelbel.movies.ui.preview.provider
+package org.michaelbel.movies.ui.preview
 
-import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
 import org.michaelbel.movies.common.list.MovieList
+import org.michaelbel.movies.ui.preview.base.CollectionPreviewParameterProvider
 
 class MovieListPreviewParameterProvider: CollectionPreviewParameterProvider<MovieList>(MovieList.VALUES)

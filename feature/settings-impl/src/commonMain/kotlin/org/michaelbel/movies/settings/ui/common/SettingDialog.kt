@@ -23,11 +23,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.michaelbel.movies.common.SealedString
 import org.michaelbel.movies.interactor.entity.AppLanguage
 import org.michaelbel.movies.settings.ktx.stringText
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.icons.MoviesIcons
+import org.michaelbel.movies.ui.preview.AppearancePreviewParameterProvider
 import org.michaelbel.movies.ui.strings.MoviesStrings
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
@@ -112,7 +114,7 @@ internal fun <T: SealedString> SettingsDialog(
 @Preview
 @Composable
 private fun SettingDialogPreview(
-    /*@PreviewParameter(AppearancePreviewParameterProvider::class)*/ appLanguage: AppLanguage
+    @PreviewParameter(AppearancePreviewParameterProvider::class) appLanguage: AppLanguage
 ) {
     MoviesTheme {
         SettingsDialog(

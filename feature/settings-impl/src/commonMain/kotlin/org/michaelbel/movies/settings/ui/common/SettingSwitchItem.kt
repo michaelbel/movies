@@ -18,9 +18,11 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.compose.SwitchCheckIcon
 import org.michaelbel.movies.ui.icons.MoviesIcons
+import org.michaelbel.movies.ui.preview.BooleanPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -166,7 +168,7 @@ internal fun SettingSwitchItem(
 @Preview
 @Composable
 private fun SettingSwitchItemPreview(
-    /*@PreviewParameter(BooleanPreviewParameterProvider::class)*/ checked: Boolean
+    @PreviewParameter(BooleanPreviewParameterProvider::class) checked: Boolean
 ) {
     MoviesTheme {
         SettingSwitchItem(

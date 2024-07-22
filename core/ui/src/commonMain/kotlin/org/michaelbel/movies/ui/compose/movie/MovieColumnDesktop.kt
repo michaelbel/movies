@@ -29,10 +29,12 @@ import movies.core.ui.generated.resources.Res
 import movies.core.ui.generated.resources.no_image
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.michaelbel.movies.network.config.formatPosterImage
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
+import org.michaelbel.movies.ui.preview.MoviePreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -105,7 +107,7 @@ internal fun MovieColumnDesktop(
 @Preview
 @Composable
 private fun MovieColumnDesktopPreview(
-    /*@PreviewParameter(MoviePreviewParameterProvider::class)*/ movie: MoviePojo
+    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MoviePojo
 ) {
     MoviesTheme {
         MovieColumnDesktop(

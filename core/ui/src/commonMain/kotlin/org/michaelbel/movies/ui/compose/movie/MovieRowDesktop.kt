@@ -27,10 +27,12 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.michaelbel.movies.network.config.formatBackdropImage
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
+import org.michaelbel.movies.ui.preview.MoviePreviewParameterProvider
 import org.michaelbel.movies.ui.strings.MoviesStrings
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
@@ -105,7 +107,7 @@ internal fun MovieRowDesktop(
 @Preview
 @Composable
 private fun MovieRowDesktopPreview(
-    /*@PreviewParameter(MoviePreviewParameterProvider::class)*/ movie: MoviePojo
+    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MoviePojo
 ) {
     MoviesTheme {
         MovieRowDesktop(

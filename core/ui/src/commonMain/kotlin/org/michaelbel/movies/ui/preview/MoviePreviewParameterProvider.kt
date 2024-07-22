@@ -1,14 +1,15 @@
-package org.michaelbel.movies.ui.preview.provider
+package org.michaelbel.movies.ui.preview
 
-import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
+import kotlinx.datetime.Clock
 import org.michaelbel.movies.network.model.Movie
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
+import org.michaelbel.movies.ui.preview.base.CollectionPreviewParameterProvider
 
 class MoviePreviewParameterProvider: CollectionPreviewParameterProvider<MoviePojo>(
     listOf(
         MoviePojo(
             movieList = Movie.NOW_PLAYING,
-            dateAdded = System.currentTimeMillis(),
+            dateAdded = Clock.System.now().toEpochMilliseconds(),
             page = null,
             position = 0,
             movieId = 438148,

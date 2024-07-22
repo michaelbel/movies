@@ -9,8 +9,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.icons.MoviesIcons
+import org.michaelbel.movies.ui.preview.BooleanPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -34,7 +36,7 @@ fun PasswordIcon(
 @Preview
 @Composable
 private fun PasswordIconPreview(
-    /*@PreviewParameter(BooleanPreviewParameterProvider::class)*/ state: Boolean
+    @PreviewParameter(BooleanPreviewParameterProvider::class) state: Boolean
 ) {
     MoviesTheme {
         PasswordIcon(

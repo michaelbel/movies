@@ -19,10 +19,12 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.michaelbel.movies.persistence.database.entity.pojo.AccountPojo
 import org.michaelbel.movies.persistence.database.ktx.letters
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.ktx.lettersTextFontSizeSmall
+import org.michaelbel.movies.ui.preview.AccountPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -62,7 +64,7 @@ fun AccountAvatar(
 @Preview
 @Composable
 private fun AccountAvatarPreview(
-    /*@PreviewParameter(AccountPreviewParameterProvider::class)*/ account: AccountPojo
+    @PreviewParameter(AccountPreviewParameterProvider::class) account: AccountPojo
 ) {
     MoviesTheme {
         AccountAvatar(

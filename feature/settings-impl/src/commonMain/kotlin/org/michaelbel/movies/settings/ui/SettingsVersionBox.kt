@@ -15,10 +15,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.settings.model.SettingsData
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.icons.MoviesIcons
+import org.michaelbel.movies.ui.preview.VersionPreviewParameterProvider
 import org.michaelbel.movies.ui.strings.MoviesStrings
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
@@ -72,7 +74,7 @@ internal fun SettingsVersionBox(
 @Preview
 @Composable
 private fun SettingsVersionBoxPreview(
-    /*@PreviewParameter(VersionPreviewParameterProvider::class)*/ appVersionData: AppVersionData
+    @PreviewParameter(VersionPreviewParameterProvider::class) appVersionData: AppVersionData
 ) {
     MoviesTheme {
         SettingsVersionBox(

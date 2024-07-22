@@ -1,7 +1,7 @@
-package org.michaelbel.movies.ui.preview.provider
+package org.michaelbel.movies.ui.preview
 
-import androidx.compose.ui.tooling.preview.datasource.CollectionPreviewParameterProvider
 import org.michaelbel.movies.persistence.database.entity.pojo.AccountPojo
+import org.michaelbel.movies.ui.preview.base.CollectionPreviewParameterProvider
 
 class AccountPreviewParameterProvider: CollectionPreviewParameterProvider<AccountPojo>(
     listOf(
