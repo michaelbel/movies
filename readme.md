@@ -201,9 +201,9 @@ The app is still usable without an API key. In this case functionality will be l
 ## Modules
 ```mermaid
 graph TD;
-    feature-->androidApp
-    feature-->iosComposeApp
-    feature-->desktopApp
+    main-impl-->androidApp
+    main-impl-->iosComposeApp
+    main-impl-->desktopApp
 
     account-->main-impl
     auth-->main-impl

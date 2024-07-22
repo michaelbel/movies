@@ -201,9 +201,9 @@ TMDB_API_KEY=your_own_tmdb_api_key
 ## Модули
 ```mermaid
 graph TD;
-    feature-->androidApp
-    feature-->iosComposeApp
-    feature-->desktopApp
+    main-impl-->androidApp
+    main-impl-->iosComposeApp
+    main-impl-->desktopApp
 
     account-->main-impl
     auth-->main-impl
