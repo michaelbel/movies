@@ -12,7 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.michaelbel.movies.common.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.ui.strings.MoviesStrings
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
@@ -32,25 +32,10 @@ internal fun PagingFailureBox(
     }
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun PagingFailureBoxPreview() {
     MoviesTheme {
-        PagingFailureBox(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-                .background(MaterialTheme.colorScheme.primaryContainer)
-        )
-    }
-}
-
-@Composable
-/*@Preview*/
-private fun PagingFailureBoxAmoledPreview() {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         PagingFailureBox(
             modifier = Modifier
                 .fillMaxWidth()

@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import org.jetbrains.compose.resources.stringResource
-import org.michaelbel.movies.common.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.persistence.database.ktx.url
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
@@ -35,28 +35,12 @@ fun ShareIcon(
     }
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun ShareIconPreview(
     /*@PreviewParameter(MovieDbPreviewParameterProvider::class)*/ movie: MoviePojo
 ) {
     MoviesTheme {
-        ShareIcon(
-            url = movie.url,
-            onShareClick = {},
-            modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)
-        )
-    }
-}
-
-@Composable
-/*@Preview*/
-private fun ShareIconAmoledPreview(
-    /*@PreviewParameter(MovieDbPreviewParameterProvider::class)*/ movie: MoviePojo
-) {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         ShareIcon(
             url = movie.url,
             onShareClick = {},

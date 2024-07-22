@@ -39,15 +39,13 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.michaelbel.movies.common.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.michaelbel.movies.ui.R
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
-import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
-import org.michaelbel.movies.ui.R
 
 @Composable
 fun NotificationBottomSheet(
@@ -156,25 +154,10 @@ fun NotificationBottomSheet(
     }
 }
 
+@Preview
 @Composable
-@DevicePreviews
 private fun NotificationBottomSheetPreview() {
     MoviesTheme {
-        NotificationBottomSheet(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.primaryContainer),
-            onDismissRequest = {}
-        )
-    }
-}
-
-@Composable
-@Preview
-private fun NotificationBottomSheetAmoledPreview() {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         NotificationBottomSheet(
             modifier = Modifier
                 .fillMaxWidth()

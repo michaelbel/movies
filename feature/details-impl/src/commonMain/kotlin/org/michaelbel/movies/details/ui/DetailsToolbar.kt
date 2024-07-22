@@ -15,7 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
-import org.michaelbel.movies.common.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
 import org.michaelbel.movies.ui.compose.iconbutton.ShareIcon
 import org.michaelbel.movies.ui.ktx.modifierDisplayCutoutWindowInsets
@@ -71,31 +71,12 @@ internal fun DetailsToolbar(
     )
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun DetailsToolbarPreview(
     /*@PreviewParameter(TitlePreviewParameterProvider::class)*/ title: String
 ) {
     MoviesTheme {
-        DetailsToolbar(
-            movieTitle = title,
-            movieUrl = null,
-            onNavigationIconClick = {},
-            onShareClick = {},
-            topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
-            modifier = Modifier.statusBarsPadding()
-        )
-    }
-}
-
-@Composable
-/*@Preview*/
-private fun DetailsToolbarAmoledPreview(
-    /*@PreviewParameter(TitlePreviewParameterProvider::class)*/ title: String
-) {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         DetailsToolbar(
             movieTitle = title,
             movieUrl = null,

@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.michaelbel.movies.common.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.strings.MoviesStrings
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -69,24 +69,10 @@ fun AuthLinksBox(
     }
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun AuthLinksBoxPreview() {
     MoviesTheme {
-        AuthLinksBox(
-            onTermsOfUseClick = {},
-            onPrivacyPolicyClick = {},
-            modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)
-        )
-    }
-}
-
-@Composable
-/*@Preview*/
-private fun AuthLinksBoxAmoledPreview() {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         AuthLinksBox(
             onTermsOfUseClick = {},
             onPrivacyPolicyClick = {},

@@ -17,7 +17,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import org.michaelbel.movies.common.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.compose.SwitchCheckIcon
 import org.michaelbel.movies.ui.icons.MoviesIcons
@@ -163,31 +163,12 @@ internal fun SettingSwitchItem(
     }
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun SettingSwitchItemPreview(
     /*@PreviewParameter(BooleanPreviewParameterProvider::class)*/ checked: Boolean
 ) {
     MoviesTheme {
-        SettingSwitchItem(
-            title = "Title",
-            description = "Description",
-            icon = MoviesIcons.Language,
-            checked = checked,
-            onClick = {},
-            modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)
-        )
-    }
-}
-
-@Composable
-/*@Preview*/
-private fun SettingSwitchItemAmoledPreview(
-    /*@PreviewParameter(BooleanPreviewParameterProvider::class)*/ checked: Boolean
-) {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         SettingSwitchItem(
             title = "Title",
             description = "Description",

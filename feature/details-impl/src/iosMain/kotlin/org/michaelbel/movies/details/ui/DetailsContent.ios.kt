@@ -25,7 +25,7 @@ import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import org.jetbrains.compose.resources.stringResource
-import org.michaelbel.movies.common.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.network.config.formatBackdropImage
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.persistence.database.ktx.isNotEmpty
@@ -127,30 +127,12 @@ internal fun DetailsContent(
     }
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun DetailsContentPreview(
     /*@PreviewParameter(MovieDbPreviewParameterProvider::class)*/ movie: MoviePojo
 ) {
     MoviesTheme {
-        DetailsContent(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.primaryContainer),
-            movie = movie,
-            onNavigateToGallery = {}
-        )
-    }
-}
-
-@Composable
-/*@Preview*/
-private fun DetailsContentAmoledPreview(
-    /*@PreviewParameter(MovieDbPreviewParameterProvider::class)*/ movie: MoviePojo
-) {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         DetailsContent(
             modifier = Modifier
                 .fillMaxSize()

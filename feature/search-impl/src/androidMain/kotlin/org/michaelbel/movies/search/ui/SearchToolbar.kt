@@ -23,7 +23,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.persistence.database.entity.pojo.SuggestionPojo
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
@@ -32,7 +31,6 @@ import org.michaelbel.movies.search_impl.R
 import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
 import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
 import org.michaelbel.movies.ui.compose.iconbutton.VoiceIcon
-import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.SuggestionDbPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
@@ -147,37 +145,12 @@ internal fun SearchToolbar(
     }
 }
 
+@Preview
 @Composable
-@DevicePreviews
 private fun SearchToolbarPreview(
     @PreviewParameter(SuggestionDbPreviewParameterProvider::class) suggestions: List<SuggestionPojo>
 ) {
     MoviesTheme {
-        SearchToolbar(
-            query = "Napoleon",
-            onQueryChange = {},
-            onSearch = {},
-            active = true,
-            onActiveChange = {},
-            onBackClick = {},
-            onCloseClick = {},
-            onInputText = {},
-            suggestions = suggestions,
-            searchHistoryMovies = emptyList(),
-            onHistoryMovieRemoveClick = {},
-            onClearHistoryClick = {}
-        )
-    }
-}
-
-@Composable
-@Preview
-private fun SearchToolbarAmoledPreview(
-    @PreviewParameter(SuggestionDbPreviewParameterProvider::class) suggestions: List<SuggestionPojo>
-) {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         SearchToolbar(
             query = "Napoleon",
             onQueryChange = {},

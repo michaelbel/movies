@@ -33,7 +33,6 @@ import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
 import coil.request.SuccessResult
-import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.network.config.formatBackdropImage
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.persistence.database.ktx.isNotEmpty
@@ -41,7 +40,6 @@ import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.placeholder.PlaceholderHighlight
 import org.michaelbel.movies.ui.placeholder.material3.fade
 import org.michaelbel.movies.ui.placeholder.placeholder
-import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.MovieDbPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
@@ -164,31 +162,12 @@ internal fun DetailsContent(
     }
 }
 
+@Preview
 @Composable
-@DevicePreviews
 private fun DetailsContentPreview(
     @PreviewParameter(MovieDbPreviewParameterProvider::class) movie: MoviePojo
 ) {
     MoviesTheme {
-        DetailsContent(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.primaryContainer),
-            movie = movie,
-            onNavigateToGallery = {},
-            onGenerateColors = { _,_ -> }
-        )
-    }
-}
-
-@Composable
-@Preview
-private fun DetailsContentAmoledPreview(
-    @PreviewParameter(MovieDbPreviewParameterProvider::class) movie: MoviePojo
-) {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         DetailsContent(
             modifier = Modifier
                 .fillMaxSize()

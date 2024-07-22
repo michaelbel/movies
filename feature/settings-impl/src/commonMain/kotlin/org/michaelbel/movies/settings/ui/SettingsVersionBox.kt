@@ -14,7 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.michaelbel.movies.common.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.settings.model.SettingsData
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
@@ -69,36 +69,12 @@ internal fun SettingsVersionBox(
     }
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun SettingsVersionBoxPreview(
     /*@PreviewParameter(VersionPreviewParameterProvider::class)*/ appVersionData: AppVersionData
 ) {
     MoviesTheme {
-        SettingsVersionBox(
-            aboutData = SettingsData.AboutData(
-                isFeatureEnabled = true,
-                versionName = "1.0.0",
-                versionCode = 1,
-                flavor = "GMS",
-                isDebug = true,
-            ),
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .background(MaterialTheme.colorScheme.primaryContainer)
-        )
-    }
-}
-
-@Composable
-/*@Preview*/
-private fun SettingsVersionBoxAmoledPreview(
-    /*@PreviewParameter(VersionPreviewParameterProvider::class)*/ appVersionData: AppVersionData
-) {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         SettingsVersionBox(
             aboutData = SettingsData.AboutData(
                 isFeatureEnabled = true,

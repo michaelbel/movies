@@ -16,12 +16,10 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
 import org.michaelbel.movies.ui.icons.MoviesIcons
-import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.preview.provider.MoviePreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
@@ -78,31 +76,12 @@ internal fun SearchRecentResult(
     }
 }
 
+@Preview
 @Composable
-@DevicePreviews
 private fun SearchRecentResultPreview(
     @PreviewParameter(MoviePreviewParameterProvider::class) movie: MoviePojo
 ) {
     MoviesTheme {
-        SearchRecentResult(
-            text = movie.title,
-            onRemoveClick = {},
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(48.dp)
-                .background(MaterialTheme.colorScheme.primaryContainer)
-        )
-    }
-}
-
-@Composable
-@Preview
-private fun SearchRecentResultAmoledPreview(
-    @PreviewParameter(MoviePreviewParameterProvider::class) movie: MoviePojo
-) {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         SearchRecentResult(
             text = movie.title,
             onRemoveClick = {},

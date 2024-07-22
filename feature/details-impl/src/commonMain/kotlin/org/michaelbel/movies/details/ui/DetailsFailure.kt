@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.jetbrains.compose.resources.stringResource
-import org.michaelbel.movies.common.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.strings.MoviesStrings
@@ -56,24 +56,10 @@ internal fun DetailsFailure(
     }
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun DetailsFailurePreview() {
     MoviesTheme {
-        DetailsFailure(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.primaryContainer)
-        )
-    }
-}
-
-@Composable
-/*@Preview*/
-private fun DetailsFailureAmoledPreview() {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         DetailsFailure(
             modifier = Modifier
                 .fillMaxSize()

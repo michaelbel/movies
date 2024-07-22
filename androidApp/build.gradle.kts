@@ -171,7 +171,6 @@ dependencies {
     testImplementation(libs.bundles.junit.android)
     androidTestImplementation(libs.bundles.test.espresso.android)
     androidTestImplementation(libs.bundles.test.ext.junit.android)
-    androidTestImplementation(libs.bundles.compose.ui.test.android)
     androidTestImplementation(libs.bundles.benchmark.android)
     debugImplementation(libs.bundles.leakcanary.android)
     lintChecks(libs.lint.checks)

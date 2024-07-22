@@ -23,14 +23,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import org.michaelbel.movies.common.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.michaelbel.movies.ui.R
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
-import org.michaelbel.movies.ui.preview.DevicePreviews
 import org.michaelbel.movies.ui.theme.MoviesTheme
-import org.michaelbel.movies.ui.R
 
 @Composable
 fun PageFailure(
@@ -79,24 +77,10 @@ fun PageFailure(
     }
 }
 
+@Preview
 @Composable
-@DevicePreviews
 private fun PageFailurePreview() {
     MoviesTheme {
-        PageFailure(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.primaryContainer)
-        )
-    }
-}
-
-@Composable
-@Preview
-private fun PageFailureAmoledPreview() {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         PageFailure(
             modifier = Modifier
                 .fillMaxSize()

@@ -44,6 +44,7 @@ kotlin {
         jvmMain.dependencies {
             api(compose.desktop.common)
             api(compose.desktop.currentOs)
+            api(libs.bundles.compose.desktop)
         }
     }
 

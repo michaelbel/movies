@@ -127,8 +127,6 @@ androidx-compose-ui = { module = "androidx.compose.ui:ui", version.ref = "androi
 androidx-compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "androidx-compose-ui" }
 androidx-compose-ui-tooling-preview-android = { module = "androidx.compose.ui:ui-tooling-preview-android", version.ref = "androidx-compose-ui" }
 androidx-compose-ui-tooling-preview-desktop = { module = "androidx.compose.ui:ui-tooling-preview-desktop", version.ref = "androidx-compose-ui" }
-androidx-compose-ui-test-junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "androidx-compose-ui" }
-androidx-compose-ui-test-manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "androidx-compose-ui" }
 androidx-compose-ui-util = { module = "androidx.compose.ui:ui-util", version.ref = "androidx-compose-ui" }
 androidx-core-ktx = { module = "androidx.core:core-ktx", version.ref = "androidx-core-ktx" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidx-core-splashscreen" }
@@ -340,10 +338,8 @@ compose-android = [
     "androidx-compose-runtime",
     "androidx-compose-ui",
     "androidx-compose-ui-tooling",
+    "androidx-compose-ui-tooling-preview-android",
     "androidx-compose-ui-util"
-]
-compose-ui-test-android = [
-    "androidx-compose-ui-test-junit4"
 ]
 core-android = [
     "androidx-core-ktx"
@@ -477,6 +473,9 @@ flaker-noop-android = [
 
 kotlinx-coroutines-desktop = [
     "kotlinx-coroutines-swing"
+]
+compose-desktop = [
+    "androidx-compose-ui-tooling-preview-desktop"
 ]
 datastore-desktop = [
     "androidx-datastore-core-okio-jvm"

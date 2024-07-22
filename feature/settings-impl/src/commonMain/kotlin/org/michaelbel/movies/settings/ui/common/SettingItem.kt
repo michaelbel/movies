@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import org.michaelbel.movies.common.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -60,26 +60,10 @@ internal fun SettingItem(
     }
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun SettingItemPreview() {
     MoviesTheme {
-        SettingItem(
-            title = "Title",
-            description = "Description",
-            icon = MoviesIcons.Language,
-            onClick = {},
-            modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)
-        )
-    }
-}
-
-@Composable
-/*@Preview*/
-private fun SettingItemAmoledPreview() {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         SettingItem(
             title = "Title",
             description = "Description",

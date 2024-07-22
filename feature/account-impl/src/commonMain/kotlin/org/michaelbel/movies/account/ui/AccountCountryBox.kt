@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.michaelbel.movies.common.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -46,25 +46,10 @@ internal fun AccountCountryBox(
     }
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun AccountCountryBoxPreview() {
     MoviesTheme {
-        AccountCountryBox(
-            country = "Finland",
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.primaryContainer)
-        )
-    }
-}
-
-@Composable
-/*@Preview*/
-private fun AccountCountryBoxAmoledPreview() {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         AccountCountryBox(
             country = "Finland",
             modifier = Modifier

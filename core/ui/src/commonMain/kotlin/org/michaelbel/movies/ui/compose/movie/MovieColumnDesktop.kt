@@ -28,6 +28,7 @@ import coil3.request.crossfade
 import movies.core.ui.generated.resources.Res
 import movies.core.ui.generated.resources.no_image
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.network.config.formatPosterImage
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
@@ -101,6 +102,7 @@ internal fun MovieColumnDesktop(
     }
 }
 
+@Preview
 @Composable
 private fun MovieColumnDesktopPreview(
     /*@PreviewParameter(MoviePreviewParameterProvider::class)*/ movie: MoviePojo

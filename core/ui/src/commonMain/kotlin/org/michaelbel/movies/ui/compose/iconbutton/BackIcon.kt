@@ -9,7 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import org.jetbrains.compose.resources.stringResource
-import org.michaelbel.movies.common.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -32,23 +32,10 @@ fun BackIcon(
     }
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun BackIconPreview() {
     MoviesTheme {
-        BackIcon(
-            onClick = {},
-            modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)
-        )
-    }
-}
-
-@Composable
-/*@Preview*/
-private fun BackIconAmoledPreview() {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         BackIcon(
             onClick = {},
             modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)

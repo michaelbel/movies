@@ -24,7 +24,7 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.michaelbel.movies.common.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.persistence.database.entity.pojo.AccountPojo
 import org.michaelbel.movies.persistence.database.ktx.isEmpty
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
@@ -118,32 +118,10 @@ internal fun FeedToolbar(
     }
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun FeedToolbarPreview() {
     MoviesTheme {
-        FeedToolbar(
-            title = "Not Playing",
-            account = AccountPojo.Empty,
-            isTmdbApiKeyEmpty = true,
-            isSearchIconVisible = true,
-            onSearchIconClick = {},
-            onAccountIconClick = {},
-            isAuthIconVisible = true,
-            onAuthIconClick = {},
-            onSettingsIconClick = {},
-            topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
-            modifier = Modifier.statusBarsPadding()
-        )
-    }
-}
-
-@Composable
-/*@Preview*/
-private fun FeedToolbarAmoledPreview() {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         FeedToolbar(
             title = "Not Playing",
             account = AccountPojo.Empty,

@@ -1,5 +1,6 @@
 package org.michaelbel.movies.ui.compose.page
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -16,7 +17,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.appearance.FeedView
-import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.ui.compose.movie.MovieColumnDesktop
@@ -141,8 +141,8 @@ private fun PageLoadingStaggeredGrid(
     }
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun PageLoadingColumnPreview() {
     MoviesTheme {
         PageLoadingColumn(
@@ -153,22 +153,8 @@ private fun PageLoadingColumnPreview() {
     }
 }
 
+@Preview
 @Composable
-/*@Preview*/
-private fun PageLoadingColumnAmoledPreview() {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
-        PageLoadingColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.primaryContainer)
-        )
-    }
-}
-
-@Composable
-/*@DeviceLandscapePreviews*/
 private fun PageLoadingGridPreview() {
     MoviesTheme {
         PageLoadingGrid(
@@ -179,38 +165,10 @@ private fun PageLoadingGridPreview() {
     }
 }
 
+@Preview
 @Composable
-/*@DeviceLandscapePreview*/
-private fun PageLoadingGridAmoledPreview() {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
-        PageLoadingGrid(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.primaryContainer)
-        )
-    }
-}
-
-@Composable
-/*@DeviceUserLandscapePreviews*/
 private fun PageLoadingStaggeredGridPreview() {
     MoviesTheme {
-        PageLoadingStaggeredGrid(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.primaryContainer)
-        )
-    }
-}
-
-@Composable
-/*@DeviceUserPreviews*/
-private fun PageLoadingStaggeredGridAmoledPreview() {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         PageLoadingStaggeredGrid(
             modifier = Modifier
                 .fillMaxSize()

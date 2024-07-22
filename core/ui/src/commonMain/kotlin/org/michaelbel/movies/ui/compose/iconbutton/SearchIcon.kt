@@ -8,7 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import org.jetbrains.compose.resources.stringResource
-import org.michaelbel.movies.common.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -30,23 +30,10 @@ fun SearchIcon(
     }
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun SearchIconPreview() {
     MoviesTheme {
-        SearchIcon(
-            onClick = {},
-            modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)
-        )
-    }
-}
-
-@Composable
-/*@Preview*/
-private fun SearchIconAmoledPreview() {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         SearchIcon(
             onClick = {},
             modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)

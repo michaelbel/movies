@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
-import org.michaelbel.movies.common.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.ui.strings.MoviesStrings
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
@@ -26,25 +26,10 @@ fun ApiKeyBox(
     )
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun ApiKeyBoxPreview() {
     MoviesTheme {
-        ApiKeyBox(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 16.dp)
-                .background(MaterialTheme.colorScheme.primaryContainer)
-        )
-    }
-}
-
-@Composable
-/*@Preview*/
-private fun ApiKeyBoxAmoledPreview() {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         ApiKeyBox(
             modifier = Modifier
                 .fillMaxWidth()

@@ -23,7 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.michaelbel.movies.common.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.appicon.IconAlias
 import org.michaelbel.movies.ui.icons.MoviesIcons
@@ -84,30 +84,12 @@ internal fun RowScope.SettingAppIcon(
     }
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun SettingAppIconPreview(
     /*@PreviewParameter(IconAliasPreviewParameterProvider::class)*/ iconAlias: IconAlias
 ) {
     MoviesTheme {
-        Row {
-            SettingAppIcon(
-                iconAlias = iconAlias,
-                isEnabled = true,
-                onClick = {}
-            )
-        }
-    }
-}
-
-@Composable
-/*@Preview*/
-private fun SettingAppIconAmoledPreview(
-    /*@PreviewParameter(IconAliasPreviewParameterProvider::class)*/ iconAlias: IconAlias
-) {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         Row {
             SettingAppIcon(
                 iconAlias = iconAlias,

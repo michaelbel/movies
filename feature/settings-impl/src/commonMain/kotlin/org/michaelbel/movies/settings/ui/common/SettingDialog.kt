@@ -22,10 +22,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.common.SealedString
+import org.michaelbel.movies.interactor.entity.AppLanguage
 import org.michaelbel.movies.settings.ktx.stringText
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
+import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.strings.MoviesStrings
+import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 internal fun <T: SealedString> SettingsDialog(
@@ -105,16 +109,15 @@ internal fun <T: SealedString> SettingsDialog(
     )
 }
 
-/*
+@Preview
 @Composable
-@DevicePreviews
 private fun SettingDialogPreview(
-    @PreviewParameter(AppearancePreviewParameterProvider::class) appLanguage: AppLanguage
+    /*@PreviewParameter(AppearancePreviewParameterProvider::class)*/ appLanguage: AppLanguage
 ) {
     MoviesTheme {
         SettingsDialog(
             icon = MoviesIcons.Language,
-            title = stringResource(R.string.settings_language),
+            title = stringResource(MoviesStrings.settings_language),
             items = AppLanguage.VALUES,
             currentItem = appLanguage,
             onItemSelect = {},
@@ -122,22 +125,3 @@ private fun SettingDialogPreview(
         )
     }
 }
-
-@Composable
-@Preview
-private fun SettingDialogAmoledPreview(
-    @PreviewParameter(LanguagePreviewParameterProvider::class) appLanguage: AppLanguage
-) {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
-        SettingsDialog(
-            icon = MoviesIcons.Language,
-            title = stringResource(R.string.settings_language),
-            items = AppLanguage.VALUES,
-            currentItem = appLanguage,
-            onItemSelect = {},
-            onDismissRequest = {}
-        )
-    }
-}*/

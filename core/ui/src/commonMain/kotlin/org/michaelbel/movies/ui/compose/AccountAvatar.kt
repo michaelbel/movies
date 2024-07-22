@@ -18,6 +18,7 @@ import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.persistence.database.entity.pojo.AccountPojo
 import org.michaelbel.movies.persistence.database.ktx.letters
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
@@ -58,8 +59,8 @@ fun AccountAvatar(
     }
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun AccountAvatarPreview(
     /*@PreviewParameter(AccountPreviewParameterProvider::class)*/ account: AccountPojo
 ) {

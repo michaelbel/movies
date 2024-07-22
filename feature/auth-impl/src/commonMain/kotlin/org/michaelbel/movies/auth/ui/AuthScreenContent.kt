@@ -37,9 +37,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.auth.ktx.text
 import org.michaelbel.movies.common.exceptions.CreateSessionWithLoginException
-import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.interactor.entity.Password
 import org.michaelbel.movies.interactor.entity.Username
 import org.michaelbel.movies.interactor.ktx.PasswordSaver
@@ -327,31 +327,10 @@ internal fun AuthScreenContent(
     }
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun AuthScreenContentPreview() {
     MoviesTheme {
-        AuthScreenContent(
-            error = null,
-            signInLoading = false,
-            loginLoading = false,
-            requestToken = null,
-            onBackClick = {},
-            onSignInClick = { _,_ -> },
-            onLoginClick = {},
-            onResetRequestToken = {},
-            onUrlClick = {},
-            modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)
-        )
-    }
-}
-
-@Composable
-/*@Preview*/
-private fun AuthScreenContentAmoledPreview() {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         AuthScreenContent(
             error = null,
             signInLoading = false,

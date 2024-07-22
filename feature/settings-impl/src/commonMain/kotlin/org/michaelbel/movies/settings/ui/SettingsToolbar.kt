@@ -12,7 +12,7 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.jetbrains.compose.resources.stringResource
-import org.michaelbel.movies.common.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.ktx.modifierDisplayCutoutWindowInsets
@@ -48,24 +48,10 @@ internal fun SettingsToolbar(
     )
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun SettingsToolbarPreview() {
     MoviesTheme {
-        SettingsToolbar(
-            modifier = Modifier.statusBarsPadding(),
-            onNavigationIconClick = {},
-            onClick = {}
-        )
-    }
-}
-
-@Composable
-/*@Preview*/
-private fun SettingsToolbarAmoledPreview() {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         SettingsToolbar(
             modifier = Modifier.statusBarsPadding(),
             onNavigationIconClick = {},

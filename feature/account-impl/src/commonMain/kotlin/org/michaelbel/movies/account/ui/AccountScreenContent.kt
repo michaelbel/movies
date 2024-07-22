@@ -23,7 +23,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
-import org.michaelbel.movies.common.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.persistence.database.entity.pojo.AccountPojo
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.compose.AccountAvatar
@@ -174,33 +174,10 @@ internal fun AccountScreenContent(
     }
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun AccountScreenContentPreview() {
     MoviesTheme {
-        AccountScreenContent(
-            account = AccountPojo(
-                accountId = 0,
-                avatarUrl = "",
-                language = "",
-                country = "Finland",
-                name = "Michael Bely",
-                adult = true,
-                username = "michaelbel"
-            ),
-            loading = false,
-            onBackClick = {},
-            onLogoutClick = {}
-        )
-    }
-}
-
-@Composable
-/*@Preview*/
-private fun AccountScreenContentAmoledPreview() {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         AccountScreenContent(
             account = AccountPojo(
                 accountId = 0,

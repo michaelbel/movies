@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import movies.core.ui.generated.resources.Res
 import movies.core.ui.generated.resources.error_loading
 import org.jetbrains.compose.resources.stringResource
-import org.michaelbel.movies.common.theme.AppTheme
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.theme.MoviesTheme
@@ -52,24 +52,10 @@ fun PageFailure(
     }
 }
 
+@Preview
 @Composable
-/*@DevicePreviews*/
 private fun PageFailurePreview() {
     MoviesTheme {
-        PageFailure(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colorScheme.primaryContainer)
-        )
-    }
-}
-
-@Composable
-/*@Preview*/
-private fun PageFailureAmoledPreview() {
-    MoviesTheme(
-        theme = AppTheme.Amoled
-    ) {
         PageFailure(
             modifier = Modifier
                 .fillMaxSize()
