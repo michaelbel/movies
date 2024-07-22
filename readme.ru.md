@@ -79,20 +79,26 @@ TMDB_API_KEY=your_own_tmdb_api_key
 
 ## Сборка
 - Клонируй репозиторий используя [последнюю версию](https://d.android.com/studio) Android Studio
-- Запусти приложение на Android девайсе или эмуляторе
-    - 🤖 **Android** с Google Mobile Services:
+- Запусти приложение на устройстве или эмуляторе
+    - Для Android, запусти конфигурацию `androidApp`.
+    - Для iOS, запусти конфигурацию `iosApp`.
+    - Для Desktop, запусти конфигурацию `desktopApp`.
+
+- Android Flavors
+    - Android с Google Mobile Services:
       ```gradle
       ./gradlew :androidApp:installGmsDebug
       ```
-    - 🤖 **Android** с Huawei Mobile Services:
+    - Android с Huawei Mobile Services:
       ```gradle
       ./gradlew :androidApp:installHmsDebug
       ```
-    - 🤖 **Android** Free and Open Source Software:
+    - Android Free and Open Source Software:
       ```gradle
       ./gradlew :androidApp:installFossDebug
       ```
-- Запусти приложение на компе с macOS
+
+- Desktop Run
     ```gradle
       ./gradlew :desktopApp:run
     ```

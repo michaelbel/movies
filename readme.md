@@ -79,20 +79,26 @@ The app is still usable without an API key. In this case functionality will be l
 
 ## Build
 - Clone this repository using [latest version](https://d.android.com/studio) of Android Studio
-- Run the app on your Android device or emulator
-    - 🤖 **Android** with Google Mobile Services:
+- Run the app on your Device or Emulator
+    - For Android, run `androidApp` configuration. 
+    - For iOS, run `iosApp` configuration.
+    - For Desktop, run `desktopApp` configuration.
+
+- Android Flavors
+    - Android with Google Mobile Services:
       ```gradle
       ./gradlew :androidApp:installGmsDebug
       ```
-    - 🤖 **Android** with Huawei Mobile Services:
+    - Android with Huawei Mobile Services:
       ```gradle
       ./gradlew :androidApp:installHmsDebug
       ```
-    - 🤖 **Android** Free and Open Source Software:
+    - Android Free and Open Source Software:
       ```gradle
       ./gradlew :androidApp:installFossDebug
       ```
-- Run the app on your macOS device
+
+- Desktop Run
     ```gradle
       ./gradlew :desktopApp:run
     ```
