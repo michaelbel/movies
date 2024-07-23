@@ -81,7 +81,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
 Выбери конфигурацию запуска для соответствующего приложения в Android Studio и запусти его.
 <br/>
 <br/>
-<img src="config/images/run-configurations.png" width="25%">
+<img src="config/images/run-configurations.png" width="30%">
 
 - Клонируй репозиторий используя [последнюю версию](https://d.android.com/studio) Android Studio
 - Запусти приложение на устройстве или эмуляторе

@@ -81,7 +81,7 @@ The app is still usable without an API key. In this case functionality will be l
 Choose a run configuration for an appropriate target in Android Studio and run it.
 <br/>
 <br/>
-<img src="config/images/run-configurations.png" width="25%">
+<img src="config/images/run-configurations.png" width="30%">
 
 - Clone this repository using [latest version](https://d.android.com/studio) of Android Studio
 - Run the app on your Device or Emulator
