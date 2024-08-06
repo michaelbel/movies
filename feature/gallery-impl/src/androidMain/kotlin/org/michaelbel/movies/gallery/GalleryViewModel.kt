@@ -40,7 +40,7 @@ class GalleryViewModel(
         )
 
     private val _workInfoFlow: MutableStateFlow<WorkInfo?> = MutableStateFlow(null)
-    val workInfoFlow: StateFlow<WorkInfo?> = _workInfoFlow.asStateFlow()
+    val workInfoFlow: StateFlow<WorkInfo?> get() = _workInfoFlow.asStateFlow()
 
     init {
         loadMovieImages(movieId.toInt())

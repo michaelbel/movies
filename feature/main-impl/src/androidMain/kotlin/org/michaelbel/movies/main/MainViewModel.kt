@@ -39,13 +39,13 @@ class MainViewModel(
 ): BaseViewModel() {
 
     private val _authenticateFlow = Channel<Unit>(Channel.BUFFERED)
-    val authenticateFlow: Flow<Unit> = _authenticateFlow.receiveAsFlow()
+    val authenticateFlow: Flow<Unit> get() = _authenticateFlow.receiveAsFlow()
 
     private val _cancelFlow = Channel<Unit>(Channel.BUFFERED)
-    val cancelFlow: Flow<Unit> = _cancelFlow.receiveAsFlow()
+    val cancelFlow: Flow<Unit> get() = _cancelFlow.receiveAsFlow()
 
     private val _splashLoading = MutableStateFlow(true)
-    val splashLoading: StateFlow<Boolean> = _splashLoading.asStateFlow()
+    val splashLoading: StateFlow<Boolean> get() = _splashLoading.asStateFlow()
 
     val themeData: StateFlow<ThemeData> = interactor.themeData
         .stateIn(

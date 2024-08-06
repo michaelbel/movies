@@ -3,6 +3,7 @@ package org.michaelbel.movies.details
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
@@ -20,7 +21,7 @@ class DetailsViewModel(
     private val movieId: MovieId = savedStateHandle["movieId"] ?: 0
 
     private val _detailsState = MutableStateFlow<ScreenState>(ScreenState.Loading)
-    val detailsState = _detailsState.asStateFlow()
+    val detailsState: StateFlow<ScreenState> get() = _detailsState.asStateFlow()
 
     init {
         println("movieList=$movieList, movieId=$movieId")

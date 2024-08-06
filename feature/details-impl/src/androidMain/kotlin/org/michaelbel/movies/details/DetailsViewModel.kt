@@ -29,7 +29,7 @@ class DetailsViewModel(
     private val movieId: MovieId = savedStateHandle.require("movieId")
 
     private val _detailsState = MutableStateFlow<ScreenState>(ScreenState.Loading)
-    val detailsState = _detailsState.asStateFlow()
+    val detailsState: StateFlow<ScreenState> get() = _detailsState.asStateFlow()
 
     val networkStatus: StateFlow<NetworkStatus> = networkManager.status
         .stateIn(

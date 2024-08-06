@@ -76,7 +76,7 @@ class FeedViewModel(
         .cachedIn(this)
 
     private var _notificationsPermissionRequired: MutableStateFlow<Boolean> = MutableStateFlow(false)
-    val notificationsPermissionRequired: StateFlow<Boolean> = _notificationsPermissionRequired.asStateFlow()
+    val notificationsPermissionRequired: StateFlow<Boolean> get() = _notificationsPermissionRequired.asStateFlow()
 
     var isAuthFailureSnackbarShowed: Boolean by mutableStateOf(false)
 

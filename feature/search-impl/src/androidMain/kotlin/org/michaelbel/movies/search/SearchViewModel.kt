@@ -61,12 +61,12 @@ class SearchViewModel(
         )
 
     private val _query: MutableStateFlow<String> = MutableStateFlow("")
-    private val query: StateFlow<String> = _query.asStateFlow()
+    private val query: StateFlow<String> get() = _query.asStateFlow()
 
     val isSearchActive: StateFlow<Boolean> = interactor.isSearchActive
 
     val pagingDataFlow: Flow<PagingData<MoviePojo>> = query
-        .flatMapLatest { query -> movieBlockingInteractor.moviesPagingData(query) }
+        .flatMapLatest(movieBlockingInteractor::moviesPagingData)
         .cachedIn(this)
 
     init {
