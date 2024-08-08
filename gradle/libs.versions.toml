@@ -1,6 +1,6 @@
 [versions]
 min-sdk = "23"
-compile-sdk = "34"
+compile-sdk = "35"
 target-sdk = "34"
 jdk = "17"
 agp = "8.4.2"

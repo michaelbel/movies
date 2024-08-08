@@ -18,7 +18,7 @@ private val Context.packageInfo: PackageInfo
     }
 
 internal val Context.versionName: String
-    get() = packageInfo.versionName
+    get() = packageInfo.versionName.orEmpty()
 
 internal val Context.versionCode: Long
     get() = if (Build.VERSION.SDK_INT >= 28) packageInfo.longVersionCode else packageInfo.versionCode.toLong()
