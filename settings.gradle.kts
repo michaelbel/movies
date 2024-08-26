@@ -30,6 +30,8 @@ include(
     ":androidApp",
     ":desktopApp",
     ":iosApp",
+    ":iosAppCompose",
+    ":webApp",
     ":instant",
     ":benchmark",
 
@@ -70,7 +72,5 @@ include(
     ":feature:settings-impl",
 
     ":feature:debug",
-    ":feature:debug-impl",
-
-    ":iosAppCompose"
+    ":feature:debug-impl"
 )
