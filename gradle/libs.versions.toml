@@ -87,7 +87,7 @@ koin = "3.6.0-wasm-alpha2"
 koin-compose = "1.2.0-Beta4"
 constraintlayout-compose-multiplatform = "0.4.0"
 okio = "3.9.0"
-buildkonfig = "0.15.1"
+buildkonfig = "0.15.2"
 napier = "2.7.1"
 
 [libraries]
