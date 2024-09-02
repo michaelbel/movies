@@ -45,12 +45,4 @@ android {
     buildFeatures {
         compose = true
     }
-
-    lint {
-        quiet = true
-        abortOnError = false
-        ignoreWarnings = true
-        checkDependencies = true
-        lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
-    }
 }

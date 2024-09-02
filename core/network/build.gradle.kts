@@ -59,14 +59,6 @@ android {
         buildConfig = true
     }
 
-    lint {
-        quiet = true
-        abortOnError = false
-        ignoreWarnings = true
-        checkDependencies = true
-        lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
-    }
-
     dependencies {
         debugImplementation(libs.bundles.chucker.library.android) {
             exclude(group = "androidx.constraintlayout")

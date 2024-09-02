@@ -148,14 +148,6 @@ android {
         sourceCompatibility = JavaVersion.toVersion(libs.versions.jdk.get().toInt())
         targetCompatibility = JavaVersion.toVersion(libs.versions.jdk.get().toInt())
     }
-
-    lint {
-        quiet = true
-        abortOnError = false
-        ignoreWarnings = true
-        checkDependencies = true
-        lintConfig = file("${project.rootDir}/config/codestyle/lint.xml")
-    }
 }
 
 val gmsImplementation by configurations
