@@ -9,11 +9,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyGridState
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.staggeredgrid.LazyStaggeredGridState
 import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridItemSpan
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -108,7 +110,9 @@ private fun PageContentColumn(
                 isPagingLoading -> {
                     item {
                         PagingLoadingBox(
-                            modifier = Modifier.fillMaxWidth().height(80.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(80.dp)
                         )
                     }
                 }
@@ -161,15 +165,21 @@ private fun PageContentGrid(
         pagingItems.apply {
             when {
                 isPagingLoading -> {
-                    item {
+                    item(
+                        span = { GridItemSpan(maxLineSpan) }
+                    ) {
                         PagingLoadingBox(
-                            modifier = Modifier.fillMaxWidth().height(80.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(80.dp)
 
                         )
                     }
                 }
                 isPagingFailure -> {
-                    item {
+                    item(
+                        span = { GridItemSpan(maxLineSpan) }
+                    ) {
                         PagingFailureBox(
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -216,15 +226,21 @@ private fun PageContentStaggeredGrid(
         pagingItems.apply {
             when {
                 isPagingLoading -> {
-                    item {
+                    item(
+                        span = StaggeredGridItemSpan.FullLine
+                    ) {
                         PagingLoadingBox(
-                            modifier = Modifier.fillMaxWidth().height(80.dp)
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(80.dp)
 
                         )
                     }
                 }
                 isPagingFailure -> {
-                    item {
+                    item(
+                        span = StaggeredGridItemSpan.FullLine
+                    ) {
                         PagingFailureBox(
                             modifier = Modifier
                                 .fillMaxWidth()
