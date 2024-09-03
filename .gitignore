@@ -8,23 +8,7 @@ build-cache
 generated
 
 # Idea
-/.idea/artifacts
-/.idea/caches
-/.idea/inspectionProfiles
-/.idea/modules
-/.idea/shelf
-/.idea/appInsightsSettings.xml
-/.idea/assetWizardSettings.xml
-/.idea/compiler.xml
-/.idea/deploymentTargetDropDown.xml
-/.idea/deploymentTargetSelector.xml
-/.idea/gradle.xml
-/.idea/kotlinc.xml
-/.idea/migrations.xml
-/.idea/misc.xml
-/.idea/runConfigurations.xml
-/.idea/vcs.xml
-/.idea/workspace.xml
+.idea
 
 /config/movies.jks
 /config/keystore.properties
