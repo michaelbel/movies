@@ -38,6 +38,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(project(":core:platform-services:inject-web"))
+            //implementation(project(":feature:main-impl"))
+
             implementation(compose.runtime)
             implementation(compose.foundation)
             implementation(compose.material3)
@@ -47,6 +50,16 @@ kotlin {
         }
     }
 }
+
+/*compose {
+    resources {
+        publicResClass = true
+        generateResClass = always
+    }
+    experimental {
+        web.application {}
+    }
+}*/
 
 compose.resources {
     publicResClass = true
