@@ -1,5 +1,13 @@
-/.gradle
+# Kotlin
+.kotlin
 
+# Gradle
+.gradle
+build
+build-cache
+generated
+
+# Idea
 /.idea/artifacts
 /.idea/caches
 /.idea/inspectionProfiles
@@ -18,64 +26,8 @@
 /.idea/vcs.xml
 /.idea/workspace.xml
 
-/.kotlin
-
-/build
-
-/buildSrc/build
-/buildSrc/.gradle
-
 /config/movies.jks
 /config/keystore.properties
-
-/androidApp/build
-/instant/build
-
-/iosAppCompose/build
-
-/desktopApp/build
-
-/webApp/build
-
-/benchmark/build
-
-/core/analytics/build
-/core/common/build
-/core/interactor/build
-/core/navigation/build
-/core/network/build
-/core/notifications/build
-/core/persistence/build
-/core/platform-services/foss/build
-/core/platform-services/gms/build
-/core/platform-services/hms/build
-/core/platform-services/inject-android/build
-/core/platform-services/inject-desktop/build
-/core/platform-services/inject-ios/build
-/core/platform-services/inject-web/build
-/core/platform-services/interactor/build
-/core/repository/build
-/core/ui/build
-/core/widget/build
-/core/work/build
-
-/feature/account/build
-/feature/account-impl/build
-/feature/auth/build
-/feature/auth-impl/build
-/feature/debug/build
-/feature/debug-impl/build
-/feature/details/build
-/feature/details-impl/build
-/feature/feed/build
-/feature/feed-impl/build
-/feature/gallery/build
-/feature/gallery-impl/build
-/feature/main-impl/build
-/feature/search/build
-/feature/search-impl/build
-/feature/settings/build
-/feature/settings-impl/build
 
 local.properties
 releaseNotes.txt
