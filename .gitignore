@@ -1,5 +1,6 @@
 # Kotlin
 .kotlin
+.kotlin-js-store
 
 # Gradle
 .gradle
