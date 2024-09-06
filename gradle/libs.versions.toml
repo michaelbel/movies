@@ -47,11 +47,9 @@ androidx-media3 = "1.4.1"
 androidx-navigation = "2.7.7"
 androidx-palette-ktx = "1.0.0"
 androidx-paging = "3.3.2"
-androidx-profile-installer = "1.3.1"
 androidx-room = "2.7.0-alpha07"
 androidx-startup = "1.1.1"
 androidx-sqlite = "2.5.0-SNAPSHOT"
-androidx-test = "1.6.2"
 androidx-test-ext = "1.2.1"
 androidx-test-uiautomator = "2.3.0"
 androidx-test-espresso = "3.6.1"
@@ -75,13 +73,6 @@ palantir-git = "3.1.0"
 flaker = "0.1.2"
 ktor = "2.3.12"
 leakcanary = "3.0-alpha-8"
-robolectric = "4.13"
-mockito = "5.13.0"
-kaspresso = "1.5.5"
-mockk = "1.13.12"
-turbine = "1.1.0"
-barista = "4.3.0"
-kotest = "5.9.1"
 sqldelight = "2.0.2"
 koin = "3.6.0-wasm-alpha2"
 koin-compose = "1.2.0-Beta4"
@@ -204,24 +195,6 @@ ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "kto
 ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
 ktor-serialization-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
 leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.ref = "leakcanary" }
-robolectric = { module = "org.robolectric:robolectric", version.ref = "robolectric" }
-mockito = { module = "org.mockito:mockito-core", version.ref = "mockito" }
-kaspresso = { module = "com.kaspersky.android-components:kaspresso", version.ref = "kaspresso" }
-kaspresso-allure-support = { module = "com.kaspersky.android-components:kaspresso-allure-support", version.ref = "kaspresso" }
-kaspresso-compose-support = { module = "com.kaspersky.android-components:kaspresso-compose-support", version.ref = "kaspresso" }
-mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
-mockk-android = { module = "io.mockk:mockk-android", version.ref = "mockk" }
-mockk-agent = { module = "io.mockk:mockk-agent", version.ref = "mockk" }
-turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
-barista = { module = "com.adevinta.android:barista", version.ref = "barista" }
-kotest-runner-junit5 = { module = "io.kotest:kotest-runner-junit5", version.ref = "kotest" }
-kotest-assertions-core = { module = "io.kotest:kotest-assertions-core", version.ref = "kotest" }
-kotest-property = { module = "io.kotest:kotest-property", version.ref = "kotest" }
-sqldelight-runtime = { module = "app.cash.sqldelight:runtime", version.ref = "sqldelight" }
-sqldelight-android-driver = { module = "app.cash.sqldelight:android-driver", version.ref = "sqldelight" }
-sqldelight-coroutines-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "sqldelight" }
-sqldelight-native-driver = { module = "app.cash.sqldelight:native-driver", version.ref = "sqldelight" }
-sqldelight-sqlite-driver = { module = "app.cash.sqldelight:sqlite-driver", version.ref = "sqldelight" }
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 koin-androidx-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin" }
