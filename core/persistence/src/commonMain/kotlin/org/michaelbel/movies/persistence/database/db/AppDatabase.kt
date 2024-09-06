@@ -1,5 +1,6 @@
 package org.michaelbel.movies.persistence.database.db
 
+import androidx.room.ConstructedBy
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import org.michaelbel.movies.persistence.database.dao.AccountDao
@@ -25,6 +26,7 @@ import org.michaelbel.movies.persistence.database.entity.SuggestionDb
     version = AppDatabase.DATABASE_VERSION,
     exportSchema = false
 )
+@ConstructedBy(AppDatabaseConstructor::class)
 abstract class AppDatabase: RoomDatabase() {
 
     internal abstract fun movieDao(): MovieDao
