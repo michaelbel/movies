@@ -1,5 +1,6 @@
 package org.michaelbel.movies.persistence.database
 
+import androidx.paging.PagingSource
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
@@ -11,6 +12,10 @@ import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 class MoviePersistence internal constructor(
     private val moviesDatabase: MoviesDatabase
 ) {
+
+    fun pagingSource(pagingKey: PagingKey): PagingSource<Int, MoviePojo> {
+        return moviesDatabase.movieDao.pagingSource(pagingKey)
+    }
 
     fun moviesFlow(pagingKey: PagingKey, limit: Limit): Flow<List<MoviePojo>> {
         return moviesDatabase.movieDao.moviesFlow(pagingKey, limit)

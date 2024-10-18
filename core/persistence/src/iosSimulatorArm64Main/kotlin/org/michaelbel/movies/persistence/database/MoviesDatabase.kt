@@ -4,7 +4,6 @@ package org.michaelbel.movies.persistence.database
 
 import org.michaelbel.movies.persistence.database.dao.AccountDao
 import org.michaelbel.movies.persistence.database.dao.ImageDao
-import org.michaelbel.movies.persistence.database.dao.MovieBlockingDao
 import org.michaelbel.movies.persistence.database.dao.MovieDao
 import org.michaelbel.movies.persistence.database.dao.PagingKeyDao
 import org.michaelbel.movies.persistence.database.dao.SuggestionDao
@@ -19,9 +18,6 @@ actual class MoviesDatabase internal constructor(
 
     actual val imageDao: ImageDao
         get() = database.imageDao()
-
-    actual val movieBlockingDao: MovieBlockingDao
-        get() = database.movieBlockingDao()
 
     actual val movieDao: MovieDao
         get() = database.movieDao()
