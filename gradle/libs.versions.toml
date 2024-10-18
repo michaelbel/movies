@@ -133,6 +133,7 @@ androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-
 androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "androidx-lifecycle" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "androidx-navigation" }
 androidx-palette-ktx = { module = "androidx.palette:palette-ktx", version.ref = "androidx-palette-ktx" }
+androidx-paging-common-ktx = { module = "androidx.paging:paging-common-ktx", version.ref = "androidx-paging" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "androidx-paging" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "androidx-room" }
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "androidx-room" }
@@ -210,7 +211,7 @@ lifecycle-common = [
 #    "androidx-lifecycle-viewmodel"
 ]
 paging-common = [
-    "androidx-paging-compose"
+    "androidx-paging-common-ktx"
 ]
 room-common = [
     "androidx-room-runtime",
@@ -302,6 +303,9 @@ lifecycle-android = [
 ]
 navigation-android = [
     "androidx-navigation-compose"
+]
+paging-android = [
+    "androidx-paging-compose"
 ]
 palette-android = [
     "androidx-palette-ktx"

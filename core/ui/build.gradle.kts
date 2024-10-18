@@ -39,7 +39,7 @@ kotlin {
             api(libs.bundles.coil.android)
             api(libs.bundles.compose.android)
             api(libs.bundles.google.material.android)
-            implementation(libs.bundles.paging.common)
+            implementation(libs.bundles.paging.android)
         }
         jvmMain.dependencies {
             api(compose.desktop.common)
