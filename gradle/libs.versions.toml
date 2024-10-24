@@ -275,7 +275,7 @@ compose-android = [
     "androidx-compose-animation",
     "androidx-compose-foundation",
     "androidx-compose-foundation-layout",
-    "androidx-compose-material-ripple",
+    #"androidx-compose-material-ripple",
     "androidx-compose-material-icons-extended",
     "androidx-compose-material3",
     "androidx-compose-runtime",
