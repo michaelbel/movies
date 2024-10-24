@@ -72,7 +72,6 @@ palantir-git = "3.1.0"
 flaker = "0.1.2"
 ktor = "3.0.0"
 leakcanary = "3.0-alpha-8"
-sqldelight = "2.0.2"
 koin = "3.6.0-wasm-alpha2"
 koin-compose = "1.2.0-Beta4"
 constraintlayout-compose-multiplatform = "0.4.0" # "0.5.0-shaded-core"
@@ -429,7 +428,6 @@ google-services = { id = "com.google.gms.google-services", version.ref = "google
 google-firebase-appdistribution = { id = "com.google.firebase.appdistribution", version.ref = "google-firebase-appdistribution" }
 google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "google-firebase-crashlytics-plugin" }
 huawei-services = { id = "com.huawei.agconnect", version.ref = "huawei-services" }
-sqldelight = { id = "app.cash.sqldelight", version.ref = "sqldelight" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 androidx-navigation-safeargs = { id = "androidx.navigation.safeargs.kotlin", version.ref = "androidx-navigation" }
