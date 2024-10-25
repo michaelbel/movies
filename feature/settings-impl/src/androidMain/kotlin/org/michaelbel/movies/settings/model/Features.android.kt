@@ -28,7 +28,7 @@ internal actual val isBiometricFeatureEnabled: Boolean
     get() = true
 
 internal actual val isWidgetFeatureEnabled: Boolean
-    get() = true
+    get() = Build.VERSION.SDK_INT >= 26
 
 internal actual val isTileFeatureEnabled: Boolean
     get() = Build.VERSION.SDK_INT >= 33

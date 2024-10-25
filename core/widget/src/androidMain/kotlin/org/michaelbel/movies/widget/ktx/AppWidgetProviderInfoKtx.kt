@@ -1,5 +1,8 @@
+@file:SuppressLint("NewApi")
+
 package org.michaelbel.movies.widget.ktx
 
+import android.annotation.SuppressLint
 import android.app.PendingIntent
 import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProviderInfo
