@@ -88,7 +88,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: |
-            app/build/outputs/apk
+            androidApp/build/outputs/apk
 
       - name: expose version name
         id: version_name
@@ -105,13 +105,13 @@ jobs:
       - name: list all apk files
         run: |
           echo "APKs:"
-          for apk in $(find app/build/outputs/apk -name '*.apk'); do
+          for apk in $(find androidApp/build/outputs/apk -name '*.apk'); do
             echo "$apk"
           done
 
       - name: expose apk path
         run: |
-          echo "APK_PATH=$(find app/build/outputs/apk -name '*.apk' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
+          echo "APK_PATH=$(find androidApp/build/outputs/apk -name '*.apk' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
 
       - name: expose short commit sha
         run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
