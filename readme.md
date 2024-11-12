@@ -22,10 +22,8 @@ Movies
 [![](https://img.shields.io/badge/Linux-000000.svg?style=for-the-badge&logo=linux)](https://github.com/michaelbel/movies)
 [![](https://img.shields.io/badge/Web-000000.svg?style=for-the-badge&logo=google-chrome)](https://github.com/michaelbel/movies) -->
 
-[![Check PR](https://img.shields.io/github/actions/workflow/status/michaelbel/movies/check_pr.yml?style=for-the-badge&logo=github&label=Check%20PR&labelColor=3F464F
-)](https://github.com/michaelbel/movies/actions/workflows/check_pr.yml)
-[![Last Commit](https://img.shields.io/github/last-commit/michaelbel/movies?style=for-the-badge&logo=github&labelColor=3F464F
-)](https://github.com/michaelbel/movies/commits)
+[![workflow-status](https://img.shields.io/github/actions/workflow/status/michaelbel/movies/ci.yml?style=for-the-badge&logo=github&label=Check%20PR&labelColor=3F464F)](https://github.com/michaelbel/movies/actions/workflows/ci.yml)
+[![last-commit](https://img.shields.io/github/last-commit/michaelbel/movies?style=for-the-badge&logo=github&labelColor=3F464F)](https://github.com/michaelbel/movies/commits)
 
 Movies - easy way to discover popular movies. This is a simple TMDb client.
 
@@ -37,36 +35,36 @@ The app is currently in development. Android app is already available.
 ## Screenshots
 
 **Android**
-<p align="center">
-    <img src="config/images/android/android1.png" width="24%">
-    <img src="config/images/android/android2.png" width="24%">
-    <img src="config/images/android/android3.png" width="24%">
-    <img src="config/images/android/android4.png" width="24%">
-    <img src="config/images/android/android7.gif" width="24%">
-    <img src="config/images/android/android8.gif" width="24%">
-    <img src="config/images/android/android9.gif" width="24%">
-    <img src="config/images/android/android10.gif" width="24%">
-    <img src="config/images/android/android5.png" width="49%">
-    <img src="config/images/android/android6.png" width="49%">
-</p>
+<div align="center">
+    <img src="config/images/android/android1.png" alt="Android Image 1" width="24%">
+    <img src="config/images/android/android2.png" alt="Android Image 2" width="24%">
+    <img src="config/images/android/android3.png" alt="Android Image 3" width="24%">
+    <img src="config/images/android/android4.png" alt="Android Image 4" width="24%">
+    <img src="config/images/android/android7.gif" alt="Android Image 7" width="24%">
+    <img src="config/images/android/android8.gif" alt="Android Image 8" width="24%">
+    <img src="config/images/android/android9.gif" alt="Android Image 9" width="24%">
+    <img src="config/images/android/android10.gif" alt="Android Image 10" width="24%">
+    <img src="config/images/android/android5.png" alt="Android Image 5" width="49%">
+    <img src="config/images/android/android6.png" alt="Android Image 6" width="49%">
+</div>
 
 **iOS**
-<p align="center">
-    <img src="config/images/ios/ios1.png" width="24%">
-    <img src="config/images/ios/ios2.png" width="24%">
-    <img src="config/images/ios/ios3.png" width="24%">
-    <img src="config/images/ios/ios4.png" width="24%">
-    <img src="config/images/ios/ios5.png" width="49%">
-    <img src="config/images/ios/ios6.png" width="49%">
-</p>
+<div align="center">
+    <img src="config/images/ios/ios1.png" alt="iOS Image 1" width="24%">
+    <img src="config/images/ios/ios2.png" alt="iOS Image 2" width="24%">
+    <img src="config/images/ios/ios3.png" alt="iOS Image 3" width="24%">
+    <img src="config/images/ios/ios4.png" alt="iOS Image 4" width="24%">
+    <img src="config/images/ios/ios5.png" alt="iOS Image 5" width="49%">
+    <img src="config/images/ios/ios6.png" alt="iOS Image 6" width="49%">
+</div>
 
 **macOS**
-<p align="center">
-    <img src="config/images/desktop/macos1.png" width="49%">
-    <img src="config/images/desktop/macos2.png" width="49%">
-    <img src="config/images/desktop/macos3.png" width="49%">
-    <img src="config/images/desktop/macos4.png" width="49%">
-</p>
+<div align="center">
+    <img src="config/images/desktop/macos1.png" alt="macOS Image 1" width="49%">
+    <img src="config/images/desktop/macos2.png" alt="macOS Image 2" width="49%">
+    <img src="config/images/desktop/macos3.png" alt="macOS Image 3" width="49%">
+    <img src="config/images/desktop/macos4.png" alt="macOS Image 4" width="49%">
+</div>
 
 
 ## Requirements
@@ -111,8 +109,7 @@ Choose a run configuration for an appropriate target in Android Studio and run i
 
 ## Download
 [![](https://PlayBadges.pavi2410.me/badge/downloads?id=org.michaelbel.moviemade)](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
-[![](https://img.shields.io/github/downloads/michaelbel/movies/total?logo=github&label=Downloads&labelColor=212133&color=34CC2C
-)](https://github.com/michaelbel/movies/releases)
+[![](https://img.shields.io/github/downloads/michaelbel/movies/total?logo=github&label=Downloads&labelColor=212133&color=34CC2C)](https://github.com/michaelbel/movies/releases)
 
 [<img src="config/images/badges/badge-googleplay.svg" alt="" height="80">](https://play.google.com/store/apps/details?id=org.michaelbel.moviemade)
 [<img src="config/images/badges/badge-appgallery.svg" alt="" height="80">](https://appgallery.cloud.huawei.com/ag/n/app/C109677247)

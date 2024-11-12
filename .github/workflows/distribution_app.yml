@@ -1,15 +1,15 @@
 name: Distribution App
 
 on:
-  push:
-    branches:
-     - master
-     - develop
-    paths-ignore:
-     - '**.md'
-     - '.idea/**'
-     - '.github/**'
-     - 'config/**'
+#  push:
+#    branches:
+#     - master
+#     - develop
+#    paths-ignore:
+#     - '**.md'
+#     - '.idea/**'
+#     - '.github/**'
+#     - 'config/**'
   workflow_dispatch:
   
 env:

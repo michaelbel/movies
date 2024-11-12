@@ -33,10 +33,6 @@
         android:enableOnBackInvokedCallback="true"
         tools:ignore="UnusedAttribute">
 
-        <profileable
-            android:shell="true"
-            tools:targetApi="29" />
-
         <activity
             android:name="org.michaelbel.movies.MainActivity"
             android:exported="true">

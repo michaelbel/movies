@@ -1,13 +1,13 @@
 name: Check PR
 
 on:
-  pull_request:
-    branches:
-      '**'
-    paths-ignore:
-      - '**.md'
-      - '.idea/**'
-      - '.github/**'
+#  pull_request:
+#    branches:
+#      '**'
+#    paths-ignore:
+#      - '**.md'
+#      - '.idea/**'
+#      - '.github/**'
   workflow_dispatch:
   
 concurrency:

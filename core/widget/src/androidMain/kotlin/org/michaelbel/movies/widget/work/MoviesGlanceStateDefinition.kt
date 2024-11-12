@@ -7,17 +7,17 @@ import androidx.datastore.core.Serializer
 import androidx.datastore.dataStore
 import androidx.datastore.dataStoreFile
 import androidx.glance.state.GlanceStateDefinition
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.json.Json
 import java.io.File
 import java.io.InputStream
 import java.io.OutputStream
-import kotlinx.serialization.SerializationException
-import kotlinx.serialization.json.Json
 
 internal object MoviesGlanceStateDefinition: GlanceStateDefinition<MoviesWidgetState> {
 
     private const val DATA_STORE_FILENAME = "moviesGlanceWidgetState"
 
-    private val Context.datastore by dataStore(DATA_STORE_FILENAME, WeatherInfoSerializer)
+    private val Context.datastore by dataStore(DATA_STORE_FILENAME, MoviesSerializer)
 
     override suspend fun getDataStore(context: Context, fileKey: String): DataStore<MoviesWidgetState> {
         return context.datastore
@@ -27,7 +27,7 @@ internal object MoviesGlanceStateDefinition: GlanceStateDefinition<MoviesWidgetS
         return context.dataStoreFile(DATA_STORE_FILENAME)
     }
 
-    object WeatherInfoSerializer: Serializer<MoviesWidgetState> {
+    object MoviesSerializer: Serializer<MoviesWidgetState> {
 
         override val defaultValue = MoviesWidgetState.Failure("No Movies Found")
 
