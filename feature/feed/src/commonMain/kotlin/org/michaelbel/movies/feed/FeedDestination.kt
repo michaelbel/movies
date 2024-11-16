@@ -1,5 +1,6 @@
 package org.michaelbel.movies.feed
 
+import kotlinx.serialization.Serializable
 import org.michaelbel.movies.navigation.MoviesNavigationDestination
 
 object FeedDestination: MoviesNavigationDestination {
@@ -8,3 +9,6 @@ object FeedDestination: MoviesNavigationDestination {
 
     override val destination: String = "feed"
 }
+
+@Serializable
+object FeedRoute

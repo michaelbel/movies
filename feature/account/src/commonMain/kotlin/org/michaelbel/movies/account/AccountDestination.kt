@@ -1,5 +1,6 @@
 package org.michaelbel.movies.account
 
+import kotlinx.serialization.Serializable
 import org.michaelbel.movies.navigation.MoviesNavigationDestination
 
 internal object AccountDestination: MoviesNavigationDestination {
@@ -8,3 +9,6 @@ internal object AccountDestination: MoviesNavigationDestination {
 
     override val destination: String = "account"
 }
+
+@Serializable
+object AccountRoute
