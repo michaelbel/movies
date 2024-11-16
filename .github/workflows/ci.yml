@@ -85,8 +85,8 @@ jobs:
       - name: assemble android gms debug artifact
         run: ./gradlew androidApp:assembleGmsDebug
 
-#      - name: assemble hms debug artifact
-#        run: ./gradlew androidApp:assembleHmsDebug
+      - name: assemble android hms debug artifact
+        run: ./gradlew androidApp:assembleHmsDebug
 
 #      - name: assemble foss debug artifact
 #        run: ./gradlew androidApp:assembleFossDebug
@@ -105,6 +105,7 @@ jobs:
         with:
           path: |
             androidApp/build/outputs/apk/gms/debug
+            androidApp/build/outputs/apk/hms/debug
 
       - name: expose version name
         id: version_name
@@ -123,11 +124,12 @@ jobs:
           echo "APKs:"
           find androidApp/build/outputs/apk -name '*.apk'
 
-      - name: expose android apk path
+      - name: expose android apk paths
         run: |
           echo "GMS_DEBUG_APK_PATH=$(find androidApp/build/outputs/apk/gms/debug -name '*.apk' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
+          echo "HMS_DEBUG_APK_PATH=$(find androidApp/build/outputs/apk/hms/debug -name '*.apk' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
 
-      - name: send android telegram message
+      - name: send android telegram message gms debug
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -140,6 +142,23 @@ jobs:
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument" \
             -F chat_id="${CHAT_ID}" \
             -F document="@${{ env.GMS_DEBUG_APK_PATH }}" \
+            -F caption="${{ env.MESSAGE }}" \
+            -F message_thread_id="${THREAD_ID}" \
+            -F parse_mode="HTML"
+
+      - name: send android telegram message hms debug
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          THREAD_ID: ${{ secrets.TELEGRAM_THREAD_ID }}
+          MESSAGE: |
+            ✅ <b>${{ env.VERSION_NAME }} (${{ env.VERSION_CODE }})</b>
+            <b>Ветка:</b> ${{ github.ref_name }}
+            <b>Коммит:</b> <code>${{ env.SHORT_SHA }}</code>
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument" \
+            -F chat_id="${CHAT_ID}" \
+            -F document="@${{ env.HMS_DEBUG_APK_PATH }}" \
             -F caption="${{ env.MESSAGE }}" \
             -F message_thread_id="${THREAD_ID}" \
             -F parse_mode="HTML"
@@ -179,8 +198,8 @@ jobs:
       - name: assemble macos dmg artifact
         run: ./gradlew desktopApp:packageDmg
 
-      - name: check dmg file
-        run: ls -la desktopApp/build/compose/binaries/main/dmg/
+      - name: find dmg file
+        run: find . -name "*.dmg"
 
       - name: upload artifacts to outputs
         uses: actions/upload-artifact@v4
