@@ -123,8 +123,6 @@ jobs:
         run: |
           echo "APKs:"
           find androidApp/build/outputs/apk -name '*.apk'
-          echo "DMG files:"
-          find desktopApp/build/compose/binaries/main/dmg -name '*.dmg'
 
       - name: expose android apk path
         run: |
@@ -177,9 +175,19 @@ jobs:
           DESKTOP_VERSION_NAME=$(./gradlew desktopApp:printVersionName -q)
           echo "DESKTOP_VERSION_NAME=DESKTOP_VERSION_NAME" >> $GITHUB_ENV
 
+      - name: list all artifacts
+        run: |
+          echo "DMG files:"
+          find desktopApp/build/compose/binaries/main/dmg -name '*.dmg'
+
       - name: expose dmg path
         run: |
           echo "DMG_PATH=$(find desktopApp/build/compose/binaries/main/dmg -name '*.dmg' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
+
+      - name: get dmg file URL
+        run: |
+          DMG_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          echo "DMG_URL=$DMG_URL" >> $GITHUB_ENV
 
       - name: expose short commit sha
         run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
@@ -193,10 +201,11 @@ jobs:
             ✅ <b>${{ env.DESKTOP_VERSION_NAME }}</b>
             <b>Ветка:</b> ${{ github.ref_name }}
             <b>Коммит:</b> <code>${{ env.SHORT_SHA }}</code>
+            <b>Ссылка на DMG:</b> <a href="${{ env.DMG_URL }}">Скачать DMG</a>
         run: |
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument" \
             -F chat_id="${CHAT_ID}" \
-            -F document="@${{ env.DMG_PATH }}" \
+#            -F document="@${{ env.DMG_PATH }}" \
             -F caption="${{ env.MESSAGE }}" \
             -F message_thread_id="${THREAD_ID}" \
             -F parse_mode="HTML"
