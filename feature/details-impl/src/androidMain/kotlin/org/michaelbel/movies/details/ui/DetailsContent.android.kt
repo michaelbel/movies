@@ -2,7 +2,12 @@ package org.michaelbel.movies.details.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.foundation.verticalScroll
@@ -22,8 +27,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import androidx.core.graphics.drawable.toBitmap
 import androidx.palette.graphics.Palette
 import coil.ImageLoader
@@ -74,11 +77,9 @@ internal fun DetailsContent(
         }
     }
 
-    ConstraintLayout(
+    Column(
         modifier = modifier.verticalScroll(scrollState)
     ) {
-        val (image, title, overview) = createRefs()
-
         val imageRequest: ImageRequest? = if (placeholder) {
             null
         } else {
@@ -92,13 +93,9 @@ internal fun DetailsContent(
             model = imageRequest,
             contentDescription = stringResource(MoviesContentDescription.MovieDetailsImage),
             modifier = Modifier
-                .constrainAs(image) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.value(220.dp)
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(parent.top, 16.dp)
-                    end.linkTo(parent.end, 16.dp)
-                }
+                .padding(start = 16.dp, top = 16.dp, end = 16.dp)
+                .fillMaxWidth()
+                .height(220.dp)
                 .clip(MaterialTheme.shapes.small)
                 .background(MaterialTheme.colorScheme.inversePrimary)
                 .placeholder(
@@ -110,7 +107,7 @@ internal fun DetailsContent(
                 .clickable(
                     enabled = !placeholder && !isNoImageVisible,
                     onClick = { onNavigateToGallery(movie.movieId) }
-                ) ,
+                ),
             onState = { state ->
                 isNoImageVisible = movie.isNotEmpty && (state is AsyncImagePainter.State.Error || state is AsyncImagePainter.State.Empty)
             },
@@ -120,13 +117,9 @@ internal fun DetailsContent(
         Text(
             text = movie.title,
             modifier = Modifier
-                .constrainAs(title) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(image.bottom, 8.dp)
-                    end.linkTo(parent.end, 16.dp)
-                }
+                .padding(start = 16.dp, top = 8.dp, end = 16.dp)
+                .fillMaxWidth()
+                .wrapContentHeight()
                 .placeholder(
                     visible = placeholder,
                     color = MaterialTheme.colorScheme.inversePrimary,
@@ -140,13 +133,9 @@ internal fun DetailsContent(
 
         SelectionContainer(
             modifier = Modifier
-                .constrainAs(overview) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(title.bottom, 8.dp)
-                    end.linkTo(parent.end, 16.dp)
-                }
+                .padding(start = 16.dp, top = 8.dp, end = 16.dp)
+                .fillMaxWidth()
+                .wrapContentHeight()
                 .placeholder(
                     visible = placeholder,
                     color = MaterialTheme.colorScheme.inversePrimary,

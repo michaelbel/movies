@@ -2,6 +2,7 @@ import com.google.firebase.appdistribution.gradle.AppDistributionExtension
 import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
 import java.io.FileInputStream
+import java.nio.charset.Charset
 
 @Suppress("dsl_scope_violation")
 
@@ -9,17 +10,16 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-    alias(libs.plugins.androidx.navigation.safeargs)
     alias(libs.plugins.palantir.git)
 }
 
-private val gitCommitsCount by lazy {
+private val gitCommitsCount: Int by lazy {
     val stdout = ByteArrayOutputStream()
-    rootProject.exec {
+    exec {
         commandLine("git", "rev-list", "--count", "HEAD")
         standardOutput = stdout
     }
-    stdout.toString().trim().toInt()
+    stdout.toString(Charset.defaultCharset()).trim().toInt()
 }
 
 val currentTime by lazy {
@@ -30,35 +30,17 @@ val gitVersion: groovy.lang.Closure<String> by extra
 val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
 val versionLastTag: String = versionDetails().lastTag
 
-tasks.register("prepareReleaseNotes") {
-    doLast {
-        exec {
-            workingDir(rootDir)
-            executable("./config/scripts/gitlog.sh")
-        }
-    }
-}
-
-afterEvaluate {
-    tasks.findByName("assembleGmsDebug")?.finalizedBy("prepareReleaseNotes")
-    tasks.findByName("assembleGmsRelease")?.finalizedBy("prepareReleaseNotes")
-    tasks.findByName("assembleHmsDebug")?.finalizedBy("prepareReleaseNotes")
-    tasks.findByName("assembleHmsRelease")?.finalizedBy("prepareReleaseNotes")
-    tasks.findByName("assembleFossDebug")?.finalizedBy("prepareReleaseNotes")
-    tasks.findByName("assembleFossRelease")?.finalizedBy("prepareReleaseNotes")
-}
-
 android {
     namespace = "org.michaelbel.movies.app"
+    compileSdk = libs.versions.compile.sdk.get().toInt()
     flavorDimensions += "version"
 
     defaultConfig {
         applicationId = "org.michaelbel.moviemade"
         minSdk = libs.versions.min.sdk.get().toInt()
-        compileSdk = libs.versions.compile.sdk.get().toInt()
         targetSdk = libs.versions.target.sdk.get().toInt()
-        versionCode = gitCommitsCount
         versionName = "2.0.0"
+        versionCode = gitCommitsCount
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
         resourceConfigurations.addAll(listOf("en", "ru"))
@@ -193,4 +175,34 @@ val hasHmsBenchmark = gradle.startParameter.taskNames.any { it.contains("HmsBenc
 
 if (hasHmsDebug || hasHmsRelease || hasHmsBenchmark) {
     //apply(plugin = libs.plugins.huawei.services.get().pluginId)
+}
+
+tasks.register("prepareReleaseNotes") {
+    doLast {
+        exec {
+            workingDir(rootDir)
+            executable("./config/scripts/gitlog.sh")
+        }
+    }
+}
+
+tasks.register("printVersionName") {
+    doLast {
+        println(android.defaultConfig.versionName)
+    }
+}
+
+tasks.register("printVersionCode") {
+    doLast {
+        println(android.defaultConfig.versionCode.toString())
+    }
+}
+
+afterEvaluate {
+    tasks.findByName("assembleGmsDebug")?.finalizedBy("prepareReleaseNotes")
+    tasks.findByName("assembleGmsRelease")?.finalizedBy("prepareReleaseNotes")
+    tasks.findByName("assembleHmsDebug")?.finalizedBy("prepareReleaseNotes")
+    tasks.findByName("assembleHmsRelease")?.finalizedBy("prepareReleaseNotes")
+    tasks.findByName("assembleFossDebug")?.finalizedBy("prepareReleaseNotes")
+    tasks.findByName("assembleFossRelease")?.finalizedBy("prepareReleaseNotes")
 }

@@ -7,7 +7,10 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.pager.rememberPagerState
@@ -28,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
@@ -38,8 +42,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import androidx.core.net.toUri
 import androidx.work.WorkInfo
 import coil.compose.AsyncImage
@@ -141,21 +143,14 @@ internal fun GalleryScreenContent(
                 )
             }
             else -> {
-                ConstraintLayout(
+                Box(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    val (pager, backIcon, title, downloadIcon) = createRefs()
-
                     LoopHorizontalPager(
                         pagerState = pagerState,
-                        modifier = Modifier.constrainAs(pager) {
-                            width = Dimension.fillToConstraints
-                            height = Dimension.wrapContent
-                            start.linkTo(parent.start)
-                            top.linkTo(parent.top)
-                            end.linkTo(parent.end)
-                            bottom.linkTo(parent.bottom)
-                        }
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .align(Alignment.Center)
                     ) { page ->
                         val imageDb = movieImages[page]
                         var imageDiskCacheKey: String? by remember { mutableStateOf(null) }
@@ -165,13 +160,12 @@ internal fun GalleryScreenContent(
 
                         var loading: Boolean by remember { mutableStateOf(true) }
 
-                        ConstraintLayout(
-                            modifier = Modifier.fillMaxSize()
+                        val zoomState = rememberZoomState()
+
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
                         ) {
-                            val (asyncImage, progressBar) = createRefs()
-
-                            val zoomState = rememberZoomState()
-
                             AsyncImage(
                                 model = ImageRequest.Builder(context)
                                     .data(image)
@@ -180,14 +174,7 @@ internal fun GalleryScreenContent(
                                     .build(),
                                 contentDescription = MoviesContentDescription.None,
                                 modifier = Modifier
-                                    .constrainAs(asyncImage) {
-                                        width = Dimension.fillToConstraints
-                                        height = Dimension.fillToConstraints
-                                        start.linkTo(parent.start)
-                                        top.linkTo(parent.top)
-                                        end.linkTo(parent.end)
-                                        bottom.linkTo(parent.bottom)
-                                    }
+                                    .fillMaxSize()
                                     .zoomable(zoomState),
                                 transform = { state ->
                                     loading = state is AsyncImagePainter.State.Loading
@@ -207,16 +194,7 @@ internal fun GalleryScreenContent(
 
                             if (loading) {
                                 LinearProgressIndicator(
-                                    modifier = Modifier
-                                        .constrainAs(progressBar) {
-                                            width = Dimension.wrapContent
-                                            height = Dimension.wrapContent
-                                            start.linkTo(parent.start)
-                                            top.linkTo(parent.top)
-                                            end.linkTo(parent.end)
-                                            bottom.linkTo(parent.bottom)
-                                        }
-                                        .zoomable(zoomState),
+                                    modifier = Modifier.zoomable(zoomState),
                                     trackColor = MaterialTheme.colorScheme.inversePrimary
                                 )
                             }
@@ -227,46 +205,33 @@ internal fun GalleryScreenContent(
                         }
                     }
 
-                    BackIcon(
-                        onClick = onBackClick,
+                    Row(
                         modifier = Modifier
-                            .constrainAs(backIcon) {
-                                width = Dimension.wrapContent
-                                height = Dimension.wrapContent
-                                start.linkTo(parent.start, 4.dp)
-                                top.linkTo(parent.top, 8.dp)
-                            }
+                            .align(Alignment.TopStart)
+                            .padding(start = 4.dp, top = 8.dp, end = 4.dp)
                             .statusBarsPadding()
-                            .windowInsetsPadding(displayCutoutWindowInsets)
-                    )
+                            .windowInsetsPadding(displayCutoutWindowInsets),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        BackIcon(
+                            onClick = onBackClick
+                        )
 
-                    Text(
-                        text = stringResource(R.string.gallery_image_of, currentPage.plus(1), movieImages.size),
-                        modifier = Modifier
-                            .constrainAs(title) {
-                                width = Dimension.wrapContent
-                                height = Dimension.wrapContent
-                                start.linkTo(backIcon.end, 4.dp)
-                                top.linkTo(backIcon.top)
-                                bottom.linkTo(backIcon.bottom)
-                            }
-                            .statusBarsPadding(),
-                        overflow = TextOverflow.Ellipsis,
-                        textAlign = TextAlign.Start,
-                        style = MaterialTheme.typography.titleLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
-                    )
+                        Text(
+                            text = stringResource(R.string.gallery_image_of, currentPage.plus(1), movieImages.size),
+                            overflow = TextOverflow.Ellipsis,
+                            textAlign = TextAlign.Start,
+                            style = MaterialTheme.typography.titleLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
+                        )
+                    }
 
                     AnimatedVisibility(
                         visible = true,
+                        enter = fadeIn(),
                         modifier = Modifier
-                            .constrainAs(downloadIcon) {
-                                width = Dimension.wrapContent
-                                height = Dimension.wrapContent
-                                end.linkTo(parent.end, 4.dp)
-                                top.linkTo(parent.top, 8.dp)
-                            }
-                            .statusBarsPadding(),
-                        enter = fadeIn()
+                            .align(Alignment.TopEnd)
+                            .padding(end = 4.dp, top = 8.dp)
+                            .statusBarsPadding()
                     ) {
                         DownloadIcon(
                             onClick = { onDownloadClick(movieImages[currentPage]) },

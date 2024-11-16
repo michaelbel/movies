@@ -51,7 +51,7 @@
     <string name="gallery_success">Загружено</string>
     <string name="gallery_failure">Ошибка при загрузке</string>
     <string name="gallery_action_open">Открыть</string>
-    <string name="gallery_image_of">%1$d из %1$d</string>
+    <string name="gallery_image_of">%1$d из %2$d</string>
 
     <string name="search_title">Поиск</string>
     <string name="search_history_empty">История поиска пуста</string>

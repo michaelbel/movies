@@ -2,21 +2,22 @@ package org.michaelbel.movies.settings.ui.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
@@ -34,36 +35,23 @@ internal fun SettingSwitchItem(
     onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    ConstraintLayout(
+    Row(
         modifier = modifier
             .fillMaxWidth()
             .clickable { onClick() }
-            .padding(vertical = 20.dp)
+            .padding(horizontal = 16.dp, vertical = 20.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        val (iconRef, texts, switch) = createRefs()
-
         Icon(
             imageVector = icon,
             contentDescription = MoviesContentDescriptionCommon.None,
-            modifier = Modifier.constrainAs(iconRef) {
-                width = Dimension.value(24.dp)
-                height = Dimension.value(24.dp)
-                start.linkTo(parent.start, 16.dp)
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-            },
+            modifier = Modifier.size(24.dp),
             tint = MaterialTheme.colorScheme.onPrimaryContainer
         )
 
         Column(
-            modifier = Modifier.constrainAs(texts) {
-                width = Dimension.fillToConstraints
-                height = Dimension.wrapContent
-                start.linkTo(iconRef.end, 16.dp)
-                top.linkTo(parent.top)
-                end.linkTo(switch.start, 16.dp)
-                bottom.linkTo(parent.bottom)
-            }
+            modifier = Modifier.weight(1F)
         ) {
             Text(
                 text = title,
@@ -79,83 +67,6 @@ internal fun SettingSwitchItem(
         Switch(
             checked = checked,
             onCheckedChange = null,
-            modifier = Modifier.constrainAs(switch) {
-                width = Dimension.wrapContent
-                height = Dimension.wrapContent
-                top.linkTo(parent.top)
-                end.linkTo(parent.end, 16.dp)
-                bottom.linkTo(parent.bottom)
-            },
-            thumbContent = if (checked) { { SwitchCheckIcon() } } else null,
-            colors = SwitchDefaults.colors(
-                checkedTrackColor = MaterialTheme.colorScheme.surfaceTint,
-                checkedIconColor = MaterialTheme.colorScheme.surfaceTint
-            )
-        )
-    }
-}
-
-@Composable
-internal fun SettingSwitchItem(
-    title: String,
-    description: String,
-    icon: Painter,
-    checked: Boolean,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    ConstraintLayout(
-        modifier = modifier
-            .fillMaxWidth()
-            .clickable { onClick() }
-            .padding(horizontal = 8.dp, vertical = 20.dp)
-    ) {
-        val (iconRef, texts, switch) = createRefs()
-
-        Icon(
-            painter = icon,
-            contentDescription = MoviesContentDescriptionCommon.None,
-            modifier = Modifier.constrainAs(iconRef) {
-                width = Dimension.value(24.dp)
-                height = Dimension.value(24.dp)
-                start.linkTo(parent.start, 16.dp)
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-            },
-            tint = MaterialTheme.colorScheme.onPrimaryContainer
-        )
-
-        Column(
-            modifier = Modifier.constrainAs(texts) {
-                width = Dimension.fillToConstraints
-                height = Dimension.wrapContent
-                start.linkTo(iconRef.end, 16.dp)
-                top.linkTo(parent.top)
-                end.linkTo(switch.start, 16.dp)
-                bottom.linkTo(parent.bottom)
-            }
-        ) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
-            )
-
-            Text(
-                text = description,
-                style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.primary)
-            )
-        }
-
-        Switch(
-            checked = checked,
-            onCheckedChange = null,
-            modifier = Modifier.constrainAs(switch) {
-                width = Dimension.wrapContent
-                height = Dimension.wrapContent
-                top.linkTo(parent.top)
-                end.linkTo(parent.end, 16.dp)
-                bottom.linkTo(parent.bottom)
-            },
             thumbContent = if (checked) { { SwitchCheckIcon() } } else null,
             colors = SwitchDefaults.colors(
                 checkedTrackColor = MaterialTheme.colorScheme.surfaceTint,

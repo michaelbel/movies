@@ -2,7 +2,13 @@ package org.michaelbel.movies.details.ui
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
@@ -12,15 +18,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
-import androidx.constraintlayout.compose.atMost
 import coil3.compose.AsyncImage
 import coil3.compose.AsyncImagePainter
 import coil3.compose.LocalPlatformContext
@@ -48,53 +52,47 @@ internal fun DetailsContent(
     val scrollState = rememberScrollState()
     var isNoImageVisible by remember { mutableStateOf(false) }
 
-    ConstraintLayout(
+    Column(
         modifier = modifier
             .verticalScroll(scrollState)
             .fillMaxSize()
+            .padding(16.dp)
     ) {
-        val (image, title, overview) = createRefs()
-
-        AsyncImage(
-            model = ImageRequest.Builder(LocalPlatformContext.current)
-                .data(movie.backdropPath.formatBackdropImage)
-                .crossfade(true)
-                .build(),
-            contentDescription = stringResource(MoviesContentDescriptionCommon.MovieDetailsImage),
+        Box(
             modifier = Modifier
-                .constrainAs(image) {
-                    width = Dimension.fillToConstraints.atMost(568.dp) // 600 - 16 - 16
-                    height = Dimension.fillToConstraints.atMost(450.dp)
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(parent.top, 16.dp)
-                    end.linkTo(parent.end, 16.dp)
-                    bottom.linkTo(title.top)
-                }
+                .fillMaxWidth()
+                .heightIn(max = 450.dp)
+                .widthIn(max = 568.dp)
+                .align(Alignment.CenterHorizontally)
                 .clip(MaterialTheme.shapes.small)
                 .background(MaterialTheme.colorScheme.inversePrimary)
-                .placeholder(
-                    visible = placeholder,
-                    color = MaterialTheme.colorScheme.inversePrimary,
-                    shape = MaterialTheme.shapes.small,
-                    highlight = PlaceholderHighlight.fade()
-                ),
-            onState = { state ->
-                isNoImageVisible = movie.isNotEmpty && (state is AsyncImagePainter.State.Error || state is AsyncImagePainter.State.Empty)
-            },
-            contentScale = ContentScale.Crop
-        )
+        ) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalPlatformContext.current)
+                    .data(movie.backdropPath.formatBackdropImage)
+                    .crossfade(true)
+                    .build(),
+                contentDescription = stringResource(MoviesContentDescriptionCommon.MovieDetailsImage),
+                modifier = Modifier
+                    .fillMaxSize()
+                    .placeholder(
+                        visible = placeholder,
+                        color = MaterialTheme.colorScheme.inversePrimary,
+                        shape = MaterialTheme.shapes.small,
+                        highlight = PlaceholderHighlight.fade()
+                    ),
+                onState = { state ->
+                    isNoImageVisible = movie.isNotEmpty && (state is AsyncImagePainter.State.Error || state is AsyncImagePainter.State.Empty)
+                },
+                contentScale = ContentScale.Crop
+            )
+        }
 
         Text(
             text = movie.title,
             modifier = Modifier
-                .constrainAs(title) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(image.bottom, 8.dp)
-                    end.linkTo(parent.end, 16.dp)
-                    bottom.linkTo(overview.top)
-                }
+                .padding(top = 8.dp)
+                .fillMaxWidth()
                 .placeholder(
                     visible = placeholder,
                     color = MaterialTheme.colorScheme.inversePrimary,
@@ -109,14 +107,9 @@ internal fun DetailsContent(
         Text(
             text = movie.overview,
             modifier = Modifier
-                .constrainAs(overview) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.fillToConstraints
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(title.bottom, 8.dp)
-                    end.linkTo(parent.end, 16.dp)
-                    bottom.linkTo(parent.bottom)
-                }
+                .padding(top = 8.dp)
+                .fillMaxWidth()
+                .weight(1f)
                 .placeholder(
                     visible = placeholder,
                     color = MaterialTheme.colorScheme.inversePrimary,

@@ -22,10 +22,8 @@ Movies
 [![](https://img.shields.io/badge/Linux-000000.svg?style=for-the-badge&logo=linux)](https://github.com/michaelbel/movies)
 [![](https://img.shields.io/badge/Web-000000.svg?style=for-the-badge&logo=google-chrome)](https://github.com/michaelbel/movies) -->
 
-[![Check PR](https://img.shields.io/github/actions/workflow/status/michaelbel/movies/check_pr.yml?style=for-the-badge&logo=github&label=Check%20PR&labelColor=3F464F
-)](https://github.com/michaelbel/movies/actions/workflows/check_pr.yml)
-[![Last Commit](https://img.shields.io/github/last-commit/michaelbel/movies?style=for-the-badge&logo=github&labelColor=3F464F
-)](https://github.com/michaelbel/movies/commits)
+[![workflow-status](https://img.shields.io/github/actions/workflow/status/michaelbel/movies/ci.yml?style=for-the-badge&logo=github&label=Check%20PR&labelColor=3F464F)](https://github.com/michaelbel/movies/actions/workflows/ci.yml)
+[![last-commit](https://img.shields.io/github/last-commit/michaelbel/movies?style=for-the-badge&logo=github&labelColor=3F464F)](https://github.com/michaelbel/movies/commits)
 
 Movies - простой способ найти популярные фильмы. Это легковесный TMDb-клиент.
 
@@ -37,36 +35,36 @@ Movies - простой способ найти популярные фильм�
 ## Скриншоты
 
 **Android**
-<p align="center">
-    <img src="config/images/android/android1.png" width="24%">
-    <img src="config/images/android/android2.png" width="24%">
-    <img src="config/images/android/android3.png" width="24%">
-    <img src="config/images/android/android4.png" width="24%">
-    <img src="config/images/android/android7.gif" width="24%">
-    <img src="config/images/android/android8.gif" width="24%">
-    <img src="config/images/android/android9.gif" width="24%">
-    <img src="config/images/android/android10.gif" width="24%">
-    <img src="config/images/android/android5.png" width="49%">
-    <img src="config/images/android/android6.png" width="49%">
-</p>
+<div align="center">
+    <img src="config/images/android/android1.png" alt="Android Image 1" width="24%">
+    <img src="config/images/android/android2.png" alt="Android Image 2" width="24%">
+    <img src="config/images/android/android3.png" alt="Android Image 3" width="24%">
+    <img src="config/images/android/android4.png" alt="Android Image 4" width="24%">
+    <img src="config/images/android/android7.gif" alt="Android Image 7" width="24%">
+    <img src="config/images/android/android8.gif" alt="Android Image 8" width="24%">
+    <img src="config/images/android/android9.gif" alt="Android Image 9" width="24%">
+    <img src="config/images/android/android10.gif" alt="Android Image 10" width="24%">
+    <img src="config/images/android/android5.png" alt="Android Image 5" width="49%">
+    <img src="config/images/android/android6.png" alt="Android Image 6" width="49%">
+</div>
 
 **iOS**
-<p align="center">
-    <img src="config/images/ios/ios1.png" width="24%">
-    <img src="config/images/ios/ios2.png" width="24%">
-    <img src="config/images/ios/ios3.png" width="24%">
-    <img src="config/images/ios/ios4.png" width="24%">
-    <img src="config/images/ios/ios5.png" width="49%">
-    <img src="config/images/ios/ios6.png" width="49%">
-</p>
+<div align="center">
+    <img src="config/images/ios/ios1.png" alt="iOS Image 1" width="24%">
+    <img src="config/images/ios/ios2.png" alt="iOS Image 2" width="24%">
+    <img src="config/images/ios/ios3.png" alt="iOS Image 3" width="24%">
+    <img src="config/images/ios/ios4.png" alt="iOS Image 4" width="24%">
+    <img src="config/images/ios/ios5.png" alt="iOS Image 5" width="49%">
+    <img src="config/images/ios/ios6.png" alt="iOS Image 6" width="49%">
+</div>
 
 **macOS**
-<p align="center">
-    <img src="config/images/desktop/macos1.png" width="49%">
-    <img src="config/images/desktop/macos2.png" width="49%">
-    <img src="config/images/desktop/macos3.png" width="49%">
-    <img src="config/images/desktop/macos4.png" width="49%">
-</p>
+<div align="center">
+    <img src="config/images/desktop/macos1.png" alt="macOS Image 1" width="49%">
+    <img src="config/images/desktop/macos2.png" alt="macOS Image 2" width="49%">
+    <img src="config/images/desktop/macos3.png" alt="macOS Image 3" width="49%">
+    <img src="config/images/desktop/macos4.png" alt="macOS Image 4" width="49%">
+</div>
 
 
 ## Требования
@@ -200,11 +198,9 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Grammatical Gender](https://d.android.com/about/versions/14/features/grammatical-inflection)
 - [x] [Biometric Authentication Dialog](https://d.android.com/training/sign-in/biometric-auth)
 - [x] [LeakCanary](https://github.com/square/leakcanary)
-- [x] [ConstraintLayout Multiplatform](https://github.com/Lavmee/constraintlayout-compose-multiplatform)
 - [x] [Koin](https://github.com/InsertKoinIO/koin)
 - [x] [Screenshot Detection](https://d.android.com/about/versions/14/features/screenshot-detection)
 - [x] [BuildKonfig](https://github.com/yshrsmz/BuildKonfig)
-- [x] [ConstraintLayout](https://d.android.com/develop/ui/views/layout/constraint-layout) removed in [44723cb](https://github.com/michaelbel/movies/commit/44723cbbafdad89bef6043f99cbd0fbab1ecf19a)
 - [x] [Dagger Hilt](https://github.com/google/dagger) removed in [#274](https://github.com/michaelbel/movies/pull/274)
 - [x] [Retrofit](https://github.com/square/retrofit) removed in [#275](https://github.com/michaelbel/movies/pull/275)
 

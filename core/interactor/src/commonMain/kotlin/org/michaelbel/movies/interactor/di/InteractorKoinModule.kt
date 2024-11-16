@@ -32,7 +32,6 @@ val interactorKoinModule = module {
         repositoryKoinModule,
         moviesDatabaseKoinModule,
         moviesAnalyticsKoinModule,
-        interactorBlockingKoinModule,
         interactorLocaleKoinModule
     )
     singleOf(::AccountInteractorImpl) { bind<AccountInteractor>() }
