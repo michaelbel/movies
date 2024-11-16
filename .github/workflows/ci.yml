@@ -28,7 +28,7 @@ jobs:
         run: |
           SHORT_SHA=${GITHUB_SHA::7}
           echo "short_sha=$SHORT_SHA" >> $GITHUB_ENV
-          echo "::set-output name=short_sha::$SHORT_SHA"
+          echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_OUTPUT
 
   build-android:
     needs: job-common
@@ -110,13 +110,13 @@ jobs:
       - name: expose version name
         id: version_name
         run: |
-          VERSION_NAME=$(./gradlew printVersionName -q)
+          VERSION_NAME=$(./gradlew androidApp:printVersionName -q)
           echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
 
       - name: expose version code
         id: version_code
         run: |
-          VERSION_CODE=$(./gradlew printVersionCode -q)
+          VERSION_CODE=$(./gradlew androidApp:printVersionCode -q)
           echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
 
       - name: list all artifacts
@@ -183,11 +183,11 @@ jobs:
       - name: assemble macos dmg artifact
         run: ./gradlew desktopApp:packageDmg
 
-      - name: expose desktop version name
-        id: desktop_version_name
+      - name: expose version name
+        id: version_name
         run: |
-          DESKTOP_VERSION_NAME=$(./gradlew desktopApp:printVersionName -q)
-          echo "DESKTOP_VERSION_NAME=DESKTOP_VERSION_NAME" >> $GITHUB_ENV
+          VERSION_NAME=$(./gradlew desktopApp:printVersionName -q)
+          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
 
 #      - name: list all artifacts
 #        run: |
@@ -198,9 +198,14 @@ jobs:
 #        run: |
 #          echo "DMG_PATH=$(find desktopApp/build/compose/binaries/main/dmg -name '*.dmg' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
 
-      - name: get dmg file URL
+      - name: get dmg download URL
+        id: get_dmg_url
         run: |
-          DMG_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+          ARTIFACT_NAME="desktopApp-dmg"
+          RESPONSE=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts")
+          DMG_URL=$(echo "$RESPONSE" | jq -r ".artifacts[] | select(.name == \"$ARTIFACT_NAME\") | .archive_download_url")
           echo "DMG_URL=$DMG_URL" >> $GITHUB_ENV
 
 #      - name: expose short commit sha
@@ -212,7 +217,7 @@ jobs:
           CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           THREAD_ID: ${{ secrets.TELEGRAM_THREAD_ID }}
           MESSAGE: |
-            ✅ <b>${{ env.DESKTOP_VERSION_NAME }}</b>
+            ✅ <b>${{ env.$VERSION_NAME }}</b>
             <b>Ветка:</b> ${{ github.ref_name }}
             <b>Коммит:</b> <code>${{ env.SHORT_SHA }}</code>
             <b>Ссылка на DMG:</b> <a href="${{ env.DMG_URL }}">Скачать DMG</a>
