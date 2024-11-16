@@ -74,7 +74,7 @@ android {
         release {
             manifestPlaceholders += mapOf("appName" to "@string/app_name")
             isMinifyEnabled = true
-            isShrinkResources = true
+            isShrinkResources = false
             signingConfig = signingConfigs.getByName("release")
             applicationIdSuffix = MoviesBuildType.RELEASE.applicationIdSuffix
             proguardFiles(
