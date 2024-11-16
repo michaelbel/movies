@@ -66,8 +66,11 @@ jobs:
       - name: set decoded file location as environment
         run: echo "KEYSTORE_FILE=${{ steps.decode_keystore_file.outputs.filePath }}" >> $GITHUB_ENV
 
-      - name: assemble gms debug artifact
+      - name: assemble android gms debug artifact
         run: ./gradlew androidApp:assembleGmsDebug
+
+      - name: assemble macos dmg artifact
+        run: ./gradlew desktopApp:packageDmg
 
 #      - name: assemble hms debug artifact
 #        run: ./gradlew androidApp:assembleHmsDebug
@@ -89,46 +92,74 @@ jobs:
         with:
           path: |
             androidApp/build/outputs/apk
+            desktopApp/build/compose/binaries/main/dmg/*.dmg
 
-      - name: expose version name
-        id: version_name
+      - name: expose android version name
+        id: android_version_name
         run: |
-          VERSION_NAME=$(./gradlew printVersionName -q)
-          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
+          ANDROID_VERSION_NAME=$(./gradlew androidApp:printVersionName -q)
+          echo "ANDROID_VERSION_NAME=ANDROID_VERSION_NAME" >> $GITHUB_ENV
 
-      - name: expose version code
-        id: version_code
+      - name: expose android version code
+        id: android_version_code
         run: |
-          VERSION_CODE=$(./gradlew printVersionCode -q)
-          echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
+          ANDROID_VERSION_CODE=$(./gradlew androidApp:printVersionCode -q)
+          echo "ANDROID_VERSION_CODE=ANDROID_VERSION_CODE" >> $GITHUB_ENV
 
-      - name: list all apk files
+      - name: expose desktop version name
+        id: desktop_version_name
+        run: |
+          DESKTOP_VERSION_NAME=$(./gradlew desktopApp:printVersionName -q)
+          echo "DESKTOP_VERSION_NAME=DESKTOP_VERSION_NAME" >> $GITHUB_ENV
+
+      - name: list all artifacts
         run: |
           echo "APKs:"
-          for apk in $(find androidApp/build/outputs/apk -name '*.apk'); do
-            echo "$apk"
-          done
+          find androidApp/build/outputs/apk -name '*.apk'
+          echo "DMG files:"
+          find desktopApp/build/compose/binaries/main/dmg -name '*.dmg'
 
-      - name: expose apk path
+      - name: expose android apk path
         run: |
           echo "APK_PATH=$(find androidApp/build/outputs/apk -name '*.apk' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
+
+      - name: expose dmg path
+        run: |
+          echo "DMG_PATH=$(find desktopApp/build/compose/binaries/main/dmg -name '*.dmg' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
 
       - name: expose short commit sha
         run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
 
-      - name: send telegram message
+      - name: send android telegram message
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
           CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           THREAD_ID: ${{ secrets.TELEGRAM_THREAD_ID }}
           MESSAGE: |
-            ✅ <b>${{ env.VERSION_NAME }} (${{ env.VERSION_CODE }})</b>
+            ✅ <b>${{ env.ANDROID_VERSION_NAME }} (${{ env.ANDROID_VERSION_CODE }})</b>
             <b>Ветка:</b> ${{ github.ref_name }}
             <b>Коммит:</b> <code>${{ env.SHORT_SHA }}</code>
         run: |
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument" \
             -F chat_id="${CHAT_ID}" \
             -F document="@${{ env.APK_PATH }}" \
+            -F caption="${{ env.MESSAGE }}" \
+            -F message_thread_id="${THREAD_ID}" \
+            -F parse_mode="HTML"
+
+      - name: send macos telegram message
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          THREAD_ID: ${{ secrets.TELEGRAM_THREAD_ID }}
+          MESSAGE: |
+            ✅ <b>${{ env.DESKTOP_VERSION_NAME }}</b>
+            <b>Ветка:</b> ${{ github.ref_name }}
+            <b>Коммит:</b> <code>${{ env.SHORT_SHA }}</code>
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument" \
+            -F chat_id="${CHAT_ID}" \
+            -F document="@${{ env.DMG_PATH }}" \
             -F caption="${{ env.MESSAGE }}" \
             -F message_thread_id="${THREAD_ID}" \
             -F parse_mode="HTML"
