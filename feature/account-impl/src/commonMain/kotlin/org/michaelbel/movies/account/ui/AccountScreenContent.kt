@@ -2,11 +2,14 @@ package org.michaelbel.movies.account.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -18,9 +21,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ChainStyle
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -41,7 +41,7 @@ internal fun AccountScreenContent(
     onLogoutClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    ConstraintLayout(
+    Column(
         modifier = modifier
             .padding(horizontal = if (isPortrait) 16.dp else 64.dp)
             .fillMaxWidth()
@@ -50,110 +50,79 @@ internal fun AccountScreenContent(
                 shape = MaterialTheme.shapes.small
             )
     ) {
-        val (
-            toolbar,
-            accountAvatar,
-            nameColumn,
-            nameText,
-            usernameText,
-            countryBox,
-            adultIcon,
-            logoutButton
-        ) = createRefs()
-        createVerticalChain(nameText, usernameText, chainStyle = ChainStyle.Packed)
-
         AccountToolbar(
-            modifier = Modifier.constrainAs(toolbar) {
-                width = Dimension.fillToConstraints
-                height = Dimension.wrapContent
-                start.linkTo(parent.start)
-                top.linkTo(parent.top)
-                end.linkTo(parent.end)
-            },
-            onNavigationIconClick = onBackClick
+            onNavigationIconClick = onBackClick,
+            modifier = Modifier.fillMaxWidth()
         )
 
-        AccountAvatar(
-            account = account,
-            fontSize = account.lettersTextFontSizeLarge,
-            modifier = Modifier.constrainAs(accountAvatar) {
-                width = Dimension.value(64.dp)
-                height = Dimension.value(64.dp)
-                start.linkTo(parent.start, 16.dp)
-                top.linkTo(toolbar.bottom)
-            }
-        )
-
-        if (account.adult) {
-            Icon(
-                painter = painterResource(MoviesIcons.AdultOutline),
-                contentDescription = stringResource(MoviesContentDescriptionCommon.AdultIcon),
-                modifier = Modifier
-                    .constrainAs(adultIcon) {
-                        width = Dimension.value(24.dp)
-                        height = Dimension.value(24.dp)
-                        end.linkTo(accountAvatar.end)
-                        bottom.linkTo(accountAvatar.bottom)
-                    }
-                    .background(
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        shape = MaterialTheme.shapes.small
-                    ),
-                tint = MaterialTheme.colorScheme.onPrimaryContainer
-            )
-        }
-
-        Column(
-            modifier = Modifier.constrainAs(nameColumn) {
-                width = Dimension.fillToConstraints
-                height = Dimension.wrapContent
-                start.linkTo(accountAvatar.end, 12.dp)
-                top.linkTo(accountAvatar.top)
-                end.linkTo(parent.end, 16.dp)
-                bottom.linkTo(accountAvatar.bottom)
-            },
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.Start
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            if (account.name.isNotEmpty()) {
-                Text(
-                    text = account.name,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
+            Box {
+                AccountAvatar(
+                    account = account,
+                    fontSize = account.lettersTextFontSizeLarge,
+                    modifier = Modifier.size(64.dp)
                 )
+
+                if (account.adult) {
+                    Icon(
+                        painter = painterResource(MoviesIcons.AdultOutline),
+                        contentDescription = stringResource(MoviesContentDescriptionCommon.AdultIcon),
+                        modifier = Modifier
+                            .size(24.dp)
+                            .align(Alignment.BottomEnd)
+                            .background(
+                                color = MaterialTheme.colorScheme.primaryContainer,
+                                shape = MaterialTheme.shapes.small
+                            ),
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                }
             }
 
-            if (account.username.isNotEmpty()) {
-                Text(
-                    text = account.username,
-                    overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.secondary)
-                )
+            Column(
+                modifier = Modifier
+                    .weight(1F)
+                    .padding(start = 12.dp, end = 16.dp),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.Start
+            ) {
+                if (account.name.isNotEmpty()) {
+                    Text(
+                        text = account.name,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
+                    )
+                }
+
+                if (account.username.isNotEmpty()) {
+                    Text(
+                        text = account.username,
+                        overflow = TextOverflow.Ellipsis,
+                        style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.secondary)
+                    )
+                }
             }
         }
 
         if (account.country.isNotEmpty()) {
             AccountCountryBox(
                 country = account.country,
-                modifier = Modifier.constrainAs(countryBox) {
-                    width = Dimension.fillToConstraints
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(accountAvatar.bottom, 8.dp)
-                }
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .padding(start = 16.dp, top = 8.dp)
             )
         }
 
         Button(
             onClick = onLogoutClick,
-            modifier = Modifier.constrainAs(logoutButton) {
-                width = Dimension.fillToConstraints
-                height = Dimension.wrapContent
-                start.linkTo(parent.start, 16.dp)
-                top.linkTo(if (account.country.isNotEmpty()) countryBox.bottom else accountAvatar.bottom, 8.dp)
-                end.linkTo(parent.end, 16.dp)
-                bottom.linkTo(parent.bottom, 16.dp)
-            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, top = 8.dp, end = 16.dp, bottom = 16.dp),
             enabled = !loading,
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.surfaceTint
@@ -166,12 +135,11 @@ internal fun AccountScreenContent(
                     strokeWidth = 2.dp
                 )
             } else {
-                Text(
-                    text = stringResource(MoviesStrings.account_logout),
-                )
+                Text(text = stringResource(MoviesStrings.account_logout))
             }
         }
     }
+
 }
 
 @Preview
