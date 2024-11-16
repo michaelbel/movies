@@ -105,7 +105,6 @@ jobs:
         with:
           path: |
             androidApp/build/outputs/apk
-            desktopApp/build/compose/binaries/main/dmg
 
       - name: expose version name
         id: version_name
@@ -127,9 +126,6 @@ jobs:
       - name: expose android apk path
         run: |
           echo "APK_PATH=$(find androidApp/build/outputs/apk -name '*.apk' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
-
-#      - name: expose short commit sha
-#        run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
 
       - name: send android telegram message
         env:
@@ -183,20 +179,17 @@ jobs:
       - name: assemble macos dmg artifact
         run: ./gradlew desktopApp:packageDmg
 
+      - name: upload artifacts to outputs
+        uses: actions/upload-artifact@v4
+        with:
+          path: |
+            desktopApp/build/compose/binaries/main/dmg/*.dmg
+
       - name: expose version name
         id: version_name
         run: |
           VERSION_NAME=$(./gradlew desktopApp:printVersionName -q)
           echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
-
-#      - name: list all artifacts
-#        run: |
-#          echo "DMG files:"
-#          find desktopApp/build/compose/binaries/main/dmg -name '*.dmg'
-
-#      - name: expose dmg path
-#        run: |
-#          echo "DMG_PATH=$(find desktopApp/build/compose/binaries/main/dmg -name '*.dmg' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
 
       - name: get dmg download URL
         id: get_dmg_url
@@ -208,9 +201,6 @@ jobs:
           DMG_URL=$(echo "$RESPONSE" | jq -r ".artifacts[] | select(.name == \"$ARTIFACT_NAME\") | .archive_download_url")
           echo "DMG_URL=$DMG_URL" >> $GITHUB_ENV
 
-#      - name: expose short commit sha
-#        run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
-
       - name: send macos telegram message
         env:
           TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
@@ -220,7 +210,7 @@ jobs:
             ✅ <b>${{ env.VERSION_NAME }}</b>
             <b>Ветка:</b> ${{ github.ref_name }}
             <b>Коммит:</b> <code>${{ env.SHORT_SHA }}</code>
-            <b>Ссылка на DMG:</b> <a href="${{ env.DMG_URL }}">Скачать DMG</a>
+            <b><a href="${{ env.DMG_URL }}">Скачать DMG</a></b>
         run: |
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
             -F chat_id="${CHAT_ID}" \
