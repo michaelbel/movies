@@ -217,7 +217,7 @@ jobs:
           CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           THREAD_ID: ${{ secrets.TELEGRAM_THREAD_ID }}
           MESSAGE: |
-            ✅ <b>${{ env.$VERSION_NAME }}</b>
+            ✅ <b>${{ env.VERSION_NAME }}</b>
             <b>Ветка:</b> ${{ github.ref_name }}
             <b>Коммит:</b> <code>${{ env.SHORT_SHA }}</code>
             <b>Ссылка на DMG:</b> <a href="${{ env.DMG_URL }}">Скачать DMG</a>
