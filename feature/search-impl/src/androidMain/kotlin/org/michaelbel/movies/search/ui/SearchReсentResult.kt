@@ -1,19 +1,20 @@
 package org.michaelbel.movies.search.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
@@ -29,34 +30,23 @@ internal fun SearchRecentResult(
     onRemoveClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    ConstraintLayout(
+    Row(
         modifier = modifier
+            .fillMaxWidth()
+            .padding(start = 16.dp, end = 8.dp),
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        val (historyIcon, recentResultText, clearButton) = createRefs()
-
         Icon(
             imageVector = MoviesIcons.History,
             contentDescription = stringResource(MoviesContentDescription.HistoryIcon),
-            modifier = Modifier.constrainAs(historyIcon) {
-                width = Dimension.wrapContent
-                height = Dimension.wrapContent
-                start.linkTo(parent.start, 16.dp)
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-            },
             tint = MaterialTheme.colorScheme.onPrimaryContainer
         )
 
         Text(
             text = text,
-            modifier = Modifier.constrainAs(recentResultText) {
-                width = Dimension.fillToConstraints
-                height = Dimension.wrapContent
-                start.linkTo(historyIcon.end, 8.dp)
-                top.linkTo(parent.top)
-                end.linkTo(clearButton.start, 8.dp)
-                bottom.linkTo(parent.bottom)
-            },
+            modifier = Modifier
+                .weight(1F)
+                .padding(horizontal = 8.dp),
             textAlign = TextAlign.Start,
             overflow = TextOverflow.Ellipsis,
             maxLines = 1,
@@ -64,14 +54,7 @@ internal fun SearchRecentResult(
         )
 
         CloseIcon(
-            onClick = onRemoveClick,
-            modifier = Modifier.constrainAs(clearButton) {
-                width = Dimension.wrapContent
-                height = Dimension.wrapContent
-                top.linkTo(parent.top)
-                end.linkTo(parent.end, 8.dp)
-                bottom.linkTo(parent.bottom)
-            }
+            onClick = onRemoveClick
         )
     }
 }
