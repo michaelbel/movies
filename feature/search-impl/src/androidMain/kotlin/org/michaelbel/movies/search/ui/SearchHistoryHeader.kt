@@ -45,40 +45,6 @@ internal fun SearchHistoryHeader(
             )
         }
     }
-
-    /*ConstraintLayout(
-        modifier = modifier
-    ) {
-        val (recentSearchesText, clearButton) = createRefs()
-
-        Text(
-            text = stringResource(R.string.search_recent),
-            modifier = Modifier.constrainAs(recentSearchesText) {
-                width = Dimension.wrapContent
-                height = Dimension.wrapContent
-                start.linkTo(parent.start, 16.dp)
-                top.linkTo(parent.top)
-                bottom.linkTo(parent.bottom)
-            },
-            textAlign = TextAlign.Start,
-            style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.onPrimaryContainer)
-        )
-
-        TextButton(
-            onClick = onClearButtonClick,
-            modifier = Modifier.constrainAs(clearButton) {
-                width = Dimension.wrapContent
-                height = Dimension.wrapContent
-                top.linkTo(parent.top)
-                end.linkTo(parent.end, 8.dp)
-                bottom.linkTo(parent.bottom)
-            }
-        ) {
-            Text(
-                text = stringResource(R.string.search_clear)
-            )
-        }
-    }*/
 }
 
 @Preview
