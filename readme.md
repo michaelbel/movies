@@ -196,6 +196,7 @@ Choose a run configuration for an appropriate target in Android Studio and run i
 - [x] [Tile Quick Settings](https://d.android.com/develop/ui/views/quicksettings-tiles)
 - [x] [Grammatical Gender](https://d.android.com/about/versions/14/features/grammatical-inflection)
 - [x] [Biometric Authentication Dialog](https://d.android.com/training/sign-in/biometric-auth)
+- [x] [Type safety Navigation](https://d.android.com/guide/navigation/design/type-safety)
 - [x] [LeakCanary](https://github.com/square/leakcanary)
 - [x] [Koin](https://github.com/InsertKoinIO/koin)
 - [x] [Screenshot Detection](https://d.android.com/about/versions/14/features/screenshot-detection)

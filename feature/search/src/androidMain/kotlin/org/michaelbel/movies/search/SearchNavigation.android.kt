@@ -10,15 +10,14 @@ import org.michaelbel.movies.search.ui.SearchRoute
 import org.michaelbel.movies.ui.shortcuts.INTENT_ACTION_SEARCH
 
 fun NavController.navigateToSearch() {
-    navigate(SearchDestination.route)
+    navigate(SearchDestination)
 }
 
 fun NavGraphBuilder.searchGraph(
     navigateBack: () -> Unit,
     navigateToDetails: (PagingKey, MovieId) -> Unit,
 ) {
-    composable(
-        route = SearchDestination.route,
+    composable<SearchDestination>(
         deepLinks = listOf(
             navDeepLink { uriPattern = INTENT_ACTION_SEARCH }
         )

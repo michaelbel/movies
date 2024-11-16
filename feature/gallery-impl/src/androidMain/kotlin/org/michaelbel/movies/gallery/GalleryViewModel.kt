@@ -30,9 +30,9 @@ class GalleryViewModel(
     private val workManager: WorkManager
 ): BaseViewModel() {
 
-    private val movieId: String = savedStateHandle.require("movieId")
+    private val movieId: Int = savedStateHandle.require("movieId")
 
-    val movieImagesFlow: StateFlow<List<ImagePojo>> = interactor.imagesFlow(movieId.toInt())
+    val movieImagesFlow: StateFlow<List<ImagePojo>> = interactor.imagesFlow(movieId)
         .stateIn(
             scope = this,
             started = SharingStarted.Lazily,
@@ -43,7 +43,7 @@ class GalleryViewModel(
     val workInfoFlow: StateFlow<WorkInfo?> get() = _workInfoFlow.asStateFlow()
 
     init {
-        loadMovieImages(movieId.toInt())
+        loadMovieImages(movieId)
     }
 
     fun downloadImage(image: ImagePojo) = launch {

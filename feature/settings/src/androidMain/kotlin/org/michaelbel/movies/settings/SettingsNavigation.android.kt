@@ -8,14 +8,13 @@ import org.michaelbel.movies.settings.ui.SettingsRoute
 import org.michaelbel.movies.ui.shortcuts.INTENT_ACTION_SETTINGS
 
 fun NavController.navigateToSettings() {
-    navigate(SettingsDestination.route)
+    navigate(SettingsDestination)
 }
 
 fun NavGraphBuilder.settingsGraph(
     navigateBack: () -> Unit
 ) {
-    composable(
-        route = SettingsDestination.route,
+    composable<SettingsDestination>(
         deepLinks = listOf(
             navDeepLink { uriPattern = INTENT_ACTION_SETTINGS }
         )

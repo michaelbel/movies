@@ -35,7 +35,7 @@ fun MainNavigationContent(
     ) {
         NavHost(
             navController = navHostController,
-            startDestination = FeedDestination.route
+            startDestination = FeedDestination()
         ) {
             authGraph(
                 navigateBack = navHostController::popBackStack

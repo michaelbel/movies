@@ -6,15 +6,13 @@ import androidx.navigation.compose.composable
 import org.michaelbel.movies.settings.ui.SettingsRoute
 
 fun NavController.navigateToSettings() {
-    navigate(SettingsDestination.route)
+    navigate(SettingsDestination)
 }
 
 fun NavGraphBuilder.settingsGraph(
     navigateBack: () -> Unit
 ) {
-    composable(
-        route = SettingsDestination.route
-    ) {
+    composable<SettingsDestination> {
         SettingsRoute(
             onBackClick = navigateBack
         )

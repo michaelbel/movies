@@ -7,9 +7,7 @@ import org.michaelbel.movies.auth.ui.AuthRoute
 fun NavGraphBuilder.authGraph(
     navigateBack: () -> Unit
 ) {
-    dialog(
-        route = AuthDestination.route,
-    ) {
+    dialog<AuthDestination> {
         AuthRoute(
             onBackClick = navigateBack
         )
