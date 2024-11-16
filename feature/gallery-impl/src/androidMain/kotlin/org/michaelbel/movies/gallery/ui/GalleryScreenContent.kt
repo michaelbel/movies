@@ -7,6 +7,7 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.windowInsetsPadding
@@ -28,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshotFlow
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.layout.ContentScale
@@ -165,13 +167,12 @@ internal fun GalleryScreenContent(
 
                         var loading: Boolean by remember { mutableStateOf(true) }
 
-                        ConstraintLayout(
-                            modifier = Modifier.fillMaxSize()
+                        val zoomState = rememberZoomState()
+
+                        Box(
+                            modifier = Modifier.fillMaxSize(),
+                            contentAlignment = Alignment.Center
                         ) {
-                            val (asyncImage, progressBar) = createRefs()
-
-                            val zoomState = rememberZoomState()
-
                             AsyncImage(
                                 model = ImageRequest.Builder(context)
                                     .data(image)
@@ -180,14 +181,7 @@ internal fun GalleryScreenContent(
                                     .build(),
                                 contentDescription = MoviesContentDescription.None,
                                 modifier = Modifier
-                                    .constrainAs(asyncImage) {
-                                        width = Dimension.fillToConstraints
-                                        height = Dimension.fillToConstraints
-                                        start.linkTo(parent.start)
-                                        top.linkTo(parent.top)
-                                        end.linkTo(parent.end)
-                                        bottom.linkTo(parent.bottom)
-                                    }
+                                    .fillMaxSize()
                                     .zoomable(zoomState),
                                 transform = { state ->
                                     loading = state is AsyncImagePainter.State.Loading
@@ -207,16 +201,7 @@ internal fun GalleryScreenContent(
 
                             if (loading) {
                                 LinearProgressIndicator(
-                                    modifier = Modifier
-                                        .constrainAs(progressBar) {
-                                            width = Dimension.wrapContent
-                                            height = Dimension.wrapContent
-                                            start.linkTo(parent.start)
-                                            top.linkTo(parent.top)
-                                            end.linkTo(parent.end)
-                                            bottom.linkTo(parent.bottom)
-                                        }
-                                        .zoomable(zoomState),
+                                    modifier = Modifier.zoomable(zoomState),
                                     trackColor = MaterialTheme.colorScheme.inversePrimary
                                 )
                             }
