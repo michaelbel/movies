@@ -104,7 +104,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           path: |
-            androidApp/build/outputs/apk
+            androidApp/build/outputs/apk/gms/debug
 
       - name: expose version name
         id: version_name
@@ -125,7 +125,7 @@ jobs:
 
       - name: expose android apk path
         run: |
-          echo "APK_PATH=$(find androidApp/build/outputs/apk -name '*.apk' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
+          echo "GMS_DEBUG_APK_PATH=$(find androidApp/build/outputs/apk/gms/debug -name '*.apk' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
 
       - name: send android telegram message
         env:
@@ -139,7 +139,7 @@ jobs:
         run: |
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument" \
             -F chat_id="${CHAT_ID}" \
-            -F document="@${{ env.APK_PATH }}" \
+            -F document="@${{ env.GMS_DEBUG_APK_PATH }}" \
             -F caption="${{ env.MESSAGE }}" \
             -F message_thread_id="${THREAD_ID}" \
             -F parse_mode="HTML"
@@ -179,11 +179,14 @@ jobs:
       - name: assemble macos dmg artifact
         run: ./gradlew desktopApp:packageDmg
 
+      - name: check dmg file
+        run: ls -la desktopApp/build/compose/binaries/main/dmg/
+
       - name: upload artifacts to outputs
         uses: actions/upload-artifact@v4
         with:
           path: |
-            desktopApp/build/compose/binaries/main/dmg/*.dmg
+            desktopApp/build/compose/binaries/main/dmg
 
       - name: expose version name
         id: version_name
