@@ -26,3 +26,8 @@
 -keepattributes RuntimeVisibleAnnotations,AnnotationDefault
 
 -dontwarn org.slf4j.impl.StaticLoggerBinder
+
+-keep class io.ktor.utils.io.jvm.nio.** { *; }
+-keep class io.ktor.utils.io.** { *; }
+
+-keep class coil3.network.ktor.internal.UtilsKt { *; }

@@ -82,14 +82,21 @@ jobs:
       - name: set decoded file location as environment
         run: echo "KEYSTORE_FILE=${{ steps.decode_keystore_file.outputs.filePath }}" >> $GITHUB_ENV
 
-      - name: assemble android gms debug artifact
-        run: ./gradlew androidApp:assembleGmsDebug
+#      - name: assemble android gms debug artifact
+#        run: ./gradlew androidApp:assembleGmsDebug
 
-      - name: assemble android hms debug artifact
-        run: ./gradlew androidApp:assembleHmsDebug
+#      - name: assemble android hms debug artifact
+#        run: ./gradlew androidApp:assembleHmsDebug
 
-      - name: assemble android foss debug artifact
-        run: ./gradlew androidApp:assembleFossDebug
+#      - name: assemble android foss debug artifact
+#        run: ./gradlew androidApp:assembleFossDebug
+
+      - name: assemble android debug artifacts
+        run: |
+          ./gradlew \
+            androidApp:assembleGmsDebug \
+            androidApp:assembleHmsDebug \
+            androidApp:assembleFossDebug
 
 #      - name: assemble gms release artifact
 #        run: ./gradlew androidApp:assembleGmsRelease
@@ -129,7 +136,7 @@ jobs:
         run: |
           echo "GMS_DEBUG_APK_PATH=$(find androidApp/build/outputs/apk/gms/debug -name '*.apk' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
           echo "HMS_DEBUG_APK_PATH=$(find androidApp/build/outputs/apk/hms/debug -name '*.apk' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
-          echo "FOSS_DEBUG_APK_PATH=$(find androidApp/build/outputs/apk/hms/debug -name '*.apk' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
+          echo "FOSS_DEBUG_APK_PATH=$(find androidApp/build/outputs/apk/foss/debug -name '*.apk' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
 
       - name: send android telegram message gms debug
         env:
