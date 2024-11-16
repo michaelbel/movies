@@ -74,7 +74,6 @@ ktor = "3.0.0"
 leakcanary = "3.0-alpha-8"
 koin = "3.6.0-wasm-alpha2"
 koin-compose = "1.2.0-Beta4"
-constraintlayout-compose-multiplatform = "0.4.0" # "0.5.0-shaded-core"
 okio = "3.9.1"
 buildkonfig = "0.15.2"
 napier = "2.7.1"
@@ -173,7 +172,6 @@ koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", versi
 koin-androidx-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-compose" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin-compose" }
-constraintlayout-compose-multiplatform = { module = "tech.annexflow.compose:constraintlayout-compose-multiplatform", version.ref = "constraintlayout-compose-multiplatform" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 
@@ -238,9 +236,6 @@ koin-common = [
 coil-common = [
     "coil3-compose",
     "coil3-network-ktor"
-]
-constraintlayout-common = [
-    "constraintlayout-compose-multiplatform"
 ]
 okio-common = [
     "okio"

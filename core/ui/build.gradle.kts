@@ -20,7 +20,6 @@ kotlin {
         commonMain.dependencies {
             api(project(":core:persistence"))
             api(libs.bundles.coil.common)
-            api(libs.bundles.constraintlayout.common)
             api(compose.animation)
             api(compose.foundation)
             api(compose.runtime)
