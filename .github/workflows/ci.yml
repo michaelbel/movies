@@ -107,17 +107,17 @@ jobs:
             androidApp/build/outputs/apk
             desktopApp/build/compose/binaries/main/dmg
 
-      - name: expose android version name
-        id: android_version_name
+      - name: expose version name
+        id: version_name
         run: |
-          ANDROID_VERSION_NAME=$(./gradlew androidApp:printVersionName -q)
-          echo "ANDROID_VERSION_NAME=android_version_name" >> $GITHUB_ENV
+          VERSION_NAME=$(./gradlew printVersionName -q)
+          echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
 
-      - name: expose android version code
-        id: android_version_code
+      - name: expose version code
+        id: version_code
         run: |
-          ANDROID_VERSION_CODE=$(./gradlew androidApp:printVersionCode -q)
-          echo "ANDROID_VERSION_CODE=android_version_code" >> $GITHUB_ENV
+          VERSION_CODE=$(./gradlew printVersionCode -q)
+          echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
 
       - name: list all artifacts
         run: |
@@ -128,8 +128,8 @@ jobs:
         run: |
           echo "APK_PATH=$(find androidApp/build/outputs/apk -name '*.apk' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
 
-      - name: expose short commit sha
-        run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
+#      - name: expose short commit sha
+#        run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
 
       - name: send android telegram message
         env:
@@ -137,7 +137,7 @@ jobs:
           CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           THREAD_ID: ${{ secrets.TELEGRAM_THREAD_ID }}
           MESSAGE: |
-            ✅ <b>${{ env.ANDROID_VERSION_NAME }} (${{ env.ANDROID_VERSION_CODE }})</b>
+            ✅ <b>${{ env.VERSION_NAME }} (${{ env.VERSION_CODE }})</b>
             <b>Ветка:</b> ${{ github.ref_name }}
             <b>Коммит:</b> <code>${{ env.SHORT_SHA }}</code>
         run: |
@@ -203,8 +203,8 @@ jobs:
           DMG_URL="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
           echo "DMG_URL=$DMG_URL" >> $GITHUB_ENV
 
-      - name: expose short commit sha
-        run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
+#      - name: expose short commit sha
+#        run: echo "SHORT_SHA=${GITHUB_SHA::7}" >> $GITHUB_ENV
 
       - name: send macos telegram message
         env:
@@ -217,8 +217,8 @@ jobs:
             <b>Коммит:</b> <code>${{ env.SHORT_SHA }}</code>
             <b>Ссылка на DMG:</b> <a href="${{ env.DMG_URL }}">Скачать DMG</a>
         run: |
-          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument" \
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
             -F chat_id="${CHAT_ID}" \
-            -F caption="${{ env.MESSAGE }}" \
+            -F text="${MESSAGE}" \
             -F message_thread_id="${THREAD_ID}" \
             -F parse_mode="HTML"
