@@ -4,7 +4,8 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -25,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalFocusManager
@@ -33,8 +35,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -88,7 +88,7 @@ internal fun AuthScreenContent(
         onResetRequestToken()
     }
 
-    ConstraintLayout(
+    Column(
         modifier = modifier
             .padding(horizontal = if (isPortrait) 16.dp else 64.dp)
             .fillMaxWidth()
@@ -98,91 +98,46 @@ internal fun AuthScreenContent(
             )
             .verticalScroll(scrollState)
     ) {
-        val (
-            toolbar,
-            logo,
-            usernameField,
-            passwordField,
-            resetPasswordButton,
-            signUpButton,
-            signInButton,
-            loginButton,
-            linksBox
-        ) = createRefs()
-
         AuthToolbar(
-            modifier = Modifier.constrainAs(toolbar) {
-                width = Dimension.fillToConstraints
-                height = Dimension.wrapContent
-                start.linkTo(parent.start)
-                top.linkTo(parent.top)
-                end.linkTo(parent.end)
-            },
-            onNavigationIconClick = onBackClick
+            onNavigationIconClick = onBackClick,
+            modifier = Modifier.fillMaxWidth()
         )
 
         Icon(
             painter = painterResource(MoviesIcons.TmdbLogo),
             contentDescription = MoviesContentDescriptionCommon.None,
             modifier = Modifier
-                .constrainAs(logo) {
-                    width = Dimension.wrapContent
-                    height = Dimension.wrapContent
-                    start.linkTo(parent.start, 16.dp)
-                    top.linkTo(toolbar.bottom, 8.dp)
-                    end.linkTo(parent.end, 16.dp)
-                }
-                .clickableWithoutRipple { onUrlClick(TMDB_URL) },
+                .padding(top = 8.dp)
+                .clickableWithoutRipple { onUrlClick(TMDB_URL) }
+                .align(Alignment.CenterHorizontally),
             tint = MaterialTheme.colorScheme.onPrimaryContainer
         )
 
         OutlinedTextField(
             value = username.value,
-            onValueChange = { value ->
-                username = Username(value)
-            },
-            modifier = Modifier.constrainAs(usernameField) {
-                width = Dimension.fillToConstraints
-                height = Dimension.wrapContent
-                start.linkTo(parent.start, 16.dp)
-                top.linkTo(logo.bottom, 8.dp)
-                end.linkTo(parent.end, 16.dp)
-            },
-            label = {
-                Text(
-                    text = stringResource(MoviesStrings.auth_label_username)
-                )
-            },
+            onValueChange = { value -> username = Username(value) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, top = 8.dp, end = 16.dp),
+            label = { Text(text = stringResource(MoviesStrings.auth_label_username)) },
             isError = error != null,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
             ),
             keyboardActions = KeyboardActions(
-                onNext = {
-                    focusManager.moveFocus(FocusDirection.Down)
-                }
+                onNext = { focusManager.moveFocus(FocusDirection.Down) }
             ),
             singleLine = true
         )
 
         OutlinedTextField(
             value = password.value,
-            onValueChange = { value ->
-                password = Password(value)
-            },
-            modifier = Modifier.constrainAs(passwordField) {
-                width = Dimension.fillToConstraints
-                height = Dimension.wrapContent
-                start.linkTo(parent.start, 16.dp)
-                top.linkTo(usernameField.bottom, 4.dp)
-                end.linkTo(parent.end, 16.dp)
-            },
-            label = {
-                Text(
-                    text = stringResource(MoviesStrings.auth_label_password)
-                )
-            },
+            onValueChange = { value -> password = Password(value) },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, top = 8.dp, end = 16.dp),
+            label = { Text(text = stringResource(MoviesStrings.auth_label_password)) },
             trailingIcon = {
                 AnimatedVisibility(
                     visible = password.isNotEmpty,
@@ -197,10 +152,7 @@ internal fun AuthScreenContent(
             },
             supportingText = {
                 if (error != null) {
-                    Text(
-                        text = error.text,
-                        color = MaterialTheme.colorScheme.error
-                    )
+                    Text(text = error.text, color = MaterialTheme.colorScheme.error)
                 }
             },
             isError = error != null,
@@ -218,61 +170,32 @@ internal fun AuthScreenContent(
             singleLine = true
         )
 
-        AnimatedVisibility(
-            visible = error != null && error is CreateSessionWithLoginException,
-            modifier = Modifier.constrainAs(resetPasswordButton) {
-                width = Dimension.wrapContent
-                height = Dimension.wrapContent
-                start.linkTo(parent.start, 6.dp)
-                top.linkTo(passwordField.bottom, 4.dp)
-            },
-            enter = fadeIn(),
-            exit = fadeOut()
+        Row(
+            modifier = Modifier.padding(start = 8.dp, end = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            TextButton(
-                onClick = { onUrlClick(TMDB_RESET_PASSWORD) }
-            ) {
-                Text(
-                    text = stringResource(MoviesStrings.auth_reset_password)
-                )
+            TextButton(onClick = { onUrlClick(TMDB_REGISTER) }) {
+                Text(text = stringResource(MoviesStrings.auth_sign_up))
             }
-        }
 
-        AnimatedVisibility(
-            visible = error != null && error is CreateSessionWithLoginException,
-            modifier = Modifier.constrainAs(signUpButton) {
-                width = Dimension.wrapContent
-                height = Dimension.wrapContent
-                start.linkTo(resetPasswordButton.end, 2.dp)
-                top.linkTo(resetPasswordButton.top)
-                bottom.linkTo(resetPasswordButton.bottom)
-            },
-            enter = fadeIn(),
-            exit = fadeOut()
-        ) {
-            TextButton(
-                onClick = { onUrlClick(TMDB_REGISTER) }
+            AnimatedVisibility(
+                visible = error != null && error is CreateSessionWithLoginException,
+                enter = fadeIn(),
+                exit = fadeOut()
             ) {
-                Text(
-                    text = stringResource(MoviesStrings.auth_sign_up)
-                )
+                TextButton(onClick = { onUrlClick(TMDB_RESET_PASSWORD) }) {
+                    Text(text = stringResource(MoviesStrings.auth_reset_password))
+                }
             }
         }
 
         Button(
             onClick = { onSignInClick(username.trim, password.trim) },
-            modifier = Modifier.constrainAs(signInButton) {
-                width = Dimension.fillToConstraints
-                height = Dimension.wrapContent
-                start.linkTo(parent.start, 16.dp)
-                top.linkTo(if (error != null && error is CreateSessionWithLoginException) resetPasswordButton.bottom else passwordField.bottom, 16.dp)
-                end.linkTo(parent.end, 16.dp)
-            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, top = 4.dp, end = 16.dp),
             enabled = username.isNotEmpty && password.isNotEmpty && !signInLoading,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.surfaceTint
-            ),
-            contentPadding = PaddingValues(horizontal = 24.dp)
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceTint)
         ) {
             if (signInLoading) {
                 CircularProgressIndicator(
@@ -280,26 +203,17 @@ internal fun AuthScreenContent(
                     strokeWidth = 2.dp
                 )
             } else {
-                Text(
-                    text = stringResource(MoviesStrings.auth_sign_in)
-                )
+                Text(text = stringResource(MoviesStrings.auth_sign_in))
             }
         }
 
         Button(
             onClick = onLoginClick,
-            modifier = Modifier.constrainAs(loginButton) {
-                width = Dimension.fillToConstraints
-                height = Dimension.wrapContent
-                start.linkTo(parent.start, 16.dp)
-                top.linkTo(signInButton.bottom, 8.dp)
-                end.linkTo(parent.end, 16.dp)
-            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, top = 8.dp, end = 16.dp),
             enabled = !loginLoading,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = MaterialTheme.colorScheme.surfaceTint
-            ),
-            contentPadding = PaddingValues(horizontal = 24.dp)
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceTint)
         ) {
             if (loginLoading) {
                 CircularProgressIndicator(
@@ -307,22 +221,16 @@ internal fun AuthScreenContent(
                     strokeWidth = 2.dp
                 )
             } else {
-                Text(
-                    text = stringResource(MoviesStrings.auth_login)
-                )
+                Text(text = stringResource(MoviesStrings.auth_login))
             }
         }
 
         AuthLinksBox(
             onTermsOfUseClick = { onUrlClick(TMDB_TERMS_OF_USE) },
             onPrivacyPolicyClick = { onUrlClick(TMDB_PRIVACY_POLICY) },
-            modifier = Modifier.constrainAs(linksBox) {
-                width = Dimension.fillToConstraints
-                height = Dimension.wrapContent
-                start.linkTo(parent.start)
-                top.linkTo(loginButton.bottom, 16.dp)
-                end.linkTo(parent.end)
-            }
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 16.dp)
         )
     }
 }
