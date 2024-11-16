@@ -17,8 +17,14 @@ fun NavGraphBuilder.feedGraph(
     composable(
         route = FeedDestination.route,
         arguments = listOf(
-            navArgument("request_token") { type = NavType.StringType },
-            navArgument("approved") { type = NavType.BoolType },
+            navArgument("request_token") {
+                type = NavType.StringType
+                nullable = true
+            },
+            navArgument("approved") {
+                type = NavType.BoolType
+                defaultValue = false
+            }
         ),
         deepLinks = listOf(
             navDeepLink { uriPattern = "movies://redirect_url?request_token={request_token}&approved={approved}" }
