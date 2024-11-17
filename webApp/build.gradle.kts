@@ -65,7 +65,3 @@ compose.resources {
     publicResClass = true
     generateResClass = always
 }
-
-compose.experimental {
-    web.application {}
-}

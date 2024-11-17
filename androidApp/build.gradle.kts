@@ -74,15 +74,10 @@ android {
         release {
             manifestPlaceholders += mapOf("appName" to "@string/app_name")
             isMinifyEnabled = true
-            isShrinkResources = false
+            isShrinkResources = true
             signingConfig = signingConfigs.getByName("release")
             applicationIdSuffix = MoviesBuildType.RELEASE.applicationIdSuffix
-            proguardFiles(
-                getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro",
-                "okhttp3.pro",
-                "coroutines.pro"
-            )
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
         debug {
             manifestPlaceholders += mapOf("appName" to "@string/app_name_dev")

@@ -91,14 +91,17 @@ jobs:
       - name: assemble android foss debug artifact
         run: ./gradlew androidApp:assembleFossDebug
 
-#      - name: assemble gms release artifact
-#        run: ./gradlew androidApp:assembleGmsRelease
+      - name: assemble android gms release artifact
+        run: ./gradlew androidApp:assembleGmsRelease
 
-#      - name: assemble hms release artifact
-#        run: ./gradlew androidApp:assembleHmsRelease
+      - name: assemble android hms release artifact
+        run: ./gradlew androidApp:assembleHmsRelease
 
-#      - name: assemble foss release artifact
-#        run: ./gradlew androidApp:assembleFossRelease
+      - name: assemble android foss release artifact
+        run: ./gradlew androidApp:assembleFossRelease
+
+      - name: assemble gms release artifact
+        run: ./gradlew androidApp:bundleGmsRelease
 
       - name: upload artifacts to outputs
         uses: actions/upload-artifact@v4
@@ -107,6 +110,10 @@ jobs:
             androidApp/build/outputs/apk/gms/debug
             androidApp/build/outputs/apk/hms/debug
             androidApp/build/outputs/apk/foss/debug
+            androidApp/build/outputs/apk/gms/release
+            androidApp/build/outputs/apk/hms/release
+            androidApp/build/outputs/apk/foss/release
+            androidApp/build/outputs/bundle/gmsRelease
 
       - name: expose version name
         id: version_name
@@ -120,16 +127,15 @@ jobs:
           VERSION_CODE=$(./gradlew androidApp:printVersionCode -q)
           echo "VERSION_CODE=$VERSION_CODE" >> $GITHUB_ENV
 
-      - name: list all artifacts
-        run: |
-          echo "APKs:"
-          find androidApp/build/outputs/apk -name '*.apk'
-
       - name: expose android apk paths
         run: |
           echo "GMS_DEBUG_APK_PATH=$(find androidApp/build/outputs/apk/gms/debug -name '*.apk' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
           echo "HMS_DEBUG_APK_PATH=$(find androidApp/build/outputs/apk/hms/debug -name '*.apk' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
           echo "FOSS_DEBUG_APK_PATH=$(find androidApp/build/outputs/apk/foss/debug -name '*.apk' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
+          echo "GMS_RELEASE_APK_PATH=$(find androidApp/build/outputs/apk/gms/release -name '*.apk' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
+          echo "HMS_RELEASE_APK_PATH=$(find androidApp/build/outputs/apk/hms/release -name '*.apk' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
+          echo "FOSS_RELEASE_APK_PATH=$(find androidApp/build/outputs/apk/foss/release -name '*.apk' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
+          echo "GMS_RELEASE_AAB_PATH=$(find androidApp/build/outputs/bundle/gmsRelease -name '*.aab' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
 
       - name: send android telegram message gms debug
         env:
@@ -178,6 +184,74 @@ jobs:
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument" \
             -F chat_id="${CHAT_ID}" \
             -F document="@${{ env.FOSS_DEBUG_APK_PATH }}" \
+            -F caption="${{ env.MESSAGE }}" \
+            -F message_thread_id="${THREAD_ID}" \
+            -F parse_mode="HTML"
+
+      - name: send android telegram message gms release
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          THREAD_ID: ${{ secrets.TELEGRAM_THREAD_ID }}
+          MESSAGE: |
+            ✅ <b>${{ env.VERSION_NAME }} (${{ env.VERSION_CODE }})</b>
+            <b>Ветка:</b> ${{ github.ref_name }}
+            <b>Коммит:</b> <code>${{ env.SHORT_SHA }}</code>
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument" \
+            -F chat_id="${CHAT_ID}" \
+            -F document="@${{ env.GMS_RELEASE_APK_PATH }}" \
+            -F caption="${{ env.MESSAGE }}" \
+            -F message_thread_id="${THREAD_ID}" \
+            -F parse_mode="HTML"
+
+      - name: send android telegram message hms release
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          THREAD_ID: ${{ secrets.TELEGRAM_THREAD_ID }}
+          MESSAGE: |
+            ✅ <b>${{ env.VERSION_NAME }} (${{ env.VERSION_CODE }})</b>
+            <b>Ветка:</b> ${{ github.ref_name }}
+            <b>Коммит:</b> <code>${{ env.SHORT_SHA }}</code>
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument" \
+            -F chat_id="${CHAT_ID}" \
+            -F document="@${{ env.HMS_RELEASE_APK_PATH }}" \
+            -F caption="${{ env.MESSAGE }}" \
+            -F message_thread_id="${THREAD_ID}" \
+            -F parse_mode="HTML"
+
+      - name: send android telegram message foss release
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          THREAD_ID: ${{ secrets.TELEGRAM_THREAD_ID }}
+          MESSAGE: |
+            ✅ <b>${{ env.VERSION_NAME }} (${{ env.VERSION_CODE }})</b>
+            <b>Ветка:</b> ${{ github.ref_name }}
+            <b>Коммит:</b> <code>${{ env.SHORT_SHA }}</code>
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument" \
+            -F chat_id="${CHAT_ID}" \
+            -F document="@${{ env.FOSS_RELEASE_APK_PATH }}" \
+            -F caption="${{ env.MESSAGE }}" \
+            -F message_thread_id="${THREAD_ID}" \
+            -F parse_mode="HTML"
+
+      - name: send android telegram message gms release bundle
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          THREAD_ID: ${{ secrets.TELEGRAM_THREAD_ID }}
+          MESSAGE: |
+            ✅ <b>${{ env.VERSION_NAME }} (${{ env.VERSION_CODE }})</b>
+            <b>Ветка:</b> ${{ github.ref_name }}
+            <b>Коммит:</b> <code>${{ env.SHORT_SHA }}</code>
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument" \
+            -F chat_id="${CHAT_ID}" \
+            -F document="@${{ env.GMS_RELEASE_AAB_PATH }}" \
             -F caption="${{ env.MESSAGE }}" \
             -F message_thread_id="${THREAD_ID}" \
             -F parse_mode="HTML"
