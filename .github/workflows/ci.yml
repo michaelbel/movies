@@ -259,7 +259,7 @@ jobs:
 
   build-desktop:
     needs: job-common
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     timeout-minutes: 60
     env:
       SHORT_SHA: ${{ needs.job-common.outputs.SHORT_SHA }}
