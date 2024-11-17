@@ -69,8 +69,7 @@ palantir-git = "3.1.0"
 flaker = "0.1.2"
 ktor = "3.0.1"
 leakcanary = "3.0-alpha-8"
-koin = "3.6.0-wasm-alpha2"
-koin-compose = "1.2.0-Beta4"
+koin = "4.0.0"
 okio = "3.9.1"
 buildkonfig = "0.15.2"
 napier = "2.7.1"
@@ -162,8 +161,8 @@ leakcanary = { module = "com.squareup.leakcanary:leakcanary-android", version.re
 koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
 koin-androidx-compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
 koin-androidx-workmanager = { module = "io.insert-koin:koin-androidx-workmanager", version.ref = "koin" }
-koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin-compose" }
-koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin-compose" }
+koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
+koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
 
