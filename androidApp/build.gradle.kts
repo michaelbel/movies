@@ -142,7 +142,6 @@ dependencies {
     androidTestImplementation(libs.bundles.test.ext.junit.android)
     androidTestImplementation(libs.bundles.benchmark.android)
     debugImplementation(libs.bundles.leakcanary.android)
-    lintChecks(libs.lint.checks)
 }
 
 val hasGmsDebug = gradle.startParameter.taskNames.any { it.contains("GmsDebug", ignoreCase = true) }

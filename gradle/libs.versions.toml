@@ -58,13 +58,12 @@ jetbrains-androidx-core-bundle = "1.0.1"
 detekt = "1.23.7"
 spotless = "6.25.0"
 coil = "2.7.0"
-coil3 = "3.0.0-alpha08"
+coil3 = "3.0.3"
 okhttp = "4.12.0"
 chucker = "4.0.0"
 timber = "5.0.1"
 javapoet = "1.13.0"
 junit = "4.13.2"
-lint-checks = "1.4.2"
 palantir-git = "3.1.0"
 flaker = "0.1.2"
 ktor = "3.0.1"
@@ -141,7 +140,7 @@ jetbrains-androidx-lifecycle-viewmodel-compose = { module = "org.jetbrains.andro
 jetbrains-androidx-core-bundle = { module = "org.jetbrains.androidx.core:core-bundle", version.ref = "jetbrains-androidx-core-bundle" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil3-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
-coil3-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor", version.ref = "coil3" }
+coil3-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil3" }
 okhttp-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "okhttp" }
 chucker-library = { module = "com.github.chuckerteam.chucker:library", version.ref = "chucker" }
 chucker-library-no-op = { module = "com.github.chuckerteam.chucker:library-no-op", version.ref = "chucker" }
@@ -165,8 +164,6 @@ koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
 okio = { module = "com.squareup.okio:okio", version.ref = "okio" }
 napier = { module = "io.github.aakira:napier", version.ref = "napier" }
-
-lint-checks = { module = "com.slack.lint.compose:compose-lint-checks", version.ref = "lint-checks" }
 
 gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "agp" }
 kotlin-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -225,7 +222,7 @@ koin-common = [
 ]
 coil-common = [
     "coil3-compose",
-    "coil3-network-ktor"
+    "coil3-network-ktor3"
 ]
 okio-common = [
     "okio"
