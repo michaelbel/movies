@@ -292,11 +292,6 @@ jobs:
       - name: assemble macos dmg artifact
         run: ./gradlew :desktopApp:packageDmg
 
-#      - name: upload binaries
-#        uses: actions/upload-artifact@v4
-#        with:
-#          path: desktopApp/build/compose/binaries/main/**
-
       - name: "upload artifacts to outputs"
         uses: actions/upload-artifact@v4
         with:
@@ -314,7 +309,8 @@ jobs:
 
       - name: expose dmg path
         run: |
-          echo "DMG_PATH=$(find desktopApp/build/compose/binaries/main/dmg -name '*.dmg' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
+          DMG_PATH=$(find desktopApp/build/compose/binaries/main/dmg -name '*.dmg' | sort | tail -n 1)
+          echo "DMG_PATH=$DMG_PATH" >> $GITHUB_ENV
 
       - name: send macos telegram message
         env:
