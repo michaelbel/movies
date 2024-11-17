@@ -1,12 +1,14 @@
+//@file:OptIn(ExperimentalMaterial3Api::class)
+
 package org.michaelbel.movies.ui.theme
 
+//import androidx.compose.material3.ExperimentalMaterial3Api
+//import androidx.compose.material3.LocalRippleConfiguration
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.material.ripple.LocalRippleTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.common.theme.AppTheme
@@ -16,7 +18,6 @@ import org.michaelbel.movies.ui.ktx.context
 import org.michaelbel.movies.ui.ktx.navigationBarStyle
 import org.michaelbel.movies.ui.ktx.statusBarStyle
 import org.michaelbel.movies.ui.theme.model.ComposeTheme
-import org.michaelbel.movies.ui.theme.provider.MoviesRippleTheme
 
 @Composable
 actual fun MoviesTheme(
@@ -68,10 +69,12 @@ actual fun MoviesTheme(
         shapes = MoviesShapes,
         typography = MoviesTypography
     ) {
-        CompositionLocalProvider(
-            LocalRippleTheme provides MoviesRippleTheme
-        ) {
+        //CompositionLocalProvider(
+        //    LocalRippleConfiguration provides moviesRippleConfiguration(
+        //        color = MaterialTheme.colorScheme.primary
+        //    )
+        //) {
             content()
-        }
+        //}
     }
 }

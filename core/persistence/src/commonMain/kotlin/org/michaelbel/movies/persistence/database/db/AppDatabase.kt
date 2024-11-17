@@ -5,7 +5,6 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import org.michaelbel.movies.persistence.database.dao.AccountDao
 import org.michaelbel.movies.persistence.database.dao.ImageDao
-import org.michaelbel.movies.persistence.database.dao.MovieBlockingDao
 import org.michaelbel.movies.persistence.database.dao.MovieDao
 import org.michaelbel.movies.persistence.database.dao.PagingKeyDao
 import org.michaelbel.movies.persistence.database.dao.SuggestionDao
@@ -30,7 +29,6 @@ import org.michaelbel.movies.persistence.database.entity.SuggestionDb
 abstract class AppDatabase: RoomDatabase() {
 
     internal abstract fun movieDao(): MovieDao
-    internal abstract fun movieBlockingDao(): MovieBlockingDao
     internal abstract fun imageDao(): ImageDao
     internal abstract fun accountDao(): AccountDao
     internal abstract fun pagingKeyDao(): PagingKeyDao
@@ -38,6 +36,6 @@ abstract class AppDatabase: RoomDatabase() {
 
     companion object {
         const val DATABASE_NAME = "movies.db"
-        const val DATABASE_VERSION = 28
+        const val DATABASE_VERSION = 29
     }
 }

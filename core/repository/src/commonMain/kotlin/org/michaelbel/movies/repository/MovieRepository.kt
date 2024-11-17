@@ -1,5 +1,6 @@
 package org.michaelbel.movies.repository
 
+import androidx.paging.PagingSource
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
@@ -11,6 +12,10 @@ import org.michaelbel.movies.persistence.database.typealiases.Page
 import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 
 interface MovieRepository {
+
+    fun moviesPagingSource(
+        pagingKey: PagingKey
+    ): PagingSource<Int, MoviePojo>
 
     fun moviesFlow(
         pagingKey: PagingKey,

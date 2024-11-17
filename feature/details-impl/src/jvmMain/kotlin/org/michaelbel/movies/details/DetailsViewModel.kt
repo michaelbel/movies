@@ -25,7 +25,6 @@ class DetailsViewModel(
     val detailsState: StateFlow<ScreenState> get() = _detailsState.asStateFlow()
 
     init {
-        println("movieList=$movieList, movieId=$movieId")
         loadMovie()
     }
 

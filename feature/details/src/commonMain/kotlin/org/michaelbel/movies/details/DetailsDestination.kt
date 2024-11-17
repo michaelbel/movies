@@ -1,10 +1,11 @@
 package org.michaelbel.movies.details
 
-import org.michaelbel.movies.navigation.MoviesNavigationDestination
+import kotlinx.serialization.Serializable
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
+import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 
-internal object DetailsDestination: MoviesNavigationDestination {
-
-    override val route: String = "movie?movieList={movieList}&movieId={movieId}"
-
-    override val destination: String = "movie"
-}
+@Serializable
+internal class DetailsDestination(
+    val movieList: PagingKey?,
+    val movieId: MovieId
+)

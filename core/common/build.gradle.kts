@@ -54,7 +54,7 @@ kotlin {
             api(libs.bundles.koin.android)
             implementation(libs.bundles.appcompat.android)
             implementation(libs.bundles.browser.android)
-            implementation(libs.bundles.paging.common)
+            implementation(libs.bundles.paging.android)
         }
         jvmMain.dependencies {
             api(libs.bundles.kotlinx.coroutines.desktop)

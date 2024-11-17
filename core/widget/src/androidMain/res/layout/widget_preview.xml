@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -29,7 +30,8 @@
         android:text="Dune"
         android:textColor="@color/onBackground"
         android:textSize="16sp"
-        android:fontFamily="@font/open_sans_semibold" />
+        android:fontFamily="@font/open_sans_semibold"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:layout_width="match_parent"
@@ -41,7 +43,8 @@
         android:text="Oppenheimer"
         android:textColor="@color/onBackground"
         android:textSize="16sp"
-        android:fontFamily="@font/open_sans_semibold" />
+        android:fontFamily="@font/open_sans_semibold"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:layout_width="match_parent"
@@ -53,7 +56,8 @@
         android:text="Pure Things"
         android:textColor="@color/onBackground"
         android:textSize="16sp"
-        android:fontFamily="@font/open_sans_semibold" />
+        android:fontFamily="@font/open_sans_semibold"
+        tools:ignore="HardcodedText" />
 
     <TextView
         android:layout_width="match_parent"
@@ -65,6 +69,7 @@
         android:text="Turning Red"
         android:textColor="@color/onBackground"
         android:textSize="16sp"
-        android:fontFamily="@font/open_sans_semibold" />
+        android:fontFamily="@font/open_sans_semibold"
+        tools:ignore="HardcodedText" />
 
 </LinearLayout>

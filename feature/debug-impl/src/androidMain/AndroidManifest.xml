@@ -7,8 +7,7 @@
         <activity
             android:name="org.michaelbel.movies.debug.DebugActivity"
             android:theme="@style/Theme.Material3.DayNight.NoActionBar"
-            android:exported="true"
-            android:screenOrientation="fullUser" />
+            android:exported="true" />
 
     </application>
 

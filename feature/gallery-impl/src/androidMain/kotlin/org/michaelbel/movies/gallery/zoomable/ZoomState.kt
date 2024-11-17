@@ -16,7 +16,6 @@
 
 package org.michaelbel.movies.gallery.zoomable
 
-import android.util.Log
 import androidx.annotation.FloatRange
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
@@ -238,7 +237,6 @@ class ZoomState(
         position: Offset,
         animationSpec: AnimationSpec<Float> = spring(),
     ) = coroutineScope {
-        Log.e("2", "changeScale targetScale=$targetScale, position=$position, animationSpec=$animationSpec")
         val newScale = targetScale.coerceIn(1f, maxScale)
         val newOffset = calculateNewOffset(newScale, position, Offset.Zero)
         val newBounds = calculateNewBounds(newScale)

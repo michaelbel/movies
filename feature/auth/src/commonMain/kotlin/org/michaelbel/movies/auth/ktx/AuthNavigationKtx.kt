@@ -10,14 +10,13 @@ import org.michaelbel.movies.auth.AuthDestination
 import org.michaelbel.movies.auth.USE_PLATFORM_DEFAULT_WIDTH
 
 fun NavController.navigateToAuth() {
-    navigate(AuthDestination.route)
+    navigate(AuthDestination)
 }
 
 internal fun NavGraphBuilder.authGraphInternal(
     content: @Composable (NavBackStackEntry) -> Unit
 ) {
-    dialog(
-        route = AuthDestination.route,
+    dialog<AuthDestination>(
         dialogProperties = DialogProperties(
             usePlatformDefaultWidth = USE_PLATFORM_DEFAULT_WIDTH
         ),

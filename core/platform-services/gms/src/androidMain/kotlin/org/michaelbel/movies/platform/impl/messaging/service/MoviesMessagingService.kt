@@ -13,6 +13,10 @@ internal class MoviesMessagingService: FirebaseMessagingService() {
 
     private val notificationClient: NotificationClient by inject()
 
+    override fun onNewToken(token: String) {
+        super.onNewToken(token)
+    }
+
     override fun onMessageReceived(message: RemoteMessage) {
         notificationClient.send(message.mapToMoviesPush)
     }

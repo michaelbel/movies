@@ -11,9 +11,7 @@ fun NavGraphBuilder.feedGraph(
     navigateToSettings: () -> Unit,
     navigateToDetails: (String, Int) -> Unit
 ) {
-    composable(
-        route = FeedDestination.route
-    ) {
+    composable<FeedDestination> {
         FeedRoute(
             onNavigateToSearch = navigateToSearch,
             onNavigateToAccount = navigateToAccount,
