@@ -20,7 +20,6 @@ kotlin {
         commonMain.dependencies {
             api(project(":core:persistence"))
             api(libs.bundles.coil.common)
-            api(libs.bundles.constraintlayout.common)
             api(compose.animation)
             api(compose.foundation)
             api(compose.runtime)
@@ -39,7 +38,7 @@ kotlin {
             api(libs.bundles.coil.android)
             api(libs.bundles.compose.android)
             api(libs.bundles.google.material.android)
-            implementation(libs.bundles.paging.common)
+            implementation(libs.bundles.paging.android)
         }
         jvmMain.dependencies {
             api(compose.desktop.common)

@@ -1,10 +1,9 @@
 package org.michaelbel.movies.gallery
 
-import org.michaelbel.movies.navigation.MoviesNavigationDestination
+import kotlinx.serialization.Serializable
+import org.michaelbel.movies.persistence.database.typealiases.MovieId
 
-internal object GalleryDestination: MoviesNavigationDestination {
-
-    override val route: String = "gallery/{movieId}"
-
-    override val destination: String = "gallery"
-}
+@Serializable
+internal class GalleryDestination(
+    val movieId: MovieId
+)

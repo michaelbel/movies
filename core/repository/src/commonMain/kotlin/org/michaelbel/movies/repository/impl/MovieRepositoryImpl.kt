@@ -1,5 +1,6 @@
 package org.michaelbel.movies.repository.impl
 
+import androidx.paging.PagingSource
 import kotlinx.coroutines.flow.Flow
 import kotlinx.datetime.Clock
 import org.michaelbel.movies.common.exceptions.MovieDetailsException
@@ -25,6 +26,12 @@ internal class MovieRepositoryImpl(
     private val movieNetworkService: MovieNetworkService,
     private val moviePersistence: MoviePersistence
 ): MovieRepository {
+
+    override fun moviesPagingSource(
+        pagingKey: PagingKey
+    ): PagingSource<Int, MoviePojo> {
+        return moviePersistence.pagingSource(pagingKey)
+    }
 
     override fun moviesFlow(
         pagingKey: PagingKey,

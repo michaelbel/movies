@@ -7,9 +7,9 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentActivity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import org.michaelbel.movies.common.R
 import org.michaelbel.movies.common.biometric.BiometricController
 import org.michaelbel.movies.common.biometric.BiometricListener
-import org.michaelbel.movies.common.R
 
 internal class BiometricControllerImpl(
     private val context: Context
@@ -35,6 +35,7 @@ internal class BiometricControllerImpl(
                     when (errorCode) {
                         BiometricPrompt.ERROR_USER_CANCELED -> biometricListener.onCancel()
                         BiometricPrompt.ERROR_NEGATIVE_BUTTON -> biometricListener.onCancel()
+                        else -> Unit
                     }
                 }
             }

@@ -23,22 +23,29 @@ compose.desktop {
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "org.michaelbel.movies"
+            packageName = "Movies"
             packageVersion = "1.0.0"
 
             val iconsRoot = project.file("desktop-icons")
             macOS {
-                iconFile.set(iconsRoot.resolve("movies-macos.icns"))
+                bundleID = "org.michaelbel.movies"
+                dockName = "Movies"
+                iconFile.set(project.file("desktop-icons").resolve("movies_macos.icns"))
             }
             windows {
                 iconFile.set(iconsRoot.resolve("movies-windows.ico"))
                 menuGroup = "Movies Menu"
-                // see https://wixtoolset.org/documentation/manual/v3/howtos/general/generate_guids.html
                 upgradeUuid = "3e111aef-dba0-434e-82ca-a89155e2d306"
             }
             linux {
                 iconFile.set(iconsRoot.resolve("movies-linux.png"))
             }
         }
+    }
+}
+
+tasks.register("printVersionName") {
+    doLast {
+        println(compose.desktop.application.nativeDistributions.packageVersion)
     }
 }

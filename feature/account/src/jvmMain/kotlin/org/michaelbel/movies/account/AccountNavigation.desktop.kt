@@ -7,14 +7,13 @@ import androidx.navigation.compose.dialog
 import org.michaelbel.movies.account.ui.AccountRoute
 
 fun NavController.navigateToAccount() {
-    navigate(AccountDestination.route)
+    navigate(AccountDestination)
 }
 
 fun NavGraphBuilder.accountGraph(
     navigateBack: () -> Unit
 ) {
-    dialog(
-        route = AccountDestination.route,
+    dialog<AccountDestination>(
         dialogProperties = DialogProperties(
             usePlatformDefaultWidth = true
         )

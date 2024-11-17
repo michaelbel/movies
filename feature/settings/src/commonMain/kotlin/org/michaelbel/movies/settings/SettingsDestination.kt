@@ -1,10 +1,6 @@
 package org.michaelbel.movies.settings
 
-import org.michaelbel.movies.navigation.MoviesNavigationDestination
+import kotlinx.serialization.Serializable
 
-internal object SettingsDestination: MoviesNavigationDestination {
-
-    override val route: String = "settings"
-
-    override val destination: String = "settings"
-}
+@Serializable
+internal object SettingsDestination

@@ -7,15 +7,13 @@ import org.michaelbel.movies.gallery.ui.GalleryRoute
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
 
 fun NavController.navigateToGallery(movieId: MovieId) {
-    navigate("gallery/$movieId")
+    navigate(GalleryDestination(movieId))
 }
 
 fun NavGraphBuilder.galleryGraph(
     navigateBack: () -> Unit,
 ) {
-    composable(
-        route = GalleryDestination.route
-    ) {
+    composable<GalleryDestination> {
         GalleryRoute(
             onBackClick = navigateBack
         )

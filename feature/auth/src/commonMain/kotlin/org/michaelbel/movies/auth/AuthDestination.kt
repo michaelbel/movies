@@ -1,10 +1,6 @@
 package org.michaelbel.movies.auth
 
-import org.michaelbel.movies.navigation.MoviesNavigationDestination
+import kotlinx.serialization.Serializable
 
-internal object AuthDestination: MoviesNavigationDestination {
-
-    override val route: String = "auth"
-
-    override val destination: String = "auth"
-}
+@Serializable
+internal object AuthDestination

@@ -1,10 +1,9 @@
 package org.michaelbel.movies.feed
 
-import org.michaelbel.movies.navigation.MoviesNavigationDestination
+import kotlinx.serialization.Serializable
 
-object FeedDestination: MoviesNavigationDestination {
-
-    override val route: String = "feed"
-
-    override val destination: String = "feed"
-}
+@Serializable
+class FeedDestination(
+    val requestToken: String? = null,
+    val approved: Boolean = false
+)

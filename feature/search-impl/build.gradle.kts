@@ -24,7 +24,7 @@ kotlin {
             implementation(project(":core:notifications"))
         }
         androidMain.dependencies {
-            implementation(libs.bundles.paging.common)
+            implementation(libs.bundles.paging.android)
         }
     }
 

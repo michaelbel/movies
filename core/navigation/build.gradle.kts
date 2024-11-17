@@ -15,9 +15,6 @@ kotlin {
     iosSimulatorArm64()
 
     sourceSets {
-        /*androidMain.dependencies {
-            api(libs.bundles.navigation.android)
-        }*/
         commonMain.dependencies {
             api(libs.bundles.jetbrains.androidx.navigation.compose.common)
             api(libs.bundles.jetbrains.androidx.core.bundle.common)

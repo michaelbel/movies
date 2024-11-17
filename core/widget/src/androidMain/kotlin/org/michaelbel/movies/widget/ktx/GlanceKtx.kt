@@ -6,5 +6,6 @@ import androidx.glance.LocalContext
 
 @Composable
 internal fun stringResource(@StringRes id: Int, vararg args: Any): String {
-    return LocalContext.current.getString(id, args)
+    val context = LocalContext.current
+    return context.getString(id, args)
 }

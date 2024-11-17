@@ -1,10 +1,6 @@
 package org.michaelbel.movies.search
 
-import org.michaelbel.movies.navigation.MoviesNavigationDestination
+import kotlinx.serialization.Serializable
 
-internal object SearchDestination: MoviesNavigationDestination {
-
-    override val route: String = "search"
-
-    override val destination: String = "search"
-}
+@Serializable
+internal object SearchDestination
