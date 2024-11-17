@@ -143,6 +143,106 @@ internal fun SearchToolbar(
             }
         }
     }
+
+    /*SearchBar(
+        inputField = {
+            TextField(
+                value = query,
+                onValueChange = onQueryChange,
+                placeholder = {
+                    Text(
+                        text = stringResource(R.string.search_title)
+                    )
+                },
+                leadingIcon = {
+                    BackIcon(
+                        onClick = onBackClick
+                    )
+                },
+                trailingIcon = {
+                    if (query.isNotEmpty()) {
+                        CloseIcon(
+                            onClick = onCloseClick
+                        )
+                    } else {
+                        VoiceIcon(
+                            onInputText = onInputText
+                        )
+                    }
+                },
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = MaterialTheme.colorScheme.inversePrimary,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.inversePrimary,
+                    focusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+            )
+        },
+        expanded = active,
+        onExpandedChange = onActiveChange,
+        modifier = modifier
+        //onSearch = onSearch,
+    ) {
+        when {
+            searchHistoryMovies.isNotEmpty() -> {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .imePadding()
+                ) {
+                    SearchHistoryHeader(
+                        onClearButtonClick = onClearHistoryClick,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(48.dp)
+                    )
+
+                    LazyColumn {
+                        items(searchHistoryMovies) { movie ->
+                            SearchRecentResult(
+                                text = movie.title,
+                                onRemoveClick = { onHistoryMovieRemoveClick(movie.movieId) },
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(52.dp)
+                                    .clickable { onInputText(movie.title) }
+                            )
+                        }
+                    }
+                }
+            }
+            suggestions.isNotEmpty() -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .imePadding(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    LazyColumn {
+                        items(suggestions) { suggestion ->
+                            SearchSuggestion(
+                                text = suggestion.title,
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .height(52.dp)
+                                    .clickable { onInputText(suggestion.title) }
+                            )
+                        }
+                    }
+                }
+            }
+            else -> {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .imePadding(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    SearchEmpty()
+                }
+            }
+        }
+    }*/
 }
 
 @Preview

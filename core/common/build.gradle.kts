@@ -40,6 +40,7 @@ kotlin {
             api(libs.bundles.kotlinx.coroutines.common)
             api(libs.bundles.kotlinx.datetime.common)
             api(libs.bundles.koin.common)
+            api(libs.bundles.napier.common)
             implementation(compose.material3)
         }
         androidMain.dependencies {

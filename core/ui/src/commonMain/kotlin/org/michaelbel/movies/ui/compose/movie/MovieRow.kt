@@ -31,6 +31,7 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.jetbrains.compose.ui.tooling.preview.PreviewParameter
 import org.michaelbel.movies.network.config.formatBackdropImage
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
+import org.michaelbel.movies.persistence.database.ktx.isNotEmpty
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.ktx.isErrorOrEmpty
 import org.michaelbel.movies.ui.preview.MoviePreviewParameterProvider
@@ -48,47 +49,48 @@ internal fun MovieRow(
     Column(
         modifier = modifier
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(220.dp)
-        ) {
-            AsyncImage(
-                model = ImageRequest.Builder(LocalPlatformContext.current)
-                    .data(movie.backdropPath.formatBackdropImage)
-                    .crossfade(true)
-                    .build(),
-                contentDescription = MoviesContentDescriptionCommon.None,
-                modifier = Modifier.fillMaxSize(),
-                onState = { state ->
-                    isNoImageVisible = state.isErrorOrEmpty
-                },
-                contentScale = ContentScale.Crop
-            )
-
-            this@Column.AnimatedVisibility(
-                visible = isNoImageVisible,
-                enter = fadeIn(),
-                modifier = Modifier.align(Alignment.Center)
+        if (movie.isNotEmpty) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(220.dp)
             ) {
-                Text(
-                    text = stringResource(MoviesStrings.no_image),
-                    style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.secondary)
+                AsyncImage(
+                    model = ImageRequest.Builder(LocalPlatformContext.current)
+                        .data(movie.backdropPath.formatBackdropImage)
+                        .crossfade(true)
+                        .build(),
+                    contentDescription = MoviesContentDescriptionCommon.None,
+                    modifier = Modifier.fillMaxSize(),
+                    onState = { state ->
+                        isNoImageVisible = state.isErrorOrEmpty
+                    },
+                    contentScale = ContentScale.Crop
                 )
+
+                this@Column.AnimatedVisibility(
+                    visible = isNoImageVisible,
+                    enter = fadeIn(),
+                    modifier = Modifier.align(Alignment.Center)
+                ) {
+                    Text(
+                        text = stringResource(MoviesStrings.no_image),
+                        style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.secondary)
+                    )
+                }
             }
+
+            Text(
+                text = movie.title,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp),
+                maxLines = maxLines,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
+            )
         }
-
-        Text(
-            text = movie.title,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            maxLines = maxLines,
-            overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.bodyLarge.copy(MaterialTheme.colorScheme.onPrimaryContainer)
-        )
     }
-
 }
 
 @Preview

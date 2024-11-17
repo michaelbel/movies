@@ -230,6 +230,9 @@ coil-common = [
 okio-common = [
     "okio"
 ]
+napier-common = [
+    "napier"
+]
 
 kotlinx-coroutines-android = [
     "kotlinx-coroutines-android"
@@ -379,9 +382,6 @@ compose-desktop = [
 ]
 datastore-desktop = [
     "androidx-datastore-core-okio-jvm"
-]
-napier-desktop = [
-    "napier"
 ]
 
 sqlite-bundled-ios = [

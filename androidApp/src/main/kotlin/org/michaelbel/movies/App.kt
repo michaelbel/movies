@@ -2,6 +2,8 @@ package org.michaelbel.movies
 
 import android.app.Application
 import androidx.work.Configuration
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -36,5 +38,6 @@ internal class App: Application(), Configuration.Provider {
         }
         appService.installApp()
         Timber.plant(if (BuildConfig.DEBUG) Timber.DebugTree() else CrashlyticsTree(crashlyticsService))
+        Napier.base(DebugAntilog())
     }
 }
