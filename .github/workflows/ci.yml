@@ -292,16 +292,16 @@ jobs:
       - name: assemble macos dmg artifact
         run: ./gradlew :desktopApp:packageDmg
 
-      - name: upload binaries
-        uses: actions/upload-artifact@v4
-        with:
-          path: desktopApp/build/compose/binaries/main/**
+#      - name: upload binaries
+#        uses: actions/upload-artifact@v4
+#        with:
+#          path: desktopApp/build/compose/binaries/main/**
 
-      - name: "upload .dmg"
+      - name: "upload artifacts to outputs"
         uses: actions/upload-artifact@v4
         with:
           name: app-mac-silicon
-          path: desktopApp/build/compose/binaries/main/dmg/*.dmg
+          path: desktopApp/build/compose/binaries/main/dmg
 
       - name: find dmg file
         run: find . -name "*.dmg"
@@ -312,15 +312,9 @@ jobs:
           VERSION_NAME=$(./gradlew desktopApp:printVersionName -q)
           echo "VERSION_NAME=$VERSION_NAME" >> $GITHUB_ENV
 
-      - name: get dmg download URL
-        id: get_dmg_url
+      - name: expose dmg path
         run: |
-          ARTIFACT_NAME="desktopApp-dmg"
-          RESPONSE=$(curl -s -H "Authorization: Bearer $GITHUB_TOKEN" \
-            -H "Accept: application/vnd.github.v3+json" \
-            "${GITHUB_API_URL}/repos/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/artifacts")
-          DMG_URL=$(echo "$RESPONSE" | jq -r ".artifacts[] | select(.name == \"$ARTIFACT_NAME\") | .archive_download_url")
-          echo "DMG_URL=$DMG_URL" >> $GITHUB_ENV
+          echo "DMG_PATH=$(find desktopApp/build/compose/binaries/main/dmg -name '*.dmg' -type f -printf '%T@ %p\n' | sort -n | tail -1 | cut -d' ' -f2)" >> $GITHUB_ENV
 
       - name: send macos telegram message
         env:
@@ -331,10 +325,29 @@ jobs:
             ✅ <b>${{ env.VERSION_NAME }}</b>
             <b>Ветка:</b> ${{ github.ref_name }}
             <b>Коммит:</b> <code>${{ env.SHORT_SHA }}</code>
+            <b>.dmg URL:</b> ${{ env.DMG_PATH }}
+            <b>DMG_URL }}">Скачать DMG</a></b>
             <b><a href="${{ env.DMG_URL }}">Скачать DMG</a></b>
         run: |
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
             -F chat_id="${CHAT_ID}" \
             -F text="${MESSAGE}" \
+            -F message_thread_id="${THREAD_ID}" \
+            -F parse_mode="HTML"
+
+      - name: send macos telegram document
+        env:
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          THREAD_ID: ${{ secrets.TELEGRAM_THREAD_ID }}
+          MESSAGE: |
+            ✅ <b>${{ env.VERSION_NAME }} (${{ env.VERSION_CODE }})</b>
+            <b>Ветка:</b> ${{ github.ref_name }}
+            <b>Коммит:</b> <code>${{ env.SHORT_SHA }}</code>
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendDocument" \
+            -F chat_id="${CHAT_ID}" \
+            -F document="@${{ env.DMG_URL }}" \
+            -F caption="${{ env.MESSAGE }}" \
             -F message_thread_id="${THREAD_ID}" \
             -F parse_mode="HTML"
