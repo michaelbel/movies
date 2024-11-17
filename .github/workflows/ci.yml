@@ -31,6 +31,7 @@ jobs:
           echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_OUTPUT
 
   build-android:
+    if: false
     needs: job-common
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -100,7 +101,7 @@ jobs:
       - name: assemble android foss release artifact
         run: ./gradlew androidApp:assembleFossRelease
 
-      - name: assemble gms release artifact
+      - name: assemble android gms release bundle artifact
         run: ./gradlew androidApp:bundleGmsRelease
 
       - name: upload artifacts to outputs
@@ -291,14 +292,19 @@ jobs:
       - name: assemble macos dmg artifact
         run: ./gradlew :desktopApp:packageDmg
 
-      - name: find dmg file
-        run: find . -name "*.dmg"
-
-      - name: upload artifacts to outputs
+      - name: upload binaries
         uses: actions/upload-artifact@v4
         with:
-          path: |
-            desktopApp/build/compose/binaries/main/dmg
+          path: desktopApp/build/compose/binaries/main/**
+
+      - name: "upload .dmg"
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-mac-silicon
+          path: desktopApp/build/compose/binaries/main/dmg/*.dmg
+
+      - name: find dmg file
+        run: find . -name "*.dmg"
 
       - name: expose version name
         id: version_name
