@@ -326,7 +326,6 @@ jobs:
             <b>Ветка:</b> ${{ github.ref_name }}
             <b>Коммит:</b> <code>${{ env.SHORT_SHA }}</code>
             <b>.dmg URL:</b> ${{ env.DMG_PATH }}
-            <b>DMG_URL }}">Скачать DMG</a></b>
             <b><a href="${{ env.DMG_URL }}">Скачать DMG</a></b>
         run: |
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_TOKEN}/sendMessage" \
