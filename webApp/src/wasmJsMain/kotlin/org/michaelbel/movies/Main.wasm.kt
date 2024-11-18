@@ -4,6 +4,7 @@ package org.michaelbel.movies
 
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.window.CanvasBasedWindow
+import org.michaelbel.movies.main.MainContent
 
 fun main() {
     CanvasBasedWindow(
