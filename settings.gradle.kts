@@ -75,5 +75,6 @@ include(
     ":feature:debug",
     ":feature:debug-impl",
 
+    ":core:ui-web",
     ":feature:main-impl-web",
 )

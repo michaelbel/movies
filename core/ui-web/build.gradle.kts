@@ -13,14 +13,24 @@ kotlin {
     js {
         browser {}
     }
-    wasmJs()
+    wasmJs {
+        browser {}
+    }
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":core:ui-web"))
-            api(libs.bundles.jetbrains.androidx.navigation.compose.common)
-            api(libs.bundles.koin.common)
-            implementation(compose.material3)
+            api(project(":core:common"))
+            api(libs.bundles.coil.common)
+            api(compose.animation)
+            api(compose.foundation)
+            api(compose.runtime)
+            api(compose.runtimeSaveable)
+            api(compose.ui)
+            api(compose.material)
+            api(compose.material3)
+            api(compose.components.resources)
+            api(compose.components.uiToolingPreview)
+            implementation(compose.materialIconsExtended)
         }
     }
 
