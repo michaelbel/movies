@@ -15,13 +15,7 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
     js {
-        moduleName = "composeApp"
-        browser {
-            commonWebpackConfig {
-                outputFileName = "composeApp.js"
-            }
-        }
-        binaries.executable()
+        browser {}
     }
     wasmJs {
         moduleName = "composeApp"

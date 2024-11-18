@@ -8,13 +8,7 @@ plugins {
 
 kotlin {
     js {
-        moduleName = "composeApp"
-        browser {
-            commonWebpackConfig {
-                outputFileName = "composeApp.js"
-            }
-        }
-        binaries.executable()
+        browser {}
     }
     wasmJs {
         moduleName = "composeApp"
