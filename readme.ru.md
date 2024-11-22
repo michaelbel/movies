@@ -22,7 +22,7 @@ Movies
 [![](https://img.shields.io/badge/Linux-000000.svg?style=for-the-badge&logo=linux)](https://github.com/michaelbel/movies)
 [![](https://img.shields.io/badge/Web-000000.svg?style=for-the-badge&logo=google-chrome)](https://github.com/michaelbel/movies) -->
 
-[![workflow-status](https://img.shields.io/github/actions/workflow/status/michaelbel/movies/ci.yml?style=for-the-badge&logo=github&label=Check%20PR&labelColor=3F464F)](https://github.com/michaelbel/movies/actions/workflows/ci.yml)
+[![workflow-status](https://img.shields.io/github/actions/workflow/status/michaelbel/movies/ci.yml?style=for-the-badge&logo=github&label=Check%20PR&labelColor=3F464F)](https://github.com/michaelbel/movies/actions)
 [![last-commit](https://img.shields.io/github/last-commit/michaelbel/movies?style=for-the-badge&logo=github&labelColor=3F464F)](https://github.com/michaelbel/movies/commits)
 
 Movies - простой способ найти популярные фильмы. Это легковесный TMDb-клиент.
