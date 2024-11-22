@@ -21,7 +21,6 @@ kotlin {
             api(project(":core:ui"))
             api(project(":core:work"))
             api(project(":core:interactor"))
-            api(project(":core:navigation"))
         }
     }
 

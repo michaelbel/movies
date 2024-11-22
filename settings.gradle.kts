@@ -47,7 +47,6 @@ include(
     ":core:analytics",
     ":core:common",
     ":core:interactor",
-    ":core:navigation",
     ":core:network",
     ":core:notifications",
     ":core:persistence",
@@ -77,4 +76,6 @@ include(
 
     ":core:ui-web",
     ":feature:main-impl-web",
+    ":feature:feed-web",
+    ":feature:feed-impl-web"
 )

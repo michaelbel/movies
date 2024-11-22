@@ -17,10 +17,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":feature:feed-web"))
-            api(libs.bundles.jetbrains.androidx.navigation.compose.common)
-            api(libs.bundles.koin.common)
-            implementation(compose.material3)
+            api(project(":core:ui-web"))
+            api(project(":core:platform-services:interactor"))
         }
     }
 

@@ -19,7 +19,6 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(project(":core:ui"))
-            api(project(":core:navigation"))
             api(project(":core:interactor"))
             api(project(":core:platform-services:interactor"))
             implementation(project(":core:notifications"))

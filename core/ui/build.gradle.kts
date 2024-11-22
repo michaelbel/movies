@@ -20,6 +20,8 @@ kotlin {
         commonMain.dependencies {
             api(project(":core:persistence"))
             api(libs.bundles.coil.common)
+            api(libs.bundles.jetbrains.androidx.navigation.compose.common)
+            api(libs.bundles.jetbrains.androidx.core.bundle.common)
             api(compose.animation)
             api(compose.foundation)
             api(compose.runtime)
@@ -44,6 +46,7 @@ kotlin {
             api(compose.desktop.common)
             api(compose.desktop.currentOs)
             api(libs.bundles.compose.desktop)
+            api(libs.bundles.jetbrains.androidx.lifecycle.viewmodel.compose.common)
         }
     }
 

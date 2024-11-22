@@ -5,6 +5,7 @@ import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.compose)
 }
@@ -17,10 +18,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":feature:feed-web"))
-            api(libs.bundles.jetbrains.androidx.navigation.compose.common)
-            api(libs.bundles.koin.common)
-            implementation(compose.material3)
+            api(project(":feature:feed-impl-web"))
         }
     }
 

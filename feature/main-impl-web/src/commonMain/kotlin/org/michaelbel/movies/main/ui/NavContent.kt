@@ -1,15 +1,10 @@
-package org.michaelbel.movies.main
+package org.michaelbel.movies.main.ui
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
-import org.michaelbel.movies.main.ui.NavContent
 
 @Composable
-fun MainContent(
+expect fun NavContent(
     navHostController: NavHostController = rememberNavController()
-) {
-    NavContent(
-        navHostController = navHostController
-    )
-}
+)
