@@ -20,7 +20,7 @@ class AccountViewModel(
 
     val account: StateFlow<AccountPojo?> = interactor.account
         .stateIn(
-            scope = this,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = AccountPojo.Empty
         )
@@ -32,7 +32,7 @@ class AccountViewModel(
         }
     }
 
-    fun onLogoutClick(onResult: () -> Unit) = launch {
+    fun onLogoutClick(onResult: () -> Unit) = scope.launch {
         loading = true
 
         interactor.deleteSession()

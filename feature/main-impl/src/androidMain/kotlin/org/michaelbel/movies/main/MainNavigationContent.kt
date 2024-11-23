@@ -1,6 +1,8 @@
 package org.michaelbel.movies.main
 
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
 import org.michaelbel.movies.account.accountGraph
@@ -10,14 +12,13 @@ import org.michaelbel.movies.auth.ktx.navigateToAuth
 import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.details.detailsGraph
 import org.michaelbel.movies.details.navigateToDetails
-import org.michaelbel.movies.feed.FeedDestination
-import org.michaelbel.movies.feed.feedGraph
 import org.michaelbel.movies.gallery.galleryGraph
 import org.michaelbel.movies.gallery.navigateToGallery
+import org.michaelbel.movies.main.navigation.MainDestination
+import org.michaelbel.movies.main.navigation.mainGraph
 import org.michaelbel.movies.search.navigateToSearch
 import org.michaelbel.movies.search.searchGraph
 import org.michaelbel.movies.settings.navigateToSettings
-import org.michaelbel.movies.settings.settingsGraph
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -25,9 +26,7 @@ fun MainNavigationContent(
     themeData: ThemeData,
     enableEdgeToEdge: (Any, Any) -> Unit
 ) {
-    val navHostController = rememberNavController().apply {
-        //addOnDestinationChangedListener(viewModel::analyticsTrackDestination)
-    }
+    val navHostController = rememberNavController()
 
     MoviesTheme(
         themeData = themeData,
@@ -35,7 +34,8 @@ fun MainNavigationContent(
     ) {
         NavHost(
             navController = navHostController,
-            startDestination = FeedDestination()
+            startDestination = MainDestination,
+            modifier = Modifier.fillMaxSize()
         ) {
             authGraph(
                 navigateBack = navHostController::popBackStack
@@ -43,7 +43,7 @@ fun MainNavigationContent(
             accountGraph(
                 navigateBack = navHostController::popBackStack
             )
-            feedGraph(
+            mainGraph(
                 navigateToSearch = navHostController::navigateToSearch,
                 navigateToAuth = navHostController::navigateToAuth,
                 navigateToAccount = navHostController::navigateToAccount,
@@ -60,9 +60,6 @@ fun MainNavigationContent(
             searchGraph(
                 navigateBack = navHostController::popBackStack,
                 navigateToDetails = navHostController::navigateToDetails,
-            )
-            settingsGraph(
-                navigateBack = navHostController::popBackStack
             )
         }
     }

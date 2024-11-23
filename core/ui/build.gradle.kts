@@ -46,7 +46,6 @@ kotlin {
             api(compose.desktop.common)
             api(compose.desktop.currentOs)
             api(libs.bundles.compose.desktop)
-            api(libs.bundles.jetbrains.androidx.lifecycle.viewmodel.compose.common)
         }
     }
 

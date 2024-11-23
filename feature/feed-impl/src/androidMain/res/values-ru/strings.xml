@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="feed_error_empty">Список фильмов пуст</string>
-    <string name="feed_auth_failure">Ошибка при авторизации. Неправильный токен или нет аппрува</string>
 </resources>

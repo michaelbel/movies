@@ -13,7 +13,7 @@ kotlin {
     androidTarget()
 
     sourceSets {
-        commonMain.dependencies {
+        androidMain.dependencies {
             api(project(":feature:debug-impl"))
         }
     }

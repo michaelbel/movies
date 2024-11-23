@@ -1,6 +1,6 @@
 package org.michaelbel.movies.feed.di
 
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.core.module.dsl.viewModel
 import org.koin.dsl.module
 import org.michaelbel.movies.feed.FeedViewModel
 import org.michaelbel.movies.interactor.di.interactorKoinModule
@@ -13,5 +13,5 @@ actual val feedKoinModule = module {
         notificationClientKoinModule,
         networkManagerKoinModule
     )
-    viewModel { FeedViewModel(get(), get(), get(), get()) }
+    viewModel { FeedViewModel(get(), get(), get()) }
 }

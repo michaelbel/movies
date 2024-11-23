@@ -47,6 +47,7 @@ internal fun FeedToolbar(
     isAuthIconVisible: Boolean,
     onAuthIconClick: () -> Unit,
     onAccountIconClick: () -> Unit,
+    isSettingsIconVisible: Boolean,
     onSettingsIconClick: () -> Unit,
     topAppBarScrollBehavior: TopAppBarScrollBehavior,
     modifier: Modifier = Modifier
@@ -78,9 +79,11 @@ internal fun FeedToolbar(
                 Row(
                     modifier = Modifier.then(modifierDisplayCutoutWindowInsets)
                 ) {
-                    SettingsIcon(
-                        onClick = onSettingsIconClick
-                    )
+                    if (isSettingsIconVisible) {
+                        SettingsIcon(
+                            onClick = onSettingsIconClick
+                        )
+                    }
 
                     if (isAuthIconVisible) {
                         IconButton(
@@ -131,6 +134,7 @@ private fun FeedToolbarPreview() {
             onAccountIconClick = {},
             isAuthIconVisible = true,
             onAuthIconClick = {},
+            isSettingsIconVisible = true,
             onSettingsIconClick = {},
             topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
             modifier = Modifier.statusBarsPadding()

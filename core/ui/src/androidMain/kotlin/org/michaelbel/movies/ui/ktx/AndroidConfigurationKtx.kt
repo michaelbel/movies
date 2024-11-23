@@ -1,14 +1,12 @@
 package org.michaelbel.movies.ui.ktx
 
 import android.content.Context
-import android.content.res.Configuration
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.WindowManager
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
@@ -31,7 +29,6 @@ val screenHeight: Dp
 val displayCutoutWindowInsets: WindowInsets
     @Composable get() = if (isPortrait) WindowInsets(0, 0, 0, 0) else WindowInsets.displayCutout
 
-@Suppress("Deprecation")
 private inline val Context.deviceWidth: Int
     get() {
         val windowManager = ContextCompat.getSystemService(this, WindowManager::class.java) as WindowManager
@@ -48,7 +45,6 @@ private inline val Context.deviceWidth: Int
         }
     }
 
-@Suppress("Deprecation")
 private inline val Context.deviceHeight: Int
     get() {
         val windowManager = ContextCompat.getSystemService(this, WindowManager::class.java) as WindowManager

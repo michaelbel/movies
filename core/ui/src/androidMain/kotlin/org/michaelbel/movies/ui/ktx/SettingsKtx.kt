@@ -22,6 +22,7 @@ val Context.appNotificationSettingsIntent: Intent
                 intent.putExtra("app_uid", applicationInfo.uid)
             }
         }
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         return intent
     }
 

@@ -14,7 +14,7 @@ class UpdateServiceImpl(
         }
     }
 
-    override fun startUpdate(activity: Activity) {
-        inAppUpdate.startUpdateFlow(activity)
+    override fun startUpdate(activity: Any) {
+        inAppUpdate.startUpdateFlow(activity as Activity)
     }
 }

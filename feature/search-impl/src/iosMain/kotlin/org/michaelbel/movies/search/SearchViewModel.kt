@@ -5,6 +5,4 @@ import org.michaelbel.movies.interactor.Interactor
 
 class SearchViewModel(
     private val interactor: Interactor
-): BaseViewModel() {
-
-}
+): BaseViewModel()

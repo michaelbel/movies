@@ -9,6 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
+import org.michaelbel.movies.common.MOVIES_GITHUB_URL
+import org.michaelbel.movies.common.browser.openUrl
 import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.interactor.entity.AppLanguage
 import org.michaelbel.movies.settings.SettingsViewModel
@@ -37,7 +39,7 @@ import org.michaelbel.movies.ui.strings.MoviesStrings
 fun SettingsRoute(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SettingsViewModel = koinInject<SettingsViewModel>()
+    viewModel: SettingsViewModel = koinInject()
 ) {
     val currentLanguage = AppLanguage.transform(stringResource(MoviesStrings.language_code))
     val themeData by viewModel.themeData.collectAsStateCommon()
@@ -70,13 +72,10 @@ fun SettingsRoute(
             ),
             genderData = SettingsData.ListData(
                 isFeatureEnabled = isGenderFeatureEnabled,
-                current = GrammaticalGender.NotSpecified(),
-                onSelect = {}
+                current = GrammaticalGender.NotSpecified()
             ),
             dynamicColorsData = SettingsData.ChangedData(
-                isFeatureEnabled = isDynamicColorsFeatureEnabled,
-                isEnabled = false,
-                onChange = {}
+                isFeatureEnabled = isDynamicColorsFeatureEnabled
             ),
             paletteColorsData = SettingsData.PaletteColorsData(
                 isFeatureEnabled = true,
@@ -92,44 +91,33 @@ fun SettingsRoute(
             ),
             notificationsData = SettingsData.NotificationsData(
                 isFeatureEnabled = isNotificationsFeatureEnabled,
-                isEnabled = false,
-                onClick = {},
-                onNavigateToAppNotificationSettings = {}
+                isEnabled = false
             ),
             biometricData = SettingsData.ChangedData(
-                isFeatureEnabled = isBiometricFeatureEnabled,
-                isEnabled = false,
-                onChange = {}
+                isFeatureEnabled = isBiometricFeatureEnabled
             ),
             widgetData = SettingsData.RequestedData(
-                isFeatureEnabled = isWidgetFeatureEnabled,
-                onRequest = {}
+                isFeatureEnabled = isWidgetFeatureEnabled
             ),
             tileData = SettingsData.RequestedData(
-                isFeatureEnabled = isTileFeatureEnabled,
-                onRequest = {}
+                isFeatureEnabled = isTileFeatureEnabled
             ),
             appIconData = SettingsData.ListData(
                 isFeatureEnabled = isAppIconFeatureEnabled,
-                current = IconAlias.Red,
-                onSelect = {}
+                current = IconAlias.Red
             ),
             screenshotData = SettingsData.ChangedData(
-                isFeatureEnabled = isScreenshotFeatureEnabled,
-                isEnabled = false,
-                onChange = {}
+                isFeatureEnabled = isScreenshotFeatureEnabled
             ),
             githubData = SettingsData.RequestedData(
                 isFeatureEnabled = isGithubFeatureEnabled,
-                onRequest = viewModel::navigateToGithubUrl
+                onRequest = { openUrl(MOVIES_GITHUB_URL) }
             ),
             reviewAppData = SettingsData.RequestedData(
-                isFeatureEnabled = isReviewAppFeatureEnabled,
-                onRequest = {}
+                isFeatureEnabled = isReviewAppFeatureEnabled
             ),
             updateAppData = SettingsData.RequestedData(
-                isFeatureEnabled = isUpdateAppFeatureEnabled,
-                onRequest = {}
+                isFeatureEnabled = isUpdateAppFeatureEnabled
             ),
             aboutData = SettingsData.AboutData(
                 isFeatureEnabled = isAboutFeatureEnabled,
@@ -141,6 +129,7 @@ fun SettingsRoute(
         ),
         windowInsets = WindowInsets(0.dp, 0.dp, 0.dp, 0.dp),
         snackbarHostState = snackbarHostState,
+        isNavigationIconVisible = true,
         modifier = modifier
     )
 }

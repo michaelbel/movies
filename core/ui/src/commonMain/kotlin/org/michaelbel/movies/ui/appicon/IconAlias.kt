@@ -9,23 +9,23 @@ sealed class IconAlias(
 ) {
 
     data object Red: IconAlias(
-        "RedIcon",
-        MoviesIcons.LauncherRed
+        key = "RedIcon",
+        iconRes = MoviesIcons.LauncherRed
     )
 
     data object Purple: IconAlias(
-        "PurpleIcon",
-        MoviesIcons.LauncherPurple
+        key = "PurpleIcon",
+        iconRes = MoviesIcons.LauncherPurple
     )
 
     data object Brown: IconAlias(
-        "BrownIcon",
-        MoviesIcons.LauncherBrown
+        key = "BrownIcon",
+        iconRes = MoviesIcons.LauncherBrown
     )
 
     data object Amoled: IconAlias(
-        "AmoledIcon",
-        MoviesIcons.LauncherAmoled
+        key = "AmoledIcon",
+        iconRes = MoviesIcons.LauncherAmoled
     )
 
     companion object {

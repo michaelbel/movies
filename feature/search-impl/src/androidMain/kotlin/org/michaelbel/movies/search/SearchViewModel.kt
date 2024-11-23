@@ -34,28 +34,28 @@ class SearchViewModel(
 
     val networkStatus: StateFlow<NetworkStatus> = networkManager.status
         .stateIn(
-            scope = this,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = NetworkStatus.Unavailable
         )
 
     val currentFeedView: StateFlow<FeedView> = interactor.currentFeedView
         .stateIn(
-            scope = this,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = runBlocking { interactor.currentFeedView.first() }
         )
 
     val suggestionsFlow: StateFlow<List<SuggestionPojo>> = interactor.suggestions()
         .stateIn(
-            scope = this,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = emptyList()
         )
 
     val searchHistoryMoviesFlow: StateFlow<List<MoviePojo>> = interactor.moviesFlow(MoviePojo.MOVIES_SEARCH_HISTORY, Int.MAX_VALUE)
         .stateIn(
-            scope = this,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = emptyList()
         )
@@ -67,7 +67,7 @@ class SearchViewModel(
 
     val pagingDataFlow: Flow<PagingData<MoviePojo>> = query
         .flatMapLatest(movieInteractor::moviesPagingData)
-        .cachedIn(this)
+        .cachedIn(scope)
 
     init {
         loadSuggestions()
@@ -81,20 +81,20 @@ class SearchViewModel(
         interactor.setSearchActive(state)
     }
 
-    fun onSaveToHistory(movieId: MovieId) = launch {
+    fun onSaveToHistory(movieId: MovieId) = scope.launch {
         val movie = interactor.movie(query.value, movieId)
         interactor.insertMovie(MoviePojo.MOVIES_SEARCH_HISTORY, movie)
     }
 
-    fun onRemoveFromHistory(movieId: MovieId) = launch {
+    fun onRemoveFromHistory(movieId: MovieId) = scope.launch {
         interactor.removeMovie(MoviePojo.MOVIES_SEARCH_HISTORY, movieId)
     }
 
-    fun onClearSearchHistory() = launch {
+    fun onClearSearchHistory() = scope.launch {
         interactor.removeMovies(MoviePojo.MOVIES_SEARCH_HISTORY)
     }
 
-    private fun loadSuggestions() = launch {
+    private fun loadSuggestions() = scope.launch {
         interactor.updateSuggestions()
     }
 }

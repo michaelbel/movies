@@ -34,7 +34,7 @@ class GalleryViewModel(
 
     val movieImagesFlow: StateFlow<List<ImagePojo>> = interactor.imagesFlow(movieId)
         .stateIn(
-            scope = this,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = emptyList()
         )
@@ -46,7 +46,7 @@ class GalleryViewModel(
         loadMovieImages(movieId)
     }
 
-    fun downloadImage(image: ImagePojo) = launch {
+    fun downloadImage(image: ImagePojo) = scope.launch {
         val workData = Data.Builder()
             .putString(DownloadImageWorker.KEY_IMAGE_URL, image.original)
             .putInt(DownloadImageWorker.KEY_CONTENT_TITLE, R.string.gallery_downloading_image)
@@ -70,7 +70,7 @@ class GalleryViewModel(
         }
     }
 
-    private fun loadMovieImages(movieId: MovieId) = launch {
+    private fun loadMovieImages(movieId: MovieId) = scope.launch {
         interactor.images(movieId)
     }
 }

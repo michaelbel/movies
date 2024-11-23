@@ -1,5 +1,15 @@
 package org.michaelbel.movies.settings.di
 
-import org.koin.core.module.Module
+import org.koin.core.module.dsl.viewModel
+import org.koin.dsl.module
+import org.michaelbel.movies.common.biometric.di.biometricKoinModule2
+import org.michaelbel.movies.interactor.di.interactorKoinModule
+import org.michaelbel.movies.settings.SettingsViewModel
 
-expect val settingsKoinModule: Module
+val settingsKoinModule = module {
+    includes(
+        biometricKoinModule2,
+        interactorKoinModule
+    )
+    viewModel { SettingsViewModel(get(), get(), get(), get(), get()) }
+}

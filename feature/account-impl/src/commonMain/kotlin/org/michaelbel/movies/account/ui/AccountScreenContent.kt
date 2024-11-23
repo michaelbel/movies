@@ -61,7 +61,9 @@ internal fun AccountScreenContent(
                 .padding(top = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Box {
+            Box(
+                modifier = Modifier.padding(start = 16.dp)
+            ) {
                 AccountAvatar(
                     account = account,
                     fontSize = account.lettersTextFontSizeLarge,

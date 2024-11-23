@@ -1,5 +1,5 @@
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-
 package org.michaelbel.movies.platform.review
 
-expect interface ReviewService
+interface ReviewService {
+    fun requestReview(activity: Any) {}
+}

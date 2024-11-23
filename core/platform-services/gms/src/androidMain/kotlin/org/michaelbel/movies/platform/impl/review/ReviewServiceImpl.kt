@@ -8,10 +8,10 @@ class ReviewServiceImpl(
     private val reviewManager: ReviewManager
 ): ReviewService {
 
-    override fun requestReview(activity: Activity) {
+    override fun requestReview(activity: Any) {
         reviewManager.requestReviewFlow().addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                reviewManager.launchReviewFlow(activity, task.result)
+                reviewManager.launchReviewFlow(activity as Activity, task.result)
             }
         }
     }

@@ -52,6 +52,7 @@ internal fun SettingsScreenContent(
     settingsData: SettingsData,
     windowInsets: WindowInsets,
     snackbarHostState: SnackbarHostState,
+    isNavigationIconVisible: Boolean,
     modifier: Modifier = Modifier
 ) {
     val scope = rememberCoroutineScope()
@@ -71,6 +72,7 @@ internal fun SettingsScreenContent(
         topBar = {
             SettingsToolbar(
                 topAppBarScrollBehavior = topAppBarScrollBehavior,
+                isNavigationIconVisible = isNavigationIconVisible,
                 onNavigationIconClick = settingsData.onBackClick,
                 onClick = onScrollToTop
             )
@@ -79,9 +81,7 @@ internal fun SettingsScreenContent(
             if (settingsData.aboutData.isFeatureEnabled) {
                 SettingsVersionBox(
                     aboutData = settingsData.aboutData,
-                    modifier = Modifier
-                        .navigationBarsPadding()
-                        .windowInsetsPadding(windowInsets)
+                    modifier = Modifier.windowInsetsPadding(windowInsets)
                 )
             }
         },

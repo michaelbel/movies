@@ -45,6 +45,7 @@ internal fun FeedScreenContent(
                 isAuthIconVisible = false,
                 onAuthIconClick = onNavigateToAuth,
                 onAccountIconClick = onNavigateToAccount,
+                isSettingsIconVisible = true,
                 onSettingsIconClick = onNavigateToSettings
             )
         },

@@ -4,7 +4,9 @@ import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.android.library)
+    alias(libs.plugins.compose)
 }
 
 kotlin {
@@ -34,5 +36,9 @@ android {
     defaultConfig {
         minSdk = libs.versions.min.sdk.get().toInt()
         compileSdk = libs.versions.compile.sdk.get().toInt()
+    }
+
+    buildFeatures {
+        compose = true
     }
 }

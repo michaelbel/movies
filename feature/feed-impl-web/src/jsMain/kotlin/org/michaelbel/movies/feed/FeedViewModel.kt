@@ -1,9 +1,5 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
-
 package org.michaelbel.movies.feed
 
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
@@ -16,14 +12,14 @@ class FeedViewModel: BaseViewModel() {
 
     val currentFeedView: StateFlow<FeedView> = flowOf(FeedView.FeedList)
         .stateIn(
-            scope = viewModelScope,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = FeedView.FeedList
         )
 
     val currentMovieList: StateFlow<MovieList> = flowOf(MovieList.NowPlaying())
         .stateIn(
-            scope = viewModelScope,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = MovieList.NowPlaying()
         )

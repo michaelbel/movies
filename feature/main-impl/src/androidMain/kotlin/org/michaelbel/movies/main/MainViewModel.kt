@@ -38,10 +38,10 @@ class MainViewModel(
     private val configService: ConfigService
 ): BaseViewModel() {
 
-    private val _authenticateFlow = Channel<Unit>(Channel.BUFFERED)
+    private val _authenticateFlow = Channel<Unit>()
     val authenticateFlow: Flow<Unit> get() = _authenticateFlow.receiveAsFlow()
 
-    private val _cancelFlow = Channel<Unit>(Channel.BUFFERED)
+    private val _cancelFlow = Channel<Unit>()
     val cancelFlow: Flow<Unit> get() = _cancelFlow.receiveAsFlow()
 
     private val _splashLoading = MutableStateFlow(true)
@@ -49,14 +49,14 @@ class MainViewModel(
 
     val themeData: StateFlow<ThemeData> = interactor.themeData
         .stateIn(
-            scope = this,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = ThemeData.Default
         )
 
     val isScreenshotBlockEnabled: StateFlow<Boolean> = interactor.isScreenshotBlockEnabled
         .stateIn(
-            scope = this,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = false
         )
@@ -85,13 +85,13 @@ class MainViewModel(
             }
 
             override fun onCancel() {
-                launch { _cancelFlow.send(Unit) }
+                scope.launch { _cancelFlow.send(Unit) }
             }
         }
         biometricController.authenticate(activity, biometricListener)
     }
 
-    private fun fetchBiometric() = launch {
+    private fun fetchBiometric() = scope.launch {
         val isBiometricEnabled = interactor.isBiometricEnabledAsync()
         _splashLoading.value = isBiometricEnabled
         if (isBiometricEnabled) {
@@ -99,7 +99,7 @@ class MainViewModel(
         }
     }
 
-    private fun fetchRemoteConfig() = launch {
+    private fun fetchRemoteConfig() = scope.launch {
         configService.fetchAndActivate()
     }
 

@@ -22,6 +22,7 @@ kotlin {
             api(project(":core:interactor"))
             api(project(":core:widget"))
             api(project(":core:platform-services:interactor"))
+            implementation(project(":core:notifications"))
         }
     }
 

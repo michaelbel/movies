@@ -3,7 +3,6 @@ package org.michaelbel.movies.account
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -21,7 +20,7 @@ class AccountViewModel(
 
     val account: StateFlow<AccountPojo?> = interactor.account
         .stateIn(
-            scope = viewModelScope,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = AccountPojo.Empty
         )
@@ -33,9 +32,8 @@ class AccountViewModel(
         }
     }
 
-    fun onLogoutClick(onResult: () -> Unit) = viewModelScope.launch {
+    fun onLogoutClick(onResult: () -> Unit) = scope.launch {
         loading = true
-
         interactor.deleteSession()
         onResult()
     }

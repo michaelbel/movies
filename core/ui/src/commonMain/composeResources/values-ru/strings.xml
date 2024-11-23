@@ -43,6 +43,7 @@
     <string name="feed_title_upcoming">Предстоящие фильмы</string>
     <string name="feed_error_empty">Список фильмов пуст</string>
     <string name="feed_auth_failure">Ошибка при авторизации. Неправильный токен или нет аппрува</string>
+    <string name="feed_auth_success">Успешная авторизация</string>
 
     <string name="gallery_downloading_image">Загрузка изображения...</string>
     <string name="gallery_poster">Постер</string>

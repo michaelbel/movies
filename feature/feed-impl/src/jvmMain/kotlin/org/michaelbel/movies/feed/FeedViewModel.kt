@@ -2,7 +2,6 @@
 
 package org.michaelbel.movies.feed
 
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -24,14 +23,14 @@ class FeedViewModel(
 
     val currentFeedView: StateFlow<FeedView> = interactor.currentFeedView
         .stateIn(
-            scope = viewModelScope,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = runBlocking { interactor.currentFeedView.first() }
         )
 
     val currentMovieList: StateFlow<MovieList> = interactor.currentMovieList
         .stateIn(
-            scope = viewModelScope,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = runBlocking { interactor.currentMovieList.first() }
         )
@@ -39,7 +38,7 @@ class FeedViewModel(
     val pagingDataFlow: StateFlow<List<MoviePojo>> = currentMovieList.flatMapLatest { movieList ->
         flowOf(interactor.moviesResult(movieList.nameOrLocalList))
     }.stateIn(
-        scope = viewModelScope,
+        scope = scope,
         started = SharingStarted.Lazily,
         initialValue = emptyList()
     )

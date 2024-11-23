@@ -39,7 +39,7 @@ class AuthViewModel(
         }
     }
 
-    fun onSignInClick(username: Username, password: Password, onResult: () -> Unit) = launch {
+    fun onSignInClick(username: Username, password: Password, onResult: () -> Unit) = scope.launch {
         error = null
         signInLoading = true
         val token = interactor.createRequestToken(loginViaTmdb = false)
@@ -51,7 +51,7 @@ class AuthViewModel(
         onResult()
     }
 
-    fun onLoginClick() = launch {
+    fun onLoginClick() = scope.launch {
         error = null
         loginLoading = true
         requestToken = interactor.createRequestToken(loginViaTmdb = true).requestToken

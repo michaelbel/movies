@@ -136,7 +136,7 @@ androidx-test-espresso-idling-resource = { module = "androidx.test.espresso:espr
 androidx-test-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "androidx-test-uiautomator" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
 jetbrains-androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "jetbrains-androidx-navigation-compose" }
-jetbrains-androidx-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "jetbrains-androidx-lifecycle-viewmodel-compose" }
+#jetbrains-androidx-lifecycle-viewmodel-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "jetbrains-androidx-lifecycle-viewmodel-compose" }
 jetbrains-androidx-core-bundle = { module = "org.jetbrains.androidx.core:core-bundle", version.ref = "jetbrains-androidx-core-bundle" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil3-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
@@ -180,9 +180,6 @@ kotlinx-serialization-common = [
 ]
 jetbrains-androidx-navigation-compose-common = [
     "jetbrains-androidx-navigation-compose"
-]
-jetbrains-androidx-lifecycle-viewmodel-compose-common = [
-    "jetbrains-androidx-lifecycle-viewmodel-compose"
 ]
 jetbrains-androidx-core-bundle-common = [
     "jetbrains-androidx-core-bundle"

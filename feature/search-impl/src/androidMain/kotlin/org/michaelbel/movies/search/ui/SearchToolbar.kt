@@ -31,6 +31,7 @@ import org.michaelbel.movies.search_impl.R
 import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
 import org.michaelbel.movies.ui.compose.iconbutton.CloseIcon
 import org.michaelbel.movies.ui.compose.iconbutton.VoiceIcon
+import org.michaelbel.movies.ui.ktx.rememberSpeechRecognitionLauncher
 import org.michaelbel.movies.ui.preview.SuggestionDbPreviewParameterProvider
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
@@ -74,7 +75,7 @@ internal fun SearchToolbar(
                 )
             } else {
                 VoiceIcon(
-                    onInputText = onInputText
+                    onClick = rememberSpeechRecognitionLauncher(onInputText)
                 )
             }
         },

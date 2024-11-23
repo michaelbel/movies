@@ -2,10 +2,6 @@
 
 package org.michaelbel.movies.feed
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.lifecycle.SavedStateHandle
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -20,8 +16,6 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.michaelbel.movies.common.appearance.FeedView
-import org.michaelbel.movies.common.exceptions.AccountDetailsException
-import org.michaelbel.movies.common.exceptions.CreateSessionException
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.interactor.Interactor
@@ -32,85 +26,56 @@ import org.michaelbel.movies.persistence.database.entity.pojo.AccountPojo
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 
 class FeedViewModel(
-    savedStateHandle: SavedStateHandle,
     private val interactor: Interactor,
     private val notificationClient: NotificationClient,
     networkManager: NetworkManager
 ): BaseViewModel() {
 
-    private val requestToken: String? = savedStateHandle["request_token"]
-    private val approved: Boolean? = savedStateHandle["approved"]
-
     val account: StateFlow<AccountPojo?> = interactor.account
         .stateIn(
-            scope = this,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = AccountPojo.Empty
         )
 
     val networkStatus: StateFlow<NetworkStatus> = networkManager.status
         .stateIn(
-            scope = this,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = NetworkStatus.Unavailable
         )
 
     val currentFeedView: StateFlow<FeedView> = interactor.currentFeedView
         .stateIn(
-            scope = this,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = runBlocking { interactor.currentFeedView.first() }
         )
 
     val currentMovieList: StateFlow<MovieList> = interactor.currentMovieList
         .stateIn(
-            scope = this,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = runBlocking { interactor.currentMovieList.first() }
         )
 
     val pagingDataFlow: Flow<PagingData<MoviePojo>> = currentMovieList
         .flatMapLatest { movieList -> interactor.moviesPagingData(movieList) }
-        .cachedIn(this)
+        .cachedIn(scope)
 
     private var _notificationsPermissionRequired: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val notificationsPermissionRequired: StateFlow<Boolean> get() = _notificationsPermissionRequired.asStateFlow()
 
-    var isAuthFailureSnackbarShowed: Boolean by mutableStateOf(false)
-
     init {
-        authorizeAccount(requestToken, approved)
         subscribeNotificationsPermissionRequired()
     }
 
-    override fun handleError(throwable: Throwable) {
-        when (throwable) {
-            is CreateSessionException -> isAuthFailureSnackbarShowed = true
-            is AccountDetailsException -> isAuthFailureSnackbarShowed = true
-            else -> super.handleError(throwable)
-        }
-    }
-
-    fun onNotificationBottomSheetHide() = launch {
+    fun onNotificationBottomSheetHide() = scope.launch {
         _notificationsPermissionRequired.tryEmit(false)
         notificationClient.updateNotificationExpireTime()
     }
 
-    fun onSnackbarDismissed() {
-        isAuthFailureSnackbarShowed = false
-    }
-
-    private fun authorizeAccount(requestToken: String?, approved: Boolean?) {
-        if (requestToken == null || approved == null) return
-        launch {
-            interactor.run {
-                createSession(requestToken)
-                accountDetails()
-            }
-        }
-    }
-
-    private fun subscribeNotificationsPermissionRequired() = launch {
+    private fun subscribeNotificationsPermissionRequired() = scope.launch {
         _notificationsPermissionRequired.tryEmit(
             notificationClient.notificationsPermissionRequired(NOTIFICATIONS_PERMISSION_DELAY)
         )

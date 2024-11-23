@@ -47,7 +47,6 @@ kotlin {
         }
         jvmMain.dependencies {
             api(libs.bundles.kotlinx.coroutines.desktop)
-            api(libs.bundles.jetbrains.androidx.lifecycle.viewmodel.compose.common)
         }
     }
 

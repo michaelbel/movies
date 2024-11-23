@@ -1,5 +1,6 @@
 package org.michaelbel.movies.search.ui
 
+import android.os.Build
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -47,6 +48,7 @@ import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.ktx.isFailure
 import org.michaelbel.movies.ui.ktx.isLoading
 import org.michaelbel.movies.ui.ktx.refreshThrowable
+import org.michaelbel.movies.ui.ktx.rememberConnectivityClickHandler
 import java.net.UnknownHostException
 import org.michaelbel.movies.ui.R as UiR
 
@@ -158,7 +160,9 @@ internal fun SearchScreenContent(
                                 .padding(innerPadding)
                                 .windowInsetsPadding(displayCutoutWindowInsets)
                                 .fillMaxSize()
-                                .clickableWithoutRipple(pagingItems::retry)
+                                .clickableWithoutRipple(pagingItems::retry),
+                            isButtonVisible = Build.VERSION.SDK_INT >= 29,
+                            onButtonClick = rememberConnectivityClickHandler()
                         )
                     }
                 }

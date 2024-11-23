@@ -23,6 +23,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 internal fun SettingsToolbar(
     modifier: Modifier = Modifier,
     topAppBarScrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
+    isNavigationIconVisible: Boolean,
     onNavigationIconClick: () -> Unit,
     onClick: () -> Unit,
 ) {
@@ -34,11 +35,15 @@ internal fun SettingsToolbar(
             )
         },
         modifier = modifier.clickableWithoutRipple { onClick() },
-        navigationIcon = {
-            BackIcon(
-                onClick = onNavigationIconClick,
-                modifier = Modifier.then(modifierDisplayCutoutWindowInsets)
-            )
+        navigationIcon = if (isNavigationIconVisible) {
+            {
+                BackIcon(
+                    onClick = onNavigationIconClick,
+                    modifier = Modifier.then(modifierDisplayCutoutWindowInsets)
+                )
+            }
+        } else {
+            {}
         },
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -54,6 +59,7 @@ private fun SettingsToolbarPreview() {
     MoviesTheme {
         SettingsToolbar(
             modifier = Modifier.statusBarsPadding(),
+            isNavigationIconVisible = true,
             onNavigationIconClick = {},
             onClick = {}
         )

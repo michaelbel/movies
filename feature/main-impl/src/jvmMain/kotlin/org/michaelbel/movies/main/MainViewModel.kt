@@ -1,6 +1,5 @@
 package org.michaelbel.movies.main
 
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -14,7 +13,7 @@ class MainViewModel(
 
     val themeData: StateFlow<ThemeData> = interactor.themeData
         .stateIn(
-            scope = viewModelScope,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = ThemeData.Default
         )

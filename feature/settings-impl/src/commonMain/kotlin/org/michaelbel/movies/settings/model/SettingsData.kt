@@ -48,18 +48,18 @@ data class SettingsData(
     data class ListData<T>(
         override val isFeatureEnabled: Boolean,
         override val current: T,
-        override val onSelect: (T) -> Unit
+        override val onSelect: (T) -> Unit = {}
     ): Listed<T>
 
     data class ChangedData(
         override val isFeatureEnabled: Boolean,
-        override val isEnabled: Boolean,
-        override val onChange: (Boolean) -> Unit
+        override val isEnabled: Boolean = false,
+        override val onChange: (Boolean) -> Unit = {}
     ): Changed
 
     data class RequestedData(
         override val isFeatureEnabled: Boolean,
-        override val onRequest: () -> Unit
+        override val onRequest: () -> Unit = {}
     ): Requested
 
     data class PaletteColorsData(
@@ -73,8 +73,7 @@ data class SettingsData(
     data class NotificationsData(
         override val isFeatureEnabled: Boolean,
         val isEnabled: Boolean,
-        val onClick: () -> Unit,
-        val onNavigateToAppNotificationSettings: () -> Unit
+        val onClick: () -> Unit = {}
     ): Featured
 
     data class AboutData(

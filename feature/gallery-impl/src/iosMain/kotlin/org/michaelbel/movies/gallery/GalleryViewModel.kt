@@ -5,6 +5,4 @@ import org.michaelbel.movies.interactor.Interactor
 
 class GalleryViewModel(
     private val interactor: Interactor
-): BaseViewModel() {
-
-}
+): BaseViewModel()

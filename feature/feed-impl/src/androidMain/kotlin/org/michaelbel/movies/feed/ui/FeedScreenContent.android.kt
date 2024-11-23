@@ -2,6 +2,7 @@
 
 package org.michaelbel.movies.feed.ui
 
+import android.os.Build
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,7 +16,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
-import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,7 +33,6 @@ import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
 import org.michaelbel.movies.common.exceptions.PageEmptyException
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.feed.ktx.titleText
-import org.michaelbel.movies.feed_impl.R
 import org.michaelbel.movies.network.config.isTmdbApiKeyEmpty
 import org.michaelbel.movies.network.connectivity.NetworkStatus
 import org.michaelbel.movies.persistence.database.entity.pojo.AccountPojo
@@ -47,6 +46,7 @@ import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.ktx.isFailure
 import org.michaelbel.movies.ui.ktx.isLoading
 import org.michaelbel.movies.ui.ktx.refreshThrowable
+import org.michaelbel.movies.ui.ktx.rememberConnectivityClickHandler
 import java.net.UnknownHostException
 import org.michaelbel.movies.ui.R as UiR
 
@@ -58,14 +58,12 @@ internal fun FeedScreenContent(
     currentFeedView: FeedView,
     currentMovieList: MovieList,
     notificationsPermissionRequired: Boolean,
-    isAuthFailureSnackbarShowed: Boolean,
     onNavigateToSearch: () -> Unit,
     onNavigateToAuth: () -> Unit,
     onNavigateToAccount: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToDetails: (String, Int) -> Unit,
     onNotificationBottomSheetHideClick: () -> Unit,
-    onSnackbarDismissed: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val scope = rememberCoroutineScope()
@@ -83,13 +81,10 @@ internal fun FeedScreenContent(
     val onShowSnackbar: (String, SnackbarDuration) -> Unit = { message, snackbarDuration ->
         scope.launch {
             snackbarHostState.currentSnackbarData?.dismiss()
-            val snackbarResult = snackbarHostState.showSnackbar(
+            snackbarHostState.showSnackbar(
                 message = message,
                 duration = snackbarDuration
             )
-            if (snackbarResult == SnackbarResult.Dismissed) {
-                onSnackbarDismissed()
-            }
         }
     }
 
@@ -113,10 +108,6 @@ internal fun FeedScreenContent(
         )
     }
 
-    if (isAuthFailureSnackbarShowed) {
-        onShowSnackbar(stringResource(R.string.feed_auth_failure), SnackbarDuration.Short)
-    }
-
     val topAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     Scaffold(
@@ -133,6 +124,7 @@ internal fun FeedScreenContent(
                 onAuthIconClick = onNavigateToAuth,
                 onAccountIconClick = onNavigateToAccount,
                 topAppBarScrollBehavior = topAppBarScrollBehavior,
+                isSettingsIconVisible = false,
                 onSettingsIconClick = onNavigateToSettings
             )
         },
@@ -165,7 +157,9 @@ internal fun FeedScreenContent(
                             .padding(innerPadding)
                             .windowInsetsPadding(displayCutoutWindowInsets)
                             .fillMaxSize()
-                            .clickableWithoutRipple(pagingItems::retry)
+                            .clickableWithoutRipple(pagingItems::retry),
+                        isButtonVisible = Build.VERSION.SDK_INT >= 29,
+                        onButtonClick = rememberConnectivityClickHandler()
                     )
                 }
             }
@@ -178,7 +172,7 @@ internal fun FeedScreenContent(
                     pagingItems = pagingItems,
                     onMovieClick = onNavigateToDetails,
                     contentPadding = innerPadding,
-                    modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
+                    modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets),
                 )
             }
         }

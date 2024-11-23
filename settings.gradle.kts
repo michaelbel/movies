@@ -55,6 +55,7 @@ include(
     ":core:widget",
     ":core:work",
 
+    ":feature:main",
     ":feature:main-impl",
     ":feature:account",
     ":feature:account-impl",

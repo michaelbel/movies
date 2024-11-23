@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="feed_error_empty">Movie List is Empty</string>
-    <string name="feed_auth_failure">Failure while signing in. Wrong token or no approval</string>
 </resources>

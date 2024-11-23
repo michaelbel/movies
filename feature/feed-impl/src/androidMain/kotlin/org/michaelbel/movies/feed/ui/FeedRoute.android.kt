@@ -25,7 +25,6 @@ fun FeedRoute(
     val currentMovieList by viewModel.currentMovieList.collectAsStateCommon()
     val notificationsPermissionRequired by viewModel.notificationsPermissionRequired.collectAsStateCommon()
     val networkStatus by viewModel.networkStatus.collectAsStateCommon()
-    val isAuthFailureSnackbarShowed = viewModel.isAuthFailureSnackbarShowed
 
     FeedScreenContent(
         pagingItems = pagingItems,
@@ -34,14 +33,12 @@ fun FeedRoute(
         currentFeedView = currentFeedView,
         currentMovieList = currentMovieList,
         notificationsPermissionRequired = notificationsPermissionRequired,
-        isAuthFailureSnackbarShowed = isAuthFailureSnackbarShowed,
         onNavigateToSearch = onNavigateToSearch,
         onNavigateToAuth = onNavigateToAuth,
         onNavigateToAccount = onNavigateToAccount,
         onNavigateToSettings = onNavigateToSettings,
         onNavigateToDetails = onNavigateToDetails,
         onNotificationBottomSheetHideClick = viewModel::onNotificationBottomSheetHide,
-        onSnackbarDismissed = viewModel::onSnackbarDismissed,
         modifier = modifier
     )
 }

@@ -13,7 +13,7 @@ internal class AppWidgetConfigureViewModel(
 
     val themeData: StateFlow<ThemeData> = interactor.themeData
         .stateIn(
-            scope = this,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = ThemeData.Default
         )

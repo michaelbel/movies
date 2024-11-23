@@ -5,6 +5,4 @@ import org.michaelbel.movies.interactor.Interactor
 
 class AuthViewModel(
     private val interactor: Interactor
-): BaseViewModel() {
-
-}
+): BaseViewModel()

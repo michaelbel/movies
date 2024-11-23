@@ -30,6 +30,7 @@ import movies.core.ui.generated.resources.error_api_key_null
 import movies.core.ui.generated.resources.error_check_internet_connectivity
 import movies.core.ui.generated.resources.error_loading
 import movies.core.ui.generated.resources.feed_auth_failure
+import movies.core.ui.generated.resources.feed_auth_success
 import movies.core.ui.generated.resources.feed_error_empty
 import movies.core.ui.generated.resources.feed_title_now_playing
 import movies.core.ui.generated.resources.feed_title_popular
@@ -160,6 +161,7 @@ object MoviesStrings {
     val feed_title_upcoming = Res.string.feed_title_upcoming
     val feed_error_empty = Res.string.feed_error_empty
     val feed_auth_failure = Res.string.feed_auth_failure
+    val feed_auth_success = Res.string.feed_auth_success
 
     val gallery_downloading_image = Res.string.gallery_downloading_image
     val gallery_poster = Res.string.gallery_poster

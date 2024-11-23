@@ -33,14 +33,14 @@ class DetailsViewModel(
 
     val networkStatus: StateFlow<NetworkStatus> = networkManager.status
         .stateIn(
-            scope = this,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = NetworkStatus.Unavailable
         )
 
     val currentTheme: StateFlow<AppTheme> = interactor.currentTheme
         .stateIn(
-            scope = this,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = AppTheme.FollowSystem
         )
@@ -58,7 +58,7 @@ class DetailsViewModel(
 
     fun retry() = loadMovie()
 
-    fun onGenerateColors(movieId: MovieId, palette: Palette) = launch {
+    fun onGenerateColors(movieId: MovieId, palette: Palette) = scope.launch {
         val containerColor = palette.vibrantSwatch?.rgb
         val onContainerColor = palette.vibrantSwatch?.bodyTextColor
         if (containerColor != null && onContainerColor != null) {
@@ -69,7 +69,7 @@ class DetailsViewModel(
         }
     }
 
-    private fun loadMovie() = launch {
+    private fun loadMovie() = scope.launch {
         val movieDb = interactor.movieDetails(movieList.orEmpty(), movieId)
         _detailsState.value = ScreenState.Content(movieDb)
     }

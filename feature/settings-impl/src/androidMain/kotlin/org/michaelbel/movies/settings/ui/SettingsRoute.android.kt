@@ -1,11 +1,6 @@
 package org.michaelbel.movies.settings.ui
 
-import android.Manifest
 import android.app.Activity
-import android.app.StatusBarManager
-import android.appwidget.AppWidgetManager
-import android.content.ComponentName
-import android.graphics.drawable.Icon
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.material3.MaterialTheme
@@ -21,7 +16,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
-import androidx.core.content.ContextCompat
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
@@ -30,10 +24,12 @@ import org.michaelbel.movies.common.browser.openUrl
 import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.ktx.notificationManager
 import org.michaelbel.movies.interactor.entity.AppLanguage
+import org.michaelbel.movies.notifications.ktx.rememberPostNotificationsPermissionHandler
 import org.michaelbel.movies.settings.SettingsViewModel
 import org.michaelbel.movies.settings.ktx.currentGrammaticalGender
 import org.michaelbel.movies.settings.ktx.iconSnackbarTextRes
 import org.michaelbel.movies.settings.ktx.isDebug
+import org.michaelbel.movies.settings.ktx.requestTileService
 import org.michaelbel.movies.settings.ktx.supportSetRequestedApplicationGrammaticalGender
 import org.michaelbel.movies.settings.ktx.versionCode
 import org.michaelbel.movies.settings.ktx.versionName
@@ -57,14 +53,12 @@ import org.michaelbel.movies.settings.model.isWidgetFeatureEnabled
 import org.michaelbel.movies.ui.appicon.IconAlias
 import org.michaelbel.movies.ui.appicon.enabledIcon
 import org.michaelbel.movies.ui.appicon.setIcon
-import org.michaelbel.movies.ui.icons.MoviesAndroidIcons
 import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.ui.ktx.collectAsStateCommon
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.lifecycle.OnResume
 import org.michaelbel.movies.ui.strings.MoviesStrings
-import org.michaelbel.movies.ui.tile.MoviesTileService
-import org.michaelbel.movies.widget.ktx.pin
+import org.michaelbel.movies.widget.ktx.rememberAndPinAppWidgetProvider
 
 @Composable
 fun SettingsRoute(
@@ -84,11 +78,6 @@ fun SettingsRoute(
     val context = LocalContext.current
     val resultContract = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
     val toolbarColor = MaterialTheme.colorScheme.primary.toArgb()
-    val tileTitleLabel = stringResource(MoviesStrings.tile_title)
-    val tileMessage = stringResource(MoviesStrings.settings_tile_error_already_added)
-
-    val appWidgetManager by remember { mutableStateOf(AppWidgetManager.getInstance(context)) }
-    val appWidgetProvider by remember { mutableStateOf(appWidgetManager.getInstalledProvidersForPackage(context.packageName, null).first()) }
 
     val notificationManager by remember { mutableStateOf(context.notificationManager) }
     var areNotificationsEnabled by remember { mutableStateOf(notificationManager.areNotificationsEnabled()) }
@@ -106,19 +95,6 @@ fun SettingsRoute(
             )
             if (result == SnackbarResult.ActionPerformed) {
                 resultContract.launch(context.appNotificationSettingsIntent)
-            }
-        }
-    }
-
-    val postNotificationsPermission = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { granted ->
-        if (granted) {
-            areNotificationsEnabled = notificationManager.areNotificationsEnabled()
-        } else {
-            val shouldRequest = (context as Activity).shouldShowRequestPermissionRationale(Manifest.permission.POST_NOTIFICATIONS)
-            if (!shouldRequest) {
-                onShowPermissionSnackbar()
             }
         }
     }
@@ -194,16 +170,11 @@ fun SettingsRoute(
             notificationsData = SettingsData.NotificationsData(
                 isFeatureEnabled = isNotificationsFeatureEnabled,
                 isEnabled = areNotificationsEnabled,
-                onClick = {
-                    if (areNotificationsEnabled) {
-                        resultContract.launch(context.appNotificationSettingsIntent)
-                    } else {
-                        postNotificationsPermission.launch(Manifest.permission.POST_NOTIFICATIONS)
-                    }
-                },
-                onNavigateToAppNotificationSettings = {
-                    resultContract.launch(context.appNotificationSettingsIntent)
-                }
+                onClick = rememberPostNotificationsPermissionHandler(
+                    areNotificationsEnabled = areNotificationsEnabled,
+                    onPermissionGranted = { areNotificationsEnabled = notificationManager.areNotificationsEnabled() },
+                    onPermissionDenied = onShowPermissionSnackbar
+                )
             ),
             biometricData = SettingsData.ChangedData(
                 isFeatureEnabled = isBiometricFeatureEnabled && isBiometricFeatureAvailable,
@@ -212,25 +183,11 @@ fun SettingsRoute(
             ),
             widgetData = SettingsData.RequestedData(
                 isFeatureEnabled = isWidgetFeatureEnabled,
-                onRequest = { appWidgetProvider.pin(context) }
+                onRequest = rememberAndPinAppWidgetProvider()
             ),
             tileData = SettingsData.RequestedData(
                 isFeatureEnabled = isTileFeatureEnabled,
-                onRequest = {
-                    val statusBarManager = ContextCompat.getSystemService(context, StatusBarManager::class.java)
-                    statusBarManager?.requestAddTileService(
-                        ComponentName(context, MoviesTileService::class.java),
-                        tileTitleLabel,
-                        Icon.createWithResource(context, MoviesAndroidIcons.MovieFilter24),
-                        context.mainExecutor
-                    ) { result ->
-                        when (result) {
-                            StatusBarManager.TILE_ADD_REQUEST_RESULT_TILE_ALREADY_ADDED -> {
-                                onShowSnackbar(tileMessage)
-                            }
-                        }
-                    }
-                }
+                onRequest = requestTileService(onShowSnackbar)
             ),
             appIconData = SettingsData.ListData(
                 isFeatureEnabled = isAppIconFeatureEnabled,
@@ -273,6 +230,7 @@ fun SettingsRoute(
         ),
         windowInsets = displayCutoutWindowInsets,
         snackbarHostState = snackbarHostState,
+        isNavigationIconVisible = false,
         modifier = modifier
     )
 }

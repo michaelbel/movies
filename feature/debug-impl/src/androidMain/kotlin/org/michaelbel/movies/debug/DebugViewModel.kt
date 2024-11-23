@@ -21,14 +21,14 @@ internal class DebugViewModel(
 
     val themeDataFlow: StateFlow<ThemeData> = interactor.themeData
         .stateIn(
-            scope = this,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = ThemeData.Default
         )
 
     val firebaseTokenFlow: StateFlow<String> = flow { emit(messagingService.awaitToken()) }
         .stateIn(
-            scope = this,
+            scope = scope,
             started = SharingStarted.Lazily,
             initialValue = ""
         )

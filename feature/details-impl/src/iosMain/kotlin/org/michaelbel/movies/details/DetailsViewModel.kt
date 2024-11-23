@@ -1,7 +1,6 @@
 package org.michaelbel.movies.details
 
 import androidx.lifecycle.SavedStateHandle
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,7 +29,7 @@ class DetailsViewModel(
 
     fun retry() = loadMovie()
 
-    private fun loadMovie() = viewModelScope.launch {
+    private fun loadMovie() = scope.launch {
         val movieDb = interactor.movieDetails(movieList.orEmpty(), movieId)
         _detailsState.value = ScreenState.Content(movieDb)
     }
