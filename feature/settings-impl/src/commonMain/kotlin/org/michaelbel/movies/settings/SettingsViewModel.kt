@@ -24,6 +24,7 @@ import org.michaelbel.movies.platform.app.AppService
 import org.michaelbel.movies.platform.review.ReviewService
 import org.michaelbel.movies.platform.update.UpdateListener
 import org.michaelbel.movies.platform.update.UpdateService
+import org.michaelbel.movies.settings.about.AboutManager
 import org.michaelbel.movies.settings.gender.GrammaticalGenderManager
 import org.michaelbel.movies.settings.iconAlias.IconAliasManager
 
@@ -31,6 +32,7 @@ class SettingsViewModel(
     biometricController: BiometricController2,
     val grammaticalGenderManager: GrammaticalGenderManager,
     val iconAliasManager: IconAliasManager,
+    val aboutManager: AboutManager,
     private val notifyManager: NotifyManager,
     private val interactor: Interactor,
     private val reviewService: ReviewService,

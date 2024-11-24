@@ -10,7 +10,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
@@ -24,8 +23,6 @@ import org.michaelbel.movies.settings.ktx.iconSnackbarTextRes
 import org.michaelbel.movies.settings.ktx.isDebug
 import org.michaelbel.movies.settings.ktx.openAppNotificationSettings
 import org.michaelbel.movies.settings.ktx.requestTileService
-import org.michaelbel.movies.settings.ktx.versionCode
-import org.michaelbel.movies.settings.ktx.versionName
 import org.michaelbel.movies.settings.model.SettingsData
 import org.michaelbel.movies.settings.model.isAboutFeatureEnabled
 import org.michaelbel.movies.settings.model.isAppIconFeatureEnabled
@@ -69,8 +66,6 @@ fun SettingsRoute(
     var areNotificationsEnabled by remember { mutableStateOf(viewModel.areNotificationsEnabled) }
     val openAppNotificationSettings = openAppNotificationSettings()
     val navigateToUrl = navigateToUrl(MOVIES_GITHUB_URL)
-
-    val context = LocalContext.current
 
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -206,8 +201,8 @@ fun SettingsRoute(
             ),
             aboutData = SettingsData.AboutData(
                 isFeatureEnabled = isAboutFeatureEnabled,
-                versionName = context.versionName,
-                versionCode = context.versionCode,
+                versionName = viewModel.aboutManager.versionName,
+                versionCode = viewModel.aboutManager.versionCode,
                 flavor = appVersionData.flavor,
                 isDebug = isDebug
             )
