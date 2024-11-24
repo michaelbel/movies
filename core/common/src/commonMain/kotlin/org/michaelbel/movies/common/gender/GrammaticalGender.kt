@@ -39,12 +39,13 @@ sealed interface GrammaticalGender: SealedString {
             }
         }
 
-        fun value(gender: GrammaticalGender): Int {
+        fun value(gender: SealedString): Int {
             return when (gender) {
                 is NotSpecified -> NotSpecified().value
                 is Neutral -> Neutral().value
                 is Feminine -> Feminine().value
                 is Masculine -> Masculine().value
+                else -> throw Exception()
             }
         }
     }

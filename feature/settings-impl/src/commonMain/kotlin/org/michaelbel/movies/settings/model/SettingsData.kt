@@ -1,7 +1,7 @@
 package org.michaelbel.movies.settings.model
 
+import org.michaelbel.movies.common.SealedString
 import org.michaelbel.movies.common.appearance.FeedView
-import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.interactor.entity.AppLanguage
@@ -13,7 +13,7 @@ data class SettingsData(
     val themeData: ListData<AppTheme>,
     val feedViewData: ListData<FeedView>,
     val movieListData: ListData<MovieList>,
-    val genderData: ListData<GrammaticalGender>,
+    val genderData: ListData<SealedString>,
     val dynamicColorsData: ChangedData,
     val paletteColorsData: PaletteColorsData,
     val notificationsData: NotificationsData,

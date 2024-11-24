@@ -21,12 +21,10 @@ import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.interactor.entity.AppLanguage
 import org.michaelbel.movies.notifications.ktx.rememberPostNotificationsPermissionHandler
 import org.michaelbel.movies.settings.SettingsViewModel
-import org.michaelbel.movies.settings.ktx.currentGrammaticalGender
 import org.michaelbel.movies.settings.ktx.iconSnackbarTextRes
 import org.michaelbel.movies.settings.ktx.isDebug
 import org.michaelbel.movies.settings.ktx.openAppNotificationSettings
 import org.michaelbel.movies.settings.ktx.requestTileService
-import org.michaelbel.movies.settings.ktx.supportSetRequestedApplicationGrammaticalGender
 import org.michaelbel.movies.settings.ktx.versionCode
 import org.michaelbel.movies.settings.ktx.versionName
 import org.michaelbel.movies.settings.model.SettingsData
@@ -47,8 +45,6 @@ import org.michaelbel.movies.settings.model.isTileFeatureEnabled
 import org.michaelbel.movies.settings.model.isUpdateAppFeatureEnabled
 import org.michaelbel.movies.settings.model.isWidgetFeatureEnabled
 import org.michaelbel.movies.ui.appicon.IconAlias
-import org.michaelbel.movies.ui.appicon.enabledIcon
-import org.michaelbel.movies.ui.appicon.setIcon
 import org.michaelbel.movies.ui.ktx.collectAsStateCommon
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.lifecycle.OnResume
@@ -92,8 +88,6 @@ fun SettingsRoute(
         }
     }
 
-    val currentGrammaticalGender by remember { mutableStateOf(context.currentGrammaticalGender) }
-
     val onShowSnackbar: (String) -> Unit = { message ->
         scope.launch {
             snackbarHostState.showSnackbar(
@@ -133,9 +127,9 @@ fun SettingsRoute(
             ),
             genderData = SettingsData.ListData(
                 isFeatureEnabled = isGenderFeatureEnabled,
-                current = currentGrammaticalGender,
+                current = viewModel.grammaticalGenderManager.grammaticalGender,
                 onSelect = { gender ->
-                    context.supportSetRequestedApplicationGrammaticalGender(GrammaticalGender.value(gender))
+                    viewModel.grammaticalGenderManager.setGrammaticalGender(GrammaticalGender.value(gender))
                 }
             ),
             dynamicColorsData = SettingsData.ChangedData(
@@ -180,7 +174,7 @@ fun SettingsRoute(
             ),
             appIconData = SettingsData.ListData(
                 isFeatureEnabled = isAppIconFeatureEnabled,
-                current = context.enabledIcon,
+                current = viewModel.iconAliasManager.enabledIcon,
                 onSelect = { icon ->
                     val message = when (icon) {
                         IconAlias.Red -> messageRed
@@ -189,7 +183,7 @@ fun SettingsRoute(
                         IconAlias.Amoled -> messageAmoled
                     }
                     onShowSnackbar(message)
-                    context.setIcon(icon)
+                    viewModel.iconAliasManager.setIcon(icon)
                 }
             ),
             screenshotData = SettingsData.ChangedData(
