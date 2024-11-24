@@ -1,6 +1,5 @@
 package org.michaelbel.movies.settings.ui
 
-import android.app.Activity
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
@@ -54,6 +53,8 @@ import org.michaelbel.movies.widget.ktx.rememberAndPinAppWidgetProvider
 @Composable
 fun SettingsRoute(
     onBackClick: () -> Unit,
+    onRequestReview: () -> Unit,
+    onRequestUpdate: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = koinViewModel()
 ) {
@@ -197,11 +198,11 @@ fun SettingsRoute(
             ),
             reviewAppData = SettingsData.RequestedData(
                 isFeatureEnabled = isReviewAppFeatureEnabled && viewModel.isReviewFeatureEnabled,
-                onRequest = { viewModel.requestReview(context as Activity) }
+                onRequest = onRequestReview
             ),
             updateAppData = SettingsData.RequestedData(
                 isFeatureEnabled = isUpdateAppFeatureEnabled && viewModel.isUpdateFeatureEnabled && viewModel.isUpdateAvailable,
-                onRequest = { viewModel.requestUpdate(context as Activity) }
+                onRequest = onRequestUpdate
             ),
             aboutData = SettingsData.AboutData(
                 isFeatureEnabled = isAboutFeatureEnabled,

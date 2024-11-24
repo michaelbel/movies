@@ -39,6 +39,8 @@ fun NavGraphBuilder.mainGraph(
     navigateToAuth: () -> Unit,
     navigateToAccount: () -> Unit,
     navigateToSettings: () -> Unit,
+    onRequestReview: () -> Unit,
+    onRequestUpdate: () -> Unit,
     navigateToDetails: (String, Int) -> Unit
 ) {
     composable<MainDestination>(
@@ -118,7 +120,9 @@ fun NavGraphBuilder.mainGraph(
                     navigateToDetails = navigateToDetails
                 )
                 settingsGraph(
-                    navigateBack = {}
+                    navigateBack = {},
+                    onRequestReview = onRequestReview,
+                    onRequestUpdate = onRequestUpdate
                 )
             }
         }

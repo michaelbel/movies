@@ -8,12 +8,16 @@ import org.michaelbel.movies.ui.ktx.collectAsStateCommon
 @Composable
 fun MainContent(
     viewModel: MainViewModel = koinViewModel(),
-    enableEdgeToEdge: (Any, Any) -> Unit
+    enableEdgeToEdge: (Any, Any) -> Unit,
+    onRequestReview: () -> Unit,
+    onRequestUpdate: () -> Unit
 ) {
     val themeData by viewModel.themeData.collectAsStateCommon()
 
     MainNavigationContent(
         themeData = themeData,
-        enableEdgeToEdge = enableEdgeToEdge
+        enableEdgeToEdge = enableEdgeToEdge,
+        onRequestReview = onRequestReview,
+        onRequestUpdate = onRequestUpdate
     )
 }

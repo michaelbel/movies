@@ -36,9 +36,13 @@ internal class MainActivity: FragmentActivity() {
         super.onCreate(savedInstanceState)
         installShortcuts()
         setContent {
-            MainContent { statusBarStyle, navigationBarStyle ->
-                enableEdgeToEdge(statusBarStyle as SystemBarStyle, navigationBarStyle as SystemBarStyle)
-            }
+            MainContent(
+                enableEdgeToEdge = { statusBarStyle, navigationBarStyle ->
+                    enableEdgeToEdge(statusBarStyle as SystemBarStyle, navigationBarStyle as SystemBarStyle)
+                },
+                onRequestReview = { viewModel.requestReview(this) },
+                onRequestUpdate = { viewModel.requestUpdate(this) }
+            )
         }
         resolveNotificationPreferencesIntent()
         viewModel.run {

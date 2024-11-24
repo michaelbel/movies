@@ -25,6 +25,8 @@ import org.michaelbel.movies.debug.notification.DebugNotificationClient
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.platform.config.ConfigService
 import org.michaelbel.movies.platform.messaging.MessagingService
+import org.michaelbel.movies.platform.review.ReviewService
+import org.michaelbel.movies.platform.update.UpdateService
 import org.michaelbel.movies.work.AccountUpdateWorker
 import org.michaelbel.movies.work.MoviesDatabaseWorker
 
@@ -35,7 +37,9 @@ class MainViewModel(
     private val messagingService: MessagingService,
     private val workManager: WorkManager,
     private val debugNotificationClient: DebugNotificationClient,
-    private val configService: ConfigService
+    private val configService: ConfigService,
+    private val reviewService: ReviewService,
+    private val updateService: UpdateService,
 ): BaseViewModel() {
 
     private val _authenticateFlow = Channel<Unit>()
@@ -89,6 +93,14 @@ class MainViewModel(
             }
         }
         biometricController.authenticate(activity, biometricListener)
+    }
+
+    fun requestReview(activity: Any) {
+        reviewService.requestReview(activity)
+    }
+
+    fun requestUpdate(activity: Any) {
+        updateService.startUpdate(activity)
     }
 
     private fun fetchBiometric() = scope.launch {

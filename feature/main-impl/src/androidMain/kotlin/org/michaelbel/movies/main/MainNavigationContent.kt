@@ -24,7 +24,9 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 @Composable
 fun MainNavigationContent(
     themeData: ThemeData,
-    enableEdgeToEdge: (Any, Any) -> Unit
+    enableEdgeToEdge: (Any, Any) -> Unit,
+    onRequestReview: () -> Unit,
+    onRequestUpdate: () -> Unit
 ) {
     val navHostController = rememberNavController()
 
@@ -48,7 +50,9 @@ fun MainNavigationContent(
                 navigateToAuth = navHostController::navigateToAuth,
                 navigateToAccount = navHostController::navigateToAccount,
                 navigateToSettings = navHostController::navigateToSettings,
-                navigateToDetails = navHostController::navigateToDetails
+                navigateToDetails = navHostController::navigateToDetails,
+                onRequestReview = onRequestReview,
+                onRequestUpdate = onRequestUpdate
             )
             detailsGraph(
                 navigateBack = navHostController::popBackStack,
