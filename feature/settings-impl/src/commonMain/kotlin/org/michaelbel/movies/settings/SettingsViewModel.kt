@@ -13,6 +13,7 @@ import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.biometric.BiometricController2
 import org.michaelbel.movies.common.list.MovieList
+import org.michaelbel.movies.common.notify.NotifyManager
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
@@ -26,15 +27,21 @@ import org.michaelbel.movies.platform.update.UpdateService
 
 class SettingsViewModel(
     biometricController: BiometricController2,
+    private val notifyManager: NotifyManager,
     private val interactor: Interactor,
     private val reviewService: ReviewService,
     private val updateService: UpdateService,
-    appService: AppService
+    private val appService: AppService
 ): BaseViewModel(), DefaultLifecycleObserver {
 
-    val isReviewFeatureEnabled = appService.flavor == Flavor.Gms
+    val isReviewFeatureEnabled: Boolean
+        get() = appService.flavor == Flavor.Gms
 
-    val isUpdateFeatureEnabled = appService.flavor == Flavor.Gms
+    val isUpdateFeatureEnabled: Boolean
+        get() = appService.flavor == Flavor.Gms
+
+    val areNotificationsEnabled: Boolean
+        get() = notifyManager.areNotificationsEnabled
 
     val themeData: StateFlow<ThemeData> = interactor.themeData
         .stateIn(

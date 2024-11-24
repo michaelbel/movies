@@ -22,13 +22,13 @@ import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.common.MOVIES_GITHUB_URL
 import org.michaelbel.movies.common.browser.openUrl
 import org.michaelbel.movies.common.gender.GrammaticalGender
-import org.michaelbel.movies.common.ktx.notificationManager
 import org.michaelbel.movies.interactor.entity.AppLanguage
 import org.michaelbel.movies.notifications.ktx.rememberPostNotificationsPermissionHandler
 import org.michaelbel.movies.settings.SettingsViewModel
 import org.michaelbel.movies.settings.ktx.currentGrammaticalGender
 import org.michaelbel.movies.settings.ktx.iconSnackbarTextRes
 import org.michaelbel.movies.settings.ktx.isDebug
+import org.michaelbel.movies.settings.ktx.openAppNotificationSettings
 import org.michaelbel.movies.settings.ktx.requestTileService
 import org.michaelbel.movies.settings.ktx.supportSetRequestedApplicationGrammaticalGender
 import org.michaelbel.movies.settings.ktx.versionCode
@@ -53,7 +53,6 @@ import org.michaelbel.movies.settings.model.isWidgetFeatureEnabled
 import org.michaelbel.movies.ui.appicon.IconAlias
 import org.michaelbel.movies.ui.appicon.enabledIcon
 import org.michaelbel.movies.ui.appicon.setIcon
-import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 import org.michaelbel.movies.ui.ktx.collectAsStateCommon
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.lifecycle.OnResume
@@ -74,13 +73,12 @@ fun SettingsRoute(
     val isBiometricEnabled by viewModel.isBiometricEnabled.collectAsStateCommon()
     val isScreenshotBlockEnabled by viewModel.isScreenshotBlockEnabled.collectAsStateCommon()
     val appVersionData by viewModel.appVersionData.collectAsStateCommon()
+    var areNotificationsEnabled by remember { mutableStateOf(viewModel.areNotificationsEnabled) }
+    val openAppNotificationSettings = openAppNotificationSettings()
 
     val context = LocalContext.current
     val resultContract = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
     val toolbarColor = MaterialTheme.colorScheme.primary.toArgb()
-
-    val notificationManager by remember { mutableStateOf(context.notificationManager) }
-    var areNotificationsEnabled by remember { mutableStateOf(notificationManager.areNotificationsEnabled()) }
 
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -94,13 +92,9 @@ fun SettingsRoute(
                 duration = SnackbarDuration.Long
             )
             if (result == SnackbarResult.ActionPerformed) {
-                resultContract.launch(context.appNotificationSettingsIntent)
+                openAppNotificationSettings()
             }
         }
-    }
-
-    OnResume {
-        areNotificationsEnabled = notificationManager.areNotificationsEnabled()
     }
 
     val currentGrammaticalGender by remember { mutableStateOf(context.currentGrammaticalGender) }
@@ -172,7 +166,7 @@ fun SettingsRoute(
                 isEnabled = areNotificationsEnabled,
                 onClick = rememberPostNotificationsPermissionHandler(
                     areNotificationsEnabled = areNotificationsEnabled,
-                    onPermissionGranted = { areNotificationsEnabled = notificationManager.areNotificationsEnabled() },
+                    onPermissionGranted = { areNotificationsEnabled = viewModel.areNotificationsEnabled },
                     onPermissionDenied = onShowPermissionSnackbar
                 )
             ),
@@ -233,4 +227,8 @@ fun SettingsRoute(
         isNavigationIconVisible = false,
         modifier = modifier
     )
+
+    OnResume {
+        areNotificationsEnabled = viewModel.areNotificationsEnabled
+    }
 }
