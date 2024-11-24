@@ -1,5 +1,8 @@
 package org.michaelbel.movies.common.browser
 
-fun openUrl(url: String) {
+import androidx.compose.runtime.Composable
 
+@Composable
+actual fun navigateToUrl(url: String): () -> Unit {
+    return {}
 }

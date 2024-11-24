@@ -1,9 +1,6 @@
 package org.michaelbel.movies.settings.ui
 
 import android.app.Activity
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
@@ -14,13 +11,12 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
 import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.common.MOVIES_GITHUB_URL
-import org.michaelbel.movies.common.browser.openUrl
+import org.michaelbel.movies.common.browser.navigateToUrl
 import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.interactor.entity.AppLanguage
 import org.michaelbel.movies.notifications.ktx.rememberPostNotificationsPermissionHandler
@@ -75,10 +71,9 @@ fun SettingsRoute(
     val appVersionData by viewModel.appVersionData.collectAsStateCommon()
     var areNotificationsEnabled by remember { mutableStateOf(viewModel.areNotificationsEnabled) }
     val openAppNotificationSettings = openAppNotificationSettings()
+    val navigateToUrl = navigateToUrl(MOVIES_GITHUB_URL)
 
     val context = LocalContext.current
-    val resultContract = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
-    val toolbarColor = MaterialTheme.colorScheme.primary.toArgb()
 
     val scope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
@@ -204,7 +199,7 @@ fun SettingsRoute(
             ),
             githubData = SettingsData.RequestedData(
                 isFeatureEnabled = isGithubFeatureEnabled,
-                onRequest = { openUrl(resultContract, toolbarColor, MOVIES_GITHUB_URL) }
+                onRequest = navigateToUrl
             ),
             reviewAppData = SettingsData.RequestedData(
                 isFeatureEnabled = isReviewAppFeatureEnabled && viewModel.isReviewFeatureEnabled,

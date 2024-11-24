@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.koinInject
 import org.michaelbel.movies.common.MOVIES_GITHUB_URL
-import org.michaelbel.movies.common.browser.openUrl
+import org.michaelbel.movies.common.browser.navigateToUrl
 import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.interactor.entity.AppLanguage
 import org.michaelbel.movies.settings.SettingsViewModel
@@ -46,6 +46,7 @@ fun SettingsRoute(
     val currentFeedView by viewModel.currentFeedView.collectAsStateCommon()
     val currentMovieList by viewModel.currentMovieList.collectAsStateCommon()
     val snackbarHostState = remember { SnackbarHostState() }
+    val navigateToUrl = navigateToUrl(MOVIES_GITHUB_URL)
 
     SettingsScreenContent(
         settingsData = SettingsData(
@@ -111,7 +112,7 @@ fun SettingsRoute(
             ),
             githubData = SettingsData.RequestedData(
                 isFeatureEnabled = isGithubFeatureEnabled,
-                onRequest = { openUrl(MOVIES_GITHUB_URL) }
+                onRequest = navigateToUrl
             ),
             reviewAppData = SettingsData.RequestedData(
                 isFeatureEnabled = isReviewAppFeatureEnabled

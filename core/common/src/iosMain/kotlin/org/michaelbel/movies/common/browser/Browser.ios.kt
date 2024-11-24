@@ -1,11 +1,15 @@
 package org.michaelbel.movies.common.browser
 
+import androidx.compose.runtime.Composable
 import platform.Foundation.NSURL
 import platform.UIKit.UIApplication
 
-fun openUrl(url: String) {
+@Composable
+actual fun navigateToUrl(url: String): () -> Unit {
     val nsUrl = NSURL.URLWithString(url)
-    if (nsUrl != null) {
-        UIApplication.sharedApplication().openURL(nsUrl)
+    return {
+        if (nsUrl != null) {
+            UIApplication.sharedApplication().openURL(nsUrl)
+        }
     }
 }

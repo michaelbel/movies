@@ -4,7 +4,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import org.koin.compose.koinInject
 import org.michaelbel.movies.auth.AuthViewModel
-import org.michaelbel.movies.common.browser.openUrl
 
 @Composable
 fun AuthRoute(
@@ -21,7 +20,7 @@ fun AuthRoute(
         onSignInClick = { username, password -> },
         onLoginClick = {},
         onResetRequestToken = {},
-        onUrlClick = { url -> openUrl(url) },
+        onUrlClick = {},
         modifier = modifier
     )
 }
