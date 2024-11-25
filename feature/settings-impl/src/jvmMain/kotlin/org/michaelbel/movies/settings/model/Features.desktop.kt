@@ -1,6 +1,7 @@
 package org.michaelbel.movies.settings.model
 
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
 internal actual val isNavigationIconVisible: Boolean
@@ -59,3 +60,6 @@ internal actual val isAboutFeatureEnabled: Boolean
 
 internal actual val settingsWindowInsets: WindowInsets
     get() = WindowInsets(0.dp, 0.dp, 0.dp, 0.dp)
+
+internal actual val bottomBarModifier: Modifier
+    get() = Modifier

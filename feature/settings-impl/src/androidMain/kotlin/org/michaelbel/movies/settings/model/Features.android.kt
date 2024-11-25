@@ -3,6 +3,7 @@ package org.michaelbel.movies.settings.model
 import android.os.Build
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import com.google.android.material.color.DynamicColors
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 
@@ -62,3 +63,6 @@ internal actual val isAboutFeatureEnabled: Boolean
 
 internal actual val settingsWindowInsets: WindowInsets
     @Composable get() = displayCutoutWindowInsets
+
+internal actual val bottomBarModifier: Modifier
+    get() = Modifier

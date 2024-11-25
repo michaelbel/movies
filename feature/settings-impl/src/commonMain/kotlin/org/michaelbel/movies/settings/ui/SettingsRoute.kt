@@ -24,6 +24,7 @@ import org.michaelbel.movies.settings.ktx.rememberAndPinAppWidgetProvider
 import org.michaelbel.movies.settings.ktx.rememberPostNotificationsPermissionHandler
 import org.michaelbel.movies.settings.ktx.requestTileService
 import org.michaelbel.movies.settings.model.SettingsData
+import org.michaelbel.movies.settings.model.bottomBarModifier
 import org.michaelbel.movies.settings.model.isAboutFeatureEnabled
 import org.michaelbel.movies.settings.model.isAppIconFeatureEnabled
 import org.michaelbel.movies.settings.model.isBiometricFeatureEnabled
@@ -209,6 +210,7 @@ fun SettingsRoute(
         windowInsets = settingsWindowInsets,
         snackbarHostState = snackbarHostState,
         isNavigationIconVisible = isNavigationIconVisible,
+        bottomBarModifier = bottomBarModifier,
         modifier = modifier
     )
 

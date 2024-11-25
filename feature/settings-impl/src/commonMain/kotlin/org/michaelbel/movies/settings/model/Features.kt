@@ -1,6 +1,7 @@
 package org.michaelbel.movies.settings.model
 
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.ui.Modifier
 
 internal expect val isNavigationIconVisible: Boolean
 internal expect val isLanguageFeatureEnabled: Boolean
@@ -21,3 +22,4 @@ internal expect val isReviewAppFeatureEnabled: Boolean
 internal expect val isUpdateAppFeatureEnabled: Boolean
 internal expect val isAboutFeatureEnabled: Boolean
 internal expect val settingsWindowInsets: WindowInsets
+internal expect val bottomBarModifier: Modifier

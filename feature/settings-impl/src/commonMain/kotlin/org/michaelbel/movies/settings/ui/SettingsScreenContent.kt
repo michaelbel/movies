@@ -53,6 +53,7 @@ internal fun SettingsScreenContent(
     windowInsets: WindowInsets,
     snackbarHostState: SnackbarHostState,
     isNavigationIconVisible: Boolean,
+    bottomBarModifier: Modifier,
     modifier: Modifier = Modifier
 ) {
     val scope = rememberCoroutineScope()
@@ -81,7 +82,9 @@ internal fun SettingsScreenContent(
             if (settingsData.aboutData.isFeatureEnabled) {
                 SettingsVersionBox(
                     aboutData = settingsData.aboutData,
-                    modifier = Modifier.windowInsetsPadding(windowInsets)
+                    modifier = Modifier
+                        .then(bottomBarModifier)
+                        .windowInsetsPadding(windowInsets)
                 )
             }
         },
