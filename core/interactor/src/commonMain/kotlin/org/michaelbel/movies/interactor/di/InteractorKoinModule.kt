@@ -1,5 +1,6 @@
 package org.michaelbel.movies.interactor.di
 
+import org.koin.core.module.Module
 import org.koin.core.module.dsl.bind
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
@@ -32,7 +33,9 @@ val interactorKoinModule = module {
         repositoryKoinModule,
         moviesDatabaseKoinModule,
         moviesAnalyticsKoinModule,
-        interactorLocaleKoinModule
+        localeInteractorKoinModule,
+        aboutInteractorKoinModule,
+        settingsUiInteractorKoinModule
     )
     singleOf(::AccountInteractorImpl) { bind<AccountInteractor>() }
     singleOf(::AuthenticationInteractorImpl) { bind<AuthenticationInteractor>() }
@@ -56,3 +59,7 @@ val interactorKoinModule = module {
         )
     }
 }
+
+expect val localeInteractorKoinModule: Module
+expect val aboutInteractorKoinModule: Module
+expect val settingsUiInteractorKoinModule: Module

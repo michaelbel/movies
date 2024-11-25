@@ -2,12 +2,12 @@ package org.michaelbel.movies.settings.ktx
 
 import android.app.GrammaticalInflectionManager
 import android.content.Context
+import android.os.Build
 import org.michaelbel.movies.common.gender.GrammaticalGender
-import org.michaelbel.movies.settings.model.isGenderFeatureEnabled
 
 internal val Context.currentGrammaticalGender: GrammaticalGender
     get() {
-        return if (isGenderFeatureEnabled) {
+        return if (Build.VERSION.SDK_INT >= 34) {
             val grammaticalInflectionManager = getSystemService(GrammaticalInflectionManager::class.java)
             val grammaticalGender = grammaticalInflectionManager.applicationGrammaticalGender
             GrammaticalGender.transform(grammaticalGender)
@@ -17,7 +17,7 @@ internal val Context.currentGrammaticalGender: GrammaticalGender
     }
 
 internal fun Context.supportSetRequestedApplicationGrammaticalGender(grammaticalGender: Int) {
-    if (isGenderFeatureEnabled) {
+    if (Build.VERSION.SDK_INT >= 34) {
         val grammaticalInflectionManager = getSystemService(GrammaticalInflectionManager::class.java)
         grammaticalInflectionManager.setRequestedApplicationGrammaticalGender(grammaticalGender)
     }

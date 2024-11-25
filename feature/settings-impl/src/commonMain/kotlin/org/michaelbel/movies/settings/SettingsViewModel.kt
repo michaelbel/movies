@@ -17,25 +17,25 @@ import org.michaelbel.movies.common.notify.NotifyManager
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
+import org.michaelbel.movies.interactor.AboutInteractor
 import org.michaelbel.movies.interactor.Interactor
+import org.michaelbel.movies.interactor.SettingsUiInteractor
 import org.michaelbel.movies.interactor.entity.AppLanguage
 import org.michaelbel.movies.platform.Flavor
 import org.michaelbel.movies.platform.app.AppService
-import org.michaelbel.movies.platform.review.ReviewService
 import org.michaelbel.movies.platform.update.UpdateListener
 import org.michaelbel.movies.platform.update.UpdateService
-import org.michaelbel.movies.settings.about.AboutManager
 import org.michaelbel.movies.settings.gender.GrammaticalGenderManager
-import org.michaelbel.movies.settings.iconAlias.IconAliasManager
+import org.michaelbel.movies.settings.iconAlias.IconAliasInteractor
 
 class SettingsViewModel(
     biometricController: BiometricController2,
     val grammaticalGenderManager: GrammaticalGenderManager,
-    val iconAliasManager: IconAliasManager,
-    val aboutManager: AboutManager,
+    val iconAliasManager: IconAliasInteractor,
+    val aboutInteractor: AboutInteractor,
+    val settingsUiInteractor: SettingsUiInteractor,
     private val notifyManager: NotifyManager,
     private val interactor: Interactor,
-    private val reviewService: ReviewService,
     private val updateService: UpdateService,
     private val appService: AppService
 ): BaseViewModel(), DefaultLifecycleObserver {
@@ -138,14 +138,6 @@ class SettingsViewModel(
 
     fun setScreenshotBlockEnabled(enabled: Boolean) = scope.launch {
         interactor.setScreenshotBlockEnabled(enabled)
-    }
-
-    fun requestReview(activity: Any) {
-        reviewService.requestReview(activity)
-    }
-
-    fun requestUpdate(activity: Any) {
-        updateService.startUpdate(activity)
     }
 
     private fun fetchUpdateAvailable() {

@@ -19,30 +19,11 @@ import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.interactor.entity.AppLanguage
 import org.michaelbel.movies.settings.SettingsViewModel
 import org.michaelbel.movies.settings.ktx.iconSnackbarTextRes
-import org.michaelbel.movies.settings.ktx.openAppNotificationSettings
 import org.michaelbel.movies.settings.ktx.rememberAndPinAppWidgetProvider
-import org.michaelbel.movies.settings.ktx.rememberPostNotificationsPermissionHandler
 import org.michaelbel.movies.settings.ktx.requestTileService
 import org.michaelbel.movies.settings.model.SettingsData
-import org.michaelbel.movies.settings.model.bottomBarModifier
-import org.michaelbel.movies.settings.model.isAboutFeatureEnabled
-import org.michaelbel.movies.settings.model.isAppIconFeatureEnabled
-import org.michaelbel.movies.settings.model.isBiometricFeatureEnabled
 import org.michaelbel.movies.settings.model.isDynamicColorsFeatureEnabled
-import org.michaelbel.movies.settings.model.isFeedViewFeatureEnabled
-import org.michaelbel.movies.settings.model.isGenderFeatureEnabled
-import org.michaelbel.movies.settings.model.isGithubFeatureEnabled
-import org.michaelbel.movies.settings.model.isLanguageFeatureEnabled
-import org.michaelbel.movies.settings.model.isMovieListFeatureEnabled
-import org.michaelbel.movies.settings.model.isNavigationIconVisible
-import org.michaelbel.movies.settings.model.isNotificationsFeatureEnabled
 import org.michaelbel.movies.settings.model.isPaletteColorsFeatureEnabled
-import org.michaelbel.movies.settings.model.isReviewAppFeatureEnabled
-import org.michaelbel.movies.settings.model.isScreenshotFeatureEnabled
-import org.michaelbel.movies.settings.model.isThemeFeatureEnabled
-import org.michaelbel.movies.settings.model.isTileFeatureEnabled
-import org.michaelbel.movies.settings.model.isUpdateAppFeatureEnabled
-import org.michaelbel.movies.settings.model.isWidgetFeatureEnabled
 import org.michaelbel.movies.settings.model.settingsWindowInsets
 import org.michaelbel.movies.ui.appicon.IconAlias
 import org.michaelbel.movies.ui.ktx.collectAsStateCommon
@@ -66,7 +47,7 @@ fun SettingsRoute(
     val isScreenshotBlockEnabled by viewModel.isScreenshotBlockEnabled.collectAsStateCommon()
     val appVersionData by viewModel.appVersionData.collectAsStateCommon()
     var areNotificationsEnabled by remember { mutableStateOf(viewModel.areNotificationsEnabled) }
-    val openAppNotificationSettings = openAppNotificationSettings()
+    val openAppNotificationSettings = viewModel.settingsUiInteractor.navigateToAppNotificationSettings()
     val navigateToUrl = navigateToUrl(MOVIES_GITHUB_URL)
 
     val scope = rememberCoroutineScope()
@@ -104,27 +85,27 @@ fun SettingsRoute(
         settingsData = SettingsData(
             onBackClick = onBackClick,
             languageData = SettingsData.ListData(
-                isFeatureEnabled = isLanguageFeatureEnabled,
+                isFeatureEnabled = viewModel.settingsUiInteractor.isLanguageFeatureEnabled,
                 current = AppLanguage.transform(stringResource(MoviesStrings.language_code)),
                 onSelect = viewModel::selectLanguage
             ),
             themeData = SettingsData.ListData(
-                isFeatureEnabled = isThemeFeatureEnabled,
+                isFeatureEnabled = viewModel.settingsUiInteractor.isThemeFeatureEnabled,
                 current = themeData.appTheme,
                 onSelect = viewModel::selectTheme
             ),
             feedViewData = SettingsData.ListData(
-                isFeatureEnabled = isFeedViewFeatureEnabled,
+                isFeatureEnabled = viewModel.settingsUiInteractor.isFeedViewFeatureEnabled,
                 current = currentFeedView,
                 onSelect = viewModel::selectFeedView
             ),
             movieListData = SettingsData.ListData(
-                isFeatureEnabled = isMovieListFeatureEnabled,
+                isFeatureEnabled = viewModel.settingsUiInteractor.isMovieListFeatureEnabled,
                 current = currentMovieList,
                 onSelect = viewModel::selectMovieList
             ),
             genderData = SettingsData.ListData(
-                isFeatureEnabled = isGenderFeatureEnabled,
+                isFeatureEnabled = viewModel.settingsUiInteractor.isGenderFeatureEnabled,
                 current = viewModel.grammaticalGenderManager.grammaticalGender,
                 onSelect = { gender -> viewModel.grammaticalGenderManager.setGrammaticalGender(GrammaticalGender.value(gender)) }
             ),
@@ -147,29 +128,29 @@ fun SettingsRoute(
                 }
             ),
             notificationsData = SettingsData.NotificationsData(
-                isFeatureEnabled = isNotificationsFeatureEnabled,
+                isFeatureEnabled = viewModel.settingsUiInteractor.isNotificationsFeatureEnabled,
                 isEnabled = areNotificationsEnabled,
-                onClick = rememberPostNotificationsPermissionHandler(
+                onClick = viewModel.settingsUiInteractor.rememberPostNotificationsPermissionHandler(
                     areNotificationsEnabled = areNotificationsEnabled,
                     onPermissionGranted = { areNotificationsEnabled = viewModel.areNotificationsEnabled },
                     onPermissionDenied = onShowPermissionSnackbar
                 )
             ),
             biometricData = SettingsData.ChangedData(
-                isFeatureEnabled = isBiometricFeatureEnabled && isBiometricFeatureAvailable,
+                isFeatureEnabled = viewModel.settingsUiInteractor.isBiometricFeatureEnabled && isBiometricFeatureAvailable,
                 isEnabled = isBiometricEnabled,
                 onChange = viewModel::setBiometricEnabled
             ),
             widgetData = SettingsData.RequestedData(
-                isFeatureEnabled = isWidgetFeatureEnabled,
+                isFeatureEnabled = viewModel.settingsUiInteractor.isWidgetFeatureEnabled,
                 onRequest = rememberAndPinAppWidgetProvider()
             ),
             tileData = SettingsData.RequestedData(
-                isFeatureEnabled = isTileFeatureEnabled,
+                isFeatureEnabled = viewModel.settingsUiInteractor.isTileFeatureEnabled,
                 onRequest = requestTileService(onShowSnackbar)
             ),
             appIconData = SettingsData.ListData(
-                isFeatureEnabled = isAppIconFeatureEnabled,
+                isFeatureEnabled = viewModel.settingsUiInteractor.isAppIconFeatureEnabled,
                 current = viewModel.iconAliasManager.enabledIcon,
                 onSelect = { icon ->
                     val message = when (icon) {
@@ -183,34 +164,34 @@ fun SettingsRoute(
                 }
             ),
             screenshotData = SettingsData.ChangedData(
-                isFeatureEnabled = isScreenshotFeatureEnabled,
+                isFeatureEnabled = viewModel.settingsUiInteractor.isScreenshotFeatureEnabled,
                 isEnabled = isScreenshotBlockEnabled,
                 onChange = viewModel::setScreenshotBlockEnabled
             ),
             githubData = SettingsData.RequestedData(
-                isFeatureEnabled = isGithubFeatureEnabled,
+                isFeatureEnabled = viewModel.settingsUiInteractor.isGithubFeatureEnabled,
                 onRequest = navigateToUrl
             ),
             reviewAppData = SettingsData.RequestedData(
-                isFeatureEnabled = isReviewAppFeatureEnabled && viewModel.isReviewFeatureEnabled,
+                isFeatureEnabled = viewModel.settingsUiInteractor.isReviewAppFeatureEnabled && viewModel.isReviewFeatureEnabled,
                 onRequest = onRequestReview
             ),
             updateAppData = SettingsData.RequestedData(
-                isFeatureEnabled = isUpdateAppFeatureEnabled && viewModel.isUpdateFeatureEnabled && viewModel.isUpdateAvailable,
+                isFeatureEnabled = viewModel.settingsUiInteractor.isUpdateAppFeatureEnabled && viewModel.isUpdateFeatureEnabled && viewModel.isUpdateAvailable,
                 onRequest = onRequestUpdate
             ),
             aboutData = SettingsData.AboutData(
-                isFeatureEnabled = isAboutFeatureEnabled,
-                versionName = viewModel.aboutManager.versionName,
-                versionCode = viewModel.aboutManager.versionCode,
+                isFeatureEnabled = viewModel.settingsUiInteractor.isAboutFeatureEnabled,
+                versionName = viewModel.aboutInteractor.versionName,
+                versionCode = viewModel.aboutInteractor.versionCode,
                 flavor = appVersionData.flavor,
                 isDebug = isDebug
             )
         ),
         windowInsets = settingsWindowInsets,
         snackbarHostState = snackbarHostState,
-        isNavigationIconVisible = isNavigationIconVisible,
-        bottomBarModifier = bottomBarModifier,
+        isNavigationIconVisible = viewModel.settingsUiInteractor.isNavigationIconVisible,
+        bottomBarModifier = viewModel.settingsUiInteractor.bottomBarModifier,
         modifier = modifier
     )
 

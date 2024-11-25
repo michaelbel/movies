@@ -22,35 +22,19 @@ interface SettingsInteractor {
 
     suspend fun isBiometricEnabledAsync(): Boolean
 
-    suspend fun selectTheme(
-        appTheme: AppTheme
-    )
+    suspend fun selectTheme(appTheme: AppTheme)
 
-    suspend fun selectFeedView(
-        feedView: FeedView
-    )
+    suspend fun selectFeedView(feedView: FeedView)
 
-    suspend fun selectMovieList(
-        movieList: MovieList
-    )
+    suspend fun selectMovieList(movieList: MovieList)
 
-    suspend fun setDynamicColors(
-        value: Boolean
-    )
+    suspend fun setDynamicColors(value: Boolean)
 
-    suspend fun setPaletteKey(
-        paletteKey: Int
-    )
+    suspend fun setPaletteKey(paletteKey: Int)
 
-    suspend fun setSeedColor(
-        seedColor: Int
-    )
+    suspend fun setSeedColor(seedColor: Int)
 
-    suspend fun setBiometricEnabled(
-        enabled: Boolean
-    )
+    suspend fun setBiometricEnabled(enabled: Boolean)
 
-    suspend fun setScreenshotBlockEnabled(
-        enabled: Boolean
-    )
+    suspend fun setScreenshotBlockEnabled(enabled: Boolean)
 }

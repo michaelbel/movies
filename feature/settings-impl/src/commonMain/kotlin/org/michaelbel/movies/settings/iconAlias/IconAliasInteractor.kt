@@ -2,7 +2,7 @@ package org.michaelbel.movies.settings.iconAlias
 
 import org.michaelbel.movies.ui.appicon.IconAlias
 
-interface IconAliasManager {
+interface IconAliasInteractor {
 
     val enabledIcon: IconAlias
 

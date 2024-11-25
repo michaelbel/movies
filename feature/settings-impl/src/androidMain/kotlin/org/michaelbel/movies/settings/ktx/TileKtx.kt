@@ -13,7 +13,7 @@ import org.michaelbel.movies.ui.strings.MoviesStrings
 import org.michaelbel.movies.ui.tile.MoviesTileService
 
 @Composable
-actual fun requestTileService(onSnackbarShow: (String) -> Unit): () -> Unit {
+actual fun requestTileService(onSuccess: (String) -> Unit): () -> Unit {
     val context = LocalContext.current
     val tileTitleLabel = stringResource(MoviesStrings.tile_title)
     val tileMessage = stringResource(MoviesStrings.settings_tile_error_already_added)
@@ -28,7 +28,7 @@ actual fun requestTileService(onSnackbarShow: (String) -> Unit): () -> Unit {
             ) { result ->
                 when (result) {
                     StatusBarManager.TILE_ADD_REQUEST_RESULT_TILE_ALREADY_ADDED -> {
-                        onSnackbarShow(tileMessage)
+                        onSuccess(tileMessage)
                     }
                 }
             }
