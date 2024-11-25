@@ -1,5 +1,11 @@
 package org.michaelbel.movies.settings.model
 
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.ui.unit.dp
+
+internal actual val isNavigationIconVisible: Boolean
+    get() = true
+
 internal actual val isLanguageFeatureEnabled: Boolean
     get() = false
 
@@ -19,6 +25,9 @@ internal actual val isDynamicColorsFeatureEnabled: Boolean
     get() = false
 
 internal actual val isNotificationsFeatureEnabled: Boolean
+    get() = false
+
+internal actual val isPaletteColorsFeatureEnabled: Boolean
     get() = false
 
 internal actual val isBiometricFeatureEnabled: Boolean
@@ -47,3 +56,6 @@ internal actual val isUpdateAppFeatureEnabled: Boolean
 
 internal actual val isAboutFeatureEnabled: Boolean
     get() = true
+
+internal actual val settingsWindowInsets: WindowInsets
+    get() = WindowInsets(0.dp, 0.dp, 0.dp, 0.dp)

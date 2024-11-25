@@ -6,7 +6,7 @@ import org.michaelbel.movies.ui.appicon.IconAlias
 class IconAliasManagerImpl: IconAliasManager {
 
     override val enabledIcon: IconAlias
-        get() = TODO()
+        get() = IconAlias.Red
 
     override fun setIcon(iconAlias: IconAlias) {}
 }

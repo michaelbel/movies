@@ -9,7 +9,9 @@ fun NavGraphBuilder.settingsGraph(
 ) {
     composable<SettingsDestination> {
         SettingsRoute(
-            onBackClick = navigateBack
+            onBackClick = navigateBack,
+            onRequestReview = {},
+            onRequestUpdate = {}
         )
     }
 }

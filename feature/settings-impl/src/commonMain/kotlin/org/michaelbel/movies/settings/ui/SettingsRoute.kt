@@ -12,14 +12,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
-import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.viewmodel.koinViewModel
 import org.michaelbel.movies.common.MOVIES_GITHUB_URL
 import org.michaelbel.movies.common.browser.navigateToUrl
 import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.interactor.entity.AppLanguage
 import org.michaelbel.movies.settings.SettingsViewModel
 import org.michaelbel.movies.settings.ktx.iconSnackbarTextRes
-import org.michaelbel.movies.settings.ktx.isDebug
 import org.michaelbel.movies.settings.ktx.openAppNotificationSettings
 import org.michaelbel.movies.settings.ktx.rememberAndPinAppWidgetProvider
 import org.michaelbel.movies.settings.ktx.rememberPostNotificationsPermissionHandler
@@ -34,16 +33,19 @@ import org.michaelbel.movies.settings.model.isGenderFeatureEnabled
 import org.michaelbel.movies.settings.model.isGithubFeatureEnabled
 import org.michaelbel.movies.settings.model.isLanguageFeatureEnabled
 import org.michaelbel.movies.settings.model.isMovieListFeatureEnabled
+import org.michaelbel.movies.settings.model.isNavigationIconVisible
 import org.michaelbel.movies.settings.model.isNotificationsFeatureEnabled
+import org.michaelbel.movies.settings.model.isPaletteColorsFeatureEnabled
 import org.michaelbel.movies.settings.model.isReviewAppFeatureEnabled
 import org.michaelbel.movies.settings.model.isScreenshotFeatureEnabled
 import org.michaelbel.movies.settings.model.isThemeFeatureEnabled
 import org.michaelbel.movies.settings.model.isTileFeatureEnabled
 import org.michaelbel.movies.settings.model.isUpdateAppFeatureEnabled
 import org.michaelbel.movies.settings.model.isWidgetFeatureEnabled
+import org.michaelbel.movies.settings.model.settingsWindowInsets
 import org.michaelbel.movies.ui.appicon.IconAlias
 import org.michaelbel.movies.ui.ktx.collectAsStateCommon
-import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
+import org.michaelbel.movies.ui.ktx.isDebug
 import org.michaelbel.movies.ui.lifecycle.OnResume
 import org.michaelbel.movies.ui.strings.MoviesStrings
 
@@ -55,7 +57,6 @@ fun SettingsRoute(
     modifier: Modifier = Modifier,
     viewModel: SettingsViewModel = koinViewModel()
 ) {
-    val currentLanguage = AppLanguage.transform(stringResource(MoviesStrings.language_code))
     val themeData by viewModel.themeData.collectAsStateCommon()
     val currentFeedView by viewModel.currentFeedView.collectAsStateCommon()
     val currentMovieList by viewModel.currentMovieList.collectAsStateCommon()
@@ -103,7 +104,7 @@ fun SettingsRoute(
             onBackClick = onBackClick,
             languageData = SettingsData.ListData(
                 isFeatureEnabled = isLanguageFeatureEnabled,
-                current = currentLanguage,
+                current = AppLanguage.transform(stringResource(MoviesStrings.language_code)),
                 onSelect = viewModel::selectLanguage
             ),
             themeData = SettingsData.ListData(
@@ -124,9 +125,7 @@ fun SettingsRoute(
             genderData = SettingsData.ListData(
                 isFeatureEnabled = isGenderFeatureEnabled,
                 current = viewModel.grammaticalGenderManager.grammaticalGender,
-                onSelect = { gender ->
-                    viewModel.grammaticalGenderManager.setGrammaticalGender(GrammaticalGender.value(gender))
-                }
+                onSelect = { gender -> viewModel.grammaticalGenderManager.setGrammaticalGender(GrammaticalGender.value(gender)) }
             ),
             dynamicColorsData = SettingsData.ChangedData(
                 isFeatureEnabled = isDynamicColorsFeatureEnabled,
@@ -134,7 +133,7 @@ fun SettingsRoute(
                 onChange = viewModel::setDynamicColors
             ),
             paletteColorsData = SettingsData.PaletteColorsData(
-                isFeatureEnabled = isDynamicColorsFeatureEnabled,
+                isFeatureEnabled = isPaletteColorsFeatureEnabled,
                 isDynamicColorsEnabled = themeData.dynamicColors,
                 paletteKey = themeData.paletteKey,
                 seedColor = themeData.seedColor,
@@ -207,9 +206,9 @@ fun SettingsRoute(
                 isDebug = isDebug
             )
         ),
-        windowInsets = displayCutoutWindowInsets,
+        windowInsets = settingsWindowInsets,
         snackbarHostState = snackbarHostState,
-        isNavigationIconVisible = false,
+        isNavigationIconVisible = isNavigationIconVisible,
         modifier = modifier
     )
 
