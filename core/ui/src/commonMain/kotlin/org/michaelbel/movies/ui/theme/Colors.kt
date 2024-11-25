@@ -52,12 +52,6 @@ fun Number.n2(tonalPalettes: TonalPalettes): Color {
     return tonalPalettes neutral2 toDouble()
 }
 
-/** Light default theme color scheme. */
-val LightColorScheme = lightColorScheme()
-
-/** Dark default theme color scheme. */
-val DarkColorScheme = darkColorScheme()
-
 val TonalPalettes.paletteLightColorScheme: ColorScheme
     @Composable get() = lightColorScheme(
         background = 98.n1(this),

@@ -7,6 +7,7 @@ import androidx.compose.material.icons.filled.MovieFilter
 import androidx.compose.material.icons.outlined.AccountCircle
 import androidx.compose.material.icons.outlined.Check
 import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.FileDownload
 import androidx.compose.material.icons.outlined.Fingerprint
 import androidx.compose.material.icons.outlined.GridView
@@ -64,6 +65,7 @@ object MoviesIcons {
     val ArrowBack = Icons.AutoMirrored.Outlined.ArrowBack
     val Check = Icons.Outlined.Check
     val Close = Icons.Outlined.Close
+    val Delete = Icons.Outlined.Delete
     val Info = Icons.Outlined.Info
     val FileDownload = Icons.Outlined.FileDownload
     val Fingerprint = Icons.Outlined.Fingerprint

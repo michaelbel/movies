@@ -100,16 +100,11 @@ internal class MovieRepositoryImpl(
         }
     }
 
-    override suspend fun removeMovies(
-        pagingKey: PagingKey
-    ) {
+    override suspend fun removeMovies(pagingKey: PagingKey) {
         moviePersistence.removeMovies(pagingKey)
     }
 
-    override suspend fun removeMovie(
-        pagingKey: PagingKey,
-        movieId: MovieId
-    ) {
+    override suspend fun removeMovie(pagingKey: PagingKey, movieId: MovieId) {
         moviePersistence.removeMovie(pagingKey, movieId)
     }
 
@@ -129,10 +124,7 @@ internal class MovieRepositoryImpl(
         moviePersistence.insertMovies(moviesDb)
     }
 
-    override suspend fun insertMovie(
-        pagingKey: PagingKey,
-        movie: MoviePojo
-    ) {
+    override suspend fun insertMovie(pagingKey: PagingKey, movie: MoviePojo) {
         val maxPosition = moviePersistence.maxPosition(pagingKey).orEmpty()
         moviePersistence.insertMovie(
             movie.copy(

@@ -115,9 +115,7 @@ internal fun SearchScreenContent(
                     onChangeActiveState(false)
                 },
                 active = active,
-                onActiveChange = { state ->
-                    onChangeActiveState(state)
-                },
+                onActiveChange = onChangeActiveState,
                 onBackClick = onBackClick,
                 onCloseClick = {
                     onChangeActiveState(query.isNotEmpty())

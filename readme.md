@@ -150,6 +150,7 @@ Choose a run configuration for an appropriate target in Android Studio and run i
 - [x] CompileSDK 34
 - [x] [Dark Theme](https://d.android.com/develop/ui/views/theming/darktheme)
 - [x] Amoled Theme
+- [x] SwipeToDismiss
 - [x] [Material You Dynamic Colors](https://d.android.com/develop/ui/views/theming/dynamic-colors)
 - [x] [Themed App Icon](https://d.android.com/develop/ui/views/launch/icon_design_adaptive)
 - [x] [Palette Colors API](https://d.android.com/develop/ui/views/graphics/palette-colors)
