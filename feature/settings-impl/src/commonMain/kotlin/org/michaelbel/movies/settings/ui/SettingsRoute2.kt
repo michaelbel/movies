@@ -12,14 +12,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import kotlinx.coroutines.launch
 import org.jetbrains.compose.resources.stringResource
-import org.koin.androidx.compose.koinViewModel
+import org.koin.compose.viewmodel.koinViewModel
 import org.michaelbel.movies.common.MOVIES_GITHUB_URL
 import org.michaelbel.movies.common.browser.navigateToUrl
 import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.interactor.entity.AppLanguage
 import org.michaelbel.movies.settings.SettingsViewModel
 import org.michaelbel.movies.settings.ktx.iconSnackbarTextRes
-import org.michaelbel.movies.settings.ktx.isDebug
 import org.michaelbel.movies.settings.ktx.openAppNotificationSettings
 import org.michaelbel.movies.settings.ktx.rememberAndPinAppWidgetProvider
 import org.michaelbel.movies.settings.ktx.rememberPostNotificationsPermissionHandler
@@ -44,11 +43,12 @@ import org.michaelbel.movies.settings.model.isWidgetFeatureEnabled
 import org.michaelbel.movies.ui.appicon.IconAlias
 import org.michaelbel.movies.ui.ktx.collectAsStateCommon
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
+import org.michaelbel.movies.ui.ktx.isDebug
 import org.michaelbel.movies.ui.lifecycle.OnResume
 import org.michaelbel.movies.ui.strings.MoviesStrings
 
 @Composable
-fun SettingsRoute(
+fun SettingsRoute2(
     onBackClick: () -> Unit,
     onRequestReview: () -> Unit,
     onRequestUpdate: () -> Unit,

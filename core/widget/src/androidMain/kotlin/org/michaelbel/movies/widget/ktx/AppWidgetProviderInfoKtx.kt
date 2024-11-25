@@ -8,7 +8,7 @@ import android.content.Intent
 import android.os.Build
 import org.michaelbel.movies.widget.configure.AppWidgetPinnedReceiver
 
-internal fun AppWidgetProviderInfo.pin(context: Context) {
+fun AppWidgetProviderInfo.pin(context: Context) {
     val successCallback = PendingIntent.getBroadcast(
         context,
         0,

@@ -1,4 +1,4 @@
-package org.michaelbel.movies.notifications.ktx
+package org.michaelbel.movies.settings.ktx
 
 import android.Manifest
 import android.app.Activity
@@ -10,7 +10,7 @@ import androidx.compose.ui.platform.LocalContext
 import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
 
 @Composable
-fun rememberPostNotificationsPermissionHandler(
+actual fun rememberPostNotificationsPermissionHandler(
     areNotificationsEnabled: Boolean,
     onPermissionGranted: () -> Unit,
     onPermissionDenied: () -> Unit

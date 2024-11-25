@@ -2,10 +2,16 @@ package org.michaelbel.movies.ui.ktx
 
 import android.content.res.Configuration
 import androidx.activity.SystemBarStyle
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalConfiguration
+import org.michaelbel.movies.common.BuildConfig
+
+actual val isDebug: Boolean
+    get() = BuildConfig.DEBUG
 
 actual val isPortrait: Boolean
     @Composable get() {
@@ -27,3 +33,6 @@ actual fun navigationBarStyle(detectDarkMode: Boolean): Any {
         else -> SystemBarStyle.auto(Color.Transparent.toArgb(), Color.Transparent.toArgb()) { detectDarkMode }
     }
 }
+
+actual val displayCutoutWindowInsets: WindowInsets
+    @Composable get() = if (isPortrait) WindowInsets(0, 0, 0, 0) else WindowInsets.displayCutout

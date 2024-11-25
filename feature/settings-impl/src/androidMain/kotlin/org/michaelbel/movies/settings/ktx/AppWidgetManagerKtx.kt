@@ -1,13 +1,14 @@
-package org.michaelbel.movies.widget.ktx
+package org.michaelbel.movies.settings.ktx
 
 import android.appwidget.AppWidgetManager
 import android.os.Build
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
+import org.michaelbel.movies.widget.ktx.pin
 
 @Composable
-fun rememberAndPinAppWidgetProvider(): () -> Unit {
+actual fun rememberAndPinAppWidgetProvider(): () -> Unit {
     if (Build.VERSION.SDK_INT < 26) return {}
     val context = LocalContext.current
     val appWidgetManager = remember { AppWidgetManager.getInstance(context) }

@@ -4,8 +4,6 @@ import android.content.Context
 import android.os.Build
 import android.util.DisplayMetrics
 import android.view.WindowManager
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.displayCutout
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -25,9 +23,6 @@ val screenHeight: Dp
         val density = LocalDensity.current
         return density.run { context.deviceHeight.toDp() }
     }
-
-val displayCutoutWindowInsets: WindowInsets
-    @Composable get() = if (isPortrait) WindowInsets(0, 0, 0, 0) else WindowInsets.displayCutout
 
 private inline val Context.deviceWidth: Int
     get() {
