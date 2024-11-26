@@ -36,7 +36,6 @@ import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.interactor.entity.AppLanguage
-import org.michaelbel.movies.settings.ktx.SettingsGenderText
 import org.michaelbel.movies.settings.ktx.stringText
 import org.michaelbel.movies.settings.model.SettingsData
 import org.michaelbel.movies.settings.ui.common.SettingAppIcon
@@ -45,6 +44,7 @@ import org.michaelbel.movies.settings.ui.common.SettingSwitchItem
 import org.michaelbel.movies.settings.ui.common.SettingsDialog
 import org.michaelbel.movies.ui.appicon.IconAlias
 import org.michaelbel.movies.ui.icons.MoviesIcons
+import org.michaelbel.movies.ui.ktx.SettingsGenderText
 import org.michaelbel.movies.ui.strings.MoviesStrings
 
 @Composable

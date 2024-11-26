@@ -20,6 +20,7 @@ kotlin {
         commonMain.dependencies {
             api(project(":core:analytics"))
             api(project(":core:repository"))
+            api(project(":core:ui"))
             implementation(libs.bundles.room.paging.common)
         }
     }

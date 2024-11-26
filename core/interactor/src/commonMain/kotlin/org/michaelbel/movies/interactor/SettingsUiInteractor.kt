@@ -1,7 +1,10 @@
 package org.michaelbel.movies.interactor
 
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import org.michaelbel.movies.common.SealedString
+import org.michaelbel.movies.ui.appicon.IconAlias
 
 interface SettingsUiInteractor {
 
@@ -16,6 +19,10 @@ interface SettingsUiInteractor {
     val isMovieListFeatureEnabled: Boolean
 
     val isGenderFeatureEnabled: Boolean
+
+    val isDynamicColorsFeatureEnabled: Boolean
+
+    val isPaletteColorsFeatureEnabled: Boolean
 
     val isNotificationsFeatureEnabled: Boolean
 
@@ -37,6 +44,9 @@ interface SettingsUiInteractor {
 
     val isAboutFeatureEnabled: Boolean
 
+    @get:Composable
+    val settingsWindowInsets: WindowInsets
+
     val bottomBarModifier: Modifier
 
     @Composable
@@ -48,4 +58,12 @@ interface SettingsUiInteractor {
         onPermissionGranted: () -> Unit,
         onPermissionDenied: () -> Unit
     ): () -> Unit
+
+    val enabledIcon: IconAlias
+
+    fun setIcon(iconAlias: IconAlias)
+
+    val grammaticalGender: SealedString
+
+    fun setGrammaticalGender(grammaticalGender: Int)
 }

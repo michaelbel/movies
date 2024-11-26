@@ -19,17 +19,14 @@ import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.interactor.entity.AppLanguage
 import org.michaelbel.movies.settings.SettingsViewModel
 import org.michaelbel.movies.settings.ktx.iconSnackbarTextRes
-import org.michaelbel.movies.settings.ktx.rememberAndPinAppWidgetProvider
-import org.michaelbel.movies.settings.ktx.requestTileService
 import org.michaelbel.movies.settings.model.SettingsData
-import org.michaelbel.movies.settings.model.isDynamicColorsFeatureEnabled
-import org.michaelbel.movies.settings.model.isPaletteColorsFeatureEnabled
-import org.michaelbel.movies.settings.model.settingsWindowInsets
 import org.michaelbel.movies.ui.appicon.IconAlias
 import org.michaelbel.movies.ui.ktx.collectAsStateCommon
 import org.michaelbel.movies.ui.ktx.isDebug
+import org.michaelbel.movies.ui.ktx.requestTileService
 import org.michaelbel.movies.ui.lifecycle.OnResume
 import org.michaelbel.movies.ui.strings.MoviesStrings
+import org.michaelbel.movies.widget.ktx.rememberAndPinAppWidgetProvider
 
 @Composable
 fun SettingsRoute(
@@ -106,16 +103,16 @@ fun SettingsRoute(
             ),
             genderData = SettingsData.ListData(
                 isFeatureEnabled = viewModel.settingsUiInteractor.isGenderFeatureEnabled,
-                current = viewModel.grammaticalGenderManager.grammaticalGender,
-                onSelect = { gender -> viewModel.grammaticalGenderManager.setGrammaticalGender(GrammaticalGender.value(gender)) }
+                current = viewModel.settingsUiInteractor.grammaticalGender,
+                onSelect = { gender -> viewModel.settingsUiInteractor.setGrammaticalGender(GrammaticalGender.value(gender)) }
             ),
             dynamicColorsData = SettingsData.ChangedData(
-                isFeatureEnabled = isDynamicColorsFeatureEnabled,
+                isFeatureEnabled = viewModel.settingsUiInteractor.isDynamicColorsFeatureEnabled,
                 isEnabled = themeData.dynamicColors,
                 onChange = viewModel::setDynamicColors
             ),
             paletteColorsData = SettingsData.PaletteColorsData(
-                isFeatureEnabled = isPaletteColorsFeatureEnabled,
+                isFeatureEnabled = viewModel.settingsUiInteractor.isPaletteColorsFeatureEnabled,
                 isDynamicColorsEnabled = themeData.dynamicColors,
                 paletteKey = themeData.paletteKey,
                 seedColor = themeData.seedColor,
@@ -151,7 +148,7 @@ fun SettingsRoute(
             ),
             appIconData = SettingsData.ListData(
                 isFeatureEnabled = viewModel.settingsUiInteractor.isAppIconFeatureEnabled,
-                current = viewModel.iconAliasManager.enabledIcon,
+                current = viewModel.settingsUiInteractor.enabledIcon,
                 onSelect = { icon ->
                     val message = when (icon) {
                         IconAlias.Red -> messageRed
@@ -160,7 +157,7 @@ fun SettingsRoute(
                         IconAlias.Amoled -> messageAmoled
                     }
                     onShowSnackbar(message)
-                    viewModel.iconAliasManager.setIcon(icon)
+                    viewModel.settingsUiInteractor.setIcon(icon)
                 }
             ),
             screenshotData = SettingsData.ChangedData(
@@ -188,7 +185,7 @@ fun SettingsRoute(
                 isDebug = isDebug
             )
         ),
-        windowInsets = settingsWindowInsets,
+        windowInsets = viewModel.settingsUiInteractor.settingsWindowInsets,
         snackbarHostState = snackbarHostState,
         isNavigationIconVisible = viewModel.settingsUiInteractor.isNavigationIconVisible,
         bottomBarModifier = viewModel.settingsUiInteractor.bottomBarModifier,

@@ -25,13 +25,9 @@ import org.michaelbel.movies.platform.Flavor
 import org.michaelbel.movies.platform.app.AppService
 import org.michaelbel.movies.platform.update.UpdateListener
 import org.michaelbel.movies.platform.update.UpdateService
-import org.michaelbel.movies.settings.gender.GrammaticalGenderManager
-import org.michaelbel.movies.settings.iconAlias.IconAliasInteractor
 
 class SettingsViewModel(
     biometricController: BiometricController2,
-    val grammaticalGenderManager: GrammaticalGenderManager,
-    val iconAliasManager: IconAliasInteractor,
     val aboutInteractor: AboutInteractor,
     val settingsUiInteractor: SettingsUiInteractor,
     private val notifyManager: NotifyManager,

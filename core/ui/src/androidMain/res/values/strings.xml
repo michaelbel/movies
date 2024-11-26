@@ -13,4 +13,5 @@
     <string name="share_via">Share via</string>
     <string name="tile_title">Movies</string>
     <string name="tile_added">Movies Tile added</string>
+    <string name="settings_gender">Gender</string>
 </resources>
