@@ -17,7 +17,7 @@ import org.michaelbel.movies.gallery.navigateToGallery
 import org.michaelbel.movies.search.navigateToSearch
 import org.michaelbel.movies.search.searchGraph
 import org.michaelbel.movies.settings.navigateToSettings
-import org.michaelbel.movies.settings.settingsGraph
+import org.michaelbel.movies.settings.settingsGraph2
 
 @Composable
 fun MainContent(
@@ -51,8 +51,10 @@ fun MainContent(
             navigateBack = navHostController::popBackStack,
             navigateToDetails = navHostController::navigateToDetails,
         )
-        settingsGraph(
-            navigateBack = navHostController::popBackStack
+        settingsGraph2(
+            navigateBack = navHostController::popBackStack,
+            onRequestReview = {},
+            onRequestUpdate = {}
         )
     }
 }

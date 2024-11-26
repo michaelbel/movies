@@ -30,7 +30,7 @@ import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.feed.FeedDestination
 import org.michaelbel.movies.feed.feedGraph
 import org.michaelbel.movies.settings.SettingsDestination
-import org.michaelbel.movies.settings.settingsGraph
+import org.michaelbel.movies.settings.settingsGraph2
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.ktx.ObserveAsEvents
 
@@ -119,7 +119,7 @@ fun NavGraphBuilder.mainGraph(
                     navigateToSettings = navigateToSettings,
                     navigateToDetails = navigateToDetails
                 )
-                settingsGraph(
+                settingsGraph2(
                     navigateBack = {},
                     onRequestReview = onRequestReview,
                     onRequestUpdate = onRequestUpdate

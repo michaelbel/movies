@@ -6,15 +6,12 @@ import androidx.core.content.pm.ShortcutInfoCompat
 import androidx.core.content.pm.ShortcutManagerCompat
 import androidx.core.graphics.drawable.IconCompat
 import androidx.core.net.toUri
+import org.michaelbel.movies.ui.R
 import org.michaelbel.movies.ui.appicon.shortcutSearchIconRes
 import org.michaelbel.movies.ui.appicon.shortcutSettingsIconRes
-import org.michaelbel.movies.ui.R
 
 private const val SEARCH_SHORTCUT_ID = "searchShortcutId"
 private const val SETTINGS_SHORTCUT_ID = "settingsShortcutId"
-
-const val INTENT_ACTION_SEARCH = "movies_shortcut://search"
-const val INTENT_ACTION_SETTINGS = "movies_shortcut://settings"
 
 /**
  * See [App Shortcuts Design Guidelines](https://commondatastorage.googleapis.com/androiddevelopers/shareables/design/app-shortcuts-design-guidelines.pdf)
