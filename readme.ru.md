@@ -48,6 +48,8 @@ Movies - простой способ найти популярные фильм�
     <img src="config/images/android/android6.png" alt="Android Image 6" width="49%">
 </div>
 
+<br/>
+
 **iOS**
 <div align="center">
     <img src="config/images/ios/ios1.png" alt="iOS Image 1" width="24%">
@@ -57,6 +59,8 @@ Movies - простой способ найти популярные фильм�
     <img src="config/images/ios/ios5.png" alt="iOS Image 5" width="49%">
     <img src="config/images/ios/ios6.png" alt="iOS Image 6" width="49%">
 </div>
+
+<br/>
 
 **macOS**
 <div align="center">
