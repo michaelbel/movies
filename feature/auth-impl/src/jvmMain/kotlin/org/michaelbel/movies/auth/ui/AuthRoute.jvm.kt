@@ -17,7 +17,7 @@ fun AuthRoute(
         loginLoading = false,
         requestToken = null,
         onBackClick = onBackClick,
-        onSignInClick = { username, password -> },
+        onSignInClick = { _, _ -> },
         onLoginClick = {},
         onResetRequestToken = {},
         onUrlClick = {},
