@@ -15,7 +15,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":feature:account-impl"))
+            api(projects.feature.accountImpl)
         }
     }
 

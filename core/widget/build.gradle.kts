@@ -14,9 +14,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core:interactor"))
-            implementation(project(":core:ui"))
-            implementation(project(":core:work"))
+            implementation(projects.core.interactor)
+            implementation(projects.core.ui)
+            implementation(projects.core.work)
         }
         androidMain.dependencies {
             implementation(libs.bundles.glance.android)

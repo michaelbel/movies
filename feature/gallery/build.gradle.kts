@@ -15,7 +15,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":feature:gallery-impl"))
+            api(projects.feature.galleryImpl)
         }
     }
 

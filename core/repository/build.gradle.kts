@@ -12,7 +12,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":core:persistence"))
+            api(projects.core.persistence)
             implementation(libs.bundles.room.paging.common)
         }
     }

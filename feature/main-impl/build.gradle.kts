@@ -15,16 +15,16 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":feature:account"))
-            api(project(":feature:auth"))
-            api(project(":feature:details"))
-            api(project(":feature:feed"))
-            api(project(":feature:gallery"))
-            api(project(":feature:search"))
-            api(project(":feature:settings"))
+            api(projects.feature.account)
+            api(projects.feature.auth)
+            api(projects.feature.details)
+            api(projects.feature.feed)
+            api(projects.feature.gallery)
+            api(projects.feature.search)
+            api(projects.feature.settings)
         }
         androidMain.dependencies {
-            api(project(":feature:debug"))
+            api(projects.feature.debug)
         }
     }
 

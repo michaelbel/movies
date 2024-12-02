@@ -10,7 +10,7 @@ kotlin {
 
     sourceSets {
         androidMain.dependencies {
-            api(project(":feature:debug-impl"))
+            api(projects.feature.debugImpl)
         }
     }
 

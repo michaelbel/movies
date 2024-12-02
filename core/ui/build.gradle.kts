@@ -14,7 +14,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":core:persistence"))
+            api(projects.core.persistence)
             api(libs.bundles.coil.common)
             api(libs.bundles.jetbrains.androidx.navigation.compose.common)
             api(libs.bundles.jetbrains.androidx.core.bundle.common)

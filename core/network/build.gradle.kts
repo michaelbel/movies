@@ -23,7 +23,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":core:common"))
+            api(projects.core.common)
             api(libs.bundles.kotlinx.serialization.common)
             implementation(libs.bundles.ktor.common)
         }

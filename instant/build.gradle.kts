@@ -36,9 +36,9 @@ android {
 }
 
 dependencies {
-    implementation(project(":androidApp"))
-    implementation(project(":core:common"))
-    implementation(project(":core:ui"))
+    implementation(projects.androidApp)
+    implementation(projects.core.common)
+    implementation(projects.core.ui)
     implementation(libs.bundles.appcompat.android)
     implementation(libs.bundles.compose.android)
     implementation(libs.bundles.google.services.instantapps.android)

@@ -10,9 +10,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":core:ui"))
-            implementation(project(":core:platform-services:interactor"))
-            implementation(project(":core:interactor"))
+            api(projects.core.ui)
+            implementation(projects.core.platformServices.interactor)
+            implementation(projects.core.interactor)
         }
     }
 

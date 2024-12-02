@@ -38,8 +38,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core:platform-services:inject-web"))
-            implementation(project(":feature:main-impl-web"))
+            implementation(projects.core.platformServices.injectWeb)
+            implementation(projects.feature.mainImplWeb)
 
             implementation(compose.runtime)
             implementation(compose.foundation)

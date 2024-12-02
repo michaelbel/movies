@@ -46,8 +46,6 @@ android {
         resourceConfigurations.addAll(listOf("en", "ru"))
 
         buildConfigField("String", "VERSION_DATE", "\"$currentTime\"")
-
-        setProperty("archivesBaseName", "Movies-v$versionName($versionCode)")
     }
 
     signingConfigs {
@@ -127,15 +125,19 @@ android {
     }
 }
 
+base {
+    archivesName.set("Movies-v${android.defaultConfig.versionName}(${android.defaultConfig.versionCode})")
+}
+
 val gmsImplementation by configurations
 val hmsImplementation by configurations
 val fossImplementation by configurations
 dependencies {
-    implementation(project(":feature:main-impl"))
-    gmsImplementation(project(":core:platform-services:inject-android"))
-    hmsImplementation(project(":core:platform-services:inject-android"))
-    fossImplementation(project(":core:platform-services:inject-android"))
-    implementation(project(":feature:main-impl"))
+    implementation(projects.feature.mainImpl)
+    gmsImplementation(projects.core.platformServices.injectAndroid)
+    hmsImplementation(projects.core.platformServices.injectAndroid)
+    fossImplementation(projects.core.platformServices.injectAndroid)
+    implementation(projects.feature.mainImpl)
     implementation(libs.bundles.kotlin.reflect.android)
     testImplementation(libs.bundles.junit.android)
     androidTestImplementation(libs.bundles.test.espresso.android)

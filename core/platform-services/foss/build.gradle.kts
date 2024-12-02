@@ -29,7 +29,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":core:platform-services:interactor"))
+            api(projects.core.platformServices.interactor)
         }
     }
 

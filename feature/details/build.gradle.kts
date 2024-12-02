@@ -15,7 +15,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":feature:details-impl"))
+            api(projects.feature.detailsImpl)
         }
     }
 

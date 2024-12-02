@@ -9,7 +9,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core:platform-services:foss"))
+            implementation(projects.core.platformServices.foss)
         }
     }
 }

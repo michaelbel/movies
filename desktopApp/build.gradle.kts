@@ -11,8 +11,8 @@ kotlin {
 
     sourceSets {
         jvmMain.dependencies {
-            implementation(project(":core:platform-services:inject-desktop"))
-            implementation(project(":feature:main-impl"))
+            implementation(projects.core.platformServices.injectDesktop)
+            implementation(projects.feature.mainImpl)
         }
     }
 }

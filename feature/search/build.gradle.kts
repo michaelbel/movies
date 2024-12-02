@@ -15,7 +15,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":feature:search-impl"))
+            api(projects.feature.searchImpl)
         }
     }
 

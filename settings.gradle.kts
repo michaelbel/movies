@@ -80,3 +80,5 @@ include(
     ":feature:feed-web",
     ":feature:feed-impl-web"
 )
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

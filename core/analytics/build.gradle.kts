@@ -12,7 +12,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(project(":core:platform-services:interactor"))
+            implementation(projects.core.platformServices.interactor)
         }
     }
 

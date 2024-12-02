@@ -8,8 +8,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":core:platform-services:interactor"))
-            implementation(project(":core:notifications"))
+            api(projects.core.platformServices.interactor)
+            implementation(projects.core.notifications)
         }
         androidMain.dependencies {
             api(libs.bundles.google.firebase.android)

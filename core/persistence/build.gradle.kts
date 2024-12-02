@@ -20,7 +20,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":core:network"))
+            api(projects.core.network)
             implementation(libs.bundles.datastore.common)
             implementation(libs.bundles.room.common)
             implementation(libs.bundles.sqlite.common)

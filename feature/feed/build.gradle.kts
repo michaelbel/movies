@@ -15,7 +15,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":feature:feed-impl"))
+            api(projects.feature.feedImpl)
         }
     }
 

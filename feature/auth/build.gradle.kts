@@ -15,7 +15,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":feature:auth-impl"))
+            api(projects.feature.authImpl)
         }
     }
 

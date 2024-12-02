@@ -14,9 +14,9 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":core:ui"))
-            api(project(":core:interactor"))
-            implementation(project(":core:notifications"))
+            api(projects.core.ui)
+            api(projects.core.interactor)
+            implementation(projects.core.notifications)
         }
         androidMain.dependencies {
             implementation(libs.bundles.paging.android)

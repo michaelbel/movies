@@ -1,6 +1,5 @@
-@file:OptIn(ExperimentalKotlinGradlePluginApi::class, ExperimentalWasmDsl::class)
+@file:OptIn(ExperimentalWasmDsl::class)
 
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
@@ -17,8 +16,8 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":core:ui-web"))
-            api(project(":core:platform-services:interactor"))
+            api(projects.core.uiWeb)
+            api(projects.core.platformServices.interactor)
         }
     }
 

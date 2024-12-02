@@ -15,7 +15,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":feature:settings-impl"))
+            api(projects.feature.settingsImpl)
         }
     }
 

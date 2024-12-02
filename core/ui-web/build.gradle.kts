@@ -1,6 +1,5 @@
-@file:OptIn(ExperimentalKotlinGradlePluginApi::class, ExperimentalWasmDsl::class)
+@file:OptIn(ExperimentalWasmDsl::class)
 
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
@@ -19,7 +18,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":core:common"))
+            api(projects.core.common)
             api(libs.bundles.coil.common)
             api(libs.bundles.jetbrains.androidx.navigation.compose.common)
             api(libs.bundles.jetbrains.androidx.core.bundle.common)

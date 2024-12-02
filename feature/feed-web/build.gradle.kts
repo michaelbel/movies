@@ -1,6 +1,5 @@
-@file:OptIn(ExperimentalKotlinGradlePluginApi::class, ExperimentalWasmDsl::class)
+@file:OptIn(ExperimentalWasmDsl::class)
 
-import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 
 plugins {
@@ -18,7 +17,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(project(":feature:feed-impl-web"))
+            api(projects.feature.feedImplWeb)
         }
     }
 
