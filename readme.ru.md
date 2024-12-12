@@ -245,7 +245,6 @@ graph TD;
     core-->settings-impl
     core-->debug-impl
 
-    navigation-->core
     ui-->core
     common-->core
     interactor-->core
