@@ -38,5 +38,11 @@ class FeedViewModel(
 
     val pagingDataFlow: StateFlow<List<MoviePojo>> = currentMovieList.flatMapLatest { movieList ->
         flowOf(interactor.moviesResult(movieList.nameOrLocalList))
-    }.catch { emptyList<List<MoviePojo>>() }.stateIn(scope = scope, started = SharingStarted.Lazily, initialValue = emptyList())
+    }.catch {
+        emptyList<List<MoviePojo>>()
+    }.stateIn(
+        scope = scope,
+        started = SharingStarted.Lazily,
+        initialValue = emptyList()
+    )
 }
