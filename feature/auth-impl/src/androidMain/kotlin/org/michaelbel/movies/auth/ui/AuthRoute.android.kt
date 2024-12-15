@@ -6,15 +6,14 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
-import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.auth.AuthViewModel
 import org.michaelbel.movies.common.browser.openUrl
 
 @Composable
-fun AuthRoute(
+actual fun AuthRoute(
     onBackClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: AuthViewModel = koinViewModel()
+    modifier: Modifier,
+    viewModel: AuthViewModel
 ) {
     val resultContract = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
     val toolbarColor = MaterialTheme.colorScheme.primary.toArgb()

@@ -18,9 +18,6 @@ kotlin {
             api(projects.core.common)
             api(projects.core.interactor)
         }
-        androidMain.dependencies {
-            implementation(libs.bundles.work.android)
-        }
     }
 
     compilerOptions {

@@ -1,5 +1,7 @@
-@file:Suppress("EXPECT_ACTUAL_CLASSIFIERS_ARE_IN_BETA_WARNING")
-
 package org.michaelbel.movies.network.connectivity
 
-expect class NetworkManager
+import kotlinx.coroutines.flow.Flow
+
+interface NetworkManager {
+    val status: Flow<NetworkStatus>
+}

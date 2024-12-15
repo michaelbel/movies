@@ -23,7 +23,6 @@ internal fun DetailsLoading(
 
 @Preview
 @Composable
-/*@DevicePreviews*/
 private fun DetailsLoadingPreview() {
     MoviesTheme {
         DetailsLoading(

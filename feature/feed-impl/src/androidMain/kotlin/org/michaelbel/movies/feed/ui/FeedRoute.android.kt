@@ -4,20 +4,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.paging.compose.collectAsLazyPagingItems
-import org.koin.androidx.compose.koinViewModel
 import org.michaelbel.movies.feed.FeedViewModel
 import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.ui.ktx.collectAsStateCommon
 
 @Composable
-fun FeedRoute(
+actual fun FeedRoute(
     onNavigateToSearch: () -> Unit,
     onNavigateToAuth: () -> Unit,
     onNavigateToAccount: () -> Unit,
     onNavigateToSettings: () -> Unit,
     onNavigateToDetails: (String, Int) -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: FeedViewModel = koinViewModel()
+    modifier: Modifier,
+    viewModel: FeedViewModel
 ) {
     val pagingItems = viewModel.pagingDataFlow.collectAsLazyPagingItems()
     val account by viewModel.account.collectAsStateCommon()

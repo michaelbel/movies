@@ -22,6 +22,9 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.bundles.paging.android)
         }
+        jvmMain.dependencies {
+            implementation(libs.bundles.paging.desktop)
+        }
     }
 
     compilerOptions {

@@ -189,9 +189,6 @@ datastore-common = [
 lifecycle-common = [
     "androidx-lifecycle-common"
 ]
-paging-common = [
-    "androidx-paging-common-ktx"
-]
 room-common = [
     "androidx-room-runtime",
     "androidx-room-paging"
@@ -374,6 +371,9 @@ compose-desktop = [
 ]
 datastore-desktop = [
     "androidx-datastore-core-okio-jvm"
+]
+paging-desktop = [
+    "androidx-paging-common-ktx"
 ]
 
 sqlite-bundled-ios = [

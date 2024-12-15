@@ -22,3 +22,5 @@ actual fun navigationBarStyle(detectDarkMode: Boolean): Any {
 
 actual val displayCutoutWindowInsets: WindowInsets
     get() = WindowInsets(0, 0, 0, 0)
+
+actual const val USE_PLATFORM_DEFAULT_WIDTH: Boolean = true

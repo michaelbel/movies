@@ -50,7 +50,7 @@ import org.michaelbel.movies.ui.theme.MoviesTheme
 internal fun DetailsContent(
     movie: MoviePojo,
     onNavigateToGallery: (Int) -> Unit,
-    onGenerateColors: (Int, Palette) -> Unit,
+    onGenerateColors: (Int, Int?, Int?) -> Unit,
     modifier: Modifier = Modifier,
     isThemeAmoled: Boolean = false,
     onContainerColor: Color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -70,7 +70,7 @@ internal fun DetailsContent(
                 val bitmap = imageRequest.drawable.toBitmap()
                 Palette.from(bitmap).generate { palette ->
                     if (palette != null) {
-                        onGenerateColors(movie.movieId, palette)
+                        onGenerateColors(movie.movieId, palette.vibrantSwatch?.rgb, palette.vibrantSwatch?.bodyTextColor)
                     }
                 }
             }
@@ -163,7 +163,7 @@ private fun DetailsContentPreview(
                 .background(MaterialTheme.colorScheme.primaryContainer),
             movie = movie,
             onNavigateToGallery = {},
-            onGenerateColors = { _,_ -> }
+            onGenerateColors = { _,_,_ -> }
         )
     }
 }

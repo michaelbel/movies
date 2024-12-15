@@ -18,7 +18,7 @@ import kotlinx.coroutines.launch
 import org.michaelbel.movies.analytics.MoviesAnalytics
 import org.michaelbel.movies.common.BuildConfig
 import org.michaelbel.movies.common.ThemeData
-import org.michaelbel.movies.common.biometric.BiometricController
+import org.michaelbel.movies.common.biometric.BiometricInteractor
 import org.michaelbel.movies.common.biometric.BiometricListener
 import org.michaelbel.movies.common.viewmodel.BaseViewModel
 import org.michaelbel.movies.debug.notification.DebugNotificationClient
@@ -32,7 +32,7 @@ import org.michaelbel.movies.work.MoviesDatabaseWorker
 
 class MainViewModel(
     private val interactor: Interactor,
-    private val biometricController: BiometricController,
+    private val biometricController: BiometricInteractor,
     private val analytics: MoviesAnalytics,
     private val messagingService: MessagingService,
     private val workManager: WorkManager,

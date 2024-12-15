@@ -36,3 +36,5 @@ actual fun navigationBarStyle(detectDarkMode: Boolean): Any {
 
 actual val displayCutoutWindowInsets: WindowInsets
     @Composable get() = if (isPortrait) WindowInsets(0, 0, 0, 0) else WindowInsets.displayCutout
+
+actual const val USE_PLATFORM_DEFAULT_WIDTH: Boolean = false

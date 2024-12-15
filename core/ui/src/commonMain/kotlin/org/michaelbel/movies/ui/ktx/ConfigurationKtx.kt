@@ -13,3 +13,5 @@ expect fun statusBarStyle(detectDarkMode: Boolean): Any
 expect fun navigationBarStyle(detectDarkMode: Boolean): Any
 
 expect val displayCutoutWindowInsets: WindowInsets
+
+expect val USE_PLATFORM_DEFAULT_WIDTH: Boolean

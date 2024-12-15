@@ -1,6 +1,6 @@
 package org.michaelbel.movies.widget.di
 
-import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.core.module.dsl.viewModelOf
 import org.koin.androidx.workmanager.dsl.workerOf
 import org.koin.dsl.module
 import org.michaelbel.movies.interactor.di.interactorKoinModule

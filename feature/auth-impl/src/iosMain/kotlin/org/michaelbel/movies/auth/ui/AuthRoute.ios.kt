@@ -2,14 +2,13 @@ package org.michaelbel.movies.auth.ui
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import org.koin.compose.koinInject
 import org.michaelbel.movies.auth.AuthViewModel
 
 @Composable
-fun AuthRoute(
+actual fun AuthRoute(
     onBackClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: AuthViewModel = koinInject<AuthViewModel>()
+    modifier: Modifier,
+    viewModel: AuthViewModel
 ) {
     AuthScreenContent(
         error = null,
@@ -17,7 +16,7 @@ fun AuthRoute(
         loginLoading = false,
         requestToken = null,
         onBackClick = onBackClick,
-        onSignInClick = { username, password -> },
+        onSignInClick = { _, _ -> },
         onLoginClick = {},
         onResetRequestToken = {},
         onUrlClick = {},

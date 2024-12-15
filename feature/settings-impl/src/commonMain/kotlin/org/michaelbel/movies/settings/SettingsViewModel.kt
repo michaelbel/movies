@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.common.appearance.FeedView
-import org.michaelbel.movies.common.biometric.BiometricController2
+import org.michaelbel.movies.common.biometric.BiometricInteractor
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.notify.NotifyManager
 import org.michaelbel.movies.common.theme.AppTheme
@@ -27,7 +27,7 @@ import org.michaelbel.movies.platform.update.UpdateListener
 import org.michaelbel.movies.platform.update.UpdateService
 
 class SettingsViewModel(
-    biometricController: BiometricController2,
+    biometricController: BiometricInteractor,
     val aboutInteractor: AboutInteractor,
     val settingsUiInteractor: SettingsUiInteractor,
     private val notifyManager: NotifyManager,

@@ -6,17 +6,20 @@ import android.os.Bundle
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.FragmentActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.michaelbel.movies.common.ktx.launchAndCollectIn
 import org.michaelbel.movies.main.MainContent
 import org.michaelbel.movies.main.MainViewModel
+import org.michaelbel.movies.ui.ktx.collectAsStateCommon
 import org.michaelbel.movies.ui.ktx.resolveNotificationPreferencesIntent
 import org.michaelbel.movies.ui.ktx.setScreenshotBlockEnabled
 import org.michaelbel.movies.ui.ktx.supportRegisterScreenCaptureCallback
 import org.michaelbel.movies.ui.ktx.supportUnregisterScreenCaptureCallback
 import org.michaelbel.movies.ui.shortcuts.installShortcuts
+import org.michaelbel.movies.ui.theme.MoviesTheme
 
 internal class MainActivity: FragmentActivity() {
 
@@ -36,13 +39,19 @@ internal class MainActivity: FragmentActivity() {
         super.onCreate(savedInstanceState)
         installShortcuts()
         setContent {
-            MainContent(
+            val themeData by viewModel.themeData.collectAsStateCommon()
+
+            MoviesTheme(
+                themeData = themeData,
                 enableEdgeToEdge = { statusBarStyle, navigationBarStyle ->
                     enableEdgeToEdge(statusBarStyle as SystemBarStyle, navigationBarStyle as SystemBarStyle)
-                },
-                onRequestReview = { viewModel.requestReview(this) },
-                onRequestUpdate = { viewModel.requestUpdate(this) }
-            )
+                }
+            ) {
+                MainContent(
+                    onRequestReview = { viewModel.requestReview(this) },
+                    onRequestUpdate = { viewModel.requestUpdate(this) }
+                )
+            }
         }
         resolveNotificationPreferencesIntent()
         viewModel.run {

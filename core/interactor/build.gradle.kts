@@ -17,7 +17,7 @@ kotlin {
             api(projects.core.analytics)
             api(projects.core.repository)
             api(projects.core.ui)
-            implementation(libs.bundles.room.paging.common)
+            api(libs.bundles.room.paging.common)
         }
     }
 

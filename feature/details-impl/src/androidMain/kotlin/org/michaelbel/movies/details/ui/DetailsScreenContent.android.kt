@@ -22,8 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.palette.graphics.Palette
-import java.net.UnknownHostException
 import org.michaelbel.movies.details.ktx.movie
 import org.michaelbel.movies.details.ktx.movieUrl
 import org.michaelbel.movies.details.ktx.onPrimaryContainer
@@ -38,13 +36,14 @@ import org.michaelbel.movies.network.ktx.throwable
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.ktx.screenHeight
 import org.michaelbel.movies.ui.ktx.screenWidth
+import java.net.UnknownHostException
 
 @Composable
 internal fun DetailsScreenContent(
     onBackClick: () -> Unit,
     onShareClick: (String) -> Unit,
     onNavigateToGallery: (Int) -> Unit,
-    onGenerateColors: (Int, Palette) -> Unit,
+    onGenerateColors: (Int, Int?, Int?) -> Unit,
     detailsState: ScreenState,
     networkStatus: NetworkStatus,
     isThemeAmoled: Boolean,

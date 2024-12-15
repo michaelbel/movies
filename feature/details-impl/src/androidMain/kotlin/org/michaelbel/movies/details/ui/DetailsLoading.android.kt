@@ -17,7 +17,7 @@ internal fun DetailsLoading(
         modifier = modifier,
         movie = MoviePojo.Empty,
         onNavigateToGallery = {},
-        onGenerateColors = { _,_ -> },
+        onGenerateColors = { _,_,_ -> },
         placeholder = true
     )
 }
