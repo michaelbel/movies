@@ -22,9 +22,13 @@ kotlin {
             api(projects.feature.gallery)
             api(projects.feature.search)
             api(projects.feature.settings)
-        }
-        androidMain.dependencies {
             api(projects.feature.debug)
+        }
+        jvmMain.dependencies {
+            implementation(projects.core.platformServices.injectDesktop)
+        }
+        iosMain.dependencies {
+            implementation(projects.core.platformServices.injectIos)
         }
     }
 
@@ -64,8 +68,8 @@ android {
     val hmsImplementation by configurations
     val fossImplementation by configurations
     dependencies {
-        gmsImplementation(project(":core:platform-services:inject-android"))
-        hmsImplementation(project(":core:platform-services:inject-android"))
-        fossImplementation(project(":core:platform-services:inject-android"))
+        gmsImplementation(projects.core.platformServices.injectAndroid)
+        hmsImplementation(projects.core.platformServices.injectAndroid)
+        fossImplementation(projects.core.platformServices.injectAndroid)
     }
 }

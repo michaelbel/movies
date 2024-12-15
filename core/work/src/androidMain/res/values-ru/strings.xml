@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="gallery_downloading_image">Загрузка изображения...</string>
+    <string name="gallery_poster">Постер</string>
+    <string name="gallery_backdrop">Обложка</string>
+    <string name="gallery_logo">Логотип</string>
+</resources>

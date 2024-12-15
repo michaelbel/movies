@@ -4,14 +4,13 @@ import androidx.compose.foundation.clickable
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import org.koin.compose.koinInject
 import org.michaelbel.movies.gallery.GalleryViewModel
 
 @Composable
-fun GalleryRoute(
+actual fun GalleryRoute(
     onBackClick: () -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: GalleryViewModel = koinInject<GalleryViewModel>()
+    modifier: Modifier,
+    viewModel: GalleryViewModel
 ) {
     Text(
         text = "Gallery",

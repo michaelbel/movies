@@ -7,14 +7,14 @@ import org.michaelbel.movies.debug.di.debugNotificationClientKoinModule
 import org.michaelbel.movies.interactor.di.interactorKoinModule
 import org.michaelbel.movies.main.MainViewModel
 import org.michaelbel.movies.platform.inject.flavorServiceKtorModule
-import org.michaelbel.movies.work.di.workKoinModule
+import org.michaelbel.movies.work.di.workManagerInteractorKoinModule
 
 actual val mainKoinModule = module {
     includes(
         interactorKoinModule,
         moviesAnalyticsKoinModule,
         flavorServiceKtorModule,
-        workKoinModule,
+        workManagerInteractorKoinModule,
         debugNotificationClientKoinModule
     )
     viewModelOf(::MainViewModel)

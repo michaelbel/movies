@@ -43,7 +43,6 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
-import androidx.work.WorkInfo
 import coil.compose.AsyncImage
 import coil.compose.AsyncImagePainter
 import coil.request.ImageRequest
@@ -60,11 +59,12 @@ import org.michaelbel.movies.ui.compose.iconbutton.DownloadIcon
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.work.DownloadImageWorker
+import org.michaelbel.movies.work.WorkInfoState
 
 @Composable
 internal fun GalleryScreenContent(
     movieImages: List<ImagePojo>,
-    workInfo: WorkInfo?,
+    workInfoState: WorkInfoState,
     onBackClick: () -> Unit,
     onDownloadClick: (ImagePojo) -> Unit,
     modifier: Modifier = Modifier
@@ -111,18 +111,16 @@ internal fun GalleryScreenContent(
         }
     }
 
-    when (workInfo?.state) {
-        WorkInfo.State.SUCCEEDED -> {
-            val result = workInfo.outputData.getString(DownloadImageWorker.KEY_IMAGE_URL).orEmpty()
+    when (workInfoState) {
+        is WorkInfoState.Success -> {
             onSuccessSnackbar(
                 stringResource(R.string.gallery_success),
                 stringResource(R.string.gallery_action_open),
-                result.toUri()
+                workInfoState.result.toUri()
             )
         }
-        WorkInfo.State.FAILED -> {
-            val result = workInfo.outputData.getString(DownloadImageWorker.KEY_IMAGE_URL).orEmpty()
-            if (result == DownloadImageWorker.FAILURE_RESULT) {
+        is WorkInfoState.Failure -> {
+            if (workInfoState.result == DownloadImageWorker.FAILURE_RESULT) {
                 onFailureSnackbar(stringResource(R.string.gallery_failure))
             }
         }
@@ -252,7 +250,7 @@ private fun GalleryScreenContentPreview() {
     MoviesTheme {
         GalleryScreenContent(
             movieImages = emptyList(),
-            workInfo = null,
+            workInfoState = WorkInfoState.None,
             onBackClick = {},
             onDownloadClick = {},
             modifier = Modifier.fillMaxSize()

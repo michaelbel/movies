@@ -1,5 +1,15 @@
 package org.michaelbel.movies.gallery.di
 
-import org.koin.core.module.Module
+import org.koin.core.module.dsl.viewModelOf
+import org.koin.dsl.module
+import org.michaelbel.movies.gallery.GalleryViewModel
+import org.michaelbel.movies.interactor.di.interactorKoinModule
+import org.michaelbel.movies.work.di.workManagerInteractorKoinModule
 
-expect val galleryKoinModule: Module
+val galleryKoinModule = module {
+    includes(
+        interactorKoinModule,
+        workManagerInteractorKoinModule
+    )
+    viewModelOf(::GalleryViewModel)
+}

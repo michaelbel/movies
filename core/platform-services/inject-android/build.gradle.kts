@@ -43,8 +43,8 @@ android {
     val hmsImplementation by configurations
     val fossImplementation by configurations
     dependencies {
-        gmsImplementation(project(":core:platform-services:gms"))
-        hmsImplementation(project(":core:platform-services:hms"))
-        fossImplementation(project(":core:platform-services:foss"))
+        gmsImplementation(projects.core.platformServices.gms)
+        hmsImplementation(projects.core.platformServices.hms)
+        fossImplementation(projects.core.platformServices.foss)
     }
 }

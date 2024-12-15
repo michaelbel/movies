@@ -7,9 +7,14 @@ plugins {
 
 kotlin {
     androidTarget()
+    jvm()
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
     sourceSets {
-        androidMain.dependencies {
+        commonMain.dependencies {
+            api(projects.core.ui)
             api(projects.feature.debugImpl)
         }
     }
