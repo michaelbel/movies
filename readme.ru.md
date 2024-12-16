@@ -151,8 +151,8 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Product Flavors](https://d.android.com/build/build-variants#product-flavors)
 - [x] [Using buildSrc Directory](https://docs.gradle.org/current/userguide/organizing_gradle_projects.html#sec:build_sources)
 - [x] MinSDK 23
-- [x] TargetSDK 34
-- [x] CompileSDK 34
+- [x] TargetSDK 35
+- [x] CompileSDK 35
 - [x] [Dark Theme](https://d.android.com/develop/ui/views/theming/darktheme)
 - [x] Amoled Theme
 - [x] SwipeToDismiss
@@ -207,8 +207,6 @@ TMDB_API_KEY=your_own_tmdb_api_key
 - [x] [Koin](https://github.com/InsertKoinIO/koin)
 - [x] [Screenshot Detection](https://d.android.com/about/versions/14/features/screenshot-detection)
 - [x] [BuildKonfig](https://github.com/yshrsmz/BuildKonfig)
-- [x] [Dagger Hilt](https://github.com/google/dagger) removed in [#274](https://github.com/michaelbel/movies/pull/274)
-- [x] [Retrofit](https://github.com/square/retrofit) removed in [#275](https://github.com/michaelbel/movies/pull/275)
 
 
 ## Модули
