@@ -26,10 +26,6 @@ val currentTime by lazy {
     System.currentTimeMillis()
 }
 
-val gitVersion: groovy.lang.Closure<String> by extra
-val versionDetails: groovy.lang.Closure<com.palantir.gradle.gitversion.VersionDetails> by extra
-val versionLastTag: String = versionDetails().lastTag
-
 android {
     namespace = "org.michaelbel.movies.app"
     compileSdk = libs.versions.compile.sdk.get().toInt()
