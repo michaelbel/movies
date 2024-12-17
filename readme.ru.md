@@ -14,13 +14,13 @@ Movies
 
 [![](https://img.shields.io/badge/android-000000.svg?style=for-the-badge&logo=android)](https://github.com/michaelbel/movies)
 [![](https://img.shields.io/badge/ios-000000.svg?style=for-the-badge&logo=apple)](https://github.com/michaelbel/movies)
-[![](https://img.shields.io/badge/jvm_desktop-000000.svg?style=for-the-badge&logo=pcgamingwiki)](https://github.com/michaelbel/movies)
-<!-- [![](https://img.shields.io/badge/Automotive-000000.svg?style=for-the-badge&logo=android-auto)](https://github.com/michaelbel/movies)
-[![](https://img.shields.io/badge/WearOS-000000.svg?style=for-the-badge&logo=wearOS)](https://github.com/michaelbel/movies)
 [![](https://img.shields.io/badge/macOS-000000.svg?style=for-the-badge&logo=macos)](https://github.com/michaelbel/movies)
 [![](https://img.shields.io/badge/Windows-000000.svg?style=for-the-badge&logo=windows)](https://github.com/michaelbel/movies)
+[![](https://img.shields.io/badge/jvm_desktop-000000.svg?style=for-the-badge&logo=pcgamingwiki)](https://github.com/michaelbel/movies)
+<!--
 [![](https://img.shields.io/badge/Linux-000000.svg?style=for-the-badge&logo=linux)](https://github.com/michaelbel/movies)
-[![](https://img.shields.io/badge/Web-000000.svg?style=for-the-badge&logo=google-chrome)](https://github.com/michaelbel/movies) -->
+[![](https://img.shields.io/badge/Web-000000.svg?style=for-the-badge&logo=google-chrome)](https://github.com/michaelbel/movies)
+-->
 
 [![workflow-status](https://img.shields.io/github/actions/workflow/status/michaelbel/movies/ci.yml?style=for-the-badge&logo=github&label=Check%20PR&labelColor=3F464F)](https://github.com/michaelbel/movies/actions)
 [![last-commit](https://img.shields.io/github/last-commit/michaelbel/movies?style=for-the-badge&logo=github&labelColor=3F464F)](https://github.com/michaelbel/movies/commits)
@@ -47,7 +47,6 @@ Movies - простой способ найти популярные фильм�
     <img src="config/images/android/android5.png" alt="Android Image 5" width="49%">
     <img src="config/images/android/android6.png" alt="Android Image 6" width="49%">
 </div>
-
 <br/>
 
 **iOS**
@@ -59,15 +58,23 @@ Movies - простой способ найти популярные фильм�
     <img src="config/images/ios/ios5.png" alt="iOS Image 5" width="49%">
     <img src="config/images/ios/ios6.png" alt="iOS Image 6" width="49%">
 </div>
-
 <br/>
 
 **macOS**
 <div align="center">
-    <img src="config/images/desktop/macos1.png" alt="macOS Image 1" width="49%">
-    <img src="config/images/desktop/macos2.png" alt="macOS Image 2" width="49%">
-    <img src="config/images/desktop/macos3.png" alt="macOS Image 3" width="49%">
-    <img src="config/images/desktop/macos4.png" alt="macOS Image 4" width="49%">
+    <img src="config/images/macos/macos1.png" alt="macOS Image 1" width="49%">
+    <img src="config/images/macos/macos2.png" alt="macOS Image 2" width="49%">
+    <img src="config/images/macos/macos3.png" alt="macOS Image 3" width="49%">
+    <img src="config/images/macos/macos4.png" alt="macOS Image 4" width="49%">
+</div>
+<br/>
+
+**Windows**
+<div align="center">
+    <img src="config/images/windows/windows1.png" alt="Windows Image 1" width="49%">
+    <img src="config/images/windows/windows2.png" alt="Windows Image 2" width="49%">
+    <img src="config/images/windows/windows3.png" alt="Windows Image 3" width="49%">
+    <img src="config/images/windows/windows4.png" alt="Windows Image 4" width="49%">
 </div>
 
 

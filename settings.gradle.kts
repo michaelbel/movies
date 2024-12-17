@@ -39,7 +39,7 @@ include(
     ":core:platform-services:hms",
     ":core:platform-services:foss",
     ":core:platform-services:inject-android",
-    ":core:platform-services:inject-desktop",
+    ":core:platform-services:inject-macos",
     ":core:platform-services:inject-ios",
     ":core:platform-services:inject-web",
     ":core:platform-services:interactor",
