@@ -6,8 +6,22 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.michaelbel.movies.auth.AuthViewModel
 
 @Composable
-expect fun AuthRoute(
+fun AuthRoute(
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: AuthViewModel = koinViewModel()
-)
+) {
+    AuthScreenContent(
+        error = viewModel.error,
+        signInLoading = viewModel.signInLoading,
+        loginLoading = viewModel.loginLoading,
+        requestToken = viewModel.requestToken,
+        onBackClick = onBackClick,
+        onSignInClick = { username, password ->
+            viewModel.onSignInClick(username, password, onBackClick)
+        },
+        onLoginClick = viewModel::onLoginClick,
+        onResetRequestToken = viewModel::onResetRequestToken,
+        modifier = modifier
+    )
+}

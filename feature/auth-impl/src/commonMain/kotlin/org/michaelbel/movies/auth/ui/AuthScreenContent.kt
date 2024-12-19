@@ -39,6 +39,7 @@ import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.auth.ktx.text
+import org.michaelbel.movies.common.browser.navigateToUrl
 import org.michaelbel.movies.common.exceptions.CreateSessionWithLoginException
 import org.michaelbel.movies.interactor.entity.Password
 import org.michaelbel.movies.interactor.entity.Username
@@ -49,10 +50,8 @@ import org.michaelbel.movies.interactor.ktx.trim
 import org.michaelbel.movies.network.config.TMDB_AUTH_REDIRECT_URL
 import org.michaelbel.movies.network.config.TMDB_AUTH_URL_2
 import org.michaelbel.movies.network.config.TMDB_AUTH_URL_3
-import org.michaelbel.movies.network.config.TMDB_PRIVACY_POLICY
 import org.michaelbel.movies.network.config.TMDB_REGISTER
 import org.michaelbel.movies.network.config.TMDB_RESET_PASSWORD
-import org.michaelbel.movies.network.config.TMDB_TERMS_OF_USE
 import org.michaelbel.movies.network.config.TMDB_URL
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescriptionCommon
 import org.michaelbel.movies.ui.compose.iconbutton.PasswordIcon
@@ -72,7 +71,6 @@ internal fun AuthScreenContent(
     onSignInClick: (Username, Password) -> Unit,
     onLoginClick: () -> Unit,
     onResetRequestToken: () -> Unit,
-    onUrlClick: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     val focusManager = LocalFocusManager.current
@@ -82,9 +80,13 @@ internal fun AuthScreenContent(
     var password by rememberSaveable(saver = PasswordSaver) { mutableStateOf(Password("")) }
     var passwordVisible by rememberSaveable { mutableStateOf(false) }
 
+    val navigateToTmdbUrl = navigateToUrl(TMDB_URL)
+    val navigateToTmdbResetPasswordUrl = navigateToUrl(TMDB_RESET_PASSWORD)
+    val navigateToTmdbRegisterUrl = navigateToUrl(TMDB_REGISTER)
+
     if (requestToken != null) {
         val signUrl = "$TMDB_AUTH_URL_2/$requestToken$TMDB_AUTH_URL_3$TMDB_AUTH_REDIRECT_URL"
-        onUrlClick(signUrl)
+        navigateToUrl(signUrl)
         onResetRequestToken()
     }
 
@@ -108,7 +110,7 @@ internal fun AuthScreenContent(
             contentDescription = MoviesContentDescriptionCommon.None,
             modifier = Modifier
                 .padding(top = 8.dp)
-                .clickableWithoutRipple { onUrlClick(TMDB_URL) }
+                .clickableWithoutRipple { navigateToTmdbUrl() }
                 .align(Alignment.CenterHorizontally),
             tint = MaterialTheme.colorScheme.onPrimaryContainer
         )
@@ -171,11 +173,15 @@ internal fun AuthScreenContent(
         )
 
         Row(
-            modifier = Modifier.padding(start = 8.dp, end = 8.dp),
+            modifier = Modifier.padding(horizontal = 8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            TextButton(onClick = { onUrlClick(TMDB_REGISTER) }) {
-                Text(text = stringResource(MoviesStrings.auth_sign_up))
+            TextButton(
+                onClick = { navigateToTmdbRegisterUrl() }
+            ) {
+                Text(
+                    text = stringResource(MoviesStrings.auth_sign_up)
+                )
             }
 
             AnimatedVisibility(
@@ -183,8 +189,12 @@ internal fun AuthScreenContent(
                 enter = fadeIn(),
                 exit = fadeOut()
             ) {
-                TextButton(onClick = { onUrlClick(TMDB_RESET_PASSWORD) }) {
-                    Text(text = stringResource(MoviesStrings.auth_reset_password))
+                TextButton(
+                    onClick = { navigateToTmdbResetPasswordUrl() }
+                ) {
+                    Text(
+                        text = stringResource(MoviesStrings.auth_reset_password)
+                    )
                 }
             }
         }
@@ -195,7 +205,9 @@ internal fun AuthScreenContent(
                 .fillMaxWidth()
                 .padding(start = 16.dp, top = 4.dp, end = 16.dp),
             enabled = username.isNotEmpty && password.isNotEmpty && !signInLoading,
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceTint)
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.surfaceTint
+            )
         ) {
             if (signInLoading) {
                 CircularProgressIndicator(
@@ -203,7 +215,9 @@ internal fun AuthScreenContent(
                     strokeWidth = 2.dp
                 )
             } else {
-                Text(text = stringResource(MoviesStrings.auth_sign_in))
+                Text(
+                    text = stringResource(MoviesStrings.auth_sign_in)
+                )
             }
         }
 
@@ -213,7 +227,9 @@ internal fun AuthScreenContent(
                 .fillMaxWidth()
                 .padding(start = 16.dp, top = 8.dp, end = 16.dp),
             enabled = !loginLoading,
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.surfaceTint)
+            colors = ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.surfaceTint
+            )
         ) {
             if (loginLoading) {
                 CircularProgressIndicator(
@@ -221,13 +237,13 @@ internal fun AuthScreenContent(
                     strokeWidth = 2.dp
                 )
             } else {
-                Text(text = stringResource(MoviesStrings.auth_login))
+                Text(
+                    text = stringResource(MoviesStrings.auth_login)
+                )
             }
         }
 
         AuthLinksBox(
-            onTermsOfUseClick = { onUrlClick(TMDB_TERMS_OF_USE) },
-            onPrivacyPolicyClick = { onUrlClick(TMDB_PRIVACY_POLICY) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(top = 16.dp)
@@ -248,7 +264,6 @@ private fun AuthScreenContentPreview() {
             onSignInClick = { _,_ -> },
             onLoginClick = {},
             onResetRequestToken = {},
-            onUrlClick = {},
             modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)
         )
     }

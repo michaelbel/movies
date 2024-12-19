@@ -18,16 +18,20 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.michaelbel.movies.common.browser.navigateToUrl
+import org.michaelbel.movies.network.config.TMDB_PRIVACY_POLICY
+import org.michaelbel.movies.network.config.TMDB_TERMS_OF_USE
 import org.michaelbel.movies.ui.ktx.clickableWithoutRipple
 import org.michaelbel.movies.ui.strings.MoviesStrings
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
 fun AuthLinksBox(
-    onTermsOfUseClick: () -> Unit,
-    onPrivacyPolicyClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val navigateToTermsOfUseUrl = navigateToUrl(TMDB_TERMS_OF_USE)
+    val navigateToPrivacyPolicyUrl = navigateToUrl(TMDB_PRIVACY_POLICY)
+
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Top,
@@ -46,7 +50,7 @@ fun AuthLinksBox(
                 text = stringResource(MoviesStrings.auth_terms_of_use),
                 modifier = Modifier
                     .padding(vertical = 16.dp)
-                    .clickableWithoutRipple { onTermsOfUseClick() },
+                    .clickableWithoutRipple { navigateToTermsOfUseUrl() },
                 style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.onPrimaryContainer)
             )
 
@@ -62,7 +66,7 @@ fun AuthLinksBox(
                 text = stringResource(MoviesStrings.auth_privacy_policy),
                 modifier = Modifier
                     .padding(vertical = 16.dp)
-                    .clickableWithoutRipple { onPrivacyPolicyClick() },
+                    .clickableWithoutRipple { navigateToPrivacyPolicyUrl() },
                 style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.onPrimaryContainer)
             )
         }
@@ -74,8 +78,6 @@ fun AuthLinksBox(
 private fun AuthLinksBoxPreview() {
     MoviesTheme {
         AuthLinksBox(
-            onTermsOfUseClick = {},
-            onPrivacyPolicyClick = {},
             modifier = Modifier.background(MaterialTheme.colorScheme.primaryContainer)
         )
     }
