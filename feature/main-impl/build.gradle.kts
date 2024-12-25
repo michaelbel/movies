@@ -25,7 +25,7 @@ kotlin {
             api(projects.feature.debug)
         }
         jvmMain.dependencies {
-            implementation(projects.core.platformServices.injectDesktop)
+            implementation(projects.core.platformServices.injectJvm)
         }
         iosMain.dependencies {
             implementation(projects.core.platformServices.injectIos)

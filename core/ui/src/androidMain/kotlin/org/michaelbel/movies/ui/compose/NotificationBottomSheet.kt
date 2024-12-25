@@ -2,11 +2,7 @@
 
 package org.michaelbel.movies.ui.compose
 
-import android.Manifest
-import android.app.Activity
 import android.os.Build
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
 import androidx.compose.animation.core.animateFloat
@@ -36,7 +32,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -44,7 +39,8 @@ import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.michaelbel.movies.ui.R
 import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.icons.MoviesIcons
-import org.michaelbel.movies.ui.ktx.appNotificationSettingsIntent
+import org.michaelbel.movies.ui.ktx.rememberNavigateToAppSettings
+import org.michaelbel.movies.ui.ktx.rememberRequestNotificationPermission
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -52,22 +48,9 @@ fun NotificationBottomSheet(
     onDismissRequest: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
-    val activityContract = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
-
-    val permissionContract = rememberLauncherForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) { granted ->
-        val shouldRequest = (context as Activity).shouldShowRequestPermissionRationale(
-            Manifest.permission.POST_NOTIFICATIONS
-        )
-        if (!granted && !shouldRequest) {
-            activityContract.launch(context.appNotificationSettingsIntent)
-        }
-    }
-
+    val requestNotificationPermission = rememberRequestNotificationPermission()
+    val navigateToAppSettings = rememberNavigateToAppSettings()
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
-
     val value by rememberInfiniteTransition(label = "")
         .animateFloat(
             initialValue = 15F,
@@ -107,7 +90,7 @@ fun NotificationBottomSheet(
                     modifier = Modifier.graphicsLayer(
                         transformOrigin = TransformOrigin(
                             pivotFractionX = 0.5F,
-                            pivotFractionY = 0.0F,
+                            pivotFractionY = 0.0F
                         ),
                         rotationZ = value
                     ),
@@ -133,12 +116,8 @@ fun NotificationBottomSheet(
                 onClick = {
                     onDismissRequest()
                     when {
-                        Build.VERSION.SDK_INT >= 33 -> {
-                            permissionContract.launch(Manifest.permission.POST_NOTIFICATIONS)
-                        }
-                        else -> {
-                            activityContract.launch(context.appNotificationSettingsIntent)
-                        }
+                        Build.VERSION.SDK_INT >= 33 -> requestNotificationPermission()
+                        else -> navigateToAppSettings()
                     }
                 },
                 colors = ButtonDefaults.buttonColors(
