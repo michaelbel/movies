@@ -22,7 +22,7 @@ class AccountViewModel(
         .stateIn(
             scope = scope,
             started = SharingStarted.Lazily,
-            initialValue = AccountPojo.Empty
+            initialValue = null
         )
 
     override fun handleError(throwable: Throwable) {

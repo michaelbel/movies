@@ -52,7 +52,7 @@ internal fun RowScope.SettingPaletteColor(
             .aspectRatio(1F)
             .clip(RoundedCornerShape(16.dp))
             .background(MaterialTheme.colorScheme.surfaceContainer)
-            .clickable { onClick() }
+            .clickable(onClick = onClick)
     ) {
         val color1 = 80.a1(tonalPalettes)
         val color2 = 90.a2(tonalPalettes)

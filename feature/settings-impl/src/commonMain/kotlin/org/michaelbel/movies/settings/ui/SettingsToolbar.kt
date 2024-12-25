@@ -34,7 +34,7 @@ internal fun SettingsToolbar(
                 color = MaterialTheme.colorScheme.onPrimaryContainer
             )
         },
-        modifier = modifier.clickableWithoutRipple { onClick() },
+        modifier = modifier.clickableWithoutRipple(onClick),
         navigationIcon = if (isNavigationIconVisible) {
             {
                 BackIcon(

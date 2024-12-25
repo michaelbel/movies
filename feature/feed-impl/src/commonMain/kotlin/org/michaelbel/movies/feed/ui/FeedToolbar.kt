@@ -69,7 +69,7 @@ internal fun FeedToolbar(
                 {
                     SearchIcon(
                         onClick = onSearchIconClick,
-                        modifier = Modifier.then(modifierDisplayCutoutWindowInsets)
+                        modifier = modifierDisplayCutoutWindowInsets
                     )
                 }
             } else {
@@ -77,7 +77,7 @@ internal fun FeedToolbar(
             },
             actions = {
                 Row(
-                    modifier = Modifier.then(modifierDisplayCutoutWindowInsets)
+                    modifier = modifierDisplayCutoutWindowInsets
                 ) {
                     if (isSettingsIconVisible) {
                         SettingsIcon(
@@ -115,7 +115,9 @@ internal fun FeedToolbar(
 
         if (isTmdbApiKeyEmpty) {
             ApiKeyBox(
-                modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 16.dp)
             )
         }
     }

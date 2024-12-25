@@ -3,10 +3,6 @@
 package org.michaelbel.movies.debug.ui
 
 import android.app.Activity
-import android.content.Intent
-import android.provider.Settings
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -29,11 +25,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import org.koin.androidx.compose.koinViewModel
-import org.michaelbel.movies.common.ktx.appSettingsIntent
 import org.michaelbel.movies.debug.DebugViewModel
 import org.michaelbel.movies.debug_impl.R
 import org.michaelbel.movies.ui.icons.MoviesAndroidIcons
 import org.michaelbel.movies.ui.ktx.collectAsStateCommon
+import org.michaelbel.movies.ui.ktx.rememberNavigateToAppSettings
+import org.michaelbel.movies.ui.ktx.rememberNavigateToDeveloperSettings
 import org.michaelbel.movies.ui.theme.MoviesTheme
 
 @Composable
@@ -46,7 +43,8 @@ internal fun DebugActivityContent(
 
     val context = LocalContext.current
     val clipboardManager = LocalClipboardManager.current
-    val resultContract = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
+    val navigateToAppSettings = rememberNavigateToAppSettings()
+    val navigateToDeveloperSettings = rememberNavigateToDeveloperSettings()
     val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         state = rememberTopAppBarState(),
         canScroll = { true }
@@ -60,9 +58,9 @@ internal fun DebugActivityContent(
             modifier = Modifier.nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
             topBar = {
                 DebugToolbar(
+                    onNavigationIconClick = { (context as Activity).finish() },
                     modifier = Modifier.fillMaxWidth(),
-                    topAppBarScrollBehavior = topAppBarScrollBehavior,
-                    onNavigationIconClick = { (context as Activity).finish() }
+                    topAppBarScrollBehavior = topAppBarScrollBehavior
                 )
             },
             containerColor = MaterialTheme.colorScheme.primaryContainer
@@ -77,7 +75,7 @@ internal fun DebugActivityContent(
                         title = stringResource(R.string.debug_app_settings),
                         description = "",
                         icon = painterResource(MoviesAndroidIcons.SettingsCinematicBlur24),
-                        onClick = { resultContract.launch(context.appSettingsIntent) }
+                        onClick = navigateToAppSettings
                     )
                 }
                 item {
@@ -92,7 +90,7 @@ internal fun DebugActivityContent(
                         title = stringResource(R.string.debug_developer_settings),
                         description = "",
                         icon = painterResource(MoviesAndroidIcons.SettingsAccountBox24),
-                        onClick = { resultContract.launch(Intent(Settings.ACTION_APPLICATION_DEVELOPMENT_SETTINGS)) }
+                        onClick = navigateToDeveloperSettings
                     )
                 }
                 if (viewModel.isFirebaseTokenFeatureEnabled) {

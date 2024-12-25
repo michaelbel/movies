@@ -18,9 +18,9 @@ import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
 
 @Composable
 internal fun DebugToolbar(
+    onNavigationIconClick: () -> Unit,
     modifier: Modifier = Modifier,
-    topAppBarScrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(),
-    onNavigationIconClick: () -> Unit
+    topAppBarScrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 ) {
     LargeTopAppBar(
         title = {

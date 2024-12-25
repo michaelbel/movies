@@ -47,7 +47,7 @@ internal fun DetailsToolbar(
         actions = {
             AnimatedVisibility(
                 visible = movieUrl != null,
-                modifier = Modifier.then(modifierDisplayCutoutWindowInsets),
+                modifier = modifierDisplayCutoutWindowInsets,
                 enter = fadeIn()
             ) {
                 if (movieUrl != null) {
@@ -62,7 +62,7 @@ internal fun DetailsToolbar(
         navigationIcon = {
             BackIcon(
                 onClick = onNavigationIconClick,
-                modifier = Modifier.then(modifierDisplayCutoutWindowInsets),
+                modifier = modifierDisplayCutoutWindowInsets,
                 onContainerColor = onContainerColor
             )
         },

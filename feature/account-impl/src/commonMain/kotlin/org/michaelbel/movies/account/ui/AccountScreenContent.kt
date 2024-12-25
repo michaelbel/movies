@@ -137,7 +137,9 @@ internal fun AccountScreenContent(
                     strokeWidth = 2.dp
                 )
             } else {
-                Text(text = stringResource(MoviesStrings.account_logout))
+                Text(
+                    text = stringResource(MoviesStrings.account_logout)
+                )
             }
         }
     }

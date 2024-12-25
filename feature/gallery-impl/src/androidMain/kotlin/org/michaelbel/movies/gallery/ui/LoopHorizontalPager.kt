@@ -14,7 +14,7 @@ internal fun LoopHorizontalPager(
     pagerState: PagerState,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = PaddingValues(0.dp),
-    content: @Composable PagerScope.(page: Int) -> Unit,
+    content: @Composable PagerScope.(page: Int) -> Unit
 ) {
     HorizontalPager(
         state = pagerState,
@@ -22,8 +22,6 @@ internal fun LoopHorizontalPager(
         contentPadding = contentPadding,
         pageSpacing = 8.dp,
         flingBehavior = PagerDefaults.flingBehavior(state = pagerState),
-        pageContent = { index ->
-            content(index)
-        }
+        pageContent = { index -> content(index) }
     )
 }

@@ -17,6 +17,6 @@ actual fun SearchRoute(
 ) {
     Text(
         text = "Feed",
-        modifier = Modifier.clickable { onBackClick() }
+        modifier = Modifier.clickable(onClick = onBackClick)
     )
 }

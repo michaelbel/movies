@@ -172,7 +172,7 @@ internal fun FeedScreenContent(
                     pagingItems = pagingItems,
                     onMovieClick = onNavigateToDetails,
                     contentPadding = innerPadding,
-                    modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets),
+                    modifier = Modifier.windowInsetsPadding(displayCutoutWindowInsets)
                 )
             }
         }

@@ -1,10 +1,7 @@
 package org.michaelbel.movies.gallery.ui
 
-import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.layout.Box
@@ -57,6 +54,7 @@ import org.michaelbel.movies.ui.accessibility.MoviesContentDescription
 import org.michaelbel.movies.ui.compose.iconbutton.BackIcon
 import org.michaelbel.movies.ui.compose.iconbutton.DownloadIcon
 import org.michaelbel.movies.ui.ktx.displayCutoutWindowInsets
+import org.michaelbel.movies.ui.ktx.navigateToImageUri
 import org.michaelbel.movies.ui.theme.MoviesTheme
 import org.michaelbel.movies.work.DownloadImageWorker
 import org.michaelbel.movies.work.WorkInfoState
@@ -73,7 +71,6 @@ internal fun GalleryScreenContent(
     val hapticFeedback = LocalHapticFeedback.current
     val coroutineScope = rememberCoroutineScope()
     val snackbarHostState = remember { SnackbarHostState() }
-    val resultContract = rememberLauncherForActivityResult(ActivityResultContracts.StartActivityForResult()) {}
 
     val pagerState = rememberPagerState(pageCount = { movieImages.size })
     var currentPage by remember { mutableIntStateOf(0) }
@@ -92,13 +89,7 @@ internal fun GalleryScreenContent(
                 duration = SnackbarDuration.Long
             )
             if (result == SnackbarResult.ActionPerformed) {
-                Intent(Intent.ACTION_VIEW).apply {
-                    setDataAndType(uri, "image/jpg")
-                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                    addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
-                }.also { intent ->
-                    resultContract.launch(intent)
-                }
+                context.navigateToImageUri(uri)
             }
         }
     }
@@ -130,7 +121,9 @@ internal fun GalleryScreenContent(
     Scaffold(
         modifier = modifier.fillMaxSize(),
         snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
+            SnackbarHost(
+                hostState = snackbarHostState
+            )
         },
         containerColor = MaterialTheme.colorScheme.primaryContainer
     ) { innerPadding ->

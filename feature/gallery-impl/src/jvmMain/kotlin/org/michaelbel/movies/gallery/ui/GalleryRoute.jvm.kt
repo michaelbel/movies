@@ -14,6 +14,6 @@ actual fun GalleryRoute(
 ) {
     Text(
         text = "Gallery",
-        modifier = Modifier.clickable { onBackClick() }
+        modifier = Modifier.clickable(onClick = onBackClick)
     )
 }
