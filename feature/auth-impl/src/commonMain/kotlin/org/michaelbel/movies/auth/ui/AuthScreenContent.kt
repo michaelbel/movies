@@ -117,11 +117,17 @@ internal fun AuthScreenContent(
 
         OutlinedTextField(
             value = username.value,
-            onValueChange = { value -> username = Username(value) },
+            onValueChange = { value ->
+                username = Username(value.filterNot(Char::isWhitespace))
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, top = 8.dp, end = 16.dp),
-            label = { Text(text = stringResource(MoviesStrings.auth_label_username)) },
+            label = {
+                Text(
+                    text = stringResource(MoviesStrings.auth_label_username)
+                )
+            },
             isError = error != null,
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
@@ -135,11 +141,15 @@ internal fun AuthScreenContent(
 
         OutlinedTextField(
             value = password.value,
-            onValueChange = { value -> password = Password(value) },
+            onValueChange = { value -> password = Password(value.filterNot(Char::isWhitespace)) },
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, top = 8.dp, end = 16.dp),
-            label = { Text(text = stringResource(MoviesStrings.auth_label_password)) },
+            label = {
+                Text(
+                    text = stringResource(MoviesStrings.auth_label_password)
+                )
+            },
             trailingIcon = {
                 AnimatedVisibility(
                     visible = password.isNotEmpty,
@@ -154,7 +164,10 @@ internal fun AuthScreenContent(
             },
             supportingText = {
                 if (error != null) {
-                    Text(text = error.text, color = MaterialTheme.colorScheme.error)
+                    Text(
+                        text = error.text,
+                        color = MaterialTheme.colorScheme.error
+                    )
                 }
             },
             isError = error != null,
@@ -177,7 +190,7 @@ internal fun AuthScreenContent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             TextButton(
-                onClick = { navigateToTmdbRegisterUrl() }
+                onClick = navigateToTmdbRegisterUrl
             ) {
                 Text(
                     text = stringResource(MoviesStrings.auth_sign_up)
@@ -190,7 +203,7 @@ internal fun AuthScreenContent(
                 exit = fadeOut()
             ) {
                 TextButton(
-                    onClick = { navigateToTmdbResetPasswordUrl() }
+                    onClick = navigateToTmdbResetPasswordUrl
                 ) {
                     Text(
                         text = stringResource(MoviesStrings.auth_reset_password)

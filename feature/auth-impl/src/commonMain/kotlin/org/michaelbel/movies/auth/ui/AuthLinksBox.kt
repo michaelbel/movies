@@ -50,7 +50,7 @@ fun AuthLinksBox(
                 text = stringResource(MoviesStrings.auth_terms_of_use),
                 modifier = Modifier
                     .padding(vertical = 16.dp)
-                    .clickableWithoutRipple { navigateToTermsOfUseUrl() },
+                    .clickableWithoutRipple(navigateToTermsOfUseUrl),
                 style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.onPrimaryContainer)
             )
 
@@ -66,7 +66,7 @@ fun AuthLinksBox(
                 text = stringResource(MoviesStrings.auth_privacy_policy),
                 modifier = Modifier
                     .padding(vertical = 16.dp)
-                    .clickableWithoutRipple { navigateToPrivacyPolicyUrl() },
+                    .clickableWithoutRipple(navigateToPrivacyPolicyUrl),
                 style = MaterialTheme.typography.bodyMedium.copy(MaterialTheme.colorScheme.onPrimaryContainer)
             )
         }
