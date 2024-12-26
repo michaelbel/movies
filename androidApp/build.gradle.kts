@@ -2,6 +2,7 @@ import com.google.firebase.appdistribution.gradle.AppDistributionExtension
 import org.apache.commons.io.output.ByteArrayOutputStream
 import org.jetbrains.kotlin.konan.properties.Properties
 import java.io.FileInputStream
+import java.nio.charset.Charset
 
 @Suppress("dsl_scope_violation")
 
@@ -21,7 +22,7 @@ private val gitCommitsCount: Int by lazy {
                 commandLine("git", "rev-list", "--count", "HEAD")
                 standardOutput = stdout
             }
-            stdout.toString(Charsets.UTF_8).trim().toInt()
+            stdout.toString(Charset.defaultCharset()).trim().toInt()
         }
     }
 }
