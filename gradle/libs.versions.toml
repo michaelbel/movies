@@ -68,7 +68,7 @@ flaker = "0.1.2"
 ktor = "3.0.3"
 leakcanary = "3.0-alpha-8"
 koin = "4.0.1"
-okio = "3.9.1"
+okio = "3.10.0"
 buildkonfig = "0.15.2"
 napier = "2.7.1"
 
