@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.DETECT_SCREEN_CAPTURE" />
 
@@ -11,7 +12,8 @@
             android:icon="@drawable/ic_movie_filter_24"
             android:label="@string/tile_title"
             android:permission="android.permission.BIND_QUICK_SETTINGS_TILE"
-            android:exported="true">
+            android:exported="true"
+            tools:targetApi="24">
 
             <intent-filter>
                 <action android:name="android.service.quicksettings.action.QS_TILE" />
