@@ -31,7 +31,7 @@ jobs:
           echo "SHORT_SHA=$SHORT_SHA" >> $GITHUB_OUTPUT
 
   build-android:
-    if: false
+    if: true
     needs: job-common
     runs-on: ubuntu-latest
     timeout-minutes: 60
