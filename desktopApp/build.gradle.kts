@@ -2,6 +2,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.compose)
 }
 
@@ -10,50 +11,41 @@ kotlin {
 
     sourceSets {
         jvmMain.dependencies {
-            implementation(project(":core:common-kmp"))
-            implementation(project(":core:ui-kmp"))
-            implementation(project(":feature:account-kmp"))
-            implementation(project(":feature:auth-kmp"))
-            implementation(project(":feature:details-kmp"))
-            implementation(project(":feature:feed-kmp"))
-            implementation(project(":feature:gallery-kmp"))
-            implementation(project(":feature:search-kmp"))
-            implementation(project(":feature:settings-kmp"))
-            implementation(compose.desktop.currentOs)
-            implementation(compose.desktop.common)
-            implementation(compose.runtime)
-            implementation(compose.foundation)
-            implementation(compose.animation)
-            implementation(compose.material)
-            implementation(compose.material3)
-            implementation(compose.components.resources)
-            implementation(libs.precompose)
+            implementation(projects.core.platformServices.injectJvm)
+            implementation(projects.feature.mainImpl)
         }
     }
 }
 
 compose.desktop {
     application {
-        mainClass = "org.michaelbel.movies.MoviesDesktopKt"
+        mainClass = "org.michaelbel.movies.MainWindowKt"
 
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
-            packageName = "org.michaelbel.movies"
+            packageName = "Movies"
             packageVersion = "1.0.0"
 
             val iconsRoot = project.file("desktop-icons")
             macOS {
-                iconFile.set(iconsRoot.resolve("movies-macos.icns"))
+                bundleID = "org.michaelbel.movies"
+                dockName = "Movies"
+                iconFile.set(project.file("desktop-icons").resolve("movies_macos.icns"))
             }
             windows {
                 iconFile.set(iconsRoot.resolve("movies-windows.ico"))
                 menuGroup = "Movies Menu"
-                // see https://wixtoolset.org/documentation/manual/v3/howtos/general/generate_guids.html
                 upgradeUuid = "3e111aef-dba0-434e-82ca-a89155e2d306"
             }
             linux {
                 iconFile.set(iconsRoot.resolve("movies-linux.png"))
             }
         }
+    }
+}
+
+tasks.register("printVersionName") {
+    doLast {
+        println(compose.desktop.application.nativeDistributions.packageVersion)
     }
 }

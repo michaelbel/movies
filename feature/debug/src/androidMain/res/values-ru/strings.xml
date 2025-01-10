@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_debug_channel_name">Debug настройки</string>
+    <string name="notification_debug_channel_description">Debug настройки</string>
+    <string name="notification_debug_title">Movies Debug настройки</string>
+    <string name="notification_debug_description">Тапни чтобы открыть</string>
+</resources>

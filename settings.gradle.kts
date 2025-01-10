@@ -3,8 +3,8 @@
 pluginManagement {
     repositories {
         google()
-        mavenCentral()
         gradlePluginPortal()
+        mavenCentral()
         maven(url = "https://developer.huawei.com/repo/")
     }
 }
@@ -12,8 +12,14 @@ pluginManagement {
 dependencyResolutionManagement {
     /*repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)*/
     repositories {
+        google {
+            content {
+                includeGroupAndSubgroups("androidx")
+                includeGroupAndSubgroups("com.android")
+                includeGroupAndSubgroups("com.google")
+            }
+        }
         mavenCentral()
-        google()
         maven(url = "https://developer.huawei.com/repo/")
     }
 }
@@ -24,39 +30,55 @@ include(
     ":androidApp",
     ":desktopApp",
     ":iosApp",
+    ":iosAppCompose",
+    ":webApp",
     ":instant",
     ":benchmark",
 
-    ":core:analytics-kmp",
-    ":core:common-kmp",
-    ":core:debug-kmp",
-    ":core:interactor-kmp",
-    ":core:navigation-kmp",
-    ":core:network-kmp",
-    ":core:notifications-kmp",
-    ":core:persistence-kmp",
-    ":core:platform-services:gms-kmp",
-    ":core:platform-services:hms-kmp",
-    ":core:platform-services:foss-kmp",
-    ":core:platform-services:inject-kmp",
-    ":core:platform-services:interactor-kmp",
-    ":core:repository-kmp",
-    ":core:ui-kmp",
-    ":core:widget-kmp",
-    ":core:work-kmp",
+    ":core:platform-services:gms",
+    ":core:platform-services:hms",
+    ":core:platform-services:foss",
+    ":core:platform-services:inject-android",
+    ":core:platform-services:inject-jvm",
+    ":core:platform-services:inject-ios",
+    ":core:platform-services:inject-web",
+    ":core:platform-services:interactor",
 
-    ":feature:account-kmp",
-    ":feature:account-impl-kmp",
-    ":feature:auth-kmp",
-    ":feature:auth-impl-kmp",
-    ":feature:details-kmp",
-    ":feature:details-impl-kmp",
-    ":feature:feed-kmp",
-    ":feature:feed-impl-kmp",
-    ":feature:gallery-kmp",
-    ":feature:gallery-impl-kmp",
-    ":feature:search-kmp",
-    ":feature:search-impl-kmp",
-    ":feature:settings-kmp",
-    ":feature:settings-impl-kmp"
+    ":core:analytics",
+    ":core:common",
+    ":core:interactor",
+    ":core:network",
+    ":core:notifications",
+    ":core:persistence",
+    ":core:repository",
+    ":core:ui",
+    ":core:widget",
+    ":core:work",
+
+    ":feature:main",
+    ":feature:main-impl",
+    ":feature:account",
+    ":feature:account-impl",
+    ":feature:auth",
+    ":feature:auth-impl",
+    ":feature:details",
+    ":feature:details-impl",
+    ":feature:feed",
+    ":feature:feed-impl",
+    ":feature:gallery",
+    ":feature:gallery-impl",
+    ":feature:search",
+    ":feature:search-impl",
+    ":feature:settings",
+    ":feature:settings-impl",
+
+    ":feature:debug",
+    ":feature:debug-impl",
+
+    ":core:ui-web",
+    ":feature:main-impl-web",
+    ":feature:feed-web",
+    ":feature:feed-impl-web"
 )
+
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")

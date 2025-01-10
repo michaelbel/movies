@@ -2,14 +2,16 @@ package org.michaelbel.movies
 
 import android.app.Application
 import androidx.work.Configuration
+import io.github.aakira.napier.DebugAntilog
+import io.github.aakira.napier.Napier
 import org.koin.android.ext.android.inject
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.workmanager.factory.KoinWorkerFactory
 import org.koin.androidx.workmanager.koin.workManagerFactory
 import org.koin.core.context.startKoin
-import org.michaelbel.movies.common.crashlytics.CrashlyticsTree
-import org.michaelbel.movies.common_kmp.BuildConfig
+import org.michaelbel.movies.common.BuildConfig
+import org.michaelbel.movies.crashlytics.CrashlyticsTree
 import org.michaelbel.movies.di.appKoinModule
 import org.michaelbel.movies.platform.app.AppService
 import org.michaelbel.movies.platform.crashlytics.CrashlyticsService
@@ -36,5 +38,6 @@ internal class App: Application(), Configuration.Provider {
         }
         appService.installApp()
         Timber.plant(if (BuildConfig.DEBUG) Timber.DebugTree() else CrashlyticsTree(crashlyticsService))
+        Napier.base(DebugAntilog())
     }
 }

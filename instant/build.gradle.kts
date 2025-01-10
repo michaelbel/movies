@@ -1,4 +1,5 @@
 plugins {
+    alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.android.dynamic.feature)
     alias(libs.plugins.kotlin.android)
 }
@@ -28,10 +29,6 @@ android {
         }
     }
 
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.androidx.compose.compiler.get()
-    }
-
     compileOptions {
         sourceCompatibility = JavaVersion.toVersion(libs.versions.jdk.get().toInt())
         targetCompatibility = JavaVersion.toVersion(libs.versions.jdk.get().toInt())
@@ -39,10 +36,10 @@ android {
 }
 
 dependencies {
-    implementation(project(":androidApp"))
-    implementation(project(":core:common-kmp"))
-    implementation(project(":core:ui-kmp"))
-    implementation(libs.bundles.androidx.appcompat)
-    implementation(libs.bundles.androidx.compose)
-    implementation(libs.google.services.instantapps)
+    implementation(projects.androidApp)
+    implementation(projects.core.common)
+    implementation(projects.core.ui)
+    implementation(libs.bundles.appcompat.android)
+    implementation(libs.bundles.compose.android)
+    implementation(libs.bundles.google.services.instantapps.android)
 }

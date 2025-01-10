@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="content_description_account_avatar_image">Изображение Аватара Аккаунта</string>
+    <string name="content_description_adult_icon">Иконка 18+</string>
+    <string name="content_description_appearance_icon">Иконка Отображения</string>
+    <string name="content_description_back_icon">Иконка Назад</string>
+    <string name="content_description_close_icon">Иконка Закрытия</string>
+    <string name="content_description_download_icon">Иконка Загрузки</string>
+    <string name="content_description_history_icon">Иконка Истории Поиска</string>
+    <string name="content_description_movie_details_image">Изображение Фильма</string>
+    <string name="content_description_password_icon">Иконка Показать Пароль</string>
+    <string name="content_description_password_off_icon">Иконка Скрыть Пароль</string>
+    <string name="content_description_share_icon">Иконка Поделиться</string>
+    <string name="content_description_search_icon">Иконка Поиска</string>
+    <string name="content_description_settings_icon">Иконка Настроек</string>
+    <string name="content_description_user_location_icon">Иконка Местоположения Пользователя</string>
+</resources>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="notification_debug_channel_id" translatable="false">debug_channel_id</string>
+    <string name="notification_debug_channel_name">Debug Settings</string>
+    <string name="notification_debug_channel_description">Debug Settings</string>
+    <string name="notification_debug_title">Movies Debug Settings</string>
+    <string name="notification_debug_description">Click to open</string>
+</resources>

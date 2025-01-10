@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language_code">en</string>
+    <string name="shortcuts_search_title">Search</string>
+    <string name="shortcuts_settings_title">Settings</string>
+    <string name="notification_enable_title">Turn on Notifications\nFor Movies</string>
+    <string name="notification_enable_subtitle">Please allow Movies to send you notifications</string>
+    <string name="notification_continue">Continue</string>
+    <string name="notification_go_to_settings">Go To Settings</string>
+    <string name="retry">Retry</string>
+    <string name="no_image">No Image</string>
+    <string name="error_api_key_null">TMDB API key is null</string>
+    <string name="share_via">Share via</string>
+    <string name="tile_title">Movies</string>
+    <string name="tile_added">Movies Tile added</string>
+    <string name="settings_gender">Gender</string>
+</resources>

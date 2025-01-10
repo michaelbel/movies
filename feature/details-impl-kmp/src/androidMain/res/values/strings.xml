@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="details_title">Movie Details</string>
-    <string name="details_error_loading">Error while loading</string>
-</resources>

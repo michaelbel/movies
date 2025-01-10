@@ -1,8 +1,15 @@
 name: Distribution App
 
 on:
-  push:
-    branches: [ master ]
+#  push:
+#    branches:
+#     - master
+#     - develop
+#    paths-ignore:
+#     - '**.md'
+#     - '.idea/**'
+#     - '.github/**'
+#     - 'config/**'
   workflow_dispatch:
   
 env:
@@ -15,7 +22,7 @@ env:
   
 concurrency:
   group: environment-${{ github.ref }}
-  cancel-in-progress: true  
+  cancel-in-progress: false
 
 jobs:
   build:
@@ -27,11 +34,11 @@ jobs:
         with:
           fetch-depth: 0
           
-      - name: Set up JDK 17
+      - name: Set up JDK 21
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: 17
+          java-version: 21
           
       - name: Make Gradlew Executable
         run: chmod +x ./gradlew
@@ -46,37 +53,38 @@ jobs:
       - name: Set Decoded File Location as Environment
         run: echo "KEYSTORE_FILE=${{ steps.decode_keystore_file.outputs.filePath }}" >> $GITHUB_ENV
           
-      - name: Build Debug Artifacts
-        run: ./gradlew assembleDebug
+      - name: Build GmsDebug Artifact
+        run: ./gradlew androidApp:assembleGmsDebug
+
+      - name: Build HmsDebug Artifact
+        run: ./gradlew androidApp:assembleHmsDebug
+
+      - name: Build FossDebug Artifact
+        run: ./gradlew androidApp:assembleFossDebug
           
-      - name: Build Release Artifacts
-        run: ./gradlew assembleRelease
+      - name: Build GmsRelease Artifact
+        run: ./gradlew androidApp:assembleGmsRelease
+
+      - name: Build HmsRelease Artifact
+        run: ./gradlew androidApp:assembleHmsRelease
+
+      - name: Build FossRelease Artifact
+        run: ./gradlew androidApp:assembleFossRelease
         
-      - name: Build Bundle Artifacts
-        run: ./gradlew bundleRelease
+#      - name: Build GmsBundle Artifact
+#        run: ./gradlew androidApp:bundleGmsRelease
  
-      - name: Upload Artifacts to Outputs
-        uses: actions/upload-artifact@v2
-        with:
-          path: |
-            app/build/outputs/apk
-            app/build/outputs/bundle
-      
-#     - name: Create GitHub Release
-#       uses: softprops/action-gh-release@v1
-#       with:
-#         name: ${{ env.ANDROID_VERSION_NAME }}
-#         tag_name: ${{ env.ANDROID_VERSION_NAME }}
-#         draft: false
-#         prerelease: false
-#         files: |
-#           app/build/outputs/apk/**/*.apk
-#           app/build/outputs/bundle/**/*.aab
+#      - name: Upload Artifacts to Outputs
+#        uses: actions/upload-artifact@v2
+#        with:
+#          path: |
+#            androidApp/build/outputs/apk
+#            androidApp/build/outputs/bundle
           
-      - name: Distribute Artifacts via Firebase
-        run: ./gradlew appDistributionUploadRelease
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+#      - name: Distribute Artifacts via Firebase
+#        run: ./gradlew appDistributionUploadRelease
+#        env:
+#          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
 #      - name: Create Service Account JSON File
 #        run: echo '${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}' > service_account.json
@@ -96,5 +104,5 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           disable_notification: false
           disable_web_page_preview: true
-          document: app/build/outputs/apk/**/*.apk
+          document: androidApp/build/outputs/apk/**/**/*.apk
           message_file: ./releaseNotes.txt
