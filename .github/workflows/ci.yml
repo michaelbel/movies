@@ -19,7 +19,7 @@ env:
 
 jobs:
   job-common:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     outputs:
       SHORT_SHA: ${{ steps.expose_sha.outputs.short_sha }}
     steps:
@@ -33,7 +33,7 @@ jobs:
   build-android:
     if: true
     needs: job-common
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 60
     env:
       KEYSTORE_FILE: ${{ secrets.KEYSTORE_FILE }}

@@ -24,7 +24,7 @@ compose.desktop {
         nativeDistributions {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "Movies"
-            packageVersion = "1.0.0"
+            packageVersion = "2.1.0"
 
             val iconsRoot = project.file("desktop-icons")
             macOS {
