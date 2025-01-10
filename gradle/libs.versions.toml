@@ -55,7 +55,6 @@ compose = "1.7.3"
 jetbrains-androidx-navigation-compose = "2.8.0-alpha11"
 jetbrains-androidx-core-bundle = "1.0.1"
 detekt = "1.23.7"
-spotless = "6.25.0"
 coil = "2.7.0"
 coil3 = "3.0.4"
 okhttp = "4.12.0"
@@ -403,6 +402,5 @@ google-firebase-appdistribution = { id = "com.google.firebase.appdistribution", 
 google-firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "google-firebase-crashlytics-plugin" }
 huawei-services = { id = "com.huawei.agconnect", version.ref = "huawei-services" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
-spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 palantir-git = { id = "com.palantir.git-version", version.ref = "palantir-git" }
 buildkonfig = { id = "com.codingfeline.buildkonfig", version.ref = "buildkonfig" }
