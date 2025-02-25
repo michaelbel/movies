@@ -68,7 +68,7 @@ ktor = "3.0.3"
 leakcanary = "3.0-alpha-8"
 koin = "4.0.2"
 okio = "3.10.2"
-buildkonfig = "0.15.2"
+buildkonfig = "0.17.0"
 napier = "2.7.1"
 
 [libraries]
