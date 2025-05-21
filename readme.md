@@ -31,6 +31,8 @@ The goal of this project is to implement an app that provides a consistent user 
 
 The app is currently in development. Android app is already available.
 
+Get interactive AI-powered documentation for the repository on [DeepWiki](https://deepwiki.com/michaelbel/movies).
+
 
 ## Screenshots
 
