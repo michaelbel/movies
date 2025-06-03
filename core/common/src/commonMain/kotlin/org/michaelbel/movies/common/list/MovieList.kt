@@ -31,20 +31,20 @@ sealed interface MovieList: SealedString {
 
         fun transform(name: String): MovieList {
             return when (name) {
-                NowPlaying().toString() -> NowPlaying()
-                Popular().toString() -> Popular()
-                TopRated().toString() -> TopRated()
-                Upcoming().toString() -> Upcoming()
+                NowPlaying().name -> NowPlaying()
+                Popular().name -> Popular()
+                TopRated().name -> TopRated()
+                Upcoming().name -> Upcoming()
                 else -> throw InvalidMovieListException
             }
         }
 
         fun name(movieList: MovieList): String {
             return when (movieList) {
-                is NowPlaying -> NowPlaying().name
-                is Popular -> Popular().name
-                is TopRated -> TopRated().name
-                is Upcoming -> Upcoming().name
+                is NowPlaying -> movieList.name
+                is Popular -> movieList.name
+                is TopRated -> movieList.name
+                is Upcoming -> movieList.name
             }
         }
     }
