@@ -17,8 +17,6 @@ import org.michaelbel.movies.platform.update.UpdateService
 import org.michaelbel.movies.settings.intent.SettingsIntent
 import org.michaelbel.movies.settings.model.SettingsModel
 import org.michaelbel.movies.ui.navigation.MainNavigator
-import org.michaelbel.movies.ui.navigation.ReviewDestination
-import org.michaelbel.movies.ui.navigation.UpdateDestination
 
 class SettingsViewModel(
     val aboutInteractor: AboutInteractor,
@@ -101,8 +99,8 @@ class SettingsViewModel(
                 })
             }
             is SettingsIntent.BackClick -> launch { MainNavigator.back() }
-            is SettingsIntent.ReviewClick -> launch { MainNavigator.forward(ReviewDestination) }
-            is SettingsIntent.UpdateClick -> launch { MainNavigator.forward(UpdateDestination) }
+            is SettingsIntent.ReviewClick -> launch { MainNavigator.requestReview() }
+            is SettingsIntent.UpdateClick -> launch { MainNavigator.requestUpdate() }
             is SettingsIntent.SelectLanguage -> launch { interactor.selectLanguage(intent.language) }
             is SettingsIntent.SelectTheme -> launch { interactor.selectTheme(intent.theme) }
             is SettingsIntent.SelectFeedView -> launch { interactor.selectFeedView(intent.feedView) }

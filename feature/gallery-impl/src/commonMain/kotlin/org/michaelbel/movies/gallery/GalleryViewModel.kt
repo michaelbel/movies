@@ -1,24 +1,20 @@
 package org.michaelbel.movies.gallery
 
-import androidx.lifecycle.SavedStateHandle
-import androidx.navigation.toRoute
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.mvi.MoviesViewModel
 import org.michaelbel.movies.gallery.intent.GalleryIntent
 import org.michaelbel.movies.gallery.model.GalleryModel
-import org.michaelbel.movies.ui.navigation.GalleryDestination
 import org.michaelbel.movies.interactor.Interactor
+import org.michaelbel.movies.ui.navigation.GalleryDestination
 import org.michaelbel.movies.ui.navigation.MainNavigator
 import org.michaelbel.movies.work.WorkManagerInteractor
 
 class GalleryViewModel(
-    savedStateHandle: SavedStateHandle,
+    private val destination: GalleryDestination,
     private val interactor: Interactor,
     private val workManagerInteractor: WorkManagerInteractor
 ): MoviesViewModel<GalleryModel, GalleryIntent>(GalleryModel()) {
-
-    private val dest: GalleryDestination = savedStateHandle.toRoute()
 
     init {
         dispatch(GalleryIntent.CollectMovieImages)
@@ -29,13 +25,13 @@ class GalleryViewModel(
         when (intent) {
             is GalleryIntent.CollectMovieImages -> {
                 launch {
-                    interactor.imagesFlow(dest.movieId).collectLatest { movieImages ->
+                    interactor.imagesFlow(destination.movieId).collectLatest { movieImages ->
                         reduce { it.copy(movieImages = movieImages) }
                     }
                 }
             }
             is GalleryIntent.BackClick -> launch { MainNavigator.back() }
-            is GalleryIntent.LoadMovieImages -> launch { interactor.images(dest.movieId) }
+            is GalleryIntent.LoadMovieImages -> launch { interactor.images(destination.movieId) }
             is GalleryIntent.DownloadClick -> {
                 launch {
                     workManagerInteractor.downloadImage(intent.image).collectLatest { workInfoState ->

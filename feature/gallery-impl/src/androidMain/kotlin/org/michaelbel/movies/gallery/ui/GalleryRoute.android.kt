@@ -64,6 +64,7 @@ import org.michaelbel.movies.work.WorkInfoState
 
 @Composable
 actual fun GalleryScreen(
+    destination: org.michaelbel.movies.ui.navigation.GalleryDestination,
     viewModel: GalleryViewModel
 ) {
     val state by viewModel.stateFlow.collectAsStateCommon()

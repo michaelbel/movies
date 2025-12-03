@@ -1,7 +1,5 @@
 package org.michaelbel.movies.details
 
-import androidx.lifecycle.SavedStateHandle
-import androidx.navigation.toRoute
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.exceptions.MovieDetailsException
@@ -16,12 +14,10 @@ import org.michaelbel.movies.ui.navigation.GalleryDestination
 import org.michaelbel.movies.ui.navigation.MainNavigator
 
 class DetailsViewModel(
-    savedStateHandle: SavedStateHandle,
+    private val destination: DetailsDestination,
     private val interactor: Interactor,
     private val networkManager: NetworkManager
 ): MoviesViewModel<DetailsModel, DetailsIntent>(DetailsModel()) {
-
-    private val dest: DetailsDestination = savedStateHandle.toRoute()
 
     init {
         dispatch(DetailsIntent.CollectAppTheme)
@@ -47,18 +43,18 @@ class DetailsViewModel(
             }
             is DetailsIntent.LoadMovie -> {
                 launch {
-                    val movieDb = interactor.movieDetails(dest.movieList.orEmpty(), dest.movieId)
+                    val movieDb = interactor.movieDetails(destination.movieList.orEmpty(), destination.movieId)
                     reduce { it.copy(detailsState = ScreenState.Content(movieDb)) }
                 }
             }
             is DetailsIntent.BackClick -> launch { MainNavigator.back() }
-            is DetailsIntent.GalleryClick -> launch { MainNavigator.forward(GalleryDestination(dest.movieId)) }
+            is DetailsIntent.GalleryClick -> launch { MainNavigator.forward(GalleryDestination(destination.movieId)) }
             is DetailsIntent.GenerateColors -> {
                 launch {
                     if (intent.containerColor != null && intent.onContainerColor != null) {
-                        interactor.updateMovieColors(dest.movieId, intent.containerColor, intent.onContainerColor)
-                        if (dest.movieList != null) {
-                            val moviePojo = interactor.movie(dest.movieList.orEmpty(), dest.movieId)
+                        interactor.updateMovieColors(destination.movieId, intent.containerColor, intent.onContainerColor)
+                        if (destination.movieList != null) {
+                            val moviePojo = interactor.movie(destination.movieList.orEmpty(), destination.movieId)
                             reduce { it.copy(detailsState = ScreenState.Content(moviePojo)) }
                         }
                     }

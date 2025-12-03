@@ -1,12 +1,13 @@
 package org.michaelbel.movies.gallery
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entry
 import org.michaelbel.movies.ui.navigation.GalleryDestination
 import org.michaelbel.movies.gallery.ui.GalleryScreen
 
-fun NavGraphBuilder.galleryGraph() {
-    composable<GalleryDestination> {
-        GalleryScreen()
+fun EntryProviderScope<NavKey>.galleryGraph() {
+    entry<GalleryDestination> { key ->
+        GalleryScreen(destination = key)
     }
 }

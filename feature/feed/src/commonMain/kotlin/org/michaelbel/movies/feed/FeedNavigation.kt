@@ -1,10 +1,11 @@
 package org.michaelbel.movies.feed
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entry
 import org.michaelbel.movies.feed.navigation.FeedDestination
 import org.michaelbel.movies.feed.ui.FeedScreen
 
-fun NavGraphBuilder.feedGraph() {
-    composable<FeedDestination> { FeedScreen() }
+fun EntryProviderScope<NavKey>.feedGraph() {
+    entry<FeedDestination> { FeedScreen() }
 }

@@ -1,17 +1,12 @@
 package org.michaelbel.movies.details
 
-import androidx.navigation.NavGraphBuilder
-import androidx.navigation.compose.composable
-import androidx.navigation.navDeepLink
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
+import androidx.navigation3.runtime.entry
 import org.michaelbel.movies.ui.navigation.DetailsDestination
 
-fun NavGraphBuilder.detailsGraph() {
-    composable<DetailsDestination>(
-        deepLinks = listOf(
-            navDeepLink { uriPattern = "https://www.themoviedb.org/movie/{movieId}" },
-            navDeepLink { uriPattern = "movies://details/{movieId}" }
-        )
-    ) {
-        DetailsScreen()
+fun EntryProviderScope<NavKey>.detailsGraph() {
+    entry<DetailsDestination> { key ->
+        DetailsScreen(destination = key)
     }
 }

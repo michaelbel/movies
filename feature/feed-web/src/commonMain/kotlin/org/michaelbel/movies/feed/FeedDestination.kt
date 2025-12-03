@@ -1,9 +1,10 @@
 package org.michaelbel.movies.feed
 
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-class FeedDestination(
+data class FeedDestination(
     val requestToken: String? = null,
     val approved: Boolean = false
-)
+) : NavKey

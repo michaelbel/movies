@@ -18,7 +18,7 @@ kotlin {
             api(projects.core.persistence)
             api(libs.bundles.coil.common)
             api(libs.bundles.jetbrains.androidx.lifecycle.common)
-            api(libs.bundles.jetbrains.androidx.navigation.common)
+            api(libs.bundles.androidx.navigation3)
             api(libs.bundles.jetbrains.androidx.core.common)
             api(compose.animation)
             api(compose.foundation)

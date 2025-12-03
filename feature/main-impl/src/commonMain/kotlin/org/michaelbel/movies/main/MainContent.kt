@@ -2,10 +2,11 @@ package org.michaelbel.movies.main
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.scene.DialogSceneStrategy
+import androidx.navigation3.ui.NavDisplay
 import org.michaelbel.movies.account.accountGraph
 import org.michaelbel.movies.auth.authGraph
 import org.michaelbel.movies.details.detailsGraph
@@ -15,48 +16,48 @@ import org.michaelbel.movies.main.navigation.mainNavGraph
 import org.michaelbel.movies.search.searchGraph
 import org.michaelbel.movies.settings.settingsGraph
 import org.michaelbel.movies.ui.ktx.ObserveAsEvents
-import org.michaelbel.movies.ui.navigation.AccountDestination
-import org.michaelbel.movies.ui.navigation.AuthDestination
-import org.michaelbel.movies.ui.navigation.BackDestination
-import org.michaelbel.movies.ui.navigation.DetailsDestination
-import org.michaelbel.movies.ui.navigation.GalleryDestination
 import org.michaelbel.movies.ui.navigation.MainNavigator
-import org.michaelbel.movies.ui.navigation.ReviewDestination
-import org.michaelbel.movies.ui.navigation.SearchDestination
-import org.michaelbel.movies.ui.navigation.SettingsDestination
-import org.michaelbel.movies.ui.navigation.UpdateDestination
+import org.michaelbel.movies.ui.navigation.Navigator
+import org.michaelbel.movies.ui.navigation.rememberNavigationState
+import org.michaelbel.movies.ui.navigation.toEntries
 
 @Composable
 fun MainContent(
     onRequestReview: () -> Unit = {},
     onRequestUpdate: () -> Unit = {},
-    navHostController: NavHostController = rememberNavController()
+    navigator: Navigator? = null
 ) {
-    NavHost(
-        navController = navHostController,
-        startDestination = StartDestination,
-        modifier = Modifier.fillMaxSize()
-    ) {
-        authGraph()
-        accountGraph()
-        mainNavGraph()
-        detailsGraph()
-        galleryGraph()
-        searchGraph()
-        settingsGraph()
+    val navigationState = rememberNavigationState(
+        startRoute = StartDestination,
+        topLevelRoutes = setOf(StartDestination)
+    )
+    val appNavigator = remember(navigator) { navigator ?: Navigator(navigationState) }
+
+    val entryProvider = remember {
+        entryProvider {
+            authGraph()
+            accountGraph()
+            mainNavGraph()
+            detailsGraph()
+            galleryGraph()
+            searchGraph()
+            settingsGraph()
+        }
     }
+
+    NavDisplay(
+        entries = navigationState.toEntries(entryProvider),
+        onBack = { appNavigator.goBack() },
+        sceneStrategy = remember { DialogSceneStrategy() },
+        modifier = Modifier.fillMaxSize()
+    )
 
     ObserveAsEvents(MainNavigator.destFlow) { dest ->
         when (dest) {
-            is BackDestination -> navHostController.popBackStack()
-            is AuthDestination -> navHostController.navigate(AuthDestination)
-            is AccountDestination -> navHostController.navigate(AccountDestination)
-            is SearchDestination -> navHostController.navigate(SearchDestination)
-            is SettingsDestination -> navHostController.navigate(SettingsDestination)
-            is DetailsDestination -> navHostController.navigate(DetailsDestination(dest.movieList, dest.movieId))
-            is GalleryDestination -> navHostController.navigate(GalleryDestination(dest.movieId))
-            is ReviewDestination -> onRequestReview
-            is UpdateDestination -> onRequestUpdate
+            is MainNavigator.NavigationEvent.Back -> appNavigator.goBack()
+            is MainNavigator.NavigationEvent.Forward -> appNavigator.navigate(dest.destination)
+            is MainNavigator.NavigationEvent.RequestReview -> onRequestReview()
+            is MainNavigator.NavigationEvent.RequestUpdate -> onRequestUpdate()
         }
     }
 }

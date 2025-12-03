@@ -30,6 +30,7 @@ import platform.UIKit.UIApplication
 
 @Composable
 actual fun DetailsScreen(
+    destination: org.michaelbel.movies.ui.navigation.DetailsDestination,
     viewModel: DetailsViewModel
 ) {
     val state by viewModel.stateFlow.collectAsStateCommon()

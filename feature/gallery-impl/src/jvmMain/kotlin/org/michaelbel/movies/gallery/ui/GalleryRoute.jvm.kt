@@ -7,6 +7,7 @@ import org.michaelbel.movies.gallery.GalleryViewModel
 
 @Composable
 actual fun GalleryScreen(
+    destination: org.michaelbel.movies.ui.navigation.GalleryDestination,
     viewModel: GalleryViewModel
 ) {
     Text(

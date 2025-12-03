@@ -1,5 +1,5 @@
 [versions]
-min-sdk = "26"
+min-sdk = "23"
 compile-sdk = "36"
 target-sdk = "36"
 jdk = "21"
@@ -52,7 +52,7 @@ androidx-test-espresso-device = "1.1.0"
 androidx-work = "2.11.0"
 compose = "1.9.3"
 jetbrains-androidx-lifecycle = "2.9.6"
-jetbrains-androidx-navigation-compose = "2.9.1"
+nav3-core = "1.0.0"
 jetbrains-androidx-core-bundle = "1.0.1"
 jetbrains-androidx-savedstate = "1.4.0"
 detekt = "1.23.8"
@@ -131,9 +131,10 @@ androidx-test-espresso-idling-resource = { module = "androidx.test.espresso:espr
 androidx-test-uiautomator = { module = "androidx.test.uiautomator:uiautomator", version.ref = "androidx-test-uiautomator" }
 androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "androidx-work" }
 jetbrains-androidx-lifecycle-runtime-compose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "jetbrains-androidx-lifecycle" }
-jetbrains-androidx-navigation-compose = { module = "org.jetbrains.androidx.navigation:navigation-compose", version.ref = "jetbrains-androidx-navigation-compose" }
 jetbrains-androidx-core-bundle = { module = "org.jetbrains.androidx.core:core-bundle", version.ref = "jetbrains-androidx-core-bundle" }
 jetbrains-androidx-savedstate = { module = "org.jetbrains.androidx.savedstate:savedstate", version.ref = "jetbrains-androidx-savedstate" }
+androidx-navigation3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3-core" }
+androidx-navigation3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3-core" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
 coil3-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil3" }
 coil3-network-ktor3 = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil3" }
@@ -180,8 +181,9 @@ jetbrains-androidx-lifecycle-common = [
     "jetbrains-androidx-lifecycle-runtime-compose",
     "jetbrains-androidx-savedstate",
 ]
-jetbrains-androidx-navigation-common = [
-    "jetbrains-androidx-navigation-compose"
+androidx-navigation3 = [
+    "androidx-navigation3-runtime",
+    "androidx-navigation3-ui"
 ]
 jetbrains-androidx-core-common = [
     "jetbrains-androidx-core-bundle"

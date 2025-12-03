@@ -1,7 +1,8 @@
 package org.michaelbel.movies.main.navigation
 
-import androidx.navigation.NavGraphBuilder
+import androidx.navigation3.runtime.EntryProviderScope
+import androidx.navigation3.runtime.NavKey
 
-expect val StartDestination: Any
+expect val StartDestination: NavKey
 
-expect fun NavGraphBuilder.mainNavGraph()
+expect fun EntryProviderScope<NavKey>.mainNavGraph()

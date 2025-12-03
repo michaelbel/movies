@@ -1,6 +1,5 @@
 package org.michaelbel.movies.main.mainnav
 
-import androidx.lifecycle.SavedStateHandle
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -13,19 +12,11 @@ import org.michaelbel.movies.main.intent.MainIntent
 import org.michaelbel.movies.main.model.MainModel
 
 class MainNavViewModel(
-    savedStateHandle: SavedStateHandle,
     private val interactor: Interactor
 ): MoviesViewModel<MainModel, MainIntent>(MainModel()) {
 
-    private val requestToken: String? = savedStateHandle["requestToken"]
-    private val approved: String? = savedStateHandle["approved"]
-
     private val _snackbarMessage = Channel<String>()
     val snackbarMessage: Flow<String> = _snackbarMessage.receiveAsFlow()
-
-    init {
-        authorizeAccount(requestToken, approved.toBoolean())
-    }
 
     override fun dispatch(intent: MainIntent) {}
 
@@ -37,8 +28,12 @@ class MainNavViewModel(
         }
     }
 
-    private fun authorizeAccount(requestToken: String?, approved: Boolean?) {
+    fun onRedirect(requestToken: String?, approved: Boolean?) {
         if (requestToken == null || approved == null) return
+        authorizeAccount(requestToken, approved)
+    }
+
+    private fun authorizeAccount(requestToken: String, approved: Boolean) {
         launch {
             interactor.run {
                 createSession(requestToken)
