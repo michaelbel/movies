@@ -74,7 +74,7 @@ koin = "4.2.1"
 okio = "3.17.0"
 buildkonfig = "0.20.0"
 napier = "2.7.1"
-slf4j = "2.0.17"
+slf4j = "2.0.18"
 
 [libraries]
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
