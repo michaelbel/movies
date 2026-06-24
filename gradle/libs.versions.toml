@@ -72,7 +72,7 @@ ktor = "3.5.0"
 leakcanary = "3.0-alpha-8"
 koin = "4.2.2"
 okio = "3.17.0"
-buildkonfig = "0.21.2"
+buildkonfig = "0.22.0"
 napier = "2.7.1"
 slf4j = "2.0.18"
 
