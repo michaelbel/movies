@@ -231,11 +231,11 @@ If you find any problems or would like to suggest a feature, please feel free to
 
 
 ## Star History
-<a href="https://star-history.com/#michaelbel/movies&Date">
+<a href="https://star-history.dera.page/#michaelbel/movies&Date">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=michaelbel/movies&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=michaelbel/movies&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=michaelbel/movies&type=Date" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://star-history.dera.page/svg?repos=michaelbel/movies&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://star-history.dera.page/svg?repos=michaelbel/movies&type=Date" />
+    <img alt="Star History Chart" src="https://star-history.dera.page/svg?repos=michaelbel/movies&type=Date" />
   </picture>
 </a>
 

@@ -236,11 +236,11 @@ TMDB_API_KEY=your_own_tmdb_api_key
 
 
 ## История звездочек
-<a href="https://star-history.com/#michaelbel/movies&Date">
+<a href="https://star-history.dera.page/#michaelbel/movies&Date">
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=michaelbel/movies&type=Date&theme=dark" />
-    <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=michaelbel/movies&type=Date" />
-    <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=michaelbel/movies&type=Date" />
+    <source media="(prefers-color-scheme: dark)" srcset="https://star-history.dera.page/svg?repos=michaelbel/movies&type=Date&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://star-history.dera.page/svg?repos=michaelbel/movies&type=Date" />
+    <img alt="Star History Chart" src="https://star-history.dera.page/svg?repos=michaelbel/movies&type=Date" />
   </picture>
 </a>
 
