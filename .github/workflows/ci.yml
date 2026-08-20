@@ -37,7 +37,7 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: checkout repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -86,7 +86,7 @@ jobs:
       SHORT_SHA: ${{ needs.job-common.outputs.SHORT_SHA }}
     steps:
       - name: checkout repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
       
@@ -316,7 +316,7 @@ jobs:
       SHORT_SHA: ${{ needs.job-common.outputs.SHORT_SHA }}
     steps:
       - name: checkout repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
