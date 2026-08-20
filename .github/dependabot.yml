@@ -5,6 +5,15 @@ updates:
     schedule:
       interval: "daily"
       time: "10:00"
-    open-pull-requests-limit: 1000
+    open-pull-requests-limit: 10
+    assignees:
+      - "michaelbel"
+
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: "daily"
+      time: "10:00"
+    open-pull-requests-limit: 10
     assignees:
       - "michaelbel"
