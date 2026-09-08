@@ -706,6 +706,32 @@ class ConnectivityAndInternetAccess private constructor(
             return connected
         }
 
+        /**
+         * Cheap passive guard that ignores a dangling VPN-only default network.
+         * A VPN capability can remain present after its underlying Wi-Fi/mobile
+         * transport disappeared, so it must not make the app appear connected.
+         */
+        @JvmStatic
+        fun hasPhysicalNetwork(context: Context?): Boolean {
+            context ?: throw IllegalArgumentException("context == null")
+            val connectivityManager = manager(context)
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                return connectivityManager.allNetworks.any { network ->
+                    val capabilities = connectivityManager.getNetworkCapabilities(network)
+                    capabilities?.let { value ->
+                        value.isUsable() && (
+                            value.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) ||
+                                value.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) ||
+                                value.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)
+                            )
+                    } == true
+                }
+            }
+
+            return connectivityManager.activeNetworkInfo.isConnectedLegacy()
+        }
+
         /** Cheap point-in-time snapshot of the application's default network. */
         @JvmStatic
         fun snapshotNetworkState(context: Context): NetworkState {

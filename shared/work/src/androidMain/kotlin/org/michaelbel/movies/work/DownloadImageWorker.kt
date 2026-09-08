@@ -17,6 +17,7 @@ import java.net.URL
 import net.i2p.android.router.util.ConnectivityAndInternetAccess
 import org.michaelbel.movies.common.ktx.currentDateTime
 import org.michaelbel.movies.interactor.AppNotificationInteractor
+import org.michaelbel.movies.network.connectivity.RemoteConnectivityPolicy
 import org.michaelbel.movies.network.connectivity.impl.MoviesConnectivityMonitor
 
 class DownloadImageWorker(
@@ -38,7 +39,11 @@ class DownloadImageWorker(
 
         // WorkManager also has a CONNECTED constraint, but this local guard closes the
         // race between constraint evaluation and the actual URL.openStream() call.
-        if (!ConnectivityAndInternetAccess.isConnected(applicationContext)) {
+        if (!RemoteConnectivityPolicy.canStartRemoteRequest(
+                isConnected = ConnectivityAndInternetAccess.isConnected(applicationContext),
+                hasPhysicalNetwork = ConnectivityAndInternetAccess.hasPhysicalNetwork(applicationContext)
+            )
+        ) {
             return Result.retry()
         }
 

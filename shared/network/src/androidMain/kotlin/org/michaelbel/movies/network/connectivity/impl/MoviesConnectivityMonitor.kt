@@ -14,6 +14,7 @@ import net.i2p.android.router.util.ConnectivityAndInternetAccess
 import org.michaelbel.movies.network.connectivity.ConnectivityFallbackPolicy
 import org.michaelbel.movies.network.connectivity.ConnectivityFallbackResult
 import org.michaelbel.movies.network.connectivity.ConnectivityTierResult
+import org.michaelbel.movies.network.connectivity.RemoteConnectivityPolicy
 
 private const val TAG = "MoviesConnectivity"
 private const val DIAGNOSTIC_COOLDOWN_MS = 5_000L
@@ -69,7 +70,7 @@ class MoviesConnectivityMonitor(
 
     private fun snapshotNetworkStateSafely(): ConnectivityAndInternetAccess.NetworkState {
         return try {
-            ConnectivityAndInternetAccess.snapshotNetworkState(applicationContext)
+            normalizeNetworkState(ConnectivityAndInternetAccess.snapshotNetworkState(applicationContext))
         } catch (runtime: RuntimeException) {
             Log.e(TAG, "unable to read initial network state; continuing without blocking startup", runtime)
             disconnectedFallbackState()
@@ -79,12 +80,13 @@ class MoviesConnectivityMonitor(
     private fun createObserverSafely(): Closeable? {
         return try {
             ConnectivityAndInternetAccess.observeNetwork(applicationContext) { state ->
-                networkStateMutable.value = state
+                val normalizedState = normalizeNetworkState(state)
+                networkStateMutable.value = normalizedState
                 Log.d(
                     TAG,
-                    "default-network connected=${state.connected}, " +
-                        "validated=${state.internetValidated}, " +
-                        "captivePortal=${state.captivePortalDetected}"
+                    "default-network connected=${normalizedState.connected}, " +
+                        "validated=${normalizedState.internetValidated}, " +
+                        "captivePortal=${normalizedState.captivePortalDetected}"
                 )
             }
         } catch (runtime: RuntimeException) {
@@ -103,6 +105,23 @@ class MoviesConnectivityMonitor(
         captivePortalDetected = false,
         observedAtElapsedRealtime = SystemClock.elapsedRealtime()
     )
+
+    private fun normalizeNetworkState(
+        state: ConnectivityAndInternetAccess.NetworkState
+    ): ConnectivityAndInternetAccess.NetworkState {
+        val hasPhysicalNetwork = try {
+            ConnectivityAndInternetAccess.hasPhysicalNetwork(applicationContext)
+        } catch (runtime: RuntimeException) {
+            Log.w(TAG, "unable to verify physical network; treating state as offline", runtime)
+            false
+        }
+        return state.copy(
+            connected = RemoteConnectivityPolicy.canStartRemoteRequest(
+                isConnected = state.connected,
+                hasPhysicalNetwork = hasPhysicalNetwork
+            )
+        )
+    }
 
     fun onBackendTransportFailure(failedHost: String, failure: Throwable) {
         if (closed.get()) return

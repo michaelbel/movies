@@ -4,20 +4,12 @@ This module integrates connectivity observation and failure diagnostics based on
 
 ## Architecture & Design
 
-Normal operation performs **no connectivity pre-flight** before backend requests:
+Normal operation performs a **cheap local guard** before a new remote operation:
 
-1. **Passive observation**: An application-level `NetworkObserver` follows Android's default network state passively without sending any network traffic.
-2. **Transparent execution**: Ktor/OkHttp executes normal TMDb API requests directly.
-3. **Failure-triggered active diagnostics**: Active network diagnosis is initiated **only when** a transport `IOException` (such as a connection failure or DNS error) is encountered.
-4. **App-first domain probes**:
-   - First, the diagnostic resolves the specific domains used by Movies:
-     - `api.themoviedb.org`
-     - `image.tmdb.org`
-     - `themoviedb.org`
-     - `www.themoviedb.org`
-     - `www.gravatar.com`
-   - Next, HTTPS reachability probes are run against the application endpoints.
-5. **Generic fallback**: Only if all application-specific probes fail does the generic fallback run (checking system DNS, public DNS resolvers, and general HTTPS probe targets).
+1. **Local policy**: the operation is allowed only when `isConnected(context)` and `hasPhysicalNetwork(context)` are both true. This prevents a dangling VPN-only network from starting a request.
+2. **Passive observation**: an application-level `NetworkObserver` follows Android's default network state and normalizes it with the physical-transport check, without sending network traffic.
+3. **Transparent execution**: Ktor/OkHttp and dynamic Coil resources execute their real operation directly after the local guard; redirects, CDNs and multiple hosts are not pre-enumerated.
+4. **Failure-triggered active diagnostics**: active generic diagnosis is initiated only after a transport `IOException` such as a connection failure, DNS error or timeout.
 
 HTTP response errors (such as 401, 404, or 500) are valid HTTP responses and do not trigger network diagnostics. The interceptor always rethrows the original transport exception unchanged.
 
@@ -32,7 +24,8 @@ MoviesConnectivity
 ### Verification Scenarios
 
 1. **Normal network connection**: Browse and search movies. The passive observer reports default network changes; no active diagnostics run.
-2. **Network switching**: Switch between Wi-Fi and Cellular. The observer emits updated default-network states without active polling.
-3. **No network connection**: When all network interfaces are disabled, `connected=false` is reported. If a backend request fails, active probes are skipped because the network is known to be offline.
-4. **Domain-specific reachability failure**: If TMDb endpoints are blocked while general Internet works, app-domain DNS/HTTPS probes fail first, and generic fallback reports general Internet availability.
-5. **Active Diagnostic Guards**: Active diagnostics implement a 5-second cooldown and single-flight execution to prevent probe spam during burst request failures.
+2. **Network switching**: switch between Wi-Fi and Cellular. The observer emits updated states without active polling.
+3. **VPN-only / AdGuard**: with VPN active and Wi-Fi/cellular/Ethernet disabled, `isConnected` may remain true but `hasPhysicalNetwork=false`; the normalized state is offline and new requests are not started.
+4. **VPN recovery**: restore Wi-Fi or cellular while the VPN remains active. The observer publishes an available state and new requests are allowed again.
+5. **Portal/validation**: `internetValidated` and `captivePortalDetected` remain separate passive Android signals; neither replaces the physical-network guard.
+6. **Active Diagnostic Guards**: active diagnostics implement a 5-second cooldown and single-flight execution to prevent probe spam during burst request failures.

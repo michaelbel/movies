@@ -6,6 +6,7 @@ import java.io.IOException
 import okhttp3.Interceptor
 import okhttp3.Response
 import org.michaelbel.movies.network.connectivity.OfflineNetworkException
+import org.michaelbel.movies.network.connectivity.RemoteConnectivityPolicy
 
 /**
  * Observes transport failures from the real backend request. It never performs a
@@ -21,7 +22,11 @@ class BackendConnectivityInterceptor(
         val request = chain.request()
 
         // Cheap local guard only. It does not perform DNS, TCP, TLS or HTTP probes.
-        if (!ConnectivityAndInternetAccess.isConnected(applicationContext)) {
+        if (!RemoteConnectivityPolicy.canStartRemoteRequest(
+                isConnected = ConnectivityAndInternetAccess.isConnected(applicationContext),
+                hasPhysicalNetwork = ConnectivityAndInternetAccess.hasPhysicalNetwork(applicationContext)
+            )
+        ) {
             throw OfflineNetworkException()
         }
 
