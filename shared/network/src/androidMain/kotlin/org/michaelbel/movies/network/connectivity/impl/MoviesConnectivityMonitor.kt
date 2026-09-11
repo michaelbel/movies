@@ -7,9 +7,13 @@ import java.io.Closeable
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicLong
+import java.util.concurrent.ConcurrentHashMap
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import net.i2p.android.router.util.ConnectivityAndInternetAccess
 import org.michaelbel.movies.network.connectivity.ConnectivityFallbackPolicy
 import org.michaelbel.movies.network.connectivity.ConnectivityFallbackResult
@@ -18,6 +22,16 @@ import org.michaelbel.movies.network.connectivity.RemoteConnectivityPolicy
 
 private const val TAG = "MoviesConnectivity"
 private const val DIAGNOSTIC_COOLDOWN_MS = 5_000L
+private const val USER_MESSAGE_COOLDOWN_MS = 5_000L
+
+enum class ConnectivityUiEvent {
+    NetworkLost,
+    NetworkRecovered,
+    CaptivePortal,
+    NoNetworkForOperation,
+    InternetUnavailable,
+    BackendUnavailable
+}
 
 data class MoviesConnectivityDiagnostic(
     val failedBackendHost: String,
@@ -54,6 +68,11 @@ class MoviesConnectivityMonitor(
     val lastDiagnostic: StateFlow<MoviesConnectivityDiagnostic?> =
         lastDiagnosticMutable.asStateFlow()
 
+    private val uiEventsMutable = MutableSharedFlow<ConnectivityUiEvent>(extraBufferCapacity = 8)
+    val uiEvents: SharedFlow<ConnectivityUiEvent> = uiEventsMutable.asSharedFlow()
+    private val lastUiEventAt = ConcurrentHashMap<String, AtomicLong>()
+    private var previousState: ConnectivityAndInternetAccess.NetworkState = networkStateMutable.value
+
     private val fallbackPolicy = ConnectivityFallbackPolicy()
 
     // Untouched Gist defaults: effective/system DNS -> public DNS -> TCP/NTP/TLS/HTTPS.
@@ -82,6 +101,8 @@ class MoviesConnectivityMonitor(
             ConnectivityAndInternetAccess.observeNetwork(applicationContext) { state ->
                 val normalizedState = normalizeNetworkState(state)
                 networkStateMutable.value = normalizedState
+                publishUiEvents(previousState, normalizedState)
+                previousState = normalizedState
                 Log.d(
                     TAG,
                     "default-network connected=${normalizedState.connected}, " +
@@ -198,6 +219,47 @@ class MoviesConnectivityMonitor(
                 TAG,
                 "diagnosis: Movies endpoints failed and generic Internet fallback also failed"
             )
+        }
+
+        emitUiEvent(
+            if (fallbackResult.generalTier?.reachable == true) {
+                ConnectivityUiEvent.BackendUnavailable
+            } else {
+                ConnectivityUiEvent.InternetUnavailable
+            }
+        )
+    }
+
+    fun onNoNetworkForOperation() {
+        emitUiEvent(ConnectivityUiEvent.NoNetworkForOperation)
+    }
+
+    private fun publishUiEvents(
+        previous: ConnectivityAndInternetAccess.NetworkState,
+        current: ConnectivityAndInternetAccess.NetworkState
+    ) {
+        if (previous.connected && !current.connected) {
+            emitUiEvent(ConnectivityUiEvent.NetworkLost)
+        } else if (!previous.connected && current.connected) {
+            emitUiEvent(ConnectivityUiEvent.NetworkRecovered)
+        }
+        if (!previous.captivePortalDetected && current.captivePortalDetected) {
+            emitUiEvent(ConnectivityUiEvent.CaptivePortal)
+        }
+    }
+
+    private fun emitUiEvent(event: ConnectivityUiEvent) {
+        val now = SystemClock.elapsedRealtime()
+        val key = when (event) {
+            ConnectivityUiEvent.NetworkLost,
+            ConnectivityUiEvent.NoNetworkForOperation -> "offline"
+            else -> event.name
+        }
+        val last = lastUiEventAt.getOrPut(key) { AtomicLong(Long.MIN_VALUE) }
+        val previous = last.get()
+        if (previous != Long.MIN_VALUE && now - previous < USER_MESSAGE_COOLDOWN_MS) return
+        if (last.compareAndSet(previous, now)) {
+            uiEventsMutable.tryEmit(event)
         }
     }
 

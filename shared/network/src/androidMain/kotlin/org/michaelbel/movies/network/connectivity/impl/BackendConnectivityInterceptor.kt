@@ -27,6 +27,7 @@ class BackendConnectivityInterceptor(
                 hasPhysicalNetwork = ConnectivityAndInternetAccess.hasPhysicalNetwork(applicationContext)
             )
         ) {
+            connectivityMonitor.onNoNetworkForOperation()
             throw OfflineNetworkException()
         }
 
