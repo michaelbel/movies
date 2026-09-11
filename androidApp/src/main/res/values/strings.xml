@@ -2,4 +2,10 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false" tools:ignore="UnusedResources">Movies</string>
     <string name="app_name_dev" translatable="false" tools:ignore="UnusedResources">Movies Dev</string>
+    <string name="connectivity_network_lost">No network connection.</string>
+    <string name="connectivity_network_recovered">Connection restored.</string>
+    <string name="connectivity_captive_portal">This network requires sign-in to access the Internet.</string>
+    <string name="connectivity_no_network_operation">No network connection.</string>
+    <string name="connectivity_internet_unavailable">Internet is unavailable.</string>
+    <string name="connectivity_backend_unavailable">Internet is available, but the service is unavailable.</string>
 </resources>

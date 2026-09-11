@@ -141,6 +141,7 @@ dependencies {
     fossImplementation(projects.shared.platformServices.injectAndroid)
     implementation(projects.feature.main)
     implementation(libs.bundles.kotlin.reflect.android)
+    testImplementation(projects.shared.network)
     testImplementation(libs.bundles.junit.android)
     androidTestImplementation(libs.bundles.test.espresso.android)
     androidTestImplementation(libs.bundles.test.ext.junit.android)
