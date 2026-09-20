@@ -186,7 +186,7 @@ private fun MainTabsScreenContent(
             else -> NavigationSuiteScaffoldValue.Hidden
         }
     )
-    val toggleButtonColors = ToggleButtonDefaults.toggleButtonColors()
+    val toggleButtonColors = ToggleButtonDefaults.colors()
     val navigationItemColors = NavigationItemColors(
         selectedIconColor = toggleButtonColors.checkedContentColor,
         selectedTextColor = when {

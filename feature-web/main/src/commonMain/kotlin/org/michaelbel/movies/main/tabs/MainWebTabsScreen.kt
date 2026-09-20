@@ -50,7 +50,7 @@ fun MainWebTabsScreen(
     onDestinationChange: (MainWebDestination) -> Unit,
     onMovieClick: (PagingKey, MovieId) -> Unit
 ) {
-    val toggleButtonColors = ToggleButtonDefaults.toggleButtonColors()
+    val toggleButtonColors = ToggleButtonDefaults.colors()
     val navigationRailItemColors = NavigationRailItemDefaults.colors(
         selectedIconColor = toggleButtonColors.checkedContentColor,
         selectedTextColor = toggleButtonColors.checkedContentColor,
