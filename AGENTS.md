@@ -1,3 +1,3 @@
 # Repository Guidelines
 
-- Follow the ai-workflow MCP instructions for all code generation and review tasks
+- Follow the cuckcoder MCP instructions for all code generation and review tasks
