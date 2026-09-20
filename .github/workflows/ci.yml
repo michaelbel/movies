@@ -37,7 +37,7 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: checkout repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -48,7 +48,7 @@ jobs:
           java-version: '21'
 
       - name: cache gradle dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.gradle/caches
           key: gradle-${{ runner.os }}-${{ hashFiles('/*.gradle*', '/gradle-wrapper.properties') }}
@@ -56,7 +56,7 @@ jobs:
             gradle-${{ runner.os }}-
 
       - name: cache gradle wrapper
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.gradle/wrapper
           key: gradle-wrapper-${{ runner.os }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
@@ -86,7 +86,7 @@ jobs:
       SHORT_SHA: ${{ needs.job-common.outputs.SHORT_SHA }}
     steps:
       - name: checkout repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
       
@@ -97,7 +97,7 @@ jobs:
           java-version: '21'
 
       - name: cache gradle dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.gradle/caches
           key: gradle-${{ runner.os }}-${{ hashFiles('/*.gradle*', '/gradle-wrapper.properties') }}
@@ -105,7 +105,7 @@ jobs:
             gradle-${{ runner.os }}-
 
       - name: cache gradle wrapper
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.gradle/wrapper
           key: gradle-wrapper-${{ runner.os }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
@@ -316,7 +316,7 @@ jobs:
       SHORT_SHA: ${{ needs.job-common.outputs.SHORT_SHA }}
     steps:
       - name: checkout repo
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
         with:
           fetch-depth: 0
 
@@ -327,7 +327,7 @@ jobs:
           java-version: '21'
 
       - name: cache gradle dependencies
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.gradle/caches
           key: gradle-${{ runner.os }}-${{ hashFiles('/*.gradle*', '/gradle-wrapper.properties') }}
@@ -335,7 +335,7 @@ jobs:
             gradle-${{ runner.os }}-
 
       - name: cache gradle wrapper
-        uses: actions/cache@v5
+        uses: actions/cache@v6
         with:
           path: ~/.gradle/wrapper
           key: gradle-wrapper-${{ runner.os }}-${{ hashFiles('**/gradle/wrapper/gradle-wrapper.properties') }}
