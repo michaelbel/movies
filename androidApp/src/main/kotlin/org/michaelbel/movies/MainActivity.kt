@@ -28,14 +28,13 @@ class MainActivity: FragmentActivity() {
 
     private val viewModel: MainViewModel by viewModel()
 
-    private val screenCaptureCallback: Any
-        get() {
-            return if (Build.VERSION.SDK_INT >= 34) {
-                ScreenCaptureCallback {}
-            } else {
-                Unit
-            }
+    private val screenCaptureCallback: Any by lazy {
+        if (Build.VERSION.SDK_INT >= 34) {
+            ScreenCaptureCallback {}
+        } else {
+            Unit
         }
+    }
 
     private val Uri.tmdbMovieId: Int?
         get() {

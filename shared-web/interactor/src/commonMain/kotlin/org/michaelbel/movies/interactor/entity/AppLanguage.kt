@@ -20,10 +20,9 @@ sealed interface AppLanguage: SealedString {
         )
 
         fun transform(code: String): AppLanguage {
-            return when (code) {
-                "en" -> English()
-                "ru" -> Russian()
-                else -> throw InvalidLocaleException()
+            return when {
+                code.startsWith("ru", ignoreCase = true) -> Russian()
+                else -> English()
             }
         }
 
