@@ -26,9 +26,9 @@ android {
 
 }
 
-val gmsImplementation by configurations
-val hmsImplementation by configurations
-val fossImplementation by configurations
+val gmsImplementation = configurations.getByName("gmsImplementation")
+val hmsImplementation = configurations.getByName("hmsImplementation")
+val fossImplementation = configurations.getByName("fossImplementation")
 dependencies {
     implementation(projects.shared.platformServices.interactor)
     gmsImplementation(projects.shared.platformServices.gms)

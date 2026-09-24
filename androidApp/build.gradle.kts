@@ -131,9 +131,9 @@ base {
     archivesName.set("Movies-v${android.defaultConfig.versionName}(${android.defaultConfig.versionCode})")
 }
 
-val gmsImplementation by configurations
-val hmsImplementation by configurations
-val fossImplementation by configurations
+val gmsImplementation = configurations.getByName("gmsImplementation")
+val hmsImplementation = configurations.getByName("hmsImplementation")
+val fossImplementation = configurations.getByName("fossImplementation")
 dependencies {
     coreLibraryDesugaring(libs.desugar.jdk.libs)
     gmsImplementation(projects.shared.platformServices.injectAndroid)
