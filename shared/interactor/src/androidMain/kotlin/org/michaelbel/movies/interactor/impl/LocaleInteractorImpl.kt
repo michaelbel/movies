@@ -23,24 +23,28 @@ class LocaleInteractorImpl(
     private val analytics: MoviesAnalytics
 ): LocaleInteractor {
 
+    private fun String?.supportedLanguageCode(): String? {
+        return takeIf { it == AppLanguage.English().code || it == AppLanguage.Russian().code }
+    }
+
     override val language: String
         get() {
             val appCompatLocales = AppCompatDelegate.getApplicationLocales()
             val appCompatLanguage = if (appCompatLocales.size() > 0) appCompatLocales[0]?.language else null
-            if (!appCompatLanguage.isNullOrBlank()) return appCompatLanguage
+            appCompatLanguage.supportedLanguageCode()?.let { return it }
 
             if (Build.VERSION.SDK_INT >= 33) {
                 val localeManager = ContextCompat.getSystemService(context, LocaleManager::class.java)
                 if (localeManager != null) {
                     val frameworkLocales = localeManager.applicationLocales
                     val frameworkLanguage = if (frameworkLocales.size() > 0) frameworkLocales[0].language else null
-                    if (!frameworkLanguage.isNullOrBlank()) return frameworkLanguage
+                    frameworkLanguage.supportedLanguageCode()?.let { return it }
                 }
             }
 
             val resourcesLocales = context.resources.configuration.locales
             val resourcesLanguage = if (resourcesLocales.size() > 0) resourcesLocales[0].language else null
-            return resourcesLanguage?.takeIf(String::isNotBlank) ?: AppLanguage.English().code
+            return resourcesLanguage.supportedLanguageCode() ?: AppLanguage.English().code
         }
 
     override val appLanguage: Flow<AppLanguage> = flowOf(AppLanguage.transform(language))

@@ -15,6 +15,8 @@ import org.koin.dsl.module
 import org.michaelbel.movies.network.chuckerKoinModule
 import org.michaelbel.movies.network.config.TMDB_API_ENDPOINT
 import org.michaelbel.movies.network.config.tmdbApiKey
+import org.michaelbel.movies.network.connectivity.di.connectivityKoinModule
+import org.michaelbel.movies.network.connectivity.impl.BackendConnectivityInterceptor
 import org.michaelbel.movies.network.httpLoggingInterceptorKoinModule
 
 private const val REQUEST_TIMEOUT_MILLIS = 10_000L
@@ -24,6 +26,7 @@ private const val CONNECT_TIMEOUT_MILLIS = 10_000L
 
 actual val ktorKoinModule = module {
     includes(
+        connectivityKoinModule,
         chuckerKoinModule,
         httpLoggingInterceptorKoinModule
     )
@@ -47,6 +50,9 @@ actual val ktorKoinModule = module {
             engine {
                 clientCacheSize = HTTP_CACHE_SIZE_BYTES
                 config {
+                    // Observe only real backend transport failures. The interceptor rethrows
+                    // the original IOException immediately and diagnostics run asynchronously.
+                    addInterceptor(get<BackendConnectivityInterceptor>())
                     addInterceptor(get<ChuckerInterceptor>())
                     addInterceptor(get<HttpLoggingInterceptor>())
                 }

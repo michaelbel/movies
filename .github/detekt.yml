@@ -15,6 +15,9 @@ naming:
 complexity:
   CyclomaticComplexMethod:
     active: false
+  LargeClass:
+    excludes:
+      - '**/net/i2p/android/router/util/ConnectivityAndInternetAccess.kt'
   LongMethod:
     active: false
   LongParameterList:
