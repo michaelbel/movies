@@ -1,6 +1,6 @@
 package org.michaelbel.movies.persistence.database.di
 
-import androidx.room.RoomDatabase
+import androidx.room3.RoomDatabase
 import org.koin.dsl.module
 import org.michaelbel.movies.persistence.database.MoviesDatabase
 import org.michaelbel.movies.persistence.database.createMoviesDatabase

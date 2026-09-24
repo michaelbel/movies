@@ -1,8 +1,8 @@
 package org.michaelbel.movies.persistence.database.db
 
-import androidx.room.ConstructedBy
-import androidx.room.Database
-import androidx.room.RoomDatabase
+import androidx.room3.ConstructedBy
+import androidx.room3.Database
+import androidx.room3.RoomDatabase
 import org.michaelbel.movies.persistence.database.dao.AccountDao
 import org.michaelbel.movies.persistence.database.dao.ImageDao
 import org.michaelbel.movies.persistence.database.dao.MovieDao

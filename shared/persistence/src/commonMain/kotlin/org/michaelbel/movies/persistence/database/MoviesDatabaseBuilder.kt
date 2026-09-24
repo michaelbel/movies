@@ -1,6 +1,6 @@
 package org.michaelbel.movies.persistence.database
 
-import androidx.room.RoomDatabase
+import androidx.room3.RoomDatabase
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO

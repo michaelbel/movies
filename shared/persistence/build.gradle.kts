@@ -10,12 +10,6 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
-    // Room: Adding ksp src directory to use AppDatabase::class.instantiateImpl() in iosMain.
-    // Comment when build Android & Desktop apps. Uncomment when first build iOS app.
-    /*sourceSets.commonMain {
-        kotlin.srcDir("build/generated/ksp/metadata")
-    }*/
-
     android {
         namespace = "org.michaelbel.movies.persistence"
         minSdk = libs.versions.min.sdk.get().toInt()
@@ -70,6 +64,6 @@ dependencies {
 
 }
 
-room {
+room3 {
     schemaDirectory("${rootProject.projectDir}/schemas")
 }

@@ -2,7 +2,7 @@
 
 package org.michaelbel.movies.persistence.database
 
-import androidx.room.withTransaction
+import androidx.room3.withWriteTransaction
 import org.michaelbel.movies.persistence.database.dao.AccountDao
 import org.michaelbel.movies.persistence.database.dao.ImageDao
 import org.michaelbel.movies.persistence.database.dao.MovieDao
@@ -30,6 +30,6 @@ actual class MoviesDatabase(
         get() = database.suggestionDao()
 
     actual suspend fun <R> withTransaction(block: suspend () -> R): R {
-        return database.withTransaction(block)
+        return database.withWriteTransaction { block() }
     }
 }

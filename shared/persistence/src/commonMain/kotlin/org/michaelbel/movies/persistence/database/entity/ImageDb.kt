@@ -1,6 +1,6 @@
 package org.michaelbel.movies.persistence.database.entity
 
-import androidx.room.Entity
+import androidx.room3.Entity
 import org.michaelbel.movies.persistence.database.entity.pojo.ImageType
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
 import org.michaelbel.movies.persistence.database.typealiases.Position
