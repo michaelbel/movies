@@ -17,33 +17,27 @@ kotlin {
     }
 
     sourceSets {
-        val commonMain by getting {
-            dependencies {
-                api(projects.shared.network)
-                api(libs.bundles.room.paging.common)
-                implementation(libs.bundles.datastore.common)
-                implementation(libs.bundles.room.common)
-                implementation(libs.bundles.sqlite.common)
-                implementation(libs.bundles.okio.common)
-            }
+        commonMain.dependencies {
+            api(projects.shared.network)
+            api(libs.bundles.room.paging.common)
+            implementation(libs.bundles.datastore.common)
+            implementation(libs.bundles.room.common)
+            implementation(libs.bundles.sqlite.common)
+            implementation(libs.bundles.okio.common)
         }
-        val androidMain by getting {
-            dependencies {
-                implementation(libs.bundles.datastore.android)
-            }
+        androidMain.dependencies {
+            implementation(libs.bundles.datastore.android)
         }
-        val jvmMain by getting {
-            dependencies {
-                implementation(libs.bundles.datastore.desktop)
-            }
+        jvmMain.dependencies {
+            implementation(libs.bundles.datastore.desktop)
         }
-        val iosArm64Main by getting {
+        getByName("iosArm64Main") {
             dependencies {
                 implementation(libs.bundles.sqlite.bundled.ios)
             }
             kotlin.srcDir("build/generated/ksp/iosArm64/iosArm64Main/kotlin")
         }
-        val iosSimulatorArm64Main by getting {
+        getByName("iosSimulatorArm64Main") {
             dependencies {
                 implementation(libs.bundles.sqlite.bundled.ios)
             }
