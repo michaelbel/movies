@@ -43,7 +43,9 @@ kotlin {
     }
 }
 
-val generateIosVersionXcconfig by tasks.registering {
+val generateIosVersionXcconfig = tasks.register("generateIosVersionXcconfig") {
+    group = "ios"
+    description = "Generates iosApp/Configuration/Version.xcconfig with the current marketing version and build number"
     val versionFile = rootProject.file("iosApp/Configuration/Version.xcconfig")
     outputs.file(versionFile)
     doLast {
