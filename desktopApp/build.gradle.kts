@@ -81,4 +81,9 @@ compose.desktop {
     }
 }
 
-tasks.register("printVersionName") { doLast { println(compose.desktop.application.nativeDistributions.packageVersion) } }
+tasks.register("printVersionName") {
+    description = "Prints the current desktop packageVersion to stdout."
+    doLast {
+        println(compose.desktop.application.nativeDistributions.packageVersion)
+    }
+}
