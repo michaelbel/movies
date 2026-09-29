@@ -16,6 +16,8 @@ import androidx.compose.animation.shrinkOut
 import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
@@ -60,6 +62,8 @@ import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshotFlow
@@ -68,15 +72,23 @@ import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.TransformOrigin
+import androidx.compose.ui.input.pointer.PointerEventPass
 import androidx.compose.ui.input.pointer.PointerIcon
 import androidx.compose.ui.input.pointer.pointerHoverIcon
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInWindow
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.distinctUntilChanged
@@ -425,7 +437,35 @@ fun FeedSearchBar(
                                 modifier = Modifier.padding(horizontal = 16.dp),
                                 shape = itemShapes.shape
                             ) { historyMovie, _ ->
-                                Box {
+                                val density = LocalDensity.current
+                                val windowWidthPx = LocalWindowInfo.current.containerSize.width
+                                val anchorLeftPx = remember { mutableFloatStateOf(0F) }
+                                val anchorHeightPx = remember { mutableIntStateOf(0) }
+                                val pressPosition = remember { mutableStateOf(Offset.Zero) }
+                                val menuMarginPx = with(density) { 16.dp.toPx() }
+                                val menuMinWidthPx = with(density) { 180.dp.toPx() }
+                                // Menu left edge in window coordinates, clamped to [16.dp, windowWidth - menuWidth - 16.dp]
+                                val menuLeftPx = (anchorLeftPx.floatValue + pressPosition.value.x).coerceIn(
+                                    minimumValue = menuMarginPx,
+                                    maximumValue = maxOf(menuMarginPx, windowWidthPx - menuMinWidthPx - menuMarginPx)
+                                )
+
+                                Box(
+                                    modifier = Modifier
+                                        .onGloballyPositioned { coordinates ->
+                                            anchorLeftPx.floatValue = coordinates.positionInWindow().x
+                                            anchorHeightPx.intValue = coordinates.size.height
+                                        }
+                                        .pointerInput(Unit) {
+                                            awaitEachGesture {
+                                                val down = awaitFirstDown(
+                                                    requireUnconsumed = false,
+                                                    pass = PointerEventPass.Initial
+                                                )
+                                                pressPosition.value = down.position
+                                            }
+                                        }
+                                ) {
                                     SegmentedListItem(
                                         onClick = {
                                             expandedHistoryMovieId.value = null
@@ -476,6 +516,12 @@ fun FeedSearchBar(
                                         expanded = expandedHistoryMovieId.value == historyMovie.movieId,
                                         onDismissRequest = { expandedHistoryMovieId.value = null },
                                         modifier = Modifier.widthIn(min = 180.dp),
+                                        offset = with(density) {
+                                            DpOffset(
+                                                x = (menuLeftPx - anchorLeftPx.floatValue).toDp(),
+                                                y = (pressPosition.value.y - anchorHeightPx.intValue).toDp()
+                                            )
+                                        },
                                         shape = middleLargeIncreasedShape,
                                         containerColor = MaterialTheme.colorScheme.errorContainer,
                                         tonalElevation = 2.dp,
