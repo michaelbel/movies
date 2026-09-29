@@ -9,6 +9,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.toAwtImage
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Window
@@ -54,11 +57,21 @@ fun main() {
                 size = DpSize(800.dp, 600.dp)
             ),
             title = "Movies",
-            icon = painterResource(MoviesIcons.LauncherRed),
             alwaysOnTop = false,
             onKeyEvent = { false }
         ) {
             window.minimumSize = Dimension(800, 600)
+
+            val icon = painterResource(MoviesIcons.LauncherRed)
+            val density = LocalDensity.current
+            val layoutDirection = LocalLayoutDirection.current
+            LaunchedEffect(icon) {
+                window.iconImage = icon.toAwtImage(
+                    density = density,
+                    layoutDirection = layoutDirection
+                )
+            }
+
             App()
         }
     }
