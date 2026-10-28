@@ -2,6 +2,8 @@
 
 package org.michaelbel.movies.main
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -9,6 +11,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.Dp
@@ -40,31 +44,39 @@ private fun MainScreenContent() {
     val interactor: Interactor = koinInject()
     val themeData by interactor.themeData.collectAsState(initial = ThemeData.Default)
 
-    var destination by remember { mutableStateOf<MainWebDestination>(MainWebDestination.Feed) }
+    var tab by remember { mutableStateOf<MainWebDestination>(MainWebDestination.Feed) }
+    var details by remember { mutableStateOf<MainWebDestination.Details?>(null) }
 
     AppTheme(
         themeData = themeData
     ) {
-        when (val currentDestination = destination) {
-            MainWebDestination.Feed,
-            MainWebDestination.Settings -> {
-                MainWebTabsScreen(
-                    currentDestination = currentDestination,
-                    onDestinationChange = { destination = it },
-                    onMovieClick = { pagingKey, movieId ->
-                        destination = MainWebDestination.Details(
-                            pagingKey = pagingKey,
-                            movieId = movieId
-                        )
-                    }
-                )
-            }
-            is MainWebDestination.Details -> {
-                DetailsWebScreen(
-                    pagingKey = currentDestination.pagingKey,
-                    movieId = currentDestination.movieId,
-                    onBackClick = { destination = MainWebDestination.Feed }
-                )
+        Box(
+            modifier = Modifier.fillMaxSize()
+        ) {
+            MainWebTabsScreen(
+                currentDestination = tab,
+                onDestinationChange = { tab = it },
+                onMovieClick = { pagingKey, movieId ->
+                    details = MainWebDestination.Details(
+                        pagingKey = pagingKey,
+                        movieId = movieId
+                    )
+                }
+            )
+
+            val currentDetails = details
+            if (currentDetails != null) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .pointerInput(Unit) {}
+                ) {
+                    DetailsWebScreen(
+                        pagingKey = currentDetails.pagingKey,
+                        movieId = currentDetails.movieId,
+                        onBackClick = { details = null }
+                    )
+                }
             }
         }
     }
