@@ -1,20 +1,21 @@
 package org.michaelbel.movies.repository.impl
 
+import org.michaelbel.movies.persistence.database.PagingKeyPersistence
 import org.michaelbel.movies.persistence.database.entity.pojo.PagingKeyPojo
 import org.michaelbel.movies.persistence.database.typealiases.Page
 import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 import org.michaelbel.movies.repository.PagingKeyRepository
 
 class PagingKeyRepositoryImpl(
-    private val repositoryWebStore: RepositoryWebStore
+    private val pagingKeyPersistence: PagingKeyPersistence
 ): PagingKeyRepository {
 
     override suspend fun page(pagingKey: PagingKey): Int? {
-        return repositoryWebStore.pagingKey(pagingKey)?.page
+        return pagingKeyPersistence.page(pagingKey)
     }
 
     override suspend fun totalPages(pagingKey: PagingKey): Int? {
-        return repositoryWebStore.pagingKey(pagingKey)?.totalPages
+        return pagingKeyPersistence.totalPages(pagingKey)
     }
 
     override suspend fun prevPage(pagingKey: PagingKey): Int? {
@@ -22,11 +23,11 @@ class PagingKeyRepositoryImpl(
     }
 
     override suspend fun removePagingKey(pagingKey: PagingKey) {
-        repositoryWebStore.removePagingKey(pagingKey)
+        pagingKeyPersistence.removePagingKey(pagingKey)
     }
 
     override suspend fun insertPagingKey(pagingKey: PagingKey, page: Page, totalPages: Int) {
-        repositoryWebStore.updatePagingKey(
+        pagingKeyPersistence.upsertPagingKey(
             PagingKeyPojo(
                 pagingKey = pagingKey,
                 page = page,

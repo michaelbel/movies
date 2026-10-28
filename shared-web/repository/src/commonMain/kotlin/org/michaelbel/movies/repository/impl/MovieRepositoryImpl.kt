@@ -2,6 +2,7 @@
 
 package org.michaelbel.movies.repository.impl
 
+import androidx.paging.PagingSource
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
 import org.michaelbel.movies.common.exceptions.MovieDetailsException
@@ -15,6 +16,8 @@ import org.michaelbel.movies.network.model.Mark
 import org.michaelbel.movies.network.model.Movie
 import org.michaelbel.movies.network.model.MovieResponse
 import org.michaelbel.movies.network.model.Result
+import org.michaelbel.movies.persistence.database.MoviePersistence
+import org.michaelbel.movies.persistence.database.MoviesDatabase
 import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.persistence.database.ktx.moviePojo
@@ -31,16 +34,21 @@ import kotlin.time.ExperimentalTime
 class MovieRepositoryImpl(
     private val movieNetworkService: MovieNetworkService,
     private val accountNetworkService: AccountNetworkService,
-    private val repositoryWebStore: RepositoryWebStore,
+    private val moviePersistence: MoviePersistence,
+    private val moviesDatabase: MoviesDatabase,
     private val preferences: MoviesPreferences
 ): MovieRepository {
 
+    override fun pagingSource(pagingKey: PagingKey): PagingSource<Int, MoviePojo> {
+        return moviePersistence.pagingSource(pagingKey)
+    }
+
     override fun movieFlow(pagingKey: PagingKey, movieId: MovieId): Flow<MoviePojo?> {
-        return repositoryWebStore.movieFlow(pagingKey, movieId)
+        return moviePersistence.movieFlow(pagingKey, movieId)
     }
 
     override fun moviesFlow(pagingKey: PagingKey, limit: Limit): Flow<List<MoviePojo>> {
-        return repositoryWebStore.moviesFlow(pagingKey, limit)
+        return moviePersistence.moviesFlow(pagingKey, limit)
     }
 
     override suspend fun moviesResult(pagingKey: PagingKey, language: String, page: Page): Result<MovieResponse> {
@@ -51,7 +59,7 @@ class MovieRepositoryImpl(
                 accountNetworkService.favoriteMovies(accountId, sessionId, language, page)
             }
             else -> {
-                if (isTmdbApiKeyEmpty && repositoryWebStore.isEmpty(MoviePojo.MOVIES_LOCAL_LIST)) {
+                if (isTmdbApiKeyEmpty && moviePersistence.isEmpty(MoviePojo.MOVIES_LOCAL_LIST)) {
                     throw ApiKeyNotNullException()
                 }
                 movieNetworkService.movies(pagingKey, language, page)
@@ -60,12 +68,12 @@ class MovieRepositoryImpl(
     }
 
     override suspend fun movie(pagingKey: PagingKey, movieId: MovieId): MoviePojo {
-        return repositoryWebStore.movieById(pagingKey, movieId).orEmpty
+        return moviePersistence.movieById(pagingKey, movieId).orEmpty
     }
 
     override suspend fun movieDetails(pagingKey: PagingKey, language: String, movieId: MovieId): MoviePojo {
         return try {
-            repositoryWebStore.movieById(pagingKey, movieId) ?: movieNetworkService.movie(movieId, language).moviePojo
+            moviePersistence.movieById(pagingKey, movieId) ?: movieNetworkService.movie(movieId, language).moviePojo
         } catch (_: Exception) {
             throw MovieDetailsException()
         }
@@ -84,26 +92,26 @@ class MovieRepositoryImpl(
                     position = index.plus(1)
                 )
             }
-            repositoryWebStore.removeMovies(MoviePojo.MOVIES_WIDGET)
-            repositoryWebStore.upsertMovies(movies)
-            repositoryWebStore.moviesMini(MoviePojo.MOVIES_WIDGET, MovieResponse.DEFAULT_PAGE_SIZE)
+            moviePersistence.removeMovies(MoviePojo.MOVIES_WIDGET)
+            moviePersistence.upsert(movies)
+            moviePersistence.moviesMini(MoviePojo.MOVIES_WIDGET, MovieResponse.DEFAULT_PAGE_SIZE)
         } catch (_: Exception) {
-            repositoryWebStore.moviesMini(MoviePojo.MOVIES_WIDGET, MovieResponse.DEFAULT_PAGE_SIZE).ifEmpty {
+            moviePersistence.moviesMini(MoviePojo.MOVIES_WIDGET, MovieResponse.DEFAULT_PAGE_SIZE).ifEmpty {
                 throw MoviesUpcomingException()
             }
         }
     }
 
     override suspend fun removeMovies(pagingKey: PagingKey) {
-        repositoryWebStore.removeMovies(pagingKey)
+        moviePersistence.removeMovies(pagingKey)
     }
 
     override suspend fun removeMovie(pagingKey: PagingKey, movieId: MovieId) {
-        repositoryWebStore.removeMovie(pagingKey, movieId)
+        moviePersistence.removeMovie(pagingKey, movieId)
     }
 
     override suspend fun insertMovies(pagingKey: PagingKey, page: Page, movies: List<MovieResponse>) {
-        val maxPosition = repositoryWebStore.maxPosition(pagingKey)
+        val maxPosition = moviePersistence.maxPosition(pagingKey)
         val items = movies.mapIndexed { index, movieResponse ->
             movieResponse.moviePojo(
                 movieList = pagingKey,
@@ -111,18 +119,16 @@ class MovieRepositoryImpl(
                 position = if (maxPosition == 0) index else maxPosition.plus(index).plus(1)
             )
         }
-        repositoryWebStore.upsertMovies(items)
+        moviePersistence.upsert(items)
     }
 
     override suspend fun insertMovie(pagingKey: PagingKey, movie: MoviePojo) {
-        val maxPosition = repositoryWebStore.maxPosition(pagingKey)
-        repositoryWebStore.upsertMovies(
-            listOf(
-                movie.copy(
-                    movieList = pagingKey,
-                    dateAdded = Clock.System.now().toEpochMilliseconds(),
-                    position = maxPosition.plus(1)
-                )
+        val maxPosition = moviePersistence.maxPosition(pagingKey)
+        moviePersistence.upsert(
+            movie.copy(
+                movieList = pagingKey,
+                dateAdded = Clock.System.now().toEpochMilliseconds(),
+                position = maxPosition.plus(1)
             )
         )
     }
@@ -132,7 +138,7 @@ class MovieRepositoryImpl(
         val accountId = preferences.getValue(MoviesPreferences.PreferenceKey.PreferenceAccountKey).orEmpty()
         if (sessionId.isEmpty() || accountId == 0) return
 
-        val movie = repositoryWebStore.movieById(movieId) ?: return
+        val movie = moviePersistence.movieById(movieId) ?: return
         val mark = accountNetworkService.markAsFavorite(
             accountId = accountId,
             sessionId = sessionId,
@@ -149,5 +155,9 @@ class MovieRepositoryImpl(
                 false -> removeMovie(Movie.FAVORITE, movieId)
             }
         }
+    }
+
+    override suspend fun <R> withTransaction(block: suspend () -> R): R {
+        return moviesDatabase.withTransaction(block)
     }
 }

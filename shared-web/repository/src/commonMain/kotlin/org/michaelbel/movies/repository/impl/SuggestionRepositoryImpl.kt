@@ -3,11 +3,13 @@ package org.michaelbel.movies.repository.impl
 import kotlinx.coroutines.flow.Flow
 import org.michaelbel.movies.network.MovieNetworkService
 import org.michaelbel.movies.network.model.Movie
+import org.michaelbel.movies.persistence.database.MoviePersistence
 import org.michaelbel.movies.persistence.database.entity.pojo.SuggestionPojo
 import org.michaelbel.movies.repository.SuggestionRepository
 
 class SuggestionRepositoryImpl(
     private val movieNetworkService: MovieNetworkService,
+    private val moviePersistence: MoviePersistence,
     private val repositoryWebStore: RepositoryWebStore
 ): SuggestionRepository {
 
@@ -18,7 +20,7 @@ class SuggestionRepositoryImpl(
     override suspend fun updateSuggestions(language: String) {
         repositoryWebStore.clearSuggestions()
 
-        val nowPlayingMovies = repositoryWebStore.movies(Movie.NOW_PLAYING, 5)
+        val nowPlayingMovies = moviePersistence.movies(Movie.NOW_PLAYING, 5)
         when {
             nowPlayingMovies.isNotEmpty() -> repositoryWebStore.updateSuggestions(
                 nowPlayingMovies.map { movie -> SuggestionPojo(movie.title) }
