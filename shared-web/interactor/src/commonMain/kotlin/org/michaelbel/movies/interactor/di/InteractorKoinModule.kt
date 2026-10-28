@@ -12,7 +12,6 @@ import org.michaelbel.movies.interactor.AuthenticationInteractor
 import org.michaelbel.movies.interactor.ImageInteractor
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.interactor.LocaleInteractor
-import org.michaelbel.movies.interactor.MovieInteractor
 import org.michaelbel.movies.interactor.NotificationInteractor
 import org.michaelbel.movies.interactor.SearchInteractor
 import org.michaelbel.movies.interactor.SettingsInteractor
@@ -20,7 +19,6 @@ import org.michaelbel.movies.interactor.SuggestionInteractor
 import org.michaelbel.movies.interactor.impl.AccountInteractorImpl
 import org.michaelbel.movies.interactor.impl.AuthenticationInteractorImpl
 import org.michaelbel.movies.interactor.impl.ImageInteractorImpl
-import org.michaelbel.movies.interactor.impl.MovieInteractorImpl
 import org.michaelbel.movies.interactor.impl.NotificationInteractorImpl
 import org.michaelbel.movies.interactor.impl.SearchInteractorImpl
 import org.michaelbel.movies.interactor.impl.SettingsInteractorImpl
@@ -41,7 +39,6 @@ val interactorKoinModule = module {
     singleOf(::AccountInteractorImpl) { bind<AccountInteractor>() }
     singleOf(::AuthenticationInteractorImpl) { bind<AuthenticationInteractor>() }
     singleOf(::ImageInteractorImpl) { bind<ImageInteractor>() }
-    singleOf(::MovieInteractorImpl) { bind<MovieInteractor>() }
     singleOf(::NotificationInteractorImpl) { bind<NotificationInteractor>() }
     singleOf(::SearchInteractorImpl) { bind<SearchInteractor>() }
     singleOf(::SettingsInteractorImpl) { bind<SettingsInteractor>() }
@@ -51,7 +48,6 @@ val interactorKoinModule = module {
             get<AccountInteractor>(),
             get<AuthenticationInteractor>(),
             get<ImageInteractor>(),
-            get<MovieInteractor>(),
             get<NotificationInteractor>(),
             get<SearchInteractor>(),
             get<SettingsInteractor>(),

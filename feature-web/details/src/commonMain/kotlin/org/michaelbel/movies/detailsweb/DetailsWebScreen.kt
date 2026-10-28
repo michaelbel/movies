@@ -44,7 +44,7 @@ import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import org.koin.compose.koinInject
-import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
+import org.michaelbel.movies.domain.usecase.MovieDetailsUseCase
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.network.config.formatBackdropImage
 import org.michaelbel.movies.network.config.formatPosterImage
@@ -57,7 +57,8 @@ fun DetailsWebScreen(
     movieId: MovieId,
     pagingKey: PagingKey,
     onBackClick: () -> Unit,
-    interactor: Interactor = koinInject()
+    interactor: Interactor = koinInject(),
+    movieDetailsUseCase: MovieDetailsUseCase = koinInject()
 ) {
     val state by produceState<DetailsWebState>(
         initialValue = DetailsWebState.Loading,
@@ -65,16 +66,15 @@ fun DetailsWebScreen(
         key2 = movieId,
         key3 = pagingKey
     ) {
-        value = try {
-            DetailsWebState.Ready(
-                movie = interactor.movieDetails(
-                    pagingKey = pagingKey,
-                    movieId = movieId
-                )
-            )
-        } catch (exception: Exception) {
-            DetailsWebState.Error(exception.toUserMessage())
-        }
+        val params = MovieDetailsUseCase.Params(
+            pagingKey = pagingKey,
+            language = interactor.language,
+            movieId = movieId
+        )
+        value = movieDetailsUseCase(params).fold(
+            onSuccess = { movie -> DetailsWebState.Ready(movie = movie) },
+            onFailure = { throwable -> DetailsWebState.Error(throwable.toUserMessage()) }
+        )
     }
 
     Box(
@@ -249,11 +249,8 @@ private fun ErrorContent(
     }
 }
 
-private fun Exception.toUserMessage(): String {
-    return when (this) {
-        is ApiKeyNotNullException -> "TMDB API key is missing. Set TMDB_API_KEY before starting the web app."
-        else -> message ?: this::class.simpleName.orEmpty()
-    }
+private fun Throwable.toUserMessage(): String {
+    return message.orEmpty().ifBlank { "Movie details are unavailable." }
 }
 
 private sealed interface DetailsWebState {
