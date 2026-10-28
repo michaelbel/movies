@@ -36,7 +36,11 @@ kotlin {
 
 android {
     namespace = "org.michaelbel.movies.app"
-    compileSdk = libs.versions.compile.sdk.get().toInt()
+    compileSdk {
+        version = release(libs.versions.compile.sdk.get().toInt()) {
+            minorApiLevel = 2
+        }
+    }
     flavorDimensions += "version"
 
     defaultConfig {
