@@ -2,30 +2,23 @@
 
 package org.michaelbel.movies.repository.impl
 
-import androidx.paging.PagingSource
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
-import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
 import org.michaelbel.movies.common.exceptions.MovieDetailsException
 import org.michaelbel.movies.common.exceptions.MoviesUpcomingException
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.network.AccountNetworkService
 import org.michaelbel.movies.network.MovieNetworkService
-import org.michaelbel.movies.network.config.isTmdbApiKeyEmpty
 import org.michaelbel.movies.network.model.Fave
 import org.michaelbel.movies.network.model.Mark
 import org.michaelbel.movies.network.model.Movie
 import org.michaelbel.movies.network.model.MovieResponse
-import org.michaelbel.movies.network.model.Result
 import org.michaelbel.movies.persistence.database.MoviePersistence
 import org.michaelbel.movies.persistence.database.MoviesDatabase
 import org.michaelbel.movies.persistence.database.entity.mini.MovieDbMini
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.persistence.database.ktx.moviePojo
 import org.michaelbel.movies.persistence.database.ktx.orEmpty
-import org.michaelbel.movies.persistence.database.typealiases.Limit
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
-import org.michaelbel.movies.persistence.database.typealiases.Page
 import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import org.michaelbel.movies.repository.MovieRepository
@@ -40,32 +33,8 @@ class MovieRepositoryImpl(
     private val preferences: MoviesPreferences
 ): MovieRepository {
 
-    override fun pagingSource(pagingKey: PagingKey): PagingSource<Int, MoviePojo> {
-        return moviePersistence.pagingSource(pagingKey)
-    }
-
     override fun movieFlow(pagingKey: PagingKey, movieId: MovieId): Flow<MoviePojo?> {
         return moviesDatabase.movieDao.movieFlow(pagingKey, movieId)
-    }
-
-    override fun moviesFlow(pagingKey: PagingKey, limit: Limit): Flow<List<MoviePojo>> {
-        return flow { emit(moviePersistence.movies(pagingKey, limit)) }
-    }
-
-    override suspend fun moviesResult(pagingKey: PagingKey, language: String, page: Page): Result<MovieResponse> {
-        return when {
-            pagingKey == Movie.FAVORITE -> {
-                val sessionId = preferences.getValue(MoviesPreferences.PreferenceKey.PreferenceSessionIdKey).orEmpty()
-                val accountId = preferences.getValue(MoviesPreferences.PreferenceKey.PreferenceAccountKey).orEmpty()
-                accountNetworkService.favoriteMovies(accountId, sessionId, language, page)
-            }
-            else -> {
-                if (isTmdbApiKeyEmpty && moviePersistence.isEmpty(MoviePojo.MOVIES_LOCAL_LIST)) {
-                    throw ApiKeyNotNullException()
-                }
-                movieNetworkService.movies(pagingKey, language, page)
-            }
-        }
     }
 
     override suspend fun movie(pagingKey: PagingKey, movieId: MovieId): MoviePojo {
@@ -111,18 +80,6 @@ class MovieRepositoryImpl(
         moviePersistence.removeMovie(pagingKey, movieId)
     }
 
-    override suspend fun insertMovies(pagingKey: PagingKey, page: Page, movies: List<MovieResponse>) {
-        val maxPosition = moviePersistence.maxPosition(pagingKey)
-        val items = movies.mapIndexed { index, movieResponse ->
-            movieResponse.moviePojo(
-                movieList = pagingKey,
-                page = page,
-                position = if (maxPosition == 0) index else maxPosition.plus(index).plus(1)
-            )
-        }
-        moviePersistence.upsert(items)
-    }
-
     override suspend fun insertMovie(pagingKey: PagingKey, movie: MoviePojo) {
         val maxPosition = moviePersistence.maxPosition(pagingKey)
         moviePersistence.upsert(
@@ -156,9 +113,5 @@ class MovieRepositoryImpl(
                 false -> removeMovie(Movie.FAVORITE, movieId)
             }
         }
-    }
-
-    override suspend fun <R> withTransaction(block: suspend () -> R): R {
-        return moviesDatabase.withTransaction(block)
     }
 }
