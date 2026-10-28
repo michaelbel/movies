@@ -1,7 +1,10 @@
 package org.michaelbel.movies.ui.compose.page
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -14,6 +17,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun PageFailure(
     message: String,
+    onRetryClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -25,11 +29,24 @@ fun PageFailure(
                 containerColor = MaterialTheme.colorScheme.inversePrimary
             )
         ) {
-            Text(
-                text = message,
+            Column(
                 modifier = Modifier.padding(24.dp),
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                Text(
+                    text = message,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+
+                Button(
+                    onClick = onRetryClick
+                ) {
+                    Text(
+                        text = "Retry"
+                    )
+                }
+            }
         }
     }
 }
