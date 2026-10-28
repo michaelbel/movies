@@ -6,6 +6,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.michaelbel.movies.analytics.di.moviesAnalyticsKoinModule
 import org.michaelbel.movies.common.dispatchers.di.dispatchersKoinModule
+import org.michaelbel.movies.domain.usecase.di.useCaseKoinModule
 import org.michaelbel.movies.interactor.AccountInteractor
 import org.michaelbel.movies.interactor.AuthenticationInteractor
 import org.michaelbel.movies.interactor.ImageInteractor
@@ -30,6 +31,7 @@ val interactorKoinModule = module {
     includes(
         dispatchersKoinModule,
         repositoryKoinModule,
+        useCaseKoinModule,
         moviesAnalyticsKoinModule,
         localeInteractorKoinModule,
         aboutInteractorKoinModule,

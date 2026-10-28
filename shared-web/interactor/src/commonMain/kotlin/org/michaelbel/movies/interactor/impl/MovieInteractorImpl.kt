@@ -10,10 +10,8 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.withContext
 import org.michaelbel.movies.common.dispatchers.SharedDispatchers
 import org.michaelbel.movies.common.exceptions.PageEmptyException
-import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.interactor.LocaleInteractor
 import org.michaelbel.movies.interactor.MovieInteractor
-import org.michaelbel.movies.interactor.ktx.nameOrLocalList
 import org.michaelbel.movies.interactor.remote.FeedMoviesRemoteMediator
 import org.michaelbel.movies.interactor.remote.SearchMoviesRemoteMediator
 import org.michaelbel.movies.network.ktx.isEmpty
@@ -39,24 +37,6 @@ class MovieInteractorImpl(
     private val searchRepository: SearchRepository,
     private val pagingKeyRepository: PagingKeyRepository
 ): MovieInteractor {
-
-    override fun moviesPagingData(movieList: MovieList): Flow<PagingData<MoviePojo>> {
-        val pagingKey = MovieList.name(movieList)
-        val sourceKey = movieList.nameOrLocalList
-        return Pager(
-            config = PagingConfig(
-                pageSize = MovieResponse.DEFAULT_PAGE_SIZE,
-                enablePlaceholders = true
-            ),
-            remoteMediator = FeedMoviesRemoteMediator(
-                language = localeInteractor.language,
-                movieRepository = movieRepository,
-                pagingKeyRepository = pagingKeyRepository,
-                pagingKey = pagingKey
-            ),
-            pagingSourceFactory = { movieRepository.pagingSource(sourceKey) }
-        ).flow
-    }
 
     override fun favoriteMoviesPagingData(): Flow<PagingData<MoviePojo>> {
         return Pager(
