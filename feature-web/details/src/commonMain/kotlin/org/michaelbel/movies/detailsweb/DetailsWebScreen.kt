@@ -1,7 +1,4 @@
-@file:OptIn(
-    ExperimentalMaterial3Api::class,
-    ExperimentalMaterial3ExpressiveApi::class
-)
+@file:OptIn(ExperimentalMaterial3Api::class)
 
 package org.michaelbel.movies.detailsweb
 
@@ -23,13 +20,12 @@ import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.LargeFlexibleTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -169,14 +165,13 @@ private fun DetailsContent(
                 )
         )
 
-        LargeFlexibleTopAppBar(
+        TopAppBar(
             title = {
                 Text(
                     text = movie.title,
-                    modifier = Modifier.padding(start = 16.dp),
-                    maxLines = 2,
+                    maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.displaySmall.copy(
+                    style = MaterialTheme.typography.headlineSmall.copy(
                         color = Color.White,
                         fontWeight = FontWeight.SemiBold
                     )
@@ -209,8 +204,8 @@ private fun DetailsContent(
                 .widthIn(max = 860.dp)
                 .fillMaxWidth()
                 .padding(
-                    start = 32.dp,
-                    top = 172.dp,
+                    start = 18.dp,
+                    top = 88.dp,
                     end = 32.dp,
                     bottom = 40.dp
                 )
