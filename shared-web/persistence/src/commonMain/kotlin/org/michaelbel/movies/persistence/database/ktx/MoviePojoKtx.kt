@@ -1,7 +1,23 @@
 package org.michaelbel.movies.persistence.database.ktx
 
 import org.michaelbel.movies.network.config.TMDB_MOVIE_URL
+import org.michaelbel.movies.persistence.database.entity.MovieDb
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
+
+val MoviePojo.movieDb: MovieDb
+    get() = MovieDb(
+        movieList = movieList,
+        dateAdded = dateAdded,
+        page = page,
+        position = position,
+        movieId = movieId,
+        overview = overview,
+        posterPath = posterPath,
+        backdropPath = backdropPath,
+        releaseDate = releaseDate,
+        title = title,
+        voteAverage = voteAverage
+    )
 
 val MoviePojo.isNotEmpty: Boolean
     get() = this != MoviePojo.Empty

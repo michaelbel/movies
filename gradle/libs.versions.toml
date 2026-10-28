@@ -126,6 +126,7 @@ androidx-room-compiler = { module = "androidx.room3:room3-compiler", version.ref
 androidx-room-paging = { module = "androidx.room3:room3-paging", version.ref = "androidx-room" }
 androidx-startup-runtime = { module = "androidx.startup:startup-runtime", version.ref = "androidx-startup" }
 androidx-sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "androidx-sqlite" }
+androidx-sqlite-web = { module = "androidx.sqlite:sqlite-web", version.ref = "androidx-sqlite" }
 androidx-test-ext-junit-ktx = { module = "androidx.test.ext:junit-ktx", version.ref = "androidx-test-ext" }
 androidx-test-espresso-core = { module = "androidx.test.espresso:espresso-core", version.ref = "androidx-test-espresso" }
 androidx-espresso-test-espresso-contrib = { module = "androidx.test.espresso:espresso-contrib", version.ref = "androidx-test-espresso" }
@@ -263,6 +264,9 @@ room-compiler-common = [
 ]
 sqlite-common = [
     "androidx-sqlite-bundled"
+]
+sqlite-web = [
+    "androidx-sqlite-web"
 ]
 ktor-common = [
     "ktor-client-core",

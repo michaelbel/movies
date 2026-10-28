@@ -1,0 +1,10 @@
+{
+  "name": "@michaelbel/movies-sqlite-web-worker",
+  "version": "1.0.0",
+  "description": "Web Worker for androidx.sqlite WebWorkerSQLiteDriver on top of SQLite WASM",
+  "private": true,
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@sqlite.org/sqlite-wasm": "3.54.1-build1"
+  }
+}
