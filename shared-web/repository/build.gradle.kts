@@ -12,7 +12,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            api(projects.sharedWeb.persistence)
+            api(projects.shared.persistence)
             implementation(projects.shared.network)
         }
     }

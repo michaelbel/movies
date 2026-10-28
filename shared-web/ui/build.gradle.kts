@@ -15,7 +15,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.shared.common)
-            api(projects.sharedWeb.persistence)
+            api(projects.shared.persistence)
             api(libs.bundles.jetbrains.compose.material3.common)
             api(libs.bundles.jetbrains.compose.foundation.common)
             api(libs.bundles.jetbrains.compose.runtime.common)

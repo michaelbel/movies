@@ -4,6 +4,7 @@ package org.michaelbel.movies.repository.impl
 
 import androidx.paging.PagingSource
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
 import org.michaelbel.movies.common.exceptions.ApiKeyNotNullException
 import org.michaelbel.movies.common.exceptions.MovieDetailsException
 import org.michaelbel.movies.common.exceptions.MoviesUpcomingException
@@ -44,11 +45,11 @@ class MovieRepositoryImpl(
     }
 
     override fun movieFlow(pagingKey: PagingKey, movieId: MovieId): Flow<MoviePojo?> {
-        return moviePersistence.movieFlow(pagingKey, movieId)
+        return moviesDatabase.movieDao.movieFlow(pagingKey, movieId)
     }
 
     override fun moviesFlow(pagingKey: PagingKey, limit: Limit): Flow<List<MoviePojo>> {
-        return moviePersistence.moviesFlow(pagingKey, limit)
+        return flow { emit(moviePersistence.movies(pagingKey, limit)) }
     }
 
     override suspend fun moviesResult(pagingKey: PagingKey, language: String, page: Page): Result<MovieResponse> {

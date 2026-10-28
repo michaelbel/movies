@@ -65,11 +65,11 @@ kotlin {
         }
         jsMain.dependencies {
             implementation(libs.bundles.sqlite.web)
-            implementation(npm("@michaelbel/movies-sqlite-web-worker", file("../../shared-web/persistence/web-worker")))
+            implementation(npm("@michaelbel/movies-sqlite-web-worker", file("web-worker")))
         }
         wasmJsMain.dependencies {
             implementation(libs.bundles.sqlite.web)
-            implementation(npm("@michaelbel/movies-sqlite-web-worker", file("../../shared-web/persistence/web-worker")))
+            implementation(npm("@michaelbel/movies-sqlite-web-worker", file("web-worker")))
         }
     }
 

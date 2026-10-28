@@ -243,7 +243,7 @@
   resolved "https://registry.yarnpkg.com/@leichtgewicht/ip-codec/-/ip-codec-2.0.5.tgz#4fc56c15c580b9adb7dc3c333a134e540b44bfb1"
   integrity sha512-Vo+PSpZG2/fmgmiNzYK9qWRh8h/CHrwD0mo1h1DzL4yzHNSfWYujGTYsWGreD000gcgmZ7K4Ys6Tx9TxtsKdDw==
 
-"@michaelbel/movies-sqlite-web-worker@file:../../shared-web/persistence/web-worker":
+"@michaelbel/movies-sqlite-web-worker@file:../../shared/persistence/web-worker":
   version "1.0.0"
   dependencies:
     "@sqlite.org/sqlite-wasm" "3.54.1-build1"

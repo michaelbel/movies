@@ -4,6 +4,6 @@ import androidx.sqlite.driver.web.WebWorkerSQLiteDriver
 
 /**
  * Creates a [WebWorkerSQLiteDriver] backed by the `@michaelbel/movies-sqlite-web-worker` npm package
- * located in `shared-web/persistence/web-worker`.
+ * located in `shared/persistence/web-worker`.
  */
 expect fun createWebWorkerSQLiteDriver(): WebWorkerSQLiteDriver
