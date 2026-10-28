@@ -1,17 +1,14 @@
-@file:OptIn(
-    ExperimentalMaterial3Api::class,
-    ExperimentalMaterial3ExpressiveApi::class
-)
+@file:OptIn(ExperimentalMaterial3Api::class)
 
 package org.michaelbel.movies.details
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LargeTopAppBar
@@ -22,6 +19,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TooltipAnchorPosition
 import androidx.compose.material3.TooltipBox
 import androidx.compose.material3.TooltipDefaults
+import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.material3.rememberTooltipState
@@ -35,6 +33,7 @@ import androidx.compose.ui.input.pointer.pointerHoverIcon
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.tooling.preview.PreviewWrapper
+import androidx.compose.ui.unit.dp
 import org.jetbrains.compose.resources.stringResource
 import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
@@ -74,135 +73,252 @@ private fun DetailsScreenContent(
     state: DetailsModel,
     dispatch: (DetailsIntent) -> Unit
 ) {
-    val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val exitUntilCollapsedScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
+    val pinnedScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
     val onContainerColor = MaterialTheme.colorScheme.onPrimaryContainer
 
-    Scaffold(
-        modifier = Modifier
-            .fillMaxSize()
-            .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
-        containerColor = MaterialTheme.colorScheme.primaryContainer,
-        topBar = {
-            LargeTopAppBar(
-                title = {
-                    Text(
-                        text = state.detailsState.toolbarTitle
-                    )
-                },
-                actions = {
-                    AnimatedVisibility(
-                        visible = state.isDetailsFavoriteFeatureEnabled,
-                        enter = fadeIn()
-                    ) {
-                        TooltipBox(
-                            positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
-                                positioning = TooltipAnchorPosition.Below
-                            ),
-                            tooltip = {
-                                PlainTooltip {
-                                    Text(
-                                        text = stringResource(if (state.isAuthorized && state.isFavorite) MoviesStrings.remove_from_favorites else MoviesStrings.add_to_favorites)
-                                    )
-                                }
-                            },
-                            state = rememberTooltipState()
-                        ) {
-                            IconButton(
-                                onClick = { dispatch(DetailsIntent.FavoriteClick) },
-                                enabled = !state.isFavoriteJobActive,
-                                modifier = Modifier
-                                    .minimumInteractiveComponentSize()
-                                    .size(IconButtonDefaults.smallContainerSize(IconButtonDefaults.IconButtonWidthOption.Uniform))
-                                    .pointerHoverIcon(PointerIcon.Hand),
-                                shape = IconButtonDefaults.extraSmallSquareShape
-                            ) {
-                                Image(
-                                    imageVector = if (state.isAuthorized && state.isFavorite) MoviesIcons.Favorite else MoviesIcons.FavoriteBorder,
-                                    contentDescription = stringResource(MoviesContentDescription.FavoriteIcon),
-                                    modifier = Modifier.size(IconButtonDefaults.smallIconSize),
-                                    colorFilter = ColorFilter.tint(onContainerColor)
-                                )
-                            }
-                        }
-                    }
+    BoxWithConstraints(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        val isWide = maxWidth >= 840.dp
+        val topAppBarScrollBehavior = when {
+            isWide -> pinnedScrollBehavior
+            else -> exitUntilCollapsedScrollBehavior
+        }
 
-                    AnimatedVisibility(
-                        visible = state.isDetailsShareFeatureEnabled && state.detailsState.movieUrl != null,
-                        enter = fadeIn()
-                    ) {
-                        state.detailsState.movieUrl?.let { url ->
-                            TooltipBox(
-                                positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
-                                    positioning = TooltipAnchorPosition.Below
-                                ),
-                                tooltip = {
-                                    PlainTooltip {
-                                        Text(
-                                            text = stringResource(MoviesStrings.share)
-                                        )
-                                    }
-                                },
-                                state = rememberTooltipState()
-                            ) {
+        Scaffold(
+            modifier = Modifier
+                .fillMaxSize()
+                .nestedScroll(topAppBarScrollBehavior.nestedScrollConnection),
+            containerColor = MaterialTheme.colorScheme.primaryContainer,
+            topBar = {
+                when {
+                    isWide -> {
+                        TopAppBar(
+                            title = {
+                                Text(
+                                    text = state.detailsState.toolbarTitle
+                                )
+                            },
+                            navigationIcon = {
                                 IconButton(
-                                    onClick = shareText(url, stringResource(MoviesStrings.share_via)),
-                                    modifier = Modifier
-                                        .minimumInteractiveComponentSize()
-                                        .size(IconButtonDefaults.smallContainerSize(IconButtonDefaults.IconButtonWidthOption.Uniform)),
-                                    shape = IconButtonDefaults.extraSmallSquareShape
+                                    modifier = Modifier.pointerHoverIcon(PointerIcon.Hand),
+                                    onClick = { dispatch(DetailsIntent.BackClick) }
                                 ) {
                                     Image(
-                                        imageVector = MoviesIcons.Share,
-                                        contentDescription = stringResource(MoviesContentDescription.ShareIcon),
+                                        imageVector = MoviesIcons.ArrowBack,
+                                        contentDescription = stringResource(MoviesContentDescription.BackIcon),
                                         modifier = Modifier.size(IconButtonDefaults.smallIconSize),
                                         colorFilter = ColorFilter.tint(onContainerColor)
                                     )
                                 }
-                            }
-                        }
-                    }
-                },
-                navigationIcon = {
-                    IconButton(
-                        modifier = Modifier.pointerHoverIcon(PointerIcon.Hand),
-                        onClick = { dispatch(DetailsIntent.BackClick) }
-                    ) {
-                        Image(
-                            imageVector = MoviesIcons.ArrowBack,
-                            contentDescription = stringResource(MoviesContentDescription.BackIcon),
-                            modifier = Modifier.size(IconButtonDefaults.smallIconSize),
-                            colorFilter = ColorFilter.tint(onContainerColor)
+                            },
+                            actions = {
+                                AnimatedVisibility(
+                                    visible = state.isDetailsFavoriteFeatureEnabled,
+                                    enter = fadeIn()
+                                ) {
+                                    TooltipBox(
+                                        positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
+                                            positioning = TooltipAnchorPosition.Below
+                                        ),
+                                        tooltip = {
+                                            PlainTooltip {
+                                                Text(
+                                                    text = stringResource(if (state.isAuthorized && state.isFavorite) MoviesStrings.remove_from_favorites else MoviesStrings.add_to_favorites)
+                                                )
+                                            }
+                                        },
+                                        state = rememberTooltipState()
+                                    ) {
+                                        IconButton(
+                                            onClick = { dispatch(DetailsIntent.FavoriteClick) },
+                                            enabled = !state.isFavoriteJobActive,
+                                            modifier = Modifier
+                                                .minimumInteractiveComponentSize()
+                                                .size(IconButtonDefaults.smallContainerSize(IconButtonDefaults.IconButtonWidthOption.Uniform))
+                                                .pointerHoverIcon(PointerIcon.Hand),
+                                            shape = IconButtonDefaults.extraSmallSquareShape
+                                        ) {
+                                            Image(
+                                                imageVector = if (state.isAuthorized && state.isFavorite) MoviesIcons.Favorite else MoviesIcons.FavoriteBorder,
+                                                contentDescription = stringResource(MoviesContentDescription.FavoriteIcon),
+                                                modifier = Modifier.size(IconButtonDefaults.smallIconSize),
+                                                colorFilter = ColorFilter.tint(onContainerColor)
+                                            )
+                                        }
+                                    }
+                                }
+
+                                AnimatedVisibility(
+                                    visible = state.isDetailsShareFeatureEnabled && state.detailsState.movieUrl != null,
+                                    enter = fadeIn()
+                                ) {
+                                    state.detailsState.movieUrl?.let { url ->
+                                        TooltipBox(
+                                            positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
+                                                positioning = TooltipAnchorPosition.Below
+                                            ),
+                                            tooltip = {
+                                                PlainTooltip {
+                                                    Text(
+                                                        text = stringResource(MoviesStrings.share)
+                                                    )
+                                                }
+                                            },
+                                            state = rememberTooltipState()
+                                        ) {
+                                            IconButton(
+                                                onClick = shareText(url, stringResource(MoviesStrings.share_via)),
+                                                modifier = Modifier
+                                                    .minimumInteractiveComponentSize()
+                                                    .size(IconButtonDefaults.smallContainerSize(IconButtonDefaults.IconButtonWidthOption.Uniform)),
+                                                shape = IconButtonDefaults.extraSmallSquareShape
+                                            ) {
+                                                Image(
+                                                    imageVector = MoviesIcons.Share,
+                                                    contentDescription = stringResource(MoviesContentDescription.ShareIcon),
+                                                    modifier = Modifier.size(IconButtonDefaults.smallIconSize),
+                                                    colorFilter = ColorFilter.tint(onContainerColor)
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            colors = TopAppBarDefaults.topAppBarColors(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                scrolledContainerColor = MaterialTheme.colorScheme.inversePrimary
+                            ),
+                            scrollBehavior = topAppBarScrollBehavior
                         )
                     }
-                },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    scrolledContainerColor = MaterialTheme.colorScheme.inversePrimary
-                ),
-                scrollBehavior = topAppBarScrollBehavior
-            )
-        },
-    ) { innerPadding ->
-        when (val detailsState = state.detailsState) {
-            is ScreenState.Loading -> {
-                DetailsContent(
-                    movie = MoviePojo.Empty,
-                    placeholder = true,
-                    contentPadding = innerPadding
-                )
-            }
-            is ScreenState.Content<*> -> {
-                DetailsContent(
-                    contentPadding = innerPadding,
-                    movie = detailsState.movie,
-                    isDetailsGalleryFeatureEnabled = state.isDetailsGalleryFeatureEnabled,
-                    onNavigateToGallery = { dispatch(DetailsIntent.GalleryClick) }
-                )
-            }
-            is ScreenState.Failure -> {
-                DetailsFailure(
-                    contentPadding = innerPadding
-                )
+                    else -> {
+                        LargeTopAppBar(
+                            title = {
+                                Text(
+                                    text = state.detailsState.toolbarTitle
+                                )
+                            },
+                            actions = {
+                                AnimatedVisibility(
+                                    visible = state.isDetailsFavoriteFeatureEnabled,
+                                    enter = fadeIn()
+                                ) {
+                                    TooltipBox(
+                                        positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
+                                            positioning = TooltipAnchorPosition.Below
+                                        ),
+                                        tooltip = {
+                                            PlainTooltip {
+                                                Text(
+                                                    text = stringResource(if (state.isAuthorized && state.isFavorite) MoviesStrings.remove_from_favorites else MoviesStrings.add_to_favorites)
+                                                )
+                                            }
+                                        },
+                                        state = rememberTooltipState()
+                                    ) {
+                                        IconButton(
+                                            onClick = { dispatch(DetailsIntent.FavoriteClick) },
+                                            enabled = !state.isFavoriteJobActive,
+                                            modifier = Modifier
+                                                .minimumInteractiveComponentSize()
+                                                .size(IconButtonDefaults.smallContainerSize(IconButtonDefaults.IconButtonWidthOption.Uniform))
+                                                .pointerHoverIcon(PointerIcon.Hand),
+                                            shape = IconButtonDefaults.extraSmallSquareShape
+                                        ) {
+                                            Image(
+                                                imageVector = if (state.isAuthorized && state.isFavorite) MoviesIcons.Favorite else MoviesIcons.FavoriteBorder,
+                                                contentDescription = stringResource(MoviesContentDescription.FavoriteIcon),
+                                                modifier = Modifier.size(IconButtonDefaults.smallIconSize),
+                                                colorFilter = ColorFilter.tint(onContainerColor)
+                                            )
+                                        }
+                                    }
+                                }
+
+                                AnimatedVisibility(
+                                    visible = state.isDetailsShareFeatureEnabled && state.detailsState.movieUrl != null,
+                                    enter = fadeIn()
+                                ) {
+                                    state.detailsState.movieUrl?.let { url ->
+                                        TooltipBox(
+                                            positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
+                                                positioning = TooltipAnchorPosition.Below
+                                            ),
+                                            tooltip = {
+                                                PlainTooltip {
+                                                    Text(
+                                                        text = stringResource(MoviesStrings.share)
+                                                    )
+                                                }
+                                            },
+                                            state = rememberTooltipState()
+                                        ) {
+                                            IconButton(
+                                                onClick = shareText(url, stringResource(MoviesStrings.share_via)),
+                                                modifier = Modifier
+                                                    .minimumInteractiveComponentSize()
+                                                    .size(IconButtonDefaults.smallContainerSize(IconButtonDefaults.IconButtonWidthOption.Uniform)),
+                                                shape = IconButtonDefaults.extraSmallSquareShape
+                                            ) {
+                                                Image(
+                                                    imageVector = MoviesIcons.Share,
+                                                    contentDescription = stringResource(MoviesContentDescription.ShareIcon),
+                                                    modifier = Modifier.size(IconButtonDefaults.smallIconSize),
+                                                    colorFilter = ColorFilter.tint(onContainerColor)
+                                                )
+                                            }
+                                        }
+                                    }
+                                }
+                            },
+                            navigationIcon = {
+                                IconButton(
+                                    modifier = Modifier.pointerHoverIcon(PointerIcon.Hand),
+                                    onClick = { dispatch(DetailsIntent.BackClick) }
+                                ) {
+                                    Image(
+                                        imageVector = MoviesIcons.ArrowBack,
+                                        contentDescription = stringResource(MoviesContentDescription.BackIcon),
+                                        modifier = Modifier.size(IconButtonDefaults.smallIconSize),
+                                        colorFilter = ColorFilter.tint(onContainerColor)
+                                    )
+                                }
+                            },
+                            colors = TopAppBarDefaults.topAppBarColors(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                scrolledContainerColor = MaterialTheme.colorScheme.inversePrimary
+                            ),
+                            scrollBehavior = topAppBarScrollBehavior
+                        )
+                    }
+                }
+            },
+        ) { innerPadding ->
+            when (val detailsState = state.detailsState) {
+                is ScreenState.Loading -> {
+                    DetailsContent(
+                        movie = MoviePojo.Empty,
+                        isWide = isWide,
+                        placeholder = true,
+                        contentPadding = innerPadding
+                    )
+                }
+                is ScreenState.Content<*> -> {
+                    DetailsContent(
+                        contentPadding = innerPadding,
+                        movie = detailsState.movie,
+                        isWide = isWide,
+                        isDetailsGalleryFeatureEnabled = state.isDetailsGalleryFeatureEnabled,
+                        onNavigateToGallery = { dispatch(DetailsIntent.GalleryClick) }
+                    )
+                }
+                is ScreenState.Failure -> {
+                    DetailsFailure(
+                        contentPadding = innerPadding
+                    )
+                }
             }
         }
     }
