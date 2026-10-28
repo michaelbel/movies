@@ -15,6 +15,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             api(projects.sharedWeb.interactor)
+            implementation(projects.shared.domain)
             api(projects.sharedWeb.ui)
             implementation(libs.bundles.jetbrains.compose.animation.common)
             implementation(libs.bundles.jetbrains.compose.foundation.common)

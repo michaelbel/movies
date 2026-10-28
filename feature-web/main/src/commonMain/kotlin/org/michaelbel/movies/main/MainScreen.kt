@@ -21,7 +21,8 @@ import org.koin.compose.koinInject
 import org.koin.dsl.koinConfiguration
 import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.detailsweb.DetailsWebScreen
-import org.michaelbel.movies.interactor.Interactor
+import org.michaelbel.movies.domain.usecase.ThemeDataFlowUseCase
+import org.michaelbel.movies.interactor.UiInteractor
 import org.michaelbel.movies.interactor.di.interactorKoinModule
 import org.michaelbel.movies.main.tabs.MainWebTabsScreen
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
@@ -40,9 +41,13 @@ fun MainScreen() {
 }
 
 @Composable
-private fun MainScreenContent() {
-    val interactor: Interactor = koinInject()
-    val themeData by interactor.themeData.collectAsState(initial = ThemeData.Default)
+private fun MainScreenContent(
+    uiInteractor: UiInteractor = koinInject(),
+    themeDataFlowUseCase: ThemeDataFlowUseCase = koinInject()
+) {
+    val themeData by remember(themeDataFlowUseCase, uiInteractor) {
+        themeDataFlowUseCase(uiInteractor.defaultDynamicColorsEnabled)
+    }.collectAsState(initial = ThemeData.Default)
 
     var tab by remember { mutableStateOf<MainWebDestination>(MainWebDestination.Feed) }
     var details by remember { mutableStateOf<MainWebDestination.Details?>(null) }

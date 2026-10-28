@@ -45,7 +45,7 @@ import coil3.request.ImageRequest
 import coil3.request.crossfade
 import org.koin.compose.koinInject
 import org.michaelbel.movies.domain.usecase.MovieDetailsUseCase
-import org.michaelbel.movies.interactor.Interactor
+import org.michaelbel.movies.interactor.LocaleInteractor
 import org.michaelbel.movies.network.config.formatBackdropImage
 import org.michaelbel.movies.network.config.formatPosterImage
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
@@ -57,18 +57,18 @@ fun DetailsWebScreen(
     movieId: MovieId,
     pagingKey: PagingKey,
     onBackClick: () -> Unit,
-    interactor: Interactor = koinInject(),
+    localeInteractor: LocaleInteractor = koinInject(),
     movieDetailsUseCase: MovieDetailsUseCase = koinInject()
 ) {
     val state by produceState<DetailsWebState>(
         initialValue = DetailsWebState.Loading,
-        key1 = interactor,
+        key1 = localeInteractor,
         key2 = movieId,
         key3 = pagingKey
     ) {
         val params = MovieDetailsUseCase.Params(
             pagingKey = pagingKey,
-            language = interactor.language,
+            language = localeInteractor.language,
             movieId = movieId
         )
         value = movieDetailsUseCase(params).fold(

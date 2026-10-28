@@ -60,7 +60,6 @@ include(
     ":shared-web:interactor",
     ":shared:network",
     ":shared:persistence",
-    ":shared-web:repository",
     ":shared:ui",
     ":shared-web:ui",
     ":shared:widget",

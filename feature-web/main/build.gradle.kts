@@ -15,6 +15,7 @@ kotlin {
     sourceSets {
         commonMain.dependencies {
             implementation(projects.shared.common)
+            implementation(projects.shared.domain)
             implementation(projects.sharedWeb.interactor)
             implementation(projects.sharedWeb.ui)
             implementation(projects.featureWeb.details)

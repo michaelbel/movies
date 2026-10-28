@@ -64,8 +64,13 @@ import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.theme.AppTheme
+import org.michaelbel.movies.domain.usecase.CurrentFeedViewFlowUseCase
+import org.michaelbel.movies.domain.usecase.CurrentMovieListFlowUseCase
+import org.michaelbel.movies.domain.usecase.SelectFeedViewUseCase
+import org.michaelbel.movies.domain.usecase.SelectMovieListUseCase
+import org.michaelbel.movies.domain.usecase.SelectThemeUseCase
+import org.michaelbel.movies.domain.usecase.ThemeDataFlowUseCase
 import org.michaelbel.movies.interactor.AboutInteractor
-import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.interactor.UiInteractor
 import org.michaelbel.movies.settingsweb.ktx.stringText
 import org.michaelbel.movies.settingsweb.ui.AboutItem
@@ -76,13 +81,24 @@ import org.michaelbel.movies.ui.compose.plus
 
 @Composable
 fun SettingsScreen(
-    interactor: Interactor = koinInject(),
     uiInteractor: UiInteractor = koinInject(),
-    aboutInteractor: AboutInteractor = koinInject()
+    aboutInteractor: AboutInteractor = koinInject(),
+    themeDataFlowUseCase: ThemeDataFlowUseCase = koinInject(),
+    currentFeedViewFlowUseCase: CurrentFeedViewFlowUseCase = koinInject(),
+    currentMovieListFlowUseCase: CurrentMovieListFlowUseCase = koinInject(),
+    selectThemeUseCase: SelectThemeUseCase = koinInject(),
+    selectFeedViewUseCase: SelectFeedViewUseCase = koinInject(),
+    selectMovieListUseCase: SelectMovieListUseCase = koinInject()
 ) {
-    val themeData by interactor.themeData.collectAsState(initial = ThemeData.Default)
-    val feedView by interactor.currentFeedView.collectAsState(initial = FeedView.FeedList)
-    val movieList by interactor.currentMovieList.collectAsState(initial = MovieList.NowPlaying())
+    val themeData by remember(themeDataFlowUseCase, uiInteractor) {
+        themeDataFlowUseCase(uiInteractor.defaultDynamicColorsEnabled)
+    }.collectAsState(initial = ThemeData.Default)
+    val feedView by remember(currentFeedViewFlowUseCase) {
+        currentFeedViewFlowUseCase(Unit)
+    }.collectAsState(initial = FeedView.FeedList)
+    val movieList by remember(currentMovieListFlowUseCase) {
+        currentMovieListFlowUseCase(Unit)
+    }.collectAsState(initial = MovieList.NowPlaying())
     val scope = rememberCoroutineScope()
     val uriHandler = LocalUriHandler.current
 
@@ -100,13 +116,13 @@ fun SettingsScreen(
         isTelegramFeatureEnabled = uiInteractor.isTelegramFeatureEnabled,
         isAboutFeatureEnabled = uiInteractor.isAboutFeatureEnabled,
         onSelectTheme = { theme ->
-            scope.launch { interactor.selectTheme(theme) }
+            scope.launch { selectThemeUseCase(theme).getOrThrow() }
         },
         onSelectFeedView = { localFeedView ->
-            scope.launch { interactor.selectFeedView(localFeedView) }
+            scope.launch { selectFeedViewUseCase(localFeedView).getOrThrow() }
         },
         onSelectMovieList = { localMovieList ->
-            scope.launch { interactor.selectMovieList(localMovieList) }
+            scope.launch { selectMovieListUseCase(localMovieList).getOrThrow() }
         },
         onGithubClick = { uriHandler.openUri(MOVIES_GITHUB_URL) },
         onTelegramClick = { uriHandler.openUri(MOVIES_TELEGRAM_URL) }

@@ -12,9 +12,10 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import org.koin.compose.koinInject
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.list.MovieList
+import org.michaelbel.movies.domain.usecase.CurrentFeedViewFlowUseCase
 import org.michaelbel.movies.domain.usecase.MoviesPagingDataUseCase
 import org.michaelbel.movies.feed.ktx.toUserMessage
-import org.michaelbel.movies.interactor.Interactor
+import org.michaelbel.movies.interactor.LocaleInteractor
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
 import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 import org.michaelbel.movies.ui.compose.page.PageContent
@@ -26,12 +27,15 @@ import org.michaelbel.movies.ui.refreshThrowable
 @Composable
 fun FeedScreen(
     onMovieClick: (PagingKey, MovieId) -> Unit = { _, _ -> },
-    interactor: Interactor = koinInject(),
+    localeInteractor: LocaleInteractor = koinInject(),
+    currentFeedViewFlowUseCase: CurrentFeedViewFlowUseCase = koinInject(),
     moviesPagingDataUseCase: MoviesPagingDataUseCase = koinInject()
 ) {
-    val feedView by interactor.currentFeedView.collectAsState(initial = FeedView.FeedList)
-    val movies = remember(moviesPagingDataUseCase, interactor) {
-        moviesPagingDataUseCase(MoviesPagingDataUseCase.Params(MovieList.NowPlaying(), interactor.language))
+    val feedView by remember(currentFeedViewFlowUseCase) {
+        currentFeedViewFlowUseCase(Unit)
+    }.collectAsState(initial = FeedView.FeedList)
+    val movies = remember(moviesPagingDataUseCase, localeInteractor) {
+        moviesPagingDataUseCase(MoviesPagingDataUseCase.Params(MovieList.NowPlaying(), localeInteractor.language))
     }.collectAsLazyPagingItems()
 
     Surface(
