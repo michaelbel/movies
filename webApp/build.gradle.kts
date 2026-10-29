@@ -94,7 +94,9 @@ kotlin {
         }
         commonMain.dependencies {
             implementation(projects.shared.interactor)
+            implementation(projects.shared.platformServices.injectWeb)
             implementation(projects.shared.ui)
+            implementation(projects.feature.settings)
             implementation(libs.bundles.jetbrains.compose.material.icons.common)
         }
     }

@@ -27,12 +27,14 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffo
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffoldLayout
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteType
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import org.michaelbel.movies.faveweb.FaveScreen
 import org.michaelbel.movies.feed.FeedScreen
@@ -45,7 +47,9 @@ import org.michaelbel.movies.persistence.database.ktx.isNotEmpty
 import org.michaelbel.movies.persistence.database.ktx.letters
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
 import org.michaelbel.movies.persistence.database.typealiases.PagingKey
-import org.michaelbel.movies.settingsweb.SettingsScreen
+import org.michaelbel.movies.settings.SettingsScreen
+import org.michaelbel.movies.settings.event.SettingsEvent
+import org.michaelbel.movies.settings.event.SettingsEventManager
 import org.michaelbel.movies.ui.compose.AccountAvatar
 import org.michaelbel.movies.ui.icons.MoviesIcons
 
@@ -60,10 +64,17 @@ fun MainWebTabsScreen(
 ) {
     val isAuthorized = accountPojo.isNotEmpty
 
+    val scope = rememberCoroutineScope()
+
     val onTabClick: (MainWebDestination) -> Unit = { destination ->
         when (destination) {
             currentDestination -> {
                 MainWebTabsEventManager.reselect(destination)
+                if (destination == MainWebDestination.Settings) {
+                    scope.launch {
+                        SettingsEventManager.push(SettingsEvent.ReselectSettings)
+                    }
+                }
             }
             else -> {
                 onDestinationChange(destination)

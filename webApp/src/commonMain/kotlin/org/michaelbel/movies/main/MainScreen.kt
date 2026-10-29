@@ -44,6 +44,8 @@ import org.michaelbel.movies.persistence.database.entity.pojo.AccountPojo
 import org.michaelbel.movies.persistence.database.ktx.isNotEmpty
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
 import org.michaelbel.movies.persistence.database.typealiases.PagingKey
+import org.michaelbel.movies.platform.inject.flavorServiceKtorModule
+import org.michaelbel.movies.settings.di.settingsKoinModule
 import org.michaelbel.movies.webui.theme.WebTheme
 
 @Composable
@@ -52,7 +54,9 @@ fun MainScreen() {
         configuration = koinConfiguration {
             modules(
                 interactorKoinModule,
-                webInteractorKoinModule
+                webInteractorKoinModule,
+                flavorServiceKtorModule,
+                settingsKoinModule
             )
         }
     ) {
