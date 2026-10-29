@@ -1,3 +1,9 @@
+@file:OptIn(ExperimentalWasmDsl::class, ExperimentalKotlinGradlePluginApi::class)
+
+import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
+import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
+import org.jetbrains.kotlin.gradle.plugin.KotlinHierarchyTemplate
+
 plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.compose)
@@ -9,6 +15,17 @@ kotlin {
     jvm()
     iosArm64()
     iosSimulatorArm64()
+    js { browser {} }
+    wasmJs { browser {} }
+
+    applyHierarchyTemplate(KotlinHierarchyTemplate.default) {
+        common {
+            group("web") {
+                withJs()
+                withWasmJs()
+            }
+        }
+    }
 
     android {
         namespace = "org.michaelbel.movies.widget"
@@ -22,9 +39,9 @@ kotlin {
             implementation(projects.shared.domain)
             implementation(projects.shared.interactor)
             implementation(projects.shared.ui)
-            implementation(projects.shared.work)
         }
         androidMain.dependencies {
+            implementation(projects.shared.work)
             implementation(libs.bundles.glance.android)
         }
     }
