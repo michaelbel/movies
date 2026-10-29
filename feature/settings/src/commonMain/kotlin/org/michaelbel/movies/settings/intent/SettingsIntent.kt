@@ -5,12 +5,14 @@ import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.mvi.Intent
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.interactor.entity.AppLanguage
+import org.michaelbel.movies.interactor.entity.AppProvider
 import org.michaelbel.movies.ui.appicon.IconAlias
 
 sealed interface SettingsIntent: Intent {
     data object CollectThemeData: SettingsIntent
     data object CollectFeedView: SettingsIntent
     data object CollectMovieList: SettingsIntent
+    data object CollectProvider: SettingsIntent
     data object CollectAppServiceData: SettingsIntent
     data object CollectNotificationsEnabled: SettingsIntent
     data object CollectDoNotDisturbState: SettingsIntent
@@ -42,6 +44,7 @@ sealed interface SettingsIntent: Intent {
     data class SelectTheme(val theme: AppTheme): SettingsIntent
     data class SelectFeedView(val feedView: FeedView): SettingsIntent
     data class SelectMovieList(val movieList: MovieList): SettingsIntent
+    data class SelectProvider(val provider: AppProvider): SettingsIntent
     data class SetDynamicColors(val value: Boolean): SettingsIntent
     data class SetPaletteColors(val value: Boolean): SettingsIntent
     data class SetPaletteKey(val paletteKey: Int): SettingsIntent

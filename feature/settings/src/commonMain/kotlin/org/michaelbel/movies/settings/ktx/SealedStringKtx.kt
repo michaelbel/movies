@@ -8,12 +8,16 @@ import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.interactor.entity.AppLanguage
+import org.michaelbel.movies.interactor.entity.AppProvider
 import org.michaelbel.movies.ui.strings.MoviesStrings
 
 val SealedString.stringText: String
     @Composable get() = when (this) {
         is AppLanguage.English -> stringResource(MoviesStrings.settings_language_en)
         is AppLanguage.Russian -> stringResource(MoviesStrings.settings_language_ru)
+
+        is AppProvider.Tmdb -> stringResource(MoviesStrings.settings_provider_tmdb)
+        is AppProvider.Trakt -> stringResource(MoviesStrings.settings_provider_trakt)
 
         is AppTheme.NightNo -> stringResource(MoviesStrings.settings_theme_light)
         is AppTheme.NightYes -> stringResource(MoviesStrings.settings_theme_dark)

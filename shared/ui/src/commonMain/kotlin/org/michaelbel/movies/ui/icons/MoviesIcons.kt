@@ -28,6 +28,7 @@ import androidx.compose.material.icons.rounded.MovieFilter
 import androidx.compose.material.icons.rounded.Notifications
 import androidx.compose.material.icons.rounded.Palette
 import androidx.compose.material.icons.rounded.Screenshot
+import androidx.compose.material.icons.rounded.Storage
 import androidx.compose.material.icons.rounded.Search
 import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.Share
@@ -75,6 +76,7 @@ object MoviesIcons {
     val Search = Icons.Rounded.Search
     val Settings = Icons.Rounded.Settings
     val Share = Icons.Rounded.Share
+    val Storage = Icons.Rounded.Storage
     val SystemUpdate = Icons.Rounded.SystemUpdate
     val Token = Icons.Rounded.Token
     val ViewAgenda = Icons.Rounded.ViewAgenda

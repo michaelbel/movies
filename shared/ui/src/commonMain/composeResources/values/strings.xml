@@ -146,6 +146,9 @@
     <string name="settings_palette_colors_description">Apply colors from Palette</string>
     <string name="settings_screenshots">Screenshots</string>
     <string name="settings_screenshots_description">Block taking screenshots</string>
+    <string name="settings_provider">Provider</string>
+    <string name="settings_provider_tmdb">TMDB</string>
+    <string name="settings_provider_trakt">Trakt.tv</string>
 
     <string name="appwidget_description">Display upcoming movies</string>
     <string name="appwidget_title">Upcoming Movies</string>

@@ -80,6 +80,7 @@ import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.interactor.UiInteractor
 import org.michaelbel.movies.interactor.entity.AppLanguage
+import org.michaelbel.movies.interactor.entity.AppProvider
 import org.michaelbel.movies.settings.event.SettingsEvent
 import org.michaelbel.movies.settings.event.SettingsEventManager
 import org.michaelbel.movies.settings.intent.SettingsIntent
@@ -368,6 +369,57 @@ private fun SettingsScreenContent(
             ),
             verticalArrangement = Arrangement.spacedBy(ListItemDefaults.SegmentedGap)
         ) {
+            item {
+                var providerDialog by remember { mutableStateOf(false) }
+                if (providerDialog) {
+                    SettingsDialog(
+                        icon = MoviesIcons.Storage,
+                        title = stringResource(MoviesStrings.settings_provider),
+                        items = AppProvider.VALUES,
+                        currentItem = state.provider,
+                        onItemSelect = { dispatch(SettingsIntent.SelectProvider(it)) },
+                        onDismissRequest = { providerDialog = false }
+                    )
+                }
+
+                SegmentedListItem(
+                    onClick = { providerDialog = true },
+                    shapes = ListItemDefaults.segmentedShapes(
+                        index = 0,
+                        count = 1
+                    ),
+                    leadingContent = {
+                        Icon(
+                            imageVector = MoviesIcons.Storage,
+                            contentDescription = null,
+                            modifier = Modifier.size(IconButtonDefaults.smallIconSize)
+                        )
+                    },
+                    supportingContent = {
+                        Text(
+                            text = state.provider.stringText,
+                            style = MaterialTheme.typography.bodyMedium
+                        )
+                    },
+                    colors = ListItemDefaults.segmentedColors(
+                        containerColor = MaterialTheme.colorScheme.inversePrimary,
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        supportingContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        leadingContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        trailingContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                    )
+                ) {
+                    Text(
+                        text = stringResource(MoviesStrings.settings_provider),
+                        style = MaterialTheme.typography.titleLarge
+                    )
+                }
+            }
+            item {
+                Spacer(
+                    modifier = Modifier.height(12.dp)
+                )
+            }
             if (state.isLanguageFeatureEnabled) {
                 item {
                     var languageDialog by remember { mutableStateOf(false) }

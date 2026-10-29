@@ -11,6 +11,7 @@ import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.domain.usecase.BiometricEnabledFlowUseCase
 import org.michaelbel.movies.domain.usecase.CurrentFeedViewFlowUseCase
 import org.michaelbel.movies.domain.usecase.CurrentMovieListFlowUseCase
+import org.michaelbel.movies.domain.usecase.ProviderFlowUseCase
 import org.michaelbel.movies.domain.usecase.ResetSettingsUseCase
 import org.michaelbel.movies.domain.usecase.ScreenshotBlockEnabledFlowUseCase
 import org.michaelbel.movies.domain.usecase.SelectFeedViewUseCase
@@ -20,12 +21,14 @@ import org.michaelbel.movies.domain.usecase.SetBiometricEnabledUseCase
 import org.michaelbel.movies.domain.usecase.SetDynamicColorsUseCase
 import org.michaelbel.movies.domain.usecase.SetPaletteColorsUseCase
 import org.michaelbel.movies.domain.usecase.SetPaletteKeyUseCase
+import org.michaelbel.movies.domain.usecase.SetProviderUseCase
 import org.michaelbel.movies.domain.usecase.SetScreenshotBlockEnabledUseCase
 import org.michaelbel.movies.domain.usecase.SetSeedColorUseCase
 import org.michaelbel.movies.domain.usecase.ThemeDataFlowUseCase
 import org.michaelbel.movies.interactor.AboutInteractor
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.interactor.UiInteractor
+import org.michaelbel.movies.interactor.entity.AppProvider
 import org.michaelbel.movies.platform.Flavor
 import org.michaelbel.movies.platform.app.AppService
 import org.michaelbel.movies.platform.update.UpdateListener
@@ -53,11 +56,13 @@ class SettingsViewModel(
     private val themeDataFlowUseCase: ThemeDataFlowUseCase,
     private val currentFeedViewFlowUseCase: CurrentFeedViewFlowUseCase,
     private val currentMovieListFlowUseCase: CurrentMovieListFlowUseCase,
+    private val providerFlowUseCase: ProviderFlowUseCase,
     private val biometricEnabledFlowUseCase: BiometricEnabledFlowUseCase,
     private val screenshotBlockEnabledFlowUseCase: ScreenshotBlockEnabledFlowUseCase,
     private val setPaletteColorsUseCase: SetPaletteColorsUseCase,
     private val setPaletteKeyUseCase: SetPaletteKeyUseCase,
     private val setSeedColorUseCase: SetSeedColorUseCase,
+    private val setProviderUseCase: SetProviderUseCase,
     private val setBiometricEnabledUseCase: SetBiometricEnabledUseCase,
     private val setScreenshotBlockEnabledUseCase: SetScreenshotBlockEnabledUseCase
 ): MoviesViewModel<SettingsModel, SettingsIntent, SettingsEvent>(SettingsModel()), DefaultLifecycleObserver {
@@ -66,6 +71,7 @@ class SettingsViewModel(
         dispatch(SettingsIntent.CollectThemeData)
         dispatch(SettingsIntent.CollectFeedView)
         dispatch(SettingsIntent.CollectMovieList)
+        dispatch(SettingsIntent.CollectProvider)
         dispatch(SettingsIntent.CollectAppServiceData)
         dispatch(SettingsIntent.CollectNotificationsEnabled)
         dispatch(SettingsIntent.CollectDoNotDisturbState)
@@ -100,6 +106,13 @@ class SettingsViewModel(
                 launch {
                     currentMovieListFlowUseCase(Unit).collectLatest { movieList ->
                         reduce { it.copy(movieList = movieList) }
+                    }
+                }
+            }
+            is SettingsIntent.CollectProvider -> {
+                launch {
+                    providerFlowUseCase(Unit).collectLatest { key ->
+                        reduce { it.copy(provider = AppProvider.transform(key)) }
                     }
                 }
             }
@@ -220,6 +233,9 @@ class SettingsViewModel(
             is SettingsIntent.SelectTheme -> launch { selectThemeUseCase(intent.theme).getOrThrow() }
             is SettingsIntent.SelectFeedView -> launch { selectFeedViewUseCase(intent.feedView).getOrThrow() }
             is SettingsIntent.SelectMovieList -> launch { selectMovieListUseCase(intent.movieList).getOrThrow() }
+            is SettingsIntent.SelectProvider -> {
+                launch { setProviderUseCase(AppProvider.key(intent.provider)).getOrThrow() }
+            }
             is SettingsIntent.SetDynamicColors -> launch { setDynamicColorsUseCase(intent.value).getOrThrow() }
             is SettingsIntent.SetPaletteColors -> launch { setPaletteColorsUseCase(intent.value).getOrThrow() }
             is SettingsIntent.SetPaletteKey -> launch { setPaletteKeyUseCase(intent.paletteKey).getOrThrow() }

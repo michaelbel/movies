@@ -7,6 +7,7 @@ import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.mvi.model.Model
 import org.michaelbel.movies.common.version.AppVersionData
+import org.michaelbel.movies.interactor.entity.AppProvider
 import org.michaelbel.movies.ui.appicon.IconAlias
 
 data class SettingsModel(
@@ -37,6 +38,7 @@ data class SettingsModel(
     val themeData: ThemeData = ThemeData.Default,
     val feedView: FeedView = FeedView.FeedList,
     val movieList: MovieList = MovieList.NowPlaying(),
+    val provider: AppProvider = AppProvider.Tmdb,
     val isReviewFeatureEnabled: Boolean = false,
     val isUpdateFeatureEnabled: Boolean = false,
     val areNotificationsEnabled: Boolean = false,

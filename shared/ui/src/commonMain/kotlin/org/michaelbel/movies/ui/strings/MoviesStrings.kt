@@ -118,6 +118,9 @@ import movies.shared.ui.generated.resources.settings_post_notifications
 import movies.shared.ui.generated.resources.settings_post_notifications_denied
 import movies.shared.ui.generated.resources.settings_post_notifications_granted
 import movies.shared.ui.generated.resources.settings_post_notifications_should_request
+import movies.shared.ui.generated.resources.settings_provider
+import movies.shared.ui.generated.resources.settings_provider_tmdb
+import movies.shared.ui.generated.resources.settings_provider_trakt
 import movies.shared.ui.generated.resources.settings_reset
 import movies.shared.ui.generated.resources.settings_reset_confirmation
 import movies.shared.ui.generated.resources.settings_review
@@ -295,6 +298,9 @@ object MoviesStrings {
     val settings_palette_colors_description = Res.string.settings_palette_colors_description
     val settings_screenshots = Res.string.settings_screenshots
     val settings_screenshots_description = Res.string.settings_screenshots_description
+    val settings_provider = Res.string.settings_provider
+    val settings_provider_tmdb = Res.string.settings_provider_tmdb
+    val settings_provider_trakt = Res.string.settings_provider_trakt
 
     @Suppress("FunctionNaming")
     @Composable

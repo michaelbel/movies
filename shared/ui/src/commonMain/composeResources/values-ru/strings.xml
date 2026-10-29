@@ -146,6 +146,9 @@
     <string name="settings_palette_colors_description">Применить цвета из пилитры</string>
     <string name="settings_screenshots">Скриншоты</string>
     <string name="settings_screenshots_description">Запретить делать скриншоты</string>
+    <string name="settings_provider">Провайдер</string>
+    <string name="settings_provider_tmdb">TMDB</string>
+    <string name="settings_provider_trakt">Trakt.tv</string>
 
     <string name="appwidget_description">Отображает предстоящие фильмы</string>
     <string name="appwidget_title">Скоро в кино</string>
