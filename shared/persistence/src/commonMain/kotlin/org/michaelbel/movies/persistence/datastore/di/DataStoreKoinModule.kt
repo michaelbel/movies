@@ -10,6 +10,10 @@ import org.koin.core.module.Module
 
 expect val dataStoreKoinModule: Module
 
+expect val tmdbDataStoreKoinModule: Module
+
+expect val traktDataStoreKoinModule: Module
+
 fun createDataStore(
     corruptionHandler: ReplaceFileCorruptionHandler<Preferences>? = null,
     migrations: List<DataMigration<Preferences>> = emptyList(),

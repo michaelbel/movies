@@ -48,7 +48,6 @@ class MoviesPreferences(
     ) {
         data object PreferenceThemeKey: PreferenceKey<String>(stringPreferencesKey("theme"))
         data object PreferenceFeedViewKey: PreferenceKey<String>(stringPreferencesKey("feed_view"))
-        data object PreferenceMovieListKey: PreferenceKey<String>(stringPreferencesKey("movie_list"))
         data object PreferenceDynamicColorsKey: PreferenceKey<Boolean>(booleanPreferencesKey("dynamic_colors"))
         data object PreferencePaletteColorsKey: PreferenceKey<Boolean>(booleanPreferencesKey("palette_colors"))
         data object PreferenceSessionIdKey: PreferenceKey<String>(stringPreferencesKey("session_id"))

@@ -15,6 +15,7 @@ import org.michaelbel.movies.domain.usecase.CreateSessionWithLoginUseCase
 import org.michaelbel.movies.domain.usecase.CurrentFeedViewFlowUseCase
 import org.michaelbel.movies.domain.usecase.CurrentMovieListFlowUseCase
 import org.michaelbel.movies.domain.usecase.CurrentThemeFlowUseCase
+import org.michaelbel.movies.domain.usecase.CurrentTraktListFlowUseCase
 import org.michaelbel.movies.domain.usecase.DeleteSessionUseCase
 import org.michaelbel.movies.domain.usecase.FavoriteMoviesPagingDataUseCase
 import org.michaelbel.movies.domain.usecase.FetchAndInsertSearchMoviesUseCase
@@ -47,6 +48,7 @@ import org.michaelbel.movies.domain.usecase.SearchMoviesResultUseCase
 import org.michaelbel.movies.domain.usecase.SelectFeedViewUseCase
 import org.michaelbel.movies.domain.usecase.SelectMovieListUseCase
 import org.michaelbel.movies.domain.usecase.SelectThemeUseCase
+import org.michaelbel.movies.domain.usecase.SelectTraktListUseCase
 import org.michaelbel.movies.domain.usecase.SetBiometricEnabledUseCase
 import org.michaelbel.movies.domain.usecase.SetDynamicColorsUseCase
 import org.michaelbel.movies.domain.usecase.SetPaletteColorsUseCase
@@ -68,6 +70,8 @@ import org.michaelbel.movies.persistence.database.dao.SuggestionDao
 import org.michaelbel.movies.persistence.database.di.moviesDatabaseKoinModule
 import org.michaelbel.movies.persistence.database.di.persistenceKoinModule
 import org.michaelbel.movies.persistence.datastore.di.moviesPreferencesKoinModule
+import org.michaelbel.movies.persistence.datastore.di.tmdbPreferencesKoinModule
+import org.michaelbel.movies.persistence.datastore.di.traktPreferencesKoinModule
 
 val useCaseKoinModule = module {
     includes(
@@ -75,6 +79,8 @@ val useCaseKoinModule = module {
         moviesAnalyticsKoinModule,
         moviesDatabaseKoinModule,
         moviesPreferencesKoinModule,
+        tmdbPreferencesKoinModule,
+        traktPreferencesKoinModule,
         persistenceKoinModule,
         networkKoinModule
     )
@@ -101,6 +107,7 @@ val useCaseKoinModule = module {
     singleOf(::CurrentFeedViewFlowUseCase)
     singleOf(::CurrentMovieListFlowUseCase)
     singleOf(::CurrentThemeFlowUseCase)
+    singleOf(::CurrentTraktListFlowUseCase)
     singleOf(::DeleteSessionUseCase)
     singleOf(::FavoriteMoviesPagingDataUseCase)
     singleOf(::FetchAndInsertSearchMoviesUseCase)
@@ -126,6 +133,7 @@ val useCaseKoinModule = module {
     singleOf(::SelectFeedViewUseCase)
     singleOf(::SelectMovieListUseCase)
     singleOf(::SelectThemeUseCase)
+    singleOf(::SelectTraktListUseCase)
     singleOf(::SetBiometricEnabledUseCase)
     singleOf(::SetDynamicColorsUseCase)
     singleOf(::SetPaletteColorsUseCase)
