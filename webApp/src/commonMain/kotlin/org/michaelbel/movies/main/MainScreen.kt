@@ -45,6 +45,7 @@ import org.michaelbel.movies.domain.usecase.AccountPojoFlowUseCase
 import org.michaelbel.movies.domain.usecase.CreateSessionUseCase
 import org.michaelbel.movies.domain.usecase.ThemeDataFlowUseCase
 import org.michaelbel.movies.domain.usecase.UpdateFavoriteUseCase
+import org.michaelbel.movies.fave.di.faveKoinModule
 import org.michaelbel.movies.interactor.BrowserInteractor
 import org.michaelbel.movies.interactor.UiInteractor
 import org.michaelbel.movies.interactor.di.interactorKoinModule
@@ -61,6 +62,7 @@ import org.michaelbel.movies.ui.dialogUsePlatformDefaultWidth
 import org.michaelbel.movies.ui.navigation.AccountDestination
 import org.michaelbel.movies.ui.navigation.AppRoute
 import org.michaelbel.movies.ui.navigation.AuthDestination
+import org.michaelbel.movies.ui.navigation.DetailsDestination
 import org.michaelbel.movies.ui.navigation.MainNavigator
 import org.michaelbel.movies.ui.pending.PendingAction
 import org.michaelbel.movies.ui.pending.PendingActionStore
@@ -76,6 +78,7 @@ fun MainScreen() {
                 flavorServiceKtorModule,
                 accountKoinModule,
                 authKoinModule,
+                faveKoinModule,
                 settingsKoinModule
             )
         }
@@ -114,12 +117,27 @@ private fun MainScreenContent(
     ) { event ->
         when (event) {
             is MainNavigator.NavigationEvent.Back -> {
-                dialogs.removeLastOrNull()
+                when {
+                    dialogs.isNotEmpty() -> {
+                        dialogs.removeLastOrNull()
+                    }
+                    else -> {
+                        details = null
+                    }
+                }
             }
             is MainNavigator.NavigationEvent.Forward -> {
                 val destination = event.destination
-                if ((destination == AuthDestination || destination == AccountDestination) && dialogs.lastOrNull() != destination) {
-                    dialogs.add(destination)
+                when {
+                    destination is DetailsDestination -> {
+                        details = MainWebDestination.Details(
+                            pagingKey = destination.movieList.orEmpty(),
+                            movieId = destination.movieId
+                        )
+                    }
+                    (destination == AuthDestination || destination == AccountDestination) && dialogs.lastOrNull() != destination -> {
+                        dialogs.add(destination)
+                    }
                 }
             }
             else -> Unit
@@ -201,10 +219,7 @@ private fun MainScreenContent(
                     }
                 },
                 onMovieClick = { pagingKey, movieId ->
-                    details = MainWebDestination.Details(
-                        pagingKey = pagingKey,
-                        movieId = movieId
-                    )
+                    scope.launch { MainNavigator.forward(DetailsDestination(pagingKey, movieId)) }
                 },
                 accountPojo = accountPojo,
                 onAccountClick = {
@@ -229,7 +244,7 @@ private fun MainScreenContent(
                     DetailsWebScreen(
                         pagingKey = currentDetails.pagingKey,
                         movieId = currentDetails.movieId,
-                        onBackClick = { details = null },
+                        onBackClick = { scope.launch { MainNavigator.back() } },
                         onAuthRequired = {
                             PendingActionStore.set(PendingAction.AddFavorite(currentDetails.movieId))
                             scope.launch { MainNavigator.forward(AuthDestination) }

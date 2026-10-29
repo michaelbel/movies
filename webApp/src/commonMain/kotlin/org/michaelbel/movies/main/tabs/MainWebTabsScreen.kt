@@ -36,7 +36,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
-import org.michaelbel.movies.faveweb.FaveScreen
+import org.michaelbel.movies.fave.FaveScreen
+import org.michaelbel.movies.fave.event.FaveEvent
+import org.michaelbel.movies.fave.event.FaveEventManager
 import org.michaelbel.movies.feed.FeedScreen
 import org.michaelbel.movies.interactor.UiInteractor
 import org.michaelbel.movies.main.MainWebDestination
@@ -70,6 +72,11 @@ fun MainWebTabsScreen(
         when (destination) {
             currentDestination -> {
                 MainWebTabsEventManager.reselect(destination)
+                if (destination == MainWebDestination.Fave) {
+                    scope.launch {
+                        FaveEventManager.push(FaveEvent.ReselectFave)
+                    }
+                }
                 if (destination == MainWebDestination.Settings) {
                     scope.launch {
                         SettingsEventManager.push(SettingsEvent.ReselectSettings)
@@ -318,7 +325,7 @@ Surface(
             ) {
                 when (currentDestination) {
                     MainWebDestination.Feed -> FeedScreen(onMovieClick = onMovieClick)
-                    MainWebDestination.Fave -> FaveScreen(onMovieClick = onMovieClick)
+                    MainWebDestination.Fave -> FaveScreen()
                     MainWebDestination.Settings -> SettingsScreen()
                     is MainWebDestination.Details -> Unit
                 }
@@ -413,9 +420,7 @@ Surface(
                         )
                     }
                     is MainWebDestination.Fave -> {
-                        FaveScreen(
-                            onMovieClick = onMovieClick
-                        )
+                        FaveScreen()
                     }
                     is MainWebDestination.Settings -> SettingsScreen()
                     is MainWebDestination.Details -> Unit
@@ -504,7 +509,7 @@ Surface(
             ) {
                 when (currentDestination) {
                     MainWebDestination.Feed -> FeedScreen(onMovieClick = onMovieClick)
-                    MainWebDestination.Fave -> FaveScreen(onMovieClick = onMovieClick)
+                    MainWebDestination.Fave -> FaveScreen()
                     MainWebDestination.Settings -> SettingsScreen()
                     is MainWebDestination.Details -> Unit
                 }
