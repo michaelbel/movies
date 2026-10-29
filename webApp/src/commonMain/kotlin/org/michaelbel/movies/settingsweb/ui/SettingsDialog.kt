@@ -104,6 +104,8 @@ fun <T: SealedString> SettingsDialog(
             }
         },
         shape = MaterialTheme.shapes.extraLarge,
-        containerColor = MaterialTheme.colorScheme.surface
+        containerColor = MaterialTheme.colorScheme.surface,
+        iconContentColor = MaterialTheme.colorScheme.secondary,
+        titleContentColor = MaterialTheme.colorScheme.onSurface
     )
 }

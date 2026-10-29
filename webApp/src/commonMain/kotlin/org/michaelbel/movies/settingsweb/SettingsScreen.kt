@@ -5,8 +5,14 @@
 
 package org.michaelbel.movies.settingsweb
 
-import androidx.compose.foundation.clickable
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandVertically
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkVertically
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -20,29 +26,30 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.outlined.Send
-import androidx.compose.material.icons.outlined.Code
-import androidx.compose.material.icons.outlined.Dashboard
-import androidx.compose.material.icons.outlined.GridView
-import androidx.compose.material.icons.outlined.LocalMovies
-import androidx.compose.material.icons.outlined.Palette
-import androidx.compose.material.icons.outlined.ViewAgenda
 import androidx.compose.material3.ButtonGroupDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LargeFlexibleTopAppBar
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PlainTooltip
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
+import androidx.compose.material3.SegmentedListItem
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.ToggleButton
 import androidx.compose.material3.ToggleButtonDefaults
+import androidx.compose.material3.TooltipAnchorPosition
+import androidx.compose.material3.TooltipBox
+import androidx.compose.material3.TooltipDefaults
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.minimumInteractiveComponentSize
+import androidx.compose.material3.rememberTooltipState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -66,18 +73,28 @@ import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.domain.usecase.CurrentFeedViewFlowUseCase
 import org.michaelbel.movies.domain.usecase.CurrentMovieListFlowUseCase
+import org.michaelbel.movies.domain.usecase.ResetSettingsUseCase
 import org.michaelbel.movies.domain.usecase.SelectFeedViewUseCase
 import org.michaelbel.movies.domain.usecase.SelectMovieListUseCase
 import org.michaelbel.movies.domain.usecase.SelectThemeUseCase
+import org.michaelbel.movies.domain.usecase.SetPaletteColorsUseCase
+import org.michaelbel.movies.domain.usecase.SetPaletteKeyUseCase
+import org.michaelbel.movies.domain.usecase.SetSeedColorUseCase
 import org.michaelbel.movies.domain.usecase.ThemeDataFlowUseCase
 import org.michaelbel.movies.interactor.AboutInteractor
 import org.michaelbel.movies.interactor.UiInteractor
 import org.michaelbel.movies.settingsweb.ktx.stringText
 import org.michaelbel.movies.settingsweb.ui.AboutItem
 import org.michaelbel.movies.settingsweb.ui.SettingsDialog
-import org.michaelbel.movies.settingsweb.ui.settingsListItemShape
+import org.michaelbel.movies.settingsweb.ui.SettingsPaletteColorsBox
+import org.michaelbel.movies.settingsweb.ui.SettingsResetDialog
 import org.michaelbel.movies.ui.clickableWithoutRipple
 import org.michaelbel.movies.ui.compose.plus
+import org.michaelbel.movies.ui.icons.Github
+import org.michaelbel.movies.ui.icons.MoviesIcons
+import org.michaelbel.movies.ui.icons.SettingsReset
+import org.michaelbel.movies.ui.icons.Telegram
+import org.michaelbel.movies.ui.icons.ThemeLightDark
 
 @Composable
 fun SettingsScreen(
@@ -88,7 +105,11 @@ fun SettingsScreen(
     currentMovieListFlowUseCase: CurrentMovieListFlowUseCase = koinInject(),
     selectThemeUseCase: SelectThemeUseCase = koinInject(),
     selectFeedViewUseCase: SelectFeedViewUseCase = koinInject(),
-    selectMovieListUseCase: SelectMovieListUseCase = koinInject()
+    selectMovieListUseCase: SelectMovieListUseCase = koinInject(),
+    setPaletteColorsUseCase: SetPaletteColorsUseCase = koinInject(),
+    setPaletteKeyUseCase: SetPaletteKeyUseCase = koinInject(),
+    setSeedColorUseCase: SetSeedColorUseCase = koinInject(),
+    resetSettingsUseCase: ResetSettingsUseCase = koinInject()
 ) {
     val themeData by remember(themeDataFlowUseCase, uiInteractor) {
         themeDataFlowUseCase(uiInteractor.defaultDynamicColorsEnabled)
@@ -110,13 +131,24 @@ fun SettingsScreen(
         versionName = aboutInteractor.versionName,
         versionCode = aboutInteractor.versionCode,
         isThemeFeatureEnabled = uiInteractor.isThemeFeatureEnabled,
+        isPaletteColorsFeatureEnabled = uiInteractor.isPaletteColorsFeatureEnabled,
         isFeedViewFeatureEnabled = uiInteractor.isFeedViewFeatureEnabled,
         isMovieListFeatureEnabled = uiInteractor.isMovieListFeatureEnabled,
         isGithubFeatureEnabled = uiInteractor.isGithubFeatureEnabled,
         isTelegramFeatureEnabled = uiInteractor.isTelegramFeatureEnabled,
         isAboutFeatureEnabled = uiInteractor.isAboutFeatureEnabled,
+        isSettingsResetFeatureEnabled = uiInteractor.isSettingsResetFeatureEnabled,
         onSelectTheme = { theme ->
             scope.launch { selectThemeUseCase(theme).getOrThrow() }
+        },
+        onSetPaletteColors = { enabled ->
+            scope.launch { setPaletteColorsUseCase(enabled).getOrThrow() }
+        },
+        onSetPalette = { paletteKey, seedColor ->
+            scope.launch {
+                setPaletteKeyUseCase(paletteKey).getOrThrow()
+                setSeedColorUseCase(seedColor).getOrThrow()
+            }
         },
         onSelectFeedView = { localFeedView ->
             scope.launch { selectFeedViewUseCase(localFeedView).getOrThrow() }
@@ -125,7 +157,10 @@ fun SettingsScreen(
             scope.launch { selectMovieListUseCase(localMovieList).getOrThrow() }
         },
         onGithubClick = { uriHandler.openUri(MOVIES_GITHUB_URL) },
-        onTelegramClick = { uriHandler.openUri(MOVIES_TELEGRAM_URL) }
+        onTelegramClick = { uriHandler.openUri(MOVIES_TELEGRAM_URL) },
+        onResetSettings = {
+            scope.launch { resetSettingsUseCase(Unit).getOrThrow() }
+        }
     )
 }
 
@@ -138,16 +173,21 @@ private fun SettingsScreenContent(
     versionName: String,
     versionCode: Long,
     isThemeFeatureEnabled: Boolean,
+    isPaletteColorsFeatureEnabled: Boolean,
     isFeedViewFeatureEnabled: Boolean,
     isMovieListFeatureEnabled: Boolean,
     isGithubFeatureEnabled: Boolean,
     isTelegramFeatureEnabled: Boolean,
     isAboutFeatureEnabled: Boolean,
+    isSettingsResetFeatureEnabled: Boolean,
     onSelectTheme: (AppTheme) -> Unit,
+    onSetPaletteColors: (Boolean) -> Unit,
+    onSetPalette: (Int, Int) -> Unit,
     onSelectFeedView: (FeedView) -> Unit,
     onSelectMovieList: (MovieList) -> Unit,
     onGithubClick: () -> Unit,
-    onTelegramClick: () -> Unit
+    onTelegramClick: () -> Unit,
+    onResetSettings: () -> Unit
 ) {
     val topAppBarScrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior(
         state = rememberTopAppBarState(),
@@ -170,6 +210,48 @@ private fun SettingsScreenContent(
                 modifier = Modifier.clickableWithoutRipple {
                     scope.launch { listState.animateScrollToItem(0) }
                 },
+                actions = {
+                    if (isSettingsResetFeatureEnabled) {
+                        TooltipBox(
+                            positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
+                                positioning = TooltipAnchorPosition.Below
+                            ),
+                            tooltip = {
+                                PlainTooltip {
+                                    Text(
+                                        text = "Reset settings"
+                                    )
+                                }
+                            },
+                            state = rememberTooltipState()
+                        ) {
+                            var resetSettingsDialog by remember { mutableStateOf(false) }
+                            if (resetSettingsDialog) {
+                                SettingsResetDialog(
+                                    onDismissRequest = { resetSettingsDialog = false },
+                                    onResetClick = {
+                                        onResetSettings()
+                                        resetSettingsDialog = false
+                                    }
+                                )
+                            }
+
+                            IconButton(
+                                onClick = { resetSettingsDialog = true },
+                                modifier = Modifier
+                                    .minimumInteractiveComponentSize()
+                                    .size(IconButtonDefaults.smallContainerSize(IconButtonDefaults.IconButtonWidthOption.Uniform)),
+                                shape = IconButtonDefaults.extraSmallSquareShape
+                            ) {
+                                Icon(
+                                    imageVector = MoviesIcons.SettingsReset,
+                                    contentDescription = "Reset settings",
+                                    modifier = Modifier.size(IconButtonDefaults.smallIconSize)
+                                )
+                            }
+                        }
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.primaryContainer,
                     scrolledContainerColor = MaterialTheme.colorScheme.inversePrimary
@@ -181,18 +263,39 @@ private fun SettingsScreenContent(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         contentWindowInsets = ScaffoldDefaults.contentWindowInsets.only(WindowInsetsSides.Horizontal)
     ) { innerPadding ->
+        val appearanceVisible = listOf(
+            isThemeFeatureEnabled,
+            isPaletteColorsFeatureEnabled
+        )
+        val appearanceCount = appearanceVisible.count { it }
+        val feedVisible = listOf(
+            isMovieListFeatureEnabled,
+            isFeedViewFeatureEnabled
+        )
+        val feedCount = feedVisible.count { it }
+        val aboutVisible = listOf(
+            isGithubFeatureEnabled,
+            isTelegramFeatureEnabled
+        )
+        val aboutCount = aboutVisible.count { it }
+
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             state = listState,
-            contentPadding = innerPadding + PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(2.dp)
+            contentPadding = innerPadding + PaddingValues(
+                start = 16.dp,
+                top = 16.dp,
+                end = 16.dp,
+                bottom = 12.dp
+            ),
+            verticalArrangement = Arrangement.spacedBy(ListItemDefaults.SegmentedGap)
         ) {
             if (isThemeFeatureEnabled) {
                 item {
                     var themeDialog by remember { mutableStateOf(false) }
                     if (themeDialog) {
                         SettingsDialog(
-                            icon = Icons.Outlined.Palette,
+                            icon = MoviesIcons.ThemeLightDark,
                             title = "Theme",
                             items = AppTheme.VALUES,
                             currentItem = themeData.appTheme,
@@ -201,23 +304,17 @@ private fun SettingsScreenContent(
                         )
                     }
 
-                    ListItem(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(
-                                settingsListItemShape(
-                                    isFirst = true,
-                                    isLast = !isMovieListFeatureEnabled &&
-                                        !isFeedViewFeatureEnabled &&
-                                        !isGithubFeatureEnabled &&
-                                        !isTelegramFeatureEnabled
-                                )
-                            )
-                            .clickable { themeDialog = true },
-                        headlineContent = {
-                            Text(
-                                text = "Theme",
-                                style = MaterialTheme.typography.titleLarge
+                    SegmentedListItem(
+                        onClick = { themeDialog = true },
+                        shapes = ListItemDefaults.segmentedShapes(
+                            index = 0,
+                            count = appearanceCount
+                        ),
+                        leadingContent = {
+                            Icon(
+                                imageVector = MoviesIcons.ThemeLightDark,
+                                contentDescription = null,
+                                modifier = Modifier.size(IconButtonDefaults.smallIconSize)
                             )
                         },
                         supportingContent = {
@@ -226,16 +323,96 @@ private fun SettingsScreenContent(
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         },
-                        leadingContent = {
-                            Icon(
-                                imageVector = Icons.Outlined.Palette,
-                                contentDescription = null,
-                                modifier = Modifier.size(IconButtonDefaults.smallIconSize)
-                            )
-                        },
-                        colors = ListItemDefaults.colors(
-                            containerColor = MaterialTheme.colorScheme.inversePrimary
+                        colors = ListItemDefaults.segmentedColors(
+                            containerColor = MaterialTheme.colorScheme.inversePrimary,
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            supportingContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            leadingContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            trailingContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                         )
+                    ) {
+                        Text(
+                            text = "Theme",
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                    }
+                }
+            }
+            if (isPaletteColorsFeatureEnabled) {
+                item {
+                    val itemShapes = ListItemDefaults.segmentedShapes(
+                        index = appearanceVisible.take(1).count { it },
+                        count = appearanceCount
+                    )
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clip(itemShapes.shape)
+                            .background(MaterialTheme.colorScheme.inversePrimary)
+                    ) {
+                        SegmentedListItem(
+                            onClick = { onSetPaletteColors(!themeData.paletteColors) },
+                            shapes = itemShapes,
+                            leadingContent = {
+                                Icon(
+                                    imageVector = MoviesIcons.Palette,
+                                    contentDescription = null,
+                                    modifier = Modifier.size(IconButtonDefaults.smallIconSize)
+                                )
+                            },
+                            trailingContent = {
+                                Switch(
+                                    checked = themeData.paletteColors,
+                                    onCheckedChange = null,
+                                    thumbContent = if (themeData.paletteColors) {
+                                        {
+                                            Icon(
+                                                imageVector = MoviesIcons.Check,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(SwitchDefaults.IconSize)
+                                            )
+                                        }
+                                    } else null
+                                )
+                            },
+                            supportingContent = {
+                                Text(
+                                    text = "Apply colors from Palette",
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                            },
+                            colors = ListItemDefaults.segmentedColors(
+                                containerColor = MaterialTheme.colorScheme.inversePrimary,
+                                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                supportingContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                leadingContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                                trailingContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        ) {
+                            Text(
+                                text = "Palette Colors",
+                                style = MaterialTheme.typography.titleLarge
+                            )
+                        }
+
+                        AnimatedVisibility(
+                            visible = themeData.paletteColors,
+                            enter = expandVertically() + fadeIn(),
+                            exit = shrinkVertically() + fadeOut()
+                        ) {
+                            SettingsPaletteColorsBox(
+                                paletteKey = themeData.paletteKey,
+                                seedColor = themeData.seedColor,
+                                onChange = onSetPalette
+                            )
+                        }
+                    }
+                }
+            }
+            if (appearanceCount > 0 && feedCount > 0) {
+                item {
+                    Spacer(
+                        modifier = Modifier.height(12.dp)
                     )
                 }
             }
@@ -244,7 +421,7 @@ private fun SettingsScreenContent(
                     var movieListDialog by remember { mutableStateOf(false) }
                     if (movieListDialog) {
                         SettingsDialog(
-                            icon = Icons.Outlined.LocalMovies,
+                            icon = MoviesIcons.LocalMovies,
                             title = "List",
                             items = MovieList.VALUES,
                             currentItem = movieList,
@@ -253,22 +430,17 @@ private fun SettingsScreenContent(
                         )
                     }
 
-                    ListItem(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(
-                                settingsListItemShape(
-                                    isFirst = !isThemeFeatureEnabled,
-                                    isLast = !isFeedViewFeatureEnabled &&
-                                        !isGithubFeatureEnabled &&
-                                        !isTelegramFeatureEnabled
-                                )
-                            )
-                            .clickable { movieListDialog = true },
-                        headlineContent = {
-                            Text(
-                                text = "List",
-                                style = MaterialTheme.typography.titleLarge
+                    SegmentedListItem(
+                        onClick = { movieListDialog = true },
+                        shapes = ListItemDefaults.segmentedShapes(
+                            index = 0,
+                            count = feedCount
+                        ),
+                        leadingContent = {
+                            Icon(
+                                imageVector = MoviesIcons.LocalMovies,
+                                contentDescription = null,
+                                modifier = Modifier.size(IconButtonDefaults.smallIconSize)
                             )
                         },
                         supportingContent = {
@@ -277,37 +449,34 @@ private fun SettingsScreenContent(
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         },
-                        leadingContent = {
-                            Icon(
-                                imageVector = Icons.Outlined.LocalMovies,
-                                contentDescription = null,
-                                modifier = Modifier.size(IconButtonDefaults.smallIconSize)
-                            )
-                        },
-                        colors = ListItemDefaults.colors(
-                            containerColor = MaterialTheme.colorScheme.inversePrimary
-                        ),
-                    )
+                        colors = ListItemDefaults.segmentedColors(
+                            containerColor = MaterialTheme.colorScheme.inversePrimary,
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            supportingContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            leadingContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            trailingContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    ) {
+                        Text(
+                            text = "List",
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                    }
                 }
             }
             if (isFeedViewFeatureEnabled) {
                 item {
-                    ListItem(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(
-                                settingsListItemShape(
-                                    isFirst = !isThemeFeatureEnabled &&
-                                        !isMovieListFeatureEnabled,
-                                    isLast = !isGithubFeatureEnabled &&
-                                        !isTelegramFeatureEnabled
-                                )
-                            ),
-
-                        headlineContent = {
-                            Text(
-                                text = "Appearance",
-                                style = MaterialTheme.typography.titleLarge
+                    SegmentedListItem(
+                        onClick = {},
+                        shapes = ListItemDefaults.segmentedShapes(
+                            index = feedVisible.take(1).count { it },
+                            count = feedCount
+                        ),
+                        leadingContent = {
+                            Icon(
+                                imageVector = MoviesIcons.GridView,
+                                contentDescription = null,
+                                modifier = Modifier.size(IconButtonDefaults.smallIconSize)
                             )
                         },
                         supportingContent = {
@@ -326,7 +495,7 @@ private fun SettingsScreenContent(
                                     shapes = ButtonGroupDefaults.connectedLeadingButtonShapes()
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Outlined.ViewAgenda,
+                                        imageVector = MoviesIcons.ViewAgenda,
                                         contentDescription = null,
                                         modifier = Modifier.size(IconButtonDefaults.smallIconSize)
                                     )
@@ -349,7 +518,7 @@ private fun SettingsScreenContent(
                                     shapes = ButtonGroupDefaults.connectedTrailingButtonShapes()
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Outlined.Dashboard,
+                                        imageVector = MoviesIcons.Dashboard,
                                         contentDescription = null,
                                         modifier = Modifier.size(IconButtonDefaults.smallIconSize)
                                     )
@@ -364,37 +533,40 @@ private fun SettingsScreenContent(
                                 }
                             }
                         },
-                        leadingContent = {
-                            Icon(
-                                imageVector = Icons.Outlined.GridView,
-                                contentDescription = null,
-                                modifier = Modifier.size(IconButtonDefaults.smallIconSize)
-                            )
-                        },
-                        colors = ListItemDefaults.colors(
-                            containerColor = MaterialTheme.colorScheme.inversePrimary
+                        colors = ListItemDefaults.segmentedColors(
+                            containerColor = MaterialTheme.colorScheme.inversePrimary,
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            supportingContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            leadingContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                         )
+                    ) {
+                        Text(
+                            text = "Appearance",
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                    }
+                }
+            }
+            if (appearanceCount + feedCount > 0 && (aboutCount > 0 || isAboutFeatureEnabled)) {
+                item {
+                    Spacer(
+                        modifier = Modifier.height(12.dp)
                     )
                 }
             }
             if (isGithubFeatureEnabled) {
                 item {
-                    ListItem(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(
-                                settingsListItemShape(
-                                    isFirst = !isThemeFeatureEnabled &&
-                                        !isMovieListFeatureEnabled &&
-                                        !isFeedViewFeatureEnabled,
-                                    isLast = !isTelegramFeatureEnabled
-                                )
-                            )
-                            .clickable(onClick = onGithubClick),
-                        headlineContent = {
-                            Text(
-                                text = "GitHub",
-                                style = MaterialTheme.typography.titleLarge
+                    SegmentedListItem(
+                        onClick = onGithubClick,
+                        shapes = ListItemDefaults.segmentedShapes(
+                            index = 0,
+                            count = aboutCount
+                        ),
+                        leadingContent = {
+                            Icon(
+                                imageVector = MoviesIcons.Github,
+                                contentDescription = null,
+                                modifier = Modifier.size(IconButtonDefaults.smallIconSize)
                             )
                         },
                         supportingContent = {
@@ -403,38 +575,34 @@ private fun SettingsScreenContent(
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         },
-                        leadingContent = {
-                            Icon(
-                                imageVector = Icons.Outlined.Code,
-                                contentDescription = null,
-                                modifier = Modifier.size(IconButtonDefaults.smallIconSize)
-                            )
-                        },
-                        colors = ListItemDefaults.colors(
-                            containerColor = MaterialTheme.colorScheme.inversePrimary
+                        colors = ListItemDefaults.segmentedColors(
+                            containerColor = MaterialTheme.colorScheme.inversePrimary,
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            supportingContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            leadingContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            trailingContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                         )
-                    )
+                    ) {
+                        Text(
+                            text = "GitHub",
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                    }
                 }
             }
             if (isTelegramFeatureEnabled) {
                 item {
-                    ListItem(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clip(
-                                settingsListItemShape(
-                                    isFirst = !isThemeFeatureEnabled &&
-                                        !isMovieListFeatureEnabled &&
-                                        !isFeedViewFeatureEnabled &&
-                                        !isGithubFeatureEnabled,
-                                    isLast = true
-                                )
-                            )
-                            .clickable(onClick = onTelegramClick),
-                        headlineContent = {
-                            Text(
-                                text = "Telegram",
-                                style = MaterialTheme.typography.titleLarge
+                    SegmentedListItem(
+                        onClick = onTelegramClick,
+                        shapes = ListItemDefaults.segmentedShapes(
+                            index = aboutVisible.take(1).count { it },
+                            count = aboutCount
+                        ),
+                        leadingContent = {
+                            Icon(
+                                imageVector = MoviesIcons.Telegram,
+                                contentDescription = null,
+                                modifier = Modifier.size(IconButtonDefaults.smallIconSize)
                             )
                         },
                         supportingContent = {
@@ -443,17 +611,19 @@ private fun SettingsScreenContent(
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         },
-                        leadingContent = {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Outlined.Send,
-                                contentDescription = null,
-                                modifier = Modifier.size(IconButtonDefaults.smallIconSize)
-                            )
-                        },
-                        colors = ListItemDefaults.colors(
-                            containerColor = MaterialTheme.colorScheme.inversePrimary
+                        colors = ListItemDefaults.segmentedColors(
+                            containerColor = MaterialTheme.colorScheme.inversePrimary,
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            supportingContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            leadingContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            trailingContentColor = MaterialTheme.colorScheme.onPrimaryContainer
                         )
-                    )
+                    ) {
+                        Text(
+                            text = "Telegram",
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                    }
                 }
             }
             if (isAboutFeatureEnabled) {
