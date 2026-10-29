@@ -35,6 +35,7 @@ import org.michaelbel.movies.domain.usecase.NotificationExpireTimeUseCase
 import org.michaelbel.movies.domain.usecase.PagingKeyPageUseCase
 import org.michaelbel.movies.domain.usecase.PagingKeyPrevPageUseCase
 import org.michaelbel.movies.domain.usecase.PagingKeyTotalPagesUseCase
+import org.michaelbel.movies.domain.usecase.ProviderFlowUseCase
 import org.michaelbel.movies.domain.usecase.RemoveMovieUseCase
 import org.michaelbel.movies.domain.usecase.RemoveMoviesUseCase
 import org.michaelbel.movies.domain.usecase.RemovePagingKeyUseCase
@@ -50,6 +51,7 @@ import org.michaelbel.movies.domain.usecase.SetBiometricEnabledUseCase
 import org.michaelbel.movies.domain.usecase.SetDynamicColorsUseCase
 import org.michaelbel.movies.domain.usecase.SetPaletteColorsUseCase
 import org.michaelbel.movies.domain.usecase.SetPaletteKeyUseCase
+import org.michaelbel.movies.domain.usecase.SetProviderUseCase
 import org.michaelbel.movies.domain.usecase.SetScreenshotBlockEnabledUseCase
 import org.michaelbel.movies.domain.usecase.SetSeedColorUseCase
 import org.michaelbel.movies.domain.usecase.SuggestionPojosFlowUseCase
@@ -112,6 +114,7 @@ val useCaseKoinModule = module {
     singleOf(::PagingKeyPageUseCase)
     singleOf(::PagingKeyPrevPageUseCase)
     singleOf(::PagingKeyTotalPagesUseCase)
+    singleOf(::ProviderFlowUseCase)
     singleOf(::RemoveMovieUseCase)
     singleOf(::RemoveMoviesUseCase)
     singleOf(::RemovePagingKeyUseCase)
@@ -127,6 +130,7 @@ val useCaseKoinModule = module {
     singleOf(::SetDynamicColorsUseCase)
     singleOf(::SetPaletteColorsUseCase)
     singleOf(::SetPaletteKeyUseCase)
+    singleOf(::SetProviderUseCase)
     singleOf(::SetScreenshotBlockEnabledUseCase)
     singleOf(::SetSeedColorUseCase)
     singleOf(::ThemeDataFlowUseCase)

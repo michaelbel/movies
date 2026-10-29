@@ -56,6 +56,7 @@ class MoviesPreferences(
         data object PreferenceAccountExpireTimeKey: PreferenceKey<Long>(longPreferencesKey("account_expire_time"))
         data object PreferenceNotificationExpireTimeKey: PreferenceKey<Long>(longPreferencesKey("notification_expire_time"))
         data object PreferenceBiometricKey: PreferenceKey<Boolean>(booleanPreferencesKey("biometric"))
+        data object PreferenceProviderKey: PreferenceKey<String>(stringPreferencesKey("provider"))
         data object PreferencePaletteKey: PreferenceKey<Int>(intPreferencesKey("palette"))
         data object PreferenceSeedColorKey: PreferenceKey<Int>(intPreferencesKey("seed_color"))
         data object PreferenceScreenshotBlockKey: PreferenceKey<Boolean>(booleanPreferencesKey("screenshot_block"))

@@ -18,6 +18,7 @@ class ResetSettingsUseCase(
             MoviesPreferences.PreferenceKey.PreferencePaletteKey,
             MoviesPreferences.PreferenceKey.PreferenceSeedColorKey,
             MoviesPreferences.PreferenceKey.PreferenceBiometricKey,
+            MoviesPreferences.PreferenceKey.PreferenceProviderKey,
             MoviesPreferences.PreferenceKey.PreferenceScreenshotBlockKey
         )
     }
