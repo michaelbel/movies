@@ -48,6 +48,7 @@ import org.michaelbel.movies.domain.usecase.CreateSessionUseCase
 import org.michaelbel.movies.domain.usecase.ThemeDataFlowUseCase
 import org.michaelbel.movies.domain.usecase.UpdateFavoriteUseCase
 import org.michaelbel.movies.fave.di.faveKoinModule
+import org.michaelbel.movies.feed.di.feedKoinModule
 import org.michaelbel.movies.interactor.BrowserInteractor
 import org.michaelbel.movies.interactor.UiInteractor
 import org.michaelbel.movies.interactor.di.interactorKoinModule
@@ -66,6 +67,7 @@ import org.michaelbel.movies.ui.navigation.AppRoute
 import org.michaelbel.movies.ui.navigation.AuthDestination
 import org.michaelbel.movies.ui.navigation.DetailsDestination
 import org.michaelbel.movies.ui.navigation.MainNavigator
+import org.michaelbel.movies.ui.navigation.SettingsDestination
 import org.michaelbel.movies.ui.pending.PendingAction
 import org.michaelbel.movies.ui.pending.PendingActionStore
 import org.michaelbel.movies.webui.theme.WebTheme
@@ -82,6 +84,7 @@ fun MainScreen() {
                 authKoinModule,
                 detailsKoinModule,
                 faveKoinModule,
+                feedKoinModule,
                 settingsKoinModule
             )
         }
@@ -137,6 +140,9 @@ private fun MainScreenContent(
                             pagingKey = destination.movieList.orEmpty(),
                             movieId = destination.movieId
                         )
+                    }
+                    destination == SettingsDestination -> {
+                        tab = MainWebDestination.Settings
                     }
                     (destination == AuthDestination || destination == AccountDestination) && dialogs.lastOrNull() != destination -> {
                         dialogs.add(destination)
@@ -220,9 +226,6 @@ private fun MainScreenContent(
                             tab = destination
                         }
                     }
-                },
-                onMovieClick = { pagingKey, movieId ->
-                    scope.launch { MainNavigator.forward(DetailsDestination(pagingKey, movieId)) }
                 },
                 accountPojo = accountPojo,
                 onAccountClick = {

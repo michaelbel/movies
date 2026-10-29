@@ -40,15 +40,14 @@ import org.michaelbel.movies.fave.FaveScreen
 import org.michaelbel.movies.fave.event.FaveEvent
 import org.michaelbel.movies.fave.event.FaveEventManager
 import org.michaelbel.movies.feed.FeedScreen
+import org.michaelbel.movies.feed.event.FeedEvent
+import org.michaelbel.movies.feed.event.FeedEventManager
 import org.michaelbel.movies.interactor.UiInteractor
 import org.michaelbel.movies.main.MainWebDestination
 import org.michaelbel.movies.main.mainWebWindowWidth
-import org.michaelbel.movies.main.tabs.event.MainWebTabsEventManager
 import org.michaelbel.movies.persistence.database.entity.pojo.AccountPojo
 import org.michaelbel.movies.persistence.database.ktx.isNotEmpty
 import org.michaelbel.movies.persistence.database.ktx.letters
-import org.michaelbel.movies.persistence.database.typealiases.MovieId
-import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 import org.michaelbel.movies.settings.SettingsScreen
 import org.michaelbel.movies.settings.event.SettingsEvent
 import org.michaelbel.movies.settings.event.SettingsEventManager
@@ -59,7 +58,6 @@ import org.michaelbel.movies.ui.icons.MoviesIcons
 fun MainWebTabsScreen(
     currentDestination: MainWebDestination,
     onDestinationChange: (MainWebDestination) -> Unit,
-    onMovieClick: (PagingKey, MovieId) -> Unit,
     accountPojo: AccountPojo,
     onAccountClick: () -> Unit,
     uiInteractor: UiInteractor = koinInject()
@@ -71,7 +69,11 @@ fun MainWebTabsScreen(
     val onTabClick: (MainWebDestination) -> Unit = { destination ->
         when (destination) {
             currentDestination -> {
-                MainWebTabsEventManager.reselect(destination)
+                if (destination == MainWebDestination.Feed) {
+                    scope.launch {
+                        FeedEventManager.push(FeedEvent.ReselectFeed)
+                    }
+                }
                 if (destination == MainWebDestination.Fave) {
                     scope.launch {
                         FaveEventManager.push(FaveEvent.ReselectFave)
@@ -324,7 +326,7 @@ Surface(
                 navigationSuiteType = NavigationSuiteType.WideNavigationRailExpanded
             ) {
                 when (currentDestination) {
-                    MainWebDestination.Feed -> FeedScreen(onMovieClick = onMovieClick)
+                    MainWebDestination.Feed -> FeedScreen()
                     MainWebDestination.Fave -> FaveScreen()
                     MainWebDestination.Settings -> SettingsScreen()
                     is MainWebDestination.Details -> Unit
@@ -415,9 +417,7 @@ Surface(
             ) {
                 when (currentDestination) {
                     is MainWebDestination.Feed -> {
-                        FeedScreen(
-                            onMovieClick = onMovieClick
-                        )
+                        FeedScreen()
                     }
                     is MainWebDestination.Fave -> {
                         FaveScreen()
@@ -508,7 +508,7 @@ Surface(
                 }
             ) {
                 when (currentDestination) {
-                    MainWebDestination.Feed -> FeedScreen(onMovieClick = onMovieClick)
+                    MainWebDestination.Feed -> FeedScreen()
                     MainWebDestination.Fave -> FaveScreen()
                     MainWebDestination.Settings -> SettingsScreen()
                     is MainWebDestination.Details -> Unit

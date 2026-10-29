@@ -100,8 +100,8 @@ kotlin {
             implementation(projects.feature.auth)
             implementation(projects.feature.details)
             implementation(projects.feature.fave)
+            implementation(projects.feature.feed)
             implementation(projects.feature.settings)
-            implementation(libs.bundles.jetbrains.compose.material.icons.common)
         }
     }
 }
