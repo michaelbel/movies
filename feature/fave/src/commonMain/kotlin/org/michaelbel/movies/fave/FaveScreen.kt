@@ -11,18 +11,24 @@ import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.plus
 import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
+import kotlinx.coroutines.launch
 import org.koin.compose.viewmodel.koinViewModel
 import org.michaelbel.movies.common.exceptions.PageEmptyException
+import org.michaelbel.movies.fave.event.FaveEvent
+import org.michaelbel.movies.fave.event.FaveEventManager
 import org.michaelbel.movies.fave.intent.FaveIntent
+import org.michaelbel.movies.ui.ObserveAsEvents
 import org.michaelbel.movies.ui.collectAsStateCommon
 import org.michaelbel.movies.ui.compose.page.FeedEmpty
 import org.michaelbel.movies.ui.compose.page.PageContent
@@ -40,6 +46,27 @@ fun FaveScreen(
 ) {
     val state by viewModel.stateFlow.collectAsStateCommon()
     val pagingItems = viewModel.pagingDataFlow.collectAsLazyPagingItems()
+    val scope = rememberCoroutineScope()
+    val lazyStaggeredGridState = rememberLazyStaggeredGridState()
+
+    ObserveAsEvents(
+        flow = viewModel.eventFlow,
+        key1 = lazyStaggeredGridState
+    ) { event ->
+        when (event) {
+            is FaveEvent.ScrollToTop -> {
+                scope.launch { lazyStaggeredGridState.animateScrollToItem(0) }
+            }
+            else -> Unit
+        }
+    }
+
+    ObserveAsEvents(flow = FaveEventManager.eventFlow) { event ->
+        when (event) {
+            FaveEvent.ReselectFave -> viewModel.dispatch(FaveIntent.ScrollToTop)
+            else -> Unit
+        }
+    }
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
@@ -83,6 +110,7 @@ fun FaveScreen(
                 PageContent(
                     feedView = state.feedView,
                     pagingItems = pagingItems,
+                    lazyStaggeredGridState = lazyStaggeredGridState,
                     onMovieClick = { pagingKey, movieId ->
                         viewModel.dispatch(FaveIntent.MovieDetailsClick(pagingKey, movieId))
                     },

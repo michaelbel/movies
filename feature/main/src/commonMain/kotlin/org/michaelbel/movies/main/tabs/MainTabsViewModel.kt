@@ -9,6 +9,8 @@ import org.michaelbel.movies.domain.usecase.AccountPojoFlowUseCase
 import org.michaelbel.movies.domain.usecase.CreateSessionUseCase
 import org.michaelbel.movies.domain.usecase.CreateSessionUseCase.CreateSessionException
 import org.michaelbel.movies.domain.usecase.UpdateFavoriteUseCase
+import org.michaelbel.movies.fave.event.FaveEvent
+import org.michaelbel.movies.fave.event.FaveEventManager
 import org.michaelbel.movies.feed.event.FeedEvent
 import org.michaelbel.movies.feed.event.FeedEventManager
 import org.michaelbel.movies.interactor.Interactor
@@ -102,6 +104,7 @@ class MainTabsViewModel(
                     when {
                         stateFlow.value.isAuthorized -> {
                             PendingActionStore.clear()
+                            launch { FaveEventManager.push(FaveEvent.ReselectFave) }
                             MainTabsEventManager.push(MainEvent.OpenFave)
                         }
                         else -> {
