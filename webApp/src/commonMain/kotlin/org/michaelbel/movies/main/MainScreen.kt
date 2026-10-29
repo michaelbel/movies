@@ -13,6 +13,7 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -39,7 +40,8 @@ import org.michaelbel.movies.account.di.accountKoinModule
 import org.michaelbel.movies.auth.AuthScreen
 import org.michaelbel.movies.auth.di.authKoinModule
 import org.michaelbel.movies.common.ThemeData
-import org.michaelbel.movies.detailsweb.DetailsWebScreen
+import org.michaelbel.movies.details.DetailsScreen
+import org.michaelbel.movies.details.di.detailsKoinModule
 import org.michaelbel.movies.domain.usecase.AccountDetailsUseCase
 import org.michaelbel.movies.domain.usecase.AccountPojoFlowUseCase
 import org.michaelbel.movies.domain.usecase.CreateSessionUseCase
@@ -78,6 +80,7 @@ fun MainScreen() {
                 flavorServiceKtorModule,
                 accountKoinModule,
                 authKoinModule,
+                detailsKoinModule,
                 faveKoinModule,
                 settingsKoinModule
             )
@@ -236,26 +239,31 @@ private fun MainScreenContent(
 
             val currentDetails = details
             if (currentDetails != null) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .pointerInput(Unit) {}
-                ) {
-                    DetailsWebScreen(
-                        pagingKey = currentDetails.pagingKey,
-                        movieId = currentDetails.movieId,
-                        onBackClick = { scope.launch { MainNavigator.back() } },
-                        onAuthRequired = {
-                            PendingActionStore.set(PendingAction.AddFavorite(currentDetails.movieId))
-                            scope.launch { MainNavigator.forward(AuthDestination) }
-                        },
-                        onFavoriteError = { message ->
-                            scope.launch {
-                                snackbarHostState.currentSnackbarData?.dismiss()
-                                snackbarHostState.showSnackbar(message = message)
-                            }
+                key(currentDetails) {
+                    val viewModelStoreOwner = remember {
+                        object: ViewModelStoreOwner {
+                            override val viewModelStore = ViewModelStore()
                         }
-                    )
+                    }
+
+                    DisposableEffect(viewModelStoreOwner) {
+                        onDispose { viewModelStoreOwner.viewModelStore.clear() }
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .pointerInput(Unit) {}
+                    ) {
+                        CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {
+                            DetailsScreen(
+                                destination = DetailsDestination(
+                                    movieList = currentDetails.pagingKey,
+                                    movieId = currentDetails.movieId
+                                )
+                            )
+                        }
+                    }
                 }
             }
 
