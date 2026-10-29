@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import org.michaelbel.movies.feed.FeedScreen
 import org.michaelbel.movies.main.MainWebDestination
 import org.michaelbel.movies.main.mainWebWindowWidth
+import org.michaelbel.movies.main.tabs.event.MainWebTabsEventManager
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
 import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 import org.michaelbel.movies.settingsweb.SettingsScreen
@@ -48,6 +49,16 @@ fun MainWebTabsScreen(
     onDestinationChange: (MainWebDestination) -> Unit,
     onMovieClick: (PagingKey, MovieId) -> Unit
 ) {
+    val onTabClick: (MainWebDestination) -> Unit = { destination ->
+        when (destination) {
+            currentDestination -> {
+                MainWebTabsEventManager.reselect(destination)
+            }
+            else -> {
+                onDestinationChange(destination)
+            }
+        }
+    }
     val toggleButtonColors = ToggleButtonDefaults.colors()
     val navigationRailItemColors = NavigationRailItemDefaults.colors(
         selectedIconColor = toggleButtonColors.checkedContentColor,
@@ -81,7 +92,7 @@ fun MainWebTabsScreen(
                             )
                         ) {
                             Surface(
-                                onClick = { onDestinationChange(MainWebDestination.Feed) },
+                                onClick = { onTabClick(MainWebDestination.Feed) },
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(56.dp),
@@ -129,7 +140,7 @@ fun MainWebTabsScreen(
                             }
 
                             Surface(
-                                onClick = { onDestinationChange(MainWebDestination.Settings) },
+                                onClick = { onTabClick(MainWebDestination.Settings) },
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .height(56.dp),
@@ -192,7 +203,7 @@ fun MainWebTabsScreen(
                 navigationItems = {
                     NavigationRailItem(
                         selected = currentDestination == MainWebDestination.Feed,
-                        onClick = { onDestinationChange(MainWebDestination.Feed) },
+                        onClick = { onTabClick(MainWebDestination.Feed) },
                         icon = {
                             Icon(
                                 imageVector = MoviesIcons.GridView,
@@ -204,7 +215,7 @@ fun MainWebTabsScreen(
 
                     NavigationRailItem(
                         selected = currentDestination == MainWebDestination.Settings,
-                        onClick = { onDestinationChange(MainWebDestination.Settings) },
+                        onClick = { onTabClick(MainWebDestination.Settings) },
                         icon = {
                             Icon(
                                 imageVector = MoviesIcons.Settings,
@@ -242,7 +253,7 @@ fun MainWebTabsScreen(
                 navigationSuiteItems = {
                     item(
                         selected = currentDestination == MainWebDestination.Feed,
-                        onClick = { onDestinationChange(MainWebDestination.Feed) },
+                        onClick = { onTabClick(MainWebDestination.Feed) },
                         icon = {
                             Icon(
                                 imageVector = MoviesIcons.GridView,
@@ -257,7 +268,7 @@ fun MainWebTabsScreen(
                     )
                     item(
                         selected = currentDestination == MainWebDestination.Settings,
-                        onClick = { onDestinationChange(MainWebDestination.Settings) },
+                        onClick = { onTabClick(MainWebDestination.Settings) },
                         icon = {
                             Icon(
                                 imageVector = MoviesIcons.Settings,

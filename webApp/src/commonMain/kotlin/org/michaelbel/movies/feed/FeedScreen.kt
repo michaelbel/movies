@@ -3,7 +3,9 @@ package org.michaelbel.movies.feed
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -16,6 +18,8 @@ import org.michaelbel.movies.domain.usecase.CurrentFeedViewFlowUseCase
 import org.michaelbel.movies.domain.usecase.MoviesPagingDataUseCase
 import org.michaelbel.movies.feed.ktx.toUserMessage
 import org.michaelbel.movies.interactor.LocaleInteractor
+import org.michaelbel.movies.main.MainWebDestination
+import org.michaelbel.movies.main.tabs.event.MainWebTabsEventManager
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
 import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 import org.michaelbel.movies.ui.compose.page.PageContent
@@ -37,6 +41,19 @@ fun FeedScreen(
     val movies = remember(moviesPagingDataUseCase, localeInteractor) {
         moviesPagingDataUseCase(MoviesPagingDataUseCase.Params(MovieList.NowPlaying(), localeInteractor.language))
     }.collectAsLazyPagingItems()
+
+    val lazyStaggeredGridState = rememberLazyStaggeredGridState()
+
+    LaunchedEffect(Unit) {
+        MainWebTabsEventManager.reselectFlow.collect { destination ->
+            when (destination) {
+                MainWebDestination.Feed -> {
+                    lazyStaggeredGridState.animateScrollToItem(0)
+                }
+                else -> Unit
+            }
+        }
+    }
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -60,6 +77,7 @@ fun FeedScreen(
                     movies = movies,
                     feedView = feedView,
                     onMovieClick = onMovieClick,
+                    lazyStaggeredGridState = lazyStaggeredGridState,
                     modifier = Modifier.fillMaxSize()
                 )
             }

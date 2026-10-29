@@ -52,6 +52,7 @@ import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.material3.rememberTooltipState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -83,6 +84,8 @@ import org.michaelbel.movies.domain.usecase.SetSeedColorUseCase
 import org.michaelbel.movies.domain.usecase.ThemeDataFlowUseCase
 import org.michaelbel.movies.interactor.AboutInteractor
 import org.michaelbel.movies.interactor.UiInteractor
+import org.michaelbel.movies.main.MainWebDestination
+import org.michaelbel.movies.main.tabs.event.MainWebTabsEventManager
 import org.michaelbel.movies.settingsweb.ktx.stringText
 import org.michaelbel.movies.settingsweb.ui.AboutItem
 import org.michaelbel.movies.settingsweb.ui.SettingsDialog
@@ -195,6 +198,17 @@ private fun SettingsScreenContent(
     )
     val listState = rememberLazyListState()
     val scope = rememberCoroutineScope()
+
+    LaunchedEffect(Unit) {
+        MainWebTabsEventManager.reselectFlow.collect { destination ->
+            when (destination) {
+                MainWebDestination.Settings -> {
+                    listState.animateScrollToItem(0)
+                }
+                else -> Unit
+            }
+        }
+    }
 
     Scaffold(
         modifier = modifier
