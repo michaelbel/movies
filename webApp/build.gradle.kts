@@ -42,7 +42,6 @@ kotlin {
             implementation(projects.shared.common)
             implementation(projects.shared.domain)
             implementation(projects.shared.persistence)
-            implementation(projects.shared.platformServices.foss)
             implementation(libs.bundles.jetbrains.compose.animation.common)
             implementation(libs.bundles.jetbrains.compose.components.common)
             implementation(libs.bundles.jetbrains.compose.foundation.common)
