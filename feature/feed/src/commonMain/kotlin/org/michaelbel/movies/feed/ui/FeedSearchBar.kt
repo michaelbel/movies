@@ -393,15 +393,6 @@ fun FeedSearchBar(
                     ) {
                         item {
                             ListItem(
-                                headlineContent = {
-                                    Text(
-                                        text = stringResource(MoviesStrings.search_recent),
-                                        modifier = Modifier.padding(start = 8.dp),
-                                        style = MaterialTheme.typography.bodyMedium.copy(
-                                            textAlign = TextAlign.Start
-                                        )
-                                    )
-                                },
                                 trailingContent = {
                                     TextButton(
                                         modifier = Modifier.pointerHoverIcon(PointerIcon.Hand),
@@ -420,7 +411,15 @@ fun FeedSearchBar(
                                     containerColor = Color.Transparent,
                                     headlineColor = MaterialTheme.colorScheme.onPrimaryContainer,
                                 )
-                            )
+                            ) {
+                                Text(
+                                    text = stringResource(MoviesStrings.search_recent),
+                                    modifier = Modifier.padding(start = 8.dp),
+                                    style = MaterialTheme.typography.bodyMedium.copy(
+                                        textAlign = TextAlign.Start
+                                    )
+                                )
+                            }
                         }
                         itemsIndexed(
                             items = searchHistoryMovies,
@@ -562,20 +561,19 @@ fun FeedSearchBar(
                     ) {
                         item {
                             ListItem(
-                                headlineContent = {
-                                    Text(
-                                        text = stringResource(MoviesStrings.search_suggestions),
-                                        modifier = Modifier.padding(start = 8.dp),
-                                        style = MaterialTheme.typography.bodyMedium.copy(
-                                            textAlign = TextAlign.Start
-                                        )
-                                    )
-                                },
                                 colors = ListItemDefaults.colors(
                                     containerColor = Color.Transparent,
                                     headlineColor = MaterialTheme.colorScheme.onPrimaryContainer
                                 )
-                            )
+                            ) {
+                                Text(
+                                    text = stringResource(MoviesStrings.search_suggestions),
+                                    modifier = Modifier.padding(start = 8.dp),
+                                    style = MaterialTheme.typography.bodyMedium.copy(
+                                        textAlign = TextAlign.Start
+                                    )
+                                )
+                            }
                         }
                         itemsIndexed(
                             items = suggestions
