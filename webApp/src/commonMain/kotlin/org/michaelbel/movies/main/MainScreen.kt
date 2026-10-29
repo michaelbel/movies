@@ -13,6 +13,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -21,6 +22,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.Dp
 import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.launch
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.dsl.koinConfiguration
@@ -32,6 +34,7 @@ import org.michaelbel.movies.domain.usecase.AccountDetailsUseCase
 import org.michaelbel.movies.domain.usecase.AccountPojoFlowUseCase
 import org.michaelbel.movies.domain.usecase.CreateSessionUseCase
 import org.michaelbel.movies.domain.usecase.ThemeDataFlowUseCase
+import org.michaelbel.movies.domain.usecase.UpdateFavoriteUseCase
 import org.michaelbel.movies.interactor.BrowserInteractor
 import org.michaelbel.movies.interactor.UiInteractor
 import org.michaelbel.movies.interactor.di.interactorKoinModule
@@ -60,7 +63,8 @@ private fun MainScreenContent(
     browserInteractor: BrowserInteractor = koinInject(),
     accountPojoFlowUseCase: AccountPojoFlowUseCase = koinInject(),
     accountDetailsUseCase: AccountDetailsUseCase = koinInject(),
-    createSessionUseCase: CreateSessionUseCase = koinInject()
+    createSessionUseCase: CreateSessionUseCase = koinInject(),
+    updateFavoriteUseCase: UpdateFavoriteUseCase = koinInject()
 ) {
     val themeData by remember(themeDataFlowUseCase, uiInteractor) {
         themeDataFlowUseCase(uiInteractor.defaultDynamicColorsEnabled)
@@ -73,8 +77,10 @@ private fun MainScreenContent(
     var details by remember { mutableStateOf<MainWebDestination.Details?>(null) }
     var isAuthDialogVisible by remember { mutableStateOf(false) }
     var isFavePending by remember { mutableStateOf(false) }
+    var pendingFavoriteMovieId by remember { mutableStateOf<MovieId?>(null) }
     var isAccountDialogVisible by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
     val isAuthorized = accountPojo.isNotEmpty
 
@@ -118,6 +124,7 @@ private fun MainScreenContent(
                 onDestinationChange = { destination ->
                     when {
                         destination == MainWebDestination.Fave && !isAuthorized -> {
+                            pendingFavoriteMovieId = null
                             isFavePending = true
                             isAuthDialogVisible = true
                         }
@@ -151,7 +158,18 @@ private fun MainScreenContent(
                     DetailsWebScreen(
                         pagingKey = currentDetails.pagingKey,
                         movieId = currentDetails.movieId,
-                        onBackClick = { details = null }
+                        onBackClick = { details = null },
+                        onAuthRequired = {
+                            isFavePending = false
+                            pendingFavoriteMovieId = currentDetails.movieId
+                            isAuthDialogVisible = true
+                        },
+                        onFavoriteError = { message ->
+                            scope.launch {
+                                snackbarHostState.currentSnackbarData?.dismiss()
+                                snackbarHostState.showSnackbar(message = message)
+                            }
+                        }
                     )
                 }
             }
@@ -166,10 +184,28 @@ private fun MainScreenContent(
                     onDismissRequest = {
                         isAuthDialogVisible = false
                         isFavePending = false
+                        pendingFavoriteMovieId = null
                     },
                     onAuthorized = {
-                        if (isFavePending) {
-                            tab = MainWebDestination.Fave
+                        val favoriteMovieId = pendingFavoriteMovieId
+                        when {
+                            isFavePending -> {
+                                tab = MainWebDestination.Fave
+                            }
+                            favoriteMovieId != null -> {
+                                val params = UpdateFavoriteUseCase.Params(
+                                    movieId = favoriteMovieId,
+                                    favorite = true
+                                )
+                                scope.launch {
+                                    updateFavoriteUseCase(params).onFailure { throwable ->
+                                        snackbarHostState.currentSnackbarData?.dismiss()
+                                        snackbarHostState.showSnackbar(
+                                            message = throwable.message.orEmpty().ifBlank { "Failed to update favorites." }
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
                 )

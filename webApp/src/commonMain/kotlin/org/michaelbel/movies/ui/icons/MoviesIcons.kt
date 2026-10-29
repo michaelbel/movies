@@ -1,6 +1,7 @@
 package org.michaelbel.movies.ui.icons
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
@@ -22,6 +23,7 @@ object MoviesIcons {
     val Close = Icons.Rounded.Close
     val Dashboard = Icons.Rounded.Dashboard
     val Favorite = Icons.Rounded.Favorite
+    val FavoriteBorder = Icons.Outlined.FavoriteBorder
     val GridView = Icons.Rounded.GridView
     val MovieFilter = Icons.Rounded.MovieFilter
     val LocalMovies = Icons.Rounded.LocalMovies
