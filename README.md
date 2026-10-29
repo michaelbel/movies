@@ -88,6 +88,7 @@ Choose a run configuration for an appropriate target in Android Studio and run i
     - For Android, run `androidApp` configuration. 
     - For iOS, run `iosApp` configuration.
     - For Desktop, run `desktopApp` configuration.
+    - For Web (Kotlin/Wasm), run `webApp [wasm]` configuration.
 
 - Android Flavors
     - Android with Google Mobile Services:
@@ -107,6 +108,20 @@ Choose a run configuration for an appropriate target in Android Studio and run i
     ```gradle
       ./gradlew :desktopApp:run
     ```
+
+- Web Run
+    - Kotlin/JS:
+      ```gradle
+      ./gradlew :webApp:jsBrowserDevelopmentRun
+      ```
+    - Kotlin/Wasm:
+      ```gradle
+      ./gradlew :webApp:wasmJsBrowserDevelopmentRun
+      ```
+    - Wait for the `Project is running at ... http://localhost:8080/` line in the terminal, then open the page in a browser. The server stays up while the command is running.
+    - Add `-t` to rebuild on Kotlin file changes (continuous build); then refresh the page.
+    - Set `TMDB_API_KEY` as described in [Requirements](#requirements), otherwise the app shows the "TMDB API key is missing" message.
+    - The first load of the development build can take a while.
 
 
 ## Download

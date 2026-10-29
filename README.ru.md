@@ -88,6 +88,7 @@ TMDB_API_KEY=your_own_tmdb_api_key
     - Для Android, запусти конфигурацию `androidApp`.
     - Для iOS, запусти конфигурацию `iosApp`.
     - Для Desktop, запусти конфигурацию `desktopApp`.
+    - Для Web (Kotlin/Wasm), запусти конфигурацию `webApp [wasm]`.
 
 - Android Flavors
     - Android с Google Mobile Services:
@@ -107,6 +108,20 @@ TMDB_API_KEY=your_own_tmdb_api_key
     ```gradle
       ./gradlew :desktopApp:run
     ```
+
+- Web Run
+    - Kotlin/JS:
+      ```gradle
+      ./gradlew :webApp:jsBrowserDevelopmentRun
+      ```
+    - Kotlin/Wasm:
+      ```gradle
+      ./gradlew :webApp:wasmJsBrowserDevelopmentRun
+      ```
+    - Дождись в терминале строки `Project is running at ... http://localhost:8080/`, затем открой страницу в браузере. Сервер работает, пока команда запущена.
+    - Добавь `-t`, чтобы проект пересобирался при изменении Kotlin-файлов (continuous build); после этого достаточно обновить страницу.
+    - Укажи `TMDB_API_KEY`, как описано в разделе [Требования](#требования), иначе приложение покажет сообщение "TMDB API key is missing".
+    - Первая загрузка dev-сборки может занять время.
 
 
 ## Загрузить
