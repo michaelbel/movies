@@ -29,17 +29,16 @@ val AccountPojo?.orEmpty: AccountPojo
     get() = this ?: AccountPojo.Empty
 
 val AccountPojo.letters: String
-    get() = when {
-        name.isNotEmpty() -> {
-            val words = name.split(SPACE_UNICODE)
-            val letters = words.subList(0, LETTERS_LIMIT).map { word ->
-                word.substring(0, FIRST_LETTER_INDEX)
-            }
-            letters.joinToString(
-                separator = "",
-                limit = LETTERS_LIMIT
-            )
+    get() {
+        val nameLetters = name
+            .split(SPACE_UNICODE)
+            .filter { word -> word.isNotEmpty() }
+            .take(LETTERS_LIMIT)
+            .joinToString(separator = "") { word -> word.substring(0, FIRST_LETTER_INDEX) }
+
+        return when {
+            nameLetters.isNotEmpty() -> nameLetters
+            username.isNotEmpty() -> username.substring(0, FIRST_LETTER_INDEX)
+            else -> ACCOUNT_DEFAULT_LETTER
         }
-        username.isNotEmpty() -> username.substring(0, FIRST_LETTER_INDEX)
-        else -> ACCOUNT_DEFAULT_LETTER
     }
