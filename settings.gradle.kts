@@ -70,14 +70,10 @@ include(
     ":feature:auth",
     ":feature:debug",
     ":feature:details",
-    ":feature-web:details",
     ":feature:fave",
     ":feature:feed",
-    ":feature-web:feed",
     ":feature:gallery",
     ":feature:main",
-    ":feature-web:main",
     ":feature:notify",
-    ":feature:settings",
-    ":feature-web:settings"
+    ":feature:settings"
 )

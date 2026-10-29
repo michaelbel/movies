@@ -38,13 +38,19 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation(projects.featureWeb.main)
+            implementation(projects.shared.common)
+            implementation(projects.shared.domain)
+            implementation(projects.sharedWeb.interactor)
+            implementation(projects.sharedWeb.ui)
+            implementation(libs.bundles.jetbrains.compose.animation.common)
             implementation(libs.bundles.jetbrains.compose.components.common)
             implementation(libs.bundles.jetbrains.compose.foundation.common)
             implementation(libs.bundles.jetbrains.compose.runtime.common)
             implementation(libs.bundles.jetbrains.compose.material3.common)
             implementation(libs.bundles.jetbrains.compose.material.icons.common)
             implementation(libs.bundles.jetbrains.compose.ui.common)
+            implementation(libs.bundles.coil.common)
+            implementation(libs.bundles.koin.common)
         }
     }
 }
