@@ -5,6 +5,7 @@ import androidx.compose.material.icons.rounded.AccountCircle
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.Dashboard
+import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.GridView
 import androidx.compose.material.icons.rounded.LocalMovies
 import androidx.compose.material.icons.rounded.LocationOn
@@ -20,6 +21,7 @@ object MoviesIcons {
     val Check = Icons.Rounded.Check
     val Close = Icons.Rounded.Close
     val Dashboard = Icons.Rounded.Dashboard
+    val Favorite = Icons.Rounded.Favorite
     val GridView = Icons.Rounded.GridView
     val MovieFilter = Icons.Rounded.MovieFilter
     val LocalMovies = Icons.Rounded.LocalMovies

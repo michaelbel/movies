@@ -33,7 +33,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.koin.compose.koinInject
+import org.michaelbel.movies.faveweb.FaveScreen
 import org.michaelbel.movies.feed.FeedScreen
+import org.michaelbel.movies.interactor.UiInteractor
 import org.michaelbel.movies.main.MainWebDestination
 import org.michaelbel.movies.main.mainWebWindowWidth
 import org.michaelbel.movies.main.tabs.event.MainWebTabsEventManager
@@ -52,7 +55,8 @@ fun MainWebTabsScreen(
     onDestinationChange: (MainWebDestination) -> Unit,
     onMovieClick: (PagingKey, MovieId) -> Unit,
     accountPojo: AccountPojo,
-    onAccountClick: () -> Unit
+    onAccountClick: () -> Unit,
+    uiInteractor: UiInteractor = koinInject()
 ) {
     val isAuthorized = accountPojo.isNotEmpty
 
@@ -151,7 +155,57 @@ fun MainWebTabsScreen(
                                     }
                                 }
     
-                                Surface(
+                                if (uiInteractor.isFaveFeatureEnabled) {
+                                    Surface(
+                                        onClick = { onTabClick(MainWebDestination.Fave) },
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(56.dp),
+                                        shape = RoundedCornerShape(16.dp),
+                                        color = when {
+                                            currentDestination == MainWebDestination.Fave -> toggleButtonColors.checkedContainerColor
+                                            else -> Color.Transparent
+                                        },
+                                        contentColor = when {
+                                            currentDestination == MainWebDestination.Fave -> toggleButtonColors.checkedContentColor
+                                            else -> toggleButtonColors.contentColor
+                                        }
+                                    ) {
+                                        Row(
+                                            modifier = Modifier
+                                                .fillMaxSize()
+                                                .padding(horizontal = 16.dp),
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Icon(
+                                                imageVector = MoviesIcons.Favorite,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(IconButtonDefaults.smallIconSize),
+                                                tint = when {
+                                                    currentDestination == MainWebDestination.Fave -> navigationRailItemColors.selectedIconColor
+                                                    else -> navigationRailItemColors.unselectedIconColor
+                                                }
+                                            )
+
+                                            Text(
+                                                text = "Fave",
+                                                modifier = Modifier.padding(start = ToggleButtonDefaults.IconSpacing),
+                                                maxLines = 1,
+                                                softWrap = false,
+                                                overflow = TextOverflow.Clip,
+                                                style = MaterialTheme.typography.titleSmallEmphasized.copy(
+                                                    color = when {
+                                                        currentDestination == MainWebDestination.Fave -> navigationRailItemColors.selectedTextColor
+                                                        else -> navigationRailItemColors.unselectedTextColor
+                                                    },
+                                                    letterSpacing = .4.sp
+                                                )
+                                            )
+                                        }
+                                    }
+                                }
+
+Surface(
                                     onClick = { onTabClick(MainWebDestination.Settings) },
                                     modifier = Modifier
                                         .fillMaxWidth()
@@ -253,6 +307,7 @@ fun MainWebTabsScreen(
             ) {
                 when (currentDestination) {
                     MainWebDestination.Feed -> FeedScreen(onMovieClick = onMovieClick)
+                    MainWebDestination.Fave -> FaveScreen(onMovieClick = onMovieClick)
                     MainWebDestination.Settings -> SettingsScreen()
                     is MainWebDestination.Details -> Unit
                 }
@@ -286,6 +341,20 @@ fun MainWebTabsScreen(
                                 },
                                 colors = navigationRailItemColors
                             )
+
+                            if (uiInteractor.isFaveFeatureEnabled) {
+                                NavigationRailItem(
+                                    selected = currentDestination == MainWebDestination.Fave,
+                                    onClick = { onTabClick(MainWebDestination.Fave) },
+                                    icon = {
+                                        Icon(
+                                            imageVector = MoviesIcons.Favorite,
+                                            contentDescription = null
+                                        )
+                                    },
+                                    colors = navigationRailItemColors
+                                )
+                            }
 
                             NavigationRailItem(
                                 selected = currentDestination == MainWebDestination.Settings,
@@ -332,6 +401,11 @@ fun MainWebTabsScreen(
                             onMovieClick = onMovieClick
                         )
                     }
+                    is MainWebDestination.Fave -> {
+                        FaveScreen(
+                            onMovieClick = onMovieClick
+                        )
+                    }
                     is MainWebDestination.Settings -> SettingsScreen()
                     is MainWebDestination.Details -> Unit
                 }
@@ -357,6 +431,23 @@ fun MainWebTabsScreen(
                             )
                         }
                     )
+                    if (uiInteractor.isFaveFeatureEnabled) {
+                        item(
+                            selected = currentDestination == MainWebDestination.Fave,
+                            onClick = { onTabClick(MainWebDestination.Fave) },
+                            icon = {
+                                Icon(
+                                    imageVector = MoviesIcons.Favorite,
+                                    contentDescription = null
+                                )
+                            },
+                            label = {
+                                Text(
+                                    text = "Fave"
+                                )
+                            }
+                        )
+                    }
                     item(
                         selected = currentDestination == MainWebDestination.Settings,
                         onClick = { onTabClick(MainWebDestination.Settings) },
@@ -402,6 +493,7 @@ fun MainWebTabsScreen(
             ) {
                 when (currentDestination) {
                     MainWebDestination.Feed -> FeedScreen(onMovieClick = onMovieClick)
+                    MainWebDestination.Fave -> FaveScreen(onMovieClick = onMovieClick)
                     MainWebDestination.Settings -> SettingsScreen()
                     is MainWebDestination.Details -> Unit
                 }

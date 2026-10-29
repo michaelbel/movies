@@ -105,6 +105,7 @@ import org.michaelbel.movies.ui.icons.MoviesIcons
 @Composable
 fun AuthDialog(
     onDismissRequest: () -> Unit,
+    onAuthorized: () -> Unit = {},
     browserInteractor: BrowserInteractor = koinInject(),
     accountDetailsUseCase: AccountDetailsUseCase = koinInject(),
     createSessionUseCase: CreateSessionUseCase = koinInject(),
@@ -158,6 +159,7 @@ fun AuthDialog(
                 val sessionToken = createSessionWithLoginUseCase(params).getOrThrow()
                 createSessionUseCase(sessionToken.requestToken).getOrThrow()
                 accountDetailsUseCase(Unit).getOrThrow()
+                onAuthorized()
                 onDismissRequest()
             } catch (exception: CancellationException) {
                 throw exception

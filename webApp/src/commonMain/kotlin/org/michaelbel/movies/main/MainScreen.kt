@@ -72,8 +72,17 @@ private fun MainScreenContent(
     var tab by remember { mutableStateOf<MainWebDestination>(MainWebDestination.Feed) }
     var details by remember { mutableStateOf<MainWebDestination.Details?>(null) }
     var isAuthDialogVisible by remember { mutableStateOf(false) }
+    var isFavePending by remember { mutableStateOf(false) }
     var isAccountDialogVisible by remember { mutableStateOf(false) }
     val snackbarHostState = remember { SnackbarHostState() }
+
+    val isAuthorized = accountPojo.isNotEmpty
+
+    LaunchedEffect(isAuthorized) {
+        if (!isAuthorized && tab == MainWebDestination.Fave) {
+            tab = MainWebDestination.Feed
+        }
+    }
 
     LaunchedEffect(browserInteractor) {
         val redirect = browserInteractor.consumeAuthRedirect()
@@ -106,7 +115,17 @@ private fun MainScreenContent(
         ) {
             MainWebTabsScreen(
                 currentDestination = tab,
-                onDestinationChange = { tab = it },
+                onDestinationChange = { destination ->
+                    when {
+                        destination == MainWebDestination.Fave && !isAuthorized -> {
+                            isFavePending = true
+                            isAuthDialogVisible = true
+                        }
+                        else -> {
+                            tab = destination
+                        }
+                    }
+                },
                 onMovieClick = { pagingKey, movieId ->
                     details = MainWebDestination.Details(
                         pagingKey = pagingKey,
@@ -116,7 +135,7 @@ private fun MainScreenContent(
                 accountPojo = accountPojo,
                 onAccountClick = {
                     when {
-                        accountPojo.isNotEmpty -> isAccountDialogVisible = true
+                        isAuthorized -> isAccountDialogVisible = true
                         else -> isAuthDialogVisible = true
                     }
                 }
@@ -144,7 +163,15 @@ private fun MainScreenContent(
 
             if (isAuthDialogVisible) {
                 AuthDialog(
-                    onDismissRequest = { isAuthDialogVisible = false }
+                    onDismissRequest = {
+                        isAuthDialogVisible = false
+                        isFavePending = false
+                    },
+                    onAuthorized = {
+                        if (isFavePending) {
+                            tab = MainWebDestination.Fave
+                        }
+                    }
                 )
             }
 
@@ -162,6 +189,7 @@ private fun MainScreenContent(
 
 sealed interface MainWebDestination {
     data object Feed: MainWebDestination
+    data object Fave: MainWebDestination
     data object Settings: MainWebDestination
     data class Details(
         val pagingKey: PagingKey,
