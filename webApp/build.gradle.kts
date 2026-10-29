@@ -96,12 +96,7 @@ kotlin {
             implementation(projects.shared.interactor)
             implementation(projects.shared.platformServices.injectWeb)
             implementation(projects.shared.ui)
-            implementation(projects.feature.account)
-            implementation(projects.feature.auth)
-            implementation(projects.feature.details)
-            implementation(projects.feature.fave)
-            implementation(projects.feature.feed)
-            implementation(projects.feature.settings)
+            implementation(projects.feature.main)
         }
     }
 }

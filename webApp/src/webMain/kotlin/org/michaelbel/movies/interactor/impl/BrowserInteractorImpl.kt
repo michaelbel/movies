@@ -6,11 +6,6 @@ import org.michaelbel.movies.interactor.entity.AuthRedirect
 
 class BrowserInteractorImpl: BrowserInteractor {
 
-    override val authRedirectUrl: String
-        get() {
-            return window.location.origin + window.location.pathname
-        }
-
     override fun consumeAuthRedirect(): AuthRedirect? {
         val query = window.location.search.removePrefix("?")
         val parameters = query
@@ -36,9 +31,5 @@ class BrowserInteractorImpl: BrowserInteractor {
             requestToken = requestToken,
             approved = approved
         )
-    }
-
-    override fun navigate(url: String) {
-        window.location.href = url
     }
 }
