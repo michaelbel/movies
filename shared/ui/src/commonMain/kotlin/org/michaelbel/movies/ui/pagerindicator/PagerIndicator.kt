@@ -37,7 +37,7 @@ fun HorizontalPagerIndicator(
     pageCount: Int = pagerState.pageCount,
     pageIndexMapping: (Int) -> Int = { it },
     activeColor: Color = LocalContentColor.current,
-    inactiveColor: Color = activeColor.copy(alpha = 0.38f),
+    inactiveColor: Color = activeColor.copy(alpha = 0.38F),
     indicatorWidth: Dp = 8.dp,
     indicatorHeight: Dp = indicatorWidth,
     spacing: Dp = indicatorWidth,
@@ -134,6 +134,6 @@ private fun HorizontalPagerIndicatorPreview() {
     HorizontalPagerIndicator(
         pagerState = pagerState,
         activeColor = MaterialTheme.colorScheme.primary,
-        inactiveColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.38f)
+        inactiveColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.38F)
     )
 }
