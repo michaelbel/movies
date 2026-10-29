@@ -34,6 +34,7 @@ fun AppTheme(
         colorScheme = colorScheme,
         motionScheme = MotionScheme.expressive(),
         shapes = MoviesShapes,
+        typography = MoviesTypography(),
         content = content
     )
 }

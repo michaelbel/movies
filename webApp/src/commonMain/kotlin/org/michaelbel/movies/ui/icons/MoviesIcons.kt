@@ -7,6 +7,7 @@ import androidx.compose.material.icons.rounded.GridView
 import androidx.compose.material.icons.rounded.LocalMovies
 import androidx.compose.material.icons.rounded.MovieFilter
 import androidx.compose.material.icons.rounded.Palette
+import androidx.compose.material.icons.rounded.Settings
 import androidx.compose.material.icons.rounded.ViewAgenda
 
 object MoviesIcons {
@@ -16,5 +17,6 @@ object MoviesIcons {
     val MovieFilter = Icons.Rounded.MovieFilter
     val LocalMovies = Icons.Rounded.LocalMovies
     val Palette = Icons.Rounded.Palette
+    val Settings = Icons.Rounded.Settings
     val ViewAgenda = Icons.Rounded.ViewAgenda
 }

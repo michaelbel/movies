@@ -13,9 +13,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.GridView
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
@@ -43,6 +40,7 @@ import org.michaelbel.movies.main.mainWebWindowWidth
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
 import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 import org.michaelbel.movies.settingsweb.SettingsScreen
+import org.michaelbel.movies.ui.icons.MoviesIcons
 
 @Composable
 fun MainWebTabsScreen(
@@ -104,9 +102,13 @@ fun MainWebTabsScreen(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Outlined.GridView,
+                                        imageVector = MoviesIcons.GridView,
                                         contentDescription = null,
-                                        modifier = Modifier.size(IconButtonDefaults.smallIconSize)
+                                        modifier = Modifier.size(IconButtonDefaults.smallIconSize),
+                                        tint = when {
+                                            currentDestination == MainWebDestination.Feed -> navigationRailItemColors.selectedIconColor
+                                            else -> navigationRailItemColors.unselectedIconColor
+                                        }
                                     )
 
                                     Text(
@@ -116,6 +118,10 @@ fun MainWebTabsScreen(
                                         softWrap = false,
                                         overflow = TextOverflow.Clip,
                                         style = MaterialTheme.typography.titleSmallEmphasized.copy(
+                                            color = when {
+                                                currentDestination == MainWebDestination.Feed -> navigationRailItemColors.selectedTextColor
+                                                else -> navigationRailItemColors.unselectedTextColor
+                                            },
                                             letterSpacing = .4.sp
                                         )
                                     )
@@ -144,9 +150,13 @@ fun MainWebTabsScreen(
                                     verticalAlignment = Alignment.CenterVertically
                                 ) {
                                     Icon(
-                                        imageVector = Icons.Outlined.Settings,
+                                        imageVector = MoviesIcons.Settings,
                                         contentDescription = null,
-                                        modifier = Modifier.size(IconButtonDefaults.smallIconSize)
+                                        modifier = Modifier.size(IconButtonDefaults.smallIconSize),
+                                        tint = when {
+                                            currentDestination == MainWebDestination.Settings -> navigationRailItemColors.selectedIconColor
+                                            else -> navigationRailItemColors.unselectedIconColor
+                                        }
                                     )
 
                                     Text(
@@ -156,6 +166,10 @@ fun MainWebTabsScreen(
                                         softWrap = false,
                                         overflow = TextOverflow.Clip,
                                         style = MaterialTheme.typography.titleSmallEmphasized.copy(
+                                            color = when {
+                                                currentDestination == MainWebDestination.Settings -> navigationRailItemColors.selectedTextColor
+                                                else -> navigationRailItemColors.unselectedTextColor
+                                            },
                                             letterSpacing = .4.sp
                                         )
                                     )
@@ -181,7 +195,7 @@ fun MainWebTabsScreen(
                         onClick = { onDestinationChange(MainWebDestination.Feed) },
                         icon = {
                             Icon(
-                                imageVector = Icons.Outlined.GridView,
+                                imageVector = MoviesIcons.GridView,
                                 contentDescription = null
                             )
                         },
@@ -193,7 +207,7 @@ fun MainWebTabsScreen(
                         onClick = { onDestinationChange(MainWebDestination.Settings) },
                         icon = {
                             Icon(
-                                imageVector = Icons.Outlined.Settings,
+                                imageVector = MoviesIcons.Settings,
                                 contentDescription = null
                             )
                         },
@@ -231,7 +245,7 @@ fun MainWebTabsScreen(
                         onClick = { onDestinationChange(MainWebDestination.Feed) },
                         icon = {
                             Icon(
-                                imageVector = Icons.Outlined.GridView,
+                                imageVector = MoviesIcons.GridView,
                                 contentDescription = null
                             )
                         },
@@ -246,7 +260,7 @@ fun MainWebTabsScreen(
                         onClick = { onDestinationChange(MainWebDestination.Settings) },
                         icon = {
                             Icon(
-                                imageVector = Icons.Outlined.Settings,
+                                imageVector = MoviesIcons.Settings,
                                 contentDescription = null
                             )
                         },
