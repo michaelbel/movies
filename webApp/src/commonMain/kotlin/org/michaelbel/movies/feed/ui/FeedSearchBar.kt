@@ -87,7 +87,7 @@ import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.persistence.database.entity.pojo.SuggestionPojo
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
 import org.michaelbel.movies.persistence.database.typealiases.Query
-import org.michaelbel.movies.ui.compose.page.PageFailure
+import org.michaelbel.movies.webui.page.PageFailure
 import org.michaelbel.movies.ui.icons.MoviesIcons
 import org.michaelbel.movies.ui.theme.middleLargeIncreasedShape
 

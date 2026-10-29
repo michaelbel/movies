@@ -38,18 +38,22 @@ import org.michaelbel.movies.domain.usecase.UpdateFavoriteUseCase
 import org.michaelbel.movies.interactor.BrowserInteractor
 import org.michaelbel.movies.interactor.UiInteractor
 import org.michaelbel.movies.interactor.di.interactorKoinModule
+import org.michaelbel.movies.interactor.di.webInteractorKoinModule
 import org.michaelbel.movies.main.tabs.MainWebTabsScreen
 import org.michaelbel.movies.persistence.database.entity.pojo.AccountPojo
 import org.michaelbel.movies.persistence.database.ktx.isNotEmpty
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
 import org.michaelbel.movies.persistence.database.typealiases.PagingKey
-import org.michaelbel.movies.ui.theme.AppTheme
+import org.michaelbel.movies.webui.theme.WebTheme
 
 @Composable
 fun MainScreen() {
     KoinApplication(
         configuration = koinConfiguration {
-            modules(interactorKoinModule)
+            modules(
+                interactorKoinModule,
+                webInteractorKoinModule
+            )
         }
     ) {
         MainScreenContent()
@@ -113,7 +117,7 @@ private fun MainScreenContent(
         }
     }
 
-    AppTheme(
+    WebTheme(
         themeData = themeData
     ) {
         Box(

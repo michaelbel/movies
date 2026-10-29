@@ -1,4 +1,4 @@
-package org.michaelbel.movies.ui.compose
+package org.michaelbel.movies.webui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

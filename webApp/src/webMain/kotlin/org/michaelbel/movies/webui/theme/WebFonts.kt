@@ -1,4 +1,4 @@
-package org.michaelbel.movies.ui.theme
+package org.michaelbel.movies.webui.theme
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue

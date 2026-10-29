@@ -1,4 +1,4 @@
-package org.michaelbel.movies.ui.compose.page
+package org.michaelbel.movies.webui.page
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -29,10 +29,11 @@ import org.michaelbel.movies.network.config.formatPosterImage
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
 import org.michaelbel.movies.persistence.database.typealiases.PagingKey
-import org.michaelbel.movies.ui.compose.MovieCard
+import org.michaelbel.movies.ui.compose.page.PagingLoadingBox
 import org.michaelbel.movies.ui.compose.plus
 import org.michaelbel.movies.ui.isPagingFailure
 import org.michaelbel.movies.ui.isPagingLoading
+import org.michaelbel.movies.webui.MovieCard
 
 @Composable
 fun PageContent(

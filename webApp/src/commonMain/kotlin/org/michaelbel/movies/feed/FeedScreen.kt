@@ -53,9 +53,9 @@ import org.michaelbel.movies.main.tabs.event.MainWebTabsEventManager
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
 import org.michaelbel.movies.persistence.database.typealiases.PagingKey
-import org.michaelbel.movies.ui.compose.page.PageContent
-import org.michaelbel.movies.ui.compose.page.PageFailure
-import org.michaelbel.movies.ui.compose.page.PageLoading
+import org.michaelbel.movies.webui.page.PageContent
+import org.michaelbel.movies.webui.page.PageFailure
+import org.michaelbel.movies.webui.page.PageLoading
 import org.michaelbel.movies.ui.isFailure
 import org.michaelbel.movies.ui.isLoading
 import org.michaelbel.movies.ui.refreshThrowable

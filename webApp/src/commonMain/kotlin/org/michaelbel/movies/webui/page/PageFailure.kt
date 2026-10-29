@@ -1,4 +1,4 @@
-package org.michaelbel.movies.ui.compose.page
+package org.michaelbel.movies.webui.page
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box

@@ -93,19 +93,9 @@ kotlin {
             kotlin.srcDir(generateWebAppInfo.flatMap { it.outputDir })
         }
         commonMain.dependencies {
-            implementation(projects.shared.analytics)
-            implementation(projects.shared.common)
-            implementation(projects.shared.domain)
-            implementation(projects.shared.persistence)
-            implementation(libs.bundles.jetbrains.compose.animation.common)
-            implementation(libs.bundles.jetbrains.compose.components.common)
-            implementation(libs.bundles.jetbrains.compose.foundation.common)
-            implementation(libs.bundles.jetbrains.compose.runtime.common)
-            implementation(libs.bundles.jetbrains.compose.material3.common)
+            implementation(projects.shared.interactor)
+            implementation(projects.shared.ui)
             implementation(libs.bundles.jetbrains.compose.material.icons.common)
-            implementation(libs.bundles.jetbrains.compose.ui.common)
-            implementation(libs.bundles.coil.common)
-            implementation(libs.bundles.koin.common)
         }
     }
 }

@@ -1,4 +1,4 @@
-package org.michaelbel.movies.ui.compose.page
+package org.michaelbel.movies.webui.page
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.network.model.MovieResponse
-import org.michaelbel.movies.ui.compose.MovieCard
+import org.michaelbel.movies.webui.MovieCard
 import org.michaelbel.movies.ui.compose.plus
 
 @Composable

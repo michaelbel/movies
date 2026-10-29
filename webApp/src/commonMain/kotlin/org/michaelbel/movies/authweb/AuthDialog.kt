@@ -78,8 +78,6 @@ import androidx.compose.ui.window.DialogProperties
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import movies.webapp.generated.resources.Res
-import movies.webapp.generated.resources.ic_tmdb
 import org.jetbrains.compose.resources.painterResource
 import org.koin.compose.koinInject
 import org.michaelbel.movies.authweb.ktx.text
@@ -225,7 +223,7 @@ fun AuthDialog(
             )
 
             Icon(
-                painter = painterResource(Res.drawable.ic_tmdb),
+                painter = painterResource(MoviesIcons.TmdbLogo),
                 contentDescription = null,
                 modifier = Modifier
                     .padding(top = 8.dp)
