@@ -59,7 +59,6 @@ kotlin {
             api(libs.bundles.google.material.android)
         }
         jvmMain.dependencies {
-            api(compose.desktop.currentOs)
             api(libs.bundles.compose.desktop)
         }
     }
