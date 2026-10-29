@@ -36,8 +36,8 @@ class UiInteractorImpl: UiInteractor {
     override val isFeedAuthIconFeatureEnabled: Boolean = true
     override val isFeedVoiceInputFeatureEnabled: Boolean = false
     override val isDetailsFavoriteFeatureEnabled: Boolean = true
-    override val isDetailsGalleryFeatureEnabled: Boolean = true
-    override val isDetailsShareFeatureEnabled: Boolean = true
+    override val isDetailsGalleryFeatureEnabled: Boolean = false
+    override val isDetailsShareFeatureEnabled: Boolean = false
     override val isPageFailureButtonVisible: Boolean = false
 
     @Composable
