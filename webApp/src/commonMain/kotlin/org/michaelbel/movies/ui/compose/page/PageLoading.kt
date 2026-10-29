@@ -1,19 +1,40 @@
 package org.michaelbel.movies.ui.compose.page
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import org.michaelbel.movies.common.appearance.FeedView
+import org.michaelbel.movies.network.model.MovieResponse
+import org.michaelbel.movies.ui.compose.MovieCard
+import org.michaelbel.movies.ui.compose.plus
 
 @Composable
 fun PageLoading(
-    modifier: Modifier = Modifier
+    feedView: FeedView,
+    modifier: Modifier = Modifier,
+    contentPadding: PaddingValues = PaddingValues()
 ) {
-    Box(
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Adaptive(minSize = 280.dp),
         modifier = modifier,
-        contentAlignment = Alignment.Center
+        contentPadding = contentPadding + PaddingValues(8.dp),
+        verticalItemSpacing = 8.dp,
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        userScrollEnabled = false
     ) {
-        CircularProgressIndicator()
+        items(
+            count = MovieResponse.DEFAULT_PAGE_SIZE.div(2)
+        ) {
+            MovieCard(
+                imageUrl = "",
+                title = "",
+                feedView = feedView,
+                placeholder = true
+            )
+        }
     }
 }

@@ -69,6 +69,7 @@ fun FeedScreen(
             }
             movies.itemCount == 0 -> {
                 PageLoading(
+                    feedView = feedView,
                     modifier = Modifier.fillMaxSize()
                 )
             }

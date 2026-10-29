@@ -20,6 +20,9 @@ import coil3.compose.LocalPlatformContext
 import coil3.request.ImageRequest
 import coil3.request.crossfade
 import org.michaelbel.movies.common.appearance.FeedView
+import org.michaelbel.movies.ui.placeholder.PlaceholderHighlight
+import org.michaelbel.movies.ui.placeholder.material3.fade
+import org.michaelbel.movies.ui.placeholder.placeholder
 
 @Composable
 fun MovieCard(
@@ -28,7 +31,8 @@ fun MovieCard(
     feedView: FeedView,
     maxLines: Int = 10,
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
+    placeholder: Boolean = false
 ) {
     val cardColor = MaterialTheme.colorScheme.inversePrimary
     val imagePainter = ColorPainter(cardColor)
@@ -42,11 +46,20 @@ fun MovieCard(
             .fillMaxWidth()
             .clip(MaterialTheme.shapes.large)
             .background(cardColor)
-            .clickable(onClick = onClick)
+            .clickable(
+                enabled = !placeholder,
+                onClick = onClick
+            )
+            .placeholder(
+                visible = placeholder,
+                color = cardColor,
+                shape = MaterialTheme.shapes.large,
+                highlight = PlaceholderHighlight.fade()
+            )
     ) {
         AsyncImage(
             model = ImageRequest.Builder(LocalPlatformContext.current)
-                .data(imageUrl.ifBlank { null })
+                .data(imageUrl.ifBlank { null }.takeUnless { placeholder })
                 .crossfade(true)
                 .build(),
             contentDescription = null,

@@ -93,6 +93,7 @@ fun FaveScreen(
         when {
             movies.isLoading -> {
                 PageLoading(
+                    feedView = feedView,
                     modifier = Modifier.fillMaxSize()
                 )
             }
