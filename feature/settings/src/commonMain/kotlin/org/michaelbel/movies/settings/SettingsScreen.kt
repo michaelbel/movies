@@ -161,12 +161,21 @@ fun SettingsScreen(
             is SettingsEvent.ReselectSettings -> Unit
             is SettingsEvent.ShowSnackbar -> {
                 snackbarHostState.currentSnackbarData?.dismiss()
-                scope.launch { snackbarHostState.showSnackbar(message = event.message, duration = SnackbarDuration.Short) }
+                scope.launch {
+                    snackbarHostState.showSnackbar(
+                        message = event.message,
+                        duration = SnackbarDuration.Short
+                    )
+                }
             }
             is SettingsEvent.ShowPermissionSnackbar -> {
                 snackbarHostState.currentSnackbarData?.dismiss()
                 scope.launch {
-                    val result = snackbarHostState.showSnackbar(message = event.message, actionLabel = event.actionLabel, duration = SnackbarDuration.Long)
+                    val result = snackbarHostState.showSnackbar(
+                        message = event.message,
+                        actionLabel = event.actionLabel,
+                        duration = SnackbarDuration.Long
+                    )
                     if (result == SnackbarResult.ActionPerformed) {
                         openAppNotificationSettings()
                     }
