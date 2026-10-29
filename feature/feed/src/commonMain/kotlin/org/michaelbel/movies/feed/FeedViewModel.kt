@@ -9,16 +9,12 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import org.michaelbel.movies.common.list.MovieList
 import org.michaelbel.movies.common.log.log
 import org.michaelbel.movies.common.mvi.MoviesViewModel
 import org.michaelbel.movies.domain.usecase.AccountPojoFlowUseCase
@@ -74,14 +70,8 @@ class FeedViewModel(
     private val searchQuery: StateFlow<String> get() = _searchQuery.asStateFlow()
     private var searchFallbackJob: Job? = null
 
-    private val currentMovieList: StateFlow<MovieList> = currentMovieListFlowUseCase(Unit)
-        .stateIn(
-            scope = this,
-            started = SharingStarted.Lazily,
-            initialValue = runBlocking { currentMovieListFlowUseCase(Unit).first() }
-        )
-
-    val pagingDataFlow: Flow<PagingData<MoviePojo>> = currentMovieList
+    val pagingDataFlow: Flow<PagingData<MoviePojo>> = currentMovieListFlowUseCase(Unit)
+        .distinctUntilChanged()
         .flatMapLatest { movieList ->
             moviesPagingDataUseCase(MoviesPagingDataUseCase.Params(movieList, interactor.language))
         }
