@@ -7,10 +7,15 @@ import android.os.Bundle
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.biometric.AuthenticationRequest
+import androidx.biometric.AuthenticationResult
+import androidx.biometric.BiometricPrompt
+import androidx.biometric.compose.rememberAuthenticationLauncher
 import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.FragmentActivity
 import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.michaelbel.movies.common.R as CommonR
 import org.michaelbel.movies.main.MainScreen
 import org.michaelbel.movies.main.MainViewModel
 import org.michaelbel.movies.main.intent.MainIntent
@@ -53,6 +58,23 @@ class MainActivity: FragmentActivity() {
         installShortcuts()
         setContent {
             val state by viewModel.stateFlow.collectAsStateCommon()
+            val authenticationLauncher = rememberAuthenticationLauncher { result ->
+                when (result) {
+                    is AuthenticationResult.Success -> {
+                        viewModel.dispatch(MainIntent.BiometricSuccess)
+                    }
+                    is AuthenticationResult.Error -> {
+                        when (result.errorCode) {
+                            BiometricPrompt.ERROR_USER_CANCELED,
+                            BiometricPrompt.ERROR_NEGATIVE_BUTTON -> {
+                                viewModel.dispatch(MainIntent.BiometricCancel)
+                            }
+                            else -> Unit
+                        }
+                    }
+                    is AuthenticationResult.CustomFallbackSelected -> Unit
+                }
+            }
 
             AppTheme(
                 themeData = state.themeData,
@@ -62,7 +84,15 @@ class MainActivity: FragmentActivity() {
             ) {
                 MainScreen(
                     onFinish = ::finish,
-                    onAuthenticate = { viewModel.dispatch(MainIntent.Authenticate(this)) },
+                    onAuthenticate = {
+                        val request = AuthenticationRequest.biometricRequest(
+                            title = getString(CommonR.string.biometric_title)
+                        ) {
+                            setSubtitle(getString(CommonR.string.biometric_subtitle))
+                            setContent(AuthenticationRequest.BodyContent.PlainText(getString(CommonR.string.biometric_description)))
+                        }
+                        authenticationLauncher.launch(request)
+                    },
                     onScreenshotBlockEnabledChanged = { window.setScreenshotBlockEnabled(it) },
                     onRequestReview = { viewModel.dispatch(MainIntent.RequestReview(this)) },
                     onRequestUpdate = { viewModel.dispatch(MainIntent.RequestUpdate(this)) },

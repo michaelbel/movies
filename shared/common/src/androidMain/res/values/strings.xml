@@ -3,5 +3,4 @@
     <string name="biometric_title">Biometric Login</string>
     <string name="biometric_subtitle">Log in using your biometric credential</string>
     <string name="biometric_description">Verify identity</string>
-    <string name="biometric_cancel">Cancel</string>
 </resources>

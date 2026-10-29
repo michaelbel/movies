@@ -9,6 +9,8 @@ sealed interface MainIntent: Intent {
     data object CollectThemeData: MainIntent
     data object CollectScreenshotBlockEnabled: MainIntent
     data object FetchBiometric: MainIntent
+    data object BiometricSuccess: MainIntent
+    data object BiometricCancel: MainIntent
     data object FetchRemoteConfig: MainIntent
     data object FetchFirebaseMessagingToken: MainIntent
     data object PrepopulateDatabase: MainIntent
@@ -17,7 +19,6 @@ sealed interface MainIntent: Intent {
     data object ShortcutSettingsClick: MainIntent
     data class RequestReview(val activity: Any): MainIntent
     data class RequestUpdate(val activity: Any): MainIntent
-    data class Authenticate(val activity: Any): MainIntent
     data class NavigateToDetails(val movieId: MovieId): MainIntent
     data class NavigateToMain(val requestToken: String, val approved: Boolean): MainIntent
 }

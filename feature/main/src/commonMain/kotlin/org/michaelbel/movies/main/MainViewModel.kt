@@ -2,8 +2,6 @@ package org.michaelbel.movies.main
 
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import org.michaelbel.movies.common.biometric.BiometricInteractor
-import org.michaelbel.movies.common.biometric.BiometricListener
 import org.michaelbel.movies.common.mvi.MoviesViewModel
 import org.michaelbel.movies.domain.usecase.IsBiometricEnabledUseCase
 import org.michaelbel.movies.domain.usecase.ScreenshotBlockEnabledFlowUseCase
@@ -25,7 +23,6 @@ import org.michaelbel.movies.work.WorkManagerInteractor
 
 class MainViewModel(
     private val uiInteractor: UiInteractor,
-    private val biometricController: BiometricInteractor,
     private val workManagerInteractor: WorkManagerInteractor,
     private val configService: ConfigService,
     private val reviewService: ReviewService,
@@ -84,20 +81,14 @@ class MainViewModel(
             }
             is MainIntent.PrepopulateDatabase -> workManagerInteractor.prepopulateDatabase()
             is MainIntent.UpdateAccountDetails -> workManagerInteractor.updateAccountDetails()
-            is MainIntent.Authenticate -> {
-                val biometricListener = object: BiometricListener {
-                    override fun onSuccess() {
-                        reduce { it.copy(splashLoading = false) }
-                    }
-
-                    override fun onCancel() {
-                        launch { push(MainEvent.BiometricCancel) }
-                    }
-                }
-                biometricController.authenticate(intent.activity, biometricListener)
-            }
+            is MainIntent.BiometricSuccess -> reduce { it.copy(splashLoading = false) }
+            is MainIntent.BiometricCancel -> launch { push(MainEvent.BiometricCancel) }
             is MainIntent.NavigateToDetails -> {
-                launch { MainNavigator.forward(DetailsDestination(movieList = null, movieId = intent.movieId)) }
+                launch {
+                    MainNavigator.forward(
+                        DetailsDestination(movieList = null, movieId = intent.movieId)
+                    )
+                }
             }
             is MainIntent.NavigateToMain -> {
                 launch {
