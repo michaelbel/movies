@@ -26,7 +26,7 @@ huawei-services = "1.9.3.302"
 androidx-appcompat = "1.8.0"
 androidx-activity = "1.13.0"
 androidx-benchmark = "1.5.0"
-androidx-biometric-ktx = "1.4.0-alpha02"
+androidx-biometric = "1.4.0-alpha07"
 androidx-browser = "1.10.0"
 androidx-compose-animation = "1.12.1"
 androidx-compose-foundation = "1.12.1"
@@ -97,7 +97,8 @@ androidx-appcompat-resources = { module = "androidx.appcompat:appcompat-resource
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref  = "androidx-activity" }
 androidx-benchmark-junit = { module = "androidx.benchmark:benchmark-junit4", version.ref = "androidx-benchmark" }
 androidx-benchmark-macro-junit = { module = "androidx.benchmark:benchmark-macro-junit4", version.ref = "androidx-benchmark" }
-androidx-biometric-ktx = { module = "androidx.biometric:biometric-ktx", version.ref = "androidx-biometric-ktx" }
+androidx-biometric = { module = "androidx.biometric:biometric", version.ref = "androidx-biometric" }
+androidx-biometric-compose = { module = "androidx.biometric:biometric-compose", version.ref = "androidx-biometric" }
 androidx-browser = { module = "androidx.browser:browser", version.ref = "androidx-browser" }
 androidx-compose-animation = { module = "androidx.compose.animation:animation", version.ref = "androidx-compose-animation" }
 androidx-compose-foundation = { module = "androidx.compose.foundation:foundation", version.ref = "androidx-compose-foundation" }
@@ -311,7 +312,8 @@ benchmark-macro-android = [
     "androidx-benchmark-macro-junit"
 ]
 biometric-android = [
-    "androidx-biometric-ktx"
+    "androidx-biometric",
+    "androidx-biometric-compose"
 ]
 browser-android = [
     "androidx-browser"
