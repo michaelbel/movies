@@ -13,10 +13,12 @@ val interactorKoinModule = module {
         moviesAnalyticsKoinModule,
         localeInteractorKoinModule,
         aboutInteractorKoinModule,
+        browserInteractorKoinModule,
         uiInteractorKoinModule
     )
 }
 
 expect val localeInteractorKoinModule: Module
 expect val aboutInteractorKoinModule: Module
+expect val browserInteractorKoinModule: Module
 expect val uiInteractorKoinModule: Module
