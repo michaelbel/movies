@@ -189,7 +189,11 @@ private fun MainTabsScreenContent(
     val toggleButtonColors = ToggleButtonDefaults.colors()
     val navigationItemColors = NavigationItemColors(
         selectedIconColor = toggleButtonColors.checkedContentColor,
-        selectedTextColor = when {
+        selectedTextColorTopIconPosition = when {
+            isShortNavigationBarMedium -> toggleButtonColors.checkedContentColor
+            else -> toggleButtonColors.checkedContainerColor
+        },
+        selectedTextColorStartIconPosition = when {
             isShortNavigationBarMedium -> toggleButtonColors.checkedContentColor
             else -> toggleButtonColors.checkedContainerColor
         },
