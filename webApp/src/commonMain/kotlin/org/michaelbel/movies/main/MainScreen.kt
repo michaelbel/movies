@@ -8,9 +8,12 @@ import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -21,13 +24,20 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.window.Dialog
+import androidx.compose.ui.window.DialogProperties
+import androidx.lifecycle.ViewModelStore
+import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.launch
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.dsl.koinConfiguration
-import org.michaelbel.movies.accountweb.AccountDialog
-import org.michaelbel.movies.authweb.AuthDialog
+import org.michaelbel.movies.account.AccountScreen
+import org.michaelbel.movies.account.di.accountKoinModule
+import org.michaelbel.movies.auth.AuthScreen
+import org.michaelbel.movies.auth.di.authKoinModule
 import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.detailsweb.DetailsWebScreen
 import org.michaelbel.movies.domain.usecase.AccountDetailsUseCase
@@ -46,6 +56,14 @@ import org.michaelbel.movies.persistence.database.typealiases.MovieId
 import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 import org.michaelbel.movies.platform.inject.flavorServiceKtorModule
 import org.michaelbel.movies.settings.di.settingsKoinModule
+import org.michaelbel.movies.ui.ObserveAsEvents
+import org.michaelbel.movies.ui.dialogUsePlatformDefaultWidth
+import org.michaelbel.movies.ui.navigation.AccountDestination
+import org.michaelbel.movies.ui.navigation.AppRoute
+import org.michaelbel.movies.ui.navigation.AuthDestination
+import org.michaelbel.movies.ui.navigation.MainNavigator
+import org.michaelbel.movies.ui.pending.PendingAction
+import org.michaelbel.movies.ui.pending.PendingActionStore
 import org.michaelbel.movies.webui.theme.WebTheme
 
 @Composable
@@ -56,6 +74,8 @@ fun MainScreen() {
                 interactorKoinModule,
                 webInteractorKoinModule,
                 flavorServiceKtorModule,
+                accountKoinModule,
+                authKoinModule,
                 settingsKoinModule
             )
         }
@@ -83,18 +103,58 @@ private fun MainScreenContent(
 
     var tab by remember { mutableStateOf<MainWebDestination>(MainWebDestination.Feed) }
     var details by remember { mutableStateOf<MainWebDestination.Details?>(null) }
-    var isAuthDialogVisible by remember { mutableStateOf(false) }
-    var isFavePending by remember { mutableStateOf(false) }
-    var pendingFavoriteMovieId by remember { mutableStateOf<MovieId?>(null) }
-    var isAccountDialogVisible by remember { mutableStateOf(false) }
+    val dialogs = remember { mutableStateListOf<AppRoute>() }
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
     val isAuthorized = accountPojo.isNotEmpty
 
+    ObserveAsEvents(
+        flow = MainNavigator.destFlow
+    ) { event ->
+        when (event) {
+            is MainNavigator.NavigationEvent.Back -> {
+                dialogs.removeLastOrNull()
+            }
+            is MainNavigator.NavigationEvent.Forward -> {
+                val destination = event.destination
+                if ((destination == AuthDestination || destination == AccountDestination) && dialogs.lastOrNull() != destination) {
+                    dialogs.add(destination)
+                }
+            }
+            else -> Unit
+        }
+    }
+
     LaunchedEffect(isAuthorized) {
-        if (!isAuthorized && tab == MainWebDestination.Fave) {
-            tab = MainWebDestination.Feed
+        when {
+            !isAuthorized -> {
+                if (tab == MainWebDestination.Fave) {
+                    tab = MainWebDestination.Feed
+                }
+            }
+            else -> {
+                when (val pendingAction = PendingActionStore.action) {
+                    PendingAction.OpenFave -> {
+                        PendingActionStore.clear()
+                        tab = MainWebDestination.Fave
+                    }
+                    is PendingAction.AddFavorite -> {
+                        PendingActionStore.clear()
+                        val params = UpdateFavoriteUseCase.Params(
+                            movieId = pendingAction.movieId,
+                            favorite = true
+                        )
+                        updateFavoriteUseCase(params).onFailure { throwable ->
+                            snackbarHostState.currentSnackbarData?.dismiss()
+                            snackbarHostState.showSnackbar(
+                                message = throwable.message.orEmpty().ifBlank { "Failed to update favorites." }
+                            )
+                        }
+                    }
+                    null -> Unit
+                }
+            }
         }
     }
 
@@ -132,9 +192,8 @@ private fun MainScreenContent(
                 onDestinationChange = { destination ->
                     when {
                         destination == MainWebDestination.Fave && !isAuthorized -> {
-                            pendingFavoriteMovieId = null
-                            isFavePending = true
-                            isAuthDialogVisible = true
+                            PendingActionStore.set(PendingAction.OpenFave)
+                            scope.launch { MainNavigator.forward(AuthDestination) }
                         }
                         else -> {
                             tab = destination
@@ -150,8 +209,12 @@ private fun MainScreenContent(
                 accountPojo = accountPojo,
                 onAccountClick = {
                     when {
-                        isAuthorized -> isAccountDialogVisible = true
-                        else -> isAuthDialogVisible = true
+                        isAuthorized -> {
+                            scope.launch { MainNavigator.forward(AccountDestination) }
+                        }
+                        else -> {
+                            scope.launch { MainNavigator.forward(AuthDestination) }
+                        }
                     }
                 }
             )
@@ -168,9 +231,8 @@ private fun MainScreenContent(
                         movieId = currentDetails.movieId,
                         onBackClick = { details = null },
                         onAuthRequired = {
-                            isFavePending = false
-                            pendingFavoriteMovieId = currentDetails.movieId
-                            isAuthDialogVisible = true
+                            PendingActionStore.set(PendingAction.AddFavorite(currentDetails.movieId))
+                            scope.launch { MainNavigator.forward(AuthDestination) }
                         },
                         onFavoriteError = { message ->
                             scope.launch {
@@ -187,49 +249,55 @@ private fun MainScreenContent(
                 modifier = Modifier.align(Alignment.BottomCenter)
             )
 
-            if (isAuthDialogVisible) {
-                AuthDialog(
-                    onDismissRequest = {
-                        isAuthDialogVisible = false
-                        isFavePending = false
-                        pendingFavoriteMovieId = null
-                    },
-                    onAuthorized = {
-                        val favoriteMovieId = pendingFavoriteMovieId
-                        when {
-                            isFavePending -> {
-                                tab = MainWebDestination.Fave
-                            }
-                            favoriteMovieId != null -> {
-                                val params = UpdateFavoriteUseCase.Params(
-                                    movieId = favoriteMovieId,
-                                    favorite = true
-                                )
-                                scope.launch {
-                                    updateFavoriteUseCase(params).onFailure { throwable ->
-                                        snackbarHostState.currentSnackbarData?.dismiss()
-                                        snackbarHostState.showSnackbar(
-                                            message = throwable.message.orEmpty().ifBlank { "Failed to update favorites." }
-                                        )
-                                    }
-                                }
-                            }
-                        }
+            val currentDialog = dialogs.lastOrNull()
+
+            if (currentDialog == AuthDestination) {
+                val viewModelStoreOwner = remember {
+                    object: ViewModelStoreOwner {
+                        override val viewModelStore = ViewModelStore()
                     }
-                )
+                }
+
+                DisposableEffect(viewModelStoreOwner) {
+                    onDispose { viewModelStoreOwner.viewModelStore.clear() }
+                }
+
+                Dialog(
+                    onDismissRequest = {
+                        PendingActionStore.clear()
+                        dialogs.removeLastOrNull()
+                    },
+                    properties = DialogProperties(usePlatformDefaultWidth = dialogUsePlatformDefaultWidth)
+                ) {
+                    CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {
+                        AuthScreen()
+                    }
+                }
             }
 
-            if (isAccountDialogVisible) {
-                AccountDialog(
-                    accountPojo = accountPojo,
-                    onDismissRequest = { isAccountDialogVisible = false }
-                )
+            if (currentDialog == AccountDestination) {
+                val viewModelStoreOwner = remember {
+                    object: ViewModelStoreOwner {
+                        override val viewModelStore = ViewModelStore()
+                    }
+                }
+
+                DisposableEffect(viewModelStoreOwner) {
+                    onDispose { viewModelStoreOwner.viewModelStore.clear() }
+                }
+
+                Dialog(
+                    onDismissRequest = { dialogs.removeLastOrNull() },
+                    properties = DialogProperties(usePlatformDefaultWidth = dialogUsePlatformDefaultWidth)
+                ) {
+                    CompositionLocalProvider(LocalViewModelStoreOwner provides viewModelStoreOwner) {
+                        AccountScreen()
+                    }
+                }
             }
         }
     }
 }
-
-
 
 sealed interface MainWebDestination {
     data object Feed: MainWebDestination
