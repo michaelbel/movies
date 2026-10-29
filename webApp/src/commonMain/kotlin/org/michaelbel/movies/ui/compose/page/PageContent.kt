@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.LazyPagingItems
@@ -40,7 +41,8 @@ fun PageContent(
     onMovieClick: (PagingKey, MovieId) -> Unit,
     lazyStaggeredGridState: LazyStaggeredGridState = rememberLazyStaggeredGridState(),
     contentPadding: PaddingValues = PaddingValues(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    cardColor: Color = MaterialTheme.colorScheme.inversePrimary
 ) {
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Adaptive(minSize = 280.dp),
@@ -65,7 +67,8 @@ fun PageContent(
                     imageUrl = imageUrl,
                     title = movie.title,
                     feedView = feedView,
-                    onClick = { onMovieClick(movie.movieList, movie.movieId) }
+                    onClick = { onMovieClick(movie.movieList, movie.movieId) },
+                    cardColor = cardColor
                 )
             }
         }

@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.ColorPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
@@ -32,9 +33,9 @@ fun MovieCard(
     maxLines: Int = 10,
     modifier: Modifier = Modifier,
     onClick: () -> Unit = {},
-    placeholder: Boolean = false
+    placeholder: Boolean = false,
+    cardColor: Color = MaterialTheme.colorScheme.inversePrimary
 ) {
-    val cardColor = MaterialTheme.colorScheme.inversePrimary
     val imagePainter = ColorPainter(cardColor)
     val aspectRatio = when (feedView) {
         is FeedView.FeedList -> 16F / 9F
