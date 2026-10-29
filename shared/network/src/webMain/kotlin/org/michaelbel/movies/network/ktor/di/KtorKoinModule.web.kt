@@ -12,6 +12,7 @@ import kotlinx.serialization.json.Json
 import org.koin.dsl.module
 import org.michaelbel.movies.network.config.TMDB_API_ENDPOINT
 import org.michaelbel.movies.network.config.tmdbApiKey
+import org.michaelbel.movies.network.ktor.FetchFailurePlugin
 
 private const val REQUEST_TIMEOUT_MILLIS = 10_000L
 private const val SOCKET_TIMEOUT_SECONDS = 10_000L
@@ -30,6 +31,7 @@ actual val ktorKoinModule = module {
             install(ContentNegotiation) {
                 json(Json { ignoreUnknownKeys = true })
             }
+            install(FetchFailurePlugin)
             install(HttpTimeout) {
                 requestTimeoutMillis = REQUEST_TIMEOUT_MILLIS
                 connectTimeoutMillis = CONNECT_TIMEOUT_MILLIS
