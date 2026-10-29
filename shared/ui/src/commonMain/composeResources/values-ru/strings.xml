@@ -107,6 +107,10 @@
     <string name="settings_movie_list_popular">Популярные</string>
     <string name="settings_movie_list_top_rated">Топ</string>
     <string name="settings_movie_list_upcoming">Скоро</string>
+    <string name="settings_trakt_list_trending">В тренде</string>
+    <string name="settings_trakt_list_popular">Популярные</string>
+    <string name="settings_trakt_list_anticipated">Ожидаемые</string>
+    <string name="settings_trakt_list_hot">Горячие</string>
     <string name="settings_app_launcher_icon">Иконка Приложения</string>
     <string name="settings_app_launcher_icon_description">Показывается на главном экране</string>
     <string name="settings_open_by_default">Открывать по умолчанию</string>

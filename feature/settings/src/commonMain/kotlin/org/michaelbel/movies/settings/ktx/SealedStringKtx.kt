@@ -6,6 +6,7 @@ import org.michaelbel.movies.common.SealedString
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.list.MovieList
+import org.michaelbel.movies.common.list.TraktList
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.interactor.entity.AppLanguage
 import org.michaelbel.movies.interactor.entity.AppProvider
@@ -35,6 +36,11 @@ val SealedString.stringText: String
         is MovieList.Popular -> stringResource(MoviesStrings.settings_movie_list_popular)
         is MovieList.TopRated -> stringResource(MoviesStrings.settings_movie_list_top_rated)
         is MovieList.Upcoming -> stringResource(MoviesStrings.settings_movie_list_upcoming)
+
+        is TraktList.Trending -> stringResource(MoviesStrings.settings_trakt_list_trending)
+        is TraktList.Popular -> stringResource(MoviesStrings.settings_trakt_list_popular)
+        is TraktList.Anticipated -> stringResource(MoviesStrings.settings_trakt_list_anticipated)
+        is TraktList.Hot -> stringResource(MoviesStrings.settings_trakt_list_hot)
 
         else -> ""
     }

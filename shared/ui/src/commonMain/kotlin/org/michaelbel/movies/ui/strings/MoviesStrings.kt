@@ -139,6 +139,10 @@ import movies.shared.ui.generated.resources.settings_tile
 import movies.shared.ui.generated.resources.settings_tile_description
 import movies.shared.ui.generated.resources.settings_tile_error_already_added
 import movies.shared.ui.generated.resources.settings_title
+import movies.shared.ui.generated.resources.settings_trakt_list_anticipated
+import movies.shared.ui.generated.resources.settings_trakt_list_hot
+import movies.shared.ui.generated.resources.settings_trakt_list_popular
+import movies.shared.ui.generated.resources.settings_trakt_list_trending
 import movies.shared.ui.generated.resources.settings_update
 import movies.shared.ui.generated.resources.settings_update_description
 import movies.shared.ui.generated.resources.settings_update_not_available
@@ -259,6 +263,10 @@ object MoviesStrings {
     val settings_movie_list_popular = Res.string.settings_movie_list_popular
     val settings_movie_list_top_rated = Res.string.settings_movie_list_top_rated
     val settings_movie_list_upcoming = Res.string.settings_movie_list_upcoming
+    val settings_trakt_list_trending = Res.string.settings_trakt_list_trending
+    val settings_trakt_list_popular = Res.string.settings_trakt_list_popular
+    val settings_trakt_list_anticipated = Res.string.settings_trakt_list_anticipated
+    val settings_trakt_list_hot = Res.string.settings_trakt_list_hot
     val settings_app_launcher_icon = Res.string.settings_app_launcher_icon
     val settings_app_launcher_icon_description = Res.string.settings_app_launcher_icon_description
     val settings_open_by_default = Res.string.settings_open_by_default

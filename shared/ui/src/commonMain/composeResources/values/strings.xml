@@ -107,6 +107,10 @@
     <string name="settings_movie_list_popular">Popular</string>
     <string name="settings_movie_list_top_rated">Top Rated</string>
     <string name="settings_movie_list_upcoming">Upcoming</string>
+    <string name="settings_trakt_list_trending">Trending</string>
+    <string name="settings_trakt_list_popular">Popular</string>
+    <string name="settings_trakt_list_anticipated">Anticipated</string>
+    <string name="settings_trakt_list_hot">Hot</string>
     <string name="settings_app_launcher_icon">App Icon</string>
     <string name="settings_app_launcher_icon_description">Shown on your home screen</string>
     <string name="settings_open_by_default">Open by default</string>

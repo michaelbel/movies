@@ -5,6 +5,7 @@ import org.michaelbel.movies.common.ThemeData
 import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.list.MovieList
+import org.michaelbel.movies.common.list.TraktList
 import org.michaelbel.movies.common.mvi.model.Model
 import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.interactor.entity.AppProvider
@@ -38,6 +39,7 @@ data class SettingsModel(
     val themeData: ThemeData = ThemeData.Default,
     val feedView: FeedView = FeedView.FeedList,
     val movieList: MovieList = MovieList.NowPlaying(),
+    val traktList: TraktList = TraktList.Trending(),
     val provider: AppProvider = AppProvider.Tmdb,
     val isReviewFeatureEnabled: Boolean = false,
     val isUpdateFeatureEnabled: Boolean = false,
@@ -54,4 +56,11 @@ data class SettingsModel(
     val versionCode: Long = 0L,
     val grammaticalGender: SealedString = GrammaticalGender.NotSpecified(),
     val enabledIcon: IconAlias = IconAlias.Red
-): Model
+): Model {
+
+    val isTmdbProviderSelected: Boolean
+        get() = provider is AppProvider.Tmdb
+
+    val isTraktProviderSelected: Boolean
+        get() = provider is AppProvider.Trakt
+}

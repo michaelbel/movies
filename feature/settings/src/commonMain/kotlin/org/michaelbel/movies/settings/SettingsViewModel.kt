@@ -11,12 +11,14 @@ import org.michaelbel.movies.common.version.AppVersionData
 import org.michaelbel.movies.domain.usecase.BiometricEnabledFlowUseCase
 import org.michaelbel.movies.domain.usecase.CurrentFeedViewFlowUseCase
 import org.michaelbel.movies.domain.usecase.CurrentMovieListFlowUseCase
+import org.michaelbel.movies.domain.usecase.CurrentTraktListFlowUseCase
 import org.michaelbel.movies.domain.usecase.ProviderFlowUseCase
 import org.michaelbel.movies.domain.usecase.ResetSettingsUseCase
 import org.michaelbel.movies.domain.usecase.ScreenshotBlockEnabledFlowUseCase
 import org.michaelbel.movies.domain.usecase.SelectFeedViewUseCase
 import org.michaelbel.movies.domain.usecase.SelectMovieListUseCase
 import org.michaelbel.movies.domain.usecase.SelectThemeUseCase
+import org.michaelbel.movies.domain.usecase.SelectTraktListUseCase
 import org.michaelbel.movies.domain.usecase.SetBiometricEnabledUseCase
 import org.michaelbel.movies.domain.usecase.SetDynamicColorsUseCase
 import org.michaelbel.movies.domain.usecase.SetPaletteColorsUseCase
@@ -51,11 +53,13 @@ class SettingsViewModel(
     private val selectThemeUseCase: SelectThemeUseCase,
     private val selectFeedViewUseCase: SelectFeedViewUseCase,
     private val selectMovieListUseCase: SelectMovieListUseCase,
+    private val selectTraktListUseCase: SelectTraktListUseCase,
     private val setDynamicColorsUseCase: SetDynamicColorsUseCase,
     private val resetSettingsUseCase: ResetSettingsUseCase,
     private val themeDataFlowUseCase: ThemeDataFlowUseCase,
     private val currentFeedViewFlowUseCase: CurrentFeedViewFlowUseCase,
     private val currentMovieListFlowUseCase: CurrentMovieListFlowUseCase,
+    private val currentTraktListFlowUseCase: CurrentTraktListFlowUseCase,
     private val providerFlowUseCase: ProviderFlowUseCase,
     private val biometricEnabledFlowUseCase: BiometricEnabledFlowUseCase,
     private val screenshotBlockEnabledFlowUseCase: ScreenshotBlockEnabledFlowUseCase,
@@ -71,6 +75,7 @@ class SettingsViewModel(
         dispatch(SettingsIntent.CollectThemeData)
         dispatch(SettingsIntent.CollectFeedView)
         dispatch(SettingsIntent.CollectMovieList)
+        dispatch(SettingsIntent.CollectTraktList)
         dispatch(SettingsIntent.CollectProvider)
         dispatch(SettingsIntent.CollectAppServiceData)
         dispatch(SettingsIntent.CollectNotificationsEnabled)
@@ -106,6 +111,13 @@ class SettingsViewModel(
                 launch {
                     currentMovieListFlowUseCase(Unit).collectLatest { movieList ->
                         reduce { it.copy(movieList = movieList) }
+                    }
+                }
+            }
+            is SettingsIntent.CollectTraktList -> {
+                launch {
+                    currentTraktListFlowUseCase(Unit).collectLatest { traktList ->
+                        reduce { it.copy(traktList = traktList) }
                     }
                 }
             }
@@ -233,6 +245,9 @@ class SettingsViewModel(
             is SettingsIntent.SelectTheme -> launch { selectThemeUseCase(intent.theme).getOrThrow() }
             is SettingsIntent.SelectFeedView -> launch { selectFeedViewUseCase(intent.feedView).getOrThrow() }
             is SettingsIntent.SelectMovieList -> launch { selectMovieListUseCase(intent.movieList).getOrThrow() }
+            is SettingsIntent.SelectTraktList -> {
+                launch { selectTraktListUseCase(intent.traktList).getOrThrow() }
+            }
             is SettingsIntent.SelectProvider -> {
                 launch { setProviderUseCase(AppProvider.key(intent.provider)).getOrThrow() }
             }

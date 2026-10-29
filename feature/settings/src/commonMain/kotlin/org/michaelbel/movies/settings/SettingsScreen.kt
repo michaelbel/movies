@@ -77,6 +77,7 @@ import org.michaelbel.movies.common.appearance.FeedView
 import org.michaelbel.movies.common.browser.navigateToUrl
 import org.michaelbel.movies.common.gender.GrammaticalGender
 import org.michaelbel.movies.common.list.MovieList
+import org.michaelbel.movies.common.list.TraktList
 import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.interactor.UiInteractor
 import org.michaelbel.movies.interactor.entity.AppLanguage
@@ -768,7 +769,7 @@ private fun SettingsScreenContent(
                     )
                 }
             }
-            if (state.isMovieListFeatureEnabled) {
+            if (state.isMovieListFeatureEnabled && state.isTmdbProviderSelected) {
                 item {
                     var movieListDialog by remember { mutableStateOf(false) }
                     if (movieListDialog) {
@@ -798,6 +799,54 @@ private fun SettingsScreenContent(
                         supportingContent = {
                             Text(
                                 text = state.movieList.stringText,
+                                style = MaterialTheme.typography.bodyMedium
+                            )
+                        },
+                        colors = ListItemDefaults.segmentedColors(
+                            containerColor = MaterialTheme.colorScheme.inversePrimary,
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            supportingContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            leadingContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            trailingContentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                        )
+                    ) {
+                        Text(
+                            text = stringResource(MoviesStrings.settings_movie_list),
+                            style = MaterialTheme.typography.titleLarge
+                        )
+                    }
+                }
+            }
+            if (state.isMovieListFeatureEnabled && state.isTraktProviderSelected) {
+                item {
+                    var traktListDialog by remember { mutableStateOf(false) }
+                    if (traktListDialog) {
+                        SettingsDialog(
+                            icon = MoviesIcons.LocalMovies,
+                            title = stringResource(MoviesStrings.settings_movie_list),
+                            items = TraktList.VALUES,
+                            currentItem = state.traktList,
+                            onItemSelect = { dispatch(SettingsIntent.SelectTraktList(it)) },
+                            onDismissRequest = { traktListDialog = false }
+                        )
+                    }
+
+                    SegmentedListItem(
+                        onClick = { traktListDialog = true },
+                        shapes = ListItemDefaults.segmentedShapes(
+                            index = 0,
+                            count = feedCount
+                        ),
+                        leadingContent = {
+                            Icon(
+                                imageVector = MoviesIcons.LocalMovies,
+                                contentDescription = null,
+                                modifier = Modifier.size(IconButtonDefaults.smallIconSize)
+                            )
+                        },
+                        supportingContent = {
+                            Text(
+                                text = state.traktList.stringText,
                                 style = MaterialTheme.typography.bodyMedium
                             )
                         },
