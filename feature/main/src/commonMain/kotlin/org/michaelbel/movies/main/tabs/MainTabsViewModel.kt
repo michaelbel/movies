@@ -19,6 +19,8 @@ import org.michaelbel.movies.main.tabs.event.MainTabsEventManager
 import org.michaelbel.movies.main.tabs.intent.MainTabsIntent
 import org.michaelbel.movies.main.tabs.model.MainTabsModel
 import org.michaelbel.movies.persistence.database.ktx.isNotEmpty
+import org.michaelbel.movies.settings.event.SettingsEvent
+import org.michaelbel.movies.settings.event.SettingsEventManager
 import org.michaelbel.movies.ui.navigation.AccountDestination
 import org.michaelbel.movies.ui.navigation.AuthDestination
 import org.michaelbel.movies.ui.navigation.MainNavigator
@@ -109,7 +111,10 @@ class MainTabsViewModel(
                     }
                 }
             }
-            is MainTabsIntent.SettingsClick -> launch { MainTabsEventManager.push(MainEvent.OpenSettings) }
+            is MainTabsIntent.SettingsClick -> {
+                launch { SettingsEventManager.push(SettingsEvent.ReselectSettings) }
+                launch { MainTabsEventManager.push(MainEvent.OpenSettings) }
+            }
             is MainTabsIntent.AuthClick -> launch { MainNavigator.forward(AuthDestination) }
             is MainTabsIntent.AccountClick -> launch { MainNavigator.forward(AccountDestination) }
         }

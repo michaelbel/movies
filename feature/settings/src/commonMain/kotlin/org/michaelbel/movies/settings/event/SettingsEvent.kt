@@ -12,6 +12,7 @@ sealed interface SettingsEvent: Event {
     data object RequestTelegram: SettingsEvent
     data object RequestGooglePlay: SettingsEvent
     data object ScrollToTop: SettingsEvent
+    data object ReselectSettings: SettingsEvent
     data class ShowSnackbar(val message: String): SettingsEvent
     data class ShowPermissionSnackbar(val message: String, val actionLabel: String): SettingsEvent
 }

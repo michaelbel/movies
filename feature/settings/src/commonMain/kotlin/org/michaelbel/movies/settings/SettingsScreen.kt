@@ -85,6 +85,7 @@ import org.michaelbel.movies.common.theme.AppTheme
 import org.michaelbel.movies.interactor.UiInteractor
 import org.michaelbel.movies.interactor.entity.AppLanguage
 import org.michaelbel.movies.settings.event.SettingsEvent
+import org.michaelbel.movies.settings.event.SettingsEventManager
 import org.michaelbel.movies.settings.intent.SettingsIntent
 import org.michaelbel.movies.settings.ktx.stringText
 import org.michaelbel.movies.settings.model.SettingsModel
@@ -161,6 +162,7 @@ fun SettingsScreen(
             is SettingsEvent.RequestTelegram -> navigateToTelegramUrl()
             is SettingsEvent.RequestGooglePlay -> navigateToMoviemadeUrl()
             is SettingsEvent.ScrollToTop -> scope.launch { lazyListState.animateScrollToItem(0) }
+            is SettingsEvent.ReselectSettings -> Unit
             is SettingsEvent.ShowSnackbar -> {
                 snackbarHostState.currentSnackbarData?.dismiss()
                 scope.launch { snackbarHostState.showSnackbar(message = event.message, duration = SnackbarDuration.Short) }
@@ -174,6 +176,13 @@ fun SettingsScreen(
                     }
                 }
             }
+        }
+    }
+
+    ObserveAsEvents(flow = SettingsEventManager.eventFlow) { event ->
+        when (event) {
+            SettingsEvent.ReselectSettings -> viewModel.dispatch(SettingsIntent.ScrollToTop)
+            else -> Unit
         }
     }
 
