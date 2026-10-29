@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalTime::class)
-
 package org.michaelbel.movies.work
 
 import android.content.Context
@@ -13,7 +11,6 @@ import org.michaelbel.movies.network.config.isTmdbApiKeyEmpty
 import org.michaelbel.movies.persistence.database.ktx.isEmpty
 import java.util.concurrent.TimeUnit
 import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 
 class AccountUpdateWorker(
     context: Context,

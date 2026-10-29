@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalTime::class)
-
 package org.michaelbel.movies.domain.usecase
 
 import org.michaelbel.movies.common.dispatchers.SharedDispatchers
@@ -7,7 +5,6 @@ import org.michaelbel.movies.persistence.database.MoviePersistence
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.persistence.database.typealiases.PagingKey
 import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 import org.michaelbel.movies.domain.usecase.InsertMovieUseCase.Params
 
 class InsertMovieUseCase(

@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalTime::class)
-
 package org.michaelbel.movies.domain.usecase
 
 import org.michaelbel.movies.common.dispatchers.SharedDispatchers
@@ -8,7 +6,6 @@ import org.michaelbel.movies.persistence.database.AccountPersistence
 import org.michaelbel.movies.persistence.database.ktx.accountPojo
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 
 class AccountDetailsUseCase(
     private val accountNetworkService: AccountNetworkService,

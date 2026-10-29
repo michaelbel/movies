@@ -1,11 +1,8 @@
-@file:OptIn(ExperimentalMaterial3ExpressiveApi::class)
-
 package org.michaelbel.movies.main.tabs.ui
 
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationRail

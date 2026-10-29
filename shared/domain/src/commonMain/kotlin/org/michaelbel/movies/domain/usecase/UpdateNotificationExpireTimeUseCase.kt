@@ -1,11 +1,8 @@
-@file:OptIn(ExperimentalTime::class)
-
 package org.michaelbel.movies.domain.usecase
 
 import org.michaelbel.movies.common.dispatchers.SharedDispatchers
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 
 class UpdateNotificationExpireTimeUseCase(
     private val preferences: MoviesPreferences,

@@ -1,5 +1,4 @@
 @file:SuppressLint("MissingPermission")
-@file:OptIn(ExperimentalTime::class)
 
 package org.michaelbel.movies.interactor.impl
 
@@ -26,7 +25,6 @@ import org.michaelbel.movies.ui.icons.MoviesAndroidIcons
 import java.util.concurrent.TimeUnit
 import kotlin.time.Clock
 import kotlin.time.Duration.Companion.milliseconds
-import kotlin.time.ExperimentalTime
 
 class AppNotificationInteractorImpl(
     private val context: Context,

@@ -1,10 +1,7 @@
-@file:OptIn(ExperimentalCoroutinesApi::class)
-
 package org.michaelbel.movies.fave
 
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch

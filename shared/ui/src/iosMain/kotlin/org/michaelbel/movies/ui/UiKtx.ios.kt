@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalForeignApi::class)
-
 package org.michaelbel.movies.ui
 
 import androidx.compose.foundation.layout.WindowInsets
@@ -12,7 +10,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import kotlinx.cinterop.ExperimentalForeignApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import org.jetbrains.compose.resources.stringResource

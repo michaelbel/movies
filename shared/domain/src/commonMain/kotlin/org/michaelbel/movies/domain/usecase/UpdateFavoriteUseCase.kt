@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalTime::class)
-
 package org.michaelbel.movies.domain.usecase
 
 import org.michaelbel.movies.common.dispatchers.SharedDispatchers
@@ -12,7 +10,6 @@ import org.michaelbel.movies.persistence.database.ktx.orEmpty
 import org.michaelbel.movies.persistence.database.typealiases.MovieId
 import org.michaelbel.movies.persistence.datastore.MoviesPreferences
 import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 import org.michaelbel.movies.domain.usecase.UpdateFavoriteUseCase.Params
 
 class UpdateFavoriteUseCase(

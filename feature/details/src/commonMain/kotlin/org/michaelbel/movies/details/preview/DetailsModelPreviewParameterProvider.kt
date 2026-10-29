@@ -1,5 +1,3 @@
-@file:OptIn(ExperimentalTime::class)
-
 package org.michaelbel.movies.details.preview
 
 import org.michaelbel.movies.details.model.DetailsModel
@@ -8,7 +6,6 @@ import org.michaelbel.movies.network.model.Movie
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.ui.preview.base.CollectionPreviewParameterProvider
 import kotlin.time.Clock
-import kotlin.time.ExperimentalTime
 
 class DetailsModelPreviewParameterProvider: CollectionPreviewParameterProvider<DetailsModel>(
     listOf(
