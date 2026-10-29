@@ -38,10 +38,11 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
+            implementation(projects.shared.analytics)
             implementation(projects.shared.common)
             implementation(projects.shared.domain)
-            implementation(projects.sharedWeb.interactor)
-            implementation(projects.sharedWeb.ui)
+            implementation(projects.shared.persistence)
+            implementation(projects.shared.platformServices.foss)
             implementation(libs.bundles.jetbrains.compose.animation.common)
             implementation(libs.bundles.jetbrains.compose.components.common)
             implementation(libs.bundles.jetbrains.compose.foundation.common)

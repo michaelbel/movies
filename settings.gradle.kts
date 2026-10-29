@@ -50,18 +50,15 @@ include(
     ":shared:platform-services:inject-android",
     ":shared:platform-services:inject-jvm",
     ":shared:platform-services:inject-ios",
-    ":shared-web:platform-services:inject",
     ":shared:platform-services:interactor",
 
     ":shared:analytics",
     ":shared:common",
     ":shared:domain",
     ":shared:interactor",
-    ":shared-web:interactor",
     ":shared:network",
     ":shared:persistence",
     ":shared:ui",
-    ":shared-web:ui",
     ":shared:widget",
     ":shared:work",
 
