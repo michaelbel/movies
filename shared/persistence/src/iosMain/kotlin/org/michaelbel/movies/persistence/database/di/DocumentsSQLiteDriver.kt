@@ -5,6 +5,7 @@ import androidx.sqlite.SQLiteDriver
 import androidx.sqlite.driver.bundled.BundledSQLiteDriver
 import kotlinx.cinterop.ExperimentalForeignApi
 import org.michaelbel.movies.persistence.database.db.AppDatabase
+import org.michaelbel.movies.persistence.database.db.TraktAppDatabase
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
 import platform.Foundation.NSHomeDirectory
@@ -21,6 +22,10 @@ fun createDocumentsDriver(): SQLiteDriver {
 
 fun documentDatabasePath(): String {
     return "${documentsDirectoryPath()}/${AppDatabase.DATABASE_NAME}"
+}
+
+fun traktDocumentDatabasePath(): String {
+    return "${documentsDirectoryPath()}/${TraktAppDatabase.DATABASE_NAME}"
 }
 
 @OptIn(ExperimentalForeignApi::class)
