@@ -31,6 +31,11 @@
     <string name="auth_sign_in">Войти</string>
     <string name="auth_sign_up">Зарегистрироваться</string>
     <string name="auth_login">Войти с Themoviedb</string>
+    <string name="auth_trakt_title">Вход в Trakt.tv</string>
+    <string name="auth_trakt_description">Откроется браузер, где нужно войти в Trakt.tv и разрешить доступ.</string>
+    <string name="auth_trakt_sign_in">Войти через Trakt</string>
+    <string name="auth_trakt_waiting">Ждём подтверждения в браузере…</string>
+    <string name="auth_trakt_cancel">Отмена</string>
     <string name="auth_terms_of_use">Terms of Use</string>
     <string name="auth_privacy_policy">Privacy Policy</string>
     <string name="auth_error_while_create_request_token">Ошибка при получении токена авторизации</string>

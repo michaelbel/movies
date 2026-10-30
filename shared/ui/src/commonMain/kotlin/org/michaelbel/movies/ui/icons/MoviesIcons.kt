@@ -41,9 +41,11 @@ import androidx.compose.material.icons.rounded.Widgets
 import movies.shared.ui.generated.resources.Res
 import movies.shared.ui.generated.resources.ic_launcher_icon_red
 import movies.shared.ui.generated.resources.ic_tmdb
+import movies.shared.ui.generated.resources.ic_trakt
 
 object MoviesIcons {
     val TmdbLogo = Res.drawable.ic_tmdb
+    val TraktLogo = Res.drawable.ic_trakt
     val LauncherRed = Res.drawable.ic_launcher_icon_red
 
     val AccountCircle = Icons.Rounded.AccountCircle

@@ -31,6 +31,11 @@
     <string name="auth_sign_in">Sign in</string>
     <string name="auth_sign_up">Sign up</string>
     <string name="auth_login">Login with Themoviedb</string>
+    <string name="auth_trakt_title">Sign in to Trakt.tv</string>
+    <string name="auth_trakt_description">Your browser will open so you can sign in to Trakt.tv and approve access.</string>
+    <string name="auth_trakt_sign_in">Sign in with Trakt</string>
+    <string name="auth_trakt_waiting">Waiting for confirmation in the browser…</string>
+    <string name="auth_trakt_cancel">Cancel</string>
     <string name="auth_terms_of_use">Terms of Use</string>
     <string name="auth_privacy_policy">Privacy Policy</string>
     <string name="auth_error_while_create_request_token">Error while create request token</string>

@@ -24,6 +24,11 @@ import movies.shared.ui.generated.resources.auth_sign_in
 import movies.shared.ui.generated.resources.auth_sign_up
 import movies.shared.ui.generated.resources.auth_terms_of_use
 import movies.shared.ui.generated.resources.auth_title
+import movies.shared.ui.generated.resources.auth_trakt_cancel
+import movies.shared.ui.generated.resources.auth_trakt_description
+import movies.shared.ui.generated.resources.auth_trakt_sign_in
+import movies.shared.ui.generated.resources.auth_trakt_title
+import movies.shared.ui.generated.resources.auth_trakt_waiting
 import movies.shared.ui.generated.resources.details_error_loading
 import movies.shared.ui.generated.resources.details_url_copied
 import movies.shared.ui.generated.resources.download
@@ -190,6 +195,11 @@ object MoviesStrings {
     val auth_sign_in = Res.string.auth_sign_in
     val auth_sign_up = Res.string.auth_sign_up
     val auth_login = Res.string.auth_login
+    val auth_trakt_title = Res.string.auth_trakt_title
+    val auth_trakt_description = Res.string.auth_trakt_description
+    val auth_trakt_sign_in = Res.string.auth_trakt_sign_in
+    val auth_trakt_waiting = Res.string.auth_trakt_waiting
+    val auth_trakt_cancel = Res.string.auth_trakt_cancel
     val auth_terms_of_use = Res.string.auth_terms_of_use
     val auth_privacy_policy = Res.string.auth_privacy_policy
     val auth_error_while_create_request_token = Res.string.auth_error_while_create_request_token
