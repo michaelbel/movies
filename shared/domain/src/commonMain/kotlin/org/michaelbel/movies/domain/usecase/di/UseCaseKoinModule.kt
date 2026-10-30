@@ -58,9 +58,17 @@ import org.michaelbel.movies.domain.usecase.SetScreenshotBlockEnabledUseCase
 import org.michaelbel.movies.domain.usecase.SetSeedColorUseCase
 import org.michaelbel.movies.domain.usecase.SuggestionPojosFlowUseCase
 import org.michaelbel.movies.domain.usecase.ThemeDataFlowUseCase
+import org.michaelbel.movies.domain.usecase.TraktClearSearchHistoryUseCase
+import org.michaelbel.movies.domain.usecase.TraktMovieDetailsUseCase
+import org.michaelbel.movies.domain.usecase.TraktMovieFlowUseCase
 import org.michaelbel.movies.domain.usecase.TraktMoviesPagingDataUseCase
 import org.michaelbel.movies.domain.usecase.TraktMoviesResultUseCase
 import org.michaelbel.movies.domain.usecase.TraktPagingKeyPageUseCase
+import org.michaelbel.movies.domain.usecase.TraktRemoveSearchHistoryMovieUseCase
+import org.michaelbel.movies.domain.usecase.TraktSaveSearchHistoryMovieUseCase
+import org.michaelbel.movies.domain.usecase.TraktSearchHistoryMoviesFlowUseCase
+import org.michaelbel.movies.domain.usecase.TraktSearchMoviesPagingDataUseCase
+import org.michaelbel.movies.domain.usecase.TraktSearchMoviesResultUseCase
 import org.michaelbel.movies.domain.usecase.UpdateFavoriteUseCase
 import org.michaelbel.movies.domain.usecase.UpdateNotificationExpireTimeUseCase
 import org.michaelbel.movies.domain.usecase.UpdateSuggestionsUseCase
@@ -145,9 +153,17 @@ val useCaseKoinModule = module {
     singleOf(::SetScreenshotBlockEnabledUseCase)
     singleOf(::SetSeedColorUseCase)
     singleOf(::ThemeDataFlowUseCase)
+    singleOf(::TraktClearSearchHistoryUseCase)
+    singleOf(::TraktMovieDetailsUseCase)
+    singleOf(::TraktMovieFlowUseCase)
     singleOf(::TraktMoviesPagingDataUseCase)
     singleOf(::TraktMoviesResultUseCase)
     singleOf(::TraktPagingKeyPageUseCase)
+    singleOf(::TraktRemoveSearchHistoryMovieUseCase)
+    singleOf(::TraktSaveSearchHistoryMovieUseCase)
+    singleOf(::TraktSearchHistoryMoviesFlowUseCase)
+    singleOf(::TraktSearchMoviesPagingDataUseCase)
+    singleOf(::TraktSearchMoviesResultUseCase)
     singleOf(::UpdateFavoriteUseCase)
     singleOf(::UpdateNotificationExpireTimeUseCase)
     singleOf(::UpdateSuggestionsUseCase)
