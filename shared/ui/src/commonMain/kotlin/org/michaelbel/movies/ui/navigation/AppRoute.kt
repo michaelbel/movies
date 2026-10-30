@@ -43,7 +43,8 @@ data class FeedDestination(
 @Serializable
 data class DetailsDestination(
     val movieList: PagingKey?,
-    val movieId: MovieId
+    val movieId: MovieId,
+    val isTrakt: Boolean = false
 ): AppRoute
 
 @Serializable

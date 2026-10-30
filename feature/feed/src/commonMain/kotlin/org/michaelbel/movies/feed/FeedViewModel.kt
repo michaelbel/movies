@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
@@ -32,7 +33,12 @@ import org.michaelbel.movies.domain.usecase.RemoveMovieUseCase
 import org.michaelbel.movies.domain.usecase.RemoveMoviesUseCase
 import org.michaelbel.movies.domain.usecase.SearchMoviesPagingDataUseCase
 import org.michaelbel.movies.domain.usecase.SuggestionPojosFlowUseCase
+import org.michaelbel.movies.domain.usecase.TraktClearSearchHistoryUseCase
 import org.michaelbel.movies.domain.usecase.TraktMoviesPagingDataUseCase
+import org.michaelbel.movies.domain.usecase.TraktRemoveSearchHistoryMovieUseCase
+import org.michaelbel.movies.domain.usecase.TraktSaveSearchHistoryMovieUseCase
+import org.michaelbel.movies.domain.usecase.TraktSearchHistoryMoviesFlowUseCase
+import org.michaelbel.movies.domain.usecase.TraktSearchMoviesPagingDataUseCase
 import org.michaelbel.movies.domain.usecase.UpdateSuggestionsUseCase
 import org.michaelbel.movies.feed.event.FeedEvent
 import org.michaelbel.movies.feed.intent.FeedIntent
@@ -71,8 +77,13 @@ class FeedViewModel(
     private val searchMoviesPagingDataUseCase: SearchMoviesPagingDataUseCase,
     private val removeMoviesUseCase: RemoveMoviesUseCase,
     private val removeMovieUseCase: RemoveMovieUseCase,
-    private val insertMovieUseCase: InsertMovieUseCase
-): MoviesViewModel<FeedModel, FeedIntent, FeedEvent>(FeedModel()) {
+    private val insertMovieUseCase: InsertMovieUseCase,
+    private val traktSearchMoviesPagingDataUseCase: TraktSearchMoviesPagingDataUseCase,
+    private val traktSearchHistoryMoviesFlowUseCase: TraktSearchHistoryMoviesFlowUseCase,
+    private val traktSaveSearchHistoryMovieUseCase: TraktSaveSearchHistoryMovieUseCase,
+    private val traktRemoveSearchHistoryMovieUseCase: TraktRemoveSearchHistoryMovieUseCase,
+    private val traktClearSearchHistoryUseCase: TraktClearSearchHistoryUseCase
+):MoviesViewModel<FeedModel, FeedIntent, FeedEvent>(FeedModel()) {
 
     private val _searchQuery: MutableStateFlow<String> = MutableStateFlow("")
     private val searchQuery: StateFlow<String> get() = _searchQuery.asStateFlow()
@@ -99,9 +110,18 @@ class FeedViewModel(
         }
         .cachedIn(this)
 
-    val searchPagingDataFlow: Flow<PagingData<MoviePojo>> = searchQuery
-        .flatMapLatest { query ->
-            searchMoviesPagingDataUseCase(SearchMoviesPagingDataUseCase.Params(query, interactor.language))
+    val searchPagingDataFlow: Flow<PagingData<MoviePojo>> = providerFlowUseCase(Unit)
+        .map(AppProvider::transform)
+        .distinctUntilChanged()
+        .flatMapLatest { provider ->
+            searchQuery.flatMapLatest { query ->
+                when (provider) {
+                    is AppProvider.Tmdb -> {
+                        searchMoviesPagingDataUseCase(SearchMoviesPagingDataUseCase.Params(query, interactor.language))
+                    }
+                    is AppProvider.Trakt -> traktSearchMoviesPagingDataUseCase(query)
+                }
+            }
         }
         .cachedIn(this)
 
@@ -109,6 +129,7 @@ class FeedViewModel(
         dispatch(FeedIntent.CollectAccountPojo)
         dispatch(FeedIntent.CollectFeedView)
         dispatch(FeedIntent.CollectMovieList)
+        dispatch(FeedIntent.CollectProvider)
         dispatch(FeedIntent.CollectNetworkStatus)
         dispatch(FeedIntent.CollectPageFailureButtonVisible)
         dispatch(FeedIntent.CollectFeatureFlags)
@@ -141,6 +162,16 @@ class FeedViewModel(
                     }
                 }
             }
+            is FeedIntent.CollectProvider -> {
+                launch {
+                    providerFlowUseCase(Unit)
+                        .map(AppProvider::transform)
+                        .distinctUntilChanged()
+                        .collectLatest { provider ->
+                            reduce { it.copy(provider = provider) }
+                        }
+                }
+            }
             is FeedIntent.CollectNetworkStatus -> {
                 launch {
                     networkManager.status.collectLatest { networkStatus ->
@@ -161,17 +192,36 @@ class FeedViewModel(
             }
             is FeedIntent.CollectSuggestions -> {
                 launch {
-                    suggestionPojosFlowUseCase(Unit).collectLatest { pojos ->
+                    val providerFlow = providerFlowUseCase(Unit)
+                        .map(AppProvider::transform)
+                        .distinctUntilChanged()
+                    combine(suggestionPojosFlowUseCase(Unit), providerFlow) { pojos, provider ->
+                        when (provider) {
+                            is AppProvider.Tmdb -> pojos
+                            is AppProvider.Trakt -> emptyList()
+                        }
+                    }.collectLatest { pojos ->
                         reduce { it.copy(suggestionPojos = pojos) }
                     }
                 }
             }
             is FeedIntent.CollectSearchHistoryMovies -> {
                 launch {
-                    val params = MoviesFlowUseCase.Params(MoviePojo.MOVIES_SEARCH_HISTORY, Int.MAX_VALUE)
-                    moviesFlowUseCase(params).collectLatest { pojos ->
-                        reduce { it.copy(searchHistoryMoviePojos = pojos) }
-                    }
+                    providerFlowUseCase(Unit)
+                        .map(AppProvider::transform)
+                        .distinctUntilChanged()
+                        .flatMapLatest { provider ->
+                            when (provider) {
+                                is AppProvider.Tmdb -> {
+                                    val params = MoviesFlowUseCase.Params(MoviePojo.MOVIES_SEARCH_HISTORY, Int.MAX_VALUE)
+                                    moviesFlowUseCase(params)
+                                }
+                                is AppProvider.Trakt -> traktSearchHistoryMoviesFlowUseCase(Unit)
+                            }
+                        }
+                        .collectLatest { pojos ->
+                            reduce { it.copy(searchHistoryMoviePojos = pojos) }
+                        }
                 }
             }
             is FeedIntent.LoadSuggestions -> {
@@ -191,20 +241,38 @@ class FeedViewModel(
             }
             is FeedIntent.AccountClick -> launch { MainNavigator.forward(AccountDestination) }
             is FeedIntent.ClearSearchHistoryClick -> {
-                launch { removeMoviesUseCase(MoviePojo.MOVIES_SEARCH_HISTORY).getOrThrow() }
+                launch {
+                    when (stateFlow.value.provider) {
+                        is AppProvider.Tmdb -> removeMoviesUseCase(MoviePojo.MOVIES_SEARCH_HISTORY).getOrThrow()
+                        is AppProvider.Trakt -> traktClearSearchHistoryUseCase(Unit).getOrThrow()
+                    }
+                }
             }
             is FeedIntent.RemoveMovieFromHistoryClick -> {
                 launch {
-                    val params = RemoveMovieUseCase.Params(MoviePojo.MOVIES_SEARCH_HISTORY, intent.movieId)
-                    removeMovieUseCase(params).getOrThrow()
+                    when (stateFlow.value.provider) {
+                        is AppProvider.Tmdb -> {
+                            val params = RemoveMovieUseCase.Params(MoviePojo.MOVIES_SEARCH_HISTORY, intent.movieId)
+                            removeMovieUseCase(params).getOrThrow()
+                        }
+                        is AppProvider.Trakt -> traktRemoveSearchHistoryMovieUseCase(intent.movieId).getOrThrow()
+                    }
                 }
             }
             is FeedIntent.SaveMovieToSearchHistoryClick -> {
                 launch {
-                    val params = MovieUseCase.Params(searchQuery.value, intent.movieId)
-                    val movie = movieUseCase(params).getOrThrow()
-                    val insertParams = InsertMovieUseCase.Params(MoviePojo.MOVIES_SEARCH_HISTORY, movie)
-                    insertMovieUseCase(insertParams).getOrThrow()
+                    when (stateFlow.value.provider) {
+                        is AppProvider.Tmdb -> {
+                            val params = MovieUseCase.Params(searchQuery.value, intent.movieId)
+                            val movie = movieUseCase(params).getOrThrow()
+                            val insertParams = InsertMovieUseCase.Params(MoviePojo.MOVIES_SEARCH_HISTORY, movie)
+                            insertMovieUseCase(insertParams).getOrThrow()
+                        }
+                        is AppProvider.Trakt -> {
+                            val params = TraktSaveSearchHistoryMovieUseCase.Params(searchQuery.value, intent.movieId)
+                            traktSaveSearchHistoryMovieUseCase(params).getOrThrow()
+                        }
+                    }
                 }
             }
             is FeedIntent.EnterSearchQuery -> { _searchQuery.value = intent.query }
@@ -213,7 +281,14 @@ class FeedViewModel(
                 launch { push(FeedEvent.ShowSnackbar(intent.message, intent.isLong)) }
             }
             is FeedIntent.MovieDetailsClick -> {
-                launch { MainNavigator.forward(DetailsDestination(intent.pagingKey, intent.movieId)) }
+                launch {
+                    val destination = DetailsDestination(
+                        movieList = intent.pagingKey,
+                        movieId = intent.movieId,
+                        isTrakt = stateFlow.value.provider is AppProvider.Trakt
+                    )
+                    MainNavigator.forward(destination)
+                }
             }
         }
     }
@@ -223,6 +298,7 @@ class FeedViewModel(
 
         when {
             query.isBlank() -> reduce { it.copy(isSearchLoading = false, searchFailure = null) }
+            stateFlow.value.provider is AppProvider.Trakt -> reduce { it.copy(isSearchLoading = false, searchFailure = null) }
             else -> {
                 searchFallbackJob = launch {
                     reduce { it.copy(isSearchLoading = true, searchFailure = null) }

@@ -10,6 +10,8 @@ import org.michaelbel.movies.domain.usecase.AccountPojoFlowUseCase
 import org.michaelbel.movies.domain.usecase.MovieDetailsUseCase
 import org.michaelbel.movies.domain.usecase.MovieDetailsUseCase.MovieDetailsException
 import org.michaelbel.movies.domain.usecase.MovieFlowUseCase
+import org.michaelbel.movies.domain.usecase.TraktMovieDetailsUseCase
+import org.michaelbel.movies.domain.usecase.TraktMovieFlowUseCase
 import org.michaelbel.movies.domain.usecase.UpdateFavoriteUseCase
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.interactor.UiInteractor
@@ -32,8 +34,10 @@ class DetailsViewModel(
     private val movieFlowUseCase: MovieFlowUseCase,
     private val accountPojoFlowUseCase: AccountPojoFlowUseCase,
     private val movieDetailsUseCase: MovieDetailsUseCase,
-    private val updateFavoriteUseCase: UpdateFavoriteUseCase
-): MoviesViewModel<DetailsModel, DetailsIntent, Event>(DetailsModel()) {
+    private val updateFavoriteUseCase: UpdateFavoriteUseCase,
+    private val traktMovieFlowUseCase: TraktMovieFlowUseCase,
+    private val traktMovieDetailsUseCase: TraktMovieDetailsUseCase
+):MoviesViewModel<DetailsModel, DetailsIntent, Event>(DetailsModel()) {
 
     init {
         dispatch(DetailsIntent.CollectNetworkStatus)
@@ -56,9 +60,10 @@ class DetailsViewModel(
             is DetailsIntent.CollectFeatureFlags -> {
                 reduce {
                     it.copy(
-                        isDetailsFavoriteFeatureEnabled = uiInteractor.isDetailsFavoriteFeatureEnabled,
-                        isDetailsGalleryFeatureEnabled = uiInteractor.isDetailsGalleryFeatureEnabled,
-                        isDetailsShareFeatureEnabled = uiInteractor.isDetailsShareFeatureEnabled
+                        isDetailsFavoriteFeatureEnabled = uiInteractor.isDetailsFavoriteFeatureEnabled && !destination.isTrakt,
+                        isDetailsGalleryFeatureEnabled = uiInteractor.isDetailsGalleryFeatureEnabled && !destination.isTrakt,
+                        isDetailsShareFeatureEnabled = uiInteractor.isDetailsShareFeatureEnabled,
+                        isTrakt = destination.isTrakt
                     )
                 }
             }
@@ -70,17 +75,31 @@ class DetailsViewModel(
                 }
             }
             is DetailsIntent.CollectFavorite -> {
-                launch {
-                    val params = MovieFlowUseCase.Params(Movie.FAVORITE, destination.movieId)
-                    movieFlowUseCase(params).collectLatest { favoriteMovie ->
-                        reduce { it.copy(isFavorite = favoriteMovie != null) }
+                when {
+                    destination.isTrakt -> Unit
+                    else -> {
+                        launch {
+                            val params = MovieFlowUseCase.Params(Movie.FAVORITE, destination.movieId)
+                            movieFlowUseCase(params).collectLatest { favoriteMovie ->
+                                reduce { it.copy(isFavorite = favoriteMovie != null) }
+                            }
+                        }
                     }
                 }
             }
             is DetailsIntent.CollectMovieDb -> {
                 launch {
-                    val params = MovieFlowUseCase.Params(destination.movieList.orEmpty(), destination.movieId)
-                    movieFlowUseCase(params).collectLatest { movieDb ->
+                    val movieFlow = when {
+                        destination.isTrakt -> {
+                            val params = TraktMovieFlowUseCase.Params(destination.movieList.orEmpty(), destination.movieId)
+                            traktMovieFlowUseCase(params)
+                        }
+                        else -> {
+                            val params = MovieFlowUseCase.Params(destination.movieList.orEmpty(), destination.movieId)
+                            movieFlowUseCase(params)
+                        }
+                    }
+                    movieFlow.collectLatest { movieDb ->
                         if (movieDb != null) {
                             reduce { it.copy(detailsState = ScreenState.Content(movieDb)) }
                         }
@@ -89,12 +108,20 @@ class DetailsViewModel(
             }
             is DetailsIntent.LoadMovie -> {
                 launch {
-                    val params = MovieDetailsUseCase.Params(
-                        pagingKey = destination.movieList.orEmpty(),
-                        language = interactor.language,
-                        movieId = destination.movieId
-                    )
-                    val movie = movieDetailsUseCase(params).getOrThrow()
+                    val movie = when {
+                        destination.isTrakt -> {
+                            val params = TraktMovieDetailsUseCase.Params(destination.movieList.orEmpty(), destination.movieId)
+                            traktMovieDetailsUseCase(params).getOrThrow()
+                        }
+                        else -> {
+                            val params = MovieDetailsUseCase.Params(
+                                pagingKey = destination.movieList.orEmpty(),
+                                language = interactor.language,
+                                movieId = destination.movieId
+                            )
+                            movieDetailsUseCase(params).getOrThrow()
+                        }
+                    }
                     reduce { it.copy(detailsState = ScreenState.Content(movie)) }
                 }
             }

@@ -8,6 +8,7 @@ sealed interface FeedIntent: Intent {
     data object CollectAccountPojo: FeedIntent
     data object CollectFeedView: FeedIntent
     data object CollectMovieList: FeedIntent
+    data object CollectProvider: FeedIntent
     data object CollectNetworkStatus: FeedIntent
     data object CollectPageFailureButtonVisible: FeedIntent
     data object CollectFeatureFlags: FeedIntent

@@ -39,7 +39,6 @@ import org.koin.compose.viewmodel.koinViewModel
 import org.koin.core.parameter.parametersOf
 import org.michaelbel.movies.details.intent.DetailsIntent
 import org.michaelbel.movies.details.ktx.movie
-import org.michaelbel.movies.details.ktx.movieUrl
 import org.michaelbel.movies.details.ktx.toolbarTitle
 import org.michaelbel.movies.details.model.DetailsModel
 import org.michaelbel.movies.details.preview.DetailsModelPreviewParameterProvider
@@ -151,10 +150,10 @@ private fun DetailsScreenContent(
                                 }
 
                                 AnimatedVisibility(
-                                    visible = state.isDetailsShareFeatureEnabled && state.detailsState.movieUrl != null,
+                                    visible = state.isDetailsShareFeatureEnabled && state.movieUrl != null,
                                     enter = fadeIn()
                                 ) {
-                                    state.detailsState.movieUrl?.let { url ->
+                                    state.movieUrl?.let { url ->
                                         TooltipBox(
                                             positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
                                                 positioning = TooltipAnchorPosition.Below
@@ -238,10 +237,10 @@ private fun DetailsScreenContent(
                                 }
 
                                 AnimatedVisibility(
-                                    visible = state.isDetailsShareFeatureEnabled && state.detailsState.movieUrl != null,
+                                    visible = state.isDetailsShareFeatureEnabled && state.movieUrl != null,
                                     enter = fadeIn()
                                 ) {
-                                    state.detailsState.movieUrl?.let { url ->
+                                    state.movieUrl?.let { url ->
                                         TooltipBox(
                                             positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
                                                 positioning = TooltipAnchorPosition.Below
