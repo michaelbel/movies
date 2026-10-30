@@ -17,6 +17,8 @@ data class TraktMovieDb(
     val traktId: Int,
     val tmdbId: Int?,
     val overview: String,
+    val posterPath: String,
+    val backdropPath: String,
     val releaseDate: String,
     val title: String,
     val voteAverage: Float
