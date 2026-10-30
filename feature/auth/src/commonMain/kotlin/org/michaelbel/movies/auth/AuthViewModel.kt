@@ -1,5 +1,8 @@
 package org.michaelbel.movies.auth
 
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.auth.intent.AuthIntent
 import org.michaelbel.movies.auth.model.AuthModel
@@ -13,6 +16,10 @@ import org.michaelbel.movies.domain.usecase.CreateSessionUseCase
 import org.michaelbel.movies.domain.usecase.CreateSessionUseCase.CreateSessionException
 import org.michaelbel.movies.domain.usecase.CreateSessionWithLoginUseCase
 import org.michaelbel.movies.domain.usecase.CreateSessionWithLoginUseCase.CreateSessionWithLoginException
+import org.michaelbel.movies.domain.usecase.ProviderFlowUseCase
+import org.michaelbel.movies.domain.usecase.TraktSignInUseCase
+import org.michaelbel.movies.domain.usecase.TraktSignInUseCase.TraktSignInException
+import org.michaelbel.movies.interactor.entity.AppProvider
 import org.michaelbel.movies.ui.navigation.MainNavigator
 import org.michaelbel.movies.ui.pending.PendingActionStore
 
@@ -20,12 +27,26 @@ class AuthViewModel(
     private val accountDetailsUseCase: AccountDetailsUseCase,
     private val createSessionUseCase: CreateSessionUseCase,
     private val createRequestTokenUseCase: CreateRequestTokenUseCase,
-    private val createSessionWithLoginUseCase: CreateSessionWithLoginUseCase
+    private val createSessionWithLoginUseCase: CreateSessionWithLoginUseCase,
+    private val providerFlowUseCase: ProviderFlowUseCase,
+    private val traktSignInUseCase: TraktSignInUseCase
 ): MoviesViewModel<AuthModel, AuthIntent, Event>(AuthModel()) {
+
+    init {
+        dispatch(AuthIntent.CollectProvider)
+    }
 
     override fun dispatch(intent: AuthIntent) {
         when (intent) {
+            is AuthIntent.CollectProvider -> {
+                launch {
+                    providerFlowUseCase(Unit).map(AppProvider::transform).distinctUntilChanged().collectLatest { provider ->
+                        reduce { it.copy(provider = provider) }
+                    }
+                }
+            }
             is AuthIntent.BackClick -> {
+                stateFlow.value.traktSignInJob?.cancel()
                 PendingActionStore.clear()
                 launch { MainNavigator.back() }
             }
@@ -59,6 +80,18 @@ class AuthViewModel(
                 }
                 reduce { it.copy(signInJob = job) }
             }
+            is AuthIntent.TraktSignInClick -> {
+                val job = launch {
+                    reduce { it.copy(error = null) }
+                    traktSignInUseCase(Unit).getOrThrow()
+                    MainNavigator.back()
+                }
+                reduce { it.copy(traktSignInJob = job) }
+            }
+            is AuthIntent.TraktSignInCancelClick -> {
+                stateFlow.value.traktSignInJob?.cancel()
+                reduce { it.copy(traktSignInJob = null) }
+            }
         }
     }
 
@@ -84,6 +117,9 @@ class AuthViewModel(
             is AccountDetailsException -> {
                 stateFlow.value.signInJob?.cancel()
                 reduce { it.copy(requestToken = null, signInJob = null, error = throwable) }
+            }
+            is TraktSignInException -> {
+                reduce { it.copy(error = throwable, traktSignInJob = null) }
             }
             else -> super.catch(throwable)
         }

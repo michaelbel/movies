@@ -223,231 +223,337 @@ private fun AuthScreenContent(
             )
         )
 
-        Icon(
-            painter = painterResource(MoviesIcons.TmdbLogo),
-            contentDescription = MoviesContentDescription.None,
-            modifier = Modifier
-                .padding(top = 8.dp)
-                .clickableWithoutRipple { navigateToTmdbUrl() }
-                .align(Alignment.CenterHorizontally),
-            tint = MaterialTheme.colorScheme.onPrimaryContainer
-        )
+        if (state.isTraktProviderSelected) {
+            Icon(
+                painter = painterResource(MoviesIcons.TraktLogo),
+                contentDescription = MoviesContentDescription.None,
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .size(64.dp)
+                    .align(Alignment.CenterHorizontally),
+                tint = Color.Unspecified
+            )
 
-        OutlinedTextField(
-            value = state.username.value,
-            onValueChange = { value ->
-                dispatch(AuthIntent.UsernameChange(Username(value.filterNot(Char::isWhitespace))))
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, top = 8.dp, end = 16.dp)
-                .semantics { contentType = ContentType.Username },
-            label = {
-                Text(
-                    text = stringResource(MoviesStrings.auth_label_username)
+            Text(
+                text = stringResource(MoviesStrings.auth_trakt_title),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, top = 16.dp, end = 16.dp),
+                style = MaterialTheme.typography.titleMedium.copy(
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    textAlign = TextAlign.Center
                 )
-            },
-            isError = state.error != null,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Text,
-                imeAction = ImeAction.Next
-            ),
-            keyboardActions = KeyboardActions(
-                onNext = { focusManager.moveFocus(FocusDirection.Down) }
-            ),
-            singleLine = true
-        )
+            )
 
-        OutlinedSecureTextField(
-            state = passwordTextFieldState,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, top = 8.dp, end = 16.dp)
-                .semantics { contentType = ContentType.Password },
-            label = {
-                Text(
-                    text = stringResource(MoviesStrings.auth_label_password)
+            Text(
+                text = stringResource(MoviesStrings.auth_trakt_description),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, top = 8.dp, end = 16.dp),
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
+                    textAlign = TextAlign.Center
                 )
-            },
-            trailingIcon = {
-                AnimatedVisibility(
-                    visible = password.isNotEmpty,
-                    enter = fadeIn(),
-                    exit = fadeOut()
-                ) {
-                    IconButton(
-                        onClick = { passwordVisible = !passwordVisible },
-                        modifier = Modifier.pointerHoverIcon(PointerIcon.Hand)
-                    ) {
-                        PasswordVisibilityIcon(
-                            passwordVisible = passwordVisible,
-                            contentDescription = stringResource(if (passwordVisible) MoviesContentDescription.PasswordIcon else MoviesContentDescription.PasswordOffIcon),
-                            modifier = Modifier.size(IconButtonDefaults.smallIconSize),
-                            tint = MaterialTheme.colorScheme.onPrimaryContainer
-                        )
-                    }
-                }
-            },
-            supportingText = if (state.error != null) {
-                {
-                    Text(
-                        text = state.error.text,
-                        color = MaterialTheme.colorScheme.error
-                    )
-                }
-            } else null,
-            isError = state.error != null,
-            inputTransformation = InputTransformation.byValue { _, proposed -> proposed.filterNot(Char::isWhitespace) },
-            textObfuscationMode = if (passwordVisible) TextObfuscationMode.Visible else TextObfuscationMode.Hidden,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Password,
-                imeAction = ImeAction.Done
-            ),
-            onKeyboardAction = {
-                focusManager.clearFocus()
-                dispatch(AuthIntent.SignInClick(state.username.trim, password.trim))
-            }
-        )
+            )
 
-        FlowRow(
-            modifier = Modifier.padding(start = 8.dp, top = 8.dp, end = 8.dp),
-            horizontalArrangement = Arrangement.spacedBy(4.dp),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
-        ) {
-            TextButton(
-                onClick = navigateToTmdbRegisterUrl,
-                shapes = ButtonDefaults.shapes()
-            ) {
+            if (state.error != null) {
                 Text(
-                    text = stringResource(MoviesStrings.auth_sign_up),
-                    style = LocalTextStyle.current.copy(
+                    text = state.error.text,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, top = 8.dp, end = 16.dp),
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.error,
                         textAlign = TextAlign.Center
                     )
                 )
             }
 
-            AnimatedVisibility(
-                visible = state.error != null && state.error is CreateSessionWithLoginException,
-                enter = fadeIn(),
-                exit = fadeOut()
+            Button(
+                onClick = { dispatch(AuthIntent.TraktSignInClick) },
+                shapes = ButtonDefaults.shapes(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, top = 16.dp, end = 16.dp),
+                enabled = !state.isTraktSignInJobActive,
+                colors = loadingButtonColors,
+                contentPadding = PaddingValues(horizontal = 24.dp)
             ) {
-                TextButton(
-                    onClick = navigateToTmdbResetPasswordUrl,
-                    shapes = ButtonDefaults.shapes()
-                ) {
+                if (state.isTraktSignInJobActive) {
+                    LoadingIndicator(
+                        modifier = Modifier.size(40.dp),
+                        color = buttonContentColor
+                    )
+                } else {
                     Text(
-                        text = stringResource(MoviesStrings.auth_reset_password),
+                        text = stringResource(MoviesStrings.auth_trakt_sign_in),
                         style = LocalTextStyle.current.copy(
                             textAlign = TextAlign.Center
                         )
                     )
                 }
             }
-        }
 
-        Button(
-            onClick = { dispatch(AuthIntent.SignInClick(state.username.trim, password.trim)) },
-            shapes = ButtonDefaults.shapes(),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, top = 4.dp, end = 16.dp),
-            enabled = state.username.isNotEmpty && password.isNotEmpty && !state.isSignInJobActive,
-            colors = signInButtonColors,
-            contentPadding = PaddingValues(horizontal = 24.dp)
-        ) {
-            if (state.isSignInJobActive) {
-                LoadingIndicator(
-                    modifier = Modifier.size(40.dp),
-                    color = buttonContentColor
-                )
-            } else {
+            if (state.isTraktSignInJobActive) {
                 Text(
-                    text = stringResource(MoviesStrings.auth_sign_in),
-                    style = LocalTextStyle.current.copy(
+                    text = stringResource(MoviesStrings.auth_trakt_waiting),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(start = 16.dp, top = 8.dp, end = 16.dp),
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
                         textAlign = TextAlign.Center
                     )
                 )
-            }
-        }
 
-        Button(
-            onClick = { dispatch(AuthIntent.LoginClick) },
-            shapes = ButtonDefaults.shapes(),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(start = 16.dp, top = 8.dp, end = 16.dp),
-            enabled = !state.isLoginJobActive,
-            colors = loadingButtonColors,
-            contentPadding = PaddingValues(horizontal = 24.dp)
-        ) {
-            if (state.isLoginJobActive) {
-                LoadingIndicator(
-                    modifier = Modifier.size(40.dp),
-                    color = buttonContentColor
-                )
-            } else {
-                Text(
-                    text = stringResource(MoviesStrings.auth_login),
-                    style = LocalTextStyle.current.copy(
-                        textAlign = TextAlign.Center
-                    )
-                )
-            }
-        }
-
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            HorizontalDivider(
-                thickness = .1.dp,
-                color = MaterialTheme.colorScheme.onPrimaryContainer
-            )
-
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                horizontalArrangement = Arrangement.Center,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
                 TextButton(
-                    modifier = Modifier.padding(vertical = 8.dp),
-                    onClick = navigateToTermsOfUseUrl,
+                    onClick = { dispatch(AuthIntent.TraktSignInCancelClick) },
                     shapes = ButtonDefaults.shapes(),
-                    contentPadding = PaddingValues(8.dp)
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                        .padding(top = 4.dp)
                 ) {
                     Text(
-                        text = stringResource(MoviesStrings.auth_terms_of_use),
-                        style = MaterialTheme.typography.bodyMedium.copy(
+                        text = stringResource(MoviesStrings.auth_trakt_cancel),
+                        style = LocalTextStyle.current.copy(
+                            textAlign = TextAlign.Center
+                        )
+                    )
+                }
+            }
+
+            Box(
+                modifier = Modifier.padding(bottom = 16.dp)
+            )
+        }
+
+        if (!state.isTraktProviderSelected) {
+            Icon(
+                painter = painterResource(MoviesIcons.TmdbLogo),
+                contentDescription = MoviesContentDescription.None,
+                modifier = Modifier
+                    .padding(top = 8.dp)
+                    .clickableWithoutRipple { navigateToTmdbUrl() }
+                    .align(Alignment.CenterHorizontally),
+                tint = MaterialTheme.colorScheme.onPrimaryContainer
+            )
+
+            OutlinedTextField(
+                value = state.username.value,
+                onValueChange = { value ->
+                    dispatch(AuthIntent.UsernameChange(Username(value.filterNot(Char::isWhitespace))))
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, top = 8.dp, end = 16.dp)
+                    .semantics { contentType = ContentType.Username },
+                label = {
+                    Text(
+                        text = stringResource(MoviesStrings.auth_label_username)
+                    )
+                },
+                isError = state.error != null,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Text,
+                    imeAction = ImeAction.Next
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = { focusManager.moveFocus(FocusDirection.Down) }
+                ),
+                singleLine = true
+            )
+
+            OutlinedSecureTextField(
+                state = passwordTextFieldState,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, top = 8.dp, end = 16.dp)
+                    .semantics { contentType = ContentType.Password },
+                label = {
+                    Text(
+                        text = stringResource(MoviesStrings.auth_label_password)
+                    )
+                },
+                trailingIcon = {
+                    AnimatedVisibility(
+                        visible = password.isNotEmpty,
+                        enter = fadeIn(),
+                        exit = fadeOut()
+                    ) {
+                        IconButton(
+                            onClick = { passwordVisible = !passwordVisible },
+                            modifier = Modifier.pointerHoverIcon(PointerIcon.Hand)
+                        ) {
+                            PasswordVisibilityIcon(
+                                passwordVisible = passwordVisible,
+                                contentDescription = stringResource(if (passwordVisible) MoviesContentDescription.PasswordIcon else MoviesContentDescription.PasswordOffIcon),
+                                modifier = Modifier.size(IconButtonDefaults.smallIconSize),
+                                tint = MaterialTheme.colorScheme.onPrimaryContainer
+                            )
+                        }
+                    }
+                },
+                supportingText = if (state.error != null) {
+                    {
+                        Text(
+                            text = state.error.text,
+                            color = MaterialTheme.colorScheme.error
+                        )
+                    }
+                } else null,
+                isError = state.error != null,
+                inputTransformation = InputTransformation.byValue { _, proposed -> proposed.filterNot(Char::isWhitespace) },
+                textObfuscationMode = if (passwordVisible) TextObfuscationMode.Visible else TextObfuscationMode.Hidden,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password,
+                    imeAction = ImeAction.Done
+                ),
+                onKeyboardAction = {
+                    focusManager.clearFocus()
+                    dispatch(AuthIntent.SignInClick(state.username.trim, password.trim))
+                }
+            )
+
+            FlowRow(
+                modifier = Modifier.padding(start = 8.dp, top = 8.dp, end = 8.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                TextButton(
+                    onClick = navigateToTmdbRegisterUrl,
+                    shapes = ButtonDefaults.shapes()
+                ) {
+                    Text(
+                        text = stringResource(MoviesStrings.auth_sign_up),
+                        style = LocalTextStyle.current.copy(
                             textAlign = TextAlign.Center
                         )
                     )
                 }
 
-                Box(
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp)
-                        .size(3.dp)
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.onPrimaryContainer)
-                )
-
-                TextButton(
-                    modifier = Modifier.padding(vertical = 8.dp),
-                    onClick = navigateToPrivacyPolicyUrl,
-                    shapes = ButtonDefaults.shapes(),
-                    contentPadding = PaddingValues(8.dp)
+                AnimatedVisibility(
+                    visible = state.error != null && state.error is CreateSessionWithLoginException,
+                    enter = fadeIn(),
+                    exit = fadeOut()
                 ) {
+                    TextButton(
+                        onClick = navigateToTmdbResetPasswordUrl,
+                        shapes = ButtonDefaults.shapes()
+                    ) {
+                        Text(
+                            text = stringResource(MoviesStrings.auth_reset_password),
+                            style = LocalTextStyle.current.copy(
+                                textAlign = TextAlign.Center
+                            )
+                        )
+                    }
+                }
+            }
+
+            Button(
+                onClick = { dispatch(AuthIntent.SignInClick(state.username.trim, password.trim)) },
+                shapes = ButtonDefaults.shapes(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, top = 4.dp, end = 16.dp),
+                enabled = state.username.isNotEmpty && password.isNotEmpty && !state.isSignInJobActive,
+                colors = signInButtonColors,
+                contentPadding = PaddingValues(horizontal = 24.dp)
+            ) {
+                if (state.isSignInJobActive) {
+                    LoadingIndicator(
+                        modifier = Modifier.size(40.dp),
+                        color = buttonContentColor
+                    )
+                } else {
                     Text(
-                        text = stringResource(MoviesStrings.auth_privacy_policy),
-                        style = MaterialTheme.typography.bodyMedium.copy(
+                        text = stringResource(MoviesStrings.auth_sign_in),
+                        style = LocalTextStyle.current.copy(
                             textAlign = TextAlign.Center
                         )
                     )
+                }
+            }
+
+            Button(
+                onClick = { dispatch(AuthIntent.LoginClick) },
+                shapes = ButtonDefaults.shapes(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 16.dp, top = 8.dp, end = 16.dp),
+                enabled = !state.isLoginJobActive,
+                colors = loadingButtonColors,
+                contentPadding = PaddingValues(horizontal = 24.dp)
+            ) {
+                if (state.isLoginJobActive) {
+                    LoadingIndicator(
+                        modifier = Modifier.size(40.dp),
+                        color = buttonContentColor
+                    )
+                } else {
+                    Text(
+                        text = stringResource(MoviesStrings.auth_login),
+                        style = LocalTextStyle.current.copy(
+                            textAlign = TextAlign.Center
+                        )
+                    )
+                }
+            }
+
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                HorizontalDivider(
+                    thickness = .1.dp,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer
+                )
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    TextButton(
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        onClick = navigateToTermsOfUseUrl,
+                        shapes = ButtonDefaults.shapes(),
+                        contentPadding = PaddingValues(8.dp)
+                    ) {
+                        Text(
+                            text = stringResource(MoviesStrings.auth_terms_of_use),
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                textAlign = TextAlign.Center
+                            )
+                        )
+                    }
+
+                    Box(
+                        modifier = Modifier
+                            .padding(horizontal = 8.dp)
+                            .size(3.dp)
+                            .clip(CircleShape)
+                            .background(MaterialTheme.colorScheme.onPrimaryContainer)
+                    )
+
+                    TextButton(
+                        modifier = Modifier.padding(vertical = 8.dp),
+                        onClick = navigateToPrivacyPolicyUrl,
+                        shapes = ButtonDefaults.shapes(),
+                        contentPadding = PaddingValues(8.dp)
+                    ) {
+                        Text(
+                            text = stringResource(MoviesStrings.auth_privacy_policy),
+                            style = MaterialTheme.typography.bodyMedium.copy(
+                                textAlign = TextAlign.Center
+                            )
+                        )
+                    }
                 }
             }
         }

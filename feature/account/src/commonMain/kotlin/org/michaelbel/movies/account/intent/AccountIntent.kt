@@ -6,4 +6,5 @@ sealed interface AccountIntent: Intent {
     data object CollectAccountPojo: AccountIntent
     data object BackClick: AccountIntent
     data object LogoutClick: AccountIntent
+    data object RefreshTraktAccount: AccountIntent
 }
