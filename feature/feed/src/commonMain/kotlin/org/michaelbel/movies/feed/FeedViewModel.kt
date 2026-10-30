@@ -14,21 +14,25 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import org.michaelbel.movies.common.log.log
 import org.michaelbel.movies.common.mvi.MoviesViewModel
 import org.michaelbel.movies.domain.usecase.AccountPojoFlowUseCase
 import org.michaelbel.movies.domain.usecase.CurrentFeedViewFlowUseCase
 import org.michaelbel.movies.domain.usecase.CurrentMovieListFlowUseCase
+import org.michaelbel.movies.domain.usecase.CurrentTraktListFlowUseCase
 import org.michaelbel.movies.domain.usecase.FetchAndInsertSearchMoviesUseCase
 import org.michaelbel.movies.domain.usecase.InsertMovieUseCase
 import org.michaelbel.movies.domain.usecase.MoviesFlowUseCase
 import org.michaelbel.movies.domain.usecase.MoviesPagingDataUseCase
 import org.michaelbel.movies.domain.usecase.MovieUseCase
+import org.michaelbel.movies.domain.usecase.ProviderFlowUseCase
 import org.michaelbel.movies.domain.usecase.RemoveMovieUseCase
 import org.michaelbel.movies.domain.usecase.RemoveMoviesUseCase
 import org.michaelbel.movies.domain.usecase.SearchMoviesPagingDataUseCase
 import org.michaelbel.movies.domain.usecase.SuggestionPojosFlowUseCase
+import org.michaelbel.movies.domain.usecase.TraktMoviesPagingDataUseCase
 import org.michaelbel.movies.domain.usecase.UpdateSuggestionsUseCase
 import org.michaelbel.movies.feed.event.FeedEvent
 import org.michaelbel.movies.feed.intent.FeedIntent
@@ -36,6 +40,7 @@ import org.michaelbel.movies.feed.model.FeedModel
 import org.michaelbel.movies.interactor.AppNotificationInteractor
 import org.michaelbel.movies.interactor.Interactor
 import org.michaelbel.movies.interactor.UiInteractor
+import org.michaelbel.movies.interactor.entity.AppProvider
 import org.michaelbel.movies.network.connectivity.NetworkManager
 import org.michaelbel.movies.persistence.database.entity.pojo.MoviePojo
 import org.michaelbel.movies.ui.navigation.AccountDestination
@@ -59,7 +64,10 @@ class FeedViewModel(
     private val movieUseCase: MovieUseCase,
     private val currentFeedViewFlowUseCase: CurrentFeedViewFlowUseCase,
     private val currentMovieListFlowUseCase: CurrentMovieListFlowUseCase,
+    private val providerFlowUseCase: ProviderFlowUseCase,
+    private val currentTraktListFlowUseCase: CurrentTraktListFlowUseCase,
     private val moviesPagingDataUseCase: MoviesPagingDataUseCase,
+    private val traktMoviesPagingDataUseCase: TraktMoviesPagingDataUseCase,
     private val searchMoviesPagingDataUseCase: SearchMoviesPagingDataUseCase,
     private val removeMoviesUseCase: RemoveMoviesUseCase,
     private val removeMovieUseCase: RemoveMovieUseCase,
@@ -70,10 +78,24 @@ class FeedViewModel(
     private val searchQuery: StateFlow<String> get() = _searchQuery.asStateFlow()
     private var searchFallbackJob: Job? = null
 
-    val pagingDataFlow: Flow<PagingData<MoviePojo>> = currentMovieListFlowUseCase(Unit)
+    val pagingDataFlow: Flow<PagingData<MoviePojo>> = providerFlowUseCase(Unit)
+        .map(AppProvider::transform)
         .distinctUntilChanged()
-        .flatMapLatest { movieList ->
-            moviesPagingDataUseCase(MoviesPagingDataUseCase.Params(movieList, interactor.language))
+        .flatMapLatest { provider ->
+            when (provider) {
+                is AppProvider.Tmdb -> {
+                    currentMovieListFlowUseCase(Unit)
+                        .distinctUntilChanged()
+                        .flatMapLatest { movieList ->
+                            moviesPagingDataUseCase(MoviesPagingDataUseCase.Params(movieList, interactor.language))
+                        }
+                }
+                is AppProvider.Trakt -> {
+                    currentTraktListFlowUseCase(Unit)
+                        .distinctUntilChanged()
+                        .flatMapLatest { traktList -> traktMoviesPagingDataUseCase(traktList) }
+                }
+            }
         }
         .cachedIn(this)
 

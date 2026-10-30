@@ -58,6 +58,9 @@ import org.michaelbel.movies.domain.usecase.SetScreenshotBlockEnabledUseCase
 import org.michaelbel.movies.domain.usecase.SetSeedColorUseCase
 import org.michaelbel.movies.domain.usecase.SuggestionPojosFlowUseCase
 import org.michaelbel.movies.domain.usecase.ThemeDataFlowUseCase
+import org.michaelbel.movies.domain.usecase.TraktMoviesPagingDataUseCase
+import org.michaelbel.movies.domain.usecase.TraktMoviesResultUseCase
+import org.michaelbel.movies.domain.usecase.TraktPagingKeyPageUseCase
 import org.michaelbel.movies.domain.usecase.UpdateFavoriteUseCase
 import org.michaelbel.movies.domain.usecase.UpdateNotificationExpireTimeUseCase
 import org.michaelbel.movies.domain.usecase.UpdateSuggestionsUseCase
@@ -142,6 +145,9 @@ val useCaseKoinModule = module {
     singleOf(::SetScreenshotBlockEnabledUseCase)
     singleOf(::SetSeedColorUseCase)
     singleOf(::ThemeDataFlowUseCase)
+    singleOf(::TraktMoviesPagingDataUseCase)
+    singleOf(::TraktMoviesResultUseCase)
+    singleOf(::TraktPagingKeyPageUseCase)
     singleOf(::UpdateFavoriteUseCase)
     singleOf(::UpdateNotificationExpireTimeUseCase)
     singleOf(::UpdateSuggestionsUseCase)
