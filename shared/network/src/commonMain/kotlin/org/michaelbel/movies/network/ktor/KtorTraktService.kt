@@ -3,13 +3,22 @@ package org.michaelbel.movies.network.ktor
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import io.ktor.client.request.header
 import io.ktor.client.request.parameter
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.HttpHeaders
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonNull
 import kotlinx.serialization.json.jsonObject
 import org.michaelbel.movies.network.model.TraktMovieResponse
 import org.michaelbel.movies.network.model.TraktMoviesResult
+import org.michaelbel.movies.network.model.TraktRefreshTokenRequest
+import org.michaelbel.movies.network.model.TraktRevokeRequest
+import org.michaelbel.movies.network.model.TraktSettingsResponse
+import org.michaelbel.movies.network.model.TraktTokenRequest
+import org.michaelbel.movies.network.model.TraktTokenResponse
 
 class KtorTraktService(
     private val ktorHttpClient: HttpClient
@@ -44,6 +53,30 @@ class KtorTraktService(
             totalPages = totalPages,
             results = movies
         )
+    }
+
+    suspend fun token(request: TraktTokenRequest): TraktTokenResponse {
+        return ktorHttpClient.post("oauth/token") {
+            setBody(request)
+        }.body()
+    }
+
+    suspend fun refreshToken(request: TraktRefreshTokenRequest): TraktTokenResponse {
+        return ktorHttpClient.post("oauth/token") {
+            setBody(request)
+        }.body()
+    }
+
+    suspend fun revokeToken(request: TraktRevokeRequest) {
+        ktorHttpClient.post("oauth/revoke") {
+            setBody(request)
+        }
+    }
+
+    suspend fun settings(accessToken: String): TraktSettingsResponse {
+        return ktorHttpClient.get("users/settings") {
+            header(HttpHeaders.Authorization, "Bearer $accessToken")
+        }.body()
     }
 
     suspend fun movies(list: String, page: Int, limit: Int): TraktMoviesResult {

@@ -3,6 +3,8 @@ package org.michaelbel.movies.persistence.datastore
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
@@ -44,5 +46,12 @@ class TraktPreferences(
         val preferenceKey: Preferences.Key<T>
     ) {
         data object PreferenceTraktListKey: PreferenceKey<String>(stringPreferencesKey("trakt_list"))
+        data object PreferenceAccessTokenKey: PreferenceKey<String>(stringPreferencesKey("access_token"))
+        data object PreferenceRefreshTokenKey: PreferenceKey<String>(stringPreferencesKey("refresh_token"))
+        data object PreferenceTokenExpireTimeKey: PreferenceKey<Long>(longPreferencesKey("token_expire_time"))
+        data object PreferenceUserIdKey: PreferenceKey<Int>(intPreferencesKey("user_id"))
+        data object PreferenceUsernameKey: PreferenceKey<String>(stringPreferencesKey("username"))
+        data object PreferenceNameKey: PreferenceKey<String>(stringPreferencesKey("name"))
+        data object PreferenceAvatarKey: PreferenceKey<String>(stringPreferencesKey("avatar"))
     }
 }
