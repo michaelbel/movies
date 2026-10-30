@@ -47,7 +47,7 @@ val TraktMovieDb.moviePojo: MoviePojo
         dateAdded = dateAdded,
         page = page,
         position = position,
-        movieId = tmdbId ?: traktId,
+        movieId = traktId,
         overview = overview,
         posterPath = posterPath,
         backdropPath = backdropPath,

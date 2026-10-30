@@ -21,6 +21,8 @@ data class MoviePojo(
     companion object {
         const val MOVIES_LOCAL_LIST = "movies_local"
         const val MOVIES_SEARCH_HISTORY = "movies_search_history"
+        const val MOVIES_TRAKT_SEARCH_HISTORY = "trakt_search_history"
+        const val TRAKT_SEARCH_PREFIX = "trakt_search_"
         const val MOVIES_WIDGET = "movies_widget"
 
         val Empty = MoviePojo(
