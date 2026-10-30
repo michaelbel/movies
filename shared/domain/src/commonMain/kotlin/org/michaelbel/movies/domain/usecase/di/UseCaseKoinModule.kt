@@ -3,6 +3,7 @@ package org.michaelbel.movies.domain.usecase.di
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.michaelbel.movies.analytics.di.moviesAnalyticsKoinModule
+import org.michaelbel.movies.common.trakt.di.traktAuthKoinModule
 import org.michaelbel.movies.common.dispatchers.di.dispatchersKoinModule
 import org.michaelbel.movies.domain.usecase.AccountDetailsUseCase
 import org.michaelbel.movies.domain.usecase.AccountExpireTimeUseCase
@@ -58,6 +59,7 @@ import org.michaelbel.movies.domain.usecase.SetScreenshotBlockEnabledUseCase
 import org.michaelbel.movies.domain.usecase.SetSeedColorUseCase
 import org.michaelbel.movies.domain.usecase.SuggestionPojosFlowUseCase
 import org.michaelbel.movies.domain.usecase.ThemeDataFlowUseCase
+import org.michaelbel.movies.domain.usecase.TraktAccountRefreshUseCase
 import org.michaelbel.movies.domain.usecase.TraktClearSearchHistoryUseCase
 import org.michaelbel.movies.domain.usecase.TraktMovieDetailsUseCase
 import org.michaelbel.movies.domain.usecase.TraktMovieFlowUseCase
@@ -69,6 +71,8 @@ import org.michaelbel.movies.domain.usecase.TraktSaveSearchHistoryMovieUseCase
 import org.michaelbel.movies.domain.usecase.TraktSearchHistoryMoviesFlowUseCase
 import org.michaelbel.movies.domain.usecase.TraktSearchMoviesPagingDataUseCase
 import org.michaelbel.movies.domain.usecase.TraktSearchMoviesResultUseCase
+import org.michaelbel.movies.domain.usecase.TraktSignInUseCase
+import org.michaelbel.movies.domain.usecase.TraktSignOutUseCase
 import org.michaelbel.movies.domain.usecase.UpdateFavoriteUseCase
 import org.michaelbel.movies.domain.usecase.UpdateNotificationExpireTimeUseCase
 import org.michaelbel.movies.domain.usecase.UpdateSuggestionsUseCase
@@ -93,7 +97,8 @@ val useCaseKoinModule = module {
         tmdbPreferencesKoinModule,
         traktPreferencesKoinModule,
         persistenceKoinModule,
-        networkKoinModule
+        networkKoinModule,
+        traktAuthKoinModule
     )
     single<SuggestionDao> { get<MoviesDatabase>().suggestionDao }
     single<ImageDao> { get<MoviesDatabase>().imageDao }
@@ -160,10 +165,13 @@ val useCaseKoinModule = module {
     singleOf(::TraktMoviesResultUseCase)
     singleOf(::TraktPagingKeyPageUseCase)
     singleOf(::TraktRemoveSearchHistoryMovieUseCase)
+    singleOf(::TraktAccountRefreshUseCase)
     singleOf(::TraktSaveSearchHistoryMovieUseCase)
     singleOf(::TraktSearchHistoryMoviesFlowUseCase)
     singleOf(::TraktSearchMoviesPagingDataUseCase)
     singleOf(::TraktSearchMoviesResultUseCase)
+    singleOf(::TraktSignInUseCase)
+    singleOf(::TraktSignOutUseCase)
     singleOf(::UpdateFavoriteUseCase)
     singleOf(::UpdateNotificationExpireTimeUseCase)
     singleOf(::UpdateSuggestionsUseCase)
