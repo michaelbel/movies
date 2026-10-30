@@ -30,6 +30,25 @@ private val tmdbApiKey: String by lazy {
         .get()
 }
 
+private val traktClientId: String by lazy {
+    providers.gradleProperty("TRAKT_CLIENT_ID")
+        .orElse(providers.environmentVariable("TRAKT_CLIENT_ID"))
+        .orElse(
+            providers.provider {
+                val localPropertiesFile = rootProject.layout.projectDirectory.file("local.properties").asFile
+                when {
+                    localPropertiesFile.exists() -> {
+                        Properties().apply {
+                            localPropertiesFile.inputStream().use(::load)
+                        }.getProperty("TRAKT_CLIENT_ID").orEmpty()
+                    }
+                    else -> ""
+                }
+            }
+        )
+        .get()
+}
+
 kotlin {
     jvm()
     iosArm64()
@@ -76,5 +95,6 @@ buildkonfig {
 
     defaultConfigs {
         buildConfigField(STRING, "TMDB_API_KEY", tmdbApiKey)
+        buildConfigField(STRING, "TRAKT_CLIENT_ID", traktClientId)
     }
 }

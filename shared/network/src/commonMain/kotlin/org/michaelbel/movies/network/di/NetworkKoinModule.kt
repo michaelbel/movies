@@ -5,6 +5,7 @@ import org.michaelbel.movies.network.AccountNetworkService
 import org.michaelbel.movies.network.AuthenticationNetworkService
 import org.michaelbel.movies.network.MovieNetworkService
 import org.michaelbel.movies.network.SearchNetworkService
+import org.michaelbel.movies.network.TraktNetworkService
 import org.michaelbel.movies.network.ktor.di.ktorNetworkKoinModule
 
 val networkKoinModule = module {
@@ -15,4 +16,5 @@ val networkKoinModule = module {
     single { AuthenticationNetworkService(get()) }
     single { MovieNetworkService(get()) }
     single { SearchNetworkService(get()) }
+    single { TraktNetworkService(get()) }
 }
