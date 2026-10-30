@@ -12,23 +12,41 @@ import org.michaelbel.movies.network.model.image.ProfileSize
 private const val TMDB_IMAGE_BASE_URL = "https://image.tmdb.org/t/p"
 
 val String.formatPosterImage: String
-    get() = "$TMDB_IMAGE_BASE_URL/${PosterSize.W780.size}/$this"
+    get() = when {
+        startsWith("http") -> this
+        else -> "$TMDB_IMAGE_BASE_URL/${PosterSize.W780.size}/$this"
+    }
 
 val String.formatBackdropImage: String
-    get() = "$TMDB_IMAGE_BASE_URL/${BackdropSize.W1280.size}/$this"
+    get() = when {
+        startsWith("http") -> this
+        else -> "$TMDB_IMAGE_BASE_URL/${BackdropSize.W1280.size}/$this"
+    }
 
 val String.formatMovieColumnPosterImage: String
-    get() = "$TMDB_IMAGE_BASE_URL/${PosterSize.W500.size}/$this"
+    get() = when {
+        startsWith("http") -> this
+        else -> "$TMDB_IMAGE_BASE_URL/${PosterSize.W500.size}/$this"
+    }
 
 val String.formatMovieRowBackdropImage: String
-    get() = "$TMDB_IMAGE_BASE_URL/${BackdropSize.W780.size}/$this"
+    get() = when {
+        startsWith("http") -> this
+        else -> "$TMDB_IMAGE_BASE_URL/${BackdropSize.W780.size}/$this"
+    }
 
 val String.formatProfileImage: String
-    get() = "$TMDB_IMAGE_BASE_URL/${ProfileSize.W185.size}/$this"
+    get() = when {
+        startsWith("http") -> this
+        else -> "$TMDB_IMAGE_BASE_URL/${ProfileSize.W185.size}/$this"
+    }
 
 val String.isNotOriginal: Boolean
     get() = !contains("original".toRegex())
 
 fun String.formatImage(size: String): String {
-    return "$TMDB_IMAGE_BASE_URL/$size/$this"
+    return when {
+        startsWith("http") -> this
+        else -> "$TMDB_IMAGE_BASE_URL/$size/$this"
+    }
 }
