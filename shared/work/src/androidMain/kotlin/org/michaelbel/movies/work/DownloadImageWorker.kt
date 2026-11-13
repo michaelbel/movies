@@ -10,16 +10,21 @@ import androidx.core.net.toUri
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import androidx.work.workDataOf
-import org.michaelbel.movies.common.ktx.currentDateTime
-import org.michaelbel.movies.interactor.AppNotificationInteractor
 import java.io.File
 import java.io.FileOutputStream
+import java.io.IOException
 import java.net.URL
+import net.i2p.android.router.util.ConnectivityAndInternetAccess
+import org.michaelbel.movies.common.ktx.currentDateTime
+import org.michaelbel.movies.interactor.AppNotificationInteractor
+import org.michaelbel.movies.network.connectivity.RemoteConnectivityPolicy
+import org.michaelbel.movies.network.connectivity.impl.MoviesConnectivityMonitor
 
 class DownloadImageWorker(
     private val context: Context,
     workerParams: WorkerParameters,
-    private val appNotificationInteractor: AppNotificationInteractor
+    private val appNotificationInteractor: AppNotificationInteractor,
+    private val connectivityMonitor: MoviesConnectivityMonitor
 ): CoroutineWorker(context, workerParams) {
 
     override suspend fun doWork(): Result {
@@ -29,7 +34,17 @@ class DownloadImageWorker(
         val notificationId = imageUrl.hashCode()
 
         if (imageUrl.isEmpty()) {
-            Result.failure(workDataOf(KEY_IMAGE_URL to FAILURE_RESULT))
+            return Result.failure(workDataOf(KEY_IMAGE_URL to FAILURE_RESULT))
+        }
+
+        // WorkManager also has a CONNECTED constraint, but this local guard closes the
+        // race between constraint evaluation and the actual URL.openStream() call.
+        if (!RemoteConnectivityPolicy.canStartRemoteRequest(
+                isConnected = ConnectivityAndInternetAccess.isConnected(applicationContext),
+                hasPhysicalNetwork = ConnectivityAndInternetAccess.hasPhysicalNetwork(applicationContext)
+            )
+        ) {
+            return Result.retry()
         }
 
         appNotificationInteractor.sendDownloadImageNotification(
@@ -38,10 +53,19 @@ class DownloadImageWorker(
             contentTextRes = contentTextRes
         )
 
-        val uri = saveImageToDownloads(
-            url = imageUrl,
-            name = "$currentDateTime.jpg"
-        )
+        val uri = try {
+            saveImageToDownloads(
+                url = imageUrl,
+                name = "$currentDateTime.jpg"
+            )
+        } catch (failure: IOException) {
+            connectivityMonitor.onBackendTransportFailure(
+                failedHost = runCatching { URL(imageUrl).host }.getOrDefault(imageUrl),
+                failure = failure
+            )
+            appNotificationInteractor.cancelDownloadImageNotification(notificationId)
+            return Result.retry()
+        }
 
         appNotificationInteractor.cancelDownloadImageNotification(notificationId)
 
