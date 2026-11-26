@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -14,11 +15,18 @@ import androidx.biometric.compose.rememberAuthenticationLauncher
 import androidx.compose.runtime.getValue
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.lifecycle.Lifecycle
+import kotlinx.coroutines.launch
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.michaelbel.movies.common.R as CommonR
 import org.michaelbel.movies.main.MainScreen
 import org.michaelbel.movies.main.MainViewModel
 import org.michaelbel.movies.main.intent.MainIntent
+import org.michaelbel.movies.network.connectivity.impl.ConnectivityUiEvent
+import org.michaelbel.movies.network.connectivity.impl.MoviesConnectivityMonitor
 import org.michaelbel.movies.ui.collectAsStateCommon
 import org.michaelbel.movies.ui.resolveNotificationPreferencesIntent
 import org.michaelbel.movies.ui.setScreenshotBlockEnabled
@@ -32,6 +40,7 @@ import org.michaelbel.movies.ui.theme.AppTheme
 class MainActivity: FragmentActivity() {
 
     private val viewModel: MainViewModel by viewModel()
+    private val connectivityMonitor: MoviesConnectivityMonitor by inject()
 
     private val screenCaptureCallback: Any by lazy {
         if (Build.VERSION.SDK_INT >= 34) {
@@ -55,6 +64,21 @@ class MainActivity: FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen().apply { setKeepOnScreenCondition { viewModel.stateFlow.value.splashLoading } }
         super.onCreate(savedInstanceState)
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                connectivityMonitor.uiEvents.collect { event ->
+                    val message = when (event) {
+                        ConnectivityUiEvent.NetworkLost,
+                        ConnectivityUiEvent.NoNetworkForOperation -> R.string.connectivity_no_network_operation
+                        ConnectivityUiEvent.NetworkRecovered -> R.string.connectivity_network_recovered
+                        ConnectivityUiEvent.CaptivePortal -> R.string.connectivity_captive_portal
+                        ConnectivityUiEvent.InternetUnavailable -> R.string.connectivity_internet_unavailable
+                        ConnectivityUiEvent.BackendUnavailable -> R.string.connectivity_backend_unavailable
+                    }
+                    Toast.makeText(this@MainActivity, message, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
         installShortcuts()
         setContent {
             val state by viewModel.stateFlow.collectAsStateCommon()

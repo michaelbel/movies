@@ -38,6 +38,7 @@ kotlin {
             implementation(projects.shared.interactor)
         }
         androidMain.dependencies {
+            implementation(projects.shared.network)
             implementation(libs.bundles.work.android)
         }
     }
